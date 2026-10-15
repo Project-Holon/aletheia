@@ -13,13 +13,14 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 extern void BUTTON_MAN_Delete(void *);
 typedef unsigned int   u32;
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 typedef struct {
     char pad00[0x10];
@@ -38,7 +39,7 @@ void GSYNC_MENU_DeleteButtonWindows(Object *p)
         if (p->f10[i]) {
             BMP_WIN_ClearScreen(p->f10[i]);
             func_02041B6C(5);
-            func_0201F7A8(p->f10[i], 2);
+            BMP_MENUWORK_DrawWindowBorder(p->f10[i], 2);
             BMP_WIN_Delete(p->f10[i]);
         }
         p->f10[i] = 0;

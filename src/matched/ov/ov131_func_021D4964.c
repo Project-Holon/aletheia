@@ -18,7 +18,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   P_STA_SUB_LoadArcGraphics 0x021D67EC thumb ov131
  *   P_STA_INFO_LoadResources 0x021D7B4C thumb ov131
@@ -35,7 +35,7 @@ extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020275E4(void);
 extern u32 func_020275E8(void);
@@ -104,7 +104,7 @@ void P_STATUS_LoadObjResource(u8 *p)
     func_02049B68(b,func_02027624(),0,0x120,32,H);
     func_02049658(b,func_02027628(),1,0,0,0,H);
     func_020498F4(b,func_0202762C(),1,0,0,0,H);
-    func_020413B0(1,0,21,32,3,9);
+    BG_SYS_FillTileMap(1,0,21,32,3,9);
     func_02049B68(b,0,4,0x1a0,32,H);
     I(0xac)=CLACT_RegisterPaletteEx(b,1,1,0x100,0,1,H);
     I(0xe4)=CLACT_RegisterCharacter(b,2,0,1,H);

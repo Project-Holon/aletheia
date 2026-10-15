@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FCEDC",
+   "name": "MUS_COMM_FUNC_HandlePacket",
    "address": "0x021FCEDC",
    "kind": "game",
    "region": "ov132",

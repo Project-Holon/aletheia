@@ -1,8 +1,8 @@
 /*
  * file:     billboard.c
  * unit:     yes
- * function: BILLBOARD_FindFreeImage, BILLBOARD_BindImageResource, BILLBOARD_SetImageFormat, BILLBOARD_AddImage, BILLBOARD_AddImageFromArchive, BILLBOARD_AddImageFromVramKeys, BILLBOARD_TrimImageResource, BILLBOARD_DeleteImage, BILLBOARD_ReleaseImageVramIfUsed, BILLBOARD_ReleaseImageVram, BILLBOARD_DeleteAllImages, BILLBOARD_GetImageVramAddr, func_0204F2CC, BILLBOARD_GetImageTexKey, BILLBOARD_SetImageTexAddr, func_0204F32C, BILLBOARD_CalcImageFrameRange, BILLBOARD_AddElem, BILLBOARD_FreeElem, BILLBOARD_GetElemId, BILLBOARD_SetElemId, BILLBOARD_SetElemPos, BILLBOARD_GetElemCell, BILLBOARD_SetElemCell, BILLBOARD_SetElemScale, BILLBOARD_SetElemAlpha, BILLBOARD_GetElemVisible, BILLBOARD_SetElemVisible, BILLBOARD_GetElemFlipS, BILLBOARD_SetElemFlipS, BILLBOARD_SetElemFlipT, BILLBOARD_SetElemRotZ, BILLBOARD_Draw
- * address:  0x0204EE0C
+ * function: BILLBOARD_Create, BILLBOARD_Delete, BILLBOARD_SetFlagWord, BILLBOARD_SetField10, BILLBOARD_SetField1C, BILLBOARD_SetField1E, BILLBOARD_SetField20, BILLBOARD_SetField22, BILLBOARD_SetField24, BILLBOARD_SetField25, BILLBOARD_SetImagePosition, BILLBOARD_GetImageSizeFromFlags, BILLBOARD_FindFreeImage, BILLBOARD_BindImageResource, BILLBOARD_SetImageFormat, BILLBOARD_AddImage, BILLBOARD_AddImageFromArchive, BILLBOARD_AddImageFromVramKeys, BILLBOARD_TrimImageResource, BILLBOARD_DeleteImage, BILLBOARD_ReleaseImageVramIfUsed, BILLBOARD_ReleaseImageVram, BILLBOARD_DeleteAllImages, BILLBOARD_GetImageVramAddr, BILLBOARD_GetImagePlttVramOffset, BILLBOARD_GetImageTexKey, BILLBOARD_SetImageTexAddr, BILLBOARD_GetImagePlttKey, BILLBOARD_CalcImageFrameRange, BILLBOARD_AddElem, BILLBOARD_FreeElem, BILLBOARD_GetElemId, BILLBOARD_SetElemId, BILLBOARD_SetElemPos, BILLBOARD_GetElemCell, BILLBOARD_SetElemCell, BILLBOARD_SetElemScale, BILLBOARD_SetElemAlpha, BILLBOARD_SetElemPolyId, BILLBOARD_GetElemVisible, BILLBOARD_SetElemVisible, BILLBOARD_GetElemFlipS, BILLBOARD_SetElemFlipS, BILLBOARD_SetElemFlipT, BILLBOARD_SetElemRotZ, BILLBOARD_Draw
+ * address:  0x0204EBD4
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,11 +10,13 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * Home file: billboard.c (texture records of the billboard board).
+ * Cut from billboard.c, billboard_image.c by tools/splitfile.py.
  *
  * symbols:
+ *   func_02030734  0x02030734  arm
+ *   sBillboard     0x020A7FA4  data
+ *   BILLBOARD_DeleteAllImages  0x0204F27C  arm
+ *   func_020307B0  0x020307B0  arm
  *   G3D_SYSTEM_TransVramTexture   0x02046FF8  arm
  *   G3D_SYSTEM_GetTexVramKey   0x02047388  arm
  *   G3D_SYSTEM_GetPlttVramKey   0x020473B8  arm
@@ -50,35 +52,354 @@
  *   FX_SinCosTable_    0x020A1B38  data
  *   gBillboardQuad     0x020A1514  data
  */
+#include "../../matched/include/Obj11443.h"
+#include "../../matched/include/Obj06987.h"
+#include "../../matched/include/Obj16108.h"
+#include "../../matched/include/Obj16110.h"
+#include "../../matched/include/Obj16112.h"
+#include "../../matched/include/Obj16114.h"
+#include "../../matched/include/Obj16116.h"
+#include "../../matched/include/Obj16118.h"
+#include "../../matched/include/Obj11444.h"
+#include "double3Ddisp_shared_types.h"
 #include "billboard_types.h"
 
+struct Actor;
+
+typedef unsigned char  u8;
+
+struct Blk3 {
+    u32 w[3];
+};
+
+struct Blob28 { u32 w[7]; };   /* 28 bytes, align 4 -> ldm/stm 16 + 12 */
+
+struct Board {
+    u16 id;             /* 0x00 */
+    u16 pad0;
+    u32 ptr0;           /* 0x04 */
+    u32 ptr1;           /* 0x08 */
+    u16 count0;         /* 0x0c */
+    u16 count1;         /* 0x0e */
+    u8  blob[0x18];     /* 0x10 .. 0x27 */
+    u32 a28;            /* 0x28 */
+    u32 a2c;            /* 0x2c */
+    u16 b30;            /* 0x30 */
+    u16 b32;
+    u16 b34;
+    u16 b36;
+    u16 b38;
+};
+
+struct BigElem { u32 f00; u32 f04; u32 f08; u32 f0c; u32 f10; u32 f14; u32 f18; u32 f1c; u32 f20; u32 f24; };  /* 0x28 */
+
+void BILLBOARD_DeleteAllImages(struct BbBoard *board);
+
+extern u32 func_020307B0(void *p);
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+void *BILLBOARD_Create(u8 *src, void *heap);
+
+void BILLBOARD_Delete(void *p);
+
+void BILLBOARD_SetFlagWord(u8 *a0, short *a1);
+
+void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
+
+void BILLBOARD_SetField1C(u8 *dst, u16 *src);
+
+void BILLBOARD_SetField1E(u8 *dst, u16 *src);
+
+void BILLBOARD_SetField20(u8 *dst, u16 *src);
+
+void BILLBOARD_SetField22(u8 *dst, u16 *src);
+
+void BILLBOARD_SetField24(u8 *dst, u8 *src);
+
+void BILLBOARD_SetField25(u8 *dst, u8 val);
+
+void BILLBOARD_SetImagePosition(u8 *dst, int a, int b);
+
+void BILLBOARD_GetImageSizeFromFlags(s32 flags, u16 *a, u16 *b);
+
+extern const char sBillboard[];
+
+/*
+ * billboard.c's board constructor; the only allocation site in the image
+ * whose __FILE__ word is 0x020A7FA4 ("billboard.c", the NUL of
+ * "battle_disp.c" at 0x020A7FA3 fixes where it starts).  Caller is
+ * func_0204FF18.  Three func_02030734 calls at lines 153, 159 and 161: the
+ * 0x3c-byte board, its count0 * 0x28 record array and its count1 * 0x1c
+ * element array.
+ *
+ * The whole payload is ONE 28-byte aggregate assignment at +0x0c, which mwcc
+ * expands to a 16-byte ldm/stm pair with write-back followed by a 12-byte
+ * pair without: the second pair reuses the bases the write-back left in r8
+ * (source + 16) and sb (dest + 0x10), so the three bytes of `add` that a
+ * spelled-out second copy costs are absent from the original.  The source
+ * must be a 4-aligned aggregate; a struct of bytes compiles to a byte-copy
+ * loop instead.
+ */
+void *BILLBOARD_Create(u8 *src, void *heap)
+{
+    struct Board *h;
+    const char *file;
+    int i;
+
+    file = sBillboard;
+    h = (struct Board *)func_02030734((int)heap, sizeof(struct Board), 1, file, 153);
+    h->id = (u16)(int)heap;
+    *(struct Blob28 *)((u8 *)h + 0x0c) = *(struct Blob28 *)src;
+    h->ptr0 = (u32)func_02030734((int)heap, h->count0 * 0x28, 1, file, 159);
+    h->ptr1 = (u32)func_02030734((int)heap, h->count1 * 0x1c, 1, file, 161);
+    for (i = 0; i < h->count0; i++) {
+        ((struct BigElem *)h->ptr0)[i].f00 = 0;
+        ((struct BigElem *)h->ptr0)[i].f14 = 5;
+    }
+    for (i = 0; i < h->count1; i++) {
+        u16 *q = (u16 *)(h->ptr1 + i * 0x1c);
+        *q = (u16)((*q & ~0x3FFFu) | 0x3FFFu);
+    }
+    h->a2c = 0;
+    h->b30 = 0;
+    h->b32 = 0;
+    h->b34 = 0;
+    h->a28 = 0;
+    h->b36 = 0;
+    h->b38 = 0;
+    return h;
+}
+
+/*
+ * Free an actor and its two sub-objects, in +8, +4, self order.
+ */
+void BILLBOARD_Delete(void *p)
+{
+    BILLBOARD_DeleteAllImages(p);
+    func_020307B0(((struct Obj11443 *)p)->f8);
+    func_020307B0(((struct Obj11443 *)p)->f4);
+    func_020307B0(p);
+}
+
+/*
+ * Sets the flag word at +0x2c and copies three signed halfwords out of the
+ * caller's array into +0x30, +0x32 and +0x34.
+ *
+ * Unlabelled in the generated listing, and it is the follower that makes
+ * BILLBOARD_Delete EXACT*: the prologue saves nothing, so `disasm.py` never
+ * auto-labelled it, and the extent inferred for 0x0204ED24 runs through these
+ * 36 bytes to the next label at 0x0204ED70
+ * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Seeding
+ * 0x0204ED4C in layout/function_starts.txt turns that EXACT* into EXACT and
+ * changes nothing else - it is the integrator's file, not this packet's.
+ *
+ * The three `ldrsh` leave the array backwards (a1[2] first) and the three
+ * `strh` write in order, so the values have to live in three registers at
+ * once: the source holds them in locals, and the locals have to be *declared*
+ * in reverse order (`v2`, `v1`, `v0`) while being assigned in the same
+ * reverse order.  Declared v0, v1, v2 the compiler gives a1[1] the higher of
+ * the two scratch registers and a1[2] the lower one, which is four bytes of
+ * register field wrong - see
+ * docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
+ * Writing the three stores straight from the array (no locals) interleaves
+ * each load with its store and is eight bytes wrong.
+ */
+void BILLBOARD_SetFlagWord(u8 *a0, short *a1)
+{
+    short v2;
+    short v1;
+    short v0;
+
+    ((struct Obj06987 *)a0)->f2C = 1;
+    v2 = a1[2];
+    v1 = a1[1];
+    v0 = a1[0];
+    ((struct Obj06987 *)a0)->f30 = v0;
+    ((struct Obj06987 *)a0)->f32 = v1;
+    ((struct Obj06987 *)a0)->f34 = v2;
+}
+
+/*
+ * Copy the caller's 12-byte record into the actor at +0x10.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204ED70 and its body ends at 0x0204ED80.
+ */
+void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src)
+{
+    *(struct Blk3 *)(dst + 0x10) = *src;
+}
+
+/*
+ * Halfword field store into the actor at +0x1c from the caller's pointer.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204ED80 and its body ends at 0x0204ED8C.
+ */
+void BILLBOARD_SetField1C(u8 *dst, u16 *src)
+{
+    ((struct Obj16108 *)dst)->f1C = *src;
+}
+
+/*
+ * Halfword field store into the actor at +0x1e from the caller's pointer.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204ED8C and its body ends at 0x0204ED98.
+ */
+void BILLBOARD_SetField1E(u8 *dst, u16 *src)
+{
+    ((struct Obj16110 *)dst)->f1E = *src;
+}
+
+/*
+ * Halfword field store into the actor at +0x20 from the caller's pointer.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204ED98 and its body ends at 0x0204EDA4.
+ */
+void BILLBOARD_SetField20(u8 *dst, u16 *src)
+{
+    ((struct Obj16112 *)dst)->f20 = *src;
+}
+
+/*
+ * Halfword field store into the actor at +0x22 from the caller's pointer.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204EDA4 and its body ends at 0x0204EDB0.
+ */
+void BILLBOARD_SetField22(u8 *dst, u16 *src)
+{
+    ((struct Obj16114 *)dst)->f22 = *src;
+}
+
+/*
+ * Byte field store into the actor at +0x24 from the caller's pointer.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204EDB0 and its body ends at 0x0204EDBC.
+ */
+void BILLBOARD_SetField24(u8 *dst, u8 *src)
+{
+    ((struct Obj16116 *)dst)->f24 = *src;
+}
+
+/*
+ * Byte field store into the actor at +0x25 straight from the value
+ * parameter: there is no load in the image at all.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204EDBC and its body ends at 0x0204EDC4.
+ */
+void BILLBOARD_SetField25(u8 *dst, u8 val)
+{
+    ((struct Obj16118 *)dst)->f25 = val;
+}
+
+/*
+ * Two halfword field stores, +0x36 and +0x38, from the two value
+ * parameters.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204EDC4 and its body ends at 0x0204EDD0.
+ */
+void BILLBOARD_SetImagePosition(u8 *dst, int a, int b)
+{
+    ((struct Obj11444 *)dst)->f36 = a;
+    ((struct Obj11444 *)dst)->f38 = b;
+}
+
+/*
+ * Turn two bit groups of the flags word into one-hot halfwords, each store
+ * guarded by its own null check.  The `asr` on the high group is the tell
+ * that the flags word is signed (an unsigned group would be lsr), and the
+ * first guard is a real branch while the second is folded into conditional
+ * instructions because nothing follows it.
+ *
+ * Unlabelled in the current listings: the prologue saves nothing, so
+ * disasm.py never auto-labelled it and the worklist's function list for this
+ * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * It starts at 0x0204EDD0 and its body ends at 0x0204EE0C.
+ */
+void BILLBOARD_GetImageSizeFromFlags(s32 flags, u16 *a, u16 *b)
+{
+    if (a != 0) {
+        *a = (u16)(1 << (((flags & 0x70) >> 4) + 3));
+    }
+    if (b != 0) {
+        *b = (u16)(1 << ((flags & 7) + 3));
+    }
+}
+
 #define reg_G3_MTX_MODE        (*(volatile u32 *)0x04000440)
+
 #define reg_G3_MTX_PUSH        (*(volatile u32 *)0x04000444)
+
 #define reg_G3_MTX_POP         (*(volatile u32 *)0x04000448)
+
 #define reg_G3_MTX_SCALE       (*(volatile u32 *)0x0400046C)
+
 #define reg_G3_COLOR           (*(volatile u32 *)0x04000480)
+
 #define reg_G3_NORMAL          (*(volatile u32 *)0x04000484)
+
 #define reg_G3_TEXCOORD        (*(volatile u32 *)0x04000488)
+
 #define reg_G3_VTX_16          (*(volatile u32 *)0x0400048C)
+
 #define reg_G3_POLYGON_ATTR    (*(volatile u32 *)0x040004A4)
+
 #define reg_G3_TEXIMAGE_PARAM  (*(volatile u32 *)0x040004A8)
+
 #define reg_G3_TEXPLTT_BASE    (*(volatile u32 *)0x040004AC)
+
 #define reg_G3_DIF_AMB         (*(volatile u32 *)0x040004C0)
+
 #define reg_G3_SPE_EMI         (*(volatile u32 *)0x040004C4)
+
 #define reg_G3_LIGHT_VECTOR    (*(volatile u32 *)0x040004C8)
+
 #define reg_G3_LIGHT_COLOR     (*(volatile u32 *)0x040004CC)
+
 #define reg_G3_BEGIN_VTXS      (*(volatile u32 *)0x04000500)
+
 #define reg_G3_END_VTXS        (*(volatile u32 *)0x04000504)
+
 #define GX_VECFX10(x, y, z) \
     ((u32)(((((x) >> 3) & 0x3ff) << 0) | \
            ((((y) >> 3) & 0x3ff) << 10) | \
            ((((z) >> 3) & 0x3ff) << 20)))
+
 #define GX_FX16PAIR(a, b)  ((u32)((u32)(u16)(a) | ((u32)(u16)(b) << 16)))
+
 #define GX_FX16ST(x)       ((s16)((x) >> 8))
+
 #define GX_ST(s, t)        ((u32)((u16)GX_FX16ST(s) | ((u16)GX_FX16ST(t) << 16)))
+
 struct G3dResource;      /* loaded NitroSystem file (g3d_system_types.h) */
+
 struct Camera;
+
 struct LightSlot;
+
 /* Head of the NitroSystem texture block (NNSG3dResTex), up to the texel
  * data offset. */
 struct NNSG3dResTex {
@@ -117,74 +438,138 @@ typedef struct { fx32 m[4][3]; } MtxFx43;
 struct Quad { fx16 y0, y1, x0, x1; };
 
 extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *resource);
-extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
-extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
-extern s32 _s32_div_f(s32 a, s32 b);
-extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
-extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *resource);
-extern struct NNSG3dResTex *G3D_SYSTEM_GetResourceTex(struct G3dResource *resource);
-extern void func_020307E0(void *p, u32 size);
-extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *resource);
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *resource);
-extern void G3X_Reset(void);
-extern void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx);
-extern void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
-extern int  MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
-extern void MI_Copy36B(const void *pSrc, void *pDest);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
-extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern void MTX_Identity33_(MtxFx33 *pDst);
-extern void MTX_RotY33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
-extern fx32 FX_Div(fx32 numer, fx32 denom);
-extern void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans);
-extern void G3_RotZ(fx32 s, fx32 c);
-extern void func_02048AE8(struct Camera *cam, VecFx32 *out);
-extern void func_02048B0C(struct Camera *cam, VecFx32 *out);
-extern void func_02048B30(struct Camera *cam, VecFx32 *out);
-extern void G3D_LIGHT_GetSlotColor(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
-extern void G3D_LIGHT_GetSlotFlags(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
-int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex);
-void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *resource);
-void BILLBOARD_SetImageFormat(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 columns, u8 rows);
-u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
-u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
-int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows);
-void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index);
-void BILLBOARD_DeleteImage(struct BbBoard *board, int index);
-void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index);
-void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index);
-void BILLBOARD_DeleteAllImages(struct BbBoard *board);
-void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset);
-void func_0204F2CC(struct BbBoard *board, int index, int *outPlttVramOffset);
-void BILLBOARD_GetImageTexKey(struct BbBoard *board, int index, u32 *outTexVramKey);
-void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey);
-void func_0204F32C(struct BbBoard *board, int imageIndex, u32 *outPlttKey);
-void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex);
-s32 BILLBOARD_AddElem(struct BbBoard *board, u32 imageIndex, u16 scaleX, u16 scaleY, VecFx32 *pos, u8 alpha, u32 light, u32 facingMode);
-void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex);
-void BILLBOARD_GetElemId(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex);
-void BILLBOARD_SetElemId(struct BbBoard *board, u32 elemIndex, u16 *imageIndex);
-void BILLBOARD_SetElemPos(struct BbBoard *board, int elemIndex, VecFx32 *pos);
-void BILLBOARD_GetElemCell(struct BbBoard *board, int elemIndex, u16 *outCell);
-void BILLBOARD_SetElemCell(struct BbBoard *board, int elemIndex, u16 *cell);
-void BILLBOARD_SetElemScale(struct BbBoard *board, int elemIndex, const s16 *scaleX, const s16 *scaleY);
-void BILLBOARD_SetElemAlpha(struct BbBoard *board, int elemIndex, u8 *alpha);
-void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemIndex, u8 *polyId);
-u32 BILLBOARD_GetElemVisible(struct BbBoard *board, int elemIndex);
-void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible);
-u32 BILLBOARD_GetElemFlipS(struct BbBoard *board, int elemIndex);
-void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemIndex, u32 *flipS);
-void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemIndex, u32 *flipT);
-void BILLBOARD_SetElemRotZ(struct BbBoard *board, int elemIndex, u16 *rotZ);
-void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights);
-extern const u32 gTexSizeTbl[];
-extern const struct TexParamEntry gTexParamS[];
-extern const struct TexParamEntry gTexParamT[];
-extern FreeVramFn NNS_GfdDefaultFuncFreeTexVram;
-extern FreeVramFn NNS_GfdDefaultFuncFreePlttVram;
-extern const fx16 FX_SinCosTable_[];
-extern const struct Quad gBillboardQuad[];
 
+extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
+
+extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
+
+extern s32 _s32_div_f(s32 a, s32 b);
+
+extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
+
+extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *resource);
+
+extern struct NNSG3dResTex *G3D_SYSTEM_GetResourceTex(struct G3dResource *resource);
+
+extern void func_020307E0(void *p, u32 size);
+
+extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *resource);
+
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *resource);
+
+extern void G3X_Reset(void);
+
+extern void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx);
+
+extern void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
+
+extern int  MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
+
+extern void MI_Copy36B(const void *pSrc, void *pDest);
+
+extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+
+extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
+
+extern void MTX_Identity33_(MtxFx33 *pDst);
+
+extern void MTX_RotY33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
+
+extern fx32 FX_Div(fx32 numer, fx32 denom);
+
+extern void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans);
+
+extern void G3_RotZ(fx32 s, fx32 c);
+
+extern void func_02048AE8(struct Camera *cam, VecFx32 *out);
+
+extern void func_02048B0C(struct Camera *cam, VecFx32 *out);
+
+extern void func_02048B30(struct Camera *cam, VecFx32 *out);
+
+extern void G3D_LIGHT_GetSlotColor(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
+
+extern void G3D_LIGHT_GetSlotFlags(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
+
+int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex);
+
+void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *resource);
+
+void BILLBOARD_SetImageFormat(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 columns, u8 rows);
+
+u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
+
+u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
+
+int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows);
+
+void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index);
+
+void BILLBOARD_DeleteImage(struct BbBoard *board, int index);
+
+void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index);
+
+void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index);
+
+void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset);
+
+void BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset);
+
+void BILLBOARD_GetImageTexKey(struct BbBoard *board, int index, u32 *outTexVramKey);
+
+void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey);
+
+void BILLBOARD_GetImagePlttKey(struct BbBoard *board, int imageIndex, u32 *outPlttKey);
+
+void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex);
+
+s32 BILLBOARD_AddElem(struct BbBoard *board, u32 imageIndex, u16 scaleX, u16 scaleY, VecFx32 *pos, u8 alpha, u32 light, u32 facingMode);
+
+void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex);
+
+void BILLBOARD_GetElemId(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex);
+
+void BILLBOARD_SetElemId(struct BbBoard *board, u32 elemIndex, u16 *imageIndex);
+
+void BILLBOARD_SetElemPos(struct BbBoard *board, int elemIndex, VecFx32 *pos);
+
+void BILLBOARD_GetElemCell(struct BbBoard *board, int elemIndex, u16 *outCell);
+
+void BILLBOARD_SetElemCell(struct BbBoard *board, int elemIndex, u16 *cell);
+
+void BILLBOARD_SetElemScale(struct BbBoard *board, int elemIndex, const s16 *scaleX, const s16 *scaleY);
+
+void BILLBOARD_SetElemAlpha(struct BbBoard *board, int elemIndex, u8 *alpha);
+
+void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemIndex, u8 *polyId);
+
+u32 BILLBOARD_GetElemVisible(struct BbBoard *board, int elemIndex);
+
+void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible);
+
+u32 BILLBOARD_GetElemFlipS(struct BbBoard *board, int elemIndex);
+
+void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemIndex, u32 *flipS);
+
+void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemIndex, u32 *flipT);
+
+void BILLBOARD_SetElemRotZ(struct BbBoard *board, int elemIndex, u16 *rotZ);
+
+void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights);
+
+extern const u32 gTexSizeTbl[];
+
+extern const struct TexParamEntry gTexParamS[];
+
+extern const struct TexParamEntry gTexParamT[];
+
+extern FreeVramFn NNS_GfdDefaultFuncFreeTexVram;
+
+extern FreeVramFn NNS_GfdDefaultFuncFreePlttVram;
+
+extern const fx16 FX_SinCosTable_[];
+
+extern const struct Quad gBillboardQuad[];
 
 /*
  * Scan the board for the first free texture record (resource NULL and
@@ -208,7 +593,6 @@ int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex)
     *outIndex = 0;
     return 0;
 }
-
 
 /*
  * Bind a loaded texture resource to a record: upload it to VRAM, then keep
@@ -235,7 +619,6 @@ void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *reso
     image->vramAddr = (u32)(image->texKey << 16) >> 13;
     image->plttAddr = (u32)(plttKey << 16) >> 13;
 }
-
 
 /*
  * Seats a billboard cell's texture parameters: the S and T sizes come from
@@ -264,7 +647,6 @@ void BILLBOARD_SetImageFormat(struct BbImage *image, u32 formatIndex, s32 sizeCo
     image->cellColumns = _s32_div_f(image->texWidth, image->cellWidth);
     image->cellRows = _s32_div_f(image->texHeight, image->cellHeight);
 }
-
 
 /*
  * Add a texture from an already loaded resource: find a free record, bind
@@ -299,7 +681,6 @@ u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, u32 
     return index;
 }
 
-
 /*
  * The second wrapper, one call longer than BILLBOARD_AddImage: the resource it
  * binds is loaded from the archive with G3D_SYSTEM_CreateResourceArc(arcId, dataId) rather
@@ -318,7 +699,6 @@ u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, 
     }
     return index;
 }
-
 
 /*
  * billboard.c: take a free record and fill it from caller-supplied VRAM keys
@@ -343,7 +723,6 @@ int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int pl
     return index;
 }
 
-
 /*
  * Trim a record's resource buffer to the part the CPU still needs: the
  * texels are already in VRAM, so the buffer is shrunk (func_020307E0) to end
@@ -360,7 +739,6 @@ void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
     struct NNSG3dResTex *texBlock = G3D_SYSTEM_GetResourceTex(resource);
     func_020307E0(file, (u32)((u8 *)texBlock + texBlock->texelDataOffset - (u8 *)file));
 }
-
 
 /*
  * The direct form of the record teardown: free the record's VRAM and delete
@@ -387,7 +765,6 @@ void BILLBOARD_DeleteImage(struct BbBoard *board, int index)
     }
     *(u32 *)((u8 *)board->images + off + 0x14) = 5;
 }
-
 
 /*
  * Free the VRAM of one record: when the record's first word is set, hand its
@@ -426,7 +803,6 @@ void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index)
     *(u32 *)((char *)board->images + off + 0x14) = 5;
 }
 
-
 /*
  * The unguarded record teardown: it runs the two free callbacks over the
  * record's texture and palette VRAM keys unconditionally (their addresses in
@@ -447,7 +823,6 @@ void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index)
     *(u32 *)((u8 *)board->images + off + 0x14) = 5;
 }
 
-
 /*
  * Walk the board's u16 record count at +0xc and delete every record.  The
  * count is re-read on each iteration because BILLBOARD_DeleteImage may change it.
@@ -462,14 +837,11 @@ void BILLBOARD_DeleteAllImages(struct BbBoard *board)
     }
 }
 
-
 /* Texture VRAM byte offset of one record, through an out-parameter. */
 void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 12)); }
 
-
 /* Palette VRAM byte offset of one record, through an out-parameter. */
-void func_0204F2CC(struct BbBoard *board, int index, int *outPlttVramOffset){ *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 16)); }
-
+void BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset){ *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 16)); }
 
 /*
  * Texture VRAM key getter through an out-parameter on one 0x28-byte record;
@@ -481,7 +853,6 @@ void BILLBOARD_GetImageTexKey(struct BbBoard *board, int index, u32 *outTexVramK
     *outTexVramKey = images[index].texKey;
 }
 
-
 void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey)
 {
     u32 off = imageIndex * sizeof(struct BbImage);
@@ -489,13 +860,10 @@ void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey
     ((struct BbImage *)((u8 *)board->images + off))->vramAddr = (((struct BbImage *)((u8 *)board->images + off))->texKey << 16) >> 13;
 }
 
-
-void func_0204F32C(struct BbBoard *board, int imageIndex, u32 *outPlttKey)
+void BILLBOARD_GetImagePlttKey(struct BbBoard *board, int imageIndex, u32 *outPlttKey)
 {
     *outPlttKey = ((struct BbImage *)(imageIndex * sizeof(struct BbImage) + (int)board->images))->plttKey;
 }
-
-
 
 void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex)
 {
@@ -522,8 +890,6 @@ void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int fr
     frameRow = frame / image->texWidth;
     *outOffset = *outFrameSize * frameRow + image->cellWidth * (frame % image->texWidth);
 }
-
-
 
 /*
  * billboard.c: allocate a free 0x1c-byte element (image index field 0x3FFF
@@ -557,8 +923,6 @@ s32 BILLBOARD_AddElem(struct BbBoard *board, u32 imageIndex, u16 scaleX, u16 sca
     return 0;
 }
 
-
-
 /*
  * If the low 14 bits of the u16 at the element are not already all ones,
  * set them and leave the top two bits alone. The 14-bit width only survives
@@ -574,8 +938,6 @@ void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex)
     }
 }
 
-
-
 /*
  * Fourteen-bit field getter on the 0x1c-byte elements: the shift pair is an
  * equal `lsl #0x12` / `lsr #0x12`, and the stride is spelled as byte
@@ -585,8 +947,6 @@ void BILLBOARD_GetElemId(struct BbBoard *board, u32 elemIndex, u16 *outImageInde
 {
     *outImageIndex = ((struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem)))->imageIndex;
 }
-
-
 
 /*
  * Same element and field as BILLBOARD_FreeElem, but the low 14 bits are copied in
@@ -600,8 +960,6 @@ void BILLBOARD_SetElemId(struct BbBoard *board, u32 elemIndex, u16 *imageIndex)
     *packed = (u16)((*packed & ~0x3fff) | (*imageIndex & 0x3fff));
 }
 
-
-
 /*
  * Twelve-byte aggregate copy out of the caller's vector into the position
  * of one element: one `ldm`/`stm` of three registers.
@@ -613,29 +971,21 @@ void BILLBOARD_SetElemPos(struct BbBoard *board, int elemIndex, VecFx32 *pos)
     elem->pos = *pos;
 }
 
-
-
 void BILLBOARD_GetElemCell(struct BbBoard *board, int elemIndex, u16 *outCell)
 {
     *outCell = board->elems[elemIndex].cell;
 }
-
-
 
 void BILLBOARD_SetElemCell(struct BbBoard *board, int elemIndex, u16 *cell)
 {
     ((struct BbElem *)(elemIndex * sizeof(struct BbElem) + (int)board->elems))->cell = *cell;
 }
 
-
-
 void BILLBOARD_SetElemScale(struct BbBoard *board, int elemIndex, const s16 *scaleX, const s16 *scaleY)
 {
     board->elems[elemIndex].scaleX = *scaleX;
     board->elems[elemIndex].scaleY = *scaleY;
 }
-
-
 
 /*
  * The three accessors that follow BILLBOARD_SetElemScale, 0x0204F6B4..0x0204F720, on
@@ -658,8 +1008,6 @@ void BILLBOARD_SetElemAlpha(struct BbBoard *board, int elemIndex, u8 *alpha)
     elem->alpha = *alpha;
 }
 
-
-
 void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemIndex, u8 *polyId)
 {
     struct BbElem *elem = &board->elems[elemIndex];
@@ -667,16 +1015,12 @@ void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemIndex, u8 *polyId)
     elem->polyId = *polyId;
 }
 
-
-
 u32 BILLBOARD_GetElemVisible(struct BbBoard *board, int elemIndex)
 {
     struct BbElem *elem = &board->elems[elemIndex];
 
     return elem->visible;
 }
-
-
 
 /*
  * Set or clear bit 9 of the record's u16 at +0x18 depending on whether the
@@ -695,8 +1039,6 @@ void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible
         elem->visible = 0;
     }
 }
-
-
 
 /*
  * The single bit at bit 10 of the packed halfword at +0x18 of one 0x1c-byte
@@ -720,8 +1062,6 @@ u32 BILLBOARD_GetElemFlipS(struct BbBoard *board, int elemIndex)
     return elem->flipS;
 }
 
-
-
 /*
  * Copy the caller's word, narrowed to 16 bits, into bit 10 of the +0x18
  * halfword.  The lsl #16 / lsr #16 pair comes from the u16 narrowing and the
@@ -735,8 +1075,6 @@ void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemIndex, u32 *flipS)
     elem->flipS = (u16)*flipS;
 }
 
-
-
 /*
  * Same as BILLBOARD_SetElemFlipS one bit up: the caller's word goes into bit 11.
  */
@@ -746,8 +1084,6 @@ void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemIndex, u32 *flipT)
 
     elem->flipT = (u16)*flipT;
 }
-
-
 
 /*
  * Halfword store at +0x16 of one 0x1c-byte entry of the descriptor's +8
@@ -766,16 +1102,11 @@ void BILLBOARD_SetElemRotZ(struct BbBoard *board, int elemIndex, u16 *rotZ)
     elem->rotZ = *rotZ;
 }
 
-
-
 static inline void G3_MtxMode(int mode) { reg_G3_MTX_MODE = (u32)mode; }
-
 
 static inline void G3_PushMtx(void) { reg_G3_MTX_PUSH = 0; }
 
-
 static inline void G3_PopMtx(int num) { reg_G3_MTX_POP = (u32)num; }
-
 
 static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
 {
@@ -784,15 +1115,11 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
     reg_G3_MTX_SCALE = (u32)z;
 }
 
-
 static inline void G3_Color(u16 rgb) { reg_G3_COLOR = (u32)rgb; }
-
 
 static inline void G3_Normal(fx16 x, fx16 y, fx16 z) { reg_G3_NORMAL = GX_VECFX10(x, y, z); }
 
-
 static inline void G3_TexCoord(fx32 s, fx32 t) { reg_G3_TEXCOORD = GX_ST(s, t); }
-
 
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
 {
@@ -800,13 +1127,11 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
     reg_G3_VTX_16 = (u32)(u16)z;
 }
 
-
 static inline void G3_PolygonAttr(int light, int polyMode, int cullMode, int polygonID, int alpha, int misc)
 {
     reg_G3_POLYGON_ATTR = (u32)((light << 0) | (polyMode << 4) | (cullMode << 6) | misc |
                                 (polygonID << 24) | (alpha << 16));
 }
-
 
 static inline void G3_TexImageParam(int texFmt, int texGen, int s, int t, int repeat, int flip, int pltt0, u32 addr)
 {
@@ -814,60 +1139,45 @@ static inline void G3_TexImageParam(int texFmt, int texGen, int s, int t, int re
                                   (t << 23) | (repeat << 16) | (flip << 18) | (pltt0 << 29));
 }
 
-
 static inline void G3_TexPlttBase(u32 addr, int texfmt)
 {
     u32 param = (u32)(addr >> (4 - (texfmt == 2)));
     reg_G3_TEXPLTT_BASE = param;
 }
 
-
 static inline void G3_MaterialColorDiffAmb(u16 diffuse, u16 ambient, BOOL IsSetVtxColor)
 {
     reg_G3_DIF_AMB = (u32)(diffuse | (ambient << 16) | ((IsSetVtxColor != 0) << 15));
 }
-
 
 static inline void G3_MaterialColorSpecEmi(u16 specular, u16 emission, BOOL IsShininess)
 {
     reg_G3_SPE_EMI = (u32)(specular | (emission << 16) | ((IsShininess != 0) << 15));
 }
 
-
 static inline void G3_LightVector(int lightID, fx16 x, fx16 y, fx16 z)
 {
     reg_G3_LIGHT_VECTOR = (u32)GX_VECFX10(x, y, z) | ((u32)lightID << 30);
 }
-
 
 static inline void G3_LightColor(int lightID, u16 rgb)
 {
     reg_G3_LIGHT_COLOR = (u32)(rgb | ((u32)lightID << 30));
 }
 
-
 static inline void G3_Begin(int primitive) { reg_G3_BEGIN_VTXS = (u32)primitive; }
-
 
 static inline void G3_End(void) { reg_G3_END_VTXS = 0; }
 
-
 static inline fx16 FX_SinIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1)]; }
-
 
 static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1) + 1]; }
 
-
-
 static inline void MTX_Copy43To33(const MtxFx43 *pSrc, MtxFx33 *pDst) { MI_Copy36B(pSrc, pDst); }
-
 
 static inline void MTX_Identity33(MtxFx33 *pDst) { MTX_Identity33_(pDst); }
 
-
 static inline void MTX_RotY33(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal) { MTX_RotY33_(pDst, sinVal, cosVal); }
-
-
 
 /*
  * billboard.c's draw pass: camera look-at, the four per-mode billboard

@@ -15,34 +15,34 @@
  * symbols:
  *   WF2DMAP_OBJ_GetPos 0x021C4AC4 thumb ov127
  *   func_02030734 0x02030734 arm
- *   func_021C3EE0 0x021C3EE0 thumb ov127
- *   func_021C3FDC 0x021C3FDC thumb ov127
- *   func_021C40A0 0x021C40A0 thumb ov127
+ *   WIFI_2DCHAR_Create 0x021C3EE0 thumb ov127
+ *   WIFI_2DCHAR_SetupBmpCell 0x021C3FDC thumb ov127
+ *   WIFI_2DCHAR_RegisterBmp 0x021C40A0 thumb ov127
  *   sWf2dmapObjdrawFileName 0x021C6130 data a1
- *   func_021C40B4 0x021C40B4 thumb ov127
- *   func_021C3F80 0x021C3F80 thumb ov127
+ *   WIFI_2DCHAR_ReleaseBmp 0x021C40B4 thumb ov127
+ *   WIFI_2DCHAR_Delete 0x021C3F80 thumb ov127
  *   func_020307B0 0x020307B0 arm
- *   func_021C4010 0x021C4010 thumb ov127
- *   func_021C4044  0x021C4044  thumb
+ *   WIFI_2DCHAR_ReleaseCells 0x021C4010 thumb ov127
+ *   WIFI_2DCHAR_SetupCells  0x021C4044  thumb
  *   WF2DMAP_OBJ_GetSlot 0x021C49A4 thumb ov127
- *   func_021C40BC 0x021C40BC thumb ov127
- *   func_021C41BC  0x021C41BC  thumb
+ *   WIFI_2DCHAR_SpawnActor 0x021C40BC thumb ov127
+ *   WIFI_2DCHAR_DeleteActor  0x021C41BC  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021C41DC 0x021C41DC thumb ov127
- *   func_021C4214 0x021C4214 thumb ov127
- *   func_021C42C4 0x021C42C4 thumb ov127
- *   func_021C425C  0x021C425C  thumb  ov127
- *   func_021C4230  0x021C4230  thumb  ov127
- *   func_021C424C  0x021C424C  thumb  ov127
- *   func_021C4224  0x021C4224  thumb  ov127
- *   func_021C428C  0x021C428C  thumb  ov127
- *   func_021C4268  0x021C4268  thumb
+ *   WIFI_2DCHAR_SetActorPos 0x021C41DC thumb ov127
+ *   WIFI_2DCHAR_SetActorDrawPriority 0x021C4214 thumb ov127
+ *   WIFI_2DCHAR_StepActorAnim 0x021C42C4 thumb ov127
+ *   WIFI_2DCHAR_GetActorDrawEnable  0x021C425C  thumb  ov127
+ *   WIFI_2DCHAR_SetActorDrawEnable  0x021C4230  thumb  ov127
+ *   WIFI_2DCHAR_SetSubActorDrawEnable  0x021C424C  thumb  ov127
+ *   WIFI_2DCHAR_GetActorDrawPriority  0x021C4224  thumb  ov127
+ *   WIFI_2DCHAR_SetSubActorPos  0x021C428C  thumb  ov127
+ *   WIFI_2DCHAR_GetActorCellArgB  0x021C4268  thumb
  *   sWf2dmapSlotValues     0x021C60B6  data  a1
  *   WF2DMAP_OBJ_GetCurrentPos 0x021C4ADC thumb ov127
- *   func_021C4280 0x021C4280 thumb ov127
- *   func_021C4270 0x021C4270 thumb ov127
- *   func_021C42A8 0x021C42A8 thumb ov127
- *   func_021C4274 0x021C4274 thumb ov127
+ *   WIFI_2DCHAR_GetActorAnimSeqCount 0x021C4280 thumb ov127
+ *   WIFI_2DCHAR_GetActorAnimId 0x021C4270 thumb ov127
+ *   WIFI_2DCHAR_SetActorAnim 0x021C42A8 thumb ov127
+ *   WIFI_2DCHAR_SetActorAnimIndex 0x021C4274 thumb ov127
  *   sWf2dmapSlotFlags 0x021C60AC data a1
  *   WF2DMAP_SCRDRAW_SetPoint 0x021C59DC thumb ov127
  */
@@ -106,32 +106,32 @@ typedef struct Wf2dmapPair {
 
 extern Wf2dmapU16Point WF2DMAP_OBJ_GetPos(void *);
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_021C3EE0(void *, void *, u32, u32);
-extern void func_021C3FDC(u8 *p, int a, int b, int c, int d);
-extern void func_021C40A0(u8 *p, int a, int b, int c);
-extern void func_021C40B4(u8 *p);
-extern void func_021C3F80(u8 *p);
+extern void *WIFI_2DCHAR_Create(void *, void *, u32, u32);
+extern void WIFI_2DCHAR_SetupBmpCell(u8 *p, int a, int b, int c, int d);
+extern void WIFI_2DCHAR_RegisterBmp(u8 *p, int a, int b, int c);
+extern void WIFI_2DCHAR_ReleaseBmp(u8 *p);
+extern void WIFI_2DCHAR_Delete(u8 *p);
 extern u32 func_020307B0(void *p);
-extern void func_021C4010(u8 *p);
-extern void func_021C4044(u8 *p, int a, int b, int c, int d);
+extern void WIFI_2DCHAR_ReleaseCells(u8 *p);
+extern void WIFI_2DCHAR_SetupCells(u8 *p, int a, int b, int c, int d);
 extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
-extern void *func_021C40BC(void *, s16 *, int, u32);
-extern void func_021C41BC(u8 *p);
+extern void *WIFI_2DCHAR_SpawnActor(void *, s16 *, int, u32);
+extern void WIFI_2DCHAR_DeleteActor(u8 *p);
 extern void MI_CpuFill8(void *, int, int);
-extern void func_021C41DC(u8 *p, int x, int y);
-extern void func_021C4214(u8 *p, u32 v);
-extern void func_021C42C4(u8 *p);
-extern int func_021C425C(char *p);
-extern void func_021C4230(char *p, int a);
-extern void func_021C424C(char *p, int a);
-extern int func_021C4224(u8 *p);
-extern void func_021C428C(char *p, int x, int y);
-extern int func_021C4268(char *);
+extern void WIFI_2DCHAR_SetActorPos(u8 *p, int x, int y);
+extern void WIFI_2DCHAR_SetActorDrawPriority(u8 *p, u32 v);
+extern void WIFI_2DCHAR_StepActorAnim(u8 *p);
+extern int WIFI_2DCHAR_GetActorDrawEnable(char *p);
+extern void WIFI_2DCHAR_SetActorDrawEnable(char *p, int a);
+extern void WIFI_2DCHAR_SetSubActorDrawEnable(char *p, int a);
+extern int WIFI_2DCHAR_GetActorDrawPriority(u8 *p);
+extern void WIFI_2DCHAR_SetSubActorPos(char *p, int x, int y);
+extern int WIFI_2DCHAR_GetActorCellArgB(char *);
 extern Wf2dmapPos WF2DMAP_OBJ_GetCurrentPos(char *);
-extern int func_021C4280(char *p);
-extern u32 func_021C4270(char *p);
-extern void func_021C42A8(void *actor, int idx, int a);
-extern void func_021C4274(char *p, u32 a);
+extern int WIFI_2DCHAR_GetActorAnimSeqCount(char *p);
+extern u32 WIFI_2DCHAR_GetActorAnimId(char *p);
+extern void WIFI_2DCHAR_SetActorAnim(void *actor, int idx, int a);
+extern void WIFI_2DCHAR_SetActorAnimIndex(char *p, u32 a);
 extern void WF2DMAP_SCRDRAW_SetPoint(Wf2dmapU16Point *p, s16 a, s16 b);
 void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *out,void *p,int kind,int index,int value);
 Wf2dmapAnimSeq *WF2DMAP_OBJDRAW_CreateAnimSeq(void *srcA, void *srcB, u32 count, void *palette, int animData, u32 mode, u32 heap);
@@ -176,13 +176,13 @@ void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *out,void *p,int kind,int index,int value)
 Wf2dmapAnimSeq *WF2DMAP_OBJDRAW_CreateAnimSeq(void *srcA, void *srcB, u32 count, void *palette, int animData, u32 mode, u32 heap)
 {
     Wf2dmapAnimSeq *seq = func_02030734(heap, 12, 1, sWf2dmapObjdrawFileName, 161);
-    seq->sprite = func_021C3EE0(srcA, srcB, count, heap);
+    seq->sprite = WIFI_2DCHAR_Create(srcA, srcB, count, heap);
     seq->frameCount = count;
     seq->frames = func_02030734(heap, 20 * seq->frameCount, 1, sWf2dmapObjdrawFileName, 168);
     seq->state = 2;
     seq->mode = mode;
-    func_021C3FDC(seq->sprite, (int)palette, seq->mode, animData, heap);
-    func_021C40A0(seq->sprite, seq->mode, 255, heap);
+    WIFI_2DCHAR_SetupBmpCell(seq->sprite, (int)palette, seq->mode, animData, heap);
+    WIFI_2DCHAR_RegisterBmp(seq->sprite, seq->mode, 255, heap);
     return seq;
 }
 
@@ -200,9 +200,9 @@ void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *p)
         if (!WF2DMAP_OBJDRAW_IsActorFree((char *)(*(u8 * *)&((Wf2dmapAnimSeq *)p)->frames+offset)))
             WF2DMAP_OBJDRAW_RemoveActor(*(u8 * *)&((Wf2dmapAnimSeq *)p)->frames+offset);
     }
-    func_021C40B4(((Wf2dmapAnimSeq *)p)->sprite);
+    WIFI_2DCHAR_ReleaseBmp(((Wf2dmapAnimSeq *)p)->sprite);
     WF2DMAP_OBJDRAW_DeleteSprite(p);
-    func_021C3F80(((Wf2dmapAnimSeq *)p)->sprite);
+    WIFI_2DCHAR_Delete(((Wf2dmapAnimSeq *)p)->sprite);
     func_020307B0(((Wf2dmapAnimSeq *)p)->frames);
     func_020307B0(p);
 }
@@ -210,7 +210,7 @@ void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *p)
 
 
 
-void WF2DMAP_OBJDRAW_DeleteSprite(void *p) { func_021C4010(((Wf2dmapAnimSeq *)p)->sprite); }
+void WF2DMAP_OBJDRAW_DeleteSprite(void *p) { WIFI_2DCHAR_ReleaseCells(((Wf2dmapAnimSeq *)p)->sprite); }
 
 
 
@@ -220,7 +220,7 @@ void WF2DMAP_OBJDRAW_DeleteSprite(void *p) { func_021C4010(((Wf2dmapAnimSeq *)p)
  */
 void WF2DMAP_OBJDRAW_ConfigureSprite(char *p, int a, int b)
 {
-    func_021C4044(((Wf2dmapAnimSeq *)p)->sprite, ((Wf2dmapAnimSeq *)p)->mode, a, 0, b);
+    WIFI_2DCHAR_SetupCells(((Wf2dmapAnimSeq *)p)->sprite, ((Wf2dmapAnimSeq *)p)->mode, a, 0, b);
 }
 
 
@@ -242,7 +242,7 @@ u8 *WF2DMAP_OBJDRAW_AddActor(u8 *seq, void *resource, int variant, u32 heap)
     pos[1] = WF2DMAP_OBJ_GetSlot(resource, 1);
     pos[2] = WF2DMAP_OBJDRAW_GetDepth(pos[1], o[18]);
     pos[3] = ((Wf2dmapAnimSeq *)seq)->state;
-    ((Wf2dmapActor *)o)->actor = func_021C40BC(((Wf2dmapAnimSeq *)seq)->sprite, pos, WF2DMAP_OBJ_GetSlot(resource, 7), heap);
+    ((Wf2dmapActor *)o)->actor = WIFI_2DCHAR_SpawnActor(((Wf2dmapAnimSeq *)seq)->sprite, pos, WF2DMAP_OBJ_GetSlot(resource, 7), heap);
     WF2DMAP_OBJDRAW_UpdateActor(o);
     return o;
 }
@@ -254,7 +254,7 @@ u8 *WF2DMAP_OBJDRAW_AddActor(u8 *seq, void *resource, int variant, u32 heap)
 
 void WF2DMAP_OBJDRAW_RemoveActor(u8 *p)
 {
-    func_021C41BC(((Wf2dmapActor *)p)->actor);
+    WIFI_2DCHAR_DeleteActor(((Wf2dmapActor *)p)->actor);
     MI_CpuFill8(p, 0, 0x14);
 }
 
@@ -280,10 +280,10 @@ void WF2DMAP_OBJDRAW_UpdateActor(u8 *p)
             WF2DMAP_OBJDRAW_SetFrame(p, WF2DMAP_OBJDRAW_GetFrameValue(((Wf2dmapActor *)p)->actor, a), b);
         }
         WF2DMAP_OBJDRAW_GetOwnerPos((char *)p, &x, &y);
-        func_021C41DC(((Wf2dmapActor *)p)->actor, x, y);
+        WIFI_2DCHAR_SetActorPos(((Wf2dmapActor *)p)->actor, x, y);
         d = WF2DMAP_OBJDRAW_GetDepth(y, p[18]);
-        func_021C4214(((Wf2dmapActor *)p)->actor, d);
-        func_021C42C4(((Wf2dmapActor *)p)->actor);
+        WIFI_2DCHAR_SetActorDrawPriority(((Wf2dmapActor *)p)->actor, d);
+        WIFI_2DCHAR_StepActorAnim(((Wf2dmapActor *)p)->actor);
     }
 }
 
@@ -317,12 +317,12 @@ void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *p)
 
 
 /*
- * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=func_021C42C4; bx r3.
+ * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_StepActorAnim; bx r3.
  * Blocker of ov099 func_021BA2D4.
  */
 void WF2DMAP_OBJDRAW_RefreshActor(char *p)
 {
-    func_021C42C4(((Wf2dmapActor *)p)->actor);
+    WIFI_2DCHAR_StepActorAnim(((Wf2dmapActor *)p)->actor);
 }
 
 
@@ -335,12 +335,12 @@ void WF2DMAP_OBJDRAW_RestoreFrame(u8 *p) { WF2DMAP_OBJDRAW_SetFrame(p,WF2DMAP_OB
 
 
 /*
- * Unlabelled: forwards a by-value {s16 x, y} pair to func_021C41DC with the
+ * Unlabelled: forwards a by-value {s16 x, y} pair to WIFI_2DCHAR_SetActorPos with the
  * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
  */
 void WF2DMAP_OBJDRAW_SetActorPos(char *p, Wf2dmapPair v)
 {
-    func_021C41DC(((Wf2dmapActor *)p)->actor, v.x, v.y);
+    WIFI_2DCHAR_SetActorPos(((Wf2dmapActor *)p)->actor, v.x, v.y);
 }
 
 
@@ -348,12 +348,12 @@ void WF2DMAP_OBJDRAW_SetActorPos(char *p, Wf2dmapPair v)
 
 
 /*
- * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=func_021C425C; bx r3.
+ * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_GetActorDrawEnable; bx r3.
  * Blocker of ov099 func_021BA2D4.
  */
 int WF2DMAP_OBJDRAW_GetActorValue(char *p)
 {
-    return func_021C425C(((Wf2dmapActor *)p)->actor);
+    return WIFI_2DCHAR_GetActorDrawEnable(((Wf2dmapActor *)p)->actor);
 }
 
 
@@ -362,7 +362,7 @@ int WF2DMAP_OBJDRAW_GetActorValue(char *p)
 
 void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a)
 {
-    func_021C4230(((Wf2dmapActor *)p)->actor, a);
+    WIFI_2DCHAR_SetActorDrawEnable(((Wf2dmapActor *)p)->actor, a);
 }
 
 
@@ -372,14 +372,14 @@ void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a)
 /*
  * Unlabelled 8-byte ov127 accessor veneer in a .word run (0x021C5834,
  * 0x021C5840, 0x021C584C, 0x021C5858 are four in a row): `ldr r0,[r0,#0];
- * ldr r3,=func_021C424C; bx r3`.  Blocker target of src/pending/
+ * ldr r3,=WIFI_2DCHAR_SetSubActorDrawEnable; bx r3`.  Blocker target of src/pending/
  * ov099_func_021B98E4.c.
  *
  * Addresses are Black-image addresses.
  */
 void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a)
 {
-    func_021C424C(*(char * *)&((Wf2dmapActor *)p)->actor, a);
+    WIFI_2DCHAR_SetSubActorDrawEnable(*(char * *)&((Wf2dmapActor *)p)->actor, a);
 }
 
 
@@ -388,11 +388,11 @@ void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a)
 
 /*
  * Unlabelled accessor veneer after WF2DMAP_OBJDRAW_SetActorValue2 (`ldr r0,[r0,#4]; ldr r3,=
- * func_021C4224; bx r3`).  Blocker of ov099 func_021B989C.
+ * WIFI_2DCHAR_GetActorDrawPriority; bx r3`).  Blocker of ov099 func_021B989C.
  */
 int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p)
 {
-    return func_021C4224(((Wf2dmapActor *)p)->actor);
+    return WIFI_2DCHAR_GetActorDrawPriority(((Wf2dmapActor *)p)->actor);
 }
 
 
@@ -401,7 +401,7 @@ int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p)
 void WF2DMAP_OBJDRAW_SetFrameZero(u8 *p, int b)
 {
     WF2DMAP_OBJDRAW_SetFrame(p, 0, b);
-    func_021C42C4(((Wf2dmapActor *)p)->actor);
+    WIFI_2DCHAR_StepActorAnim(((Wf2dmapActor *)p)->actor);
 }
 
 
@@ -413,12 +413,12 @@ int WF2DMAP_OBJDRAW_GetDepth(int a,int b) { if(b==1) return 250-a/4; else return
 
 
 /*
- * Unlabelled: forwards a by-value {s16 x, y} pair to func_021C428C with the
+ * Unlabelled: forwards a by-value {s16 x, y} pair to WIFI_2DCHAR_SetSubActorPos with the
  * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
  */
 void WF2DMAP_OBJDRAW_SetActorPos2(char *p, Wf2dmapPair v)
 {
-    func_021C428C(((Wf2dmapActor *)p)->actor, v.x, v.y);
+    WIFI_2DCHAR_SetSubActorPos(((Wf2dmapActor *)p)->actor, v.x, v.y);
 }
 
 
@@ -439,7 +439,7 @@ char *WF2DMAP_OBJDRAW_AllocActor(u8 *seq) { int i,offset; for(i=0;i<((Wf2dmapAni
 
 int WF2DMAP_OBJDRAW_GetFrameValue(char *p, int b)
 {
-    if (func_021C4268(p) == 2)
+    if (WIFI_2DCHAR_GetActorCellArgB(p) == 2)
         return 0;
     return sWf2dmapSlotValues[b];
 }
@@ -454,12 +454,12 @@ void WF2DMAP_OBJDRAW_GetOwnerPos(char *p,short *x,short *y) { Wf2dmapPos a=WF2DM
 
 void WF2DMAP_OBJDRAW_SetFrame(u8 *p, int n, int a)
 {
-    int v = func_021C4280(((Wf2dmapActor *)p)->actor);
-    u16 old = func_021C4270(((Wf2dmapActor *)p)->actor);
-    func_021C42A8(((Wf2dmapActor *)p)->actor, n, a);
+    int v = WIFI_2DCHAR_GetActorAnimSeqCount(((Wf2dmapActor *)p)->actor);
+    u16 old = WIFI_2DCHAR_GetActorAnimId(((Wf2dmapActor *)p)->actor);
+    WIFI_2DCHAR_SetActorAnim(((Wf2dmapActor *)p)->actor, n, a);
     if (old != n) {
         if (sWf2dmapSlotFlags[n] == 1 && ((Wf2dmapActor *)p)->prevValue5 == n)
-            func_021C4274(((Wf2dmapActor *)p)->actor, ((Wf2dmapActor *)p)->prevActor);
+            WIFI_2DCHAR_SetActorAnimIndex(((Wf2dmapActor *)p)->actor, ((Wf2dmapActor *)p)->prevActor);
         if (sWf2dmapSlotFlags[old] == 1) {
             ((Wf2dmapActor *)p)->prevValue5 = old;
             ((Wf2dmapActor *)p)->prevActor = v;

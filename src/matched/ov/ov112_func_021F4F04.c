@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F04
+ * function: MUSICAL_MCSS_GetElemOffset
  * address: 0x021F4F04
  * packet: pkt_ov112_021F4F04
  * region: ov112
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F4F60 0x021F4F60 thumb ov112
+ *   MUSICAL_MCSS_GetOffset 0x021F4F60 thumb ov112
  */
 #include "../include/Obj01396.h"
 typedef unsigned char u8;
 typedef struct { int x, y; } Offset;
-extern void func_021F4F60(u8 *, Offset *);
-void func_021F4F04(u8 *p, Offset *out)
+extern void MUSICAL_MCSS_GetOffset(u8 *, Offset *);
+void MUSICAL_MCSS_GetElemOffset(u8 *p, Offset *out)
 {
-    func_021F4F60(*(u8 * *)&((struct Obj01396 *)p)->f20, out);
+    MUSICAL_MCSS_GetOffset(*(u8 * *)&((struct Obj01396 *)p)->f20, out);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203F734",
+   "name": "GF_STANDARD_DegToAngle",
    "address": "0x0203F734",
    "kind": "game",
    "region": "arm9",

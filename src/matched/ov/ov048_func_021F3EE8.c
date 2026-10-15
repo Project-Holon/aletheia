@@ -26,8 +26,8 @@
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
@@ -61,8 +61,8 @@ struct WordSet;
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -102,12 +102,12 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
         h2 = WORDSET_Create(2, sz, ((struct Obj02413 *)p)->f0);
         s3 = (u32)func_02045EC0((struct MsgBank *)b, 0xc0);
         buf = STRBUF_Create(0x40, ((struct Obj02413 *)p)->f0);
-        func_0201EE0C(h2, 0, (const void *)s1, 0, 1, 0);
-        func_0201EE0C(h2, 1, (const void *)s2, 0, 1, 0);
-        func_0201F250(h2, buf, (void *)s3);
+        WORDSET_SetSlotTag(h2, 0, (const void *)s1, 0, 1, 0);
+        WORDSET_SetSlotTag(h2, 1, (const void *)s2, 0, 1, 0);
+        WORDSET_CopyTaggedText(h2, buf, (void *)s3);
         STRBUF_Delete((struct U16Vec *)s3);
         WORDSET_DeleteStrbufED04(h2);
-        func_0201EE0C(h1, i, (const void *)buf, 0, 1, 0);
+        WORDSET_SetSlotTag(h1, i, (const void *)buf, 0, 1, 0);
         STRBUF_Delete((struct U16Vec *)s1);
         STRBUF_Delete((struct U16Vec *)s2);
         STRBUF_Delete((struct U16Vec *)((u32)buf));

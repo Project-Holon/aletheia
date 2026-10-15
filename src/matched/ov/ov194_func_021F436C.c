@@ -1,5 +1,5 @@
 /*
- * function: func_021F436C
+ * function: NAMEIN_GRAPHIC_FlushIconOam
  * address: 0x021F436C
  * packet: pkt_ov194_021F436C
  * region: ov194
@@ -14,4 +14,4 @@
  */
 #include "../include/Obj06641.h"
 struct Obj;extern int PRINTSYS_QUE_IsExistTarget(int,int);extern void BMP_OAM_UploadChars(struct Obj *);
-void func_021F436C(unsigned char *p){if(((struct Obj06641 *)p)->f34){if(PRINTSYS_QUE_IsExistTarget(((struct Obj06641 *)p)->f38,((struct Obj06641 *)p)->f30)==0){BMP_OAM_UploadChars(*(struct Obj * *)&((struct Obj06641 *)p)->f2C);((struct Obj06641 *)p)->f34=0;}}}
+void NAMEIN_GRAPHIC_FlushIconOam(unsigned char *p){if(((struct Obj06641 *)p)->f34){if(PRINTSYS_QUE_IsExistTarget(((struct Obj06641 *)p)->f38,((struct Obj06641 *)p)->f30)==0){BMP_OAM_UploadChars(*(struct Obj * *)&((struct Obj06641 *)p)->f2C);((struct Obj06641 *)p)->f34=0;}}}

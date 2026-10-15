@@ -1,5 +1,5 @@
 /*
- * function: func_021D9874
+ * function: WIFIBATTLEMATCH_NET_SetupCompCard
  * address: 0x021D9874
  * packet: pkt_ov175_021D9874
  * region: ov175
@@ -21,7 +21,7 @@ struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BATTLE_BOX_GetFromSave(void *);
 extern void *func_021E7E3C(void *, int, int, int, int, int, int);
-void func_021D9874(char *ctx)
+void WIFIBATTLEMATCH_NET_SetupCompCard(char *ctx)
 {
     int window;
     if (((struct Obj00013 *)ctx)->f24 == 0) {

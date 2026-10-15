@@ -78,7 +78,7 @@
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
- *   func_02011330  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
@@ -168,18 +168,18 @@
  *   BSUBWAY_SCR_ClearWinCount  0x021CA250  thumb  ov021
  *   BSUBWAY_SCR_GetMemberNum  0x021CA270  thumb  ov021
  *   BSUBWAY_SCR_CreatePartners  0x021CA338  thumb  ov021
- *   func_021CB6DC  0x021CB6DC  thumb  ov021
- *   func_021CB700  0x021CB700  thumb  ov021
- *   func_021CB754  0x021CB754  thumb  ov021
- *   func_021CB7E8  0x021CB7E8  thumb  ov021
- *   func_021CB86C  0x021CB86C  thumb  ov021
- *   func_021CB914  0x021CB914  thumb  ov021
- *   func_021CB9BC  0x021CB9BC  thumb  ov021
- *   func_021CB9E4  0x021CB9E4  thumb  ov021
- *   func_021CBBA0  0x021CBBA0  thumb  ov021
- *   func_021CBBAC  0x021CBBAC  thumb  ov021
- *   func_021CBBD0  0x021CBBD0  thumb  ov021
- *   func_021CBC14  0x021CBC14  thumb  ov021
+ *   BSUBWAY_SCR_WaitCommSend  0x021CB6DC  thumb  ov021
+ *   BSUBWAY_SCR_WaitTimingSync  0x021CB700  thumb  ov021
+ *   BSUBWAY_SCR_WaitCommEntryMenu  0x021CB754  thumb  ov021
+ *   BSUBWAY_SCR_WaitCommEntryMenuSimple  0x021CB7E8  thumb  ov021
+ *   BSUBWAY_SCR_WaitCommRecvEnd  0x021CB86C  thumb  ov021
+ *   BSUBWAY_SCR_CreateCommShutdownTask  0x021CB914  thumb  ov021
+ *   BSUBWAY_SCR_CreateYesNoMenuTask  0x021CB9BC  thumb  ov021
+ *   BSUBWAY_SCR_CreateMarkerObjects  0x021CB9E4  thumb  ov021
+ *   BSUBWAY_SCR_GetMmdlParam  0x021CBBA0  thumb  ov021
+ *   BSUBWAY_SCR_IsNpcEntryAvailable  0x021CBBAC  thumb  ov021
+ *   BSUBWAY_SCR_GetNpcEntryInfo  0x021CBBD0  thumb  ov021
+ *   BSUBWAY_SCR_WaitBeginSave  0x021CBC14  thumb  ov021
  *   BSUBWAY_SCR_GetRegulationNo  0x021CBC94  thumb  ov021
  *   BSUBWAY_SCR_GetTrainNo  0x021CBCC4  thumb  ov021
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
@@ -268,7 +268,7 @@ struct Desc;
 struct Obj;
 struct Rec1C;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
+extern u16 VM_ReadU16(struct Stream *s);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *a, u32 b);
 extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 extern void SCRIPT_SYS_CallEvent(void *h, void *task);
@@ -305,7 +305,7 @@ extern void FLDMMDL_GetPos(const struct Actor *o, struct VecFx32 *v);
 extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void FLDMMDL_InitPosition(void *a, int *p, int b);
 extern int FLDMMDL_SetStatusBitHeightGetOff(void *a0, int a1);
-extern u32 func_021CBBA0(u32 a);
+extern u32 BSUBWAY_SCR_GetMmdlParam(u32 a);
 extern int BSUBWAY_SCR_UpdateStageRank(void *a, int unused, int mode);
 extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
 extern void *GAME_DATA_GetField114(struct SaveBlock *p);
@@ -318,12 +318,12 @@ extern void FLDMMDL_OnMoveBitMovePause(void *o);
 extern int FLDMMDL_GetParam(char *a0, int a1);
 extern void *NAMEIN_SETUP_StartNameBalloonFromHistory(u32 x, u32 v, u32 id);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
-extern u32 func_021CBBAC(u8 *w, u32 v);
-extern void func_021CBBD0(u8 *w, u32 v, u16 *a, u16 *b, u16 *c);
+extern u32 BSUBWAY_SCR_IsNpcEntryAvailable(u8 *w, u32 v);
+extern void BSUBWAY_SCR_GetNpcEntryInfo(u8 *w, u32 v, u16 *a, u16 *b, u16 *c);
 extern struct Buf3FC *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct RecSlot *p, u32 heap);
 extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct Buf3FC *b);
 extern u32 func_020307B0(void *p);
-extern void *func_021CB9BC(void *a, u32 owner, u32 result, u32 arg);
+extern void *BSUBWAY_SCR_CreateYesNoMenuTask(void *a, u32 owner, u32 result, u32 arg);
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern int EVENT_BSUBWAY_COMM_Start(int x, struct Pair *p);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct RecSlot *p);
@@ -350,7 +350,7 @@ extern void *NAMEIN_SETUP_StartNameBalloonFromRecord(u8 *d, void *sys, u32 idx, 
 extern void BSUBWAY_SCR_SavePlayDataMembers(u8 *w);
 extern void BSUBWAY_SCR_LoadMembers(u8 *w, u32 x);
 extern void BSUBWAY_SCR_ChangeCommMultiMode(u8 *w);
-extern void func_021CB9E4(u8 *p, void *a1, void *a2, void *a3);
+extern void BSUBWAY_SCR_CreateMarkerObjects(u8 *p, void *a1, void *a2, void *a3);
 extern int BSUBWAY_SCR_ClearStateBits(u32 a, u32 b);
 extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
 extern u32 ISS_SYS_GetSwitchSys(u32 *p);
@@ -385,7 +385,7 @@ extern void func_0200DB30(struct Blk1AC *p, u32 i);
 extern int BSUBWAY_SCR_ClearWinCount(u32 a);
 extern void BSUBWAY_COMM_AddCommandTable(u32 a);
 extern void BSUBWAY_COMM_NetInit(void *p);
-extern void *func_021CB914(void *a, u32 owner);
+extern void *BSUBWAY_SCR_CreateCommShutdownTask(void *a, u32 owner);
 extern int BSUBWAY_COMM_StartTimingSync(int a0);
 extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void BSUBWAY_COMM_SetSendData(struct Obj *o, u32 cmd, u32 arg);
@@ -398,12 +398,12 @@ extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
 extern u32 func_0200FB24(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 
-extern int func_021CB700(u32 unused, u32 a);
-extern int func_021CB754(u32 unused, u32 a);
-extern int func_021CB7E8(u32 unused, u32 a);
-extern int func_021CB6DC(void *task, void *p);
-extern int func_021CB86C(u32 unused, u32 a);
-extern int func_021CBC14(u32 unused, u32 a);
+extern int BSUBWAY_SCR_WaitTimingSync(u32 unused, u32 a);
+extern int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 a);
+extern int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 a);
+extern int BSUBWAY_SCR_WaitCommSend(void *task, void *p);
+extern int BSUBWAY_SCR_WaitCommRecvEnd(u32 unused, u32 a);
+extern int BSUBWAY_SCR_WaitBeginSave(u32 unused, u32 a);
 extern u8 data_021BB474[];
 extern u8 data_021BB6A4[];
 extern char ov007_id[];
@@ -462,10 +462,10 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
     s38 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x3a);
     s34 = (u32)func_020071CC((struct Sub020071CCCtrl *)s48, 0x3b);
     s30 = ICA_ANIME_GetField20((void *)x);
-    cmd = func_02011330(a);
+    cmd = VM_ReadU16(a);
     p1 = SCRIPT_WORK_ReadWorkValue(a, b);
     p2 = SCRIPT_WORK_ReadWorkValue(a, b);
-    s28 = func_02011330(a);
+    s28 = VM_ReadU16(a);
     dst = SCRIPT_WORK_GetWorkPtr(h, (void *)s4c, s28);
 
     if (w == NULL && cmd >= 300)
@@ -611,7 +611,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         void *o = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1);
         *dst = 0;
         if (o != 0)
-            *dst = func_021CBBA0((u32)o);
+            *dst = BSUBWAY_SCR_GetMmdlParam((u32)o);
         break;
     }
     case 27:
@@ -666,20 +666,20 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
     case 39: {
         u32 o = FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0);
         *dst = 0;
-        if (func_021CBBAC(w, o) == 1)
+        if (BSUBWAY_SCR_IsNpcEntryAvailable(w, o) == 1)
             *dst = 1;
         break;
     }
     case 40:
-        func_021CBBD0(w, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0), &a40, &b40, &c40);
+        BSUBWAY_SCR_GetNpcEntryInfo(w, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0), &a40, &b40, &c40);
         *dst = a40;
         break;
     case 41:
-        func_021CBBD0(w, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0), &a41, &b41, &c41);
+        BSUBWAY_SCR_GetNpcEntryInfo(w, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0), &a41, &b41, &c41);
         *dst = b41;
         break;
     case 42:
-        func_021CBBD0(w, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0), &a42, &b42, &c42);
+        BSUBWAY_SCR_GetNpcEntryInfo(w, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)s30), p1), 0), &a42, &b42, &c42);
         *dst = c42;
         break;
     case 43: {
@@ -692,7 +692,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         u32 f = 0;
         if (p1 == 1)
             f = 1;
-        SCRIPT_SYS_CallEvent(h, func_021CB9BC((void *)x, b, (u32)dst, f));
+        SCRIPT_SYS_CallEvent(h, BSUBWAY_SCR_CreateYesNoMenuTask((void *)x, b, (u32)dst, f));
         ret = 1;
         break;
     }
@@ -865,7 +865,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
             *dst = 0;
         break;
     case 329:
-        func_021CB9E4(w, (void *)s4c, FIELDMAP_GetMmdlSys((void *)s30), s30);
+        BSUBWAY_SCR_CreateMarkerObjects(w, (void *)s4c, FIELDMAP_GetMmdlSys((void *)s30), s30);
         break;
     case 330:
         FLAGS(w)->b8 = p1;
@@ -965,7 +965,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         ((struct Obj00335 *)w)->f7E8 = 0;
         ((struct Obj00335 *)w)->f7EA = 0;
         ((struct Obj00335 *)w)->f10 = p1;
-        VM_SetWait(a, (int)func_021CBC14);
+        VM_SetWait(a, (int)BSUBWAY_SCR_WaitBeginSave);
         FLAGS(w)->f10 = 2;
         ret = 1;
         break;
@@ -1079,37 +1079,37 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
             BSUBWAY_COMM_NetInit(w);
         break;
     case 401:
-        SCRIPT_SYS_CallEvent(h, func_021CB914((void *)x, (u32)w));
+        SCRIPT_SYS_CallEvent(h, BSUBWAY_SCR_CreateCommShutdownTask((void *)x, (u32)w));
         ret = 1;
         break;
     case 402:
         w[0x727] = p1;
         ((struct Obj00335 *)w)->f72A = s28;
         BSUBWAY_COMM_StartTimingSync(w[0x727]);
-        VM_SetWait(a, (int)func_021CB700);
+        VM_SetWait(a, (int)BSUBWAY_SCR_WaitTimingSync);
         ret = 1;
         break;
     case 403:
         *(u16 * *)&((struct Obj00335 *)w)->f720 = dst;
         ((struct Obj00335 *)w)->f71C = COMM_ENTRY_MENU_Create((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 0, 2, 0);
-        VM_SetWait(a, (int)func_021CB754);
+        VM_SetWait(a, (int)BSUBWAY_SCR_WaitCommEntryMenu);
         ret = 1;
         break;
     case 404:
         *(u16 * *)&((struct Obj00335 *)w)->f720 = dst;
         ((struct Obj00335 *)w)->f71C = COMM_ENTRY_MENU_Create((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 1, 2, 0);
         ret = 1;
-        VM_SetWait(a, (int)func_021CB7E8);
+        VM_SetWait(a, (int)BSUBWAY_SCR_WaitCommEntryMenuSimple);
         break;
     case 405:
         BSUBWAY_COMM_SetSendData((struct Obj *)w, p1, p2);
-        VM_SetWait(a, (int)func_021CB6DC);
+        VM_SetWait(a, (int)BSUBWAY_SCR_WaitCommSend);
         ret = 1;
         break;
     case 406:
         BSUBWAY_COMM_SetRecvMode(w, p1);
         ((struct Obj00335 *)w)->f72A = s28;
-        VM_SetWait(a, (int)func_021CB86C);
+        VM_SetWait(a, (int)BSUBWAY_SCR_WaitCommRecvEnd);
         ret = 1;
         break;
     case 407:

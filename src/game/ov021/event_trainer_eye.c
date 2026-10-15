@@ -18,11 +18,11 @@
  *
  * symbols:
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
- *   func_0215A4C8  0x0215A4C8  thumb  ov010
+ *   EVENT_POKE_STATUS_GetRecordField2  0x0215A4C8  thumb  ov010
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELD_EVENT_CHECK_CountAlivePartyMembers  0x0218B6AC  thumb  ov021
  *   EVENT_TRAINER_EYE_CreateScriptWork  0x021AE930  thumb  ov021
- *   func_0215A438  0x0215A438  thumb  ov010
+ *   EVENT_POKE_STATUS_SetTrainerRecord  0x0215A438  thumb  ov010
  *   EVENT_TRAINER_EYE_FindPartner  0x021AE8D4  thumb  ov021
  *   EVENT_TRAINER_EYE_FillHit  0x021AE8B4  thumb  ov021
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
@@ -68,10 +68,10 @@
  *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
  *   EFFECT_ENCOUNT_IsSpotAt  0x021AA900  thumb  ov021
  *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
- *   func_0215A460  0x0215A460  thumb
+ *   EVENT_POKE_STATUS_NormalizeTicks  0x0215A460  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
- *   func_0215A4D8  0x0215A4D8  thumb  ov010
+ *   EVENT_POKE_STATUS_CheckFlag  0x0215A4D8  thumb  ov010
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  */
 #include "event_trainer_eye_types.h"
@@ -134,10 +134,10 @@ typedef int (*GameEventFunc)(void *eventSys, void *gameSystem, void *work);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void func_020307B0(void *memory);
 extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
-extern int func_0215A4C8(int trainerId);
-extern int func_0215A460(u32 eventId);
-extern u32 func_0215A4D8(void *saveData, u32 trainerId);
-extern void func_0215A438(int scriptWork, int index, TrainerEyeHit *hit);
+extern int EVENT_POKE_STATUS_GetRecordField2(int trainerId);
+extern int EVENT_POKE_STATUS_NormalizeTicks(u32 eventId);
+extern u32 EVENT_POKE_STATUS_CheckFlag(void *saveData, u32 trainerId);
+extern void EVENT_POKE_STATUS_SetTrainerRecord(int scriptWork, int index, TrainerEyeHit *hit);
 extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern int FIELD_EVENT_CHECK_CountAlivePartyMembers(GameSystem *gameSystem);
 extern void *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
@@ -238,34 +238,34 @@ int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap)
     int scriptWork = 0;
 
     if (EVENT_TRAINER_EYE_FindTrainer(fieldMap, 0, &hit) == 1) {
-        battleType = (u32)func_0215A4C8((u16)hit.trainerId);
+        battleType = (u32)EVENT_POKE_STATUS_GetRecordField2((u16)hit.trainerId);
         partyCount = FIELD_EVENT_CHECK_CountAlivePartyMembers(FIELDMAP_GetGameSystem(fieldMap));
         if (battleType == TRAINER_EYE_BATTLE_SINGLE) {
             if (partyCount < 2 || EVENT_TRAINER_EYE_FindTrainer(fieldMap, hit.trainer, &partner) == 0) {
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_SINGLE;
-                func_0215A438(scriptWork, 0, &hit);
+                EVENT_POKE_STATUS_SetTrainerRecord(scriptWork, 0, &hit);
             } else {
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_DOUBLE_PAIR;
-                func_0215A438(scriptWork, zero, &hit);
+                EVENT_POKE_STATUS_SetTrainerRecord(scriptWork, zero, &hit);
                 partner.hitKind = TRAINER_EYE_HIT_DOUBLE_PAIR;
-                func_0215A438(scriptWork, 1, &partner);
+                EVENT_POKE_STATUS_SetTrainerRecord(scriptWork, 1, &partner);
             }
         } else if (battleType == TRAINER_EYE_BATTLE_DOUBLE) {
             if (partyCount >= 2) {
                 EVENT_TRAINER_EYE_FillHit(&partner, EVENT_TRAINER_EYE_FindPartner(hit.trainer, hit.trainerId), hit.distance, (u16)hit.direction);
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_DOUBLE_SOLO;
-                func_0215A438(scriptWork, zero, &hit);
+                EVENT_POKE_STATUS_SetTrainerRecord(scriptWork, zero, &hit);
                 partner.hitKind = TRAINER_EYE_HIT_DOUBLE_SOLO;
-                func_0215A438(scriptWork, 1, &partner);
+                EVENT_POKE_STATUS_SetTrainerRecord(scriptWork, 1, &partner);
             }
         } else if (battleType == TRAINER_EYE_BATTLE_TRIPLE || battleType == TRAINER_EYE_BATTLE_ROTATION) {
             if (partyCount >= 3) {
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = zero;
-                func_0215A438(scriptWork, zero, &hit);
+                EVENT_POKE_STATUS_SetTrainerRecord(scriptWork, zero, &hit);
             }
         }
     }
@@ -696,13 +696,13 @@ int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u32 dir, int distance, FieldEnco
 /* Trainer id of a trainer model, from its object event id. */
 int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl)
 {
-    return func_0215A460(FLDMMDL_GetEventId(mmdl));
+    return EVENT_POKE_STATUS_NormalizeTicks(FLDMMDL_GetEventId(mmdl));
 }
 
 /* Nonzero when the trainer of the model was already beaten. */
 int EVENT_TRAINER_EYE_IsTrainerDefeated(FieldMap *fieldMap, Mmdl *mmdl)
 {
-    return func_0215A4D8(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), EVENT_TRAINER_EYE_GetTrainerId(mmdl));
+    return EVENT_POKE_STATUS_CheckFlag(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), EVENT_TRAINER_EYE_GetTrainerId(mmdl));
 }
 
 /* Fills a hit record for a trainer model. */

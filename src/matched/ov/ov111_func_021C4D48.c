@@ -1,5 +1,5 @@
 /*
- * function: func_021C4D48
+ * function: VIEWER_MAIN_SetWindowPlane
  * address:  0x021C4D48
  * packet:   pkt_ov111_021C4D48
  * region:   ov111
@@ -46,7 +46,7 @@ static inline void SetWndOutsidePlane(int wnd, int effect)
     REG_DB_WINOUT = (u16)tmp;
 }
 
-void func_021C4D48(int side)
+void VIEWER_MAIN_SetWindowPlane(int side)
 {
     if (side < 0) {
         REG_DB_BLDCNT = 0;

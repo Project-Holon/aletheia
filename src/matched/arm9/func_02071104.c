@@ -12,7 +12,7 @@
  * NitroSystem g3d, the texture-SRT matrix builder for a material with scale
  * and translation but no rotation: fills the scale diagonal and the two
  * translation terms of a 4x4 fx32 matrix from a material animation result.
- * Same family as NNSi_G3dTexMtxTrans / func_020711C8 / func_020712A8 /
+ * Same family as NNSi_G3dTexMtxTrans / NNSi_G3dTexMtxScaleRot4x4 / NNSi_G3dTexMtxRot4x4 /
  * NNSi_G3dTexMtxIdentity, which carry the same ../2.0/sp2 pin (docs/FRONTEND-PINS.md).
  *
  * Closed 2026-09-24 (wave 21, lane G) from DIFF 6.  The lever is the _31

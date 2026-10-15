@@ -15,7 +15,7 @@
  * returning 0, so the fall-through is the call.
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   SODATEYA_CalcCompatibilityScore  0x021C37F8  thumb  ov021
  */
 
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern int SODATEYA_CalcCompatibilityScore(u32 a, u32 b);
 
 int SODATEYA_CalcCompatibility(u32 a, u32 b)
@@ -43,8 +43,8 @@ int SODATEYA_CalcCompatibility(u32 a, u32 b)
         POKE_TOOL_GetPartyValue((void *)m[i], 7, 0);
         fm[i] = POKE_TOOL_GetPartyValue((void *)m[i], 0x6f, 0);
         gd[i] = POKE_TOOL_GetPartyValue((void *)m[i], 0x6e, 0);
-        g1[i] = func_02019C90(sp[i], fm[i], 0x18);
-        g2[i] = func_02019C90(sp[i], fm[i], 0x19);
+        g1[i] = POKE_TOOL_GetPersonalParam(sp[i], fm[i], 0x18);
+        g2[i] = POKE_TOOL_GetPersonalParam(sp[i], fm[i], 0x19);
     }
     if (g1[0] == 0xf || g1[1] == 0xf || g2[0] == 0xf || g2[1] == 0xf)
         return 0;

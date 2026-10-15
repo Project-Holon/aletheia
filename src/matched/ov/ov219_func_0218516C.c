@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
@@ -19,8 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;struct Obj;
-extern void func_0201F7A8(void*,u32);
+extern void BMP_MENUWORK_DrawWindowBorder(void*,u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENULIST_Delete(struct Obj*,u16*,u16*);
 extern u32 BMP_MENUWORK_Delete(void *p);
-void func_0218516C(u8*p){func_0201F7A8(*(void* *)&((struct Obj08451 *)p)->fC018,0);BMP_WIN_Delete(*(struct Descriptor* *)&((struct Obj08451 *)p)->fC018);BMP_MENULIST_Delete(*(struct Obj* *)&((struct Obj08451 *)p)->fC04C,0,0);BMP_MENUWORK_Delete(*(void* *)&((struct Obj08451 *)p)->fC050);}
+void func_0218516C(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((struct Obj08451 *)p)->fC018,0);BMP_WIN_Delete(*(struct Descriptor* *)&((struct Obj08451 *)p)->fC018);BMP_MENULIST_Delete(*(struct Obj* *)&((struct Obj08451 *)p)->fC04C,0,0);BMP_MENUWORK_Delete(*(void* *)&((struct Obj08451 *)p)->fC050);}

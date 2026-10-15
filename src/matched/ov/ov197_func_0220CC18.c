@@ -1,5 +1,5 @@
 /*
- * function: func_0220CC18
+ * function: B_BAG_MAIN_StateSelectPocket
  * address: 0x0220CC18
  * packet: pkt_ov197_0220CC18
  * region: ov197
@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
- *   func_0220D884 0x0220D884 thumb ov197
+ *   B_BAG_MAIN_CheckCancel 0x0220D884 thumb ov197
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
- *   func_0220D89C 0x0220D89C thumb ov197
- *   func_0220BF20 0x0220BF20 thumb ov197
- *   func_0220B9D8 0x0220B9D8 thumb ov197
+ *   B_BAG_MAIN_PlaySe 0x0220D89C thumb ov197
+ *   B_BAG_MAIN_StartFrameAnim 0x0220BF20 thumb ov197
+ *   B_BAG_MAIN_SyncCursorToItem 0x0220B9D8 thumb ov197
  */
 #include "../include/Obj02244.h"
 #include "../include/Obj25069.h"
@@ -26,48 +26,48 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Sound;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
-extern int func_0220D884(char **);
+extern int B_BAG_MAIN_CheckCancel(char **);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
-extern void func_0220D89C(char **, int);
-extern void func_0220BF20(char *, int);
-extern void func_0220B9D8(u8 *p);
-int func_0220CC18(char *p)
+extern void B_BAG_MAIN_PlaySe(char **, int);
+extern void B_BAG_MAIN_StartFrameAnim(char *, int);
+extern void B_BAG_MAIN_SyncCursorToItem(u8 *p);
+int B_BAG_MAIN_StateSelectPocket(char *p)
 {
     unsigned sel;
     if (PALANM_GetFadeRequestBits(((struct Obj02244 *)p)->f8) != 0) goto done;
-    if (func_0220D884((char **)p) == 1) return 0x12;
+    if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 0x12;
     sel = CURSOR_MOVE_PollRepeatInput(((struct Obj02244 *)p)->f144);
     switch (sel) {
     case 0: case 1: case 2: case 3:
-        func_0220D89C((char **)p, 0x54d);
+        B_BAG_MAIN_PlaySe((char **)p, 0x54d);
         ((struct Obj02244 *)p)->f533 = (u8)sel;
         ((struct Obj02244 *)p)->f531 = 8;
-        func_0220BF20(p, (u8)sel);
+        B_BAG_MAIN_StartFrameAnim(p, (u8)sel);
         return 0x10;
     case 4:
         if (((struct Obj02244 *)p)->f540 != 0) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             ((struct Obj02244 *)p)->f533 = ((struct Obj02244 *)p)->f542;
             ((struct Obj02244 *)p)->f531 = 9;
-            func_0220B9D8((u8 *)p);
-            func_0220BF20(p, 0xd);
+            B_BAG_MAIN_SyncCursorToItem((u8 *)p);
+            B_BAG_MAIN_StartFrameAnim(p, 0xd);
             return 0x10;
         }
         break;
     case 5:
-        func_0220D89C((char **)p, 0x552);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
         ((struct Obj25069 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f16 = 0;
         ((struct Obj25070 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f2A = 4;
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x12;
     case (unsigned)-2:
-        func_0220D89C((char **)p, 0x552);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
         ((struct Obj25071 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f16 = 0;
         ((struct Obj25072 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f2A = 4;
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x12;
     case (unsigned)-4: case (unsigned)-3:
-        func_0220D89C((char **)p, 0x548);
+        B_BAG_MAIN_PlaySe((char **)p, 0x548);
         break;
     case (unsigned)-8: case (unsigned)-7: case (unsigned)-6:
     case (unsigned)-5: case (unsigned)-1:

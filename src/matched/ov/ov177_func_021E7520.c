@@ -18,6 +18,8 @@
  *   PMS_DRAW_SetFollowBgScroll  0x0202DE68  thumb  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   BG_SYS_GetBuf  0x0204162C  arm  arm9
+ *   BG_SYS_DrawTileEx  0x020410D0  arm  arm9
+ *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,9 +52,9 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void func_021E7B68(char *p, unsigned idx, unsigned owner, unsigned heap);
 extern void func_021E7C3C(char *p, char *q, void *x, void *data, unsigned heap);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 BG_SYS_GetBuf(int);
-extern void func_020410D0(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
+extern void BG_SYS_DrawTileEx(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
 extern void func_020409B4(u32);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(void *, int, int, int, int);
@@ -79,26 +81,26 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
     case 2:
     case 3:
         func_021E7C3C((char *)w, (char *)rec, a1, a2, heap);
-        func_020413B0(2, 0, 0, 0x20, 2, 1);
-        func_020413B0(2, 0, 3, 0x20, 0x20, kind + 3);
-        func_020413B0(2, 0, 3, 1, 2, 1);
-        func_020413B0(2, 0x1f, 3, 1, 2, 1);
+        BG_SYS_FillTileMap(2, 0, 0, 0x20, 2, 1);
+        BG_SYS_FillTileMap(2, 0, 3, 0x20, 0x20, kind + 3);
+        BG_SYS_FillTileMap(2, 0, 3, 1, 2, 1);
+        BG_SYS_FillTileMap(2, 0x1f, 3, 1, 2, 1);
         break;
     case 0:
     case 1:
-        func_020410D0(2, 0, 0, 0x20, 2, BG_SYS_GetBuf(2), 0, 0x18, 0x20, 0x20);
+        BG_SYS_DrawTileEx(2, 0, 0, 0x20, 2, BG_SYS_GetBuf(2), 0, 0x18, 0x20, 0x20);
         switch (style) {
         case 0:
-            func_020413B0(2, 0, 0, 0x20, 2, 1);
-            func_020413B0(2, 0, 3, 0x20, 0x20, 3);
-            func_020413B0(2, 0, 3, 1, 2, 1);
-            func_020413B0(2, 0x1f, 3, 1, 2, 1);
+            BG_SYS_FillTileMap(2, 0, 0, 0x20, 2, 1);
+            BG_SYS_FillTileMap(2, 0, 3, 0x20, 0x20, 3);
+            BG_SYS_FillTileMap(2, 0, 3, 1, 2, 1);
+            BG_SYS_FillTileMap(2, 0x1f, 3, 1, 2, 1);
             break;
         case 1:
-            func_020413B0(2, 0, 0, 0x20, 2, 1);
-            func_020413B0(2, 0, 3, 0x20, 0x20, 7);
-            func_020413B0(2, 0, 3, 1, 2, 1);
-            func_020413B0(2, 0x1f, 3, 1, 2, 1);
+            BG_SYS_FillTileMap(2, 0, 0, 0x20, 2, 1);
+            BG_SYS_FillTileMap(2, 0, 3, 0x20, 0x20, 7);
+            BG_SYS_FillTileMap(2, 0, 3, 1, 2, 1);
+            BG_SYS_FillTileMap(2, 0x1f, 3, 1, 2, 1);
             break;
         }
         break;

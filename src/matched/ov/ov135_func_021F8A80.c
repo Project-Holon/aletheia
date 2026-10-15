@@ -10,12 +10,12 @@
  * status: EXACT*
  * Extent remainder: 2-byte zero alignment padding.
  * symbols:
- *   func_02168124 0x02168124 arm ov009
+ *   DWC_NASLoginProcess 0x02168124 arm ov009
  */
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_02168124(void);
-int WORLDTRADE_ENTER_StatePollServerCheck(u8 *a0) { switch(func_02168124()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
+extern int DWC_NASLoginProcess(void);
+int WORLDTRADE_ENTER_StatePollServerCheck(u8 *a0) { switch(DWC_NASLoginProcess()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }

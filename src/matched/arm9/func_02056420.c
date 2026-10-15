@@ -1,5 +1,5 @@
 /*
- * function: func_02056420
+ * function: SPL_EMITTER_SetRotMtx
  * address: 0x02056420
  * packet: pkt_arm9_02056420
  * region: arm9
@@ -14,14 +14,14 @@
 
 typedef signed int s32;
 struct MtxFx43 { s32 m[12]; };
-void func_02056420(s32 sn, s32 cs, struct MtxFx43 *m);
+void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
 
 /*
  * Row 0 of the billboard basis table: the plain rotation about +Y, an unlabelled
- * leaf in front of func_02056460.  It is written after func_02056460 because
+ * leaf in front of SPL_EMITTER_CalcRotMtx.  It is written after SPL_EMITTER_CalcRotMtx because
  * this compiler places it first in the object only in that source order.
  */
-void func_02056420(s32 sn, s32 cs, struct MtxFx43 *m)
+void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
 {
     m->m[0] = cs;
     m->m[3] = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6C7C
+ * function: VIEWER_TEXT_PrintRow
  * address:  0x021C6C7C
  * packet:   pkt_ov111_021C6C7C
  * region:   ov111
@@ -14,7 +14,7 @@
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
- *   func_021C6BD4  0x021C6BD4  thumb  ov111
+ *   VIEWER_TEXT_PrintWrapped  0x021C6BD4  thumb  ov111
  *   d_021C8768     0x021C8768  data  a2
  *
  * Addresses are Black-image addresses.
@@ -31,7 +31,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
-extern void func_021C6BD4(void *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx);
+extern void VIEWER_TEXT_PrintWrapped(void *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx);
 extern const u16 d_021C8768[];
 
 typedef struct {
@@ -50,21 +50,21 @@ typedef struct {
     void *f320C;
 } Work;
 
-void func_021C6C7C(Work *p, void *a, int y, const Info *info, void *s, int idx)
+void VIEWER_TEXT_PrintRow(Work *p, void *a, int y, const Info *info, void *s, int idx)
 {
     int v;
 
     if (info->f1C == 0) {
-        func_021C6BD4(p, a, 0xD8, 0, y, s, info->b2E, 2, 2, 0xD0, 0x10, idx);
-        func_021C6BD4(p, a, 0xD8, 0x13, y, s, info->h2A, 3, 1, 0xAD, 0x1B, idx);
+        VIEWER_TEXT_PrintWrapped(p, a, 0xD8, 0, y, s, info->b2E, 2, 2, 0xD0, 0x10, idx);
+        VIEWER_TEXT_PrintWrapped(p, a, 0xD8, 0x13, y, s, info->h2A, 3, 1, 0xAD, 0x1B, idx);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
     } else {
         v = func_0200864C(info->f1C);
         if (v > 999) {
             v = 999;
         }
-        func_021C6BD4(p, a, 0xD8, 0, y, s, func_02008650(info->f1C), 2, 2, 0xD0, 0x10, idx);
-        func_021C6BD4(p, a, 0xD8, 0x13, y, s, v, 3, 1, 0xAD, 0x1B, idx);
+        VIEWER_TEXT_PrintWrapped(p, a, 0xD8, 0, y, s, func_02008650(info->f1C), 2, 2, 0xD0, 0x10, idx);
+        VIEWER_TEXT_PrintWrapped(p, a, 0xD8, 0x13, y, s, v, 3, 1, 0xAD, 0x1B, idx);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
     }
 }

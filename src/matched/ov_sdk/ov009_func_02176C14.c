@@ -1,5 +1,5 @@
 /*
- * function: func_02176C14
+ * function: DWCi_ProcessReliableQueueEx
  * address:  0x02176C14
  * packet:   pkt_ov009_02176C14
  * region:   ov009
@@ -31,7 +31,7 @@ typedef struct QueueInfo {
 extern void DWC_Free(int kind, void *p, int size);
 extern QueueInfo g_021AB178;
 
-int func_02176C14(int (*func)(void *, unsigned char *, int, int))
+int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
 {
     SendQueue *it;
     int retrycount;

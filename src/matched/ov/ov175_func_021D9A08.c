@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A08
+ * function: WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone
  * address:  0x021D9A08
  * packet:   pkt_021D9A08
  * region:   ov175
@@ -17,7 +17,7 @@
  *   func_021E5F24   0x021E5F24  thumb
  *
  * Field query: if the +0x30 pointer is live, hand it to the ov175-adjacent
- *     routine at 0x021E8A00 and return its result, else -1.  func_021D99F4 is
+ *     routine at 0x021E8A00 and return its result, else -1.  WIFIBATTLEMATCH_NET_DeleteCompSprite is
  *     the matching free path for the same field.
  */
 #include "../include/Obj24309.h"
@@ -26,7 +26,7 @@ typedef unsigned long u32;
 
 extern int func_021E8A00(u32 p);
 
-int func_021D9A08(char *obj)
+int WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(char *obj)
 {
     u32 p = ((struct Obj24309 *)obj)->f30;
 

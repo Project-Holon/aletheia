@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA710",
+   "name": "COMM_BTL_DEMO_MAIN_DeleteCursor",
    "address": "0x021BA710",
    "kind": "game",
    "region": "ov213",

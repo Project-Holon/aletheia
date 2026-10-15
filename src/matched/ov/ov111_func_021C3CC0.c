@@ -1,5 +1,5 @@
 /*
- * function: func_021C3CC0
+ * function: VIEWER_MAIN_Create
  * address:  0x021C3CC0
  * packet:   pkt_ov111_021C3CC0
  * region:   ov111
@@ -27,17 +27,17 @@
  *   TCBL_Create  0x0203101C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_021C41C4  0x021C41C4  thumb  ov111
- *   func_021C43E8  0x021C43E8  thumb  ov111
- *   func_021C453C  0x021C453C  thumb  ov111
- *   func_021C6D9C  0x021C6D9C  thumb  ov111
- *   func_021C6804  0x021C6804  thumb  ov111
- *   func_021C6E8C  0x021C6E8C  thumb  ov111
- *   func_021C6000  0x021C6000  thumb  ov111
- *   func_021C6D98  0x021C6D98  thumb  ov111
- *   func_021C5874  0x021C5874  thumb  ov111
- *   func_021C47EC  0x021C47EC  thumb  ov111
- *   func_021C581C  0x021C581C  thumb  ov111
+ *   VIEWER_MAIN_LoadResources  0x021C41C4  thumb  ov111
+ *   VIEWER_MAIN_InitBg  0x021C43E8  thumb  ov111
+ *   VIEWER_MAIN_LoadBgResources  0x021C453C  thumb  ov111
+ *   VIEWER_TEXT_InitActors  0x021C6D9C  thumb  ov111
+ *   VIEWER_TEXT_SetScrollParam  0x021C6804  thumb  ov111
+ *   VIEWER_TEXT_CreateActor  0x021C6E8C  thumb  ov111
+ *   VIEWER_TEXT_Init  0x021C6000  thumb  ov111
+ *   VIEWER_TEXT_NoOp  0x021C6D98  thumb  ov111
+ *   VIEWER_MAIN_InitLcdBrightness  0x021C5874  thumb  ov111
+ *   VIEWER_MAIN_Draw  0x021C47EC  thumb  ov111
+ *   VIEWER_MAIN_VBlank  0x021C581C  thumb  ov111
  *   d_021C8564     0x021C8564  data  a4
  *
  * Addresses are Black-image addresses.
@@ -137,20 +137,20 @@ extern void *func_020056A0(void (*cb)(void *, Work *), void *ctx, int pri);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_021C41C4(Work *p);
-extern void func_021C43E8(void);
-extern void func_021C453C(Work *p);
-extern void func_021C6D9C(Anim *a, const void *cfg);
-extern void func_021C6804(Work *p, Info *info);
-extern void func_021C6E8C(Anim *a);
-extern void func_021C6000(Work *p);
-extern void func_021C6D98(Work *p, void *bg, u32 a, void *b);
-extern void func_021C5874(void);
-extern void func_021C47EC(Work *p);
-extern void func_021C581C(void *task, Work *p);
+extern void VIEWER_MAIN_LoadResources(Work *p);
+extern void VIEWER_MAIN_InitBg(void);
+extern void VIEWER_MAIN_LoadBgResources(Work *p);
+extern void VIEWER_TEXT_InitActors(Anim *a, const void *cfg);
+extern void VIEWER_TEXT_SetScrollParam(Work *p, Info *info);
+extern void VIEWER_TEXT_CreateActor(Anim *a);
+extern void VIEWER_TEXT_Init(Work *p);
+extern void VIEWER_TEXT_NoOp(Work *p, void *bg, u32 a, void *b);
+extern void VIEWER_MAIN_InitLcdBrightness(void);
+extern void VIEWER_MAIN_Draw(Work *p);
+extern void VIEWER_MAIN_VBlank(void *task, Work *p);
 extern const u8 d_021C8564[];
 
-int func_021C3CC0(void *man, int *state, Args *args)
+int VIEWER_MAIN_Create(void *man, int *state, Args *args)
 {
     Work *p;
     int i;
@@ -192,16 +192,16 @@ int func_021C3CC0(void *man, int *state, Args *args)
         p->f32CA_1 = 1;
     }
     BG_SYS_Create(p->heap);
-    func_021C41C4(p);
+    VIEWER_MAIN_LoadResources(p);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
-    func_021C43E8();
-    func_021C453C(p);
-    func_021C6D9C(&p->anim, d_021C8564);
-    func_021C6804(p, p->args->info);
-    func_021C6E8C(&p->anim);
-    func_021C6000(p);
+    VIEWER_MAIN_InitBg();
+    VIEWER_MAIN_LoadBgResources(p);
+    VIEWER_TEXT_InitActors(&p->anim, d_021C8564);
+    VIEWER_TEXT_SetScrollParam(p, p->args->info);
+    VIEWER_TEXT_CreateActor(&p->anim);
+    VIEWER_TEXT_Init(p);
     p->f32B0 = PMS_DRAW_Create((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);
-    func_021C6D98(p, p->bg[4], 1, p->f320C);
+    VIEWER_TEXT_NoOp(p, p->bg[4], 1, p->f320C);
     if (p->args->f14 == 2) {
         p->args->f14 = 0;
         p->f3034 = 1;
@@ -220,9 +220,9 @@ int func_021C3CC0(void *man, int *state, Args *args)
     p->f3050 = 0x60;
     p->f3054 = 0;
     p->f3058 = 0;
-    func_021C5874();
-    func_021C47EC(p);
-    p->f31F4 = func_020056A0(func_021C581C, p, 1);
+    VIEWER_MAIN_InitLcdBrightness();
+    VIEWER_MAIN_Draw(p);
+    p->f31F4 = func_020056A0(VIEWER_MAIN_VBlank, p, 1);
     p->f31F8 = TCBL_Create(p->heap, p->heap, 3, 0);
     GFL_NET_RestartWithDefaultTimeout(1, p->heap);
     WIPE_SYS_Start((void *)1, 3, 3, 0, 6, 1, p->heap);

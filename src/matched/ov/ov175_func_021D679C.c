@@ -1,5 +1,5 @@
 /*
- * function: func_021D679C
+ * function: WIFIBATTLEMATCH_NET_GetWaitResult
  * address:  0x021D679C
  * packet:   pkt_021D679C
  * region:   ov175
@@ -28,7 +28,7 @@ typedef unsigned long u32;
 extern void func_021E8A80(u32 h);
 extern int func_021E8A90(u32 h);
 
-u32 func_021D679C(char *obj)
+u32 WIFIBATTLEMATCH_NET_GetWaitResult(char *obj)
 {
     func_021E8A80(((struct Obj01562 *)obj)->f38);
     if (func_021E8A90(((struct Obj01562 *)obj)->f38) != 0)

@@ -12,11 +12,11 @@
  * sdk:      ghiRedirectConnection (libdwcgsghttp.TWL.HYB.a ghttpconnection.o)
  *
  * symbols:
- *   func_0217D254  0x0217d254  arm   ov009
+ *   gsDebugFormat  0x0217d254  arm   ov009
  *   gsiCancelResolvingHostname  0x0217f1c0  arm   ov009
  *   func_0217EB9C  0x0217eb9c  arm   ov009
  *   func_0217EB40  0x0217eb40  arm   ov009
- *   func_0217EAE0  0x0217eae0  arm   ov009
+ *   gsifree  0x0217eae0  arm   ov009
  *   ghiResetBuffer  0x021c00fc  arm   ov114
  *   strncmp  0x020949f4  arm
  *   sGhttpRedirectingConnection     0x021ce648  data  ov114
@@ -78,11 +78,11 @@ typedef struct GHIConnection {
     void *f1cc;
 } GHIConnection;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gsiCancelResolvingHostname(void *);
 extern int func_0217EB9C(int, int);
 extern int func_0217EB40(int, int *);
-extern void func_0217EAE0(void *);
+extern void gsifree(void *);
 extern void ghiResetBuffer(GHIBuffer *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -93,23 +93,23 @@ extern char sGhttpHttps2[];
 
 void ghiRedirectConnection(GHIConnection *connection)
 {
-    func_0217D254(8, (char *)3, 0x10, sGhttpRedirectingConnection);
+    gsDebugFormat(8, (char *)3, 0x10, sGhttpRedirectingConnection);
     if (connection->f1cc != 0) {
-        func_0217D254(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
+        gsDebugFormat(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
         gsiCancelResolvingHostname(connection->f1cc);
         connection->f1cc = 0;
     }
     func_0217EB9C(connection->f50, 2);
     if (func_0217EB40(connection->f50, &connection->f1c8) == 0)
         return;
-    func_0217EAE0(connection->f14);
+    gsifree(connection->f14);
     connection->f14 = connection->f130;
     connection->f130 = 0;
-    func_0217EAE0(connection->f18);
+    gsifree(connection->f18);
     connection->f18 = 0;
     connection->f1c = 0;
     connection->f20 = 0;
-    func_0217EAE0(connection->f24);
+    gsifree(connection->f24);
     connection->f24 = 0;
     connection->f10 = 0;
     connection->f50 = -1;

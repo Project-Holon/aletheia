@@ -1,5 +1,5 @@
 /*
- * function: func_021F9FD0
+ * function: STA_ACT_EFFECT_SetEmitterPos
  * address:  0x021F9FD0
  * packet:   pkt_021F9FD0
  * region:   ov132
@@ -17,7 +17,7 @@
 
 extern void BUTTON_MAN_SetEmitterPos(void *, int);
 
-void func_021F9FD0(char *p, int i, int a)
+void STA_ACT_EFFECT_SetEmitterPos(char *p, int i, int a)
 {
     void *v = *(void **)(p + i * 16 + 0x4808);
 

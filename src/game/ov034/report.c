@@ -60,7 +60,7 @@
  *   func_020403F4 0x020403F4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -68,14 +68,14 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02012944 0x02012944 thumb
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   ICA_ANIME_GetField114 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
- *   func_0201F158 0x0201F158 thumb
+ *   WORDSET_SetSlotFromMsg59 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   BEACON_CountFlags 0x0200C258 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
@@ -224,7 +224,7 @@ extern void func_020409B4(u32 layer);
 extern void func_020403F4(u32 i);
 extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(struct ArcHandle *, int, int, int, int, int);
-extern void func_02040EBC(u32 a0, u32 a1);
+extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void func_02049658(struct ArcHandle *, int, int, int, int, int, int);
 extern void func_020498F4(struct ArcHandle *, int, int, int, int, int, int);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *);
@@ -237,17 +237,17 @@ extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02012944(struct GameData *gameData);
-extern void func_0201F02C(struct WordSet *wordSet, u32 i, void *playerName);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 i, void *playerName);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *printQue, void *bitmap, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, u16 color);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern int RTC_GetDate(struct RTCDate *date);
 extern int RTC_GetTime(struct RTCTime *time);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 i, u32 value, u32 digits, u32 padding, u32 numberType);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 value, u32 digits, u32 padding, u32 numberType);
 extern u8 *ICA_ANIME_GetField114(const void *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(const u8 *playerState);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern void func_0201F158(struct WordSet *wordSet, u32 i, u32 msgId);
+extern void WORDSET_SetSlotFromMsg59(struct WordSet *wordSet, u32 i, u32 msgId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 BEACON_CountFlags(void *badgeData);
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
@@ -531,7 +531,7 @@ void REPORT_LoadBgGraphics(int heapId)
     struct ArcHandle *arc = func_020490F4(0xC4, heapId);
 
     func_02049B68(arc, 2, 4, 0, 0x60, heapId);
-    func_02040EBC(4, 0);
+    BG_SYS_LoadPlttEntry(4, 0);
     func_02049658(arc, 1, 4, 0, 0, 1, heapId);
     func_020498F4(arc, 0, 4, 0, 0, 1, heapId);
     ARC_TOOL_DeleteHandle(arc);
@@ -577,51 +577,51 @@ void REPORT_InitWindows(ReportWork *work)
     gameData = ICA_ANIME_GetField1C(work->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     msgPlayer = func_02045EC0(msgBank, 0);
-    func_0201F02C(wordSet, 0, func_02012944(gameData));
-    func_0201F250(wordSet, buf, msgPlayer);
+    WORDSET_SetSlotMyStatus(wordSet, 0, func_02012944(gameData));
+    WORDSET_CopyTaggedText(wordSet, buf, msgPlayer);
     printRecordLine(work, 0, buf, msgPlayer, 4, 0x3580, one);
     msgDate = func_02045EC0(msgBank, 1);
     RTC_GetDate(&date);
-    func_0201EFA4(wordSet, 0, date.year, 2, 2, one);
-    func_0201EFA4(wordSet, one, date.month, 2, 0, one);
-    func_0201EFA4(wordSet, 2, date.day, 2, 0, one);
-    func_0201F250(wordSet, buf, msgDate);
+    WORDSET_SetSlotNumber(wordSet, 0, date.year, 2, 2, one);
+    WORDSET_SetSlotNumber(wordSet, one, date.month, 2, 0, one);
+    WORDSET_SetSlotNumber(wordSet, 2, date.day, 2, 0, one);
+    WORDSET_CopyTaggedText(wordSet, buf, msgDate);
     printRecordLine(work, 1, buf, msgDate, 0, 0x3DC0, one);
     msgTime = func_02045EC0(msgBank, 2);
     RTC_GetTime(&clock);
-    func_0201EFA4(wordSet, 0, clock.hour, 2, 0, one);
-    func_0201EFA4(wordSet, one, clock.minute, 2, 2, one);
-    func_0201F250(wordSet, buf, msgTime);
+    WORDSET_SetSlotNumber(wordSet, 0, clock.hour, 2, 0, one);
+    WORDSET_SetSlotNumber(wordSet, one, clock.minute, 2, 2, one);
+    WORDSET_CopyTaggedText(wordSet, buf, msgTime);
     printRecordLine(work, 2, buf, msgTime, 0, 0x3DC0, one);
     msgLocation = func_02045EC0(msgBank, 3);
-    func_0201F158(wordSet, 0, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem))));
-    func_0201F250(wordSet, buf, msgLocation);
+    WORDSET_SetSlotFromMsg59(wordSet, 0, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(ICA_ANIME_GetField114(work->gameSystem))));
+    WORDSET_CopyTaggedText(wordSet, buf, msgLocation);
     printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
     msgBadges = func_02045EC0(msgBank, 4);
-    func_0201EFA4(wordSet, 0, BEACON_CountFlags(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
-    func_0201F250(wordSet, buf, msgBadges);
+    WORDSET_SetSlotNumber(wordSet, 0, BEACON_CountFlags(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
+    WORDSET_CopyTaggedText(wordSet, buf, msgBadges);
     printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, one);
     if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(work->gameSystem)), 0x962) == 1) {
         msgPokedex = func_02045EC0(msgBank, 5);
-        func_0201EFA4(wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(gameData), work->heapId), 3, 0, 1);
-        func_0201F250(wordSet, buf, msgPokedex);
+        WORDSET_SetSlotNumber(wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(gameData), work->heapId), 3, 0, 1);
+        WORDSET_CopyTaggedText(wordSet, buf, msgPokedex);
         printRecordLine(work, 5, buf, msgPokedex, 0, 0x3DC0, one);
     }
     msgPlayTime = func_02045EC0(msgBank, 6);
     currentPlayTime = GAME_DATA_GetPlayTime(gameData);
-    func_0201EFA4(wordSet, 0, func_0200864C(currentPlayTime), 3, 0, 1);
-    func_0201EFA4(wordSet, 1, func_02008650(currentPlayTime), 2, 2, 1);
-    func_0201F250(wordSet, buf, msgPlayTime);
+    WORDSET_SetSlotNumber(wordSet, 0, func_0200864C(currentPlayTime), 3, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 1, func_02008650(currentPlayTime), 2, 2, 1);
+    WORDSET_CopyTaggedText(wordSet, buf, msgPlayTime);
     printRecordLine(work, 6, buf, msgPlayTime, 0, 0x3DC0, one);
     if (func_020071F0(saveControl) == 0 && func_020071EC(saveControl) == 1) {
         playTime = func_02008748(saveControl);
         msgLastSave = func_02045EC0(msgBank, 7);
-        func_0201EFA4(wordSet, 0, func_020086C8(playTime), 2, 2, 1);
-        func_0201EFA4(wordSet, 1, func_020086D0(playTime), 2, 0, 1);
-        func_0201EFA4(wordSet, 2, func_020086D8(playTime), 2, 0, 1);
-        func_0201EFA4(wordSet, 3, func_020086E0(playTime), 2, 0, 1);
-        func_0201EFA4(wordSet, 4, func_020086E8(playTime), 2, 2, 1);
-        func_0201F250(wordSet, buf, msgLastSave);
+        WORDSET_SetSlotNumber(wordSet, 0, func_020086C8(playTime), 2, 2, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, func_020086D0(playTime), 2, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 2, func_020086D8(playTime), 2, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 3, func_020086E0(playTime), 2, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 4, func_020086E8(playTime), 2, 2, 1);
+        WORDSET_CopyTaggedText(wordSet, buf, msgLastSave);
         printRecordLine(work, 7, buf, msgLastSave, 4, 0x3580, one);
     } else BMP_WIN_TransferChars(work->windows[7].bmpWin);
     STRBUF_Delete(buf);

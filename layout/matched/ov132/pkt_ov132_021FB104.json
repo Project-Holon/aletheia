@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB104",
+   "name": "SCRIPT_COMMAND_CmdSetCameraTarget",
    "address": "0x021FB104",
    "kind": "game",
    "region": "ov132",

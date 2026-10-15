@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
@@ -19,10 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_02040DA8(u32,u32,u32);
+extern void BG_SYS_SetTileUnit(u32,u32,u32);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern const int sRhythmBackgroundLayers[];
-void IRC_RHYTHM_ExitBackgrounds(u32 *p) { int i; func_02040DA8(2,1,0); BG_SYS_DeleteHalf(5,(u16)(*p),(u16)(*p>>16)); func_02040DA8(5,1,0); for(i=0;i<7;i++) func_020403F4((u8)sRhythmBackgroundLayers[i]); BMP_WIN_Exit(); BG_SYS_Delete(); }
+void IRC_RHYTHM_ExitBackgrounds(u32 *p) { int i; BG_SYS_SetTileUnit(2,1,0); BG_SYS_DeleteHalf(5,(u16)(*p),(u16)(*p>>16)); BG_SYS_SetTileUnit(5,1,0); for(i=0;i<7;i++) func_020403F4((u8)sRhythmBackgroundLayers[i]); BMP_WIN_Exit(); BG_SYS_Delete(); }

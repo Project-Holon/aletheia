@@ -1,5 +1,5 @@
 /*
- * function: func_021D5318
+ * function: GTSNEGO_DISP_DeleteMenuWindow
  * address:  0x021D5318
  * packet:   pkt_021D5318
  * region:   ov120
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void func_02041B6C(u32 bit);
 
-void func_021D5318(u8 *p)
+void GTSNEGO_DISP_DeleteMenuWindow(u8 *p)
 {
     if (((struct Obj10390 *)p)->f34) {
         APP_TASKMENU_WIN_Delete(((struct Obj10390 *)p)->f34);

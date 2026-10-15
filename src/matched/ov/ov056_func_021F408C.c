@@ -13,7 +13,7 @@
  *
  * symbols:
  *   ICA_ANIME_Delete  0x02011558  thumb
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  */
 
 typedef unsigned char  u8;
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 struct IcaAnime;
 
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void FIELD_FK_SOUND_ANIME_Delete(struct IcaAnime **pp)
 {
     ICA_ANIME_Delete(*pp);
-    sub_020307B0(pp);
+    GFL_HEAP_Free(pp);
 }

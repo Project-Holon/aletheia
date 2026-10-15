@@ -12,7 +12,7 @@
  *   func_021D5A9C 0x021D5A9C thumb ov115
  *   func_021D4E04 0x021D4E04 thumb ov115
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj13851.h"
 typedef unsigned char u8;
@@ -24,5 +24,5 @@ extern void func_021D5A9C(u8 *);
 extern void func_021D4E04(u8 *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
-int func_021D4D10(u32 a,int b,int c,u8 *p) { func_020403F4(7); func_021D5A9C(*(u8 * *)&((struct Obj13851 *)p)->f38); func_021D4E04(*(u8 * *)&((struct Obj13851 *)p)->f34); func_020315D4((struct S020315D4 *)a); func_020306F0(120); return 1; }
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+int func_021D4D10(u32 a,int b,int c,u8 *p) { func_020403F4(7); func_021D5A9C(*(u8 * *)&((struct Obj13851 *)p)->f38); func_021D4E04(*(u8 * *)&((struct Obj13851 *)p)->f34); func_020315D4((struct S020315D4 *)a); GFL_HEAP_DeleteChecked(120); return 1; }

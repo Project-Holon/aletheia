@@ -1,5 +1,5 @@
 /*
- * function: func_021F7FAC
+ * function: STA_ACT_LIGHT_AnimH
  * address: 0x021F7FAC
  * packet: pkt_ov112_021F7FAC
  * region: ov112
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F4EB4 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
  *   table 0x020A1B38 data a2
  *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
  */
@@ -21,8 +21,8 @@ typedef struct { u16 count, pad; int index; } Tail;
 extern s16 table[];
 extern void GFL_USE_StopSeSlot(int);
 typedef unsigned int   u32;
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-void func_021F7FAC(char *p, char *q) {
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
+void STA_ACT_LIGHT_AnimH(char *p, char *q) {
     Tail *t = (Tail *)(q + 0xf0);
     u16 angle = ((int)t->count << 11) % 65536;
     t->count++;
@@ -32,7 +32,7 @@ void func_021F7FAC(char *p, char *q) {
         if (((struct Obj10324 *)p)->f43C == 0) GFL_USE_StopSeSlot(2);
         return;
     }
-    func_021F4EB4(((struct Obj10324 *)p)->f10, *(int *)(q + 0x84 + t->index * 4),
+    MUSICAL_MCSS_SetElemRotZ(((struct Obj10324 *)p)->f10, *(int *)(q + 0x84 + t->index * 4),
                   table[(angle >> 4) * 2] / 8 + 1024,
                   table[(angle >> 4) * 2 + 1] / 8 + 1024);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A7E3C  0x021A7E3C  thumb  ov021
+ *   FIELD_GROUND_ANIME_CreateB  0x021A7E3C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 
 struct Args;
 struct Evt;
-extern void *func_021A7E3C(struct Args *a);
+extern void *FIELD_GROUND_ANIME_CreateB(struct Args *a);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 int EVENT_ENTRANCE_IN_RunGroundAnime(u32 a, int *st, u32 *ctx)
@@ -27,7 +27,7 @@ int EVENT_ENTRANCE_IN_RunGroundAnime(u32 a, int *st, u32 *ctx)
 
     switch (*st) {
     case 0:
-        GAME_EVENT_CallEvent((struct Evt *)a, func_021A7E3C((struct Args *)p));
+        GAME_EVENT_CallEvent((struct Evt *)a, FIELD_GROUND_ANIME_CreateB((struct Args *)p));
         (*st)++;
         break;
     case 1:

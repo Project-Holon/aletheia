@@ -29,7 +29,7 @@
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   VEC_Fx16Normalize  0x0207CDB8  arm
- *   func_02011400  0x02011400  thumb
+ *   VM_GetTimeZoneLight  0x02011400  thumb
  *   VEC_Fx16CrossProduct  0x0207CB68  arm
  *   VEC_Fx16DotProduct  0x0207CAA4  arm
  *   FX_AcosIdx  0x0207D184  arm
@@ -162,7 +162,7 @@ extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, in
 extern u32 ARC_TOOL_GetMemberSize(u32 arcId, u32 memberId);
 extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 memberId);
 extern void VEC_Fx16Normalize(void *src, void *dst);
-extern u8 func_02011400(int season, int hour);
+extern u8 VM_GetTimeZoneLight(int season, int hour);
 extern void VEC_Fx16CrossProduct(const s16 *a, const s16 *b, s16 *out);
 extern s32 VEC_Fx16DotProduct(const s16 *a, const s16 *b);
 extern u16 FX_AcosIdx(s32 cosine);
@@ -384,7 +384,7 @@ u32 FIELD_LIGHT_FindKeyframe(FieldLight *light, int seconds)
 /* Second of the day of a keyframe; the hour is remapped by the season. */
 int FIELD_LIGHT_GetKeyframeSeconds(u32 season, const FieldLightKeyframe *keyframe)
 {
-    int hour = func_02011400(season, keyframe->hour);
+    int hour = VM_GetTimeZoneLight(season, keyframe->hour);
     return hour * 3600 + keyframe->minute * 60;
 }
 

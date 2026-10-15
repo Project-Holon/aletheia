@@ -11,10 +11,10 @@
  *   STRBUF_Create 0x020457B0 arm
  *   func_021DA158 0x021DA158 thumb ov129
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0201F35C 0x0201F35C thumb
+ *   WORDSET_FormatNumber 0x0201F35C thumb
  *   STRBUF_Append 0x02045AA8 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_021D8AF4 0x021D8AF4 thumb ov129
+ *   WF2DMAP_SCENE_ResetState 0x021D8AF4 thumb ov129
  */
 #include "../include/Obj06479.h"
 #include "../include/Obj08137.h"
@@ -27,10 +27,10 @@ extern int func_021DA158(int x, int flag);
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
+extern void WORDSET_FormatNumber(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
 extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021D8AF4(char *,int);
+extern void WF2DMAP_SCENE_ResetState(char *,int);
 void func_021D9348(char *p)  {
     int i;
     char *q;
@@ -43,9 +43,9 @@ void func_021D9348(char *p)  {
             ((struct Obj06479 *)q)->f0=1;
             CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj06479 *)q)->fC),func_021DA158(1,((struct Obj06479 *)q)->f8));
         }
-        func_0201F35C(v,((struct Obj06479 *)q)->f0-1,1,1,1);
+        WORDSET_FormatNumber(v,((struct Obj06479 *)q)->f0-1,1,1,1);
         STRBUF_Append((struct U16Vec *)(((struct Obj08137 *)p)->f348),v);
     }
     STRBUF_Delete(v);
-    func_021D8AF4(p,3);
+    WF2DMAP_SCENE_ResetState(p,3);
 }

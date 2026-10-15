@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734       0x02030734  arm
+ *   GFL_HEAP_Alloc       0x02030734  arm
  *   TCBL_InitTaskLinks       0x02030F50  arm
  *   TCBL_BuildFreeList       0x02030FC8  arm
  *   sub_0203101C_File  0x020A7834  data
@@ -67,7 +67,7 @@ struct Tcbl {
 
 extern const char sub_0203101C_File[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void TCBL_InitTaskLinks(struct Tcbl *p, struct TcblNode *node);
 extern void TCBL_BuildFreeList(struct Tcbl *p);
 
@@ -75,13 +75,13 @@ struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize)
 {
     struct Tcbl *p;
 
-    p = sub_02030734(heap, sizeof(struct Tcbl), 0, sub_0203101C_File, 199);
+    p = GFL_HEAP_Alloc(heap, sizeof(struct Tcbl), 0, sub_0203101C_File, 199);
     p->count = count;
     p->workSize = workSize;
     p->unk_08 = tag;
     p->unk_0c = 0;
     p->unk_10 = 0;
-    p->table = sub_02030734(heap, (((workSize + 3) & ~3) + 0x18) * count, 0,
+    p->table = GFL_HEAP_Alloc(heap, (((workSize + 3) & ~3) + 0x18) * count, 0,
                             sub_0203101C_File, 207);
     p->freeHead = 0;
     TCBL_BuildFreeList(p);

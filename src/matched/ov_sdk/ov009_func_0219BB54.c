@@ -14,7 +14,7 @@
  * symbols:
  *   func_0208CF34  0x0208CF34  arm
  *   func_0215FA9C  0x0215FA9C  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A769C  0x021A769C  data
  *   g_021A76A8  0x021A76A8  data
  */
@@ -39,7 +39,7 @@ extern char g_021A769C[];
 extern char g_021A76A8[];
 extern int func_0208CF34(char *src, char *fmt, ...);
 extern char *func_0215FA9C(SOCInAddr in);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 
 void handle_public_address(qr2_implementation_s *qrec, char *buffer)
 {
@@ -54,7 +54,7 @@ void handle_public_address(qr2_implementation_s *qrec, char *buffer)
     if (ip == 0 || port == 0)
         return;
     addr.addr = ip;
-    func_0217D254(3, 0, 8, g_021A76A8, func_0215FA9C(addr), port);
+    gsDebugFormat(3, 0, 8, g_021A76A8, func_0215FA9C(addr), port);
     if (qrec->publicip == ip && qrec->publicport == port)
         return;
     qrec->publicip = ip;

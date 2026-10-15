@@ -16,9 +16,9 @@
  *   func_02030734 0x02030734 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_02049B40 0x02049B40 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Create 0x0203101C arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
@@ -57,17 +57,17 @@
  *   func_020409B4  0x020409B4  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   TALKMSGWIN_DrawWindowFrame  0x02194A24  thumb
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   func_02028470  0x02028470  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
@@ -173,9 +173,9 @@ typedef struct MbYesNoMsgWork {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct PrintSys *PRINTSYS_QUE_Create(void *heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintSys *que, u16 heap);
@@ -212,17 +212,17 @@ void BMP_WIN_MakeScreen(struct BmpWin *win);
 void func_020409B4(u32 index);
 struct StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
 struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-void func_0201F250(struct WordSet *ws, struct StrBuf *dst, struct StrBuf *src);
+void WORDSET_CopyTaggedText(struct WordSet *ws, struct StrBuf *dst, struct StrBuf *src);
 int TALKMSGWIN_DrawWindowFrame(struct TalkMsgWin *, struct BmpWin *, int);
-void func_0201F73C(struct BmpWin *, int, int, int);
+void BMP_MENUWORK_DrawWindow(struct BmpWin *, int, int, int);
 struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *, int, int, struct StrBuf *, struct GfFont *, int, struct Tcbl *, int, int, int);
 void func_02028470(u8 *cursorState, u32 v);
 void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, struct StrBuf *s, u32 e);
 int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWin *, struct BmpWin *);
-void func_0201F7A8(struct BmpWin *win, u32 kind);
+void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 struct WordSet *GF_FONT_Create_EC64(u32 heap);
 u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(MbMenuTemplate *tmpl, struct TaskMenuRes *res);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern unsigned char APP_TASKMENU_GetCursorPos(struct TaskMenu *);
@@ -275,12 +275,12 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     w->window = 0;
     w->font = GF_FONT_Create(0x17, 0, 0, 0, w->heapId);
     w->msgData = func_02045B38(0, 2, (u16)msgFile, w->heapId);
-    func_0201F5BC(bgFrame, 1, 0xD, 0, w->heapId);
+    BMP_MENUWORK_LoadCharAndPltt(bgFrame, 1, 0xD, 0, w->heapId);
     if (bgFrame < 4)
         func_02049B40(0x17, 5, 0, 0x1C0, 0x20, w->heapId);
     else
         func_02049B40(0x17, 5, 4, 0x1C0, 0x20, w->heapId);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     w->tcbl = TCBL_Create(w->heapId, w->heapId, 3, 0x100);
     w->stream = 0;
     w->message = 0;
@@ -428,7 +428,7 @@ void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
     work->message = func_02045EC0(work->msgData, msgId);
     if (work->wordSet != 0) {
         expanded = STRBUF_Create(0x17B, work->heapId);
-        func_0201F250(work->wordSet, expanded, work->message);
+        WORDSET_CopyTaggedText(work->wordSet, expanded, work->message);
         STRBUF_Delete(work->message);
         work->message = expanded;
     }
@@ -436,7 +436,7 @@ void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
     if (work->layout == 8) {
         TALKMSGWIN_DrawWindowFrame(work->talkWin, work->window, 0);
     } else {
-        func_0201F73C(work->window, 1, 1, 0xD);
+        BMP_MENUWORK_DrawWindow(work->window, 1, 1, 0xD);
     }
     if (work->cursorMode == 1) {
         func_02028470(work->keyCursorState, 6);
@@ -465,7 +465,7 @@ void MB_UTIL_MSG_PrintQueued(MbMsgWork *work, int msgId)
     work->message = func_02045EC0(work->msgData, msgId);
     if (work->wordSet != 0) {
         expanded = STRBUF_Create(0x17B, work->heapId);
-        func_0201F250(work->wordSet, expanded, work->message);
+        WORDSET_CopyTaggedText(work->wordSet, expanded, work->message);
         STRBUF_Delete(work->message);
         work->message = expanded;
     }
@@ -475,7 +475,7 @@ void MB_UTIL_MSG_PrintQueued(MbMsgWork *work, int msgId)
         TALKMSGWIN_DrawWindowFrame(work->talkWin, work->window, 0);
         func_020409B4(work->bgFrame);
     } else {
-        func_0201F73C(work->window, 1, 1, 0xD);
+        BMP_MENUWORK_DrawWindow(work->window, 1, 1, 0xD);
     }
 }
 
@@ -486,7 +486,7 @@ void MB_UTIL_MSG_ClearWindow(MbMsgWork *work)
         TALKMSGWIN_ClearWindowFrame(work->talkWin, work->window);
         func_020409B4(work->bgFrame);
     } else {
-        func_0201F7A8(work->window, 1);
+        BMP_MENUWORK_DrawWindowBorder(work->window, 1);
     }
     if (work->timeIcon != 0) {
         TIME_ICON_Delete(work->timeIcon);
@@ -511,13 +511,13 @@ void MB_UTIL_MSG_DeleteWordSet(MbMsgWork *work)
 
 void MB_UTIL_MSG_SetNumberLeft(MbMsgWork *work, int index, int value, int digits)
 {
-    func_0201EFA4(work->wordSet, index, value, digits, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, index, value, digits, 0, 1);
 }
 
 /*
  * Two-byte zero alignment padding follows the compiled function.
  */
-void MB_UTIL_MSG_SetNumberZeroPad(MbMsgWork *work, int index, int value, int digits) { func_0201EFA4(work->wordSet, index, value, digits, 2, 1); }
+void MB_UTIL_MSG_SetNumberZeroPad(MbMsgWork *work, int index, int value, int digits) { WORDSET_SetSlotNumber(work->wordSet, index, value, digits, 2, 1); }
 
 void MB_UTIL_MSG_OpenYesNoTaskMenu(MbMsgWork *work, int layout)
 {
@@ -592,7 +592,7 @@ void MB_UTIL_MSG_PrintStreamSystemMsg(MbMsgWork *work, int speed)
     BMP_Clear(BMP_WIN_GetBmp(work->window), 15);
     work->message = func_02045EC0(sysMsg, 22);
     work->stream = PRINTSYS_PrintStream(work->window, 0, 0, work->message, work->font, speed, work->tcbl, 2, work->heapId, 15);
-    func_0201F73C(work->window, 1, 1, 13);
+    BMP_MENUWORK_DrawWindow(work->window, 1, 1, 13);
     MSGDATA_Delete(sysMsg);
     if (work->cursorMode == 1)
         func_02028470(work->keyCursorState, 6);

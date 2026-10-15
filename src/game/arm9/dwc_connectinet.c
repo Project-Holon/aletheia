@@ -12,7 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Tail call to func_021666C8 (WCM_GetLinkLevel, ov009) through a pool word;
+ * Tail call to WCM_GetLinkLevel (WCM_GetLinkLevel, ov009) through a pool word;
  * called from func_021F4EB4.
  * blocker:  +0008 ABS32 func_0205CF24          -> unresolved: 0205CF24 (arm, from name) has no witness outside 0205D010..0205D01C
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
@@ -40,7 +40,7 @@
  *   DWC_AC_CancelGetWDSInfo 0x0205DC58 arm
  *   DWC_AC_Destroy 0x0205BE6C arm
  *   OS_Sleep 0x02085A38 arm
- *   func_021666C8  0x021666C8  arm  ov009
+ *   WCM_GetLinkLevel  0x021666C8  arm  ov009
  *   MI_CpuCopy8 0x02082D44 arm
  *   DWC_AC_GetApType 0x0205BDD0 arm
  *   OS_DisableInterrupts 0x02087988 arm
@@ -175,7 +175,7 @@ extern int DWC_AC_StartupGetWDSInfo(void *nspotInfo, unsigned short dmaNo);
 extern void DWC_AC_CancelGetWDSInfo(void);
 extern int DWC_AC_Destroy(void);
 extern void OS_Sleep(unsigned long msec);
-extern int func_021666C8(void);
+extern int WCM_GetLinkLevel(void);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
 extern unsigned char DWC_AC_GetApType(void);
 extern unsigned long OS_DisableInterrupts(void);
@@ -510,7 +510,7 @@ int DWCi_CheckDisconnected(void)
 
 int DWC_GetLinkLevel(void)
 {
-    return func_021666C8();
+    return WCM_GetLinkLevel();
 }
 
 

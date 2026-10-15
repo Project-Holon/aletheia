@@ -1,5 +1,5 @@
 /*
- * function: func_02054718
+ * function: SPL_EMITTER_UpdateFrameA68Ex
  * address:  0x02054718
  * packet:   pkt_0205429C
  * region:   arm9
@@ -29,11 +29,11 @@
  * concrete bytes differing (and emits `mov lr, pc; bx rN` where the image
  * has `blx rN`); at arm946e it is 848/848 EXACT.
  *
- * Same source shape as func_02053E1C (docs/notes/pkt_02053218.c.txt) minus
+ * Same source shape as SPL_EMITTER_UpdateFrameMainEx (docs/notes/pkt_02053218.c.txt) minus
  * the basis-construction half.
  *
  * THE FOUR SOURCE SHAPES THE RESIDUE TURNED ON (wave r8, all measured; the
- * same four take func_02054A68 and func_0205429C to EXACT as well):
+ * same four take SPL_EMITTER_UpdateFrameA68 and SPL_EMITTER_UpdateFrameMain to EXACT as well):
  *   1. 0x040004A4: the source order of the `|` chain decides which temporary
  *      claims r0.  The b10 term must be written FIRST --
  *      `v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);`
@@ -164,7 +164,7 @@ extern void func_0207B9F0(const void *, const void *, void *);
 extern void func_0207D8E0(const void *);
 extern void func_0207D918(const void *);
 
-void func_02054718(struct Obj *obj, struct S *s)
+void SPL_EMITTER_UpdateFrameA68Ex(struct Obj *obj, struct S *s)
 {
     struct Frame f;
     struct SubC *p;

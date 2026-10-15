@@ -14,10 +14,10 @@
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -47,10 +47,10 @@ extern s16 FX_SinCosTable_[];
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -91,14 +91,14 @@ void PLIST_BATTLE_UpdateTimer(u8 *p)
         words=GF_FONT_Create_EC64(H(0));
         if(minute==0) {
             text=func_02045EC0(P(0x134),175);
-            func_0201EFA4(words,1,second,2,1,1);
+            WORDSET_SetSlotNumber(words,1,second,2,1,1);
         } else {
             text=func_02045EC0(P(0x134),174);
-            func_0201EFA4(words,0,minute,2,1,1);
-            func_0201EFA4(words,1,second,2,2,1);
+            WORDSET_SetSlotNumber(words,0,minute,2,1,1);
+            WORDSET_SetSlotNumber(words,1,second,2,2,1);
         }
         BMP_Clear(BMP_WIN_GetBmp(P(0x200)),0);
-        func_0201F250(words,buf,text);
+        WORDSET_CopyTaggedText(words,buf,text);
         width=func_0201D304((struct StrObj *)buf,W(0x138),0);
         PRINTSYS_PrintQueColor(P(0x140),(u32)BMP_WIN_GetBmp(P(0x200)),(s16)(36-width),4,(u32)buf,W(0x138),0x3c40);
         WORDSET_DeleteStrbufED04(words);

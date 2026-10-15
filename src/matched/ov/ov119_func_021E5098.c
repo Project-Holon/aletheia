@@ -16,14 +16,14 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   d_021E8530 0x021E8530 data a4
+ *   gBoxIconAllocTag 0x021E8530 data a4
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb  arm9
  */
 #include "../include/Obj00001.h"
 #include "../include/Obj22808.h"
 typedef unsigned short u16;
-extern char d_021E8530[];
+extern char gBoxIconAllocTag[];
 extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
@@ -38,7 +38,7 @@ void POKETRADE_2D_LoadBoxIconGfx(char *p, int b)
 {
     int i, n, x, t, out;
     void *a;
-    if (b == 0) *(int *)&((struct Obj00001 *)p)->f1184 = (int)func_02030734(((struct Obj00001 *)p)->f5F4, 0x5ac00, 0, d_021E8530, 0x50b);
+    if (b == 0) *(int *)&((struct Obj00001 *)p)->f1184 = (int)func_02030734(((struct Obj00001 *)p)->f5F4, 0x5ac00, 0, gBoxIconAllocTag, 0x50b);
     a = func_020490F4(7, ((struct Obj00001 *)p)->f5F4);
     goto check;
 body:

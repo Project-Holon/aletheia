@@ -38,7 +38,7 @@
  *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys   0x0200C404  thumb
  *   RECENT_ID_LIST_SAVEDATA_CountIds   0x0200C468  thumb
  *   d_02172960     0x02172960  data  a4
- *   func_02164480  0x02164480  thumb  ov010
+ *   FIELD_SKILL_CHECK_FillUseFlags  0x02164480  thumb  ov010
  *   SHORTCUT_MENU_Main  0x021C5224  thumb  ov021
  *   SHORTCUT_MENU_Start  0x021C5348  thumb  ov021
  *   SHORTCUT_MENU_RequestClose  0x021C536C  thumb  ov021
@@ -96,7 +96,7 @@ typedef struct ShortcutList {
     u8 id[SHORTCUT_SLOT_COUNT + 1];
 } ShortcutList;
 
-/* One bit per menu entry that is currently usable (filled by func_02164480). */
+/* One bit per menu entry that is currently usable (filled by FIELD_SKILL_CHECK_FillUseFlags). */
 typedef struct ShortcutAvailMask {
     u32 bits[6];
 } ShortcutAvailMask;
@@ -217,7 +217,7 @@ extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, ShortcutFieldI
 extern struct GameEvent *EVENTDATA_SYSTEM_CreateFieldLinkEvent(u32 index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern ShortcutList *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(struct SaveControl *save);
 extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const ShortcutList *list);
-extern void func_02164480(ShortcutAvailMask *mask, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void FIELD_SKILL_CHECK_FillUseFlags(ShortcutAvailMask *mask, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern void SHORTCUT_MENU_Main(void *commObj);
 extern void SHORTCUT_MENU_Start(void *commObj);
 extern void SHORTCUT_MENU_RequestClose(void *commObj);
@@ -376,7 +376,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
             if (isUnknownId == 0 && GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C(work->gameSystem)) == 1) {
                 blocked = 1;
             } else if (hasAvailBit == 1) {
-                func_02164480(&avail, work->gameSystem, work->fieldMap);
+                FIELD_SKILL_CHECK_FillUseFlags(&avail, work->gameSystem, work->fieldMap);
                 if (func_02028754(&avail, availBit) == 0)
                     blocked = 1;
             }
@@ -523,7 +523,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         if (isUnknownId == 0 && GAME_DATA_GetIntrudeCount(ICA_ANIME_GetField1C(work->gameSystem)) == 1) {
             blocked = 1;
         } else if (hasAvailBit == 1) {
-            func_02164480(&avail, work->gameSystem, work->fieldMap);
+            FIELD_SKILL_CHECK_FillUseFlags(&avail, work->gameSystem, work->fieldMap);
             if (func_02028754(&avail, availBit) == 0)
                 blocked = 1;
         }
@@ -903,7 +903,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
     task->scrollOffset = 0;
     task->selectedItem = 0;
     EVENT_SHORTCUT_MENU_InitHooks(&task->hooks, task->link, task->link->onResume, task->link->onSuspend, task->link->onExit, task->link->hookArg);
-    func_02164480(&task->avail, task->link->gameSystem, task->link->fieldMap);
+    FIELD_SKILL_CHECK_FillUseFlags(&task->avail, task->link->gameSystem, task->link->fieldMap);
     MOVE_POKEMON_InitSkillInfo(task->link->fieldMap, &task->fieldInfo);
     return event;
 }

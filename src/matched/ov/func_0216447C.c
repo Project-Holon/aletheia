@@ -1,5 +1,5 @@
 /*
- * function: func_0216447C
+ * function: FIELD_MAP_CHANGE_Empty
  * address:  0x0216447C
  * packet:   pkt_0216447C
  * region:   ov010
@@ -18,6 +18,6 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0216447C(int sys, u16 id)
+void FIELD_MAP_CHANGE_Empty(int sys, u16 id)
 {
 }

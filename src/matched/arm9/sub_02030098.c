@@ -11,7 +11,7 @@
  * function: sub_02030098
  *
  * The raw allocator: the only function in the image that actually takes
- * memory from a heap. sub_02030734, the 1163-caller allocation entry
+ * memory from a heap. GFL_HEAP_Alloc, the 1163-caller allocation entry
  * point, is a wrapper around this.
  *
  *   void *sub_02030098(u32 heapId, u32 size)
@@ -28,7 +28,7 @@
  * header's first halfword and the pointer is advanced past the header in
  * one instruction. The header's second halfword is a constant 0x194E
  * signature. The rest of the header is the provenance record stamped
- * later by sub_02030880 (name[0x12] at +4, u16 tag at +0x16), which is
+ * later by GFL_HEAP_StampAllocSite (name[0x12] at +4, u16 tag at +0x16), which is
  * what sub_020304C0's `p - 0x1c + 4` is addressing.
  *
  * The module global at 0x02146954, already named g_EnvModule by

@@ -20,7 +20,7 @@
  * a pure tail call, so disasm.py's lr-saving prologue sweep never labelled
  * it, and nothing in arm9 branches to it: its only reference anywhere in
  * the image is the pool word at 0x02030BC4, read by the veneer-shaped tail
- * call at 0x02030BBC (src/pending/sub_02030BBC.c, whose single unresolved
+ * call at 0x02030BBC (src/pending/GFL_HEAP_AllocSystemChecked.c, whose single unresolved
  * relocation this file closes). It is now seeded in
  * layout/function_starts.txt, which is what splits 0x02030534's extent.
  *

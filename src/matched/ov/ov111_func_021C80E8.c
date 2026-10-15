@@ -1,5 +1,5 @@
 /*
- * function: func_021C80E8
+ * function: VIEWER_ACTOR_SetRowDrawEnable
  * address:  0x021C80E8
  * packet:   pkt_ov111_021C80E8
  * region:   ov111
@@ -42,7 +42,7 @@ typedef struct {
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021C80E8(Work *p, int row, int v)
+void VIEWER_ACTOR_SetRowDrawEnable(Work *p, int row, int v)
 {
     int i;
 

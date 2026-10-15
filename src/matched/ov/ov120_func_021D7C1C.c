@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C1C
+ * function: GTSNEGO_MSG_DeleteRows
  * address: 0x021D7C1C
  * packet: pkt_ov120_021D7C1C
  * region: ov120
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-void func_021D7C1C(char *p) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)p+(u32)i*4); if(((struct Obj10402 *)q)->f38) { BMP_WIN_Delete(((struct Obj10402 *)q)->f38); ((struct Obj10402 *)q)->f38=0; } } GF_FONT_SetTextColor(1,2,0); }
+void GTSNEGO_MSG_DeleteRows(char *p) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)p+(u32)i*4); if(((struct Obj10402 *)q)->f38) { BMP_WIN_Delete(((struct Obj10402 *)q)->f38); ((struct Obj10402 *)q)->f38=0; } } GF_FONT_SetTextColor(1,2,0); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8C90
+ * function: WF2DMAP_SCENE_StepAnimate
  * address: 0x021D8C90
  * packet: pkt_ov129_021D8C90
  * region: ov129
@@ -19,7 +19,7 @@
  *   func_021D97FC 0x021D97FC thumb ov129
  *   func_021D9E60 0x021D9E60 thumb ov129
  *   func_021D97B8 0x021D97B8 thumb ov129
- *   func_021D8AF4 0x021D8AF4 thumb ov129
+ *   WF2DMAP_SCENE_ResetState 0x021D8AF4 thumb ov129
  *   d_021DA830 0x021DA830 data a4
  *   d_021DA84C 0x021DA84C data a4
  */
@@ -49,8 +49,8 @@ extern int func_021D97CC(u8 *p, int value);
 extern int func_021D97FC(u8 *p, int value);
 extern void func_021D9E60(u8 *p, int n);
 extern void func_021D97B8(char *);
-extern void func_021D8AF4(char *,int);
-int func_021D8C90(char *p)
+extern void WF2DMAP_SCENE_ResetState(char *,int);
+int WF2DMAP_SCENE_StepAnimate(char *p)
 {
     int i,n;
     char *q;
@@ -133,7 +133,7 @@ int func_021D8C90(char *p)
         func_021D9E60((u8 *)p,n);
         if(((struct Obj00361 *)p)->f240) func_021D9E48(p,0,1);
         func_021D97B8(p);
-        func_021D8AF4(p,1);
+        WF2DMAP_SCENE_ResetState(p,1);
         break;
     }
     return 0;

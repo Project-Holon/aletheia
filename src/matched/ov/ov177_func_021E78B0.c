@@ -23,6 +23,9 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 typedef unsigned short u16;
 typedef struct { unsigned char bg, x, y, w; } WinTemplate;
@@ -60,12 +63,12 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern const void *func_020084F4(const void *p);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_Print(void *, void *, const void *, unsigned);
@@ -115,13 +118,13 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void
         case 2:
             if (p->mode == 3) {
                 MSGDATA_ReadString(msg, 13, buf);
-                func_0201EFA4(fmt, 0, data->score, 5, 1, 1);
-                func_0201F250(fmt, str, buf);
+                WORDSET_SetSlotNumber(fmt, 0, data->score, 5, 1, 1);
+                WORDSET_CopyTaggedText(fmt, str, buf);
                 color = 0x3C40;
             } else if (p->active != 0) {
                 MSGDATA_ReadString(msg, 9, buf);
-                func_0201EFA4(fmt, 0, data->count, 4, 1, 1);
-                func_0201F250(fmt, str, buf);
+                WORDSET_SetSlotNumber(fmt, 0, data->count, 4, 1, 1);
+                WORDSET_CopyTaggedText(fmt, str, buf);
                 color = 0x3C40;
             } else {
                 draw = 0;
@@ -133,13 +136,13 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void
             break;
         case 4:
             MSGDATA_ReadString(msg, 22, buf);
-            func_0201F048(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data));
-            func_0201F250(fmt, str, buf);
+            WORDSET_SetSlotFromMsgE7(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data));
+            WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 5:
             MSGDATA_ReadString(msg, 23, buf);
             WORDSET_DeleteMsgdataF094(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data), func_02008570((const struct Sub0200852CObj *)data));
-            func_0201F250(fmt, str, buf);
+            WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 6:
             MSGDATA_ReadString(msg, 21, str);

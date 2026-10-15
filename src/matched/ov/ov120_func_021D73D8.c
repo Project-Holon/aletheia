@@ -1,5 +1,5 @@
 /*
- * function: func_021D73D8
+ * function: GTSNEGO_MSG_CreateIdleActors
  * address: 0x021D73D8
  * packet: pkt_ov120_021D73D8
  * region: ov120
@@ -13,7 +13,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
- *   func_021D73B0 0x021D73B0 thumb ov120
+ *   GTSNEGO_MSG_CycleIdleAnim 0x021D73B0 thumb ov120
  */
 #include "../include/Obj00625.h"
 typedef unsigned char u8;
@@ -30,8 +30,8 @@ struct Actor;
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
-extern void func_021D73B0(char *p);
-void func_021D73D8(u8 *p)
+extern void GTSNEGO_MSG_CycleIdleAnim(char *p);
+void GTSNEGO_MSG_CreateIdleActors(u8 *p)
 {
     Callback c;
     Record r;
@@ -43,7 +43,7 @@ void func_021D73D8(u8 *p)
     ((struct Obj00625 *)p)->f130=CLACT_CreateActor((void *)((struct Obj00625 *)p)->f10,((struct Obj00625 *)p)->f2C,((struct Obj00625 *)p)->f1C,((struct Obj00625 *)p)->f78,&r,0,((struct Obj00625 *)p)->fF4);
     CLACT_SetActorAutoAnim(((struct Obj00625 *)p)->f130,1);
     CLACT_SetActorDrawEnable(((struct Obj00625 *)p)->f130,1);
-    c.n=0; c.p=p; c.f=(void (*)(u8 *))func_021D73B0;
+    c.n=0; c.p=p; c.f=(void (*)(u8 *))GTSNEGO_MSG_CycleIdleAnim;
     CLACT_ApplyActorAnimCommand(((struct Obj00625 *)p)->f130,(const struct Cmd *)(&c));
     BG_SYS_SetMainVisiblePlanes(31);
 }

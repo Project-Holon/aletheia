@@ -71,7 +71,7 @@
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02007B50  0x02007B50  thumb
  *   func_02007B00  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
@@ -89,7 +89,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
  *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
@@ -178,10 +178,10 @@ typedef struct PokemonParam PokemonParam;
 
 int BTL_POKEPARAM_HasSick(BtlPokeParam *pp, int condition);
 extern u32 func_020307B0(void *p);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_02017E1C(PokemonParam *mon, u32 paramId, u32 arg);
-extern u32 func_02019C90(u16 species, u16 form, u32 paramId);
+extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 extern u32 POKE_TOOL_GetStatusCondition(PokemonParam *mon);
 void BTL_POKEPARAM_ClearSickConts(BtlPokeParam *pp, int all);
 extern union SickCont BTL_CALC_MakeDefaultSickCont(int condition);
@@ -344,7 +344,7 @@ BtlPokeParam *BTL_POKEPARAM_Create(PokemonParam *mon, u8 pokeId, u32 heapId)
     BtlPokeParam *pp;
     u32 statusCondition;
 
-    pp = sub_02030734(heapId, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
+    pp = GFL_HEAP_Alloc(heapId, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
     pp->partyIndex = pokeId;
     pp->species = func_02017E1C(mon, 5, 0);
     pp->mon = mon;
@@ -360,7 +360,7 @@ BtlPokeParam *BTL_POKEPARAM_Create(PokemonParam *mon, u8 pokeId, u32 heapId)
     pp->baseForm = func_02017E1C(mon, 0x6f, 0);
     pp->baseAbility = func_02017E1C(mon, 0xa, 0);
     pp->level = func_02017E1C(mon, 0x9e, 0);
-    pp->genderRatio = func_02019C90(pp->species, pp->baseForm, 1);
+    pp->genderRatio = POKE_TOOL_GetPersonalParam(pp->species, pp->baseForm, 1);
     BTL_POKEPARAM_ReloadFromMon(pp, mon, 1, 1);
     pp->moveCount = BTL_POKEPARAM_LoadMoves(pp, mon, 1);
     pp->usedMoveCount = 0;
@@ -401,7 +401,7 @@ void BTL_POKEPARAM_ReloadFromMon(BtlPokeParam *pp, PokemonParam *mon, u32 withHp
         pp->ability = func_02017E1C(mon, 0xa, 0);
     }
     pp->form = func_02017E1C(mon, 0x6f, 0);
-    pp->weight = func_02019C90(pp->species, pp->form, 0x26);
+    pp->weight = POKE_TOOL_GetPersonalParam(pp->species, pp->form, 0x26);
     if (pp->weight < 1) {
         pp->weight = 1;
     }

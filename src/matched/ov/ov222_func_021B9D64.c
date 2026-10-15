@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D64
+ * function: ZENKOKU_ZUKAN_AWARD_DeleteActor
  * address:  0x021B9D64
  * packet:   pkt_021B9D64
  * region:   ov222
@@ -24,7 +24,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 
-void func_021B9D64(char *p)
+void ZENKOKU_ZUKAN_AWARD_DeleteActor(char *p)
 {
     CLACT_DeleteActor(((struct Obj02559 *)p)->f54);
     CLACT_ReleaseCellAnim((u32)(((struct Obj02559 *)p)->f50));

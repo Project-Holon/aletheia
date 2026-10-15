@@ -25,7 +25,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
  *   ov067_id       0x00000043  data
  */
@@ -53,7 +53,7 @@ extern void TOWNMAP_GRH_Delete(u32 *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern char ov067_id[];
 
@@ -77,7 +77,7 @@ int TOWNMAP_Destroy(void *a, int b, int c, u8 *o)
     MSGDATA_Delete(((struct Obj04342 *)o)->f128);
     GF_FONT_Delete(((struct Obj04342 *)o)->f124);
     func_020315D4(a);
-    func_020306F0(0x44);
+    GFL_HEAP_DeleteChecked(0x44);
     func_02034A5C((u32)ov067_id);
     return 1;
 }

@@ -33,7 +33,7 @@
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb
  *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
@@ -44,7 +44,7 @@
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb  arm9
  *   BGWINFRM_GetPos  0x0202CF98  thumb
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
@@ -174,7 +174,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -193,7 +193,7 @@ extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void func_020409B4(u32 layer);
-extern void func_02040DA8(u32, u32, u32);
+extern void BG_SYS_SetTileUnit(u32, u32, u32);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
@@ -330,7 +330,7 @@ extern u8 g_02203217[];
  * Redraw the text windows of layout `mode` (0..6): clear and refresh the
  * first n windows of the window table, and when the second brightness
  * byte read by BGWINFRM_GetPos is 0x10 reset the two BG2 screen blocks
- * (func_02041300) and commit them; then refresh window 14 (and 15 for
+ * (BG_SYS_SetTileEntry) and commit them; then refresh window 14 (and 15 for
  * layout 6) and schedule the +0x50 screen.
  */
 void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
@@ -347,8 +347,8 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
             BMP_WIN_Delete(p->wins[i]);
         }
         if (bright[1] == 0x10) {
-            func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
-            func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
         BMP_WIN_Delete(p->wins[14]);
@@ -360,8 +360,8 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
             BMP_WIN_Delete(p->wins[i]);
         }
         if (bright[1] == 0x10) {
-            func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
-            func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
         BMP_WIN_Delete(p->wins[14]);
@@ -373,8 +373,8 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
             BMP_WIN_Delete(p->wins[i]);
         }
         if (bright[1] == 0x10) {
-            func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
-            func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
         BMP_WIN_Delete(p->wins[14]);
@@ -386,8 +386,8 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
             BMP_WIN_Delete(p->wins[i]);
         }
         if (bright[1] == 0x10) {
-            func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
-            func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
+            BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
         BMP_WIN_Delete(p->wins[14]);
@@ -414,7 +414,7 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
         BMP_WIN_Delete(p->wins[14]);
         break;
     }
-    func_02040DA8(p->layer, 1, 0);
+    BG_SYS_SetTileUnit(p->layer, 1, 0);
 }
 
 

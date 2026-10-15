@@ -1,5 +1,5 @@
 /*
- * function: func_021DD3F8
+ * function: BR_CODEIN_ListDestroy
  * address: 0x021DD3F8
  * packet: pkt_ov183_021DD3F8
  * region: ov183
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DDF5C 0x021DDF5C thumb ov183
- *   func_021DDDE8 0x021DDDE8 thumb ov183
+ *   BR_CODEIN_ListDeleteButtons 0x021DDF5C thumb ov183
+ *   BR_CODEIN_ListTeardown 0x021DDDE8 thumb ov183
  *   func_020409B4 0x020409B4 arm
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   BR_UTIL_DeleteHandles 0x021FD820 thumb ov186
@@ -19,8 +19,8 @@
  */
 #include "../include/Obj06603.h"
 #include "../include/Obj10732.h"
-extern void func_021DDF5C(char *, char *);
-extern void func_021DDDE8(char *, char *);
+extern void BR_CODEIN_ListDeleteButtons(char *, char *);
+extern void BR_CODEIN_ListTeardown(char *, char *);
 extern void func_020409B4(unsigned int);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_UTIL_DeleteHandles(char *);
@@ -29,10 +29,10 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BMP_OAM_DeleteSys(void *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-int func_021DD3F8(struct S020315D4 *a, int unused, char *q, char *p)
+int BR_CODEIN_ListDestroy(struct S020315D4 *a, int unused, char *q, char *p)
 {
-    func_021DDF5C(p, q);
-    func_021DDDE8(p, q);
+    BR_CODEIN_ListDeleteButtons(p, q);
+    BR_CODEIN_ListTeardown(p, q);
     func_020409B4(4);
     func_020409B4(1);
     BR_RES_ReleaseSprite((char *)(((struct Obj06603 *)q)->f8), 13);

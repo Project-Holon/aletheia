@@ -16,7 +16,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_020056A0 0x020056A0 thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
- *   func_02011400 0x02011400 thumb
+ *   VM_GetTimeZoneLight 0x02011400 thumb
  *   GF_STANDARD_SetField00 0x0203F4CC arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02030EAC 0x02030EAC arm
@@ -40,7 +40,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_02082A7C 0x02082A7C arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -62,7 +62,7 @@
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   ARC_UTIL_LoadHandleMember 0x0204A380 arm
  *   func_020498F4 0x020498F4 arm
@@ -73,7 +73,7 @@
  *   func_02008550 0x02008550 thumb
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -82,11 +82,11 @@
  *   d_021B7380 0x021B7380 data a1
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_0201F5BC  0x0201F5BC  thumb
- *   func_0201F548  0x0201F548  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
+ *   BMP_MENUWORK_GetPlttFileId  0x0201F548  thumb
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   func_02049B40  0x02049B40  arm
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   TCBL_Create  0x0203101C  arm
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02028590  0x02028590  thumb
@@ -105,10 +105,10 @@
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   func_02028484 0x02028484 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -116,14 +116,14 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   g_021B7398  0x021B7398  data  a4
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02030734 0x02030734 arm
@@ -132,7 +132,7 @@
  *   d_021B74AC 0x021B74AC data
  *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   LOCAL_TVT_CHARA_Create 0x021B6C70 thumb ov174
  *   LOCAL_TVT_CHARA_Delete 0x021B6D00 thumb ov174
  *   LOCAL_TVT_CHARA_Update 0x021B6D3C thumb ov174
@@ -240,7 +240,7 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
-extern u8 func_02011400(int row, int col);
+extern u8 VM_GetTimeZoneLight(int row, int col);
 
 extern void GF_STANDARD_SetField00(struct RtcTime *),GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
 
@@ -282,7 +282,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void func_02082A7C(int,int,u32_021B63DC);
 
@@ -302,7 +302,7 @@ extern void CLACT_ExitSystem(void),func_020403F4(unsigned),BMP_WIN_Exit(void),BG
 
 extern void BG_SYS_InitBgLayer(unsigned,const struct BgTemplate *,unsigned);
 
-extern void func_02040588(unsigned,unsigned),func_020414AC(unsigned),func_020409B4(unsigned);
+extern void func_02040588(unsigned,unsigned),BG_SYS_FreeSlot(unsigned),func_020409B4(unsigned);
 
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32_021B655C a1, u32_021B655C a2, u32_021B655C a3);
 
@@ -322,7 +322,7 @@ extern void func_02049B68(void *,u32_021B6594,u32_021B6594,u32_021B6594,u32_021B
 
 extern u32_021B6594 func_02049658(void *a, u32_021B6594 b, u32_021B6594 c, u32_021B6594 d, u32_021B6594 e, u32_021B6594 f, u16 g);
 
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
@@ -338,15 +338,15 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32_021B676
 
 extern struct MsgBank *func_02045B38(u32_021B6760 resident, u32_021B6760 arcId, u32_021B6760 fileId, u32_021B6760 heapId);
 
-extern void func_0201F5BC(u32_021B6760 a, u32_021B6760 b, u32_021B6760 c, u32_021B6760 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32_021B6760 a, u32_021B6760 b, u32_021B6760 c, u32_021B6760 d, u16 e);
 
-extern u8 func_0201F548(int i);
+extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 
 extern void ARC_UTIL_UploadPaletteFromArchive(u32_021B6760 a0, u32_021B6760 a1, u32_021B6760 a2, u32_021B6760 a3, u32_021B6760 a4, u32_021B6760 a5, u16 a6);
 
 extern void func_02049B40(u32_021B6760 a, u32_021B6760 b, u32_021B6760 c, u32_021B6760 d, u32_021B6760 e, u16 f);
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32_021B6760 count, u32_021B6760 workSize);
 
@@ -384,13 +384,13 @@ extern s32 func_02028484(struct Blk *blk, void *h);
 
 extern u32_021B687C PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-extern void func_0201F7A8(void *desc, u32_021B68F8 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32_021B68F8 kind);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 extern void func_02041B6C(unsigned);
 
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
@@ -406,7 +406,7 @@ extern u32_021B68F8 BMP_WIN_Create(u32_021B68F8 layer, u32_021B68F8 a, u32_021B6
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void *func_02045EC0(struct MsgBank *bank, u32_021B6A04 index);
 
@@ -418,7 +418,7 @@ extern unsigned PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigne
 
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 
@@ -430,7 +430,7 @@ extern void *GAME_DATA_Create(u16);
 
 extern unsigned int KEY_GetCont(void);
 
-extern void LOCAL_TVT_SYS_Delete(unsigned char *),GAME_DATA_Delete(unsigned char *),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
+extern void LOCAL_TVT_SYS_Delete(unsigned char *),GAME_DATA_Delete(unsigned char *),func_020315D4(struct S020315D4 *),GFL_HEAP_DeleteChecked(unsigned int);
 
 void LOCAL_TVT_SYS_Create(u8 *p);
 
@@ -519,7 +519,7 @@ void LOCAL_TVT_SYS_Create(u8 *p)
  ((struct Obj01167 *)p)->f18=func_020490F4(131,((struct Obj01167 *)p)->f0);
  LOCAL_TVT_SYS_LoadMenuData((char *)p);LOCAL_TVT_SYS_CreateGraphics(p);LOCAL_TVT_SYS_CreateTextResources(p);
  config=GAME_DATA_GetSeason(((struct Obj24197 *)(*(u8 * *)&((struct Obj01167 *)p)->f30))->f4);
- lo=func_02011400(config,0);mid=func_02011400(config,2);hi=func_02011400(config,3);
+ lo=VM_GetTimeZoneLight(config,0);mid=VM_GetTimeZoneLight(config,2);hi=VM_GetTimeZoneLight(config,3);
  GF_STANDARD_SetField00(&time);
  if(time.hour>=lo && time.hour<mid) ((struct Obj01167 *)p)->f10=0;
  else if(time.hour>=mid && time.hour<hi) ((struct Obj01167 *)p)->f10=1;
@@ -648,7 +648,7 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B7450);
     BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((void *)d_021B7388);
+    BG_SYS_SetGraphicsMode((void *)d_021B7388);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73D0,0,0);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73B0,1,0);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7410,2,2);
@@ -666,7 +666,7 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
 
 void LOCAL_TVT_SYS_ExitSystem(unsigned char *p) {CLACT_ExitSystem();func_020403F4(7);func_020403F4(3);func_020403F4(2);func_020403F4(1);func_020403F4(0);BMP_WIN_Exit();BG_SYS_Delete();}
 
-void LOCAL_TVT_SYS_SetupBgLayer(const struct BgTemplate *p, int i, int type) {BG_SYS_InitBgLayer(i,p,type);func_02040588(i,1);func_020414AC(i);func_020409B4(i);}
+void LOCAL_TVT_SYS_SetupBgLayer(const struct BgTemplate *p, int i, int type) {BG_SYS_InitBgLayer(i,p,type);func_02040588(i,1);BG_SYS_FreeSlot(i);func_020409B4(i);}
 
 void LOCAL_TVT_SYS_LoadMenuData(char *p) {unsigned char *q=ARC_UTIL_LoadHandleMember(((struct Obj03859 *)p)->f18,**(unsigned short * *)&((struct Obj03859 *)p)->f30+62,0,((struct Obj03859 *)p)->f0);((struct Obj03859 *)p)->f38=q;((struct Obj03859 *)p)->f3C=q;((struct Obj03859 *)p)->f40=q+8;if(q[2]==255 && q[3]==255) ((struct Obj03859 *)p)->f8=2;else ((struct Obj03859 *)p)->f8=4;}
 
@@ -692,7 +692,7 @@ void LOCAL_TVT_SYS_CreateGraphics(u8 *p)
     func_02049B68(arc,0,0,0x160,0x20,((struct Obj00545 *)p)->f0);
     func_02049658(arc,8,1,0,0,0,((struct Obj00545 *)p)->f0);
     func_020498F4(arc,13,1,0,0,0,((struct Obj00545 *)p)->f0);
-    func_020413B0(1,0,0,32,32,11);
+    BG_SYS_FillTileMap(1,0,0,32,32,11);
     func_020409B4(1);
     ARC_TOOL_DeleteHandle(arc);
     s.a=10; s.b=1; s.x=0;s.y=0;s.z=0;
@@ -725,10 +725,10 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
     ((struct Obj00918 *)p)->f60 = (u32_021B6760)GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj00918 *)p)->f0);
     ((struct Obj00918 *)p)->f68 = (u32_021B6760)func_02045B38(0, 2, 0xc6, ((struct Obj00918 *)p)->f0);
     ((struct Obj00918 *)p)->f6C = (u32_021B6760)func_02045B38(0, 2, (u16)(*(u16 *)(((struct Obj00918 *)p)->f30) + 0xbf), ((struct Obj00918 *)p)->f0);
-    func_0201F5BC(0, 1, 0xd, 0, ((struct Obj00918 *)p)->f0);
-    ARC_UTIL_UploadPaletteFromArchive(5, func_0201F548(0), 0, 0x20, 0x1a0, 0x20, ((struct Obj00918 *)p)->f0);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xd, 0, ((struct Obj00918 *)p)->f0);
+    ARC_UTIL_UploadPaletteFromArchive(5, BMP_MENUWORK_GetPlttFileId(0), 0, 0x20, 0x1a0, 0x20, ((struct Obj00918 *)p)->f0);
     func_02049B40(0x17, 7, 0, 0x180, 0x20, ((struct Obj00918 *)p)->f0);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     ((struct Obj00918 *)p)->f58 = (u32_021B6760)TCBL_Create(((struct Obj00918 *)p)->f0, ((struct Obj00918 *)p)->f0, 3, 0x100);
     ((struct Obj00918 *)p)->f64 = 0;
     ((struct Obj00918 *)p)->f5C = 0;
@@ -754,7 +754,7 @@ void LOCAL_TVT_SYS_DeleteTextResources(u8 *p)
     if(((struct Obj00681 *)p)->f5C) BMP_WIN_Delete(((struct Obj00681 *)p)->f5C);
     GF_FONT_Delete(((struct Obj00681 *)p)->f60);
     TCBL_Destroy(((struct Obj00681 *)p)->f58);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
 }
 
 void LOCAL_TVT_SYS_UpdateText(u8 *p)
@@ -786,13 +786,13 @@ void LOCAL_TVT_SYS_CreateTextWindow(u8 *p,int mode)
 {
  void *tmp;
  if(((struct Obj02507 *)p)->f5C){
- func_0201F7A8(((struct Obj02507 *)p)->f5C,1);
+ BMP_MENUWORK_DrawWindowBorder(((struct Obj02507 *)p)->f5C,1);
  tmp=((struct Obj02507 *)p)->f5C;BMP_WIN_ClearScreen(tmp);func_02041B6C(BMP_WIN_GetBgLayer(tmp));
  BMP_WIN_Delete(((struct Obj02507 *)p)->f5C);((struct Obj02507 *)p)->f5C=0;
  }
  if(mode==0) ((struct Obj02507 *)p)->f5C=(void *)BMP_WIN_Create(0,1,1,30,4,12,1);
  else if(mode==1) ((struct Obj02507 *)p)->f5C=(void *)BMP_WIN_Create(0,1,19,30,4,12,1);
- func_0201F73C(((struct Obj02507 *)p)->f5C,1,1,13);
+ BMP_MENUWORK_DrawWindow(((struct Obj02507 *)p)->f5C,1,1,13);
  BMP_Clear(BMP_WIN_GetBmp(((struct Obj02507 *)p)->f5C),15);
  BMP_WIN_TransferChars(((struct Obj02507 *)p)->f5C);BMP_WIN_MakeScreen(((struct Obj02507 *)p)->f5C);
  func_02041B6C(0);func_02028470(p+128,6);
@@ -802,7 +802,7 @@ void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)
 {
  void *tmp; u8 i;
  if(((struct Obj02218 *)p)->f5C){
- func_0201F7A8(((struct Obj02218 *)p)->f5C,1);tmp=((struct Obj02218 *)p)->f5C;
+ BMP_MENUWORK_DrawWindowBorder(((struct Obj02218 *)p)->f5C,1);tmp=((struct Obj02218 *)p)->f5C;
  BMP_WIN_ClearScreen(tmp);func_02041B6C(BMP_WIN_GetBgLayer(tmp));
  BMP_WIN_Delete(((struct Obj02218 *)p)->f5C);((struct Obj02218 *)p)->f5C=0;
  }
@@ -823,7 +823,7 @@ void LOCAL_TVT_SYS_PrintMessage(u8 *p, int message)
  ((struct Obj00919 *)p)->f70=func_02045EC0(((struct Obj00919 *)p)->f6C,message);
  if(((struct Obj00919 *)p)->f74){
  tmp=STRBUF_Create(1024,((struct Obj00919 *)p)->f0);
- func_0201F250(((struct Obj00919 *)p)->f74,tmp,((struct Obj00919 *)p)->f70);
+ WORDSET_CopyTaggedText(((struct Obj00919 *)p)->f74,tmp,((struct Obj00919 *)p)->f70);
  STRBUF_Delete(((struct Obj00919 *)p)->f70);((struct Obj00919 *)p)->f70=tmp;
  }
  speed=MSG_SPEED_GetWait();
@@ -868,7 +868,7 @@ void LOCAL_TVT_SYS_ApplyStep(u8 *p)
         WORDSET_DeleteStrbufED04(*(void **)(p + 0x74));
     }
     *(void **)(p + 0x74) = GF_FONT_Create_EC64(*(u16 *)p);
-    func_0201F02C(*(void **)(p + 0x74), 0, func_02012944(*(void **)(*(u8 **)(p + 0x30) + 4)));
+    WORDSET_SetSlotMyStatus(*(void **)(p + 0x74), 0, func_02012944(*(void **)(*(u8 **)(p + 0x30) + 4)));
     LOCAL_TVT_SYS_PrintMessage(p, b);
 }
 
@@ -913,7 +913,7 @@ int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg)
     return 1;
 }
 
-int LOCAL_TVT_SYS_ProcExit(struct S020315D4 *a,unsigned unused,int own,unsigned char *p) {LOCAL_TVT_SYS_Delete(p);if(own==0){GAME_DATA_Delete(*(unsigned char * *)&((struct Obj24204 *)(*(char * *)&((struct Obj00681 *)p)->f30))->f4);func_020307B0(((struct Obj00681 *)p)->f30);}func_020315D4(a);func_020306F0(85);return 1;}
+int LOCAL_TVT_SYS_ProcExit(struct S020315D4 *a,unsigned unused,int own,unsigned char *p) {LOCAL_TVT_SYS_Delete(p);if(own==0){GAME_DATA_Delete(*(unsigned char * *)&((struct Obj24204 *)(*(char * *)&((struct Obj00681 *)p)->f30))->f4);func_020307B0(((struct Obj00681 *)p)->f30);}func_020315D4(a);GFL_HEAP_DeleteChecked(85);return 1;}
 
 int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d)
 {

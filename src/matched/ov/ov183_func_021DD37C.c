@@ -1,5 +1,5 @@
 /*
- * function: func_021DD37C
+ * function: BR_CODEIN_ListCreate
  * address: 0x021DD37C
  * packet: pkt_ov183_021DD37C
  * region: ov183
@@ -16,8 +16,8 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
- *   func_021DDE2C 0x021DDE2C thumb ov183
- *   func_021DD5C8 0x021DD5C8 thumb ov183
+ *   BR_CODEIN_ListSetupButtons 0x021DDE2C thumb ov183
+ *   BR_CODEIN_ListSetupText 0x021DD5C8 thumb ov183
  */
 #include "../include/Obj00631.h"
 #include "../include/Obj00632.h"
@@ -32,9 +32,9 @@ typedef unsigned int   u32;
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void BR_RES_LoadSprite(char *, unsigned int, unsigned int);
-extern void func_021DDE2C(char *, char *);
-extern void func_021DD5C8(char *, char *);
-int func_021DD37C(void *a, int unused, char *q)
+extern void BR_CODEIN_ListSetupButtons(char *, char *);
+extern void BR_CODEIN_ListSetupText(char *, char *);
+int BR_CODEIN_ListCreate(void *a, int unused, char *q)
 {
     char *p = PROCSYS_AllocProcWork(a, 0x80, BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct Obj00632 *)q)->fC)));
     MI_CpuFill8(p, 0, 0x80);
@@ -43,7 +43,7 @@ int func_021DD37C(void *a, int unused, char *q)
     ((struct Obj00631 *)p)->f4 = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj00631 *)p)->f7C));
     ((struct Obj00631 *)p)->f74 = BR_UTIL_CreateHandles((unsigned int)(((struct Obj00632 *)q)->f4), (char *)(*(int *)&((struct Obj00632 *)q)->f8), 1, ((struct Obj00631 *)p)->f7C);
     BR_RES_LoadSprite(*(char * *)&((struct Obj00632 *)q)->f8, 13, ((struct Obj00631 *)p)->f7C);
-    func_021DDE2C(p, q);
-    func_021DD5C8(p, q);
+    BR_CODEIN_ListSetupButtons(p, q);
+    BR_CODEIN_ListSetupText(p, q);
     return 1;
 }

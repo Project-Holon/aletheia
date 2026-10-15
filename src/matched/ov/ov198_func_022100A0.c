@@ -1,5 +1,5 @@
 /*
- * function: func_022100A0
+ * function: B_PLIST_MAIN_EnterState1A
  * address:  0x022100A0
  * packet:   pkt_022100A0
  * region:   ov198
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220D6AC  0x0220D6AC  thumb  ov198
+ *   B_PLIST_DRAW_PrintWordAndRefresh  0x0220D6AC  thumb  ov198
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj14566.h"
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0220D6AC(u8 *);
+extern void B_PLIST_DRAW_PrintWordAndRefresh(u8 *);
 
-u32 func_022100A0(u8 *p)
+u32 B_PLIST_MAIN_EnterState1A(u8 *p)
 {
-    func_0220D6AC(p);
+    B_PLIST_DRAW_PrintWordAndRefresh(p);
     ((struct Obj14566 *)p)->f2193 = 1;
     ((struct Obj14566 *)p)->f217C = 0x1a;
     return 0x17;

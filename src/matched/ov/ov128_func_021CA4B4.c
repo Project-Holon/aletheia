@@ -1,5 +1,5 @@
 /*
- * function: func_021CA4B4
+ * function: WF2DMAP_TOUCH_TransferScreen
  * address:  0x021CA4B4
  * packet:   pkt_021CA4B4
  * region:   ov128
@@ -24,7 +24,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 
-void func_021CA4B4(char *p)
+void WF2DMAP_TOUCH_TransferScreen(char *p)
 {
     BMP_WIN_MakeScreen((struct Cfg *)p);
     func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));

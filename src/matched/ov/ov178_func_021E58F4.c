@@ -19,10 +19,10 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_021D9DC8 0x021D9DC8 thumb ov175
- *   func_021DC200 0x021DC200 thumb ov175
- *   func_021DC240 0x021DC240 thumb ov175
- *   func_021D9EA0 0x021D9EA0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CreateNetContext 0x021D9DC8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SendRegDataAlt 0x021DC200 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TakeRegBuffer 0x021DC240 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DeleteNetContext 0x021D9EA0 thumb ov175
  */
 #include "../include/Obj02890.h"
 typedef unsigned short u16;
@@ -35,10 +35,10 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigne
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
-extern char *func_021D9DC8(u32,void *,u32,u16);
-extern u32 func_021DC200(char *,u32),func_021DC240(char *,u32);
+extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32,void *,u32,u16);
+extern u32 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *,u32),WIFIBATTLEMATCH_NET_TakeRegBuffer(char *,u32);
 typedef unsigned char  u8;
-extern void func_021D9EA0(u8 *p);
+extern void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p);
 extern unsigned char ov067_id[],ov114_id[],ov175_id[];
 int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
 {
@@ -53,14 +53,14 @@ int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
     case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
     case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
     case 2:func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);func_02034AC4((int)ov175_id);
-        *out=func_021D9DC8(ctx[5],**(void ** *)&((struct Obj02890 *)ctx)->f0,0,88);++*state;break;
+        *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx[5],**(void ** *)&((struct Obj02890 *)ctx)->f0,0,88);++*state;break;
     case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
     case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
-    case 5:if(func_021DC200(*out,ctx[3]))++*state;break;
-    case 6:if(func_021DC240(*out,ctx[4]))++*state;break;
+    case 5:if(WIFIBATTLEMATCH_NET_SendRegDataAlt(*out,ctx[3]))++*state;break;
+    case 6:if(WIFIBATTLEMATCH_NET_TakeRegBuffer(*out,ctx[4]))++*state;break;
     case 7:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
     case 8:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
-    case 9:func_021D9EA0((u8 *)((u32)*out));*out=0;
+    case 9:WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32)*out));*out=0;
         func_02034A5C((int)ov175_id);func_02034A5C((int)ov114_id);func_02034A5C((int)ov067_id);++*state;break;
     case 10:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
     case 11:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;

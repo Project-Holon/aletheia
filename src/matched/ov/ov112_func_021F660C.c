@@ -1,5 +1,5 @@
 /*
- * function: func_021F660C
+ * function: MUSICAL_MCSS_CalcMatrix
  * address: 0x021F660C
  * packet: pkt_ov112_021F660C
  * region: ov112
@@ -16,7 +16,7 @@
 typedef unsigned int u32;
 typedef long long s64;
 typedef unsigned long long u64;
-void func_021F660C(const int *p, const int *m, u32 *out, u32 *w)
+void MUSICAL_MCSS_CalcMatrix(const int *p, const int *m, u32 *out, u32 *w)
 {
     s64 y = p[1];
     s64 x = p[0];

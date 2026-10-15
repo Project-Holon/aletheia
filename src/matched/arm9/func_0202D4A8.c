@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *
  * pokegra.c: resolve a species/form/egg to its graphics archive index, the
@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 
 typedef enum { PAL_0 } Pal;
@@ -83,9 +83,9 @@ void POKEGRA_CalcArcIndex(void *narc, u32 species, s32 form, s32 mode,
         }
         idx = (t + 0x28a) * 0x14;
     } else if (form != 0) {
-        first = (s32)func_02019C90((u16)species, 0, 0x1f);
-        hidden = (s32)func_02019C90((u16)species, 0, 0x23);
-        count = (s32)func_02019C90((u16)species, 0, 0x20);
+        first = (s32)POKE_TOOL_GetPersonalParam((u16)species, 0, 0x1f);
+        hidden = (s32)POKE_TOOL_GetPersonalParam((u16)species, 0, 0x23);
+        count = (s32)POKE_TOOL_GetPersonalParam((u16)species, 0, 0x20);
         if (form >= count) {
             form = 0;
         }

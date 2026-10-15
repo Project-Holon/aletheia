@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021955F0",
+   "name": "gti2StartConnectionAttempt",
    "address": "0x021955F0",
    "kind": "sdk",
    "region": "ov009",

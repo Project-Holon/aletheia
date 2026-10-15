@@ -12,19 +12,19 @@
  * match: u32 offset and integer row address retain the spilled row and live index; vectors follow frame order; second loop reuses the earlier j as mask and mask as index; final mask advances before i.
  * ABI: 760C leaves a live result used by this caller despite its own void declaration.
  * symbols:
- *   func_021F5164 0x021F5164 thumb ov112
- *   func_021F5438 0x021F5438 thumb ov112
- *   func_021F48C0 0x021F48C0 thumb ov112
- *   func_021F709C 0x021F709C thumb ov112
- *   func_021F760C 0x021F760C thumb ov112
- *   func_021F80B0 0x021F80B0 thumb ov112
+ *   MUSICAL_MCSS_CreateRenderObj 0x021F5164 thumb ov112
+ *   MUSICAL_MCSS_SetRenderFieldA 0x021F5438 thumb ov112
+ *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
+ *   STA_ACT_LIGHT_AddBillboardImage 0x021F709C thumb ov112
+ *   STA_ACT_LIGHT_AddPokemonElem 0x021F760C thumb ov112
+ *   STA_ACT_LIGHT_CallElemB 0x021F80B0 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
- *   func_021F6BD8 0x021F6BD8 thumb ov112
- *   func_021F40D0 0x021F40D0 thumb ov112
- *   func_021F8054 0x021F8054 thumb ov112
- *   func_021F8084 0x021F8084 thumb ov112
- *   func_021F6E78 0x021F6E78 thumb ov112
- *   func_021F6EF4 0x021F6EF4 thumb ov112
+ *   STA_ACT_LIGHT_CreateUnit 0x021F6BD8 thumb ov112
+ *   MUSICAL_MCSS_SetObjectValue 0x021F40D0 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpD 0x021F8084 thumb ov112
+ *   STA_ACT_LIGHT_CreateActor 0x021F6E78 thumb ov112
+ *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
  *   d_021F8240 0x021F8240 data a4
  *   d_021F8234 0x021F8234 data a4
  *   d_021F824C 0x021F824C data a4
@@ -63,20 +63,20 @@ typedef struct
 extern const Vec d_021F8240;
 extern const Vec d_021F8234;
 extern const Vec d_021F824C;
-extern void *func_021F5164(u32);
+extern void *MUSICAL_MCSS_CreateRenderObj(u32);
 struct Object;
-extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
-extern u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e);
-extern void *func_021F760C(u8 *, u8 *);
-extern void func_021F5438(void **p, int b);
-extern void func_021F80B0(int, int);
+extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
+extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
+extern void *STA_ACT_LIGHT_AddPokemonElem(u8 *, u8 *);
+extern void MUSICAL_MCSS_SetRenderFieldA(void **p, int b);
+extern void STA_ACT_LIGHT_CallElemB(int, int);
 extern int STA_ACT_LIGHT_SetElemValue(int, int *, int);
-extern void *func_021F6BD8(u16, void *);
-extern u8 *func_021F6E78(u8 *p, int v);
-extern u32 func_021F40D0(void *p, u32 i, u16 c);
-extern void func_021F8054(void *unused, u32 *p, const u32 *q);
-extern void func_021F8084(void *unused, u32 *p, const u32 *q);
-extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
+extern void *STA_ACT_LIGHT_CreateUnit(u16, void *);
+extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
+extern u32 MUSICAL_MCSS_SetObjectValue(void *p, u32 i, u16 c);
+extern void STA_ACT_LIGHT_ElemOpB(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_ElemOpD(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 void MUSICAL_SHOT_SYS_InitActors(Context *p)
 {
   u32 offset;
@@ -95,21 +95,21 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
   int tmp1;
   void *tmp;
   current = 5 << 16;
-  p->scene = func_021F5164(p->heap);
-  func_021F5438(p->scene, 2 << 16);
-  p->actors = func_021F48C0((u32) p->owner, 36, p->heap);
-  p->render = func_021F709C(p->heap, 0, (u32)p->scene, (u32)p->actors, (u32)p->owner);
+  p->scene = MUSICAL_MCSS_CreateRenderObj(p->heap);
+  MUSICAL_MCSS_SetRenderFieldA(p->scene, 2 << 16);
+  p->actors = MUSICAL_MCSS_CreateActorPool((u32) p->owner, 36, p->heap);
+  p->render = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (u32)p->scene, (u32)p->actors, (u32)p->owner);
   for (i = 0; i < 4; i++)
     p->models[i] = 0;
 
   for (j = 0; j < 4; j++)
   {
     row = ((u8 *) p) + (4 * j);
-    q = func_021F760C(p->render, *((u8 **) (row + 8)));
+    q = STA_ACT_LIGHT_AddPokemonElem(p->render, *((u8 **) (row + 8)));
     if (1)
     {
       *((void **) (row + 0x30)) = q;
-      func_021F80B0((int)p->render, (int)q);
+      STA_ACT_LIGHT_CallElemB((int)p->render, (int)q);
       STA_ACT_LIGHT_SetElemValue((int) p->render, *((int **) (row + 0x30)), 1);
     }
   }
@@ -135,39 +135,39 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
 
   i = 0;
   mask = 1;
-  tmp = func_021F6BD8(p->heap, 0);
+  tmp = STA_ACT_LIGHT_CreateUnit(p->heap, 0);
   p->effect = tmp;
   base = d_021F824C;
   for (; i < 4; mask <<= 1, i++)
   {
     offset = 4 * i;
     row = (u8 *)(((u32)p) + offset);
-    scale.x = func_021F40D0(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
+    scale.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
     if (p->cfg->flags & mask)
     {
       u8 *actor;
       temp = base;
       actor = ((u8 *) p) + offset;
-      pos.x = func_021F40D0(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
+      pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      func_021F8054(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
-      func_021F8084(p->render, *((void **) (actor + 0x30)), (const u32 *)(&temp));
+      STA_ACT_LIGHT_ElemOpB(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_ElemOpD(p->render, *((void **) (actor + 0x30)), (const u32 *)(&temp));
       scale.y = 22 << 14;
     }
     else
     {
       u8 *actor;
       actor = ((u8 *) p) + offset;
-      pos.x = func_021F40D0(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
+      pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      func_021F8054(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      STA_ACT_LIGHT_ElemOpB(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
       tmp1 = 2 << 18;
       scale.y = tmp1;
     }
-    *((void **) (row + 0x44)) = func_021F6E78(p->effect, 1);
-    func_021F6EF4(p->effect, *((void **) (row + 0x44)), (const u32 *)(&scale));
+    *((void **) (row + 0x44)) = STA_ACT_LIGHT_CreateActor(p->effect, 1);
+    STA_ACT_LIGHT_CopyElemA(p->effect, *((void **) (row + 0x44)), (const u32 *)(&scale));
   }
 
 }

@@ -28,7 +28,7 @@
  *   PROCSYS_Push  0x02031348  arm
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02019CE0  0x02019CE0  thumb
+ *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
  *   str_02203B6C   0x02203B6C  data  a1
  *   d_02208C40     0x02208C40  data  ov195
  *   ov067_id       0x00000043  data
@@ -111,7 +111,7 @@ extern int func_02034AC4(s32 handle);
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 extern void WORLDTRADE_CopyPokemon(void *save, void *mon);
 extern void *POKEPARTY_GetMember(void *list, u32 i);
-extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 
 int WORLDTRADE_DEMO_EvolveStep(Obj *p)
 {
@@ -212,7 +212,7 @@ int WORLDTRADE_DEMO_EvolveStep(Obj *p)
             Req *w = p->req;
             void *e = WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
 
-            func_02019CE0(POKEPARTY_GetMember(w->list, 0), e);
+            POKE_TOOL_CopyPartyPokemon(POKEPARTY_GetMember(w->list, 0), e);
             func_020307B0(w->list);
             func_020307B0(p->req);
             p->req = 0;

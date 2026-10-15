@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7FC
+ * function: CTVT_CALL_RefreshPeers
  * address:  0x021BC7FC
  * packet:   pkt_ov172_021BC7FC
  * region:   ov172
@@ -22,10 +22,10 @@
  *   CTVT_COMM_FindPeerName  0x021B85D0  thumb  ov172
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
- *   func_021BD0A4  0x021BD0A4  thumb  ov172
+ *   CTVT_CALL_CheckJoinRequest  0x021BD0A4  thumb  ov172
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021BCB88  0x021BCB88  thumb  ov172
- *   func_021BCEF8  0x021BCEF8  thumb  ov172
+ *   CTVT_CALL_UpdateRows  0x021BCB88  thumb  ov172
+ *   CTVT_CALL_UpdatePrompt  0x021BCEF8  thumb  ov172
  *
  * Peer list refresh: marks every active slot as unseen, scans the 16 wireless
  * peers, matches each peer MAC against the 15 slots (kind 0x20 or 3), adds new
@@ -87,10 +87,10 @@ extern void OS_GetMacAddress(void *p);
 extern int CTVT_COMM_FindPeerName(unsigned char *p, unsigned char *q);
 extern u32 ZONEDATA_IsZone117(u32 id);
 extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
-extern int func_021BD0A4(void *ctx, u32 unused, u32 a, u32 b, u32 c);
+extern int CTVT_CALL_CheckJoinRequest(void *ctx, u32 unused, u32 a, u32 b, u32 c);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void func_021BCB88(void *ctx, char *list);
-extern void func_021BCEF8(void *ctx, u8 *list);
+extern void CTVT_CALL_UpdateRows(void *ctx, char *list);
+extern void CTVT_CALL_UpdatePrompt(void *ctx, u8 *list);
 
 struct Slot {
     u32 active;
@@ -109,7 +109,7 @@ struct List {
     struct Slot slots[15];
 };
 
-void func_021BC7FC(void *ctx, u8 *list)
+void CTVT_CALL_RefreshPeers(void *ctx, u8 *list)
 {
     int changed;
     int refresh;
@@ -164,9 +164,9 @@ void func_021BC7FC(void *ctx, u8 *list)
                 c = func_02008530((const struct Sub0200852CObj *)p);
                 OS_GetMacAddress(buf);
                 if (p->f21_1 == 0 || CTVT_COMM_FindPeerName((u8 *)p, buf) == 1)
-                    ok = func_021BD0A4(ctx, (u32)list, a, c, b);
+                    ok = CTVT_CALL_CheckJoinRequest(ctx, (u32)list, a, c, b);
             } else if (ZONEDATA_IsZone117((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
-                ok = func_021BD0A4(ctx, (u32)list, (u32)((u8 *)p + 0x1a), p->f4, p->bB_7);
+                ok = CTVT_CALL_CheckJoinRequest(ctx, (u32)list, (u32)((u8 *)p + 0x1a), p->f4, p->bB_7);
             }
             if (ok == 0)
                 continue;
@@ -272,10 +272,10 @@ void func_021BC7FC(void *ctx, u8 *list)
         }
     }
     if (changed == 1) {
-        func_021BCB88(ctx, (char *)list);
+        CTVT_CALL_UpdateRows(ctx, (char *)list);
         refresh = 1;
         *(u32 *)(list + 0xc) = 1;
     }
     if (refresh == 1 && *(u32 *)(list + 8) == 5)
-        func_021BCEF8(ctx, list);
+        CTVT_CALL_UpdatePrompt(ctx, list);
 }

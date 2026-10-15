@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F4DDC",
+   "name": "NAMEIN_GRAPHIC_CopyTableEntries",
    "address": "0x021F4DDC",
    "kind": "game",
    "region": "ov194",

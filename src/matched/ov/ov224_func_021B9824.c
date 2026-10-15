@@ -1,5 +1,5 @@
 /*
- * function: func_021B9824
+ * function: SUBWAY_MAP_GRAPHIC_LoadCommonAssets
  * address: 0x021B9824
  * packet: pkt_ov224_021B9824
  * region: ov224
@@ -24,7 +24,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(u32);
-void func_021B9824(u16 *work)
+void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
 {
     void *narc = func_020490F4(0xce, *work);
     func_02049B68(narc, 0, 0, 0, 0, *work);

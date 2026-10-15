@@ -41,6 +41,15 @@
  *   DWCi_ShutdownTransport  0x0217772C  arm
  *   GOAGetLastError  0x0217ED54  arm
  *   ServerBrowserFree  0x0219ED4C  arm
+ *   DWCi_WStrLen  0x021686E0  arm
+ *   DWCi_MatchGPRecvBuddyMsgCallback  0x0216EAB8  arm
+ *   GSIStartAvailableCheckA  0x0217C750  arm
+ *   gpDestroy  0x0218592C  arm
+ *   gt2CreateSocket  0x02195AB4  arm
+ *   gt2CloseSocket  0x02195AD8  arm
+ *   gt2CloseConnectionHard  0x02195DC4  arm
+ *   gt2CloseAllConnectionsHard  0x02195DE4  arm
+ *   gt2AddressToString  0x02198620  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
@@ -95,12 +104,12 @@ extern void CloseStatsConnection(void);
 extern void DWCi_EndCloseStatsConnection(void);
 extern int func_0218597C(void **conn, int func, void *callback, void *param);
 extern int func_02185948(void **conn);
-extern void func_0218592C(void **p);
+extern void gpDestroy(void **p);
 extern void DWCi_ShutdownLogin(void);
 extern void DWCi_ShutdownFriend(void);
 extern void func_0216F334(void);
 extern void DWCi_ShutdownTransport(void);
-extern void func_02195AD8(void *socket);
+extern void gt2CloseSocket(void *socket);
 extern int DWC_UpdateConnection(void);
 extern int DWCi_IsError(void);
 extern int GSIAvailableCheckThink(void);
@@ -118,10 +127,10 @@ extern void DWCi_GPRecvBuddyAuthCallback(void **, void *, void *);
 extern void DWCi_GPRecvBuddyRequestCallback(void **, void *, void *);
 extern void DWCi_GPRecvBuddyStatusCallback(void **, void *, void *);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern int func_021686E0(unsigned short *p);
+extern int DWCi_WStrLen(unsigned short *p);
 extern void MIi_CpuCopy16(void *srcp, void *destp, u32 size);
 extern int DWC_GetInetStatus(void);
-extern void func_0217C750(char *gamename);
+extern void GSIStartAvailableCheckA(char *gamename);
 extern int DWCi_IsServerUpdating(void);
 extern void DWCi_UpdateServersAsync(char *authToken, char *partnerChallenge, void (*callback)(int, int), int a3, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 extern void DWCi_SetupGameServer(int topology, unsigned char numEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
@@ -148,11 +157,11 @@ extern void DWCi_ClearQR2Key(void);
 extern void DWCi_NodeInfoList_Clear(void);
 extern void DWCi_SetMatchStatus(int state);
 extern void DWCi_CloseMatch(void);
-extern void func_02195DE4(int *p);
+extern void gt2CloseAllConnectionsHard(int *p);
 extern DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
 extern unsigned long func_021685CC(unsigned long max);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_02195AB4(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void *callback);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+extern int gt2CreateSocket(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void *callback);
 extern void gt2Listen(void *socket, void *callback);
 extern void gt2SetUnrecognizedMessageCallback(void *socket, void *callback);
 extern void DWCi_GT2SocketErrorCallback(void *socket);
@@ -161,13 +170,13 @@ extern int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsi
 extern int DWCi_NodeInfoList_RemoveAID(unsigned char aid);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern void DWCi_StopFriendProcess(int error, int errorCode);
-extern void func_02195DC4(void *conn);
+extern void gt2CloseConnectionHard(void *conn);
 extern void DWCi_InitGPProcessCount(void);
 extern void func_0216EC18(void);
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern char *strchr(const char *s, int c);
 extern char *strncpy(char *d, const char *s, unsigned long n);
-extern void func_0216EAB8(void **pconnection, int profileID, char *message);
+extern void DWCi_MatchGPRecvBuddyMsgCallback(void **pconnection, int profileID, char *message);
 extern void DWCi_RecvCallback(void *connection, unsigned char *message, int size, int reliable);
 extern int DWCi_IsShutdownMatch(void);
 extern DWCstConnectionInfo *gt2GetConnectionData(void *connection);
@@ -321,7 +330,7 @@ void DWC_ShutdownFriendsMatch(void)
         func_0218597C(&g_021AA878.st->gp, 1, 0, 0);
         func_0218597C(&g_021AA878.st->gp, 2, 0, 0);
         func_02185948(&g_021AA878.st->gp);
-        func_0218592C(&g_021AA878.st->gp);
+        gpDestroy(&g_021AA878.st->gp);
         g_021AA878.st->gp = 0;
     }
     DWCi_ShutdownLogin();
@@ -329,7 +338,7 @@ void DWC_ShutdownFriendsMatch(void)
     func_0216F334();
     DWCi_ShutdownTransport();
     if (g_021AA878.st->gt2Socket != 0) {
-        func_02195AD8(g_021AA878.st->gt2Socket);
+        gt2CloseSocket(g_021AA878.st->gt2Socket);
         g_021AA878.st->gt2Socket = 0;
     }
     func_0205A1B0(4, g_021AA878.st, 0);
@@ -437,7 +446,7 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
         len = 0;
     } else {
         MIi_CpuClear16(0, g_021AA878.st->playerName, 0x34);
-        len = (u32)func_021686E0(ingamesn) > 25 ? 25 : (u32)func_021686E0(ingamesn);
+        len = (u32)DWCi_WStrLen(ingamesn) > 25 ? 25 : (u32)DWCi_WStrLen(ingamesn);
         MIi_CpuCopy16(ingamesn, g_021AA878.st->playerName, len * 2);
     }
     g_021AA878.st->playerName[len] = 0;
@@ -446,7 +455,7 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
         return 0;
     }
     DWCi_SetState(1);
-    func_0217C750(g_021AA878.st->gameName);
+    GSIStartAvailableCheckA(g_021AA878.st->gameName);
     return 1;
 }
 
@@ -634,7 +643,7 @@ int DWC_CloseAllConnectionsHard(void)
         return 1;
     }
     g_021AA878.st->closeAllHard = 1;
-    func_02195DE4((int *)g_021AA878.st->gt2Socket);
+    gt2CloseAllConnectionsHard((int *)g_021AA878.st->gt2Socket);
     while (DWCi_NodeInfoList_GetCount() > 1) {
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
@@ -808,7 +817,7 @@ int DWCi_GT2Startup(void)
 	if (g_021AA878.st->gt2Socket != 0)
 		return 0;
 	baseport = func_021685CC(0x4000) + 0xc000;
-	gt2Result = func_02195AB4(&g_021AA878.st->gt2Socket, func_02198620(0, baseport, 0), g_021AA878.st->sendBufSize, g_021AA878.st->recvBufSize, DWCi_GT2SocketErrorCallback);
+	gt2Result = gt2CreateSocket(&g_021AA878.st->gt2Socket, gt2AddressToString(0, baseport, 0), g_021AA878.st->sendBufSize, g_021AA878.st->recvBufSize, DWCi_GT2SocketErrorCallback);
 	if (DWCi_HandleGT2Error(gt2Result))
 		return gt2Result;
 	gt2Listen(g_021AA878.st->gt2Socket, func_0216E5B0);
@@ -1080,7 +1089,7 @@ int DWCi_CloseConnectionHard(unsigned char aid)
         DWCi_GT2ClosedProcess(0, 0, 1, node->aid);
         return 0;
     }
-    func_02195DC4(conn);
+    gt2CloseConnectionHard(conn);
     return 0;
 }
 
@@ -1179,7 +1188,7 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
         if (*(volatile u8 *)&g_021AA878.st->match.qr2MatchType != 2 && *(volatile u8 *)&g_021AA878.st->match.qr2MatchType != 3)
             return;
     }
-    func_0216EAB8(pconnection, arg->profile, message + strlen(g_021A2038));
+    DWCi_MatchGPRecvBuddyMsgCallback(pconnection, arg->profile, message + strlen(g_021A2038));
 }
 
 

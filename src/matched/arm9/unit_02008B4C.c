@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008B4C, sub_02008B78, sub_02008B94, sub_02008B98,
- *           sub_02008B9C, sub_02008BD0, sub_02008BE0, sub_02008C00
+ * function: CONSOLE_STAMP_IsThisConsole, CONSOLE_STAMP_IsRtcOffsetCurrent, CONSOLE_STAMP_GetBirthdayMonth, CONSOLE_STAMP_GetBirthdayDay,
+ *           DAILY_CLOCK_Init, DAILY_CLOCK_HasAllowance, DAILY_CLOCK_Spend, DAILY_CLOCK_Refill
  *
  * symbols:
  *   OS_GetMacAddress             0x02087C6C  arm
@@ -27,12 +27,12 @@
  * the next file.  It is committed as three pieces, and the split is forced by
  * the attestation rule rather than by anything in the code:
  *
- *   src/matched/sub_02008AEC.c       0x02008AEC  the size
+ *   src/matched/CONSOLE_STAMP_GetSize.c       0x02008AEC  the size
  *   0x02008AF0                       the constructor, a near miss, see below
  *   src/matched/unit_02008B08.c      0x02008B08..0x02008B4C
  *   this file                        0x02008B4C..0x02008C20
  *
- * sub_02008B20 and sub_02008B78 are the only two callers of
+ * CONSOLE_STAMP_SetIdentity and CONSOLE_STAMP_IsRtcOffsetCurrent are the only two callers of
  * OS_GetOwnerRtcOffset anywhere in the ROM, in `arm9_main` and in all 237
  * overlays alike.  Matched as one range they attest each other's call site out
  * of existence: both witnesses are inside the bytes under test, the `label`
@@ -44,9 +44,9 @@
  * overlay.
  *
  * NEAR MISS, 0x02008AF0, 24 bytes, every concrete byte right, skipped.  The
- * constructor calls sub_02008B9C at 0x02008B02, and that `bl` is the only
+ * constructor calls DAILY_CLOCK_Init at 0x02008B02, and that `bl` is the only
  * reference to 0x02008B9C in the whole image.  Inside a range that also
- * defines sub_02008B9C the call is `local` and needs no evidence, but such a
+ * defines DAILY_CLOCK_Init the call is `local` and needs no evidence, but such a
  * range necessarily spans 0x02008B20 and 0x02008B78 and so gives the
  * OS_GetOwnerRtcOffset problem above back.  The two constraints cannot both be
  * satisfied by any split, so the constructor is the one function of the file
@@ -62,7 +62,7 @@
  *   +0x10  0x38   the session record below
  *   +0x48  0x14   untouched here
  *
- *   session +0x00  u32  a flag, set to 1 by sub_02008B9C
+ *   session +0x00  u32  a flag, set to 1 by DAILY_CLOCK_Init
  *           +0x04  RTCDate  when the session started
  *           +0x14  RTCTime
  *           +0x20  u32  that date as a day count
@@ -78,7 +78,7 @@
  *    simply declared `u64` and the pair of `str`s falls out of one assignment
  *    from RTC_ConvertDateTimeToSecond.  `sizeof(struct { u32 a; u64 b; })` is
  *    twelve here, not sixteen.
- *  - sub_02008BE0 tests `<` and assigns zero in the taken branch.  Written the
+ *  - DAILY_CLOCK_Spend tests `<` and assigns zero in the taken branch.  Written the
  *    other way round, `if (x >= n) x -= n; else x = 0;`, the compiler keeps the
  *    same instructions but inverts the condition and swaps the two arms, which
  *    is four bytes wrong in the middle of an otherwise clean function.
@@ -137,7 +137,7 @@ struct Sub02008AECObj {
     u8  unk48[0x14];
 };
 
-int sub_02008B4C(const struct Sub02008AECObj *obj)
+int CONSOLE_STAMP_IsThisConsole(const struct Sub02008AECObj *obj)
 {
     u8 mac[6];
     int i;
@@ -151,7 +151,7 @@ int sub_02008B4C(const struct Sub02008AECObj *obj)
     return 1;
 }
 
-int sub_02008B78(const struct Sub02008AECObj *obj)
+int CONSOLE_STAMP_IsRtcOffsetCurrent(const struct Sub02008AECObj *obj)
 {
     if (OS_GetOwnerRtcOffset() != obj->rtcOffset) {
         return 0;
@@ -159,17 +159,17 @@ int sub_02008B78(const struct Sub02008AECObj *obj)
     return 1;
 }
 
-u8 sub_02008B94(const struct Sub02008AECObj *obj)
+u8 CONSOLE_STAMP_GetBirthdayMonth(const struct Sub02008AECObj *obj)
 {
     return obj->birthdayMonth;
 }
 
-u8 sub_02008B98(const struct Sub02008AECObj *obj)
+u8 CONSOLE_STAMP_GetBirthdayDay(const struct Sub02008AECObj *obj)
 {
     return obj->birthdayDay;
 }
 
-void sub_02008B9C(struct Sub02008AECSession *s)
+void DAILY_CLOCK_Init(struct Sub02008AECSession *s)
 {
     s->unk00 = 1;
     sub_0203F49C((struct RtcDate *)(&s->date), (struct RtcTime *)(&s->time));
@@ -180,7 +180,7 @@ void sub_02008B9C(struct Sub02008AECSession *s)
     s->unk34 = 0;
 }
 
-int sub_02008BD0(const struct Sub02008AECSession *s)
+int DAILY_CLOCK_HasAllowance(const struct Sub02008AECSession *s)
 {
     if (s->unk34 == 0) {
         return 0;
@@ -188,7 +188,7 @@ int sub_02008BD0(const struct Sub02008AECSession *s)
     return 1;
 }
 
-void sub_02008BE0(struct Sub02008AECSession *s, u32 n)
+void DAILY_CLOCK_Spend(struct Sub02008AECSession *s, u32 n)
 {
     if (s->unk34 > 0x5A0) {
         s->unk34 = 0x5A0;
@@ -200,7 +200,7 @@ void sub_02008BE0(struct Sub02008AECSession *s, u32 n)
     }
 }
 
-void sub_02008C00(struct Sub02008AECSession *s)
+void DAILY_CLOCK_Refill(struct Sub02008AECSession *s)
 {
     s->unk34 = 0x5A0;
     sub_0203F49C((struct RtcDate *)(&s->date), (struct RtcTime *)(&s->time));

@@ -33,7 +33,7 @@
  *   MUSICAL_EVENT_CountNpcSlotsBelow  0x021568A8  thumb  ov010
  *   MUSICAL_PROGRAM_GetNpcNameId  0x02157384  thumb  ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_021FCE28  0x021FCE28  thumb  ov132
+ *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb  ov132
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -150,7 +150,7 @@ extern u8 MUSICAL_EVENT_GetPlayerOfSlot(Work *w, u8 idx);
 extern u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n);
 extern u8 MUSICAL_PROGRAM_GetNpcNameId(struct Table *t, int i);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern int func_021FCE28(char *p, u32 index);
+extern int MUS_COMM_FUNC_GetSlotValueA(char *p, u32 index);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -219,7 +219,7 @@ void MUSICAL_EVENT_CreateShowRecord(Work *w)
         if (i == w->f4C)
             x = GAME_DATA_GetMyStatus(w->f04);
         else if (w->f14 == 1)
-            x = (void *)func_021FCE28(w->f28, MUSICAL_EVENT_GetPlayerOfSlot(w, i));
+            x = (void *)MUS_COMM_FUNC_GetSlotValueA(w->f28, MUSICAL_EVENT_GetPlayerOfSlot(w, i));
         if (x != 0) {
             MI_CpuCopy8(x, d->recs[i].name, 0x10);
         } else {

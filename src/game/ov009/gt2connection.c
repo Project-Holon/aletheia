@@ -1,7 +1,7 @@
 /*
  * file:     gt2connection.c
  * unit:     yes
- * function: func_02195590, func_021955C0, func_021955F0, func_0219569C, func_021956F8, func_02195750, func_02195798, func_0219583C, func_021958A8, func_021958E4, func_02195918, func_02195980, func_021959D0, func_02195A30
+ * function: func_02195590, func_021955C0, gti2StartConnectionAttempt, func_0219569C, func_021956F8, func_02195750, gti2CheckTimeout, func_0219583C, func_021958A8, func_021958E4, func_02195918, func_02195980, func_021959D0, gti2ConnectionCleanup
  * address:  0x02195590
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,10 +15,10 @@
  * symbols:
  *   gti2NewSocketConnection  0x02198038 arm
  *   func_02198808  0x02198808  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_02092344  0x02092344  arm
- *   func_02194B74  0x02194B74  arm  ov009
- *   func_02194C6C  0x02194C6C  arm  ov009
+ *   gti2GetChallenge  0x02194B74  arm  ov009
+ *   gti2GetResponse  0x02194C6C  arm  ov009
  *   gti2SendClientChallenge  0x021975FC  arm  ov009
  *   gti2SendAccept  0x02197784 arm
  *   gti2MessageCheck  0x02198808 arm
@@ -26,7 +26,7 @@
  *   gti2SocketSend  0x02198328 arm
  *   current_time    0x0217F264 arm
  *   gti2SendClosed  0x02197BB8  arm  ov009
- *   func_0219500C  0x0219500C  arm  ov009
+ *   gti2ConnectedCallback  0x0219500C  arm  ov009
  *   ArrayLength       0x02184200 arm
  *   ArrayNth          0x02184208 arm
  *   gti2ResendMessage 0x02197C5C arm
@@ -38,7 +38,7 @@
  *   gti2SendClose           0x02197868 arm
  *   TableRemove  0x021847BC arm
  *   ArrayAppend  0x02184234 arm
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
  */
 struct GTI2Socket;
@@ -99,10 +99,10 @@ extern int gti2NewSocketConnection(struct GTI2Socket *socket,
                                    struct GTI2Connection **connection,
                                    unsigned int ip, unsigned short port);
 extern void func_02198808(unsigned char **msg, int *len);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
-extern unsigned char *func_02194B74(unsigned char *buf);
-extern unsigned char *func_02194C6C(unsigned char *buf, unsigned char *challenge);
+extern unsigned char *gti2GetChallenge(unsigned char *buf);
+extern unsigned char *gti2GetResponse(unsigned char *buf, unsigned char *challenge);
 extern int gti2SendClientChallenge(struct GTI2Connection *c, char *challenge);
 extern int gti2SendAccept(struct GTI2Connection *connection);
 extern void gti2MessageCheck(unsigned char **message, int *len);
@@ -112,7 +112,7 @@ extern int gti2SocketSend(struct GTI2Socket *socket, unsigned int ip,
                           unsigned short port, unsigned char *message, int len);
 extern unsigned int current_time(void);
 extern int gti2SendClosed(struct GTI2Connection *connection);
-extern int func_0219500C(struct GTI2Connection *c, int result, unsigned char *msg, int len);
+extern int gti2ConnectedCallback(struct GTI2Connection *c, int result, unsigned char *msg, int len);
 extern int ArrayLength(struct DArrayImplementation *array);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern int gti2ResendMessage(struct GTI2Connection *connection,
@@ -124,19 +124,19 @@ extern void gti2FreeSocketConnection(struct GTI2Connection *connection);
 extern int gti2SendClose(struct GTI2Connection *connection);
 extern int TableRemove(struct HashImplementation *table, void *delElem);
 extern void ArrayAppend(struct DArrayImplementation *array, void *newElem);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern void func_021841B0(void *array);
 int gti2NewOutgoingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
 int gti2NewIncomingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
-int func_021955F0(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks);
+int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks);
 int gti2AcceptConnection(struct GTI2Connection *connection, struct GT2ConnectionCallbacks *callbacks);
 void gti2RejectConnection(struct GTI2Connection *connection, unsigned char *message, int len);
 int gti2ConnectionSendData(struct GTI2Connection *connection, unsigned char *message, int len);
-int func_02195798(struct GTI2Connection *c, unsigned int now);
+int gti2CheckTimeout(struct GTI2Connection *c, unsigned int now);
 int gti2ConnectionThink(struct GTI2Connection *connection, unsigned int now);
 void gti2CloseConnection(struct GTI2Connection *connection, int hard);
 void gti2ConnectionClosed(struct GTI2Connection *connection);
-void func_02195A30(struct GTI2Connection *c);
+void gti2ConnectionCleanup(struct GTI2Connection *c);
 
 
 
@@ -182,13 +182,13 @@ int gti2NewIncomingConnection(struct GTI2Socket *socket,
 /*
  * sdk:      gti2StartConnectionAttempt (libdwcgsgt2.TWL.HYB.a(gt2connection.o))
  */
-int func_021955F0(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks)
+int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks)
 {
 	char challenge[32];
 
 	func_02198808(&message, &len);
 	if (len > 0) {
-		c->msg = func_0217EAB0(len);
+		c->msg = gsimalloc(len);
 		if (!c->msg)
 			return 1;
 		func_02092344(c->msg, message, len);
@@ -196,8 +196,8 @@ int func_021955F0(struct GTI2Connection *c, unsigned char *message, int len, str
 	}
 	if (callbacks)
 		c->callbacks = *callbacks;
-	func_02194B74((unsigned char *)challenge);
-	func_02194C6C(c->response, (unsigned char *)challenge);
+	gti2GetChallenge((unsigned char *)challenge);
+	gti2GetResponse(c->response, (unsigned char *)challenge);
 	gti2SendClientChallenge(c, challenge);
 	c->state = 0;
 	return 0;
@@ -265,7 +265,7 @@ int gti2ConnectionSendData(struct GTI2Connection *connection,
 /*
  * sdk:      gti2CheckTimeout (libdwcgsgt2.TWL.HYB.a(gt2connection.o))
  */
-int func_02195798(struct GTI2Connection *c, unsigned int now)
+int gti2CheckTimeout(struct GTI2Connection *c, unsigned int now)
 {
 	int timedOut;
 
@@ -283,7 +283,7 @@ int func_02195798(struct GTI2Connection *c, unsigned int now)
 		if (timedOut) {
 			gti2SendClosed(c);
 			gti2ConnectionClosed(c);
-			if (!func_0219500C(c, 6, 0, 0))
+			if (!gti2ConnectedCallback(c, 6, 0, 0))
 				return 0;
 		}
 	}
@@ -351,7 +351,7 @@ static int gti2CheckKeepAlive(struct GTI2Connection *connection,
 
 int gti2ConnectionThink(struct GTI2Connection *connection, unsigned int now)
 {
-    if (func_02195798(connection, now) == 0)
+    if (gti2CheckTimeout(connection, now) == 0)
         return 0;
     if (gti2CheckKeepAlive(connection, now) == 0)
         return 0;
@@ -397,14 +397,14 @@ void gti2ConnectionClosed(struct GTI2Connection *connection)
 /*
  * sdk:      gti2ConnectionCleanup (libdwcgsgt2.TWL.HYB.a(gt2connection.o))
  */
-void func_02195A30(struct GTI2Connection *c)
+void gti2ConnectionCleanup(struct GTI2Connection *c)
 {
 	if (c->msg)
-		func_0217EAE0(c->msg);
+		gsifree(c->msg);
 	if (c->buf44)
-		func_0217EAE0(c->buf44);
+		gsifree(c->buf44);
 	if (c->buf50)
-		func_0217EAE0(c->buf50);
+		gsifree(c->buf50);
 	if (c->arr5c)
 		func_021841B0(c->arr5c);
 	if (c->outgoingBuffers)
@@ -413,5 +413,5 @@ void func_02195A30(struct GTI2Connection *c)
 		func_021841B0(c->arr98);
 	if (c->arr9c)
 		func_021841B0(c->arr9c);
-	func_0217EAE0(c);
+	gsifree(c);
 }

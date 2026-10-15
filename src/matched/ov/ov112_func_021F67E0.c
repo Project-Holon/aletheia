@@ -1,5 +1,5 @@
 /*
- * function: func_021F67E0
+ * function: MUSICAL_MCSS_AllocMon
  * address: 0x021F67E0
  * packet: pkt_ov112_021F67E0
  * region: ov112
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F83E4[];
-char *func_021F67E0(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap)
+char *MUSICAL_MCSS_AllocMon(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap)
 {
     int i;
     char *p;

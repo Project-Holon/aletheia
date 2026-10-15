@@ -1,5 +1,5 @@
 /*
- * function: func_021FA64C
+ * function: STA_ACT_BUTTON_Delete
  * address: 0x021FA64C
  * packet: pkt_ov132_021FA64C
  * region: ov132
@@ -27,7 +27,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
-void func_021FA64C(char *p)
+void STA_ACT_BUTTON_Delete(char *p)
 {
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     if (((struct Obj01550 *)p)->f48 != 255) CLACT_DeleteActor(((struct Obj01550 *)p)->f4C);

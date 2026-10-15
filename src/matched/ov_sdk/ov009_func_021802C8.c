@@ -1,5 +1,5 @@
 /*
- * function: func_021802C8
+ * function: UTF8ToUCS2StringAlloc
  * address:  0x021802C8
  * packet:   pkt_ov009_021802C8
  * region:   ov009
@@ -13,16 +13,16 @@
  *
  * symbols:
  *   strlen                  0x0209477C  arm
- *   func_021802EC                  0x021802EC  arm ov009
+ *   UTF8ToUCS2StringAllocLen                  0x021802EC  arm ov009
  */
 
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
-extern unsigned short *func_021802EC(char *theUTF8String, int theUTF8StringLength);
+extern unsigned short *UTF8ToUCS2StringAllocLen(char *theUTF8String, int theUTF8StringLength);
 
-unsigned short *func_021802C8(char *theUTF8String)
+unsigned short *UTF8ToUCS2StringAlloc(char *theUTF8String)
 {
     if (theUTF8String == 0)
         return 0;
-    return func_021802EC(theUTF8String, strlen((const u8 *)theUTF8String));
+    return UTF8ToUCS2StringAllocLen(theUTF8String, strlen((const u8 *)theUTF8String));
 }

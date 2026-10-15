@@ -1,5 +1,5 @@
 /*
- * function: func_021C4440
+ * function: WIFI_2DCHAR_ReleaseCellPair
  * address: 0x021C4440
  * packet: pkt_ov127_021C4440
  * region: ov127
@@ -18,4 +18,4 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
-void func_021C4440(char *p,int i) { CLACT_ReleaseCharacter(*(u32 *)(p+20+(u32)i*20)); CLACT_ReleasePalette(*(u32 *)(p+24+(u32)i*20)); *(u32 *)(p+20+(u32)i*20)=-1; *(u32 *)(p+24+(u32)i*20)=-1; }
+void WIFI_2DCHAR_ReleaseCellPair(char *p,int i) { CLACT_ReleaseCharacter(*(u32 *)(p+20+(u32)i*20)); CLACT_ReleasePalette(*(u32 *)(p+24+(u32)i*20)); *(u32 *)(p+20+(u32)i*20)=-1; *(u32 *)(p+24+(u32)i*20)=-1; }

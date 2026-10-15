@@ -1,5 +1,5 @@
 /*
- * function: func_021D905C
+ * function: WIFIBATTLEMATCH_NET_CompExit
  * address: 0x021D905C
  * packet: pkt_ov175_021D905C
  * region: ov175
@@ -12,4 +12,4 @@
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  */
 extern void func_021E8AA8(int);
-void func_021D905C(unsigned sys) {func_021E8AA8(sys);}
+void WIFIBATTLEMATCH_NET_CompExit(unsigned sys) {func_021E8AA8(sys);}

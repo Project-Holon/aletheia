@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9A4
+ * function: DEMO3D_DATA_GetRecordField
  * address:  0x021BE9A4
  * packet:   pkt_021BE9A4
  * region:   ov203
@@ -26,7 +26,7 @@ typedef signed char    s8;
 extern u32 func_021BE79C(u32 id);
 extern u8 d_021C1864[];
 
-u32 func_021BE9A4(u32 id)
+u32 DEMO3D_DATA_GetRecordField(u32 id)
 {
     return *(u32 *)(d_021C1864 + func_021BE79C(id) * 0x14);
 }

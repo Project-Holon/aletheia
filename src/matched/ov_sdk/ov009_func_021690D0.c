@@ -14,14 +14,14 @@
  * symbols:
  *   g_021AA860  0x021AA860  data
  *   DWCi_CheckLogin  0x0216AA70  arm  ov009
- *   func_0218627C  0x0218627C  arm  ov009
+ *   gpSetStatusA  0x0218627C  arm  ov009
  */
 
 #include "../include/G_FriendGlobal.h"
 
 extern struct FriendGlobal g_021AA860;
 extern int DWCi_CheckLogin(void);
-extern int func_0218627C(void **connection, int status, const char *statusString, const char *locationString);
+extern int gpSetStatusA(void **connection, int status, const char *statusString, const char *locationString);
 
 int DWCi_SetGPStatus(int status, const char *statusString, const char *locString)
 {
@@ -37,5 +37,5 @@ int DWCi_SetGPStatus(int status, const char *statusString, const char *locString
     if (locString == 0) {
         locString = **(char ***)(*(char **)(((char *)&g_021AA860) + 0xc) + 4) + 0x4b8;
     }
-    return func_0218627C(*(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 4), status, statusString, locString);
+    return gpSetStatusA(*(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 4), status, statusString, locString);
 }

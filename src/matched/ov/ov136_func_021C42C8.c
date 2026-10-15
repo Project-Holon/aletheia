@@ -28,7 +28,7 @@
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
@@ -59,7 +59,7 @@ extern void PMS_DRAW_Main(u8 *p);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void func_02030EAC(struct Node *n);
 extern void CLACT_DrawSystem(void *p);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
@@ -123,7 +123,7 @@ int MAILSYS_RunSequence(u8 *p)
     if (((struct Obj00539 *)p)->fA0)
         CLACT_DrawSystem(((struct Obj00539 *)p)->fA0);
     if (((struct Obj00539 *)p)->fF8)
-        func_02030D28(((struct Obj00539 *)p)->fF8);
+        TCB_Main(((struct Obj00539 *)p)->fF8);
     if (((struct Obj00539 *)p)->f100)
         TCBL_Main(((struct Obj00539 *)p)->f100);
     if (((struct Obj00539 *)p)->f98)

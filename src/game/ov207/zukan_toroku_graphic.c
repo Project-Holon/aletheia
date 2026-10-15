@@ -30,7 +30,7 @@
  *   ZUKAN_NICKNAME_Delete 0x0220B6E4 thumb ov207
  *   func_021BA2CC 0x021BA2CC thumb ov206
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021BA374 0x021BA374 thumb ov206
  *   ZUKAN_NICKNAME_Main 0x0220B72C thumb ov207
@@ -49,7 +49,7 @@
  *   ZUKAN_NICKNAME_GetResult 0x0220B940 thumb ov207
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
@@ -61,26 +61,26 @@
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   d_0220BC20 0x0220BC20 data a1
  *   d_0220BAE8 0x0220BAE8 data a4
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   d_0220BABC 0x0220BABC data a4
  *   d_0220BB18 0x0220BB18 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -138,7 +138,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02034A5C(int);
 extern void func_021BA374(char *);
 extern int ZUKAN_NICKNAME_Main(char *);
@@ -157,7 +157,7 @@ extern void ZUKAN_NICKNAME_SetupScreen(char *);
 extern int ZUKAN_NICKNAME_GetResult(char *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -169,22 +169,22 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
-extern void func_0201DD68(void);
+extern void GF_FONT_InitTextColor(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -272,7 +272,7 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,unsigned *p)
     GF_FONT_Delete((void *)p[2]);
     ZUKAN_TOROKU_GRAPHIC_DeleteDisplay((void *)p[1]);
     func_020315D4(a);
-    func_020306F0(106);
+    GFL_HEAP_DeleteChecked(106);
     func_02034A5C((OverlayId)overlay206);
     func_02034A5C((OverlayId)overlay67);
     return 1;
@@ -365,8 +365,8 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(unsigned *p)
     void *r;
     p[11]=1;
     BG_SYS_ClearSlot(3);
-    func_0204047C(1,3);
-    func_0204047C(3,0);
+    BG_SYS_SetVisibleLayer(1,3);
+    BG_SYS_SetVisibleLayer(3,0);
     r=func_020490F4(159,((struct Obj00162 *)p)->f0);
     func_02049B68(r,7,0,0,32,((struct Obj00162 *)p)->f0);
     p[12]=func_02049740(r,17,1,2048,0,((struct Obj00162 *)p)->f0);
@@ -416,11 +416,11 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_0220BAE8);
-    func_0204363C(a);
+    BMP_SetDisplaySwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     ZUKAN_TOROKU_GRAPHIC_InitBg(p,heap);
     ZUKAN_TOROKU_GRAPHIC_InitActors((unsigned char *)(p+1),(int)d_0220BAE8,heap);
     p[3]=(unsigned)func_020056A0((u32)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (u32)p, 0);
@@ -440,7 +440,7 @@ void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(unsigned *p)
     func_02030EAC((void *)p[3]);
     ZUKAN_TOROKU_GRAPHIC_DeleteActors((struct Bank **)(p+1));
     ZUKAN_TOROKU_GRAPHIC_ExitBg(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
@@ -486,12 +486,12 @@ void ZUKAN_TOROKU_GRAPHIC_InitBg(void *p,int heap)
     MI_CpuFill8(p,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_0220BABC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_0220BABC);
     for(i=0;i<4;i++) {
         const struct Entry *e=&d_0220BB18[i];
         unsigned id=e->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->fields,(u8)e->a);
-        func_020414AC(id);
+        BG_SYS_FreeSlot(id);
         func_02040588(id,e->b);
     }
 }
@@ -505,7 +505,7 @@ void ZUKAN_TOROKU_GRAPHIC_UpdateBg(void*p){}
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(void*p){func_020419E4();}
+void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(void*p){BG_SYS_Update();}
 
 
 

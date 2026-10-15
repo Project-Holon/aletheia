@@ -14,7 +14,7 @@
  *   func_02040588 0x02040588 arm
  *   func_020409B4 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020409B4(u32);
 extern void BG_SYS_Init(u32,u32,u32,u32);
-extern void func_02041300(u32,u32,u32,u32,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(u32,u32,u32,u32,u8,u8,u8);
 void GSYNC_DISP_InitBgLayers(u8 *p)
 {
     struct BgTemplate b[7];
@@ -39,8 +39,8 @@ void GSYNC_DISP_InitBgLayers(u8 *p)
     b[4]=gGsyncDispBgTemplates[2]; BG_SYS_InitBgLayer(3,&b[4],0); func_02040588(3,1); func_020409B4(3);
     b[3]=gGsyncDispBgTemplates[3]; BG_SYS_InitBgLayer(4,&b[3],0); func_02040588(4,1); func_020409B4(4);
     b[2]=gGsyncDispBgTemplates[4]; BG_SYS_InitBgLayer(5,&b[2],0);
-    BG_SYS_Init(5,0,1,0); func_02041300(5,0,0,0,32,32,17); func_02040588(5,1); func_020409B4(5);
+    BG_SYS_Init(5,0,1,0); BG_SYS_SetTileEntry(5,0,0,0,32,32,17); func_02040588(5,1); func_020409B4(5);
     b[1]=gGsyncDispBgTemplates[5]; BG_SYS_InitBgLayer(6,&b[1],0); func_02040588(6,1);
-    BG_SYS_Init(6,0,1,0); func_02041300(6,0,0,0,32,32,17); func_020409B4(6);
+    BG_SYS_Init(6,0,1,0); BG_SYS_SetTileEntry(6,0,0,0,32,32,17); func_020409B4(6);
     b[0]=gGsyncDispBgTemplates[6]; BG_SYS_InitBgLayer(7,&b[0],0); func_02040588(7,1); func_020409B4(7);
 }

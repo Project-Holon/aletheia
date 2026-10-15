@@ -1,5 +1,5 @@
 /*
- * function: func_0201F614
+ * function: BMP_MENUWORK_DeleteHalf
  * address:  0x0201F614
  * packet:   pkt_0201F614
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
-void func_0201F614(int a, u32 x)
+void BMP_MENUWORK_DeleteHalf(int a, u32 x)
 {
     BG_SYS_DeleteHalf((int)a, (u16)x, (u16)(x >> 16));
 }

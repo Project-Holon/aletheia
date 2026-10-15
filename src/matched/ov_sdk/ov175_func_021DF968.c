@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_SNPrintf  0x02084F80  arm
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021ACEF8  0x021ACEF8  data
  *   g_021ACEFC  0x021ACEFC  data
  *   gScStatsServiceUrl  0x021E52B4  data
@@ -22,7 +22,7 @@
  */
 
 extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int g_021ACEF8;
 extern char g_021ACEFC[];
 extern char gScStatsServiceUrl[128];
@@ -36,6 +36,6 @@ char *sciGetServiceUrl(void)
             OS_SNPrintf(gScStatsServiceUrl, 128, sSciServiceUrlFormat, g_021ACEFC);
         return gScStatsServiceUrl;
     }
-    func_0217D254(0, (char *)3, 1, sSciNoAvailabilityMessage);
+    gsDebugFormat(0, (char *)3, 1, sSciNoAvailabilityMessage);
     return 0;
 }

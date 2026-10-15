@@ -1,5 +1,5 @@
 /*
- * function: func_0215EFB0
+ * function: SOCL_GetStatus
  * address:  0x0215EFB0
  * packet:   pkt_ov009_0215EFB0
  * region:   ov009
@@ -17,8 +17,8 @@
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215F080  0x0215F080  arm  ov009
- *   func_0215E2C0  0x0215E2C0  arm  ov009
+ *   SOCLi_GetReadBufferOccpiedSize  0x0215F080  arm  ov009
+ *   SOCLi_GetWriteBufferFreeSize  0x0215E2C0  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
@@ -33,8 +33,8 @@ typedef struct {
 
 extern int func_0215F3D0(Socket *socket);
 extern unsigned long OS_DisableInterrupts(void);
-extern int func_0215F080(char *p);
-extern long func_0215E2C0(Socket *socket);
+extern int SOCLi_GetReadBufferOccpiedSize(char *p);
+extern long SOCLi_GetWriteBufferFreeSize(Socket *socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 static inline int IsStream(Socket *socket)
@@ -46,7 +46,7 @@ static inline int IsStream(Socket *socket)
 	return r;
 }
 
-int func_0215EFB0(int s)
+int SOCL_GetStatus(int s)
 {
 	unsigned long enable;
 	int result;
@@ -62,10 +62,10 @@ int func_0215EFB0(int s)
 		}
 		if (socket->flag_mode == 1 || (socket->state & 4)) {
 			enable = OS_DisableInterrupts();
-			if (func_0215F080((char *)socket) > 0) {
+			if (SOCLi_GetReadBufferOccpiedSize((char *)socket) > 0) {
 				result |= 1;
 			}
-			if (func_0215E2C0(socket) > 0) {
+			if (SOCLi_GetWriteBufferFreeSize(socket) > 0) {
 				result |= 8;
 			}
 			OS_RestoreInterrupts(enable);

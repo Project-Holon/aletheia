@@ -1,5 +1,5 @@
 /*
- * function: func_021D55AC
+ * function: POKETRADE_DEMO_UP_CreateUnitActor
  * address:  0x021D55AC
  * packet:   pkt_ov118_021D55AC
  * region:   ov118
@@ -43,7 +43,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
-void func_021D55AC(void *p)
+void POKETRADE_DEMO_UP_CreateUnitActor(void *p)
 {
     u32 v = ((struct Obj22665 *)((char *)((struct Obj03254 *)p)->fC))->fB0;
     if (v == 0) {

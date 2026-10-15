@@ -16,10 +16,10 @@
  * else here; the writer twin is POKE_TOOL_SetBoxValueRaw (src/matched/POKE_TOOL_SetBoxValueRaw.c).
  *
  * Of the eighteen relocation sites, three are calls to 0x0209C074 (_ll_shl,
- * the compiler's own 64 bit shift helper) and one is to func_02019BBC; a scan
+ * the compiler's own 64 bit shift helper) and one is to POKE_TOOL_GetPlateType; a scan
  * of every Thumb BL and BLX in the image finds those four sites and no
  * others, all four inside this one function, so neither the `label` nor
- * `matched` class alone ever had an outside witness for both.  func_02019BBC
+ * `matched` class alone ever had an outside witness for both.  POKE_TOOL_GetPlateType
  * resolves via the `matched` class (src/matched/unit_02019B58.c, an EXACT
  * entry proved over a range this file does not touch); 0x0209C074 resolves
  * via the `runtime` class, layout/runtime_arm9.txt's curated identification
@@ -30,7 +30,7 @@
  * ---------------------------------------------------------------------------
  * THE FIELD MAP
  * ---------------------------------------------------------------------------
- * func_02019C38(p, p->unk00, n) returns the n-th of four 0x20 byte substructs
+ * POKE_TOOL_GetBoxSubstruct(p, p->unk00, n) returns the n-th of four 0x20 byte substructs
  * inside the 0x80 byte block area at +0x08, permuted by the seed word; so the
  * four pointers a, b, c, d below are the substructs and every id is one field
  * of one of them.  Ids not listed fall to `default` and read back 0.
@@ -95,9 +95,9 @@
  *   0xAC       derived                     B +0x10 bits 0..29 repacked
  *   0xAD       derived                     0 for species 29 or 32 with
  *                                          B +0x10 bit 31 clear, else 1
- *   0xAE/0xAF  derived                     func_02019BBC(item) for species 493
+ *   0xAE/0xAF  derived                     POKE_TOOL_GetPlateType(item) for species 493
  *                                          with A +0x0D == 121, otherwise
- *                                          func_02019C90(species, form,
+ *                                          POKE_TOOL_GetPersonalParam(species, form,
  *                                          id - 0xA8)
  *
  * ---------------------------------------------------------------------------
@@ -158,13 +158,17 @@
  * symbols:
  *   _ll_shl        0x0209C074  arm
  *   gSpeciesNameBank       0x020A7370  data
- *   func_02019BBC  0x02019BBC  thumb
+ *   POKE_TOOL_GetPlateType  0x02019BBC  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   POKE_TOOL_CalcLevelFromExp  0x0201850C  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
+ *   POKE_CRYPTO_Checksum  0x02019A9C  thumb
+ *   POKE_TOOL_GetBoxSubstruct  0x02019C38  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
+ *   WORDSET_CopyString  0x0201F41C  thumb
  */
 
 typedef unsigned char      u8;
@@ -243,17 +247,17 @@ struct BlockD {
     u16 unk1E;
 };
 
-extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
-extern u16 func_02019A9C(const u16 *p, u32 size);
+extern void *POKE_TOOL_GetBoxSubstruct(struct Mon *p, u32 pid, u32 n);
+extern u16 POKE_CRYPTO_Checksum(const u16 *p, u32 size);
 struct MsgBank;
 struct MsgData;
 struct Strbuf;
 extern u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
 extern u8   POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
-extern u32 func_02019BBC(u32 item);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern u32 POKE_TOOL_GetPlateType(u32 item);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
@@ -263,10 +267,10 @@ extern void *gSpeciesNameBank;
 u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
 {
     u32 r = 0;
-    struct BlockA *a = (struct BlockA *)func_02019C38(p, p->unk00, 0);
-    struct BlockB *b = (struct BlockB *)func_02019C38(p, p->unk00, 1);
-    struct BlockC *c = (struct BlockC *)func_02019C38(p, p->unk00, 2);
-    struct BlockD *d = (struct BlockD *)func_02019C38(p, p->unk00, 3);
+    struct BlockA *a = (struct BlockA *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 0);
+    struct BlockB *b = (struct BlockB *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 1);
+    struct BlockC *c = (struct BlockC *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 2);
+    struct BlockD *d = (struct BlockD *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 3);
     u32 ok = 1;
 
     switch (id) {
@@ -390,7 +394,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
     case 0x6E:
         r = POKE_TOOL_CalcGender(a->species, b->f2, p->unk00);
         b->f1 = (u8)r;
-        p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);
+        p->unk06 = POKE_CRYPTO_Checksum((const u16 *)p->unk08, 0x80);
         break;
     case 0x6F: r = b->f2; break;
     case 0x70: r = b->unk19; break;
@@ -407,7 +411,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
         if (p->b2 != 0) {
             MSGDATA_ReadUnits(gSpeciesNameBank, 651, (void *)v, 11);
         } else {
-            func_0201F41C(c->unk00, (void *)v, 11);
+            WORDSET_CopyString(c->unk00, (void *)v, 11);
         }
         break;
     case 0x76: r = c->unk16; break;
@@ -426,7 +430,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
         STRBUF_SetString((void *)v, d->unk00);
         break;
     case 0x8E:
-        func_0201F41C(d->unk00, (void *)v, 8);
+        WORDSET_CopyString(d->unk00, (void *)v, 8);
         break;
     case 0x8F: r = d->unk10; break;
     case 0x90: r = d->unk11; break;
@@ -456,10 +460,10 @@ u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
     case 0xAE:
     case 0xAF:
         if (a->species == 493 && a->unk0D == 121) {
-            r = func_02019BBC(a->item);
+            r = POKE_TOOL_GetPlateType(a->item);
         } else {
             id -= 0xA8;
-            r = func_02019C90(a->species, b->f2, id);
+            r = POKE_TOOL_GetPersonalParam(a->species, b->f2, id);
         }
         break;
     }

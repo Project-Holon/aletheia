@@ -1,5 +1,5 @@
 /*
- * function: func_021666B8
+ * function: WCM_CompareBssID
  * address:  0x021666B8
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Tail call that supplies the constant third argument 6.
  *
  * symbols:
- *   func_02166680  0x02166680  arm  ov009
+ *   WcmCompareMemory  0x02166680  arm  ov009
  */
 
-extern int func_02166680(unsigned char *a, unsigned char *b, unsigned int n);
+extern int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n);
 
-void func_021666B8(int a, int b)
+void WCM_CompareBssID(int a, int b)
 {
-    func_02166680((unsigned char *)a, (unsigned char *)b, 6);
+    WcmCompareMemory((unsigned char *)a, (unsigned char *)b, 6);
 }
 

@@ -1,0 +1,6 @@
+#ifndef DEMO3D_ENGINE_SHARED_TYPES_H
+#define DEMO3D_ENGINE_SHARED_TYPES_H
+
+struct Rec;
+
+#endif

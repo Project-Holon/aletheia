@@ -1,5 +1,5 @@
 /*
- * function: func_021BAABC
+ * function: COMM_BTL_DEMO_MAIN_Init3dSystem
  * address: 0x021BAABC
  * packet: pkt_ov213_021BAABC
  * region: ov213
@@ -32,7 +32,7 @@ static inline void AntiAlias(BOOL enable) { if (enable) REG3D = (unsigned short)
 static inline void AlphaTest(BOOL enable, int ref) { if (enable) { REG3D = (unsigned short)((REG3D & ~0x3000) | 4); *(volatile unsigned short *)0x04000340 = ref; } else REG3D &= (unsigned short)~0x3004; }
 static inline void AlphaBlend(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 8); else REG3D &= (unsigned short)~0x3008; }
 static inline void EdgeMarking(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 0x20); else REG3D &= (unsigned short)~0x3020; }
-void func_021BAABC(void)
+void COMM_BTL_DEMO_MAIN_Init3dSystem(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);

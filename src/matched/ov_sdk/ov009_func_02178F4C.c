@@ -1,5 +1,5 @@
 /*
- * function: func_02178F4C
+ * function: DWC_Auth_GetCalInfoFromNVRAM
  * address:  0x02178F4C
  * packet:   pkt_ov009_02178F4C
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_BM_GetWiFiInfo  0x02058518  arm
- *   func_02178F78        0x02178F78  arm  ov009
+ *   DWC_Auth_GetCalInfoFromWiFiInfo        0x02178F78  arm  ov009
  */
 
 typedef struct {
@@ -22,11 +22,11 @@ typedef struct {
 extern void DWCi_BM_GetWiFiInfo(WiFiInfo *buf);
 struct DWCCalInfo;
 struct DWCWiFiInfo;
-extern int func_02178F78(struct DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
+extern int DWC_Auth_GetCalInfoFromWiFiInfo(struct DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
 
-int func_02178F4C(void *cal)
+int DWC_Auth_GetCalInfoFromNVRAM(void *cal)
 {
     WiFiInfo wifiinfo;
     DWCi_BM_GetWiFiInfo(&wifiinfo);
-    return func_02178F78(cal, (struct DWCWiFiInfo *)(&wifiinfo));
+    return DWC_Auth_GetCalInfoFromWiFiInfo(cal, (struct DWCWiFiInfo *)(&wifiinfo));
 }

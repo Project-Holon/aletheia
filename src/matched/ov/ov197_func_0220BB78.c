@@ -1,5 +1,5 @@
 /*
- * function: func_0220BB78
+ * function: B_BAG_MAIN_InitOtherPage
  * address:  0x0220BB78
  * packet:   pkt_0220BB78
  * region:   ov197
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj08354.h"
 
-void func_0220BB78(char *p)
+void B_BAG_MAIN_InitOtherPage(char *p)
 {
     ((struct Obj08354 *)p)->f270 = 4;
     ((struct Obj08354 *)p)->f272 = 0x1e;

@@ -1,5 +1,5 @@
 /*
- * function: func_02186108
+ * function: gpGetBuddyIndex
  * address:  0x02186108
  * packet:   pkt_ov009_02186108
  * region:   ov009
@@ -29,7 +29,7 @@ typedef struct GPIConnection {
 
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 
-int func_02186108(void **connection, int profile, int *index)
+int gpGetBuddyIndex(void **connection, int profile, int *index)
 {
     GPIProfile *pProfile;
 

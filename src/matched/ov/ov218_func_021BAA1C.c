@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  */
-extern void func_020419E4(void);
-void UN_SELECT_GRAPHIC_DrawObjects(void *a0) {func_020419E4();}
+extern void BG_SYS_Update(void);
+void UN_SELECT_GRAPHIC_DrawObjects(void *a0) {BG_SYS_Update();}

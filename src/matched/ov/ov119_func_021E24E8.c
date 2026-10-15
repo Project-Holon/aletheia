@@ -12,8 +12,8 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   POKETRADE_PROC_IsWifiMode 0x021D8ADC thumb ov119
  *   POKETRADE_2D_CreateOfferWindows 0x021E6CB8 thumb ov119
@@ -32,8 +32,8 @@ extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern int POKETRADE_PROC_IsWifiMode(char *);
 extern void POKETRADE_2D_CreateOfferWindows(char *);
@@ -58,8 +58,8 @@ void POKETRADE_SAVE_DrawOfferListWindows(char *p, int a1)
     GF_FONT_SetTextColor(15,2,0);
     for(j=0;j<2;j++) {
         MSGDATA_ReadString(P(0x720),128,P(0x734));
-        func_0201F02C(P(0x724),0,arr[j]);
-        func_0201F250(P(0x724),P(0x730),P(0x734));
+        WORDSET_SetSlotMyStatus(P(0x724),0,arr[j]);
+        WORDSET_CopyTaggedText(P(0x724),P(0x730),P(0x734));
         PRINTSYS_Print(*(void **)(p+j*16+0x10f4),0,0,P(0x730),P(0x728));
     }
     k=0;

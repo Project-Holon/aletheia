@@ -1,5 +1,5 @@
 /*
- * function: func_02019B44
+ * function: POKE_TOOL_GetNatureModifier
  * address:  0x02019B44
  * packet:   pkt_02019388
  * region:   arm9
@@ -15,7 +15,7 @@
  *
  * Verified with
  *   python tools/match.py one --src src/matched/sub_02019B44.c \
- *       --func func_02019B44 --addr 0x02019B44
+ *       --func POKE_TOOL_GetNatureModifier --addr 0x02019B44
  *
  * symbols:
  *   func_02019B04_Table  0x0209E324  data
@@ -26,7 +26,7 @@ typedef signed char  s8;
 
 extern const s8 func_02019B04_Table[][5];
 
-s8 func_02019B44(u32 a, u32 n)
+s8 POKE_TOOL_GetNatureModifier(u32 a, u32 n)
 {
     return func_02019B04_Table[a][n - 1];
 }

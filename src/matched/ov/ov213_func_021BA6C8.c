@@ -1,5 +1,5 @@
 /*
- * function: func_021BA6C8
+ * function: COMM_BTL_DEMO_MAIN_InitCursor
  * address: 0x021BA6C8
  * packet: pkt_ov213_021BA6C8
  * region: ov213
@@ -22,7 +22,7 @@ typedef struct { int f0, f4, f8, fC; } Out;
 typedef struct { int f0; u32 f4; int f8, fC, f10, f14, f18; u8 b1c,b1d,b1e; } In;
 extern u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p);
 extern void UI_SCENE_LoadActorGfx(Out *out, In *in, int unused, unsigned heap);
-void func_021BA6C8(char *p, void *state, short heap)
+void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, short heap)
 {
     int resource;
     In config;

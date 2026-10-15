@@ -1,5 +1,5 @@
 /*
- * function: func_02008E30
+ * function: RECORD_FoldPairs
  * address:  0x02008E30
  * packet:   pkt_02008E30
  * region:   arm9
@@ -31,7 +31,7 @@ extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern u32 func_02008D58(struct Sub02008C20Obj *obj, int i, u32 limit);
 extern u32 func_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value);
 
-void func_02008E30(void *a0)
+void RECORD_FoldPairs(void *a0)
 {
     u32 i;
 

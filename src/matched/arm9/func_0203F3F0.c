@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F3F0
+ * function: GF_STANDARD_Setup
  * address:  0x0203F3F0
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -21,8 +21,8 @@
  * GF_STANDARD_GetRtc.  The `ble` says +0x08 is signed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F3F0.c \
- *       --func func_0203F3F0 --addr 0x0203F3F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_Setup.c \
+ *       --func GF_STANDARD_Setup --addr 0x0203F3F0 --cc 1.1p1 --arm
  */
 
 #include "../include/G_021469FC.h"
@@ -36,7 +36,7 @@ extern struct G_021469FC g_021469FC;
 struct RtcRequest;
 extern void GF_STANDARD_GetRtc(struct RtcRequest *req);
 
-void func_0203F3F0(void)
+void GF_STANDARD_Setup(void)
 {
     if (g_021469FC.unk_04 != 0) {
         return;

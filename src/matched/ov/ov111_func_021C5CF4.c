@@ -1,5 +1,5 @@
 /*
- * function: func_021C5CF4
+ * function: VIEWER_MAIN_BlitRect
  * address:  0x021C5CF4
  * packet:   pkt_ov111_021C5CF4
  * region:   ov111
@@ -15,7 +15,7 @@
  * before j, k, n, give the image colours (xx r2, k r3, n r4).
  */
 typedef unsigned char u8;
-void func_021C5CF4(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode, int sel)
+void VIEWER_MAIN_BlitRect(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode, int sel)
 {
     int xx, yy;
     int j, k, n = 0;

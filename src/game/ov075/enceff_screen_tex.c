@@ -26,7 +26,7 @@
  *   d_021F55F8     0x021F55F8  data  ov075  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   GX_GetBankForTex  0x02080C44  arm
  *   func_02080B98  0x02080B98  arm
@@ -62,7 +62,7 @@ extern void G3X_Reset(void);
 extern void G3i_LookAt_(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int e);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct FieldMap *ICA_ANIME_GetField20(const struct GameSystem *gameSystem);
-extern void func_0204047C(int idx, u16 val);
+extern void BG_SYS_SetVisibleLayer(int idx, u16 val);
 extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
 extern u16 GX_GetBankForTex(void);
@@ -196,8 +196,8 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
         break;
     case 4:
         if (work->captureDone != 0) {
-            func_0204047C(0, 0);
-            func_0204047C(2, 3);
+            BG_SYS_SetVisibleLayer(0, 0);
+            BG_SYS_SetVisibleLayer(2, 3);
             work->savedDrawMode = FIELDMAP_GetDrawMode(fieldMap);
             texBanks = GX_GetBankForTex();
             work->texBanks = texBanks;
@@ -282,8 +282,8 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
         break;
     case 1:
         if (work->captureDone != 0) {
-            func_0204047C(0, 0);
-            func_0204047C(2, 3);
+            BG_SYS_SetVisibleLayer(0, 0);
+            BG_SYS_SetVisibleLayer(2, 3);
             work->savedDrawMode = FIELDMAP_GetDrawMode(fieldMap);
             texBanks = GX_GetBankForTex();
             work->texBanks = texBanks;

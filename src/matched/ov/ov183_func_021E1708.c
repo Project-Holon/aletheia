@@ -1,5 +1,5 @@
 /*
- * function: func_021E1708
+ * function: BR_CODEIN_ProfileBuildAnimName
  * address: 0x021E1708
  * packet: pkt_ov183_021E1708
  * region: ov183
@@ -13,10 +13,10 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Append 0x02045AA8 arm
- *   func_0201F35C 0x0201F35C thumb
+ *   WORDSET_FormatNumber 0x0201F35C thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021E0E40 0x021E0E40 thumb ov183
- *   func_021E1374 0x021E1374 thumb ov183
+ *   BR_CODEIN_ProfileGetActorIndex 0x021E0E40 thumb ov183
+ *   BR_CODEIN_ProfileSetAnimSeq 0x021E1374 thumb ov183
  *   _ull_mul 0x0209C054 arm
  */
 typedef unsigned char u8;
@@ -28,11 +28,11 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
-extern void func_0201F35C(void *, int, u32, u32, u32);
+extern void WORDSET_FormatNumber(void *, int, u32, u32, u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021E0E40(int, int);
-extern void func_021E1374(char *, int);
-void func_021E1708(char *p)
+extern int BR_CODEIN_ProfileGetActorIndex(int, int);
+extern void BR_CODEIN_ProfileSetAnimSeq(char *, int);
+void BR_CODEIN_ProfileBuildAnimName(char *p)
 {
   u32 group = 0;
   u32 i;
@@ -63,11 +63,11 @@ void func_021E1708(char *p)
       if ((*((int *) record)) == 0)
       {
         *((int *) record) = 1;
-        CLACT_SetActorAnimSeq(*((void **) (record + 12)), func_021E0E40(1, *((int *) (record + 8))));
+        CLACT_SetActorAnimSeq(*((void **) (record + 12)), BR_CODEIN_ProfileGetActorIndex(1, *((int *) (record + 8))));
       }
       tmp = *((u32 *) record);
       digit = tmp - 1;
-      func_0201F35C(text, digit, 1, 1, 1);
+      WORDSET_FormatNumber(text, digit, 1, 1, 1);
       STRBUF_Append(*((void **) (p + 0x33C)), text);
       *((int *) ((((u32) p) + (group * 4)) + 0x354)) *= 10;
       *((int *) ((((u32) p) + (group * 4)) + 0x354)) += digit;
@@ -84,6 +84,6 @@ void func_021E1708(char *p)
     while (((int) i) < (*((int *) (p + 0x23C))));
   }
   STRBUF_Delete(text);
-  func_021E1374(p, 3);
+  BR_CODEIN_ProfileSetAnimSeq(p, 3);
   *((int *) (p + 0x350)) = 2;
 }

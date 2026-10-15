@@ -1,5 +1,5 @@
 /*
- * function: func_021F2150
+ * function: NAMEIN_GRAPHIC_Backspace
  * address:  0x021F2150
  * packet:   pkt_021F2150
  * region:   ov194
@@ -16,7 +16,7 @@
 
 extern unsigned short STRBUF_GetEosChar(void);
 
-int func_021F2150(unsigned char *p)
+int NAMEIN_GRAPHIC_Backspace(unsigned char *p)
 {
     if (((struct Obj03896 *)p)->f20 != 0) {
         ((struct Obj03896 *)p)->f20 -= 1;

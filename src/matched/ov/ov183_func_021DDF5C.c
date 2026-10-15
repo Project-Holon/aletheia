@@ -1,5 +1,5 @@
 /*
- * function: func_021DDF5C
+ * function: BR_CODEIN_ListDeleteButtons
  * address: 0x021DDF5C
  * packet: pkt_ov183_021DDF5C
  * region: ov183
@@ -21,7 +21,7 @@ extern void BR_UTIL_Delete(u8 *p);
 extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
-void func_021DDF5C(char *p, char *q)
+void BR_CODEIN_ListDeleteButtons(char *p, char *q)
 {
     int i;
     char *slot;

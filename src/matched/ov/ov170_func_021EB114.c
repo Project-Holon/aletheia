@@ -13,7 +13,7 @@
  *   BOX2_SEQ_PrintTextWinEx 0x021EAC28 thumb ov170
  *   BOX2_SEQ_PrintTextWin 0x021EABD0 thumb ov170
  *   BOX2_SEQ_MakeScreen 0x021EABA0 thumb ov170
- *   func_0201EF8C 0x0201EF8C thumb
+ *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
  */
 #include "../include/Obj00414.h"
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; } Entry;
@@ -27,12 +27,12 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BOX2_SEQ_PrintTextWinEx(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void BOX2_SEQ_PrintTextWin(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
 extern void BOX2_SEQ_MakeScreen(void **);
-extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 void BOX2_SEQ_DrawSwapEntry(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!((Entry *)e)->flag) {
-        func_0201EF8C(((struct Obj00414 *)p)->f84, 0, e[14]);
+        WORDSET_SetSlotFromMsgB6(((struct Obj00414 *)p)->f84, 0, e[14]);
         BOX2_SEQ_PrintTextWinEx(p, i, ((struct Obj00414 *)p)->f80, 97, 0, 0, ((struct Obj00414 *)p)->f78, 0x440);
     } else {
         BOX2_SEQ_PrintTextWin((unsigned char *)p, i, ((struct Obj00414 *)p)->f80, 106, 0, 0, ((struct Obj00414 *)p)->f78, 0x440);

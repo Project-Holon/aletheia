@@ -1,5 +1,5 @@
 /*
- * function: func_02210FCC
+ * function: B_PLIST_MAIN_InitSelectionForMode
  * address: 0x02210FCC
  * packet: pkt_ov198_02210FCC
  * region: ov198
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_022119F8 0x022119F8 thumb ov198
+ *   B_PLIST_MAIN_RecreateCursor 0x022119F8 thumb ov198
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_022119F8(u8 *,u32,u32);
-void func_02210FCC(u8 *p, u32 state)
+extern void B_PLIST_MAIN_RecreateCursor(u8 *,u32,u32);
+void B_PLIST_MAIN_InitSelectionForMode(u8 *p, u32 state)
 {
     u32 value;
     switch(state) {
@@ -34,5 +34,5 @@ void func_02210FCC(u8 *p, u32 state)
     case 7: value=p[0x2192]; break;
     case 2: case 5: value=0; break;
     }
-    func_022119F8(p,state,value);
+    B_PLIST_MAIN_RecreateCursor(p,state,value);
 }

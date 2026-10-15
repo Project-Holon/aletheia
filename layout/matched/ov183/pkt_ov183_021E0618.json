@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E0618",
+   "name": "BR_CODEIN_CodeMain2",
    "address": "0x021E0618",
    "kind": "game",
    "region": "ov183",

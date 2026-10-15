@@ -12,7 +12,7 @@
  * sdk:      ghiDoHostLookup (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
  *   inet_addr  0x0217ED38  arm   ov009
  *   gsiStartResolvingHostname  0x0217F150  arm   ov009
  *   ghiCallProgressCallback  0x021C02C8  arm   ov114
@@ -37,7 +37,7 @@ typedef struct GHIConnection {
     void *f1CC;
 } GHIConnection;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int inet_addr(int a);
 struct GSIResolveHostnameInfo;
 extern int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
@@ -55,7 +55,7 @@ void ghiDoHostLookup(GHIConnection *connection)
         ghiCallProgressCallback(connection, 0, 0);
         return;
     }
-    func_0217D254(8, (char *)3, 16, sGhttpHostLookup);
+    gsDebugFormat(8, (char *)3, 16, sGhttpHostLookup);
     server = connection->f18C;
     if (server == 0) {
         server = gGhttpProxyServer;
@@ -65,7 +65,7 @@ void ghiDoHostLookup(GHIConnection *connection)
     connection->f1C = inet_addr((int)server);
     if (connection->f1C == (unsigned int)-1) {
         if (gsiStartResolvingHostname(server, (struct GSIResolveHostnameInfo **)(&connection->f1CC)) == -1) {
-            func_0217D254(8, (char *)3, 1, sGhttpThreadCreationFailed);
+            gsDebugFormat(8, (char *)3, 1, sGhttpThreadCreationFailed);
             connection->f1CC = 0;
             connection->f124 = 1;
             connection->f40 = 4;

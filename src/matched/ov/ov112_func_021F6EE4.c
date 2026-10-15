@@ -1,5 +1,5 @@
 /*
- * function: func_021F6EE4
+ * function: STA_ACT_LIGHT_DeleteActor
  * address: 0x021F6EE4
  * packet: pkt_ov112_021F6EE4
  * region: ov112
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *);
-void func_021F6EE4(void *unused,u8 *p) { CLACT_DeleteActor(*(struct Obj * *)&((struct Obj13836 *)p)->f1C); ((struct Obj13836 *)p)->f0=0; }
+void STA_ACT_LIGHT_DeleteActor(void *unused,u8 *p) { CLACT_DeleteActor(*(struct Obj * *)&((struct Obj13836 *)p)->f1C); ((struct Obj13836 *)p)->f0=0; }

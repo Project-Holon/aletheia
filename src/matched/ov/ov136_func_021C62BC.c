@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F73C   0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow   0x0201F73C  thumb
  *   func_02041B6C    0x02041B6C  arm
  *   BMP_WIN_TransferChars            0x02045334  arm
  *   BMP_WIN_MakeScreen   0x02045374  arm
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Cfg;
 struct Descriptor;
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -32,7 +32,7 @@ extern void func_02041B6C(u32 bit);
 void MB_SEQ_ShowMessageWindow(u8 *p)
 {
     void *q;
-    func_0201F73C(((struct Obj23566 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8, 2, 0x3E2, 0xD);
+    BMP_MENUWORK_DrawWindow(((struct Obj23566 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8, 2, 0x3E2, 0xD);
     q = ((struct Obj23567 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA8C
+ * function: COMM_BTL_DEMO_MAIN_CountFlags
  * address: 0x021BAA8C
  * packet: pkt_ov213_021BAA8C
  * region: ov213
@@ -19,4 +19,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern u32 POKEPARTY_GetCount(void *);
-int func_021BAA8C(char *p) { void *q; u8 *flags; int i,n; q=((struct Obj25712 *)p)->f0; n=0; flags=(u8 *)p+10; for(i=0;i<(int)POKEPARTY_GetCount(q);i++) if(flags[i]<=1) n++; return n; }
+int COMM_BTL_DEMO_MAIN_CountFlags(char *p) { void *q; u8 *flags; int i,n; q=((struct Obj25712 *)p)->f0; n=0; flags=(u8 *)p+10; for(i=0;i<(int)POKEPARTY_GetCount(q);i++) if(flags[i]<=1) n++; return n; }

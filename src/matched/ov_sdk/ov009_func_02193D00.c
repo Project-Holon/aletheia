@@ -15,7 +15,7 @@
  *   func_0217EB9C 0x0217EB9C  arm
  *   closesocket 0x0217EB2C  arm
  *   ClosePendingCallbacks 0x02194614  arm
- *   func_0217EAE0 0x0217EAE0  arm
+ *   gsifree 0x0217EAE0  arm
  *   gGstatsSocket   0x021A57C8  data
  *   gGstatsConn   0x021ADFE0  data
  */
@@ -26,7 +26,7 @@
 extern int func_0217EB9C(int sock, int how);
 extern int closesocket(int sock);
 extern void ClosePendingCallbacks(void);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern struct StatsSocket gGstatsSocket;
 extern struct StatsConn gGstatsConn;
 
@@ -39,7 +39,7 @@ void CloseStatsConnection(void)
     ((int *)&gGstatsSocket)[1] = -1;
     ClosePendingCallbacks();
     if (((int *)&gGstatsConn)[10] != 0) {
-        func_0217EAE0((void *)((int *)&gGstatsConn)[10]);
+        gsifree((void *)((int *)&gGstatsConn)[10]);
         ((int *)&gGstatsConn)[10] = 0;
         ((int *)&gGstatsConn)[6] = 0;
         ((int *)&gGstatsConn)[2] = 0;

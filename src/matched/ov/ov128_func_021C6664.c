@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021CA10C 0x021CA10C thumb ov128
+ *   WF2DMAP_TOUCH_DeletePalAnims 0x021CA10C thumb ov128
  *   func_021C6DAC 0x021C6DAC thumb ov128
  *   func_021C6AC0 0x021C6AC0 thumb ov128
  *   func_021C6A5C 0x021C6A5C thumb ov128
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021CA10C(u8 *);
+extern void WF2DMAP_TOUCH_DeletePalAnims(u8 *);
 extern void func_021C6DAC(u8 *);
 extern void func_021C6AC0(u8 *);
 extern void func_021C6A5C(u8 *);
@@ -29,4 +29,4 @@ extern void func_021C6980(u8 *);
 extern void func_021C68C4(char *p);
 extern void func_021C6790(u8 *);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C6664(u8 *p) {func_021CA10C(p);func_021C6DAC(p);func_021C6AC0(p);func_021C6A5C(p);func_021C6980(p);func_021C68C4((char *)p);func_021C6790(p);ARC_TOOL_DeleteHandle(((struct Obj00725 *)p)->f8);}
+void func_021C6664(u8 *p) {WF2DMAP_TOUCH_DeletePalAnims(p);func_021C6DAC(p);func_021C6AC0(p);func_021C6A5C(p);func_021C6980(p);func_021C68C4((char *)p);func_021C6790(p);ARC_TOOL_DeleteHandle(((struct Obj00725 *)p)->f8);}

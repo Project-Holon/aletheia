@@ -1,5 +1,5 @@
 /*
- * function: func_02176C00
+ * function: DWCi_ProcessReliableQueue
  * address:  0x02176C00
  * packet:   pkt_02155168
  * region:   ov009
@@ -13,14 +13,14 @@
  *
  * symbols:
  *   func_02195CC0  0x02195CC0  arm  ov009
- *   func_02176C14  0x02176C14  arm  ov009
+ *   DWCi_ProcessReliableQueueEx  0x02176C14  arm  ov009
  */
 
 extern void func_02195CC0(void);
-extern int func_02176C14(int (*func)(void *, unsigned char *, int, int));
+extern int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int));
 
-int func_02176C00(void)
+int DWCi_ProcessReliableQueue(void)
 {
-    return func_02176C14((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
+    return DWCi_ProcessReliableQueueEx((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
 }
 

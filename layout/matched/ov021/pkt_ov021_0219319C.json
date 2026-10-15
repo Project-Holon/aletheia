@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219319C",
+   "name": "FIELD_MSGBG_StoreSubMsgWin",
    "address": "0x0219319C",
    "kind": "game",
    "region": "ov021",

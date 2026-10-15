@@ -12,6 +12,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Create 0x020457B0 arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj08145.h"
 typedef unsigned int   u32;
@@ -20,14 +21,14 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned short u16;
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void P_STATUS_PrintWordSetMsg(unsigned char *p,int a,void *b,int c,short d,short e,unsigned short f) {
  void *t=STRBUF_Create(16,((struct Obj08145 *)p)->f0);
  void *s=func_02045EC0(((struct Obj08145 *)p)->f7C,c);
- func_0201F250(b,t,s);
+ WORDSET_CopyTaggedText(b,t,s);
  PRINTSYS_PrintQueColor(((struct Obj08145 *)p)->f84,a,d,e,(u32)t,((struct Obj08145 *)p)->f80,f);
  STRBUF_Delete(s);
  STRBUF_Delete(t);

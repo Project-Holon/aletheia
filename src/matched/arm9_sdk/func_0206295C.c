@@ -1,5 +1,5 @@
 /*
- * function: func_0206295C
+ * function: NNSi_G2dFixupMultiCellAnimBankTbl
  * address:  0x0206295C
  * packet:   pkt_0206295C
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062BAC 0x02062BAC arm
+ *   NNSi_G2dFixupOffsets 0x02062BAC arm
  */
 
 typedef unsigned char u8;
 struct Tbl;
-extern void func_02062BAC(struct Tbl *t);
+extern void NNSi_G2dFixupOffsets(struct Tbl *t);
 
-void func_0206295C(void *animBank)
+void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank)
 {
-    func_02062BAC((struct Tbl *)((u8 *)animBank + 8));
+    NNSi_G2dFixupOffsets((struct Tbl *)((u8 *)animBank + 8));
 }

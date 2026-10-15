@@ -38,7 +38,7 @@
  *   func_021D96C4 0x021D96C4 thumb ov121
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   OS_ResetSystem 0x02087BCC arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
@@ -57,7 +57,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BG_SYS_InitRun 0x02040B94 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -131,7 +131,7 @@
  *   STRBUF_SetStringN 0x02045994 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_0204989C 0x0204989C arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_021DA4DC 0x021DA4DC thumb ov121
  *   BG_SYS_ClearSlot 0x020414EC arm
@@ -357,7 +357,7 @@ extern void func_021D96C4(u8 *p);
 extern void MYSTERY_DATA_Delete(void *);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void OS_ResetSystem(u32 parameter);
 extern void func_02034A5C(int);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
@@ -377,7 +377,7 @@ extern void func_02049B68();
 extern void func_02049658();
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
@@ -454,7 +454,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0204989C(int,int,int,int,int,int,int);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void *func_021DA4DC(Desc_021D8138 *,int);
 extern void BG_SYS_ClearSlot(unsigned);
@@ -641,7 +641,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     MYSTERY_DATA_Delete(((struct Obj02176 *)p)->f3BC);
     GAME_DATA_Delete(((struct Obj02176 *)p)->f3B8);
     func_020315D4(a);
-    func_020306F0(29);
+    GFL_HEAP_DeleteChecked(29);
     OS_ResetSystem(0);
     func_02034A5C((int)ov_id);
     GFL_USE_CancelChangeAndStopBgm();
@@ -718,8 +718,8 @@ void func_021D694C(u16 *p,int mode)
         func_02049B68(arc,5,0,480,32,heap);
         func_02049B68(arc,5,4,480,32,heap);
         ARC_TOOL_DeleteHandle(arc);
-        func_0201F5BC(1,10,14,0,heap);
-        func_0201F5BC(0,1,13,0,heap);
+        BMP_MENUWORK_LoadCharAndPltt(1,10,14,0,heap);
+        BMP_MENUWORK_LoadCharAndPltt(0,1,13,0,heap);
         BG_SYS_InitRun(1,32,0,heap);
         BG_SYS_InitRun(0,32,0,heap);
         break;
@@ -1663,7 +1663,7 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     if(which==2) func_0204989C(34,30,2,0,0,0,heap);
     else func_0204989C(34,29,2,0,0,0,heap);
     ARC_TOOL_DeleteHandle(archive);
-    func_020413B0(2,0,0,32,24,4);
+    BG_SYS_FillTileMap(2,0,0,32,24,4);
     func_020409B4(2);
     func_02040588(2,1);
     ((struct Obj00326 *)p)->f270=func_021DA4DC(&d,heap);

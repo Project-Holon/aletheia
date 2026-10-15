@@ -1,5 +1,5 @@
 /*
- * function: func_021B99F4
+ * function: MANUAL_GRAPHIC_DrawScreen
  * address:  0x021B99F4
  * packet:   pkt_021B99F4
  * region:   ov225
@@ -12,17 +12,17 @@
  * Destructor pair: tears down the tail field then the head.
  *
  * symbols:
- *   func_021B9B28  0x021B9B28  thumb  ov225
- *   func_021B9AC0  0x021B9AC0  thumb  ov225
+ *   MANUAL_GRAPHIC_DrawClactUnit  0x021B9B28  thumb  ov225
+ *   MANUAL_GRAPHIC_DrawBg  0x021B9AC0  thumb  ov225
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021B9B28(void *);
-extern void func_021B9AC0(void *);
+extern void MANUAL_GRAPHIC_DrawClactUnit(void *);
+extern void MANUAL_GRAPHIC_DrawBg(void *);
 
-void func_021B99F4(char *p)
+void MANUAL_GRAPHIC_DrawScreen(char *p)
 {
-    func_021B9B28(p + 4);
-    func_021B9AC0(p);
+    MANUAL_GRAPHIC_DrawClactUnit(p + 4);
+    MANUAL_GRAPHIC_DrawBg(p);
 }

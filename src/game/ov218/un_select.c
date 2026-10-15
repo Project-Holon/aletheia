@@ -21,7 +21,7 @@
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   UN_SELECT_GRAPHIC_Delete 0x021BA8F0 thumb ov218
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data a1
  *   UI_SCENE_Step 0x021B6144 thumb ov067
@@ -31,7 +31,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02049DF4 0x02049DF4 arm
- *   func_02040B1C 0x02040B1C arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -51,7 +51,7 @@
  *   d_021BB088 0x021BB088 data ov218 a4
  *   func_02030734 0x02030734 arm
  *   func_02049B40 0x02049B40 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -77,13 +77,13 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   TCBL_Main  0x020310C4  arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   func_0201D2C8 0x0201D2C8 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
@@ -92,7 +92,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   FRAME_LIST_GetItemValue 0x021B9398 thumb ov067
  *   FRAME_LIST_GetPrinter 0x021B9394 thumb ov067
  *   func_021B9AE4 0x021B9AE4 thumb ov218
@@ -128,7 +128,7 @@
  *   func_021B9B78 0x021B9B78 thumb ov218
  *   func_021B9C00 0x021B9C00 thumb ov218
  *   BRIGHTNESS_IsFinished 0x02024004 thumb
- *   func_0201F048 0x0201F048 thumb
+ *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -258,7 +258,7 @@ extern void UI_SCENE_Delete(void *);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void UN_SELECT_GRAPHIC_Delete(char *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int);
 extern int UI_SCENE_Step(struct S *);
 extern void UN_SELECT_GRAPHIC_Update(char *);
@@ -267,7 +267,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void MI_CpuFill8(void *, u32, u32);
@@ -285,7 +285,7 @@ extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
@@ -311,13 +311,13 @@ extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u32 func_0201D2C8(struct StrObj *s);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern unsigned int PRINTSYS_PrintStreamGetState(void *);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *, int);
@@ -329,7 +329,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 void func_021B9AE4();
 void func_021B9B78(char *p, u32 id);
 int func_021B9C00(char *p);
-extern void func_0201F7A8(void *,u32);
+extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern u32 FRAME_LIST_GetItemValue(char *p, int index);
 extern unsigned FRAME_LIST_GetPrinter(char *p);
 extern int FRAME_LIST_GetScrollBarTop(u8 *);
@@ -358,7 +358,7 @@ extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
 extern unsigned UI_SCENE_GetPhaseFrame(const unsigned char *p);
 extern void UI_SCENE_AdvancePhaseFrame(u8 *a);
 extern int BRIGHTNESS_IsFinished(int a);
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern unsigned char APP_TASKMENU_GetCursorPos(const unsigned char *);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -485,7 +485,7 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
         UN_SELECT_GRAPHIC_Delete(*(char * *)&((struct Obj01983 *)p)->f4);
         heap = ((struct Obj01983 *)p)->f0;
         func_020315D4(ctx);
-        func_020306F0(heap);
+        GFL_HEAP_DeleteChecked(heap);
         func_02034A5C((int)ov067_id);
         return 1;
     }
@@ -560,9 +560,9 @@ void func_021B96CC(u8 *p, u16 heap)
             buf[off + 7] = 0xff;
         }
     }
-    func_02040B1C(7, *(void **)(o1 + 0x14), *(u32 *)(o1 + 0x10), 0);
+    BG_SYS_LoadTileData(7, *(void **)(o1 + 0x14), *(u32 *)(o1 + 0x10), 0);
     func_020307B0(w1);
-    func_02040B1C(3, *(void **)(o2 + 0x14), *(u32 *)(o2 + 0x10), 0);
+    BG_SYS_LoadTileData(3, *(void **)(o2 + 0x14), *(u32 *)(o2 + 0x10), 0);
     func_020307B0(w2);
     ARC_TOOL_DeleteHandle(h);
 }
@@ -693,7 +693,7 @@ void *func_021B9964(u16 heap)
     p=func_02030734(heap,0x234,1,d_021BB088,0x3cc);
     *(u16 *)p=heap;
     func_02049B40(23,5,0,0x1c0,32,heap);
-    func_0201F5BC(0,1,15,0,heap);
+    BMP_MENUWORK_LoadCharAndPltt(0,1,15,0,heap);
     *(void **)(p+0x14)=GF_FONT_Create_EC64(heap);
     *(void **)(p+8)=func_02045B38(0,2,229,heap);
     *(void **)(p+0x10)=(void *)PRINTSYS_QUE_Create((void *)heap);
@@ -758,8 +758,8 @@ void func_021B9AE4(p, a, b, cd)
     u32 r = 12;
     u32 t = 0x83 - d;
     func_02045CAC(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
-    func_0201EFA4(*(void **)(p + 0x14), 2, t, 3, 0, 1);
-    func_0201F250(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
+    WORDSET_SetSlotNumber(*(void **)(p + 0x14), 2, t, 3, 0, 1);
+    WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
     TOUCHBAR_PrintAligned(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
     if (func_0201D2C8((struct StrObj *)(*(u32 *)(p + d * 4))) > 1) r = 4;
@@ -774,9 +774,9 @@ void func_021B9B78(char *p, u32 id)
     BMP_Clear(BMP_WIN_GetBmp(obj), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     func_02045CAC(*(struct MsgBank * *)&((struct Obj02265 *)p)->f8, id, ((struct Obj02265 *)p)->f18);
-    func_0201F250(*(struct WordSet * *)&((struct Obj02265 *)p)->f14, ((struct Obj02265 *)p)->f1C, ((struct Obj02265 *)p)->f18);
+    WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct Obj02265 *)p)->f14, ((struct Obj02265 *)p)->f1C, ((struct Obj02265 *)p)->f18);
     ((struct Obj02265 *)p)->f20 = PRINTSYS_PrintStream((u32)obj, 4, 0, *(u32 *)&((struct Obj02265 *)p)->f1C, ((struct Obj02265 *)p)->fC, value, ((struct Obj02265 *)p)->f4, 65535, ((struct Obj02265 *)p)->f0, 15);
-    func_0201F73C(((struct Obj02265 *)p)->f24, 2, 1, 15);
+    BMP_MENUWORK_DrawWindow(((struct Obj02265 *)p)->f24, 2, 1, 15);
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen((struct Cfg *)obj);
     func_02041B6C(BMP_WIN_GetBgLayer(obj));
@@ -813,7 +813,7 @@ int func_021B9C00(char *p)
 
 void func_021B9C74(u8 *p)
 {
-    func_0201F7A8(((struct Obj26040 *)p)->f24,1);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj26040 *)p)->f24,1);
 }
 
 
@@ -1068,7 +1068,7 @@ u32 func_021BA0B0(u8 *a, u8 *b)
     case 1:
         if (FADE_IsActive() == 1) break;
         if (BRIGHTNESS_IsFinished(1) == 0) break;
-        func_0201F048((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
+        WORDSET_SetSlotFromMsgE7((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
         func_021B9B78((char *)(*(u8 **)(b + 0x28)), 0xEA);
         goto tail;
     case 2:

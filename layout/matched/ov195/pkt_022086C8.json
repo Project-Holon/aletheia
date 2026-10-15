@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022086C8",
+   "name": "SHINKA_DEMO_EFFECT_CreateNodes",
    "address": "0x022086C8",
    "kind": "game",
    "region": "ov195",

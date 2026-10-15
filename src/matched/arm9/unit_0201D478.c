@@ -12,7 +12,7 @@
  *
  * Counts the control tags of a message string for which GF_FONT_CheckD5CC returns
  * true.  The walk is the one every routine in this neighbourhood uses: 0xF000
- * opens a tag and func_0201D688 steps over it, anything else is one halfword,
+ * opens a tag and GF_FONT_SkipTag steps over it, anything else is one halfword,
  * and 0xFFFF ends the string.
  *
  * The counter and the cursor are interchanged unless the cursor is declared
@@ -30,6 +30,7 @@
  * symbols:
  *   STRBUF_GetChars  0x02045A90  arm
  *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
+ *   GF_FONT_SkipTag  0x0201D688  thumb
  */
 
 typedef unsigned char  u8;
@@ -39,7 +40,7 @@ typedef unsigned int   u32;
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32  GF_FONT_CheckD5CC(const u16 *p);
-extern u16 *func_0201D688(u16 *p);
+extern u16 *GF_FONT_SkipTag(u16 *p);
 
 u32 GF_FONT_CountControlTag(void *s)
 {
@@ -53,7 +54,7 @@ u32 GF_FONT_CountControlTag(void *s)
             if (GF_FONT_CheckD5CC(p) != 0) {
                 n = (u16)(n + 1);
             }
-            p = func_0201D688(p);
+            p = GF_FONT_SkipTag(p);
         } else {
             p = p + 1;
         }

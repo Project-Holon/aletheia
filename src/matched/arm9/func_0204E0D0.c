@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062A00  0x02062A00  arm
+ *   NNS_G2dGetUnpackedCharacterData  0x02062A00  arm
  *   CLACT_SetupCharacterVram  0x0204DACC  arm
  *
- * Resolve a handle through func_02062A00 into a stack temporary and, only
+ * Resolve a handle through NNS_G2dGetUnpackedCharacterData into a stack temporary and, only
  * on success, hand it to CLACT_SetupCharacterVram together with the two stacked
  * arguments, then clear bit 31 of +0x3c in the 0x40-byte slot `idx` of the
  * table at `owner->unk_08`.
@@ -57,7 +57,7 @@ struct NitroFileHeader;
 struct Ovr;
 struct Res;
 struct Sink;
-extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 extern void CLACT_SetupCharacterVram(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr, u32 mode);
 
 void CLACT_SetupCharacter(struct Owner *owner, s32 idx, u32 handle, u32 a3, u32 a4)
@@ -65,7 +65,7 @@ void CLACT_SetupCharacter(struct Owner *owner, s32 idx, u32 handle, u32 a3, u32 
     u32 value;
     struct Slot *slot;
 
-    if (func_02062A00((struct NitroFileHeader *)handle, (void **)(&value)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterData((struct NitroFileHeader *)handle, (void **)(&value)) != 0) {
         CLACT_SetupCharacterVram((struct Res *)owner, idx, (struct Sink *)value, (struct Ovr *)a4, a3);
         slot = &owner->slots[idx];
         slot->unk_3c &= ~0x80000000;

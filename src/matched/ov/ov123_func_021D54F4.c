@@ -23,6 +23,7 @@
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
  */
 #include "../include/Obj00499.h"
 typedef unsigned char u8;
@@ -46,7 +47,7 @@ struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02028590(u32,u32,u32,u32);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void *func_0201F5DC(void *,u32,u32,u32);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *,u32,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 u8 *GSYNC_MESSAGE_InitSystem(u32 heap,u32 bank)
 {
@@ -63,8 +64,8 @@ u8 *GSYNC_MESSAGE_InitSystem(u32 heap,u32 bank)
     ((struct Obj00499 *)p)->f20=func_02045B38(0,2,(u16)bank,((struct Obj00499 *)p)->fB0);
     ((struct Obj00499 *)p)->f40=func_02028590(15,1,1,((struct Obj00499 *)p)->fB0);
     ((struct Obj00499 *)p)->fA4=APP_TASKMENU_RES_Create(5,9,*(u32 *)&((struct Obj00499 *)p)->f28,((struct Obj00499 *)p)->f88,((struct Obj00499 *)p)->fB0);
-    ((struct Obj00499 *)p)->f8=func_0201F5DC((void *)5,12,0,((struct Obj00499 *)p)->fB0);
-    ((struct Obj00499 *)p)->f4=func_0201F5DC((void *)6,12,0,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f8=BMP_MENUWORK_LoadFrameGfx((void *)5,12,0,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f4=BMP_MENUWORK_LoadFrameGfx((void *)6,12,0,((struct Obj00499 *)p)->fB0);
     func_02049B40(23,5,4,352,32,((struct Obj00499 *)p)->fB0);
     func_02049B40(23,5,0,352,32,((struct Obj00499 *)p)->fB0);
     return p;

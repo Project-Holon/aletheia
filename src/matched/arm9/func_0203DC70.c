@@ -50,7 +50,7 @@
  *   GFL_NET_IRC_WIRELESS_OnSyncReady  0x0203DC04  arm
  *   GFL_NET_IRC_WIRELESS_OnConnectEnd  0x0203DC4C  arm
  *   GFL_NET_IRC_WIRELESS_SetState  0x0203DC68  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  */
 
@@ -99,7 +99,7 @@ extern void GFL_NET_IRC_WIRELESS_DestroyIfIdle(void);
 extern void GFL_NET_IRC_WIRELESS_OnSyncReady(void);
 extern void GFL_NET_IRC_WIRELESS_OnConnectEnd(void);
 extern void GFL_NET_IRC_WIRELESS_SetState(struct Ctx *p, int state);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void OS_GetMacAddress(u8 *mac);
 
 void GFL_NET_IRC_WIRELESS_Main(void)
@@ -238,7 +238,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
             if (q == 0)
                 return;
             for (j = 0; j < 4; j++) {
-                if (func_0203EFC8(mac, q + 4 + j * 8, 6) == 0) {
+                if (GF_STANDARD_CompareBytes(mac, q + 4 + j * 8, 6) == 0) {
                     GFL_NET_ConnectMacAddressChild(GFL_NET_GetScanResultMac((u32)i));
                     GFL_NET_IRC_WIRELESS_SetState(p, 0xC);
                     break;

@@ -8,18 +8,18 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030958
+ * function: GFL_HEAP_ReportOutOfMemory
  *
  * The out-of-memory failure reporter reached from the allocation entry
- * point sub_02030734 just before OS_Terminate.
+ * point GFL_HEAP_Alloc just before OS_Terminate.
  *
- *   void sub_02030958(u32 heapId)
+ *   void GFL_HEAP_ReportOutOfMemory(u32 heapId)
  *
- * Only r0 is read. sub_02030734 sets up four argument registers at this
+ * Only r0 is read. GFL_HEAP_Alloc sets up four argument registers at this
  * call (heapId, size, site, tag) but the last three arrive unchanged from
  * its own prologue and are leftovers, the shape of
  * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md;
- * the declaration in src/pending/sub_02030734.c spelling four parameters
+ * the declaration in src/pending/GFL_HEAP_Alloc.c spelling four parameters
  * is therefore wider than the real callee and should be narrowed to one
  * when that file is revisited.
  *
@@ -38,8 +38,8 @@
  *   sub_02060E94    0x02060E94  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030958.c \
- *       --func sub_02030958 --addr 0x02030958 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_ReportOutOfMemory.c \
+ *       --func GFL_HEAP_ReportOutOfMemory --addr 0x02030958 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -51,7 +51,7 @@ struct Heap;
 extern int sub_02060E6C(int *p);
 extern s32 sub_02060E94(struct Heap *heap, s32 x);
 
-void sub_02030958(u32 heapId, u32 size, const char *site, int tag)
+void GFL_HEAP_ReportOutOfMemory(u32 heapId, u32 size, const char *site, int tag)
 {
     void *arena;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021CB914
+ * function: BSUBWAY_SCR_CreateCommShutdownTask
  * address:  0x021CB914
  * packet:   pkt_ov021_021CB914
  * region:   ov021
@@ -14,7 +14,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021CB8AC  0x021CB8AC  thumb
+ *   BSUBWAY_SCR_CommShutdownMain  0x021CB8AC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -28,11 +28,11 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021CB8AC(void *task, int *state, void *work);
+extern int BSUBWAY_SCR_CommShutdownMain(void *task, int *state, void *work);
 
-void *func_021CB914(void *a, u32 owner)
+void *BSUBWAY_SCR_CreateCommShutdownTask(void *a, u32 owner)
 {
-    void *task = func_020122C0(a, 0, (TaskFn)func_021CB8AC, 4);
+    void *task = func_020122C0(a, 0, (TaskFn)BSUBWAY_SCR_CommShutdownMain, 4);
     *(u32 *)func_020124E8(task) = owner;
     return task;
 }

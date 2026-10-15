@@ -27,7 +27,7 @@
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   MUSICAL_SAVE_GetEquippedProp  0x0200A7A0  thumb
  *   MUSICAL_SAVE_GetStageData  0x0200A7F8  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
  *   func_02045B38  0x02045B38  arm
@@ -63,7 +63,7 @@ extern int GAME_DATA_GetExternalWork(char *base);
 extern u8 MUSICAL_SAVE_GetEquippedProp(struct Big *p, u32 index);
 extern u8 *MUSICAL_SAVE_GetStageData(struct Big *p);
 struct WordSet;
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
@@ -96,7 +96,7 @@ int SCRCMD_MUSICAL_BufferString(Ctx *c, void *vm)
 
         str = STRBUF_Create(0x26, heap);
         STRBUF_SetStringN(str, (const u16 *)MUSICAL_SAVE_GetStageData(sv), 0x26);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(ws, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         break;
     }
@@ -107,26 +107,26 @@ int SCRCMD_MUSICAL_BufferString(Ctx *c, void *vm)
         else
             bank = func_02045B38(0, 2, 0x11A, heap);
         str = func_02045EC0(bank, arg + 3);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(ws, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(bank);
         break;
     case 2:
         str = MUSICAL_EVENT_AllocTitleString((int)(*((void **)GAME_DATA_GetExternalWork(h))), heap);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(ws, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         break;
     case 3:
         bank = func_02045B38(0, 2, 0x4B, heap);
         str = func_02045EC0(bank, arg);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(ws, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(bank);
         break;
     case 4:
         bank = func_02045B38(0, 2, 0x4B, heap);
         str = func_02045EC0(bank, arg + 4);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(ws, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(bank);
         break;
@@ -182,7 +182,7 @@ int SCRCMD_MUSICAL_BufferString(Ctx *c, void *vm)
         bank = func_02045B38(0, 2, 0x4B, heap);
         for (i = 0; i < 3; i++) {
             str = func_02045EC0(bank, ids[i]);
-            func_0201EE0C(ws, i, str, 0, 1, 2);
+            WORDSET_SetSlotTag(ws, i, str, 0, 1, 2);
             STRBUF_Delete(str);
         }
         MSGDATA_Delete(bank);

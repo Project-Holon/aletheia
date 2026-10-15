@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_musical.c
  * unit:     yes
- * function: SCRCMD_MUSICAL_StartMusical, SCRCMD_MUSICAL_ShowPartyMonMusical, SCRCMD_MUSICAL_GetValue, SCRCMD_MUSICAL_GetProgramInfo, SCRCMD_MUSICAL_AddOwnedProp, SCRCMD_MUSICAL_BufferString, SCRCMD_MUSICAL_ResetProgramRank, SCRCMD_MUSICAL_SelectPartyMon, SCRCMD_MUSICAL_LinkControl, SCRCMD_MUSICAL_CreateLinkWork, SCRCMD_MUSICAL_DeleteLinkWork, SCRCMD_MUSICAL_BeginCommSession, SCRCMD_MUSICAL_CloseCommSession, SCRCMD_MUSICAL_TaskStartMusical, SCRCMD_MUSICAL_TaskShowMusicalProc, SCRCMD_MUSICAL_FreeProcArgs, SCRCMD_MUSICAL_LinkProcCallback, SCRCMD_MUSICAL_WaitEntryMenuParent, SCRCMD_MUSICAL_WaitEntryMenuChild, SCRCMD_MUSICAL_WaitSetMemberCount, SCRCMD_MUSICAL_WaitSessionReady, SCRCMD_MUSICAL_WaitCommAttach, SCRCMD_MUSICAL_WaitCommIdle, SCRCMD_MUSICAL_WaitSessionFinish, SCRCMD_MUSICAL_WifiListCommand, FIELD_ENCOUNT_ST_LoadEncountData, func_0215E31C, FIELD_ENCOUNT_ST_Delete, FIELD_ENCOUNT_ST_GetEffectEncount, FIELD_ENCOUNT_ST_ResetGimmickState, MOVE_POKEMON_MoveEntry, MOVE_POKEMON_MoveActiveEntries, MOVE_POKEMON_MoveActiveEntriesChecked, MOVE_POKEMON_GetEntryZoneId, MOVE_POKEMON_HasActiveEntry, MOVE_POKEMON_SetCommonArea, MOVE_POKEMON_SpawnEntry, MOVE_POKEMON_SpawnPendingEntries, MOVE_POKEMON_HandleBattleResult, MOVE_POKEMON_FindEntryByZone, MOVE_POKEMON_IsAnyEntryActive, MOVE_POKEMON_GetEntryIndexBySpecies, MOVE_POKEMON_MoveToNeighbor, MOVE_POKEMON_SetEntryLocation, MOVE_POKEMON_FindEntryBySpecies, MOVE_POKEMON_InitSkillInfo, MOVE_POKEMON_IsSkillBlocked, MOVE_POKEMON_InitSkillTarget, MOVE_POKEMON_CreateSkillEvent, MOVE_POKEMON_CheckCut, MOVE_POKEMON_CreateCutEvent, MOVE_POKEMON_CutEventMain, MOVE_POKEMON_CheckFly, MOVE_POKEMON_CreateFlyEvent, MOVE_POKEMON_FlyEventMain, MOVE_POKEMON_CheckSurf, MOVE_POKEMON_CreateSurfEvent, MOVE_POKEMON_SurfEventMain, MOVE_POKEMON_CheckStrength, MOVE_POKEMON_CreateStrengthEvent, MOVE_POKEMON_StrengthEventMain, func_0215EC2C
+ * function: SCRCMD_MUSICAL_StartMusical, SCRCMD_MUSICAL_ShowPartyMonMusical, SCRCMD_MUSICAL_GetValue, SCRCMD_MUSICAL_GetProgramInfo, SCRCMD_MUSICAL_AddOwnedProp, SCRCMD_MUSICAL_BufferString, SCRCMD_MUSICAL_ResetProgramRank, SCRCMD_MUSICAL_SelectPartyMon, SCRCMD_MUSICAL_LinkControl, SCRCMD_MUSICAL_CreateLinkWork, SCRCMD_MUSICAL_DeleteLinkWork, SCRCMD_MUSICAL_BeginCommSession, SCRCMD_MUSICAL_CloseCommSession, SCRCMD_MUSICAL_TaskStartMusical, SCRCMD_MUSICAL_TaskShowMusicalProc, SCRCMD_MUSICAL_FreeProcArgs, SCRCMD_MUSICAL_LinkProcCallback, SCRCMD_MUSICAL_WaitEntryMenuParent, SCRCMD_MUSICAL_WaitEntryMenuChild, SCRCMD_MUSICAL_WaitSetMemberCount, SCRCMD_MUSICAL_WaitSessionReady, SCRCMD_MUSICAL_WaitCommAttach, SCRCMD_MUSICAL_WaitCommIdle, SCRCMD_MUSICAL_WaitSessionFinish, SCRCMD_MUSICAL_WifiListCommand, FIELD_ENCOUNT_ST_LoadEncountData, FIELD_ENCOUNT_ST_Create, FIELD_ENCOUNT_ST_Delete, FIELD_ENCOUNT_ST_GetEffectEncount, FIELD_ENCOUNT_ST_ResetGimmickState, MOVE_POKEMON_MoveEntry, MOVE_POKEMON_MoveActiveEntries, MOVE_POKEMON_MoveActiveEntriesChecked, MOVE_POKEMON_GetEntryZoneId, MOVE_POKEMON_HasActiveEntry, MOVE_POKEMON_SetCommonArea, MOVE_POKEMON_SpawnEntry, MOVE_POKEMON_SpawnPendingEntries, MOVE_POKEMON_HandleBattleResult, MOVE_POKEMON_FindEntryByZone, MOVE_POKEMON_IsAnyEntryActive, MOVE_POKEMON_GetEntryIndexBySpecies, MOVE_POKEMON_MoveToNeighbor, MOVE_POKEMON_SetEntryLocation, MOVE_POKEMON_FindEntryBySpecies, MOVE_POKEMON_InitSkillInfo, MOVE_POKEMON_IsSkillBlocked, MOVE_POKEMON_InitSkillTarget, MOVE_POKEMON_CreateSkillEvent, MOVE_POKEMON_CheckCut, MOVE_POKEMON_CreateCutEvent, MOVE_POKEMON_CutEventMain, MOVE_POKEMON_CheckFly, MOVE_POKEMON_CreateFlyEvent, MOVE_POKEMON_FlyEventMain, MOVE_POKEMON_CheckSurf, MOVE_POKEMON_CreateSurfEvent, MOVE_POKEMON_SurfEventMain, MOVE_POKEMON_CheckStrength, MOVE_POKEMON_CreateStrengthEvent, MOVE_POKEMON_StrengthEventMain, MOVE_POKEMON_IsSkill8Unusable
  * address:  0x0215D34C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -37,7 +37,7 @@
  *   d_021F8360     0x021F8360  data
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_021F675C  0x021F675C  thumb
+ *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   MUSICAL_EVENT_GetLocalSlot  0x021568E0  thumb  ov010
@@ -59,7 +59,7 @@
  *   MUSICAL_SAVE_GetScriptSetting  0x0200A7C8  thumb
  *   MUSICAL_SAVE_SetScriptSetting  0x0200A7D4  thumb
  *   MUSICAL_SAVE_GetHasDistData  0x0200A7E0  thumb
- *   func_021F6744  0x021F6744  thumb  ov112
+ *   MUSICAL_MCSS_GetMonValue  0x021F6744  thumb  ov112
  *   MUSICAL_SAVE_GetProgram  0x0200A750  thumb
  *   MUSICAL_SAVE_AddProp   0x0200A6BC  thumb
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
@@ -68,7 +68,7 @@
  *   MUSICAL_EVENT_SetPlayerNameWord  0x02156A3C  thumb  ov010
  *   MUSICAL_EVENT_SetPokemonNameWord  0x02156AD4  thumb  ov010
  *   MUSICAL_SAVE_GetStageData  0x0200A7F8  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
  *   func_02045B38  0x02045B38  arm
@@ -84,7 +84,7 @@
  *   VM_SetWait  0x020113D0  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
- *   func_021FCDEC  0x021FCDEC  thumb  ov132
+ *   MUS_COMM_FUNC_SetTimingSync  0x021FCDEC  thumb  ov132
  *   STA_SLOT_GetRecordTable  0x021FDA6C  thumb  ov132
  *   d_021BB6A4     0x021BB6A4  data  ov100
  *   ov100_id       0x00000064  data
@@ -93,8 +93,8 @@
  *   ov132_id       0x00000084  data
  *   func_020307B0  0x020307B0  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_021FC644  0x021FC644  thumb  ov132
- *   func_021FC684  0x021FC684  thumb
+ *   MUS_COMM_FUNC_Create  0x021FC644  thumb  ov132
+ *   MUS_COMM_FUNC_Delete  0x021FC684  thumb
  *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
@@ -104,11 +104,11 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   MUSICAL_DRESSUP_SYS_ProcTable     0x02172724  data
- *   func_021FC81C  0x021FC81C  thumb
+ *   MUS_COMM_FUNC_InitCommandTable  0x021FC81C  thumb
  *   COMM_ENTRY_MENU_Main  0x021CD688  thumb
- *   func_021FC804  0x021FC804  thumb
+ *   MUS_COMM_FUNC_SetHostFlag  0x021FC804  thumb
  *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb
- *   func_021FCE00  0x021FCE00  thumb
+ *   MUS_COMM_FUNC_CheckTimingSync  0x021FCE00  thumb
  *   STA_NET_GetIndexedWord5E  0x021FD844  thumb
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   STA_NET_GetIndexedWord57  0x021FD910  thumb
@@ -119,7 +119,7 @@
  *   PDW_POSTMAN_CreateListEvent  0x021B7794  thumb  ov021
  *   PDW_POSTMAN_ReceiveItems  0x021B76B4  thumb  ov021
  *   PDW_POSTMAN_GetUnreceivableItem  0x021B7740  thumb  ov021
- *   func_0201EF5C  0x0201EF5C  thumb
+ *   WORDSET_SetSlotFromMsg118  0x0201EF5C  thumb
  *   ZONEDATA_GetEncountId  0x02013EC0  thumb
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   _u32_div_f     0x0209C2B0  arm
@@ -459,8 +459,8 @@ extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 slot, const struct Strbuf *str, u32 grammar, u32 form, u32 count);
-extern void func_0201EF5C(struct WordSet *wordSet, u32 slot, u32 value);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 slot, const struct Strbuf *str, u32 grammar, u32 form, u32 count);
+extern void WORDSET_SetSlotFromMsg118(struct WordSet *wordSet, u32 slot, u32 value);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dest);
 
@@ -499,25 +499,25 @@ extern u32 MUSICAL_EVENT_IsAborted(struct MusicalEvent *event);
 /* party and musical system */
 extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
-extern int func_021F6744(struct Pokemon *mon);
-extern u32 func_021F675C(struct Pokemon *mon, int mode);
+extern int MUSICAL_MCSS_GetMonValue(struct Pokemon *mon);
+extern u32 MUSICAL_MCSS_CreateMon(struct Pokemon *mon, int mode);
 extern u32 func_02008530(struct MyStatus *myStatus);
 
 /* ov132 comm session, ov021 comm entry menu */
 extern u32 func_0200FB24(void);
 extern u32 COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_021FCDEC(int session, int memberCount);
+extern void MUS_COMM_FUNC_SetTimingSync(int session, int memberCount);
 extern unsigned char *STA_SLOT_GetRecordTable(struct GameData *gameData);
-extern void func_021FC644(int mode, void *procArg, void *comm, int arg);
-extern int func_021FC684(void *session);
+extern void MUS_COMM_FUNC_Create(int mode, void *procArg, void *comm, int arg);
+extern int MUS_COMM_FUNC_Delete(void *session);
 extern u32 GAME_COMM_GetKind(struct GameComm *comm);
 extern u32 GAME_COMM_GetWork(struct GameComm *comm);
 extern int GFL_NET_IsSessionNull(void);
-extern int func_021FC81C();
+extern int MUS_COMM_FUNC_InitCommandTable();
 extern int COMM_ENTRY_MENU_Main();
-extern int func_021FC804();
+extern int MUS_COMM_FUNC_SetHostFlag();
 extern int COMM_ENTRY_MENU_Delete();
-extern int func_021FCE00();
+extern int MUS_COMM_FUNC_CheckTimingSync();
 extern int STA_NET_GetIndexedWord5E();
 extern int STA_NET_GetIndexedWord57();
 
@@ -612,7 +612,7 @@ int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, struct ScriptWork *scriptWork);
 int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, struct ScriptWork *scriptWork);
 int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork);
 int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *row, struct ArcFile *arc, u32 zoneId, int seasonIndex);
-void *func_0215E31C(u32 heapId);
+void *FIELD_ENCOUNT_ST_Create(u32 heapId);
 void FIELD_ENCOUNT_ST_Delete(void *encountState);
 int FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap);
 FieldGimmickWork *FIELD_ENCOUNT_ST_ResetGimmickState(struct GameData *gameData);
@@ -647,7 +647,7 @@ int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, u32 *state, void *work);
 int MOVE_POKEMON_CheckStrength(FieldSkillInfo *info);
 struct GameEvent *MOVE_POKEMON_CreateStrengthEvent(SkillTarget *target, FieldSkillInfo *info);
 int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, u32 *state, void *work);
-int func_0215EC2C(FieldSkillInfo *info);
+int MOVE_POKEMON_IsSkill8Unusable(FieldSkillInfo *info);
 void *MOVE_POKEMON_CreateDiveEvent(SkillTarget *target, FieldSkillInfo *info);
 
 extern u8 ov112_id[];
@@ -745,7 +745,7 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
     ICA_ANIME_GetField20(gameSys);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     musicalSave = (u32)GAME_DATA_GetSaveBlock2A(gameData);
-    musicalSystem = func_021F675C(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex), 4);
+    musicalSystem = MUSICAL_MCSS_CreateMon(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex), 4);
     task = func_020122C0(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     systemTask = func_020124E8(task);
     MI_CpuFill8(systemTask, 0, 4);
@@ -916,14 +916,14 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
         partyCount = POKEPARTY_GetCount(party);
 
         for (i = 0; i < partyCount; i++) {
-            if ((u32)func_021F6744(POKEPARTY_GetMember(party, (int)i)) == 1)
+            if ((u32)MUSICAL_MCSS_GetMonValue(POKEPARTY_GetMember(party, (int)i)) == 1)
                 count++;
         }
         *resultVar = count;
         break;
     }
     case 12:
-        if ((u32)func_021F6744(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (int)arg)) == 1)
+        if ((u32)MUSICAL_MCSS_GetMonValue(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (int)arg)) == 1)
             *resultVar = 1;
         else
             *resultVar = 0;
@@ -1068,7 +1068,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
 
         str = STRBUF_Create(0x26, heapId);
         STRBUF_SetStringN(str, (const u16 *)MUSICAL_SAVE_GetStageData(musical), 0x26);
-        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         break;
     }
@@ -1079,26 +1079,26 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
         else
             msgData = func_02045B38(0, 2, 0x11A, heapId);
         str = func_02045EC0(msgData, arg + 3);
-        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
         break;
     case 2:
         str = MUSICAL_EVENT_AllocTitleString((int)(*((void **)GAME_DATA_GetExternalWork(gameData))), heapId);
-        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         break;
     case 3:
         msgData = func_02045B38(0, 2, 0x4B, heapId);
         str = func_02045EC0(msgData, arg);
-        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
         break;
     case 4:
         msgData = func_02045B38(0, 2, 0x4B, heapId);
         str = func_02045EC0(msgData, arg + 4);
-        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
         break;
@@ -1155,7 +1155,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
         msgData = func_02045B38(0, 2, 0x4B, heapId);
         for (i = 0; i < 3; i++) {
             str = func_02045EC0(msgData, labelIds[i]);
-            func_0201EE0C(wordSet, i, str, 0, 1, 2);
+            WORDSET_SetSlotTag(wordSet, i, str, 0, 1, 2);
             STRBUF_Delete(str);
         }
         MSGDATA_Delete(msgData);
@@ -1256,7 +1256,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         if (link->session == 0 || busy != 0)
             break;
         link->memberCount = arg;
-        func_021FCDEC((int)link->session, (u8)link->memberCount);
+        MUS_COMM_FUNC_SetTimingSync((int)link->session, (u8)link->memberCount);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitSetMemberCount);
         return 1;
     case 15:
@@ -1345,7 +1345,7 @@ void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLinkWork *link, struct GameData *gameD
  */
 void SCRCMD_MUSICAL_BeginCommSession(int link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg)
 {
-    func_021FC644(4, (void *)gameSys, (void *)gameComm, arg);
+    MUS_COMM_FUNC_Create(4, (void *)gameSys, (void *)gameComm, arg);
 }
 
 
@@ -1353,7 +1353,7 @@ void SCRCMD_MUSICAL_BeginCommSession(int link, struct GameSystem *gameSys, struc
 void SCRCMD_MUSICAL_CloseCommSession(MusicalLinkWork *link)
 {
     if (link->session != 0) {
-        func_021FC684(link->session);
+        MUS_COMM_FUNC_Delete(link->session);
         link->session = 0;
     }
 }
@@ -1475,7 +1475,7 @@ void SCRCMD_MUSICAL_LinkProcCallback(void *callbackArg)
     link = wait->link;
     if (link->procMode != 0xc && link->procMode != 0xd) {
         *link->resultOut = 1;
-        func_021FC81C(wait->link->session);
+        MUS_COMM_FUNC_InitCommandTable(wait->link->session);
     } else {
         *link->resultOut = 0;
     }
@@ -1496,7 +1496,7 @@ int SCRCMD_MUSICAL_WaitEntryMenuParent(ScriptVm *vm, struct ScriptWork *scriptWo
     switch (status) {
     case 1:
         *link->resultOut = 0;
-        func_021FC804(link->session);
+        MUS_COMM_FUNC_SetHostFlag(link->session);
         done = 1;
         break;
     case 2:
@@ -1529,7 +1529,7 @@ int SCRCMD_MUSICAL_WaitEntryMenuChild(ScriptVm *vm, struct ScriptWork *scriptWor
     switch (COMM_ENTRY_MENU_Main(link->entryMenu)) {
     case 1:
         *link->resultOut = 3;
-        func_021FC804(link->session);
+        MUS_COMM_FUNC_SetHostFlag(link->session);
         done = 1;
         break;
     case 2:
@@ -1563,7 +1563,7 @@ int SCRCMD_MUSICAL_WaitSetMemberCount(ScriptVm *vm, struct ScriptWork *scriptWor
         if (MUSICAL_EVENT_IsAborted(link->musicalEvent) == 1)
             return 1;
     }
-    if (func_021FCE00(link->session, (u8)link->memberCount) == 1)
+    if (MUS_COMM_FUNC_CheckTimingSync(link->session, (u8)link->memberCount) == 1)
         return 1;
     return 0;
 }
@@ -1696,7 +1696,7 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork)
         break;
     case 5:
         wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(scriptWork));
-        func_0201EF5C(wordSet, 0, (u32)PDW_POSTMAN_GetUnreceivableItem(gameData, key, wifiList, *resultVar));
+        WORDSET_SetSlotFromMsg118(wordSet, 0, (u32)PDW_POSTMAN_GetUnreceivableItem(gameData, key, wifiList, *resultVar));
         break;
     case 4:
         *resultVar = PDW_POSTMAN_CountUnreceivable(gameData, key, wifiList);
@@ -1737,7 +1737,7 @@ int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *row, struct ArcFile *arc, u32 z
 
 
 /* Allocate the 0x20-byte field encounter state. */
-void *func_0215E31C(u32 heapId)
+void *FIELD_ENCOUNT_ST_Create(u32 heapId)
 {
     return func_02030734(heapId, 32, 1, d_02172928, 45);
 }
@@ -2317,7 +2317,7 @@ int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, u32 *state, void *wo
 
 
 /* 1 when skill 8 is not usable. */
-int func_0215EC2C(FieldSkillInfo *info)
+int MOVE_POKEMON_IsSkill8Unusable(FieldSkillInfo *info)
 {
     return MOVE_POKEMON_IsSkillUsable(info, 8) != 0 ? FALSE : TRUE;
 }

@@ -12,7 +12,7 @@
  * witness: arm9 WAZA_TOOL_GetDamageType filed as src/matched/arm9/WAZA_TOOL_GetDamageType.c.
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   gBtlvEff     0x0220AF20  data   ov094
@@ -49,7 +49,7 @@ typedef struct {
 extern Work *gBtlvEff;
 extern const char gBtlvEffectFileName[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern int WAZA_TOOL_GetDamageType(int);
 extern int BTLV_MCSS_IsVanished(void *h, int a);
@@ -62,7 +62,7 @@ void BTLV_EFFECT_StartDamageTintTask(int a, int b)
 {
     Job *o;
 
-    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x18, 0, gBtlvEffectFileName, 0x29b);
+    o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x18, 0, gBtlvEffectFileName, 0x29b);
     o->f4 = 0;
     o->f0 = a;
     o->f8 = 3;

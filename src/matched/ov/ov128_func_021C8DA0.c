@@ -1,5 +1,5 @@
 /*
- * function: func_021C8DA0, func_021C8E24
+ * function: WF2DMAP_TOUCH_CreateNameEntry, WF2DMAP_TOUCH_DrawFriendKeyThunk
  * unit: yes
  * address: 0x021C8DA0
  * packet: pkt_ov128_021C8DA0
@@ -11,7 +11,7 @@
  * symbols:
  *   NAMEIN_SETUP_CreateArgs 0x0216BFD4 thumb ov010
  *   STRBUF_SetString 0x02045924 arm
- *   func_021C8F88 0x021C8F88 thumb ov128
+ *   WF2DMAP_TOUCH_DrawFriendKey 0x021C8F88 thumb ov128
  *   GAME_DATA_GetWifiList  0x0201283C  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   BEACON_GetBlock  0x0200C0F0  thumb  arm9
@@ -33,7 +33,7 @@ extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern char *NAMEIN_SETUP_CreateArgs(int,int,u32,u32,int,int,void *);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-char *func_021C8DA0(void *unused,char *q,int mode,int heap) {
+char *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap) {
  void *v;void *base;int idx;char *ret;unsigned kind;
  v=BEACON_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00227 *)q)->f4));
  base=(void *)GAME_DATA_GetWifiList(((struct Obj00227 *)q)->f4);idx=*(u8 *)(q+24+*(signed char *)&((struct Obj00227 *)q)->fB);
@@ -43,7 +43,7 @@ char *func_021C8DA0(void *unused,char *q,int mode,int heap) {
  if(((struct Obj00227 *)q)->f64==1) {STRBUF_SetString(((struct Obj03544 *)ret)->f20,(const u16 *)(((struct Obj00227 *)q)->f60));((struct Obj00227 *)q)->f64=0;}
  return ret;
 }
-extern void func_021C8F88(void *,void *,void *,int);
-void func_021C8E24(void *p,void *q,void *r,int s) {
- func_021C8F88(p,q,r,s);
+extern void WF2DMAP_TOUCH_DrawFriendKey(void *,void *,void *,int);
+void WF2DMAP_TOUCH_DrawFriendKeyThunk(void *p,void *q,void *r,int s) {
+ WF2DMAP_TOUCH_DrawFriendKey(p,q,r,s);
 }

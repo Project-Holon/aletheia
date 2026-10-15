@@ -20,10 +20,10 @@
  *   func_0215EF48                  0x0215EF48  arm ov009
  *   SOC_U32to4U8                  0x0215FBAC  arm ov009
  *   g_021A37BC                     0x021A37BC  data
- *   _ZZ13func_0217EFB8vE9aliases_0 0x021AD0F4  data
- *   _ZZ13func_0217EFB8vE9localhost_0 0x021AD0FC  data
- *   _ZZ13func_0217EFB8vE5ips_2_1   0x021AD10C  data
- *   _ZZ13func_0217EFB8vE8ipPtrs_1_2 0x021AD120  data
+ *   _ZZ12getlocalhostvE9aliases_0 0x021AD0F4  data
+ *   _ZZ12getlocalhostvE9localhost_0 0x021AD0FC  data
+ *   _ZZ12getlocalhostvE5ips_2_1   0x021AD10C  data
+ *   _ZZ12getlocalhostvE8ipPtrs_1_2 0x021AD120  data
  */
 
 struct SOCHostEnt {

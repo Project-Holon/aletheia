@@ -1,5 +1,5 @@
 /*
- * function: func_02208A2C
+ * function: SHINKA_DEMO_EFFECT_SetParticleActive
  * address: 0x02208A2C
  * packet: pkt_ov195_02208A2C
  * region: ov195
@@ -14,4 +14,4 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-void func_02208A2C(char *p){((struct Obj24981 *)p)->f4814=1;}
+void SHINKA_DEMO_EFFECT_SetParticleActive(char *p){((struct Obj24981 *)p)->f4814=1;}

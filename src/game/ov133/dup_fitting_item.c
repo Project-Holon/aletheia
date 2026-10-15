@@ -33,8 +33,8 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_021F5330 0x021F5330 thumb ov112
- *   func_021F51B0 0x021F51B0 thumb ov112
+ *   MUSICAL_MCSS_FreeRenderObj 0x021F5330 thumb ov112
+ *   MUSICAL_MCSS_DeleteRenderObj 0x021F51B0 thumb ov112
  *   func_02030EAC 0x02030EAC arm
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
@@ -47,22 +47,22 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_021FCDEC 0x021FCDEC thumb ov132
- *   func_021FCE00 0x021FCE00 thumb ov132
+ *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
+ *   MUS_COMM_FUNC_CheckTimingSync 0x021FCE00 thumb ov132
  *   STA_NET_IsTransferDone 0x021FD6A4 thumb ov132
- *   func_021F51E8 0x021F51E8 thumb ov112
- *   func_021F51F4 0x021F51F4 thumb ov112
- *   func_021F4990 0x021F4990 thumb ov112
+ *   MUSICAL_MCSS_TickAnim 0x021F51E8 thumb ov112
+ *   MUSICAL_MCSS_DrawRenderObj 0x021F51F4 thumb ov112
+ *   MUSICAL_MCSS_UpdateObject 0x021F4990 thumb ov112
  *   CLACT_DrawSystem 0x0204A600 arm
  *   func_02047964 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_0204152C 0x0204152C arm
+ *   BG_SYS_ClearLayer 0x0204152C arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_0201F73C 0x0201F73C thumb
- *   func_0204047C 0x0204047C arm
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_0204989C 0x0204989C arm
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -73,15 +73,15 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021F4F10 0x021F4F10 thumb ov112
- *   func_021F4F54 0x021F4F54 thumb ov112
- *   func_021F4F70 0x021F4F70 thumb ov112
- *   func_021F4D74 0x021F4D74 thumb ov112
- *   func_021F4AA4 0x021F4AA4 thumb ov112
- *   func_0204F32C 0x0204F32C arm
+ *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
+ *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_FreeElemImage 0x021F4D74 thumb ov112
+ *   MUSICAL_MCSS_NoOp3 0x021F4AA4 thumb ov112
+ *   BILLBOARD_GetImagePlttKey 0x0204F32C arm
  *   BILLBOARD_GetImageTexKey 0x0204F2E4 arm
  *   BILLBOARD_SetImageTexAddr 0x0204F2FC arm
- *   func_0204EDD0 0x0204EDD0 arm
+ *   BILLBOARD_GetImageSizeFromFlags 0x0204EDD0 arm
  *   BILLBOARD_AddImageFromVramKeys 0x0204F044 arm
  *   BILLBOARD_ReleaseImageVramIfUsed 0x0204F1A0 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -97,7 +97,7 @@
  *   func_0207DCF8 0x0207DCF8 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
@@ -133,24 +133,24 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
- *   func_021F5164 0x021F5164 thumb ov112
- *   func_021F5438 0x021F5438 thumb ov112
- *   func_021F5444 0x021F5444 thumb ov112
- *   func_021F5204 0x021F5204 thumb ov112
- *   func_021F545C 0x021F545C thumb ov112
- *   func_021F5350 0x021F5350 thumb ov112
+ *   BG_SYS_FreeSlot 0x020414AC arm
+ *   MUSICAL_MCSS_CreateRenderObj 0x021F5164 thumb ov112
+ *   MUSICAL_MCSS_SetRenderFieldA 0x021F5438 thumb ov112
+ *   MUSICAL_MCSS_SetRenderFieldB 0x021F5444 thumb ov112
+ *   MUSICAL_MCSS_SetupRenderObj 0x021F5204 thumb ov112
+ *   MUSICAL_MCSS_GetRenderFlags 0x021F545C thumb ov112
+ *   MUSICAL_MCSS_GetRenderPos 0x021F5350 thumb ov112
  *   MUSICAL_SAVE_IsPropOwned 0x0200A644 thumb
  *   MUSICAL_SAVE_IsPropNew 0x0200A680 thumb
  *   MUSICAL_SAVE_GetOutfits 0x0200A628 thumb
- *   func_021F48C0 0x021F48C0 thumb ov112
- *   func_021F4B3C 0x021F4B3C thumb ov112
- *   func_021F4B4C 0x021F4B4C thumb ov112
- *   func_021F4EE8 0x021F4EE8 thumb ov112
- *   func_021F4C1C 0x021F4C1C thumb ov112
- *   func_021F4E6C 0x021F4E6C thumb ov112
- *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_021F4DE0 0x021F4DE0 thumb ov112
+ *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
+ *   MUSICAL_MCSS_CreateResourceArc 0x021F4B3C thumb ov112
+ *   MUSICAL_MCSS_FreeResourceArc 0x021F4B4C thumb ov112
+ *   MUSICAL_MCSS_SetElemFlag 0x021F4EE8 thumb ov112
+ *   MUSICAL_MCSS_AddImageNoVram 0x021F4C1C thumb ov112
+ *   MUSICAL_MCSS_SetElemVisible 0x021F4E6C thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_TransferVram 0x021F4DE0 thumb ov112
  *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
  *   G3D_SYSTEM_GetTexVramKey 0x02047388 arm
  *   G3D_SYSTEM_GetPlttVramKey 0x020473B8 arm
@@ -169,12 +169,12 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_021F4D40 0x021F4D40 thumb ov112
- *   func_021F4948 0x021F4948 thumb ov112
+ *   MUSICAL_MCSS_FreeElem 0x021F4D40 thumb ov112
+ *   MUSICAL_MCSS_DeleteActorPool 0x021F4948 thumb ov112
  *   BILLBOARD_FreeElem 0x0204F5A8 arm
  *   BILLBOARD_DeleteImage 0x0204F150 arm
- *   func_021F4E8C 0x021F4E8C thumb ov112
- *   func_021F4ED4 0x021F4ED4 thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   BILLBOARD_SetElemScale 0x0204F684 arm
  *   _fdiv 0x0209CE10 arm
@@ -184,25 +184,25 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   _fmul 0x0209C77C arm
- *   func_0203F768 0x0203F768 arm
- *   func_021F5450 0x021F5450 thumb ov112
- *   func_021F4B24 0x021F4B24 thumb ov112
- *   func_021F4EC4 0x021F4EC4 thumb ov112
+ *   GF_STANDARD_CalcAngle 0x0203F768 arm
+ *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
+ *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_SetElemRot 0x021F4EC4 thumb ov112
  *   d_021BA5A0 0x021BA5A0 data a4
  *   _ffltu 0x0209BE04 arm
  *   d_021BA5B8 0x021BA5B8 data a4
- *   func_021F4EA4 0x021F4EA4 thumb ov112
+ *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
  *   d_021BA588 0x021BA588 data a4
  *   d_021BA568 0x021BA568 data a4
- *   func_021F50F4 0x021F50F4 thumb ov112
+ *   MUSICAL_MCSS_GetIndex 0x021F50F4 thumb ov112
  *   d_021BA570 0x021BA570 data a4
- *   func_021F4F04 0x021F4F04 thumb ov112
+ *   MUSICAL_MCSS_GetElemOffset 0x021F4F04 thumb ov112
  *   d_021BA57C 0x021BA57C data a4
  *   d_021BA5AC 0x021BA5AC data a4
- *   func_021F4AF0 0x021F4AF0 thumb ov112
- *   func_021F4E2C 0x021F4E2C thumb ov112
- *   func_021F4B10 0x021F4B10 thumb ov112
- *   func_021F4AFC 0x021F4AFC thumb ov112
+ *   MUSICAL_MCSS_SetIndexA 0x021F4AF0 thumb ov112
+ *   MUSICAL_MCSS_CopyElem 0x021F4E2C thumb ov112
+ *   MUSICAL_MCSS_SetIndexC 0x021F4B10 thumb ov112
+ *   MUSICAL_MCSS_SetIndexB 0x021F4AFC thumb ov112
  *   _ffixu 0x0209C4C8 arm
  *   _fgr 0x0209BBB0 arm
  *   _ll_mul 0x0209C054 arm
@@ -213,11 +213,11 @@
  *   d_021BA594 0x021BA594 data ov133 a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EEF4 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_0207CFB8 0x0207CFB8 arm
  *   MUSICAL_SAVE_InitOutfits 0x0200A604 thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   a1 0x021BA558 data a4
  *   b1 0x021BA560 data a4
  *   a2 0x021BA550 data a4
@@ -227,7 +227,7 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02049B40 0x02049B40 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -235,24 +235,24 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_021F5158 0x021F5158 thumb ov112
- *   func_0201EE0C 0x0201EE0C thumb
+ *   MUSICAL_MCSS_GetElemC 0x021F5158 thumb ov112
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   BG_SYS_Get 0x020416D4 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   d_021BA610 0x021BA610 data a4
- *   func_021F4EFC 0x021F4EFC thumb ov112
- *   func_021F4EE0 0x021F4EE0 thumb ov112
+ *   MUSICAL_MCSS_GetElemFlag 0x021F4EFC thumb ov112
+ *   MUSICAL_MCSS_GetElemField 0x021F4EE0 thumb ov112
  */
 #include "../../matched/include/Obj01941.h"
 #include "../../matched/include/Obj23308.h"
@@ -477,8 +477,8 @@ extern void CLACT_ReleaseCellAnim(u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_021F5330(int,int);
-extern void func_021F51B0(int a);
+extern void MUSICAL_MCSS_FreeRenderObj(int,int);
+extern void MUSICAL_MCSS_DeleteRenderObj(int a);
 extern void func_02030EAC(struct Node *);
 extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -491,18 +491,18 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_FadeOutBgm(u32);
-extern void func_021FCDEC(int,int);
-extern int func_021FCE00(char *p, int id);
+extern void MUS_COMM_FUNC_SetTimingSync(int,int);
+extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
 extern int STA_NET_IsTransferDone(char *p);
-extern void func_021F51E8(u8 *);
-extern void func_021F51F4(void **p);
-extern void func_021F4990(void *);
+extern void MUSICAL_MCSS_TickAnim(u8 *);
+extern void MUSICAL_MCSS_DrawRenderObj(void **p);
+extern void MUSICAL_MCSS_UpdateObject(void *);
 extern void CLACT_DrawSystem(void),func_02047964(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
-extern void func_0204152C(int,u16);
+extern void BG_SYS_ClearLayer(int,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void func_0204047C(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
+extern void BG_SYS_SetVisibleLayer(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -511,15 +511,15 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern u32 func_0200FB24(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
-extern u32 func_021F4F10(u8 *);
-extern u8 *func_021F4F54(u8 *, int);
-extern int func_021F4F70(int *);
-extern void func_021F4D74(u8 *, u8 *, int, u16);
-extern void func_021F4AA4(void *);
-extern void func_0204F32C(int p0, int p1, int p2);
+extern u32 MUSICAL_MCSS_NoOp5(u8 *);
+extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
+extern int MUSICAL_MCSS_NoOp6(int *);
+extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
+extern void MUSICAL_MCSS_NoOp3(void *);
+extern void BILLBOARD_GetImagePlttKey(int p0, int p1, int p2);
 extern void BILLBOARD_GetImageTexKey(u8 *, int, u32 *);
 extern void BILLBOARD_SetImageTexAddr(u8 *p, int i, u32 value);
-extern void func_0204EDD0(int, u16 *, u16 *);
+extern void BILLBOARD_GetImageSizeFromFlags(int, u16 *, u16 *);
 extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 extern void BILLBOARD_ReleaseImageVramIfUsed(struct Obj0204F1A0 *a0, u32 a1);
 extern void CLACT_VBlankSystem(void);
@@ -533,7 +533,7 @@ extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,VecU *,VecU *,VecU
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(void *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetLowBit(u32);
 extern void func_02040588(unsigned int, unsigned int);
 extern void func_0207D63C(void *,int,int,int,int);
@@ -553,24 +553,24 @@ extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(u32);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(unsigned int);
-extern void *func_021F5164(u32 heap);
-extern void func_021F5438(void **p, int b);
-extern void func_021F5444(u8 *, int);
-extern u8 *func_021F5204(u8 *, void *, int);
-extern u8 *func_021F545C(u8 *p);
-extern void func_021F5350(int *p, int *q);
+extern void BG_SYS_FreeSlot(unsigned int);
+extern void *MUSICAL_MCSS_CreateRenderObj(u32 heap);
+extern void MUSICAL_MCSS_SetRenderFieldA(void **p, int b);
+extern void MUSICAL_MCSS_SetRenderFieldB(u8 *, int);
+extern u8 *MUSICAL_MCSS_SetupRenderObj(u8 *, void *, int);
+extern u8 *MUSICAL_MCSS_GetRenderFlags(u8 *p);
+extern void MUSICAL_MCSS_GetRenderPos(int *p, int *q);
 extern u32 MUSICAL_SAVE_IsPropOwned(struct Big *p, u8 index);
 extern u32 MUSICAL_SAVE_IsPropNew(struct Big *p, u8 index);
 extern u8 *MUSICAL_SAVE_GetOutfits(struct Big *p);
-extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
-extern void *func_021F4B3C(int type);
-extern void func_021F4B4C(struct Tagged *a0);
-extern void func_021F4EE8(int, Flags *, int);
-extern u8 *func_021F4C1C(u8 *, int, u32, Vec *);
-extern void func_021F4E6C(u8 *, u8 *, u32);
-extern void func_021F4EB4(u32 unused, u32 p, s16_021B6F00 a, s16_021B6F00 b);
-extern void func_021F4DE0(char *p, char *e, void *a2);
+extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
+extern void *MUSICAL_MCSS_CreateResourceArc(int type);
+extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0);
+extern void MUSICAL_MCSS_SetElemFlag(int, Flags *, int);
+extern u8 *MUSICAL_MCSS_AddImageNoVram(u8 *, int, u32, Vec *);
+extern void MUSICAL_MCSS_SetElemVisible(u8 *, u8 *, u32);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16_021B6F00 a, s16_021B6F00 b);
+extern void MUSICAL_MCSS_TransferVram(char *p, char *e, void *a2);
 extern int G3D_SYSTEM_TransVramTexture(int *self);
 extern u32 G3D_SYSTEM_GetTexVramKey(struct Layer *layer);
 extern u32 G3D_SYSTEM_GetPlttVramKey(struct Layer *layer);
@@ -585,43 +585,43 @@ extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct V
 extern void BILLBOARD_SetElemVisible(void *, u32, u32 *);
 extern u32 func_02005728(u32 range);
 extern void BILLBOARD_FreeElem(void *,unsigned int),BILLBOARD_DeleteImage(u8 *,int);
-extern void func_021F4D40(u8 *p, u8 *e);
-extern void func_021F4948(u8 *);
-extern void func_021F4E8C(int, int, Vec *);
-extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern void MUSICAL_MCSS_FreeElem(u8 *p, u8 *e);
+extern void MUSICAL_MCSS_DeleteActorPool(u8 *);
+extern void MUSICAL_MCSS_SetElemPos(int, int, Vec *);
+extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern void BILLBOARD_SetElemScale(struct Manager0204F684 *mgr, int idx, const s16_021B765C *p12, const s16_021B765C *p14);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern int func_0203F768(int,int,int,int,int,int,int);
-extern u8 *func_021F5450(u8 *,int);
-extern int func_021F4B24(u8 *);
-extern void func_021F4EC4(u32 unused, u32 p, s16_021B6BA4 *a, s16_021B6BA4 *b);
-extern void func_021F4EA4(u32 unused, u32 p, u32 q);
-extern int func_021F50F4(unsigned int);
-extern void func_021F4F04(u8 *,Pair_021B8140 *);
-extern int func_021F4AF0(u8 *p, int index);
-extern void func_021F4E2C(void *unused, u8 *s, u8 *d);
-extern int func_021F4B10(u8 *p, int index, int mode);
-extern int func_021F4AFC(u8 *p, int index, int mode);
+extern int GF_STANDARD_CalcAngle(int,int,int,int,int,int,int);
+extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
+extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern void MUSICAL_MCSS_SetElemRot(u32 unused, u32 p, s16_021B6BA4 *a, s16_021B6BA4 *b);
+extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
+extern int MUSICAL_MCSS_GetIndex(unsigned int);
+extern void MUSICAL_MCSS_GetElemOffset(u8 *,Pair_021B8140 *);
+extern int MUSICAL_MCSS_SetIndexA(u8 *p, int index);
+extern void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d);
+extern int MUSICAL_MCSS_SetIndexC(u8 *p, int index, int mode);
+extern int MUSICAL_MCSS_SetIndexB(u8 *p, int index, int mode);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int FX_Sqrt(int);
 extern int FX_Atan2Idx(int, int);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int func_021BA324(u8 *, int, int);
 extern u16 func_0207CFB8(long,long);
 extern void MUSICAL_SAVE_InitOutfits(struct Big *p);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int _s32_div_f(int,int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void func_0201F5BC(u32, u32, u32, u32, u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void MSGDATA_Delete(void *);
 extern void GF_FONT_Delete(void *);
@@ -629,22 +629,22 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u8 func_021F5158(void *, int);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern u8 MUSICAL_MCSS_GetElemC(void *, int);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern u8 BG_SYS_Get(u32);
 extern void CLACT_SetActorBgPriority(void *, u32);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_RestartActorAnim(struct Actor*);
-extern int func_021F4EFC(int, Flags *);
-extern void func_021F4EE0(int, u16 *, u16 *);
+extern int MUSICAL_MCSS_GetElemFlag(int, Flags *);
+extern void MUSICAL_MCSS_GetElemField(int, u16 *, u16 *);
 u8 *func_021B6100(u8 *parent, int heap);
 void func_021B6294(char *p);
 int func_021B63BC(Context *p);
@@ -851,8 +851,8 @@ void func_021B6294(char *p)
     CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj01941 *)p)->f1848);
     CLACT_ExitSystem();
     func_021B7498((u8 *)p);
-    func_021F5330(*(int *)&((struct Obj01941 *)p)->f187C,((struct Obj01941 *)p)->f1880);
-    func_021F51B0(((struct Obj01941 *)p)->f187C);
+    MUSICAL_MCSS_FreeRenderObj(*(int *)&((struct Obj01941 *)p)->f187C,((struct Obj01941 *)p)->f1880);
+    MUSICAL_MCSS_DeleteRenderObj(((struct Obj01941 *)p)->f187C);
     func_02030EAC(*(struct Node * *)&((struct Obj01941 *)p)->f8);
     BILLBOARD_Delete(((struct Obj01941 *)p)->f188C);
     G3D_CAMERA_Delete(((struct Obj01941 *)p)->f1888);
@@ -916,12 +916,12 @@ int func_021B63BC(Context *p)
             if(*(u32 *)P(4)==0) {
                 WIPE_SYS_Start(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
             } else {
-                func_021B9C08((u8 *)p,2,0); func_021FCDEC(*(int *)P(4),69); W(0x0c)=4;
+                func_021B9C08((u8 *)p,2,0); MUS_COMM_FUNC_SetTimingSync(*(int *)P(4),69); W(0x0c)=4;
             }
         }
         break;
     case 4:
-        if(func_021FCE00(*(void **)P(4),69)==1) W(0x0c)=5;
+        if(MUS_COMM_FUNC_CheckTimingSync(*(void **)P(4),69)==1) W(0x0c)=5;
         break;
     case 5:
         if(STA_NET_IsTransferDone(*(void **)P(4))==1) {
@@ -929,9 +929,9 @@ int func_021B63BC(Context *p)
         }
         break;
     }
-    func_021B9F5C((u8 *)p); func_021B8C6C((struct O *)p); func_021F51E8(P(0x187c));
-    func_021F4990(P(0x1884)); CLACT_DrawSystem(); func_02047964(); G3D_SYSTEM_ApplyLookAt();
-    func_021F51F4((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); G3D_SYSTEM_DrawEnd();
+    func_021B9F5C((u8 *)p); func_021B8C6C((struct O *)p); MUSICAL_MCSS_TickAnim(P(0x187c));
+    MUSICAL_MCSS_UpdateObject(P(0x1884)); CLACT_DrawSystem(); func_02047964(); G3D_SYSTEM_ApplyLookAt();
+    MUSICAL_MCSS_DrawRenderObj((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); G3D_SYSTEM_DrawEnd();
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
@@ -940,15 +940,15 @@ int func_021B63BC(Context *p)
     if(p->mode==0) {
         if(p->brightness<128) { p->brightness+=8; brightness(&p->brightness); }
         else if(p->flag==0) {
-            p->flag=1; func_0204152C(7,0);
+            p->flag=1; BG_SYS_ClearLayer(7,0);
             p->window=BMP_WIN_Create(7,1,19,30,4,14,1);
             if(W(0x1840)==0) func_021B9C90((u8 *)p); else func_021B9C08((u8 *)p,6,0);
-            func_0201F73C((u8 *)p->window,1,128,12);
+            BMP_MENUWORK_DrawWindow((u8 *)p->window,1,128,12);
         }
     } else {
         if(p->flag==1) {
             func_021BA0C8((u8 *)p,2); p->flag=0;
-            func_0204047C(7,3); func_0204047C(4,0); func_0204047C(5,1); func_0204047C(6,2);
+            BG_SYS_SetVisibleLayer(7,3); BG_SYS_SetVisibleLayer(4,0); BG_SYS_SetVisibleLayer(5,1); BG_SYS_SetVisibleLayer(6,2);
             func_021BA0C8((u8 *)p,4); func_0204989C(46,13,7,0,0,0,H(0)); func_02041B6C(7);
             p->busy=0; PRINTSYS_QUE_Clear((struct PrintSys *)P(0x18e8)); BMP_WIN_Delete((struct Descriptor *)p->window); p->window=0; func_021BA0C8((u8 *)p,6);
         } else if(p->brightness!=0) {
@@ -965,7 +965,7 @@ int func_021B63BC(Context *p)
     if(p->busy==1 && PRINTSYS_QUE_IsFinished((const struct PrintSys *)P(0x18e8))==1) {
         p->busy=0; desc=(u8 *)p->window;
         BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
-        func_0204047C(4,1); func_0204047C(5,2); func_0204047C(6,3); func_0204047C(7,0);
+        BG_SYS_SetVisibleLayer(4,1); BG_SYS_SetVisibleLayer(5,2); BG_SYS_SetVisibleLayer(6,3); BG_SYS_SetVisibleLayer(7,0);
     }
     func_021BA0C8((u8 *)p,12);
     if(P(0x18e8)!=0) PRINTSYS_QUE_Main((struct PrintSys *)P(0x18e8));
@@ -1011,21 +1011,21 @@ void func_021B6884(void *unused, u8 *p)
     if (*(u8 **)(p + 0x38)) {
         q = (u8 *)func_021BA20C(*(u8 **)(p + 0x38));
         if (*(u16 *)(p + 0x50) != *(u16 *)q) {
-            table = (u8 *)func_021F4F10(*(u8 **)(p + 0x1884));
+            table = (u8 *)MUSICAL_MCSS_NoOp5(*(u8 **)(p + 0x1884));
             *(u16 *)(p + 0x50) = *(u16 *)q;
-            func_0204F32C((int)(*(void **)(p + 0x188c)), *(int *)(p + 0x54), (int)(&height));
+            BILLBOARD_GetImagePlttKey((int)(*(void **)(p + 0x188c)), *(int *)(p + 0x54), (int)(&height));
             BILLBOARD_GetImageTexKey(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);
             BILLBOARD_SetImageTexAddr(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
-            flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
-            func_0204EDD0(flags, &sizes[1], &sizes[0]);
+            flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + 0x50)));
+            BILLBOARD_GetImageSizeFromFlags(flags, &sizes[1], &sizes[0]);
             index = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), width, height, 0, flags, sizes[1], sizes[0]);
-            func_021F4D74(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), *(u16 *)(p + 0x50), index);
+            MUSICAL_MCSS_FreeElemImage(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), *(u16 *)(p + 0x50), index);
             BILLBOARD_ReleaseImageVramIfUsed(*(void **)(p + 0x188c), *(u32 *)(p + 0x54));
             *(u32 *)(p + 0x54) = index;
         }
     }
     CLACT_VBlankSystem();
-    func_021F4AA4(*(void **)(p + 0x1884));
+    MUSICAL_MCSS_NoOp3(*(void **)(p + 0x1884));
 }
 
 
@@ -1079,7 +1079,7 @@ void func_021B69AC(u8 *p)
     *(volatile u16 *)0x04000060 &= 0xcfdf;
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((struct DispConfig *)d_021BA428); BG_SYS_SetLowBit(1);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BA428); BG_SYS_SetLowBit(1);
     func_021B6E4C(d_021BA438,1); func_021B6E4C(d_021BA458,2);
     func_021B6E4C(d_021BA478,3); func_021B6E4C(d_021BA4F8,7);
     func_021B6E4C(d_021BA498,4); func_021B6E4C(d_021BA4B8,5); func_021B6E4C(d_021BA4D8,6);
@@ -1187,7 +1187,7 @@ void func_021B6BA4(u8 *p)
 
 
 
-void func_021B6E4C(const void *t,unsigned int id) {BG_SYS_InitBgLayer(id,t,0);func_02040588(id,1);func_020414AC(id);func_020409B4(id);}
+void func_021B6E4C(const void *t,unsigned int id) {BG_SYS_InitBgLayer(id,t,0);func_02040588(id,1);BG_SYS_FreeSlot(id);func_020409B4(id);}
 
 
 
@@ -1200,17 +1200,17 @@ void func_021B6E74(u8 *p)
 {
     int v[3];
     int *q;
-    *(u8 * *)&((struct Obj02852 *)p)->f187C = func_021F5164(((struct Obj02852 *)p)->f0);
-    func_021F5438((void **)(*(u8 * *)&((struct Obj02852 *)p)->f187C), 0x50000);
-    func_021F5444(*(u8 * *)&((struct Obj02852 *)p)->f187C, 0x3fe0);
-    *(u8 * *)&((struct Obj02852 *)p)->f1880 = func_021F5204(*(u8 * *)&((struct Obj02852 *)p)->f187C, (*(void ***)(p + 4))[1], 0);
-    func_021F51E8(*(u8 * *)&((struct Obj02852 *)p)->f187C);
-    func_021F51F4((void **)(*(u8 * *)&((struct Obj02852 *)p)->f187C));
-    q = (int *)func_021F545C(*(u8 * *)&((struct Obj02852 *)p)->f1880);
+    *(u8 * *)&((struct Obj02852 *)p)->f187C = MUSICAL_MCSS_CreateRenderObj(((struct Obj02852 *)p)->f0);
+    MUSICAL_MCSS_SetRenderFieldA((void **)(*(u8 * *)&((struct Obj02852 *)p)->f187C), 0x50000);
+    MUSICAL_MCSS_SetRenderFieldB(*(u8 * *)&((struct Obj02852 *)p)->f187C, 0x3fe0);
+    *(u8 * *)&((struct Obj02852 *)p)->f1880 = MUSICAL_MCSS_SetupRenderObj(*(u8 * *)&((struct Obj02852 *)p)->f187C, (*(void ***)(p + 4))[1], 0);
+    MUSICAL_MCSS_TickAnim(*(u8 * *)&((struct Obj02852 *)p)->f187C);
+    MUSICAL_MCSS_DrawRenderObj((void **)(*(u8 * *)&((struct Obj02852 *)p)->f187C));
+    q = (int *)MUSICAL_MCSS_GetRenderFlags(*(u8 * *)&((struct Obj02852 *)p)->f1880);
     v[0] = (0x80000 - q[0]) / 16;
     v[1] = (0xc0000 - (0x70000 - q[1])) / 16;
     v[2] = 0x28000;
-    func_021F5350((int *)(*(u8 * *)&((struct Obj02852 *)p)->f1880), v);
+    MUSICAL_MCSS_GetRenderPos((int *)(*(u8 * *)&((struct Obj02852 *)p)->f1880), v);
 }
 
 
@@ -1270,18 +1270,18 @@ void func_021B6F00(u8 *p)
         *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = 1;
     }
 
-    *(u8 **)(p + 0x1884) = (u8 *)func_021F48C0((u32)(*(void **)(p + 0x188c)), 0x98, *(u16 *)p);
-    table = (u8 *)func_021F4F10(*(u8 **)(p + 0x1884));
+    *(u8 **)(p + 0x1884) = (u8 *)MUSICAL_MCSS_CreateActorPool((u32)(*(void **)(p + 0x188c)), 0x98, *(u16 *)p);
+    table = (u8 *)MUSICAL_MCSS_NoOp5(*(u8 **)(p + 0x1884));
 
     for (i = 0; i < *(u16 *)(p + 0xa8); i++) {
-        h = func_021F4B3C(*(u16 *)(p + i * 0x14 + 0xac));
+        h = MUSICAL_MCSS_CreateResourceArc(*(u16 *)(p + i * 0x14 + 0xac));
         G3D_SYSTEM_TransVramTexture(h);
         w = G3D_SYSTEM_GetTexVramKey(h);
         hgt = G3D_SYSTEM_GetPlttVramKey(h);
         sz = ((hgt & 0xFFFF0000) >> 16) << 3;
         vram = d_020A8148(sz, 0, 0);
-        flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + i * 0x14 + 0xac)));
-        func_0204EDD0(flags, &sizes[1], &sizes[0]);
+        flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + i * 0x14 + 0xac)));
+        BILLBOARD_GetImageSizeFromFlags(flags, &sizes[1], &sizes[0]);
         *(u32 *)(p + i * 0x14 + 0xb0) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
         pal = (u16 *)G3D_SYSTEM_GetPlttDataAddr((int)h);
         n = sz >> 1;
@@ -1298,7 +1298,7 @@ void func_021B6F00(u8 *p)
         DWCi_ScreenDC_FlushRange(buf, *(u32 *)(buf + 8));
         NNS_G3dPlttLoad(res, 1);
         *(u32 *)(p + i * 0x14 + 0xb4) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
-        func_021F4B4C(h);
+        MUSICAL_MCSS_FreeResourceArc(h);
     }
 
     func_021B9028(p, 8, 0);
@@ -1311,23 +1311,23 @@ void func_021B6F00(u8 *p)
         Vec v = {0, 0, 0};
         e = func_021BA19C(*(u16 *)p, *(void **)(p + 0x1884), p + 0xac + i * 0x14, (int *)(&v));
         func_021BA100(*(void **)(p + 0x181c), e);
-        func_021F4EE8((int)*(u8 **)(p + 0x1884), (Flags *)func_021BA218(e), 0);
+        MUSICAL_MCSS_SetElemFlag((int)*(u8 **)(p + 0x1884), (Flags *)func_021BA218(e), 0);
     }
 
     {
     Vec v2 = {0, 0, 0};
     *(u16 *)(p + 0x50) = 0;
-    flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
-    func_0204EDD0(flags, &dims[1], &dims[0]);
-    h = func_021F4B3C(*(u16 *)(p + 0x50));
+    flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + 0x50)));
+    BILLBOARD_GetImageSizeFromFlags(flags, &dims[1], &dims[0]);
+    h = MUSICAL_MCSS_CreateResourceArc(*(u16 *)(p + 0x50));
     G3D_SYSTEM_TransVramTexture(h);
     w = G3D_SYSTEM_GetTexVramKey(h);
     *(u32 *)(p + 0x54) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, G3D_SYSTEM_GetPlttVramKey(h), 0, flags, dims[1], dims[0]);
-    *(u8 **)(p + 0x4c) = func_021F4C1C(*(u8 **)(p + 0x1884), *(u16 *)(p + 0x50), *(u32 *)(p + 0x54), &v2);
-    func_021F4E6C(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0);
-    func_021F4EB4((u32)(*(u8 **)(p + 0x1884)), (u32)(*(u8 **)(p + 0x4c)), 0x1000, 0x1000);
-    func_021F4DE0((char *)(*(u8 **)(p + 0x1884)), (char *)(*(u8 **)(p + 0x4c)), h);
-    func_021F4B4C(h);
+    *(u8 **)(p + 0x4c) = MUSICAL_MCSS_AddImageNoVram(*(u8 **)(p + 0x1884), *(u16 *)(p + 0x50), *(u32 *)(p + 0x54), &v2);
+    MUSICAL_MCSS_SetElemVisible(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0);
+    MUSICAL_MCSS_SetElemRotZ((u32)(*(u8 **)(p + 0x1884)), (u32)(*(u8 **)(p + 0x4c)), 0x1000, 0x1000);
+    MUSICAL_MCSS_TransferVram((char *)(*(u8 **)(p + 0x1884)), (char *)(*(u8 **)(p + 0x4c)), h);
+    MUSICAL_MCSS_FreeResourceArc(h);
     }
 
     *(u32 *)(p + 0x58) = BILLBOARD_AddImageFromArchive(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
@@ -1378,7 +1378,7 @@ void func_021B7368(u8 *p,u16 id)
         q=func_021BA19C(*(u16 *)p,*(void **)(p+0x1884),e,(int *)(&scale));
         func_021BA100(*(void **)(p+0x1820),q);
         func_021BA21C(q,(const u8 *)(&pos));
-        func_021F4EB4(*(int *)(p+0x1884),func_021BA218(q),0x1000,0x1000);
+        MUSICAL_MCSS_SetElemRotZ(*(int *)(p+0x1884),func_021BA218(q),0x1000,0x1000);
         *(u32 *)(e+0xc)=1;
     }
 }
@@ -1419,7 +1419,7 @@ void func_021B7498(u8 *p)
     while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,((struct Obj00777 *)p)->f1884);e=next;}
     for(i=0;i<14;i++)BILLBOARD_FreeElem(((struct Obj00777 *)p)->f188C,*(unsigned int *)(p+i*4+0x5c));
     BILLBOARD_DeleteImage(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f58);
-    func_021F4D40((u8 *)(*(int *)&((struct Obj00777 *)p)->f1884),(u8 *)(((struct Obj00777 *)p)->f4C));
+    MUSICAL_MCSS_FreeElem((u8 *)(*(int *)&((struct Obj00777 *)p)->f1884),(u8 *)(((struct Obj00777 *)p)->f4C));
     BILLBOARD_DeleteImage(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f54);
     for(i=0;i<((struct Obj00777 *)p)->fA8;i++){
         BILLBOARD_DeleteImage(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb0));
@@ -1427,7 +1427,7 @@ void func_021B7498(u8 *p)
     }
     func_021BA0F8(((struct Obj00777 *)p)->f181C);func_021BA0F8(((struct Obj00777 *)p)->f1820);
     func_021BA0F8(((struct Obj00777 *)p)->f1824);func_021BA0F8(((struct Obj00777 *)p)->f1828);
-    func_021F4948(*(u8 **)(p+0x1884));
+    MUSICAL_MCSS_DeleteActorPool(*(u8 **)(p+0x1884));
 }
 
 
@@ -1788,26 +1788,26 @@ void *func_021B765C(u8 *p, u16 base, s16_021B765C speed, u16 rx, u16 ry)
         v.x = sx + offx;
         v.y = sy + offy;
         v.z = (h - a) + 0x14000;
-        func_021F4E8C(*(int *)(p + 0x1884), (int)spr, &v);
-        func_021F4ED4(*(int *)(p + 0x1884), (int)spr, rot);
+        MUSICAL_MCSS_SetElemPos(*(int *)(p + 0x1884), (int)spr, &v);
+        MUSICAL_MCSS_SetElemField(*(int *)(p + 0x1884), (int)spr, rot);
         func_021BA21C(e, (const u8 *)(&pos));
         if (a < (h >> 1)) {
             sc = h >> 3;
-            func_021F4EB4(*(int *)(p + 0x1884), (int)spr, h >> 3, h >> 3);
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, h >> 3, h >> 3);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, h >> 3);
         } else if (a < 0x6E00) {
             sc = ((u16)(0x6E00 - a) << 11) / 0x2E00 + (h >> 4);
-            func_021F4EB4(*(int *)(p + 0x1884), (int)spr, sc, sc);
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, sc);
         } else if (a < 0x78E0) {
             sc = ((u16)(0x78E0 - a) << 11) / 0xAE0;
-            func_021F4EB4(*(int *)(p + 0x1884), (int)spr, sc, sc);
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, sc);
         } else {
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 0);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 0);
             func_021BA244(e, 0);
             sc = 0;
         }
@@ -1844,9 +1844,9 @@ void func_021B7A18(u8 *p)
         q = (u8 *)func_021BA20C(e);
         s = (u8 *)func_021BA218(e);
         if (((struct Obj06496 *)q)->fC == 1)
-            func_021F4D74(*(u8 **)(p + 0x1884), s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f8);
+            MUSICAL_MCSS_FreeElemImage(*(u8 **)(p + 0x1884), s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f8);
         else
-            func_021F4D74(*(u8 * *)&((struct Obj00004 *)p)->f1884, s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f4);
+            MUSICAL_MCSS_FreeElemImage(*(u8 * *)&((struct Obj00004 *)p)->f1884, s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f4);
         e = (u8 *)func_021BA208(e);
     }
 }
@@ -1918,7 +1918,7 @@ void func_021B7CFC(u8 *p, int unused_x, int unused_y)
     u8 *e,*data;
     y0=(((struct Obj00220 *)p)->f28*72)/48;
     y1=(((struct Obj00220 *)p)->f20*72)/48;
-    angle=func_0203F768(((struct Obj00220 *)p)->f24,y0,((struct Obj00220 *)p)->f1C,y1,128,80,72);
+    angle=GF_STANDARD_CalcAngle(((struct Obj00220 *)p)->f24,y0,((struct Obj00220 *)p)->f1C,y1,128,80,72);
     ((struct Obj00220 *)p)->f1830+=(u16)(angle<0?-angle:angle);
     if(((struct Obj00220 *)p)->f14==1 || ((struct Obj00220 *)p)->f1830>=0x71c){
         e=func_021BA184(((struct Obj00220 *)p)->f181C);hit=0;
@@ -2001,28 +2001,28 @@ void func_021B7F54(u8 *p,int sound)
     relative.x=((struct Obj00004 *)p)->f1C-128;relative.y=*(int *)&((struct Obj00004 *)p)->f20-112;
     index=func_021B8BB4(p,sprite,(const int *)&relative,&scale.limit);((struct Obj00004 *)p)->f34=index;
     if(index!=10){
-        q=func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
+        q=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
         pos.x=(int)((float)(((struct Obj06497 *)q)->f4+((struct Obj06497 *)q)->f10)/4096.f)+128;
         pos.y=(int)((float)(((struct Obj06497 *)q)->f8+((struct Obj06497 *)q)->f14)/4096.f)+96;
-        rotation=((struct Obj06497 *)q)->f36;func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884, (Flags *)((int)sprite), 1);
-        if(func_021F4B24(sprite)==1)v.z=0x1a000;
+        rotation=((struct Obj06497 *)q)->f36;MUSICAL_MCSS_SetElemFlag(*(int *)&((struct Obj00004 *)p)->f1884, (Flags *)((int)sprite), 1);
+        if(MUSICAL_MCSS_GetFlagA(sprite)==1)v.z=0x1a000;
         if(func_021B8B78(p,((struct Obj00004 *)p)->f34)==0){((struct Obj00004 *)p)->f40=3;((struct Obj00004 *)p)->f44=pos.x;((struct Obj00004 *)p)->f48=pos.y;}
         func_021BA254((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj00004 *)p)->f34);
         if(old!=((struct Obj00004 *)p)->f34 && sound==1)GFL_USE_PlaySeDefaultVolume(0x627);
     }else{
         ((struct Obj00004 *)p)->f34=10;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;
-        func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884, (Flags *)((int)sprite), rotation);
+        MUSICAL_MCSS_SetElemFlag(*(int *)&((struct Obj00004 *)p)->f1884, (Flags *)((int)sprite), rotation);
     }
     if(pos.x>0)v.x=(int)(0.5f+(float)(int)((u32)pos.x<<12));else v.x=(int)((float)(int)((u32)pos.x<<12)-0.5f);
     if(pos.y>0)v.y=(int)(0.5f+(float)(int)((u32)pos.y<<12));else v.y=(int)((float)(int)((u32)pos.y<<12)-0.5f);
-    func_021F4E8C(*(int *)(p+0x1884),(int)sprite,&v);
+    MUSICAL_MCSS_SetElemPos(*(int *)(p+0x1884),(int)sprite,&v);
     func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&pos));
-    q=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);func_021F4ED4(*(int *)(p+0x1884),(int)q,rotation);
-    func_021F4EC4(*(int *)(p+0x1884),(int)sprite,&scale.x,&scale.y);
+    q=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);MUSICAL_MCSS_SetElemField(*(int *)(p+0x1884),(int)q,rotation);
+    MUSICAL_MCSS_SetElemRot(*(int *)(p+0x1884),(int)sprite,&scale.x,&scale.y);
     if(scale.x<4096 || scale.y<4096){
         scale.x+=410;scale.y+=410;
         if(scale.x>4096)scale.x=4096;if(scale.y>4096)scale.y=4096;
-        func_021F4EB4(*(int *)(p+0x1884),(int)sprite,scale.x,scale.y);
+        MUSICAL_MCSS_SetElemRotZ(*(int *)(p+0x1884),(int)sprite,scale.x,scale.y);
     }
 }
 
@@ -2049,9 +2049,9 @@ void func_021B8140(u8 *p)
     func_021BA100(((struct Obj00004 *)p)->f1820,q);
     func_021BA21C(q,(const u8 *)(&pos));
     s=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);t=(u8 *)func_021BA218(q);
-    func_021F4EC4(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&old.x,&old.y);
-    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,old.x,old.y);
-    func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(Flags *)t,0);
+    MUSICAL_MCSS_SetElemRot(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&old.x,&old.y);
+    MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,old.x,old.y);
+    MUSICAL_MCSS_SetElemFlag(*(int *)&((struct Obj00004 *)p)->f1884,(Flags *)t,0);
     v=(u32 *)func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
     *(u32 *)&((struct Obj00004 *)p)->f40=1;
     *(u32 *)&((struct Obj00004 *)p)->f44=v[0];*(u32 *)&((struct Obj00004 *)p)->f48=v[1];
@@ -2074,13 +2074,13 @@ void func_021B8254(u8 *p)
     s = (u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA148(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA124(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
-    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884, (int)s, 4096, 4096);
+    MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj00004 *)p)->f1884, (int)s, 4096, 4096);
     e = func_021BA184(((struct Obj00004 *)p)->f1820);
     while (e) {
         s = (u8 *)func_021BA218(e);
-        func_021F4EA4(*(int *)(p + 0x1884), (int)s, (u32)(&v));
+        MUSICAL_MCSS_SetElemScale(*(int *)(p + 0x1884), (int)s, (u32)(&v));
         v.z = z;
-        func_021F4E8C(*(int *)(p + 0x1884), (int)s, (Vec *)&v);
+        MUSICAL_MCSS_SetElemPos(*(int *)(p + 0x1884), (int)s, (Vec *)&v);
         z -= 1024;
         e = (u8 *)func_021BA208(e);
     }
@@ -2114,8 +2114,8 @@ void func_021B82E8(u8 *p, int unused)
     if (((struct Obj00004 *)p)->f48 > 0) v.y = (int)(0.5f + (float)(((struct Obj00004 *)p)->f48 << 12));
     else v.y = (int)((float)(((struct Obj00004 *)p)->f48 << 12) - 0.5f);
     func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const u8 *)(&pos));
-    func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, (Vec *)&v);
-    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, 4096, 4096);
+    MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, (Vec *)&v);
+    MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, 4096, 4096);
     func_021BA244(*(u8 * *)&((struct Obj00004 *)p)->f38, 4096);
     found = 0;
     entry = func_021BA184(((struct Obj00004 *)p)->f181C);
@@ -2143,7 +2143,7 @@ void func_021B82E8(u8 *p, int unused)
 
 
 /*
- * ABI: func_021F4B24 declared int here: its forwarded func_021F50D0 returns 0/1; original compares the returned r0 despite legacy void declarations.
+ * ABI: MUSICAL_MCSS_GetFlagA declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
  */
 void func_021B8444(u8 *p)
 {
@@ -2155,16 +2155,16 @@ void func_021B8444(u8 *p)
     func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
     sprite=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
     if(func_021B8B78(p,((struct Obj00004 *)p)->f34)==1) {
-        state=func_021F50F4(((struct Obj00004 *)p)->f34);
+        state=MUSICAL_MCSS_GetIndex(((struct Obj00004 *)p)->f34);
         entry=func_021BA184(((struct Obj00004 *)p)->f1824);
         while(entry) {
-            if(state==func_021F50F4(func_021BA258((char *)entry))) break;
+            if(state==MUSICAL_MCSS_GetIndex(func_021BA258((char *)entry))) break;
             entry=(u8 *)func_021BA208(entry);
         }
         if(entry) {
             v=d_021BA570;
             s=(u8 *)func_021BA218(entry);
-            func_021F4F04(s,&offset);
+            MUSICAL_MCSS_GetElemOffset(s,&offset);
             func_021B7458(p,(int *)&pos);
             pos.x+=offset.x;
             pos.y+=offset.y;
@@ -2176,17 +2176,17 @@ void func_021B8444(u8 *p)
             if(pos.y>0) v.y=(int)(0.5f+(float)(pos.y<<12));
             else v.y=(int)((float)(pos.y<<12)-0.5f);
             func_021BA22C(entry,(const u8 *)old);
-            func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)s, (Vec *)&v);
-            func_021F4ED4(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,0);
+            MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884, (int)s, (Vec *)&v);
+            MUSICAL_MCSS_SetElemField(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,0);
             func_021BA21C(entry,(const u8 *)(&pos));
             func_021BA24C((char *)entry,10);
             depth=0;
             entry=func_021BA184(((struct Obj00004 *)p)->f1820);
             while(entry) {
                 s=(u8 *)func_021BA218(entry);
-                func_021F4EA4(*(int *)(p+0x1884),(int)s,(u32)(&first));
+                MUSICAL_MCSS_SetElemScale(*(int *)(p+0x1884),(int)s,(u32)(&first));
                 first.z=depth;
-                func_021F4E8C(*(int *)(p+0x1884), (int)s, (Vec *)&first);
+                MUSICAL_MCSS_SetElemPos(*(int *)(p+0x1884), (int)s, (Vec *)&first);
                 depth-=1024;
                 entry=(u8 *)func_021BA208(entry);
             }
@@ -2194,17 +2194,17 @@ void func_021B8444(u8 *p)
     }
     func_021BA148(((struct Obj00004 *)p)->f1820,*(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA124(((struct Obj00004 *)p)->f1824,*(u8 * *)&((struct Obj00004 *)p)->f38);
-    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,4096,4096);
+    MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,4096,4096);
     func_021BA254((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj00004 *)p)->f34);
     entry=func_021BA184(((struct Obj00004 *)p)->f1824);
     depth=0;
     while(entry) {
         s=(u8 *)func_021BA218(entry);
-        func_021F4EA4(*(int *)(p+0x1884),(int)s,(u32)(&second));
-        if(func_021F4B24(s)==1) second.z=depth+(102<<10);
+        MUSICAL_MCSS_SetElemScale(*(int *)(p+0x1884),(int)s,(u32)(&second));
+        if(MUSICAL_MCSS_GetFlagA(s)==1) second.z=depth+(102<<10);
         else if(func_021BA258((char *)entry)==7 || func_021BA258((char *)entry)==8) second.z=depth+(222<<10);
         else second.z=depth+(202<<10);
-        func_021F4E8C(*(int *)(p+0x1884), (int)s, (Vec *)&second);
+        MUSICAL_MCSS_SetElemPos(*(int *)(p+0x1884), (int)s, (Vec *)&second);
         depth-=1024;
         entry=(u8 *)func_021BA208(entry);
     }
@@ -2217,7 +2217,7 @@ void func_021B8444(u8 *p)
 
 /*
  * lever: Unsigned word state local restores the state/sprite register pair; int and long left DIFF7.
- * ABI: func_021F4B24 declared int here: its forwarded func_021F50D0 returns 0/1; original compares the returned r0 despite legacy void declarations.
+ * ABI: MUSICAL_MCSS_GetFlagA declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
  */
 void func_021B8680(u8 *p)
 {
@@ -2235,7 +2235,7 @@ void func_021B8680(u8 *p)
         if(((struct Obj00004 *)p)->f48>0) a.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f48<<12));
         else a.y=(int)((float)(((struct Obj00004 *)p)->f48<<12)-0.5f);
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posA));
-        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, (Vec *)&a);
+        MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, (Vec *)&a);
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(p+0x44));
         func_021BA24C((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),10);
         func_021B8254(p);
@@ -2244,20 +2244,20 @@ void func_021B8680(u8 *p)
         u8 *spriteB;
         spriteB=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
         state=func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
-        record=func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880,state);
+        record=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880,state);
         posB.x=(int)((float)(((struct Obj06498 *)record)->f4+((struct Obj06498 *)record)->f10)/4096.0f)+128;
         posB.y=(int)((float)(((struct Obj06498 *)record)->f8+((struct Obj06498 *)record)->f14)/4096.0f)+96;
         if(posB.x>0) b.x=(int)(0.5f+(float)(posB.x<<12));
         else b.x=(int)((float)(posB.x<<12)-0.5f);
         if(posB.y>0) b.y=(int)(0.5f+(float)(posB.y<<12));
         else b.y=(int)((float)(posB.y<<12)-0.5f);
-        if(func_021F4B24(spriteB)==1) b.z=102<<10;
+        if(MUSICAL_MCSS_GetFlagA(spriteB)==1) b.z=102<<10;
         else if(func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38))==7 || func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38))==8) b.z=222<<10;
         else b.z=202<<10;
         flag=((struct Obj06498 *)record)->f36;
-        func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(Flags *)spriteB,1);
-        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)spriteB, (Vec *)&b);
-        func_021F4ED4(*(int *)&((struct Obj00004 *)p)->f1884,(int)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),flag);
+        MUSICAL_MCSS_SetElemFlag(*(int *)&((struct Obj00004 *)p)->f1884,(Flags *)spriteB,1);
+        MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884, (int)spriteB, (Vec *)&b);
+        MUSICAL_MCSS_SetElemField(*(int *)&((struct Obj00004 *)p)->f1884,(int)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),flag);
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posB));
         currentB.x=((struct Obj00004 *)p)->f1C; currentB.y=*(int *)&((struct Obj00004 *)p)->f20;
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&currentB));
@@ -2278,7 +2278,7 @@ void func_021B8680(u8 *p)
         if(((struct Obj00004 *)p)->f48>0) c.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f48<<12));
         else c.y=(int)((float)(((struct Obj00004 *)p)->f48<<12)-0.5f);
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posC));
-        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, (Vec *)&c);
+        MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, (Vec *)&c);
         func_021B82E8(p,1);
         return;
     }
@@ -2311,7 +2311,7 @@ int func_021B8930(u8 *p)
     pos[1] = *(int *)&((struct Obj00004 *)p)->f20 - 112;
     index = func_021B8BB4(p, 0, pos, &limit);
     if (index != 10) {
-    mode = func_021F50F4(index);
+    mode = MUSICAL_MCSS_GetIndex(index);
     if (mode == 7) mode = 6;
     if (mode == ((struct Obj00004 *)p)->fA4) {
         func_021B9028(p, 8, start);
@@ -2392,7 +2392,7 @@ void func_021B8AC8(u8 *p)
 
 
 
-int func_021B8B78(unsigned char *p,unsigned int id) {int key=func_021F50F4(id);unsigned char *q=func_021BA184((char *)(((struct Obj23314 *)p)->f1824));while(q){if(key==func_021F50F4(func_021BA258((char *)q)))return 1;q=(unsigned char *)func_021BA208(q);}return 0;}
+int func_021B8B78(unsigned char *p,unsigned int id) {int key=MUSICAL_MCSS_GetIndex(id);unsigned char *q=func_021BA184((char *)(((struct Obj23314 *)p)->f1824));while(q){if(key==MUSICAL_MCSS_GetIndex(func_021BA258((char *)q)))return 1;q=(unsigned char *)func_021BA208(q);}return 0;}
 
 
 
@@ -2424,8 +2424,8 @@ int func_021B8BB4(u8 *p, void *manager, const int *pos, u16 *limit)
     best = 10;
     for (i = I_ZERO; i < I_LIMIT; i++) {
         if (manager == 0) enabled = 1;
-        else enabled = func_021F4AF0(manager, i);
-        q = func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880, i);
+        else enabled = MUSICAL_MCSS_SetIndexA(manager, i);
+        q = MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880, i);
         if (((struct Obj06499 *)q)->f0 == 1 && enabled == 1) {
             x = coordinate(((struct Obj06499 *)q)->f4 + ((struct Obj06499 *)q)->f10, I_ZERO);
             y = coordinate(((struct Obj06499 *)q)->f8 + ((struct Obj06499 *)q)->f14, (Index)16);
@@ -2486,8 +2486,8 @@ void func_021B8C6C(struct O *p)
             if (n != 0) {
                 x = s + ((0x1000 - s) * n) / 10;
                 sx = x;
-                func_021F4EB4((u32)p->f1884, data, sx, sx);
-                func_021F4EA4((int)p->f1884, data, (u32)(&v1));
+                MUSICAL_MCSS_SetElemRotZ((u32)p->f1884, data, sx, sx);
+                MUSICAL_MCSS_SetElemScale((int)p->f1884, data, (u32)(&v1));
                 w = 10 - (u16)n;
                 a0 = A[0];
                 x = B[0] - a0;
@@ -2502,7 +2502,7 @@ void func_021B8C6C(struct O *p)
                 if (x > 0) v1.y = (int)(0.5f + (float)(x << 12));
                 else v1.y = (int)((float)(x << 12) - 0.5f);
                 v1.z = 0x46000;
-                func_021F4E8C((int)p->f1884, data, (Vec *)&v1);
+                MUSICAL_MCSS_SetElemPos((int)p->f1884, data, (Vec *)&v1);
                 func_021BA24C((char *)cur, n);
             } else {
                 func_021BA148(p->f1828, cur);
@@ -2525,7 +2525,7 @@ void func_021B8C6C(struct O *p)
                 B2 = (int *)func_021BA228(e);
                 n2 = (u16)(cnt0 - 1);
                 if (n2 != 0) {
-                    func_021F4EA4((int)p->f1884, data2, (u32)(&v2));
+                    MUSICAL_MCSS_SetElemScale((int)p->f1884, data2, (u32)(&v2));
                     wb = 10 - n2;
                     a0b = A2[0];
                     x = B2[0] - a0b;
@@ -2539,14 +2539,14 @@ void func_021B8C6C(struct O *p)
                     x = a1b + x / 10;
                     if (x > 0) v2.y = (int)(0.5f + (float)(x << 12));
                     else v2.y = (int)((float)(x << 12) - 0.5f);
-                    func_021F4E8C((int)p->f1884, data2, (Vec *)&v2);
+                    MUSICAL_MCSS_SetElemPos((int)p->f1884, data2, (Vec *)&v2);
                 } else {
-                    func_021F4EA4((int)p->f1884, data2, (u32)(&v3));
+                    MUSICAL_MCSS_SetElemScale((int)p->f1884, data2, (u32)(&v3));
                     if (B2[0] > 0) v3.x = (int)(0.5f + (float)(B2[0] << 12));
                     else v3.x = (int)((float)(B2[0] << 12) - 0.5f);
                     if (B2[1] > 0) v3.y = (int)(0.5f + (float)(B2[1] << 12));
                     else v3.y = (int)((float)(B2[1] << 12) - 0.5f);
-                    func_021F4E8C((int)p->f1884, data2, (Vec *)&v3);
+                    MUSICAL_MCSS_SetElemPos((int)p->f1884, data2, (Vec *)&v3);
                     func_021BA22C(e, (const u8 *)B2);
                 }
                 func_021BA24C((char *)e, n2);
@@ -2568,12 +2568,12 @@ void func_021B8C6C(struct O *p)
 void func_021B8FA8(u8 *p)
 {
     if (*(u8 * *)&((struct Obj00004 *)p)->f38 == 0) {
-        func_021F4E6C(((struct Obj00004 *)p)->f1884, ((struct Obj00004 *)p)->f4C, 0);
+        MUSICAL_MCSS_SetElemVisible(((struct Obj00004 *)p)->f1884, ((struct Obj00004 *)p)->f4C, 0);
         return;
     }
     if (((struct Obj00004 *)p)->f50 == *(u16 *)func_021BA20C(*(u8 * *)&((struct Obj00004 *)p)->f38)) {
-        func_021F4E6C(((struct Obj00004 *)p)->f1884, ((struct Obj00004 *)p)->f4C, 1);
-        func_021F4E2C(((struct Obj00004 *)p)->f1884, (u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38), ((struct Obj00004 *)p)->f4C);
+        MUSICAL_MCSS_SetElemVisible(((struct Obj00004 *)p)->f1884, ((struct Obj00004 *)p)->f4C, 1);
+        MUSICAL_MCSS_CopyElem(((struct Obj00004 *)p)->f1884, (u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38), ((struct Obj00004 *)p)->f4C);
     }
 }
 
@@ -2635,8 +2635,8 @@ void func_021B9028(u8 *p, int kind, u16 start)
 
 u16 func_021B9118(u8 *p, u8 *q, int v)
 {
-    int a = func_021F4B10(((struct Obj03825 *)p)->f1884, ((struct Obj05409 *)q)->f0, v);
-    int b = func_021F4AFC(((struct Obj03825 *)p)->f1884, ((struct Obj05409 *)q)->f0, v);
+    int a = MUSICAL_MCSS_SetIndexC(((struct Obj03825 *)p)->f1884, ((struct Obj05409 *)q)->f0, v);
+    int b = MUSICAL_MCSS_SetIndexB(((struct Obj03825 *)p)->f1884, ((struct Obj05409 *)q)->f0, v);
     int n;
     if (a == 1) {
         if (((struct Obj05409 *)q)->f10 == 1) n = 6000;
@@ -2678,13 +2678,13 @@ void func_021B918C(u8 *p)
         d = x * x + y * y;
         dist = FX_Sqrt(FXI(d));
         ang = FX_Atan2Idx(FXI(y), FXI(x));
-        func_021F4EA4((u32)(*(u8 **)(p + 0x1884)), id, (u32)v);
+        MUSICAL_MCSS_SetElemScale((u32)(*(u8 **)(p + 0x1884)), id, (u32)v);
         k = dist + FXI(*(int *)(p + 0x10));
         sc = &((const SC *)FX_SinCosTable_)[ang >> 4];
         v[0] = (fx32)(((long long)sc->c * k + 0x800) >> 12) + 0x80000;
         k = dist + FXF((float)*(int *)(p + 0x10) * 0.6666667f);
         v[1] = (fx32)(((long long)sc->s * k + 0x800) >> 12) + 0x50000;
-        func_021F4E8C((int)*(u8 **)(p + 0x1884), id, (Vec *)v);
+        MUSICAL_MCSS_SetElemPos((int)*(u8 **)(p + 0x1884), id, (Vec *)v);
         e = (u8 *)func_021BA208(e);
     }
     func_02040618(2, 3, -*(int *)(p + 0x10));
@@ -2727,7 +2727,7 @@ int func_021B940C(u8 *p)
         GFL_USE_PlaySeDefaultVolume(1962);
         func_021B94C0(p);
         obj = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
-        func_0201EEF4(obj, 0, ((struct Obj23318 *)(*(u8 * *)&((struct Obj23317 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4))->f4);
+        WORDSET_SetSlotMonSpecies(obj, 0, ((struct Obj23318 *)(*(u8 * *)&((struct Obj23317 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4))->f4);
         func_021B9C08(p, 0, obj);
         WORDSET_DeleteStrbufED04(obj);
         func_021BA098(p);
@@ -2756,8 +2756,8 @@ void func_021B94C0(u8 *p)
     e = func_021BA184(((struct Obj00004 *)p)->f1824);
     while (e) {
         index = func_021BA258((char *)e);
-        q = func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880, index);
-        func_021F4ED4((u32)(((struct Obj00004 *)p)->f1884), func_021BA218(e), ((struct Obj23320 *)q)->f36);
+        q = MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880, index);
+        MUSICAL_MCSS_SetElemField((u32)(((struct Obj00004 *)p)->f1884), func_021BA218(e), ((struct Obj23320 *)q)->f36);
         e = (u8 *)func_021BA208(e);
     }
 }
@@ -2815,7 +2815,7 @@ void func_021B95AC(u8 *p)
     int dx,dy,stride,absval,y;
     s16_021B9028 old,adjust;
     index=func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
-    rec=func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
+    rec=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
     func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
     xy=(u32 *)func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
     y=xy[1];
@@ -2835,7 +2835,7 @@ void func_021B95AC(u8 *p)
             ((struct Obj00004 *)p)->f18C4=0;
             GFL_USE_PlaySeDefaultVolume(1577);
         }
-        func_021F4ED4((u32)(((struct Obj00004 *)p)->f1884),func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
+        MUSICAL_MCSS_SetElemField((u32)(((struct Obj00004 *)p)->f1884),func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
         *(s16_021B9028 *)(*(u8 * *)&((struct Obj23323 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4+stride+0x16)=adjust;
     }
     ((struct Obj00004 *)p)->f2C=angle;
@@ -2856,7 +2856,7 @@ void func_021B96D8(char *p)
         u32 idx = (u16)func_021BA258(t);
         u8 *rec;
         u32 off;
-        (char *)func_021F5450((u8 *)(*(char **)(p + 0x1880)), idx);
+        (char *)MUSICAL_MCSS_GetRenderElem((u8 *)(*(char **)(p + 0x1880)), idx);
         rec = sv + i * 6;
         sv[i * 6] = idx;
         *(u16 *)(rec + 2) = *((u16 *)func_021BA20C(t));
@@ -2886,7 +2886,7 @@ void func_021B9784(u8 *p)
     CLACT_AddActorSurfacePos(((struct Obj06500 *)p)->f1850,(const struct Vec2 *)(&pos),0);
     pal=p[0x18c0]*24/60+4;
     if(pal>=11) pal=3;
-    func_020413B0(2,10,44,12,12,pal);
+    BG_SYS_FillTileMap(2,10,44,12,12,pal);
     func_02041B6C(2);
 }
 
@@ -2990,7 +2990,7 @@ void func_021B9B48(u8 *p)
     ((struct Obj02197 *)p)->f18E0 = func_02045B38(0, 2, 75, ((struct Obj02197 *)p)->f0);
     func_02049B40(23, 5, 4, 448, 32, ((struct Obj02197 *)p)->f0);
     ((struct Obj02197 *)p)->f18E8 = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj02197 *)p)->f0));
-    func_0201F5BC(7, 128, 12, 0, ((struct Obj02197 *)p)->f0);
+    BMP_MENUWORK_LoadCharAndPltt(7, 128, 12, 0, ((struct Obj02197 *)p)->f0);
 }
 
 
@@ -3005,7 +3005,7 @@ void func_021B9C08(u8 *p, unsigned int index, void *object)
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00004 *)p)->f18EC), 15);
     if (object) {
         copy = STRBUF_Create(128, ((struct Obj00004 *)p)->f0);
-        func_0201F250(object, copy, text);
+        WORDSET_CopyTaggedText(object, copy, text);
         STRBUF_Delete(text);
         text = copy;
     }
@@ -3015,19 +3015,19 @@ void func_021B9C08(u8 *p, unsigned int index, void *object)
 }
 
 
-void func_021B9C90(unsigned char *p) {void *r=GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);func_0201EEF4(r,0,((struct Obj23325 *)(*(unsigned char * *)&((struct Obj23324 *)(*(unsigned char * *)&((struct Obj00004 *)p)->f4))->f4))->f4);func_021B9C08(p,0,r);WORDSET_DeleteStrbufED04(r);}
+void func_021B9C90(unsigned char *p) {void *r=GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);WORDSET_SetSlotMonSpecies(r,0,((struct Obj23325 *)(*(unsigned char * *)&((struct Obj23324 *)(*(unsigned char * *)&((struct Obj00004 *)p)->f4))->f4))->f4);func_021B9C08(p,0,r);WORDSET_DeleteStrbufED04(r);}
 
 
 void func_021B9CBC(u8 *p, u8 *entry)
 {
-    void *manager = (void *)func_021F4F10(*(u8 * *)&((struct Obj00004 *)p)->f1884);
+    void *manager = (void *)MUSICAL_MCSS_NoOp5(*(u8 * *)&((struct Obj00004 *)p)->f1884);
     u8 *data = (u8 *)func_021BA20C(entry);
-    int index = func_021F5158(manager, ((struct Obj14153 *)data)->f0);
+    int index = MUSICAL_MCSS_GetElemC(manager, ((struct Obj14153 *)data)->f0);
     void *obj = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
     void *a = func_02045EC0(((struct Obj00004 *)p)->f18DC, ((struct Obj14153 *)data)->f0 + 3);
     void *b = func_02045EC0(((struct Obj00004 *)p)->f18E0, index + 16);
-    func_0201EE0C(obj, 0, a, 0, 1, 2);
-    func_0201EE0C(obj, 1, b, 0, 1, 2);
+    WORDSET_SetSlotTag(obj, 0, a, 0, 1, 2);
+    WORDSET_SetSlotTag(obj, 1, b, 0, 1, 2);
     func_021B9C08(p, 3, obj);
     STRBUF_Delete(b);
     STRBUF_Delete(a);
@@ -3057,7 +3057,7 @@ void func_021B9D54(u8 *p, int state)
     }
     w = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
     str = func_02045EC0(((struct Obj00004 *)p)->f18E0, index);
-    func_0201EE0C(w, 0, str, 0, 1, 2);
+    WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
     func_021B9C08(p, 4, w);
     STRBUF_Delete(str);
     WORDSET_DeleteStrbufED04(w);
@@ -3127,13 +3127,13 @@ void func_021B9F5C(u8 *p)
         CLACT_SetActorObjMode(((struct Obj06502 *)q)->f1890, 0);
         t = p + i;
         if (*(u8 *)((u32)p+(u32)i+(u32)d) == 0) {
-            pos.x = ((u64)func_0203F0A8() * 56) >> 32;
-            if ((u32)(((u64)func_0203F0A8() * 2) >> 32) == 1) pos.x = 256 - pos.x;
-            pos.y = ((u64)func_0203F0A8() * 192) >> 32;
+            pos.x = ((u64)GF_STANDARD_Rand() * 56) >> 32;
+            if ((u32)(((u64)GF_STANDARD_Rand() * 2) >> 32) == 1) pos.x = 256 - pos.x;
+            pos.y = ((u64)GF_STANDARD_Rand() * 192) >> 32;
             CLACT_AddActorSurfacePos(((struct Obj06502 *)q)->f1890, (const struct Vec2 *)(&pos), 1);
-            if (pos.y > 90) CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, ((u64)func_0203F0A8() * 2) >> 32);
-            else CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, (((u64)func_0203F0A8() * 2) >> 32) + 2);
-            t[c] = (((u64)func_0203F0A8() * 200) >> 32) + delay;
+            if (pos.y > 90) CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, ((u64)GF_STANDARD_Rand() * 2) >> 32);
+            else CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, (((u64)GF_STANDARD_Rand() * 2) >> 32) + 2);
+            t[c] = (((u64)GF_STANDARD_Rand() * 200) >> 32) + delay;
         } else {
             t[b] = t[a] - 1;
         }
@@ -3178,13 +3178,13 @@ int func_021BA18C(char *p)
 }
 
 
-u8 *func_021BA19C(u16 heap, struct Object*q, u8*r, int*v){u8*p;p=func_02030734(heap,52,0,d_021BA610,204);*(u32 *)&((struct Obj05410 *)p)->f30=0;*(u8* *)&((struct Obj05410 *)p)->f4=r;*(u8 **)&((struct Obj05410 *)p)->fC=func_021F4C1C((u8 *)q,((struct Obj14157 *)r)->f0,((struct Obj14157 *)r)->f4,(Vec *)v);((struct Obj05410 *)p)->f1C=0;((struct Obj05410 *)p)->f20=10;return p;}
+u8 *func_021BA19C(u16 heap, struct Object*q, u8*r, int*v){u8*p;p=func_02030734(heap,52,0,d_021BA610,204);*(u32 *)&((struct Obj05410 *)p)->f30=0;*(u8* *)&((struct Obj05410 *)p)->f4=r;*(u8 **)&((struct Obj05410 *)p)->fC=MUSICAL_MCSS_AddImageNoVram((u8 *)q,((struct Obj14157 *)r)->f0,((struct Obj14157 *)r)->f4,(Vec *)v);((struct Obj05410 *)p)->f1C=0;((struct Obj05410 *)p)->f20=10;return p;}
 
 
-void func_021BA1D8(u8*p,u8*q){func_021F4D40(q,*(u8* *)&((struct Obj23329 *)p)->fC);func_020307B0(p);}
+void func_021BA1D8(u8*p,u8*q){MUSICAL_MCSS_FreeElem(q,*(u8* *)&((struct Obj23329 *)p)->fC);func_020307B0(p);}
 
 
-void func_021BA1EC(u8*p,u8*q,u8*r){*(u8* *)&((struct Obj14158 *)p)->f4=r;func_021F4D74(q,*(u8* *)&((struct Obj14158 *)p)->fC,((struct Obj14159 *)r)->f0,((struct Obj14159 *)r)->f4);}
+void func_021BA1EC(u8*p,u8*q,u8*r){*(u8* *)&((struct Obj14158 *)p)->f4=r;MUSICAL_MCSS_FreeElemImage(q,*(u8* *)&((struct Obj14158 *)p)->fC,((struct Obj14159 *)r)->f0,((struct Obj14159 *)r)->f4);}
 
 
 u32 func_021BA208(u8 *p)
@@ -3282,9 +3282,9 @@ int func_021BA25C(u8 *p, int x, int y)
     s16_021BA25C c;
     int dx, dy;
     s16_021BA25C rx, ry;
-    func_021F4F04((u8 *)((struct Obj04524 *)p)->fC, (Pair_021B8140 *)pos);
-    if (func_021F4EFC(0, ((struct Obj04524 *)p)->fC) == 1) {
-        func_021F4EE0(0, ((struct Obj04524 *)p)->fC, &angle);
+    MUSICAL_MCSS_GetElemOffset((u8 *)((struct Obj04524 *)p)->fC, (Pair_021B8140 *)pos);
+    if (MUSICAL_MCSS_GetElemFlag(0, ((struct Obj04524 *)p)->fC) == 1) {
+        MUSICAL_MCSS_GetElemField(0, ((struct Obj04524 *)p)->fC, &angle);
         s = ((const s16_021BA25C *)FX_SinCosTable_)[(angle >> 4) * 2];
         c = ((const s16_021BA25C *)FX_SinCosTable_)[(angle >> 4) * 2 + 1];
         dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);
@@ -3307,9 +3307,9 @@ unsigned int func_021BA324(u8 *p, int x, int y)
     s16_021BA25C c;
     int dx, dy;
     s16_021BA25C rx, ry;
-    func_021F4F04((u8 *)((struct Obj04524 *)p)->fC, (Pair_021B8140 *)pos);
-    if (func_021F4EFC(0, ((struct Obj04524 *)p)->fC) == 1) {
-        func_021F4EE0(0, ((struct Obj04524 *)p)->fC, &angle);
+    MUSICAL_MCSS_GetElemOffset((u8 *)((struct Obj04524 *)p)->fC, (Pair_021B8140 *)pos);
+    if (MUSICAL_MCSS_GetElemFlag(0, ((struct Obj04524 *)p)->fC) == 1) {
+        MUSICAL_MCSS_GetElemField(0, ((struct Obj04524 *)p)->fC, &angle);
         s = ((const s16_021BA25C *)FX_SinCosTable_)[(angle >> 4) * 2];
         c = ((const s16_021BA25C *)FX_SinCosTable_)[(angle >> 4) * 2 + 1];
         dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4804
+ * function: MUSICAL_MCSS_PrintQue
  * address: 0x021F4804
  * packet: pkt_ov112_021F4804
  * region: ov112
@@ -13,6 +13,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "../include/Obj02167.h"
 typedef unsigned char u8;
@@ -27,8 +28,8 @@ struct PrintSys;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_0201F73C(void *,int,int,int);
-void func_021F4804(u8 *p,u32 index)
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
+void MUSICAL_MCSS_PrintQue(u8 *p,u32 index)
 {
     u32 win;
     if (((struct Obj02167 *)p)->f2C) {
@@ -40,5 +41,5 @@ void func_021F4804(u8 *p,u32 index)
     win=(u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj02167 *)p)->f1C);
     PRINTSYS_PrintQue((struct PrintSys *)(((struct Obj02167 *)p)->f38),win,0,0,((struct Obj02167 *)p)->f2C,((struct Obj02167 *)p)->f20);
     ((struct Obj02167 *)p)->f30=1;
-    func_0201F73C(((struct Obj02167 *)p)->f1C,1,1,11);
+    BMP_MENUWORK_DrawWindow(((struct Obj02167 *)p)->f1C,1,1,11);
 }

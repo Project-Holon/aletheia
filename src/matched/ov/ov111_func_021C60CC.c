@@ -1,5 +1,5 @@
 /*
- * function: func_021C60CC
+ * function: VIEWER_TEXT_Draw
  * address:  0x021C60CC
  * packet:   pkt_ov111_021C60CC
  * region:   ov111
@@ -15,11 +15,11 @@
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   STRBUF_SetString  0x02045924  arm
- *   func_021C6C38  0x021C6C38  thumb  ov111
- *   func_021C6B5C  0x021C6B5C  thumb  ov111
- *   func_021C61EC  0x021C61EC  thumb  ov111
- *   func_021C628C  0x021C628C  thumb  ov111
- *   func_021C6954  0x021C6954  thumb  ov111
+ *   VIEWER_TEXT_Print  0x021C6C38  thumb  ov111
+ *   VIEWER_TEXT_PrintStringPad  0x021C6B5C  thumb  ov111
+ *   VIEWER_TEXT_DrawTable  0x021C61EC  thumb  ov111
+ *   VIEWER_TEXT_DrawList  0x021C628C  thumb  ov111
+ *   VIEWER_TEXT_PrintDigits  0x021C6954  thumb  ov111
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb
  *   PMS_DRAW_Print  0x0202DC48  thumb
  *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
@@ -75,16 +75,16 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void func_021C6C38(Work *p, void *a, int x, int dx, int y, void *s);
-extern void func_021C6B5C(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx);
-extern void func_021C61EC(Work *p, int k, int flush);
-extern void func_021C628C(Work *p, int k, int flush);
-extern void func_021C6954(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx);
+extern void VIEWER_TEXT_Print(Work *p, void *a, int x, int dx, int y, void *s);
+extern void VIEWER_TEXT_PrintStringPad(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx);
+extern void VIEWER_TEXT_DrawTable(Work *p, int k, int flush);
+extern void VIEWER_TEXT_DrawList(Work *p, int k, int flush);
+extern void VIEWER_TEXT_PrintDigits(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
 
-void func_021C60CC(Work *p, void **bg, const Info *info)
+void VIEWER_TEXT_Draw(Work *p, void **bg, const Info *info)
 {
     u8 i;
     void *s;
@@ -97,13 +97,13 @@ void func_021C60CC(Work *p, void **bg, const Info *info)
     }
     s = p->f3214;
     STRBUF_SetString(p->f3210, info->name);
-    func_021C6C38(p, bg[0], 0x88, 8, 0, p->f3210);
+    VIEWER_TEXT_Print(p, bg[0], 0x88, 8, 0, p->f3210);
     if (info->f4_2) {
-        func_021C6B5C(p, bg[3], 0x88, 8, 0, s, info->f24, 1, 0);
+        VIEWER_TEXT_PrintStringPad(p, bg[3], 0x88, 8, 0, s, info->f24, 1, 0);
     }
-    func_021C61EC(p, info->b6, 0);
-    func_021C628C(p, info->f48, 0);
-    func_021C6954(p, bg[4], 0xD8, 8, 0, s, info->f20, 7, 1, 1, 0);
+    VIEWER_TEXT_DrawTable(p, info->b6, 0);
+    VIEWER_TEXT_DrawList(p, info->f48, 0);
+    VIEWER_TEXT_PrintDigits(p, bg[4], 0xD8, 8, 0, s, info->f20, 7, 1, 1, 0);
     PMS_DRAW_SetNullColorPalette(p->f32B0, 0);
     PMS_DRAW_Print((u32)p->f32B0, (u32)bg[5], (u32)p->info->f6C, 0);
     if (p->f3034 != 0) {

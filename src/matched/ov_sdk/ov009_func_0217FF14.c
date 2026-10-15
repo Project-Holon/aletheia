@@ -1,5 +1,5 @@
 /*
- * function: func_0217FF14
+ * function: gsiSoapTaskHttpCompletedCallback
  * address:  0x0217FF14
  * packet:   pkt_ov009_0217FF14
  * region:   ov009
@@ -29,7 +29,7 @@ typedef struct GSSoapTask {
 extern void *gsXmlCreateStreamReader(void);
 extern int gsXmlParseBuffer(void *stream, char *data, int len);
 
-int func_0217FF14(int request, int result, char *buffer, int bufferLen, void *param)
+int gsiSoapTaskHttpCompletedCallback(int request, int result, char *buffer, int bufferLen, void *param)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)param;
     int parseResult;

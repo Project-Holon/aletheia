@@ -24,8 +24,8 @@
  *   func_02040588 0x02040588 arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_02041300 0x02041300 arm
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  */
 
 typedef signed short s16;
@@ -91,8 +91,8 @@ extern void BG_SYS_InitBgLayer(u8,void *,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041B6C(u32 bit);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-extern void func_02041300(u8,int,int,int,u8,u8,u8);
-extern void func_020410D0(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
+extern void BG_SYS_SetTileEntry(u8,int,int,int,u8,u8,u8);
+extern void BG_SYS_DrawTileEx(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
 void WF2DMAP_SCRDRAW_SetPoint(Wf2dmapPoint *p, s16 y, s16 x);
 int WF2DMAP_SCRDRAW_GetPointY(const Wf2dmapPoint *p);
 int WF2DMAP_SCRDRAW_GetPointX(const Wf2dmapPoint *p);
@@ -197,14 +197,14 @@ void WF2DMAP_SCRDRAW_DrawTilesClipped(void *surface,int layer,unsigned int charR
     h=25-y;
     if(width<sx+w) w-= (s16)(sx+w-width);
     if(height<sy+h) h-= (s16)(sy+h-height);
-    func_02041300(layer,0,0,0,33,25,17);
+    BG_SYS_SetTileEntry(layer,0,0,0,33,25,17);
     charRes+=12;
     WF2DMAP_SCRDRAW_DrawTilesWrapped(surface,layer,x,y,w,h,(void *)charRes,sx,sy,(u8)width,(u8)height);
 }
 
 /*
  * note 2026-10-05 wD4 lane03: EXACT. Keys: width/height are int params (word prologue copy, raw in call 1);
- *   func_020410D0 declared (u8 x5, void *, u8, u8, u32, u32) in this unit, so out[] (s16) is cast (u8) in call 2;
+ *   BG_SYS_DrawTileEx declared (u8 x5, void *, u8, u8, u32, u32) in this unit, so out[] (s16) is cast (u8) in call 2;
  *   mode is unsigned (int mode coalesced with the call temp and took the lowest slot); ox/oy are int;
  *   sy/y advance by (u8)n (the listing truncates n before both adds); u8 params for tx/ty in GetTileSource.
  */
@@ -217,7 +217,7 @@ void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *surface, u8 layer, u8 x, u8 y, u8 w,
     s8 ccx, ww, cs, cx, m, tx, ty, cw, ccs;
     mode = WF2DMAP_SCRDRAW_GetMode(width, height);
     if (mode == 0) {
-        func_020410D0(layer, x, y, w, h, tiles, sx, sy, width, height);
+        BG_SYS_DrawTileEx(layer, x, y, w, h, tiles, sx, sy, width, height);
         return;
     }
     hh = h;
@@ -248,7 +248,7 @@ void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *surface, u8 layer, u8 x, u8 y, u8 w,
                 cw = cw - m;
             }
             tx = ccs / 32;
-            func_020410D0(layer, ccx, y, m, n,
+            BG_SYS_DrawTileEx(layer, ccx, y, m, n,
                 WF2DMAP_SCRDRAW_GetTileSource(tiles, tx, ty, mode, width, height, (u16 *)out),
                 ox, oy, (u8)out[0], (u8)out[1]);
             ccs = ccs + m;

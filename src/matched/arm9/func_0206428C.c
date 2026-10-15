@@ -29,14 +29,14 @@
  *
  * symbols:
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
- *   func_02062F38  0x02062F38  arm
+ *   NNS_G2dInitAnimCtrl  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
  */
 #include "../include/Obj11539.h"
 typedef unsigned int   u32;
 struct O02064140;
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
-extern int func_02062F38(int a0);
+extern int NNS_G2dInitAnimCtrl(int a0);
 extern void func_0206434C(char *self, int v);
 
 void NNS_G2dInitCellAnimation(char *self, int a1, char *c)
@@ -44,6 +44,6 @@ void NNS_G2dInitCellAnimation(char *self, int a1, char *c)
     *(char * *)&((struct Obj11539 *)self)->f34 = c;
     ((struct Obj11539 *)self)->f38 = -1;
     NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x3c), 1);
-    func_02062F38((int)self);
+    NNS_G2dInitAnimCtrl((int)self);
     func_0206434C(self, a1);
 }

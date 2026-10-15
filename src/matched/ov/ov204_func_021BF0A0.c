@@ -15,7 +15,7 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
  *   func_02049B40 0x02049B40 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -46,7 +46,7 @@ extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -68,8 +68,8 @@ char *func_021BF0A0(u16 heap)
     ((struct Obj01008 *)p)->f4=(void *)PRINTSYS_QUE_Create((void *)heap);
     ((struct Obj01008 *)p)->f18=TCBL_Create(((struct Obj01008 *)p)->f0,((struct Obj01008 *)p)->f0,2,0);
     func_02049B40(23,5,0,320,32,heap);
-    func_0201F5BC(1,7,9,0,heap);
-    func_0201F5BC(1,16,8,1,heap);
+    BMP_MENUWORK_LoadCharAndPltt(1,7,9,0,heap);
+    BMP_MENUWORK_LoadCharAndPltt(1,16,8,1,heap);
     ((struct Obj01008 *)p)->f10=GF_FONT_Create(23,0,1,0,((struct Obj01008 *)p)->f0);
     ((struct Obj01008 *)p)->f3C=STRBUF_Create(1600,((struct Obj01008 *)p)->f0);
     ((struct Obj01008 *)p)->f40=STRBUF_Create(1600,((struct Obj01008 *)p)->f0);

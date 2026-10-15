@@ -1,5 +1,5 @@
 /*
- * function: func_021B9660
+ * function: MANUAL_GRAPHIC_Exit
  * address: 0x021B9660
  * packet: pkt_ov225_021B9660
  * region: ov225
@@ -16,7 +16,7 @@
  *   func_021B9DEC 0x021B9DEC thumb ov225
  *   func_02030EAC 0x02030EAC arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj04649.h"
 struct Node;
@@ -28,8 +28,8 @@ extern void func_021BBAE8(char *p);
 extern void func_021B9DEC(char *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
-int func_021B9660(void *proc, void *a, void *b, char *work)
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+int MANUAL_GRAPHIC_Exit(void *proc, void *a, void *b, char *work)
 {
     switch (((struct Obj04649 *)work)->f10) {
     case 0: func_021BB308(((struct Obj04649 *)work)->f1C); break;
@@ -40,6 +40,6 @@ int func_021B9660(void *proc, void *a, void *b, char *work)
     func_02030EAC(((struct Obj04649 *)work)->fC);
     func_021B9DEC(((struct Obj04649 *)work)->f8);
     func_020315D4(proc);
-    func_020306F0(0x90);
+    GFL_HEAP_DeleteChecked(0x90);
     return 1;
 }

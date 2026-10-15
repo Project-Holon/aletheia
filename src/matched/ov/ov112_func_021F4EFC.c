@@ -1,5 +1,5 @@
 /*
- * function: func_021F4EFC
+ * function: MUSICAL_MCSS_GetElemFlag
  * address: 0x021F4EFC
  * packet: pkt_ov112_021F4EFC
  * region: ov112
@@ -11,7 +11,7 @@
  */
 typedef unsigned short u16;
 typedef struct { u16 lo : 2; u16 flag : 1; u16 hi : 13; } Flags;
-int func_021F4EFC(int unused, Flags *p)
+int MUSICAL_MCSS_GetElemFlag(int unused, Flags *p)
 {
     return p->flag;
 }

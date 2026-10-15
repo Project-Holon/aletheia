@@ -10,11 +10,12 @@
  *
  * symbols:
  *   INFOWIN_Update  0x02024ABC  thumb  arm9
+ *   TCB_Main  0x02030D28  arm  arm9
  */
-extern void *func_02030D28(void *);
+extern void *TCB_Main(void *);
 extern void INFOWIN_Update(void *);
 
 void BTLV_INPUT_InfoWindowTask(void *unused, void **p)
 {
-    INFOWIN_Update(func_02030D28(*p));
+    INFOWIN_Update(TCB_Main(*p));
 }

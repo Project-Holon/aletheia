@@ -1,5 +1,5 @@
 /*
- * function: func_021D67BC
+ * function: WIFIBATTLEMATCH_NET_VerifyPartySignature
  * address: 0x021D67BC
  * packet: pkt_ov175_021D67BC
  * region: ov175
@@ -32,7 +32,7 @@ extern u8 *NHTTP_RAP_EvilCheckAllocArray(int a, int b, int c);
 extern void NHTTP_RAP_EvilCheckSetElement(int p, int a, u32 b, int n);
 extern int NHTTP_RAP_VerifySignature(void *a, int b, int c, char *d, u16 e);
 extern void NHTTP_RAP_EvilCheckFreeArray(void *);
-int func_021D67BC(char *p, u16 heapId)
+int WIFIBATTLEMATCH_NET_VerifyPartySignature(char *p, u16 heapId)
 {
     int i;
     u32 size;

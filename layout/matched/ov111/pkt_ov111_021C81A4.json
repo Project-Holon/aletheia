@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C81A4",
+   "name": "VIEWER_ACTOR_SetSelection",
    "address": "0x021C81A4",
    "kind": "game",
    "region": "ov111",

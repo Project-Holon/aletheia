@@ -50,12 +50,12 @@
  * symbols:
  *   func_0217EC90  0x0217EC90  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
- *   func_02193710  0x02193710  arm  ov009
- *   func_02189D78  0x02189D78  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gpiSetError  0x02193710  arm  ov009
+ *   gpiCallErrorCallback  0x02189D78  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_02092344  0x02092344  arm
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   g_021A44DC     0x021A44DC  data ov009
  *   g_021A4504     0x021A4504  data ov009
  *   g_021A4528     0x021A4528  data ov009
@@ -94,12 +94,12 @@
 
 extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
 extern int GOAGetLastError(int sock);
-extern void func_02193710(int *connection, int result, int errorString);
-extern int func_02189D78(int *connection, int a1, int a2);
-extern char *func_0217EAB0(int size);
+extern void gpiSetError(int *connection, int result, int errorString);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern char *gsimalloc(int size);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0217EAE0(void *p);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsifree(void *p);
 extern char g_021A44DC[];
 extern char g_021A4504[];
 extern char g_021A4528[];
@@ -115,23 +115,23 @@ int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
         if (rcode != -6 && rcode != -26 && rcode != -76) {
             if (id[0] == 'P' && id[1] == 'R')
                 return 3;
-            func_02193710(connection, 5, (int)g_021A44DC);
-            func_02189D78(connection, 3, 0);
+            gpiSetError(connection, 5, (int)g_021A44DC);
+            gpiCallErrorCallback(connection, 3, 0);
             return 3;
         }
         *sent = 0;
         *closed = 0;
     } else if (rcode == 0) {
-        func_0217D254(1, 0, 0x10, g_021A4504, id);
+        gsDebugFormat(1, 0, 0x10, g_021A4504, id);
         *sent = 0;
         *closed = 1;
     } else {
-        char *buf = func_0217EAB0(rcode + 1);
+        char *buf = gsimalloc(rcode + 1);
 
         func_02092344(buf, buffer, rcode);
         buf[rcode] = 0;
-        func_0217D254(1, 0, 0x20, g_021A4528, sendCount++, id, buf);
-        func_0217EAE0(buf);
+        gsDebugFormat(1, 0, 0x20, g_021A4528, sendCount++, id, buf);
+        gsifree(buf);
         *sent = rcode;
         *closed = 0;
     }

@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BC8C8 0x021BC8C8 data a4
@@ -32,12 +32,12 @@ extern const Config32 d_021BC910, d_021BC930, d_021BC950, d_021BC970, d_021BC8F0
 extern void BG_SYS_Create(u16);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32);
 typedef unsigned char  u8;
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_02041570(int, u16);
+extern void BG_SYS_ClearLayerEx(int, u16);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 void ZUKAN_SEARCH_SCREEN_InitBg(void)
@@ -46,14 +46,14 @@ void ZUKAN_SEARCH_SCREEN_InitBg(void)
     Config32 b, c, d, e, f;
     BG_SYS_Create(0x7e);
     a = d_021BC8C8;
-    func_0203FC28((struct DispConfig *)(&a));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&a));
     b = d_021BC910;
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&b), 2);
     BG_SYS_ClearSlot(3);
     c = d_021BC930;
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&c), 0);
     BG_SYS_InitRun(1, 0x20, 0x7fe0, 0x807e);
-    func_02041570(1, 0x3ff);
+    BG_SYS_ClearLayerEx(1, 0x3ff);
     d = d_021BC950;
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&d), 0);
     BG_SYS_ClearSlot(2);

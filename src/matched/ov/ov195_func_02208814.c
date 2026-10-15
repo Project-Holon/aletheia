@@ -1,5 +1,5 @@
 /*
- * function: func_02208814
+ * function: SHINKA_DEMO_EFFECT_Trigger
  * address:  0x02208814
  * packet:   pkt_02208814
  * region:   ov195
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02208A38 0x02208A38 thumb
+ *   SHINKA_DEMO_EFFECT_SetParticleTimer 0x02208A38 thumb
  */
 #include "../include/Obj10830.h"
 
 typedef unsigned int   u32;
-extern void func_02208A38(char *p, u32 v);
+extern void SHINKA_DEMO_EFFECT_SetParticleTimer(char *p, u32 v);
 
-void func_02208814(char *a)
+void SHINKA_DEMO_EFFECT_Trigger(char *a)
 {
-    func_02208A38((char *)(((struct Obj10830 *)a)->f10), 0x1e);
+    SHINKA_DEMO_EFFECT_SetParticleTimer((char *)(((struct Obj10830 *)a)->f10), 0x1e);
     if (((struct Obj10830 *)a)->f8 == 1)
         ((struct Obj10830 *)a)->f8 = 2;
 }

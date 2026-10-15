@@ -16,7 +16,7 @@
  *   +0xD4  FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx (arm9, the integrator's): ldr r3,=FIELD_SOUND_SYSTEM_GetFieldBgmForZone+1; bx r3
  *          int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(int a, int b, int c)
  *          { return FIELD_SOUND_SYSTEM_GetFieldBgmForZone(a, b, c); }
- *   +0x96  func_02164474 (ov010): void f(int a, int b) { MOVE_POKEMON_MoveActiveEntries(a, b); }
+ *   +0x96  FIELD_MAP_CHANGE_MoveActiveEntries (ov010): void f(int a, int b) { MOVE_POKEMON_MoveActiveEntries(a, b); }
  *   +0xB6  FLDMMDL_SysLoadObjCodeParamCache (ov010): void f(u8 *p, int n)
  *          { ARC_TOOL_ReadMember(*(int *)(p + 0x44), 0x3a, n); }   (02048F4C arm)
  *   +0xBC  FLDMMDL_ClearObjCodeParamCache (ov010): void f(u8 *p)
@@ -25,7 +25,7 @@
  * and the arm9 leaf makes this file EXACT unchanged.  This is the callback
  * EVENT_MAPCHANGE_CreateContinueEvent registers through func_020122C0.
  *
- * 2026-10-04 (wD2 lane 02): the last blocker, the ov010 leaf func_02164474, is now filed as
+ * 2026-10-04 (wD2 lane 02): the last blocker, the ov010 leaf FIELD_MAP_CHANGE_MoveActiveEntries, is now filed as
  * src/matched/ov/ov010_func_02164474.c (EXACT); the other three leaves were already filed. The tool still reports
  * it unresolved because the manifest is stale. Expected EXACT after the integrator's manifest refresh.
  *
@@ -41,7 +41,7 @@
  *   EVENT_MAPCHANGE_ApplyLocation  0x021857C0  thumb  ov020
  *   GAME_BEACON_SetZone  0x0202735C  thumb
  *   FIELD_CLOCK_Update  0x02168EEC  thumb  ov010
- *   func_02164474  0x02164474  thumb  ov010
+ *   FIELD_MAP_CHANGE_MoveActiveEntries  0x02164474  thumb  ov010
  *   func_0202C860  0x0202C860  thumb
  *   ZONEDATA_GetMapSubType  0x0201405C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
@@ -82,7 +82,7 @@ extern void EVENT_MAPCHANGE_StartSeasonEffect(int a);
 extern void EVENT_MAPCHANGE_ApplyLocation(void *a, int b);
 extern void GAME_BEACON_SetZone(u32 a0, u32 a1);
 extern void FIELD_CLOCK_Update(int a);
-extern void func_02164474(int a, int b);
+extern void FIELD_MAP_CHANGE_MoveActiveEntries(int a, int b);
 extern void func_0202C860(u8 *a0, int a1);
 extern u8 ZONEDATA_GetMapSubType(u32 id);
 extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
@@ -128,7 +128,7 @@ int EVENT_MAPCHANGE_ContinueEvent(int ctx, int *state, u8 *p)
             EVENT_MAPCHANGE_UpdateFieldStateForZone((void *)a, *(u16 *)(p + 8));
             EVENT_MAPCHANGE_StartSeasonEffect(s);
             FIELD_CLOCK_Update(s);
-            func_02164474(s, *(u16 *)(p + 8));
+            FIELD_MAP_CHANGE_MoveActiveEntries(s, *(u16 *)(p + 8));
             func_0202C860((u8 *)s, *(u16 *)(p + 8));
             n = ZONEDATA_GetMapSubType(*(u16 *)(p + 8));
             t = GAME_DATA_GetOccupyInfo((const struct BigObj *)s);

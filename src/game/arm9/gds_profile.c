@@ -30,6 +30,8 @@
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   BEACON_GetSelect  0x0200C164  thumb
+ *   POKE_TOOL_FilterSpecies  0x02019D58  thumb
+ *   WORDSET_CopyString  0x0201F41C  thumb
  */
 #include "../../matched/include/Obj03045.h"
 
@@ -180,7 +182,7 @@ extern struct SaveDataObj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct RecordData *src, int idx, struct RecordData *dst);
 extern const void *func_020084F4(const void *p);
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct TrainerRec *obj);
 extern u8 func_02008550(const struct TrainerRec *obj);
 extern u8 func_02008554(const struct TrainerRec *obj);
@@ -189,7 +191,7 @@ extern u8 func_02008570(const struct TrainerRec *obj);
 extern void BEACON_GetSelect(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length);
-extern int func_02019D58(u16 a, int b);
+extern int POKE_TOOL_FilterSpecies(u16 a, int b);
 extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2);
@@ -366,7 +368,7 @@ void GDS_PROFILE_Init(struct GdsProfile_0200D59C *profile, void *sys)
     BEACON_GetSelect(progress, &playHours, &playMinutes, &cleared, &nationalDex);
 
     MI_CpuFill8(profile, 0, sizeof(struct GdsProfile_0200D59C));
-    func_0201F41C(func_020084F4(trainerRec), (u16 *)profile, 8);
+    WORDSET_CopyString(func_020084F4(trainerRec), (u16 *)profile, 8);
     profile->trainerId = func_02008530(trainerRec);
     profile->gender = func_02008550(trainerRec);
     profile->playHours = playHours;
@@ -446,7 +448,7 @@ void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
  * The bitfield widths are read off the shift pairs: `lsls #0x1F` / `lsrs
  * #0x1F` is bit 0, `lsls #0x18` / `lsrs #0x1F` is bit 7, and `lsls #0x19` /
  * `lsrs #0x1A` is the six bits between them, which is what func_0200D70C
- * passes as the second argument of func_02019D58.
+ * passes as the second argument of POKE_TOOL_FilterSpecies.
  */
 u32 func_0200D6EC(struct RecGet *p)
 {
@@ -479,7 +481,7 @@ u32 func_0200D70C(struct RecGet *p)
     if (p->unk1C >= 0x28B) {
         return 0;
     }
-    return func_02019D58(p->unk1C, p->b1);
+    return POKE_TOOL_FilterSpecies(p->unk1C, p->b1);
 }
 
 

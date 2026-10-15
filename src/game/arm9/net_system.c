@@ -45,7 +45,7 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   msg_020A7A94   0x020A7A94  data
  *   GFL_NET_SYSTEM_ClampNetId  0x020395E0  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   file_020A7AB0  0x020A7AB0  data
  *   file_020A7ACC  0x020A7ACC  data
@@ -61,8 +61,8 @@
  *   g_020A7BA8     0x020A7BA8  data
  *   g_020A7BB4     0x020A7BB4  data
  *   RTC_GetDateTime     0x020889C0  arm
- *   func_0203F034     0x0203F034  arm
- *   func_0203F0A8     0x0203F0A8  arm
+ *   GF_STANDARD_RandSeed     0x0203F034  arm
+ *   GF_STANDARD_Rand     0x0203F0A8  arm
  *   g_02FFFC3C        0x02FFFC3C  data
  *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   s_020A7BA8     0x020A7BA8  data

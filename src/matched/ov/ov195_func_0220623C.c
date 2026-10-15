@@ -1,5 +1,5 @@
 /*
- * function: func_0220623C
+ * function: SHINKA_DEMO_VIEW_DeleteModels
  * address:  0x0220623C
  * packet:   pkt_0220623C
  * region:   ov195
@@ -27,7 +27,7 @@ typedef struct Owner {
 extern void MCSS_SetVanishFlag(void *obj);
 extern void MCSS_Del(void *sys, void *obj);
 
-void func_0220623C(Owner *o)
+void SHINKA_DEMO_VIEW_DeleteModels(Owner *o)
 {
     u8 i;
 

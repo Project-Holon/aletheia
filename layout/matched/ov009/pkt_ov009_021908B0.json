@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021908B0",
+   "name": "gpiOthersBuddyList",
    "address": "0x021908B0",
    "kind": "sdk",
    "region": "ov009",

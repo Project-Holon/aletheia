@@ -1,5 +1,5 @@
 /*
- * function: func_021F4CF0
+ * function: NAMEIN_GRAPHIC_ExitClact
  * address:  0x021F4CF0
  * packet:   pkt_021F4CF0
  * region:   ov194
@@ -27,7 +27,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(u8 *, u32, u32);
 
-void func_021F4CF0(u8 *p)
+void NAMEIN_GRAPHIC_ExitClact(u8 *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj24928 *)p)->f0));
     CLACT_ExitSystem();

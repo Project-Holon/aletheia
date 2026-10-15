@@ -13,9 +13,9 @@
  * r0, consumed explicitly by E1A8 here (matched E0B0 says void).
  * symbols:
  *   TPOKE_DATA_Create 0x0202A128 thumb
- *   func_02019D30 0x02019D30 thumb
- *   func_02019C90 0x02019C90 thumb
- *   func_02019D58 0x02019D58 thumb
+ *   POKE_TOOL_NormalizeForm 0x02019D30 thumb
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
+ *   POKE_TOOL_FilterSpecies 0x02019D58 thumb
  *   func_020056EC 0x020056EC thumb
  *   TPOKE_DATA_IsRecordKindTwo 0x0202A19C thumb
  *   SYMBOL_SAVE_GetBlock 0x0200E0B0 thumb
@@ -27,9 +27,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *TPOKE_DATA_Create(int);
-extern u32 func_02019D30(u32 a, u32 n);
-extern int func_02019C90(u16, int, int);
-extern int func_02019D58(u16, int);
+extern u32 POKE_TOOL_NormalizeForm(u32 a, u32 n);
+extern int POKE_TOOL_GetPersonalParam(u16, int, int);
+extern int POKE_TOOL_FilterSpecies(u16, int);
 extern u32 func_020056EC(u32 range);
 extern int TPOKE_DATA_IsRecordKindTwo(u32, void *, u16, u16, int);
 extern void *SYMBOL_SAVE_GetBlock(void *);
@@ -46,9 +46,9 @@ void GSYNC_STATE_BuildMonEntry(u8 *p, int unused, int species, int gender, int f
     if (species == 0 || species > 493) return;
     h = TPOKE_DATA_Create(((struct Obj10446 *)p)->f0);
     kind = 3;
-    f = (int)func_02019D30((u16)species, (u8)form);
-    g = func_02019C90(species, f, 20);
-    mapped = func_02019D58(species, f);
+    f = (int)POKE_TOOL_NormalizeForm((u16)species, (u8)form);
+    g = POKE_TOOL_GetPersonalParam(species, f, 20);
+    mapped = POKE_TOOL_FilterSpecies(species, f);
     switch (g) {
     case 0: gender = 0; break;
     case 254: gender = 1; break;

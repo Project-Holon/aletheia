@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 void GURU2_RECEIPT_ClearMessageFrame(u8 *p)
 {
-    func_0201F7A8(((struct Obj23734 *)p)->fD4, 0);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj23734 *)p)->fD4, 0);
 }

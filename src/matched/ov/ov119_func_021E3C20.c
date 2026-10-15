@@ -12,7 +12,7 @@
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetAllButtonsPriority 0x021B6520 thumb ov067
- *   d_021E7C0C 0x021E7C0C data a4
+ *   gTouchbarTemplate 0x021E7C0C data a4
  */
 #include "../include/Obj00252.h"
 typedef unsigned short u16;
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef struct { u32 f0, f4; u16 f8, fA, fC, fE, f10, f12; u32 f14, f18, f1C; } Element;
 typedef struct { Element e[4]; } Template;
 typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } Config;
-extern const Template d_021E7C0C;
+extern const Template gTouchbarTemplate;
 extern void MI_CpuFill8(void *, int, int);
 extern void *TOUCHBAR_Create(Config *, int);
 typedef unsigned char  u8;
@@ -28,7 +28,7 @@ extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigne
 extern void TOUCHBAR_SetAllButtonsPriority(u8 *p, u32 v);
 void POKETRADE_3D_CreateTouchbar(char *p)
 {
-    Template t = d_021E7C0C;
+    Template t = gTouchbarTemplate;
     Config c;
     u16 a, b, d;
     MI_CpuFill8(&c, 0, 32);

@@ -21,16 +21,16 @@
  *   d_021B9564     0x021B9564  data  a1
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049740  0x02049740  arm
  *   func_020498F4  0x020498F4  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   YESNO_MENU_CopyPalette  0x021B7718  thumb  ov067
@@ -109,18 +109,18 @@ extern const char d_021B9564[];
 struct ArcFile;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern void func_020414AC(u32 a);
+extern void BG_SYS_FreeSlot(u32 a);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 typedef signed int     s32;
 struct NitroFileHeader;
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern u32 func_020307B0(void *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void YESNO_MENU_CopyPalette(int which, int idx, void *data);
@@ -178,15 +178,15 @@ S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u3
         flag = 1;
     p->f1C = flag;
     p->f20 = a4;
-    func_020414AC(p->f14);
-    func_020414AC(p->f18);
+    BG_SYS_FreeSlot(p->f14);
+    BG_SYS_FreeSlot(p->f18);
     p->f98 = 0;
     p->f9c = 2;
     p->fC0 = 0;
     h = func_020490F4(0x53, p->heap);
     buf = func_02030734(p->heap, ARC_TOOL_GetHandleMemberSize(h, 0xa3), 0, d_021B9564, 0x10d);
     ARC_TOOL_ReadHandleMember(h, 0xa3, buf);
-    func_02062A98(buf, (void **)(&pl));
+    NNS_G2dGetUnpackedPaletteData(buf, (void **)(&pl));
     src = (u16 *)pl->data;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 16; j++) {
@@ -197,8 +197,8 @@ S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u3
     func_02049B68(h, 0xa3, p->f10, p->f16 << 5, 0x40, p->heap);
     p->f84 = func_02049740(h, 0xa4, p->f14, 0x1a0, 0, p->heap);
     func_020498F4(h, 0xa5, p->f14, (u16)p->f84, 0x600, 0, p->heap);
-    func_020413B0(p->f14, 0, 0, 0x20, 0xb, p->f16);
-    func_020413B0(p->f14, 0, 0xb, 0x20, 0xd, p->f17);
+    BG_SYS_FillTileMap(p->f14, 0, 0, 0x20, 0xb, p->f16);
+    BG_SYS_FillTileMap(p->f14, 0, 0xb, 0x20, 0xd, p->f17);
     func_020409B4(p->f14);
     ARC_TOOL_DeleteHandle(h);
     YESNO_MENU_CopyPalette(p->f10, p->f16, p->pal);

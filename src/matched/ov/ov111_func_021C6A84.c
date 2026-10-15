@@ -1,5 +1,5 @@
 /*
- * function: func_021C6A84
+ * function: VIEWER_TEXT_PrintStringClipped
  * address:  0x021C6A84
  * packet:   pkt_ov111_021C6A84
  * region:   ov111
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   func_0201D304  0x0201D304  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
@@ -46,10 +46,10 @@ typedef struct {
     void *f32A0;
 } Work;
 
-extern void func_0201EFA4(void *p, int idx, int v, int digits, int a, int b);
+extern void WORDSET_SetSlotNumber(void *p, int idx, int v, int digits, int a, int b);
 struct Descriptor;
 struct WordSet;
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 typedef unsigned int   u32;
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -57,16 +57,16 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *str, void *font, u16 col);
 extern const u16 d_021C8768[];
 
-void func_021C6A84(Work *p, void *win, int x, int ofs, int y, void *str, int mode, int col)
+void VIEWER_TEXT_PrintStringClipped(Work *p, void *win, int x, int ofs, int y, void *str, int mode, int col)
 {
     int w;
 
-    func_0201EFA4(p->f3204, 0, p->info->b32 + 2000, 4, mode, 1);
-    func_0201EFA4(p->f3204, 1, p->info->b33, 2, mode, 1);
-    func_0201EFA4(p->f3204, 2, p->info->b34, 2, mode, 1);
-    func_0201EFA4(p->f3204, 3, p->info->h2C, 2, 2, 1);
-    func_0201EFA4(p->f3204, 4, p->info->b35, 2, 2, 1);
-    func_0201F250(p->f3204, str, p->f32A0);
+    WORDSET_SetSlotNumber(p->f3204, 0, p->info->b32 + 2000, 4, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 1, p->info->b33, 2, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 2, p->info->b34, 2, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 3, p->info->h2C, 2, 2, 1);
+    WORDSET_SetSlotNumber(p->f3204, 4, p->info->b35, 2, 2, 1);
+    WORDSET_CopyTaggedText(p->f3204, str, p->f32A0);
     w = func_0201D304(str, (u32)p->f31FC, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(win), x - (w + ofs), y, str, p->f31FC, d_021C8768[col]);
 }

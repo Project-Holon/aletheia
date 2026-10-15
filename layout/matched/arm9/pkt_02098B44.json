@@ -20,15 +20,15 @@
    "functions": [
     "__ieee754_rem_pio2"
    ],
+   "addresses": [
+    "0x02098B44"
+   ],
    "evidence": {
     "sole-ref": [
      "self:0x020A6320",
      "self:0x020A63A0"
     ]
-   },
-   "addresses": [
-    "0x02098B44"
-   ]
+   }
   },
   {
    "name": "__kernel_rem_pio2",

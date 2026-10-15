@@ -1,5 +1,5 @@
 /*
- * function: func_02058300
+ * function: SPL_EMITTER_FreeNode
  * address:  0x02058300
  * packet:   pkt_02057830
  * region:   arm9
@@ -21,7 +21,7 @@ struct List {
     struct Node *tail;
 };
 
-struct Node *func_02058300(struct List *list, struct Node *node)
+struct Node *SPL_EMITTER_FreeNode(struct List *list, struct Node *node)
 {
     struct Node *next;
 

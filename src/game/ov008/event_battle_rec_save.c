@@ -66,7 +66,7 @@
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_0203133C  0x0203133C  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
@@ -173,7 +173,7 @@ extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern unsigned int PROCSYS_Main(void *p);
 extern void PROCSYS_Push(int h, u32 id, void *a, void *b);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
@@ -233,7 +233,7 @@ int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, i
     }
     func_0203133C((struct S020314B8 *)*procsys);
     func_020315D4(procWork);
-    func_020306F0(0x76);
+    GFL_HEAP_DeleteChecked(0x76);
     return 1;
 }
 

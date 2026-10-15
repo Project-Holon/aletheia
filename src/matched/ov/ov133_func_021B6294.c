@@ -22,8 +22,8 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_021B7498 0x021B7498 thumb ov133
- *   func_021F5330 0x021F5330 thumb ov112
- *   func_021F51B0 0x021F51B0 thumb ov112
+ *   MUSICAL_MCSS_FreeRenderObj 0x021F5330 thumb ov112
+ *   MUSICAL_MCSS_DeleteRenderObj 0x021F51B0 thumb ov112
  *   func_02030EAC 0x02030EAC arm
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
@@ -51,8 +51,8 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void func_021B7498(u8 *p);
-extern void func_021F5330(int,int);
-extern void func_021F51B0(int a);
+extern void MUSICAL_MCSS_FreeRenderObj(int,int);
+extern void MUSICAL_MCSS_DeleteRenderObj(int a);
 extern void func_02030EAC(struct Node *);
 extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -79,8 +79,8 @@ void func_021B6294(char *p)
     CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj01941 *)p)->f1848);
     CLACT_ExitSystem();
     func_021B7498((u8 *)p);
-    func_021F5330(*(int *)&((struct Obj01941 *)p)->f187C,((struct Obj01941 *)p)->f1880);
-    func_021F51B0(((struct Obj01941 *)p)->f187C);
+    MUSICAL_MCSS_FreeRenderObj(*(int *)&((struct Obj01941 *)p)->f187C,((struct Obj01941 *)p)->f1880);
+    MUSICAL_MCSS_DeleteRenderObj(((struct Obj01941 *)p)->f187C);
     func_02030EAC(*(struct Node * *)&((struct Obj01941 *)p)->f8);
     BILLBOARD_Delete(((struct Obj01941 *)p)->f188C);
     G3D_CAMERA_Delete(((struct Obj01941 *)p)->f1888);

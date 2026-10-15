@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   TIME_ICON_Delete 0x0202F038 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -20,8 +20,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Descriptor;
 extern void TIME_ICON_Delete(u8 *p);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void PDWACC_MESSAGE_ClearStream(char *p) { if(((struct Obj03800 *)p)->f90) { TIME_ICON_Delete(((struct Obj03800 *)p)->f90); ((struct Obj03800 *)p)->f90=0; } if(((struct Obj03800 *)p)->f48) { func_0201F7A8(((struct Obj03800 *)p)->f48,2); BMP_WIN_ClearScreen(((struct Obj03800 *)p)->f48); func_02041B6C(5); BMP_WIN_Delete(((struct Obj03800 *)p)->f48); ((struct Obj03800 *)p)->f48=0; } }
+void PDWACC_MESSAGE_ClearStream(char *p) { if(((struct Obj03800 *)p)->f90) { TIME_ICON_Delete(((struct Obj03800 *)p)->f90); ((struct Obj03800 *)p)->f90=0; } if(((struct Obj03800 *)p)->f48) { BMP_MENUWORK_DrawWindowBorder(((struct Obj03800 *)p)->f48,2); BMP_WIN_ClearScreen(((struct Obj03800 *)p)->f48); func_02041B6C(5); BMP_WIN_Delete(((struct Obj03800 *)p)->f48); ((struct Obj03800 *)p)->f48=0; } }

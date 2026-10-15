@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 
@@ -28,7 +28,7 @@ struct S {
     u8 f5;
 };
 
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_02041B6C(u32 bit);
 
 void FRAME_LIST_ClearBgRows(struct S *p, u32 a1, s8 a2)
@@ -40,7 +40,7 @@ void FRAME_LIST_ClearBgRows(struct S *p, u32 a1, s8 a2)
             a2 += 0x20;
         else if (a2 >= 0x20)
             a2 -= 0x20;
-        func_02041300(a1, 0, p->f2, (u8)a2, p->f4, 1, 0);
+        BG_SYS_SetTileEntry(a1, 0, p->f2, (u8)a2, p->f4, 1, 0);
         a2++;
     }
     func_02041B6C(a1);

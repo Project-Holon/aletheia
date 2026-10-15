@@ -37,7 +37,7 @@
  *  BTL_SERVER_FLOW_ProcFieldEffectsExpire 0x021C4C24 thumb ov093
  *  func_021C45E4 0x021C45E4 thumb ov093
  *  func_021C45F4 0x021C45F4 thumb ov093
- *  func_021C4604 0x021C4604 thumb ov093
+ *  WIFI_2DCHAR_FindFreeActor 0x021C4604 thumb ov093
  *  BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
  *  BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
  *  BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
@@ -58,7 +58,7 @@ extern void BTL_SERVER_FLOW_ProcSideEffectsExpire(u8 *);
 extern void BTL_SERVER_FLOW_ProcFieldEffectsExpire(u8 *);
 extern void func_021C45E4(u8 *);
 extern u8 *func_021C45F4(u8 *);
-extern u8 *func_021C4604(u8 *);
+extern u8 *WIFI_2DCHAR_FindFreeActor(u8 *);
 extern void BTL_POKEPARAM_AdvanceTurn(u8 *);
 extern void BTL_EVENT_ClearClientReservedChoice(u8 *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
@@ -108,7 +108,7 @@ int BTL_SERVER_FLOW_ProcTurnCheck(u8 *p)
             BTL_POKEPARAM_AdvanceTurn(q);
             BTL_EVENT_ClearClientReservedChoice(q);
             BTL_SERVER_CMD_Push(*(void **)(p + 12), 0x2e, BTL_POKEPARAM_GetPokeId(q));
-            q = func_021C4604(a);
+            q = WIFI_2DCHAR_FindFreeActor(a);
         }
         BTL_SERVER_FLOW_ProcTripleShift(p);
         BTL_EVENT_RemoveDeadFactors();

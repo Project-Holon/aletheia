@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F732C",
+   "name": "STA_ACT_LIGHT_SetSpritePos",
    "address": "0x021F732C",
    "kind": "game",
    "region": "ov112",

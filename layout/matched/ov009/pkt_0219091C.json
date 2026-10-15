@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217D19C",
+   "name": "gsDebugVaList",
    "address": "0x0217D19C",
    "kind": "sdk",
    "region": "ov009",
@@ -29,7 +29,7 @@
    }
   },
   {
-   "name": "func_0217D254",
+   "name": "gsDebugFormat",
    "address": "0x0217D254",
    "kind": "sdk",
    "region": "ov009",
@@ -186,7 +186,7 @@
    }
   },
   {
-   "name": "func_021803BC",
+   "name": "gsiSafeStrcpyA",
    "address": "0x021803BC",
    "kind": "sdk",
    "region": "ov009",
@@ -198,7 +198,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218934C",
+   "name": "gpiAppendCharToBuffer",
    "address": "0x0218934C",
    "kind": "sdk",
    "region": "ov009",
@@ -210,7 +210,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021893C8",
+   "name": "gpiAppendStringToBufferLen",
    "address": "0x021893C8",
    "kind": "sdk",
    "region": "ov009",
@@ -222,7 +222,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218946C",
+   "name": "gpiAppendStringToBuffer",
    "address": "0x0218946C",
    "kind": "sdk",
    "region": "ov009",
@@ -234,7 +234,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218949C",
+   "name": "gpiAppendIntToBuffer",
    "address": "0x0218949C",
    "kind": "sdk",
    "region": "ov009",
@@ -291,7 +291,7 @@
    }
   },
   {
-   "name": "func_0218998C",
+   "name": "gpiSendFromBuffer",
    "address": "0x0218998C",
    "kind": "sdk",
    "region": "ov009",
@@ -308,7 +308,7 @@
    }
   },
   {
-   "name": "func_02189D78",
+   "name": "gpiCallErrorCallback",
    "address": "0x02189D78",
    "kind": "sdk",
    "region": "ov009",
@@ -320,7 +320,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02189DFC",
+   "name": "gpiAddCallback",
    "address": "0x02189DFC",
    "kind": "sdk",
    "region": "ov009",
@@ -332,7 +332,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021905A4",
+   "name": "gpiInitSearchData",
    "address": "0x021905A4",
    "kind": "sdk",
    "region": "ov009",
@@ -349,7 +349,7 @@
    }
   },
   {
-   "name": "func_021906E0",
+   "name": "gpiProfileSearch",
    "address": "0x021906E0",
    "kind": "sdk",
    "region": "ov009",
@@ -361,7 +361,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193418",
+   "name": "gpiValueForKey",
    "address": "0x02193418",
    "kind": "sdk",
    "region": "ov009",
@@ -373,7 +373,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193488",
+   "name": "gpiCheckSocketConnect",
    "address": "0x02193488",
    "kind": "sdk",
    "region": "ov009",
@@ -392,7 +392,7 @@
    }
   },
   {
-   "name": "func_0219359C",
+   "name": "gpiReadKeyAndValue",
    "address": "0x0219359C",
    "kind": "sdk",
    "region": "ov009",
@@ -404,7 +404,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193710",
+   "name": "gpiSetError",
    "address": "0x02193710",
    "kind": "sdk",
    "region": "ov009",
@@ -416,7 +416,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193748",
+   "name": "gpiEncodeString",
    "address": "0x02193748",
    "kind": "sdk",
    "region": "ov009",

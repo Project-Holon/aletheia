@@ -14,7 +14,7 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_02045EC0  0x02045EC0  arm
  */
@@ -31,7 +31,7 @@ struct WordSet;
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
@@ -55,7 +55,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, u8 *p, int key, u32 *outStr
         src = ((struct Obj06686 *)p)->f5A4;
         str = (u32)STRBUF_Create(0x40, *heap);
         WORDSET_Callback((struct WordSet *)ws, 0, k);
-        func_0201F250((struct WordSet *)ws, (void *)str, (void *)src);
+        WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)str, (void *)src);
         WORDSET_DeleteStrbufED04((struct WordSet *)ws);
         c = 1;
         break;

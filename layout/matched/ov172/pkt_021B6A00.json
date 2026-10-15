@@ -111,7 +111,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BDC70",
+   "name": "CTVT_CALL_DeleteText",
    "address": "0x021BDC70",
    "kind": "game",
    "region": "ov172",

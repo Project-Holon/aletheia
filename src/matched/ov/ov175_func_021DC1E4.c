@@ -1,5 +1,5 @@
 /*
- * function: func_021DC1E4
+ * function: WIFIBATTLEMATCH_NET_TakeRegData
  * address:  0x021DC1E4
  * packet:   pkt_021DC1E4
  * region:   ov175
@@ -18,7 +18,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021DC1E4(char *obj, char **out)
+u32 WIFIBATTLEMATCH_NET_TakeRegData(char *obj, char **out)
 {
     u32 v = ((struct Obj14344 *)obj)->f13C;
     if (v != 0) {

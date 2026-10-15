@@ -1,5 +1,5 @@
 /*
- * function: func_021F9FB4
+ * function: STA_ACT_EFFECT_KillEffect
  * address:  0x021F9FB4
  * packet:   pkt_021F9FB4
  * region:   ov132
@@ -22,7 +22,7 @@
 
 extern void PARTICLE_KillEffect(void **p, void *q);
 
-void func_021F9FB4(char *p, int i)
+void STA_ACT_EFFECT_KillEffect(char *p, int i)
 {
     int v = *(int *)(p + i * 16 + 0x4808);
 

@@ -28,9 +28,9 @@
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELDMAP_SetInfoWindow  0x02188D4C  thumb  ov021
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -68,9 +68,9 @@ extern int FIELD_MSGBG_DeleteMsgWin(void *a);
 struct Fx;
 extern void *FIELD_MSGBG_CreateMsgWin(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 extern void FIELDMAP_SetInfoWindow(u8 *p, u32 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern int FIELD_MSGBG_MsgWinPrintStr(u32 a, u32 b, u32 c, u32 d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -101,9 +101,9 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(u32 a, u32 b)
         FIELD_MSGBG_DeleteMsgWin((void *)w);
     obj = (u32)FIELD_MSGBG_CreateMsgWin((struct Fx *)m, z, (u16)(v1 - 9), (u16)v2, 9, 2);
     FIELDMAP_SetInfoWindow(y, obj);
-    func_0201EFA4((struct WordSet *)r6, 2, g, 7, 1, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)r6, 2, g, 7, 1, 1);
     MSGDATA_ReadString((struct MsgBank *)z, 1, (void *)r7);
-    func_0201F250((struct WordSet *)r6, (void *)h, (void *)r7);
+    WORDSET_CopyTaggedText((struct WordSet *)r6, (void *)h, (void *)r7);
     FIELD_MSGBG_MsgWinPrintStr(obj, 0, 0, h);
     STRBUF_Delete((struct U16Vec *)h);
     MSGDATA_Delete((struct Rec *)z);

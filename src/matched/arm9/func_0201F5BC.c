@@ -1,5 +1,5 @@
 /*
- * function: func_0201F5BC
+ * function: BMP_MENUWORK_LoadCharAndPltt
  * address:  0x0201F5BC
  * packet:   pkt_0201F5BC
  * region:   arm9
@@ -16,23 +16,23 @@
  * which is what fixes it as u16 rather than a word.
  *
  * symbols:
- *   func_0201F554  0x0201F554  thumb
- *   func_0201F57C  0x0201F57C  thumb
+ *   BMP_MENUWORK_LoadChar  0x0201F554  thumb
+ *   BMP_MENUWORK_LoadPltt  0x0201F57C  thumb
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F5BC.c \
- *       --func func_0201F5BC --addr 0x0201F5BC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_LoadCharAndPltt.c \
+ *       --func BMP_MENUWORK_LoadCharAndPltt --addr 0x0201F5BC --cc 1.1p1 --thumb
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F57C(u32 a, u32 b, u32 c, u16 d);
+extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
+extern void BMP_MENUWORK_LoadPltt(u32 a, u32 b, u32 c, u16 d);
 
-void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e)
+void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e)
 {
-    func_0201F554(a, b, d, e);
-    func_0201F57C(a, c, d, e);
+    BMP_MENUWORK_LoadChar(a, b, d, e);
+    BMP_MENUWORK_LoadPltt(a, c, d, e);
 }

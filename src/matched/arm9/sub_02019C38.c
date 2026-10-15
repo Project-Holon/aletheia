@@ -1,5 +1,5 @@
 /*
- * function: func_02019C38
+ * function: POKE_TOOL_GetBoxSubstruct
  * address:  0x02019C38
  * packet:   pkt_02019C38
  * note:     28 bytes including its pool word, one function
@@ -34,7 +34,7 @@
  * POKE_TOOL_GetBoxValueRaw's runtime helper.  It closes the day anything else in the image
  * names 0x0209E3A4, or the day the table itself is a matched data entry.
  *
- * The neighbour func_02019C54, which is the one-entry memo in front of this
+ * The neighbour POKE_TOOL_GetPersonalData, which is the one-entry memo in front of this
  * function, has no such site and was cut off into
  * src/matched/unit_02019C54.c rather than left capped with it
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md is the same
@@ -66,7 +66,7 @@ struct Mon {
 
 extern const u8 gBlockOrder[32][4];
 
-void *func_02019C38(struct Mon *p, u32 pid, u32 n)
+void *POKE_TOOL_GetBoxSubstruct(struct Mon *p, u32 pid, u32 n)
 {
     return &p->block[gBlockOrder[(pid & 0x3E000) >> 13][n]];
 }

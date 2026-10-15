@@ -1,5 +1,5 @@
 /*
- * function: func_021E1850
+ * function: BR_CODEIN_ProfileApplyRecords
  * address: 0x021E1850
  * packet: pkt_ov183_021E1850
  * region: ov183
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E0E40 0x021E0E40 thumb ov183
+ *   BR_CODEIN_ProfileGetActorIndex 0x021E0E40 thumb ov183
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj00732.h"
 typedef unsigned short u16;
 typedef struct {int tag,value,mode,handle; char rest[12];} Record;
-extern int func_021E0E40(int,int);
+extern int BR_CODEIN_ProfileGetActorIndex(int,int);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021E1850(const Record *records)
+void BR_CODEIN_ProfileApplyRecords(const Record *records)
 {
     char *p=(char *)records;
     int i,old,value,offset;
@@ -32,10 +32,10 @@ void func_021E1850(const Record *records)
         ((struct Obj00732 *)p)->f320=1;
     } else {
         i=((struct Obj00732 *)p)->f188;
-        CLACT_SetActorAnimSeq((struct Obj *)records[i].handle,func_021E0E40(((Record *)records)[i].tag=0,records[i].mode));
+        CLACT_SetActorAnimSeq((struct Obj *)records[i].handle,BR_CODEIN_ProfileGetActorIndex(((Record *)records)[i].tag=0,records[i].mode));
         old=records[i].value;
         if (i>0) {
-            CLACT_SetActorAnimSeq((struct Obj *)records[i-1].handle,func_021E0E40(records[i-1].tag,records[i-1].mode));
+            CLACT_SetActorAnimSeq((struct Obj *)records[i-1].handle,BR_CODEIN_ProfileGetActorIndex(records[i-1].tag,records[i-1].mode));
             value=records[i-1].value;
             if (old!=value) {
                 ((struct Obj00732 *)p)->f318=1;

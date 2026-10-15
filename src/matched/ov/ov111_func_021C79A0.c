@@ -1,5 +1,5 @@
 /*
- * function: func_021C79A0
+ * function: VIEWER_ACTOR_DispatchState
  * address:  0x021C79A0
  * packet:   pkt_ov111_021C79A0
  * region:   ov111
@@ -23,7 +23,7 @@ struct Work {
 
 extern int (*const d_021C8E58[])(Work *p);
 
-int func_021C79A0(Work *p)
+int VIEWER_ACTOR_DispatchState(Work *p)
 {
     return d_021C8E58[p->state](p);
 }

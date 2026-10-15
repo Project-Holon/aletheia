@@ -1,5 +1,5 @@
 /*
- * function: func_021FAC74
+ * function: STA_ACT_SCRIPT_AddScript
  * address: 0x021FAC74
  * packet: pkt_ov132_021FAC74
  * region: ov132
@@ -40,7 +40,7 @@ struct ScriptVm;
 extern void VM_Init(struct ScriptVm *vm, void *user);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern char d_021FDC2C[];
-void *func_021FAC74(char *p, void *arg, int flag)
+void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag)
 {
     u8 i;
     for (i = 0; i < 10; i++) if (*(void **)(p + 0xc + i * 4) == 0) break;

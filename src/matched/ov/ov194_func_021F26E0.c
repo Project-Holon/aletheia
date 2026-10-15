@@ -1,5 +1,5 @@
 /*
- * function: func_021F26E0
+ * function: NAMEIN_GRAPHIC_PickerMove
  * address:  0x021F26E0
  * packet:   pkt_021F26E0
  * region:   ov194
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021F26E0(char *a, int b, int c)
+void NAMEIN_GRAPHIC_PickerMove(char *a, int b, int c)
 {
     ((void (*)(int, int, char *))(*(void **)(a + 0x18)))(b, c, a + 4);
 }

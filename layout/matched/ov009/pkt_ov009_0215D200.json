@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215D200",
+   "name": "SOCLi_GetSizeSocket",
    "address": "0x0215D200",
    "kind": "sdk",
    "region": "ov009",

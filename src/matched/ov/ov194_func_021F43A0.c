@@ -1,5 +1,5 @@
 /*
- * function: func_021F43A0
+ * function: NAMEIN_GRAPHIC_StepIconAnim
  * address: 0x021F43A0
  * packet: pkt_ov194_021F43A0
  * region: ov194
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-int func_021F43A0(char *p) {
+int NAMEIN_GRAPHIC_StepIconAnim(char *p) {
     Vec2 pos;
     int tick;
     if (((struct Obj01576 *)p)->f1C) {

@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E7794 0x021E7794 data a4
+ *   gPlaySeByKeyBTable 0x021E7794 data a4
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef struct { int id; int key; } Ent;
 typedef struct { Ent e[22]; } Tbl;
-extern const Tbl d_021E7794;
+extern const Tbl gPlaySeByKeyBTable;
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void POKETRADE_NEGO_PlaySeByKeyB(int key)
 {
-    Tbl t = d_021E7794;
+    Tbl t = gPlaySeByKeyBTable;
     unsigned i;
     for (i = 0; i < 22; i++) {
         if (key == t.e[i].key) {

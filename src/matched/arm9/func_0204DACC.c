@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02063790    0x02063790  arm
+ *   NNSi_G2dInitVramHandle    0x02063790  arm
  *   CLACT_IsVramTypeCompatible    0x0204D9B4  arm
  *   VMAN_Alloc    0x02034660  arm
  *   func_020346D8    0x020346D8  arm
  *   CLACT_UpdateObjMapping    0x0204DC70  arm
- *   func_02063828    0x02063828  arm
- *   func_02063A54    0x02063A54  arm
- *   func_02063C80    0x02063C80  arm
+ *   NNSi_G2dLoadVramResourceMain    0x02063828  arm
+ *   NNSi_G2dLoadVramResourceSub    0x02063A54  arm
+ *   NNSi_G2dSetupVramResource    0x02063C80  arm
  *
  * Upload one 0x40-byte cell's two graphics halves to VRAM. The optional
  * fourth argument supplies an override key: when it is null the key comes
  * from the sink's +0x10 field and the "overridden" flag stays clear;
  * otherwise it is the first word of the override's +0x0C block, with the
- * flag set. func_02063790 resets the cell's three-word handle triple, then
+ * flag set. NNSi_G2dInitVramHandle resets the cell's three-word handle triple, then
  * each half (the +0x2C descriptor against bank +0x00 and kind 1, the +0x34
  * descriptor against bank +0x04 and kind 2) is uploaded only when
  * CLACT_IsVramTypeCompatible admits the mode pair and VMAN_Alloc finds the resource:
@@ -62,14 +62,14 @@ struct Ovr {
 struct Item020346D8;
 struct Out;
 struct TargetStruct;
-extern void func_02063790(u32 *p);
+extern void NNSi_G2dInitVramHandle(u32 *p);
 extern u32 CLACT_IsVramTypeCompatible(u32 a, u32 b);
 extern int VMAN_Alloc(u8 *p, u32 a, void **out);
 extern u32 func_020346D8(struct Item020346D8 *a, u32 *b);
 extern void CLACT_UpdateObjMapping(struct TargetStruct *obj, int which);
-extern void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out);
-extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
-extern void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out);
+extern void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *out);
+extern void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *out);
+extern void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out);
 
 void CLACT_SetupCharacterVram(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
                    u32 mode)
@@ -92,7 +92,7 @@ void CLACT_SetupCharacterVram(struct Res *r, u32 idx, struct Sink *s, struct Ovr
         ovrd = 1;
     }
 
-    func_02063790((u32 *)cell);
+    NNSi_G2dInitVramHandle((u32 *)cell);
 
     if (CLACT_IsVramTypeCompatible(mode, 0) != 0) {
         if (VMAN_Alloc((u8 *)r->f00, key, (void **)(cell + 0x2c)) != 0) {
@@ -100,11 +100,11 @@ void CLACT_SetupCharacterVram(struct Res *r, u32 idx, struct Sink *s, struct Ovr
             kind = 1;
             CLACT_UpdateObjMapping((struct TargetStruct *)s, (int)kind);
             if (ovrd != 0) {
-                func_02063C80((struct Res *)s, off, (int)kind, (struct Out *)cell);
+                NNSi_G2dSetupVramResource((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else if (s->f08 != 0) {
-                func_02063828((struct Res *)s, off, (int)kind, (struct Out *)cell);
+                NNSi_G2dLoadVramResourceMain((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else {
-                func_02063A54((struct Res *)s, off, (int)kind, (struct Out *)cell);
+                NNSi_G2dLoadVramResourceSub((struct Res *)s, off, (int)kind, (struct Out *)cell);
             }
         }
     }
@@ -115,11 +115,11 @@ void CLACT_SetupCharacterVram(struct Res *r, u32 idx, struct Sink *s, struct Ovr
             kind = 2;
             CLACT_UpdateObjMapping((struct TargetStruct *)s, (int)kind);
             if (ovrd != 0) {
-                func_02063C80((struct Res *)s, off, (int)kind, (struct Out *)cell);
+                NNSi_G2dSetupVramResource((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else if (s->f08 != 0) {
-                func_02063828((struct Res *)s, off, (int)kind, (struct Out *)cell);
+                NNSi_G2dLoadVramResourceMain((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else {
-                func_02063A54((struct Res *)s, off, (int)kind, (struct Out *)cell);
+                NNSi_G2dLoadVramResourceSub((struct Res *)s, off, (int)kind, (struct Out *)cell);
             }
         }
     }

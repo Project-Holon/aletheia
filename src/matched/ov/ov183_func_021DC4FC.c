@@ -1,5 +1,5 @@
 /*
- * function: func_021DC4FC
+ * function: BR_CODEIN_RecordStepSave
  * address: 0x021DC4FC
  * packet: pkt_ov183_021DC4FC
  * region: ov183
@@ -31,21 +31,21 @@
  * }
  * abi: DD0AC/DD0F4 keep the visibly loaded second descriptor argument despite body using only the first.
  * symbols:
- *   func_021DD0AC 0x021DD0AC thumb ov183
- *   func_021DD0F4 0x021DD0F4 thumb ov183
+ *   BR_CODEIN_RecordCreateTextWin 0x021DD0AC thumb ov183
+ *   BR_CODEIN_RecordDeleteTextWin 0x021DD0F4 thumb ov183
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   GDS_RAP_SaveVideoSecured 0x021D7630 thumb ov125
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DBC68 0x021DBC68 thumb ov183
+ *   BR_CODEIN_RecordStepCreateProfile 0x021DBC68 thumb ov183
  *   d_021E3960 0x021E3960 data a1
  *   func_02034714 0x02034714 arm
  *   BATTLE_REC_DecodeWork 0x0200B490 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  */
 typedef unsigned short u16;
-extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
+extern void BR_CODEIN_RecordCreateTextWin(char *,char *),BR_CODEIN_RecordDeleteTextWin(char *,char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
@@ -53,16 +53,16 @@ extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
 extern int GDS_RAP_SaveVideoSecured(void *a, int x, u16 *state, u16 *b, u16 c);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021DBC68(int a, int b, char *p);
+extern void BR_CODEIN_RecordStepCreateProfile(int a, int b, char *p);
 extern char d_021E3960[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void BATTLE_REC_DecodeWork(void);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-void func_021DC4FC(int *a,int *state,char *p)
+void BR_CODEIN_RecordStepSave(int *a,int *state,char *p)
 {
     switch(*state) {
     case 0:
-        func_021DD0AC(p,*(char **)(p+0xd0));
+        BR_CODEIN_RecordCreateTextWin(p,*(char **)(p+0xd0));
         BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
         BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
         *state=1;break;
@@ -79,6 +79,6 @@ void func_021DC4FC(int *a,int *state,char *p)
         break;
     case 5: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
     case 6: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
-    case 7: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)func_021DBC68);break;
+    case 7: BR_CODEIN_RecordDeleteTextWin(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)BR_CODEIN_RecordStepCreateProfile);break;
     }
 }

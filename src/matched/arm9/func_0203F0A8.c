@@ -1,5 +1,5 @@
 /*
- * function: func_0203F0A8
+ * function: GF_STANDARD_Rand
  * address:  0x0203F0A8
  * packet:   pkt_0203F0A8
  * region:   arm9
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   g_021469F8    0x021469F8  data
- *   func_0203F034 0x0203F034  arm
+ *   GF_STANDARD_RandSeed 0x0203F034  arm
  *
  * MT19937 genrand_int32 with the state regeneration inlined (reference
- * implementation, N = 624, M = 397); func_0203F034 is init_genrand.  The
+ * implementation, N = 624, M = 397); GF_STANDARD_RandSeed is init_genrand.  The
  * state block (mt[624], mti, mag01[2]) is one heap object behind
  * g_021469F8, reloaded every iteration because the mt[kk] store may alias
- * the pointer.  docs/notes/func_0203F0A8.c.txt has the full decode.
+ * the pointer.  docs/notes/GF_STANDARD_Rand.c.txt has the full decode.
  *
  * FRONT END (wave 18, lane ties_a): this exact C was DIFF 340/340, 16 bytes
  * out under dsi/1.1p1 for eight waves.  The residue was one addressing
@@ -28,7 +28,7 @@
  * spelling moved it (about forty recorded in the note), which is the
  * front-end signature.  Under dsi/1.2 (and 1.2p1, 1.2p2, 1.3) the same C
  * is 340 bytes, 0 mismatches; 1.1 is 16 out, ../2.0/sp2 352 bytes.  The
- * neighbours func_0203F034, GF_STANDARD_SetupCalc and func_0203F258 are 1.1p1.
+ * neighbours GF_STANDARD_RandSeed, GF_STANDARD_SetupCalc and GF_STANDARD_CalcHash are 1.1p1.
  */
 typedef unsigned int u32;
 struct MtState {
@@ -39,9 +39,9 @@ struct MtState {
 
 extern struct MtState *g_021469F8;
 
-extern void func_0203F034(u32 seed);
+extern void GF_STANDARD_RandSeed(u32 seed);
 
-u32 func_0203F0A8(void)
+u32 GF_STANDARD_Rand(void)
 {
     u32 y;
 
@@ -49,7 +49,7 @@ u32 func_0203F0A8(void)
         int kk;
 
         if (g_021469F8->mti == 625) {
-            func_0203F034(5489);
+            GF_STANDARD_RandSeed(5489);
         }
 
         for (kk = 0; kk < 227; kk++) {

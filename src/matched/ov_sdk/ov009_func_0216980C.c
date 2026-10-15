@@ -19,8 +19,8 @@
  *   DWCi_CheckLogin  0x0216AA70  arm  ov009
  *   DWCi_GetUserData  0x0216A39C  arm  ov009
  *   DWC_GetGsProfileId  0x020598EC  arm
- *   func_02186108  0x02186108  arm  ov009
- *   func_02185FD4  0x02185FD4  arm  ov009
+ *   gpGetBuddyIndex  0x02186108  arm  ov009
+ *   gpGetBuddyStatus  0x02185FD4  arm  ov009
  *   s_bNeedCloseStatsConnection  0x021AA860  data
  */
 
@@ -51,9 +51,9 @@ extern int DWCi_CheckLogin(void);
 extern int DWCi_GetUserData(void);
 struct DWCstAccUserData;
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
-extern int func_02186108(void **connection, int profile, int *index);
+extern int gpGetBuddyIndex(void **connection, int profile, int *index);
 struct GPBuddyStatus;
-extern int func_02185FD4(void **connection, int index, struct GPBuddyStatus *status);
+extern int gpGetBuddyStatus(void **connection, int index, struct GPBuddyStatus *status);
 
 int DWCi_GetFriendBuddyStatus(void *friendData, BuddyStatus *status)
 {
@@ -64,13 +64,13 @@ int DWCi_GetFriendBuddyStatus(void *friendData, BuddyStatus *status)
 		return 0;
 	profileid = DWC_GetGsProfileId((struct DWCstAccUserData *)DWCi_GetUserData(), friendData);
 	if (profileid > 0) {
-		if (func_02186108(stpFriendCnt->connection, profileid, &buddyIdx) != 0)
+		if (gpGetBuddyIndex(stpFriendCnt->connection, profileid, &buddyIdx) != 0)
 			goto end;
 	}
 	if (!(profileid > 0 && buddyIdx != -1)) {
 		ret = 0;
 	} else {
-		int res = func_02185FD4(stpFriendCnt->connection, buddyIdx, (struct GPBuddyStatus *)status);
+		int res = gpGetBuddyStatus(stpFriendCnt->connection, buddyIdx, (struct GPBuddyStatus *)status);
 		ret = 0;
 		if (res == 0)
 			ret = 1;

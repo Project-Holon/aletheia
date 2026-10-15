@@ -23,7 +23,7 @@
  *   ghiDoReceivingStatus                    0x021c492c arm  ov114
  *   ghiDoReceivingHeaders                    0x021c4e7c arm  ov114
  *   ghiDoReceivingFile                    0x021c5430 arm  ov114
- *   func_0217D254                    0x0217d254 arm  ov009
+ *   gsDebugFormat                    0x0217d254 arm  ov009
  *   ghiRedirectConnection                    0x021c0e58 arm  ov114
  *   func_0217EF50                    0x0217ef50 arm  ov009
  *   ghiHandleStatus                    0x021c1d30 arm  ov114
@@ -62,7 +62,7 @@ extern void ghiDoReceivingStatus(GHIConnection *connection);
 extern void ghiDoReceivingHeaders(GHIConnection *connection);
 extern void ghiDoReceivingFile(GHIConnection *connection);
 struct Ctx;
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiRedirectConnection(GHIConnection *connection);
 extern int func_0217EF50(int sock);
 extern void ghiHandleStatus(GHIConnection *connection);
@@ -102,7 +102,7 @@ int ghiProcessConnection(GHIConnection *connection)
     if (connection->state == 10)
         ghiDoReceivingFile(connection);
     if (connection->state == 11)
-        func_0217D254(8, (char *)3, 0x10, sGhttpConnectionClosing);
+        gsDebugFormat(8, (char *)3, 0x10, sGhttpConnectionClosing);
 
     if (connection->redirect)
         ghiRedirectConnection(connection);

@@ -10,7 +10,7 @@
  * lever: duplicated calls in the final if/else-if preserve the branch-to-branch tail.
  * symbols:
  *   WIFICLUB_RefreshVisibleList 0x021BE788 thumb ov099
- *   func_0203EFC8 0x0203EFC8 arm
+ *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   WIFICLUB_FindPeerActor 0x021BE2A8 thumb ov099
  *   WIFICLUBACTOR_StartDespawn 0x021B99F4 thumb ov099
  *   WIFICLUB_RemovePeerActor 0x021BE244 thumb ov099
@@ -28,7 +28,7 @@
 typedef unsigned char u8;
 extern int WIFICLUB_RefreshVisibleList(char *);
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, unsigned int n);
 extern void *WIFICLUB_FindPeerActor(char *,int);
 extern void WIFICLUBACTOR_StartDespawn(char *,void *);
 extern void WIFICLUB_RemovePeerActor(char *,void *);
@@ -50,7 +50,7 @@ int WIFICLUB_SyncPresenceLists(char *p)
     int i,j,found;
     void *v;
     char *s;
-    if(func_0203EFC8((const u8 *)(p+0x10),(const u8 *)(p+0x30),32)){
+    if(GF_STANDARD_CompareBytes((const u8 *)(p+0x10),(const u8 *)(p+0x30),32)){
         for(i=0;i<32;i++){
             found=0;
             for(j=0;j<32;j++){

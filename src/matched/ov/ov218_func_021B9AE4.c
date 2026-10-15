@@ -16,8 +16,8 @@
  *   before t (that orders the t spill store after the two constants).
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   func_0201D2C8 0x0201D2C8 thumb
   * note 2026-10-05 (integrator): parked in pending although it verifies EXACT. It closes only with
@@ -31,8 +31,8 @@ struct MsgBank;
 struct StrObj;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u32 func_0201D2C8(struct StrObj *s);
 void func_021B9AE4(u8 *p, u8 *a, void *b, unsigned long long cd)
@@ -41,8 +41,8 @@ void func_021B9AE4(u8 *p, u8 *a, void *b, unsigned long long cd)
     u32 r = 12;
     u32 t = 0x83 - d;
     MSGDATA_ReadString(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
-    func_0201EFA4(*(void **)(p + 0x14), 2, t, 3, 0, 1);
-    func_0201F250(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
+    WORDSET_SetSlotNumber(*(void **)(p + 0x14), 2, t, 3, 0, 1);
+    WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
     TOUCHBAR_PrintAligned(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
     if (func_0201D2C8((struct StrObj *)(*(u32 *)(p + d * 4))) > 1) r = 4;

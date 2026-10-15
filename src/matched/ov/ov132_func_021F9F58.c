@@ -1,5 +1,5 @@
 /*
- * function: func_021F9F58
+ * function: STA_ACT_EFFECT_KillSystem
  * address: 0x021F9F58
  * packet: pkt_ov132_021F9F58
  * region: ov132
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void PARTICLE_KillAllEffects(u32);
 extern void PARTICLE_DeleteSystem(u8 *p);
-void func_021F9F58(u8 *unused,u8 *p) { ((struct Obj10536 *)p)->f0=0; PARTICLE_KillAllEffects(((struct Obj10536 *)p)->f4804); PARTICLE_DeleteSystem((u8 *)(((struct Obj10536 *)p)->f4804)); }
+void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((struct Obj10536 *)p)->f0=0; PARTICLE_KillAllEffects(((struct Obj10536 *)p)->f4804); PARTICLE_DeleteSystem((u8 *)(((struct Obj10536 *)p)->f4804)); }

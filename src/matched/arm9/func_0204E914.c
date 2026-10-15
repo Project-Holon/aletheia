@@ -1,5 +1,5 @@
 /*
- * function: func_0204E914
+ * function: DOUBLE3DDISP_InitOam
  * address:  0x0204E914
  * packet:   pkt_0204E914
  * region:   arm9
@@ -13,7 +13,7 @@
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *
- * double3Ddisp.c, second function (the TU starts at func_0204E8C0).  Builds
+ * double3Ddisp.c, second function (the TU starts at DOUBLE3DDISP_Init).  Builds
  * the twelve sub-engine sprites that carry the doubled 3D image, a 4 x 3
  * grid of 64 x 64 cells over 256 x 192, then flushes the OAM copy
  * (DWCi_ScreenDC_FlushRange, DC_FlushRange) and loads it at OAM offset 0x3A0
@@ -50,7 +50,7 @@ extern void GXS_LoadOAM(void *p, u32 off, u32 n);
 
 #define REG32(a) (*(volatile u32 *)(a))
 
-void func_0204E914(void)
+void DOUBLE3DDISP_InitOam(void)
 {
     s32 i;
     s32 x;

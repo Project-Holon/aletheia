@@ -13,7 +13,7 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   sub_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   G3D_SYSTEM_CreateResourceArc 0x02046DB8 arm
  *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
@@ -24,7 +24,7 @@
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
- *   sub_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   func_020307B0  0x020307B0  arm
@@ -39,7 +39,7 @@
 #include "btlv_stage_shared_types.h"
 #include "btlv_field_shared_types.h"
 
-extern void *sub_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 
@@ -61,7 +61,7 @@ extern void *G3D_SYSTEM_GetResourceFile(G3dResource *);
 
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *);
 
@@ -106,7 +106,7 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     int (*table)[4][4];
     int i, j;
     int bytes;
-    field = sub_02030734(heap, 0x70, 1, gBtlvFieldFileName, 0x56);
+    field = GFL_HEAP_Alloc(heap, 0x70, 1, gBtlvFieldFileName, 0x56);
     table = ARC_TOOL_LoadMember(0x98, 1, (u16)((heap & 0x7fff) | 0x8000));
     field->heap = heap;
     if (table[group][0][variant] != -1)
@@ -120,9 +120,9 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     field->render = G3D_SYSTEM_CreateRender(field->resource, 0, field->resource);
     j = 0;
     if (field->animCount != 0) {
-        field->animResource = sub_02030734(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7e);
-        field->anime = sub_02030734(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7f);
-        field->animState = sub_02030734(field->heap, field->animCount * 16, 1, gBtlvFieldFileName, 0x80);
+        field->animResource = GFL_HEAP_Alloc(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7e);
+        field->anime = GFL_HEAP_Alloc(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7f);
+        field->animState = GFL_HEAP_Alloc(field->heap, field->animCount * 16, 1, gBtlvFieldFileName, 0x80);
         for (i = 1; i < 4; i++) {
             if (table[group][i][variant] != -1) {
                 field->animResource[j] = G3D_SYSTEM_CreateResourceArc(11, table[group][i][variant]);
@@ -144,13 +144,13 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     field->status.scale.z = 0x1000;
     MTX_Identity33_(field->status.rotate);
     bytes = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(field->resource))->plttInfo.sizePltt * 8;
-    field->palFade.resources = sub_02030734(field->heap, 4, 0, gBtlvFieldFileName, 0xaa);
-    field->palFade.palettes = sub_02030734(field->heap, 4, 0, gBtlvFieldFileName, 0xab);
+    field->palFade.resources = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xaa);
+    field->palFade.palettes = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xab);
     *field->palFade.resources = field->resource;
-    *field->palFade.palettes = sub_02030734(field->heap, bytes, 0, gBtlvFieldFileName, 0xae);
+    *field->palFade.palettes = GFL_HEAP_Alloc(field->heap, bytes, 0, gBtlvFieldFileName, 0xae);
     field->palFade.enabled = 0;
     field->palFade.count = 1;
-    sub_020307B0(table);
+    GFL_HEAP_Free(table);
     return field;
 }
 

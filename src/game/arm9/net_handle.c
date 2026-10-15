@@ -34,7 +34,7 @@
  *   OS_GetMacAddress         0x02087C6C  arm
  *   _AssertTimingSend        0x020A7A94  data
  *   GFL_NET_SYSTEM_ClampNetId            0x020395E0  arm
- *   func_0203EFC8            0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes            0x0203EFC8  arm
  *   _AssertNetIDNotServer    0x020A7AB0  data
  *   _AssertNetIDInRange      0x020A7ACC  data
  *   GFL_NET_SYSTEM_SetNoSend            0x02039578  arm
@@ -119,7 +119,7 @@ extern void OS_GetMacAddress(void *p);
 
 extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 extern void GFL_NET_STATE_Idle(void);
 
@@ -1783,7 +1783,7 @@ void GFL_NET_HANDLE_RecvNegotiationReturn(int senderID, int size, NetMemberRec *
             GFL_NET_HANDLE_SetNegotiationEnd(peer);
     }
     OS_GetMacAddress(ownMac);
-    if (func_0203EFC8(msg->peerMac, ownMac, 6) == 0)
+    if (GF_STANDARD_CompareBytes(msg->peerMac, ownMac, 6) == 0)
     {
         if (msg->netID != GFL_NET_HANDLE_GetNetHandleID(peer))
             GFL_NET_HANDLE_SetNegotiationEnd(peer);

@@ -8,12 +8,12 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030830
+ * function: GFL_HEAP_GetHeapHead
  *
  * Asserting wrapper around sub_02030344: forwards its single argument,
  * terminates if the result is NULL, and hands the result back either way.
  *
- *   void *sub_02030830(u32 heapId)
+ *   void *GFL_HEAP_GetHeapHead(u32 heapId)
  *
  * The `movs r4, r0` that both saves and tests the result is the tell that
  * the value is bound to a local before being compared, not compared as a
@@ -25,8 +25,8 @@
  *   OS_Terminate    0x02088234  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030830.c \
- *       --func sub_02030830 --addr 0x02030830 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapHead.c \
+ *       --func GFL_HEAP_GetHeapHead --addr 0x02030830 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 extern void *sub_02030344(u32 heapId);
 extern void OS_Terminate(void);
 
-void *sub_02030830(u32 heapId)
+void *GFL_HEAP_GetHeapHead(u32 heapId)
 {
     void *p;
 

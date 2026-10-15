@@ -1,5 +1,5 @@
 /*
- * function: func_021D6FD8
+ * function: GTSNEGO_MSG_RestartIconAnim
  * address: 0x021D6FD8
  * packet: pkt_ov120_021D6FD8
  * region: ov120
@@ -19,7 +19,7 @@ struct Actor;
 struct Obj;
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void func_021D6FD8(u8 *p, u32 flag)
+void GTSNEGO_MSG_RestartIconAnim(u8 *p, u32 flag)
 {
     if (((struct Obj10395 *)p)->f140 != 0) {
         CLACT_RestartActorAnim(((struct Obj10395 *)p)->f140);

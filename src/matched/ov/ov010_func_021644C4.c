@@ -1,5 +1,5 @@
 /*
- * function: func_021644C4
+ * function: FIELD_SKILL_CHECK_CallHandler
  * address:  0x021644C4
  * packet:   pkt_ov010_021644C4
  * region:   ov010
@@ -27,7 +27,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern Handler d_021714DC[];
 
-int func_021644C4(int i, void *a, void *b)
+int FIELD_SKILL_CHECK_CallHandler(int i, void *a, void *b)
 {
     void *sys;
     void *save;

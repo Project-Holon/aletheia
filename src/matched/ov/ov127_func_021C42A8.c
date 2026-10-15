@@ -1,5 +1,5 @@
 /*
- * function: func_021C42A8
+ * function: WIFI_2DCHAR_SetActorAnim
  * address:  0x021C42A8
  * packet:   pkt_ov127_021C42A8
  * region:   ov127
@@ -13,7 +13,7 @@
  * declaring both arguments preserves p and restores both store ordering and table register allocation.
  *
  * symbols:
- *   tbl_021C5FBC  0x021C5FBC  data  a4
+ *   sWifi2dcharAnimStartTable  0x021C5FBC  data  a4
  *
  * Addresses are Black-image addresses.
  */
@@ -27,12 +27,12 @@ struct obj {
     u16 f14;
 };
 
-extern void (*tbl_021C5FBC[])(struct obj *, int);
+extern void (*sWifi2dcharAnimStartTable[])(struct obj *, int);
 
-void func_021C42A8(struct obj *p, int idx, int a)
+void WIFI_2DCHAR_SetActorAnim(struct obj *p, int idx, int a)
 {
     p->f14 = 0;
     p->idx = idx;
-    if (tbl_021C5FBC[idx] != 0)
-        tbl_021C5FBC[idx](p,a);
+    if (sWifi2dcharAnimStartTable[idx] != 0)
+        sWifi2dcharAnimStartTable[idx](p,a);
 }

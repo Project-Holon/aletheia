@@ -15,7 +15,7 @@
  *
  * Unlabelled ov177 thunk hidden in a word run: tail-calls func_021E8AA0 with
  * its second argument zeroed.  Matched to supply the `matched` witness for the
- * pending ov175 caller func_021D61CC.
+ * pending ov175 caller WIFIBATTLEMATCH_NET_TaskCleanupB.
  */
 
 extern void func_021E8AA0(int *p, int v);

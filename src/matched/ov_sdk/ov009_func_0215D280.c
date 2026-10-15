@@ -1,5 +1,5 @@
 /*
- * function: func_0215D280
+ * function: SOCLi_GetSizeCommandPipe
  * address:  0x0215D280
  * packet:   pkt_ov009_0215D280
  * region:   ov009
@@ -23,7 +23,7 @@ typedef struct {
 
 extern unsigned long func_0215F0C8(unsigned long size);
 
-unsigned long func_0215D280(Param *param)
+unsigned long SOCLi_GetSizeCommandPipe(Param *param)
 {
 	unsigned long size;
 

@@ -12,7 +12,7 @@
  *
  * Finds the index of the 0xBD06 tag whose first parameter is the caller's
  * value, counting 0xFFFE separators as it goes.  The tag's parameter is read
- * with func_0201D670's body written out inline (`p[0] == 0xF000 ? p[3] : 0`),
+ * with GF_FONT_GetTagParam's body written out inline (`p[0] == 0xF000 ? p[3] : 0`),
  * including the redundant re-test of p[0] that the caller has already made: that
  * guard is in the bytes and removing it costs four instructions.
  *
@@ -31,6 +31,7 @@
  *
  * symbols:
  *   STRBUF_GetChars  0x02045A90  arm
+ *   GF_FONT_SkipTag  0x0201D688  thumb
  */
 
 typedef unsigned char  u8;
@@ -39,7 +40,7 @@ typedef unsigned int   u32;
 
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 *func_0201D688(u16 *p);
+extern u16 *GF_FONT_SkipTag(u16 *p);
 
 u32 GF_FONT_SearchIndex(void *s, u8 v)
 {
@@ -64,7 +65,7 @@ u32 GF_FONT_SearchIndex(void *s, u8 v)
                     return (u8)n;
                 }
             }
-            p = func_0201D688(p);
+            p = GF_FONT_SkipTag(p);
         } else {
             p = p + 1;
         }

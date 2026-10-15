@@ -1,5 +1,5 @@
 /*
- * function: func_021FC014
+ * function: SCRIPT_COMMAND_CmdStartEffect
  * address: 0x021FC014
  * packet: pkt_ov132_021FC014
  * region: ov132
@@ -11,7 +11,7 @@
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
- *   func_021F9F74 0x021F9F74 thumb ov132
+ *   STA_ACT_EFFECT_StartEffect 0x021F9F74 thumb ov132
  */
 #include "../include/Obj05403.h"
 #include "../include/Obj23258.h"
@@ -21,8 +21,8 @@ typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void *STA_ACTING_GetAnimSlot(void *, u8);
-extern void func_021F9F74(void *, u16, void *);
-int func_021FC014(int unused, char *p)
+extern void STA_ACT_EFFECT_StartEffect(void *, u16, void *);
+int SCRIPT_COMMAND_CmdStartEffect(int unused, char *p)
 {
     char *obj;
     int a, b, c, d, e;
@@ -38,6 +38,6 @@ int func_021FC014(int unused, char *p)
     vec.x = c / 16;
     vec.y = (0xC0000 - d) / 16;
     vec.z = e;
-    func_021F9F74(target, (u16)b, &vec);
+    STA_ACT_EFFECT_StartEffect(target, (u16)b, &vec);
     return 0;
 }

@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_0220C67C
+ * function: B_PLIST_DRAW_PrintHeader9
  * address: 0x0220C67C
  * packet: pkt_ov198_0220C67C
  * region: ov198
@@ -10,8 +10,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0220C60C 0x0220C60C thumb ov198
+ *   B_PLIST_DRAW_PrintHeader 0x0220C60C thumb ov198
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-extern void func_0220C60C(char *,int);
-void func_0220C67C(char *p){func_0220C60C(p,9);}
+extern void B_PLIST_DRAW_PrintHeader(char *,int);
+void B_PLIST_DRAW_PrintHeader9(char *p){B_PLIST_DRAW_PrintHeader(p,9);}

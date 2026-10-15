@@ -1,5 +1,5 @@
 /*
- * function: func_021DC2C0
+ * function: WIFIBATTLEMATCH_NET_SendRegValue
  * address:  0x021DC2C0
  * packet:   pkt_021DC2C0
  * region:   ov175
@@ -25,7 +25,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
-int func_021DC2C0(u32 ignored, void *p)
+int WIFIBATTLEMATCH_NET_SendRegValue(u32 ignored, void *p)
 {
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2405, 4, (u32)p);
 }

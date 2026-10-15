@@ -11,7 +11,7 @@
  * function: STRBUF_Delete
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *
  * The destructor of the u16-array object STRBUF_Create builds: it kills
  * the 0xECD2F8B6 liveness magic at +0x4 and then tail-calls the family's
@@ -48,10 +48,10 @@ struct U16Vec {
     u16 entries[1];
 };
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void STRBUF_Delete(struct U16Vec *vec)
 {
     vec->magic = 0;
-    sub_020307B0(vec);
+    GFL_HEAP_Free(vec);
 }

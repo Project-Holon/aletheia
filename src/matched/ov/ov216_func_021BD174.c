@@ -19,14 +19,14 @@
  *   func_021BD07C 0x021BD07C thumb ov216
  *   GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond 0x02165C60 thumb ov010
  *   STRBUF_Clear 0x0204581C arm
- *   func_0201F1C8 0x0201F1C8 thumb
+ *   WORDSET_SetSlotFromMsg38 0x0201F1C8 thumb
  *   func_021BCEA4 0x021BCEA4 thumb ov216
  *   GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst 0x02165C78 thumb ov010
- *   func_0201F198 0x0201F198 thumb
+ *   WORDSET_SetSlotFromMsg2B 0x0201F198 thumb
  *   GAME_BEACON_ACCESSOR_GetPlayTime 0x02165D10 thumb ov010
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   GAME_BEACON_ACCESSOR_GetNation 0x02165C58 thumb ov010
- *   func_0201F048 0x0201F048 thumb
+ *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   GAME_BEACON_ACCESSOR_GetArea 0x02165C5C thumb ov010
  *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   GAME_BEACON_ACCESSOR_GetPassCount 0x02165D40 thumb ov010
@@ -40,7 +40,7 @@
  *   POKEGRA_LoadTrainerGraphics 0x0202DAA4 thumb
  *   GAME_BEACON_ACCESSOR_GetResearchTeamRank 0x02165CB4 thumb ov010
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BCE7C 0x021BCE7C arm ov216
+ *   func_021BCE7C 0x021BCE7C thumb ov216
  */
 #include "../include/Obj00051.h"
 #include "../include/Obj05555.h"
@@ -61,15 +61,15 @@ extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *,void *);
 extern void func_021BD07C(void *,void **,int,short,u8,u8,u8,u8);
 extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int a0);
 extern void STRBUF_Clear(struct U16Vec *);
-extern void func_0201F1C8(struct WordSet *,u32,u32);
+extern void WORDSET_SetSlotFromMsg38(struct WordSet *,u32,u32);
 extern void func_021BCEA4(u8 *p, u8 n);
 extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(int a0);
-extern void func_0201F198(struct WordSet *,u32,u32);
+extern void WORDSET_SetSlotFromMsg2B(struct WordSet *,u32,u32);
 struct R;
 extern void GAME_BEACON_ACCESSOR_GetPlayTime(const struct S *p, u16 *a, u16 *b);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p);
-extern void func_0201F048(struct WordSet *,u32,u32);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *,u32,u32,u32);
 extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct S *p);
@@ -103,24 +103,24 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
     subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond((int)record);
     if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
-    else {func_0201F1C8(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
+    else {WORDSET_SetSlotFromMsg38(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
     func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst((int)record);
     if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
-    else {func_0201F198(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
+    else {WORDSET_SetSlotFromMsg2B(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
     func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);
     GAME_BEACON_ACCESSOR_GetPlayTime(record,&counts.b,&counts.a);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,2,counts.b,3,0,1);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,3,counts.a,2,2,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,2,counts.b,3,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,3,counts.a,2,2,1);
     func_021BCEA4((u8 *)p,6);
     func_021BD07C((char *)p,(void **)(q+48),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
-    func_0201F048(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
+    WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
     WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
     func_021BCEA4((u8 *)p,8);
     func_021BD07C((char *)p,(void **)(q+80),*(int *)&((struct Obj00051 *)p)->f140,0,0,28,4,0);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
     func_021BCEA4((u8 *)p,10);
     func_021BD07C((char *)p,(void **)(q+96),*(int *)&((struct Obj00051 *)p)->f140,21,0,6,4,0);
     if(PMS_DRAW_IsActive(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) PMS_DRAW_Clear(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);

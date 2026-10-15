@@ -36,7 +36,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02014910  0x02014910  thumb
+ *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   POKEPARTY_GetCapacity  0x0201AA14  thumb
@@ -66,14 +66,14 @@
  *   POKEPARTY_InitEx  0x0201A954  thumb
  *   func_020173EC  0x020173EC  thumb
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
- *   func_02019CE0  0x02019CE0  thumb
- *   func_02019CA0  0x02019CA0  thumb
+ *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
+ *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   BTL_SETUP_ChangeToSubway  0x0201394C  thumb
  *   d_02172A2C     0x02172A2C  data
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   MSGDATA_CreateFromArchive   0x02045B38  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   d_02172084     0x02172084  data
@@ -116,7 +116,7 @@
  *   MOVE_POKEMON_SAVE_RollStartLocation  0x0200D440  thumb
  *   POKERUS_DecreaseDays  0x0201B100  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02008E30  0x02008E30  thumb
+ *   RECORD_FoldPairs  0x02008E30  thumb
  *   func_02009470  0x02009470  thumb
  *   func_0200952C  0x0200952C  thumb
  *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
@@ -450,7 +450,7 @@ extern u32 ZUKAN_SAVE_IsNationalDexEnabled(ZukanSave *zukan);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
-extern GameEvent *func_02014910(GameSystem *gameSystem, FieldMap *fieldMap, PokeListParam *listParam, PStatusParam *statusParam);
+extern GameEvent *FIELD_STATUS_CreateSubProcListEvent(GameSystem *gameSystem, FieldMap *fieldMap, PokeListParam *listParam, PStatusParam *statusParam);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b, int c, u8 d, u8 e);
 extern u32 POKEPARTY_GetCapacity(Party *party);
@@ -480,13 +480,13 @@ extern void BTL_SETUP_AllocRecordBuffer(BtlSetup *bs, u32 heapId);
 extern void POKEPARTY_InitEx(Party *party, int capacity);
 extern u32 func_020173EC(void);
 extern void POKE_TOOL_ClearPartyParam(PokemonParam *mon);
-extern void func_02019CE0(const PokemonParam *src, PokemonParam *dest);
-extern void func_02019CA0(PokemonParam *mon, u32 level);
+extern void POKE_TOOL_CopyPartyPokemon(const PokemonParam *src, PokemonParam *dest);
+extern void POKE_TOOL_SetLevelAndRecalc(PokemonParam *mon, u32 level);
 extern void STRBUF_SetString(Strbuf *dest, const u16 *src);
 extern void PMSI_PARAM_ClearSentence(PmsData *pms);
 extern void BTL_SETUP_ChangeToSubway(BtlSetup *bs);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int a, int b, int c);
-extern u32 func_02019C90(u16 species, u16 form, u32 paramId);
+extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadUnits(MsgData *msgData, u32 msgIndex, u16 *dest, u32 maxLen);
 extern void POKE_TOOL_SetupPartyParamEx(PokemonParam *mon, u16 species, u16 level, unsigned long long otId, u32 ivs, unsigned long long pid);
@@ -524,7 +524,7 @@ extern void ZONEDATA_ClearTimeFlags(u32 eventWork);
 extern void MOVE_POKEMON_SAVE_RollStartLocation(SaveControl *saveControl);
 extern void POKERUS_DecreaseDays(Party *party, int days);
 extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
-extern void func_02008E30(void *trainerRecord);
+extern void RECORD_FoldPairs(void *trainerRecord);
 extern void *func_02009470(SaveControl *saveControl);
 extern void func_0200952C(void *obj);
 extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(GameData *gameData, int days, int a);
@@ -677,7 +677,7 @@ int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectE
         (*seq)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, func_02014910(gameSystem, work->fieldMap, &work->listParam, &work->statusParam));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, &work->listParam, &work->statusParam));
         (*seq)++;
         break;
     case 3:
@@ -851,9 +851,9 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     POKE_TOOL_ClearPartyParam(tempMon);
     for (; i < monCount; i++) {
         srcMon = POKEPARTY_GetMember(playerParty, i);
-        func_02019CE0(srcMon, tempMon);
+        POKE_TOOL_CopyPartyPokemon(srcMon, tempMon);
         if (func_02017E1C(srcMon, 0x9E, 0) != 0x32)
-            func_02019CA0(tempMon, 0x32);
+            POKE_TOOL_SetLevelAndRecalc(tempMon, 0x32);
         POKEPARTY_Add(party, tempMon);
     }
     func_020307B0(tempMon);
@@ -997,14 +997,14 @@ u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 memberId, u32 otId, u32
     }
     out->ppUps = 0;
     out->lang = 0;
-    ability = func_02019C90(out->species, 0, 0x1B);
+    ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1B);
     if (ability != 0) {
         if (out->pid & 1)
             out->ability = ability;
         else
-            out->ability = func_02019C90(out->species, 0, 0x1A);
+            out->ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1A);
     } else {
-        out->ability = func_02019C90(out->species, 0, 0x1A);
+        out->ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1A);
     }
     out->friendship = friendship;
     speciesNames = MSGDATA_CreateFromArchive(0, 2, 0x46, heapId);
@@ -1746,7 +1746,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
     ZONEDATA_ClearTimeFlags(GAME_DATA_GetEventWork(gameData));
     MOVE_POKEMON_SAVE_RollStartLocation(saveControl);
     POKERUS_DecreaseDays(GAME_DATA_GetMyParty(gameData), days);
-    func_02008E30(GAME_DATA_GetTrainerRecord(gameData));
+    RECORD_FoldPairs(GAME_DATA_GetTrainerRecord(gameData));
     func_0200952C(func_02009470(saveControl));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(gameData, days, 4);
     MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock(saveControl));

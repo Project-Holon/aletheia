@@ -8,20 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: WORDSET_Set, func_0201F104, WORDSET_Callback_F124, func_0201F134,
- *           func_0201F140, func_0201F14C, func_0201F158, func_0201F164,
- *           func_0201F184, func_0201F198, func_0201F1B0, func_0201F1C8,
- *           WORDSET_DrawF1E0, func_0201F230
+ * function: WORDSET_Set, WORDSET_SetSlotPokeData, WORDSET_Callback_F124, WORDSET_SetSlotFromMsgBE,
+ *           WORDSET_SetSlotFromMsgB4, WORDSET_SetSlotFromMsg37, WORDSET_SetSlotFromMsg59, WORDSET_SetSlotBoxName,
+ *           WORDSET_SetSlotFromMsgA0, WORDSET_SetSlotFromMsg2B, WORDSET_SetSlotFromMsg00, WORDSET_SetSlotFromMsg38,
+ *           WORDSET_DrawF1E0, WORDSET_SetSlotMonth
  *
  * The second half of the wordset.c setter run, 0x0201F0F8..0x0201F250.
  * Every one of these is the same shape: clamp or range-check the caller's
- * value, then render one message id through func_0201EDD0.  The constants are
+ * value, then render one message id through WORDSET_SetSlotFromMessage.  The constants are
  * message ids and the ones above 255 (0x116, 0x11B, 0x1CD) arrive from the
  * function's own literal pool because Thumb's `movs` immediate stops at 255;
  * they are plain numbers, not relocations, which is the negative case of
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  *
- * func_0201F184 clamps with a signed `blt`, so its value parameter is `s32`
+ * WORDSET_SetSlotFromMsgA0 clamps with a signed `blt`, so its value parameter is `s32`
  * while every other clamp in the file is an unsigned `bls`/`bhi`.
  *
  * WORDSET_DrawF1E0 clears the slot unconditionally before the range check and
@@ -29,7 +29,7 @@
  * out-of-range id leaks the rendered string; that is what the bytes say and
  * it is reproduced here rather than tidied.
  *
- * The calls to func_0201ED64 are carried by the `matched` class through
+ * The calls to WORDSET_ResetSlot are carried by the `matched` class through
  * src/matched/unit_0201ED04.c; all six of its callers are inside this packet.
  *
  * Addresses are Black-image addresses.
@@ -43,6 +43,9 @@
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   BMP_OAM_Get  0x02025B94  thumb
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
+ *   WORDSET_ResetSlot  0x0201ED64  thumb
+ *   WORDSET_SetSlotText  0x0201ED84  thumb
+ *   WORDSET_SetSlotFromMessage  0x0201EDD0  thumb
  */
 
 typedef unsigned char  u8;
@@ -77,106 +80,106 @@ struct WordSet {
     void *buf;
 };
 
-extern void func_0201ED64(struct WordSet *p, u32 i);
-extern void func_0201ED84(struct WordSet *p, u32 i, const void *src,
+extern void WORDSET_ResetSlot(struct WordSet *p, u32 i);
+extern void WORDSET_SetSlotText(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
-extern void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v);
+extern void WORDSET_SetSlotFromMessage(struct WordSet *p, u32 i, u32 id, u32 v);
 extern void WORDSET_Set(struct WordSet *p, u32 i, u32 v);
 
 void WORDSET_Set(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0xBF, v);
+    WORDSET_SetSlotFromMessage(p, i, 0xBF, v);
 }
 
-void func_0201F104(struct WordSet *p, u32 i, u32 a)
+void WORDSET_SetSlotPokeData(struct WordSet *p, u32 i, u32 a)
 {
     WORDSET_Set(p, i, (u8)TPOKE_DATA_GetRecordField((void *)a, 1));
 }
 
 void WORDSET_Callback_F124(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x11B, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x11B, v);
 }
 
-void func_0201F134(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsgBE(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0xBE, v);
+    WORDSET_SetSlotFromMessage(p, i, 0xBE, v);
 }
 
-void func_0201F140(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsgB4(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0xB4, v);
+    WORDSET_SetSlotFromMessage(p, i, 0xB4, v);
 }
 
-void func_0201F14C(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x37, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x37, v);
 }
 
-void func_0201F158(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x59, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x59, v);
 }
 
-void func_0201F164(struct WordSet *p, u32 i, u32 a, u32 b)
+void WORDSET_SetSlotBoxName(struct WordSet *p, u32 i, u32 a, u32 b)
 {
     func_0200785C((void *)a, b, p->buf);
-    func_0201ED84(p, i, p->buf, 0);
+    WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
-void func_0201F184(struct WordSet *p, u32 i, s32 v)
+void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v)
 {
     if (v >= 0x30) {
         v = 0;
     }
-    func_0201EDD0(p, i, 0xA0, v);
+    WORDSET_SetSlotFromMessage(p, i, 0xA0, v);
 }
 
-void func_0201F198(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg2B(struct WordSet *p, u32 i, u32 v)
 {
     if (v > 8) {
-        func_0201ED64(p, i);
+        WORDSET_ResetSlot(p, i);
         return;
     }
-    func_0201EDD0(p, i, 0x2B, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x2B, v);
 }
 
-void func_0201F1B0(struct WordSet *p, u32 i, u8 v)
+void WORDSET_SetSlotFromMsg00(struct WordSet *p, u32 i, u8 v)
 {
     if (v > 0x91) {
-        func_0201ED64(p, i);
+        WORDSET_ResetSlot(p, i);
         return;
     }
-    func_0201EDD0(p, i, 0, v);
+    WORDSET_SetSlotFromMessage(p, i, 0, v);
 }
 
-void func_0201F1C8(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg38(struct WordSet *p, u32 i, u32 v)
 {
     if (v > 8) {
-        func_0201ED64(p, i);
+        WORDSET_ResetSlot(p, i);
         return;
     }
-    func_0201EDD0(p, i, 0x38, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x38, v);
 }
 
 void WORDSET_DrawF1E0(struct WordSet *p, u32 i, u32 v)
 {
     void *s = func_02045B38(0, 3, (u16)0x1CD, (u16)p->heap);
 
-    func_0201ED64(p, i);
+    WORDSET_ResetSlot(p, i);
     if (v <= 6 && s != 0) {
         MSGDATA_ReadString(s, v + 0x2B, p->buf);
-        func_0201ED84(p, i, p->buf, 0);
+        WORDSET_SetSlotText(p, i, p->buf, 0);
         MSGDATA_Delete(s);
     }
 }
 
-void func_0201F230(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v)
 {
     if (v < 1) {
         v = 1;
     } else if (v > 0xC) {
         v = 0xC;
     }
-    func_0201EDD0(p, i, 0x116, v - 1);
+    WORDSET_SetSlotFromMessage(p, i, 0x116, v - 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02055B80
+ * function: SPL_EMITTER_UpdateFrameEx
  * address:  0x02055B80
  * packet:   pkt_02052F58
  * region:   arm9
@@ -10,18 +10,18 @@
  * symbols:
  *   MTX_MultVec43        0x0207BC08  arm
  *   func_0207D918        0x0207D918  arm
- *   func_020565C8        0x020565C8  arm
+ *   SPL_EMITTER_DrawQuad        0x020565C8  arm
  *   func_02055B80_Verts  0x020A1B38  data
  * status:   EXACT
  *
- * Handler row of the rig dispatch (func_02053044 / func_0205312C pool rows;
+ * Handler row of the rig dispatch (SPL_EMITTER_UpdateSubX / SPL_EMITTER_UpdateSubB pool rows;
  * docs/families/cluster_02052F58.h): a Z-rotation billboard.  Same top as
- * func_0205429C (POLYGON_ATTR, the three-way scale switch), then instead of
+ * SPL_EMITTER_UpdateFrameMain (POLYGON_ATTR, the three-way scale switch), then instead of
  * the basis hooks it transforms the particle position by the current matrix
  * (MTX_MultVec43, MTX_MultVec43), reads sin/cos from the Verts table at
  * s->f20 >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
  * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + func_0207D918), mixes
- * the colour and calls the quad emitter func_020565C8 DIRECTLY.
+ * the colour and calls the quad emitter SPL_EMITTER_DrawQuad DIRECTLY.
  *
  * LOAD-BEARING SHAPES (wave 8):
  *   1. SubC->f30 is read into a local BEFORE the 0x040004A4 store, and
@@ -36,8 +36,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02055B80.c \
- *       --func func_02055B80 --addr 0x02055B80 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_UpdateFrameEx.c \
+ *       --func SPL_EMITTER_UpdateFrameEx --addr 0x02055B80 --arm --cc ../1.2/sp2
  */
 typedef signed int s32;
 typedef unsigned int u32;
@@ -146,14 +146,14 @@ struct Frame {
 extern const s16 func_02055B80_Verts[];
 extern void MTX_MultVec43(const void *v, const void *m, void *out);
 extern void func_0207D918(const void *);
-extern void func_020565C8(s32, s32, s32, s32);
+extern void SPL_EMITTER_DrawQuad(s32, s32, s32, s32);
 
 static inline s32 FX_Mul(s32 a, s32 b)
 {
     return (s32)(((s64)a * b + 0x800) >> 12);
 }
 
-void func_02055B80(struct Obj *obj, struct S *s)
+void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S *s)
 {
     struct Frame f;
     struct SubC *p;
@@ -260,5 +260,5 @@ void func_02055B80(struct Obj *obj, struct S *s)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    func_020565C8(obj->f40->f7c, obj->f40->f7e, 0, 0);
+    SPL_EMITTER_DrawQuad(obj->f40->f7c, obj->f40->f7e, 0, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FA3A8
+ * function: STA_ACT_AUDIENCE_DrawRecord
  * address: 0x021FA3A8
  * packet: pkt_ov132_021FA3A8
  * region: ov132
@@ -10,7 +10,7 @@
  * status: EXACT
  * ABI: 41300 caller truncates tile to u16 and coordinates to u8 before each call.
  * symbols:
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   table 0x021FDC16 data a2
  */
@@ -18,9 +18,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 table[];
-extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
-void func_021FA3A8(char *p,u8 *rec,unsigned type)
+void STA_ACT_AUDIENCE_DrawRecord(char *p,u8 *rec,unsigned type)
 {
     u16 tile;
     int reverse=0;
@@ -37,8 +37,8 @@ void func_021FA3A8(char *p,u8 *rec,unsigned type)
             if(reverse==1) x=3-col+rec[6]*4;
             else x=col+rec[6]*4;
             t=tile+col+row*32;
-            func_02041300(4,tile+col+row*32,x,row+rec[7]*4+2,1,1,0);
-            func_02041300(6,t,x,row+rec[7]*4+5,1,1,0);
+            BG_SYS_SetTileEntry(4,tile+col+row*32,x,row+rec[7]*4+2,1,1,0);
+            BG_SYS_SetTileEntry(6,t,x,row+rec[7]*4+5,1,1,0);
         }
     }
     func_02041B6C(4);

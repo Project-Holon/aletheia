@@ -14,10 +14,10 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -46,10 +46,10 @@ struct U16Vec;
 struct WordSet;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct PrintSys;
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -76,11 +76,11 @@ void MONOLITH_TOOL_DrawSelectedEntry(u8 *a, Q *q, u8 *p)
     if (k != 0x30) {
         if ((*(u8 **)(a + 8))[2] == 0) {
             off = k * 12;
-            func_0201EFA4(q->f10, 0, *(u16 *)((u8 *)q->f34 + off + 2), 4, 0, 1);
+            WORDSET_SetSlotNumber(q->f10, 0, *(u16 *)((u8 *)q->f34 + off + 2), 4, 0, 1);
             s = func_02045EC0(q->f24, *(u16 *)((u8 *)q->f34 + off + 6));
             t = func_02045EC0(q->f28, 0x28);
             u = STRBUF_Create(0x40, 0x61);
-            func_0201F250(q->f10, u, t);
+            WORDSET_CopyTaggedText(q->f10, u, t);
             Draw(q, ((struct Obj03665 *)p)->f1C, 0, 4, s);
             p[0x20] = 1;
             Draw(q, ((struct Obj03665 *)p)->f1C, 0x70, 0x34, u);
@@ -97,12 +97,12 @@ void MONOLITH_TOOL_DrawSelectedEntry(u8 *a, Q *q, u8 *p)
                 value = q->f34[k].b;
                 index = 0x2a;
             }
-            func_0201EFA4(q->f10, 0, value, 3, 0, 1);
-            func_0201EFA4(q->f10, 1, counts->n, 3, 0, 1);
-            func_0201EFA4(q->f10, 2, counts->m, 3, 0, 1);
+            WORDSET_SetSlotNumber(q->f10, 0, value, 3, 0, 1);
+            WORDSET_SetSlotNumber(q->f10, 1, counts->n, 3, 0, 1);
+            WORDSET_SetSlotNumber(q->f10, 2, counts->m, 3, 0, 1);
             s = func_02045EC0(q->f28, index);
             u = STRBUF_Create(0x80, 0x61);
-            func_0201F250(q->f10, u, s);
+            WORDSET_CopyTaggedText(q->f10, u, s);
             Draw(q, ((struct Obj03665 *)p)->f1C, 0, 4, u);
             p[0x20] = 1;
             STRBUF_Delete(u);

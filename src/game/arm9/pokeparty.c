@@ -24,7 +24,7 @@
  *   _pPersonalArc  0x0214652C  data
  *   poke_personal_File  0x020A7310  data
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   FILE_UTIL_Get_0FE4   0x02020FE4  thumb
  *   TIMEZONE_IsNight   0x02011410  thumb
  *   shinka_check_File 0x020A7330 data  a1
@@ -58,7 +58,7 @@
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   GF_FONT_Task  0x0201CEE0  thumb
- *   func_02019C90 0x02019C90 thumb
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   GF_FONT_ReadGlyph  0x0201DB04  thumb
  *   TCBL_DeleteTask  0x02031194  arm
@@ -74,6 +74,8 @@
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
  *   GF_FONT_CopyStrbufD6D8  0x0201D6D8  thumb
+ *   GF_FONT_GetAllocSize  0x0201D6B8  thumb
+ *   GF_FONT_GetQueueLength  0x0201D6C4  thumb
  */
 #define REG_DISPCNT      (*(volatile u32 *)0x04000000)
 #define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
@@ -340,7 +342,7 @@ extern u32   ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 dataId);
 extern void  func_0204960C(struct ArcHandle *arc, u32 offset);
 extern void  ARC_TOOL_ReadHandle(struct ArcHandle *arc, u32 size, void *dst);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(struct ArcHandle *arc, int dataId, int fromTail, u32 heap, u32 *sizeOut);
-extern u32   func_0203F0A8(void);
+extern u32   GF_STANDARD_Rand(void);
 extern u32   FILE_UTIL_Get_0FE4(u32 item, u32 param, u16 heap);
 extern u32   TIMEZONE_IsNight(u32 timezone);
 extern void  ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 dataId, void *dst);
@@ -357,8 +359,8 @@ extern void  GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 background);
 extern u64   func_020870D0(void);
 extern struct PrintCtx *GF_FONT_UpdatePrintsy(struct PrintQueue *queue, struct PrintCtx *job);
 extern int   GFL_NET_GetNegotiationNum(void);
-extern u32   func_0201D6B8(struct Strbuf *str);
-extern u32   func_0201D6C4(const struct PrintQueue *queue);
+extern u32   GF_FONT_GetAllocSize(struct Strbuf *str);
+extern u32   GF_FONT_GetQueueLength(const struct PrintQueue *queue);
 extern void  GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 extern u16  *STRBUF_GetChars(struct Strbuf *str);
 extern u8    BMP_GetTileBytes(struct Bmp *bmp);
@@ -374,7 +376,7 @@ extern void *TCBL_GetWork(struct TcblNode *task);
 extern void  GF_FONT_Task(void *task, struct TextPrinter *printer);
 extern void  TCBL_DeleteTask(struct TcblNode *task);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 speed);
-u32 func_02019C90(u16 species, u16 form, u32 field);
+u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field);
 struct Party *POKEPARTY_Create(u32 heap);
 void POKEPARTY_Init(struct Party *party);
 void POKEPARTY_InitEx(struct Party *party, s32 capacity);
@@ -1655,11 +1657,11 @@ void POKERUS_TryInfectParty(struct Party *party)
     u32 memberCount;
 
     memberCount = POKEPARTY_GetCount(party);
-    chance = (u16)((u64)func_0203F0A8() * 0x10000 >> 32);
+    chance = (u16)((u64)GF_STANDARD_Rand() * 0x10000 >> 32);
     infectedMask = POKERUS_GetInfectedMask(party);
     if (chance == 0x4000 || chance == 0x8000 || chance == 0xC000) {
         do {
-            slot = func_0203F0A8();
+            slot = GF_STANDARD_Rand();
             if (memberCount != 0) {
                 slot = (u32)(((u64)slot * memberCount) >> 32);
             }
@@ -1670,7 +1672,7 @@ void POKERUS_TryInfectParty(struct Party *party)
             return;
         }
         do {
-            strain = (u8)((u64)func_0203F0A8() * 0x100 >> 32);
+            strain = (u8)((u64)GF_STANDARD_Rand() * 0x100 >> 32);
         } while ((strain & 7) == 0);
         if ((strain & 0xF0) != 0) {
             strain = strain & 7;
@@ -1797,7 +1799,7 @@ void POKERUS_SpreadParty(struct Party *party)
     s32 memberCount;
 
     memberCount = POKEPARTY_GetCount(party);
-    if ((u32)((u64)func_0203F0A8() * 3 >> 32) != 0) {
+    if ((u32)((u64)GF_STANDARD_Rand() * 3 >> 32) != 0) {
         return;
     }
     for (i = 0; i < memberCount; i++) {
@@ -2443,7 +2445,7 @@ void NATSUKI_CalcUseItem(struct PokemonParam *pp, int item, u16 zoneId, u16 heap
  */
 void NATSUKI_CalcWalk(struct PokemonParam *pp, int zoneId, u16 heap)
 {
-    if ((u32)((u64)func_0203F0A8() * 2 >> 32) % 2 == 0) {
+    if ((u32)((u64)GF_STANDARD_Rand() * 2 >> 32) % 2 == 0) {
         NATSUKI_Apply(pp, _NatsukiWalkDeltas, zoneId, heap);
     }
 }
@@ -2859,7 +2861,7 @@ void POKE_TOOL_HealParty(struct Party *party)
  *   1311   the member the alternate forms start at, which is 652 * 2 + 7, i.e.
  *          immediately after the two egg indices.  A White build with a
  *          different species count would move this number and only this one.
- *   0x1F, 0x20, 0x23   the three personal-record attributes func_02019C90
+ *   0x1F, 0x20, 0x23   the three personal-record attributes POKE_TOOL_GetPersonalParam
  *          answers: the form block's first index, the form count, and the flag
  *          that says the forms are not drawn separately.
  *
@@ -2925,9 +2927,9 @@ u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
     if (isEgg != 0) {
         index = (u32)((species == 490 ? 1 : 0) + 650) * 2 + 7;
     } else if (form != 0) {
-        firstFormIndex = func_02019C90((u16)species, 0, 0x1F);
-        formsShared = func_02019C90((u16)species, 0, 0x23);
-        formCount = func_02019C90((u16)species, 0, 0x20);
+        firstFormIndex = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x1F);
+        formsShared = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x23);
+        formCount = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x20);
         if (form >= formCount) {
             form = 0;
         }
@@ -2998,7 +3000,7 @@ u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
  *   490    the species whose egg has an entry of its own.
  *   650    the ordinary egg's index, so 651 is that species' egg; 651 again is
  *          the base the alternate-form block is counted from.
- *   0x1F, 0x20, 0x23   the three personal-record attributes func_02019C90
+ *   0x1F, 0x20, 0x23   the three personal-record attributes POKE_TOOL_GetPersonalParam
  *          answers: the form block's first index, the form count, and the
  *          "not drawn separately" flag.
  *   0x0209E474  the table itself, one packed byte per index.  Its contents are
@@ -3029,9 +3031,9 @@ u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg)
     if (isEgg != 0) {
         index = (species == 490 ? 1 : 0) + 650;
     } else if (form != 0) {
-        firstFormIndex = func_02019C90((u16)species, 0, 0x1F);
-        formsShared = func_02019C90((u16)species, 0, 0x23);
-        formCount = func_02019C90((u16)species, 0, 0x20);
+        firstFormIndex = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x1F);
+        formsShared = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x23);
+        formCount = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x20);
         if (form >= formCount) {
             form = 0;
         }
@@ -4234,7 +4236,7 @@ void PRINTSYS_QUE_Clear(struct PrintQueue *queue)
  * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
  * into the ring: when the module is not busy and the flags nibble in the byte
  * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
- * GF_FONT_CopyStrbufD6D8 provided the request fits in the free space func_0201D6C4
+ * GF_FONT_CopyStrbufD6D8 provided the request fits in the free space GF_FONT_GetQueueLength
  * reports.
  *
  * Why it is capped: the `bl` at 0x0201C79C is the only branch to GF_FONT_CopyStrbufD6D8
@@ -4293,8 +4295,8 @@ void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct S
         PRINTSYS_RunJob(job, str);
         return;
     }
-    size = func_0201D6B8(str);
-    if (size <= func_0201D6C4(queue)) {
+    size = GF_FONT_GetAllocSize(str);
+    if (size <= GF_FONT_GetQueueLength(queue)) {
         GF_FONT_CopyStrbufD6D8(queue, job, str);
     }
 }

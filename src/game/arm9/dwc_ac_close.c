@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_0205B264 0x0205B264 arm
- *   func_0217AA20 0x0217AA20 arm
- *   func_0217A950 0x0217A950 arm
+ *   DWC_Netcheck_Abort 0x0217AA20 arm
+ *   DWC_Netcheck_Destroy 0x0217A950 arm
  *   func_021656A0 0x021656A0 arm
  *   WCM_Finish 0x02164EE0 arm
  *   WCM_CleanupAsync 0x02165088 arm
@@ -28,8 +28,8 @@
  *   SOCLiConfigPtr  0x021A1CD8  data  ov009
  */
 extern int func_0205B264(void);
-extern void func_0217AA20(void);
-extern void func_0217A950(void);
+extern void DWC_Netcheck_Abort(void);
+extern void DWC_Netcheck_Destroy(void);
 extern int func_021656A0(void);
 extern void WCM_Finish(void);
 extern void WCM_CleanupAsync(void);
@@ -62,8 +62,8 @@ int DWCi_AC_CloseNetwork(unsigned char *phase)
             return 1;
         }
     } else if (*phase == 14) {
-        func_0217AA20();
-        func_0217A950();
+        DWC_Netcheck_Abort();
+        DWC_Netcheck_Destroy();
         *phase = 12;
     } else if (*phase < 0x12) {
         if (CloseSocket() == 1)

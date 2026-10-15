@@ -1,5 +1,5 @@
 /*
- * function: func_021BD5AC
+ * function: CTVT_CALL_VBlank
  * address:  0x021BD5AC
  * packet:   pkt_ov172_021BD5AC
  * region:   ov172
@@ -25,7 +25,7 @@ extern void CLACT_VBlankSystem(void);
 extern void DRAW_SYSTEM_FlushStrokes(char *p);
 extern void CTVT_TALK_SetMicMode(int unused, char *p);
 
-void func_021BD5AC(int unused, char *ctx)
+void CTVT_CALL_VBlank(int unused, char *ctx)
 {
     CTVT_CAMVIEW_UploadWindows(ctx, (struct Q *)(((struct Obj10666 *)ctx)->f1E0));
     CLACT_VBlankSystem();

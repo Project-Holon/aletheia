@@ -24,7 +24,7 @@
  *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   func_020496E4 0x020496E4 arm
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
@@ -42,14 +42,14 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   PDC_MSG_BlendUpdate 0x021B6CDC thumb ov098
  *   PRINTSYS_PrintStreamRun 0x0201CE20 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -77,7 +77,7 @@ extern u32 CONFIG_GetTextSpeed(struct Config *config);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 textSpeed);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
-extern void func_02041300(u32, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
@@ -93,13 +93,13 @@ extern void func_020403F4(int);
 extern void MSGDATA_Delete(struct MsgBank *msgBank);
 extern void BMP_WIN_Delete(struct BmpWin *window);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EEF4(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
-extern void func_0201F02C(struct WordSet *wordSet, u32 index, struct MyStatus *myStatus);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct MyStatus *myStatus);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void PRINTSYS_PrintStreamRun(void *stream);
 extern u32 PRINTSYS_PrintStreamGetState(void *stream);
 extern void PRINTSYS_PrintStreamReleasePause(void *stream);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void BMP_Clear(void *bmp, u8 color);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
@@ -150,7 +150,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     msg->textSpeed = MSG_SPEED_GetWaitForSpeed(CONFIG_GetTextSpeed(config));
     msg->strbuf = STRBUF_Create(0x100, heapId);
     msg->wordSet = GF_FONT_Create_EC64(heapId);
-    func_02041300(1, 0, 0, 0, 32, 32, 17);
+    BG_SYS_SetTileEntry(1, 0, 0, 0, 32, 32, 17);
     BG_SYS_Init(1, 0, 1, 0);
     frameIndex = func_020496E4(11, 89, 1, 0, 0, msg->heapId);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 11, 90, msg->heapId, 0, 32, 0, 0);
@@ -179,8 +179,8 @@ void PDC_MSG_PrintMessage0(struct PdcMsg *msg, struct PdcArgs *args) {
     struct PokemonParam *mon;
     str = func_02045EC0(msg->msgBank, 0);
     mon = PDC_GetMon(args);
-    func_0201EEF4(msg->wordSet, 0, mon);
-    func_0201F250(msg->wordSet, msg->strbuf, str);
+    WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
+    WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 0x50);
     STRBUF_Delete(str);
 }
@@ -190,8 +190,8 @@ void PDC_MSG_PrintMessage3(struct PdcMsg *msg, struct PdcArgs *args) {
     struct MyStatus *myStatus;
     str = func_02045EC0(msg->msgBank, 3);
     myStatus = PDC_GetMyStatus(args);
-    func_0201F02C(msg->wordSet, 0, myStatus);
-    func_0201F250(msg->wordSet, msg->strbuf, str);
+    WORDSET_SetSlotMyStatus(msg->wordSet, 0, myStatus);
+    WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 0);
     STRBUF_Delete(str);
 }
@@ -201,8 +201,8 @@ void PDC_MSG_PrintMessage1(struct PdcMsg *msg, struct PdcArgs *args) {
     struct PokemonParam *mon;
     str = func_02045EC0(msg->msgBank, 1);
     mon = PDC_GetMon(args);
-    func_0201EEF4(msg->wordSet, 0, mon);
-    func_0201F250(msg->wordSet, msg->strbuf, str);
+    WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
+    WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 0x50);
     STRBUF_Delete(str);
 }
@@ -212,8 +212,8 @@ void PDC_MSG_PrintMessage2(struct PdcMsg *msg, struct PdcArgs *args) {
     struct PokemonParam *mon;
     str = func_02045EC0(msg->msgBank, 2);
     mon = PDC_GetMon(args);
-    func_0201EEF4(msg->wordSet, 0, mon);
-    func_0201F250(msg->wordSet, msg->strbuf, str);
+    WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
+    WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 0x50);
     STRBUF_Delete(str);
 }
@@ -224,8 +224,8 @@ void PDC_MSG_PrintMessage4(struct PdcMsg *msg, struct PdcArgs *args)
     struct MyStatus *myStatus;
     str=func_02045EC0(msg->msgBank, 4);
     myStatus=PDC_GetMyStatus(args);
-    func_0201F02C(msg->wordSet, 0, myStatus);
-    func_0201F250(msg->wordSet, msg->strbuf, str);
+    WORDSET_SetSlotMyStatus(msg->wordSet, 0, myStatus);
+    WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 80);
     STRBUF_Delete(str);
 }
@@ -264,7 +264,7 @@ int PDC_MSG_Update(struct PdcMsg *msg)
         break;
     case PDC_MSG_NEXT_PAGE:
         if (msg->streamState == 2) {
-            func_0201DD68();
+            GF_FONT_SetDefaultTextColor();
             PRINTSYS_PrintStreamDelete(msg->printStream);
             msg->printStream = 0;
             msg->state = PDC_MSG_DONE;

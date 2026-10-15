@@ -13,7 +13,7 @@
  *   FIELD_RAIL_WORK_StartStep  0x021B80E0  thumb  ov021
  *   FIELD_RAIL_WORK_UpdateStep  0x021B810C  thumb  ov021
  *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb  ov021
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   FIELD_RAIL_WORK_IsLocationValid  0x021B7DE0  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -29,7 +29,7 @@ struct Sub;
 void FIELD_RAIL_WORK_UpdateStep(struct Sub *o);
 void FIELD_RAIL_WORK_GetPos(u32 a, u32 b);
 typedef signed int     s32;
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 int FIELD_RAIL_WORK_IsLocationValid(u32 a, u32 b);
 
 int FIELD_RAIL_ProbeStep(u8 *p, u32 a1, u32 a2, int a3, u32 a5)
@@ -45,7 +45,7 @@ int FIELD_RAIL_ProbeStep(u8 *p, u32 a1, u32 a2, int a3, u32 a5)
             FIELD_RAIL_WORK_GetPos(((struct Obj03136 *)p)->f1C, a5);
         FIELD_RAIL_WORK_UpdateStep((struct Sub *)(((struct Obj03136 *)p)->f1C));
     }
-    if (func_0203EFC8((void *)a1, (void *)(((struct Obj03136 *)p)->f1C + 0x5c), 8) == 0)
+    if (GF_STANDARD_CompareBytes((void *)a1, (void *)(((struct Obj03136 *)p)->f1C + 0x5c), 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(((struct Obj03136 *)p)->f1C, ((struct Obj03136 *)p)->f1C + 0x5c);
 }

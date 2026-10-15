@@ -16,7 +16,7 @@
  *   GAME_BEACON_SetTrainerView  0x02027174  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 #include "../include/Obj07206.h"
 #include "../include/Obj07207.h"
@@ -33,7 +33,7 @@ extern int GAME_BEACON_SetTrainerView();
 extern int func_020307B0();
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 int TRCARD_SYS_Exit(int a0, int a1, int a2, int a3)
 {
@@ -72,7 +72,7 @@ a0 = t6 + 0;
     func_020315D4((struct S020315D4 *)a0);
 loc_0216F21C:
 a0 = 0x26;
-    func_020306F0(a0);
+    GFL_HEAP_DeleteChecked(a0);
 loc_0216F222:
 a0 = 1;
     return a0;}

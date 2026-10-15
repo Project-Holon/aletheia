@@ -16,7 +16,7 @@
  * an existing manifest entry - and filed from the bytes.
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/PMSI_PARAM_Delete.c \
@@ -25,9 +25,9 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void PMSI_PARAM_Delete(void *t)
 {
-    sub_020307B0(t);
+    GFL_HEAP_Free(t);
 }

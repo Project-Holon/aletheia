@@ -1,5 +1,5 @@
 /*
- * function: func_021FB774
+ * function: SCRIPT_COMMAND_CmdClearSelection
  * address: 0x021FB774
  * packet: pkt_ov132_021FB774
  * region: ov132
@@ -17,4 +17,4 @@
 struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *);
 extern void STA_ACTING_SetSelection(char *,unsigned char,int);
-int func_021FB774(int unused,char *p) { char *obj; obj=*(char * *)&((struct Obj23256 *)p)->f0; STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,0,0);STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,1,0);STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,2,0);STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,3,0);return 0; }
+int SCRIPT_COMMAND_CmdClearSelection(int unused,char *p) { char *obj; obj=*(char * *)&((struct Obj23256 *)p)->f0; STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,0,0);STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,1,0);STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,2,0);STA_ACTING_SetSelection(*(char * *)&((struct Obj08164 *)obj)->f34,3,0);return 0; }

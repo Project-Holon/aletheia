@@ -1,5 +1,5 @@
 /*
- * function: func_0219F01C
+ * function: FIELD_RAIL_LOADER_CreateScriptEvent
  * address:  0x0219F01C
  * packet:   pkt_0219F01C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed char    s8;
 struct Desc;
 extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 
-int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
+int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 {
 return (int)SCRIPT_SYS_CreateScriptEventSimple(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }

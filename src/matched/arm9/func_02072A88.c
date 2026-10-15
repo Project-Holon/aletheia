@@ -23,7 +23,7 @@
  * image instruction for instruction; the only other difference is the frame,
  * where 1.1p1 pads with a dead `push {r3}` and the image is 1.2's 1.2-shaped
  * `stmdb`/`sub sp, sp, #4` form.  Same measured tell as
- * src/matched/func_020525A0.c and src/matched/func_020528A8.c.
+ * src/matched/SPL_EMITTER_AllocResourceEx.c and src/matched/SPL_EMITTER_AllocPlttVramDefault.c.
  *
  * Evidence recorded in docs/notes/pkt_02072A44.c.txt.
  *

@@ -18,7 +18,7 @@
  *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
  *   MUSICAL_EVENT_CountNpcSlotsBelow  0x021568A8  thumb  ov010
  *   MUSICAL_PROGRAM_GetNpcPortraitClass  0x02157374  thumb  ov010
- *   func_021FCE28  0x021FCE28  thumb  ov132
+ *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb  ov132
  *   func_02008550  0x02008550  thumb
  */
 
@@ -44,7 +44,7 @@ extern u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n);
 struct Deal;
 struct Sub0200852CObj;
 extern u8 MUSICAL_PROGRAM_GetNpcPortraitClass(struct Deal *d, u8 i);
-extern int func_021FCE28(char *p, u32 index);
+extern int MUS_COMM_FUNC_GetSlotValueA(char *p, u32 index);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 u8 MUSICAL_EVENT_GetPortraitClass(Work *w, u8 j)
@@ -55,7 +55,7 @@ u8 MUSICAL_EVENT_GetPortraitClass(Work *w, u8 j)
     if (j == w->f4c)
         return 0;
     if (w->f14 == 1) {
-        p = (void *)func_021FCE28(w->f28, k);
+        p = (void *)MUS_COMM_FUNC_GetSlotValueA(w->f28, k);
         if (p != 0) {
             if (func_02008550(p) == 0)
                 return 1;

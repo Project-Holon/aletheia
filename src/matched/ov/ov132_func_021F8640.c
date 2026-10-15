@@ -16,7 +16,7 @@
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
  *   STA_ACTING_DeleteAnimHandle 0x021F9D08 thumb ov132
- *   func_021FAB58 0x021FAB58 thumb ov132
+ *   STA_ACT_SCRIPT_Delete 0x021FAB58 thumb ov132
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -24,15 +24,15 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_021FA64C 0x021FA64C thumb ov132
- *   func_021FA04C 0x021FA04C thumb ov132
- *   func_021F6F4C 0x021F6F4C thumb ov112
- *   func_021F6C7C 0x021F6C7C thumb ov112
- *   func_021F9E94 0x021F9E94 thumb ov132
+ *   STA_ACT_BUTTON_Delete 0x021FA64C thumb ov132
+ *   STA_ACT_AUDIENCE_Delete 0x021FA04C thumb ov132
+ *   STA_ACT_LIGHT_DeleteModel 0x021F6F4C thumb ov112
+ *   STA_ACT_LIGHT_DeleteUnit 0x021F6C7C thumb ov112
+ *   STA_ACT_EFFECT_Delete 0x021F9E94 thumb ov132
  *   STA_ACT_OBJ_Delete 0x021F6A24 thumb ov112
- *   func_021F7120 0x021F7120 thumb ov112
- *   func_021F51B0 0x021F51B0 thumb ov112
- *   func_021F4948 0x021F4948 thumb ov112
+ *   STA_ACT_LIGHT_DeleteBillboardImage 0x021F7120 thumb ov112
+ *   MUSICAL_MCSS_DeleteRenderObj 0x021F51B0 thumb ov112
+ *   MUSICAL_MCSS_DeleteActorPool 0x021F4948 thumb ov112
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
@@ -53,7 +53,7 @@ extern void GFL_USE_ClearPreloadedBgmBuffers(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void STA_ACTING_DeleteAnimHandle(char *);
-extern void func_021FAB58(char *);
+extern void STA_ACT_SCRIPT_Delete(char *);
 typedef unsigned char  u8;
 struct Descriptor;
 struct Node;
@@ -68,15 +68,15 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_021FA64C(char *);
-extern void func_021FA04C(u8 *p);
-extern void func_021F6F4C(u8 *p);
-extern void func_021F6C7C(char *p);
-extern void func_021F9E94(u8 *p);
+extern void STA_ACT_BUTTON_Delete(char *);
+extern void STA_ACT_AUDIENCE_Delete(u8 *p);
+extern void STA_ACT_LIGHT_DeleteModel(u8 *p);
+extern void STA_ACT_LIGHT_DeleteUnit(char *p);
+extern void STA_ACT_EFFECT_Delete(u8 *p);
 extern void STA_ACT_OBJ_Delete(char *p);
-extern void func_021F7120(char *p);
-extern void func_021F51B0(int a);
-extern void func_021F4948(u8 *p);
+extern void STA_ACT_LIGHT_DeleteBillboardImage(char *p);
+extern void MUSICAL_MCSS_DeleteRenderObj(int a);
+extern void MUSICAL_MCSS_DeleteActorPool(u8 *p);
 extern void CLACT_ExitSystem(void);
 extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -97,7 +97,7 @@ void STA_ACTING_Delete(char *p)
     func_0207D63C((void *)0x04000050,0,0,31,31);
     *(volatile u32 *)0x04000000 &= 0xffff1fff;
     STA_ACTING_DeleteAnimHandle(p);
-    func_021FAB58(((struct Obj00675 *)p)->fB0);
+    STA_ACT_SCRIPT_Delete(((struct Obj00675 *)p)->fB0);
     if(((struct Obj00675 *)p)->fE0!=0)STRBUF_Delete(((struct Obj00675 *)p)->fE0);
     PRINTSYS_QUE_Clear(((struct Obj00675 *)p)->fE8);
     PRINTSYS_QUE_Delete(((struct Obj00675 *)p)->fE8);
@@ -105,15 +105,15 @@ void STA_ACTING_Delete(char *p)
     BMP_WIN_Delete(((struct Obj00675 *)p)->fD0);
     GF_FONT_Delete(((struct Obj00675 *)p)->fD4);
     TCBL_Destroy(((struct Obj00675 *)p)->fCC);
-    func_021FA64C(*(char * *)&((struct Obj00675 *)p)->fA4);
-    func_021FA04C(((struct Obj00675 *)p)->fB8);
-    func_021F6F4C(((struct Obj00675 *)p)->f3C);
-    func_021F6C7C(((struct Obj00675 *)p)->f90);
-    func_021F9E94(((struct Obj00675 *)p)->f6C);
+    STA_ACT_BUTTON_Delete(*(char * *)&((struct Obj00675 *)p)->fA4);
+    STA_ACT_AUDIENCE_Delete(((struct Obj00675 *)p)->fB8);
+    STA_ACT_LIGHT_DeleteModel(((struct Obj00675 *)p)->f3C);
+    STA_ACT_LIGHT_DeleteUnit(((struct Obj00675 *)p)->f90);
+    STA_ACT_EFFECT_Delete(((struct Obj00675 *)p)->f6C);
     STA_ACT_OBJ_Delete(((struct Obj00675 *)p)->f54);
-    func_021F7120(((struct Obj00675 *)p)->f40);
-    func_021F51B0((int)(((struct Obj00675 *)p)->f34));
-    func_021F4948(((struct Obj00675 *)p)->f38);
+    STA_ACT_LIGHT_DeleteBillboardImage(((struct Obj00675 *)p)->f40);
+    MUSICAL_MCSS_DeleteRenderObj((int)(((struct Obj00675 *)p)->f34));
+    MUSICAL_MCSS_DeleteActorPool(((struct Obj00675 *)p)->f38);
     CLACT_ExitSystem();
     BILLBOARD_Delete(((struct Obj00675 *)p)->fAC);
     G3D_CAMERA_Delete(((struct Obj00675 *)p)->fA8);

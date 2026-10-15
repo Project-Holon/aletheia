@@ -15,7 +15,7 @@
  *   gsiCoreGetManager                  0x0217CA20  arm ov009
  *   current_time                  0x0217F264  arm ov009
  *   gsiEnterCriticalSection                  0x0217F108  arm ov009
- *   func_02184234                  0x02184234  arm ov009
+ *   ArrayAppend                  0x02184234  arm ov009
  *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
  */
 
@@ -41,7 +41,7 @@ typedef struct GSTask {
 extern void *gsiCoreGetManager(void);
 extern unsigned int current_time(void);
 extern void gsiEnterCriticalSection(void *cs);
-extern void func_02184234(void *array, void *elem);
+extern void ArrayAppend(void *array, void *elem);
 extern void gsiLeaveCriticalSection(void *cs);
 
 void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs)
@@ -55,6 +55,6 @@ void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs)
     if (theTask->cb24 != 0)
         theTask->cb24(theTask->obj20);
     gsiEnterCriticalSection(&aCore->cs);
-    func_02184234(aCore->tasks, &theTask);
+    ArrayAppend(aCore->tasks, &theTask);
     gsiLeaveCriticalSection(&aCore->cs);
 }

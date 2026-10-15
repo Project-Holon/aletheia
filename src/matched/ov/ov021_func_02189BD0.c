@@ -58,7 +58,7 @@
  *   FIELD_EVENT_CHECK_SearchGridFrontMmdl  0x0218B4B0  thumb
  *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
  *   SCRIPT_SYS_IsZoneScriptId  0x02158D90  thumb  ov010
- *   func_0219F01C  0x0219F01C  thumb
+ *   FIELD_RAIL_LOADER_CreateScriptEvent  0x0219F01C  thumb
  *   EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk  0x02162A54  thumb  ov010
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   FIELD_EVENT_CHECK_GetFrontTileMessage  0x0218B56C  thumb
@@ -176,7 +176,7 @@ extern void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
 extern int FIELD_EVENT_CHECK_SearchGridFrontMmdl(struct FieldCtx *p, u8 *pos);
 extern u32 FLDMMDL_GetEventId(void *p);
 extern int SCRIPT_SYS_IsZoneScriptId(u16 v);
-extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
+extern int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u32 EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(void *p, void *q, int *pos, u32 d);
 extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern u16 FIELD_EVENT_CHECK_GetFrontTileMessage(struct FieldCtx *p, u8 *pos);
@@ -317,7 +317,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA
 
                 FIELD_PLAYER_ResetMoveWork((u32 *)in.f18);
                 *outA = 1;
-                return func_0219F01C((u32)sys, (u32)pos, kind, (u32)m, target, in.f0);
+                return FIELD_RAIL_LOADER_CreateScriptEvent((u32)sys, (u32)pos, kind, (u32)m, target, in.f0);
             }
         }
         msg = EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(in.fC, (void *)GAME_DATA_GetEventWork(in.f8), xyz, dir);

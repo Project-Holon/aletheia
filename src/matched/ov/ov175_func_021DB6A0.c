@@ -1,5 +1,5 @@
 /*
- * function: func_021DB6A0
+ * function: WIFIBATTLEMATCH_NET_GdbShutdown
  * address:  0x021DB6A0
  * packet:   pkt_021DB6A0
  * region:   ov175
@@ -12,12 +12,12 @@
  * symbols:
  *   DWC_GdbShutdown  0x021E1340  arm
  *
- * Shuts the storage-server database client down (unlabelled; reached by bl from func_021DB478).
+ * Shuts the storage-server database client down (unlabelled; reached by bl from WIFIBATTLEMATCH_NET_GdbGetMyRecords).
  */
 
 extern void DWC_GdbShutdown(void);
 
-void func_021DB6A0(char *obj)
+void WIFIBATTLEMATCH_NET_GdbShutdown(char *obj)
 {
     DWC_GdbShutdown();
 }

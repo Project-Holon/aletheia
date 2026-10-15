@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02063A54  0x02063A54  arm
- *   func_02063E54  0x02063E54  arm
- *   sub_020307B0   0x020307B0  arm
- *   sub_02030EAC   0x02030EAC  arm
+ *   NNSi_G2dLoadVramResourceSub  0x02063A54  arm
+ *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  */
 
 typedef unsigned char  u8;
@@ -40,11 +40,11 @@ struct Obj20_02016880 {
 
 struct Out;
 struct Res;
-extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
-extern void func_02063E54(void *a, u32 b, int c, u32 d);
-extern u32 sub_020307B0(void *p);
+extern void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *out);
+extern void NNSi_G2dLoadVramResourceBySel(void *a, u32 b, int c, u32 d);
+extern u32 GFL_HEAP_Free(void *p);
 struct Node;
-extern void sub_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1)
 {
@@ -55,8 +55,8 @@ void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1)
             return;
     }
     if (a1->f10 != 0) {
-        func_02063A54(a1->f00, a1->f18, 0, (struct Out *)a1->f08);
-        sub_020307B0(a1->f10);
+        NNSi_G2dLoadVramResourceSub(a1->f00, a1->f18, 0, (struct Out *)a1->f08);
+        GFL_HEAP_Free(a1->f10);
         if (((a1->f24[0x140 / 4] << 4) >> 0x1c) == 0) {
             a1->f10 = 0;
             return;
@@ -65,13 +65,13 @@ void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1)
     if (a1->f24 != 0)
         a1->f24[0x140 / 4] |= 0x2000;
     if (a1->f14 != 0) {
-        func_02063E54(a1->f04, a1->f1c, 0, a1->f0c);
-        sub_020307B0(a1->f14);
+        NNSi_G2dLoadVramResourceBySel(a1->f04, a1->f1c, 0, a1->f0c);
+        GFL_HEAP_Free(a1->f14);
     }
     if (a1->f24 != 0)
         a1->f24[0] = 0;
     if (a1->f20 != 0 && a1->f20->f0c != 0)
         a1->f20->f0c = 0;
-    sub_020307B0(a1);
-    sub_02030EAC(a0);
+    GFL_HEAP_Free(a1);
+    TCB_DeleteTask(a0);
 }

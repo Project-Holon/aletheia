@@ -18,6 +18,7 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "../include/Obj01933.h"
 typedef unsigned char u8;
@@ -34,7 +35,7 @@ extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern void *PRINTSYS_PrintStream(void *,int,int,void *,void *,int,void *,int,u16,u16);
 extern signed char MSG_SPEED_GetWait(void);
 extern void func_02028470(u8 *p, u32 v);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -51,7 +52,7 @@ void GSYNC_MESSAGE_PrintStream(char *p,int mode)
         ((struct Obj01933 *)p)->f80=PRINTSYS_PrintStream(q,(int)0,(int)0,((struct Obj01933 *)p)->f2C,((struct Obj01933 *)p)->f28,(int)MSG_SPEED_GetWait(),((struct Obj01933 *)p)->f84,(int)2,((struct Obj01933 *)p)->fB0,15);
         func_02028470((u8 *)(p+0xa8),(int)6);
     }
-    func_0201F73C(q,1,(u16)(((struct Obj01933 *)p)->f8),12);
+    BMP_MENUWORK_DrawWindow(q,1,(u16)(((struct Obj01933 *)p)->f8),12);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
     func_02041B6C(5);

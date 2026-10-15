@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E82A4 0x021E82A4 data
+ *   gBoxIconFilter 0x021E82A4 data
  */
 #include "../include/Obj22806.h"
-extern const unsigned char d_021E82A4[];
+extern const unsigned char gBoxIconFilter[];
 int POKETRADE_2D_IsBoxIconFiltered(char *p, int i)
 {
     int v = ((struct Obj22806 *)p)->f800;
-    if (v != 0 && v - 1 == d_021E82A4[i]) {
+    if (v != 0 && v - 1 == gBoxIconFilter[i]) {
         return 1;
     }
     return 0;

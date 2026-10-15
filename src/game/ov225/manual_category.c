@@ -41,7 +41,7 @@
  *   func_021BA0F0 0x021BA0F0 thumb ov225
  *   func_021B9CDC 0x021B9CDC thumb ov225
  *   func_021B9E80 0x021B9E80 thumb ov225
- *   sub_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   func_021B9FBC 0x021B9FBC thumb ov225
  *   func_021BA158 0x021BA158 thumb ov225
  *   func_021BA154 0x021BA154 thumb ov225
@@ -168,7 +168,7 @@ extern void func_021BA068(char *, unsigned);
 extern void func_021BA0F0(char *, unsigned, unsigned);
 extern int func_021B9CDC(void *);
 extern void func_021B9E80(char *,u32);
-extern void sub_02030EAC(struct Node *);
+extern void TCB_DeleteTask(struct Node *);
 extern void func_021B9FBC(char *);
 extern unsigned func_021BA158(char *p);
 extern unsigned func_021BA154(char *p);
@@ -412,7 +412,7 @@ char *func_021BBA74(char *p, char *data)
 }
 
 
-void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); sub_02030EAC(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }
+void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); TCB_DeleteTask(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }
 
 
 int func_021BBB0C(char *p)

@@ -24,7 +24,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   sub_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MSGDATA_AllocSite     0x020A7E8C  data
  *   func_020461B8  0x020461B8  arm
  *   func_020490F4  0x020490F4  arm
@@ -125,7 +125,7 @@ struct MsgBankLoad {
 };
 
 extern u32 func_020307B0(void *p);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *arc, u32 member);
@@ -200,7 +200,7 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
     struct MsgBank *bank;
     u32 origin;
 
-    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, MSGDATA_AllocSite, 0x68);
+    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, 0x1c, 0, MSGDATA_AllocSite, 0x68);
     bank->heapId = (u16)heapId;
     bank->stream = func_020490F4(arcId, heapId);
     origin = ARC_TOOL_GetHandleMemberOffset(bank->stream, fileId);
@@ -210,7 +210,7 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
     bank->langIndex = MSGDATA_GetLanguageIndex(bank->file);
 
     if (bank->resident != 0) {
-        bank->base = sub_02030734(bank->heapId, bank->file->size, 0,
+        bank->base = GFL_HEAP_Alloc(bank->heapId, bank->file->size, 0,
                                   MSGDATA_AllocSite, 0x7b);
         MSGDATA_LoadBank((struct MsgBankLoad *)bank);
     } else {
@@ -292,7 +292,7 @@ u32 MSGDATA_Delete(struct MsgBank *bank)
  * linearisation order is what breaks the scheduler's tie between the two
  * ready gap fillers.
  *
- * The fourth argument of sub_02030734 is the BSS provenance object at
+ * The fourth argument of GFL_HEAP_Alloc is the BSS provenance object at
  * 0x020A7E8C, not a __FILE__ string: it sits above the arm9 static image
  * end and has 41 pool references image-wide.  In MSGDATA_CreateFromMemory the
  * allocator's third argument (clear) shares one `mov r5, #0` with the two
@@ -307,7 +307,7 @@ struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
 {
     struct MsgBank *bank;
 
-    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, MSGDATA_AllocSite, 0xa6);
+    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, 0x1c, 0, MSGDATA_AllocSite, 0xa6);
     bank->heapId = (u16)heapId;
     bank->stream = 0;
     bank->origin = 0;
@@ -347,7 +347,7 @@ void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
         void *encrypted;
 
         size = entry->length * 2;
-        encrypted = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
+        encrypted = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
                                  0, MSGDATA_AllocSite, 0xd6);
         if (encrypted != 0) {
             func_0204960C(bank->stream,
@@ -555,7 +555,7 @@ void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
  * twelve-byte part is read onto the stack first because its language count is
  * what sizes the real allocation, 0xc + 4 * langCount; the stack copy is then
  * moved into the front of that block and the language offset table is read
- * straight in behind it.  This is the only caller of sub_02030734 with tag
+ * straight in behind it.  This is the only caller of GFL_HEAP_Alloc with tag
  * 0x1f3.
  *
  * The header is twelve bytes here but sixteen in the MsgFile view used by
@@ -590,7 +590,7 @@ struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
     hp = (struct MsgFileHeader *)hdr;
     ARC_TOOL_ReadHandle(stream, sizeof(struct MsgFileHeader), hp);
 
-    file = (struct MsgFile *)sub_02030734(heapId, hp->langCount * 4 + 0xc, 0,
+    file = (struct MsgFile *)GFL_HEAP_Alloc(heapId, hp->langCount * 4 + 0xc, 0,
                                           MSGDATA_AllocSite, 0x1f3);
     MI_CpuCopy8(hp, file, sizeof(struct MsgFileHeader));
     ARC_TOOL_ReadHandle(stream, file->langCount * 4, file->langOff);

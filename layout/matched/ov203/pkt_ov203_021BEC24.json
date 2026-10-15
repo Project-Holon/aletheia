@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEC24",
+   "name": "DEMO3D_DATA_StopSe",
    "address": "0x021BEC24",
    "kind": "game",
    "region": "ov203",

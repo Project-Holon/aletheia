@@ -15,7 +15,7 @@
  * re-masks both areas, POKE_TOOL_ClearBoxParam wipes only the first 0x88 bytes and
  * re-masks the 0x80 byte one.  The masking calls are what say the record's
  * seed word and checksum halfword survive a clear in the caller's copy: the
- * value handed to func_02019A50 is read back out of the object *after*
+ * value handed to POKE_CRYPTO_XorBlock is read back out of the object *after*
  * MIi_CpuClearFast has zeroed it, so both areas are masked with zero and the
  * call is the identity.
  *
@@ -29,7 +29,7 @@
  * of them register numbers and store order.
  *
  * symbols:
- *   func_02019A50  0x02019A50  thumb
+ *   POKE_CRYPTO_XorBlock  0x02019A50  thumb
  */
 
 typedef unsigned char  u8;
@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
-extern void func_02019A50(u16 *p, u32 size, u32 seed);
+extern void POKE_CRYPTO_XorBlock(u16 *p, u32 size, u32 seed);
 
 struct Sav {
     u32 unk00;
@@ -50,13 +50,13 @@ struct Sav {
 void POKE_TOOL_ClearPartyParam(struct Sav *p)
 {
     MIi_CpuClearFast(0, p, sizeof(struct Sav));
-    func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
-    func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
+    POKE_CRYPTO_XorBlock((u16 *)p->unk08, 0x80, p->unk06);
+    POKE_CRYPTO_XorBlock((u16 *)p->unk88, 0x54, p->unk00);
 }
 
 void POKE_TOOL_ClearBoxParam(struct Sav *p)
 {
     MIi_CpuClearFast(0, p, 0x88);
-    func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
+    POKE_CRYPTO_XorBlock((u16 *)p->unk08, 0x80, p->unk06);
 }
 

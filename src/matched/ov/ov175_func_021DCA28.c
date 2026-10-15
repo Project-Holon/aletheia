@@ -1,5 +1,5 @@
 /*
- * function: func_021DCA28
+ * function: WIFIBATTLEMATCH_NET_CheckProfanity
  * address:  0x021DCA28
  * packet:   pkt_021DCA28
  * region:   ov175
@@ -36,7 +36,7 @@ extern int DWC_CheckProfanityExAsync(u16 **words, int wordsnum, char *reserved, 
                                      char *result, int *badwordsnum, int region);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021DCA28(char *obj, u32 win, u16 tag)
+void WIFIBATTLEMATCH_NET_CheckProfanity(char *obj, u32 win, u16 tag)
 {
     u32 str;
     u16 *src;

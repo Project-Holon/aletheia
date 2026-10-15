@@ -1,5 +1,5 @@
 /*
- * function: func_0217EAE0
+ * function: gsifree
  * address:  0x0217EAE0
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021A3730[];
 
-void func_0217EAE0(void *p)
+void gsifree(void *p)
 {
     if (p == 0) {
         return;

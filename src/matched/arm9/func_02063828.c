@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02063828
+ * function: NNSi_G2dLoadVramResourceMain
  * address:  0x02063828
  * packet:   pkt_0206380C
  * region:   arm9
@@ -17,7 +17,7 @@
  *   GX_EndLoadTex   0x0207F9B4  arm
  *   GX_LoadOBJ      0x0207E780  arm
  *   GXS_LoadOBJ     0x0207E804  arm
- *   func_020637AC   0x020637AC  arm
+ *   NNSi_G2dSetVramHandle   0x020637AC  arm
  *
  * Upload one VRAM resource: optionally repoint the 2D/3D VRAM control word,
  * flush the source range, hand it to the matching GX loader (3D texture,
@@ -61,9 +61,9 @@ extern void GX_LoadTex(void *src, u32 off, u32 n);
 extern void GX_EndLoadTex(void);
 extern void GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void GXS_LoadOBJ(void *src, u32 off, u32 n);
-extern void func_020637AC(int *p, int i, int v);
+extern void NNSi_G2dSetVramHandle(int *p, int i, int v);
 
-void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *out)
 {
     u32 bank = r->f8;
 
@@ -121,5 +121,5 @@ void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out)
     out->f18 = 0;
     out->f1c = 1;
     out->f20 = r->f8;
-    func_020637AC((int *)out, mode, dst);
+    NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }

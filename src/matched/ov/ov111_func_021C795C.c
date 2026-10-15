@@ -1,5 +1,5 @@
 /*
- * function: func_021C795C
+ * function: VIEWER_ACTOR_DeleteFont
  * address:  0x021C795C
  * packet:   pkt_ov111_021C795C
  * region:   ov111
@@ -28,7 +28,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 
-void func_021C795C(Work *p)
+void VIEWER_ACTOR_DeleteFont(Work *p)
 {
     PRINTSYS_QUE_Delete(p->f14);
     GF_FONT_Delete(p->f4);

@@ -15,7 +15,7 @@
  * 0x68 pools.
  *
  * symbols:
- *   func_02208770  0x02208770  thumb
+ *   SHINKA_DEMO_EFFECT_Destroy  0x02208770  thumb
  *   SHINKA_DEMO_VIEW_Destroy  0x02205D28  thumb
  *   SHINKA_DEMO_DeleteActors  0x02205100  thumb
  *   SHINKA_DEMO_Noop2  0x0220506C  thumb
@@ -27,11 +27,11 @@
  *   SHINKA_DEMO_GRAPHIC_ReleaseSubBg  0x02205A84  thumb
  *   SHINKA_DEMO_GRAPHIC_Destroy  0x022059A0  thumb
  *   func_02034A5C  0x02034A5C  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   ov067_id       0x00000043  data
  */
 struct PrintSys;
-extern void func_02208770(char *a);
+extern void SHINKA_DEMO_EFFECT_Destroy(char *a);
 extern void SHINKA_DEMO_VIEW_Destroy(char *p);
 extern void SHINKA_DEMO_DeleteActors(void *unused, char *p);
 extern void SHINKA_DEMO_Noop2(int, int *);
@@ -44,12 +44,12 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int);
 extern void SHINKA_DEMO_GRAPHIC_Destroy(char *p);
 extern void func_02034A5C(int);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern unsigned char ov067_id[];
 
 void SHINKA_DEMO_DeleteScene(int a, int *p)
 {
-    func_02208770((char *)p[0x42]);
+    SHINKA_DEMO_EFFECT_Destroy((char *)p[0x42]);
     SHINKA_DEMO_VIEW_Destroy((char *)p[0x41]);
     SHINKA_DEMO_DeleteActors((void *)a, (char *)p);
     SHINKA_DEMO_Noop2(a, p);
@@ -61,5 +61,5 @@ void SHINKA_DEMO_DeleteScene(int a, int *p)
     SHINKA_DEMO_GRAPHIC_ReleaseSubBg(p[1]);
     SHINKA_DEMO_GRAPHIC_Destroy((char *)p[1]);
     func_02034A5C((int)ov067_id);
-    func_020306F0(0x68);
+    GFL_HEAP_DeleteChecked(0x68);
 }

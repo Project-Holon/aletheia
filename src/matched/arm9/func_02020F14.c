@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * closed:   blocker func_02020F0C.c is now a manifest entry (matched class)
+ * closed:   blocker FILE_UTIL_GetBankCount.c is now a manifest entry (matched class)
  *
  * Tail-call thunk: opens handle 0x18 with the caller's argument.
  *

@@ -17,30 +17,30 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021BB094 0x021BB094 data a1
  *   d_021BAEF8 0x021BAEF8 data a4
  *   func_02030EAC 0x02030EAC arm
  *   UN_SELECT_GRAPHIC_DeleteCamera 0x021BAB00 thumb ov218
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BAEAC 0x021BAEAC data a4
  *   d_021BAF28 0x021BAF28 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -58,11 +58,6 @@
  *   d_021BAEA0 0x021BAEA0 data a4
  *   d_020A1EB8 0x020A1EB8 data a2
  */
-#include "../../matched/include/Obj26049.h"
-#include "../../matched/include/Obj26050.h"
-#include "../../matched/include/Obj14774.h"
-#include "../../matched/include/Obj26051.h"
-
 struct DispVram;
 struct Node;
 struct BgTemplate;
@@ -77,6 +72,17 @@ typedef unsigned short u16;
 
 typedef signed short s16;
 
+struct ClactCtx {
+    struct Bank *unit;     /* +0x00 CLACT unit from CLACT_CreateUnit */
+};
+
+struct UnSelectGraphic {
+    u32 bgState;           /* +0x00 zeroed by SetupBg and CleanupBg, never read */
+    struct ClactCtx clact; /* +0x04 CLACT context */
+    unsigned *camera;      /* +0x08 G3D camera from SetupCamera */
+    void *proc;            /* +0x0C task proc from func_020056A0 */
+};
+
 typedef struct Record { unsigned bg; unsigned config[8]; unsigned type, enable; } Record;
 
 typedef struct Vec3 { unsigned x, y, z; } Vec3;
@@ -85,26 +91,26 @@ extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short
 extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0204363C(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 extern void func_02030EAC(struct Node *n);
 extern void UN_SELECT_GRAPHIC_DeleteCamera(int *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(unsigned char);
+extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void func_020403F4(u8);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -152,15 +158,15 @@ char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
     *(volatile unsigned *)0x04001000 &= ~0xe000u;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&d_021BAEF8);
-    func_0204363C(swap);
+    BMP_SetDisplaySwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     UN_SELECT_GRAPHIC_SetupBg(p, heap);
     UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
     UN_SELECT_GRAPHIC_SetupCamera((unsigned **)(p + 8), heap);
-    ((struct Obj26049 *)p)->fC = func_020056A0((unsigned)UN_SELECT_GRAPHIC_Task, (unsigned)p, 0);
+    ((struct UnSelectGraphic *)p)->proc = func_020056A0((unsigned)UN_SELECT_GRAPHIC_Task, (unsigned)p, 0);
     return p;
 }
 
@@ -169,11 +175,11 @@ char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
  */
 void UN_SELECT_GRAPHIC_Delete(char *ctx)
 {
-    func_02030EAC(((struct Obj26050 *)ctx)->fC);
+    func_02030EAC(((struct UnSelectGraphic *)ctx)->proc);
     UN_SELECT_GRAPHIC_DeleteCamera((int *)(ctx + 8));
     UN_SELECT_GRAPHIC_DeleteClact(ctx + 4);
     UN_SELECT_GRAPHIC_CleanupBg(ctx);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000u;
@@ -214,12 +220,12 @@ void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap)
     MI_CpuFill8(ctx, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_021BAEAC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BAEAC);
     for (i = 0; i < 7; i++) {
         record = &d_021BAF28[i];
         bg = record->bg;
         BG_SYS_InitBgLayer((unsigned char)bg, (const struct BgTemplate *)record->config, (unsigned char)record->type);
-        func_020414AC(bg);
+        BG_SYS_FreeSlot(bg);
         func_02040588(bg, record->enable);
     }
 }
@@ -231,15 +237,15 @@ void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(u32)d_021BAF28;u32 i;for(i=0
  */
 void UN_SELECT_GRAPHIC_Noop(void *a0) {}
 
-void UN_SELECT_GRAPHIC_DrawObjects(void *a0) {func_020419E4();}
+void UN_SELECT_GRAPHIC_DrawObjects(void *a0) {BG_SYS_Update();}
 
 
 void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BAEBC, a, b);
-    ((struct Obj14774 *)p)->f0 = (int)CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer((void *)((struct Obj14774 *)p)->f0);
+    ((struct ClactCtx *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer(((struct ClactCtx *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -250,7 +256,7 @@ void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
  */
 void UN_SELECT_GRAPHIC_DeleteClact(char *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj26051 *)p)->f0));
+    CLACT_DeleteUnit(((struct ClactCtx *)p)->unit);
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }

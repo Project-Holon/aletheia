@@ -1,5 +1,5 @@
 /*
- * function: func_021FCE00
+ * function: MUS_COMM_FUNC_CheckTimingSync
  * address: 0x021FCE00
  * packet: pkt_ov132_021FCE00
  * region: ov132
@@ -20,4 +20,4 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
-int func_021FCE00(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct Obj23272 *)p)->f4==1)return 1;return 0;}
+int MUS_COMM_FUNC_CheckTimingSync(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct Obj23272 *)p)->f4==1)return 1;return 0;}

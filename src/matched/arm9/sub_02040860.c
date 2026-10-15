@@ -1,5 +1,5 @@
 /*
- * function: sub_02040860
+ * function: BG_SYS_SetScrollRegs
  * address:  0x02040860
  * packet:   pkt_02040618
  * region:   arm9
@@ -25,7 +25,7 @@
  * (docs/idioms/empty-switch-arms-are-what-make-the-table.md).  Written as
  * four cases the compiler would emit a comparison chain instead.
  *
- * Unlike sub_02040618, the subscript here stays the variable `layer` in
+ * Unlike BG_SYS_FillScrollArea, the subscript here stays the variable `layer` in
  * every arm rather than the arm's own case constant.  That is what the
  * `mla lr, r0, ip, lr` inside each arm says: the multiply is still live,
  * so the index cannot have been a literal.  The four arms therefore differ
@@ -37,8 +37,8 @@
  * the scroll pair goes on the stack as arguments 5 and 6.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02040860.c \
- *       --func sub_02040860 --addr 0x02040860 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetScrollRegs.c \
+ *       --func BG_SYS_SetScrollRegs --addr 0x02040860 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -65,7 +65,7 @@ extern struct BgLayer *g_BgConfig;
 
 extern void func_0207D59C(void *reg, u32 a, u32 b, u32 c, u32 x, u32 y);
 
-void sub_02040860(u32 layer, u32 a, u32 b, u32 c)
+void BG_SYS_SetScrollRegs(u32 layer, u32 a, u32 b, u32 c)
 {
     switch (layer) {
     case 0:

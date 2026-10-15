@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  */
 
-void func_020419E4(void);
+void BG_SYS_Update(void);
 
 void TOWNMAP_GRH_TransferBgData(void *a0)
 {
-    func_020419E4();
+    BG_SYS_Update();
 }

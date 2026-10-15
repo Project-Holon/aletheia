@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062D4C  0x02062D4C  arm
+ *   NNS_G2dTickAnimCtrl  0x02062D4C  arm
  *   NNSi_G2dRefreshCellAnimation  0x0206419C  arm
  *
  * Advances one multi-cell node's cell animation by a fx32 tick and, only if
@@ -29,12 +29,12 @@ typedef signed int     s32;
 
 struct CellAnim;
 
-extern s32  func_02062D4C(struct CellAnim *anim, s32 frames);
+extern s32  NNS_G2dTickAnimCtrl(struct CellAnim *anim, s32 frames);
 extern void NNSi_G2dRefreshCellAnimation(char *self);
 
 void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames)
 {
-    if (func_02062D4C(anim, frames) != 0) {
+    if (NNS_G2dTickAnimCtrl(anim, frames) != 0) {
         NNSi_G2dRefreshCellAnimation((char *)anim);
     }
 }

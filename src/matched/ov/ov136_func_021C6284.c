@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F250     0x0201F250  thumb
+ *   WORDSET_CopyTaggedText     0x0201F250  thumb
  *   STRBUF_Delete              0x02045808  arm
  *   func_02045EC0        0x02045EC0  arm
  *   MB_SEQ_SetWriterWord  0x021C61D4  thumb
@@ -28,7 +28,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MB_SEQ_StartMessagePrint(u8 *p);
 void MB_SEQ_PrintDetailMessage(u8 *p)
@@ -36,7 +36,7 @@ void MB_SEQ_PrintDetailMessage(u8 *p)
     void *t;
     MB_SEQ_SetWriterWord(p, 0);
     t = func_02045EC0(((struct Obj23563 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D0, 9);
-    func_0201F250(((struct Obj23564 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D4, ((struct Obj23565 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8, t);
+    WORDSET_CopyTaggedText(((struct Obj23564 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D4, ((struct Obj23565 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8, t);
     STRBUF_Delete(t);
     MB_SEQ_StartMessagePrint(p);
 }

@@ -15,7 +15,7 @@
  *   func_02049B68 0x02049B68 arm
  *   MIi_CpuCopy16 0x02082A60 arm
  *   func_020409B4 0x020409B4 arm
- *   func_021F6F24 0x021F6F24 thumb ov112
+ *   STA_ACT_LIGHT_AllocElem 0x021F6F24 thumb ov112
  */
 #include "../include/Obj00503.h"
 typedef unsigned int u32;
@@ -27,7 +27,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void MIi_CpuCopy16(const void *,void *,u32);
 extern void func_020409B4(u32);
-extern u8 *func_021F6F24(u32 heap, u32 v);
+extern u8 *STA_ACT_LIGHT_AllocElem(u32 heap, u32 v);
 void STA_ACTING_UploadPalettes(u8 *p)
 {
     u16 palette[16];
@@ -56,5 +56,5 @@ void STA_ACTING_UploadPalettes(u8 *p)
     }
     func_020409B4(3);
     func_020409B4(5);
-    ((struct Obj00503 *)p)->f3C=func_021F6F24(((struct Obj00503 *)p)->f0,(u32)p);
+    ((struct Obj00503 *)p)->f3C=STA_ACT_LIGHT_AllocElem(((struct Obj00503 *)p)->f0,(u32)p);
 }

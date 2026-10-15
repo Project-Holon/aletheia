@@ -17,7 +17,7 @@
  *   UNION_APP_Open 0x02184134 thumb ov022
  *   GURU2_COMM_Send 0x021DCBC4 thumb ov137
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  */
 #include "../include/Obj04538.h"
 #include "../include/Obj14215.h"
@@ -35,7 +35,7 @@ extern void *GURU2_RECEIPT_GetUnionApp(u8 *p);
 extern void UNION_APP_Open(u8 *p);
 extern void GURU2_COMM_Send(void *p, u32 a, const void *b, u32 c);
 extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 int GURU2_RECEIPT_StateQuitMenu(char *p, int state) {
     char *q = *(char * *)&((struct Obj04538 *)p)->f10;
     unsigned result;
@@ -52,7 +52,7 @@ int GURU2_RECEIPT_StateQuitMenu(char *p, int state) {
         } else {
             ((struct Obj04538 *)p)->f118 = 0xd;
             GURU2_COMM_Send(((struct Obj04538 *)p)->f10, 0x2802, 0, 0);
-            func_0201F02C(((struct Obj04538 *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), 0));
+            WORDSET_SetSlotMyStatus(((struct Obj04538 *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), 0));
         }
         ((struct Obj04538 *)p)->fE8 = 0;
     }

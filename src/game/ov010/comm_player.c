@@ -1,7 +1,7 @@
 /*
  * file:     comm_player.c
  * unit:     yes
- * function: func_02167380, func_02167394, func_021673A8, func_021673C4, func_021673E0, func_0216742C, func_02167444, func_0216745C, func_0216747C, func_0216749C, COMM_PLAYER_Create, COMM_PLAYER_Delete, COMM_PLAYER_Update, COMM_PLAYER_Add, COMM_PLAYER_Del, COMM_PLAYER_Suspend, COMM_PLAYER_Resume, COMM_PLAYER_ClearPending, COMM_PLAYER_CheckOccupy, COMM_PLAYER_GetObjCode, COMM_PLAYER_SetPackage, COMM_PLAYER_UpdateMyPackage, COMM_PLAYER_ForwardRequest, COMM_PLAYER_SetEffect, COMM_PLAYER_GetPlayerModel, COMM_PLAYER_CheckActive, COMM_PLAYER_CreateSys
+ * function: COMM_PLAYER_GetRecordField3, COMM_PLAYER_GetModelId, COMM_PLAYER_GetState848, COMM_PLAYER_GetState849, COMM_PLAYER_CopyListRange, COMM_PLAYER_GetListPage0First, COMM_PLAYER_GetListPage0Second, COMM_PLAYER_GetListPage10, COMM_PLAYER_GetListPage20, COMM_PLAYER_GetListPage, COMM_PLAYER_Create, COMM_PLAYER_Delete, COMM_PLAYER_Update, COMM_PLAYER_Add, COMM_PLAYER_Del, COMM_PLAYER_Suspend, COMM_PLAYER_Resume, COMM_PLAYER_ClearPending, COMM_PLAYER_CheckOccupy, COMM_PLAYER_GetObjCode, COMM_PLAYER_SetPackage, COMM_PLAYER_UpdateMyPackage, COMM_PLAYER_ForwardRequest, COMM_PLAYER_SetEffect, COMM_PLAYER_GetPlayerModel, COMM_PLAYER_CheckActive, COMM_PLAYER_CreateSys
  * address:  0x02167380
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -47,7 +47,7 @@
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   FIELD_COMM_ACTOR_CTRL_SearchGridPos   0x02194384  thumb
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_GetMmdl  0x021943EC  thumb  ov021
@@ -173,21 +173,21 @@ extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, fx32 *out);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern VecFx32 *GAME_DATA_GetPlayerPosition(void *pl);
 extern u16 GAME_DATA_GetPlayerDirectionType(void *pl);
-extern fx32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern fx32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int FIELD_COMM_ACTOR_CTRL_SearchGridPos(void *playerSys, int, int, int, int, int);
 extern u32 FIELDMAP_GetEffect(u8 *p);
 extern u32 FIELD_COMM_ACTOR_CTRL_GetMmdl(struct Tbl *t, u32 key);
 extern u32 FLDEFF_GYOE_StartHeld(void *a, void *b, int c, int d);
-u8 func_02167380(u32 id);
-u8 func_02167394(u32 i);
-u8 func_021673A8(u8 *p);
-u8 func_021673C4(u8 *p);
-u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count);
-u16 func_0216742C(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
-int func_02167444(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
-u16 func_0216745C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
-u16 func_0216747C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
-u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
+u8 COMM_PLAYER_GetRecordField3(u32 id);
+u8 COMM_PLAYER_GetModelId(u32 i);
+u8 COMM_PLAYER_GetState848(u8 *p);
+u8 COMM_PLAYER_GetState849(u8 *p);
+u8 COMM_PLAYER_CopyListRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count);
+u16 COMM_PLAYER_GetListPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
+int COMM_PLAYER_GetListPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
+u16 COMM_PLAYER_GetListPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
+u16 COMM_PLAYER_GetListPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
+u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
 void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption);
 void COMM_PLAYER_Delete(void *gameSystem, CommPlayerWork *work);
 void COMM_PLAYER_Update(void *gameSystem, CommPlayerWork *work);
@@ -220,7 +220,7 @@ extern const char d_02172A28[];
  * table starts at 0x02171F5C; the pool word names the field address itself.
  * Unlabelled in the listing (no lr-saving prologue, callers all in arm9).
  */
-u8 func_02167380(u32 id)
+u8 COMM_PLAYER_GetRecordField3(u32 id)
 {
     if (id > 0x1d)
         return 0;
@@ -231,7 +231,7 @@ u8 func_02167380(u32 id)
 
 
 
-u8 func_02167394(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
+u8 COMM_PLAYER_GetModelId(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
 
 
 
@@ -242,7 +242,7 @@ u8 func_02167394(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
  * Reads the byte at +0x848 of the shared state under its lock
  * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
  */
-u8 func_021673A8(u8 *p)
+u8 COMM_PLAYER_GetState848(u8 *p)
 {
     u8 v;
 
@@ -261,7 +261,7 @@ u8 func_021673A8(u8 *p)
  * Reads the byte at +0x849 of the shared state under its lock
  * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
  */
-u8 func_021673C4(u8 *p)
+u8 COMM_PLAYER_GetState849(u8 *p)
 {
     u8 v;
 
@@ -281,7 +281,7 @@ u8 func_021673C4(u8 *p)
  * shared list under its lock into a cleared buffer of `cap` entries, and
  * answers how many leading entries are in use (non-zero 11-bit id).
  */
-u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
+u8 COMM_PLAYER_CopyListRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 {
     int i;
 
@@ -303,9 +303,9 @@ u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 
 
 /* The first ten entries of page 0. */
-u16 func_0216742C(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
+u16 COMM_PLAYER_GetListPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 {
-    *count = func_021673E0(list, out, cap, 0, 10);
+    *count = COMM_PLAYER_CopyListRange(list, out, cap, 0, 10);
     return 0;
 }
 
@@ -315,9 +315,9 @@ u16 func_0216742C(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 
 
 /* The second ten entries of page 0. */
-int func_02167444(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
+int COMM_PLAYER_GetListPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 {
-    *count = func_021673E0(list, out, cap, 10, 10);
+    *count = COMM_PLAYER_CopyListRange(list, out, cap, 10, 10);
     return 10;
 }
 
@@ -329,12 +329,12 @@ int func_02167444(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 /*
  * One of the three 10-entry pages from index 20.
  */
-u16 func_0216745C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
+u16 COMM_PLAYER_GetListPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
 {
     u16 start;
 
     start = page * 10 + 20;
-    *n = func_021673E0(list, out, cap, start, 10);
+    *n = COMM_PLAYER_CopyListRange(list, out, cap, start, 10);
     return start;
 }
 
@@ -346,12 +346,12 @@ u16 func_0216745C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
 /*
  * One of the 20-entry pages from index 50.
  */
-u16 func_0216747C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
+u16 COMM_PLAYER_GetListPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
 {
     u16 start;
 
     start = page * 20 + 50;
-    *n = func_021673E0(list, out, cap, start, 20);
+    *n = COMM_PLAYER_CopyListRange(list, out, cap, start, 20);
     return start;
 }
 
@@ -365,7 +365,7 @@ u16 func_0216747C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
  * pages, 4 and up: twenty-entry pages); answers its start index and the
  * number of used entries in *n.
  */
-u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
+u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
 {
     u8 more;
     u16 start;
@@ -373,15 +373,15 @@ u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
     more = 0;
     MI_CpuFill8(out, 0, cap * 4);
     if (page == 0) {
-        start = func_0216742C(list, out, cap, n);
+        start = COMM_PLAYER_GetListPage0First(list, out, cap, n);
         out += 10;
         cap -= 10;
-        func_02167444(list, out, cap, &more);
+        COMM_PLAYER_GetListPage0Second(list, out, cap, &more);
         *n += more;
     } else if (page >= 1 && page < 4) {
-        start = func_0216745C(list, out, cap, page - 1, n);
+        start = COMM_PLAYER_GetListPage10(list, out, cap, page - 1, n);
     } else {
-        start = func_0216747C(list, out, cap, page - 4, n);
+        start = COMM_PLAYER_GetListPage20(list, out, cap, page - 4, n);
     }
     return start;
 }
@@ -612,7 +612,7 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
     out->vanish = vanish;
     out->dir = dir;
     if (zoneId != last->zoneId || dir != last->dir || vanish != last->vanish
-        || func_0203EFC8((const u8 *)(&pos), (const u8 *)last, sizeof(VecFx32)) != 0) {
+        || GF_STANDARD_CompareBytes((const u8 *)(&pos), (const u8 *)last, sizeof(VecFx32)) != 0) {
         last->zoneId = zoneId;
         last->pos = pos;
         last->dir = dir;

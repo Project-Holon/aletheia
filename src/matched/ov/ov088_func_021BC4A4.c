@@ -14,7 +14,7 @@
  *   func_0200854C  0x0200854C  thumb
  *   func_02005728  0x02005728  thumb
  *   func_0200852C  0x0200852C  thumb
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   func_02008550  0x02008550  thumb
  *   func_02008558  0x02008558  thumb
  */
@@ -30,7 +30,7 @@ extern void func_0200854C(int, int);
 extern u32 func_02005728(u32 range);
 struct Sub0200852CObj;
 extern void func_0200852C(struct Sub0200852CObj *obj, u32 value);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 
@@ -41,7 +41,7 @@ void STARTMENU_SetNewPlayerNameAndGender(int a, int b, int c)
     func_020084E4((u16 *)a, (struct U16Vec *)b);
     func_0200854C(a, c);
     func_0200852C((struct Sub0200852CObj *)a, func_02005728(-1));
-    x = func_0203F0A8();
+    x = GF_STANDARD_Rand();
     y = func_02008550((const struct Sub0200852CObj *)a);
     func_02008558((struct Sub0200852CObj *)a, (u8)((u32)((x * 8) >> 32) + y * 8));
 }

@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 
 int EVENT_BATTLE_IntegrityProbeB(int a0)
 {
 
-    a0 = func_0203F0A8();
+    a0 = GF_STANDARD_Rand();
 loc_0216F076:
-    a0 = func_0203F0A8();
+    a0 = GF_STANDARD_Rand();
 loc_0216F07A:
     return a0;}

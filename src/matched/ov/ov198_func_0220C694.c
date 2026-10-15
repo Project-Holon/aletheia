@@ -1,5 +1,5 @@
 /*
- * function: func_0220C694
+ * function: B_PLIST_DRAW_PrintCenteredText
  * address: 0x0220C694
  * packet: pkt_ov198_0220C694
  * region: ov198
@@ -32,7 +32,7 @@ extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
-void func_0220C694(char *p, int i, int id)
+void B_PLIST_DRAW_PrintCenteredText(char *p, int i, int id)
 {
     void *t;
     void *handle;

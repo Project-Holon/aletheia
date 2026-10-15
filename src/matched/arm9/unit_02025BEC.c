@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BMP_OAM_Check5BEC, sub_02025C1C, sub_02025C30
+ * function: BMP_OAM_Check5BEC, BMP_OAM_CheckRangeGetId, BMP_OAM_CheckRangeGetMin
  *
  * BMP_OAM_Check5BEC is a three-argument predicate: out of range (`a >= 0xE9`)
  * fails immediately; otherwise it looks `a` up through sub_02025B64
@@ -23,7 +23,7 @@
  * conjunction.md does not apply here: the guards are not adjacent, they
  * are separated by the calls and comparisons that feed the next one).
  *
- * sub_02025C1C and sub_02025C30 both wrap the predicate with the same
+ * BMP_OAM_CheckRangeGetId and BMP_OAM_CheckRangeGetMin both wrap the predicate with the same
  * shape, "return the value on success, 0 on failure", differing only in
  * which argument is guarded: the first, or the second. Both forward all
  * three arguments to BMP_OAM_Check5BEC unchanged; the wrapped argument is
@@ -56,7 +56,7 @@ u32 BMP_OAM_Check5BEC(u32 a, u32 b, u32 c)
     return 1;
 }
 
-u32 sub_02025C1C(u32 a, u32 b, u32 c)
+u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c)
 {
     u32 r = a;
 
@@ -66,7 +66,7 @@ u32 sub_02025C1C(u32 a, u32 b, u32 c)
     return r;
 }
 
-u32 sub_02025C30(u32 a, u32 b, u32 c)
+u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c)
 {
     u32 r = b;
 

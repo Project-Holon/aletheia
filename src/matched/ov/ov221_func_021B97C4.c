@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B97C4, CHIHOU_ZUKAN_AWARD_Task
+ * function: CHIHOU_ZUKAN_AWARD_Main, CHIHOU_ZUKAN_AWARD_Task
  * address: 0x021B97C4
  * packet: pkt_ov221_021B97C4
  * region: ov221
@@ -52,7 +52,7 @@ extern u32 KEY_GetTrg(void);
 extern void func_020355D8(unsigned char);
 extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
+int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p)
 {
  int ready;
  u32 x,y;

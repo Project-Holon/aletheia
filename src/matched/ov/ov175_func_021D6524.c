@@ -1,5 +1,5 @@
 /*
- * function: func_021D6524
+ * function: WIFIBATTLEMATCH_NET_IncBsubwayStat
  * address:  0x021D6524
  * packet:   pkt_021D6524
  * region:   ov175
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern void BSUBWAY_SAVEDATA_IncStat(u8 *base, int a, int idx);
 
-void func_021D6524(int a, int b, u32 c)
+void WIFIBATTLEMATCH_NET_IncBsubwayStat(int a, int b, u32 c)
 {
     switch (c) {
     case 1:

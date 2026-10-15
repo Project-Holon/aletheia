@@ -13,14 +13,14 @@
  * PRINTSYS_QUE_Clear 0x0201C6EC thumb
  * PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  * TIME_ICON_Delete 0x0202F038 thumb
- * func_02030DA4 0x02030DA4 arm
+ * TCB_Noop 0x02030DA4 arm
  * func_020307B0 0x020307B0 arm
  * G3D_UTIL_Delete 0x02047E54 arm
  * G3D_SYSTEM_Exit 0x02046788 arm
  * func_02030EAC 0x02030EAC arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * func_020315D4 0x020315D4 arm
- * func_020306F0 0x020306F0 arm
+ * GFL_HEAP_DeleteChecked 0x020306F0 arm
  * UI_ClearFlags39Global 0x020351A0 arm
  * GURU2_MAIN_DeleteBounceEffectTask 0x021E0E1C thumb ov137
  * GURU2_MAIN_DeleteSettleEffectTask 0x021E0F54 thumb ov137
@@ -40,7 +40,7 @@ struct S020315D4;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void TIME_ICON_Delete(u8 *);
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 extern u32 func_020307B0(void *p);
 struct Node;
 struct Rec;
@@ -49,7 +49,7 @@ extern void G3D_SYSTEM_Exit(void);
 extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 extern int UI_ClearFlags39Global(u32);
 extern void GURU2_MAIN_DeleteBounceEffectTask(u8 *);
 extern void GURU2_MAIN_DeleteSettleEffectTask(u8 *);
@@ -72,7 +72,7 @@ int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, u8 *p)
     GURU2_MAIN_DeleteEntranceEffectTask(p);
     GURU2_MAIN_DeleteScreenFlashTask(p);
     GURU2_MAIN_DeletePulseEffectTask(p);
-    func_02030DA4(*(void **)(p + 0xD98));
+    TCB_Noop(*(void **)(p + 0xD98));
     func_020307B0(*(void **)(p + 0xD94));
     GURU2_MAIN_RemoveBackgroundUnit((char *)p);
     GURU2_MAIN_RemoveCenterUnit(p);
@@ -83,7 +83,7 @@ int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, u8 *p)
     func_02030EAC(*(void **)(p + 0xD9C));
     ARC_TOOL_DeleteHandle(*(void **)(p + 0xD58));
     func_020315D4(a);
-    func_020306F0(0x72);
+    GFL_HEAP_DeleteChecked(0x72);
     UI_ClearFlags39Global(8);
     return 1;
 }

@@ -27,7 +27,7 @@
  *   EVENT_SHORTCUT_MENU_CloseLink  0x0216060C  thumb  ov010
  *   EVENT_SHORTCUT_MENU_GetAvailBit  0x02160564  thumb  ov010
  *   EVENT_SHORTCUT_MENU_ResolveShortcut  0x0216040C  thumb  ov010
- *   func_02164480  0x02164480  thumb  ov010
+ *   FIELD_SKILL_CHECK_FillUseFlags  0x02164480  thumb  ov010
  *   EVENT_SHORTCUT_MENU_CheckPartyRibbon  0x0216070C  thumb  ov010
  *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
@@ -81,7 +81,7 @@ struct Owner;
 extern int EVENT_SHORTCUT_MENU_CloseLink(int a0, int a1);
 extern int EVENT_SHORTCUT_MENU_GetAvailBit(u32 state, u32 *out, u32 *err);
 extern int EVENT_SHORTCUT_MENU_ResolveShortcut(Req *r, u32 code);
-extern void func_02164480(Flags *f, void *a, void *b);
+extern void FIELD_SKILL_CHECK_FillUseFlags(Flags *f, void *a, void *b);
 extern int EVENT_SHORTCUT_MENU_CheckPartyRibbon(Work *w);
 extern void *EVENT_SHORTCUT_MENU_CreateProcEvent(struct Owner *o, u16 id);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
@@ -145,7 +145,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(void *evt, u32 *state, Work *w)
             if (err == 0 && GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(w->f04)) == 1) {
                 bad = 1;
             } else if (ok == 1) {
-                func_02164480(&fl, w->f04, w->f08);
+                FIELD_SKILL_CHECK_FillUseFlags(&fl, w->f04, w->f08);
                 if (func_02028754((struct Obj *)(&fl), n) == 0)
                     bad = 1;
             }

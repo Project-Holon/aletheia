@@ -1,5 +1,5 @@
 /*
- * function: func_021D98D8
+ * function: WIFIBATTLEMATCH_NET_IsRegSpriteAnimDone
  * address: 0x021D98D8
  * packet: pkt_ov175_021D98D8
  * region: ov175
@@ -14,7 +14,7 @@
 #include "../include/Obj24308.h"
 typedef struct Work Work;
 extern int func_021E8420(Work *);
-int func_021D98D8(char *p)
+int WIFIBATTLEMATCH_NET_IsRegSpriteAnimDone(char *p)
 {
     return func_021E8420(*(Work * *)&((struct Obj24308 *)p)->f24);
 }

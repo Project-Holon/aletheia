@@ -13,9 +13,9 @@
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_02198620                  0x02198620  arm ov009
- *   func_02195AB4                  0x02195AB4  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
+ *   gt2CreateSocket                  0x02195AB4  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   func_02184144                  0x02184144  arm ov009
  *   gt2SetUnrecognizedMessageCallback                  0x02195E68  arm ov009
  *   gt2Listen                  0x02195B20  arm ov009
@@ -66,9 +66,9 @@ typedef struct GSUdpEngineObject {
 } GSUdpEngineObject;
 
 extern void *gsUdpEngineContext(void);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+extern int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void gt2SetUnrecognizedMessageCallback(int *p, int v);
 extern void gt2Listen(int *p, int v);
@@ -109,22 +109,22 @@ int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int th
     aUdp->mAppConnAttempt = theAppConnectAttempt;
 
 
-    func_02198620(0, thePort, anAddr);
-    aGt2Result = func_02195AB4(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, gsUdpSocketError);
+    gt2AddressToString(0, thePort, anAddr);
+    aGt2Result = gt2CreateSocket(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, gsUdpSocketError);
     if (aGt2Result != 0) {
-        func_0217D254(12, 0, 2, g_021A3B44, aGt2Result);
+        gsDebugFormat(12, 0, 2, g_021A3B44, aGt2Result);
         return 3;
     }
 
     aUdp->mRemotePeers = func_02184144(12, 1, 0);
     if (aUdp->mRemotePeers == 0) {
-        func_0217D254(12, (char *)2, 1, g_021A3B7C);
+        gsDebugFormat(12, (char *)2, 1, g_021A3B7C);
         return 1;
     }
 
     aUdp->mMsgHandlers = func_02184144(60, 1, func_02180410);
     if (aUdp->mMsgHandlers == 0) {
-        func_0217D254(12, (char *)2, 1, g_021A3B7C);
+        gsDebugFormat(12, (char *)2, 1, g_021A3B7C);
         return 1;
     }
 

@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_0220BDA0
+ * function: B_PLIST_DRAW_ClearWindowBitmaps
  * address: 0x0220BDA0
  * packet: pkt_ov198_0220BDA0
  * region: ov198
@@ -15,4 +15,4 @@
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;struct CharBuf;extern void *BMP_WIN_GetBmp(struct Descriptor *);extern void BMP_Clear(struct CharBuf *,u8);
-void func_0220BDA0(u8 *p){u32 i;for(i=0;i<p[0x2174];i++)BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+i*8+0x1f70)),0);}
+void B_PLIST_DRAW_ClearWindowBitmaps(u8 *p){u32 i;for(i=0;i<p[0x2174];i++)BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+i*8+0x1f70)),0);}

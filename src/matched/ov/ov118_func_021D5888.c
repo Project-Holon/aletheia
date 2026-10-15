@@ -1,5 +1,5 @@
 /*
- * function: func_021D5888
+ * function: POKETRADE_DEMO_UP_ResetMonSlide
  * address:  0x021D5888
  * packet:   pkt_ov118_021D5888
  * region:   ov118
@@ -33,7 +33,7 @@ extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_GetScale(void *p, u32 *out);
 extern void MCSS_SetScale(void *p, u32 *src);
 
-void func_021D5888(u8 *p, int idx)
+void POKETRADE_DEMO_UP_ResetMonSlide(u8 *p, int idx)
 {
     u32 *obj = (u32 *)(p + 0x844);
     Vec v;

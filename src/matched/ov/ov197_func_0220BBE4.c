@@ -1,5 +1,5 @@
 /*
- * function: func_0220BBE4
+ * function: B_BAG_MAIN_InitFrames
  * address: 0x0220BBE4
  * packet: pkt_ov197_0220BBE4
  * region: ov197
@@ -36,7 +36,7 @@ extern void BGWINFRM_SetClipArea(struct Obj *o, u32 i, u8 a, u8 b, s8 c, s8 d);
 extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr,u32,void *,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr,u32,s8,s8);
-void func_0220BBE4(char *p)
+void B_BAG_MAIN_InitFrames(char *p)
 {
     void *arc;
     unsigned i;

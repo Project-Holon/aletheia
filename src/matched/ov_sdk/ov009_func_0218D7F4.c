@@ -1,5 +1,5 @@
 /*
- * function: func_0218D7F4
+ * function: gpiStatusInfoKeysInit
  * address:  0x0218D7F4
  * packet:   pkt_ov009_0218D7F4
  * region:   ov009
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_02184144  0x02184144  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
- *   func_0218D7CC  0x0218D7CC  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
+ *   gpiStatusInfoKeyFree  0x0218D7CC  arm  ov009
  *   g_021A4D80  0x021A4D80  data
  */
 
@@ -24,18 +24,18 @@ struct GPIConnection {
 };
 
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
-extern void func_02193734(int *p, int b);
-extern void func_0218D7CC(void *element);
+extern void gpiSetErrorString(int *p, int b);
+extern void gpiStatusInfoKeyFree(void *element);
 extern char g_021A4D80[];
 
-int func_0218D7F4(void **connection)
+int gpiStatusInfoKeysInit(void **connection)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
     int result = 1;
 
-    iconnection->statusInfoKeys = func_02184144(8, result, func_0218D7CC);
+    iconnection->statusInfoKeys = func_02184144(8, result, gpiStatusInfoKeyFree);
     if (iconnection->statusInfoKeys != 0)
         return 0;
-    func_02193734((int *)connection, (int)g_021A4D80);
+    gpiSetErrorString((int *)connection, (int)g_021A4D80);
     return result;
 }

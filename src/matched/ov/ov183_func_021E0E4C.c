@@ -1,5 +1,5 @@
 /*
- * function: func_021E0E4C
+ * function: BR_CODEIN_ProfileUpdateActorVisible
  * address: 0x021E0E4C
  * packet: pkt_ov183_021E0E4C
  * region: ov183
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 #include "../include/Obj00143.h"
-void func_021E0E4C(char *p)
+void BR_CODEIN_ProfileUpdateActorVisible(char *p)
 {
     int i;
     for (i = 0; i < ((struct Obj00143 *)p)->f23C; i++) {

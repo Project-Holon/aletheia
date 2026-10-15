@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02063784
+ * function: NNSi_G2dGetVramHandle
  * address:  0x02063784
  * packet:   pkt_02063640
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02063784(unsigned short *p, int i){ return p[i]; }
+int NNSi_G2dGetVramHandle(unsigned short *p, int i){ return p[i]; }

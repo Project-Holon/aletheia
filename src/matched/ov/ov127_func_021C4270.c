@@ -1,5 +1,5 @@
 /*
- * function: func_021C4270
+ * function: WIFI_2DCHAR_GetActorAnimId
  * address: 0x021C4270
  * packet: pkt_ov127_021C4270
  * region: ov127
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 
-u32 func_021C4270(char *p) { return ((struct Obj23019 *)p)->fC; }
+u32 WIFI_2DCHAR_GetActorAnimId(char *p) { return ((struct Obj23019 *)p)->fC; }

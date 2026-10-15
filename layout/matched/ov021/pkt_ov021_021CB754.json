@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CB754",
+   "name": "BSUBWAY_SCR_WaitCommEntryMenu",
    "address": "0x021CB754",
    "kind": "game",
    "region": "ov021",

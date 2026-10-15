@@ -1,5 +1,5 @@
 /*
- * function: func_021DC2F4
+ * function: WIFIBATTLEMATCH_NET_SetupDownload
  * address: 0x021DC2F4
  * packet: pkt_ov175_021DC2F4
  * region: ov175
@@ -16,7 +16,7 @@
 extern void MI_CpuFill8(void *,int,int);
 extern int func_0208D7E0(char *,const char *,...);
 extern const char d_021E2FA4[];
-void func_021DC2F4(char *p,unsigned a)
+void WIFIBATTLEMATCH_NET_SetupDownload(char *p,unsigned a)
 {
     ((struct Obj14347 *)p)->f12C=0;
     ((struct Obj14347 *)p)->f1458=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02057EF8
+ * function: SPL_EMITTER_LerpVec
  * address:  0x02057EF8
  * packet:   pkt_02057830
  * region:   arm9
@@ -33,7 +33,7 @@ static inline fx32 FX_Mul(fx32 v1, fx32 v2)
     return (fx32)(((fx64)v1 * v2 + 0x800) >> 12);
 }
 
-void func_02057EF8(struct A *a, struct B *b)
+void SPL_EMITTER_LerpVec(struct A *a, struct B *b)
 {
     b->_08 = b->_08 + FX_Mul(a->w, a->x - b->_08);
     b->_0C = b->_0C + FX_Mul(a->w, a->y - b->_0C);

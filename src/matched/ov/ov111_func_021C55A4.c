@@ -1,5 +1,5 @@
 /*
- * function: func_021C55A4
+ * function: VIEWER_MAIN_HandlePageInput
  * address:  0x021C55A4
  * packet:   pkt_ov111_021C55A4
  * region:   ov111
@@ -16,7 +16,7 @@
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_021C6874  0x021C6874  thumb  ov111
+ *   VIEWER_TEXT_DrawPage  0x021C6874  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   d_021C8544     0x021C8544  data  a1
  *
@@ -46,11 +46,11 @@ extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
-extern void func_021C6874(Work *p, int scroll, int flush, int idx);
+extern void VIEWER_TEXT_DrawPage(Work *p, int scroll, int flush, int idx);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern const u8 d_021C8544[];
 
-void func_021C55A4(Work *p)
+void VIEWER_MAIN_HandlePageInput(Work *p)
 {
     u32 x, y;
     int lim;
@@ -76,7 +76,7 @@ void func_021C55A4(Work *p)
         }
         if (p->prevScroll != p->scroll) {
             p->b32F7 = 1;
-            func_021C6874(p, p->scroll, 1, 1);
+            VIEWER_TEXT_DrawPage(p, p->scroll, 1, 1);
             GFL_USE_PlaySeDefaultVolume(0x645);
         }
         p->prevScroll = p->scroll;

@@ -35,7 +35,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
- *   func_02167394  0x02167394  thumb
+ *   COMM_PLAYER_GetModelId  0x02167394  thumb
  *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
@@ -231,7 +231,7 @@ extern void NET_WHPIPE_PublishBeacon(void);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct QuestionnaireSave *SYMBOL_SAVE_GetBitBlock(struct SaveControl *save);
 extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire, int slot);
-extern u32   func_02167394(u8 questionId);
+extern u32   COMM_PLAYER_GetModelId(u8 questionId);
 extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *answers, u8 questionId);
 extern u32 MISC_SAVEDATA_IsTallyFull(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer);
 extern void MISC_SAVEDATA_AddHalfwordClamped(struct QuestionnaireSave *questionnaire, int questionId, int counted);
@@ -1227,8 +1227,8 @@ static inline u32 GAME_BEACON_GetAnswer(const GameBeaconInfo *info, int question
 
     if (questionId == 0x1d) {
         answer = info->playHours / 10 + 1;
-        if (answer > func_02167394(questionId))
-            answer = func_02167394(questionId);
+        if (answer > COMM_PLAYER_GetModelId(questionId))
+            answer = COMM_PLAYER_GetModelId(questionId);
     } else {
         answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, questionId);
     }

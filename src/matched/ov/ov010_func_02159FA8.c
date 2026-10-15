@@ -1,5 +1,5 @@
 /*
- * function: func_02159FA8
+ * function: MAP_REPLACE_ApplyWarpLocation
  * address: 0x02159FA8
  * packet: pkt_ov010_02159FA8
  * region: ov010
@@ -12,8 +12,8 @@
  * lever: const table declarations hoist the second table load before the stack argument.
  * prototype: fifth input stays word-wide; u16 adds an absent redundant truncation.
  * symbols:
- *   func_0215A064 0x0215A064 thumb ov010
- *   func_0215A048 0x0215A048 thumb ov010
+ *   MAP_REPLACE_WarpIdToIndex 0x0215A064 thumb ov010
+ *   MAP_REPLACE_SetDirectLocation 0x0215A048 thumb ov010
  *   d_02170FEC 0x02170FEC data
  *   d_02170FF0 0x02170FF0 data
  */
@@ -28,16 +28,16 @@ typedef struct Ent {
     u16 f06;
     u8 pad[12];
 } Ent;
-extern int func_0215A064(int);
-extern void func_0215A048(void *, int, int, unsigned, int);
+extern int MAP_REPLACE_WarpIdToIndex(int);
+extern void MAP_REPLACE_SetDirectLocation(void *, int, int, unsigned, int);
 extern const Ent d_02170FEC[];
 extern const Ent d_02170FF0[];
-void func_02159FA8(int a, int b)
+void MAP_REPLACE_ApplyWarpLocation(int a, int b)
 {
-    int i = func_0215A064(a);
+    int i = MAP_REPLACE_WarpIdToIndex(a);
     const Ent *e = &d_02170FEC[i];
     u16 v = e->f06;
     u32 w = d_02170FF0[i].f00;
     u32 hi = ((u32)v << 16) >> 24;
-    func_0215A048((void *)b, w, 0, ((u32)v << 24) >> 24, hi);
+    MAP_REPLACE_SetDirectLocation((void *)b, w, 0, ((u32)v << 24) >> 24, hi);
 }

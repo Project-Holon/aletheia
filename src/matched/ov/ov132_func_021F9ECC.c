@@ -1,5 +1,5 @@
 /*
- * function: func_021F9ECC
+ * function: STA_ACT_EFFECT_Update
  * address: 0x021F9ECC
  * packet: pkt_ov132_021F9ECC
  * region: ov132
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int PARTICLE_UpdateAllSystems(void);
-int func_021F9ECC(u8 *a0) { return PARTICLE_UpdateAllSystems(); }
+int STA_ACT_EFFECT_Update(u8 *a0) { return PARTICLE_UpdateAllSystems(); }

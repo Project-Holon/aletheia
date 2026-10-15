@@ -14,14 +14,14 @@
  *
  * symbols:
  *   gWifiClubMessageIdTable  0x021C39E0  data  a4
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   gWifiClubYesNoWindowTemplate 0x021C371A data a2
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  *   func_02009864  0x02009864  thumb
  *   func_020099E4  0x020099E4  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -32,10 +32,10 @@
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_02028470  0x02028470  thumb
@@ -75,7 +75,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   BG_SYS_DecodeTileSource  0x02040AF0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   gWifiClubTrainerSpritePos     0x021C37D4  data   ov099  a2
  *   CURSOR_MOVE_GetTableGroup  0x02025C88  thumb
  *   POKEGRA_OpenTrainerHandle  0x0202DA04  thumb
@@ -96,7 +96,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_02049990  0x02049990  arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   gWifiClubVisitorMessageIds     0x021C398C  data   ov099
  *   gWifiClubMenuItemTable  0x021C3A70  data  a4
  *   gWifiClubRuleMenuHeader  0x021C3B68  data  a4
@@ -149,7 +149,7 @@
  *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
  *   BATTLE_BOX_HasMon 0x0200BBA8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   gWifiClubRuleIdTable     0x021C3A30  data  a4
  *   func_020307B0  0x020307B0  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
@@ -184,7 +184,7 @@
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_020056A0 0x020056A0 thumb
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -201,11 +201,11 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   data_021C3AA0  0x021C3AA0  data
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_020414C4 0x020414C4 arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_InitSlot 0x020414C4 arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   d_021C37F4 0x021C37F4 data a4
  *   d_021C396C 0x021C396C data a4
  *   d_021C382C 0x021C382C data a4
@@ -224,7 +224,7 @@
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   func_02042FB0  0x02042FB0  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_0201F5DC  0x0201F5DC  thumb
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
@@ -268,7 +268,7 @@
  *   WIFICLUBACTOR_Init 0x021B95A0 thumb ov099
  *   WIFICLUBACTOR_SpawnCursorActor 0x021B9900 thumb ov099
  *   DWC_RAP_GetNewClientAid  0x02156B8C  thumb  ov009
- *   func_0203EFC8 0x0203EFC8 arm
+ *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   WIFICLUBACTOR_StartDespawn 0x021B99F4 thumb ov099
  *   WIFICLUBACTOR_SpawnSlotActor 0x021B9968 thumb ov099
  *   MI_CpuCopy8 0x02082D44 arm
@@ -315,7 +315,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfDone  0x021B6448  thumb  ov067
  *   d_021C3720     0x021C3720  data   ov099
  *   func_02049658  0x02049658  arm
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   DWC_RAP_GetFriendStatusData  0x02156860  thumb  ov009
  *   DWC_RAP_GetFriendStatus  0x02156874  thumb  ov009
  *   sub_0203C2B0  0x0203C2B0  arm
@@ -338,7 +338,7 @@
  *   WIFICLUBACTOR_RemoveNetCommands 0x021BA7F8 thumb ov099
  *   REGULATION_Copy 0x0200AE08 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   OS_GetMacAddress 0x02087C6C arm
  *   MYSTATUS_GetSize  0x02008468  thumb  arm9
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
@@ -397,13 +397,13 @@ typedef struct WifiClubSceneMessages { u32 messageId[3]; } WifiClubSceneMessages
 
 typedef int (*WifiClubStateHandler)(WifiClubWork *work, int state);
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void *BMP_MENU_CreateYesNo(const void *, u16, u8, u8, u16);
 extern u32 BMP_MENU_ProcessYesNo(void *);
 extern u32 func_02009864(const void *friendList, u32 index, u32 field);
 extern void func_020099E4(void *friendList, int index, StrBuf *dest);
-extern void func_0201EE0C(WordSet *wordSet, u32 index, StrBuf *src, u32 n, u32 f, u32 c);
-extern void func_0201F7A8(BmpWin *win, u32 kind);
+extern void WORDSET_SetSlotTag(WordSet *wordSet, u32 index, StrBuf *src, u32 n, u32 f, u32 c);
+extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *win, u32 kind);
 extern u32 BMP_WIN_Delete(struct BmpWin *window);
 extern void TIME_ICON_Delete(u8 *icon);
 extern u32 PRINTSYS_QUE_IsFinished(const PrintQue *);
@@ -414,10 +414,10 @@ extern s32 func_02028484(void *streamWait, PrintStream *stream);
 extern signed char MSG_SPEED_GetWait(void);
 extern BmpWin *BMP_WIN_Create(u32 layer, u8 x, u8 y, u32 width, u8 height, u8 palette, u8 slot);
 extern void func_02045CAC(MsgData *bank, u32 index, StrBuf *dest);
-extern void func_0201F250(WordSet *ws, StrBuf *dst, StrBuf *src);
+extern void WORDSET_CopyTaggedText(WordSet *ws, StrBuf *dst, StrBuf *src);
 extern void *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void BMP_Clear(struct BmpData *buf, u8 value);
-extern void func_0201F73C(BmpWin *win, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(BmpWin *win, int a1, int a2, int a3);
 extern void PRINTSYS_Print(void *bmp, s16 x, s16 y, StrBuf *str, void *font);
 extern PrintStream *PRINTSYS_PrintStream(BmpWin *win, u32 x, u32 y, StrBuf *str, void *font, u32 speed, void *tcbl, u32 prio, u32 heapId, u32 palette);
 extern void func_02028470(void *streamWait, u32 v);
@@ -452,7 +452,7 @@ extern void TCBL_Destroy(void *tcbl);
 extern void PRINTSYS_QUE_Delete(PrintQue *);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
-extern void func_020414AC(u32);
+extern void BG_SYS_FreeSlot(u32);
 extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
 extern void *POKEGRA_OpenTrainerHandle(int a0);
 extern s32 POKEGRA_RegisterTrainerCgr(void *a, int b, int c, u16 d);
@@ -471,7 +471,7 @@ extern void TOUCHBAR_Delete(void *touchBar);
 extern void *func_020490F4(u32 archiveId, u32 heapId);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void PRINTSYS_PrintColor(void *bmp, int x, s16 y, StrBuf *str, void *font, u32 color);
-extern void func_0201EFA4(WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern u32 func_02017E1C(void *mon, u32 param, u32 unused);
@@ -541,7 +541,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern struct MsgData *func_02045B38(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archive, int fileId, int type, int flags, u32 heapId);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BMP_WIN_Init(u16);
 extern void *func_020056A0(u32, u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
@@ -556,11 +556,11 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_SetVramBanks(const struct VramBankConfig *c);
 extern void BG_SYS_Create(u16);
-extern void func_0203FC28(WifiClubDispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(WifiClubDispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const WifiClubBgTemplate *tmpl, u32 type);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern void func_020414C4(u32 idx);
-extern void func_0204047C(int, u16);
+extern void BG_SYS_InitSlot(u32 idx);
+extern void BG_SYS_SetVisibleLayer(int, u16);
 extern void func_02049B68(void *archive, u32 type, u32 index, u32 offset, u32 size, u16 heapId);
 extern u32 func_02049740(void *archive, u32 type, u32 index, u32 offset, u32 size, u16 heapId);
 extern void *func_02049E74(void *archive, u32 type, u32 index, u32 outData, u16 heapId);
@@ -568,7 +568,7 @@ extern void *func_02049EF4(void *archive, u32 type, u32 index, void **outData, u
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02042FB0(u32 idx, u32 x, u32 y, u16 value);
 extern void WIPE_SYS_Start(void *unused, u32 type, u32 direction, u32 color, u32 frames, u32 step, u32 heapId);
-extern void *func_0201F5DC(void *kind, u32 size, u32 flags, u32 heapId);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *kind, u32 size, u32 flags, u32 heapId);
 extern void CLACT_InitSystem(const struct ClactInitParam *cfg, u32 arg, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct ClactRenderer *CLACT_CreateRenderer(u8 *param, u32 type, u32 heapId);
@@ -606,7 +606,7 @@ extern u32 func_02009A34(struct FriendRoster *obj);
 extern void DWC_RAP_SetAcceptFriendCallback(void (*callback)(void));
 extern u32 func_02009A54(struct FriendRoster *obj);
 extern int DWC_RAP_GetNewClientAid(void);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, unsigned int n);
 extern int MI_CpuCopy8(void *,void *,int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -640,7 +640,7 @@ extern void TOUCHBAR_Update(void *p);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
 extern unsigned int KEY_GetCont(void);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const void *a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const void *a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern WifiClubPlayerStatus *DWC_RAP_GetFriendStatusData(int i);
 extern unsigned char DWC_RAP_GetFriendStatus(int i);
 extern int sub_0203C2B0(int a);
@@ -660,7 +660,7 @@ extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *);
 extern void TCBL_Main(void *p);
 extern void REGULATION_Copy(const void *src, void *dest);
 extern void func_020315D4(void *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void OS_GetMacAddress(void *);
 u32 WIFICLUB_GetMessageIdByIndex(int i);
 void WIFICLUB_OpenYesNoMenu(WifiClubWork *work);
@@ -1052,7 +1052,7 @@ u32 WIFICLUB_GetMessageIdByIndex(int i)
 
 void WIFICLUB_OpenYesNoMenu(WifiClubWork *work)
 {
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     work->yesNoMenu = BMP_MENU_CreateYesNo(&gWifiClubYesNoWindowTemplate, work->windowFrameBase, 14, 0, 0x21);
 }
 
@@ -1073,7 +1073,7 @@ void WIFICLUB_SetPartnerNameWord(WifiClubWork *work, int friendIndex)
     if (friendIndex != -1) {
         sex = func_02009864(work->friendList, friendIndex, 9);
         func_020099E4(work->friendList, friendIndex, work->rawText);
-        func_0201EE0C(work->wordSet, 0, work->rawText, sex, 1, 2);
+        WORDSET_SetSlotTag(work->wordSet, 0, work->rawText, sex, 1, 2);
     }
 }
 
@@ -1081,7 +1081,7 @@ void WIFICLUB_SetPartnerNameWord(WifiClubWork *work, int friendIndex)
 BmpWin *WIFICLUB_DeleteWindow(BmpWin *win)
 {
     if (win != 0) {
-        func_0201F7A8(win, 0);
+        BMP_MENUWORK_DrawWindowBorder(win, 0);
         BMP_WIN_Delete(win);
     }
 
@@ -1144,9 +1144,9 @@ void WIFICLUB_PrintTalkMessage(WifiClubWork *work, int messageId, int useAltBank
         func_02045CAC(work->msgBankAlt, messageId, work->rawText);
     else
         func_02045CAC(work->msgBank, messageId, work->rawText);
-    func_0201F250(work->wordSet, work->printText, work->rawText);
+    WORDSET_CopyTaggedText(work->wordSet, work->printText, work->rawText);
     BMP_Clear(BMP_WIN_GetBmp(work->talkWin), 0xFF);
-    func_0201F73C(work->talkWin, 1, (u16)work->windowFrameBase, 0xE);
+    BMP_MENUWORK_DrawWindow(work->talkWin, 1, (u16)work->windowFrameBase, 0xE);
     if (stream == 0) {
         PRINTSYS_Print(BMP_WIN_GetBmp(work->talkWin), 0, 0, work->printText, work->textFont);
     } else {
@@ -1173,7 +1173,7 @@ void WIFICLUB_ShowStreamedMessage(WifiClubWork *work, int messageId, int useAltB
 void WIFICLUB_ShowMessage(WifiClubWork *work, int messageId, int useAltBank)
 {
     work->noticeWin = WIFICLUB_DeleteWindow(work->noticeWin);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     WIFICLUB_PrintTalkMessage(work, messageId, useAltBank, 0);
 }
 
@@ -1188,10 +1188,10 @@ void WIFICLUB_ShowNoticeWindow(WifiClubWork *work, int messageId)
     BMP_Clear(BMP_WIN_GetBmp(work->noticeWin), 255);
     BMP_WIN_ClearScreen(work->noticeWin);
     BMP_WIN_MakeScreen(work->noticeWin);
-    func_0201F73C(work->noticeWin, 1, (u16)work->windowFrameBase, 14);
+    BMP_MENUWORK_DrawWindow(work->noticeWin, 1, (u16)work->windowFrameBase, 14);
     func_02045CAC(work->msgBankAlt, messageId, work->rawText);
-    func_0201F250(work->wordSet, work->printText, work->rawText);
-    func_0201DD68();
+    WORDSET_CopyTaggedText(work->wordSet, work->printText, work->rawText);
+    GF_FONT_SetDefaultTextColor();
     PRINTSYS_Print(BMP_WIN_GetBmp(work->noticeWin), 4, 4, work->printText, work->textFont);
     BMP_WIN_TransferChars(work->noticeWin);
 }
@@ -1222,7 +1222,7 @@ void WIFICLUB_CreateMenuList(WifiClubWork *work, WifiClubMenuListHeader *header,
     int i;
     int y;
     PRINTSYS_QUE_Clear(work->menuPrintQueue);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     work->menuWork = BMP_MENUWORK_Create(count, 0x21);
     for (i = 0; i < count; i++)
         BMP_MENUWORK_AddMsgItem(work->menuWork, work->msgBank, items[i].messageId, items[i].value, 0x21);
@@ -1232,7 +1232,7 @@ void WIFICLUB_CreateMenuList(WifiClubWork *work, WifiClubMenuListHeader *header,
         y = 13;
     work->menuWin = BMP_WIN_Create(2, (u8)(31 - width), (u8)y, (u8)width, (u32)count * 2, 15, 1);
     BMP_WIN_MakeScreen(work->menuWin);
-    func_0201F73C(work->menuWin, 2, (u16)work->menuFrameBase, 14);
+    BMP_MENUWORK_DrawWindow(work->menuWin, 2, (u16)work->menuFrameBase, 14);
     header->menuWork = work->menuWork;
     header->win = work->menuWin;
     header->printQueue = work->menuPrintQueue;
@@ -1287,7 +1287,7 @@ void WIFICLUB_CreateAnswerMenu(WifiClubWork *work)
         }
     }
     work->menuWin = BMP_WIN_Create(2, 16, (u8)((3 - itemCount) * 2 + 11), 15, itemCount * 2, 15, 1);
-    func_0201F73C(work->menuWin, 2, (u16)work->windowFrameBase, 14);
+    BMP_MENUWORK_DrawWindow(work->menuWin, 2, (u16)work->windowFrameBase, 14);
     header.menuWork = work->menuWork;
     header.win = work->menuWin;
     header.printQueue = work->menuPrintQueue;
@@ -1318,7 +1318,7 @@ void WIFICLUB_DrawPlayerInfoWindow(WifiClubWork *work)
     myStatus = func_02008730(work->saveData);
     if (work->playerInfoWin == 0)
         return;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     name = func_02008510(myStatus, 33);
     BMP_Clear(BMP_WIN_GetBmp(work->playerInfoWin), 255);
     if (func_02008550(myStatus) == 0)
@@ -1449,7 +1449,7 @@ void WIFICLUB_OpenPartnerPanelWithBg(WifiClubWork *work, int panelPlane)
     func_02009864(work->friendList, work->selectedSlotPlusOne - 1, 9);
     screen = (WifiClubPanelScreen *)work->panelScreenData;
     BG_SYS_DecodeTileSource(6, screen->data, screen->dataSize, 0);
-    func_020414AC(7);
+    BG_SYS_FreeSlot(7);
     BMP_Clear(BMP_WIN_GetBmp(work->statWin), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->nameWin), 0);
     WIFICLUB_DrawPartnerPanel(work, panelPlane);
@@ -1544,13 +1544,13 @@ void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane)
     unsigned kind, variant;
     int unused;
     int messageId;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     index = work->selectedSlotPlusOne - 1;
     func_02009864(work->friendList, index, 9);
     GF_FONT_SetTextColor(15, 2, 0);
     WIFICLUB_SetFriendNameWord(work, index);
     func_02045CAC(work->msgBank, 33, work->rawText);
-    func_0201F250(work->detailWordSet, work->shortText, work->rawText);
+    WORDSET_CopyTaggedText(work->detailWordSet, work->shortText, work->rawText);
     PRINTSYS_Print(BMP_WIN_GetBmp(work->nameWin), 25, 0, work->shortText, work->textFont);
     status = WIFICLUB_GetFriendStatus(index);
     kind = WIFICLUB_GetStatusKind(work, status);
@@ -1561,29 +1561,29 @@ void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->nameWin), 96, 0, work->rawText, work->textFont, 0x3c40);
     func_02045CAC(work->msgBank, 35, work->shortText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 104, 0, work->shortText, work->textFont, 0x3c40);
-    func_0201EFA4(work->detailWordSet, 0, func_02009864(work->friendList, index, 2), 4, 1, 1);
+    WORDSET_SetSlotNumber(work->detailWordSet, 0, func_02009864(work->friendList, index, 2), 4, 1, 1);
     func_02045CAC(work->msgBank, 36, work->rawText);
-    func_0201F250(work->detailWordSet, work->shortText, work->rawText);
+    WORDSET_CopyTaggedText(work->detailWordSet, work->shortText, work->rawText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 176, 24, work->shortText, work->textFont, 0x3c40);
-    func_0201EFA4(work->detailWordSet, 0, func_02009864(work->friendList, index, 3), 4, 1, 1);
+    WORDSET_SetSlotNumber(work->detailWordSet, 0, func_02009864(work->friendList, index, 3), 4, 1, 1);
     func_02045CAC(work->msgBank, 37, work->rawText);
-    func_0201F250(work->detailWordSet, work->shortText, work->rawText);
+    WORDSET_CopyTaggedText(work->detailWordSet, work->shortText, work->rawText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 176, 40, work->shortText, work->textFont, 0x3c40);
     func_02045CAC(work->msgBank, 38, work->shortText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 104, 64, work->shortText, work->textFont, 0x3c40);
-    func_0201EFA4(work->detailWordSet, 0, func_02009864(work->friendList, index, 4), 4, 1, 1);
+    WORDSET_SetSlotNumber(work->detailWordSet, 0, func_02009864(work->friendList, index, 4), 4, 1, 1);
     func_02045CAC(work->msgBank, 39, work->rawText);
-    func_0201F250(work->detailWordSet, work->shortText, work->rawText);
+    WORDSET_CopyTaggedText(work->detailWordSet, work->shortText, work->rawText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 188, 64, work->shortText, work->textFont, 0x3c40);
     func_02045CAC(work->msgBank, 42, work->shortText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 8, 96, work->shortText, work->textFont, 0x3c40);
     messageId = func_02009864(work->friendList, index, 7);
     if (messageId) {
-        func_0201EFA4(work->detailWordSet, 2, messageId, 2, 0, 1);
-        func_0201EFA4(work->detailWordSet, 0, func_02009864(work->friendList, index, 5), 4, 1, 1);
-        func_0201EFA4(work->detailWordSet, 1, func_02009864(work->friendList, index, 6), 2, 0, 1);
+        WORDSET_SetSlotNumber(work->detailWordSet, 2, messageId, 2, 0, 1);
+        WORDSET_SetSlotNumber(work->detailWordSet, 0, func_02009864(work->friendList, index, 5), 4, 1, 1);
+        WORDSET_SetSlotNumber(work->detailWordSet, 1, func_02009864(work->friendList, index, 6), 2, 0, 1);
         func_02045CAC(work->msgBank, 44, work->rawText);
-        func_0201F250(work->detailWordSet, work->shortText, work->rawText);
+        WORDSET_CopyTaggedText(work->detailWordSet, work->shortText, work->rawText);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 152, 96, work->shortText, work->textFont, 0x3c40);
     }
     BMP_WIN_MakeScreen(work->statWin);
@@ -1689,7 +1689,7 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
     BmpWin *win;
     if (work->partyWin == 0)
         work->partyWin = BMP_WIN_Create(2, 1, 5, 30, 6, 15, 1);
-    func_0201F73C(work->partyWin, 2, (u16)work->windowFrameBase, 14);
+    BMP_MENUWORK_DrawWindow(work->partyWin, 2, (u16)work->windowFrameBase, 14);
     nameText = STRBUF_Create(0x40, 0x21);
     templateText = STRBUF_Create(0x40, 0x21);
     BMP_Clear(BMP_WIN_GetBmp(work->partyWin), 255);
@@ -1703,8 +1703,8 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
             nickname = func_02017E1C(mon, 0x9e, 0);
             gender = func_02017E1C(mon, 0x6e, 0);
             func_02045CAC(work->msgBank, 0x74, templateText);
-            func_0201EFA4(work->wordSet, 0, nickname, 3, 0, 1);
-            func_0201F250(work->wordSet, nameText, templateText);
+            WORDSET_SetSlotNumber(work->wordSet, 0, nickname, 3, 0, 1);
+            WORDSET_CopyTaggedText(work->wordSet, nameText, templateText);
             x = i * 40;
             PRINTSYS_Print(BMP_WIN_GetBmp(work->partyWin), x + 1, 32, nameText, work->nameFont);
             if (gender != 2 && ((species != 0x1d && species != 0x20) || form != 0)) {
@@ -1735,7 +1735,7 @@ void WIFICLUB_DeletePartyListWindow(WifiClubWork *work)
 {
     if (work->partyWin != 0) {
         BMP_WIN_ClearScreen(work->partyWin);
-        func_0201F7A8(work->partyWin, 1);
+        BMP_MENUWORK_DrawWindowBorder(work->partyWin, 1);
         BMP_WIN_Delete(work->partyWin);
         work->partyWin = 0;
     }
@@ -1860,8 +1860,8 @@ void WIFICLUB_ShowRuleWindow(WifiClubWork *work, int mask, u32 ruleFlag, int mod
     BMP_Clear(BMP_WIN_GetBmp(work->noticeWin), 255);
     BMP_WIN_ClearScreen(work->noticeWin);
     BMP_WIN_MakeScreen(work->noticeWin);
-    func_0201F73C(work->noticeWin, 1, (u16)work->windowFrameBase, 14);
-    func_0201DD68();
+    BMP_MENUWORK_DrawWindow(work->noticeWin, 1, (u16)work->windowFrameBase, 14);
+    GF_FONT_SetDefaultTextColor();
     work->regulationText = POKE_REGULATION_CreateText(work->regulationData, work->wordSet, 33, ruleFlag);
     if (mode == 0) {
         text = REGULATION_CreateCupName(work->regulationData, 33);
@@ -1973,7 +1973,7 @@ int WIFICLUB_StateOpenInviteYesNo(WifiClubWork *work, int result)
 int WIFICLUB_StateInviteYesNo(WifiClubWork *work, int result)
 {
     int answer;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     answer = WIFICLUB_PollYesNoMenu(work);
     if (answer == -1)
         return result;
@@ -2219,7 +2219,7 @@ int WIFICLUB_StateOpenSceneYesNo(WifiClubWork *work, int result)
 int WIFICLUB_StateSceneYesNo(WifiClubWork *work, int result)
 {
     int answer;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     answer = WIFICLUB_PollYesNoMenu(work);
     if (answer == -1) {
         return result;
@@ -2517,7 +2517,7 @@ void *WIFICLUB_LoadSavedRegulation(void *gameData)
 
 
 /*
- * Free-like guard: calls sub_020307B0 only for a non-null pointer.
+ * Free-like guard: calls GFL_HEAP_Free only for a non-null pointer.
  */
 void WIFICLUB_FreeRegulation(void *p)
 {
@@ -3485,7 +3485,7 @@ int WIFICLUB_StateOpenLeavePrompt(WifiClubWork *work, int state)
 int WIFICLUB_StatePollLeavePrompt(WifiClubWork *work, int state)
 {
     int promptAnswer;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     promptAnswer = WIFICLUB_PollYesNoMenu(work);
     if (promptAnswer == -1) return state;
     if (promptAnswer == 0) work->exitCode = 0x44;
@@ -3757,7 +3757,7 @@ void WIFICLUB_InitScreen(WifiClubWork *work)
     work->msgBankAlt = func_02045B38(0, 2, 0xe8, 0x21);
     work->textFont = GF_FONT_Create(0x17, 0, 0, 0, 0x21);
     work->nameFont = GF_FONT_Create(0x17, 3, 0, 0, 0x21);
-    func_0204363C(1);
+    BMP_SetDisplaySwap(1);
     WIFICLUB_InitVram();
     WIFICLUB_InitBackgrounds(0x21);
     BMP_WIN_Init(0x21);
@@ -3817,42 +3817,42 @@ void WIFICLUB_InitBackgrounds(u16 heapId)
     int i;
     BG_SYS_Create(heapId);
     dispConfig = d_021C37F4;
-    func_0203FC28(&dispConfig);
+    BG_SYS_SetGraphicsMode(&dispConfig);
     bg0 = d_021C396C;
     i = 0;
     BG_SYS_InitBgLayer(0, &bg0, 0);
-    func_020414AC(0);
+    BG_SYS_FreeSlot(0);
     func_020409B4(0);
     bg1 = d_021C382C;
     BG_SYS_InitBgLayer(1, &bg1, 0);
-    func_020414AC(1);
+    BG_SYS_FreeSlot(1);
     func_020409B4(1);
     bg2 = d_021C384C;
     BG_SYS_InitBgLayer(2, &bg2, 0);
     BG_SYS_Init(2, 0, 1, 0);
-    func_020414AC(2);
+    BG_SYS_FreeSlot(2);
     func_020409B4(2);
     bg3 = d_021C386C;
     BG_SYS_InitBgLayer(3, &bg3, 0);
-    func_020414AC(3);
+    BG_SYS_FreeSlot(3);
     func_020409B4(3);
     bg4 = d_021C38AC;
     BG_SYS_InitBgLayer(4, &bg4, 0);
-    func_020414AC(4);
+    BG_SYS_FreeSlot(4);
     bg5 = d_021C38CC;
     BG_SYS_InitBgLayer(5, &bg5, 0);
-    func_020414AC(5);
+    BG_SYS_FreeSlot(5);
     bg6 = d_021C392C;
     BG_SYS_InitBgLayer(6, &bg6, 0);
-    func_020414AC(6);
+    BG_SYS_FreeSlot(6);
     bg7 = d_021C394C;
     BG_SYS_InitBgLayer(7, &bg7, 0);
-    func_020414AC(7);
-    for (; i < 7; i++) func_020414C4((u8)i);
-    func_0204047C(0, 3);
-    func_0204047C(1, 1);
-    func_0204047C(3, 1);
-    func_0204047C(2, 0);
+    BG_SYS_FreeSlot(7);
+    for (; i < 7; i++) BG_SYS_InitSlot((u8)i);
+    BG_SYS_SetVisibleLayer(0, 3);
+    BG_SYS_SetVisibleLayer(1, 1);
+    BG_SYS_SetVisibleLayer(3, 1);
+    BG_SYS_SetVisibleLayer(2, 0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
 }
@@ -4042,9 +4042,9 @@ void WIFICLUB_InitPlanesAndText(WifiClubWork *work, int archive)
     BG_SYS_SetSubPlaneVisible(0xD, 1);
     WIFICLUB_LoadBgResources((&work->bgLoad), archive, 0x21);
     func_02049B40(0x17, 5, 0, k << 5, 0x20, 0x21);
-    work->menuFrameBase = (u32)func_0201F5DC((void *)2, 0xE, 0, 0x21);
-    work->windowFrameBase = (u32)func_0201F5DC((void *)2, 0xE, 0, 0x21);
-    work->textBufferC = func_0201F5DC((void *)1, 0xE, 0, 0x21);
+    work->menuFrameBase = (u32)BMP_MENUWORK_LoadFrameGfx((void *)2, 0xE, 0, 0x21);
+    work->windowFrameBase = (u32)BMP_MENUWORK_LoadFrameGfx((void *)2, 0xE, 0, 0x21);
+    work->textBufferC = BMP_MENUWORK_LoadFrameGfx((void *)1, 0xE, 0, 0x21);
 }
 
 
@@ -4264,7 +4264,7 @@ int WIFICLUB_StateRestartMatch(WifiClubWork *work, int state)
         }
         if (WIFICLUB_IsSlotPanelOpen(work) == 1) WIFICLUB_CloseSlotPanel(work);
         work->headerWin = WIFICLUB_DeleteWindow(work->headerWin);
-        func_020414AC(3);
+        BG_SYS_FreeSlot(3);
         archive = func_020490F4(0x21, 0x21);
         WIFICLUB_InitPlanesAndText(work, (int)archive);
         ARC_TOOL_DeleteHandle(archive);
@@ -4447,7 +4447,7 @@ void WIFICLUB_CreateTitleWindows(WifiClubWork *work)
     BMP_WIN_TransferChars(work->playerInfoWin);
     BMP_Clear(BMP_WIN_GetBmp(work->headerWin), 0xff);
     BMP_WIN_TransferChars(work->headerWin);
-    func_0201F73C(work->headerWin, 1, (u16)(work->windowFrameBase), 0xe);
+    BMP_MENUWORK_DrawWindow(work->headerWin, 1, (u16)(work->windowFrameBase), 0xe);
 }
 
 
@@ -4602,7 +4602,7 @@ int WIFICLUB_SyncPresenceLists(WifiClubWork *work)
     int i,j,found;
     void *actor;
     WifiClubPlayerStatus *status;
-    if(func_0203EFC8((const u8 *)work->visibleList,(const u8 *)work->pendingList,32)){
+    if(GF_STANDARD_CompareBytes((const u8 *)work->visibleList,(const u8 *)work->pendingList,32)){
         for(i=0;i<32;i++){
             found=0;
             for(j=0;j<32;j++){
@@ -6627,7 +6627,7 @@ int WIFICLUB_StateBranchOnPartnerPhase(WifiClubWork *work, int procState)
 /* Resets the sub screen setting and starts the idle state. */
 int WIFICLUB_StateBeginIdleAfterNet(WifiClubWork *work, int procState)
 {
-    func_020414AC(3);
+    BG_SYS_FreeSlot(3);
     work->closeFlag = 0;
     work->state = WIFICLUB_BeginIdle(work, 0);
     return procState;
@@ -6842,7 +6842,7 @@ int WIFICLUB_StatePollSeatYesNo(WifiClubWork *work, int procState)
     WifiClubActor *peerActor;
     int answer;
     peerActor = WIFICLUB_FindPeerActor(work, WIFICLUBACTOR_GetPickResult(&work->actorSys));
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     answer = WIFICLUB_PollYesNoMenu(work);
     if (answer == -1) return procState;
     if (answer == 0) {
@@ -7388,7 +7388,7 @@ void WIFICLUB_RedrawSlotPanels(WifiClubWork *work)
     if (work->touchDirty == 1) {
         work->touchDirty = 0;
         forceRedraw = 1;
-        func_020414AC(7);
+        BG_SYS_FreeSlot(7);
     } else {
         forceRedraw = 0;
     }
@@ -7453,7 +7453,7 @@ void WIFICLUB_DrawSlotFrame(WifiClubWork *work, u32 tileX, u32 tileY, u32 panelS
         srcX = (u16)(panelStyle << 4);
         srcY = (u16)(frame * 6);
     }
-    func_020410D0(6, tileX, tileY, 0x10, 6, (u8 *)work->panelCharData + 0xC, srcX, srcY, 0x20, 0x18);
+    BG_SYS_DrawTileEx(6, tileX, tileY, 0x10, 6, (u8 *)work->panelCharData + 0xC, srcX, srcY, 0x20, 0x18);
 }
 
 
@@ -7466,7 +7466,7 @@ void WIFICLUB_PrintSlotName(WifiClubWork *work, void *window, int slotNumber, in
     GF_FONT_SetTextColor(15, 2, 0);
     WIFICLUB_SetFriendNameWord(work, slotNumber - 1);
     func_02045CAC(work->msgBank, 33, work->rawText);
-    func_0201F250(work->detailWordSet, work->shortText, work->rawText);
+    WORDSET_CopyTaggedText(work->detailWordSet, work->shortText, work->rawText);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 2, 8, work->shortText, work->textFont);
     BMP_WIN_TransferChars(window);
 }
@@ -7506,7 +7506,7 @@ void WIFICLUB_SetFriendNameWord(WifiClubWork *work, int friendIndex)
     if (friendIndex != -1) {
         gender = func_02009864(work->friendList, friendIndex, 9);
         func_020099E4(work->friendList, friendIndex, work->rawText);
-        func_0201EE0C(work->detailWordSet, 0, work->rawText, gender, 1, 2);
+        WORDSET_SetSlotTag(work->detailWordSet, 0, work->rawText, gender, 1, 2);
     }
 }
 
@@ -7747,7 +7747,7 @@ int WIFICLUB_ProcExit(void *procTask, int unused, WifiClubSession *session, Wifi
     WIFICLUB_FreeRegulation(work->savedRegulation);
     WIFICLUB_DeleteTextBuffers(work);
     func_020315D4(procTask);
-    func_020306F0(33);
+    GFL_HEAP_DeleteChecked(33);
     return 1;
 }
 
@@ -7812,7 +7812,7 @@ void WIFICLUB_SetStatusSeatFlag(WifiClubPlayerStatus *status, u8 seatFlag)
  */
 BOOL WIFICLUB_IsPeerAddrOfStatus(WifiClubPlayerStatus *status, WifiClubPlayerStatus *peerStatus)
 {
-    if (func_0203EFC8(status->peerAddr, peerStatus->deviceAddr, 6) == 0) {
+    if (GF_STANDARD_CompareBytes(status->peerAddr, peerStatus->deviceAddr, 6) == 0) {
         return 1;
     }
     return 0;

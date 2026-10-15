@@ -1,7 +1,7 @@
 /*
  * file:     dwc_init.c
  * unit:     yes
- * function: DWC_InitForProduction, DWCi_Init, DWCi_GetGamecode, func_0205A11C
+ * function: DWC_InitForProduction, DWCi_Init, DWCi_GetGamecode, DWCi_Np_SetInitFlag
  * address:  0x02059F6C
  * region:   arm9
  * compiler: dsi/1.1p1

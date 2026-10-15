@@ -1,5 +1,5 @@
 /*
- * function: func_021D6568
+ * function: GTSNEGO_DISP_RegisterGraphics
  * address: 0x021D6568
  * packet: pkt_ov120_021D6568
  * region: ov120
@@ -38,7 +38,7 @@ extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0207D63C(void *,int,int,int,int);
-void func_021D6568(u8 *p)
+void GTSNEGO_DISP_RegisterGraphics(u8 *p)
 {
     int i;
     void *t;

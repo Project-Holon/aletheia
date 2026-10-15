@@ -22,7 +22,7 @@
  *   NNS_G3dGlbInit      0x0206A700  arm
  *   func_02030BBC      0x02030BBC  arm
  *   NNS_G3dGeSetBuffer      0x0206DB40  arm
- *   func_020307C8      0x020307C8  arm
+ *   GFL_HEAP_InitAllocatorChecked      0x020307C8  arm
  *   NNSi_GfdSizeToGranuleTex      0x0206210C  arm
  *   NNSi_GfdInitTexVramManager      0x02062114  arm
  *   NNS_GfdInitVramManager      0x020613D8  arm
@@ -95,7 +95,7 @@ extern void  G3X_InitMtxStack(void);
 extern void  NNS_G3dGlbInit(void);
 extern void *func_02030BBC(u32 a0);
 extern void  NNS_G3dGeSetBuffer(u32 *p);
-extern void  func_020307C8(void *p, u16 heap, u32 n);
+extern void  GFL_HEAP_InitAllocatorChecked(void *p, u16 heap, u32 n);
 extern int NNSi_GfdSizeToGranuleTex(int v);
 extern void NNSi_GfdInitTexVramManager(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void  NNS_GfdInitVramManager(u32 mode, u32 flag);
@@ -130,7 +130,7 @@ void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
         NNS_G3dGeSetBuffer(func_02030BBC(fifoSize > 0x1800 ? 0x1800 : fifoSize));
 
     reg_G3_SWAP_BUFFERS = 2;
-    func_020307C8(_G3dSystem, _G3dSystem->heap_id, 4);
+    GFL_HEAP_InitAllocatorChecked(_G3dSystem, _G3dSystem->heap_id, 4);
 
     if (texMode == 0) {
         size = NNSi_GfdSizeToGranuleTex(texSize << 7);

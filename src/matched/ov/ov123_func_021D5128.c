@@ -17,13 +17,13 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -45,6 +45,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  */
 #include "../include/Obj00590.h"
 #include "../include/Obj06459.h"
@@ -62,16 +63,16 @@ extern void MI_CpuFill8(void *,u8,u32);
 struct Bank;
 struct R;
 struct Tcbl;
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GX_DispOn(void);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 struct Cfg;
@@ -103,13 +104,13 @@ int GSYNC_MENU_ProcInit(void *a,int b,u8 *q)
     MI_CpuFill8(p,0,0x2b4);
     ((struct Obj00590 *)p)->fC=31;
     ((struct Obj00590 *)p)->f260=((struct Obj06459 *)q)->f4; ((struct Obj00590 *)p)->f264=((struct Obj06459 *)q)->f0;
-    func_0204363C(1);
+    BMP_SetDisplaySwap(1);
     if(((struct Obj06459 *)q)->f2C8) bright=16; else bright=-16;
     GXx_SetMasterBrightness_((void *)0x0400006c,bright); GXx_SetMasterBrightness_((void *)0x0400106c,bright);
     *(volatile u32 *)0x04001000|=0x10000; GX_DispOn();
-    BG_SYS_Create(((struct Obj00590 *)p)->fC); BMP_WIN_Init(((struct Obj00590 *)p)->fC); func_0201DD60();
+    BG_SYS_Create(((struct Obj00590 *)p)->fC); BMP_WIN_Init(((struct Obj00590 *)p)->fC); GF_FONT_InitTextColor();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DA9F0);
-    cfg=d_021DA680; func_0203FC28((struct DispConfig *)(&cfg));
+    cfg=d_021DA680; BG_SYS_SetGraphicsMode((struct DispConfig *)(&cfg));
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct Cfg *)d_021DA658,(u32)d_021DA9F0,((struct Obj00590 *)p)->fC);
     ((struct Obj00590 *)p)->f2AC=CLACT_CreateUnit(40,0,((struct Obj00590 *)p)->fC);

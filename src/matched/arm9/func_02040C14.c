@@ -13,11 +13,11 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020341F0  0x020341F0  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_020425B4  0x020425B4  arm
+ *   BG_SYS_LoadTileLayerEx  0x020425B4  arm
  *
  * TU: bg_sys.c.
  *
@@ -66,14 +66,14 @@ struct BgSys {
 extern struct BgSys *g_02146A44;
 extern char g_020A7E5C[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern u32 func_020307B0(void *p);
 typedef signed int     s32;
 struct AreaMan;
 extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
 extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
-extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
+extern void  BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size);
 
 void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
 {
@@ -120,7 +120,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     }
 
     size = count * g_02146A44->slots[layer].depth;
-    buf  = sub_02030734((u16)((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000),
+    buf  = GFL_HEAP_Alloc((u16)((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000),
                         size, 0, g_020A7E5C, 1421);
 
     if (g_02146A44->slots[layer].depth == 0x20) {
@@ -132,7 +132,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     }
 
     MIi_CpuClearFast(value, buf, size);
-    func_020425B4((u8)layer, buf, index * g_02146A44->slots[layer].depth,
+    BG_SYS_LoadTileLayerEx((u8)layer, buf, index * g_02146A44->slots[layer].depth,
                   size);
     func_020307B0(buf);
 }

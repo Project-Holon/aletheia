@@ -12,18 +12,18 @@
  * sdk:      SOC_InetAtoN (libsoc.TWL.HYB.a(soc.o))
  *
  * symbols:
- *   func_0215EE98  0x0215EE98  arm  ov009
+ *   SOCL_InetAtoH  0x0215EE98  arm  ov009
  */
 
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 
-extern unsigned long func_0215EE98(char *hostname);
+extern unsigned long SOCL_InetAtoH(char *hostname);
 
 int SOC_InetAtoN(char *cp, unsigned long *inp)
 {
 	unsigned long h;
 
-	h = func_0215EE98(cp);
+	h = SOCL_InetAtoH(cp);
 	if (h == 0) {
 		return 0;
 	}

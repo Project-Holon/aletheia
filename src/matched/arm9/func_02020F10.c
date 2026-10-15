@@ -1,5 +1,5 @@
 /*
- * function: func_02020F10
+ * function: FILE_UTIL_GetBaseIndex
  * address:  0x02020F10
  * packet:   pkt_02020E60
  * region:   arm9
@@ -8,21 +8,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * closed:   blocker func_02020F0C.c is now a manifest entry (matched class)
+ * closed:   blocker FILE_UTIL_GetBankCount.c is now a manifest entry (matched class)
  *
  * Constant answer: 0.
  *
  * symbols:
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02020F10.c \
- *       --func func_02020F10 --addr 0x02020F10 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/FILE_UTIL_GetBaseIndex.c \
+ *       --func FILE_UTIL_GetBaseIndex --addr 0x02020F10 --thumb --cc 1.1p1
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_02020F10()
+int FILE_UTIL_GetBaseIndex()
 {
     return 0;
 }

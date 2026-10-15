@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02019CE0 0x02019CE0 thumb
+ *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   func_02025C1C 0x02025C1C thumb
  *   func_02025C30 0x02025C30 thumb
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct RecDC;
-extern void func_02019CE0(const struct RecDC *, struct RecDC *);
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *, struct RecDC *);
 extern u32 func_02025C1C(u32, u32, u32);
 extern u32 func_02025C30(u32, u32, u32);
 struct Sub0200852CObj;
@@ -43,7 +43,7 @@ int WORLDTRADE_SERVER_SendUploadRequest(u8 *p)
 {
     u8 *mon=p+0xE4;
     int ready;
-    func_02019CE0((const struct RecDC *)mon, *(struct RecDC * *)&((struct Obj01411 *)p)->fEA8);
+    POKE_TOOL_CopyPartyPokemon((const struct RecDC *)mon, *(struct RecDC * *)&((struct Obj01411 *)p)->fEA8);
     p[0x204]=func_02025C1C(p[0x204],p[0x205],p[0x209]);
     p[0x205]=func_02025C30(p[0x204],p[0x205],p[0x209]);
     *(u8 * *)&((struct Obj01411 *)p)->f10E0=NHTTP_RAP_Create(0x48,func_0200853C(((struct Obj23442 *)(*(u8 * *)&((struct Obj01411 *)p)->f0))->f1C),(int)(p+0x116C));

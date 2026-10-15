@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sub_02082BCC  0x02082BCC  arm
  *
  * Releases the pointer the block starts with, then clears its first 0x14 bytes;
@@ -26,11 +26,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void sub_02082BCC(void *p, int c, u32 n);
 
 void WIFICLUBACTOR_ExitBlink(int unused, void *p)
 {
-    sub_020307B0(((struct Obj18161 *)p)->f0);
+    GFL_HEAP_Free(((struct Obj18161 *)p)->f0);
     sub_02082BCC(p, 0, 0x14);
 }

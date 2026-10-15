@@ -1,5 +1,5 @@
 /*
- * function: func_0220E7CC
+ * function: B_PLIST_DRAW_PlaceActor
  * address:  0x0220E7CC
  * packet:   pkt_0220E7CC
  * region:   ov198
@@ -25,7 +25,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_0220E7CC(u8 *p, u32 b)
+void B_PLIST_DRAW_PlaceActor(u8 *p, u32 b)
 {
     CLACT_SetActorDrawEnable((struct Obj *)p, 1);
     CLACT_AddActorSurfacePos((struct Obj *)p, (const struct Vec2 *)b, 1);

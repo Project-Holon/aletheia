@@ -13,8 +13,8 @@
  *
  * symbols:
  *   goastrdup  0x0217F1E0  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_02184234  0x02184234  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
  */
 
 typedef struct GHIPostData {
@@ -36,8 +36,8 @@ typedef struct GHIPost {
 } GHIPost;
 
 extern char *goastrdup(char *src);
-extern void func_0217EAE0(void *ptr);
-extern void func_02184234(void *array, void *newElem);
+extern void gsifree(void *ptr);
+extern void ArrayAppend(void *array, void *newElem);
 
 int ghiPostAddFileFromMemory(GHIPost *_post, char *name, char *buffer, int bufferLen,
                   char *reportFilename, char *contentType)
@@ -50,9 +50,9 @@ int ghiPostAddFileFromMemory(GHIPost *_post, char *name, char *buffer, int buffe
     reportFilenameLocal = goastrdup(reportFilename);
     contentTypeLocal = goastrdup(contentType);
     if (nameLocal == 0 || reportFilenameLocal == 0 || contentTypeLocal == 0) {
-        func_0217EAE0(nameLocal);
-        func_0217EAE0(reportFilenameLocal);
-        func_0217EAE0(contentTypeLocal);
+        gsifree(nameLocal);
+        gsifree(reportFilenameLocal);
+        gsifree(contentTypeLocal);
         return 0;
     }
     {
@@ -65,7 +65,7 @@ int ghiPostAddFileFromMemory(GHIPost *_post, char *name, char *buffer, int buffe
         data.reportFilename = reportFilenameLocal;
         data.contentType = contentTypeLocal;
         post = _post;
-        func_02184234(post->data, &data);
+        ArrayAppend(post->data, &data);
         post->fC = 1;
         if (post->f10 == 1)
             post->f14 = 1;

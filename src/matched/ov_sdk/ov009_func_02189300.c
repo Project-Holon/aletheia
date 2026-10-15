@@ -1,5 +1,5 @@
 /*
- * function: func_02189300
+ * function: gpiBuddyDeletedLocally
  * address:  0x02189300
  * packet:   pkt_ov009_02189300
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      gpiBuddyDeletedLocally (gpibuddy.o)
  *
  * symbols:
- *   func_02193734  0x02193734  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
  *   func_0218FD9C  0x0218FD9C  arm   ov009
  *   g_021A446C     0x021A446C  data  ov009
  */
@@ -22,16 +22,16 @@ typedef struct GPIProfile {
     int f2C;
 } GPIProfile;
 
-extern void func_02193734(int *p, int b);
+extern void gpiSetErrorString(int *p, int b);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern char g_021A446C[];
 
-int func_02189300(void **connection, int id, int isDeleted)
+int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted)
 {
     GPIProfile *pProfile;
 
     if (id <= 0) {
-        func_02193734((int *)connection, (int)g_021A446C);
+        gpiSetErrorString((int *)connection, (int)g_021A446C);
         return 2;
     }
     if (func_0218FD9C(connection, id, &pProfile))

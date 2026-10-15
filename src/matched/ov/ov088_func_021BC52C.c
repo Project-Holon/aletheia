@@ -15,7 +15,7 @@
  *   func_020403F4 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj02128.h"
 typedef unsigned char u8;
@@ -27,5 +27,5 @@ extern void func_020403F4(u32 i);
 extern void BG_SYS_Delete(void);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *a);
-extern void func_020306F0(u32 a);
-int STARTMENU_ConfigPromptEnd(int a,int b,int c,u8 *p) { STARTMENU_ConfigPromptDeleteWindows(p);GF_FONT_Delete((void *)(((struct Obj02128 *)p)->f8));BMP_WIN_Exit();func_020403F4(3);func_020403F4(1);func_020403F4(5);BG_SYS_Delete();func_020315D4((struct S020315D4 *)a);func_020306F0(0x39);return 1; }
+extern void GFL_HEAP_DeleteChecked(u32 a);
+int STARTMENU_ConfigPromptEnd(int a,int b,int c,u8 *p) { STARTMENU_ConfigPromptDeleteWindows(p);GF_FONT_Delete((void *)(((struct Obj02128 *)p)->f8));BMP_WIN_Exit();func_020403F4(3);func_020403F4(1);func_020403F4(5);BG_SYS_Delete();func_020315D4((struct S020315D4 *)a);GFL_HEAP_DeleteChecked(0x39);return 1; }

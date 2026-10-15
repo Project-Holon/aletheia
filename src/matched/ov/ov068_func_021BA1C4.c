@@ -18,7 +18,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02028470  0x02028470  thumb
  *   BMP_WIN_GetPalette  0x02045778  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -40,7 +40,7 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02028470(u8 *p, u32 v);
 extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -65,7 +65,7 @@ void OPTION_MENU_InitTextBox(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 
     ((struct Obj01227 *)p)->f24 = s1;
     ((struct Obj01227 *)p)->f28 = 0;
     func_02028470(p + 0x2c, 0x406);
-    func_0201F73C((void *)(((struct Obj01227 *)p)->f10), 2, 1, BMP_WIN_GetPalette((struct Descriptor *)a1));
+    BMP_MENUWORK_DrawWindow((void *)(((struct Obj01227 *)p)->f10), 2, 1, BMP_WIN_GetPalette((struct Descriptor *)a1));
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01227 *)p)->f10)), (u8)((struct Obj01227 *)p)->f18);
     w = ((struct Obj01227 *)p)->f10;
     BMP_WIN_TransferChars((struct Descriptor *)w);

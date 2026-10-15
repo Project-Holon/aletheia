@@ -1,5 +1,5 @@
 /*
- * function: func_0218D4A4
+ * function: gpiGetInfo
  * address:  0x0218D4A4
  * packet:   pkt_ov009_0218D4A4
  * region:   ov009
@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_0218FD9C  0x0218FD9C  arm   ov009
- *   func_0217EAB0  0x0217EAB0  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
- *   func_0218BBDC  0x0218BBDC  arm   ov009
+ *   gsimalloc  0x0217EAB0  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   gpiInfoCacheToArg  0x0218BBDC  arm   ov009
  *   func_0218E114  0x0218E114  arm   ov009
- *   func_02189DFC  0x02189DFC  arm   ov009
- *   func_0218E240  0x0218E240  arm   ov009
+ *   gpiAddCallback  0x02189DFC  arm   ov009
+ *   gpiRemoveOperation  0x0218E240  arm   ov009
  *   func_0218D40C  0x0218D40C  arm   ov009
  *   func_02186E9C  0x02186E9C  arm   ov009
  *   g_021A4BE4     0x021A4BE4  data
@@ -60,19 +60,19 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
-extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(int *p, int b);
+extern void *gsimalloc(unsigned long size);
+extern void gpiSetErrorString(int *p, int b);
 struct GPIInfoCache;
-extern void func_0218BBDC(struct GPIInfoCache *cache, struct GPGetInfoResponseArg *arg);
+extern void gpiInfoCacheToArg(struct GPIInfoCache *cache, struct GPGetInfoResponseArg *arg);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
+extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 struct GPIOperation;
-extern void func_0218E240(void **connection, struct GPIOperation *operation);
+extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern int func_0218D40C(void **connection, int profileid, int operationid);
 extern int func_02186E9C(void **connection, int blockingOperationID);
 extern char g_021A4BE4[];
 
-int func_0218D4A4(void **connection, int profile, int checkCache, int blocking,
+int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
                   void (*callback)(void **, void *, void *), void *param)
 {
     GPIProfile *pProfile;
@@ -91,12 +91,12 @@ int func_0218D4A4(void **connection, int profile, int checkCache, int blocking,
             GPICallback gpiCallback;
             GPGetInfoResponseArg *arg;
 
-            arg = (GPGetInfoResponseArg *)func_0217EAB0(sizeof(GPGetInfoResponseArg));
+            arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                func_02193734((int *)connection, (int)g_021A4BE4);
+                gpiSetErrorString((int *)connection, (int)g_021A4BE4);
                 return 1;
             }
-            func_0218BBDC(pProfile->cache, arg);
+            gpiInfoCacheToArg(pProfile->cache, arg);
             arg->result = 0;
             arg->profile = profile;
             gpiCallback.callback = callback;
@@ -104,9 +104,9 @@ int func_0218D4A4(void **connection, int profile, int checkCache, int blocking,
             { int __result__ = func_0218E114(connection, 2, 0, &operation, 1, callback, param);
               if (__result__ != 0) return __result__; }
             id = operation->id;
-            { int __result__ = func_02189DFC(connection, gpiCallback, arg, operation, 0);
+            { int __result__ = gpiAddCallback(connection, gpiCallback, arg, operation, 0);
               if (__result__ != 0) return __result__; }
-            func_0218E240(connection, (struct GPIOperation *)operation);
+            gpiRemoveOperation(connection, (struct GPIOperation *)operation);
             goto done;
         }
     }

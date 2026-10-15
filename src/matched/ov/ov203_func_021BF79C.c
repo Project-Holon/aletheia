@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE9E8 0x021BE9E8 thumb
+ *   DEMO3D_DATA_DeleteCapture 0x021BE9E8 thumb
  */
 #include "../include/Obj14599.h"
 
-extern void func_021BE9E8(int);
+extern void DEMO3D_DATA_DeleteCapture(int);
 
 void func_021BF79C(char *a)
 {
-    func_021BE9E8(((struct Obj14599 *)a)->f2C);
+    DEMO3D_DATA_DeleteCapture(((struct Obj14599 *)a)->f2C);
     ((struct Obj14599 *)a)->f2C = 0;
 }

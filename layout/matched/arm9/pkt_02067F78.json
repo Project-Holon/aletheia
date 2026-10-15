@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020682DC",
+   "name": "NNSi_G2dGetOamShapeCode",
    "address": "0x020682DC",
    "kind": "game",
    "region": "arm9",

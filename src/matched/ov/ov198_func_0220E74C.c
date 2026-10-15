@@ -1,5 +1,5 @@
 /*
- * function: func_0220E74C
+ * function: B_PLIST_DRAW_DeleteActors
  * address: 0x0220E74C
  * packet: pkt_ov198_0220E74C
  * region: ov198
@@ -26,7 +26,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-void func_0220E74C(char *p)
+void B_PLIST_DRAW_DeleteActors(char *p)
 {
     unsigned i;
     for(i=0;i<41;i++) CLACT_DeleteActor(*(void **)(p+i*4+0x1ebc));

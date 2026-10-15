@@ -1,5 +1,5 @@
 /*
- * function: func_0218437C
+ * function: ArrayDeleteAt
  * address:  0x0218437C
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern void func_021840CC(int a, int b);
 extern void func_02184324(int a, int b);
 
-void func_0218437C(int a, int b)
+void ArrayDeleteAt(int a, int b)
 {
     func_021840CC(a, b);
     func_02184324(a, b);

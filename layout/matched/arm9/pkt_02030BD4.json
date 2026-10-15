@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02030BD4",
+   "name": "TCB_BuildFreeStack",
    "address": "0x02030BD4",
    "kind": "game",
    "region": "arm9",
@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02030C44"
+    "TCB_AllocTask"
+   ],
+   "addresses": [
+    "0x02030C44"
    ]
   },
   {
@@ -45,7 +48,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02030C68"
+    "TCB_FreeTask"
+   ],
+   "addresses": [
+    "0x02030C68"
    ]
   }
  ]

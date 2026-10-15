@@ -10,10 +10,10 @@
  * lever: each final handle index is recomputed through a 32-bit long local;
  * an int copy CSEs the shift and shortens the function by four bytes.
  * symbols:
- *   d_021E7924 0x021E7924 data a4
- *   d_021E791C 0x021E791C data a4
- *   d_021E7974 0x021E7974 data a4
- *   d_021E790C 0x021E790C data a4
+ *   gPartnerOfferCardPosA 0x021E7924 data a4
+ *   gPartnerOfferCardPosB 0x021E791C data a4
+ *   gPartnerOfferColors 0x021E7974 data a4
+ *   gPartnerOfferCardPosC 0x021E790C data a4
  *   func_02017E1C 0x02017E1C thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -37,8 +37,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int a,b;} Pair;
 typedef struct {u32 a,b,c,d;} Quad;
-extern const Pair d_021E7924,d_021E791C,d_021E790C;
-extern const Quad d_021E7974;
+extern const Pair gPartnerOfferCardPosA,gPartnerOfferCardPosB,gPartnerOfferCardPosC;
+extern const Quad gPartnerOfferColors;
 extern u32 func_02017E1C(void *,u32,u32);
 struct Cfg;
 struct Descriptor;
@@ -61,10 +61,10 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon)
 {
-    Pair a=d_021E7924;
-    Pair b=d_021E791C;
-    Quad colors=d_021E7974;
-    Pair c=d_021E790C;
+    Pair a=gPartnerOfferCardPosA;
+    Pair b=gPartnerOfferCardPosB;
+    Quad colors=gPartnerOfferColors;
+    Pair c=gPartnerOfferCardPosC;
     u32 flag;
     int layer,idx2;
     u32 col,col2;

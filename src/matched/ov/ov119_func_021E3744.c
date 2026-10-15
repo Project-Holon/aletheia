@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021E8168 0x021E8168 data a4
+ *   gCubeTexCoord 0x021E8168 data a4
  */
 
 typedef unsigned int u32;
 
-extern u32 d_021E8168[];
+extern u32 gCubeTexCoord[];
 
 void POKETRADE_3D_SetCubeTexCoord(int n)
 {
-    *(u32 *)0x04000488 = d_021E8168[n];
+    *(u32 *)0x04000488 = gCubeTexCoord[n];
 }

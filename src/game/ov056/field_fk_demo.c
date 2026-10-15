@@ -65,7 +65,7 @@
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   ICA_ANIME_Delete  0x02011558  thumb
  *   ICA_ANIME_GetFrameNum  0x02011608  thumb
- *   func_020115EC  0x020115EC  thumb
+ *   ICA_ANIME_SetFrame  0x020115EC  thumb
  *   ICA_ANIME_SetCameraStatus  0x02011B8C  thumb
  *   func_02048B0C  0x02048B0C  arm
  *   VEC_Add  0x0207C9D0  arm
@@ -445,7 +445,7 @@ int FIELD_FK_DEMO_StepCamera(FkDemoCamera *demoCamera)
         done = 0;
         demoCamera->frame = nextFrame;
     }
-    func_020115EC(demoCamera->anime, demoCamera->frame);
+    ICA_ANIME_SetFrame(demoCamera->anime, demoCamera->frame);
     FIELD_FK_DEMO_ApplyCameraAnime(demoCamera);
     return done;
 }

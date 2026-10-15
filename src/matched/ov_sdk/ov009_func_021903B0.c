@@ -1,5 +1,5 @@
 /*
- * function: func_021903B0
+ * function: gpiStartProfileSearch
  * address:  0x021903B0
  * packet:   pkt_ov009_021903B0
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      gpiStartProfileSearch (libdwcgsgp.TWL.HYB.a gpisearch.o)
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
- *   func_02193710  0x02193710  arm  ov009
- *   func_02189D78  0x02189D78  arm  ov009
+ *   gpiSetError  0x02193710  arm  ov009
+ *   gpiCallErrorCallback  0x02189D78  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
@@ -79,18 +79,18 @@ extern char g_021A5240[];
 extern char g_021A52EC[];
 extern char g_021A531C[];
 
-extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(int *p, int b);
+extern void *gsimalloc(unsigned long size);
+extern void gpiSetErrorString(int *p, int b);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern void func_02193710(int *connection, int result, int errorString);
-extern int func_02189D78(int *connection, int a1, int a2);
+extern void gpiSetError(int *connection, int result, int errorString);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern int SetSockBlocking(int sock, int isblocking);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int GOAGetLastError(int sock);
 extern unsigned int current_time(void);
 
-int func_021903B0(void **connection, GPIOperation *operation)
+int gpiStartProfileSearch(void **connection, GPIOperation *operation)
 {
     GPISearchData *data;
     int rcode;
@@ -100,29 +100,29 @@ int func_021903B0(void **connection, GPIOperation *operation)
     data = (GPISearchData *)operation->data;
 
     data->inputBuffer.size = 4096;
-    data->inputBuffer.buffer = (char *)func_0217EAB0(data->inputBuffer.size + 1);
+    data->inputBuffer.buffer = (char *)gsimalloc(data->inputBuffer.size + 1);
     if (data->inputBuffer.buffer == 0) {
-        func_02193734((int *)connection, (int)g_021A5280);
+        gpiSetErrorString((int *)connection, (int)g_021A5280);
         return 1;
     }
 
     data->sock = func_0217EB18(2, 1, 0);
     if (data->sock == -1) {
-        func_02193710((int *)connection, 5, (int)g_021A5290);
-        func_02189D78((int *)connection, 3, 1);
+        gpiSetError((int *)connection, 5, (int)g_021A5290);
+        gpiCallErrorCallback((int *)connection, 3, 1);
         return 3;
     }
 
     if (!SetSockBlocking(data->sock, 0)) {
-        func_02193710((int *)connection, 5, (int)g_021A52B8);
-        func_02189D78((int *)connection, 3, 1);
+        gpiSetError((int *)connection, 5, (int)g_021A52B8);
+        gpiCallErrorCallback((int *)connection, 3, 1);
         return 3;
     }
 
     host = SOC_GetHostByName(g_021A5240);
     if (host == 0) {
-        func_02193710((int *)connection, 5, (int)g_021A52EC);
-        func_02189D78((int *)connection, 3, 1);
+        gpiSetError((int *)connection, 5, (int)g_021A52EC);
+        gpiCallErrorCallback((int *)connection, 3, 1);
         return 3;
     }
 
@@ -138,8 +138,8 @@ int func_021903B0(void **connection, GPIOperation *operation)
     if (rcode == -1) {
         error = GOAGetLastError(data->sock);
         if (error != -6 && error != -26 && error != -76) {
-            func_02193710((int *)connection, 5, (int)g_021A531C);
-            func_02189D78((int *)connection, 3, 1);
+            gpiSetError((int *)connection, 5, (int)g_021A531C);
+            gpiCallErrorCallback((int *)connection, 3, 1);
             return 3;
         }
     }

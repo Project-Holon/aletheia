@@ -25,7 +25,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   func_02008550 0x02008550 thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -40,11 +40,11 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   func_02030734 0x02030734 arm
  *   d_021B74BC 0x021B74BC data
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -108,7 +108,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32_021B6594 first, u32_021B6594 
 
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
@@ -136,7 +136,7 @@ extern u32_021B68F8 BMP_WIN_Create(u32_021B68F8 layer, u32_021B68F8 a, u32_021B6
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void *func_02045EC0(struct MsgBank *bank, u32_021B6A04 index);
 
@@ -144,7 +144,7 @@ extern struct U16Vec *STRBUF_Create(u32_021B6A04 capacity, u32_021B6A04 heapId);
 
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -319,8 +319,8 @@ void LOCAL_TVT_CHARA_SetupPalette(char *p,u8 *q)
     if(((struct Obj05453 *)p)->f8!=2) height=12;
     ARC_UTIL_UploadPaletteFromHandle(((struct Obj05453 *)p)->f18,d_021B7484[q[2]*3],2,0,0x4000+q[0]*0x200,0x200,((struct Obj05453 *)p)->f0);
     ARC_UTIL_UploadPaletteFromHandle(((struct Obj05453 *)p)->f18,((struct Obj05453 *)p)->f10+d_021B7480[q[3]*2],2,0,0x6000+q[0]*0x200,0x200,((struct Obj05453 *)p)->f0);
-    func_020413B0(2,(q[0]%2)*16,(q[0]/2)*height,16,height,q[0]);
-    func_020413B0(3,(q[0]%2)*16,(q[0]/2)*height,16,height,q[0]);
+    BG_SYS_FillTileMap(2,(q[0]%2)*16,(q[0]/2)*height,16,height,q[0]);
+    BG_SYS_FillTileMap(3,(q[0]%2)*16,(q[0]/2)*height,16,height,q[0]);
     func_02041B6C(3);
     func_02041B6C(2);
 }
@@ -385,8 +385,8 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         dst=STRBUF_Create(128,*(u16 *)p);
         save=func_02012944(*(void **)(*(u8 **)(p+0x30)+4));
         ws=GF_FONT_Create_EC64(*(u16 *)p);
-        func_0201F02C(ws,0,save);
-        func_0201F250(ws,dst,s);
+        WORDSET_SetSlotMyStatus(ws,0,save);
+        WORDSET_CopyTaggedText(ws,dst,s);
         STRBUF_Delete(s);
         WORDSET_DeleteStrbufED04(ws);
         s=dst;

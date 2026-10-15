@@ -1,5 +1,5 @@
 /*
- * function: func_021643E8
+ * function: FIELD_MAP_CHANGE_SetupZone
  * address:  0x021643E8
  * packet:   pkt_ov010_021643E8
  * region:   ov010
@@ -52,7 +52,7 @@ extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern void func_02008988(struct Sub02008828Obj *obj, u16 value);
 
-void func_021643E8(void *a, void *b)
+void FIELD_MAP_CHANGE_SetupZone(void *a, void *b)
 {
     void *w = GAME_DATA_GetMoveModelSys(a);
     void *c;

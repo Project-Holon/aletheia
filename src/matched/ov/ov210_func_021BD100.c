@@ -1,5 +1,5 @@
 /*
- * function: func_021BD100
+ * function: ZKNSEARCH_MAIN_WaitFadeDone
  * address:  0x021BD100
  * packet:   pkt_021BD100
  * region:   ov210
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-u32 func_021BD100(u8 *p)
+u32 ZKNSEARCH_MAIN_WaitFadeDone(u8 *p)
 {
     if (PALANM_GetFadeRequestBits((const char *)(((struct Obj14675 *)p)->fC)) == 0) {
         return ((struct Obj14675 *)p)->f1C;

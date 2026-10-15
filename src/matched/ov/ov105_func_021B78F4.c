@@ -11,9 +11,9 @@
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -31,10 +31,10 @@ typedef unsigned char u8;
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 struct BgTemplate;
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
@@ -50,11 +50,11 @@ void IRC_RESULT_InitBackgrounds(void **p,int heap)
 {
     int i,id;
     void *archive;
-    BG_SYS_Create(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)sResultDisplayConfig);
+    BG_SYS_Create(heap); BMP_WIN_Init(heap); BG_SYS_SetGraphicsMode((struct DispConfig *)sResultDisplayConfig);
     for(i=0;i<8;++i) {
         id=sResultBackgroundLayers[i];
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)(sResultBackgroundTemplates+i*32),(u8)sResultBackgroundTypes[i]);
-        func_020414AC((u8)id); func_02040588((u8)id,1);
+        BG_SYS_FreeSlot((u8)id); func_02040588((u8)id,1);
     }
     archive=func_020490F4(0x5e,heap);
     func_02049B68(archive,16,0,0,0,heap);

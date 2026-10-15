@@ -13,7 +13,7 @@
  * symbols:
  *   sub_0203FB44  0x0203FB44  arm
  *   BMP_Delete  0x020437AC  arm
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *
  * The descriptor family's destructor: release the payload through
  * sub_0203FB44, release the heap handle through BMP_Delete, then free
@@ -71,7 +71,7 @@ struct Descriptor {
 struct Obj020437AC;
 extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
 extern void BMP_Delete(struct Obj020437AC *p);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 u32 BMP_WIN_Delete(struct Descriptor *d)
 {
@@ -84,5 +84,5 @@ u32 BMP_WIN_Delete(struct Descriptor *d)
     }
     sub_0203FB44(d->unk2, d->unkA, size * 32);
     BMP_Delete(d->heap);
-    return sub_020307B0(d);
+    return GFL_HEAP_Free(d);
 }

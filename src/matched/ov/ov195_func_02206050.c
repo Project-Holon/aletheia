@@ -1,5 +1,5 @@
 /*
- * function: func_02206050
+ * function: SHINKA_DEMO_VIEW_RequestConfirm
  * address:  0x02206050
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * Setter for the +0x24 flag word of the ov195 scene object (unlabelled leaf).
  */
-void func_02206050(int *p)
+void SHINKA_DEMO_VIEW_RequestConfirm(int *p)
 {
     p[9] = 1;
 }

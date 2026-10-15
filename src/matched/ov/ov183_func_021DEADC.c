@@ -1,5 +1,5 @@
 /*
- * function: func_021DEADC
+ * function: BR_CODEIN_StatMain
  * address: 0x021DEADC
  * packet: pkt_ov183_021DEADC
  * region: ov183
@@ -32,7 +32,7 @@ extern void BR_UTIL_RunHandles(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern int BR_UTIL_FlushText(u8 *p);
 extern void BR_UTIL_FlushWindow(void *);
-int func_021DEADC(int a, int b, int c, char *p)
+int BR_CODEIN_StatMain(int a, int b, int c, char *p)
 {
     int i;
     if (BR_NET_HandleNetError(((struct Obj24585 *)(*(char * *)&((struct Obj02521 *)p)->f108))->f18) == 2) {

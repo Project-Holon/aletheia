@@ -1,5 +1,5 @@
 /*
- * function: func_021CA40C
+ * function: WF2DMAP_TOUCH_SetActorAnimSeq
  * address: 0x021CA40C
  * packet: pkt_ov128_021CA40C
  * region: ov128
@@ -19,4 +19,4 @@ typedef signed short s16;
 struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021CA40C(char *p, int n) {CLACT_SetActorAnimFrame(((struct Obj00179 *)p)->f1A4,0);CLACT_SetActorAnimSeq(((struct Obj00179 *)p)->f1A4,n+2);}
+void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n) {CLACT_SetActorAnimFrame(((struct Obj00179 *)p)->f1A4,0);CLACT_SetActorAnimSeq(((struct Obj00179 *)p)->f1A4,n+2);}

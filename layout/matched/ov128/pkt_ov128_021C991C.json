@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C991C",
+   "name": "WF2DMAP_TOUCH_CreateTrainerWidgets",
    "address": "0x021C991C",
    "kind": "game",
    "region": "ov128",

@@ -38,7 +38,7 @@
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
  *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   BTL_REC_InitPacket 0x021EE8B4 thumb ov093
  *   BTL_REC_MakeSkipPacket 0x021EE8D8 thumb ov093
  *   BTL_REC_AddRecord  0x021EE8F4  thumb  ov093
@@ -107,7 +107,7 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BTL_REC_LoadPacket(u8 *, void *, int);
 extern int BTL_REC_NextRecord(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void BTL_REC_InitPacket(u8 *, int);
 extern u8 *BTL_REC_MakeSkipPacket(u8 *p, u32 *out, int flag);
 extern void BTL_REC_AddRecord(u8 *p, u8 idx, const void *src, u32 n);
@@ -900,7 +900,7 @@ int BTL_SERVER_CompareFlowOutput(BtlServer *server, int stage, void *expected, u
         break;
     }
     buf = server->sendBuf;
-    if (buf[0] == size && func_0203EFC8((const u8 *)(buf + 2), expected, size) == 0)
+    if (buf[0] == size && GF_STANDARD_CompareBytes((const u8 *)(buf + 2), expected, size) == 0)
         return 0;
     return 1;
 }

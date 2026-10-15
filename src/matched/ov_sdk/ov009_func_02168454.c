@@ -1,5 +1,5 @@
 /*
- * function: func_02168454
+ * function: DWC_SetCommonKeyValueString
  * address:  0x02168454
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -22,7 +22,7 @@ extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 
-int func_02168454(const char *key, const char *value, char *string, char sep)
+int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep)
 {
     OS_SNPrintf(string, 0x1000, d_021A1FF8, sep, key, sep, value);
     return strlen((const u8 *)string);

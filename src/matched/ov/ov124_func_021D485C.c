@@ -10,7 +10,7 @@
  * symbols:
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb  arm9
@@ -29,7 +29,7 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_0201DD68(void *);
+extern void GF_FONT_SetDefaultTextColor(void *);
 void CG_HELP_FreeWindows(char *p)
 {
     if (((struct Obj00991 *)p)->f3C) APP_TASKMENU_WIN_Delete(((struct Obj00991 *)p)->f3C);
@@ -40,5 +40,5 @@ void CG_HELP_FreeWindows(char *p)
     BMP_WIN_Delete(((struct Obj00991 *)p)->f20);
     BMP_WIN_Delete(((struct Obj00991 *)p)->f24);
     MSGDATA_Delete(((struct Obj00991 *)p)->f2C);
-    func_0201DD68((void *)GF_FONT_Delete(((struct Obj00991 *)p)->f28));
+    GF_FONT_SetDefaultTextColor((void *)GF_FONT_Delete(((struct Obj00991 *)p)->f28));
 }

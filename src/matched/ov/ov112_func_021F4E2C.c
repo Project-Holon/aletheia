@@ -1,5 +1,5 @@
 /*
- * function: func_021F4E2C
+ * function: MUSICAL_MCSS_CopyElem
  * address: 0x021F4E2C
  * packet: pkt_ov112_021F4E2C
  * region: ov112
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef struct { u16 a:2; u16 flag:1; u16 b:13; } Flags;
-void func_021F4E2C(void *unused, u8 *s, u8 *d)
+void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d)
 {
     ((struct Obj05312 *)d)->f10 = ((struct Obj05311 *)s)->f10 + 8192;
     ((struct Obj05312 *)d)->f14 = ((struct Obj05311 *)s)->f14 + 8192;

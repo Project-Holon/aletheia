@@ -51,7 +51,7 @@
  *   BR_RES_Delete 0x021FB92C thumb ov186
  *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   BR_FADE_Update 0x021FE768 thumb ov186
@@ -319,7 +319,7 @@ extern void BR_GRAPHIC_Destroy(char *);
 
 extern void func_020315D4(struct S020315D4 *p);
 
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
@@ -537,7 +537,7 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     BR_RES_Delete((char *)p[1]);
     BR_GRAPHIC_Destroy((char *)p[0]);
     func_020315D4((struct S020315D4 *)sys);
-    func_020306F0(0x5a);
+    GFL_HEAP_DeleteChecked(0x5a);
     return 1;
 }
 

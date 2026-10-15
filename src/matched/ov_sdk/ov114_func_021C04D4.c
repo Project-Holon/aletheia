@@ -16,7 +16,7 @@
  *   ghiEncryptorSslReceiveFunc                    0x021c1c80 arm  ov114
  *   func_0217EC4C                    0x0217ec4c arm  ov009
  *   GOAGetLastError                    0x0217ed54 arm  ov009
- *   func_0217D254                    0x0217d254 arm  ov009
+ *   gsDebugFormat                    0x0217d254 arm  ov009
  *   gGhttpThrottle                       0x021ce5ac data
  *   sGhttpReceivedBytes                       0x021ce60c data
  */
@@ -50,7 +50,7 @@ extern unsigned int current_time(void);
 extern int ghiEncryptorSslReceiveFunc(void *connection, void *encryptor, char *buffer, int *bufferLen);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int GOAGetLastError(int sock);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern struct GHIThrottle gGhttpThrottle;
 extern char sGhttpReceivedBytes[];
 
@@ -112,6 +112,6 @@ int ghiDoReceive(GHIConnection *connection, char *buffer, int *bufferLen)
 
     buffer[rcode] = 0;
     *bufferLen = rcode;
-    func_0217D254(8, 0, 0x20, sGhttpReceivedBytes, rcode);
+    gsDebugFormat(8, 0, 0x20, sGhttpReceivedBytes, rcode);
     return 0;
 }

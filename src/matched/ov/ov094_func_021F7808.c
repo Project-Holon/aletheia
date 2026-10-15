@@ -24,7 +24,7 @@
  *   PARTICLE_ExitManager 0x02050ED4 arm
  *   BTLV_EFFVM_Destroy 0x021F94D8 thumb ov094
  *   func_02030EAC 0x02030EAC arm
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  */
 extern char *gBtlvEff;
@@ -47,7 +47,7 @@ extern void BTLV_BG_Delete(void *);
 extern void PARTICLE_ExitManager(void);
 extern void BTLV_EFFVM_Destroy(void *);
 extern void func_02030EAC(struct Node *n);
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 extern u32 func_020307B0(void *p);
 #define FIELD(k) (*(void **)(gBtlvEff + (k)))
 
@@ -72,7 +72,7 @@ void BTLV_EFFECT_Exit(void)
         PARTICLE_ExitManager();
         BTLV_EFFVM_Destroy(FIELD(0x188));
         func_02030EAC(FIELD(0x1b8));
-        func_02030DA4(FIELD(0));
+        TCB_Noop(FIELD(0));
         func_020307B0(FIELD(4));
         func_020307B0(gBtlvEff);
         gBtlvEff = 0;

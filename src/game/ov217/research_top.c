@@ -26,7 +26,7 @@
  *   ListViewState_Reset  0x021C0DE4  thumb  ov217
  *   ListViewState_Destroy  0x021C0DDC  thumb  ov217
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   d_021C2E30     0x021C2E30  data  ov217  a4
@@ -35,18 +35,18 @@
  *   d_021C2E80     0x021C2E80  data  ov217  a4
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
- *   func_02062A98 0x02062A98 arm
- *   func_02040E78 0x02040E78 arm
+ *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
+ *   BG_SYS_LoadPltt 0x02040E78 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02062A4C 0x02062A4C arm
- *   func_02040B1C 0x02040B1C arm
- *   func_02062B30 0x02062B30 arm
- *   func_02041090 0x02041090 arm
+ *   NNS_G2dGetUnpackedCharacterDataEx 0x02062A4C arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
+ *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_020409B4 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   sub_020307B0 0x020307B0 arm
- *   sub_020409B4 0x020409B4 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
  *   RESEARCH_COMMON_UpdatePaletteAnime 0x021C09D0 thumb ov217
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -87,7 +87,7 @@
  *   d_021C2F18 0x021C2F18 data a4
  *   d_021C2F38 0x021C2F38 data a4
  *   d_021C2F58 0x021C2F58 data a4
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   d_021C2F98 0x021C2F98 data a4
@@ -110,7 +110,7 @@
  *   d_021C2FF8  0x021C2FF8  data  a4
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   func_02005654  0x02005654  thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_02045B38 0x02045B38 arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -140,6 +140,7 @@
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
+ *   BMP_SetDisplaySwap  0x0204363C  arm  arm9
  */
 #include "../../matched/include/Obj10952.h"
 #include "../../matched/include/Obj25801.h"
@@ -211,7 +212,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 
 extern void func_020315D4(struct S020315D4 *);
 
@@ -243,7 +244,7 @@ extern void ListViewState_Destroy(void *a0);
 
 extern void BG_SYS_Create(unsigned short heapId);
 
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -257,31 +258,31 @@ extern void *func_020490F4(unsigned int id, u32 heap);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
-extern int func_02062A98(struct NitroFileHeader *, void **);
+extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *, void **);
 
-extern void func_02040E78(u32, void *, u32, u32);
+extern void BG_SYS_LoadPltt(u32, void *, u32, u32);
 
 extern u32 func_020307B0(void *p);
 
-extern int func_02062A4C(struct NitroFileHeader *, void **);
+extern int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *, void **);
 
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
-extern int func_02062B30(void *, void **);
+extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
-extern void func_02041090(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 
 extern int func_020409B4(int);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_020413B0(int index, int x0, int y0, int w, int h, int pal);
+extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void sub_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 extern u32 RESEARCH_COMMON_GetHeapId(void *);
 
@@ -369,7 +370,7 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 extern u32 BG_SYS_ClearSlot();
 
-extern void func_02040DA8(u32, u32, u32);
+extern void BG_SYS_SetTileUnit(u32, u32, u32);
 
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 
@@ -413,41 +414,41 @@ extern int func_02005654(int a, int b);
 
 extern void func_0200566C(void);
 
-u32 RESEARCH_TOP_InitProc(u32 a0, u32 a1, u8 *a2, u32 a3);
+u32 RESEARCH_TOP_InitProc(u32 procsys, u32 state, u8 *work, u32 proc);
 
-u32 RESEARCH_TOP_ReleaseProc(u32 a0, u32 a1, u32 a2, u32 a3);
+u32 RESEARCH_TOP_ReleaseProc(u32 procsys, u32 unused1, u32 unused2, u32 proc);
 
-int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *p);
+int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc);
 
-void RESEARCH_TOP_UpdateNetwork(u32 a0);
+void RESEARCH_TOP_UpdateNetwork(u32 proc);
 
-void RESEARCH_TOP_ChangeScreen(void *a, int *p, int c);
+void RESEARCH_TOP_ChangeScreen(void *proc, int *state, int nextState);
 
-void RESEARCH_TOP_CloseSubState(u32 *p, u32 *state);
+void RESEARCH_TOP_CloseSubState(u32 *proc, u32 *state);
 
-void RESEARCH_TOP_OpenSubState(u32 *p, u32 *state, u32 kind);
+void RESEARCH_TOP_OpenSubState(u32 *proc, u32 *state, u32 kind);
 
-int RESEARCH_TOP_StateIdle(void *a0);
+int RESEARCH_TOP_StateIdle(void *proc);
 
-u32 RESEARCH_TOP_StateList(u8 *a0);
+u32 RESEARCH_TOP_StateList(u8 *proc);
 
-u32 RESEARCH_TOP_StateGraph(u32 a0);
+u32 RESEARCH_TOP_StateGraph(u32 proc);
 
-u32 RESEARCH_TOP_StateDetail(u32 a0);
+u32 RESEARCH_TOP_StateDetail(u32 proc);
 
-u32 RESEARCH_TOP_GetFrameCount(const void *p);
+u32 RESEARCH_TOP_GetFrameCount(const void *proc);
 
-void RESEARCH_TOP_IncFrameCount(void *p);
+void RESEARCH_TOP_IncFrameCount(void *proc);
 
-void RESEARCH_TOP_ResetProc(void *p, u32 value);
+void RESEARCH_TOP_ResetProc(void *proc, u32 appResource);
 
-void RESEARCH_TOP_CreateCommon(u32 a0);
+void RESEARCH_TOP_CreateCommon(u32 proc);
 
-u32 RESEARCH_TOP_DestroyCommon(u32 a0);
+u32 RESEARCH_TOP_DestroyCommon(u32 proc);
 
-void RESEARCH_TOP_CreateListView(u32 a0);
+void RESEARCH_TOP_CreateListView(u32 proc);
 
-u32 RESEARCH_TOP_DestroyListView(u32 a0);
+u32 RESEARCH_TOP_DestroyListView(u32 proc);
 
 void RESEARCH_TOP_InitBackgrounds(unsigned short heapId);
 
@@ -455,201 +456,201 @@ u32 RESEARCH_TOP_ExitBackgrounds(void);
 
 void RESEARCH_TOP_LoadSubAssets(u32 heap);
 
-void RESEARCH_TOP_UpdateFrameGraphic(const void *p);
+void RESEARCH_TOP_UpdateFrameGraphic(const void *proc);
 
 void RESEARCH_TOP_LoadTopAssets(u32 heap);
 
-u32 RESEARCH_TOP_CreateListObject(void *self);
+u32 RESEARCH_TOP_CreateListObject(void *owner);
 
-u32 RESEARCH_TOP_DestroyListObject(void *a0);
+u32 RESEARCH_TOP_DestroyListObject(void *obj);
 
-void RESEARCH_TOP_UpdateListObject(char *p);
+void RESEARCH_TOP_UpdateListObject(char *obj);
 
-int RESEARCH_TOP_IsListObjectDone(void *p);
+int RESEARCH_TOP_IsListObjectDone(void *obj);
 
-u32 RESEARCH_TOP_GetListObjectMode(void *p);
+u32 RESEARCH_TOP_GetListObjectMode(void *obj);
 
-void RESEARCH_TOP_InitListObject(char *p);
+void RESEARCH_TOP_InitListObject(char *obj);
 
-void RESEARCH_TOP_HandleListInput(char *p);
+void RESEARCH_TOP_HandleListInput(char *obj);
 
-void RESEARCH_TOP_HandleListInputAlt(char *p);
+void RESEARCH_TOP_HandleListInputAlt(char *obj);
 
-void RESEARCH_TOP_AdvanceListScroll(u32 a0);
+void RESEARCH_TOP_AdvanceListScroll(u32 obj);
 
-void RESEARCH_TOP_StepExitFade(u32 a0);
+void RESEARCH_TOP_StepExitFade(u32 obj);
 
-void RESEARCH_TOP_CleanupListObject(u32 a0);
+void RESEARCH_TOP_CleanupListObject(u32 obj);
 
-void RESEARCH_TOP_PushCommand(u8 *a0, u32 a1);
+void RESEARCH_TOP_PushCommand(u8 *obj, u32 command);
 
-void RESEARCH_TOP_SetCommandReady(void *p);
+void RESEARCH_TOP_SetCommandReady(void *obj);
 
-void RESEARCH_TOP_ProcessCommand(u32 a0);
+void RESEARCH_TOP_ProcessCommand(u32 obj);
 
-void RESEARCH_TOP_StartCommand(void *p, u32 v);
+void RESEARCH_TOP_StartCommand(void *obj, u32 command);
 
-u32 RESEARCH_TOP_GetCommandTimer(void *p);
+u32 RESEARCH_TOP_GetCommandTimer(void *obj);
 
-void RESEARCH_TOP_IncCommandTimer(void *p);
+void RESEARCH_TOP_IncCommandTimer(void *obj);
 
-u32 RESEARCH_TOP_GetTransitionKind(u8 *a0);
+u32 RESEARCH_TOP_GetTransitionKind(u8 *obj);
 
-void RESEARCH_TOP_SetEntryHandled(u8 *a0, u32 a1);
+void RESEARCH_TOP_SetEntryHandled(u8 *obj, u32 handled);
 
-void RESEARCH_TOP_SetMode(void *p, u32 v);
+void RESEARCH_TOP_SetMode(void *obj, u32 mode);
 
-void RESEARCH_TOP_CheckQuestionnaire(u32 a0);
+void RESEARCH_TOP_CheckQuestionnaire(u32 obj);
 
-void RESEARCH_TOP_SelectPrev(u32 a0);
+void RESEARCH_TOP_SelectPrev(u32 obj);
 
-void RESEARCH_TOP_SelectNext(u32 a0);
+void RESEARCH_TOP_SelectNext(u32 obj);
 
-void RESEARCH_TOP_SelectDirect(u32 a0, u32 a1);
+void RESEARCH_TOP_SelectDirect(u32 obj, u32 selection);
 
-void RESEARCH_TOP_DrawSelector(int sel);
+void RESEARCH_TOP_DrawSelector(int selection);
 
-void RESEARCH_TOP_DrawSelectorIdle(int sel);
+void RESEARCH_TOP_DrawSelectorIdle(int selection);
 
-void RESEARCH_TOP_SetupTextLabel(u32 a0);
+void RESEARCH_TOP_SetupTextLabel(u32 obj);
 
-void RESEARCH_TOP_StartPaletteAnime(u8 *a0);
+void RESEARCH_TOP_StartPaletteAnime(u8 *obj);
 
-u32 RESEARCH_TOP_ShowEntryActor(u32 a0);
+u32 RESEARCH_TOP_ShowEntryActor(u32 obj);
 
 void RESEARCH_TOP_FadeIn(void);
 
 void RESEARCH_TOP_FadeOut(void);
 
-void RESEARCH_TOP_IncStateTimer(void *p);
+void RESEARCH_TOP_IncStateTimer(void *obj);
 
-u32 RESEARCH_TOP_GetStateTimer(void *p);
+u32 RESEARCH_TOP_GetStateTimer(void *obj);
 
-void RESEARCH_TOP_SetStateTimer(void *p, u32 v);
+void RESEARCH_TOP_SetStateTimer(void *obj, u32 limit);
 
-u32 RESEARCH_TOP_GetStateTimerLimit(void *p);
+u32 RESEARCH_TOP_GetStateTimerLimit(void *obj);
 
-void RESEARCH_TOP_MoveSelection(char *self, int d);
+void RESEARCH_TOP_MoveSelection(char *obj, int delta);
 
-void RESEARCH_TOP_SetSelection(void *p, u32 v);
+void RESEARCH_TOP_SetSelection(void *obj, u32 selection);
 
-u32 RESEARCH_TOP_IsSelectionValid(u32 a0, u32 a1);
+u32 RESEARCH_TOP_IsSelectionValid(u32 obj, u32 selection);
 
-u32 RESEARCH_TOP_GetEntryActorSource(void *p, u32 i);
+u32 RESEARCH_TOP_GetEntryActorSource(void *obj, u32 index);
 
-u32 RESEARCH_TOP_GetEntryLabelSource(void *p, u32 i);
+u32 RESEARCH_TOP_GetEntryLabelSource(void *obj, u32 index);
 
-u32 RESEARCH_TOP_GetEntryIconSource(void *p, u32 i);
+u32 RESEARCH_TOP_GetEntryIconSource(void *obj, u32 index);
 
-void RESEARCH_TOP_StartEntryPaletteAnime(char *self, int i);
+void RESEARCH_TOP_StartEntryPaletteAnime(char *obj, int slot);
 
-void RESEARCH_TOP_StopEntryPaletteAnime(u8 *a0, u32 a1);
+void RESEARCH_TOP_StopEntryPaletteAnime(u8 *obj, u32 slot);
 
-void RESEARCH_TOP_UpdateEntryPaletteAnime(int *p);
+void RESEARCH_TOP_UpdateEntryPaletteAnime(int *obj);
 
-unsigned char RESEARCH_TOP_CountUnlockedEntries(char *p);
+unsigned char RESEARCH_TOP_CountUnlockedEntries(char *obj);
 
-u32 RESEARCH_TOP_GetOwner(void *p);
+u32 RESEARCH_TOP_GetOwner(void *obj);
 
-void RESEARCH_TOP_SetOwner(void *p, u32 v);
+void RESEARCH_TOP_SetOwner(void *obj, u32 owner);
 
-void RESEARCH_TOP_SetHeapId(void *p, u32 v);
+void RESEARCH_TOP_SetHeapId(void *obj, u32 heapId);
 
-u32 RESEARCH_TOP_GetInputFlag(void *p);
+u32 RESEARCH_TOP_GetInputFlag(void *obj);
 
-u32 RESEARCH_TOP_AllocListObject(u32 a0);
+u32 RESEARCH_TOP_AllocListObject(u32 heapId);
 
-u32 RESEARCH_TOP_FreeListObject(void *a0);
+u32 RESEARCH_TOP_FreeListObject(void *obj);
 
-void RESEARCH_TOP_InitFields(char *p);
+void RESEARCH_TOP_InitFields(char *obj);
 
-void RESEARCH_TOP_InitSelection(char *p);
+void RESEARCH_TOP_InitSelection(char *obj);
 
-void RESEARCH_TOP_ClearFont(void *p);
+void RESEARCH_TOP_ClearFont(void *obj);
 
-void RESEARCH_TOP_CreateFont(u32 a0);
+void RESEARCH_TOP_CreateFont(u32 obj);
 
-void RESEARCH_TOP_DeleteFont(u8 *a0);
+void RESEARCH_TOP_DeleteFont(u8 *obj);
 
-void RESEARCH_TOP_ClearMessages(void *p);
+void RESEARCH_TOP_ClearMessages(void *obj);
 
-void RESEARCH_TOP_CreateMessages(char *self);
+void RESEARCH_TOP_CreateMessages(char *obj);
 
-void RESEARCH_TOP_DeleteMessages(int *p);
+void RESEARCH_TOP_DeleteMessages(int *obj);
 
-void RESEARCH_TOP_InitPaletteRows(u8 *self);
+void RESEARCH_TOP_InitPaletteRows(u8 *obj);
 
-void RESEARCH_TOP_ClearCommandQueue(void *p);
+void RESEARCH_TOP_ClearCommandQueue(void *obj);
 
-void RESEARCH_TOP_CreateCommandQueue(u32 a0);
+void RESEARCH_TOP_CreateCommandQueue(u32 obj);
 
-void RESEARCH_TOP_DestroyCommandQueue(struct ResearchObjC *p);
+void RESEARCH_TOP_DestroyCommandQueue(struct ResearchObjC *obj);
 
-void RESEARCH_TOP_InitOverlayBackgrounds(char *p);
+void RESEARCH_TOP_InitOverlayBackgrounds(char *obj);
 
-void RESEARCH_TOP_ExitOverlayBackgrounds(u32 a0);
+void RESEARCH_TOP_ExitOverlayBackgrounds(u32 obj);
 
-void RESEARCH_TOP_LoadBackground6(char *p);
+void RESEARCH_TOP_LoadBackground6(char *obj);
 
-void RESEARCH_TOP_DummyBg7(u32 a0);
+void RESEARCH_TOP_DummyBg7(u32 unused);
 
-u32 RESEARCH_TOP_UpdateBackground7(void *a0);
+u32 RESEARCH_TOP_UpdateBackground7(void *obj);
 
-void RESEARCH_TOP_ShowBackground7(u32 a0);
+void RESEARCH_TOP_ShowBackground7(u32 obj);
 
-void RESEARCH_TOP_LoadBackground2(char *p);
+void RESEARCH_TOP_LoadBackground2(char *obj);
 
-void RESEARCH_TOP_DummyBg3(u32 a0);
+void RESEARCH_TOP_DummyBg3(u32 unused);
 
-u32 RESEARCH_TOP_UpdateBackground3(void *a0);
+u32 RESEARCH_TOP_UpdateBackground3(void *obj);
 
-void RESEARCH_TOP_ShowBackground3(u32 a0);
+void RESEARCH_TOP_ShowBackground3(u32 obj);
 
-void RESEARCH_TOP_ClearLabels(void *p);
+void RESEARCH_TOP_ClearLabels(void *obj);
 
-void RESEARCH_TOP_CreateLabels(char *p);
+void RESEARCH_TOP_CreateLabels(char *obj);
 
-void RESEARCH_TOP_DestroyLabels(int *p);
+void RESEARCH_TOP_DestroyLabels(int *obj);
 
-void RESEARCH_TOP_ClearResources(void *p);
+void RESEARCH_TOP_ClearResources(void *obj);
 
 void RESEARCH_TOP_RegisterEntryResources(struct ResearchObjC *p);
 
-u32 RESEARCH_TOP_ReleaseEntryResources(u32 a0);
+u32 RESEARCH_TOP_ReleaseEntryResources(u32 obj);
 
 void RESEARCH_TOP_RegisterCursorResources(struct ResearchObjC *p);
 
-u32 RESEARCH_TOP_ReleaseCursorResources(u32 a0);
+u32 RESEARCH_TOP_ReleaseCursorResources(u32 obj);
 
-void RESEARCH_TOP_ClearUnits(void *p);
+void RESEARCH_TOP_ClearUnits(void *obj);
 
-void RESEARCH_TOP_CreateUnits(char *self);
+void RESEARCH_TOP_CreateUnits(char *obj);
 
-void RESEARCH_TOP_DeleteUnits(int *p);
+void RESEARCH_TOP_DeleteUnits(int *obj);
 
-void RESEARCH_TOP_ClearActor(void *p);
+void RESEARCH_TOP_ClearActor(void *obj);
 
-void RESEARCH_TOP_CreateActor(char *p);
+void RESEARCH_TOP_CreateActor(char *obj);
 
-void RESEARCH_TOP_DeleteActor(u8 *a0);
+void RESEARCH_TOP_DeleteActor(u8 *obj);
 
-void RESEARCH_TOP_ClearPaletteAnime(void *p);
+void RESEARCH_TOP_ClearPaletteAnime(void *obj);
 
-void RESEARCH_TOP_CreatePaletteAnime(char *p);
+void RESEARCH_TOP_CreatePaletteAnime(char *obj);
 
-void RESEARCH_TOP_DestroyPaletteAnime(int *p);
+void RESEARCH_TOP_DestroyPaletteAnime(int *obj);
 
-void RESEARCH_TOP_BindPaletteAnime(char *self);
+void RESEARCH_TOP_BindPaletteAnime(char *obj);
 
-void RESEARCH_TOP_RestorePaletteAnime(char *self);
+void RESEARCH_TOP_RestorePaletteAnime(char *obj);
 
 void RESEARCH_TOP_UpdateVBlank(void);
 
-void RESEARCH_TOP_RegisterVBlank(void *a0);
+void RESEARCH_TOP_RegisterVBlank(void *obj);
 
 void RESEARCH_TOP_UnregisterVBlank(void);
 
-void RESEARCH_TOP_RestartNetwork(u32 a0);
+void RESEARCH_TOP_RestartNetwork(u32 obj);
 
 u32 RESEARCH_LIST_Create(u32 a0, u32 a1);
 
@@ -701,33 +702,33 @@ extern const struct ActorSpawnTemplate d_021C2EFC;
 
 extern struct PaletteAnimeBinding d_021C2FF8[];
 
-u32 RESEARCH_TOP_InitProc(u32 a0, u32 a1, u8 *a2, u32 a3)
+u32 RESEARCH_TOP_InitProc(u32 procsys, u32 state, u8 *work, u32 proc)
 {
-    switch (((struct Obj10952 *)((u8*)a1))->f0) {
+    switch (((struct Obj10952 *)((u8*)state))->f0) {
     case 0:
-    PROCSYS_AllocProcWork((struct Obj0203159C *)a0, 32, 1);
-    ((struct Obj10952 *)((u8*)a1))->f0 = (u32)(((struct Obj10952 *)((u8*)a1))->f0 + 1);
+    PROCSYS_AllocProcWork((struct Obj0203159C *)procsys, 32, 1);
+    ((struct Obj10952 *)((u8*)state))->f0 = (u32)(((struct Obj10952 *)((u8*)state))->f0 + 1);
     break;
     case 1:
-    RESEARCH_TOP_ResetProc((void *)a3, ((struct Obj25801 *)((u8*)a2))->f0);
+    RESEARCH_TOP_ResetProc((void *)proc, ((struct Obj25801 *)((u8*)work))->f0);
     BG_SYS_SetVramBanks((const struct DispVram *)0x21C2EA0);
-    func_0204363C(0);
-    RESEARCH_TOP_InitBackgrounds(((struct ResearchProc *)a3)->heapId);
-    RESEARCH_TOP_LoadTopAssets(((struct ResearchProc *)a3)->heapId);
-    RESEARCH_TOP_LoadSubAssets(((struct ResearchProc *)a3)->heapId);
-    RESEARCH_TOP_CreateCommon(a3);
-    RESEARCH_TOP_CreateListView(a3);
+    BMP_SetDisplaySwap(0);
+    RESEARCH_TOP_InitBackgrounds(((struct ResearchProc *)proc)->heapId);
+    RESEARCH_TOP_LoadTopAssets(((struct ResearchProc *)proc)->heapId);
+    RESEARCH_TOP_LoadSubAssets(((struct ResearchProc *)proc)->heapId);
+    RESEARCH_TOP_CreateCommon(proc);
+    RESEARCH_TOP_CreateListView(proc);
     return 1;
     }
     return 0;
 }
 
-u32 RESEARCH_TOP_ReleaseProc(u32 a0, u32 a1, u32 a2, u32 a3)
+u32 RESEARCH_TOP_ReleaseProc(u32 procsys, u32 unused1, u32 unused2, u32 proc)
 {
-    RESEARCH_TOP_DestroyListView(a3);
-    RESEARCH_TOP_DestroyCommon(a3);
+    RESEARCH_TOP_DestroyListView(proc);
+    RESEARCH_TOP_DestroyCommon(proc);
     RESEARCH_TOP_ExitBackgrounds();
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct S020315D4 *)procsys);
     return 1;
 }
 
@@ -738,23 +739,23 @@ u32 RESEARCH_TOP_ReleaseProc(u32 a0, u32 a1, u32 a2, u32 a3)
  *   96C8/9774 stores only those new states; state 4 exits immediately.
  *   Full lifecycle/body proof: scratchpad/overlay-goal-20260930-w32/S23/state-proof.md.
  */
-int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *p)
+int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc)
 {
     u32 next;
-    RESEARCH_TOP_UpdateNetwork((u32)p);
-    if (ICA_ANIME_GetUnk330((const struct Ctx *)p[1]) != 0)
-        RESEARCH_COMMON_SetInputFlag((void *)p[3]);
+    RESEARCH_TOP_UpdateNetwork((u32)proc);
+    if (ICA_ANIME_GetUnk330((const struct Ctx *)proc[1]) != 0)
+        RESEARCH_COMMON_SetInputFlag((void *)proc[3]);
     switch (*state) {
-    case 0: next = RESEARCH_TOP_StateIdle(p); break;
-    case 1: next = RESEARCH_TOP_StateList((u8 *)p); break;
-    case 2: next = RESEARCH_TOP_StateGraph((u32)p); break;
-    case 3: next = RESEARCH_TOP_StateDetail((u32)p); break;
+    case 0: next = RESEARCH_TOP_StateIdle(proc); break;
+    case 1: next = RESEARCH_TOP_StateList((u8 *)proc); break;
+    case 2: next = RESEARCH_TOP_StateGraph((u32)proc); break;
+    case 3: next = RESEARCH_TOP_StateDetail((u32)proc); break;
     case 4: return 1;
     }
-    RESEARCH_TOP_UpdateFrameGraphic(p);
-    RESEARCH_TOP_IncFrameCount(p);
+    RESEARCH_TOP_UpdateFrameGraphic(proc);
+    RESEARCH_TOP_IncFrameCount(proc);
     if (*state != next)
-        RESEARCH_TOP_ChangeScreen(p, (int *)state, next);
+        RESEARCH_TOP_ChangeScreen(proc, (int *)state, next);
     return 0;
 }
 
@@ -764,27 +765,27 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *p)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_UpdateNetwork(u32 a0)
+void RESEARCH_TOP_UpdateNetwork(u32 proc)
 {
-    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(((struct ResearchProc *)a0)->appResource)));
-    if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct ResearchProc *)a0)->appResource)) != 0) {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchProc *)a0)->heapId);
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(ICA_ANIME_GetField1C(((struct ResearchProc *)proc)->appResource)));
+    if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct ResearchProc *)proc)->appResource)) != 0) {
+    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchProc *)proc)->heapId);
     }
 }
 
-void RESEARCH_TOP_ChangeScreen(void *a, int *p, int c)
+void RESEARCH_TOP_ChangeScreen(void *proc, int *state, int nextState)
 {
-    RESEARCH_TOP_CloseSubState(a, (u32 *)p);
-    RESEARCH_TOP_OpenSubState(a, (u32 *)p, c);
-    switch (*p) {
+    RESEARCH_TOP_CloseSubState(proc, (u32 *)state);
+    RESEARCH_TOP_OpenSubState(proc, (u32 *)state, nextState);
+    switch (*state) {
     case 1:
-        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)a + 0xc)), 1);
+        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)proc + 0xc)), 1);
         break;
     case 2:
-        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)a + 0xc)), 2);
+        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)proc + 0xc)), 2);
         break;
     case 3:
-        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)a + 0xc)), 3);
+        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)proc + 0xc)), 3);
         break;
     }
 }
@@ -792,51 +793,51 @@ void RESEARCH_TOP_ChangeScreen(void *a, int *p, int c)
 /*
  * tail: zero halfword alignment at 021B9772.
  */
-void RESEARCH_TOP_CloseSubState(u32 *p, u32 *state)
+void RESEARCH_TOP_CloseSubState(u32 *proc, u32 *state)
 {
     switch (*state) {
     case 0: case 4: break;
-    case 1: RESEARCH_TOP_DestroyListObject((void *)p[4]); break;
-    case 2: RESEARCH_LIST_Destroy((void *)p[5]); break;
-    case 3: RESEARCH_GRAPH_Destroy((void *)p[6]); break;
+    case 1: RESEARCH_TOP_DestroyListObject((void *)proc[4]); break;
+    case 2: RESEARCH_LIST_Destroy((void *)proc[5]); break;
+    case 3: RESEARCH_GRAPH_Destroy((void *)proc[6]); break;
     }
     switch (*state) {
     case 0: case 4: break;
-    case 1: p[4] = 0; break;
-    case 2: p[5] = 0; break;
-    case 3: p[6] = 0; break;
+    case 1: proc[4] = 0; break;
+    case 2: proc[5] = 0; break;
+    case 3: proc[6] = 0; break;
     }
 }
 
-void RESEARCH_TOP_OpenSubState(u32 *p, u32 *state, u32 kind)
+void RESEARCH_TOP_OpenSubState(u32 *proc, u32 *state, u32 kind)
 {
     switch (kind) {
     case 0:
     case 4:
         break;
     case 1:
-        p[4] = RESEARCH_TOP_CreateListObject((void *)p[3]);
+        proc[4] = RESEARCH_TOP_CreateListObject((void *)proc[3]);
         break;
     case 2:
-        p[5] = RESEARCH_LIST_Create(p[3], p[7]);
+        proc[5] = RESEARCH_LIST_Create(proc[3], proc[7]);
         break;
     case 3:
-        p[6] = (u32)RESEARCH_GRAPH_Create((void *)p[3]);
+        proc[6] = (u32)RESEARCH_GRAPH_Create((void *)proc[3]);
         break;
     }
     *state = kind;
 }
 
-int RESEARCH_TOP_StateIdle(void *a0)
+int RESEARCH_TOP_StateIdle(void *proc)
 {
     return 1;
 }
 
-u32 RESEARCH_TOP_StateList(u8 *a0)
+u32 RESEARCH_TOP_StateList(u8 *proc)
 {
-    RESEARCH_TOP_UpdateListObject((char *)(((struct ResearchProc *)a0)->listObject));
-    if (RESEARCH_TOP_IsListObjectDone((void *)(((struct ResearchProc *)a0)->listObject)) != 0) {
-    switch (RESEARCH_TOP_GetListObjectMode((void *)(((struct ResearchProc *)a0)->listObject))) {
+    RESEARCH_TOP_UpdateListObject((char *)(((struct ResearchProc *)proc)->listObject));
+    if (RESEARCH_TOP_IsListObjectDone((void *)(((struct ResearchProc *)proc)->listObject)) != 0) {
+    switch (RESEARCH_TOP_GetListObjectMode((void *)(((struct ResearchProc *)proc)->listObject))) {
     case 0:
     return 2;
     case 1:
@@ -849,11 +850,11 @@ u32 RESEARCH_TOP_StateList(u8 *a0)
     return 1;
 }
 
-u32 RESEARCH_TOP_StateGraph(u32 a0)
+u32 RESEARCH_TOP_StateGraph(u32 proc)
 {
-    RESEARCH_LIST_Update((void *)(((struct ResearchProc *)a0)->graphObject));
-    if (RESEARCH_LIST_GetVisible((void *)(((struct ResearchProc *)a0)->graphObject)) != 0) {
-    if (RESEARCH_LIST_GetActive((void *)(((struct ResearchProc *)a0)->graphObject)) == 0) {
+    RESEARCH_LIST_Update((void *)(((struct ResearchProc *)proc)->graphObject));
+    if (RESEARCH_LIST_GetVisible((void *)(((struct ResearchProc *)proc)->graphObject)) != 0) {
+    if (RESEARCH_LIST_GetActive((void *)(((struct ResearchProc *)proc)->graphObject)) == 0) {
     return 1;
     }
     return 4;
@@ -861,11 +862,11 @@ u32 RESEARCH_TOP_StateGraph(u32 a0)
     return 2;
 }
 
-u32 RESEARCH_TOP_StateDetail(u32 a0)
+u32 RESEARCH_TOP_StateDetail(u32 proc)
 {
-    RESEARCH_GRAPH_Update((unsigned char *)(((struct ResearchProc *)a0)->detailObject));
-    if (RESEARCH_GRAPH_GetVisible((void *)(((struct ResearchProc *)a0)->detailObject)) != 0) {
-    if (RESEARCH_GRAPH_GetActive((void *)(((struct ResearchProc *)a0)->detailObject)) == 0) {
+    RESEARCH_GRAPH_Update((unsigned char *)(((struct ResearchProc *)proc)->detailObject));
+    if (RESEARCH_GRAPH_GetVisible((void *)(((struct ResearchProc *)proc)->detailObject)) != 0) {
+    if (RESEARCH_GRAPH_GetActive((void *)(((struct ResearchProc *)proc)->detailObject)) == 0) {
     return 1;
     }
     return 4;
@@ -873,32 +874,32 @@ u32 RESEARCH_TOP_StateDetail(u32 a0)
     return 3;
 }
 
-u32 RESEARCH_TOP_GetFrameCount(const void *p)
+u32 RESEARCH_TOP_GetFrameCount(const void *proc)
 {
-    return *(const u32 *)&((struct ResearchProc *)p)->frameCount;
+    return *(const u32 *)&((struct ResearchProc *)proc)->frameCount;
 }
 
-void RESEARCH_TOP_IncFrameCount(void *p)
+void RESEARCH_TOP_IncFrameCount(void *proc)
 {
-    u32 *counter = (u32 *)((char *)p + 8);
+    u32 *counter = (u32 *)((char *)proc + 8);
     *counter += 1;
 }
 
-void RESEARCH_TOP_ResetProc(void *p, u32 value)
+void RESEARCH_TOP_ResetProc(void *proc, u32 appResource)
 {
-    ((struct ResearchProc *)p)->heapId = 1;
-    ((struct ResearchProc *)p)->appResourceU = value;
-    ((struct ResearchProc *)p)->frameCount = 0;
-    ((struct ResearchProc *)p)->common = 0;
-    ((struct ResearchProc *)p)->listObject = 0;
-    ((struct ResearchProc *)p)->graphObject = 0;
-    ((struct ResearchProc *)p)->detailObject = 0;
-    ((struct ResearchProc *)p)->listViewState = 0;
+    ((struct ResearchProc *)proc)->heapId = 1;
+    ((struct ResearchProc *)proc)->appResourceU = appResource;
+    ((struct ResearchProc *)proc)->frameCount = 0;
+    ((struct ResearchProc *)proc)->common = 0;
+    ((struct ResearchProc *)proc)->listObject = 0;
+    ((struct ResearchProc *)proc)->graphObject = 0;
+    ((struct ResearchProc *)proc)->detailObject = 0;
+    ((struct ResearchProc *)proc)->listViewState = 0;
 }
 
-void RESEARCH_TOP_CreateCommon(u32 a0)
+void RESEARCH_TOP_CreateCommon(u32 proc)
 {
-    ((struct ResearchProc *)a0)->common = RESEARCH_COMMON_Create(((struct ResearchProc *)a0)->heapId, ((struct ResearchProc *)a0)->appResourceU);
+    ((struct ResearchProc *)proc)->common = RESEARCH_COMMON_Create(((struct ResearchProc *)proc)->heapId, ((struct ResearchProc *)proc)->appResourceU);
 }
 
 /*
@@ -906,10 +907,10 @@ void RESEARCH_TOP_CreateCommon(u32 a0)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_TOP_DestroyCommon(u32 a0)
+u32 RESEARCH_TOP_DestroyCommon(u32 proc)
 {
-    RESEARCH_COMMON_Destroy((void *)(((struct ResearchProc *)a0)->common));
-    ((struct ResearchProc *)a0)->common = 0;
+    RESEARCH_COMMON_Destroy((void *)(((struct ResearchProc *)proc)->common));
+    ((struct ResearchProc *)proc)->common = 0;
     return 0;
 }
 
@@ -918,17 +919,17 @@ u32 RESEARCH_TOP_DestroyCommon(u32 a0)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_CreateListView(u32 a0)
+void RESEARCH_TOP_CreateListView(u32 proc)
 {
-    u32 r = ListViewState_Create(((struct ResearchProc *)a0)->heapId);
-    ((struct ResearchProc *)a0)->listViewState = r;
+    u32 r = ListViewState_Create(((struct ResearchProc *)proc)->heapId);
+    ((struct ResearchProc *)proc)->listViewState = r;
     ListViewState_Reset((void *)r);
 }
 
-u32 RESEARCH_TOP_DestroyListView(u32 a0)
+u32 RESEARCH_TOP_DestroyListView(u32 proc)
 {
-    ListViewState_Destroy((void *)(((struct ResearchProc *)a0)->listViewState));
-    ((struct ResearchProc *)a0)->listViewState = 0;
+    ListViewState_Destroy((void *)(((struct ResearchProc *)proc)->listViewState));
+    ((struct ResearchProc *)proc)->listViewState = 0;
     return 0;
 }
 
@@ -938,7 +939,7 @@ u32 RESEARCH_TOP_DestroyListView(u32 a0)
 void RESEARCH_TOP_InitBackgrounds(unsigned short heapId)
 {
     BG_SYS_Create(heapId);
-    func_0203FC28((struct DispConfig *)(&d_021C2E30));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&d_021C2E30));
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&d_021C2E60), 0);
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&d_021C2E40), 0);
     func_02040588(4, 1);
@@ -964,31 +965,31 @@ void RESEARCH_TOP_LoadSubAssets(u32 heap)
     void *buffer;
     arc = func_020490F4(192, heap);
     buffer = ARC_TOOL_LoadHandleMember(arc, 9, heap);
-    func_02062A98(buffer, &palette);
-    func_02040E78(4, ((struct ArcMember *)palette)->data, 512, 0);
+    NNS_G2dGetUnpackedPaletteData(buffer, &palette);
+    BG_SYS_LoadPltt(4, ((struct ArcMember *)palette)->data, 512, 0);
     func_020307B0(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 10, heap);
-    func_02062A4C(buffer, &character);
-    func_02040B1C(4, ((struct CharAnimMember *)character)->data, ((struct CharAnimMember *)character)->size, 0);
+    NNS_G2dGetUnpackedCharacterDataEx(buffer, &character);
+    BG_SYS_LoadTileData(4, ((struct CharAnimMember *)character)->data, ((struct CharAnimMember *)character)->size, 0);
     func_020307B0(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 11, heap);
-    func_02062B30(buffer, &screen);
-    func_02041090(4, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    NNS_G2dGetUnpackedScreenData(buffer, &screen);
+    BG_SYS_DrawTile(4, (u32)((char *)screen + 12), 0, 0, 32, 24);
     func_020409B4(4);
     func_020307B0(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 12, heap);
-    func_02062B30(buffer, &screen2);
-    func_02041090(5, (u32)((char *)screen2 + 12), 0, 0, 32, 24);
+    NNS_G2dGetUnpackedScreenData(buffer, &screen2);
+    BG_SYS_DrawTile(5, (u32)((char *)screen2 + 12), 0, 0, 32, 24);
     func_020409B4(5);
     func_020307B0(buffer);
     ARC_TOOL_DeleteHandle(arc);
 }
 
-void RESEARCH_TOP_UpdateFrameGraphic(const void *p)
+void RESEARCH_TOP_UpdateFrameGraphic(const void *proc)
 {
-    u32 t = RESEARCH_TOP_GetFrameCount(p) / 10;
-    u32 m = (u8)(t % 6);
-    func_020413B0(5, 0, 0, 0x20, 0x18, (u8)m);
+    u32 frame = RESEARCH_TOP_GetFrameCount(proc) / 10;
+    u32 index = (u8)(frame % 6);
+    BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x18, (u8)index);
     func_020409B4(5);
 }
 
@@ -1001,58 +1002,58 @@ void RESEARCH_TOP_LoadTopAssets(u32 heap)
     void *buffer;
     arc = ARC_TOOL_CreateHandle(192, (u16)((heap & 0x7fff) | 0x8000));
     buffer = ARC_TOOL_LoadHandleMember(arc, 0, heap);
-    func_02062A98(buffer, &palette);
-    func_02040E78(1, ((struct ArcMember *)palette)->data, 512, 0);
-    sub_020307B0(buffer);
+    NNS_G2dGetUnpackedPaletteData(buffer, &palette);
+    BG_SYS_LoadPltt(1, ((struct ArcMember *)palette)->data, 512, 0);
+    GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 1, heap);
-    func_02062A4C(buffer, &character);
-    func_02040B1C(1, ((struct CharAnimMember *)character)->data, ((struct CharAnimMember *)character)->size, 0);
-    sub_020307B0(buffer);
+    NNS_G2dGetUnpackedCharacterDataEx(buffer, &character);
+    BG_SYS_LoadTileData(1, ((struct CharAnimMember *)character)->data, ((struct CharAnimMember *)character)->size, 0);
+    GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 2, heap);
-    func_02062B30(buffer, &screen);
-    func_02041090(1, (u32)((char *)screen + 12), 0, 0, 32, 24);
-    sub_020409B4(1);
-    sub_020307B0(buffer);
+    NNS_G2dGetUnpackedScreenData(buffer, &screen);
+    BG_SYS_DrawTile(1, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    BG_SYS_PushTile(1);
+    GFL_HEAP_Free(buffer);
     ARC_TOOL_DeleteHandle(arc);
 }
 
-u32 RESEARCH_TOP_CreateListObject(void *self)
+u32 RESEARCH_TOP_CreateListObject(void *owner)
 {
-    u32 v = RESEARCH_COMMON_GetHeapId(self);
-    u32 o = RESEARCH_TOP_AllocListObject(v);
-    RESEARCH_TOP_InitFields((char *)o);
-    RESEARCH_TOP_SetHeapId((void *)o, v);
-    RESEARCH_TOP_SetOwner((void *)o, (u32)self);
-    return o;
+    u32 heapId = RESEARCH_COMMON_GetHeapId(owner);
+    u32 obj = RESEARCH_TOP_AllocListObject(heapId);
+    RESEARCH_TOP_InitFields((char *)obj);
+    RESEARCH_TOP_SetHeapId((void *)obj, heapId);
+    RESEARCH_TOP_SetOwner((void *)obj, (u32)owner);
+    return obj;
 }
 
-u32 RESEARCH_TOP_DestroyListObject(void *a0)
+u32 RESEARCH_TOP_DestroyListObject(void *obj)
 {
-    RESEARCH_TOP_DestroyCommandQueue((void *)a0);
-    return RESEARCH_TOP_FreeListObject(a0);
+    RESEARCH_TOP_DestroyCommandQueue((void *)obj);
+    return RESEARCH_TOP_FreeListObject(obj);
 }
 
-void RESEARCH_TOP_UpdateListObject(char *p)
+void RESEARCH_TOP_UpdateListObject(char *obj)
 {
-    switch (((struct ResearchObjC *)p)->command) {
-    case 0:RESEARCH_TOP_InitListObject(p);break;
-    case 1:RESEARCH_TOP_HandleListInput(p);break;
-    case 2:RESEARCH_TOP_HandleListInputAlt(p);break;
-    case 3:RESEARCH_TOP_AdvanceListScroll((unsigned)p);break;
-    case 4:RESEARCH_TOP_StepExitFade((unsigned)p);break;
-    case 5:RESEARCH_TOP_CleanupListObject((unsigned)p);break;
+    switch (((struct ResearchObjC *)obj)->command) {
+    case 0:RESEARCH_TOP_InitListObject(obj);break;
+    case 1:RESEARCH_TOP_HandleListInput(obj);break;
+    case 2:RESEARCH_TOP_HandleListInputAlt(obj);break;
+    case 3:RESEARCH_TOP_AdvanceListScroll((unsigned)obj);break;
+    case 4:RESEARCH_TOP_StepExitFade((unsigned)obj);break;
+    case 5:RESEARCH_TOP_CleanupListObject((unsigned)obj);break;
     case 6:return;
     }
-    if (RESEARCH_TOP_IsListObjectDone(p)==0) {
-        RESEARCH_TOP_CheckQuestionnaire((unsigned)p);RESEARCH_TOP_UpdateEntryPaletteAnime((int *)p);
-        RESEARCH_COMMON_UpdatePaletteAnime(*(unsigned *)&((struct ResearchObjC *)p)->owner);CLACT_DrawSystem();
+    if (RESEARCH_TOP_IsListObjectDone(obj)==0) {
+        RESEARCH_TOP_CheckQuestionnaire((unsigned)obj);RESEARCH_TOP_UpdateEntryPaletteAnime((int *)obj);
+        RESEARCH_COMMON_UpdatePaletteAnime(*(unsigned *)&((struct ResearchObjC *)obj)->owner);CLACT_DrawSystem();
     }
-    RESEARCH_TOP_IncStateTimer(p);RESEARCH_TOP_ProcessCommand((unsigned)p);
+    RESEARCH_TOP_IncStateTimer(obj);RESEARCH_TOP_ProcessCommand((unsigned)obj);
 }
 
-int RESEARCH_TOP_IsListObjectDone(void *p)
+int RESEARCH_TOP_IsListObjectDone(void *obj)
 {
-    if (((struct ResearchObjC *)p)->exitRequested != 0) {
+    if (((struct ResearchObjC *)obj)->exitRequested != 0) {
         return 1;
     }
     return 0;
@@ -1063,85 +1064,85 @@ int RESEARCH_TOP_IsListObjectDone(void *p)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_TOP_GetListObjectMode(void *p)
+u32 RESEARCH_TOP_GetListObjectMode(void *obj)
 {
-    return ((struct ResearchObjC *)p)->mode;
+    return ((struct ResearchObjC *)obj)->mode;
 }
 
-void RESEARCH_TOP_InitListObject(char *p)
+void RESEARCH_TOP_InitListObject(char *obj)
 {
     unsigned kind;
-    RESEARCH_TOP_CreateCommandQueue((unsigned)p);RESEARCH_TOP_CreateFont((unsigned)p);
-    RESEARCH_TOP_CreateMessages(p);RESEARCH_TOP_InitPaletteRows((u8 *)p);RESEARCH_TOP_InitSelection(p);
-    RESEARCH_TOP_InitOverlayBackgrounds(p);RESEARCH_TOP_LoadBackground6(p);RESEARCH_TOP_UpdateBackground7(p);
-    RESEARCH_TOP_LoadBackground2(p);RESEARCH_TOP_UpdateBackground3(p);RESEARCH_TOP_CreateLabels(p);
-    RESEARCH_TOP_RegisterEntryResources((struct ResearchObjC *)p);RESEARCH_TOP_RegisterCursorResources((struct ResearchObjC *)p);
-    RESEARCH_TOP_CreateUnits(p);RESEARCH_TOP_CreateActor(p);RESEARCH_TOP_CreatePaletteAnime(p);
-    RESEARCH_TOP_BindPaletteAnime(p);RESEARCH_TOP_RestartNetwork((unsigned)p);RESEARCH_TOP_RegisterVBlank(p);
-    if (RESEARCH_TOP_IsSelectionValid((unsigned)p,0)==0)RESEARCH_TOP_SetupTextLabel((unsigned)p);
-    kind=RESEARCH_TOP_GetTransitionKind((unsigned char *)p);
-    RESEARCH_TOP_PushCommand((unsigned char *)p,RESEARCH_TOP_GetTransitionKind((unsigned char *)p));
-    if (kind==2) {RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)p)->selection);RESEARCH_TOP_StartEntryPaletteAnime((char *)((unsigned)p),0);}
-    RESEARCH_TOP_FadeIn();RESEARCH_TOP_SetCommandReady(p);
+    RESEARCH_TOP_CreateCommandQueue((unsigned)obj);RESEARCH_TOP_CreateFont((unsigned)obj);
+    RESEARCH_TOP_CreateMessages(obj);RESEARCH_TOP_InitPaletteRows((u8 *)obj);RESEARCH_TOP_InitSelection(obj);
+    RESEARCH_TOP_InitOverlayBackgrounds(obj);RESEARCH_TOP_LoadBackground6(obj);RESEARCH_TOP_UpdateBackground7(obj);
+    RESEARCH_TOP_LoadBackground2(obj);RESEARCH_TOP_UpdateBackground3(obj);RESEARCH_TOP_CreateLabels(obj);
+    RESEARCH_TOP_RegisterEntryResources((struct ResearchObjC *)obj);RESEARCH_TOP_RegisterCursorResources((struct ResearchObjC *)obj);
+    RESEARCH_TOP_CreateUnits(obj);RESEARCH_TOP_CreateActor(obj);RESEARCH_TOP_CreatePaletteAnime(obj);
+    RESEARCH_TOP_BindPaletteAnime(obj);RESEARCH_TOP_RestartNetwork((unsigned)obj);RESEARCH_TOP_RegisterVBlank(obj);
+    if (RESEARCH_TOP_IsSelectionValid((unsigned)obj,0)==0)RESEARCH_TOP_SetupTextLabel((unsigned)obj);
+    kind=RESEARCH_TOP_GetTransitionKind((unsigned char *)obj);
+    RESEARCH_TOP_PushCommand((unsigned char *)obj,RESEARCH_TOP_GetTransitionKind((unsigned char *)obj));
+    if (kind==2) {RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)obj)->selection);RESEARCH_TOP_StartEntryPaletteAnime((char *)((unsigned)obj),0);}
+    RESEARCH_TOP_FadeIn();RESEARCH_TOP_SetCommandReady(obj);
 }
 
 /*
  * ABI: 02035C08 result is compared in the original; matched 02025EA4/02027E3C callers also declare its int return despite the forwarding body's void spelling.
  * Original passes p to 020362DC although the own matched body ignores entry r0.
  */
-void RESEARCH_TOP_HandleListInput(char *p)
+void RESEARCH_TOP_HandleListInput(char *obj)
 {
     u32 keys=KEY_GetTrg();
-    int choice=TOUCHPANEL_HitTrg(p+44);
-    int other=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjC *)p)->owner));
-    if(RESEARCH_TOP_GetInputFlag(p)!=0 || other==0) {
-        RESEARCH_TOP_SetEntryHandled((u8 *)p,1);RESEARCH_TOP_SetMode(p,2);RESEARCH_TOP_StartPaletteAnime((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);return;
+    int choice=TOUCHPANEL_HitTrg(obj+44);
+    int other=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjC *)obj)->owner));
+    if(RESEARCH_TOP_GetInputFlag(obj)!=0 || other==0) {
+        RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SetMode(obj,2);RESEARCH_TOP_StartPaletteAnime((u8 *)obj);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);return;
     }
     if(keys&2) {
-        RESEARCH_TOP_SetEntryHandled((u8 *)p,0);RESEARCH_TOP_SetMode(p,2);RESEARCH_TOP_StartPaletteAnime((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);return;
+        RESEARCH_TOP_SetEntryHandled((u8 *)obj,0);RESEARCH_TOP_SetMode(obj,2);RESEARCH_TOP_StartPaletteAnime((u8 *)obj);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);return;
     }
     if((keys&64)||(keys&128)||(keys&32)||(keys&16)||(keys&1)) {
-        RESEARCH_TOP_DrawSelector(*(int *)&((struct ResearchObjC *)p)->selection);RESEARCH_TOP_StartEntryPaletteAnime(p,0);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,2);return;
+        RESEARCH_TOP_DrawSelector(*(int *)&((struct ResearchObjC *)obj)->selection);RESEARCH_TOP_StartEntryPaletteAnime(obj,0);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,2);return;
     }
     if(choice==0) {
-        if(RESEARCH_TOP_IsSelectionValid((u32)p,0)!=0) {
-            RESEARCH_TOP_SetEntryHandled((u8 *)p,1);RESEARCH_TOP_SetMode(p,0);RESEARCH_TOP_SelectDirect((u32)p,0);RESEARCH_TOP_DrawSelector(*(int *)&((struct ResearchObjC *)p)->selection);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)p,0);RESEARCH_TOP_StartEntryPaletteAnime(p,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);
+        if(RESEARCH_TOP_IsSelectionValid((u32)obj,0)!=0) {
+            RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SetMode(obj,0);RESEARCH_TOP_SelectDirect((u32)obj,0);RESEARCH_TOP_DrawSelector(*(int *)&((struct ResearchObjC *)obj)->selection);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)obj,0);RESEARCH_TOP_StartEntryPaletteAnime(obj,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);
         } else GFL_USE_PlaySeDefaultVolume(1367);
     } else if(choice==1) {
-        if(RESEARCH_TOP_IsSelectionValid((u32)p,1)!=0) {
-            RESEARCH_TOP_SetEntryHandled((u8 *)p,1);RESEARCH_TOP_SetMode(p,1);RESEARCH_TOP_SelectDirect((u32)p,1);RESEARCH_TOP_DrawSelector(*(int *)&((struct ResearchObjC *)p)->selection);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)p,0);RESEARCH_TOP_StartEntryPaletteAnime(p,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);
+        if(RESEARCH_TOP_IsSelectionValid((u32)obj,1)!=0) {
+            RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SetMode(obj,1);RESEARCH_TOP_SelectDirect((u32)obj,1);RESEARCH_TOP_DrawSelector(*(int *)&((struct ResearchObjC *)obj)->selection);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)obj,0);RESEARCH_TOP_StartEntryPaletteAnime(obj,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);
         } else GFL_USE_PlaySeDefaultVolume(1367);
     }
 }
 
-void RESEARCH_TOP_HandleListInputAlt(char *p)
+void RESEARCH_TOP_HandleListInputAlt(char *obj)
 {
     u32 keys=KEY_GetTrg();
-    int choice=TOUCHPANEL_HitTrg(p+44);
-    int other=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjC *)p)->owner));
-    if(RESEARCH_TOP_GetInputFlag(p)!=0 || other==0) {
-        RESEARCH_TOP_SetEntryHandled((u8 *)p,1);RESEARCH_TOP_SetMode(p,2);RESEARCH_TOP_StartPaletteAnime((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);return;
+    int choice=TOUCHPANEL_HitTrg(obj+44);
+    int other=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjC *)obj)->owner));
+    if(RESEARCH_TOP_GetInputFlag(obj)!=0 || other==0) {
+        RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SetMode(obj,2);RESEARCH_TOP_StartPaletteAnime((u8 *)obj);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);return;
     }
-    if(keys&64)RESEARCH_TOP_SelectPrev((u32)p);
-    if(keys&128)RESEARCH_TOP_SelectNext((u32)p);
+    if(keys&64)RESEARCH_TOP_SelectPrev((u32)obj);
+    if(keys&128)RESEARCH_TOP_SelectNext((u32)obj);
     if(keys&1) {
-        RESEARCH_TOP_SetEntryHandled((u8 *)p,0);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)p,0);RESEARCH_TOP_StartEntryPaletteAnime(p,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);
-        switch(((struct ResearchObjC *)p)->selection) {
-        case 0:RESEARCH_TOP_SetMode(p,0);return;
-        case 1:RESEARCH_TOP_SetMode(p,1);return;
-        default:RESEARCH_TOP_SetMode(p,2);return;
+        RESEARCH_TOP_SetEntryHandled((u8 *)obj,0);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)obj,0);RESEARCH_TOP_StartEntryPaletteAnime(obj,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);
+        switch(((struct ResearchObjC *)obj)->selection) {
+        case 0:RESEARCH_TOP_SetMode(obj,0);return;
+        case 1:RESEARCH_TOP_SetMode(obj,1);return;
+        default:RESEARCH_TOP_SetMode(obj,2);return;
         }
     }
     if(choice==0) {
-        if(RESEARCH_TOP_IsSelectionValid((u32)p,0)!=0) {
-            RESEARCH_TOP_SetEntryHandled((u8 *)p,1);RESEARCH_TOP_SelectDirect((u32)p,0);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)p,0);RESEARCH_TOP_StartEntryPaletteAnime(p,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetMode(p,0);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);
+        if(RESEARCH_TOP_IsSelectionValid((u32)obj,0)!=0) {
+            RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SelectDirect((u32)obj,0);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)obj,0);RESEARCH_TOP_StartEntryPaletteAnime(obj,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetMode(obj,0);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);
         } else GFL_USE_PlaySeDefaultVolume(1367);
     } else if(choice==1) {
-        if(RESEARCH_TOP_IsSelectionValid((u32)p,1)!=0) {
-            RESEARCH_TOP_SetEntryHandled((u8 *)p,1);RESEARCH_TOP_SelectDirect((u32)p,1);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)p,0);RESEARCH_TOP_StartEntryPaletteAnime(p,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetMode(p,1);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);
+        if(RESEARCH_TOP_IsSelectionValid((u32)obj,1)!=0) {
+            RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SelectDirect((u32)obj,1);RESEARCH_TOP_StopEntryPaletteAnime((u8 *)obj,0);RESEARCH_TOP_StartEntryPaletteAnime(obj,2);GFL_USE_PlaySeDefaultVolume(1356);RESEARCH_TOP_SetMode(obj,1);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);
         } else GFL_USE_PlaySeDefaultVolume(1367);
     } else if(keys&2) {
-        RESEARCH_TOP_StartPaletteAnime((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetMode(p,2);RESEARCH_TOP_SetStateTimer(p,15);RESEARCH_TOP_SetCommandReady(p);RESEARCH_TOP_PushCommand((u8 *)p,3);RESEARCH_TOP_PushCommand((u8 *)p,4);RESEARCH_TOP_PushCommand((u8 *)p,5);
+        RESEARCH_TOP_StartPaletteAnime((u8 *)obj);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetMode(obj,2);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);
     }
 }
 
@@ -1151,51 +1152,51 @@ void RESEARCH_TOP_HandleListInputAlt(char *p)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_AdvanceListScroll(u32 a0)
+void RESEARCH_TOP_AdvanceListScroll(u32 obj)
 {
-    u32 v1 = RESEARCH_TOP_GetStateTimerLimit((void *)a0);
-    if (v1 < RESEARCH_TOP_GetStateTimer((void *)a0)) {
-    RESEARCH_TOP_SetCommandReady((void *)a0);
+    u32 limit = RESEARCH_TOP_GetStateTimerLimit((void *)obj);
+    if (limit < RESEARCH_TOP_GetStateTimer((void *)obj)) {
+    RESEARCH_TOP_SetCommandReady((void *)obj);
     }
 }
 
-void RESEARCH_TOP_StepExitFade(u32 a0)
+void RESEARCH_TOP_StepExitFade(u32 obj)
 {
-    switch (RESEARCH_TOP_GetCommandTimer((void *)a0)) {
+    switch (RESEARCH_TOP_GetCommandTimer((void *)obj)) {
     case 0:
     RESEARCH_TOP_FadeOut();
-    RESEARCH_TOP_IncCommandTimer((void *)a0);
+    RESEARCH_TOP_IncCommandTimer((void *)obj);
     break;
     case 1:
     if (FADE_IsActive() == 0) {
-    RESEARCH_TOP_SetCommandReady((void *)a0);
+    RESEARCH_TOP_SetCommandReady((void *)obj);
     }
     break;
     }
 }
 
-void RESEARCH_TOP_CleanupListObject(u32 a0)
+void RESEARCH_TOP_CleanupListObject(u32 obj)
 {
     RESEARCH_TOP_UnregisterVBlank();
-    RESEARCH_COMMON_StopPaletteAnime(*(u32 *)&((struct ResearchObjC *)a0)->owner);
-    RESEARCH_COMMON_RestorePaletteAnime(*(u32 *)&((struct ResearchObjC *)a0)->owner);
-    RESEARCH_TOP_RestorePaletteAnime((char *)a0);
-    RESEARCH_TOP_DestroyPaletteAnime((int *)a0);
-    RESEARCH_TOP_DeleteActor((u8 *)a0);
-    RESEARCH_TOP_DeleteUnits((int *)a0);
-    RESEARCH_TOP_ReleaseEntryResources(a0);
-    RESEARCH_TOP_ReleaseCursorResources(a0);
-    RESEARCH_TOP_DestroyLabels((int *)a0);
-    RESEARCH_TOP_ShowBackground3(a0);
-    RESEARCH_TOP_DummyBg3(a0);
-    RESEARCH_TOP_ShowBackground7(a0);
-    RESEARCH_TOP_DummyBg7(a0);
-    RESEARCH_TOP_ExitOverlayBackgrounds(a0);
-    RESEARCH_TOP_DeleteMessages((int *)a0);
-    RESEARCH_TOP_DeleteFont((u8 *)a0);
-    ((struct ResearchObjC *)a0)->exitRequested = 1;
-    RESEARCH_TOP_PushCommand((u8 *)a0, 6);
-    RESEARCH_TOP_SetCommandReady((void *)a0);
+    RESEARCH_COMMON_StopPaletteAnime(*(u32 *)&((struct ResearchObjC *)obj)->owner);
+    RESEARCH_COMMON_RestorePaletteAnime(*(u32 *)&((struct ResearchObjC *)obj)->owner);
+    RESEARCH_TOP_RestorePaletteAnime((char *)obj);
+    RESEARCH_TOP_DestroyPaletteAnime((int *)obj);
+    RESEARCH_TOP_DeleteActor((u8 *)obj);
+    RESEARCH_TOP_DeleteUnits((int *)obj);
+    RESEARCH_TOP_ReleaseEntryResources(obj);
+    RESEARCH_TOP_ReleaseCursorResources(obj);
+    RESEARCH_TOP_DestroyLabels((int *)obj);
+    RESEARCH_TOP_ShowBackground3(obj);
+    RESEARCH_TOP_DummyBg3(obj);
+    RESEARCH_TOP_ShowBackground7(obj);
+    RESEARCH_TOP_DummyBg7(obj);
+    RESEARCH_TOP_ExitOverlayBackgrounds(obj);
+    RESEARCH_TOP_DeleteMessages((int *)obj);
+    RESEARCH_TOP_DeleteFont((u8 *)obj);
+    ((struct ResearchObjC *)obj)->exitRequested = 1;
+    RESEARCH_TOP_PushCommand((u8 *)obj, 6);
+    RESEARCH_TOP_SetCommandReady((void *)obj);
 }
 
 /*
@@ -1203,21 +1204,21 @@ void RESEARCH_TOP_CleanupListObject(u32 a0)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_PushCommand(u8 *a0, u32 a1)
+void RESEARCH_TOP_PushCommand(u8 *obj, u32 command)
 {
-    RingQueue_Push((u32)(((struct ResearchObjC *)a0)->commandQueue), a1);
+    RingQueue_Push((u32)(((struct ResearchObjC *)obj)->commandQueue), command);
 }
 
-void RESEARCH_TOP_SetCommandReady(void *p)
+void RESEARCH_TOP_SetCommandReady(void *obj)
 {
-    ((struct ResearchObjC *)p)->commandReady = 1;
+    ((struct ResearchObjC *)obj)->commandReady = 1;
 }
 
-void RESEARCH_TOP_ProcessCommand(u32 a0)
+void RESEARCH_TOP_ProcessCommand(u32 obj)
 {
-    if (((struct ResearchObjC *)a0)->commandReady != 0) {
-    if (RingQueue_IsEmpty(((struct ResearchObjC *)a0)->commandQueue) == 0) {
-    RESEARCH_TOP_StartCommand((void *)a0, RingQueue_Pop((struct Ring *)(((struct ResearchObjC *)a0)->commandQueue)));
+    if (((struct ResearchObjC *)obj)->commandReady != 0) {
+    if (RingQueue_IsEmpty(((struct ResearchObjC *)obj)->commandQueue) == 0) {
+    RESEARCH_TOP_StartCommand((void *)obj, RingQueue_Pop((struct Ring *)(((struct ResearchObjC *)obj)->commandQueue)));
     }
     }
 }
@@ -1227,44 +1228,44 @@ void RESEARCH_TOP_ProcessCommand(u32 a0)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_StartCommand(void *p, u32 v)
+void RESEARCH_TOP_StartCommand(void *obj, u32 command)
 {
-    ((struct ResearchObjC *)p)->command = v;
-    ((struct ResearchObjC *)p)->commandTimer = 0;
-    ((struct ResearchObjC *)p)->stateTimer = 0;
-    ((struct ResearchObjC *)p)->commandReady = 0;
+    ((struct ResearchObjC *)obj)->command = command;
+    ((struct ResearchObjC *)obj)->commandTimer = 0;
+    ((struct ResearchObjC *)obj)->stateTimer = 0;
+    ((struct ResearchObjC *)obj)->commandReady = 0;
 }
 
-u32 RESEARCH_TOP_GetCommandTimer(void *p)
+u32 RESEARCH_TOP_GetCommandTimer(void *obj)
 {
-    return ((struct ResearchObjC *)p)->commandTimer;
+    return ((struct ResearchObjC *)obj)->commandTimer;
 }
 
-void RESEARCH_TOP_IncCommandTimer(void *p)
+void RESEARCH_TOP_IncCommandTimer(void *obj)
 {
-    u32 *c = (u32 *)((char *)p + 0x1c);
-    *c += 1;
+    u32 *counter = (u32 *)((char *)obj + 0x1c);
+    *counter += 1;
 }
 
-u32 RESEARCH_TOP_GetTransitionKind(u8 *a0)
+u32 RESEARCH_TOP_GetTransitionKind(u8 *obj)
 {
-    u32 v = ((struct ResearchObjC *)a0)->ownerHandle;
-    u32 a = RESEARCH_COMMON_GetPreviousScreen((void *)v);
-    u32 b = RESEARCH_COMMON_GetEntryHandled((void *)v);
-    if (a != 0 && b == 0) {
+    u32 owner = ((struct ResearchObjC *)obj)->ownerHandle;
+    u32 prevScreen = RESEARCH_COMMON_GetPreviousScreen((void *)owner);
+    u32 entryHandled = RESEARCH_COMMON_GetEntryHandled((void *)owner);
+    if (prevScreen != 0 && entryHandled == 0) {
     return 2;
     }
     return 1;
 }
 
-void RESEARCH_TOP_SetEntryHandled(u8 *a0, u32 a1)
+void RESEARCH_TOP_SetEntryHandled(u8 *obj, u32 handled)
 {
-    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct ResearchObjC *)a0)->owner, a1);
+    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct ResearchObjC *)obj)->owner, handled);
 }
 
-void RESEARCH_TOP_SetMode(void *p, u32 v)
+void RESEARCH_TOP_SetMode(void *obj, u32 mode)
 {
-    ((struct ResearchObjC *)p)->mode = v;
+    ((struct ResearchObjC *)obj)->mode = mode;
 }
 
 /*
@@ -1272,96 +1273,96 @@ void RESEARCH_TOP_SetMode(void *p, u32 v)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_CheckQuestionnaire(u32 a0)
+void RESEARCH_TOP_CheckQuestionnaire(u32 obj)
 {
-    if (((struct ResearchObjC *)a0)->questionnaireLatched == 0) {
+    if (((struct ResearchObjC *)obj)->questionnaireLatched == 0) {
     if (GAME_BEACON_PopQuestionnaireUpdated() == 1) {
-    ((struct ResearchObjC *)a0)->questionnaireLatched = 1;
-    RESEARCH_TOP_ShowEntryActor(a0);
+    ((struct ResearchObjC *)obj)->questionnaireLatched = 1;
+    RESEARCH_TOP_ShowEntryActor(obj);
     }
     }
 }
 
-void RESEARCH_TOP_SelectPrev(u32 a0)
+void RESEARCH_TOP_SelectPrev(u32 obj)
 {
-    RESEARCH_TOP_DrawSelectorIdle(((struct ResearchObjC *)a0)->selection);
-    RESEARCH_TOP_MoveSelection((char *)a0, -1);
-    RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)a0)->selection);
+    RESEARCH_TOP_DrawSelectorIdle(((struct ResearchObjC *)obj)->selection);
+    RESEARCH_TOP_MoveSelection((char *)obj, -1);
+    RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)obj)->selection);
     GFL_USE_PlaySeDefaultVolume(1352);
-    RESEARCH_TOP_StartEntryPaletteAnime((char *)a0, 1);
+    RESEARCH_TOP_StartEntryPaletteAnime((char *)obj, 1);
 }
 
-void RESEARCH_TOP_SelectNext(u32 a0)
+void RESEARCH_TOP_SelectNext(u32 obj)
 {
-    RESEARCH_TOP_DrawSelectorIdle(((struct ResearchObjC *)a0)->selection);
-    RESEARCH_TOP_MoveSelection((char *)a0, 1);
-    RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)a0)->selection);
+    RESEARCH_TOP_DrawSelectorIdle(((struct ResearchObjC *)obj)->selection);
+    RESEARCH_TOP_MoveSelection((char *)obj, 1);
+    RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)obj)->selection);
     GFL_USE_PlaySeDefaultVolume(1352);
-    RESEARCH_TOP_StartEntryPaletteAnime((char *)a0, 1);
+    RESEARCH_TOP_StartEntryPaletteAnime((char *)obj, 1);
 }
 
-void RESEARCH_TOP_SelectDirect(u32 a0, u32 a1)
+void RESEARCH_TOP_SelectDirect(u32 obj, u32 selection)
 {
-    RESEARCH_TOP_DrawSelectorIdle(((struct ResearchObjC *)a0)->selection);
-    RESEARCH_TOP_SetSelection((void *)a0, a1);
-    RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)a0)->selection);
+    RESEARCH_TOP_DrawSelectorIdle(((struct ResearchObjC *)obj)->selection);
+    RESEARCH_TOP_SetSelection((void *)obj, selection);
+    RESEARCH_TOP_DrawSelector(((struct ResearchObjC *)obj)->selection);
     GFL_USE_PlaySeDefaultVolume(1352);
-    RESEARCH_TOP_StartEntryPaletteAnime((char *)a0, 1);
+    RESEARCH_TOP_StartEntryPaletteAnime((char *)obj, 1);
 }
 
-void RESEARCH_TOP_DrawSelector(int sel)
+void RESEARCH_TOP_DrawSelector(int selection)
 {
-    int a, b, c, d, e, f;
-    switch (sel) {
+    int index, x, y, w, h, palette;
+    switch (selection) {
     case 0:
-        a = 2; b = 3; c = 5; d = 0x1a; e = 5; f = 0xa;
+        index = 2; x = 3; y = 5; w = 0x1a; h = 5; palette = 0xa;
         break;
     case 1:
-        a = 2; b = 3; c = 0xc; d = 0x1a; e = 5; f = 0xa;
+        index = 2; x = 3; y = 0xc; w = 0x1a; h = 5; palette = 0xa;
         break;
     default:
         return;
     }
-    func_020413B0(a, b, c, d, e, f);
-    func_020409B4(a);
+    BG_SYS_FillTileMap(index, x, y, w, h, palette);
+    func_020409B4(index);
 }
 
-void RESEARCH_TOP_DrawSelectorIdle(int sel)
+void RESEARCH_TOP_DrawSelectorIdle(int selection)
 {
-    int a, b, c, d, e, f;
-    switch (sel) {
+    int index, x, y, w, h, palette;
+    switch (selection) {
     case 0:
-        a = 2; b = 3; c = 5; d = 0x1a; e = 5; f = 5;
+        index = 2; x = 3; y = 5; w = 0x1a; h = 5; palette = 5;
         break;
     case 1:
-        a = 2; b = 3; c = 0xc; d = 0x1a; e = 5; f = 6;
+        index = 2; x = 3; y = 0xc; w = 0x1a; h = 5; palette = 6;
         break;
     default:
         return;
     }
-    func_020413B0(a, b, c, d, e, f);
-    func_020409B4(a);
+    BG_SYS_FillTileMap(index, x, y, w, h, palette);
+    func_020409B4(index);
 }
 
-void RESEARCH_TOP_SetupTextLabel(u32 a0)
+void RESEARCH_TOP_SetupTextLabel(u32 obj)
 {
-    BgTextLabel_SetPalette((u8 *)(((struct ResearchObjC *)a0)->labels[2]), 15);
-    RESEARCH_TOP_StartEntryPaletteAnime((char *)a0, 3);
-    RESEARCH_TOP_StartEntryPaletteAnime((char *)a0, 4);
+    BgTextLabel_SetPalette((u8 *)(((struct ResearchObjC *)obj)->labels[2]), 15);
+    RESEARCH_TOP_StartEntryPaletteAnime((char *)obj, 3);
+    RESEARCH_TOP_StartEntryPaletteAnime((char *)obj, 4);
 }
 
-void RESEARCH_TOP_StartPaletteAnime(u8 *a0)
+void RESEARCH_TOP_StartPaletteAnime(u8 *obj)
 {
-    RESEARCH_COMMON_StartPaletteAnime((u8 *)(((struct ResearchObjC *)a0)->ownerHandle), 0);
+    RESEARCH_COMMON_StartPaletteAnime((u8 *)(((struct ResearchObjC *)obj)->ownerHandle), 0);
 }
 
-u32 RESEARCH_TOP_ShowEntryActor(u32 a0)
+u32 RESEARCH_TOP_ShowEntryActor(u32 obj)
 {
-    u32 v1 = RESEARCH_TOP_GetEntryIconSource((void *)a0, 0);
-    CLACT_SetActorDrawEnable((struct Obj *)v1, 1);
-    CLACT_SetActorAutoAnim((struct Obj *)v1, 1);
-    CLACT_SetActorAutoAnimSpeed((struct Actor *)v1, 4096);
-    return CLACT_SetActorAnimFrame(v1, 0);
+    u32 actor = RESEARCH_TOP_GetEntryIconSource((void *)obj, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)actor, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)actor, 1);
+    CLACT_SetActorAutoAnimSpeed((struct Actor *)actor, 4096);
+    return CLACT_SetActorAnimFrame(actor, 0);
 }
 
 void RESEARCH_TOP_FadeIn(void)
@@ -1374,15 +1375,15 @@ void RESEARCH_TOP_FadeOut(void)
     FADE_Start(3, 0, 16, 0);
 }
 
-void RESEARCH_TOP_IncStateTimer(void *p)
+void RESEARCH_TOP_IncStateTimer(void *obj)
 {
-    u32 *c = (u32 *)((char *)p + 0x20);
-    *c += 1;
+    u32 *counter = (u32 *)((char *)obj + 0x20);
+    *counter += 1;
 }
 
-u32 RESEARCH_TOP_GetStateTimer(void *p)
+u32 RESEARCH_TOP_GetStateTimer(void *obj)
 {
-    return ((struct ResearchObjC *)p)->stateTimer;
+    return ((struct ResearchObjC *)obj)->stateTimer;
 }
 
 /*
@@ -1390,23 +1391,23 @@ u32 RESEARCH_TOP_GetStateTimer(void *p)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_SetStateTimer(void *p, u32 v)
+void RESEARCH_TOP_SetStateTimer(void *obj, u32 limit)
 {
-    ((struct ResearchObjC *)p)->stateTimerLimit = v;
+    ((struct ResearchObjC *)obj)->stateTimerLimit = limit;
 }
 
-u32 RESEARCH_TOP_GetStateTimerLimit(void *p)
+u32 RESEARCH_TOP_GetStateTimerLimit(void *obj)
 {
-    return ((struct ResearchObjC *)p)->stateTimerLimit;
+    return ((struct ResearchObjC *)obj)->stateTimerLimit;
 }
 
-void RESEARCH_TOP_MoveSelection(char *self, int d)
+void RESEARCH_TOP_MoveSelection(char *obj, int delta)
 {
-    int n = *(int *)&((struct ResearchObjC *)self)->selection;
+    int selection = *(int *)&((struct ResearchObjC *)obj)->selection;
     do {
-        n = (n + d + 2) % 2;
-    } while (!RESEARCH_TOP_IsSelectionValid((u32)self, n));
-    *(int *)&((struct ResearchObjC *)self)->selection = n;
+        selection = (selection + delta + 2) % 2;
+    } while (!RESEARCH_TOP_IsSelectionValid((u32)obj, selection));
+    *(int *)&((struct ResearchObjC *)obj)->selection = selection;
 }
 
 /*
@@ -1414,15 +1415,15 @@ void RESEARCH_TOP_MoveSelection(char *self, int d)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_SetSelection(void *p, u32 v)
+void RESEARCH_TOP_SetSelection(void *obj, u32 selection)
 {
-    ((struct ResearchObjC *)p)->selection = v;
+    ((struct ResearchObjC *)obj)->selection = selection;
 }
 
-u32 RESEARCH_TOP_IsSelectionValid(u32 a0, u32 a1)
+u32 RESEARCH_TOP_IsSelectionValid(u32 obj, u32 selection)
 {
-    if (a1 == 0) {
-    if (RESEARCH_TOP_CountUnlockedEntries((char *)a0) > 1) {
+    if (selection == 0) {
+    if (RESEARCH_TOP_CountUnlockedEntries((char *)obj) > 1) {
     return 1;
     }
     return 0;
@@ -1435,9 +1436,9 @@ u32 RESEARCH_TOP_IsSelectionValid(u32 a0, u32 a1)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_TOP_GetEntryActorSource(void *p, u32 i)
+u32 RESEARCH_TOP_GetEntryActorSource(void *obj, u32 index)
 {
-    return *(u32 *)((char *)p + i * 4 + 0x5c);
+    return *(u32 *)((char *)obj + index * 4 + 0x5c);
 }
 
 /*
@@ -1445,9 +1446,9 @@ u32 RESEARCH_TOP_GetEntryActorSource(void *p, u32 i)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_TOP_GetEntryLabelSource(void *p, u32 i)
+u32 RESEARCH_TOP_GetEntryLabelSource(void *obj, u32 index)
 {
-    return *(u32 *)((char *)p + i * 4 + 0x74);
+    return *(u32 *)((char *)obj + index * 4 + 0x74);
 }
 
 /*
@@ -1455,16 +1456,16 @@ u32 RESEARCH_TOP_GetEntryLabelSource(void *p, u32 i)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_TOP_GetEntryIconSource(void *p, u32 i)
+u32 RESEARCH_TOP_GetEntryIconSource(void *obj, u32 index)
 {
-    return *(u32 *)((char *)p + i * 4 + 0x7c);
+    return *(u32 *)((char *)obj + index * 4 + 0x7c);
 }
 
-void RESEARCH_TOP_StartEntryPaletteAnime(char *self, int i)
+void RESEARCH_TOP_StartEntryPaletteAnime(char *obj, int slot)
 {
-    PALETTE_ANIME_Start(*(void **)(self + i * 4 + 0x38),
-                  *(u32 *)(d_021C3004 + i * 0x14),
-                  *(u16 *)(d_021C3008 + i * 0x14));
+    PALETTE_ANIME_Start(*(void **)(obj + slot * 4 + 0x38),
+                  *(u32 *)(d_021C3004 + slot * 0x14),
+                  *(u16 *)(d_021C3008 + slot * 0x14));
 }
 
 /*
@@ -1472,24 +1473,24 @@ void RESEARCH_TOP_StartEntryPaletteAnime(char *self, int i)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_StopEntryPaletteAnime(u8 *a0, u32 a1)
+void RESEARCH_TOP_StopEntryPaletteAnime(u8 *obj, u32 slot)
 {
-    PALETTE_ANIME_Stop((u32)(*(u32*)(a0 + (a1)*4 + 56)));
+    PALETTE_ANIME_Stop((u32)(*(u32*)(obj + (slot)*4 + 56)));
 }
 
-void RESEARCH_TOP_UpdateEntryPaletteAnime(int *p)
+void RESEARCH_TOP_UpdateEntryPaletteAnime(int *obj)
 {
     int i;
     for (i = 0; i < 5; i++)
-        PALETTE_ANIME_Update(p[i + 0x0E]);
+        PALETTE_ANIME_Update(obj[i + 0x0E]);
 }
 
 /*
  * trailing: 021BA4C6..021BA4C8 zero alignment padding.
  */
-unsigned char RESEARCH_TOP_CountUnlockedEntries(char *p)
+unsigned char RESEARCH_TOP_CountUnlockedEntries(char *obj)
 {
-    void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_COMMON_GetAppResource(((struct ResearchObjC *)p)->owner));
+    void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_COMMON_GetAppResource(((struct ResearchObjC *)obj)->owner));
     int count=1;
     if(ZONEDATA_CheckEventFlag(bitmap,240)==1)count++;
     if(ZONEDATA_CheckEventFlag(bitmap,241)==1)count++;
@@ -1503,14 +1504,14 @@ unsigned char RESEARCH_TOP_CountUnlockedEntries(char *p)
     return count;
 }
 
-u32 RESEARCH_TOP_GetOwner(void *p)
+u32 RESEARCH_TOP_GetOwner(void *obj)
 {
-    return ((struct ResearchObjC *)p)->ownerHandle;
+    return ((struct ResearchObjC *)obj)->ownerHandle;
 }
 
-void RESEARCH_TOP_SetOwner(void *p, u32 v)
+void RESEARCH_TOP_SetOwner(void *obj, u32 owner)
 {
-    ((struct ResearchObjC *)p)->ownerHandle = v;
+    ((struct ResearchObjC *)obj)->ownerHandle = owner;
 }
 
 /*
@@ -1518,66 +1519,66 @@ void RESEARCH_TOP_SetOwner(void *p, u32 v)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_SetHeapId(void *p, u32 v)
+void RESEARCH_TOP_SetHeapId(void *obj, u32 heapId)
 {
-    ((struct ResearchObjC *)p)->heapId = v;
+    ((struct ResearchObjC *)obj)->heapId = heapId;
 }
 
-u32 RESEARCH_TOP_GetInputFlag(void *p)
+u32 RESEARCH_TOP_GetInputFlag(void *obj)
 {
-    return RESEARCH_COMMON_GetInputFlag((void *)RESEARCH_TOP_GetOwner(p));
+    return RESEARCH_COMMON_GetInputFlag((void *)RESEARCH_TOP_GetOwner(obj));
 }
 
-u32 RESEARCH_TOP_AllocListObject(u32 a0)
+u32 RESEARCH_TOP_AllocListObject(u32 heapId)
 {
-    return (u32)func_02030734(a0, 144, 0, (const char *)0x21C3FEC, 1486);
+    return (u32)func_02030734(heapId, 144, 0, (const char *)0x21C3FEC, 1486);
 }
 
-u32 RESEARCH_TOP_FreeListObject(void *a0)
+u32 RESEARCH_TOP_FreeListObject(void *obj)
 {
-    return func_020307B0(a0);
+    return func_020307B0(obj);
 }
 
 /*
  * trailing: 021BA55E..021BA560 zero alignment padding.
  */
-void RESEARCH_TOP_InitFields(char *p)
+void RESEARCH_TOP_InitFields(char *obj)
 {
-    ((struct ResearchObjC *)p)->commandReady=0;((struct ResearchObjC *)p)->questionnaireLatched=0;((struct ResearchObjC *)p)->exitRequested=0;
-    ((struct ResearchObjC *)p)->command=0;((struct ResearchObjC *)p)->stateTimer=0;((struct ResearchObjC *)p)->stateTimerLimit=0;
-    ((struct ResearchObjC *)p)->selection=0;((struct ResearchObjC *)p)->mode=2;((struct ResearchObjC *)p)->commandTimer=0;
-    RESEARCH_TOP_ClearResources(p);RESEARCH_TOP_ClearCommandQueue(p);RESEARCH_TOP_ClearMessages(p);RESEARCH_TOP_ClearFont(p);
-    RESEARCH_TOP_ClearLabels(p);RESEARCH_TOP_ClearUnits(p);RESEARCH_TOP_ClearActor(p);RESEARCH_TOP_ClearPaletteAnime(p);
+    ((struct ResearchObjC *)obj)->commandReady=0;((struct ResearchObjC *)obj)->questionnaireLatched=0;((struct ResearchObjC *)obj)->exitRequested=0;
+    ((struct ResearchObjC *)obj)->command=0;((struct ResearchObjC *)obj)->stateTimer=0;((struct ResearchObjC *)obj)->stateTimerLimit=0;
+    ((struct ResearchObjC *)obj)->selection=0;((struct ResearchObjC *)obj)->mode=2;((struct ResearchObjC *)obj)->commandTimer=0;
+    RESEARCH_TOP_ClearResources(obj);RESEARCH_TOP_ClearCommandQueue(obj);RESEARCH_TOP_ClearMessages(obj);RESEARCH_TOP_ClearFont(obj);
+    RESEARCH_TOP_ClearLabels(obj);RESEARCH_TOP_ClearUnits(obj);RESEARCH_TOP_ClearActor(obj);RESEARCH_TOP_ClearPaletteAnime(obj);
 }
 
-void RESEARCH_TOP_InitSelection(char *p)
+void RESEARCH_TOP_InitSelection(char *obj)
 {
-    void *owner=((struct ResearchObjC *)p)->owner;
-    unsigned a=RESEARCH_COMMON_GetPreviousScreen(owner),b=RESEARCH_COMMON_GetEntryHandled(owner);
-    if(a!=0 && b==0) {
+    void *owner=((struct ResearchObjC *)obj)->owner;
+    unsigned prevScreen=RESEARCH_COMMON_GetPreviousScreen(owner),entryHandled=RESEARCH_COMMON_GetEntryHandled(owner);
+    if(prevScreen!=0 && entryHandled==0) {
         unsigned mode;
-        switch(a) {case 2:default:mode=0;break;case 3:mode=1;break;}
-        RESEARCH_TOP_SetSelection(p,mode);
+        switch(prevScreen) {case 2:default:mode=0;break;case 3:mode=1;break;}
+        RESEARCH_TOP_SetSelection(obj,mode);
     } else {
-        if(RESEARCH_TOP_IsSelectionValid((unsigned)p,0)!=0) RESEARCH_TOP_SetSelection(p,0);
-        else RESEARCH_TOP_SetSelection(p,1);
+        if(RESEARCH_TOP_IsSelectionValid((unsigned)obj,0)!=0) RESEARCH_TOP_SetSelection(obj,0);
+        else RESEARCH_TOP_SetSelection(obj,1);
     }
 }
 
-void RESEARCH_TOP_ClearFont(void *p)
+void RESEARCH_TOP_ClearFont(void *obj)
 {
-    ((struct ResearchObjC *)p)->font = 0;
+    ((struct ResearchObjC *)obj)->font = 0;
 }
 
-void RESEARCH_TOP_CreateFont(u32 a0)
+void RESEARCH_TOP_CreateFont(u32 obj)
 {
-    u8 s[4];
-    ((struct ResearchObjC *)a0)->font = (u32)GF_FONT_Create(23, 0, 0, 0, (u32)(((struct ResearchObjC *)a0)->heapId));
+    u8 scratch[4];
+    ((struct ResearchObjC *)obj)->font = (u32)GF_FONT_Create(23, 0, 0, 0, (u32)(((struct ResearchObjC *)obj)->heapId));
 }
 
-void RESEARCH_TOP_DeleteFont(u8 *a0)
+void RESEARCH_TOP_DeleteFont(u8 *obj)
 {
-    GF_FONT_Delete((void *)((u32)(((struct ResearchObjC *)a0)->font)));
+    GF_FONT_Delete((void *)((u32)(((struct ResearchObjC *)obj)->font)));
 }
 
 /*
@@ -1585,72 +1586,72 @@ void RESEARCH_TOP_DeleteFont(u8 *a0)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_ClearMessages(void *p)
+void RESEARCH_TOP_ClearMessages(void *obj)
 {
     int i;
     for (i = 0; i < 2; i++)
-        *(u32 *)((char *)p + i * 4 + 0xc) = 0;
+        *(u32 *)((char *)obj + i * 4 + 0xc) = 0;
 }
 
-void RESEARCH_TOP_CreateMessages(char *self)
+void RESEARCH_TOP_CreateMessages(char *obj)
 {
     int i = 0;
     do {
-        int o = i * 4;
-        *(u32 *)(self + o + 0xc) = (u32)func_02045B38((int)0, (int)2, (u16)(*(u32 *)((char *)d_021C2ED8 + o)), (u16)(((struct ResearchObjC *)self)->heapId));
+        int offset = i * 4;
+        *(u32 *)(obj + offset + 0xc) = (u32)func_02045B38((int)0, (int)2, (u16)(*(u32 *)((char *)d_021C2ED8 + offset)), (u16)(((struct ResearchObjC *)obj)->heapId));
         i++;
     } while (i < 2);
 }
 
-void RESEARCH_TOP_DeleteMessages(int *p)
+void RESEARCH_TOP_DeleteMessages(int *obj)
 {
     int i;
     for (i = 0; i < 2; i++)
-        MSGDATA_Delete((struct Rec *)p[i + 3]);
+        MSGDATA_Delete((struct Rec *)obj[i + 3]);
 }
 
-void RESEARCH_TOP_InitPaletteRows(u8 *self)
+void RESEARCH_TOP_InitPaletteRows(u8 *obj)
 {
     int i = 0;
     do {
-        int o = i * 4;
-        u8 *t = d_021C2EE0 + o;
-        self[o + 0x2e] = t[0];
-        self[o + 0x2f] = t[1];
-        self[o + 0x2c] = t[2];
-        self[o + 0x2d] = t[3];
+        int offset = i * 4;
+        u8 *src = d_021C2EE0 + offset;
+        obj[offset + 0x2e] = src[0];
+        obj[offset + 0x2f] = src[1];
+        obj[offset + 0x2c] = src[2];
+        obj[offset + 0x2d] = src[3];
         i++;
     } while (i < 3);
 }
 
-void RESEARCH_TOP_ClearCommandQueue(void *p)
+void RESEARCH_TOP_ClearCommandQueue(void *obj)
 {
-    ((struct ResearchObjC *)p)->commandQueue = 0;
+    ((struct ResearchObjC *)obj)->commandQueue = 0;
 }
 
-void RESEARCH_TOP_CreateCommandQueue(u32 a0)
+void RESEARCH_TOP_CreateCommandQueue(u32 obj)
 {
-    ((struct ResearchObjC *)a0)->commandQueue = RingQueue_Create(10, ((struct ResearchObjC *)a0)->heapId);
+    ((struct ResearchObjC *)obj)->commandQueue = RingQueue_Create(10, ((struct ResearchObjC *)obj)->heapId);
 }
 
-void RESEARCH_TOP_DestroyCommandQueue(struct ResearchObjC *p)
+void RESEARCH_TOP_DestroyCommandQueue(struct ResearchObjC *obj)
 {
-    RingQueue_Destroy((void *)p->commandQueue);
+    RingQueue_Destroy((void *)obj->commandQueue);
 }
 
-void RESEARCH_TOP_InitOverlayBackgrounds(char *p)
+void RESEARCH_TOP_InitOverlayBackgrounds(char *obj)
 {
-    func_0203FC28(&d_021C2EEC);
+    BG_SYS_SetGraphicsMode(&d_021C2EEC);
     BG_SYS_InitBgLayer(6,&d_021C2F78,0);BG_SYS_InitBgLayer(7,&d_021C2F18,0);
     BG_SYS_InitBgLayer(2,&d_021C2F38,0);BG_SYS_InitBgLayer(3,&d_021C2F58,0);
     func_02040588(4,1);func_02040588(5,1);func_02040588(6,1);func_02040588(7,1);
     func_02040588(1,1);func_02040588(2,1);func_02040588(3,1);
     func_0207D63C((volatile unsigned *)0x04001050,2,1,7,15);
     func_0207D63C((volatile unsigned *)0x04000050,4,2,16,5);
-    BMP_WIN_Init(((struct ResearchObjC *)p)->heapId);
+    BMP_WIN_Init(((struct ResearchObjC *)obj)->heapId);
 }
 
-void RESEARCH_TOP_ExitOverlayBackgrounds(u32 a0)
+void RESEARCH_TOP_ExitOverlayBackgrounds(u32 obj)
 {
     BMP_WIN_Exit();
     func_020403F4(3);
@@ -1659,83 +1660,83 @@ void RESEARCH_TOP_ExitOverlayBackgrounds(u32 a0)
     func_020403F4(6);
 }
 
-void RESEARCH_TOP_LoadBackground6(char *p)
+void RESEARCH_TOP_LoadBackground6(char *obj)
 {
-    struct ArcFile *arc=func_020490F4(192,((struct ResearchObjC *)p)->heapId);
-    void *file=ARC_TOOL_LoadHandleMember(arc,13,((struct ResearchObjC *)p)->heapId);
+    struct ArcFile *arc=func_020490F4(192,((struct ResearchObjC *)obj)->heapId);
+    void *file=ARC_TOOL_LoadHandleMember(arc,13,((struct ResearchObjC *)obj)->heapId);
     void *data;
-    func_02062B30(file,&data);
-    func_02041090(6,(unsigned)((char *)data+12),0,0,32,24);
+    NNS_G2dGetUnpackedScreenData(file,&data);
+    BG_SYS_DrawTile(6,(unsigned)((char *)data+12),0,0,32,24);
     func_020409B4(6);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
 }
 
-void RESEARCH_TOP_DummyBg7(u32 a0)
+void RESEARCH_TOP_DummyBg7(u32 unused)
 {
 }
 
-u32 RESEARCH_TOP_UpdateBackground7(void *a0)
+u32 RESEARCH_TOP_UpdateBackground7(void *obj)
 {
     BG_SYS_Init(7, 0, 1, 0);
     return BG_SYS_ClearSlot(7);
 }
 
-void RESEARCH_TOP_ShowBackground7(u32 a0)
+void RESEARCH_TOP_ShowBackground7(u32 obj)
 {
-    func_02040DA8(7, 1, 0);
+    BG_SYS_SetTileUnit(7, 1, 0);
 }
 
-void RESEARCH_TOP_LoadBackground2(char *p)
+void RESEARCH_TOP_LoadBackground2(char *obj)
 {
-    struct ArcFile *arc=func_020490F4(192,((struct ResearchObjC *)p)->heapId);
-    void *file=ARC_TOOL_LoadHandleMember(arc,4,((struct ResearchObjC *)p)->heapId);
+    struct ArcFile *arc=func_020490F4(192,((struct ResearchObjC *)obj)->heapId);
+    void *file=ARC_TOOL_LoadHandleMember(arc,4,((struct ResearchObjC *)obj)->heapId);
     void *data;
-    func_02062B30(file,&data);
-    func_02041090(2,(unsigned)((char *)data+12),0,0,32,24);
+    NNS_G2dGetUnpackedScreenData(file,&data);
+    BG_SYS_DrawTile(2,(unsigned)((char *)data+12),0,0,32,24);
     func_020409B4(2);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
 }
 
-void RESEARCH_TOP_DummyBg3(u32 a0)
+void RESEARCH_TOP_DummyBg3(u32 unused)
 {
 }
 
-u32 RESEARCH_TOP_UpdateBackground3(void *a0)
+u32 RESEARCH_TOP_UpdateBackground3(void *obj)
 {
     BG_SYS_Init(3, 0, 1, 0);
     return BG_SYS_ClearSlot(3);
 }
 
-void RESEARCH_TOP_ShowBackground3(u32 a0)
+void RESEARCH_TOP_ShowBackground3(u32 obj)
 {
-    func_02040DA8(3, 1, 0);
+    BG_SYS_SetTileUnit(3, 1, 0);
 }
 
-void RESEARCH_TOP_ClearLabels(void *p)
+void RESEARCH_TOP_ClearLabels(void *obj)
 {
     int i;
     for (i = 0; i < 4; i++)
-        *(u32 *)((char *)p + i * 4 + 0x4c) = 0;
+        *(u32 *)((char *)obj + i * 4 + 0x4c) = 0;
 }
 
-void RESEARCH_TOP_CreateLabels(char *p)
+void RESEARCH_TOP_CreateLabels(char *obj)
 {
     struct LabelTemplate tmpl;
     int i;
     for(i=0;i<4;i++) {
-        const struct LabelEntry *s=&d_021C2F98[i];
-        tmpl.params[0]=s->template.params[0];tmpl.params[1]=s->template.params[1];tmpl.params[2]=s->template.params[2];tmpl.params[3]=s->template.params[3];
-        tmpl.params[4]=s->template.params[4];tmpl.params[5]=s->template.params[5];tmpl.params[6]=s->template.params[6];tmpl.params[7]=s->template.params[7];
-        tmpl.params[8]=s->template.params[8];tmpl.params[9]=s->template.params[9];tmpl.params[10]=s->template.params[10];tmpl.messageIndex=s->extraId;
-        *(unsigned *)(p+i*4+0x4c)=(unsigned int)BgTextLabel_Create((const struct Config *)(&tmpl),((struct ResearchObjC *)p)->font,*(unsigned *)(p+s->template.messageIndex*4+0xc),((struct ResearchObjC *)p)->heapId);
-        BgTextLabel_PrintMessage(*(unsigned *)(p+i*4+0x4c),s->messageId);
+        const struct LabelEntry *entry=&d_021C2F98[i];
+        tmpl.params[0]=entry->template.params[0];tmpl.params[1]=entry->template.params[1];tmpl.params[2]=entry->template.params[2];tmpl.params[3]=entry->template.params[3];
+        tmpl.params[4]=entry->template.params[4];tmpl.params[5]=entry->template.params[5];tmpl.params[6]=entry->template.params[6];tmpl.params[7]=entry->template.params[7];
+        tmpl.params[8]=entry->template.params[8];tmpl.params[9]=entry->template.params[9];tmpl.params[10]=entry->template.params[10];tmpl.messageIndex=entry->extraId;
+        *(unsigned *)(obj+i*4+0x4c)=(unsigned int)BgTextLabel_Create((const struct Config *)(&tmpl),((struct ResearchObjC *)obj)->font,*(unsigned *)(obj+entry->template.messageIndex*4+0xc),((struct ResearchObjC *)obj)->heapId);
+        BgTextLabel_PrintMessage(*(unsigned *)(obj+i*4+0x4c),entry->messageId);
     }
 }
 
-void RESEARCH_TOP_DestroyLabels(int *p)
+void RESEARCH_TOP_DestroyLabels(int *obj)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        BgTextLabel_Destroy((u8 *)p[i + 0x13]);
-        p[i + 0x13] = 0;
+        BgTextLabel_Destroy((u8 *)obj[i + 0x13]);
+        obj[i + 0x13] = 0;
     }
 }
 
@@ -1744,11 +1745,11 @@ void RESEARCH_TOP_DestroyLabels(int *p)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_ClearResources(void *p)
+void RESEARCH_TOP_ClearResources(void *obj)
 {
     int i;
     for (i = 0; i < 6; i++)
-        *(u32 *)((char *)p + i * 4 + 0x5c) = 0;
+        *(u32 *)((char *)obj + i * 4 + 0x5c) = 0;
 }
 
 /*
@@ -1760,50 +1761,50 @@ void RESEARCH_TOP_RegisterEntryResources(struct ResearchObjC *p)
 {
     u16 heap=p->heapId;
     void *arc=func_020490F4(192,heap);
-    int a=CLACT_RegisterCharacter((void *)((unsigned)arc),15,0,1,heap);
-    int b=CLACT_RegisterPalette((void *)arc,16,1,0,heap);
-    int c=CLACT_RegisterCellAnim((void *)((unsigned)arc),14,17,heap);
-    p->entryCharacter=a;p->entryPalette=b;p->entryCell=c;
+    int charHandle=CLACT_RegisterCharacter((void *)((unsigned)arc),15,0,1,heap);
+    int paletteHandle=CLACT_RegisterPalette((void *)arc,16,1,0,heap);
+    int cellHandle=CLACT_RegisterCellAnim((void *)((unsigned)arc),14,17,heap);
+    p->entryCharacter=charHandle;p->entryPalette=paletteHandle;p->entryCell=cellHandle;
     ARC_TOOL_DeleteHandle(arc);
 }
 
-u32 RESEARCH_TOP_ReleaseEntryResources(u32 a0)
+u32 RESEARCH_TOP_ReleaseEntryResources(u32 obj)
 {
-    CLACT_ReleaseCharacter(((struct ResearchObjC *)a0)->entryCharacter);
-    CLACT_ReleasePalette(((struct ResearchObjC *)a0)->entryPalette);
-    return CLACT_ReleaseCellAnim(((struct ResearchObjC *)a0)->entryCell);
+    CLACT_ReleaseCharacter(((struct ResearchObjC *)obj)->entryCharacter);
+    CLACT_ReleasePalette(((struct ResearchObjC *)obj)->entryPalette);
+    return CLACT_ReleaseCellAnim(((struct ResearchObjC *)obj)->entryCell);
 }
 
 void RESEARCH_TOP_RegisterCursorResources(struct ResearchObjC *p)
 {
     u16 heap=p->heapId;
     void *arc=func_020490F4(192,heap);
-    int a=CLACT_RegisterCharacter((void *)((unsigned)arc),15,0,0,heap);
-    int b=CLACT_RegisterPaletteEx((void *)((unsigned)arc),16,0,192,0,4,heap);
-    int c=CLACT_RegisterCellAnim((void *)((unsigned)arc),14,17,heap);
-    p->cursorCharacter=a;p->cursorPalette=b;p->cursorCell=c;
+    int charHandle=CLACT_RegisterCharacter((void *)((unsigned)arc),15,0,0,heap);
+    int paletteHandle=CLACT_RegisterPaletteEx((void *)((unsigned)arc),16,0,192,0,4,heap);
+    int cellHandle=CLACT_RegisterCellAnim((void *)((unsigned)arc),14,17,heap);
+    p->cursorCharacter=charHandle;p->cursorPalette=paletteHandle;p->cursorCell=cellHandle;
     ARC_TOOL_DeleteHandle(arc);
 }
 
-u32 RESEARCH_TOP_ReleaseCursorResources(u32 a0)
+u32 RESEARCH_TOP_ReleaseCursorResources(u32 obj)
 {
-    CLACT_ReleaseCharacter(((struct ResearchObjC *)a0)->cursorCharacter);
-    CLACT_ReleasePalette(((struct ResearchObjC *)a0)->cursorPalette);
-    return CLACT_ReleaseCellAnim(((struct ResearchObjC *)a0)->cursorCell);
+    CLACT_ReleaseCharacter(((struct ResearchObjC *)obj)->cursorCharacter);
+    CLACT_ReleasePalette(((struct ResearchObjC *)obj)->cursorPalette);
+    return CLACT_ReleaseCellAnim(((struct ResearchObjC *)obj)->cursorCell);
 }
 
-void RESEARCH_TOP_ClearUnits(void *p)
+void RESEARCH_TOP_ClearUnits(void *obj)
 {
     int i;
     for (i = 0; i < 2; i++)
-        *(u32 *)((char *)p + i * 4 + 0x74) = 0;
+        *(u32 *)((char *)obj + i * 4 + 0x74) = 0;
 }
 
-void RESEARCH_TOP_CreateUnits(char *self)
+void RESEARCH_TOP_CreateUnits(char *obj)
 {
     int i = 0;
     do {
-        *(u32 *)(self + i * 4 + 0x74) = (u32)CLACT_CreateUnit(d_021C2ED2[i], d_021C2ED0[i], ((struct ResearchObjC *)self)->heapId);
+        *(u32 *)(obj + i * 4 + 0x74) = (u32)CLACT_CreateUnit(d_021C2ED2[i], d_021C2ED0[i], ((struct ResearchObjC *)obj)->heapId);
         i++;
     } while (i < 2);
 }
@@ -1811,11 +1812,11 @@ void RESEARCH_TOP_CreateUnits(char *self)
 /*
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_DeleteUnits(int *p)
+void RESEARCH_TOP_DeleteUnits(int *obj)
 {
     int i;
     for (i = 0; i < 2; i++)
-        CLACT_DeleteUnit((struct Bank *)p[i + 0x1D]);
+        CLACT_DeleteUnit((struct Bank *)obj[i + 0x1D]);
 }
 
 /*
@@ -1823,31 +1824,31 @@ void RESEARCH_TOP_DeleteUnits(int *p)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_ClearActor(void *p)
+void RESEARCH_TOP_ClearActor(void *obj)
 {
-    ((struct ResearchObjC *)p)->actor = 0;
+    ((struct ResearchObjC *)obj)->actor = 0;
 }
 
 /*
  * B294's returned r0 is stored and passed to B3DC in the original.
  */
-void RESEARCH_TOP_CreateActor(char *p)
+void RESEARCH_TOP_CreateActor(char *obj)
 {
     struct ActorSpawnPos pos;
-    unsigned first,second,third,fourth;
+    unsigned labelSource,actorSourceA,actorSourceB,actorSourceC;
     pos.x=d_021C2EFC.pos.x;pos.y=d_021C2EFC.pos.y;pos.z=d_021C2EFC.pos.z;
     pos.a=d_021C2EFC.pos.a;pos.b=d_021C2EFC.pos.b;
-    first=RESEARCH_TOP_GetEntryLabelSource(p,d_021C2EFC.firstSource);
-    second=RESEARCH_TOP_GetEntryActorSource(p,d_021C2EFC.secondSource);
-    third=RESEARCH_TOP_GetEntryActorSource(p,d_021C2EFC.thirdSource);
-    fourth=RESEARCH_TOP_GetEntryActorSource(p,d_021C2EFC.fourthSource);
-    *(unsigned *)&((struct ResearchObjC *)p)->actor=(unsigned)CLACT_CreateActor((void *)first,second,third,fourth,&pos,d_021C2EFC.arg,((struct ResearchObjC *)p)->heapId);
-    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ResearchObjC *)p)->actor,0);
+    labelSource=RESEARCH_TOP_GetEntryLabelSource(obj,d_021C2EFC.firstSource);
+    actorSourceA=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.secondSource);
+    actorSourceB=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.thirdSource);
+    actorSourceC=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.fourthSource);
+    *(unsigned *)&((struct ResearchObjC *)obj)->actor=(unsigned)CLACT_CreateActor((void *)labelSource,actorSourceA,actorSourceB,actorSourceC,&pos,d_021C2EFC.arg,((struct ResearchObjC *)obj)->heapId);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ResearchObjC *)obj)->actor,0);
 }
 
-void RESEARCH_TOP_DeleteActor(u8 *a0)
+void RESEARCH_TOP_DeleteActor(u8 *obj)
 {
-    CLACT_DeleteActor((struct Obj *)((u32)(((struct ResearchObjC *)a0)->actor)));
+    CLACT_DeleteActor((struct Obj *)((u32)(((struct ResearchObjC *)obj)->actor)));
 }
 
 /*
@@ -1855,40 +1856,40 @@ void RESEARCH_TOP_DeleteActor(u8 *a0)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_TOP_ClearPaletteAnime(void *p)
+void RESEARCH_TOP_ClearPaletteAnime(void *obj)
 {
     int i;
     for (i = 0; i < 5; i++)
-        *(u32 *)((char *)p + i * 4 + 0x38) = 0;
+        *(u32 *)((char *)obj + i * 4 + 0x38) = 0;
 }
 
-void RESEARCH_TOP_CreatePaletteAnime(char *p)
+void RESEARCH_TOP_CreatePaletteAnime(char *obj)
 {
     int i;
     for (i = 0; i < 5; i++)
-        ((int *)(p + 0x38))[i] = PALETTE_ANIME_Create(((struct ResearchObjC *)p)->heapId);
+        ((int *)(obj + 0x38))[i] = PALETTE_ANIME_Create(((struct ResearchObjC *)obj)->heapId);
 }
 
-void RESEARCH_TOP_DestroyPaletteAnime(int *p)
+void RESEARCH_TOP_DestroyPaletteAnime(int *obj)
 {
     int i;
     for (i = 0; i < 5; i++)
-        PALETTE_ANIME_Destroy((void *)p[i + 0x0E]);
+        PALETTE_ANIME_Destroy((void *)obj[i + 0x0E]);
 }
 
-void RESEARCH_TOP_BindPaletteAnime(char *self)
+void RESEARCH_TOP_BindPaletteAnime(char *obj)
 {
     int i;
     for (i = 0; i < 5; i++) {
-        PALETTE_ANIME_Bind((void *)(*(int *)(self + i * 4 + 0x38)), d_021C2FF8[i].palette, d_021C2FF8[i].source, d_021C2FF8[i].mode);
+        PALETTE_ANIME_Bind((void *)(*(int *)(obj + i * 4 + 0x38)), d_021C2FF8[i].palette, d_021C2FF8[i].source, d_021C2FF8[i].mode);
     }
 }
 
-void RESEARCH_TOP_RestorePaletteAnime(char *self)
+void RESEARCH_TOP_RestorePaletteAnime(char *obj)
 {
     int i;
     for (i = 0; i < 5; i++) {
-        PALETTE_ANIME_Restore((char *)(*(int *)(self + i * 4 + 0x38)));
+        PALETTE_ANIME_Restore((char *)(*(int *)(obj + i * 4 + 0x38)));
     }
 }
 
@@ -1901,7 +1902,7 @@ void RESEARCH_TOP_UpdateVBlank(void)
     CLACT_VBlankSystem();
 }
 
-void RESEARCH_TOP_RegisterVBlank(void *a0)
+void RESEARCH_TOP_RegisterVBlank(void *obj)
 {
     func_02005654((int)RESEARCH_TOP_UpdateVBlank, 0);
 }
@@ -1916,7 +1917,7 @@ void RESEARCH_TOP_UnregisterVBlank(void)
     func_0200566C();
 }
 
-void RESEARCH_TOP_RestartNetwork(u32 a0)
+void RESEARCH_TOP_RestartNetwork(u32 obj)
 {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchObjC *)a0)->heapId);
+    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchObjC *)obj)->heapId);
 }

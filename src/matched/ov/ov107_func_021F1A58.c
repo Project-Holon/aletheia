@@ -15,7 +15,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_02028470 0x02028470 thumb
  */
@@ -32,7 +32,7 @@ struct U16Vec;
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02028470(u8 *p, u32 v);
 struct Descriptor;
@@ -51,7 +51,7 @@ void MB_UTIL_MSG_PrintStreamSystemMsg(char *p,int a)
     BMP_Clear(BMP_WIN_GetBmp(P(0x10)),15);
     P(0x20)=func_02045EC0(s,22);
     P(0x18)=PRINTSYS_PrintStream(P(0x10),0,0,P(0x20),P(0x14),a,P(12),2,((struct Obj13767 *)p)->f0,15);
-    func_0201F73C(P(0x10),1,1,13);
+    BMP_MENUWORK_DrawWindow(P(0x10),1,1,13);
     MSGDATA_Delete(s);
     if(I(8)==1)func_02028470((u8 *)(p+0x28),6);else func_02028470((u8 *)(p+0x28),4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6264
+ * function: MUSICAL_MCSS_SetFieldC
  * address:  0x021F6264
  * packet:   pkt_021F6264
  * region:   ov112
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj22545.h"
 
-void func_021F6264(char *p, unsigned short v)
+void MUSICAL_MCSS_SetFieldC(char *p, unsigned short v)
 {
     ((struct Obj22545 *)p)->fFC = v;
 }

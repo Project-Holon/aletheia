@@ -1,5 +1,5 @@
 /*
- * function: func_021F23F8
+ * function: NAMEIN_GRAPHIC_GetSecondaryLength
  * address: 0x021F23F8
  * packet: pkt_ov194_021F23F8
  * region: ov194
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021F23F8(const u8 *p) {return ((struct Obj24903 *)p)->f20;}
+u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p) {return ((struct Obj24903 *)p)->f20;}

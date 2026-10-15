@@ -1,5 +1,5 @@
 /*
- * function: func_02162FF0
+ * function: CPSi_md5_block
  * address:  0x02162FF0
  * packet:   pkt_ov009_02162FF0
  * region:   ov009
@@ -41,7 +41,7 @@ extern unsigned char g_021A1DA8[64];
     a += f(b, c, d) + x[g_021A1DA8[k]] + g_021A1E28[k]; \
     a = ROTL(a, s) + b
 
-void func_02162FF0(CPSMd5Ctx *ctx, unsigned char *m)
+void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m)
 {
     unsigned long x[16];
     unsigned long a, b, c, d;

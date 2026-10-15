@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C4044  0x021C4044  thumb
+ *   WIFI_2DCHAR_SetupCells  0x021C4044  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02184.h"
 
 typedef unsigned char  u8;
-extern void func_021C4044(u8 *p, int a, int b, int c, int d);
+extern void WIFI_2DCHAR_SetupCells(u8 *p, int a, int b, int c, int d);
 
 void WF2DMAP_OBJDRAW_ConfigureSprite(char *p, int a, int b)
 {
-    func_021C4044(((struct Obj02184 *)p)->f0, ((struct Obj02184 *)p)->fB, a, 0, b);
+    WIFI_2DCHAR_SetupCells(((struct Obj02184 *)p)->f0, ((struct Obj02184 *)p)->fB, a, 0, b);
 }

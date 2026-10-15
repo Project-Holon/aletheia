@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02041090 0x02041090 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
-extern void func_020413B0(u32,u8,u8,u8,u8,u8);
+extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BG_SYS_FillTileMap(u32,u8,u8,u8,u8,u8);
 void IRC_RANKING_WriteRowScreen(u8 *p, u32 a, int b, u8 c) {
     if(a>=4) p+=192;
-    func_02041090(a,(u32)p,0,(u8)b,32,3);
-    func_020413B0(a,0,b,32,3,c);
+    BG_SYS_DrawTile(a,(u32)p,0,(u8)b,32,3);
+    BG_SYS_FillTileMap(a,0,b,32,3,c);
 }

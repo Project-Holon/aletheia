@@ -1,5 +1,5 @@
 /*
- * function: func_0220C8F0
+ * function: B_PLIST_DRAW_PrintStatRow0
  * address: 0x0220C8F0
  * packet: pkt_ov198_0220C8F0
  * region: ov198
@@ -12,14 +12,14 @@
  * symbols:
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  */
 typedef struct {
     int f0;
@@ -51,7 +51,7 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern int func_022110D4(u8 *p, int i);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *p, int i);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
@@ -59,8 +59,8 @@ typedef unsigned short u16;
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 static inline void put(Big *a0, int win, int sel, int x, int h, int color)
@@ -68,9 +68,9 @@ static inline void put(Big *a0, int win, int sel, int x, int h, int color)
     PRINTSYS_PrintQueColor((void *)win, (int)BMP_WIN_GetBmp((struct Descriptor *)sel), x, 0, h, a0->f0->fc, color);
 }
 
-void func_0220C8F0(Big *a0, int i)
+void B_PLIST_DRAW_PrintStatRow0(Big *a0, int i)
 {
-    char *entry = (char *)a0 + 4 + func_022110D4((u8 *)a0, i) * 0x4c;
+    char *entry = (char *)a0 + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)a0, i) * 0x4c;
     int h1;
     int h2;
     int p;
@@ -84,8 +84,8 @@ void func_0220C8F0(Big *a0, int i)
 
     h2 = (int)func_02045EC0((struct MsgBank *)a0->f1ea0, 0x2b);
     p = (int)STRBUF_Create(8, a0->f0->f10);
-    func_0201EFA4((struct WordSet *)a0->f1ea4, 0, *(unsigned short *)(entry + 6), 3, 0, 1);
-    func_0201F250((struct WordSet *)a0->f1ea4, (void *)p, (void *)h2);
+    WORDSET_SetSlotNumber((struct WordSet *)a0->f1ea4, 0, *(unsigned short *)(entry + 6), 3, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)a0->f1ea4, (void *)p, (void *)h2);
 
     v = (unsigned char)func_0201D304((struct StrObj *)p, a0->f0->fc, 0);
     x = (BMP_WIN_GetWidth((struct Descriptor *)a0->f1f98) << 3) - v;

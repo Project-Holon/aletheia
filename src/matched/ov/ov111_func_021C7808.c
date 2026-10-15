@@ -1,5 +1,5 @@
 /*
- * function: func_021C7808
+ * function: VIEWER_ACTOR_DeleteModel
  * address:  0x021C7808
  * packet:   pkt_ov111_021C7808
  * region:   ov111
@@ -47,7 +47,7 @@ struct Rec;
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
 
-void func_021C7808(Work *p)
+void VIEWER_ACTOR_DeleteModel(Work *p)
 {
     G3D_CAMERA_Delete(p->f104);
     G3D_UTIL_RemoveUnit(p->fF8, p->fFC);

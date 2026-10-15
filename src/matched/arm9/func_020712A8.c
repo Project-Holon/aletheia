@@ -1,5 +1,5 @@
 /*
- * function: func_020712A8
+ * function: NNSi_G3dTexMtxRot4x4
  * address:  0x020712A8
  * packet:   pkt_02070B64
  * region:   arm9
@@ -27,8 +27,8 @@
  * unsigned negation (`temp(tmp=-t) ; cast(u32)`); this is its readable form.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020712A8.c \
- *       --func func_020712A8 --addr 0x020712A8 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dTexMtxRot4x4.c \
+ *       --func NNSi_G3dTexMtxRot4x4 --addr 0x020712A8 --arm --cc ../2.0/sp2
  */
 typedef unsigned short u16; typedef unsigned int u32; typedef int s32; typedef short fx16; typedef s32 fx32;
 typedef struct {
@@ -38,7 +38,7 @@ typedef struct {
 typedef struct { fx32 _00,_01,_02,_03,_10,_11,_12,_13,_20,_21,_22,_23,_30,_31,_32,_33; } MtxFx44;
 extern void FX_DivAsync(fx32 numer, fx32 denom);
 extern fx32 FX_GetDivResult(void);
-void func_020712A8(MtxFx44 *m, const MatAnmResult *anm)
+void NNSi_G3dTexMtxRot4x4(MtxFx44 *m, const MatAnmResult *anm)
 {
     fx32 w = anm->origWidth << 12;
     fx32 h = anm->origHeight << 12;

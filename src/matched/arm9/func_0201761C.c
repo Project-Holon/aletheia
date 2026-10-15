@@ -12,15 +12,15 @@
  * symbols:
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
- *   func_02019C54  0x02019C54  thumb
+ *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
  *   func_020056EC  0x020056EC  thumb
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_CheckShiny  0x02017ED8  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
- *   func_02019C7C  0x02019C7C  thumb
+ *   POKE_TOOL_GetPersonalGender  0x02019C7C  thumb
  *   POKE_TOOL_GetBoxGender  0x02017F08  thumb
  *   POKE_TOOL_SetBoxDefaultMoves  0x02017FB0  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
@@ -40,7 +40,7 @@
  *     `id = (id + 1) & 0xFFFFFFFF`); rnd == 0xFFFFFFFF00000000 (draw),
  *     rnd == 0xFFFFFFFF00000001 (take id).  Callers 0x0201756C/0x02017600
  *     pass pow = -1, rnd = 0xFFFFFFFF00000000.
- *   - the IV draws are `(u64)func_0203F0A8() * 32 >> 32`
+ *   - the IV draws are `(u64)GF_STANDARD_Rand() * 32 >> 32`
  *     (docs/idioms/random-below-n-is-a-64-bit-multiply-high.md).
  *   - POKE_TOOL_ClearBoxParam takes `obj` (it is unit_02017528.c's area clear).  The
  *     last ten prologue bytes (r1 vs r0 as the scratch for the stack-param
@@ -59,15 +59,15 @@ struct Personal;
 struct Sav;
 extern void POKE_TOOL_ClearBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern void *func_02019C54(u32 a, u32 b);
+extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 extern u32   func_020056EC(u32 a);
-extern u32   func_0203F0A8(void);
+extern u32   GF_STANDARD_Rand(void);
 extern void  POKE_TOOL_SetBoxValue(void *obj, u32 id, u32 val);
 extern u32   POKE_TOOL_CheckShiny(u32 a, u32 b);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32   POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
-extern u32   func_02019C7C(void *a);
+extern u32   POKE_TOOL_GetPersonalGender(void *a);
 extern u8 POKE_TOOL_GetBoxGender(void *p);
 extern u32 POKE_TOOL_SetBoxDefaultMoves(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
@@ -85,11 +85,11 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
 
     POKE_TOOL_ClearBoxParam(obj);
     flag = POKE_TOOL_DecodeBoxParam(obj);
-    rec = func_02019C54(species, 0);
+    rec = POKE_TOOL_GetPersonalData(species, 0);
 
     if (rnd == 0xFFFFFFFF00000000ULL) {
         rnd = func_020056EC(0);
-        func_0203F0A8();
+        GF_STANDARD_Rand();
     } else if (rnd == 0xFFFFFFFF00000001ULL) {
         rnd = id;
     }
@@ -115,12 +115,12 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
     POKE_TOOL_SetBoxValue(obj, 0x98, 4);
 
     if (pow == 0xFFFFFFFF) {
-        POKE_TOOL_SetBoxValue(obj, 0x46, (u32)(((u64)func_0203F0A8() * 32) >> 32));
-        POKE_TOOL_SetBoxValue(obj, 0x47, (u32)(((u64)func_0203F0A8() * 32) >> 32));
-        POKE_TOOL_SetBoxValue(obj, 0x48, (u32)(((u64)func_0203F0A8() * 32) >> 32));
-        POKE_TOOL_SetBoxValue(obj, 0x4a, (u32)(((u64)func_0203F0A8() * 32) >> 32));
-        POKE_TOOL_SetBoxValue(obj, 0x4b, (u32)(((u64)func_0203F0A8() * 32) >> 32));
-        POKE_TOOL_SetBoxValue(obj, 0x49, (u32)(((u64)func_0203F0A8() * 32) >> 32));
+        POKE_TOOL_SetBoxValue(obj, 0x46, (u32)(((u64)GF_STANDARD_Rand() * 32) >> 32));
+        POKE_TOOL_SetBoxValue(obj, 0x47, (u32)(((u64)GF_STANDARD_Rand() * 32) >> 32));
+        POKE_TOOL_SetBoxValue(obj, 0x48, (u32)(((u64)GF_STANDARD_Rand() * 32) >> 32));
+        POKE_TOOL_SetBoxValue(obj, 0x4a, (u32)(((u64)GF_STANDARD_Rand() * 32) >> 32));
+        POKE_TOOL_SetBoxValue(obj, 0x4b, (u32)(((u64)GF_STANDARD_Rand() * 32) >> 32));
+        POKE_TOOL_SetBoxValue(obj, 0x49, (u32)(((u64)GF_STANDARD_Rand() * 32) >> 32));
     } else {
         POKE_TOOL_SetBoxValue(obj, 0x46, (u8)(pow & 0x1f));
         POKE_TOOL_SetBoxValue(obj, 0x47, (u8)((pow >> 5) & 0x1f));
@@ -131,7 +131,7 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
     }
 
     v = 0x1a;
-    if (func_02019C7C(rec) == 2 && (rnd & 0x10000) != 0) {
+    if (POKE_TOOL_GetPersonalGender(rec) == 2 && (rnd & 0x10000) != 0) {
         v = 0x1b;
     }
     POKE_TOOL_SetBoxValue(obj, 0xa, POKE_PERSONAL_GetParam(rec, v));

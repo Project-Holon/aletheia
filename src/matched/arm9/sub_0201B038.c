@@ -24,7 +24,7 @@
  *   POKERUS_GetInfectedMask   0x0201B220  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32   POKERUS_GetInfectedMask(void *party);
-extern u32   func_0203F0A8(void);
+extern u32   GF_STANDARD_Rand(void);
 void POKERUS_TryInfectParty(void *party)
 {
     u32 mask;
@@ -48,11 +48,11 @@ void POKERUS_TryInfectParty(void *party)
     u32 n;
 
     n = POKEPARTY_GetCount(party);
-    r = (u16)((u64)func_0203F0A8() * 0x10000 >> 32);
+    r = (u16)((u64)GF_STANDARD_Rand() * 0x10000 >> 32);
     mask = POKERUS_GetInfectedMask(party);
     if (r == 0x4000 || r == 0x8000 || r == 0xC000) {
         do {
-            slot = func_0203F0A8();
+            slot = GF_STANDARD_Rand();
             if (n != 0) {
                 slot = (u32)(((u64)slot * n) >> 32);
             }
@@ -63,7 +63,7 @@ void POKERUS_TryInfectParty(void *party)
             return;
         }
         do {
-            v = (u8)((u64)func_0203F0A8() * 0x100 >> 32);
+            v = (u8)((u64)GF_STANDARD_Rand() * 0x100 >> 32);
         } while ((v & 7) == 0);
         if ((v & 0xF0) != 0) {
             v = v & 7;

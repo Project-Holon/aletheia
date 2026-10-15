@@ -1,5 +1,5 @@
 /*
- * function: func_02068030
+ * function: NNS_G2dFontGetStringWidth
  * address:  0x02068030
  * packet:   pkt_02067FE4
  * region:   arm9
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   NNS_G2dFontGetGlyphIndex    0x02067F9C  arm
- *   func_02067FE4    0x02067FE4  arm
+ *   NNS_G2dFontGetCharWidthsFromIndex    0x02067FE4  arm
  *
  * NNS_G2dFontGetStringWidth (NitroSystem g2d_Font.c): width of one line of
  * text, stopping at NUL or '\n'; the spliter callback advances a cursor held
  * in a stack slot.  *pPos gets the cursor after a newline, NULL at end of
  * string, and one trailing hSpace is removed.  NNS_G2dFontGetGlyphIndex is
  * NNS_G2dFontGetGlyphIndex (0xFFFF = not found -> alterCharIndex),
- * func_02067FE4 NNS_G2dFontGetCharWidthsFromIndex.
+ * NNS_G2dFontGetCharWidthsFromIndex NNS_G2dFontGetCharWidthsFromIndex.
  *
  * The cursor is a LOCAL COPY of the string argument (`str = txt`): taking
  * the address of the parameter itself spills all four argument registers
@@ -68,17 +68,17 @@ typedef struct NNSG2dFont {
 } NNSG2dFont;
 
 extern u16 NNS_G2dFontGetGlyphIndex(const NNSG2dFont *pFont, u16 c);
-extern const struct NNSG2dCharWidths *func_02067FE4(const struct NNSG2dFont *pFont, u32 idx);
+extern const struct NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(const struct NNSG2dFont *pFont, u32 idx);
 
 static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
 {
     u16 index = NNS_G2dFontGetGlyphIndex(pFont, c);
     if (index == 0xFFFF)
         index = pFont->pRes->alterCharIndex;
-    return func_02067FE4(pFont, index)->charWidth;
+    return NNS_G2dFontGetCharWidthsFromIndex(pFont, index)->charWidth;
 }
 
-int func_02068030(const NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos)
+int NNS_G2dFontGetStringWidth(const NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos)
 {
     const void *str = txt;
     int width = 0;

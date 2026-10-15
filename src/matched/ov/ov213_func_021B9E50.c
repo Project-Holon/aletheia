@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E50
+ * function: COMM_BTL_DEMO_MAIN_IsFullPartyMode
  * address: 0x021B9E50
  * packet: pkt_ov213_021B9E50
  * region: ov213
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021B9E50(u32 x) {switch(x){case 1:return 1;case 2:return 1;case 3:return 0;case 4:return 0;case 0:default:return 1;}}
+int COMM_BTL_DEMO_MAIN_IsFullPartyMode(u32 x) {switch(x){case 1:return 1;case 2:return 1;case 3:return 0;case 4:return 0;case 0:default:return 1;}}

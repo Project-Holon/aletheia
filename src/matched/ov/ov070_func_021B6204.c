@@ -10,14 +10,14 @@
  * status: EXACT*
  * Extent ends in two zero alignment bytes.
  * symbols:
- *   func_0201EF6C 0x0201EF6C thumb
+ *   WORDSET_SetSlotFromBank 0x0201EF6C thumb
  */
 #include "../include/Obj20662.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct WordSet;
-extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
+extern void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 void ITEMMENU_RegisterItemNameCounted(u8 *p, int a, unsigned int b, int c, int d)
 {
-    func_0201EF6C(((struct Obj20662 *)p)->f520, a, b, c, d);
+    WORDSET_SetSlotFromBank(((struct Obj20662 *)p)->f520, a, b, c, d);
 }

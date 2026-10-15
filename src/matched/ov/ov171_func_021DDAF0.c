@@ -13,8 +13,8 @@
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  */
 #include "../include/Obj00210.h"
@@ -34,8 +34,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 void DENDOU_VIEW_DrawPageCounter(u8 *p)
 {
@@ -50,14 +50,14 @@ void DENDOU_VIEW_DrawPageCounter(u8 *p)
     PRINTSYS_PrintColor(((struct Obj00210 *)p)->fC58,x,4,s1,((struct Obj00210 *)p)->fB58,0x1900);
     STRBUF_Delete(s1);
     s2=func_02045EC0(((struct Obj00210 *)p)->fB60,4);
-    func_0201EFA4(((struct Obj00210 *)p)->fB64,0,((struct Obj00210 *)p)->fC5E + 1,2,0,1);
-    func_0201F250(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s2);
+    WORDSET_SetSlotNumber(((struct Obj00210 *)p)->fB64,0,((struct Obj00210 *)p)->fC5E + 1,2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s2);
     font=((struct Obj00210 *)p)->fB58;
     text=((struct Obj00210 *)p)->fB68;
     w=func_0201D304(text,(u32)font,0);
     PRINTSYS_PrintColor(((struct Obj00210 *)p)->fC58,x-w,4,text,font,0x1900);
-    func_0201EFA4(((struct Obj00210 *)p)->fB64,0,p[0xc5f],2,0,1);
-    func_0201F250(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s2);
+    WORDSET_SetSlotNumber(((struct Obj00210 *)p)->fB64,0,p[0xc5f],2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s2);
     PRINTSYS_PrintColor(((struct Obj00210 *)p)->fC58,x+width,4,((struct Obj00210 *)p)->fB68,((struct Obj00210 *)p)->fB58,0x1900);
     STRBUF_Delete(s2);
     BMP_OAM_UploadChars(((struct Obj00210 *)p)->fC54);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD054
+ * function: BR_CODEIN_RecordDeleteButtons
  * address: 0x021DD054
  * packet: pkt_ov183_021DD054
  * region: ov183
@@ -24,7 +24,7 @@ extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void func_020409B4(u32 index);
-void func_021DD054(char *p, char *q)
+void BR_CODEIN_RecordDeleteButtons(char *p, char *q)
 {
     int i;
     char *slot;

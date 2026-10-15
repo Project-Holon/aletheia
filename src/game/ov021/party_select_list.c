@@ -79,8 +79,8 @@
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_MsgWinPrintStrColorFont  0x02190764  thumb  ov021
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
  *   PARTY_SELECT_LIST_SetMonIconsVisible  0x021CCBE0  thumb  ov021
@@ -189,8 +189,8 @@ extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 extern void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 a, u8 b, u8 c);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgData *msgData, u32 index, struct Strbuf *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 
 extern int FIELD_MSGBG_IsPrintQueFinished(FieldMsgBg *msgBg);
 extern struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
@@ -767,8 +767,8 @@ void PARTY_SELECT_LIST_PrintPartyNames(PartySelectList *list, void *party)
         nickname = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_LEVEL, 0);
         gender = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0);
         MSGDATA_ReadString(list->msgData, 4, templateBuf);
-        func_0201EFA4(list->wordSet, 0, nickname, 3, 0, 1);
-        func_0201F250(list->wordSet, nameBuf, templateBuf);
+        WORDSET_SetSlotNumber(list->wordSet, 0, nickname, 3, 0, 1);
+        WORDSET_CopyTaggedText(list->wordSet, nameBuf, templateBuf);
         x = i * 0x28;
         FIELD_MSGBG_MsgWinPrintStrColorFont(list->listWin, x, 0x20, nameBuf, 0x440, list->font);
         if (gender == 2) {

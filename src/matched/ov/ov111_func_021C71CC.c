@@ -1,5 +1,5 @@
 /*
- * function: func_021C71CC
+ * function: VIEWER_TEXT_FreeResources
  * address:  0x021C71CC
  * packet:   pkt_ov111_021C71CC
  * region:   ov111
@@ -91,7 +91,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *p);
 
-void func_021C71CC(Work *p)
+void VIEWER_TEXT_FreeResources(Work *p)
 {
     int i;
 

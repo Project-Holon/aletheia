@@ -1,5 +1,5 @@
 /*
- * function: func_021C70EC
+ * function: VIEWER_TEXT_VBlank
  * address:  0x021C70EC
  * packet:   pkt_ov111_021C70EC
  * region:   ov111
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02040618  0x02040618  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -81,9 +81,9 @@ typedef struct {
 
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
-void func_021C70EC(void *unused, Work *p)
+void VIEWER_TEXT_VBlank(void *unused, Work *p)
 {
     int v = -(p->f11C / 2);
 
@@ -92,5 +92,5 @@ void func_021C70EC(void *unused, Work *p)
     func_02040618(3, 0, v);
     func_02040618(3, 3, v);
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
 }

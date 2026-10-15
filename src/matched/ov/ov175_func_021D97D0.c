@@ -1,5 +1,5 @@
 /*
- * function: func_021D97D0
+ * function: WIFIBATTLEMATCH_NET_SetupTradeIconAndWait
  * address:  0x021D97D0
  * packet:   pkt_021D97D0
  * region:   ov175
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D965C  0x021D965C  thumb
- *   func_021D97B8  0x021D97B8  thumb
+ *   WIFIBATTLEMATCH_NET_SetupCompRecord  0x021D965C  thumb
+ *   WIFIBATTLEMATCH_NET_IsTradeIconReady  0x021D97B8  thumb
  *
- * Start-op for the ov175 object's +0x1c stream: func_021D965C, then spin
- *     on func_021D97B8 until it reports ready.  Mirrors func_021D63C8.
+ * Start-op for the ov175 object's +0x1c stream: WIFIBATTLEMATCH_NET_SetupCompRecord, then spin
+ *     on WIFIBATTLEMATCH_NET_IsTradeIconReady until it reports ready.  Mirrors WIFIBATTLEMATCH_NET_SetupBoxAndWait.
  */
 
 typedef unsigned long u32;
 
 struct Obj;
-extern void func_021D965C(struct Obj *obj);
-extern u32 func_021D97B8(char *obj);
+extern void WIFIBATTLEMATCH_NET_SetupCompRecord(struct Obj *obj);
+extern u32 WIFIBATTLEMATCH_NET_IsTradeIconReady(char *obj);
 
-void func_021D97D0(char *obj)
+void WIFIBATTLEMATCH_NET_SetupTradeIconAndWait(char *obj)
 {
-    func_021D965C((struct Obj *)obj);
-    while (func_021D97B8(obj) == 0)
+    WIFIBATTLEMATCH_NET_SetupCompRecord((struct Obj *)obj);
+    while (WIFIBATTLEMATCH_NET_IsTradeIconReady(obj) == 0)
         ;
 }
 

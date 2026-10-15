@@ -11,10 +11,10 @@
  *
  * symbols:
  *   CLACT_GetCharacterProxy  0x0204AB84  arm
- *   func_020637B4  0x020637B4  arm
+ *   NNSi_G2dGetVramHandleValue  0x020637B4  arm
  *
  * Snapshot one actor record into a local 36-byte buffer and hand it to
- * func_020637B4 with mode 1, or mode 2 when the second argument is set.
+ * NNSi_G2dGetVramHandleValue with mode 1, or mode 2 when the second argument is set.
  */
 
 typedef unsigned int u32;
@@ -24,7 +24,7 @@ struct Rec {
 };
 
 extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
-extern int func_020637B4(int *p, int i);
+extern int NNSi_G2dGetVramHandleValue(int *p, int i);
 
 int CLACT_GetCharacterVramAddress(u32 idx, u32 flag)
 {
@@ -35,5 +35,5 @@ int CLACT_GetCharacterVramAddress(u32 idx, u32 flag)
         mode = 2;
     }
     CLACT_GetCharacterProxy(idx, &buf);
-    return func_020637B4((int *)(&buf), mode);
+    return NNSi_G2dGetVramHandleValue((int *)(&buf), mode);
 }

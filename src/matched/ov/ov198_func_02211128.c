@@ -1,5 +1,5 @@
 /*
- * function: func_02211128
+ * function: B_PLIST_MAIN_PopSelectionPair
  * address:  0x02211128
  * packet:   pkt_02211128
  * region:   ov198
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-int func_02211128(unsigned char *p, unsigned char *a, unsigned char *b, int clear)
+int B_PLIST_MAIN_PopSelectionPair(unsigned char *p, unsigned char *a, unsigned char *b, int clear)
 {
     int i;
 

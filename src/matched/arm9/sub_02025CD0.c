@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   str_020A74A0  0x020A74A0  data
  */
 
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char str_020A74A0[];
 
 struct Struct_02025CD0 {
@@ -37,7 +37,7 @@ struct Struct_02025CD0 {
 
 struct Struct_02025CD0 *CURSOR_MOVE_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId)
 {
-    struct Struct_02025CD0 *p = (struct Struct_02025CD0 *)sub_02030734(heapId, 0x20, 0, str_020A74A0, 0x6a);
+    struct Struct_02025CD0 *p = (struct Struct_02025CD0 *)GFL_HEAP_Alloc(heapId, 0x20, 0, str_020A74A0, 0x6a);
 
     p->field_0 = a0;
     p->field_18 = a1;

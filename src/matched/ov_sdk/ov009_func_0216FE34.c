@@ -17,7 +17,7 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02198620  0x02198620  arm  ov009
+ *   gt2AddressToString  0x02198620  arm  ov009
  *   ServerBrowserSendNatNegotiateCookieToServerA  0x0219EF60  arm  ov009
  *   DWCi_HandleSBError  0x02173D9C  arm  ov009
  *   gt2GetSocketSOCKET  0x02195E60  arm  ov009
@@ -35,7 +35,7 @@ struct nninfo_s {
 };
 
 extern int func_02175F3C(void);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 struct ServerBrowser;
 extern int ServerBrowserSendNatNegotiateCookieToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
 extern int DWCi_HandleSBError(int sbError);
@@ -51,7 +51,7 @@ int DWCi_DoNatNegotiationAsync(struct nninfo_s *nnInfo)
     int sbError;
 
     if (nnInfo->clientindex == 0) {
-        sbError = ServerBrowserSendNatNegotiateCookieToServerA((struct ServerBrowser *)(*(int *)(func_02175F3C() + 0x5e0)), func_02198620(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
+        sbError = ServerBrowserSendNatNegotiateCookieToServerA((struct ServerBrowser *)(*(int *)(func_02175F3C() + 0x5e0)), gt2AddressToString(nnInfo->ip, 0, 0), nnInfo->port, nnInfo->cookie);
         if (DWCi_HandleSBError(sbError))
             return 2;
     }

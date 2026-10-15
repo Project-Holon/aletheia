@@ -1,5 +1,5 @@
 /*
- * function: func_021F4C0C
+ * function: NAMEIN_GRAPHIC_InitBg
  * address: 0x021F4C0C
  * packet: pkt_ov194_021F4C0C
  * region: ov194
@@ -12,10 +12,10 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
- *   sub_02040588 0x02040588 arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021F55A4 0x021F55A4 data a4
  *   d_021F5600 0x021F5600 data a4
  */
@@ -29,11 +29,11 @@ extern void BG_SYS_Create(unsigned short);
 extern void BMP_WIN_Init(unsigned short);
 typedef unsigned int   u32;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(unsigned char, const Bg *, unsigned char);
-extern void func_020414AC(unsigned char);
-extern void sub_02040588(unsigned char which, unsigned char enable);
-void func_021F4C0C(void *p, unsigned short heap)
+extern void BG_SYS_FreeSlot(unsigned char);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+void NAMEIN_GRAPHIC_InitBg(void *p, unsigned short heap)
 {
     unsigned i = 0;
     unsigned id;
@@ -41,12 +41,12 @@ void func_021F4C0C(void *p, unsigned short heap)
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)(&d_021F55A4));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&d_021F55A4));
     for (; i < 8; i++) {
         id = d_021F5600[i].id;
         e = &d_021F5600[i];
         BG_SYS_InitBgLayer(id, &e->config, e->type);
-        func_020414AC(id);
-        sub_02040588((unsigned char)id, (unsigned char)e->enabled);
+        BG_SYS_FreeSlot(id);
+        BG_SYS_SetPlaneVisible((unsigned char)id, (unsigned char)e->enabled);
     }
 }

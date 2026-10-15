@@ -16,9 +16,9 @@
  *
  * symbols:
  *   SBServerSetFlags  0x0219E9AC  arm  ov009
- *   func_0219E9B4  0x0219E9B4  arm  ov009
+ *   SBServerSetPrivateAddr  0x0219E9B4  arm  ov009
  *   SBServerSetICMPIP  0x0219E9C0  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
@@ -49,9 +49,9 @@ typedef struct SBServerList {
 } SBServerList;
 
 extern void SBServerSetFlags(SBServer *server, unsigned char flags);
-extern void func_0219E9B4(SBServer *server, unsigned int ip, unsigned short port);
+extern void SBServerSetPrivateAddr(SBServer *server, unsigned int ip, unsigned short port);
 extern void SBServerSetICMPIP(SBServer *server, unsigned int ip);
-extern int func_02184200(void *array);
+extern int ArrayLength(void *array);
 extern void *func_02184208(void *array, int n);
 extern void func_0219E084(SBServer *server, char *keyname, int value);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
@@ -93,7 +93,7 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
         len -= 2;
     } else
         port = slist->defaultport;
-    func_0219E9B4(server, ip, port);
+    SBServerSetPrivateAddr(server, ip, port);
     if (flags & 8) {
         memcpy(&ip, buf, 4);
         buf += 4;
@@ -101,7 +101,7 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
         SBServerSetICMPIP(server, ip);
     }
     if (flags & 0x40) {
-        numkeys = func_02184200(slist->keylist);
+        numkeys = ArrayLength(slist->keylist);
         for (i = 0; i < numkeys; i++) {
             ki = (KeyInfo *)func_02184208(slist->keylist, i);
             switch (ki->keyType) {

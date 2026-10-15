@@ -1,5 +1,5 @@
 /*
- * function: func_021F4B24
+ * function: MUSICAL_MCSS_GetFlagA
  * address:  0x021F4B24
  * packet:   pkt_ov112_021F4B24
  * region:   ov112
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F50D0  0x021F50D0  thumb  ov112
+ *   MUSICAL_MCSS_GetStateA  0x021F50D0  thumb  ov112
  */
 #include "../include/Obj22521.h"
 
@@ -21,5 +21,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_021F50D0(const unsigned char *p);
-int func_021F4B24(u8 *p) { return func_021F50D0((const unsigned char *)(((struct Obj22521 *)p)->f20)); }
+extern int MUSICAL_MCSS_GetStateA(const unsigned char *p);
+int MUSICAL_MCSS_GetFlagA(u8 *p) { return MUSICAL_MCSS_GetStateA((const unsigned char *)(((struct Obj22521 *)p)->f20)); }

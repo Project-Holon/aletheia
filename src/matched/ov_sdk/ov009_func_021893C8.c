@@ -1,5 +1,5 @@
 /*
- * function: func_021893C8
+ * function: gpiAppendStringToBufferLen
  * address:  0x021893C8
  * packet:   pkt_0219091C
  * region:   ov009
@@ -14,18 +14,18 @@
  * free tail is shorter than n, then NUL-terminates.
  *
  * symbols:
- *   func_0217EAC8  0x0217EAC8  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gsirealloc  0x0217EAC8  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   func_02092344  0x02092344  arm
  *   g_021A44C8     0x021A44C8  data
  */
 
-extern char *func_0217EAC8(char *p, int n);
-extern void func_02193734(int *connection, int string);
+extern char *gsirealloc(char *p, int n);
+extern void gpiSetErrorString(int *connection, int string);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern char g_021A44C8[];
 
-int func_021893C8(int *connection, int *buffer, int src, int n)
+int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
 {
     int buflen;
     int size;
@@ -41,9 +41,9 @@ int func_021893C8(int *connection, int *buffer, int src, int n)
         if (n >= grow)
             grow = n;
         size += grow;
-        data = func_0217EAC8(data, size + 1);
+        data = gsirealloc(data, size + 1);
         if (data == 0) {
-            func_02193734(connection, (int)g_021A44C8);
+            gpiSetErrorString(connection, (int)g_021A44C8);
             return 1;
         }
     }

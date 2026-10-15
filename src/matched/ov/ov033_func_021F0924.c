@@ -28,7 +28,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_020307B0 0x020307B0 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -92,7 +92,7 @@ typedef signed int     s32;
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *o, u32 a, u32 b, void **out, u16 e);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32 bit);
 extern u32 func_020307B0(void *p);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -131,7 +131,7 @@ void DOWSING_CreateCloseButton(Obj *p)
             d[i] &= 0xFFF;
             d[i] = (base + d[i]) | 0x2000;
         }
-        func_020410D0(4, 0, 0x15, 0x20, 3, (u32)ptr->data, 0, 0x15, 0x20, 0x18);
+        BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (u32)ptr->data, 0, 0x15, 0x20, 0x18);
         func_02041B6C(4);
         func_020307B0(h);
         p->f18 = CLACT_RegisterPaletteEx(arc, func_02027614(), 1, 0x20, 0, 3, p->heap);

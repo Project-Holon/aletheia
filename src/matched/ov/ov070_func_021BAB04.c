@@ -33,8 +33,8 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   ITEMMENU_PrintToWindow  0x021BB6E0  thumb  ov070
  *   ITEMMENU_FlushWindowAt  0x021BB724  thumb  ov070
  */
@@ -58,8 +58,8 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_PrintToWindow(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
 extern void ITEMMENU_FlushWindowAt(void **p);
 
@@ -84,8 +84,8 @@ void ITEMMENU_PrintMoveInfoText(u8 *p, int x)
         ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x524)), 0xB0, 4, 0x3DC0);
     } else {
         func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x5F, (void *)(*(int *)(p + 0x524)));
-        func_0201EFA4((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)b, (int)3, (int)0, (int)1);
-        func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
+        WORDSET_SetSlotNumber((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)b, (int)3, (int)0, (int)1);
+        WORDSET_CopyTaggedText((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
         ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xB0, 4, 0x3DC0);
     }
     if (c == 0 || (int)WAZA_TOOL_IsAlwaysHit(x) == 1) {
@@ -93,13 +93,13 @@ void ITEMMENU_PrintMoveInfoText(u8 *p, int x)
         ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x524)), 0xB0, 0x18, 0x3DC0);
     } else {
         func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x5F, (void *)(*(int *)(p + 0x524)));
-        func_0201EFA4((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)c, (int)3, (int)0, (int)1);
-        func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
+        WORDSET_SetSlotNumber((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)c, (int)3, (int)0, (int)1);
+        WORDSET_CopyTaggedText((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
         ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xB0, 0x18, 0x3DC0);
     }
     func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x5E, (void *)(*(int *)(p + 0x524)));
-    func_0201EFA4((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)a, (int)2, (int)0, (int)1);
-    func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
+    WORDSET_SetSlotNumber((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)a, (int)2, (int)0, (int)1);
+    WORDSET_CopyTaggedText((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
     ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xE8, 4, 0x3DC0);
     ITEMMENU_FlushWindowAt((void **)win);
 }

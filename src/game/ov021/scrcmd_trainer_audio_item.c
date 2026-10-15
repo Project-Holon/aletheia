@@ -14,7 +14,7 @@
  * Split from scrcmd_screeneffects.c at 0x021AE948 (lane L135, script command handlers, first one calls the trainer eye creator 021AE454; original unknown).
  *
  * symbols:
- *   func_0215A460  0x0215A460  thumb
+ *   EVENT_POKE_STATUS_NormalizeTicks  0x0215A460  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
@@ -28,11 +28,11 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   SCRIPT_WORK_GetScriptId  0x02158F8C  thumb  ov010
- *   func_0215A4C8  0x0215A4C8  thumb  ov010
- *   func_0215A4B4  0x0215A4B4  thumb  ov010
+ *   EVENT_POKE_STATUS_GetRecordField2  0x0215A4C8  thumb  ov010
+ *   EVENT_POKE_STATUS_IsRecordField2Set  0x0215A4B4  thumb  ov010
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
  *   EVENT_BATTLE_CreateEncounterTask  0x0216E818  thumb  ov010
- *   func_0215A4A0  0x0215A4A0  thumb  ov010
+ *   EVENT_POKE_STATUS_IsMs5000  0x0215A4A0  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  *   FIELD_SOUND_SYSTEM_GetTrainerClassBgm  0x02029E20  thumb
@@ -129,7 +129,7 @@ typedef struct PokeVoiceWork {
     ScrcmdWork *cmdWork;     /* 0x08: receives the voice handle */
 } PokeVoiceWork;
 
-extern u32 func_0215A460(u32 scriptId);
+extern u32 EVENT_POKE_STATUS_NormalizeTicks(u32 scriptId);
 extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
@@ -149,9 +149,9 @@ extern void SCRIPT_WORK_ResetCheckFlag(int checkFlag);
 extern TrainerEyeWork *EVENT_TRAINER_EYE_Create(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex);
 extern GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(GameSystem *gameSystem, TrainerEyeWork *first, TrainerEyeWork *second);
 extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
-extern int func_0215A4C8(int trainerId);
-extern int func_0215A4B4(int trainerId);
-extern u32 func_0215A4A0(u32 scriptId);
+extern int EVENT_POKE_STATUS_GetRecordField2(int trainerId);
+extern int EVENT_POKE_STATUS_IsRecordField2Set(int trainerId);
+extern u32 EVENT_POKE_STATUS_IsMs5000(u32 scriptId);
 extern GameEvent *EVENT_BATTLE_CreateEncounterTask(GameSystem *gameSystem, FieldMap *fieldMap, int battleKind, int allyTrainerId, int trainerId, int secondTrainerId, int thirdTrainerId);
 extern GameEvent *EVENT_BATTLE_CreateEncounterTaskWithMon(GameSystem *gameSystem, FieldMap *fieldMap, u32 battleKind, u32 reserved, u32 trainerId, u32 secondTrainerId, u32 thirdTrainerId, u32 fourthTrainerId);
 extern u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 index);
@@ -361,7 +361,7 @@ int SCRCMD_GetScriptTrainerId(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRIPT_WORK_ResetFieldParam(scriptWork);
     scriptId = SCRIPT_WORK_GetScriptId(scriptWork);
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_0215A460(scriptId);
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = EVENT_POKE_STATUS_NormalizeTicks(scriptId);
     return 0;
 }
 
@@ -369,7 +369,7 @@ int SCRCMD_GetScriptTrainerId(ScriptVm *vm, ScrcmdWork *cmdWork)
  * Script command: start a trainer battle. Operands: trainer id, second
  * trainer id, third trainer id. The battle kind comes from the trainer id;
  * a double battle trainer without a second id uses its own id twice.
- * The casts on the func_0215A4C8 call keep the register allocation of the
+ * The casts on the EVENT_POKE_STATUS_GetRecordField2 call keep the register allocation of the
  * original (without them the first two operands swap registers).
  */
 int SCRCMD_StartTrainerBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
@@ -382,8 +382,8 @@ int SCRCMD_StartTrainerBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
     trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     secondTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     thirdTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    battleKind = (u32)func_0215A4C8((u32)trainerId);
-    if (secondTrainerId == 0 && func_0215A4B4(trainerId) == 1) {
+    battleKind = (u32)EVENT_POKE_STATUS_GetRecordField2((u32)trainerId);
+    if (secondTrainerId == 0 && EVENT_POKE_STATUS_IsRecordField2Set(trainerId) == 1) {
         secondTrainerId = trainerId;
     }
     SCRIPT_SYS_CallEvent(scriptWork, EVENT_BATTLE_CreateEncounterTask(SCRIPT_WORK_GetGameSystem(scriptWork), SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, battleKind, 0, trainerId, secondTrainerId, thirdTrainerId));
@@ -411,7 +411,7 @@ int SCRCMD_StartMultiTrainerBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
 /*
  * Script command: store three message indices of the running trainer script:
  * one set for a single battle trainer, one for a pair when the script id
- * test func_0215A4A0 is 0, one for the other pairs.
+ * test EVENT_POKE_STATUS_IsMs5000 is 0, one for the other pairs.
  */
 int SCRCMD_GetTrainerMessageIds(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
@@ -423,11 +423,11 @@ int SCRCMD_GetTrainerMessageIds(ScriptVm *vm, ScrcmdWork *cmdWork)
     firstResult = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     secondResult = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     thirdResult = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    if ((u16)func_0215A4B4(func_0215A460(scriptId)) == 0) {
+    if ((u16)EVENT_POKE_STATUS_IsRecordField2Set(EVENT_POKE_STATUS_NormalizeTicks(scriptId)) == 0) {
         firstMsg = 0;
         secondMsg = 2;
         thirdMsg = 24;
-    } else if ((u16)func_0215A4A0(scriptId) == 0) {
+    } else if ((u16)EVENT_POKE_STATUS_IsMs5000(scriptId) == 0) {
         firstMsg = 3;
         secondMsg = 5;
         thirdMsg = 6;
@@ -447,7 +447,7 @@ int SCRCMD_GetTrainerBattleKind(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_0215A4C8(trainerId);
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = EVENT_POKE_STATUS_GetRecordField2(trainerId);
     return 0;
 }
 
@@ -532,8 +532,8 @@ int SCRCMD_StartTrainerBattleWithMon(ScriptVm *vm, ScrcmdWork *cmdWork)
     secondTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     thirdTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     fourthTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    battleKind = func_0215A4C8(trainerId);
-    if (secondTrainerId == 0 && func_0215A4B4(trainerId) == 1) {
+    battleKind = EVENT_POKE_STATUS_GetRecordField2(trainerId);
+    if (secondTrainerId == 0 && EVENT_POKE_STATUS_IsRecordField2Set(trainerId) == 1) {
         secondTrainerId = trainerId;
     }
     SCRIPT_SYS_CallEvent(scriptWork, EVENT_BATTLE_CreateEncounterTaskWithMon(SCRIPT_WORK_GetGameSystem(scriptWork), SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, battleKind, 0, trainerId, secondTrainerId, thirdTrainerId, fourthTrainerId));

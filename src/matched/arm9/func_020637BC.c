@@ -1,5 +1,5 @@
 /*
- * function: func_020637BC
+ * function: NNSi_G2dIsVramHandleSet
  * address:  0x020637BC
  * packet:   pkt_020637BC
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Slot-occupied test of the func_0206380C accessor family: the word at
+ * Slot-occupied test of the NNSi_G2dIsVramHandleSetEx accessor family: the word at
  * p[i] is not the sentinel -1.  The register-held sentinel tell
  * (docs/FRONTEND-PINS.md): the image materialises `mvn r0, #0` at
  * 0x020637C0 and compares `cmp r1, r0` at 0x020637C4; every dsi 1.x front
@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-int func_020637BC(const u32 *p, u32 i)
+int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i)
 {
     return p[i] != 0xffffffff;
 }

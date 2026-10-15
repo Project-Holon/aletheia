@@ -1,5 +1,5 @@
 /*
- * function: func_021FC0AC
+ * function: SCRIPT_COMMAND_CmdMoveEffect
  * address: 0x021FC0AC
  * packet: pkt_ov132_021FC0AC
  * region: ov132
@@ -12,8 +12,8 @@
  *   VM_GetU32 0x0201134C thumb
  *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   func_02030734 0x02030734 arm
- *   func_021FADA0 0x021FADA0 thumb ov132
- *   func_021FC178 0x021FC178 thumb ov132
+ *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
+ *   SCRIPT_COMMAND_TaskMoveEffect 0x021FC178 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
 #include "../include/Obj01741.h"
@@ -26,10 +26,10 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void *STA_ACTING_GetAnimSlot(void *,u8);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void *func_021FADA0(char *,u32,u32,u32);
-extern void func_021FC178(int,char *);
+extern void *STA_ACT_SCRIPT_AddTask(char *,u32,u32,u32);
+extern void SCRIPT_COMMAND_TaskMoveEffect(int,char *);
 extern const char d_021FDD00[];
-int func_021FC0AC(int unused,char *p)
+int SCRIPT_COMMAND_CmdMoveEffect(int unused,char *p)
 {
     char *owner,*q;
     void *target;
@@ -60,6 +60,6 @@ int func_021FC0AC(int unused,char *p)
     ((struct Obj01741 *)q)->f4=0;
     ((struct Obj01741 *)q)->f8=c;
     ((struct Obj01741 *)q)->fC=d;
-    ((struct Obj01741 *)q)->f34=func_021FADA0(owner,(u32)func_021FC178,(u32)q,10);
+    ((struct Obj01741 *)q)->f34=STA_ACT_SCRIPT_AddTask(owner,(u32)SCRIPT_COMMAND_TaskMoveEffect,(u32)q,10);
     return 0;
 }

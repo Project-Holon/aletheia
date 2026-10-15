@@ -1,5 +1,5 @@
 /*
- * function: func_021FB1CC
+ * function: SCRIPT_COMMAND_CmdShowAnim
  * address:  0x021FB1CC
  * packet:   pkt_021FB1CC
  * region:   ov132
@@ -21,7 +21,7 @@ extern void STA_ACTING_ShowAnim(char *p);
 typedef unsigned char  u8;
 extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
 
-int func_021FB1CC(int a, char **pp)
+int SCRIPT_COMMAND_CmdShowAnim(int a, char **pp)
 {
     char *p = *pp;
 

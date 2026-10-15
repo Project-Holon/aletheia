@@ -14,6 +14,9 @@
  * (28 bytes, a tail-call wrapper into 0x0201AC2C|1) which has no label
  * because it saves nothing -- report it for layout/function_starts.txt
  * rather than editing that file here.
+ *
+ * symbols:
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 
 typedef struct {
@@ -27,7 +30,7 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern int sub_02013270(int a0);
 extern void sub_02082BCC(void *p, int c, int n);
 
@@ -37,13 +40,13 @@ void sub_020130DC(S *p)
 
     for (i = 0; i < 4; i++) {
         if (p->a24[i] != 0)
-            sub_020307B0(p->a24[i]);
+            GFL_HEAP_Free(p->a24[i]);
         if (p->a48[i] != 0)
             sub_02013270((int)p->a48[i]);
         if (i != 0 && p->a34[i] != 0)
-            sub_020307B0(p->a34[i]);
+            GFL_HEAP_Free(p->a34[i]);
     }
     if (p->a94 != 0)
-        sub_020307B0(p->a94);
+        GFL_HEAP_Free(p->a94);
     sub_02082BCC(p, 0, 0xf0);
 }

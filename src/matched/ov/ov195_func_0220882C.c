@@ -1,5 +1,5 @@
 /*
- * function: func_0220882C
+ * function: SHINKA_DEMO_EFFECT_StartIntro
  * address:  0x0220882C
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -12,13 +12,13 @@
  * Move the ov195 scene object to state 1 with a 0x26c timer.  Labelled leaf.
  *
  * symbols:
- *   func_02208A2C  0x02208A2C  thumb
+ *   SHINKA_DEMO_EFFECT_SetParticleActive  0x02208A2C  thumb
  */
-void func_0220882C(int *p)
+void SHINKA_DEMO_EFFECT_StartIntro(int *p)
 {
-    void func_02208A2C(char *p);
+    void SHINKA_DEMO_EFFECT_SetParticleActive(char *p);
 
-    func_02208A2C((char *)p[4]);
+    SHINKA_DEMO_EFFECT_SetParticleActive((char *)p[4]);
     p[2] = 1;
     p[3] = 0x26c;
 }

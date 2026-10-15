@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * The tick-driven form of NNS_G2dSetMCAnimationCurrentFrame: steps the multi-cell animation by a
- * fx32 tick through func_02062D4C and, when that reports no advance, hands the
+ * fx32 tick through NNS_G2dTickAnimCtrl and, when that reports no advance, hands the
  * whole walk block at +0x34 to NNSi_G2dTickMCInstance instead.  From the header test
  * down the body is NNS_G2dSetMCAnimationCurrentFrame's verbatim.
  *
@@ -21,7 +21,7 @@
  * original's 224 (docs/notes/pkt_02064934.NNS_G2dTickMCAnimation.c.txt).
  *
  * THREE C LEVERS, all needed and all found in this pass:
- *  1. func_02062D4C IS ARITY TWO, not three.  The note's body declared a third
+ *  1. NNS_G2dTickAnimCtrl IS ARITY TWO, not three.  The note's body declared a third
  *     parameter and passed the latched halfword `t`; that costs a `mov r2, r5`
  *     at 0x020649E8 and the compile is 228 bytes.  The image sets only r0/r1.
  *  2. THE MISS ARM MUST BE A `goto` TO THE FUNCTION'S TAIL.  Written inline as
@@ -40,10 +40,10 @@
  * exactly the single-caller shape `label` cannot reach.
  *
  * symbols:
- *   func_02062D4C  0x02062D4C  arm
+ *   NNS_G2dTickAnimCtrl  0x02062D4C  arm
  *   NNSi_G2dTickMCInstance  0x02064934  arm
- *   func_02062D40  0x02062D40  arm
- *   func_020629E8  0x020629E8  arm
+ *   NNSi_G2dGetCellAnimationCurrentSequence  0x02062D40  arm
+ *   NNS_G2dGetMultiCellDataByIdx  0x020629E8  arm
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *   NNS_G2dSetSRTTranslate  0x020640DC  arm
  *   NNS_G2dSetSRTScale  0x02064120  arm
@@ -53,17 +53,17 @@
 #include "../include/Obj03474.h"
 #include "../include/Obj04783.h"
 
-extern int func_02062D4C(char *self, int a1);
+extern int NNS_G2dTickAnimCtrl(char *self, int a1);
 struct CellAnim;
 struct Root;
 extern void NNSi_G2dTickMCInstance(struct Root *p, int arg);
-extern void *func_02062D40(struct CellAnim *anim);
+extern void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct MCInstance;
 struct MultiCellBank;
 struct MultiCellData;
-extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
+extern struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx);
 struct O02064140;
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern void NNS_G2dSetSRTTranslate(char *self, int a, int b);
@@ -79,14 +79,14 @@ void NNS_G2dTickMCAnimation(char *self, int a1)
     int kind;
     int r7;
 
-    if (func_02062D4C(self, a1) == 0) {
+    if (NNS_G2dTickAnimCtrl(self, a1) == 0) {
         goto miss;
     }
     ((struct Obj04783 *)self)->f30 += t;
     if (*(unsigned short *)(((struct Obj04783 *)self)->f4 + 4) == 0)
         return;
-    p = func_02062D40((struct CellAnim *)self);
-    r7 = (int)func_020629E8((struct MultiCellBank *)(((struct Obj04783 *)self)->f44), ((struct Obj03474 *)p)->f0);
+    p = NNSi_G2dGetCellAnimationCurrentSequence((struct CellAnim *)self);
+    r7 = (int)NNS_G2dGetMultiCellDataByIdx((struct MultiCellBank *)(((struct Obj04783 *)self)->f44), ((struct Obj03474 *)p)->f0);
     kind = *(int *)(((struct Obj04783 *)self)->f1C + 4) & 0xff;
     NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x48), 1);
     switch (kind) {

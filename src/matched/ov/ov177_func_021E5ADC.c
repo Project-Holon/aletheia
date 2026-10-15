@@ -15,8 +15,8 @@
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
@@ -40,8 +40,8 @@ extern struct WordSet *GF_FONT_Create_EC64(u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
@@ -64,8 +64,8 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     x = (u16)(BMP_WIN_GetWidth((void *)p[0]) << 3);
 
     e = func_02045EC0(msg, 2);
-    func_0201EFA4(ws, 0, c1, 8, 0, 1);
-    func_0201F250(ws, buf, e);
+    WORDSET_SetSlotNumber(ws, 0, c1, 8, 0, 1);
+    WORDSET_CopyTaggedText(ws, buf, e);
     w = func_0201D304((struct StrObj *)buf, str, 0);
     x1 = x - w;
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x1, 0, buf, str);
@@ -80,8 +80,8 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     STRBUF_Delete((struct U16Vec *)e);
 
     e = func_02045EC0(msg, 1);
-    func_0201EFA4(ws, 0, c2, 8, 0, 1);
-    func_0201F250(ws, buf, e);
+    WORDSET_SetSlotNumber(ws, 0, c2, 8, 0, 1);
+    WORDSET_CopyTaggedText(ws, buf, e);
     w = func_0201D304((struct StrObj *)buf, str, 0);
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)(x2 - w), 0, buf, str);
     ((u8 *)p)[4] = 1;

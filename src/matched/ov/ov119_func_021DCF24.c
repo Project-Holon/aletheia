@@ -24,16 +24,16 @@
  *   POKETRADE_PROC_ExitMcssSystem 0x021DC428 thumb ov119
  *   POKETRADE_PROC_ExitDisplay 0x021DC484 thumb ov119
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
- *   d_00000072 0x00000072 data a1
- *   d_00000043 0x00000043 data a1
- *   d_00000075 0x00000075 data a1
- *   d_00000076 0x00000076 data a1
+ *   ov114_id 0x00000072 data a1
+ *   ov067_id 0x00000043 data a1
+ *   ov117_id 0x00000075 data a1
+ *   ov118_id 0x00000076 data a1
  */
 #include "../include/Obj00001.h"
 extern unsigned WIPE_SYS_EndCheck(void);
-extern char d_00000072[],d_00000043[],d_00000075[],d_00000076[];
+extern char ov114_id[],ov067_id[],ov117_id[],ov118_id[];
 extern unsigned int func_020307B0(void *p);
 extern void POKETRADE_2D_DeleteMarkingIcon(void *);
 extern void POKETRADE_2D_ClearSubScreen(char *);
@@ -50,7 +50,7 @@ extern void POKETRADE_PROC_FreeMons(char *p, int a1);
 extern void POKETRADE_PROC_ExitMcssSystem(char *p);
 extern void POKETRADE_PROC_ExitDisplay(void *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_02034A5C(int);
 int POKETRADE_PROC_Exit(void *owner,int unused,int keep,char *p)
 {
@@ -66,8 +66,8 @@ int POKETRADE_PROC_Exit(void *owner,int unused,int keep,char *p)
     func_02030EAC(((struct Obj00001 *)p)->f9C8);
     POKETRADE_PROC_FreeMons(p,keep!=0);
     POKETRADE_PROC_ExitMcssSystem(p);POKETRADE_PROC_ExitDisplay(p);func_020315D4(owner);
-    func_020306F0(31);func_020306F0(145);
-    if(state<5) {func_02034A5C((int)d_00000072);func_02034A5C((int)d_00000043);}
-    func_02034A5C(state==0 || state==4 ?(int)d_00000075:(int)d_00000076);
+    GFL_HEAP_DeleteChecked(31);GFL_HEAP_DeleteChecked(145);
+    if(state<5) {func_02034A5C((int)ov114_id);func_02034A5C((int)ov067_id);}
+    func_02034A5C(state==0 || state==4 ?(int)ov117_id:(int)ov118_id);
     return 1;
 }

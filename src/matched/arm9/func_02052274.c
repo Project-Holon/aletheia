@@ -34,7 +34,7 @@
  *     permuter mutation moves (164 single mutations tried, none improved,
  *     and ten hand spellings before that).  Written inline, the compiler
  *     materialises the seed first and colours it r5 exactly as the image
- *     does.  This is the same lever that closed func_02052770 in this
+ *     does.  This is the same lever that closed SPL_EMITTER_FreeTexNode in this
  *     cluster: hoisting an address-of into a named local gives that value
  *     the lower colour and displaces the values the image wanted there.
  *

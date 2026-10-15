@@ -1,5 +1,5 @@
 /*
- * function: func_0215739C
+ * function: IRC_BATTLE_TASK_Main
  * address:  0x0215739C
  * packet:   pkt_ov010_0215739C
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Task callback of func_02157450: a 10-state sequence that pushes the
+ * Task callback of IRC_BATTLE_TASK_Create: a 10-state sequence that pushes the
  * field-effect child tasks (the ov008 effect runner gets the effect
  * object, its direction record and a zero word) and returns 1 when done.
  *
@@ -63,7 +63,7 @@ extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *h);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
 
-int func_0215739C(void *evt, u32 *state, Work *w)
+int IRC_BATTLE_TASK_Main(void *evt, u32 *state, Work *w)
 {
     void *h = w->f00;
 

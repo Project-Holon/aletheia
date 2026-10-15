@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0219FB64  0x0219FB64  arm  ov009
- *   func_021803BC  0x021803BC  arm  ov009
+ *   gsiSafeStrcpyA  0x021803BC  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  *   inet_addr  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
@@ -56,7 +56,7 @@ extern struct G_021AEB04 gSBSortContext;
 extern char gSBMasterHostFormat[];
 
 extern int func_0219FB64(char *s, int numbuckets);
-extern u32 func_021803BC(char *dst, char *src, u32 size);
+extern u32 gsiSafeStrcpyA(char *dst, char *src, u32 size);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern u32 inet_addr(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
@@ -73,7 +73,7 @@ int ServerListConnect(SBServerList *slist)
 
     masterIndex = func_0219FB64(slist->gamename, 20);
     if ((*(char * *)&gSBSortContext))
-        func_021803BC(masterHostname, (*(char * *)&gSBSortContext), 128);
+        gsiSafeStrcpyA(masterHostname, (*(char * *)&gSBSortContext), 128);
     else
         OS_SPrintf(masterHostname, gSBMasterHostFormat, slist->gamename, masterIndex);
     saddr.family = 2;

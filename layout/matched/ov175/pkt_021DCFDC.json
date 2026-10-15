@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DCFDC",
+   "name": "WIFIBATTLEMATCH_NET_MapErrorCode",
    "address": "0x021DCFDC",
    "kind": "game",
    "region": "ov175",

@@ -16,8 +16,8 @@
  * symbols:
  *   SCRCMD_PROC_FLD_PrepareMessageWindow 0x021B4878 thumb ov021
  *   SCRCMD_PROC_FLD_ShowMessage 0x021B4894 thumb ov021
- *   func_0201EF6C 0x0201EF6C thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotFromBank 0x0201EF6C thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01121.h"
@@ -28,14 +28,14 @@ typedef unsigned int   u32;
 extern int SCRCMD_PROC_FLD_PrepareMessageWindow(u32 a);
 struct WordSet;
 extern void SCRCMD_PROC_FLD_ShowMessage(char *w, u32 b);
-extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 void SCRCMD_PROC_FLD_ShowBuyConfirm(char *w, u32 a, u16 b, u32 c, u16 d)
 {
     SCRCMD_PROC_FLD_PrepareMessageWindow(((struct Obj01121 *)w)->f17C);
-    func_0201EF6C((struct WordSet *)(((struct Obj01121 *)w)->f190), 0, b, 0, 0);
-    func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 1, d, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 2, d * c, 7, 0, 1);
+    WORDSET_SetSlotFromBank((struct WordSet *)(((struct Obj01121 *)w)->f190), 0, b, 0, 0);
+    WORDSET_SetSlotNumber((struct WordSet *)(((struct Obj01121 *)w)->f190), 1, d, 2, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)(((struct Obj01121 *)w)->f190), 2, d * c, 7, 0, 1);
     SCRCMD_PROC_FLD_ShowMessage((char *)((u32)w), a);
 }

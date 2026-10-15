@@ -12,6 +12,7 @@
  * symbols:
  *   STRBUF_Create  0x020457B0  arm  arm9
  *   STRBUF_Delete  0x02045808  arm  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  *
 
  *
@@ -28,7 +29,7 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d)
@@ -36,7 +37,7 @@ u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d)
     u32 t1 = (u32)func_02045EC0((struct MsgBank *)b, c);
     u32 t2 = (u32)STRBUF_Create(0x200, d);
 
-    func_0201F250((struct WordSet *)a, (void *)t2, (void *)t1);
+    WORDSET_CopyTaggedText((struct WordSet *)a, (void *)t2, (void *)t1);
     STRBUF_Delete((struct U16Vec *)t1);
     return t2;
 }

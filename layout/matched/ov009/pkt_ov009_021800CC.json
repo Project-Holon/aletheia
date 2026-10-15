@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021800CC",
+   "name": "_ReadUCS2CharFromUTF8String",
    "address": "0x021800CC",
    "kind": "sdk",
    "region": "ov009",

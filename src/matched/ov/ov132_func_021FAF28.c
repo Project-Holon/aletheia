@@ -1,5 +1,5 @@
 /*
- * function: func_021FAF28
+ * function: STA_ACT_SCRIPT_SetWaitFromArg
  * address:  0x021FAF28
  * packet:   pkt_021FAF28
  * region:   ov132
@@ -28,7 +28,7 @@ typedef signed int     s32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 
-int func_021FAF28(void *a, u8 *p)
+int STA_ACT_SCRIPT_SetWaitFromArg(void *a, u8 *p)
 {
     ((struct Obj14099 *)p)->f14 = (u16)VM_GetU32(((struct Obj14099 *)p)->f4);
     return 1;

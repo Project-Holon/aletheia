@@ -1,5 +1,5 @@
 /*
- * function: func_021F5064
+ * function: MUSICAL_MCSS_SetModeC
  * address: 0x021F5064
  * packet: pkt_ov112_021F5064
  * region: ov112
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_021F5064(u8 *p, int mode)
+int MUSICAL_MCSS_SetModeC(u8 *p, int mode)
 {
     switch (mode) {
     case 0: case 1: if (p[8] == 0) return 1; break;

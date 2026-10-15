@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- * func_0203FC28 0x0203FC28 arm
+ * BG_SYS_SetGraphicsMode 0x0203FC28 arm
  * BG_SYS_InitBgLayer 0x0203FCA0 arm
  * BG_SYS_ClearSlot 0x020414EC arm
  * BG_SYS_InitRun 0x02040B94 arm
@@ -24,7 +24,7 @@ struct DispConfig { u32 w[4]; };
 struct BgTemplate { u32 w[8]; };
 extern const struct DispConfig gGuru2LobbyDispConfig;
 extern const struct BgTemplate gGuru2LobbyBg0Template,gGuru2LobbyBg1Template,gGuru2LobbyBg2Template,gGuru2LobbyBg3Template,gGuru2LobbyBg4Template;
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ void GURU2_RECEIPT_InitBg(void)
     struct DispConfig d;
     struct BgTemplate a,b,c,e,f;
     d=gGuru2LobbyDispConfig;
-    func_0203FC28(&d);
+    BG_SYS_SetGraphicsMode(&d);
     a=gGuru2LobbyBg0Template;
     BG_SYS_InitBgLayer(4,&a,0); BG_SYS_ClearSlot(4);
     b=gGuru2LobbyBg1Template;

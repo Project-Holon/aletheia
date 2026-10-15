@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F6234",
+   "name": "MUSICAL_MCSS_GetFieldA",
    "address": "0x021F6234",
    "kind": "game",
    "region": "ov112",

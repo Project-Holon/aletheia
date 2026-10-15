@@ -1,5 +1,5 @@
 /*
- * function: func_021C05B8
+ * function: ZKNSEARCH_RESULT_Noop2
  * address: 0x021C05B8
  * packet: pkt_ov210_021C05B8
  * region: ov210
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov210/unit_021C04CC.c and filed here.
  */
 
-void func_021C05B8(void);
+void ZKNSEARCH_RESULT_Noop2(void);
 
 /* hidden function: empty leaf (bx lr) in an address gap */
-void func_021C05B8(void)
+void ZKNSEARCH_RESULT_Noop2(void)
 {
 }

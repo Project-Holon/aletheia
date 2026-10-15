@@ -1,5 +1,5 @@
 /*
- * function: func_021F1968
+ * function: NAMEIN_GRAPHIC_DeleteActors
  * address: 0x021F1968
  * packet: pkt_ov194_021F1968
  * region: ov194
@@ -23,4 +23,4 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021F1968(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)CLACT_DeleteActor(q); } CLACT_ReleasePalette(((struct Obj10805 *)p)->f0);CLACT_ReleaseCharacter((u32)(((struct Obj10805 *)p)->f4));CLACT_ReleaseCellAnim(((struct Obj10805 *)p)->f8); }
+void NAMEIN_GRAPHIC_DeleteActors(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)CLACT_DeleteActor(q); } CLACT_ReleasePalette(((struct Obj10805 *)p)->f0);CLACT_ReleaseCharacter((u32)(((struct Obj10805 *)p)->f4));CLACT_ReleaseCellAnim(((struct Obj10805 *)p)->f8); }

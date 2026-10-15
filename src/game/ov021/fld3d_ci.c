@@ -70,8 +70,8 @@
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
- *   func_0204047C  0x0204047C  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040588  0x02040588  arm
@@ -90,7 +90,7 @@
  *   FIELD_MSGBG_ReloadBg  0x02193068  thumb  ov021
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
  *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   d_021DA710     0x021DA710  data  ov021  a4
  *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
@@ -100,7 +100,7 @@
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   PARTICLE_StartEffectWithCallback  0x020515CC  arm
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   func_02043658  0x02043658  arm
+ *   BMP_GetVisiblePlane  0x02043658  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   func_020124F0  0x020124F0  thumb
  *   BMP_Delete  0x020437AC  arm
@@ -144,11 +144,11 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_0201F4A0  0x0201F4A0  thumb
+ *   WORDSET_ParsePackedLimits  0x0201F4A0  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201D304  0x0201D304  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -231,8 +231,8 @@ extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern void FLDMMDL_DeleteMmdl(u32 a);
 extern void FIELDMAP_SetUpdateStopped(u8 *p, u32 v);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_0203FC28(void *dispConfig);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetGraphicsMode(void *dispConfig);
 extern void func_0207FDCC(int a);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -251,7 +251,7 @@ extern u32 FIELDMAP_GetPlaceName(u8 *p);
 extern void FIELD_MSGBG_ReloadBg(char *p);
 extern void FIELD_PLACE_NAME_RestoreWindow(u8 *p);
 extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
-extern void func_020414AC(int);
+extern void BG_SYS_FreeSlot(int);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
 int G3D_SYSTEM_GetObjectAnimeCount(G3dObject *object);
 int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *object, int animIndex, int amount);
@@ -263,7 +263,7 @@ extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern void func_0208068C(u32 a);
 extern void func_02030EAC(void *n);
 extern u8 BG_SYS_Get(u32 layer);
-u32 func_02043658(void);
+u32 BMP_GetVisiblePlane(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void *func_020124F0(void *event);
 void BMP_Delete(void *bmp);
@@ -301,11 +301,11 @@ extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *GF_FONT_Create_EC64(u32 heap);
 extern void *STRBUF_Create(u32 size, u16 heap);
 extern void *func_02045EC0(void *bank, u32 index);
-extern void func_0201F02C(void *wordSet, u32 index, void *playerStatus);
-extern void func_0201F250(void *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *playerStatus);
+extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
 extern void STRBUF_Delete(void *vec);
 extern u32 WORDSET_DeleteStrbufED04(void *p);
-extern void func_0201F4A0(void *dst, void *src);
+extern void WORDSET_ParsePackedLimits(void *dst, void *src);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201D304(void *s, u32 a, u32 b);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -734,10 +734,10 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
     case 3:
         if (ci->captureDone == 0)
             break;
-        func_0204047C(0, 0);
-        func_0204047C(2, 1);
+        BG_SYS_SetVisibleLayer(0, 0);
+        BG_SYS_SetVisibleLayer(2, 1);
         bgMode = d_021DA710;
-        func_0203FC28(&bgMode);
+        BG_SYS_SetGraphicsMode(&bgMode);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x4084;
         func_0207FDCC(8);
         func_0207D63C(0x04000050, 0, 4, 0, 0);
@@ -819,7 +819,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         FIELD_PLACE_NAME_RestoreWindow((u8 *)particleSys);
         FIELD_MSGBG_RequestSysFrame((u8 *)modelSys);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x1f18;
-        func_020414AC(2);
+        BG_SYS_FreeSlot(2);
         FLD3D_CI_RestoreLayerPriorities(ci);
         FLD3D_CI_RestoreVisiblePlanes(ci);
         FIELDMAP_SetUpdateStopped(fieldMap, 0);
@@ -1144,7 +1144,7 @@ void FLD3D_CI_SaveLayerPriorities(Fld3dCi *ci)
 
 void FLD3D_CI_SaveVisiblePlanes(Fld3dCi *ci)
 {
-    ci->savedVisiblePlanes = func_02043658();
+    ci->savedVisiblePlanes = BMP_GetVisiblePlane();
 }
 
 /*
@@ -1154,7 +1154,7 @@ void FLD3D_CI_RestoreLayerPriorities(Fld3dCi *ci)
 {
     int i;
     for (i = 0; i < 4; i++)
-        func_0204047C((u8)i, ci->savedLayerPriority[i]);
+        BG_SYS_SetVisibleLayer((u8)i, ci->savedLayerPriority[i]);
 }
 
 void FLD3D_CI_RestoreVisiblePlanes(Fld3dCi *ci)
@@ -1228,7 +1228,7 @@ int FLD3D_CI_PokemonFinishStep(void *event, Fld3dCi *ci)
 }
 
 /*
- * Twin of ov195 func_0220685C (same tile-copy body). The far argument block
+ * Twin of ov195 SHINKA_DEMO_VIEW_CreateGrid (same tile-copy body). The far argument block
  * at +0x9C needs a local pointer (args = ci->arg.args), and the two size calls
  * must land in int locals before the (u16) << 3 conversions.
  */
@@ -1569,14 +1569,14 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
         wordSet = GF_FONT_Create_EC64((u16)((heapId & 0x7FFF) | 0x8000));
         text = STRBUF_Create(8, (heapId & 0x7FFF) | 0x8000);
         rawMsg = func_02045EC0(msgBank, msgId);
-        func_0201F02C(wordSet, 0, playerStatus);
-        func_0201F250(wordSet, text, rawMsg);
+        WORDSET_SetSlotMyStatus(wordSet, 0, playerStatus);
+        WORDSET_CopyTaggedText(wordSet, text, rawMsg);
         STRBUF_Delete(rawMsg);
         WORDSET_DeleteStrbufED04(wordSet);
     } else {
         rawMsg = func_02045EC0(msgBank, msgId);
         text = STRBUF_Create(0x10, (heapId & 0x7FFF) | 0x8000);
-        func_0201F4A0(text, rawMsg);
+        WORDSET_ParsePackedLimits(text, rawMsg);
         STRBUF_Delete(rawMsg);
     }
     xOffset = 0;
@@ -1671,7 +1671,7 @@ void FLD3D_CI_DisplayRestoreTask(void *task, u32 *done)
     Fld3dCiDispSetup setup;
     func_02040588(0, 1);
     setup = d_021DA700;
-    func_0203FC28(&setup);
+    BG_SYS_SetGraphicsMode(&setup);
     func_02030EAC(task);
     if (done != 0)
         *done = 1;

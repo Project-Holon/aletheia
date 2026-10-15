@@ -53,7 +53,7 @@
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02040588 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040618 0x02040618 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -66,7 +66,7 @@
  *   func_02049740 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -90,7 +90,7 @@
  *   func_02027620 0x02027620 thumb
  *   func_02049B68 0x02049B68 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
  *   INFOWIN_Exit 0x02024DCC thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
@@ -106,8 +106,8 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
- *   func_02030DA4 0x02030DA4 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Noop 0x02030DA4 arm
+ *   TCB_Main 0x02030D28 arm
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   CLACT_StartActorAnim 0x0204B95C arm
@@ -167,7 +167,7 @@ extern void GFL_USE_SetSeSlotParams(int handle, u32 volume, u32 pitch, u32 pan);
 extern int GFL_USE_IsSeSlotBusy(u32 handle);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void DOWSING_UpdateFade(DowsingWork *work);
-extern void func_02030D28(struct TaskSys *taskSys);
+extern void TCB_Main(struct TaskSys *taskSys);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnm *palAnm);
 extern int PALANM_RequestFade(struct PalAnm *palAnm, u16 slotMask, u16 paletteMask, s16 wait, u8 startLevel, u8 endLevel, u16 color, struct TaskSys *taskSys);
 extern void CLACT_StartActorAnim(struct ClactActor *actor);
@@ -180,7 +180,7 @@ extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
 extern void PALANM_TransferPalettes(struct PalAnm *palAnm);
 extern void func_02040588(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *bgTemplate, unsigned int bgType);
-extern void func_020414AC(unsigned char bgId);
+extern void BG_SYS_FreeSlot(unsigned char bgId);
 extern void func_02040618(unsigned char bgId, unsigned attr, unsigned value);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
@@ -192,7 +192,7 @@ extern void ARC_UTIL_UploadPaletteFromHandle(void *archive, u32 fileId, u32 bgId
 extern u32 func_02049740(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 charRegion, u32 x, u32 y, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned bgId);
 extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern s32 CLACT_RegisterPaletteEx(void *archive, u32 fileId, u32 slotCount, u32 offset, u16 e, u16 f, u16 heapId);
@@ -215,7 +215,7 @@ extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 extern void func_02049B68(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 fileId, u32 compressed, void **outData, u16 heapId);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 value);
 extern int INFOWIN_Exit(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
@@ -231,7 +231,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnm *palAnm, u32 slot, u32 size, u
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnm *palAnm, u32 slot, u32 offset, u32 size);
 extern void PALANM_FreeSlotBuffers(struct PalAnm *palAnm, u32 slot);
 extern u32 PALANM_Delete(struct PalAnm *palAnm);
-extern void func_02030DA4(struct TaskSys *taskSys);
+extern void TCB_Noop(struct TaskSys *taskSys);
 
 DowsingSearch *DOWSING_CreateSearch(u32 heapId, void *eventFlags, void *eventData);
 void DOWSING_DeleteSearch(DowsingSearch *search);
@@ -689,7 +689,7 @@ void DOWSING_InitBgsAndActorUnit(DowsingWork *work)
         setup = &sDowsingBgSetup[j];
         bgId = setup->bgId;
         BG_SYS_InitBgLayer((unsigned char)bgId, (const struct BgTemplate *)setup->bgTemplate, (unsigned char)setup->bgType);
-        func_020414AC(bgId);
+        BG_SYS_FreeSlot(bgId);
         func_02040588((unsigned char)bgId, (unsigned char)setup->visible);
         func_02040618(bgId, 0, 0);
         func_02040618(bgId, 3, 0);
@@ -717,7 +717,7 @@ void DOWSING_LoadBackground(DowsingWork *work)
     charRegion = func_02049740(archive, 2, 7, 0, 0, heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 7, 7, 0, (unsigned short)charRegion, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(archive);
-    func_020413B0(7, 0, 0, 0x20, 0x18, 1);
+    BG_SYS_FillTileMap(7, 0, 0, 0x20, 0x18, 1);
     func_02041B6C(7);
     work->bgCharRegion7 = charRegion;
 }
@@ -819,7 +819,7 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
             tiles[i] &= 0xFFF;
             tiles[i] = (base + tiles[i]) | 0x2000;
         }
-        func_020410D0(4, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
+        BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
         func_02041B6C(4);
         func_020307B0(screenFile);
         work->buttonPalRes = CLACT_RegisterPaletteEx(archive, func_02027614(), 1, 0x20, 0, 3, work->heapId);
@@ -916,7 +916,7 @@ void DOWSING_ExitFade(DowsingWork *work)
     PALANM_FreeSlotBuffers(work->palAnm, 1);
     PALANM_FreeSlotBuffers(work->palAnm, 3);
     PALANM_Delete(work->palAnm);
-    func_02030DA4(work->fadeTaskSys);
+    TCB_Noop(work->fadeTaskSys);
     func_020307B0(work->fadeTaskMem);
 }
 
@@ -930,7 +930,7 @@ void DOWSING_UpdateFade(DowsingWork *work)
     u16 paletteMask;
     u8 i;
 
-    func_02030D28(work->fadeTaskSys);
+    TCB_Main(work->fadeTaskSys);
     if (work->fadeRequest == DOWSING_FADE_NONE || PALANM_GetFadeRequestBits(work->palAnm) != 0)
         return;
     switch (work->fadeRequest) {

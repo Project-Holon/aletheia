@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *
  * Release the 0x10-byte entry array CLACT_AllocTransferEntries allocates at +0x04 and NULL
  * the pointer.  The pointer has to survive the free call, so the object is
@@ -29,10 +29,10 @@ struct Pool {
 };
 
 typedef unsigned int   u32;
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void CLACT_FreeTransferEntries(struct Pool *p)
 {
-    sub_020307B0(p->ents);
+    GFL_HEAP_Free(p->ents);
     p->ents = 0;
 }

@@ -15,21 +15,21 @@
  * One shared `mode = (u8)t;` after the switch threads the hops away (4 bytes short).
  *
  * symbols:
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   _ull_mul       0x0209C054  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef unsigned long long u64;
 
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 
 u32 BTL_CLIENT_PickWindowMode(u32 mode)
 {
     u32 v;
     int t;
 
-    v = (u32)(((u64)func_0203F0A8() * 100) >> 32);
+    v = (u32)(((u64)GF_STANDARD_Rand() * 100) >> 32);
     if (mode == 0) {
         if (v < 0x1e) {
             mode = 3;

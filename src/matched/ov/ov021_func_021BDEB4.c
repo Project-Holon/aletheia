@@ -14,7 +14,7 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   ENTRANCE_CAMERA_AimsAtEntrance  0x021BE1B0  thumb  ov021
- *   func_021A7B08  0x021A7B08  thumb  ov021
+ *   FIELD_GROUND_ANIME_GetEntryPos  0x021A7B08  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   ENTRANCE_CAMERA_AimAtTarget  0x021BE158  thumb  ov021
  *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
@@ -65,7 +65,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern int ENTRANCE_CAMERA_AimsAtEntrance(u32 a);
 struct V3;
-extern void func_021A7B08(int a, struct V3 *b);
+extern void FIELD_GROUND_ANIME_GetEntryPos(int a, struct V3 *b);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *t, struct VecFx32 *v);
 extern int ENTRANCE_CAMERA_AimAtTarget(u32 a, u32 b);
@@ -102,7 +102,7 @@ void ENTRANCE_CAMERA_SetupArriveByDir(A *a)
     s->f48 = 0;
     s->f44 = 0;
     if (ENTRANCE_CAMERA_AimsAtEntrance((u32)a) != 0)
-        func_021A7B08(a->obj, (struct V3 *)(&v));
+        FIELD_GROUND_ANIME_GetEntryPos(a->obj, (struct V3 *)(&v));
     else
         FIELD_PLAYER_GetPos(t, (struct VecFx32 *)&v);
     switch (m) {

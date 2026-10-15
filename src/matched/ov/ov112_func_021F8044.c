@@ -1,5 +1,5 @@
 /*
- * function: func_021F8044
+ * function: STA_ACT_LIGHT_ElemOpA
  * address: 0x021F8044
  * packet: pkt_ov112_021F8044
  * region: ov112
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F8044(void *unused,u32 *p,u32 *q) { q[0]=p[6]; q[1]=p[7]; q[2]=p[8]; }
+void STA_ACT_LIGHT_ElemOpA(void *unused,u32 *p,u32 *q) { q[0]=p[6]; q[1]=p[7]; q[2]=p[8]; }

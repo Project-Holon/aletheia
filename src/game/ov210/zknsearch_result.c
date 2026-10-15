@@ -1,7 +1,7 @@
 /*
  * file:     zknsearch_result.c
  * unit:     yes
- * function: func_021C04CC, func_021C0550, func_021C0584, func_021C05B4, func_021C05B8, func_021C05BC, func_021C05EC, func_021C05F0, func_021C0608, func_021C0660, func_021C0678, func_021C06A8, func_021C06AC, func_021C06C4, func_021C06F8, func_021C06FC
+ * function: ZKNSEARCH_RESULT_InitFrameList, ZKNSEARCH_RESULT_DeleteFrameList, ZKNSEARCH_RESULT_SetRow1, ZKNSEARCH_RESULT_Noop1, ZKNSEARCH_RESULT_Noop2, ZKNSEARCH_RESULT_SetRow2, ZKNSEARCH_RESULT_Noop3, ZKNSEARCH_RESULT_MoveRow1, ZKNSEARCH_RESULT_SetRowMulti, ZKNSEARCH_RESULT_MoveRow2, ZKNSEARCH_RESULT_SetRow3, ZKNSEARCH_RESULT_Noop5, ZKNSEARCH_RESULT_MoveRow3, ZKNSEARCH_RESULT_SetRow4, ZKNSEARCH_RESULT_Noop6, ZKNSEARCH_RESULT_MoveRow4
  * address:  0x021C04CC
  * region:   ov210
  * compiler: dsi/1.1p1
@@ -22,15 +22,15 @@
  *   d_021C0CC0 0x021C0CC0 data a4
  *   FRAME_LIST_Delete 0x021B796C thumb ov067
  *   STRBUF_Delete 0x02045808 arm
- *   func_021BEC60 0x021BEC60 thumb ov210
- *   func_021BF7B0 0x021BF7B0 thumb ov210
- *   func_021BFBF8 0x021BFBF8 thumb ov210
- *   func_021BF728 0x021BF728 thumb ov210
- *   func_021BCEF0 0x021BCEF0 thumb ov210
- *   func_021BECAC 0x021BECAC thumb ov210
- *   func_021BFA14 0x021BFA14 thumb ov210
- *   func_021BFB8C 0x021BFB8C thumb ov210
- *   func_021BFCE4  0x021BFCE4  thumb  ov210
+ *   ZKNSEARCH_MAIN_PrintListRow 0x021BEC60 thumb ov210
+ *   ZKNSEARCH_MAIN_PlaceColumnActor 0x021BF7B0 thumb ov210
+ *   ZKNSEARCH_MAIN_MoveColumnActors 0x021BFBF8 thumb ov210
+ *   ZKNSEARCH_MAIN_UpdateCursorActors 0x021BF728 thumb ov210
+ *   ZKNSEARCH_MAIN_GetListIndexB 0x021BCEF0 thumb ov210
+ *   ZKNSEARCH_MAIN_TransferRowChars 0x021BECAC thumb ov210
+ *   ZKNSEARCH_MAIN_PlaceColumnActor3 0x021BFA14 thumb ov210
+ *   ZKNSEARCH_MAIN_PlacePageActor 0x021BFB8C thumb ov210
+ *   ZKNSEARCH_MAIN_MoveScrollActors  0x021BFCE4  thumb  ov210
  */
 #include "../../matched/include/Obj06699.h"
 #include "../../matched/include/Obj14683.h"
@@ -56,32 +56,32 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void FRAME_LIST_Delete(struct S *s);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021BEC60(int p, int *a, u32 b);
-extern void func_021BF7B0(char *p, int idx, int y, int flag);
-extern void func_021BFBF8(int p, int v);
-extern void func_021BF728(u8 *p, int a);
-extern u32 func_021BCEF0(u32 a, u32 b);
-extern void func_021BECAC(int p, unsigned *b);
-extern void func_021BFA14(char *p, int y, int flag);
-extern void func_021BFB8C(char *ctx, unsigned long slot, int y, int flag);
-extern void func_021BFCE4(char *p, int dx);
-void func_021C04CC(char *ctx);
-void func_021C0550(int p);
-void func_021C0584(int p, unsigned a, int b, int c, int d);
-void func_021C05B4(void);
-void func_021C05B8(void);
-void func_021C05BC(int p, unsigned a, int b, int c, int d);
-void func_021C05EC(void);
-void func_021C05F0(int p, int v);
-void func_021C0608(char *p,int index,void *data,int value,int flag);
-void func_021C065C(void);
-void func_021C0660(int p, int v);
-void func_021C0678(int p, unsigned a, int b, int c, int d);
-void func_021C06A8(void);
-void func_021C06AC(int p, int v);
-void func_021C06C4(int p, unsigned a, unsigned *b, int c, int d);
-void func_021C06F8(void);
-void func_021C06FC(int a, int b);
+extern void ZKNSEARCH_MAIN_PrintListRow(int p, int *a, u32 b);
+extern void ZKNSEARCH_MAIN_PlaceColumnActor(char *p, int idx, int y, int flag);
+extern void ZKNSEARCH_MAIN_MoveColumnActors(int p, int v);
+extern void ZKNSEARCH_MAIN_UpdateCursorActors(u8 *p, int a);
+extern u32 ZKNSEARCH_MAIN_GetListIndexB(u32 a, u32 b);
+extern void ZKNSEARCH_MAIN_TransferRowChars(int p, unsigned *b);
+extern void ZKNSEARCH_MAIN_PlaceColumnActor3(char *p, int y, int flag);
+extern void ZKNSEARCH_MAIN_PlacePageActor(char *ctx, unsigned long slot, int y, int flag);
+extern void ZKNSEARCH_MAIN_MoveScrollActors(char *p, int dx);
+void ZKNSEARCH_RESULT_InitFrameList(char *ctx);
+void ZKNSEARCH_RESULT_DeleteFrameList(int p);
+void ZKNSEARCH_RESULT_SetRow1(int p, unsigned a, int b, int c, int d);
+void ZKNSEARCH_RESULT_Noop1(void);
+void ZKNSEARCH_RESULT_Noop2(void);
+void ZKNSEARCH_RESULT_SetRow2(int p, unsigned a, int b, int c, int d);
+void ZKNSEARCH_RESULT_Noop3(void);
+void ZKNSEARCH_RESULT_MoveRow1(int p, int v);
+void ZKNSEARCH_RESULT_SetRowMulti(char *p,int index,void *data,int value,int flag);
+void ZKNSEARCH_RESULT_Noop4(void);
+void ZKNSEARCH_RESULT_MoveRow2(int p, int v);
+void ZKNSEARCH_RESULT_SetRow3(int p, unsigned a, int b, int c, int d);
+void ZKNSEARCH_RESULT_Noop5(void);
+void ZKNSEARCH_RESULT_MoveRow3(int p, int v);
+void ZKNSEARCH_RESULT_SetRow4(int p, unsigned a, unsigned *b, int c, int d);
+void ZKNSEARCH_RESULT_Noop6(void);
+void ZKNSEARCH_RESULT_MoveRow4(int a, int b);
 extern const Template d_021C0CC0;
 
 
@@ -89,7 +89,7 @@ extern const Template d_021C0CC0;
 
 
 
-void func_021C04CC(char *ctx)
+void ZKNSEARCH_RESULT_InitFrameList(char *ctx)
 {
     void *archive = func_020490F4(159, 0x807b);
     Template config;
@@ -115,7 +115,7 @@ void func_021C04CC(char *ctx)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021C0550(int p)
+void ZKNSEARCH_RESULT_DeleteFrameList(int p)
 {
     unsigned i;
 
@@ -136,11 +136,11 @@ void func_021C0550(int p)
 
 
 
-void func_021C0584(int p, unsigned a, int b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow1(int p, unsigned a, int b, int c, int d)
 {
-    func_021BEC60(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
+    ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
     if ((*(u8 **)(*(int * *)&((struct Obj04620 *)p)->f0 + 2))[1] == a)
-        func_021BF7B0((char *)p, 0, c, d);
+        ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
 }
 
 
@@ -149,7 +149,7 @@ void func_021C0584(int p, unsigned a, int b, int c, int d)
 
 
 /* hidden function: empty leaf (bx lr) in an address gap */
-void func_021C05B4(void)
+void ZKNSEARCH_RESULT_Noop1(void)
 {
 }
 
@@ -159,7 +159,7 @@ void func_021C05B4(void)
 
 
 /* hidden function: empty leaf (bx lr) in an address gap */
-void func_021C05B8(void)
+void ZKNSEARCH_RESULT_Noop2(void)
 {
 }
 
@@ -167,11 +167,11 @@ void func_021C05B8(void)
 
 
 
-void func_021C05BC(int p, unsigned a, int b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow2(int p, unsigned a, int b, int c, int d)
 {
-    func_021BEC60(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
+    ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
     if ((*(u8 **)(*(int * *)&((struct Obj04620 *)p)->f0 + 2))[2] == a)
-        func_021BF7B0((char *)p, 0, c, d);
+        ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
 }
 
 
@@ -180,7 +180,7 @@ void func_021C05BC(int p, unsigned a, int b, int c, int d)
 
 
 /* hidden function: empty leaf (bx lr) in an address gap */
-void func_021C05EC(void)
+void ZKNSEARCH_RESULT_Noop3(void)
 {
 }
 
@@ -189,10 +189,10 @@ void func_021C05EC(void)
 
 
 
-void func_021C05F0(int p, int v)
+void ZKNSEARCH_RESULT_MoveRow1(int p, int v)
 {
-    func_021BFBF8(p, (signed char)(-v));
-    func_021BF728((u8 *)p, 1);
+    ZKNSEARCH_MAIN_MoveColumnActors(p, (signed char)(-v));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)p, 1);
 }
 
 
@@ -204,11 +204,11 @@ void func_021C05F0(int p, int v)
  * trailing: unit aligns the bx-lr follower at 021C065C after zero pad
  * 021C065A; two additional zero alignment bytes at 021C065E follow the unit.
  */
-void func_021C0608(char *p,int index,void *data,int value,int flag)
+void ZKNSEARCH_RESULT_SetRowMulti(char *p,int index,void *data,int value,int flag)
 {
-    func_021BEC60((int)p,data,(*(unsigned *)(p+484+index*4)));
-    if(index==func_021BCEF0((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[3]))func_021BF7B0(p,0,value,flag);
-    if(index==func_021BCEF0((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[4]))func_021BF7B0(p,1,value,flag);
+    ZKNSEARCH_MAIN_PrintListRow((int)p,data,(*(unsigned *)(p+484+index*4)));
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(p,0,value,flag);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(p,1,value,flag);
 }
 
 
@@ -216,7 +216,7 @@ void func_021C0608(char *p,int index,void *data,int value,int flag)
 
 
 
-void func_021C065C(void){}
+void ZKNSEARCH_RESULT_Noop4(void){}
 
 
 
@@ -224,21 +224,21 @@ void func_021C065C(void){}
 
 
 
-void func_021C0660(int p, int v)
+void ZKNSEARCH_RESULT_MoveRow2(int p, int v)
 {
-    func_021BFBF8(p, (signed char)(-v));
-    func_021BF728((u8 *)p, 1);
+    ZKNSEARCH_MAIN_MoveColumnActors(p, (signed char)(-v));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)p, 1);
 }
 
 
 
 
 
-void func_021C0678(int p, unsigned a, int b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow3(int p, unsigned a, int b, int c, int d)
 {
-    func_021BEC60(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
+    ZKNSEARCH_MAIN_PrintListRow(p, (int *)b, *(int *)(p + a * 4 + 0x1e4));
     if ((*(u8 **)(*(int * *)&((struct Obj04620 *)p)->f0 + 2))[5] == a)
-        func_021BF7B0((char *)p, 0, c, d);
+        ZKNSEARCH_MAIN_PlaceColumnActor((char *)p, 0, c, d);
 }
 
 
@@ -251,39 +251,39 @@ void func_021C0678(int p, unsigned a, int b, int c, int d)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C06A8(void)
+void ZKNSEARCH_RESULT_Noop5(void)
 {
 }
 
 
 
 
-void func_021C06AC(int p, int v)
+void ZKNSEARCH_RESULT_MoveRow3(int p, int v)
 {
-    func_021BFBF8(p, (signed char)(-v));
-    func_021BF728((u8 *)p, 1);
+    ZKNSEARCH_MAIN_MoveColumnActors(p, (signed char)(-v));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)p, 1);
 }
 
 
 
 
-void func_021C06C4(int p, unsigned a, unsigned *b, int c, int d)
+void ZKNSEARCH_RESULT_SetRow4(int p, unsigned a, unsigned *b, int c, int d)
 {
-    func_021BECAC(p, b);
+    ZKNSEARCH_MAIN_TransferRowChars(p, b);
     if ((*(u8 **)(*(int * *)&((struct Obj25636 *)p)->f0 + 2))[6] == a)
-        func_021BFA14((char *)p, c, d);
-    func_021BFB8C((char *)p, (unsigned short)a, c, d);
+        ZKNSEARCH_MAIN_PlaceColumnActor3((char *)p, c, d);
+    ZKNSEARCH_MAIN_PlacePageActor((char *)p, (unsigned short)a, c, d);
 }
 
 
 /* Empty callback. */
-void func_021C06F8(void)
+void ZKNSEARCH_RESULT_Noop6(void)
 {
 }
 
 
-void func_021C06FC(int a, int b)
+void ZKNSEARCH_RESULT_MoveRow4(int a, int b)
 {
-    func_021BFCE4((char *)a, (signed char)(-b));
-    func_021BF728((u8 *)a, 1);
+    ZKNSEARCH_MAIN_MoveScrollActors((char *)a, (signed char)(-b));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)a, 1);
 }

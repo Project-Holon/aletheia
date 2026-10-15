@@ -1,5 +1,5 @@
 /*
- * function: func_021D7898
+ * function: GTSNEGO_MSG_Delete
  * address: 0x021D7898
  * packet: pkt_ov120_021D7898
  * region: ov120
@@ -12,7 +12,7 @@
  * lever: decode the high halfword, retain u16 payload arguments, remove
  * the p+16 address temporary and declare every Thumb callee explicitly.
  * symbols:
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -21,8 +21,8 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   func_021D7710 0x021D7710 thumb ov120
- *   func_021D846C 0x021D846C thumb ov120
+ *   GTSNEGO_MSG_DeleteButtons 0x021D7710 thumb ov120
+ *   GTSNEGO_MSG_DeleteDraw 0x021D846C thumb ov120
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   TCBL_Destroy 0x02031140 arm
@@ -43,12 +43,12 @@ struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_021D7710(u8 *p);
-extern void func_0201DD68(void);
+extern void GTSNEGO_MSG_DeleteButtons(u8 *p);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021D846C(u8 *p);
+extern void GTSNEGO_MSG_DeleteDraw(u8 *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
@@ -64,7 +64,7 @@ static inline u16 decode(u32 value)
     u32 n=value >> 16;
     return (u16)n;
 }
-void func_021D7898(char *p)
+void GTSNEGO_MSG_Delete(char *p)
 {
     int i;
     u32 t;
@@ -72,14 +72,14 @@ void func_021D7898(char *p)
     BG_SYS_DeleteHalf(1,(u16)t,decode(t));
     t=((struct Obj00286 *)p)->f0;
     BG_SYS_DeleteHalf(6,(u16)t,decode(t));
-    func_021D7710((u8 *)p);
-    func_0201DD68();
+    GTSNEGO_MSG_DeleteButtons((u8 *)p);
+    GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(((struct Obj00286 *)p)->fC);
     GF_FONT_Delete(((struct Obj00286 *)p)->f14);
     STRBUF_Delete(((struct Obj00286 *)p)->f18);
     STRBUF_Delete(((struct Obj00286 *)p)->f1C);
     STRBUF_Delete(((struct Obj00286 *)p)->f20);
-    func_021D846C((u8 *)p);
+    GTSNEGO_MSG_DeleteDraw((u8 *)p);
     if(((struct Obj00286 *)p)->f9C) {PRINTSYS_PrintStreamDelete(((struct Obj00286 *)p)->f9C);((struct Obj00286 *)p)->f9C=0;}
     WORDSET_DeleteStrbufED04(((struct Obj00286 *)p)->f10);
     if(((struct Obj00286 *)p)->fC4) {APP_TASKMENU_WIN_Delete(((struct Obj00286 *)p)->fC4);((struct Obj00286 *)p)->fC4=0;}

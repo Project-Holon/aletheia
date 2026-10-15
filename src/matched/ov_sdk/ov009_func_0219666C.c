@@ -12,10 +12,10 @@
  * sdk:      gti2BufferIncomingMessage (libdwcgsgt2.TWL.HYB.a gt2message.o)
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   gti2SNDiff  0x02195EB4  arm  ov009
- *   func_02194DD4  0x02194DD4  arm  ov009
+ *   gti2GetBufferFreeSpace  0x02194DD4  arm  ov009
  *   func_021842D0  0x021842D0  arm  ov009
  *   func_02194E2C  0x02194E2C  arm  ov009
  *   gti2SendNack  0x02197AD8  arm  ov009
@@ -74,11 +74,11 @@ struct GTI2IncomingBufferMessage {
     unsigned short serialNumber;
 };
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(struct DArrayImplementation *array, int n);
 extern int gti2SNDiff(unsigned short SN1, unsigned short SN2);
 struct Conn;
-extern int func_02194DD4(const int *p);
+extern int gti2GetBufferFreeSpace(const int *p);
 extern void func_021842D0(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
 extern void func_02194E2C(struct GTI2Buffer *buffer, unsigned char *data, int len);
 extern int gti2SendNack(struct Conn *connection, unsigned short SNMin, unsigned short SNMax);
@@ -95,7 +95,7 @@ int gti2BufferIncomingMessage(struct GTI2Connection *connection, int type, unsig
     struct GTI2IncomingBufferMessage *prev;
     unsigned short diff;
 
-    num = func_02184200((const int *)connection->incomingBufferMessages);
+    num = ArrayLength((const int *)connection->incomingBufferMessages);
     for (i = 0; i < num; i++) {
         bufferedMessage = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, i);
         if (bufferedMessage->serialNumber == SN) {
@@ -106,7 +106,7 @@ int gti2BufferIncomingMessage(struct GTI2Connection *connection, int type, unsig
             break;
     }
 
-    if (func_02194DD4((const int *)(&connection->incomingBuffer)) < len) {
+    if (gti2GetBufferFreeSpace((const int *)(&connection->incomingBuffer)) < len) {
         *overflow = 1;
         return 1;
     }
@@ -117,7 +117,7 @@ int gti2BufferIncomingMessage(struct GTI2Connection *connection, int type, unsig
     messageInfo.serialNumber = SN;
     func_021842D0(connection->incomingBufferMessages, &messageInfo, func_02196658);
 
-    if (func_02184200((const int *)connection->incomingBufferMessages) != num + 1) {
+    if (ArrayLength((const int *)connection->incomingBufferMessages) != num + 1) {
         *overflow = 1;
         return 1;
     }

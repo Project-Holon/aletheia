@@ -1,5 +1,5 @@
 /*
- * function: func_02195B44
+ * function: gt2Connect
  * address:  0x02195B44
  * packet:   pkt_ov009_02195B44
  * region:   ov009
@@ -42,7 +42,7 @@ extern void gti2FreeSocketConnection();
 extern void gt2Think();
 extern void msleep();
 
-int func_02195B44(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking)
+int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking)
 {
     GTI2Connection *connectionTemp;
     int result;

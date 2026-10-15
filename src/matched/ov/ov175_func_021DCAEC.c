@@ -1,5 +1,5 @@
 /*
- * function: func_021DCAEC
+ * function: WIFIBATTLEMATCH_NET_ProfanityProcess
  * address:  0x021DCAEC
  * packet:   pkt_021DCAEC
  * region:   ov175
@@ -36,7 +36,7 @@ struct U16Vec;
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-int func_021DCAEC(char *obj, int *out)
+int WIFIBATTLEMATCH_NET_ProfanityProcess(char *obj, int *out)
 {
     int state = DWC_CheckProfanityProcess();
     int done = 1;

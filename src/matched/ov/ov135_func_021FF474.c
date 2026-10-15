@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 struct MsgBank;
 struct U16Vec;
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -44,7 +44,7 @@ void WORLDTRADE_SEARCH_DrawHistoryHeader(void *win, void *bank, int flag, void *
     } else {
         pal = 2;
     }
-    func_020413B0(1, 0x11, 2, 0xF, 4, pal);
+    BG_SYS_FillTileMap(1, 0x11, 2, 0xF, 4, pal);
     func_020409B4(1);
     str = func_02045EC0(bank, 0x4B);
     WORLDTRADE_INPUT_PrintStringAlignedWrapped(win, (u32)str, 0, 0, 0, color, (u32)g);

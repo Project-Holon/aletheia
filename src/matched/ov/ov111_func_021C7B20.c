@@ -1,5 +1,5 @@
 /*
- * function: func_021C7B20
+ * function: VIEWER_ACTOR_DrawLabel
  * address:  0x021C7B20
  * packet:   pkt_ov111_021C7B20
  * region:   ov111
@@ -15,12 +15,12 @@
  *   STRBUF_Create  0x020457B0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   sub_02008A54  0x02008A54  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   TRCARD_SIGN_GetBadgeDate  0x02008A54  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_021C7AD4  0x021C7AD4  thumb
+ *   VIEWER_ACTOR_PrintTextAt  0x021C7AD4  thumb
  *   STRBUF_Delete  0x02045808  arm
  *
  * Addresses are Black-image addresses.
@@ -117,15 +117,15 @@ struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern Rec sub_02008A54(void *obj, int i);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern Rec TRCARD_SIGN_GetBadgeDate(void *obj, int i);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_021C7AD4(Work *p, int x, int k, void *str);
+extern void VIEWER_ACTOR_PrintTextAt(Work *p, int x, int k, void *str);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021C7B20(Work *p, int mode, int idx)
+void VIEWER_ACTOR_DrawLabel(Work *p, int mode, int idx)
 {
     void *str;
     Rec r;
@@ -136,12 +136,12 @@ void func_021C7B20(Work *p, int mode, int idx)
     BMP_Clear(BMP_WIN_GetBmp(p->f8), 0xF);
     switch (mode) {
     case 0:
-        r = sub_02008A54(p->f184, idx);
-        func_0201EFA4(p->f24, 0, r.a + 0x7D0, 4, 0, 1);
-        func_0201EFA4(p->f24, 1, r.b, 2, 0, 1);
-        func_0201EFA4(p->f24, 2, r.c, 2, 0, 1);
+        r = TRCARD_SIGN_GetBadgeDate(p->f184, idx);
+        WORDSET_SetSlotNumber(p->f24, 0, r.a + 0x7D0, 4, 0, 1);
+        WORDSET_SetSlotNumber(p->f24, 1, r.b, 2, 0, 1);
+        WORDSET_SetSlotNumber(p->f24, 2, r.c, 2, 0, 1);
         MSGDATA_ReadString(p->f20, idx * 3 + 0x58, str);
-        func_0201F250(p->f24, p->f28, str);
+        WORDSET_CopyTaggedText(p->f24, p->f28, str);
         v = p->f14;
         PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->fC), (int)0, (s16)0, (u32)p->f28, (u32)p->f4, (int)0x44F);
         p->f10 = 1;
@@ -154,10 +154,10 @@ void func_021C7B20(Work *p, int mode, int idx)
         break;
     case 1:
         for (i = 0; i < 2; i++) {
-            func_021C7AD4(p, i, idx, str);
+            VIEWER_ACTOR_PrintTextAt(p, i, idx, str);
         }
         if (p->f17C[idx]) {
-            func_021C7AD4(p, 2, idx, str);
+            VIEWER_ACTOR_PrintTextAt(p, 2, idx, str);
         }
         break;
     }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02062884
+ * function: NNSi_G2dUnpackCellBank
  * address:  0x02062884
  * packet:   pkt_02062884
  * region:   arm9
@@ -18,26 +18,31 @@
  * followed by E12FFF1C, or E51FF004 + one word.  The `add` between the load
  * and the branch makes the veneer class refuse, `label` refuses because this
  * call is the only branch to the stub in the image, and naming the real
- * callee (func_02062BAC, arm) resolves the site but reproduces 3 concrete
+ * callee (NNSi_G2dFixupOffsets, arm) resolves the site but reproduces 3 concrete
  * bytes (the original `bl` displacement points at the stub).  So this stays
- * MATCH and src/pending/func_02062820.c cannot be promoted.
+ * MATCH and src/pending/NNS_G2dGetUnpackedCellBank.c cannot be promoted.
+ *
+ * symbols:
+ *   NNSi_G2dGetCellDataBankOamBase  0x020627F0  arm
+ *   NNSi_G2dFixupCellAnimBankTbl  0x02062810  arm
+ *   NNS_G2dGetCellDataByIdx  0x0206285C  arm
  */
 #include "../include/Obj02023.h"
 
 typedef unsigned short u16;
-extern int func_020627F0(int *p);
+extern int NNSi_G2dGetCellDataBankOamBase(int *p);
 typedef unsigned int   u32;
 struct CellDataBank;
-extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
-extern void func_02062810(void *p);
-void func_02062884(int *p)
+extern void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx);
+extern void NNSi_G2dFixupCellAnimBankTbl(void *p);
+void NNSi_G2dUnpackCellBank(int *p)
 {
     u16 i;
     int base;
     p[1] = (int)((char *)p[1] + (int)p);
-    base = func_020627F0(p);
+    base = NNSi_G2dGetCellDataBankOamBase(p);
     for (i = 0; i < ((struct Obj02023 *)p)->f0; i++) {
-        int *e = func_0206285C((struct CellDataBank *)p, i);
+        int *e = NNS_G2dGetCellDataByIdx((struct CellDataBank *)p, i);
         e[1] = (int)((char *)e[1] + base);
     }
     if (p[3] != 0) {
@@ -50,5 +55,5 @@ void func_02062884(int *p)
     if (p[5] == 0)
         return;
     p[5] = (int)((char *)p[5] + (int)p);
-    func_02062810((void *)p[5]);
+    NNSi_G2dFixupCellAnimBankTbl((void *)p[5]);
 }

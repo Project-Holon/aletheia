@@ -25,7 +25,7 @@
  * changes.
  *
  * What it is: the cache-side of a record reader.  It asks
- * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)func_0201D69C(c), 2) for a slot
+ * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)GF_FONT_GetAlignedSize(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
  * and then walks the list hanging off p->f10 through GF_FONT_UpdatePrintsy until it
@@ -44,7 +44,7 @@
  *       --func GF_FONT_CopyStrbufD6D8 --addr 0x0201D6D8 --cc 1.1p1 --thumb
  *
  * symbols:
- *   func_0201D69C  0x0201D69C  thumb
+ *   GF_FONT_GetAlignedSize  0x0201D69C  thumb
  *   GF_FONT_Copy  0x0201D768  thumb
  *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
  *   STRBUF_GetChars  0x02045A90  arm
@@ -64,7 +64,7 @@ typedef struct {
     u32   f14;
 } Blk;
 
-extern u32  func_0201D69C(void *c);
+extern u32  GF_FONT_GetAlignedSize(void *c);
 struct PrintSys;
 struct Ring;
 extern void *GF_FONT_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit);
@@ -82,7 +82,7 @@ void GF_FONT_CopyStrbufD6D8(Blk *p, void *b, void *c)
     u32 x;
 
     x = (u32)GF_FONT_Copy((struct Ring *)p, (void *)STRBUF_GetChars(c),
-                           (u16)func_0201D69C(c), 2);
+                           (u16)GF_FONT_GetAlignedSize(c), 2);
     e = GF_FONT_Copy((struct Ring *)p, b, 0x1c, 0x1c);
     v = 0;
     GF_FONT_Copy((struct Ring *)p, (const u8 *)(&v), 4, 4);

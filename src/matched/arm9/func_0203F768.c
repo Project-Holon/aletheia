@@ -1,5 +1,5 @@
 /*
- * function: func_0203F768
+ * function: GF_STANDARD_CalcAngle
  * address:  0x0203F768
  * packet:   pkt_0203F768
  * region:   arm9
@@ -24,8 +24,8 @@
  *   _s32_div_f     0x0209C0A4  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0203F768.c \
- *       --func func_0203F768 --addr 0x0203F768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GF_STANDARD_CalcAngle.c \
+ *       --func GF_STANDARD_CalcAngle --addr 0x0203F768 --cc 1.1p1 --arm
  */
 
 typedef long long s64;
@@ -33,7 +33,7 @@ typedef long long s64;
 extern int GF_STANDARD_SetupCalc_F7C4(int a0, int a1, int a2, int a3, int a4, int a5);
 extern int _s32_div_f(int n, int d);
 
-int func_0203F768(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
+int GF_STANDARD_CalcAngle(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
 {
     int v = GF_STANDARD_SetupCalc_F7C4(a0, a1, a2, a3, a4, a5);
     int d = (int)(((s64)(a6 << 13) * 0x323d + 0x800) >> 12);

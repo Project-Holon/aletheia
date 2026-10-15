@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC88
+ * function: DEMO3D_CheckSkip
  * address: 0x021BDC88
  * packet: pkt_ov203_021BDC88
  * region: ov203
@@ -17,4 +17,4 @@
 #include "../include/Obj25306.h"
 extern unsigned WIPE_SYS_EndCheck(void);
 extern unsigned KEY_GetTrg(void);
-int func_021BDC88(char *p){if(((struct Obj25305 *)(*(char * *)&((struct Obj14585 *)p)->f4))->f14!=0||!WIPE_SYS_EndCheck())return 0;if(((struct Obj25306 *)(*(char * *)&((struct Obj14585 *)p)->f1C))->f14!=0){if(KEY_GetTrg()&0xcf3)return 1;}return 0;}
+int DEMO3D_CheckSkip(char *p){if(((struct Obj25305 *)(*(char * *)&((struct Obj14585 *)p)->f4))->f14!=0||!WIPE_SYS_EndCheck())return 0;if(((struct Obj25306 *)(*(char * *)&((struct Obj14585 *)p)->f1C))->f14!=0){if(KEY_GetTrg()&0xcf3)return 1;}return 0;}

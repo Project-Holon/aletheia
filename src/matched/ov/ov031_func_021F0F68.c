@@ -12,7 +12,7 @@
  * symbols:
  *   UNION_SUBDISP_SetLinePalette  0x021F0F68  thumb
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 BG_SYS_GetBuf(int channel);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 
 int UNION_SUBDISP_SetLinePalette(void *unused, int idx, int flag)
@@ -49,7 +49,7 @@ int UNION_SUBDISP_SetLinePalette(void *unused, int idx, int flag)
     default:
         return 0;
     }
-    func_020413B0(6, 0, idx * 7, 0x20, 7, pal);
+    BG_SYS_FillTileMap(6, 0, idx * 7, 0x20, 7, pal);
     func_02041B6C(6);
     return 1;
 }

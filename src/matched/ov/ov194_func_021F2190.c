@@ -1,5 +1,5 @@
 /*
- * function: func_021F2190
+ * function: NAMEIN_GRAPHIC_AppendChar
  * address:  0x021F2190
  * packet:   pkt_021F2190
  * region:   ov194
@@ -16,7 +16,7 @@
 
 extern unsigned int GX_GetBankForLCDC(void);
 
-int func_021F2190(char *p, unsigned short v)
+int NAMEIN_GRAPHIC_AppendChar(char *p, unsigned short v)
 {
     if (((struct Obj02909 *)p)->f1E < ((struct Obj02909 *)p)->f22)
     {

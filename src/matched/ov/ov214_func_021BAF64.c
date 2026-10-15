@@ -13,7 +13,7 @@
  *   Both fixed-flag TU runs preserve its low-halfword colour; widening gives EXACT368.
  * extent: lead and tail-call follower 021BB0C4.
  * symbols:
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   PALANM_TransferPalettes 0x02021D50 thumb
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 struct PalAnmObj; struct S02021D50;
 struct S { u8 pad[0x2D8]; void *heap; u32 unused2DC; char *anm; u32 request,state; };
 struct Ctx;
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern u32 PALANM_GetFadeRequestBits(const char *);
 extern int PALANM_RequestFade(struct PalAnmObj *,u16,u32,s16,u8,u8,u16,void *);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
@@ -34,7 +34,7 @@ void func_021BAF64(void *unused,struct S *p)
 {
     u32 mask;
     u8 i;
-    func_02030D28(p->heap);
+    TCB_Main(p->heap);
     if (PALANM_GetFadeRequestBits(p->anm)!=0) return;
     switch (p->state) {
     case 1: p->state=2; break;

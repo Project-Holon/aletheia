@@ -1,5 +1,5 @@
 /*
- * function: func_0215FD40
+ * function: SOCLi_EnableSslCallBack
  * address:  0x0215FD40
  * packet:   pkt_ov009_0215FD40
  * region:   ov009
@@ -47,7 +47,7 @@ extern void OS_LockMutex(void *mutex);
 extern void CPS_SetSsl(int mode);
 extern void func_02086078(void *mutex);
 
-int func_0215FD40(void *arg)
+int SOCLi_EnableSslCallBack(void *arg)
 {
 	Cmd *cpacket = (Cmd *)arg;
 	Sock *socket = cpacket->socket;

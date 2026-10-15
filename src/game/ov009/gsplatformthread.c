@@ -1,7 +1,7 @@
 /*
  * file:     gsplatformthread.c
  * unit:     yes
- * function: func_0217F0B4, func_0217F0D8, gsiInitializeCriticalSection, gsiEnterCriticalSection, gsiLeaveCriticalSection, gsiDeleteCriticalSection, gsiStringToInt64
+ * function: gsiInterlockedIncrement, gsiInterlockedDecrement, gsiInitializeCriticalSection, gsiEnterCriticalSection, gsiLeaveCriticalSection, gsiDeleteCriticalSection, gsiStringToInt64
  * address:  0x0217F0B4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -25,8 +25,8 @@ extern void OS_InitMutex(void *criticalSection);
 extern void OS_LockMutex(void *criticalSection);
 extern void func_02086078(void *criticalSection);
 extern long long atoll(unsigned int string);
-unsigned int func_0217F0B4(unsigned int *value);
-unsigned int func_0217F0D8(unsigned int *value);
+unsigned int gsiInterlockedIncrement(unsigned int *value);
+unsigned int gsiInterlockedDecrement(unsigned int *value);
 void gsiInitializeCriticalSection(void *criticalSection);
 void gsiEnterCriticalSection(void *criticalSection);
 void gsiLeaveCriticalSection(void *criticalSection);
@@ -38,7 +38,7 @@ long long gsiStringToInt64(unsigned int string);
 /*
  * sdk:      gsiInterlockedIncrement (gsplatformthread)
  */
-unsigned int func_0217F0B4(unsigned int *value)
+unsigned int gsiInterlockedIncrement(unsigned int *value)
 {
     unsigned long state;
     unsigned int ret;
@@ -55,7 +55,7 @@ unsigned int func_0217F0B4(unsigned int *value)
 /*
  * sdk:      gsiInterlockedDecrement (gsplatformthread)
  */
-unsigned int func_0217F0D8(unsigned int *value)
+unsigned int gsiInterlockedDecrement(unsigned int *value)
 {
     unsigned long state;
     unsigned int ret;

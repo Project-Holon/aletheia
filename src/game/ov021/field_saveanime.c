@@ -18,7 +18,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_020490F4  0x020490F4  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -55,7 +55,7 @@
  *   BMP_Blit  0x020439A0  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
- *   func_02040B1C  0x02040B1C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   sFieldSaveAnimeSteps     0x021DB990  data  a2
  */
 struct Node;
@@ -98,7 +98,7 @@ typedef struct FieldSaveAnime {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_020414AC(int a);
+extern void BG_SYS_FreeSlot(int a);
 extern void *func_020056A0(void *, void *, int);
 extern void func_02030EAC(struct Node *n);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
@@ -134,7 +134,7 @@ extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern char d_021DE684[];
 extern const u32 d_021DB97C[];
 extern const V d_021DB984;
@@ -172,7 +172,7 @@ int FIELD_SAVEANIME_Delete(FieldSaveAnime *work)
 
 void FIELD_SAVEANIME_Start(FieldSaveAnime *work)
 {
-    func_020414AC(_SAVEANIME_BG_FRAME);
+    BG_SYS_FreeSlot(_SAVEANIME_BG_FRAME);
     work->frameCount = 0;
     FIELD_SAVEANIME_ShowWindow(work);
     work->tcb = func_020056A0(FIELD_SAVEANIME_AnimTask, work, 0x80);
@@ -297,7 +297,7 @@ void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame)
     BMP_Blit(work->charData, (struct Bmp *)bmp, 0, frame << 5, work->ofsX, work->ofsY, 0x20, 0x20, 0xFFFF);
     chars = (u32)BMP_GetPixels((const struct Bmp *)bmp);
     size = BMP_GetByteSize((const struct Bmp *)bmp);
-    func_02040B1C(_SAVEANIME_BG_FRAME, (const void *)chars, size, charBase);
+    BG_SYS_LoadTileData(_SAVEANIME_BG_FRAME, (const void *)chars, size, charBase);
 }
 
 /*

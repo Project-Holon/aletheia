@@ -30,6 +30,9 @@
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_Set  0x0201F0F8  thumb
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
+ *   WORDSET_ResetSlot  0x0201ED64  thumb
+ *   WORDSET_SetSlotText  0x0201ED84  thumb
+ *   WORDSET_SetSlotFromMessage  0x0201EDD0  thumb
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201F094.c \
@@ -68,10 +71,10 @@ struct WordSet {
     void *buf;
 };
 
-extern void func_0201ED64(struct WordSet *p, u32 i);
-extern void func_0201ED84(struct WordSet *p, u32 i, const void *src,
+extern void WORDSET_ResetSlot(struct WordSet *p, u32 i);
+extern void WORDSET_SetSlotText(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
-extern void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v);
+extern void WORDSET_SetSlotFromMessage(struct WordSet *p, u32 i, u32 id, u32 v);
 extern void WORDSET_Set(struct WordSet *p, u32 i, u32 v);
 
 void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n)
@@ -84,12 +87,12 @@ void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n)
         if (s != 0) {
             if (n < func_02045F50(s)) {
                 MSGDATA_ReadString(s, n, p->buf);
-                func_0201ED84(p, i, p->buf, 0);
+                WORDSET_SetSlotText(p, i, p->buf, 0);
                 MSGDATA_Delete(s);
                 return;
             }
             MSGDATA_Delete(s);
         }
     }
-    func_0201ED64(p, i);
+    WORDSET_ResetSlot(p, i);
 }

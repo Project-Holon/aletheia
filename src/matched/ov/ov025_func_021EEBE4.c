@@ -17,7 +17,7 @@
  *   WEATHER_TASK_PrewarmParticles  0x021A2254  thumb  ov021
  *   WEATHER_TASK_SetBillboardVisible  0x021A2160  thumb  ov021
  *   WEATHER_TASK_SetLight  0x021A2114  thumb  ov021
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  */
 
 typedef unsigned char  u8;
@@ -29,7 +29,7 @@ extern void WEATHER_TASK_SetBillboardVisible(unsigned char *o, unsigned int v, i
 extern int WEATHER_TASK_SetLight(unsigned int a, int b, unsigned int c);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 func_02014A10(u32 i);
+extern u16 ZONEDATA_GetLightTableMember(u32 i);
 extern void WEATHER_BLIZZARD_SpawnParticles(int a, int n, u16 idx);
 
 int WEATHER_BLIZZARD_BeginPlain(unsigned int *a, int b, int c)
@@ -43,6 +43,6 @@ int WEATHER_BLIZZARD_BeginPlain(unsigned int *a, int b, int c)
     p[9] = 0;
     WEATHER_TASK_PrewarmParticles((int)a, (void *)WEATHER_BLIZZARD_SpawnParticles, 0x14, 2, 2, c);
     WEATHER_TASK_SetBillboardVisible((unsigned char *)a, 1, 0);
-    WEATHER_TASK_SetLight((unsigned int)a, 0x3E, func_02014A10(4));
+    WEATHER_TASK_SetLight((unsigned int)a, 0x3E, ZONEDATA_GetLightTableMember(4));
     return 1;
 }

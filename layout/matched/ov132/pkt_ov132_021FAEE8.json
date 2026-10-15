@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FAEE8",
-    "func_021FAF10"
+    "STA_ACT_SCRIPT_TickSlot",
+    "STA_ACT_SCRIPT_SetWaitFlag"
+   ],
+   "addresses": [
+    "0x021FAEE8",
+    "0x021FAF10"
    ]
   }
  ]

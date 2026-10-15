@@ -1,5 +1,5 @@
 /*
- * function: func_02014A80
+ * function: ZONEDATA_FindLightEntryColors
  * address:  0x02014A80
  * packet:   pkt_02014A80
  * region:   arm9
@@ -33,8 +33,8 @@
  *    15-byte window at +0x2C comes out in the other order.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02014A80.c \
- *       --func func_02014A80 --addr 0x02014A80 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_FindLightEntryColors.c \
+ *       --func ZONEDATA_FindLightEntryColors --addr 0x02014A80 --cc 1.1p1 --thumb
  */
 #include "../include/Obj02990.h"
 
@@ -47,7 +47,7 @@ typedef signed int s32;
 extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
 extern u32 _u32_div_f(u32, u32);
 
-void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out)
+void ZONEDATA_FindLightEntryColors(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out)
 {
     u32 i;
     s32 best;

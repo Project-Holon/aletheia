@@ -1,5 +1,5 @@
 /*
- * function: func_0215D2A8
+ * function: SOCLi_InitSocket
  * address:  0x0215D2A8
  * packet:   pkt_ov009_0215D2A8
  * region:   ov009
@@ -36,8 +36,8 @@
  * sdk:      SOCLi_InitSocket (libsoc.TWL.HYB.a(socl_create.o))
  *
  * symbols:
- *   func_0215D3C8  0x0215D3C8  arm  ov009
- *   func_0215D3A0  0x0215D3A0  arm  ov009
+ *   SOCLi_InitCommandPipe  0x0215D3C8  arm  ov009
+ *   SOCLi_InitSocketBuffer  0x0215D3A0  arm  ov009
  *   g_021AA44C  0x021AA44C  data
  */
 
@@ -93,11 +93,11 @@ typedef struct Sock {
 	signed char f_af;
 } Sock;
 
-extern unsigned char *func_0215D3C8(unsigned char *ptr, void *pipe, const void *param);
-extern unsigned char *func_0215D3A0(unsigned char *ptr, Buf *buf, unsigned long size);
+extern unsigned char *SOCLi_InitCommandPipe(unsigned char *ptr, void *pipe, const void *param);
+extern unsigned char *SOCLi_InitSocketBuffer(unsigned char *ptr, Buf *buf, unsigned long size);
 extern Sock *g_021AA44C;
 
-unsigned char *func_0215D2A8(Sock *socket, const Param *param)
+unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 {
 	unsigned char *ptr = (unsigned char *)socket + 0xbc;
 
@@ -109,9 +109,9 @@ unsigned char *func_0215D2A8(Sock *socket, const Param *param)
 		spipe = (SendPipe *)ptr;
 		socket->pipe_send = ptr;
 		spipe->f0fc = param->f4;
-		ptr = func_0215D3C8(ptr + 0x114, spipe, param->pipe1);
-		ptr = func_0215D3A0(ptr, &socket->b48, param->send);
-		ptr = func_0215D3A0(ptr, &socket->b5c, param->sendbuf);
+		ptr = SOCLi_InitCommandPipe(ptr + 0x114, spipe, param->pipe1);
+		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b48, param->send);
+		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b5c, param->sendbuf);
 		spipe->f10a = param->f0e;
 		spipe->f110 = 0;
 		spipe->f10c = 0;
@@ -124,10 +124,10 @@ unsigned char *func_0215D2A8(Sock *socket, const Param *param)
 		socket->pipe_recv = ptr;
 		rpipe = (RecvPipe *)ptr;
 		rpipe->f10c = socket;
-		ptr = func_0215D3C8(ptr + 0x110, rpipe, param->pipe2);
-		ptr = func_0215D3A0(ptr, &socket->b54, param->recv);
-		ptr = func_0215D3A0(ptr, &socket->b64, param->rbuf1);
-		ptr = func_0215D3A0(ptr, &rpipe->f0f8, param->rbuf2);
+		ptr = SOCLi_InitCommandPipe(ptr + 0x110, rpipe, param->pipe2);
+		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b54, param->recv);
+		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b64, param->rbuf1);
+		ptr = SOCLi_InitSocketBuffer(ptr, &rpipe->f0f8, param->rbuf2);
 		rpipe->f108 = 0;
 		rpipe->f104 = 0;
 	}

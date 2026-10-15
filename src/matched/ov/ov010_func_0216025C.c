@@ -24,7 +24,7 @@
  *   EVENT_SHORTCUT_MENU_ResolveShortcut  0x0216040C  thumb  ov010
  *   EVENT_SHORTCUT_MENU_GetAvailBit  0x02160564  thumb  ov010
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   func_02164480  0x02164480  thumb  ov010
+ *   FIELD_SKILL_CHECK_FillUseFlags  0x02164480  thumb  ov010
  *   func_02028754  0x02028754  thumb
  *   EVENT_SHORTCUT_MENU_CheckPartyRibbon  0x0216070C  thumb  ov010
  *   func_020307B0  0x020307B0  arm
@@ -76,7 +76,7 @@ extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *a, u32 i);
 extern int EVENT_SHORTCUT_MENU_ResolveShortcut(Req *r, u32 code);
 extern int EVENT_SHORTCUT_MENU_GetAvailBit(u32 state, u32 *out, u32 *err);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-extern void func_02164480(Flags *f, void *a, void *b);
+extern void FIELD_SKILL_CHECK_FillUseFlags(Flags *f, void *a, void *b);
 struct Obj;
 struct Owner;
 struct Work;
@@ -116,7 +116,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(void *evt, u32 *state, Ctx *c)
         if (err == 0 && GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(c->f04)) == 1) {
             failed = 1;
         } else if (ok == 1) {
-            func_02164480(&flags, c->f04, c->f08);
+            FIELD_SKILL_CHECK_FillUseFlags(&flags, c->f04, c->f08);
             if (func_02028754((struct Obj *)(&flags), idx) == 0)
                 failed = 1;
         }

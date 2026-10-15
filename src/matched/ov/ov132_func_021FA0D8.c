@@ -1,5 +1,5 @@
 /*
- * function: func_021FA0D8
+ * function: STA_ACT_AUDIENCE_SetupRecords
  * address: 0x021FA0D8
  * packet: pkt_ov132_021FA0D8
  * region: ov132
@@ -10,21 +10,21 @@
  * status: EXACT*
  * note 2026-10-05: needs per-function opt_common_subs off (the original does not share
  * idx*8 between the record stores and the call argument; without the pragma only
- * the rec/off register pair is swapped). Callee func_021FA3A8 takes (p, rec, type).
+ * the rec/off register pair is swapped). Callee STA_ACT_AUDIENCE_DrawRecord takes (p, rec, type).
  * Caller passes q as a pointer: field 0x14 is a byte table read by MUSICAL_PROGRAM_GetCategoryBonus.
  * symbols:
  *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
  *   func_02005728 0x02005728 thumb
- *   func_021FA3A8 0x021FA3A8 thumb ov132
+ *   STA_ACT_AUDIENCE_DrawRecord 0x021FA3A8 thumb ov132
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
 extern u32 func_02005728(u32 range);
-extern void func_021FA3A8(char *, u8 *, unsigned);
+extern void STA_ACT_AUDIENCE_DrawRecord(char *, u8 *, unsigned);
 #pragma opt_common_subs off
-void func_021FA0D8(char *p, char *q)
+void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q)
 {
     u16 sum = 0;
     u8 b[4];
@@ -74,13 +74,13 @@ void func_021FA0D8(char *p, char *q)
             rec[0x205] = func_02005728(60) + 1;
             rec[0x204] = 0xff;
             if (i < 2)
-                func_021FA3A8(p, (u8 *)(p + 0x204 + off), 3);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 3);
             else if (i < 4)
-                func_021FA3A8(p, (u8 *)(p + 0x204 + off), 2);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 2);
             else if (i < 6)
-                func_021FA3A8(p, (u8 *)(p + 0x204 + off), 1);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 1);
             else
-                func_021FA3A8(p, (u8 *)(p + 0x204 + off), 0);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 0);
         }
     }
 }

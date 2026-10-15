@@ -1,5 +1,5 @@
 /*
- * function: func_021C81C0
+ * function: VIEWER_ACTOR_SetRtcDate
  * address:  0x021C81C0
  * packet:   pkt_ov111_021C81C0
  * region:   ov111
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
- *   sub_02008A34  0x02008A34  thumb
- *   sub_02008ADC  0x02008ADC  thumb
+ *   TRCARD_SIGN_SetLastBadgeTime  0x02008A34  thumb
+ *   TRCARD_SIGN_SetBadgeTimer  0x02008ADC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -87,10 +87,10 @@ struct RtcTime;
 extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 struct Sub020089A8Obj;
-extern void sub_02008A34(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
-extern void sub_02008ADC(struct Sub020089A8Obj *obj, int i, int value);
+extern void TRCARD_SIGN_SetLastBadgeTime(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
+extern void TRCARD_SIGN_SetBadgeTimer(struct Sub020089A8Obj *obj, int i, int value);
 
-void func_021C81C0(Work *p)
+void VIEWER_ACTOR_SetRtcDate(Work *p)
 {
     RTCDate date;
     RTCTime time;
@@ -99,8 +99,8 @@ void func_021C81C0(Work *p)
 
     GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     sec = RTC_ConvertDateTimeToSecond(&date, &time);
-    sub_02008A34(p->f184, (u32)sec, (u32)(sec >> 32));
+    TRCARD_SIGN_SetLastBadgeTime(p->f184, (u32)sec, (u32)(sec >> 32));
     for (i = 0; i < 8; i++) {
-        sub_02008ADC(p->f184, i, p->f188[i]);
+        TRCARD_SIGN_SetBadgeTimer(p->f184, i, p->f188[i]);
     }
 }

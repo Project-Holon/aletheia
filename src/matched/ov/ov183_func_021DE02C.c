@@ -1,5 +1,5 @@
 /*
- * function: func_021DE02C
+ * function: BR_CODEIN_ListIsEventB
  * address: 0x021DE02C
  * packet: pkt_ov183_021DE02C
  * region: ov183
@@ -20,7 +20,7 @@ extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned ZONEDATA_CheckEventFlag(void *, int);
-int func_021DE02C(void *p, void *q)
+int BR_CODEIN_ListIsEventB(void *p, void *q)
 {
     int a = func_0200DBA0(p, 5, 0);
     unsigned b = ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(q), 0x960);

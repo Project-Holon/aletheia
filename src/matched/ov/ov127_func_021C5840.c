@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=func_021C4230; bx r3.
+ * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_SetActorDrawEnable; bx r3.
  * (ov093 labels a different function at this address.)
  * Blocker of ov099 func_021BA2D4.
  *
  * symbols:
- *   func_021C4230  0x021C4230  thumb  ov127
+ *   WIFI_2DCHAR_SetActorDrawEnable  0x021C4230  thumb  ov127
  */
 #include "../include/Obj23050.h"
 
-extern void func_021C4230(char *p, int a);
+extern void WIFI_2DCHAR_SetActorDrawEnable(char *p, int a);
 
 void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a)
 {
-    func_021C4230(((struct Obj23050 *)p)->f4, a);
+    WIFI_2DCHAR_SetActorDrawEnable(((struct Obj23050 *)p)->f4, a);
 }

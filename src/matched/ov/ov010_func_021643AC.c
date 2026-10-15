@@ -1,5 +1,5 @@
 /*
- * function: func_021643AC
+ * function: FIELD_MAP_CHANGE_ApplyZoneHeader
  * address: 0x021643AC
  * packet: pkt_ov010_021643AC
  * region: ov010
@@ -35,4 +35,4 @@ extern void MOVE_POKEMON_MoveActiveEntriesChecked(void *);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void ZONEDATA_ResetEventFlag(char *, int);
 extern int FIELD_ENCOUNT_ST_GetEffectEncount(int a0);
-void func_021643AC(void *a, void *b) { void *p=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(a)); MOVE_POKEMON_SetCommonArea((int)p,FIELDMAP_GetZoneId(b)); MOVE_POKEMON_MoveActiveEntriesChecked(a); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(a),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)b); }
+void FIELD_MAP_CHANGE_ApplyZoneHeader(void *a, void *b) { void *p=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(a)); MOVE_POKEMON_SetCommonArea((int)p,FIELDMAP_GetZoneId(b)); MOVE_POKEMON_MoveActiveEntriesChecked(a); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(a),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)b); }

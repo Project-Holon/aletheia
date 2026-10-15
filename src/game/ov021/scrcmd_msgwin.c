@@ -33,7 +33,7 @@
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   SCRCMD_WORK_SetWaitCount  0x0215A684  thumb  ov010
  *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
@@ -65,7 +65,7 @@
  *   FIELD_MSGBG_InfoSysWinPrintStr  0x02191084  thumb  ov021
  *   VM_SetWait  0x020113D0  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_InfoSysWinPrintStrNow  0x02191184  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELD_MSGBG_GetInfoSysWinBmpWin  0x021911B4  thumb  ov021
@@ -258,7 +258,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventProc proc, unsigned int workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
-extern void func_0201EFA4(WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
+extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void SCRCMD_WORK_SetWaitCount(ScrcmdWork *cmdWork, unsigned short count);
 extern int SCRCMD_WORK_CountDownWait(ScrcmdWork *cmdWork);
@@ -289,7 +289,7 @@ extern void SCRCMD_WORK_SetTimeIcon(ScrcmdWork *cmdWork, TimeIcon *timeIcon);
 extern u32 FIELD_MSGBG_InfoSysWinMain(FieldSysWin *sysWin);
 extern void FIELD_MSGBG_InfoSysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, Strbuf *str);
 extern void MSGDATA_ReadString(MsgData *msgData, u32 msgId, Strbuf *dest);
-extern void func_0201F250(WordSet *wordSet, Strbuf *dest, Strbuf *src);
+extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
 extern void FIELD_MSGBG_InfoSysWinPrintStrNow(FieldSysWin *sysWin, u32 x, int y, Strbuf *str);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern BmpWin *FIELD_MSGBG_GetInfoSysWinBmpWin(FieldSysWin *sysWin);
@@ -764,7 +764,7 @@ int SCRCMD_MSGWIN_CmdInfoSysWinMsgNow(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     MSGDATA_ReadString(msgData, msgId, tempBuffer);
-    func_0201F250(wordSet, str, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     sysWin = SCRCMD_WORK_GetMsgWindow(cmdWork);
     FIELD_MSGBG_ClearInfoSysWin(sysWin);
     FIELD_MSGBG_InfoSysWinPrintStrNow(sysWin, 0, 0, str);
@@ -850,9 +850,9 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
         FIELD_MSGBG_DeleteMsgWin(oldWin);
     moneyWin = FIELD_MSGBG_CreateMsgWin(msgBg, msgData, (u16)(x - 9), (u16)y, 9, 2);
     FIELDMAP_SetInfoWindow(fieldMap, moneyWin);
-    func_0201EFA4(wordSet, 2, money, 7, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, money, 7, 1, 1);
     MSGDATA_ReadString(msgData, 1, tempBuffer);
-    func_0201F250(wordSet, str, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_MsgWinPrintStr(moneyWin, 0, 0, str);
     STRBUF_Delete(str);
     MSGDATA_Delete(msgData);
@@ -884,9 +884,9 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    func_0201EFA4(wordSet, 2, BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
     MSGDATA_ReadString(msgData, 1, tempBuffer);
-    func_0201F250(wordSet, str, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_ClearMsgWin(moneyWin);
     FIELD_MSGBG_MsgWinPrintStr(moneyWin, 0, 0, str);
     STRBUF_Delete(str);
@@ -1169,7 +1169,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
         MSGDATA_ReadString(fileMsgData, msgId, tempBuffer);
         MSGDATA_Delete(fileMsgData);
     }
-    func_0201F250(wordSet, msgBuffer, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
     balloon = SCRCMD_WORK_GetWordSetWork(cmdWork);
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_TALK_WIN) != 0) {
         FIELD_MSGBG_TalkWinPrintStr(SCRCMD_WORK_GetMsgWindow(cmdWork), msgBuffer);
@@ -1452,7 +1452,7 @@ int SCRCMD_MSGWIN_CmdAddSubWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     MSGDATA_ReadString(msgData, msgId, tempBuffer);
-    func_0201F250(wordSet, str, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_GetStrSizeChars(fieldParam->mapSystem, str, &width, &height);
     textWidth = width;
     if (x + textWidth > 0x1f) {
@@ -1546,7 +1546,7 @@ int SCRCMD_MSGWIN_CmdBgWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     MSGDATA_ReadString(msgData, msgId, tempBuffer);
-    func_0201F250(wordSet, msgBuffer, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
     VM_SetWait(vm, SCRCMD_MSGWIN_WaitBgWin);
     SCRIPT_WORK_SetCheckFlag(SCRIPT_FLAG_BG_WIN);
     return 1;
@@ -1577,7 +1577,7 @@ int SCRCMD_MSGWIN_CmdBgWinMsgFont(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     MSGDATA_ReadString(msgData, msgId, tempBuffer);
-    func_0201F250(wordSet, msgBuffer, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
     VM_SetWait(vm, SCRCMD_MSGWIN_WaitBgWin);
     SCRIPT_WORK_SetCheckFlag(SCRIPT_FLAG_BG_WIN);
     return 1;
@@ -1756,6 +1756,6 @@ Strbuf *SCRCMD_MSGWIN_ExpandMessage(ScrcmdWork *cmdWork, ScriptWork *scriptWork,
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     MSGDATA_ReadString(msgData, msgId, tempBuffer);
-    func_0201F250(wordSet, msgBuffer, tempBuffer);
+    WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
     return msgBuffer;
 }

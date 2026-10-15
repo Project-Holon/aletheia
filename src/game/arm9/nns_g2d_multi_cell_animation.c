@@ -41,22 +41,23 @@
  * symbols:
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *   NNSi_G2dRequestCellTransferState  0x02066ABC  arm
- *   func_02062F38  0x02062F38  arm
+ *   NNS_G2dInitAnimCtrl  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
- *   func_02066890  0x02066890  arm
+ *   NNS_G2dSetCellTransferState  0x02066890  arm
  *   NNS_G2dSetCellAnimationBank   0x02062FF0  arm
- *   func_02062D4C  0x02062D4C  arm
- *   func_02062F00  0x02062F00  arm
+ *   NNS_G2dTickAnimCtrl  0x02062D4C  arm
+ *   NNSi_G2dSetCellAnimationCurrentFrame  0x02062F00  arm
  *   NNS_G2dResetCellAnimation  0x02062F90  arm
  *   _u32_div_f          0x0209C2B0  arm
- *   func_020627D8       0x020627D8  arm
+ *   NNS_G2dGetAnimSequenceByIdx       0x020627D8  arm
  *   NNS_G2dIsCellAnimationBoundingBox       0x02063030  arm
  *   NNS_G2dSetSRTTranslate       0x020640DC  arm
- *   func_020629E8  0x020629E8  arm
- *   func_02062D40   0x02062D40  arm
+ *   NNS_G2dGetMultiCellDataByIdx  0x020629E8  arm
+ *   NNSi_G2dGetCellAnimationCurrentSequence   0x02062D40  arm
  *   NNS_G2dSetSRTRotate   0x02064100  arm
  *   NNS_G2dSetSRTScale   0x02064120  arm
  *   NNS_G2dSetCellAnimationSpeed  0x020643C4  arm
+ *   NNS_G2dGetCellDataByIdx  0x0206285C  arm
  */
 struct AnimBank;
 typedef unsigned char  u8;
@@ -181,13 +182,13 @@ typedef struct MultiCellAnim {
     SRTControl srtCtrl;                     /* +0x48 */
 } MultiCellAnim;                            /* 0x5C */
 
-extern const AnimSequenceData *func_020627D8(const struct AnimBank *pAnimBank, u32 idx);
-extern void *func_0206285C(CellDataBank *pBank, u32 idx);
-extern MultiCellData *func_020629E8(MultiCellBank *pBank, u32 idx);
-extern NodeRec *func_02062D40(AnimCtrl *pAnimCtrl);
-extern BOOL func_02062D4C(AnimCtrl *pAnimCtrl, fx32 frames);
-extern BOOL func_02062F00(AnimCtrl *pAnimCtrl, u32 frameIdx);
-extern int func_02062F38(AnimCtrl *pAnimCtrl);
+extern const AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(const struct AnimBank *pAnimBank, u32 idx);
+extern void *NNS_G2dGetCellDataByIdx(CellDataBank *pBank, u32 idx);
+extern MultiCellData *NNS_G2dGetMultiCellDataByIdx(MultiCellBank *pBank, u32 idx);
+extern NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *pAnimCtrl);
+extern BOOL NNS_G2dTickAnimCtrl(AnimCtrl *pAnimCtrl, fx32 frames);
+extern BOOL NNSi_G2dSetCellAnimationCurrentFrame(AnimCtrl *pAnimCtrl, u32 frameIdx);
+extern int NNS_G2dInitAnimCtrl(AnimCtrl *pAnimCtrl);
 extern void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
 extern void NNS_G2dSetCellAnimationBank(AnimCtrl *pAnimCtrl, const AnimSequenceData *pAnimSeq);
 extern BOOL NNS_G2dIsCellAnimationBoundingBox(AnimCtrl *pAnimCtrl);
@@ -196,7 +197,7 @@ extern void NNS_G2dSetSRTRotate(SRTControl *pSrtCtrl, u16 rotZ);
 extern void NNS_G2dSetSRTScale(SRTControl *pSrtCtrl, fx32 scaleX, fx32 scaleY);
 extern void NNSi_G2dSrtcInitControl(SRTControl *pSrtCtrl, u32 mode);
 extern void *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte);
-extern void func_02066890(u32 stateIdx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void NNS_G2dSetCellTransferState(u32 stateIdx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 void NNSi_G2dInitMCNode(Node *pNode, u32 type);
 void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim);
 void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank);
@@ -264,11 +265,11 @@ void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim)
     if (pCellAnim->animCtrl.pActiveCurrent->frames == 0)
         return;
 
-    func_02062D40(&pCellAnim->animCtrl);
-    pNodeRec = func_02062D40(&pCellAnim->animCtrl);
+    NNSi_G2dGetCellAnimationCurrentSequence(&pCellAnim->animCtrl);
+    pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pCellAnim->animCtrl);
 
     pCellDataBank = pCellAnim->pCellDataBank;
-    pCellAnim->pCurrentCell = func_0206285C(pCellDataBank, pNodeRec->index);
+    pCellAnim->pCurrentCell = NNS_G2dGetCellDataByIdx(pCellDataBank, pNodeRec->index);
 
     kind = pCellAnim->animCtrl.pAnimSequence->animType & 0xff;
 
@@ -327,7 +328,7 @@ void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnim
     pCellAnim->pCellDataBank = pCellDataBank;
     pCellAnim->transferStateHandle = -1;
     NNSi_G2dSrtcInitControl(&pCellAnim->srtCtrl, 1);
-    func_02062F38(&pCellAnim->animCtrl);
+    NNS_G2dInitAnimCtrl(&pCellAnim->animCtrl);
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
 
@@ -335,7 +336,7 @@ void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnim
 
 
 /*
- * The eight-argument forwarder into func_02066890 (four in registers, four
+ * The eight-argument forwarder into NNS_G2dSetCellTransferState (four in registers, four
  * on the stack at [sp]..[sp,#0xc], re-read from the caller's own stacked
  * arguments at [sp,#0x28]..[sp,#0x3c]), followed by the object fixups.
  *
@@ -356,7 +357,7 @@ void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnim
  * Byte-correct: 132 bytes, 0 concrete mismatches, under the DEFAULT 1.1p1
  * (no pin needed; ../2.0/sp2 also gives 132/0 with the same C).
  *
- * Blocked on: `label`.  Three of the four PC24 sites resolve, but func_02066890
+ * Blocked on: `label`.  Three of the four PC24 sites resolve, but NNS_G2dSetCellTransferState
  * has no branch anywhere in the image outside this function's own `bl` at
  * 0x02064314, and no matched entry, so the site stays wildcarded and the file
  * caps at MATCH.  It promotes as soon as 0x02066890 or a second caller of it
@@ -365,12 +366,12 @@ void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnim
 void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank, u32 stateIdx,
                    u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
 {
-    func_02066890(stateIdx, a, b, c, pCellDataBank->pVramTransferData->szByteMax, d, e, f);
+    NNS_G2dSetCellTransferState(stateIdx, a, b, c, pCellDataBank->pVramTransferData->szByteMax, d, e, f);
     *(volatile int *)&pCellAnim->transferStateHandle = stateIdx;
     *(CellDataBank *volatile *)&pCellAnim->pCellDataBank = pCellDataBank;
     *(volatile int *)&pCellAnim->transferStateHandle = stateIdx;
     NNSi_G2dSrtcInitControl(&pCellAnim->srtCtrl, 1);
-    func_02062F38(&pCellAnim->animCtrl);
+    NNS_G2dInitAnimCtrl(&pCellAnim->animCtrl);
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
 
@@ -398,7 +399,7 @@ void NNS_G2dSetCellAnimationSequence(CellAnim *pCellAnim, const AnimSequenceData
  */
 void NNS_G2dTickCellAnimation(CellAnim *pCellAnim, fx32 frames)
 {
-    if (func_02062D4C(&pCellAnim->animCtrl, frames) != 0) {
+    if (NNS_G2dTickAnimCtrl(&pCellAnim->animCtrl, frames) != 0) {
         NNSi_G2dRefreshCellAnimation(pCellAnim);
     }
 }
@@ -415,7 +416,7 @@ void NNS_G2dTickCellAnimation(CellAnim *pCellAnim, fx32 frames)
  */
 void NNS_G2dSetCellAnimationCurrentFrame(CellAnim *pCellAnim, u32 frameIdx)
 {
-    if (func_02062F00(&pCellAnim->animCtrl, frameIdx) != 0) {
+    if (NNSi_G2dSetCellAnimationCurrentFrame(&pCellAnim->animCtrl, frameIdx) != 0) {
         NNSi_G2dRefreshCellAnimation(pCellAnim);
     }
 }
@@ -489,7 +490,7 @@ static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *p
 {
     const AnimSequenceData *pAnimSeq = 0;
 
-    pAnimSeq = func_020627D8(pAnimBank, pNodeData->animSequenceIdx);
+    pAnimSeq = NNS_G2dGetAnimSequenceByIdx(pAnimBank, pNodeData->animSequenceIdx);
 
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
     pCellAnim->animCtrl.bActive = 1;
@@ -517,7 +518,7 @@ static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *p
  * frame (modulo the sequence length when the animation loops, clamped
  * otherwise).  mcType 1 = cell animations shared through a 0x5c-byte
  * { NNSG2dCellAnimation, bInited } array; otherwise a 0x28-byte node array
- * whose pContent is the cell animation.  Callees: func_020627D8
+ * whose pContent is the cell animation.  Callees: NNS_G2dGetAnimSequenceByIdx
  * GetAnimSequenceByIdx, func_0206434C SetCellAnimationSequence,
  * NNS_G2dIsCellAnimationBoundingBox IsAnimCtrlLoopAnim, NNS_G2dTickCellAnimation TickCellAnimation,
  * NNS_G2dSetSRTTranslate SrtcSetTrans.
@@ -591,7 +592,7 @@ u16 NNS_G2dGetMCBankNumCellAnimRequired(MultiCellBank *pBank)
     u16 i = 0;
 
     for (i = 0; i < pBank->numMultiCell; i++) {
-        u16 n = func_020629E8(pBank, i)->numCellAnim;
+        u16 n = NNS_G2dGetMultiCellDataByIdx(pBank, i)->numCellAnim;
 
         if (n > max) {
             max = n;
@@ -608,8 +609,8 @@ u16 NNS_G2dGetMCBankNumCellAnimRequired(MultiCellBank *pBank)
 
 /*
  * Rebuilds one multi-cell node's SRT block from its current NANR frame record.
- * The node record comes through func_02062D40 and its descriptor through
- * func_020629E8; the frame's kind byte (a word masked with 0xff, not a ldrb)
+ * The node record comes through NNSi_G2dGetCellAnimationCurrentSequence and its descriptor through
+ * NNS_G2dGetMultiCellDataByIdx; the frame's kind byte (a word masked with 0xff, not a ldrb)
  * selects the arm: 0 does nothing, 2 is translation-only, anything else is the
  * full SRT form (scale, rotation, translation).  The walk finishes by handing
  * the descriptor and the node's own u16 counter at +0x30 to NNSi_G2dSetMCDataToMCInstanceImpl.
@@ -636,8 +637,8 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
         return;
     }
 
-    pNodeRec = func_02062D40(&pMCAnim->animCtrl);
-    pMultiCellData = (u32)func_020629E8(pMCAnim->pMultiCellBank, pNodeRec->index);
+    pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
+    pMultiCellData = (u32)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
 
     NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
@@ -701,7 +702,7 @@ void NNS_G2dInitMCAnimation(MultiCellAnim *pMCAnim, void *pBuf, const struct Ani
     for (i = 0; i < n; i++)
     {
       MCCellAnimation *cell = &cells[i];
-      NNS_G2dInitCellAnimation(&cell->cellAnim, func_020627D8(pAnimBank, 0), pCellDataBank);
+      NNS_G2dInitCellAnimation(&cell->cellAnim, NNS_G2dGetAnimSequenceByIdx(pAnimBank, 0), pCellDataBank);
       cell->bInited = 1;
     }
   }
@@ -723,14 +724,14 @@ void NNS_G2dInitMCAnimation(MultiCellAnim *pMCAnim, void *pBuf, const struct Ani
       NNSi_G2dInitMCNode(pNode, 1);
       cell = (CellAnim *)(base + i * 0x58);
       pNode->pContent = cell;
-      NNS_G2dInitCellAnimation(cell, func_020627D8(pAnimBank, 0), pCellDataBank);
+      NNS_G2dInitCellAnimation(cell, NNS_G2dGetAnimSequenceByIdx(pAnimBank, 0), pCellDataBank);
     }
-    func_02062F38(&pMCAnim->animCtrl);
+    NNS_G2dInitAnimCtrl(&pMCAnim->animCtrl);
     pMCAnim->pMultiCellBank = pBank;
     NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
     pMCAnim->totalFrames = 0;
   }
-  func_02062F38(&pMCAnim->animCtrl);
+  NNS_G2dInitAnimCtrl(&pMCAnim->animCtrl);
   pMCAnim->pMultiCellBank = pBank;
   NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
   pMCAnim->totalFrames = 0;
@@ -773,7 +774,7 @@ u16 NNS_G2dGetMCBankNumNodesRequired(MultiCellBank *pBank)
     u16 i;
 
     for (i = 0; i < pBank->numMultiCell; i++) {
-        u16 n = func_020629E8(pBank, i)->numNodes;
+        u16 n = NNS_G2dGetMultiCellDataByIdx(pBank, i)->numNodes;
 
         if (n > max) {
             max = n;
@@ -823,7 +824,7 @@ void NNSi_G2dTickMCInstance(MCInstance *pMCInst, fx32 frames)
 
 /*
  * The tick-driven form of NNS_G2dSetMCAnimationCurrentFrame: steps the multi-cell animation by a
- * fx32 tick through func_02062D4C and, when that reports no advance, hands the
+ * fx32 tick through NNS_G2dTickAnimCtrl and, when that reports no advance, hands the
  * whole walk block at +0x34 to NNSi_G2dTickMCInstance instead.  From the header test
  * down the body is NNS_G2dSetMCAnimationCurrentFrame's verbatim.
  *
@@ -834,7 +835,7 @@ void NNSi_G2dTickMCInstance(MCInstance *pMCInst, fx32 frames)
  * original's 224 (docs/notes/pkt_02064934.NNS_G2dTickMCAnimation.c.txt).
  *
  * THREE C LEVERS, all needed and all found in this pass:
- *  1. func_02062D4C IS ARITY TWO, not three.  The note's body declared a third
+ *  1. NNS_G2dTickAnimCtrl IS ARITY TWO, not three.  The note's body declared a third
  *     parameter and passed the latched halfword `t`; that costs a `mov r2, r5`
  *     at 0x020649E8 and the compile is 228 bytes.  The image sets only r0/r1.
  *  2. THE MISS ARM MUST BE A `goto` TO THE FUNCTION'S TAIL.  Written inline as
@@ -859,14 +860,14 @@ void NNS_G2dTickMCAnimation(MultiCellAnim *pMCAnim, fx32 frames)
     int kind;
     int pMultiCellData;
 
-    if (func_02062D4C(&pMCAnim->animCtrl, frames) == 0) {
+    if (NNS_G2dTickAnimCtrl(&pMCAnim->animCtrl, frames) == 0) {
         goto miss;
     }
     pMCAnim->totalFrames += stepFrames;
     if (pMCAnim->animCtrl.pActiveCurrent->frames == 0)
         return;
-    pNodeRec = func_02062D40(&pMCAnim->animCtrl);
-    pMultiCellData = (int)func_020629E8(pMCAnim->pMultiCellBank, pNodeRec->index);
+    pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
+    pMultiCellData = (int)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
     NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
     switch (kind) {
@@ -916,10 +917,10 @@ void NNS_G2dSetMCAnimationCurrentFrame(MultiCellAnim *pMCAnim, u32 frameIdx)
     int kind;
     int pMultiCellData;
 
-    if (func_02062F00(&pMCAnim->animCtrl, frameIdx) == 0 || pMCAnim->animCtrl.pActiveCurrent->frames == 0)
+    if (NNSi_G2dSetCellAnimationCurrentFrame(&pMCAnim->animCtrl, frameIdx) == 0 || pMCAnim->animCtrl.pActiveCurrent->frames == 0)
         return;
-    pNodeRec = func_02062D40(&pMCAnim->animCtrl);
-    pMultiCellData = (int)func_020629E8(pMCAnim->pMultiCellBank, pNodeRec->index);
+    pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
+    pMultiCellData = (int)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
     NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
     switch (kind) {

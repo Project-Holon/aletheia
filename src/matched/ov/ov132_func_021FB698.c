@@ -1,5 +1,5 @@
 /*
- * function: func_021FB698
+ * function: SCRIPT_COMMAND_CmdSetActorLight
  * address: 0x021FB698
  * packet: pkt_ov132_021FB698
  * region: ov132
@@ -10,7 +10,7 @@
  * note: inferred extent ends with two zero padding bytes before the next labelled function.
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021FB1F4 0x021FB1F4 thumb ov132
+ *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
@@ -20,12 +20,12 @@
 typedef unsigned char u8;
 struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *p);
-extern int func_021FB1F4(char *, int);
+extern int SCRIPT_COMMAND_GetActorMask(char *, int);
 typedef unsigned int   u32;
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
-int func_021FB698(int unused, char *p)
+int SCRIPT_COMMAND_CmdSetActorLight(int unused, char *p)
 {
     char *obj;
     int mask;
@@ -33,7 +33,7 @@ int func_021FB698(int unused, char *p)
     char *ctx;
     u8 i;
     obj = *(char * *)&((struct Obj10551 *)p)->f0;
-    mask = func_021FB1F4(p, VM_GetU32(((struct Obj10551 *)p)->f4));
+    mask = SCRIPT_COMMAND_GetActorMask(p, VM_GetU32(((struct Obj10551 *)p)->f4));
     value = VM_GetU32(((struct Obj10551 *)p)->f4);
     ctx = STA_ACTING_GetActorSystem(((struct Obj14108 *)obj)->f34);
     for (i = 0; i < 4; i++) {

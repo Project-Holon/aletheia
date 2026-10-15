@@ -11,7 +11,7 @@
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02040588 0x02040588 arm
@@ -33,7 +33,7 @@ extern const struct DispConfig d_021B8280;
 extern const struct BgTemplate d_021B82F0,d_021B8330,d_021B8290,d_021B82B0,d_021B82D0,d_021B8310;
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -43,7 +43,7 @@ void POKE_SUMMARY_MAIN_InitDisplay(void)
     struct DispConfig cfg;
     struct BgTemplate a,b,c,d,e,f;
     BG_SYS_Create(79);BMP_WIN_Init(79);
-    cfg=d_021B8280;func_0203FC28(&cfg);
+    cfg=d_021B8280;BG_SYS_SetGraphicsMode(&cfg);
     a=d_021B82F0;BG_SYS_InitBgLayer(2,&a,0);BG_SYS_ClearSlot(2);
     b=d_021B8330;BG_SYS_InitBgLayer(3,&b,0);BG_SYS_ClearSlot(3);
     c=d_021B8290;BG_SYS_InitBgLayer(4,&c,0);BG_SYS_ClearSlot(4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8520
+ * function: GTSNEGO_MSG_PrintStatus
  * address: 0x021D8520
  * packet: pkt_ov120_021D8520
  * region: ov120
@@ -37,7 +37,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021D8520(char *p, u16 n)
+void GTSNEGO_MSG_PrintStatus(char *p, u16 n)
 {
     void *q;
     MSGDATA_ReadString(((struct Obj04490 *)p)->fC, n, (void *)(((struct Obj04490 *)p)->f18));

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02042218",
+   "name": "BG_SYS_ResolveScroll",
    "address": "0x02042218",
    "kind": "game",
    "region": "arm9",

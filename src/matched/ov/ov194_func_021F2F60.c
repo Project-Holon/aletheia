@@ -1,5 +1,5 @@
 /*
- * function: func_021F2F60
+ * function: NAMEIN_GRAPHIC_GridValue
  * address: 0x021F2F60
  * packet: pkt_ov194_021F2F60
  * region: ov194
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F2F68 0x021F2F68 thumb ov194
+ *   NAMEIN_GRAPHIC_ComputeGridValue 0x021F2F68 thumb ov194
  */
-extern int func_021F2F68(const int *,int *);
-int func_021F2F60(const int *p,int *out) {return func_021F2F68(p,out);}
+extern int NAMEIN_GRAPHIC_ComputeGridValue(const int *,int *);
+int NAMEIN_GRAPHIC_GridValue(const int *p,int *out) {return NAMEIN_GRAPHIC_ComputeGridValue(p,out);}

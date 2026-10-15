@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02041570  0x02041570  arm
+ *   BG_SYS_ClearLayerEx  0x02041570  arm
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned short u16;
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
 void func_021BAD68(char *a0)
 {
-    func_02041570(2, 0xd000);
-    func_02041570(6, 0);
+    BG_SYS_ClearLayerEx(2, 0xd000);
+    BG_SYS_ClearLayerEx(6, 0);
 }

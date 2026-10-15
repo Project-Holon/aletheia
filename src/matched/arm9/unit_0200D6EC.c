@@ -38,14 +38,17 @@
  * The bitfield widths are read off the shift pairs: `lsls #0x1F` / `lsrs
  * #0x1F` is bit 0, `lsls #0x18` / `lsrs #0x1F` is bit 7, and `lsls #0x19` /
  * `lsrs #0x1A` is the six bits between them, which is what func_0200D70C
- * passes as the second argument of func_02019D58.
+ * passes as the second argument of POKE_TOOL_FilterSpecies.
+ *
+ * symbols:
+ *   POKE_TOOL_FilterSpecies  0x02019D58  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02019D58(u16 a, int b);
+extern int POKE_TOOL_FilterSpecies(u16 a, int b);
 
 struct RecGet {
     u8  unk00[0x14];
@@ -82,7 +85,7 @@ u32 func_0200D70C(struct RecGet *p)
     if (p->unk1C >= 0x28B) {
         return 0;
     }
-    return func_02019D58(p->unk1C, p->b1);
+    return POKE_TOOL_FilterSpecies(p->unk1C, p->b1);
 }
 
 u32 func_0200D72C(struct RecGet *p)

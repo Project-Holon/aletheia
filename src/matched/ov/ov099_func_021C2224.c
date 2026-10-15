@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 
 void WIFICLUB_DrawSlotFrame(char *p, u32 a1, u32 a2, u32 mode, u8 slot)
 {
@@ -28,5 +28,5 @@ void WIFICLUB_DrawSlotFrame(char *p, u32 a1, u32 a2, u32 mode, u8 slot)
         x = (u16)(mode << 4);
         y = (u16)(slot * 6);
     }
-    func_020410D0(6, a1, a2, 0x10, 6, *(u32 *)(p + 0x8B8) + 0xC, x, y, 0x20, 0x18);
+    BG_SYS_DrawTileEx(6, a1, a2, 0x10, 6, *(u32 *)(p + 0x8B8) + 0xC, x, y, 0x20, 0x18);
 }

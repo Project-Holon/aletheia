@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020413B0
+ * function: BG_SYS_FillTileMap
  * address:  0x020413B0
  * packet:   pkt_020409E0
  * region:   arm9
@@ -13,7 +13,7 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   func_020422D4  0x020422D4  arm
- *   func_02040EE0  0x02040EE0  arm
+ *   BG_SYS_GetTileMapEntry  0x02040EE0  arm
  *
  * Recolour a rectangle of the screen buffer of table slot `index`: for every
  * tile entry in the (x0, y0, w, h) box, replace the palette nibble in bits
@@ -25,8 +25,8 @@
  * (docs/idioms/local-declaration-order-is-stack-order.md), so `width` at
  * sp+9 has to be declared before `height` at sp+8.  The box is clipped
  * against those two: running off the right edge breaks the row, running off
- * the bottom returns outright.  func_02040EE0 is the same (x, y, size_code)
- * to linear-index helper src/matched/sub_02042FB0.c uses.
+ * the bottom returns outright.  BG_SYS_GetTileMapEntry is the same (x, y, size_code)
+ * to linear-index helper src/matched/BG_SYS_SetupTileScreen.c uses.
  *
  * Two loop-shape notes, each worth twelve bytes:
  *
@@ -46,8 +46,8 @@
  * the range.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020413B0.c \
- *       --func func_020413B0 --addr 0x020413B0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_FillTileMap.c \
+ *       --func BG_SYS_FillTileMap --addr 0x020413B0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -65,9 +65,9 @@ struct Slot {
 extern struct Slot *g_02146A44;
 
 extern void func_020422D4(u32 mode, u8 *a, u8 *b);
-extern u16 func_02040EE0(int x, int y, u32 code);
+extern u16 BG_SYS_GetTileMapEntry(int x, int y, u32 code);
 
-void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
+void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
 {
     u8   width;
     u8   height;
@@ -94,7 +94,7 @@ void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
             if (x >= width) {
                 break;
             }
-            i = func_02040EE0(x, y0, g_02146A44[index].size_code);
+            i = BG_SYS_GetTileMapEntry(x, y0, g_02146A44[index].size_code);
             screen[i] = (u16)((screen[i] & 0xfff) | (pal << 12));
         }
     }

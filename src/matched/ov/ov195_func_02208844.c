@@ -1,5 +1,5 @@
 /*
- * function: func_02208844
+ * function: SHINKA_DEMO_EFFECT_AdvanceState
  * address:  0x02208844
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * Flag bump on the ov195 scene object (+8 == 1 -> 2); unlabelled leaf.
  */
-void func_02208844(int *p)
+void SHINKA_DEMO_EFFECT_AdvanceState(int *p)
 {
     if (p[2] == 1)
         p[2] = 2;

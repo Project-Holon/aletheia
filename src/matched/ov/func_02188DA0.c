@@ -12,7 +12,7 @@
  * Tail call with a fixed data pointer argument.
  *
  * symbols:
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 void FIELDMAP_SetBgMode(void)
 {
-    func_0203FC28((struct DispConfig *)0x021D35F4);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)0x021D35F4);
 }

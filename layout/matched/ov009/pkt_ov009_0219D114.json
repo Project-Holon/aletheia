@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219D114",
+   "name": "qr2_internal_is_master_only_key",
    "address": "0x0219D114",
    "kind": "sdk",
    "region": "ov009",

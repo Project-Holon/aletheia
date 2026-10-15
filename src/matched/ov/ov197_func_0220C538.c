@@ -1,5 +1,5 @@
 /*
- * function: func_0220C538
+ * function: B_BAG_MAIN_DisplaySingle
  * address: 0x0220C538
  * packet: pkt_ov197_0220C538
  * region: ov197
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0220C180 0x0220C180 thumb ov197
- *   func_0220C4D4 0x0220C4D4 thumb ov197
- *   func_0220C6F8 0x0220C6F8 thumb ov197
+ *   B_BAG_MAIN_LoadItemGraphic 0x0220C180 thumb ov197
+ *   B_BAG_MAIN_PlaceActor 0x0220C4D4 thumb ov197
+ *   B_BAG_MAIN_StartFingerCursor 0x0220C6F8 thumb ov197
  *   d_0220DB7C 0x0220DB7C data a4
  */
 #include "../include/Obj01075.h"
@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_0220C180(char *,u16,u32,u32);
-extern void func_0220C4D4(int,int);
-extern void func_0220C6F8(u8 *,u32,u32);
+extern void B_BAG_MAIN_LoadItemGraphic(char *,u16,u32,u32);
+extern void B_BAG_MAIN_PlaceActor(int,int);
+extern void B_BAG_MAIN_StartFingerCursor(u8 *,u32,u32);
 extern const int d_0220DB7C[];
-void func_0220C538(char *p) { if(((struct Obj01075 *)p)->f540!=0) { func_0220C180(p,((struct Obj01075 *)p)->f540,6,6); func_0220C4D4(((struct Obj01075 *)p)->f43C,(int)d_0220DB7C); } if(((struct Obj25036 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8==2) func_0220C6F8((u8 *)p,192,24); }
+void B_BAG_MAIN_DisplaySingle(char *p) { if(((struct Obj01075 *)p)->f540!=0) { B_BAG_MAIN_LoadItemGraphic(p,((struct Obj01075 *)p)->f540,6,6); B_BAG_MAIN_PlaceActor(((struct Obj01075 *)p)->f43C,(int)d_0220DB7C); } if(((struct Obj25036 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }

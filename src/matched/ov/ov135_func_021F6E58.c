@@ -18,7 +18,7 @@
  *   WORLDTRADE_NoOp  0x0200ADB4  thumb
  *   WORLDTRADE_DEMO_ReadMyStatus  0x021F72C4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
- *   func_02019CE0  0x02019CE0  thumb
+ *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
  *   func_02034714  0x02034714  arm
  *   PROCSYS_Push  0x02031348  arm
  *   str_02203B6C   0x02203B6C  data  a1
@@ -96,7 +96,7 @@ extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *WORLDTRADE_NoOp(void *sys);
 extern void *WORLDTRADE_DEMO_ReadMyStatus(void *e);
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
-extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 
@@ -140,7 +140,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
         tmpl = d_021E75CC;
         break;
     case 9:
-        func_02019CE0(p->fEA8, p->saveMon);
+        POKE_TOOL_CopyPartyPokemon(p->fEA8, p->saveMon);
         d->f34 = p->fEA8;
         d->f38 = &p->arr[p->cur];
         d->f40 = p->info = WORLDTRADE_DEMO_ReadMyStatus(&p->arr[p->cur]);

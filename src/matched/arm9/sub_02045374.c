@@ -15,7 +15,7 @@
  *   str_020A7E70   0x020A7E70  data
  *   BG_SYS_GetType  0x02041680  arm
  *   func_02030734  0x02030734  arm
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Fill a rectangle of the screen described by the configuration block with
@@ -24,7 +24,7 @@
  * carrying the palette number from +9 in its top nibble); either way a
  * scratch buffer of w*h cells is allocated from the heap named by the word
  * behind 0x02146A50, filled with an increasing counter seeded from +0xa,
- * handed to func_020410D0 and freed again.
+ * handed to BG_SYS_DrawTileEx and freed again.
  *
  * The palette nibble is hoisted as `lsl r4, r2, #0x1c` before the branch
  * and consumed as `orr r2, r5, r4, lsr #16` inside the loop: that is one
@@ -61,7 +61,7 @@ extern const char str_020A7E70[];
 
 extern u8 BG_SYS_GetType(int channel);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern u32 func_020307B0(void *p);
 
 void BMP_WIN_MakeScreen(struct Cfg *cfg)
@@ -92,7 +92,7 @@ void BMP_WIN_MakeScreen(struct Cfg *cfg)
         }
     }
 
-    func_020410D0(cfg->unk_02, cfg->unk_03, cfg->unk_04, cfg->unk_07,
+    BG_SYS_DrawTileEx(cfg->unk_02, cfg->unk_03, cfg->unk_04, cfg->unk_07,
                   cfg->unk_08, (u32)cells, 0, 0, cfg->unk_05, cfg->unk_06);
     func_020307B0(cells);
 }

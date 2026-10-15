@@ -14,18 +14,18 @@
  *
  * symbols:
  *   GAME_BEACON_ACCESSOR_ActionTable  0x02171CE8  data  a1
- *   func_0201F31C  0x0201F31C  thumb
+ *   WORDSET_ClearAllSlots  0x0201F31C  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   WORDSET_Callback  0x0201EE60  thumb
- *   func_0201EF34  0x0201EF34  thumb
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
  *   WORDSET_Callback_EF40  0x0201EF40  thumb
  *   WORDSET_Callback_EF4C  0x0201EF4C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F104  0x0201F104  thumb
- *   func_0201F134  0x0201F134  thumb
- *   func_0201F184  0x0201F184  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotPokeData  0x0201F104  thumb
+ *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  *   WORDSET_DrawF1E0  0x0201F1E0  thumb
  *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
@@ -78,29 +78,29 @@ enum BeaconPrintKind {
     BEACON_PRINT_NONE = 15
 };
 
-extern void func_0201F31C(struct WordSet *wordSet);
+extern void WORDSET_ClearAllSlots(struct WordSet *wordSet);
 
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void STRBUF_Delete(struct StrBuf *buf);
 
-extern void func_0201EE0C(struct WordSet *wordSet, u32 bufferIndex, const void *str, u32 sex, u32 flag, u32 language);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 bufferIndex, const void *str, u32 sex, u32 flag, u32 language);
 
 extern void WORDSET_Callback(struct WordSet *wordSet, u32 bufferIndex, u16 value);
 
-extern void func_0201EF34(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
 extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
 extern void WORDSET_Callback_EF4C(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void func_0201EFA4(struct WordSet *wordSet, u32 bufferIndex, u32 value, u32 digits, u32 padding, u32 flag);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufferIndex, u32 value, u32 digits, u32 padding, u32 flag);
 
-extern void func_0201F104(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void WORDSET_SetSlotPokeData(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void func_0201F134(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void func_0201F184(struct WordSet *wordSet, u32 bufferIndex, s32 value);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 bufferIndex, s32 value);
 
 extern void WORDSET_DrawF1E0(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
@@ -193,18 +193,18 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
     u8 printKind;
     u32 value;
 
-    func_0201F31C(wordSet);
+    WORDSET_ClearAllSlots(wordSet);
     buf = STRBUF_Create(0x21, heapId);
     if (buf == 0)
         return;
     GAME_BEACON_ACCESSOR_GetPlayerName(info, buf);
-    func_0201EE0C(wordSet, 0, buf, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 0, buf, 0, 1, 2);
     printKind = GAME_BEACON_ACCESSOR_GetActionCheckIndex(GAME_BEACON_ACCESSOR_GetActionNo(info));
     switch (printKind) {
     case BEACON_PRINT_TRAINER_NO:
         value = GAME_BEACON_ACCESSOR_GetActionTrainerNo(info);
-        func_0201F104(wordSet, 1, value);
-        func_0201F134(wordSet, 2, value);
+        WORDSET_SetSlotPokeData(wordSet, 1, value);
+        WORDSET_SetSlotFromMsgBE(wordSet, 2, value);
         break;
     case BEACON_PRINT_MONS_NO:
     case BEACON_PRINT_MONS_NO_AND_NICKNAME:
@@ -213,16 +213,16 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
             break;
     case BEACON_PRINT_NICKNAME:
         GAME_BEACON_ACCESSOR_GetNickname(info, buf);
-        func_0201EE0C(wordSet, 2, buf, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, 2, buf, 0, 1, 2);
         break;
     case BEACON_PRINT_ITEM_NO:
         WORDSET_Callback_EF4C(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(info));
         break;
     case BEACON_PRINT_SPECIAL_VALUE:
-        func_0201EFA4(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionSpecialValue(info), 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionSpecialValue(info), 3, 0, 1);
         break;
     case BEACON_PRINT_PRESET_EVENT:
-        func_0201EFA4(wordSet, 1, GAME_BEACON_ACCESSOR_GetPresetEventValue(info), 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetPresetEventValue(info), 3, 0, 1);
         break;
     case BEACON_PRINT_DISTRIBUTION_MONS_NO:
         WORDSET_Callback(wordSet, 1, GAME_BEACON_ACCESSOR_GetDistributionMonsNo(info));
@@ -231,20 +231,20 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         WORDSET_Callback_EF40(wordSet, 1, GAME_BEACON_ACCESSOR_GetDistributionItemNo(info));
         break;
     case BEACON_PRINT_COUNT_VALUE:
-        func_0201EF34(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionCountValue(info));
+        WORDSET_SetSlotFromMsgCB(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionCountValue(info));
         break;
     case BEACON_PRINT_WORD_VALUE:
-        func_0201EFA4(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionWordValue(info), 1, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionWordValue(info), 1, 0, 1);
         break;
     case BEACON_PRINT_BYTE_VALUE:
         WORDSET_DrawF1E0(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionByteValue(info));
         break;
     case BEACON_PRINT_HALFWORD_VALUE:
-        func_0201F184(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionHalfwordValue(info));
+        WORDSET_SetSlotFromMsgA0(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionHalfwordValue(info));
         break;
     case BEACON_PRINT_FREE_TEXT:
         GAME_BEACON_ACCESSOR_GetFreeText((int)info, (int)buf);
-        func_0201EE0C(wordSet, 1, buf, GAME_BEACON_ACCESSOR_GetSex(info), 1, 2);
+        WORDSET_SetSlotTag(wordSet, 1, buf, GAME_BEACON_ACCESSOR_GetSex(info), 1, 2);
         break;
     case BEACON_PRINT_NONE:
         break;

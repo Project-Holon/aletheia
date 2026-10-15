@@ -1,5 +1,5 @@
 /*
- * function: func_021D71E8
+ * function: GTSNEGO_MSG_MoveListActor
  * address: 0x021D71E8
  * packet: pkt_ov120_021D71E8
  * region: ov120
@@ -22,7 +22,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021D71E8(u8 *p, int index, int delta)
+void GTSNEGO_MSG_MoveListActor(u8 *p, int index, int delta)
 {
     Vec pos;
     if (*(void **)((u32)p + 0x14c + (u32)index * 4) != 0) {

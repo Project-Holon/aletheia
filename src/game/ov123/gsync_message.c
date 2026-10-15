@@ -17,9 +17,9 @@
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -34,7 +34,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -44,7 +44,7 @@
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_Init 0x02045088 arm
  *   func_02030734 0x02030734 arm
  *   TCBL_Create 0x0203101C arm
@@ -53,9 +53,9 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   d_021DAA30 0x021DAA30 data a1
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0207D658 0x0207D658 arm
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
@@ -66,6 +66,7 @@
  *   PDWACC_MESSAGE_FormatNumber 0x021D97CC thumb ov123
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_common_types.h"
@@ -80,11 +81,11 @@ extern u32 BMP_WIN_Delete(void *d);
 
 extern int func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 
 extern void BMP_WIN_ClearScreen(void *d);
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 
@@ -114,7 +115,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern u32 func_020307B0(void *p);
 
-extern void *func_0201F5DC(void *, u32, u32, u32);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
 
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
@@ -134,11 +135,11 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, void *, void *, int, u16, int);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 extern void BMP_WIN_Init(u16);
 
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 
@@ -172,11 +173,11 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
 extern void func_02028470(u8 *p, u32 v);
 
-extern void func_0201EEF4(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *,u32,void *);
 
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 
 extern s32 func_02028484(struct Blk *blk, void *h);
 
@@ -214,7 +215,7 @@ void GSYNC_MESSAGE_RestartTimeIcon(GsyncMessageWork *work);
 
 void GSYNC_MESSAGE_PrintDefault(GsyncMessageWork *work, int value);
 
-void PDWACC_MESSAGE_FormatNumber(int value, void *p);
+void PDWACC_MESSAGE_FormatNumber(int value, void *buf);
 
 extern const char d_021DAA30[];
 
@@ -233,7 +234,7 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     work->heap = heap;
     work->wordSet = GF_FONT_Create_EC64(work->heap);
     BMP_WIN_Init(work->heap);
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     work->tcbl = TCBL_Create(work->heap, work->heap, 2, 0);
     work->printQue = (void *)PRINTSYS_QUE_Create((void *)(u32)work->heap);
     work->msgBuf = STRBUF_Create(400, work->heap);
@@ -242,8 +243,8 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     work->msgData = func_02045B38(0, 2, (u16)msgBank, work->heap);
     work->keyCursor = (void *)func_02028590(15, 1, 1, work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, (u32)work->font, (u32)work->printQue, work->heap);
-    work->bg5Frame = (u32)func_0201F5DC((void *)5, 12, 0, work->heap);
-    work->bg6Frame = (u32)func_0201F5DC((void *)6, 12, 0, work->heap);
+    work->bg5Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heap);
+    work->bg6Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)6, 12, 0, work->heap);
     func_02049B40(23, 5, 4, 352, 32, work->heap);
     func_02049B40(23, 5, 0, 352, 32, work->heap);
     return work;
@@ -260,16 +261,16 @@ void GSYNC_MESSAGE_UpdateSystem(GsyncMessageWork *work)
  */
 void GSYNC_MESSAGE_ExitSystem(GsyncMessageWork *work)
 {
-    int i;
+    int windowIndex;
     u32 high;
     GSYNC_MESSAGE_ClearStream(work);
     if (work->mainWindow)
         BMP_WIN_Delete(work->mainWindow);
     if (work->subWindow)
         BMP_WIN_Delete(work->subWindow);
-    for (i = 0; i < 12; i++) {
-        if (work->windows[i])
-            BMP_WIN_Delete(work->windows[i]);
+    for (windowIndex = 0; windowIndex < 12; windowIndex++) {
+        if (work->windows[windowIndex])
+            BMP_WIN_Delete(work->windows[windowIndex]);
     }
     high = work->bg5Frame >> 16;
     BG_SYS_DeleteHalf((int)5, (u16)(work->bg5Frame), (u16)high);
@@ -278,7 +279,7 @@ void GSYNC_MESSAGE_ExitSystem(GsyncMessageWork *work)
     GSYNC_MESSAGE_DeleteButtonManager(work);
     APP_KEYCURSOR_Delete((int)(work->keyCursor));
     WORDSET_DeleteStrbufED04(work->wordSet);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
     STRBUF_Delete(work->msgBuf);
@@ -306,7 +307,7 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
         work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
         func_02028470(work->streamWait, (int)6);
     }
-    func_0201F73C(win, 1, (u16)(work->bg5Frame), 12);
+    BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
     func_02041B6C(5);
@@ -322,9 +323,9 @@ void GSYNC_MESSAGE_PrintStreamId(GsyncMessageWork *work, int msgId)
 void GSYNC_MESSAGE_SetMonName(GsyncMessageWork *work, int msgId, int digits, void *mon)
 {
     func_02045CAC(work->msgData, msgId, work->tmpBuf);
-    func_0201EEF4(work->wordSet, 0, mon);
-    func_0201EFA4(work->wordSet, 1, digits, 3, 1, 1);
-    func_0201F250(work->wordSet, work->msgBuf, work->tmpBuf);
+    WORDSET_SetSlotMonSpecies(work->wordSet, 0, mon);
+    WORDSET_SetSlotNumber(work->wordSet, 1, digits, 3, 1, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, work->tmpBuf);
 }
 
 /* Returns 1 when the message stream has finished. */
@@ -351,7 +352,7 @@ void GSYNC_MESSAGE_ClearStream(GsyncMessageWork *work)
         work->printStream = 0;
     }
     if (work->mainWindow) {
-        func_0201F7A8(work->mainWindow, 2);
+        BMP_MENUWORK_DrawWindowBorder(work->mainWindow, 2);
         BMP_WIN_ClearScreen(work->mainWindow);
         func_02041B6C(5);
     }
@@ -399,7 +400,7 @@ void GSYNC_MESSAGE_PrintInWindow(GsyncMessageWork *work, int top, int height)
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
-    func_0201F73C(win, 1, (u16)(work->bg6Frame), 12);
+    BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg6Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
     func_02041B6C(6);
@@ -415,7 +416,7 @@ void GSYNC_MESSAGE_PrintInSubWindow(GsyncMessageWork *work)
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
-    func_0201F73C(win, 1, (u16)(work->bg6Frame), 12);
+    BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg6Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
     func_02041B6C(6);
@@ -423,7 +424,7 @@ void GSYNC_MESSAGE_PrintInSubWindow(GsyncMessageWork *work)
 
 void GSYNC_MESSAGE_ClearWindow(GsyncMessageWork *work)
 {
-    func_0201F7A8(work->subWindow, 2);
+    BMP_MENUWORK_DrawWindowBorder(work->subWindow, 2);
     BMP_WIN_ClearScreen(work->subWindow);
     func_02041B6C(6);
 }

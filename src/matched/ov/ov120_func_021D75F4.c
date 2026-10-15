@@ -1,5 +1,5 @@
 /*
- * function: func_021D75F4
+ * function: GTSNEGO_MSG_StepIdleFade
  * address: 0x021D75F4
  * packet: pkt_ov120_021D75F4
  * region: ov120
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_02040618(u32,u32,u32);
-void func_021D75F4(char *p) { if(((struct Obj04488 *)p)->f114) { func_02040618(2,3,((struct Obj04488 *)p)->f110); ((struct Obj04488 *)p)->f110+=1; } }
+void GTSNEGO_MSG_StepIdleFade(char *p) { if(((struct Obj04488 *)p)->f114) { func_02040618(2,3,((struct Obj04488 *)p)->f110); ((struct Obj04488 *)p)->f110+=1; } }

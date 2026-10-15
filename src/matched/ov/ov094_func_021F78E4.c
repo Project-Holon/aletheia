@@ -12,7 +12,7 @@
  * volatile: 0x021F7980 0x021F7986 (0x04000604 read twice, results unused)
  *
  * symbols:
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   G3D_SYSTEM_DrawStart  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   PARTICLE_Main  0x02050BE8  arm
@@ -53,7 +53,7 @@ extern Work *gBtlvEff;
 
 struct Ctx;
 struct W;
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void PARTICLE_Main(void);
@@ -77,7 +77,7 @@ void BTLV_EFFECT_Main(void)
     if (gBtlvEff != 0) {
         gBtlvEff->f1e8 = BTLV_EFFVM_Main(gBtlvEff->h188);
         BTLV_EFFECT_UpdateIntroInput();
-        func_02030D28(gBtlvEff->owner);
+        TCB_Main(gBtlvEff->owner);
         BTLV_MCSS_Update(gBtlvEff->h190);
         BTLV_STAGE_UpdateLayerAnims(gBtlvEff->h194);
         BTLV_FIELD_UpdateAnims(gBtlvEff->h198);

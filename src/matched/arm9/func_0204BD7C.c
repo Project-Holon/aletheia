@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
- * (the call to func_02063640) has no witness of any class.  0x02063640 has
+ * (the call to NNS_G2dResetOamManagerBuffer) has no witness of any class.  0x02063640 has
  * exactly one branch reference image wide and it is that call; the only unblock
  * is a `matched` entry at 0x02063640, a 316-byte function in pkt_02063640,
  * claimed by lane-C.
@@ -19,10 +19,10 @@
  * flag at +0x1c is the same one CLACT_InitOamManager sets, and an unbound record is
  * an early return predicated onto the compare (`popeq`).  The r1 read at the
  * call is a leftover, not an argument: 0x02063640 overwrites r1 at +0x1C with
- * `ldrh r1, [r5, #8]` before any use (docs/notes/func_02063640.c.txt).
+ * `ldrh r1, [r5, #8]` before any use (docs/notes/NNS_G2dResetOamManagerBuffer.c.txt).
  *
  * symbols:
- *   func_02063640  0x02063640  arm
+ *   NNS_G2dResetOamManagerBuffer  0x02063640  arm
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ struct Sub {
 };
 
 struct NNSG2dOamManagerInstance;
-extern void func_02063640(struct NNSG2dOamManagerInstance *pMan);
+extern void NNS_G2dResetOamManagerBuffer(struct NNSG2dOamManagerInstance *pMan);
 
 void CLACT_ResetOamManager(struct Sub *s)
 {
@@ -42,5 +42,5 @@ void CLACT_ResetOamManager(struct Sub *s)
         return;
     }
 
-    func_02063640((struct NNSG2dOamManagerInstance *)s);
+    NNS_G2dResetOamManagerBuffer((struct NNSG2dOamManagerInstance *)s);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E1C14
+ * function: BR_CODEIN_ProfileFindActorIndex
  * address: 0x021E1C14
  * packet: pkt_ov183_021E1C14
  * region: ov183
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj24628.h"
 
-int func_021E1C14(char *p,int a){int i,n; n=((struct Obj24628 *)p)->f23C;for(i=0;i<n;i++){if(a==*(int *)(p+i*28+4))return i;}return 0;}
+int BR_CODEIN_ProfileFindActorIndex(char *p,int a){int i,n; n=((struct Obj24628 *)p)->f23C;for(i=0;i<n;i++){if(a==*(int *)(p+i*28+4))return i;}return 0;}

@@ -15,9 +15,9 @@
  *   ghiEncryptorGetRootCAList  0x021c1230  arm   ov114
  *   OS_GetLowEntropyData  0x02088168  arm
  *   CPS_SslAddRandomSeed  0x02162248  arm   ov009
- *   func_0217EAB0  0x0217eab0  arm   ov009
+ *   gsimalloc  0x0217eab0  arm   ov009
  *   MSL_C_LIB_MemsetPtr  0x020923b0  arm
- *   func_0217D254  0x0217d254  arm   ov009
+ *   gsDebugFormat  0x0217d254  arm   ov009
  *   gGhttpSslRandomSeed     0x021d3b44  data  ov114
  *   SslAuthCallback  0x021c1668  arm   ov114
  *   sGhttpEncryptionFileName     0x021ce7b0  data
@@ -44,9 +44,9 @@ typedef struct CPSSslConnection {
 extern void *ghiEncryptorGetRootCAList(char *url);
 extern void OS_GetLowEntropyData(unsigned long *);
 extern void CPS_SslAddRandomSeed(void *, unsigned long);
-extern void *func_0217EAB0(unsigned long);
+extern void *gsimalloc(unsigned long);
 extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned long);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int SslAuthCallback(int result, struct CPSSslConnection *con, int level);
 extern unsigned long gGhttpSslRandomSeed[8];
 extern char sGhttpEncryptionFileName[];
@@ -64,7 +64,7 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
         if (rootCaList->certs != 0 && rootCaList->count > 0) {
             OS_GetLowEntropyData(gGhttpSslRandomSeed);
             CPS_SslAddRandomSeed(gGhttpSslRandomSeed, 0x20);
-            sslCon = func_0217EAB0(0x830);
+            sslCon = gsimalloc(0x830);
             if (sslCon != 0) {
                 MSL_C_LIB_MemsetPtr(sslCon, 0, 0x830);
                 sslCon->f800 = 0;
@@ -72,13 +72,13 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
                 sslCon->f818 = rootCaList->count;
                 sslCon->f810 = (int (*)(int,  void *, int))SslAuthCallback;
             } else {
-                func_0217D254(8, (char *)2, 2, sGhttpTwlFailedToAllocateMemory, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x3fc);
+                gsDebugFormat(8, (char *)2, 2, sGhttpTwlFailedToAllocateMemory, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x3fc);
             }
         } else {
-            func_0217D254(8, (char *)2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x403);
+            gsDebugFormat(8, (char *)2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x403);
         }
     } else {
-        func_0217D254(8, (char *)2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x40a);
+        gsDebugFormat(8, (char *)2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x40a);
     }
     return sslCon;
 }

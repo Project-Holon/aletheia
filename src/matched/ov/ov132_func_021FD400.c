@@ -1,5 +1,5 @@
 /*
- * function: func_021FD400
+ * function: MUS_COMM_FUNC_SendRecordBlock
  * address: 0x021FD400
  * packet: pkt_ov132_021FD400
  * region: ov132
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
-int func_021FD400(const char *p)
+int MUS_COMM_FUNC_SendRecordBlock(const char *p)
 {
     u8 i;
     u32 n;

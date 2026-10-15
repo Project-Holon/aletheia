@@ -1,5 +1,5 @@
 /*
- * function: func_021A8324
+ * function: FIELD_GROUND_ANIME_CallExitEvent
  * address:  0x021A8324
  * packet:   pkt_ov021_021A8324
  * region:   ov021
@@ -29,7 +29,7 @@ struct Evt;
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-void func_021A8324(int a, R **r)
+void FIELD_GROUND_ANIME_CallExitEvent(int a, R **r)
 {
     R *p = *r;
     int t;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD0F4
+ * function: BR_CODEIN_RecordDeleteTextWin
  * address: 0x021DD0F4
  * packet: pkt_ov183_021DD0F4
  * region: ov183
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {int x,y;} Pair;
 extern void BR_UTIL_StartEffect(char *,u32,const Pair *),BR_UTIL_DeleteTextWin(void *,int);
-void func_021DD0F4(char *p, char *a1) { if(((struct Obj00050 *)p)->fE0) { BR_UTIL_StartEffect(*(char * *)&((struct Obj00050 *)p)->fC,0,0); if(((struct Obj00050 *)p)->f18) { BR_UTIL_DeleteTextWin(((struct Obj00050 *)p)->f18,((struct Obj24574 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f10); *(int *)&((struct Obj00050 *)p)->f18=0; } ((struct Obj00050 *)p)->fE0=0; } }
+void BR_CODEIN_RecordDeleteTextWin(char *p, char *a1) { if(((struct Obj00050 *)p)->fE0) { BR_UTIL_StartEffect(*(char * *)&((struct Obj00050 *)p)->fC,0,0); if(((struct Obj00050 *)p)->f18) { BR_UTIL_DeleteTextWin(((struct Obj00050 *)p)->f18,((struct Obj24574 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f10); *(int *)&((struct Obj00050 *)p)->f18=0; } ((struct Obj00050 *)p)->fE0=0; } }

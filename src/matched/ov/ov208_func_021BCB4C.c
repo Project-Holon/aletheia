@@ -21,7 +21,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics 0x021BCEC0 thumb ov208
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj02253.h"
 extern void FADE_Start(unsigned,int,int,int);
@@ -42,7 +42,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
 {
     FADE_Start(3,16,16,0);
@@ -57,6 +57,6 @@ int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
     GF_FONT_Delete(((struct Obj02253 *)p)->f8);
     ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Obj02253 *)p)->f4);
     func_020315D4(a);
-    func_020306F0(149);
+    GFL_HEAP_DeleteChecked(149);
     return 1;
 }

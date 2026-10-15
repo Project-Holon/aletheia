@@ -1,5 +1,5 @@
 /*
- * function: func_021DB2E0
+ * function: BR_CODEIN_SidebarCreate
  * address: 0x021DB2E0
  * packet: pkt_ov183_021DB2E0
  * region: ov183
@@ -15,9 +15,9 @@
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  *   BR_UTIL_SetHandlesAnimSeq 0x021FD940 thumb ov186
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
- *   func_021DB3C4 0x021DB3C4 thumb ov183
- *   func_021DB594 0x021DB594 thumb ov183
- *   func_021DB61C 0x021DB61C thumb ov183
+ *   BR_CODEIN_SidebarStepIntro 0x021DB3C4 thumb ov183
+ *   BR_CODEIN_SidebarStepSlideIn 0x021DB594 thumb ov183
+ *   BR_CODEIN_SidebarStepSlideOut 0x021DB61C thumb ov183
  */
 #include "../include/Obj02228.h"
 #include "../include/Obj03879.h"
@@ -32,10 +32,10 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void BR_UTIL_SetHandlesAnimSeq(u8 *p, u32 value);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
-extern void func_021DB3C4(int *task, int *state, char *p);
-extern void func_021DB594(int *task, int *state, char *p);
-extern void func_021DB61C(int *task, int *state, char *p);
-int func_021DB2E0(int *task, int unused, char *p)
+extern void BR_CODEIN_SidebarStepIntro(int *task, int *state, char *p);
+extern void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, char *p);
+extern void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, char *p);
+int BR_CODEIN_SidebarCreate(int *task, int unused, char *p)
 {
     char *s;
     void *callback;
@@ -48,9 +48,9 @@ int func_021DB2E0(int *task, int unused, char *p)
     ((struct Obj02228 *)s)->f18=BR_UTIL_CreateHandles(((struct Obj03879 *)p)->f4,(char *)(((struct Obj03879 *)p)->fC),1,((struct Obj02228 *)s)->f4);
     BR_UTIL_SetHandlesAnimSeq(((struct Obj02228 *)s)->f14,1);
     BR_UTIL_SetHandlesAnimSeq(((struct Obj02228 *)s)->f18,1);
-    if(((struct Obj03879 *)p)->f0==0) callback=func_021DB3C4;
-    else if(((struct Obj03879 *)p)->f0==1) callback=func_021DB594;
-    else callback=func_021DB61C;
+    if(((struct Obj03879 *)p)->f0==0) callback=BR_CODEIN_SidebarStepIntro;
+    else if(((struct Obj03879 *)p)->f0==1) callback=BR_CODEIN_SidebarStepSlideIn;
+    else callback=BR_CODEIN_SidebarStepSlideOut;
     ((struct Obj02228 *)s)->f0=BR_UTIL_CreateTask((int)s,(int)callback,((struct Obj02228 *)s)->f4);
     return 1;
 }

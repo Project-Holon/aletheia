@@ -21,7 +21,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   GSYNC_DISP_InitBgLayers 0x021D5F4C thumb ov123
  *   GSYNC_DISP_LoadResources 0x021D614C thumb ov123
  *   GSYNC_DISP_CreatePokeIconActor 0x021D6CD8 thumb ov123
@@ -53,7 +53,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void GSYNC_DISP_InitBgLayers(u8 *);
 extern void GSYNC_DISP_LoadResources(u8 *);
 extern void GSYNC_DISP_CreatePokeIconActor(u8 *);
@@ -72,7 +72,7 @@ u8 *GSYNC_DISP_Init(u32 heap)
     BG_SYS_Create(((struct Obj04498 *)p)->f43C4);
     CLACT_InitSystem((const struct Cfg *)gGsyncClactConfig,(u32)gGsyncDispClactParam,((struct Obj04498 *)p)->f43C4);
     ((struct Obj04498 *)p)->fC=CLACT_CreateUnit(40,0,((struct Obj04498 *)p)->f43C4);
-    BG_SYS_SetVramBanks((const struct DispVram *)gGsyncDispClactParam); func_0203FC28((struct DispConfig *)gGsyncDispDisplayConfig);
+    BG_SYS_SetVramBanks((const struct DispVram *)gGsyncDispClactParam); BG_SYS_SetGraphicsMode((struct DispConfig *)gGsyncDispDisplayConfig);
     GSYNC_DISP_InitBgLayers(p); GSYNC_DISP_LoadResources(p); GSYNC_DISP_CreatePokeIconActor(p); GSYNC_DISP_CreateBackdropActors(p);
     ((struct Obj04498 *)p)->f10=func_020056A0(GSYNC_DISP_VBlankTask,p,0);
     ((struct Obj04498 *)p)->f455C=200;

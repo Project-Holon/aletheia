@@ -1,5 +1,5 @@
 /*
- * function: func_0220C6C0
+ * function: B_BAG_MAIN_DeleteToolActors
  * address:  0x0220C6C0
  * packet:   pkt_0220C6C0
  * region:   ov197
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 extern void B_APP_TOOL_DeleteActors(u8 *p);
 
-void func_0220C6C0(char *a)
+void B_BAG_MAIN_DeleteToolActors(char *a)
 {
     B_APP_TOOL_DeleteActors((u8 *)(((struct Obj25044 *)a)->f148));
 }

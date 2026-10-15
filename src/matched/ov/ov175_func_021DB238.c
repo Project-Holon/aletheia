@@ -1,5 +1,5 @@
 /*
- * function: func_021DB238
+ * function: WIFIBATTLEMATCH_NET_ReportAddDisconnectWin
  * address:  0x021DB238
  * packet:   pkt_021DB238
  * region:   ov175
@@ -22,7 +22,7 @@ typedef signed char s8;
 
 extern int DWC_ScReportAddByteValue(u32 report, u16 keyId, s8 value);
 
-int func_021DB238(u32 *ctx)
+int WIFIBATTLEMATCH_NET_ReportAddDisconnectWin(u32 *ctx)
 {
     return DWC_ScReportAddByteValue(ctx[1], 0x1b, -1);
 }

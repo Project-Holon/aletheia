@@ -12,7 +12,7 @@
  *   EVENT_APPEAR_CreateSpinZoomAlt 0x021BF5E8 thumb ov093
  *   func_021BF5F8 0x021BF5F8 thumb ov093
  *   PMS_INPUT_SubHandleCancel 0x021BF608 thumb ov093
- *   func_021BF618 0x021BF618 thumb ov093
+ *   ZKNSEARCH_MAIN_ShowEntry6Actor 0x021BF618 thumb ov093
  *   func_021BF628 0x021BF628 thumb ov093
  *   func_021BF638 0x021BF638 thumb ov093
  *   func_021BF648 0x021BF648 thumb ov093
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 extern void EVENT_APPEAR_CreateSpinZoomAlt(void *);
 extern u8 *func_021BF5F8(void *);
 extern void PMS_INPUT_SubHandleCancel(void *, u8 *);
-extern u8 *func_021BF618(void *);
+extern u8 *ZKNSEARCH_MAIN_ShowEntry6Actor(void *);
 extern void func_021BF628(void *);
 extern u8 *func_021BF638(void *);
 extern void func_021BF648(void *, u8 *);
@@ -70,7 +70,7 @@ void BTL_SERVER_FLOW_ProcNoEffectChecks(u8 *p, u8 *b, u8 *a, void *d, void *e)
     while (q) {
         if (BTL_SERVER_FLOW_CheckNoGuardHit(p, a, q) == 0 && BTL_SERVER_FLOW_ProcNoEffectCheck(p, b, a, q, e, 43))
             PMS_INPUT_SubHandleCancel(d, q);
-        q = func_021BF618(d);
+        q = ZKNSEARCH_MAIN_ShowEntry6Actor(d);
     }
     func_021BF628(d);
     q = func_021BF638(d);

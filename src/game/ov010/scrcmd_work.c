@@ -30,7 +30,7 @@
  *   func_020307B0  0x020307B0  arm
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  *   ZONEDATA_SetDirectLocation 0x02014184 thumb
- *   func_02159F84  0x02159F84  thumb  ov010
+ *   MAP_REPLACE_IsValidWarpId  0x02159F84  thumb  ov010
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
@@ -46,7 +46,7 @@
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
  *   BMP_MENUWORK_CountItems  0x0201F91C  thumb
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   FIELD_MSGBG_AddMenuItemStr  0x02190A64  thumb  ov021
  *   FIELD_MSGBG_GetMenuItemsWidthChars  0x02190ACC  thumb  ov021
@@ -92,7 +92,7 @@
  *   func_020071EC  0x020071EC  thumb
  *   func_020071E4  0x020071E4  thumb
  *   func_0200723C  0x0200723C  thumb
- *   func_02012900  0x02012900  thumb
+ *   GAME_DATA_SetWarpId  0x02012900  thumb
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   GAME_DATA_SetField168  0x0201289C  thumb
@@ -132,9 +132,9 @@
  *   GAME_DATA_GetFieldMode 0x02012A44 thumb
  *   EVENT_BATTLE_IsResultSilent 0x0216EFA8 thumb ov010
  *   gScrcmdValueTable 0x02171160 data a2
- *   func_0215A4D8  0x0215A4D8  thumb  ov010
- *   func_0215A4EC  0x0215A4EC  thumb  ov010
- *   func_0215A500  0x0215A500  thumb  ov010
+ *   EVENT_POKE_STATUS_CheckFlag  0x0215A4D8  thumb  ov010
+ *   EVENT_POKE_STATUS_SetFlag  0x0215A4EC  thumb  ov010
+ *   EVENT_POKE_STATUS_ResetFlag  0x0215A500  thumb  ov010
  */
 #include "../arm9/btl_setup_types.h"
 
@@ -276,13 +276,13 @@ void MAP_MATRIX_ApplyReplace(struct MapMatrix *mapMatrix, struct GameSystem *gam
 /* extent: two bytes of zero alignment padding at 0x02159F52. */
 void MAP_REPLACE_SetFlag(struct GameData *gameData, int replaceId, int enable);
 int MAP_REPLACE_CheckFlag(struct GameData *gameData, int replaceId);
-int func_02159F84(int warpId);
+int MAP_REPLACE_IsValidWarpId(int warpId);
 
 /* event_poke_status.c (event work flag offsets) */
 /* interface: original narrows r1 by shift pairs; u16 extern preserves this. */
-unsigned func_0215A4D8(struct EventWork *eventWork, unsigned offset);
-void func_0215A4EC(struct EventWork *eventWork, unsigned offset);
-void func_0215A500(struct EventWork *eventWork, unsigned offset);
+unsigned EVENT_POKE_STATUS_CheckFlag(struct EventWork *eventWork, unsigned offset);
+void EVENT_POKE_STATUS_SetFlag(struct EventWork *eventWork, unsigned offset);
+void EVENT_POKE_STATUS_ResetFlag(struct EventWork *eventWork, unsigned offset);
 
 /* game system and game data */
 extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
@@ -293,7 +293,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *playerWork);
 extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *playerWork);
 extern void GAME_DATA_SetField168(struct GameData *gameData, const struct Location *location);
-extern void func_02012900(struct GameData *gameData, int warpId);
+extern void GAME_DATA_SetWarpId(struct GameData *gameData, int warpId);
 extern struct MapMatrix *GAME_DATA_GetFieldWork(struct GameData *gameData);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
@@ -373,7 +373,7 @@ extern int MSGDATA_Delete(struct MsgBank *msgData);
 extern void func_02045CAC(struct MsgBank *msgData, unsigned int index, struct Strbuf *dest);
 extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
 extern int STRBUF_Delete(struct Strbuf *str);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern unsigned int BMP_MENUWORK_CountItems(struct BmpMenuWork *items);
 extern ScrcmdWork *func_02020D0C(struct BmpMenuList *list);
 extern void func_020202EC(struct BmpMenuList *list, u16 *out);
@@ -669,11 +669,11 @@ void SCRCMD_WORK_AddMenuItem(ScrcmdWork *work, int msgId, int helpMsgId, int par
             return;
         }
         func_02045CAC(menu->msgData, helpMsgId, tmp);
-        func_0201F250(menu->wordSet, str, tmp);
+        WORDSET_CopyTaggedText(menu->wordSet, str, tmp);
         menu->itemHelp[index] = STRBUF_Clone(str, work->heapId);
     }
     func_02045CAC(menu->msgData, msgId, tmp);
-    func_0201F250(menu->wordSet, str, tmp);
+    WORDSET_CopyTaggedText(menu->wordSet, str, tmp);
     FIELD_MSGBG_AddMenuItemStr(menu->items, str, param, work->heapId);
 }
 
@@ -970,8 +970,8 @@ int SCRCMD_WORK_CmdSetWarpDestination(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     int warpId = SCRIPT_WORK_ReadWorkValue(vm, work);
-    if (func_02159F84(warpId) == 1) {
-        func_02012900(gameData, warpId);
+    if (MAP_REPLACE_IsValidWarpId(warpId) == 1) {
+        GAME_DATA_SetWarpId(gameData, warpId);
     }
     return 0;
 }
@@ -1268,7 +1268,7 @@ int SCRCMD_WORK_CmdSetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
-    func_0215A4EC(eventWork, offset);
+    EVENT_POKE_STATUS_SetFlag(eventWork, offset);
     return 0;
 }
 
@@ -1277,7 +1277,7 @@ int SCRCMD_WORK_CmdResetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
-    func_0215A500(eventWork, offset);
+    EVENT_POKE_STATUS_ResetFlag(eventWork, offset);
     return 0;
 }
 
@@ -1286,7 +1286,7 @@ int SCRCMD_WORK_CmdCheckEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
     struct EventWork *eventWork = GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData(work));
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = func_0215A4D8(eventWork, offset);
+    *ret = EVENT_POKE_STATUS_CheckFlag(eventWork, offset);
     return 0;
 }
 

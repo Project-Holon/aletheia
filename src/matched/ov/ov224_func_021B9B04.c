@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B04
+ * function: SUBWAY_MAP_GRAPHIC_DrawBg
  * address: 0x021B9B04
  * packet: pkt_ov224_021B9B04
  * region: ov224
@@ -10,4 +10,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021B9B04(void *a0) {}
+void SUBWAY_MAP_GRAPHIC_DrawBg(void *a0) {}

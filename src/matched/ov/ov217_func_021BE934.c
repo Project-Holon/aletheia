@@ -11,7 +11,7 @@
  *
  * symbols:
  *   d_021C3AC8     0x021C3AC8  data  a1
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   RESEARCH_GRAPH_SetHighlightA  0x021BEB6C  thumb  ov217
  *
@@ -29,7 +29,7 @@ typedef struct E E;
 
 extern struct E d_021C3AC8[];
 typedef unsigned int   u32;
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_020409B4(int);
 extern u32 RESEARCH_GRAPH_SetHighlightA(u32 a0);
 
@@ -39,14 +39,14 @@ int RESEARCH_GRAPH_DrawIndexCursor(char *p)
     case 0:
     case 2:
     case 3:
-        func_020413B0(2, d_021C3AC8[*(int *)(p + 0x34)].a,
+        BG_SYS_FillTileMap(2, d_021C3AC8[*(int *)(p + 0x34)].a,
                       d_021C3AC8[*(int *)(p + 0x34)].b,
                       d_021C3AC8[*(int *)(p + 0x34)].c,
                       d_021C3AC8[*(int *)(p + 0x34)].d, 0xa);
         break;
     case 1:
-        func_020413B0(2, 0xd, 4, 0x13, 4, 0xa);
-        func_020413B0(2, 0x10, 8, 0x10, 3, 0xa);
+        BG_SYS_FillTileMap(2, 0xd, 4, 0x13, 4, 0xa);
+        BG_SYS_FillTileMap(2, 0x10, 8, 0x10, 3, 0xa);
         break;
     case 4:
         RESEARCH_GRAPH_SetHighlightA((u32)p);

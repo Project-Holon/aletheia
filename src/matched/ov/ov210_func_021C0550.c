@@ -1,5 +1,5 @@
 /*
- * function: func_021C0550
+ * function: ZKNSEARCH_RESULT_DeleteFrameList
  * address:  0x021C0550
  * packet:   pkt_ov210_021C0550
  * region:   ov210
@@ -21,7 +21,7 @@ struct U16Vec;
 extern void FRAME_LIST_Delete(struct S *s);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021C0550(int p)
+void ZKNSEARCH_RESULT_DeleteFrameList(int p)
 {
     unsigned i;
 

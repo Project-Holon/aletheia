@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219D478",
+   "name": "GOADecrypt",
    "address": "0x0219D478",
    "kind": "sdk",
    "region": "ov009",

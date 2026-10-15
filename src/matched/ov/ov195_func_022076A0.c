@@ -1,5 +1,5 @@
 /*
- * function: func_022076A0
+ * function: SHINKA_DEMO_VIEW_DrawGridRotated
  * address:  0x022076A0
  * packet:   pkt_022076A0
  * region:   ov195
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02207868 0x02207868 thumb ov195
- *   func_022083DC 0x022083DC thumb ov195
- *   func_022083EC 0x022083EC thumb ov195
- *   func_02208420 0x02208420 thumb ov195
- *   func_0220851C 0x0220851C thumb ov195
+ *   SHINKA_DEMO_VIEW_InitGridFromPokemon 0x02207868 thumb ov195
+ *   SHINKA_DEMO_VIEW_IsGridState1 0x022083DC thumb ov195
+ *   SHINKA_DEMO_VIEW_StartGridFadeOut 0x022083EC thumb ov195
+ *   SHINKA_DEMO_VIEW_IsGridState4 0x02208420 thumb ov195
+ *   SHINKA_DEMO_VIEW_UpdateQuadVerts 0x0220851C thumb ov195
  */
 
 typedef unsigned char u8;
@@ -78,14 +78,14 @@ typedef struct Owner {
     Work *work;
 } Owner;
 
-extern void func_02207868(char *p, u16 heap);
-extern int func_022083DC(char *p, u16 heap);
+extern void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p, u16 heap);
+extern int SHINKA_DEMO_VIEW_IsGridState1(char *p, u16 heap);
 struct Fade;
-extern void func_022083EC(struct Fade *p, int x);
-extern int func_02208420(char *p, u16 heap);
-extern void func_0220851C(Quad *q, u16 heap);
+extern void SHINKA_DEMO_VIEW_StartGridFadeOut(struct Fade *p, int x);
+extern int SHINKA_DEMO_VIEW_IsGridState4(char *p, u16 heap);
+extern void SHINKA_DEMO_VIEW_UpdateQuadVerts(Quad *q, u16 heap);
 
-void func_022076A0(Owner *o)
+void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o)
 {
     Work *w = o->work;
     u16 heap = o->heap;
@@ -100,7 +100,7 @@ void func_022076A0(Owner *o)
     if (w->f00 != 1)
         return;
 
-    func_02207868((char *)w->cur, heap);
+    SHINKA_DEMO_VIEW_InitGridFromPokemon((char *)w->cur, heap);
     s = w->cur;
     d = w->prev;
     d->f68 = s->f68;
@@ -153,13 +153,13 @@ void func_022076A0(Owner *o)
     s = w->cur;
     d = w->prev;
     d->state = s->state;
-    if (func_022083DC((char *)s, heap)) {
-        func_022083EC((struct Fade *)s, heap);
-        func_022083EC((struct Fade *)d, heap);
+    if (SHINKA_DEMO_VIEW_IsGridState1((char *)s, heap)) {
+        SHINKA_DEMO_VIEW_StartGridFadeOut((struct Fade *)s, heap);
+        SHINKA_DEMO_VIEW_StartGridFadeOut((struct Fade *)d, heap);
     }
-    func_02208420((char *)s, heap);
+    SHINKA_DEMO_VIEW_IsGridState4((char *)s, heap);
     if (w->quad != 0) {
         w->quad->f4e = w->cur->rows;
-        func_0220851C(w->quad, heap);
+        SHINKA_DEMO_VIEW_UpdateQuadVerts(w->quad, heap);
     }
 }

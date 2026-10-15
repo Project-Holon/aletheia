@@ -1,5 +1,5 @@
 /*
- * function: func_0220E684
+ * function: B_PLIST_DRAW_CreateActorFromParams
  * address: 0x0220E684
  * packet: pkt_ov198_0220E684
  * region: ov198
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef struct {short x,y,z; u8 a,b;} Point;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
-unsigned func_0220E684(char *p,const int *q)
+unsigned B_PLIST_DRAW_CreateActorFromParams(char *p,const int *q)
 {
     Point point;
     point.x=0;

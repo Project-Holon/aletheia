@@ -1,7 +1,7 @@
 /*
  * file:     dwc_nonport.c
  * unit:     yes
- * function: func_02167E88, DWCi_Np_GetConsoleIdPrefix, func_02167EA0
+ * function: DWCi_Np_GetConsoleId, DWCi_Np_GetConsoleIdPrefix, DWCi_Np_GetAppGameName
  * address:  0x02167E88
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -24,14 +24,14 @@
  *   g_021AA828_b  0x021AA828  data
  */
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-long long func_02167E88(void);
+long long DWCi_Np_GetConsoleId(void);
 void *DWCi_Np_GetConsoleIdPrefix(void);
-char *func_02167EA0(void);
+char *DWCi_Np_GetAppGameName(void);
 extern char g_021A1F68[];
 extern char g_021AA828[];
 extern char g_021AA828_b[];
 
-long long func_02167E88(void)
+long long DWCi_Np_GetConsoleId(void)
 {
     return 0;
 }
@@ -43,7 +43,7 @@ void *DWCi_Np_GetConsoleIdPrefix(void)
 }
 
 
-char *func_02167EA0(void)
+char *DWCi_Np_GetAppGameName(void)
 {
 	MI_CpuCopy8((void *)0x02fffe0c, g_021AA828, 4);
 	g_021AA828_b[4] = 0;

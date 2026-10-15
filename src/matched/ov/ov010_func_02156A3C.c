@@ -19,10 +19,10 @@
  *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
  *   MUSICAL_EVENT_CountNpcSlotsBelow  0x021568A8  thumb  ov010
  *   MUSICAL_PROGRAM_GetNpcNameId  0x02157384  thumb  ov010
- *   func_021FCE28  0x021FCE28  thumb  ov132
+ *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb  ov132
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -55,10 +55,10 @@ struct Table;
 struct U16Vec;
 struct WordSet;
 extern u8 MUSICAL_PROGRAM_GetNpcNameId(struct Table *t, int i);
-extern int func_021FCE28(char *p, u32 index);
+extern int MUS_COMM_FUNC_GetSlotValueA(char *p, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -71,12 +71,12 @@ void MUSICAL_EVENT_SetPlayerNameWord(Work *w, u8 j, void *ws, u32 slot)
     void *p;
 
     if (j == w->f4c) {
-        func_0201F02C(ws, slot, GAME_DATA_GetMyStatus(w->f04));
+        WORDSET_SetSlotMyStatus(ws, slot, GAME_DATA_GetMyStatus(w->f04));
         done = 1;
     } else if (w->f14 == 1) {
-        p = (void *)func_021FCE28(w->f28, k);
+        p = (void *)MUS_COMM_FUNC_GetSlotValueA(w->f28, k);
         if (p != 0) {
-            func_0201F02C(ws, slot, p);
+            WORDSET_SetSlotMyStatus(ws, slot, p);
             done = 1;
         }
     }
@@ -85,7 +85,7 @@ void MUSICAL_EVENT_SetPlayerNameWord(Work *w, u8 j, void *ws, u32 slot)
         void *bank = func_02045B38(0, 2, 0x4C, 4);
         void *str = func_02045EC0(bank, n);
 
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(ws, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(bank);
     }

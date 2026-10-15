@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   PMS_INPUT_Destroy 0x021BD764 thumb ov110
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
@@ -20,14 +20,14 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void PMS_INPUT_Destroy(u8 *,void *);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 extern void func_02034A5C(int);
 extern char ov067_id[];
 int PMS_INPUT_ProcExit(void *a,int b,int c,u8 *p)
 {
     PMS_INPUT_Destroy(p,a);
-    func_020306F0(41);
-    func_020306F0(42);
+    GFL_HEAP_DeleteChecked(41);
+    GFL_HEAP_DeleteChecked(42);
     func_02034A5C((int)ov067_id);
     return 1;
 }

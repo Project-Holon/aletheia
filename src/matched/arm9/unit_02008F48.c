@@ -40,7 +40,7 @@
  *
  *   struct Mail *sub_02008F08(u32 heap)
  *   {
- *       struct Mail *p = sub_02030734((u16)((heap & 0x7FFF) | 0x8000), 0x38,
+ *       struct Mail *p = GFL_HEAP_Alloc((u16)((heap & 0x7FFF) | 0x8000), 0x38,
  *                                     0, sub_02008F08_File, 135);
  *       MAIL_Init(p);
  *       return p;

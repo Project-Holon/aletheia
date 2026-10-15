@@ -24,6 +24,7 @@
  *   STRBUF_Delete  0x02045808  arm  arm9
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  */
 
 typedef signed char s8;
@@ -50,7 +51,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -77,7 +78,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     gender = POKE_TOOL_CalcBoxLevel(mon);
     has = func_02017E88(mon, 0xAD, 0);
     title = func_02045EC0(bank, 0x6E);
-    func_0201EFA4(ws, 3, gender, 3, 0, 1);
+    WORDSET_SetSlotNumber(ws, 3, gender, 3, 0, 1);
     place = (void *)WORLDTRADE_ADAPTER_CreateString((u32)ws, (u32)bank, 0x72, 0x48);
     if (form != 3) {
         MSGDATA_ReadString(bank, tbl_02202EB0[form], tmp);

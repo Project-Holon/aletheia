@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02019A50 0x02019A50 thumb
- *   func_02019A9C 0x02019A9C thumb
- *   func_02019C38 0x02019C38 thumb
+ *   POKE_CRYPTO_XorBlock 0x02019A50 thumb
+ *   POKE_CRYPTO_Checksum 0x02019A9C thumb
+ *   POKE_TOOL_GetBoxSubstruct 0x02019C38 thumb
  */
 #include "../include/Obj00506.h"
 #include "../include/Obj01969.h"
@@ -27,18 +27,18 @@ typedef struct { u32 a:5,b:5,c:5,d:5,e:5,f:5,g:1,h:1; } Packed;
 typedef struct { u8 a:1,b:2,c:5; } Byte;
 struct Mon { u32 seed; Flags flags; u16 check; u8 block[0x80]; };
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_02019A50(u16 *,u32,u32);
-extern u16 func_02019A9C(const u16 *,u32);
-extern void *func_02019C38(struct Mon *,u32,u32);
+extern void POKE_CRYPTO_XorBlock(u16 *,u32,u32);
+extern u16 POKE_CRYPTO_Checksum(const u16 *,u32);
+extern void *POKE_TOOL_GetBoxSubstruct(struct Mon *,u32,u32);
 void BATTLE_REC_TOOL_UnpackMon(char *p,struct Mon *q)
 {
     char *a,*b,*c,*d;
     int i;
     MI_CpuFill8(q,0,0xdc);
-    a=func_02019C38(q,((struct Obj00506 *)p)->f0,0);
-    b=func_02019C38(q,((struct Obj00506 *)p)->f0,1);
-    c=func_02019C38(q,((struct Obj00506 *)p)->f0,2);
-    d=func_02019C38(q,((struct Obj00506 *)p)->f0,3);
+    a=POKE_TOOL_GetBoxSubstruct(q,((struct Obj00506 *)p)->f0,0);
+    b=POKE_TOOL_GetBoxSubstruct(q,((struct Obj00506 *)p)->f0,1);
+    c=POKE_TOOL_GetBoxSubstruct(q,((struct Obj00506 *)p)->f0,2);
+    d=POKE_TOOL_GetBoxSubstruct(q,((struct Obj00506 *)p)->f0,3);
     q->seed=((struct Obj00506 *)p)->f0;
     q->flags.a=0;
     q->flags.b=0;
@@ -86,7 +86,7 @@ void BATTLE_REC_TOOL_UnpackMon(char *p,struct Mon *q)
     ((struct Obj02906 *)q)->f96=((struct Obj00506 *)p)->f6A;
     ((struct Obj02906 *)q)->f98=((struct Obj00506 *)p)->f6C;
     ((struct Obj02906 *)q)->f9A=((struct Obj00506 *)p)->f6E;
-    func_02019A50((u16 *)((char *)q+0x88),0x54,q->seed);
-    q->check=func_02019A9C((u16 *)q->block,0x80);
-    func_02019A50((u16 *)q->block,0x80,q->check);
+    POKE_CRYPTO_XorBlock((u16 *)((char *)q+0x88),0x54,q->seed);
+    q->check=POKE_CRYPTO_Checksum((u16 *)q->block,0x80);
+    POKE_CRYPTO_XorBlock((u16 *)q->block,0x80,q->check);
 }

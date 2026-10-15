@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   CLACT_FreeTransferEntries  0x0204C788  arm
  *
  * The inverse of src/matched/CLACT_InitTransferPool.c: release the 0x30-byte record
@@ -38,7 +38,7 @@ struct Pool {
     u32   ready;     /* 0x0c */
 };
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void CLACT_FreeTransferEntries(struct Pool *p);
 
 void CLACT_ExitTransferPool(struct Pool *p)
@@ -47,7 +47,7 @@ void CLACT_ExitTransferPool(struct Pool *p)
         return;
     }
 
-    sub_020307B0(p->recs);
+    GFL_HEAP_Free(p->recs);
     p->recs = 0;
     CLACT_FreeTransferEntries(p);
     p->ready = 0;

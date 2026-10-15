@@ -1,5 +1,5 @@
 /*
- * function: func_021C4330
+ * function: WIFI_2DCHAR_ReleaseCellAnims
  * address: 0x021C4330
  * packet: pkt_ov127_021C4330
  * region: ov127
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void CLACT_ReleaseCellAnim(u32);
-void func_021C4330(char *p, int a1) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((u32)p+(u32)i*20); CLACT_ReleaseCellAnim(((struct Obj14018 *)q)->f188); ((struct Obj14018 *)q)->f188=0; } }
+void WIFI_2DCHAR_ReleaseCellAnims(char *p, int a1) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((u32)p+(u32)i*20); CLACT_ReleaseCellAnim(((struct Obj14018 *)q)->f188); ((struct Obj14018 *)q)->f188=0; } }

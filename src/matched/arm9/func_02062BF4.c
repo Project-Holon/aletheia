@@ -1,5 +1,5 @@
 /*
- * function: func_02062BF4
+ * function: NNSi_G2dCellAnimationEdgeHandler
  * address:  0x02062BF4
  * packet:   pkt_02062B64
  * region:   arm9
@@ -30,7 +30,7 @@
  *      the image's order with the SAME C.  Measured on the note's body
  *      unchanged: 1.1p1 nine mismatched instructions, ../1.2/sp2 forty-seven,
  *      ../2.0/sp2 three.  This is the same front end the cluster neighbour
- *      src/matched/func_02062BAC.c is pinned to.
+ *      src/matched/NNSi_G2dFixupOffsets.c is pinned to.
  *
  *   2. THE RANGE FOLD, which is the note's item 1 and was the whole remaining
  *      residue (5 concrete bytes, three instructions).  mwccarm folds a
@@ -82,8 +82,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062BF4.c \
- *       --func func_02062BF4 --addr 0x02062BF4 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G2dCellAnimationEdgeHandler.c \
+ *       --func NNSi_G2dCellAnimationEdgeHandler --addr 0x02062BF4 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 276 = original 276, 2 of 2 sites resolved
  */
 
@@ -125,7 +125,7 @@ static inline u32 getMode(struct Slider *s) {
     return m;
 }
 
-void func_02062BF4(struct Slider *s)
+void NNSi_G2dCellAnimationEdgeHandler(struct Slider *s)
 {
     u32 mode = getMode(s);
     if (mode == 3 || mode == 4 ? 1 : 0) {

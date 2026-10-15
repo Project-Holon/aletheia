@@ -13,7 +13,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_Create 0x02043678 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F35C 0x0201F35C thumb
+ *   WORDSET_FormatNumber 0x0201F35C thumb
  *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -40,7 +40,7 @@ struct CharBuf;
 struct Obj020437AC;
 struct U16Vec;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F35C(void *, int, u32, u32, u32);
+extern void WORDSET_FormatNumber(void *, int, u32, u32, u32);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
@@ -61,7 +61,7 @@ void BTLV_GAUGE_DrawLevel(O *o, E *e)
     v = STRBUF_Create(4, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
     bmp = BMP_Create(3, 2, 32, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
     BMP_Clear(bmp, 0);
-    func_0201F35C(v, e->f6c, 3, 0, 0);
+    WORDSET_FormatNumber(v, e->f6c, 3, 0, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(1, 4, 0);
     PRINTSYS_Print(bmp, 0, 5, v, o->f8);

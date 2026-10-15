@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: ZENKOKU_ZUKAN_AWARD_Main, func_021B98FC
+ * function: ZENKOKU_ZUKAN_AWARD_Main, ZENKOKU_ZUKAN_AWARD_Task
  * address: 0x021B97C4
  * packet: pkt_ov222_021B97C4
  * region: ov222
@@ -11,10 +11,10 @@
  * status: EXACT
  * symbols:
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021B9BFC 0x021B9BFC thumb ov222
- *   func_021B9E44 0x021B9E44 thumb ov222
- *   func_021B9BB0 0x021B9BB0 thumb ov222
- *   func_021B9DD0 0x021B9DD0 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_IsWindowsReady 0x021B9BFC thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_IsActorIdle 0x021B9E44 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_FlushWindows 0x021B9BB0 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_UpdateActor 0x021B9DD0 thumb ov222
  *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update 0x021BA014 thumb ov222
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -33,10 +33,10 @@
 #include "../include/Obj26077.h"
 #include "../include/Obj26078.h"
 typedef unsigned int u32;
-extern int func_021B9BFC(char *p);
-extern int func_021B9E44(char *p);
-extern void func_021B9BB0(char *p);
-extern void func_021B9DD0(char *p);
+extern int ZENKOKU_ZUKAN_AWARD_IsWindowsReady(char *p);
+extern int ZENKOKU_ZUKAN_AWARD_IsActorIdle(char *p);
+extern void ZENKOKU_ZUKAN_AWARD_FlushWindows(char *p);
+extern void ZENKOKU_ZUKAN_AWARD_UpdateActor(char *p);
 struct PrintSys;
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 extern int GFL_USE_IsBgmFading(void);
@@ -59,7 +59,7 @@ int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char 
  switch(*state) {
  case 0:
   ready=1;
-  if(func_021B9BFC((char *)p)==0) ready=0;
+  if(ZENKOKU_ZUKAN_AWARD_IsWindowsReady((char *)p)==0) ready=0;
   if(ready && ((struct Obj26077 *)(*(char* *)&((struct Obj02560 *)p)->f4))->f4==0) {
    if(GFL_USE_IsBgmFading()) ready=0;
    else {GFL_USE_SetBgmPlayerParam((void*)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(0x524,0xffff);}
@@ -69,7 +69,7 @@ int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char 
  case 1:
   if(!FADE_IsActive()) {if(((struct Obj26078 *)(*(char* *)&((struct Obj02560 *)p)->f4))->f4!=0) *state=4;else *state=2;}
   break;
- case 2: if(func_021B9E44((char *)p)) *state=3; break;
+ case 2: if(ZENKOKU_ZUKAN_AWARD_IsActorIdle((char *)p)) *state=3; break;
  case 3:
   if(!GFL_USE_IsBgmPlaying()) {GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=4;}
   break;
@@ -83,9 +83,9 @@ int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char 
  case 6: return 1;
  }
  PRINTSYS_QUE_Main(*(void* *)&((struct Obj02560 *)p)->f10);
- func_021B9BB0((char *)p);
- if(*state>=1 && *state<=5) func_021B9DD0((char *)p);
+ ZENKOKU_ZUKAN_AWARD_FlushWindows((char *)p);
+ if(*state>=1 && *state<=5) ZENKOKU_ZUKAN_AWARD_UpdateActor((char *)p);
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(*(void* *)&((struct Obj02560 *)p)->f8);
  return 0;
 }
-void func_021B98FC(void) {}
+void ZENKOKU_ZUKAN_AWARD_Task(void) {}

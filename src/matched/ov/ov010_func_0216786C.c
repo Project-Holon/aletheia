@@ -32,7 +32,7 @@
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  */
 
 typedef unsigned char u8;
@@ -91,7 +91,7 @@ extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, s32 *out);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern VecFx32 *GAME_DATA_GetPlayerPosition(void *pl);
 extern u16 GAME_DATA_GetPlayerDirectionType(void *pl);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 int COMM_PLAYER_UpdateMyPackage(Work *w, Report *out)
 {
@@ -134,7 +134,7 @@ int COMM_PLAYER_UpdateMyPackage(Work *w, Report *out)
     out->flag = flag;
     out->dir = dir;
     if (zone != last->zone || dir != last->dir || flag != last->flag
-        || func_0203EFC8((const u8 *)(&pos), (const u8 *)last, sizeof(VecFx32)) != 0) {
+        || GF_STANDARD_CompareBytes((const u8 *)(&pos), (const u8 *)last, sizeof(VecFx32)) != 0) {
         last->zone = zone;
         last->pos = pos;
         last->dir = dir;

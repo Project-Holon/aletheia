@@ -14,7 +14,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   func_02045B38 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -34,7 +34,7 @@ struct MsgBank;
 struct Tcbl;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -49,7 +49,7 @@ void EGG_DEMO_MENU_Create(int unused,char *p)
     ((struct Obj01296 *)p)->f58=BMP_WIN_Create(1,1,19,30,4,1,0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01296 *)p)->f58)),15);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01296 *)p)->f58);
-    ((struct Obj01296 *)p)->f60=(u32)func_0201F5DC((void *)1,2,0,((struct Obj01296 *)p)->f0);
+    ((struct Obj01296 *)p)->f60=(u32)BMP_MENUWORK_LoadFrameGfx((void *)1,2,0,((struct Obj01296 *)p)->f0);
     ((struct Obj01296 *)p)->f64=(u32)func_02045B38(0,3,260,((struct Obj01296 *)p)->f0);
     ((struct Obj01296 *)p)->f54=(u32)TCBL_Create(((struct Obj01296 *)p)->f0,((struct Obj01296 *)p)->f0,1,0);
     GF_FONT_SetTextColor(1,2,15);

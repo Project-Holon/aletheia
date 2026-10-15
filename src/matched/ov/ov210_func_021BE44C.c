@@ -1,5 +1,5 @@
 /*
- * function: func_021BE44C
+ * function: ZKNSEARCH_MAIN_PrintWindowText
  * address: 0x021BE44C
  * packet: pkt_ov210_021BE44C
  * region: ov210
@@ -23,7 +23,7 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void STRBUF_Delete(struct U16Vec *);
-void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode)
+void ZKNSEARCH_MAIN_PrintWindowText(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode)
 {
     struct U16Vec *text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00222 *)p)->f1D0, message);
     TOUCHBAR_PrintAligned(p + 0x14c + slot * 8, (void *)(((struct Obj00222 *)p)->f1DC), x, y, (u32)text, ((struct Obj00222 *)p)->f1CC, color, mode);

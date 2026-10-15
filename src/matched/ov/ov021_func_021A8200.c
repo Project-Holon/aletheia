@@ -1,5 +1,5 @@
 /*
- * function: func_021A8200
+ * function: FIELD_GROUND_ANIME_AdvanceStep
  * address:  0x021A8200
  * packet:   pkt_ov021_021A8200
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct Work {
     u8 f36;
 } Work;
 
-void func_021A8200(Work *w)
+void FIELD_GROUND_ANIME_AdvanceStep(Work *w)
 {
     w->f36++;
     w->f18 = 0;

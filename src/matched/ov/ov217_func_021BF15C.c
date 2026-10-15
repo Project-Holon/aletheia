@@ -21,9 +21,9 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -46,9 +46,9 @@ extern u8 CircleGraph_GetPercentByKey(u8 *p, u8 key);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 void RESEARCH_GRAPH_PrintSliceLabel(char *p)
 {
     u32 t = ((struct Obj00021 *)p)->f354;
@@ -72,11 +72,11 @@ void RESEARCH_GRAPH_PrintSliceLabel(char *p)
     x = func_02045EC0(((struct Obj00021 *)p)->fC, 0xd);
     y = func_02045EC0(((struct Obj00021 *)p)->f14, k);
     z = STRBUF_Create(0x80, ((struct Obj00021 *)p)->f4);
-    func_0201EFA4(((struct Obj00021 *)p)->f18, 0, a + 1, 2, 1, 1);
-    func_0201EE0C(((struct Obj00021 *)p)->f18, 1, y, 0, 1, 2);
-    func_0201EFA4(((struct Obj00021 *)p)->f18, 2, b, 5, 1, 1);
-    func_0201EFA4(((struct Obj00021 *)p)->f18, 3, c, 3, 1, 1);
-    func_0201F250(((struct Obj00021 *)p)->f18, z, x);
+    WORDSET_SetSlotNumber(((struct Obj00021 *)p)->f18, 0, a + 1, 2, 1, 1);
+    WORDSET_SetSlotTag(((struct Obj00021 *)p)->f18, 1, y, 0, 1, 2);
+    WORDSET_SetSlotNumber(((struct Obj00021 *)p)->f18, 2, b, 5, 1, 1);
+    WORDSET_SetSlotNumber(((struct Obj00021 *)p)->f18, 3, c, 3, 1, 1);
+    WORDSET_CopyTaggedText(((struct Obj00021 *)p)->f18, z, x);
     BgTextLabel_PrintText((u8 *)t, z);
     BgTextLabel_SetVisible((u8 *)t, 1);
     STRBUF_Delete(x);

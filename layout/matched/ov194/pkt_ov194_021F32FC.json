@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F32FC",
+   "name": "NAMEIN_GRAPHIC_GetGridIndex",
    "address": "0x021F32FC",
    "kind": "game",
    "region": "ov194",

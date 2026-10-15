@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  */
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-void STARTMENU_ConfigPromptHighlightChoice(unsigned char *p) { unsigned char i; for(i=0;i<2;i++) { if(i==p[0]) func_0201F73C((void *)(*(unsigned *)(p+16+4*i)),0,1,3); else func_0201F73C((void *)(*(unsigned *)(p+16+4*i)),0,31,4); } }
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+void STARTMENU_ConfigPromptHighlightChoice(unsigned char *p) { unsigned char i; for(i=0;i<2;i++) { if(i==p[0]) BMP_MENUWORK_DrawWindow((void *)(*(unsigned *)(p+16+4*i)),0,1,3); else BMP_MENUWORK_DrawWindow((void *)(*(unsigned *)(p+16+4*i)),0,31,4); } }

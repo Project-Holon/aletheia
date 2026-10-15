@@ -18,7 +18,7 @@
  *   WEATHER_TASK_PrewarmParticles 0x021A2254 thumb ov021
  *   WEATHER_TASK_PlaySe 0x021A25BC thumb ov021
  *   WEATHER_TASK_SetLight 0x021A2114 thumb ov021
- *   func_02014A10 0x02014A10 thumb
+ *   ZONEDATA_GetLightTableMember 0x02014A10 thumb
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ extern void WEATHER_TASK_InitFog(u32 *p, int a, int b, int c);
 extern void WEATHER_TASK_PrewarmParticles(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w);
 extern void WEATHER_TASK_PlaySe(unsigned char *o, int arg);
 extern int WEATHER_TASK_SetLight(u32 a, int b, u32 c);
-extern u16 func_02014A10(u32 i);
+extern u16 ZONEDATA_GetLightTableMember(u32 i);
 extern void WEATHER_RAIN_SpawnParticles(int a, int n, int idx);
 
 int WEATHER_RAIN_BeginPlain(int a, int b, u16 c)
@@ -41,6 +41,6 @@ int WEATHER_RAIN_BeginPlain(int a, int b, u16 c)
     WEATHER_TASK_InitFog((u32 *)a, 8, 0x7F5F, b);
     WEATHER_TASK_PrewarmParticles((u8 *)a, (void (*)(u8 *, int,  u32))WEATHER_RAIN_SpawnParticles, 0x14, 0xA, 1, c);
     WEATHER_TASK_PlaySe((unsigned char *)a, 0x691);
-    WEATHER_TASK_SetLight(a, 0x3E, func_02014A10(2));
+    WEATHER_TASK_SetLight(a, 0x3E, ZONEDATA_GetLightTableMember(2));
     return 1;
 }

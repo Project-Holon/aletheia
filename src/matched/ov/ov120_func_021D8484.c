@@ -1,5 +1,5 @@
 /*
- * function: func_021D8484
+ * function: GTSNEGO_MSG_PrintDraw
  * address: 0x021D8484
  * packet: pkt_ov120_021D8484
  * region: ov120
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021D8B20 0x021D8B20 data ov120 a4
+ *   gGtsnegoMsgDrawConfig 0x021D8B20 data ov120 a4
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -22,7 +22,7 @@
  */
 #include "../include/Obj05353.h"
 typedef struct { int a, b; } Pair;
-extern const Pair d_021D8B20;
+extern const Pair gGtsnegoMsgDrawConfig;
 extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, unsigned char c, unsigned char d, unsigned char slot);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -41,9 +41,9 @@ extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021D8484(struct Obj05353 *p, void *n)
+void GTSNEGO_MSG_PrintDraw(struct Obj05353 *p, void *n)
 {
-    Pair c = d_021D8B20;
+    Pair c = gGtsnegoMsgDrawConfig;
     void *q;
     if (!p->f88) p->f88 = (void *)BMP_WIN_Create(1, 1, 15, 30, 5, 11, 1);
     q = p->f88;

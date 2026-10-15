@@ -1,5 +1,5 @@
 /*
- * function: func_021DA1E4
+ * function: WIFIBATTLEMATCH_NET_StartMatchmaking
  * address:  0x021DA1E4
  * packet:   pkt_021DA1E4
  * region:   ov175
@@ -24,8 +24,8 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
- *   func_021DA384  0x021DA384  thumb
- *   func_021DA390  0x021DA390  thumb
+ *   WIFIBATTLEMATCH_NET_ClearCancelFlag  0x021DA384  thumb
+ *   WIFIBATTLEMATCH_NET_StopMatchmaking  0x021DA390  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   func_0200FBA0  0x0200FBA0  thumb
@@ -55,14 +55,14 @@ struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
-extern void func_021DA384(char *obj);
-extern int func_021DA390(char *obj);
+extern void WIFIBATTLEMATCH_NET_ClearCancelFlag(char *obj);
+extern int WIFIBATTLEMATCH_NET_StopMatchmaking(char *obj);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 extern void func_0200FBA0(void);
 extern u32 GFL_NET_IsParentAid(void);
 
-int func_021DA1E4(char *obj)
+int WIFIBATTLEMATCH_NET_StartMatchmaking(char *obj)
 {
     switch (((struct Obj00839 *)obj)->f40) {
     case 0:
@@ -83,7 +83,7 @@ int func_021DA1E4(char *obj)
         case 0:
             if ((u32)(*(u32 *)(GFL_NET_STATE_GetError() + 0xc) - 0x3f0) > 1)
                 break;
-            func_021DA384(obj);
+            WIFIBATTLEMATCH_NET_ClearCancelFlag(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
             break;
         case 1:
@@ -93,7 +93,7 @@ int func_021DA1E4(char *obj)
             GFL_NET_SetLoginOption(1);
             break;
         default:
-            func_021DA384(obj);
+            WIFIBATTLEMATCH_NET_ClearCancelFlag(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
             break;
         }
@@ -103,7 +103,7 @@ int func_021DA1E4(char *obj)
             if (GFL_NET_HANDLE_CheckNegotiation())
                 ((struct Obj00839 *)obj)->f40 = 4;
             if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
-                func_021DA384(obj);
+                WIFIBATTLEMATCH_NET_ClearCancelFlag(obj);
                 ((struct Obj00839 *)obj)->f40 = 7;
             }
         } else {
@@ -118,7 +118,7 @@ int func_021DA1E4(char *obj)
         break;
     case 5:
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
-            func_021DA384(obj);
+            WIFIBATTLEMATCH_NET_ClearCancelFlag(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
         } else if (GFL_NET_HANDLE_GetNegotiationNum() && GFL_NET_HANDLE_CheckNegotiation()) {
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
@@ -128,14 +128,14 @@ int func_021DA1E4(char *obj)
         break;
     case 6:
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
-            func_021DA384(obj);
+            WIFIBATTLEMATCH_NET_ClearCancelFlag(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
         } else if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24)) {
             ((struct Obj00839 *)obj)->f40 = 8;
         }
         break;
     case 7:
-        if (func_021DA390(obj)) {
+        if (WIFIBATTLEMATCH_NET_StopMatchmaking(obj)) {
             if ((u32)(*(u32 *)(GFL_NET_STATE_GetError() + 0xc) - 0x3f0) <= 1) {
                 GFL_NET_STATE_SetWifiError();
                 GFL_NET_STATE_ClearErrorMode();

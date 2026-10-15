@@ -31,7 +31,7 @@
  *   CDEMO_MAIN_Noop 0x021B6248 thumb ov179
  *   CDEMO_MAIN_HidePlane 0x021B6220 thumb ov179
  *   func_020870D0  0x020870D0  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   data_021B6A1C  0x021B6A1C  data  ov179
  *   _ull_mul       0x0209C054  arm
  *   _ll_udiv       0x0209C00C  arm
@@ -87,7 +87,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void CDEMO_MAIN_Noop(char *);
 extern void CDEMO_MAIN_HidePlane(void);
 extern u64 func_020870D0(void);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern void DWCi_ScreenDC_FlushRange(int, int);
 extern void GX_LoadBG2Scr(int, int, int);
@@ -211,13 +211,13 @@ int CDEMO_SCENE_Step(char *p)
         (((struct CdemoState *)p)->step)++;
         CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->b, e->a, 1);
         (((struct CdemoState *)p)->step)++;
-        func_0204047C((u8)2, (u8)0);
-        func_0204047C((u8)3, (u8)1);
+        BG_SYS_SetVisibleLayer((u8)2, (u8)0);
+        BG_SYS_SetVisibleLayer((u8)3, (u8)1);
         ((struct CdemoState *)p)->state = 1;
         break;
     case 1:
-        func_0204047C((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)0);
-        func_0204047C((u8)(((struct CdemoState *)p)->flip + 2), (u8)1);
+        BG_SYS_SetVisibleLayer((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)0);
+        BG_SYS_SetVisibleLayer((u8)(((struct CdemoState *)p)->flip + 2), (u8)1);
         CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->b, e->a, ((struct CdemoState *)p)->flip);
         (((struct CdemoState *)p)->step)++;
         if (((struct CdemoState *)p)->step >= e->count) {
@@ -227,8 +227,8 @@ int CDEMO_SCENE_Step(char *p)
         }
         break;
     case 2:
-        func_0204047C((u8)(((struct CdemoState *)p)->flip + 2), (u8)0);
-        func_0204047C((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)1);
+        BG_SYS_SetVisibleLayer((u8)(((struct CdemoState *)p)->flip + 2), (u8)0);
+        BG_SYS_SetVisibleLayer((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)1);
         ((struct CdemoState *)p)->state = 3;
         break;
     case 3:
@@ -333,7 +333,7 @@ int CDEMO_SCENE_CmdSetVram(int a, int *q)
 
 int CDEMO_SCENE_CmdSetBg(int a, int *q)
 {
-    func_0204047C((unsigned char)q[1],
+    BG_SYS_SetVisibleLayer((unsigned char)q[1],
                   (unsigned char)q[2]);
     return 1;
 }

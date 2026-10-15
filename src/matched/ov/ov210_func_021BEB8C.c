@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB8C
+ * function: ZKNSEARCH_MAIN_PrintEntryCount4
  * address:  0x021BEB8C
  * packet:   pkt_021BEB8C
  * region:   ov210
@@ -12,8 +12,8 @@
  * symbols:
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
- *   func_021BE44C  0x021BE44C  thumb ov210
- *   func_021BE49C  0x021BE49C  thumb ov210
+ *   ZKNSEARCH_MAIN_PrintWindowText  0x021BE44C  thumb ov210
+ *   ZKNSEARCH_MAIN_MakeWindowScreen  0x021BE49C  thumb ov210
  */
 #include "../include/Obj00222.h"
 
@@ -25,10 +25,10 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 typedef unsigned short u16;
-extern void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode);
-extern void func_021BE49C(u8 *p);
+extern void ZKNSEARCH_MAIN_PrintWindowText(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode);
+extern void ZKNSEARCH_MAIN_MakeWindowScreen(u8 *p);
 
-void func_021BEB8C(u8 *p)
+void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *p)
 {
     u32 v;
     u8 *b;
@@ -37,8 +37,8 @@ void func_021BEB8C(u8 *p)
     b = (u8 *)*(u32 *)(*(u32 *)&((struct Obj00222 *)p)->f0 + 8);
     v = b[5];
     if (v != 0xFF)
-        func_021BE44C(p, 0xD, v + 0x60, 0x30, 0, 0x3C40, 2);
+        ZKNSEARCH_MAIN_PrintWindowText(p, 0xD, v + 0x60, 0x30, 0, 0x3C40, 2);
     else
-        func_021BE44C(p, 0xD, 0x6A, 0x30, 0, 0x3C40, 2);
-    func_021BE49C(p + 0x1B4);
+        ZKNSEARCH_MAIN_PrintWindowText(p, 0xD, 0x6A, 0x30, 0, 0x3C40, 2);
+    ZKNSEARCH_MAIN_MakeWindowScreen(p + 0x1B4);
 }

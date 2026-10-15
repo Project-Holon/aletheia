@@ -10,11 +10,11 @@
  * status:   EXACT
  * note:     infowin tile-rect writer: fills a w*h u16 screen buffer with
  *           charbase + base + (pal << 12) + i + j*16 and hands it to
- *           func_020410D0.  x/y/w/h are u8 (the callee takes u8 w/h);
+ *           BG_SYS_DrawTileEx.  x/y/w/h are u8 (the callee takes u8 w/h);
  *           `j * 16`, not `j << 4`, fixes the adds operand order.
  *
  * symbols:
- *   func_020410D0       0x020410D0  arm
+ *   BG_SYS_DrawTileEx       0x020410D0  arm
  *   gInfoWin            0x0214693C  data
  */
 
@@ -31,7 +31,7 @@ struct InfoWin {
 
 extern struct InfoWin *gInfoWin;
 
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 
 void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
 {
@@ -52,5 +52,5 @@ void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
             i++;
         } while (i < w);
     }
-    func_020410D0(gInfoWin->f06, x, y, w, h, (u32)buf, 0, 0, w, h);
+    BG_SYS_DrawTileEx(gInfoWin->f06, x, y, w, h, (u32)buf, 0, 0, w, h);
 }

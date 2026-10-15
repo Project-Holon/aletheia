@@ -15,7 +15,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049740  0x02049740  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02041B6C  0x02041B6C  arm
  *   data_021C8D98  0x021C8D98  data
@@ -45,7 +45,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_02041B6C(u32 bit);
 extern const char data_021C8D98[];
@@ -79,8 +79,8 @@ struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 l
     if (kind == 3 && sub == 0)
         scr = 0x20;
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, scr, layer, 0, (u16)w->chrOfs, 0, 0, heap);
-    func_020413B0(layer, 0, 0x15, 0x20, 3, pal);
-    func_020413B0(layer, 0, 0, 0x20, 0x15, objPal);
+    BG_SYS_FillTileMap(layer, 0, 0x15, 0x20, 3, pal);
+    BG_SYS_FillTileMap(layer, 0, 0, 0x20, 0x15, objPal);
     ARC_TOOL_DeleteHandle(h);
     func_02041B6C(layer);
     w->layer = layer;

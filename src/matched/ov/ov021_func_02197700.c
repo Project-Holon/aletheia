@@ -11,7 +11,7 @@
  *
  * symbols:
  *   IRCBATTLEMENU_SetSubPaletteActive  0x02196228  thumb  ov021
- *   func_02041570  0x02041570  arm
+ *   BG_SYS_ClearLayerEx  0x02041570  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   IRCBATTLEMENU_PrintMessage  0x02197644  thumb  ov021
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
@@ -27,7 +27,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern void IRCBATTLEMENU_SetSubPaletteActive(u8 *p, int flag);
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void IRCBATTLEMENU_PrintMessage(u8 *, u32);
@@ -37,7 +37,7 @@ extern void IRCBATTLEMENU_SeqSaveQuestionWait(u8 *a);
 void IRCBATTLEMENU_SeqSaveQuestion(u8 *a)
 {
     IRCBATTLEMENU_SetSubPaletteActive(a, 1);
-    func_02041570(5, 0);
+    BG_SYS_ClearLayerEx(5, 0);
     MSGDATA_ReadString((struct MsgBank *)(((struct Obj00094 *)a)->f28), 25, (void *)(((struct Obj00094 *)a)->f38));
     IRCBATTLEMENU_PrintMessage(a, 0);
     IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqSaveQuestionWait, 0x761);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE60
+ * function: WIFIBATTLEMATCH_NET_GetErrorMsg
  * address:  0x021DCE60
  * packet:   pkt_021DCE60
  * region:   ov175
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 
-u32 func_021DCE60(int a)
+u32 WIFIBATTLEMATCH_NET_GetErrorMsg(int a)
 {
     switch (a) {
     case 0:

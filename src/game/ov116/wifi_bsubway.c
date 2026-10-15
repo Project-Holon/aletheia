@@ -44,7 +44,7 @@
  *   WIFI_BSUBWAY_GRAPHIC_Noop 0x021D73D0 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_NoopRetry 0x021D7420 thumb ov116
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   DPW_BT_GetRoomNumAsync 0x021C941C arm ov114
  *   DPW_BT_DownloadPlayerAsync 0x021C94A0 arm ov114
@@ -52,7 +52,7 @@
  *   func_02025C30 0x02025C30 thumb
  *   CURSOR_MOVE_FindTableGroupIndex 0x02025CB0 thumb
  *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
- *   func_02167ED8 0x02167ED8 arm ov009
+ *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   func_0200DD28 0x0200DD28 thumb
  *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
  *   MYSTATUS_Create 0x0200846C thumb
@@ -63,9 +63,9 @@
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_0217BC44 0x0217BC44 arm ov009
+ *   DWC_CheckProfanityExAsync 0x0217BC44 arm ov009
  *   STRBUF_Delete 0x02045808 arm
- *   func_0217BC90 0x0217BC90 arm ov009
+ *   DWC_CheckProfanityProcess 0x0217BC90 arm ov009
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -102,7 +102,7 @@
  *   NHTTP_RAP_RecordList_GetCount 0x021B99F0 thumb ov114
  *   NHTTP_RAP_RecordList_GetRecord 0x021B9A14 thumb ov114
  *   NHTTP_RAP_RecordList_GetValue 0x021B99F4 thumb ov114
- *   D_020A7370 0x020A7370 data a4
+ *   gSpeciesNameBank 0x020A7370 data a4
  *   MSGDATA_ReadUnits 0x02045F5C arm
  *   DPW_BT_UploadPlayerAsync 0x021C9530 arm ov114
  *   BSUBWAY_SAVEDATA_GetTrainersTagA 0x0200DE94 thumb
@@ -206,7 +206,7 @@ extern void WIFI_BSUBWAY_GRAPHIC_Noop(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_02034A5C(int handle);
 extern int GFL_USE_PopBgm(void);
 extern int FADE_IsActive(void);
@@ -216,7 +216,7 @@ extern u32 func_02025C1C(u32,u32,u32);
 extern u32 func_02025C30(u32,u32,u32);
 extern u32 CURSOR_MOVE_FindTableGroupIndex(u32);
 extern u32 CURSOR_MOVE_GetTableGroup(u32);
-extern int func_02167ED8(void *, void *);
+extern int DWC_GetDateTime(void *, void *);
 extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
 extern void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b);
@@ -227,9 +227,9 @@ extern void *func_02008510(void *, int);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
-extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
+extern int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern int func_0217BC90(void);
+extern int DWC_CheckProfanityProcess(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -318,7 +318,7 @@ void WIFI_BSUBWAY_TickUploadTimeout(u8 *p);
 void WIFI_BSUBWAY_OpenCodeIn(u8 *p,int a);
 extern u8 ov_id[];
 extern u8 GAME_VERSION_Code, GAME_LANGUAGE_Code;
-extern struct MsgData *D_020A7370;
+extern struct MsgData *gSpeciesNameBank;
 extern u32 gWifiBsubwayCodeInParam[],gWifiBsubwayCodeInParamEx[],d_021DA62C[];
 extern u8 ov129_id[];
 
@@ -387,7 +387,7 @@ int WIFI_BSUBWAY_Delete(void *unusedA, int unusedB, int unusedC, u8 *work) {
     WIFI_BSUBWAY_StatusDelete(work + 0x1610);
     WIFI_BSUBWAY_GRAPHIC_DeleteWindow(work + 4);
     func_020315D4(unusedA);
-    func_020306F0(125);
+    GFL_HEAP_DeleteChecked(125);
     func_02034A5C((int)ov_id);
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);
@@ -452,7 +452,7 @@ void WIFI_BSUBWAY_NormalizeTrainers(u8 *trainers) {
 void WIFI_BSUBWAY_SaveTrainers(u8 *trainers, void *save) {
     u32 time[3];
     u32 date[4];
-    func_02167ED8(date, time);
+    DWC_GetDateTime(date, time);
     BSUBWAY_SAVEDATA_SetTrainers(save, trainers + 14, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10));
     func_0200DD28(save, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10), date);
 }
@@ -485,14 +485,14 @@ void WIFI_BSUBWAY_StatusSetMessage(u8 *status, void *saveControl, int msgId)
     }
     ((struct WifiBsubwayStatus *)status)->wordList = status + 0x1f0;
     ((struct WifiBsubwayStatus *)status)->badWordCount = 0;
-    func_0217BC44((short unsigned int **)(status + 0x208), 1, 0, 0, (char *)(status + 0x20c), (int *)(status + 0x210), 128);
+    DWC_CheckProfanityExAsync((short unsigned int **)(status + 0x208), 1, 0, 0, (char *)(status + 0x20c), (int *)(status + 0x210), 128);
     STRBUF_Delete(msg);
 }
 
 int WIFI_BSUBWAY_StatusCheckMessage(u8 *status,unsigned heapId) {
     int pollResult,hasBadWords;
     void *msgBank,*msg;
-    pollResult = func_0217BC90()==2;
+    pollResult = DWC_CheckProfanityProcess()==2;
     if(pollResult) hasBadWords = ((struct WifiBsubwayStatus *)status)->badWordCount>0;
     if(pollResult==0) return 0;
     if(pollResult==1 && hasBadWords==1) {
@@ -634,7 +634,7 @@ int WIFI_BSUBWAY_PollHttpRequest(u8 *status, u8 *async, int quiet)
     return result;
 }
 
-void WIFI_BSUBWAY_ReadRecordUnits(unsigned int status,unsigned int index) { unsigned int record; record=status+0x70+index*0x3c; MSGDATA_ReadUnits(D_020A7370,((struct Record *)record)->id,(unsigned short *)(record+0x22),11); }
+void WIFI_BSUBWAY_ReadRecordUnits(unsigned int status,unsigned int index) { unsigned int record; record=status+0x70+index*0x3c; MSGDATA_ReadUnits(gSpeciesNameBank,((struct Record *)record)->id,(unsigned short *)(record+0x22),11); }
 
 void WIFI_BSUBWAY_AbortHttpRequest(u8 *status)
 {

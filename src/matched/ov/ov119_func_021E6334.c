@@ -20,8 +20,8 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   POKETRADE_2D_DeleteOfferIconActor 0x021E62D4 thumb ov119
- *   d_021E7D70 0x021E7D70 data a4
- *   d_021E7DA0 0x021E7DA0 data a4
+ *   gOfferIconPosA 0x021E7D70 data a4
+ *   gOfferIconPosB 0x021E7DA0 data a4
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb  arm9
  *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb  arm9
@@ -31,8 +31,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { short x,y,z; u8 a,b; } Create;
-extern const int d_021E7D70[6][2];
-extern const int d_021E7DA0[6][2];
+extern const int gOfferIconPosA[6][2];
+extern const int gOfferIconPosB[6][2];
 extern void *POKE_TOOL_Dummy(void *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void POKETRADE_2D_DeleteOfferIconActor(void *,int,int);
@@ -56,9 +56,9 @@ void POKETRADE_2D_CreateOfferIconActor(char *p,int i,int j,void *mon,int selecte
     int n;
     POKETRADE_2D_DeleteOfferIconActor(p,i,j);
     if (selected) {
-        c.x=d_021E7D70[i*3+j][0]; c.y=d_021E7D70[i*3+j][1]; n=0;
+        c.x=gOfferIconPosA[i*3+j][0]; c.y=gOfferIconPosA[i*3+j][1]; n=0;
     } else {
-        c.x=d_021E7DA0[i*3+j][0]; c.y=d_021E7DA0[i*3+j][1]; n=1;
+        c.x=gOfferIconPosB[i*3+j][0]; c.y=gOfferIconPosB[i*3+j][1]; n=1;
     }
     c.z=1; c.a=16; c.b=1;
     *(int *)(p+0x1020+i*12+j*4) = CLACT_RegisterCharacter((void *)((u32)h),POKE_TOOL_GetGraphicIndex(q),0,n,((struct Obj00001 *)p)->f5F4);

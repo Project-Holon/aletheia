@@ -1,5 +1,5 @@
 /*
- * function: func_0217C900
+ * function: GSIAvailableCheckThink
  * address:  0x0217C900
  * packet:   pkt_ov009_0217C900
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
- *   func_0217C848  0x0217C848  arm  ov009
+ *   HandlePacket  0x0217C848  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   func_0217C704  0x0217C704  arm  ov009
@@ -45,14 +45,14 @@ typedef struct {
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
 struct SOCSockAddrIn;
-extern int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
+extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
 extern int closesocket(int sock);
 extern unsigned int current_time(void);
 extern void func_0217C704(void);
 extern AvailableCheck g_021ACF7C;
 extern int gGsAvailabilityState;
 
-int func_0217C900(void)
+int GSIAvailableCheckThink(void)
 {
     char packet[64];
     SOCSockAddrIn address;
@@ -66,7 +66,7 @@ int func_0217C900(void)
     }
     if (func_0217EF50(g_021ACF7C.sock)) {
         rcode = func_0217EC60(g_021ACF7C.sock, packet, 64, 0, &address, &len);
-        if (func_0217C848(packet, rcode, (struct SOCSockAddrIn *)(&address), &disabledservices) == 0) {
+        if (HandlePacket(packet, rcode, (struct SOCSockAddrIn *)(&address), &disabledservices) == 0) {
             closesocket(g_021ACF7C.sock);
             if (disabledservices & 1) {
                 gGsAvailabilityState = 2;

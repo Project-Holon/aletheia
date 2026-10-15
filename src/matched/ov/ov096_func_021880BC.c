@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   VM_GetUserData  0x02011324  thumb
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  */
 #include "../include/Obj02152.h"
 
@@ -21,7 +21,7 @@ typedef unsigned long long u64;
 
 struct ScriptVm;
 extern void *VM_GetUserData(struct ScriptVm *vm);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 
 void TR_AI_Start(int a, u8 *b, int c)
 {
@@ -45,7 +45,7 @@ void TR_AI_Start(int a, u8 *b, int c)
             *(int *)(p + 0x14 + i * 4) = z;
         else
             *(int *)(p + 0x14 + i * 4) = 100;
-        p[0x48 + i] = 100 - (u32)(((u64)func_0203F0A8() * 0x10) >> 32);
+        p[0x48 + i] = 100 - (u32)(((u64)GF_STANDARD_Rand() * 0x10) >> 32);
     }
-    ((struct Obj02152 *)p)->fCC = (u32)(((u64)func_0203F0A8() * 0x100) >> 32);
+    ((struct Obj02152 *)p)->fCC = (u32)(((u64)GF_STANDARD_Rand() * 0x100) >> 32);
 }

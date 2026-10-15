@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_IsShiny  0x02017EAC  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   func_0202D034  0x0202D034  thumb
  *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
@@ -43,7 +43,7 @@ typedef struct {
 extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_IsShiny(void *p);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern int func_0202D034(u32 a, u32 b);
 
 void BTLV_MCSS_RefreshSpriteFromParty(Work *w, int key, void *p)
@@ -56,7 +56,7 @@ void BTLV_MCSS_RefreshSpriteFromParty(Work *w, int key, void *p)
         return;
     w->e[idx].a = POKE_TOOL_GetPartyValue(p, 5, 0);
     w->e[idx].b = POKE_TOOL_GetPartyValue(p, 0x6f, 0);
-    w->e[idx].d = func_02019C90(w->e[idx].a, w->e[idx].b, 0x26);
+    w->e[idx].d = POKE_TOOL_GetPersonalParam(w->e[idx].a, w->e[idx].b, 0x26);
     w->e[idx].c = POKE_TOOL_GetPartyValue(p, 0, 0);
     w->e[idx].f = POKE_TOOL_GetPartyValue(p, 0x98, 0);
     if (POKE_TOOL_IsShiny(p) == 1)

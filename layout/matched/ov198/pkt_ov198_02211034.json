@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02211034",
-    "func_022110A4"
+    "B_PLIST_MAIN_InitOrder",
+    "B_PLIST_MAIN_SwapOrder"
+   ],
+   "addresses": [
+    "0x02211034",
+    "0x022110A4"
    ],
    "evidence": {
     "sole-ref": [

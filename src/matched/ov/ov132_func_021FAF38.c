@@ -1,5 +1,5 @@
 /*
- * function: func_021FAF38
+ * function: STA_ACT_SCRIPT_SetRemainingWait
  * address:  0x021FAF38
  * packet:   pkt_021FAF38
  * region:   ov132
@@ -28,7 +28,7 @@ typedef signed int     s32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 
-int func_021FAF38(void *a, u8 *p)
+int STA_ACT_SCRIPT_SetRemainingWait(void *a, u8 *p)
 {
     int v = VM_GetU32(((struct Obj08157 *)p)->f4);
     if (((struct Obj08157 *)p)->f10 >= (u32)v)

@@ -11,8 +11,8 @@
  * symbols:
  *   func_021C63AC 0x021C63AC thumb ov128
  *   func_021C88AC 0x021C88AC thumb ov128
- *   func_021C3EE0 0x021C3EE0 thumb ov127
- *   func_021C4044 0x021C4044 thumb ov127
+ *   WIFI_2DCHAR_Create 0x021C3EE0 thumb ov127
+ *   WIFI_2DCHAR_SetupCells 0x021C4044 thumb ov127
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -35,8 +35,8 @@ struct R;
 struct U16Vec;
 extern void func_021C63AC(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
 extern void func_021C88AC(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap);
-extern void *func_021C3EE0(void *, void *, u32, u32);
-extern void func_021C4044(u8 *, int, int, int, int);
+extern void *WIFI_2DCHAR_Create(void *, void *, u32, u32);
+extern void WIFI_2DCHAR_SetupCells(u8 *, int, int, int, int);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
@@ -67,8 +67,8 @@ void func_021C7ACC(u8 *p, void *unused, u8 *ctx, u16 heap)
     *(u8 **)(p + 0x14) = p + 0xf0;
     *(u8 **)(p + 0xac) = p + 0xf8;
     *(u8 **)(p + 0x60) = p + 0xf8;
-    *(void **)(p + 0x104) = func_021C3EE0(*(void **)(ctx + 0x13c), 0, 0x10, heap);
-    func_021C4044(*(u8 **)(p + 0x104), 0, 2, 0xe0, heap);
+    *(void **)(p + 0x104) = WIFI_2DCHAR_Create(*(void **)(ctx + 0x13c), 0, 0x10, heap);
+    WIFI_2DCHAR_SetupCells(*(u8 **)(p + 0x104), 0, 2, 0xe0, heap);
     for (i = 0; i < 4; i++) {
         const W2 *e = &d_021CA688[i];
         *(void **)(p + i * 12 + 0x118) = func_02045EC0(*(struct MsgBank **)(ctx + 4), d_021CA688[i].a);

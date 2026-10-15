@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F554  0x0201F554  thumb
- *   func_0201F548  0x0201F548  thumb
+ *   BMP_MENUWORK_LoadChar  0x0201F554  thumb
+ *   BMP_MENUWORK_GetPlttFileId  0x0201F548  thumb
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -29,8 +29,8 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 struct PalAnmSlot;
-extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
-extern u8 func_0201F548(int i);
+extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
+extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -40,8 +40,8 @@ extern void func_020409B4(u32 a);
 
 void MONOLITH_TOOL_LIST_InitWindows(char *a, void **b)
 {
-    func_0201F554(4, 1, 0, 0x61);
-    PALANM_LoadArcPaletteToSlotAt(*b, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    BMP_MENUWORK_LoadChar(4, 1, 0, 0x61);
+    PALANM_LoadArcPaletteToSlotAt(*b, 5, BMP_MENUWORK_GetPlttFileId(0), 0x61, 1, 0x20, 0xb0, 0);
     ((struct Obj04341 *)a)->f280 = (void *)BMP_WIN_Create(4, 1, 0x13, 0x1e, 4, 0xd, 1);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj04341 *)a)->f280), 0xff);
     ((struct Obj04341 *)a)->f284 = (void *)BMP_WIN_Create(4, 0, 0, 0x20, 3, 0xd, 1);

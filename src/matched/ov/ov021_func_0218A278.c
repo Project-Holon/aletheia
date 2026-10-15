@@ -26,7 +26,7 @@
  *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
  *   SCRIPT_SYS_IsZoneScriptId  0x02158D90  thumb  ov010
  *   FIELD_PLAYER_ResetMoveWork  0x021A2F6C  thumb  ov021
- *   func_0219F01C  0x0219F01C  thumb  ov021
+ *   FIELD_RAIL_LOADER_CreateScriptEvent  0x0219F01C  thumb  ov021
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden  0x02162A5C  thumb  ov010
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -109,7 +109,7 @@ extern int FIELD_EVENT_CHECK_SearchRailFrontMmdl(unsigned char *p, void *b);
 extern u32 FLDMMDL_GetEventId(void *p);
 extern int SCRIPT_SYS_IsZoneScriptId(u16 v);
 extern void FIELD_PLAYER_ResetMoveWork(u32 *p);
-extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
+extern int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u16 FLDMMDL_GetDirDisp(void *obj);
 extern u16 EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(void *set, void *flags, const void *where, u16 type);
 struct Obj00020;
@@ -177,7 +177,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *sys, struct Obj00020 *pos)
                 void *m = FIELD_PLAYER_GetMmdl((u8 *)in.f18);
 
                 FIELD_PLAYER_ResetMoveWork((u32 *)in.f18);
-                return func_0219F01C((u32)sys, (u32)pos, kind, (u32)m, target, in.f0);
+                return FIELD_RAIL_LOADER_CreateScriptEvent((u32)sys, (u32)pos, kind, (u32)m, target, in.f0);
             }
         }
         flags = (void *)GAME_DATA_GetEventWork(in.f8);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC33C",
+   "name": "ZKNSEARCH_SYS_HBlankHandler",
    "address": "0x021BC33C",
    "kind": "game",
    "region": "ov210",

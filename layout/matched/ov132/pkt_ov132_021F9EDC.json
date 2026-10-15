@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F9EDC",
+   "name": "STA_ACT_EFFECT_StartSystem",
    "address": "0x021F9EDC",
    "kind": "game",
    "region": "ov132",

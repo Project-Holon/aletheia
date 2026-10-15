@@ -11,7 +11,7 @@
  * extent: includes the 8-byte setter follower at 021B8794.
  * symbols:
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj07978.h"
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020413B0(u32, u8, u8, u8, u8, u8);
+extern void BG_SYS_FillTileMap(u32, u8, u8, u8, u8, u8);
 extern void func_020409B4(u32);
 void IRC_COMPATIBLE_MENU_ResetButtonPalettes(u8 *p)
 {
@@ -43,7 +43,7 @@ void IRC_COMPATIBLE_MENU_ResetButtonPalettes(u8 *p)
         case 0: palette = 11; break;
         case 1: palette = 4; break;
         }
-        func_020413B0(win, a, b, c, d, palette);
+        BG_SYS_FillTileMap(win, a, b, c, d, palette);
         func_020409B4(win);
     }
 }

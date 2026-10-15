@@ -15,6 +15,7 @@
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
  *   BMP_MENULIST_Delete  0x0202020C  thumb  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 #include "../include/Obj01552.h"
 typedef unsigned char u8;
@@ -26,7 +27,7 @@ struct Obj;
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 a, int kind);
-extern void func_0201F7A8(void *p, unsigned kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *p, unsigned kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
@@ -43,7 +44,7 @@ int WORLDTRADE_DEPOSIT_StateCategoryMenuInput(u8 *p)
         BMP_MENULIST_Delete(((struct Obj01552 *)p)->fDF4, (u16 *)(*(u8 * *)&((struct Obj01552 *)p)->fE00 + 6), (u16 *)(*(u8 * *)&((struct Obj01552 *)p)->fE00 + 4));
         BMP_MENUWORK_Delete(((struct Obj01552 *)p)->fDE8);
         WORLDTRADE_ADAPTER_ClearWindowScreen((u32)(((struct Obj01552 *)p)->fD50), 0);
-        func_0201F7A8(((struct Obj01552 *)p)->fD40, 0);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj01552 *)p)->fD40, 0);
         BMP_WIN_Delete(((struct Obj01552 *)p)->fD50);
         BMP_WIN_Delete(((struct Obj01552 *)p)->fD54);
         WORLDTRADE_SetStateAndReturn(p, 5, 5);

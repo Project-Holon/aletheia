@@ -20,7 +20,7 @@
  * is repeated below.
  *
  * What held it open, and what closed it: two of the thirteen relocation sites
- * call func_02019ABC, both from inside this function, and a scan of every
+ * call POKE_TOOL_IsDefaultName, both from inside this function, and a scan of every
  * Thumb BL and BLX in the image finds no third site.  The `label` class
  * therefore has no witness and no cut helps, because the range cannot be made
  * smaller than the one function that holds both calls.  The `matched` class
@@ -33,7 +33,7 @@
  * Two ids exist here that the reader does not have, 0xB0 and 0xB1, and they
  * sit in the source between 0x74 and 0x76.  They are 0x73 and 0x74 without the
  * trailing recomputation, so the pairs read: 0x73 copies 11 halfwords into
- * substruct C and then sets C's "renamed" bit from func_02019ABC, 0xB0 copies
+ * substruct C and then sets C's "renamed" bit from POKE_TOOL_IsDefaultName, 0xB0 copies
  * the same 11 halfwords and leaves the bit alone; 0x74 and 0xB1 are the same
  * pair through the other copier.
  *
@@ -103,6 +103,9 @@
  * symbols:
  *   STRBUF_ToChars  0x02045A38  arm
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
+ *   POKE_TOOL_IsDefaultName  0x02019ABC  thumb
+ *   POKE_TOOL_GetBoxSubstruct  0x02019C38  thumb
+ *   WORDSET_CopyString  0x0201F41C  thumb
  */
 typedef unsigned char      u8;
 typedef unsigned short     u16;
@@ -181,19 +184,19 @@ struct BlockD {
     u16 unk1E;
 };
 
-extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
+extern void *POKE_TOOL_GetBoxSubstruct(struct Mon *p, u32 pid, u32 n);
 extern u8   POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
-extern u32  func_02019ABC(struct Mon *p);
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern u32  POKE_TOOL_IsDefaultName(struct Mon *p);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 struct U16Vec;
 extern void STRBUF_ToChars(struct U16Vec *src, u16 *dest, u32 n);
 
 void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
 {
-    struct BlockA *a = (struct BlockA *)func_02019C38(p, p->unk00, 0);
-    struct BlockB *b = (struct BlockB *)func_02019C38(p, p->unk00, 1);
-    struct BlockC *c = (struct BlockC *)func_02019C38(p, p->unk00, 2);
-    struct BlockD *d = (struct BlockD *)func_02019C38(p, p->unk00, 3);
+    struct BlockA *a = (struct BlockA *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 0);
+    struct BlockB *b = (struct BlockB *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 1);
+    struct BlockC *c = (struct BlockC *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 2);
+    struct BlockD *d = (struct BlockD *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 3);
     u32 sum;
     u64 mask;
 
@@ -344,17 +347,17 @@ void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
     case 0x72: b->unk1C = v; break;
     case 0x73:
         STRBUF_ToChars((struct U16Vec *)v, c->unk00, 11);
-        b->iv7 = func_02019ABC(p);
+        b->iv7 = POKE_TOOL_IsDefaultName(p);
         break;
     case 0x74:
-        func_0201F41C((const void *)v, c->unk00, 11);
-        b->iv7 = func_02019ABC(p);
+        WORDSET_CopyString((const void *)v, c->unk00, 11);
+        b->iv7 = POKE_TOOL_IsDefaultName(p);
         break;
     case 0xB0:
         STRBUF_ToChars((struct U16Vec *)v, c->unk00, 11);
         break;
     case 0xB1:
-        func_0201F41C((const void *)v, c->unk00, 11);
+        WORDSET_CopyString((const void *)v, c->unk00, 11);
         break;
     case 0x76: c->unk16 = (u8)v; break;
     case 0x77: c->unk17 = (u8)v; break;
@@ -374,7 +377,7 @@ void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
         STRBUF_ToChars((struct U16Vec *)v, d->unk00, 8);
         break;
     case 0x8E:
-        func_0201F41C((const void *)v, d->unk00, 8);
+        WORDSET_CopyString((const void *)v, d->unk00, 8);
         break;
     case 0x8F: d->unk10 = (u8)v; break;
     case 0x90: d->unk11 = (u8)v; break;

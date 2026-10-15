@@ -1,5 +1,5 @@
 /*
- * function: func_021C3F54
+ * function: VIEWER_MAIN_Main
  * address:  0x021C3F54
  * packet:   pkt_ov111_021C3F54
  * region:   ov111
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
- *   func_021C56E8  0x021C56E8  thumb
- *   func_021C5718  0x021C5718  thumb
- *   func_021C5AEC  0x021C5AEC  thumb
- *   func_021C5F64  0x021C5F64  thumb
- *   func_021C3F18  0x021C3F18  thumb
+ *   VIEWER_MAIN_UpdateInput  0x021C56E8  thumb
+ *   VIEWER_MAIN_DrawSelected  0x021C5718  thumb
+ *   VIEWER_MAIN_ClearBg  0x021C5AEC  thumb
+ *   VIEWER_MAIN_DrawBrushStroke  0x021C5F64  thumb
+ *   VIEWER_MAIN_PlaySe  0x021C3F18  thumb
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_021C4B9C  0x021C4B9C  thumb
- *   func_021C4E0C  0x021C4E0C  thumb
+ *   VIEWER_MAIN_Update  0x021C4B9C  thumb
+ *   VIEWER_MAIN_UpdateWindows  0x021C4E0C  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
  *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
@@ -87,21 +87,21 @@ struct Actor;
 struct PrintSys;
 struct Tcbl;
 extern u32 WIPE_SYS_EndCheck(void);
-extern int func_021C56E8(Work *p);
-extern void func_021C5718(Work *p, int sel, int *seq);
-extern void func_021C5AEC(Work *p);
-extern int func_021C5F64(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void *src, u8 clip, u8 side);
-extern void func_021C3F18(Work *p, int speed);
+extern int VIEWER_MAIN_UpdateInput(Work *p);
+extern void VIEWER_MAIN_DrawSelected(Work *p, int sel, int *seq);
+extern void VIEWER_MAIN_ClearBg(Work *p);
+extern int VIEWER_MAIN_DrawBrushStroke(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void *src, u8 clip, u8 side);
+extern void VIEWER_MAIN_PlaySe(Work *p, int speed);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern int func_021C4B9C(Work *p);
-extern int func_021C4E0C(char *p);
+extern int VIEWER_MAIN_Update(Work *p);
+extern int VIEWER_MAIN_UpdateWindows(char *p);
 extern void CLACT_DrawSystem(void);
 extern void PMS_DRAW_Main(u8 *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 
-int func_021C3F54(void *proc, int *seq, int c, Work *p)
+int VIEWER_MAIN_Main(void *proc, int *seq, int c, Work *p)
 {
     switch (*seq) {
     case 0:
@@ -110,10 +110,10 @@ int func_021C3F54(void *proc, int *seq, int c, Work *p)
         }
         break;
     case 1:
-        func_021C5718(p, func_021C56E8(p), seq);
-        func_021C5AEC(p);
+        VIEWER_MAIN_DrawSelected(p, VIEWER_MAIN_UpdateInput(p), seq);
+        VIEWER_MAIN_ClearBg(p);
         if (p->args->cfg->f4_6) {
-            func_021C3F18(p, func_021C5F64(p->pix, &p->cur, &p->prev, 1, p->pix, p->f305E, p->f305C));
+            VIEWER_MAIN_PlaySe(p, VIEWER_MAIN_DrawBrushStroke(p->pix, &p->cur, &p->prev, 1, p->pix, p->f305E, p->f305C));
         }
         break;
     case 2:
@@ -134,12 +134,12 @@ int func_021C3F54(void *proc, int *seq, int c, Work *p)
         }
         break;
     case 5:
-        if (func_021C4B9C(p)) {
+        if (VIEWER_MAIN_Update(p)) {
             *seq = 1;
         }
         break;
     case 9:
-        if (func_021C4E0C((char *)p)) {
+        if (VIEWER_MAIN_UpdateWindows((char *)p)) {
             *seq = 1;
         }
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_022089A4
+ * function: SHINKA_DEMO_EFFECT_UpdateParticle
  * address:  0x022089A4
  * packet:   pkt_022089A4
  * region:   ov195
@@ -52,7 +52,7 @@ typedef struct Ptc {
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_KillAllEffects(void *spl);
 
-void func_022089A4(Ptc *p)
+void SHINKA_DEMO_EFFECT_UpdateParticle(Ptc *p)
 {
     if (p->active != 0) {
         VecFx32 v = {0, 0, 0};

@@ -9,17 +9,17 @@
  * isa:      arm
  * status:   EXACT
  *
- * Dereference the first argument and tail-call func_0205250C with the loaded
+ * Dereference the first argument and tail-call SPL_EMITTER_FreeResource with the loaded
  * pointer.  Unlabelled ARM leaf in the ARM9 listing; matched so its overlay
  * callers get a `matched` witness.
  *
  * symbols:
- *   func_0205250C  0x0205250C  arm
+ *   SPL_EMITTER_FreeResource  0x0205250C  arm
  */
 
-extern void func_0205250C(char *p, char *q);
+extern void SPL_EMITTER_FreeResource(char *p, char *q);
 
 void PARTICLE_KillEffect(void **p, void *q)
 {
-    func_0205250C(*p, q);
+    SPL_EMITTER_FreeResource(*p, q);
 }

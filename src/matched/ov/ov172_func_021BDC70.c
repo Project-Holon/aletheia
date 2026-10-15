@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC70
+ * function: CTVT_CALL_DeleteText
  * address:  0x021BDC70
  * packet:   pkt_021B6A00
  * region:   ov172
@@ -37,7 +37,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 
-void func_021BDC70(u32 *a0)
+void CTVT_CALL_DeleteText(u32 *a0)
 {
     u32 i;
     u32 v;

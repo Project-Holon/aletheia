@@ -1,5 +1,5 @@
 /*
- * function: func_0220C3B4
+ * function: B_BAG_MAIN_CreateItemActor
  * address: 0x0220C3B4
  * packet: pkt_ov197_0220C3B4
  * region: ov197
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef struct { u16 a,b,c; unsigned char d,e; } Config;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-struct Obj *func_0220C3B4(char *p,const int *indices)
+struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
 {
     Config c;
     c.a=0;c.b=0;c.c=0;c.d=1;c.e=1;

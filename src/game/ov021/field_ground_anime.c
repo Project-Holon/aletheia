@@ -1,7 +1,7 @@
 /*
  * file:     field_ground_anime.c
  * unit:     yes
- * function: FIELD_GROUND_ANIME_Create, FIELD_GROUND_ANIME_Delete, FIELD_GROUND_ANIME_Update, FIELD_GROUND_ANIME_GetAnmEntry, FIELD_GROUND_ANIME_BindAnm, FIELD_GROUND_ANIME_UnbindAnm, FIELD_GROUND_ANIME_AnmSetInit, FIELD_GROUND_ANIME_AnmSetFree, FIELD_GROUND_ANIME_AnmSetUpdate, FIELD_GROUND_ANIME_AnmSetGetEntry, FIELD_GROUND_ANIME_AnmEntryInit, FIELD_GROUND_ANIME_AnmEntryFree, FIELD_GROUND_ANIME_AnmEntryBind, FIELD_GROUND_ANIME_AnmEntryUnbind, FIELD_GROUND_ANIME_AnmEntryUpdate, FIELD_GROUND_ANIME_TexAnmSetInit, FIELD_GROUND_ANIME_TexAnmSetFree, FIELD_GROUND_ANIME_TexAnmSetUpdate, FIELD_GROUND_ANIME_TexAnmInit, FIELD_GROUND_ANIME_TexAnmFree, FIELD_GROUND_ANIME_TexAnmUpdate, FIELD_GROUND_ANIME_TexAnmIsActive, FIELD_GROUND_ANIME_GetModelTexVramOffset, FIELD_GROUND_ANIME_GetTexSize, FIELD_GROUND_ANIME_GetTexData, FIELD_GROUND_ANIME_GetTexAnmKeyData, FIELD_GROUND_ANIME_GetTexAnmFile, FIELD_GROUND_ANIME_KeyTableGetKey, FIELD_GROUND_ANIME_KeyTableGetGroupCount, FIELD_GROUND_ANIME_KeyTableGetDuration, FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame, FIELD_GROUND_ANIME_KeyTableUnpack, func_021A7B08, func_021A7B10, func_021A7B20, func_021A7B88, func_021A7CE8, func_021A7E3C, func_021A7EB4, func_021A7F38, func_021A80FC, func_021A810C, func_021A811C, func_021A8140, func_021A8198, func_021A81DC, func_021A81EC, func_021A8200, func_021A8214, func_021A8234, func_021A8244, func_021A8268, func_021A8278, func_021A82A8, func_021A82D8, func_021A8324, func_021A834C
+ * function: FIELD_GROUND_ANIME_Create, FIELD_GROUND_ANIME_Delete, FIELD_GROUND_ANIME_Update, FIELD_GROUND_ANIME_GetAnmEntry, FIELD_GROUND_ANIME_BindAnm, FIELD_GROUND_ANIME_UnbindAnm, FIELD_GROUND_ANIME_AnmSetInit, FIELD_GROUND_ANIME_AnmSetFree, FIELD_GROUND_ANIME_AnmSetUpdate, FIELD_GROUND_ANIME_AnmSetGetEntry, FIELD_GROUND_ANIME_AnmEntryInit, FIELD_GROUND_ANIME_AnmEntryFree, FIELD_GROUND_ANIME_AnmEntryBind, FIELD_GROUND_ANIME_AnmEntryUnbind, FIELD_GROUND_ANIME_AnmEntryUpdate, FIELD_GROUND_ANIME_TexAnmSetInit, FIELD_GROUND_ANIME_TexAnmSetFree, FIELD_GROUND_ANIME_TexAnmSetUpdate, FIELD_GROUND_ANIME_TexAnmInit, FIELD_GROUND_ANIME_TexAnmFree, FIELD_GROUND_ANIME_TexAnmUpdate, FIELD_GROUND_ANIME_TexAnmIsActive, FIELD_GROUND_ANIME_GetModelTexVramOffset, FIELD_GROUND_ANIME_GetTexSize, FIELD_GROUND_ANIME_GetTexData, FIELD_GROUND_ANIME_GetTexAnmKeyData, FIELD_GROUND_ANIME_GetTexAnmFile, FIELD_GROUND_ANIME_KeyTableGetKey, FIELD_GROUND_ANIME_KeyTableGetGroupCount, FIELD_GROUND_ANIME_KeyTableGetDuration, FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame, FIELD_GROUND_ANIME_KeyTableUnpack, FIELD_GROUND_ANIME_GetEntryPos, FIELD_GROUND_ANIME_FreePlayerAcmd, FIELD_GROUND_ANIME_CreateA, FIELD_GROUND_ANIME_SetupStepsA, FIELD_GROUND_ANIME_MainA, FIELD_GROUND_ANIME_CreateB, FIELD_GROUND_ANIME_SetupStepsB, FIELD_GROUND_ANIME_MainB, FIELD_GROUND_ANIME_GetPlayerMoveMode, FIELD_GROUND_ANIME_GetPlayerPos, FIELD_GROUND_ANIME_GetEntryPosByMapKind, FIELD_GROUND_ANIME_GetGridEntryPos, FIELD_GROUND_ANIME_GetRailEntryPos, FIELD_GROUND_ANIME_GetCurrentStep, FIELD_GROUND_ANIME_GetNextStep, FIELD_GROUND_ANIME_AdvanceStep, FIELD_GROUND_ANIME_CreateBuildModel, FIELD_GROUND_ANIME_DeleteBuildModel, FIELD_GROUND_ANIME_IsBuildModelDone, FIELD_GROUND_ANIME_HasBuildModel, FIELD_GROUND_ANIME_PlayBuildModelForward, FIELD_GROUND_ANIME_PlayBuildModelReverse, FIELD_GROUND_ANIME_CallEnterEvent, FIELD_GROUND_ANIME_CallExitEvent, FIELD_GROUND_ANIME_ShouldPlayDoorSe
  * address:  0x021A7360
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -33,19 +33,19 @@
  *   func_0209C2B0  0x0209C2B0  arm
  *   gTexDimensionTable     0x021D8B08  data  a2
  *   gTexPixelsPerByteTable     0x021D8B00  data  a1
- *   func_021A811C  0x021A811C  thumb
+ *   FIELD_GROUND_ANIME_GetEntryPosByMapKind  0x021A811C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
- *   func_021A80FC  0x021A80FC  thumb  ov021
+ *   FIELD_GROUND_ANIME_GetPlayerMoveMode  0x021A80FC  thumb  ov021
  *   ENTRANCE_CAMERA_Create  0x021BDC94  thumb  ov021
- *   func_021A810C  0x021A810C  thumb  ov021
- *   func_021A8214  0x021A8214  thumb  ov021
- *   func_021A7CE8  0x021A7CE8  thumb  ov021
- *   func_021A8268  0x021A8268  thumb  ov021
+ *   FIELD_GROUND_ANIME_GetPlayerPos  0x021A810C  thumb  ov021
+ *   FIELD_GROUND_ANIME_CreateBuildModel  0x021A8214  thumb  ov021
+ *   FIELD_GROUND_ANIME_MainA  0x021A7CE8  thumb  ov021
+ *   FIELD_GROUND_ANIME_HasBuildModel  0x021A8268  thumb  ov021
  *   EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange  0x02162370  thumb  ov010
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
@@ -65,7 +65,7 @@
  *   ENTRANCE_CAMERA_Restore  0x021BDD34  thumb  ov021
  *   FIELD_CAMERA_ReloadSetting  0x0218E160  thumb  ov021
  *   ENTRANCE_CAMERA_Delete  0x021BDCB8  thumb  ov021
- *   func_021A7B10  0x021A7B10  thumb  ov021
+ *   FIELD_GROUND_ANIME_FreePlayerAcmd  0x021A7B10  thumb  ov021
  *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
@@ -382,27 +382,27 @@ extern void FIELD_BUILDMODEL_PlayNodeSlot(void *model, int animIndex, int arg);
 extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(void *model, u16 *seOut);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, void *fieldMap, int selector, int arg3, int arg4, u8 flagA, u8 flagB);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, void *fieldMap, int selector, int arg3);
-int func_021A7CE8(void *task, int *state, GroundAnimeWork *work);
-void *func_021A7E3C(GroundAnimeArgs *args);
-void func_021A7EB4(GroundAnimeWork *work);
-int func_021A7F38(void *task, int *state, GroundAnimeWork *work);
-int func_021A80FC(void *fieldMap);
-void func_021A810C(void *fieldMap, VecFx32 *out);
-void func_021A811C(void *fieldMap, VecFx32 *out);
-void func_021A8140(void *fieldMap, VecFx32 *out);
-void func_021A8198(void *fieldMap, VecFx32 *out);
-u8 func_021A81DC(GroundAnimeWork *work);
-u8 func_021A81EC(GroundAnimeWork *work);
-void func_021A8200(GroundAnimeWork *work);
-void func_021A8214(GroundAnimeWork *work);
-void func_021A8234(GroundAnimeWork *work);
-int func_021A8244(GroundAnimeWork *work);
-int func_021A8268(GroundAnimeWork *work);
-void func_021A8278(GroundAnimeWork *work);
-void func_021A82A8(GroundAnimeWork *work);
-void func_021A82D8(void *task, GroundAnimeWork *work);
-void func_021A8324(void *task, GroundAnimeWork *work);
-int func_021A834C(GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_MainA(void *task, int *state, GroundAnimeWork *work);
+void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args);
+void FIELD_GROUND_ANIME_SetupStepsB(GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_MainB(void *task, int *state, GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_GetPlayerMoveMode(void *fieldMap);
+void FIELD_GROUND_ANIME_GetPlayerPos(void *fieldMap, VecFx32 *out);
+void FIELD_GROUND_ANIME_GetEntryPosByMapKind(void *fieldMap, VecFx32 *out);
+void FIELD_GROUND_ANIME_GetGridEntryPos(void *fieldMap, VecFx32 *out);
+void FIELD_GROUND_ANIME_GetRailEntryPos(void *fieldMap, VecFx32 *out);
+u8 FIELD_GROUND_ANIME_GetCurrentStep(GroundAnimeWork *work);
+u8 FIELD_GROUND_ANIME_GetNextStep(GroundAnimeWork *work);
+void FIELD_GROUND_ANIME_AdvanceStep(GroundAnimeWork *work);
+void FIELD_GROUND_ANIME_CreateBuildModel(GroundAnimeWork *work);
+void FIELD_GROUND_ANIME_DeleteBuildModel(GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_IsBuildModelDone(GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_HasBuildModel(GroundAnimeWork *work);
+void FIELD_GROUND_ANIME_PlayBuildModelForward(GroundAnimeWork *work);
+void FIELD_GROUND_ANIME_PlayBuildModelReverse(GroundAnimeWork *work);
+void FIELD_GROUND_ANIME_CallEnterEvent(void *task, GroundAnimeWork *work);
+void FIELD_GROUND_ANIME_CallExitEvent(void *task, GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_ShouldPlayDoorSe(GroundAnimeWork *work);
 FieldGroundAnime *FIELD_GROUND_ANIME_Create(const GroundAnimeDesc *desc, void *modelRes, u16 heapId);
 int FIELD_GROUND_ANIME_Delete(FieldGroundAnime *ground);
 void FIELD_GROUND_ANIME_Update(FieldGroundAnime *ground);
@@ -435,10 +435,10 @@ u32 FIELD_GROUND_ANIME_KeyTableGetGroupCount(GroundKeyTable *table);
 u32 FIELD_GROUND_ANIME_KeyTableGetDuration(GroundKeyTable *table);
 u16 FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(GroundKeyTable *table, int group);
 void FIELD_GROUND_ANIME_KeyTableUnpack(u32 *keyFile, GroundKeyTable *out);
-void func_021A7B08(void *fieldMap, VecFx32 *out);
-int func_021A7B10(void *a);
-void *func_021A7B20(GroundAnimeArgs *args);
-void func_021A7B88(GroundAnimeWork *w);
+void FIELD_GROUND_ANIME_GetEntryPos(void *fieldMap, VecFx32 *out);
+int FIELD_GROUND_ANIME_FreePlayerAcmd(void *a);
+void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args);
+void FIELD_GROUND_ANIME_SetupStepsA(GroundAnimeWork *w);
 extern char _FieldGroundAnimeFileName;
 extern const u16 gTexDimensionTable[];
 extern const u8 gTexPixelsPerByteTable[];
@@ -927,40 +927,40 @@ void FIELD_GROUND_ANIME_KeyTableUnpack(u32 *keyFile, GroundKeyTable *out)
 }
 
 /*
- * Tail-call thunk: forwards to func_021A811C with no argument change.
+ * Tail-call thunk: forwards to FIELD_GROUND_ANIME_GetEntryPosByMapKind with no argument change.
  *
  * Addresses are Black-image addresses.
  */
-void func_021A7B08(void *fieldMap, VecFx32 *out)
+void FIELD_GROUND_ANIME_GetEntryPos(void *fieldMap, VecFx32 *out)
 {
-    func_021A811C(fieldMap, out);
+    FIELD_GROUND_ANIME_GetEntryPosByMapKind(fieldMap, out);
 }
 
-int func_021A7B10(void *a)
+int FIELD_GROUND_ANIME_FreePlayerAcmd(void *a)
 {
     return (int)FLDMMDL_FreeAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a)));
 }
 
-void *func_021A7B20(GroundAnimeArgs *args)
+void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
 {
     void *task;
     GroundAnimeWork *w;
 
-    task = func_020122C0(args->gameSystem, 0, func_021A7CE8, 0x3C);
+    task = func_020122C0(args->gameSystem, 0, FIELD_GROUND_ANIME_MainA, 0x3C);
     w = func_020124E8(task);
     w->args = args;
     w->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
     w->buildModel = 0;
     w->frameCounter = 0;
-    w->playerMoveMode = func_021A80FC(args->fieldMap);
+    w->playerMoveMode = FIELD_GROUND_ANIME_GetPlayerMoveMode(args->fieldMap);
     w->stepIndex = 0;
     w->entrance = ENTRANCE_CAMERA_Create(args->fieldMap);
     w->entranceParam = args->enterEntranceParam;
     w->isEnter = 1;
     w->isExit = 0;
-    func_021A810C(args->fieldMap, &w->entryPos);
-    func_021A8214(w);
-    func_021A7B88(w);
+    FIELD_GROUND_ANIME_GetPlayerPos(args->fieldMap, &w->entryPos);
+    FIELD_GROUND_ANIME_CreateBuildModel(w);
+    FIELD_GROUND_ANIME_SetupStepsA(w);
     return task;
 }
 
@@ -968,15 +968,15 @@ void *func_021A7B20(GroundAnimeArgs *args)
  * Fills the work's step table (bytes 0x2C..) from the mode the args' fieldMap
  * reports.
  */
-void func_021A7B88(GroundAnimeWork *w)
+void FIELD_GROUND_ANIME_SetupStepsA(GroundAnimeWork *w)
 {
     GroundAnimeArgs *args;
     void *fieldMap;
 
     args = w->args;
     fieldMap = args->fieldMap;
-    if (func_021A8268(w) != 0) {
-        switch (func_021A80FC(fieldMap)) {
+    if (FIELD_GROUND_ANIME_HasBuildModel(w) != 0) {
+        switch (FIELD_GROUND_ANIME_GetPlayerMoveMode(fieldMap)) {
         case 0:
         case 1:
         default:
@@ -1011,7 +1011,7 @@ void func_021A7B88(GroundAnimeWork *w)
         w->steps[4] = 8;
         return;
     } else {
-        switch (func_021A80FC(fieldMap)) {
+        switch (FIELD_GROUND_ANIME_GetPlayerMoveMode(fieldMap)) {
         case 0:
         case 1:
         default:
@@ -1038,7 +1038,7 @@ void func_021A7B88(GroundAnimeWork *w)
  * next step (GetNextStep) and advances the index (AdvanceStep). Returns 1
  * once the current step is GROUND_A_END and the field proc reports ready.
  */
-int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
+int FIELD_GROUND_ANIME_MainA(void *task, int *state, GroundAnimeWork *work)
 {
     GroundAnimeArgs *args;
     void *gameSystem;
@@ -1061,8 +1061,8 @@ int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
     case GROUND_A_LOCK_CAMERA:
         EVENT_MAPCHANGE_SetPlayerVanish(fieldMap, 1);
         if (FIELD_CAMERA_HasDelay(camera) == 0) {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
         } else {
             FIELD_CAMERA_EndDelay(camera);
             *state = GROUND_A_WAIT_CAMERA;
@@ -1070,26 +1070,26 @@ int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
         break;
     case GROUND_A_WAIT_CAMERA:
         if (FIELD_CAMERA_IsDelayEnabled(camera) == 0) {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
         }
         break;
     case GROUND_A_START_ENTRANCE:
         ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceParam);
         FIELD_SOUND_SYSTEM_PostFadeIn(bgmInfo, gameData);
-        func_021A82D8(task, work);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        FIELD_GROUND_ANIME_CallEnterEvent(task, work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         break;
     case GROUND_A_PLAY_MODEL_FORWARD:
-        func_021A8278(work);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        FIELD_GROUND_ANIME_PlayBuildModelForward(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         break;
     case GROUND_A_WAIT_MODEL_FORWARD:
-        if (func_021A8244(work) == 1) {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+        if (FIELD_GROUND_ANIME_IsBuildModelDone(work) == 1) {
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
         }
         break;
     case GROUND_A_START_PLAYER_ANIM:
@@ -1098,67 +1098,67 @@ int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
         if (ENTRANCE_CAMERA_IsActive(work->entrance) != 0 && ENTRANCE_CAMERA_IsInstant(work->entrance) != 0) {
             *state = GROUND_A_DELAY;
         } else {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
         }
         break;
     case GROUND_A_PLAY_MODEL_REVERSE:
-        func_021A82A8(work);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        FIELD_GROUND_ANIME_PlayBuildModelReverse(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         break;
     case GROUND_A_DELAY:
         if (work->frameCounter++ > 15) {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
         }
         break;
     case GROUND_A_FINISH_ENTRANCE:
         ENTRANCE_CAMERA_Start(work->entrance);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         break;
     case GROUND_A_WAIT_MODEL_REVERSE:
-        if (func_021A8244(work) == 1) {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+        if (FIELD_GROUND_ANIME_IsBuildModelDone(work) == 1) {
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
         }
         break;
     case GROUND_A_END:
         break;
     }
 
-    if (func_021A81DC(work) == GROUND_A_END && FIELD_TASK_MANAGER_IsEmpty(fieldProc) != 0) {
+    if (FIELD_GROUND_ANIME_GetCurrentStep(work) == GROUND_A_END && FIELD_TASK_MANAGER_IsEmpty(fieldProc) != 0) {
         ENTRANCE_CAMERA_Restore(work->entrance);
         FIELD_CAMERA_ReloadSetting(camera);
         ENTRANCE_CAMERA_Delete(work->entrance);
-        func_021A8234(work);
+        FIELD_GROUND_ANIME_DeleteBuildModel(work);
         return 1;
     }
     return 0;
 }
 
 /* Creates task "B" (callback FIELD_GROUND_ANIME_MainB) and fills its work. */
-void *func_021A7E3C(GroundAnimeArgs *args)
+void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
 {
     void *task;
     GroundAnimeWork *work;
 
-    task = func_020122C0(args->gameSystem, 0, func_021A7F38, 0x3C);
+    task = func_020122C0(args->gameSystem, 0, FIELD_GROUND_ANIME_MainB, 0x3C);
     work = func_020124E8(task);
     work->args = args;
     work->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
     work->buildModel = 0;
     work->frameCounter = 0;
-    work->playerMoveMode = func_021A80FC(args->fieldMap);
+    work->playerMoveMode = FIELD_GROUND_ANIME_GetPlayerMoveMode(args->fieldMap);
     work->stepIndex = 0;
     work->entrance = ENTRANCE_CAMERA_Create(args->fieldMap);
     work->entranceParam = args->exitEntranceParam;
     work->isEnter = 0;
     work->isExit = 1;
-    func_021A811C(args->fieldMap, &work->entryPos);
-    func_021A8214(work);
-    func_021A7EB4(work);
+    FIELD_GROUND_ANIME_GetEntryPosByMapKind(args->fieldMap, &work->entryPos);
+    FIELD_GROUND_ANIME_CreateBuildModel(work);
+    FIELD_GROUND_ANIME_SetupStepsB(work);
     if (EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(args->exitEntranceParam) != 0) {
         work->chainSteps = 1;
     } else {
@@ -1168,9 +1168,9 @@ void *func_021A7E3C(GroundAnimeArgs *args)
 }
 
 /* Fills the step list of task "B"; a build model adds the forward-anim step. */
-void func_021A7EB4(GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_SetupStepsB(GroundAnimeWork *work)
 {
-    if (func_021A8268(work) != 0) {
+    if (FIELD_GROUND_ANIME_HasBuildModel(work) != 0) {
         work->steps[0] = 0;
         work->steps[1] = 3;
         work->steps[2] = 1;
@@ -1195,7 +1195,7 @@ void func_021A7EB4(GroundAnimeWork *work)
  * work->steps like MainA, returning 0x21 to run again in the same frame when
  * work->chainSteps is set, 1 when the last step finishes, 0 otherwise.
  */
-int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
+int FIELD_GROUND_ANIME_MainB(void *task, int *state, GroundAnimeWork *work)
 {
     GroundAnimeArgs *args;
     void *gameSystem;
@@ -1214,24 +1214,24 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
     switch (*state) {
     case GROUND_B_START_ENTRANCE:
         ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceParam);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         if (work->chainSteps != 0) {
             return 0x21;
         }
         break;
     case GROUND_B_FINISH_ENTRANCE:
         ENTRANCE_CAMERA_Start(work->entrance);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         if (work->chainSteps != 0) {
             return 0x21;
         }
         break;
     case GROUND_B_PLAY_MODEL_FORWARD:
-        func_021A8278(work);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        FIELD_GROUND_ANIME_PlayBuildModelForward(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         if (work->chainSteps != 0) {
             return 0x21;
         }
@@ -1243,17 +1243,17 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         if (ENTRANCE_CAMERA_IsActive(work->entrance) != 0 && ENTRANCE_CAMERA_IsInstant(work->entrance) != 0) {
             *state = GROUND_B_DELAY;
         } else {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
         }
         if (work->chainSteps != 0) {
             return 0x21;
         }
         break;
     case GROUND_B_WAIT_MODEL:
-        if (func_021A8244(work) == 1) {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+        if (FIELD_GROUND_ANIME_IsBuildModelDone(work) == 1) {
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
             if (work->chainSteps != 0) {
                 return 0x21;
             }
@@ -1261,18 +1261,18 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         break;
     case GROUND_B_DELAY:
         if (work->frameCounter++ > 15) {
-            *state = func_021A81EC(work);
-            func_021A8200(work);
+            *state = FIELD_GROUND_ANIME_GetNextStep(work);
+            FIELD_GROUND_ANIME_AdvanceStep(work);
             if (work->chainSteps != 0) {
                 return 0x21;
             }
         }
         break;
     case GROUND_B_START_PLAYER_ANIM:
-        func_021A7B10(fieldMap);
+        FIELD_GROUND_ANIME_FreePlayerAcmd(fieldMap);
         GAME_EVENT_CallEvent(task, EVENT_FIELD_PROCLINK_StartObjAnim(gameSystem, fieldMap));
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         if (work->chainSteps != 0) {
             return 0x21;
         }
@@ -1280,50 +1280,50 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
     case GROUND_B_REPLACE_BGM:
         FIELD_SOUND_SYSTEM_PostZoneBgmReplace(bgmInfo, gameData, args->zoneId, args->bgmReplaceFlag);
         args->finished = 1;
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         break;
     case GROUND_B_ENTER_EVENT:
-        if (func_021A834C(work) != 0) {
+        if (FIELD_GROUND_ANIME_ShouldPlayDoorSe(work) != 0) {
             GFL_USE_PlaySeDefaultVolume(SE_GROUND_ANIME_DOOR);
         }
-        func_021A8324(task, work);
-        *state = func_021A81EC(work);
-        func_021A8200(work);
+        FIELD_GROUND_ANIME_CallExitEvent(task, work);
+        *state = FIELD_GROUND_ANIME_GetNextStep(work);
+        FIELD_GROUND_ANIME_AdvanceStep(work);
         break;
     case GROUND_B_END:
         ENTRANCE_CAMERA_Restore(work->entrance);
         ENTRANCE_CAMERA_Delete(work->entrance);
-        func_021A8234(work);
+        FIELD_GROUND_ANIME_DeleteBuildModel(work);
         return 1;
     }
     return 0;
 }
 
 /* Movement mode of the player object (grid or rail), as a byte. */
-int func_021A80FC(void *fieldMap)
+int FIELD_GROUND_ANIME_GetPlayerMoveMode(void *fieldMap)
 {
     return (u8)FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer(fieldMap));
 }
 
 /* Position of the player object. */
-void func_021A810C(void *fieldMap, VecFx32 *out)
+void FIELD_GROUND_ANIME_GetPlayerPos(void *fieldMap, VecFx32 *out)
 {
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), out);
 }
 
 /* Position where the ground animation plays: rail maps and grid maps differ. */
-void func_021A811C(void *fieldMap, VecFx32 *out)
+void FIELD_GROUND_ANIME_GetEntryPosByMapKind(void *fieldMap, VecFx32 *out)
 {
     if (FIELDMAP_GetMoveKind(fieldMap) == 1) {
-        func_021A8198(fieldMap, out);
+        FIELD_GROUND_ANIME_GetRailEntryPos(fieldMap, out);
         return;
     }
-    func_021A8140(fieldMap, out);
+    FIELD_GROUND_ANIME_GetGridEntryPos(fieldMap, out);
 }
 
 /* Grid map: the tile in front of the player, with its map height. */
-void func_021A8140(void *fieldMap, VecFx32 *out)
+void FIELD_GROUND_ANIME_GetGridEntryPos(void *fieldMap, VecFx32 *out)
 {
     void *player;
     int moveMode;
@@ -1343,7 +1343,7 @@ void func_021A8140(void *fieldMap, VecFx32 *out)
 }
 
 /* Rail map: the rail position in front of the player converted to world coordinates. */
-void func_021A8198(void *fieldMap, VecFx32 *out)
+void FIELD_GROUND_ANIME_GetRailEntryPos(void *fieldMap, VecFx32 *out)
 {
     void *player;
     int moveMode;
@@ -1360,31 +1360,31 @@ void func_021A8198(void *fieldMap, VecFx32 *out)
 }
 
 /* Step id the machine is running now. */
-u8 func_021A81DC(GroundAnimeWork *work)
+u8 FIELD_GROUND_ANIME_GetCurrentStep(GroundAnimeWork *work)
 {
     return work->steps[work->stepIndex];
 }
 
 /* Step id after the current one (steps[stepIndex + 1]). */
-u8 func_021A81EC(GroundAnimeWork *work)
+u8 FIELD_GROUND_ANIME_GetNextStep(GroundAnimeWork *work)
 {
     return work->steps[(u8)(work->stepIndex + 1)];
 }
 
 /* Moves to the next step and clears the frame counter. */
-void func_021A8200(GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_AdvanceStep(GroundAnimeWork *work)
 {
     work->stepIndex++;
     work->frameCounter = 0;
 }
 
 /* Creates the build model (door or ground object) at the entry position. */
-void func_021A8214(GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_CreateBuildModel(GroundAnimeWork *work)
 {
     work->buildModel = FIELD_BUILDMODEL_CreateNodeNearPos(FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->args->fieldMap)), 1, &work->entryPos);
 }
 
-void func_021A8234(GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_DeleteBuildModel(GroundAnimeWork *work)
 {
     if (work->buildModel != 0) {
         FIELD_BUILDMODEL_DeleteNode(work->buildModel);
@@ -1392,9 +1392,9 @@ void func_021A8234(GroundAnimeWork *work)
 }
 
 /* 1 when there is no build model, or its animation has ended. */
-int func_021A8244(GroundAnimeWork *work)
+int FIELD_GROUND_ANIME_IsBuildModelDone(GroundAnimeWork *work)
 {
-    if (func_021A8268(work) == 0) {
+    if (FIELD_GROUND_ANIME_HasBuildModel(work) == 0) {
         return 1;
     }
     if (FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(work->buildModel) != 0) {
@@ -1403,7 +1403,7 @@ int func_021A8244(GroundAnimeWork *work)
     return 0;
 }
 
-int func_021A8268(GroundAnimeWork *work)
+int FIELD_GROUND_ANIME_HasBuildModel(GroundAnimeWork *work)
 {
     if (work->buildModel != 0) {
         return 1;
@@ -1412,10 +1412,10 @@ int func_021A8268(GroundAnimeWork *work)
 }
 
 /* Starts the build model animation forward and plays its sound. */
-void func_021A8278(GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_PlayBuildModelForward(GroundAnimeWork *work)
 {
     u16 seId;
-    if (func_021A8268(work)) {
+    if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 0, 0);
         if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
             GFL_USE_PlaySeDefaultVolume(seId);
@@ -1424,10 +1424,10 @@ void func_021A8278(GroundAnimeWork *work)
 }
 
 /* Starts the build model animation in reverse and plays its sound. */
-void func_021A82A8(GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_PlayBuildModelReverse(GroundAnimeWork *work)
 {
     u16 seId;
-    if (func_021A8268(work)) {
+    if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 1, 0);
         if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
             GFL_USE_PlaySeDefaultVolume(seId);
@@ -1436,7 +1436,7 @@ void func_021A82A8(GroundAnimeWork *work)
 }
 
 /* Calls the enter event; a fixed selector overrides the caller's one. */
-void func_021A82D8(void *task, GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_CallEnterEvent(void *task, GroundAnimeWork *work)
 {
     GroundAnimeArgs *args;
     void *event;
@@ -1451,7 +1451,7 @@ void func_021A82D8(void *task, GroundAnimeWork *work)
 }
 
 /* Calls the exit event; a fixed selector overrides the caller's one. */
-void func_021A8324(void *task, GroundAnimeWork *work)
+void FIELD_GROUND_ANIME_CallExitEvent(void *task, GroundAnimeWork *work)
 {
     GroundAnimeArgs *args = work->args;
     void *event;
@@ -1464,10 +1464,10 @@ void func_021A8324(void *task, GroundAnimeWork *work)
 }
 
 /* 1 when the door sound still has to be played: no build model, selector is not 2. */
-int func_021A834C(GroundAnimeWork *work)
+int FIELD_GROUND_ANIME_ShouldPlayDoorSe(GroundAnimeWork *work)
 {
     GroundAnimeArgs *args = work->args;
-    if (func_021A8268(work)) {
+    if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         return 0;
     }
     if (args->exitSelector != 2) {

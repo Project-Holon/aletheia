@@ -1,5 +1,5 @@
 /*
- * function: func_021E04C8
+ * function: BR_CODEIN_CodeHitTestOptions
  * address:  0x021E04C8
  * packet:   pkt_ov183_021E04C8
  * region:   ov183
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern Rect g_021E3808[];
 
-int func_021E04C8(void)
+int BR_CODEIN_CodeHitTestOptions(void)
 {
     unsigned int x, y;
     int i;

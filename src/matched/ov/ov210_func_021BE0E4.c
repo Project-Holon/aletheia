@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0E4
+ * function: ZKNSEARCH_MAIN_SelectEntry1
  * address:  0x021BE0E4
  * packet:   pkt_ov210_021BE0E4
  * region:   ov210
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   FRAME_LIST_SetCursor  0x021B93D4  thumb  ov067
- *   func_021BE8B8  0x021BE8B8  thumb  ov210
- *   func_021BF85C  0x021BF85C  thumb  ov210
+ *   ZKNSEARCH_MAIN_PrintEntryCount  0x021BE8B8  thumb  ov210
+ *   ZKNSEARCH_MAIN_PlaceColumnActor1  0x021BF85C  thumb  ov210
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00085.h"
@@ -25,13 +25,13 @@ typedef signed char    s8;
 typedef signed int     s32;
 struct S;
 extern void FRAME_LIST_SetCursor(struct S *s, int v);
-extern void func_021BE8B8(u8 *p);
-extern void func_021BF85C(char *p, int i, int flag);
+extern void ZKNSEARCH_MAIN_PrintEntryCount(u8 *p);
+extern void ZKNSEARCH_MAIN_PlaceColumnActor1(char *p, int i, int flag);
 
-void func_021BE0E4(u8 *p, u32 v)
+void ZKNSEARCH_MAIN_SelectEntry1(u8 *p, u32 v)
 {
     (*(u8 **)(*(u8 * *)&((struct Obj00085 *)p)->f0 + 8))[1] = v;
     FRAME_LIST_SetCursor(((struct Obj00085 *)p)->f1E0, v);
-    func_021BE8B8(p);
-    func_021BF85C((char *)p, (u16)v, 1);
+    ZKNSEARCH_MAIN_PrintEntryCount(p);
+    ZKNSEARCH_MAIN_PlaceColumnActor1((char *)p, (u16)v, 1);
 }

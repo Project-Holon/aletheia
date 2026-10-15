@@ -104,13 +104,13 @@
  *   G2_GetBG1CharPtr    0x0207E24C  arm
  *   func_02082A7C    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
- *   func_02062A4C    0x02062A4C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx    0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange    0x020862F0  arm
  *   MIi_CpuCopy16    0x02082A60  arm
- *   func_02062B30    0x02062B30  arm
+ *   NNS_G2dGetUnpackedScreenData    0x02062B30  arm
  *   G2_GetBG1ScrPtr    0x0207DFB4  arm
- *   func_02062AD4    0x02062AD4  arm
- *   func_02062A98    0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteCompressInfo    0x02062AD4  arm
+ *   NNS_G2dGetUnpackedPaletteData    0x02062A98  arm
  *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram    0x02043754  arm
  *   GF_FONT_Create    0x0201D7EC  thumb
@@ -360,13 +360,13 @@ extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0Is3d);
 extern void *G2_GetBG1CharPtr(void);
 extern void func_02082A7C(u32 value, u32 dest, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int memberId, int compressed, int heapId);
-extern s32 func_02062A4C(struct ArchiveRecord *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct ArchiveRecord *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(u32 addr, u32 size);
 extern void MIi_CpuCopy16(u32 src, u32 dest, u32 size);
-extern int func_02062B30(void *file, void **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern void *G2_GetBG1ScrPtr(void);
-extern s32 func_02062AD4(struct ArchiveRecord *file, void **out);
-extern s32 func_02062A98(struct ArchiveRecord *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct ArchiveRecord *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct ArchiveRecord *file, void **out);
 extern void MIi_CpuClear16(u32 value, u32 dest, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern struct GfFont *GF_FONT_Create(int fontId, int spacingX, int spacingY, int colorMode, u32 heapId);
@@ -1921,7 +1921,7 @@ void func_0202F7C4(u32 messageId)
 
 /*
  * Three copies of one block: register a handle with ARC_UTIL_LoadMember(0x16, i, 0, 7),
- * probe it (func_02062A4C / 02062B30 / 02062A98 with a stack out-pointer), and
+ * probe it (NNS_G2dGetUnpackedCharacterDataEx / 02062B30 / 02062A98 with a stack out-pointer), and
  * on success clear 0x20 bytes of the record's buffer through DWCi_ScreenDC_FlushRange and
  * fill it back through MIi_CpuCopy16 with the current frame-tick from the
  * getter (G2_GetBG1CharPtr / G2_GetBG1ScrPtr).  The handle is released with
@@ -1955,20 +1955,20 @@ void func_0202F870(void)
 
     func_02082A7C(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     res = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
-    if (func_02062A4C((struct ArchiveRecord *)res, (void **)(&chars)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx((struct ArchiveRecord *)res, (void **)(&chars)) != 0) {
         DWCi_ScreenDC_FlushRange(chars[5], chars[4]);
         MIi_CpuCopy16(chars[5], (u32)G2_GetBG1CharPtr(), charSize = chars[4]);
     }
     func_020307B0((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
-    if (func_02062B30((void *)res, (void **)(&screen)) != 0) {
+    if (NNS_G2dGetUnpackedScreenData((void *)res, (void **)(&screen)) != 0) {
         DWCi_ScreenDC_FlushRange((u32)screen + 0xc, screen[2]);
         MIi_CpuCopy16((u32)screen + 0xc, (u32)G2_GetBG1ScrPtr(), screenSize = screen[2]);
     }
     func_020307B0((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
-    func_02062AD4((struct ArchiveRecord *)res, (void **)(&paletteHeader));
-    if (func_02062A98((struct ArchiveRecord *)res, (void **)(&palette)) != 0) {
+    NNS_G2dGetUnpackedPaletteCompressInfo((struct ArchiveRecord *)res, (void **)(&paletteHeader));
+    if (NNS_G2dGetUnpackedPaletteData((struct ArchiveRecord *)res, (void **)(&palette)) != 0) {
         DWCi_ScreenDC_FlushRange(palette[3], 0x20);
         MIi_CpuCopy16(palette[3], 0x05000000, 0x20);
     }

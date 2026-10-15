@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm
+ *   gsifree  0x0217EAE0  arm
  *   gsXmlFreeWriter  0x02181D84  arm
  */
 
@@ -23,22 +23,22 @@ typedef struct Obj {
     void *p14;
 } Obj;
 
-extern void func_0217EAE0(void *);
+extern void gsifree(void *);
 extern void gsXmlFreeWriter(void *);
 
 void ghiPostDataFree(Obj *o)
 {
     if (o->type != 3)
-        func_0217EAE0(o->p4);
+        gsifree(o->p4);
     if (o->type == 0) {
-        func_0217EAE0(o->p8);
+        gsifree(o->p8);
     } else if (o->type == 1) {
-        func_0217EAE0(o->p8);
-        func_0217EAE0(o->pC);
-        func_0217EAE0(o->p10);
+        gsifree(o->p8);
+        gsifree(o->pC);
+        gsifree(o->p10);
     } else if (o->type == 2) {
-        func_0217EAE0(o->p10);
-        func_0217EAE0(o->p14);
+        gsifree(o->p10);
+        gsifree(o->p14);
     } else if (o->type == 3) {
         gsXmlFreeWriter(o->p8);
     }

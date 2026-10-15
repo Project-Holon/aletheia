@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02019B44 0x02019B44 thumb
+ *   POKE_TOOL_GetNatureModifier 0x02019B44 thumb
  */
 typedef signed char s8;
 typedef unsigned int u32;
-extern s8 func_02019B44(u32 a, u32 n);
+extern s8 POKE_TOOL_GetNatureModifier(u32 a, u32 n);
 int P_STA_SKILL_GetNatureStatColor(u32 a, u32 b, unsigned char c, u32 d) {
- switch (func_02019B44(c, d)) {
+ switch (POKE_TOOL_GetNatureModifier(c, d)) {
  case 1: return 0x3d20;
  case -1: return 0x3d40;
  case 0:

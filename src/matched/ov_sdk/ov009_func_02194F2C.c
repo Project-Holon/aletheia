@@ -1,5 +1,5 @@
 /*
- * function: func_02194F2C
+ * function: gti2ConnectAttemptCallback
  * address:  0x02194F2C
  * packet:   pkt_ov009_02194F2C
  * region:   ov009
@@ -30,7 +30,7 @@ typedef struct Sock {
 
 extern void func_02197FDC(Sock *sock);
 
-int func_02194F2C(Sock *sock, Conn *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len)
+int gti2ConnectAttemptCallback(Sock *sock, Conn *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len)
 {
 	if (!sock || !c)
 		return 1;

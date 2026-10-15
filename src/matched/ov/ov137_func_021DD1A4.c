@@ -12,7 +12,7 @@
  * symbols:
  *   GURU2_RECEIPT_AnimatePalette  0x021DD14C  thumb
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef signed int     s32;
 
 extern void GURU2_RECEIPT_AnimatePalette(void *unused, u8 *p);
 extern void CLACT_VBlankSystem(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 void GURU2_RECEIPT_VBlank(void *a0, void *work)
 {
     GURU2_RECEIPT_AnimatePalette(a0, work);
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
 }

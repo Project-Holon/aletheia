@@ -17,7 +17,7 @@
  *   POKETRADE_NEGO_DeleteHeaderWindows 0x021DD9DC thumb ov119
  *   POKETRADE_2D_DeleteAllBoxIcons 0x021E4888 thumb ov119
  *   POKETRADE_NEGO_RegisterIconResources 0x021DD528 thumb ov119
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
@@ -39,7 +39,7 @@ extern void POKETRADE_2D_DeleteBoxWindows(char *p);
 extern void POKETRADE_NEGO_DeleteHeaderWindows(unsigned char *);
 extern void POKETRADE_2D_DeleteAllBoxIcons(char *p);
 extern void POKETRADE_NEGO_RegisterIconResources(char *,int);
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
@@ -51,7 +51,7 @@ extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepWaitWipeBrowse(void *);
 void POKETRADE_NEGO_StepBuildBrowseScene(char *p) {
  POKETRADE_2D_FreeMainResources(p);POKETRADE_NEGO_UpdateOfferMarkers(p);POKETRADE_NEGO_ResetMarkers(p);POKETRADE_2D_DeleteAllOfferIconActors(p);POKETRADE_NEGO_ReleaseIconResources(p);POKETRADE_2D_DeleteBoxWindows(p);POKETRADE_NEGO_DeleteHeaderWindows((unsigned char *)p);POKETRADE_2D_DeleteAllBoxIcons(p);
- POKETRADE_NEGO_RegisterIconResources(p,1);func_02041570(6,0);CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04,0);
+ POKETRADE_NEGO_RegisterIconResources(p,1);BG_SYS_ClearLayerEx(6,0);CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04,0);
  TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,1);TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,0);POKETRADE_SAVE_DrawOfferListWindows(p,6);
  ((struct Obj00001 *)p)->f108C=0;((struct Obj00001 *)p)->f1084=1;POKETRADE_2D_SetupCursorBg(p);
  WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj00001 *)p)->f5F4);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitWipeBrowse);

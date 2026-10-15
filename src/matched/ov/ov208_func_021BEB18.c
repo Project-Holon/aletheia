@@ -28,7 +28,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02040618 0x02040618 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_021BDAD0 0x021BDAD0 thumb
  *   func_021BC3BC 0x021BC3BC thumb
  *   func_021BDAAC 0x021BDAAC thumb
@@ -96,7 +96,7 @@ extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020414AC(u8 a);
+extern void BG_SYS_FreeSlot(u8 a);
 extern int func_021BDAD0(void *s);
 extern u16 func_021BC3BC(int *ctx);
 extern void func_021BDAAC(void *s, u32 a, u32 b, u32 c);
@@ -156,7 +156,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
             if (i != 1 && i != 5) {
                 func_02040618(i, 0, 0);
                 func_02040618(i, 3, 0);
-                func_020414AC(i);
+                BG_SYS_FreeSlot(i);
             }
         }
         if (func_021BDAD0(scn) != 2) {

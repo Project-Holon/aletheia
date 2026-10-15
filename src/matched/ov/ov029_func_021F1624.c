@@ -18,8 +18,8 @@
  *   C_GEAR_SetupBackgrounds  0x021F1624  thumb  ov029
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_0204047C  0x0204047C  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   C_GEAR_SetupSubScreenBlend  0x021F1740  thumb  ov029
  *   d_021F338C     0x021F338C  data  ov029  a4
@@ -50,8 +50,8 @@ struct BgTemplate {
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 extern void C_GEAR_SetupSubScreenBlend(void *p);
 
@@ -72,24 +72,24 @@ void C_GEAR_SetupBackgrounds(void *p)
         struct BgTemplate t = d_021F338C;
         BG_SYS_InitBgLayer(6, &t, 0);
         func_02040588((u8)6, 1);
-        func_0204047C(6, 3);
-        func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(6, 3);
+        BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(6);
     }
     {
         struct BgTemplate t = d_021F33AC;
         BG_SYS_InitBgLayer(5, &t, 0);
         func_02040588((u8)5, 1);
-        func_0204047C(5, 1);
-        func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(5, 1);
+        BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(5);
     }
     {
         struct BgTemplate t = d_021F336C;
         BG_SYS_InitBgLayer(4, &t, 0);
         func_02040588((u8)4, 1);
-        func_0204047C(4, 2);
-        func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(4, 2);
+        BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(4);
     }
     C_GEAR_SetupSubScreenBlend(p);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FF0
+ * function: TH_AWARD_DeleteWindows
  * address: 0x021B9FF0
  * packet: pkt_ov220_021B9FF0
  * region: ov220
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Descriptor;struct Rec;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021B9FF0(u8*p){u8 i;for(i=0;i<4;i++)if(*(struct Descriptor**)(p+96+i*4))BMP_WIN_Delete(*(struct Descriptor**)(p+96+i*4));if(*(struct Rec* *)&((struct Obj01297 *)p)->f5C)MSGDATA_Delete(*(struct Rec* *)&((struct Obj01297 *)p)->f5C);}
+void TH_AWARD_DeleteWindows(u8*p){u8 i;for(i=0;i<4;i++)if(*(struct Descriptor**)(p+96+i*4))BMP_WIN_Delete(*(struct Descriptor**)(p+96+i*4));if(*(struct Rec* *)&((struct Obj01297 *)p)->f5C)MSGDATA_Delete(*(struct Rec* *)&((struct Obj01297 *)p)->f5C);}

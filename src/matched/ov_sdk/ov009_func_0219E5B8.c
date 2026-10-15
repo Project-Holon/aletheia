@@ -1,5 +1,5 @@
 /*
- * function: func_0219E5B8
+ * function: SBServerParseQR2FullKeysSplit
  * address:  0x0219E5B8
  * packet:   pkt_ov009_0219E5B8
  * region:   ov009
@@ -19,8 +19,8 @@
  *   NTSLengthSB  0x0219F978  arm  ov009
  *   strlen  0x0209477C  arm
  *   strnicmp  0x0209ABEC  arm
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_0219D114  0x0219D114  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  */
@@ -49,12 +49,12 @@ extern int NTSLengthSB(char *buf, int len);
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern int strnicmp(const char *s1, const char *s2, unsigned int n);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0219D114(char *keyname);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern int qr2_internal_is_master_only_key(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 
-void func_0219E5B8(_SBServer *server, char *data, int len)
+void SBServerParseQR2FullKeysSplit(_SBServer *server, char *data, int len)
 {
     int dlen;
     char *k;
@@ -101,7 +101,7 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
         data++;
         len--;
         if (keyType < 0 || keyType > 2) {
-            func_0217D254(4, 0, 2, g_021A8178, keyType);
+            gsDebugFormat(4, 0, 2, g_021A8178, keyType);
             return;
         }
         while (*data != '\0') {
@@ -118,7 +118,7 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
                 v = data;
                 data += dlen;
                 len -= dlen;
-                if (!func_0219D114(k))
+                if (!qr2_internal_is_master_only_key(k))
                     func_0219E01C(server, k, v);
             } else {
                 if (len < 1)
@@ -145,7 +145,7 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
         }
         if (len > 0) {
             if (*data != '\0') {
-                func_0217D254(4, 0, 2, g_021A81AC);
+                gsDebugFormat(4, 0, 2, g_021A81AC);
                 return;
             }
             data++;

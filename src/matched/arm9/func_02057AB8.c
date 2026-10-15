@@ -1,5 +1,5 @@
 /*
- * function: func_02057AB8
+ * function: SPL_EMITTER_ClampU16
  * address:  0x02057AB8
  * packet:   pkt_02057830
  * region:   arm9
@@ -18,7 +18,7 @@ struct Obj {
     u16 _2e;
 };
 
-void func_02057AB8(struct Obj *o, int unused, int t)
+void SPL_EMITTER_ClampU16(struct Obj *o, int unused, int t)
 {
     u16 v;
 

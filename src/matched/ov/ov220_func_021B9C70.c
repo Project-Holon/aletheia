@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C70
+ * function: TH_AWARD_DeleteBgActors
  * address: 0x021B9C70
  * packet: pkt_ov220_021B9C70
  * region: ov220
@@ -19,7 +19,7 @@ extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
-void func_021B9C70(unsigned char *p)
+void TH_AWARD_DeleteBgActors(unsigned char *p)
 {
     unsigned char i;
     if(p[0x84]) {

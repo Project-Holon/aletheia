@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008C58, sub_02008C64, sub_02008C94, sub_02008CB4,
- *           sub_02008CD4
+ * function: RECORD_GetFromSave, RECORD_Seal, RECORD_Unseal, RECORD_GetCounter,
+ *           RECORD_SetCounter
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
@@ -22,7 +22,7 @@
  *
  * alias: the head of the save block with id 0x26, 0x1E0 bytes.  The original
  * file opens at 0x02008C20 with the four bytes that return that size
- * (src/matched/sub_02008C20.c) and this range follows the constructor; the
+ * (src/matched/RECORD_GetSize.c) and this range follows the constructor; the
  * file runs on past 0x02008CF8, where it starts reaching into the static
  * tables at 0x0209DDB4 and 0x020A70C4, which is where this range stops.
  *
@@ -38,7 +38,7 @@
  *    anything else in the image loads one of them.
  *  - the four functions after it, 0x02008D1C..0x02008E30, are no longer
  *    blocked by attestation at all, only by not having been written.  Each of
- *    them calls sub_02008C64, sub_02008C94, sub_02008CB4, sub_02008CD4 and
+ *    them calls RECORD_Seal, RECORD_Unseal, RECORD_GetCounter, RECORD_SetCounter and
  *    sub_02008CF8, and the callers of each of those five are spread across
  *    several of the four, so any range holding at most two of the four leaves
  *    every one of the five a witness outside it.  0x02008D1C..0x02008DAC and
@@ -52,7 +52,7 @@
  *   +0x1DC  u16         the low half of a checksum over +4..+0x1DC
  *   +0x1DE  u16         ... and its high half
  *
- * sub_02008CB4 and sub_02008CD4 are the getter and setter over that split
+ * RECORD_GetCounter and RECORD_SetCounter are the getter and setter over that split
  * index space, and both answer 0 for an index at or past 0xA7.  The setter
  * returns what the getter would return, by calling it: the `bl` at the point
  * where both arms have joined is a tail call the compiler could not turn into
@@ -60,7 +60,7 @@
  *
  * The checksum covers 0x1D8 bytes starting at +4, not the whole block, and the
  * pair at +0x1DC and +0x1DE is one 32 bit value split across two `u16` fields:
- * sub_02008C64 reassembles it with an `adds`, not an `orrs`, so the source
+ * RECORD_Seal reassembles it with an `adds`, not an `orrs`, so the source
  * adds rather than ors.
  *
  * NEAR MISS, 0x02008C28, 48 bytes, 3 concrete bytes wrong, skipped.  The
@@ -103,15 +103,15 @@ struct Sub02008C20Obj {
     u16 unk1DE;
 };
 
-void sub_02008C64(struct Sub02008C20Obj *obj, int commit);
-u32  sub_02008CB4(const struct Sub02008C20Obj *obj, int i);
+void RECORD_Seal(struct Sub02008C20Obj *obj, int commit);
+u32  RECORD_GetCounter(const struct Sub02008C20Obj *obj, int i);
 
-struct Sub02008C20Obj *sub_02008C58(void *sys)
+struct Sub02008C20Obj *RECORD_GetFromSave(void *sys)
 {
     return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
-void sub_02008C64(struct Sub02008C20Obj *obj, int commit)
+void RECORD_Seal(struct Sub02008C20Obj *obj, int commit)
 {
     if (commit) {
         obj->unk1DC = sub_0203F2FC((const u8 *)(&obj->unk000[1]), 0x1D8);
@@ -120,7 +120,7 @@ void sub_02008C64(struct Sub02008C20Obj *obj, int commit)
     }
 }
 
-void sub_02008C94(struct Sub02008C20Obj *obj, int commit)
+void RECORD_Unseal(struct Sub02008C20Obj *obj, int commit)
 {
     if (commit) {
         sub_0203F37C(&obj->unk000[1], 0x1D8,
@@ -128,7 +128,7 @@ void sub_02008C94(struct Sub02008C20Obj *obj, int commit)
     }
 }
 
-u32 sub_02008CB4(const struct Sub02008C20Obj *obj, int i)
+u32 RECORD_GetCounter(const struct Sub02008C20Obj *obj, int i)
 {
     if (i < 0x47) {
         return obj->unk000[i];
@@ -139,12 +139,12 @@ u32 sub_02008CB4(const struct Sub02008C20Obj *obj, int i)
     return 0;
 }
 
-u32 sub_02008CD4(struct Sub02008C20Obj *obj, int i, u32 value)
+u32 RECORD_SetCounter(struct Sub02008C20Obj *obj, int i, u32 value)
 {
     if (i < 0x47) {
         obj->unk000[i] = value;
     } else if (i < 0xA7) {
         obj->unk11C[i - 0x47] = value;
     }
-    return sub_02008CB4(obj, i);
+    return RECORD_GetCounter(obj, i);
 }

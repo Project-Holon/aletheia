@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02062F1C
+ * function: NNSi_G2dGetCellAnimFrameIdx
  * address:  0x02062F1C
  * packet:   pkt_0206296C
  * region:   arm9
@@ -24,8 +24,8 @@
  * other reference to this address in the image.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02062F1C.c \
- *       --func sub_02062F1C --addr 0x02062F1C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dGetCellAnimFrameIdx.c \
+ *       --func NNSi_G2dGetCellAnimFrameIdx --addr 0x02062F1C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -43,7 +43,7 @@ struct Node {
     struct Owner *owner;
 };
 
-u16 sub_02062F1C(const struct Node *n)
+u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n)
 {
     return (u16)((n->cursor - n->owner->base) >> 3);
 }

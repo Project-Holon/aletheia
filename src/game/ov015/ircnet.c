@@ -33,7 +33,7 @@
  *   IRC_Shutdown  0x0217A134  arm  ov015
  *   IRC_Send  0x0217A148  arm  ov015
  *   IRC_Move  0x0217A334  arm  ov015
- *   func_0217A584  0x0217A584  arm  ov015
+ *   IRC_SetRecvCallback  0x0217A584  arm  ov015
  *   IRC_GetUnitNumber  0x0217A5A4  arm  ov015
  */
 typedef unsigned char u8;
@@ -62,7 +62,7 @@ extern int IRC_IsConnect(void);
 extern void IRC_Shutdown(void);
 extern void IRC_Send(u8 *data, u8 size, int command);
 extern int IRC_Move(void);
-extern void func_0217A584(void (*cb)(void));
+extern void IRC_SetRecvCallback(void (*cb)(void));
 extern unsigned int IRC_GetUnitNumber(void);
 
 void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type);
@@ -248,7 +248,7 @@ void IRCNET_InitWork(u32 a, u8 b)
     gIrcNetWork.timeoutLimit = a;
     gIrcNetWork.randomByte = WM_GetNextTgid();
     IRC_Init(3);
-    func_0217A584((void (*)(void))IRCNET_OnRecv);
+    IRC_SetRecvCallback((void (*)(void))IRCNET_OnRecv);
     gIrcNetWork.packet.senderId = func_020056EC(0);
     if (gIrcNetWork.packet.senderId == 0)
         gIrcNetWork.packet.senderId = 1;
@@ -510,7 +510,7 @@ void IRCNET_Update(void)
             }
             if (w->linkTimer == 5) {
                 IRC_Init(3);
-                func_0217A584((void (*)(void))IRCNET_OnRecv);
+                IRC_SetRecvCallback((void (*)(void))IRCNET_OnRecv);
                 w->linkTimer++;
                 return;
             }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DAE00
+ * function: WIFIBATTLEMATCH_NET_OnReportResultC
  * address:  0x021DAE00
  * packet:   pkt_021DAE00
  * region:   ov175
@@ -12,11 +12,11 @@
  * symbols:
  *   (none)
  *
- * Competition-server completion callback: records a nonzero result at +0x15c and drops the pending-request count at +0x134 (unlabelled; its address is a code pointer in func_021DA6B8's pool).
+ * Competition-server completion callback: records a nonzero result at +0x15c and drops the pending-request count at +0x134 (unlabelled; its address is a code pointer in WIFIBATTLEMATCH_NET_ScProcess's pool).
  */
 #include "../include/Obj14336.h"
 
-void func_021DAE00(int result, char *obj)
+void WIFIBATTLEMATCH_NET_OnReportResultC(int result, char *obj)
 {
     if (result != 0)
         ((struct Obj14336 *)obj)->f15C = result;

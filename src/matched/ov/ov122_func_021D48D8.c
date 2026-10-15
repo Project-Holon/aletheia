@@ -29,6 +29,7 @@
  *   INTRUDE_COMM_VIEW_CreateActors 0x021D46CC thumb ov122
  *   data_021D5870 0x021D5870 data a2
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
  */
 #include "../include/Obj00073.h"
 #include "../include/Obj13963.h"
@@ -56,7 +57,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(u32);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 extern void INTRUDE_COMM_VIEW_CreateActors(char *);
 void INTRUDE_COMM_VIEW_CreateResources(char *p)
@@ -85,7 +86,7 @@ void INTRUDE_COMM_VIEW_CreateResources(char *p)
     *(int *)&((struct Obj00073 *)p)->f378 = CLACT_RegisterPaletteEx((void *)arc, 3, 1, 0, 0, 10, ((struct Obj00073 *)p)->fC);
     *(int *)&((struct Obj00073 *)p)->f380 = CLACT_RegisterCellAnim((void *)arc, 7, 16, ((struct Obj00073 *)p)->fC);
     ARC_TOOL_DeleteHandle(arc);
-    ((struct Obj00073 *)p)->f5C = func_0201F5DC((void *)5, 11, 0, ((struct Obj00073 *)p)->fC);
+    ((struct Obj00073 *)p)->f5C = BMP_MENUWORK_LoadFrameGfx((void *)5, 11, 0, ((struct Obj00073 *)p)->fC);
     func_02049B40(23, 5, 4, 384, 32, ((struct Obj00073 *)p)->fC);
     INTRUDE_COMM_VIEW_CreateActors(p);
 }

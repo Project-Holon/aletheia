@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02042B24",
+   "name": "BG_SYS_BlitTilesEx",
    "address": "0x02042B24",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02042D2C",
+   "name": "BG_SYS_BlitTileMap",
    "address": "0x02042D2C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02042E34",
+   "name": "BG_SYS_BlitPixelsEx",
    "address": "0x02042E34",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02042ED8",
+   "name": "BG_SYS_BlitTileMapEx",
    "address": "0x02042ED8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02042FB0",
+   "name": "BG_SYS_SetupTileScreen",
    "address": "0x02042FB0",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02042FF8",
+   "name": "BG_SYS_SetupLayer",
    "address": "0x02042FF8",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02043228",
+   "name": "BG_SYS_SetAffineField",
    "address": "0x02043228",
    "kind": "game",
    "region": "arm9",

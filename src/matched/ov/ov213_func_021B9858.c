@@ -1,5 +1,5 @@
 /*
- * function: func_021B9858
+ * function: COMM_BTL_DEMO_MAIN_Step
  * address: 0x021B9858
  * packet: pkt_ov213_021B9858
  * region: ov213
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA38C 0x021BA38C thumb ov213
+ *   COMM_BTL_DEMO_MAIN_InitRows 0x021BA38C thumb ov213
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Context Context;
-extern void func_021BA38C(Context *);
-int func_021B9858(void *unused, Context *p) { func_021BA38C(p); return 1; }
+extern void COMM_BTL_DEMO_MAIN_InitRows(Context *);
+int COMM_BTL_DEMO_MAIN_Step(void *unused, Context *p) { COMM_BTL_DEMO_MAIN_InitRows(p); return 1; }

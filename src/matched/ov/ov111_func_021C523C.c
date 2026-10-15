@@ -1,5 +1,5 @@
 /*
- * function: func_021C523C
+ * function: VIEWER_MAIN_DrawRowBg
  * address:  0x021C523C
  * packet:   pkt_ov111_021C523C
  * region:   ov111
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C59DC  0x021C59DC  thumb  ov111
+ *   VIEWER_MAIN_ClearBgBuf  0x021C59DC  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -24,9 +24,9 @@ typedef struct {
     u8 phase;
 } Work;
 
-extern void func_021C59DC(u32 bg, int mode);
+extern void VIEWER_MAIN_ClearBgBuf(u32 bg, int mode);
 
-void func_021C523C(Work *p, int flag)
+void VIEWER_MAIN_DrawRowBg(Work *p, int flag)
 {
     if (flag) {
         p->phase = 0;
@@ -34,5 +34,5 @@ void func_021C523C(Work *p, int flag)
     } else {
         p->phase = 2;
     }
-    func_021C59DC(7, p->phase);
+    VIEWER_MAIN_ClearBgBuf(7, p->phase);
 }

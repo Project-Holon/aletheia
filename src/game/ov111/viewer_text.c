@@ -1,7 +1,7 @@
 /*
  * file:     viewer_text.c
  * unit:     yes
- * function: func_021C6000, func_021C60A0, func_021C60CC, func_021C61EC, func_021C628C, func_021C631C, func_021C636C, func_021C6380, func_021C63B8, func_021C67E8, func_021C6804, func_021C6874, func_021C68F0, func_021C6954, func_021C69D4, func_021C6A84, func_021C6B5C, func_021C6BD4, func_021C6C38, func_021C6C7C, func_021C6D98, func_021C6D9C, func_021C6E8C, func_021C6F4C, func_021C6FA0, func_021C6FC4, func_021C705C, func_021C7098, func_021C70EC, func_021C7130, func_021C71CC, func_021C7208, func_021C7228, func_021C72C8, func_021C72FC, func_021C74D0, func_021C7504
+ * function: VIEWER_TEXT_Init, VIEWER_TEXT_Exit, VIEWER_TEXT_Draw, VIEWER_TEXT_DrawTable, VIEWER_TEXT_DrawList, VIEWER_TEXT_FlushWindow, VIEWER_TEXT_DrawWindow, VIEWER_TEXT_PrintColorAt, VIEWER_TEXT_DrawRow, VIEWER_TEXT_SetScroll, VIEWER_TEXT_SetScrollParam, VIEWER_TEXT_DrawPage, VIEWER_TEXT_PrintNumber, VIEWER_TEXT_PrintDigits, VIEWER_TEXT_PrintString, VIEWER_TEXT_PrintStringClipped, VIEWER_TEXT_PrintStringPad, VIEWER_TEXT_PrintWrapped, VIEWER_TEXT_Print, VIEWER_TEXT_PrintRow, VIEWER_TEXT_NoOp, VIEWER_TEXT_InitActors, VIEWER_TEXT_CreateActor, VIEWER_TEXT_DeleteActors, VIEWER_TEXT_SetActorAnim, VIEWER_TEXT_Create, VIEWER_TEXT_Main, VIEWER_TEXT_Delete, VIEWER_TEXT_VBlank, VIEWER_TEXT_LoadResources, VIEWER_TEXT_FreeResources, VIEWER_TEXT_InitVram, VIEWER_TEXT_InitBg, VIEWER_TEXT_ExitBg, VIEWER_TEXT_LoadBgResources, VIEWER_TEXT_FreeBgResources, VIEWER_TEXT_InitClact
  * address:  0x021C6000
  * region:   ov111
  * compiler: dsi/1.1p1
@@ -18,7 +18,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BG_SYS_Init  0x02040C14  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
@@ -45,9 +45,9 @@
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   d_021C8768     0x021C8768  data  a2
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_0201F35C  0x0201F35C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_FormatNumber  0x0201F35C  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
  *   func_020490F4  0x020490F4  arm
@@ -81,42 +81,42 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_021C75E4  0x021C75E4  thumb
- *   func_021C76A4  0x021C76A4  thumb
- *   func_021C7744  0x021C7744  thumb
- *   func_021C78C4  0x021C78C4  thumb
- *   func_021C7934  0x021C7934  thumb
- *   func_021C81A4  0x021C81A4  thumb
+ *   VIEWER_ACTOR_CreateObjects  0x021C75E4  thumb
+ *   VIEWER_ACTOR_Init3D  0x021C76A4  thumb
+ *   VIEWER_ACTOR_CreateModel  0x021C7744  thumb
+ *   VIEWER_ACTOR_InitBgWindow  0x021C78C4  thumb
+ *   VIEWER_ACTOR_CreateFont  0x021C7934  thumb
+ *   VIEWER_ACTOR_SetSelection  0x021C81A4  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_021C79A0  0x021C79A0  thumb
- *   func_021C7830  0x021C7830  thumb
- *   func_021C7970  0x021C7970  thumb
+ *   VIEWER_ACTOR_DispatchState  0x021C79A0  thumb
+ *   VIEWER_ACTOR_DrawModel  0x021C7830  thumb
+ *   VIEWER_ACTOR_PrintQueMain  0x021C7970  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
- *   func_021C795C  0x021C795C  thumb
- *   func_021C78F8  0x021C78F8  thumb
- *   func_021C7808  0x021C7808  thumb
- *   func_021C7730  0x021C7730  thumb
- *   func_021C7658  0x021C7658  thumb
- *   func_021C81C0  0x021C81C0  thumb
+ *   VIEWER_ACTOR_DeleteFont  0x021C795C  thumb
+ *   VIEWER_ACTOR_DeleteBgWindow  0x021C78F8  thumb
+ *   VIEWER_ACTOR_DeleteModel  0x021C7808  thumb
+ *   VIEWER_ACTOR_Exit3D  0x021C7730  thumb
+ *   VIEWER_ACTOR_DeleteObjects  0x021C7658  thumb
+ *   VIEWER_ACTOR_SetRtcDate  0x021C81C0  thumb
  *   func_020315D4  0x020315D4  arm
  *   func_0203084C  0x0203084C  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_02040618  0x02040618  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Create  0x0201EC74  thumb
  *   func_020056A0  0x020056A0  thumb
- *   func_021C80B4  0x021C80B4  thumb
- *   func_021C8208  0x021C8208  thumb
+ *   VIEWER_ACTOR_SetPageCount  0x021C80B4  thumb
+ *   VIEWER_ACTOR_GetRtcDate  0x021C8208  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   func_02030EAC  0x02030EAC  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021C88FC  0x021C88FC  data
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
@@ -134,10 +134,10 @@
  *   func_020498F4  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0201F57C  0x0201F57C  thumb
- *   func_0201F554  0x0201F554  thumb
+ *   BMP_MENUWORK_LoadPltt  0x0201F57C  thumb
+ *   BMP_MENUWORK_LoadChar  0x0201F554  thumb
  *   func_02049F78  0x02049F78  arm
  *   func_020307B0  0x020307B0  arm
  */
@@ -1010,7 +1010,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02041B6C(u32 bit);
 extern u32 PRINTSYS_QUE_Create(void *p);
@@ -1034,9 +1034,9 @@ extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern u32 CURSOR_MOVE_GetTableKind(u32 x);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_0201F35C(void *ctx, int n, u32 kind, u32 mode, u32 flag);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_FormatNumber(void *ctx, int n, u32 kind, u32 mode, u32 flag);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -1068,41 +1068,41 @@ extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MIi_CpuClearFast(int v, void *p, int size);
-extern void func_021C75E4(Work_021C6FC4 *p);
-extern void func_021C76A4(Work_021C6FC4 *p);
-extern void func_021C7744(Work_021C6FC4 *p);
-extern void func_021C78C4(Work_021C6FC4 *p);
-extern void func_021C7934(Work_021C6FC4 *p);
-extern void func_021C81A4(Work_021C6FC4 *p, u16 v);
+extern void VIEWER_ACTOR_CreateObjects(Work_021C6FC4 *p);
+extern void VIEWER_ACTOR_Init3D(Work_021C6FC4 *p);
+extern void VIEWER_ACTOR_CreateModel(Work_021C6FC4 *p);
+extern void VIEWER_ACTOR_InitBgWindow(Work_021C6FC4 *p);
+extern void VIEWER_ACTOR_CreateFont(Work_021C6FC4 *p);
+extern void VIEWER_ACTOR_SetSelection(Work_021C6FC4 *p, u16 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern int func_021C79A0(Work_021C705C *p);
-extern void func_021C7830(Work_021C705C *p);
-extern void func_021C7970(Work_021C705C *p);
+extern int VIEWER_ACTOR_DispatchState(Work_021C705C *p);
+extern void VIEWER_ACTOR_DrawModel(Work_021C705C *p);
+extern void VIEWER_ACTOR_PrintQueMain(Work_021C705C *p);
 extern void CLACT_DrawSystem(void);
-extern void func_021C795C(Work_021C7098 *p);
-extern void func_021C78F8(Work_021C7098 *p);
-extern void func_021C7808(Work_021C7098 *p);
-extern void func_021C7730(Work_021C7098 *p);
-extern void func_021C7658(Work_021C7098 *p);
-extern void func_021C81C0(Work_021C7098 *p);
+extern void VIEWER_ACTOR_DeleteFont(Work_021C7098 *p);
+extern void VIEWER_ACTOR_DeleteBgWindow(Work_021C7098 *p);
+extern void VIEWER_ACTOR_DeleteModel(Work_021C7098 *p);
+extern void VIEWER_ACTOR_Exit3D(Work_021C7098 *p);
+extern void VIEWER_ACTOR_DeleteObjects(Work_021C7098 *p);
+extern void VIEWER_ACTOR_SetRtcDate(Work_021C7098 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void *func_0203084C(u32 heapId);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work_021C70EC *), Work_021C70EC *p, int pri);
-extern void func_021C80B4(Work *p);
-extern void func_021C8208(Work *p);
+extern void VIEWER_ACTOR_SetPageCount(Work *p);
+extern void VIEWER_ACTOR_GetRtcDate(Work *p);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void func_02030EAC(struct Node *n);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u8 frame, const BgTemplate *t, int mode);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -1117,49 +1117,49 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
 extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
-extern void func_0201F57C(u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
+extern void BMP_MENUWORK_LoadPltt(u32 a, u32 b, u32 c, u32 d);
+extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 func_020307B0(void *p);
-void func_021C6000(Work_021C6000 *p);
-void func_021C60A0(Work_021C60A0 *p);
-void func_021C60CC(Work_021C60CC *p, void **bg, const Info_021C6000 *info);
-void func_021C61EC(Work_021C61EC *p, int k, int flush);
-void func_021C628C(Work_021C628C *p, int k, int flush);
-void func_021C631C(Work_021C631C *p, void **bg);
-void func_021C636C(Work_021C636C *p, void *bg, void *info);
-void func_021C6380(void *a, Work_021C61EC *p, int x, int y, void *s, int idx);
-void func_021C63B8(Work_021C63B8 *p, void *a, u32 sel, int y, int idx);
-void func_021C67E8(Work_021C67E8 *p, int v);
-void func_021C6804(void *p, Info_021C67E8 *info);
-void func_021C6874(Work_021C6874 *p, int scroll, int flush, int idx);
-void func_021C68F0(Work_021C68F0 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx);
-void func_021C6954(Work_021C6954 *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx);
-void func_021C69D4(Work_021C69D4 *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx);
-void func_021C6A84(Work_021C6A84 *p, void *win, int x, int ofs, int y, void *str, u32 mode, int col);
-void func_021C6B5C(Work_021C6B5C *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx);
-void func_021C6BD4(Work_021C6BD4 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx);
-void func_021C6C38(Work_021C6C38 *p, void *a, int x, int dx, int y, void *s);
-void func_021C6C7C(Work_021C6C7C *p, void *a, int y, const Info_021C6C38 *info, void *s, int idx);
-void func_021C6D98(void);
-void func_021C6D9C(Anim_021C6D9C *a, u32 x);
-void func_021C6E8C(Anim_021C6E8C *a);
-void func_021C6F4C(Anim_021C6F4C *a);
-void func_021C6FA0(Work_021C6FA0 *p, int idx, u8 a, u8 b);
-int func_021C6FC4(void *proc, int *seq, void *parent);
-int func_021C705C(void *a, void *b, int c, Work_021C705C *p);
-int func_021C7098(void *proc, void *seq, int c, Work_021C7098 *p);
-void func_021C70EC(void *unused, Work_021C70EC *p);
-void func_021C7130(Work *p, Parent_021C7130 *parent);
-void func_021C71CC(Work *p);
-void func_021C7208(void);
-void func_021C7228(Work_021C7228 *p);
-void func_021C72C8(Work_021C72C8 *p);
-void func_021C72FC(Work_021C72FC *p);
-void func_021C74D0(Work_021C74D0 *p);
-void func_021C7504(Work_021C7504 *p);
+void VIEWER_TEXT_Init(Work_021C6000 *p);
+void VIEWER_TEXT_Exit(Work_021C60A0 *p);
+void VIEWER_TEXT_Draw(Work_021C60CC *p, void **bg, const Info_021C6000 *info);
+void VIEWER_TEXT_DrawTable(Work_021C61EC *p, int k, int flush);
+void VIEWER_TEXT_DrawList(Work_021C628C *p, int k, int flush);
+void VIEWER_TEXT_FlushWindow(Work_021C631C *p, void **bg);
+void VIEWER_TEXT_DrawWindow(Work_021C636C *p, void *bg, void *info);
+void VIEWER_TEXT_PrintColorAt(void *a, Work_021C61EC *p, int x, int y, void *s, int idx);
+void VIEWER_TEXT_DrawRow(Work_021C63B8 *p, void *a, u32 sel, int y, int idx);
+void VIEWER_TEXT_SetScroll(Work_021C67E8 *p, int v);
+void VIEWER_TEXT_SetScrollParam(void *p, Info_021C67E8 *info);
+void VIEWER_TEXT_DrawPage(Work_021C6874 *p, int scroll, int flush, int idx);
+void VIEWER_TEXT_PrintNumber(Work_021C68F0 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx);
+void VIEWER_TEXT_PrintDigits(Work_021C6954 *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx);
+void VIEWER_TEXT_PrintString(Work_021C69D4 *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx);
+void VIEWER_TEXT_PrintStringClipped(Work_021C6A84 *p, void *win, int x, int ofs, int y, void *str, u32 mode, int col);
+void VIEWER_TEXT_PrintStringPad(Work_021C6B5C *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx);
+void VIEWER_TEXT_PrintWrapped(Work_021C6BD4 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx);
+void VIEWER_TEXT_Print(Work_021C6C38 *p, void *a, int x, int dx, int y, void *s);
+void VIEWER_TEXT_PrintRow(Work_021C6C7C *p, void *a, int y, const Info_021C6C38 *info, void *s, int idx);
+void VIEWER_TEXT_NoOp(void);
+void VIEWER_TEXT_InitActors(Anim_021C6D9C *a, u32 x);
+void VIEWER_TEXT_CreateActor(Anim_021C6E8C *a);
+void VIEWER_TEXT_DeleteActors(Anim_021C6F4C *a);
+void VIEWER_TEXT_SetActorAnim(Work_021C6FA0 *p, int idx, u8 a, u8 b);
+int VIEWER_TEXT_Create(void *proc, int *seq, void *parent);
+int VIEWER_TEXT_Main(void *a, void *b, int c, Work_021C705C *p);
+int VIEWER_TEXT_Delete(void *proc, void *seq, int c, Work_021C7098 *p);
+void VIEWER_TEXT_VBlank(void *unused, Work_021C70EC *p);
+void VIEWER_TEXT_LoadResources(Work *p, Parent_021C7130 *parent);
+void VIEWER_TEXT_FreeResources(Work *p);
+void VIEWER_TEXT_InitVram(void);
+void VIEWER_TEXT_InitBg(Work_021C7228 *p);
+void VIEWER_TEXT_ExitBg(Work_021C72C8 *p);
+void VIEWER_TEXT_LoadBgResources(Work_021C72FC *p);
+void VIEWER_TEXT_FreeBgResources(Work_021C74D0 *p);
+void VIEWER_TEXT_InitClact(Work_021C7504 *p);
 extern const u8 d_021C8773[8][6];
 extern const u8 d_021C876C[];
 extern const u16 d_021C8768[];
@@ -1177,7 +1177,7 @@ extern const u32 d_021C885C[];
 /*
  * Addresses are Black-image addresses.
  */
-void func_021C6000(Work_021C6000 *p)
+void VIEWER_TEXT_Init(Work_021C6000 *p)
 {
     const u8 (*tbl)[6] = d_021C8773;
     u8 i;
@@ -1188,7 +1188,7 @@ void func_021C6000(Work_021C6000 *p)
         BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 0);
     }
     BG_SYS_Init(7, 0, 1, 0);
-    func_0201F5BC(4, 0x31, 0xD, p->f32D4, p->heap);
+    BMP_MENUWORK_LoadCharAndPltt(4, 0x31, 0xD, p->f32D4, p->heap);
     func_02049B40(0x17, 5, 4, 0x1C0, 0x20, p->heap);
     func_02041B6C(7);
     func_02041B6C(4);
@@ -1199,7 +1199,7 @@ void func_021C6000(Work_021C6000 *p)
 
 
 
-void func_021C60A0(Work_021C60A0 *p)
+void VIEWER_TEXT_Exit(Work_021C60A0 *p)
 {
     u16 i;
 
@@ -1218,7 +1218,7 @@ void func_021C60A0(Work_021C60A0 *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C60CC(Work_021C60CC *p, void **bg, const Info_021C6000 *info)
+void VIEWER_TEXT_Draw(Work_021C60CC *p, void **bg, const Info_021C6000 *info)
 {
     u8 i;
     void *s;
@@ -1231,13 +1231,13 @@ void func_021C60CC(Work_021C60CC *p, void **bg, const Info_021C6000 *info)
     }
     s = p->f3214;
     STRBUF_SetString(p->f3210, info->name);
-    func_021C6C38((Work_021C6C38 *)p, bg[0], 0x88, 8, 0, p->f3210);
+    VIEWER_TEXT_Print((Work_021C6C38 *)p, bg[0], 0x88, 8, 0, p->f3210);
     if (info->f4_2) {
-        func_021C6B5C((Work_021C6B5C *)p, bg[3], 0x88, 8, 0, s, info->f24, 1, 0);
+        VIEWER_TEXT_PrintStringPad((Work_021C6B5C *)p, bg[3], 0x88, 8, 0, s, info->f24, 1, 0);
     }
-    func_021C61EC((Work_021C61EC *)p, info->b6, 0);
-    func_021C628C((Work_021C628C *)p, info->f48, 0);
-    func_021C6954((Work_021C6954 *)p, bg[4], 0xD8, 8, 0, s, info->f20, 7, 1, 1, 0);
+    VIEWER_TEXT_DrawTable((Work_021C61EC *)p, info->b6, 0);
+    VIEWER_TEXT_DrawList((Work_021C628C *)p, info->f48, 0);
+    VIEWER_TEXT_PrintDigits((Work_021C6954 *)p, bg[4], 0xD8, 8, 0, s, info->f20, 7, 1, 1, 0);
     PMS_DRAW_SetNullColorPalette(p->f32B0, 0);
     PMS_DRAW_Print((u32)p->f32B0, (u32)bg[5], (u32)p->info->f6C, 0);
     if (p->f3034 != 0) {
@@ -1253,7 +1253,7 @@ void func_021C60CC(Work_021C60CC *p, void **bg, const Info_021C6000 *info)
 
 
 
-void func_021C61EC(Work_021C61EC *p, int k, int flush)
+void VIEWER_TEXT_DrawTable(Work_021C61EC *p, int k, int flush)
 {
     void *bank;
     void *str;
@@ -1286,7 +1286,7 @@ void func_021C61EC(Work_021C61EC *p, int k, int flush)
 
 
 
-void func_021C628C(Work_021C628C *p, int k, int flush)
+void VIEWER_TEXT_DrawList(Work_021C628C *p, int k, int flush)
 {
     void *str;
     u32 w;
@@ -1313,7 +1313,7 @@ void func_021C628C(Work_021C628C *p, int k, int flush)
 
 
 
-void func_021C631C(Work_021C631C *p, void **bg)
+void VIEWER_TEXT_FlushWindow(Work_021C631C *p, void **bg)
 {
     int i;
 
@@ -1339,9 +1339,9 @@ void func_021C631C(Work_021C631C *p, void **bg)
 
 
 
-void func_021C636C(Work_021C636C *p, void *bg, void *info)
+void VIEWER_TEXT_DrawWindow(Work_021C636C *p, void *bg, void *info)
 {
-    func_021C6874((Work_021C6874 *)p, p->scroll, 0, 0);
+    VIEWER_TEXT_DrawPage((Work_021C6874 *)p, p->scroll, 0, 0);
 }
 
 
@@ -1350,7 +1350,7 @@ void func_021C636C(Work_021C636C *p, void *bg, void *info)
 
 
 
-void func_021C6380(void *a, Work_021C61EC *p, int x, int y, void *s, int idx)
+void VIEWER_TEXT_PrintColorAt(void *a, Work_021C61EC *p, int x, int y, void *s, int idx)
 {
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x, y, s, p->f31FC, d_021C8768[idx]);
 }
@@ -1360,7 +1360,7 @@ void func_021C6380(void *a, Work_021C61EC *p, int x, int y, void *s, int idx)
 
 
 
-void func_021C63B8(Work_021C63B8 *p, void *a, u32 sel, int y, int idx)
+void VIEWER_TEXT_DrawRow(Work_021C63B8 *p, void *a, u32 sel, int y, int idx)
 {
     void *s = p->f3214;
     Info_021C61EC *info = p->info;
@@ -1368,81 +1368,81 @@ void func_021C63B8(Work_021C63B8 *p, void *a, u32 sel, int y, int idx)
 
     switch (sel) {
     case 0:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[0], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0x60, 0, y, s, info->h28, 5, 2, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[0], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0x60, 0, y, s, info->h28, 5, 2, idx);
         break;
     case 1:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[1], idx);
-        func_021C6C7C((Work_021C6C7C *)p, a, y, (Info_021C6C38 *)((const Info_021C61EC *)p->info), p->f3208, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[1], idx);
+        VIEWER_TEXT_PrintRow((Work_021C6C7C *)p, a, y, (Info_021C6C38 *)((const Info_021C61EC *)p->info), p->f3208, idx);
         break;
     case 2:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[2], idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[2], idx);
         break;
     case 3:
-        func_021C69D4((Work_021C69D4 *)p, a, 0xD8, 0, y, s, 0, idx);
+        VIEWER_TEXT_PrintString((Work_021C69D4 *)p, a, 0xD8, 0, y, s, 0, idx);
         break;
     case 4:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[3], idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[3], idx);
         break;
     case 5:
         if (info->b33 != 0) {
-            func_021C6A84((Work_021C6A84 *)p, a, 0xD8, 0, y, s, 0, idx);
+            VIEWER_TEXT_PrintStringClipped((Work_021C6A84 *)p, a, 0xD8, 0, y, s, 0, idx);
         } else {
             w = func_0201D304(p->f328C, (u32)p->f31FC, 0);
-            func_021C6380(a, (Work_021C61EC *)p, 0xD8 - w, y, p->f328C, idx);
+            VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0xD8 - w, y, p->f328C, idx);
         }
         break;
     case 6:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[4], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f38, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[4], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f38, 9, 1, idx);
         break;
     case 7:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[5], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f3C, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[5], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f3C, 9, 1, idx);
         break;
     case 8:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[6], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f40, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[6], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f40, 9, 1, idx);
         break;
     case 9:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[7], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f44, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[7], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f44, 9, 1, idx);
         break;
     case 10:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[8], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f4C, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[8], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f4C, 9, 1, idx);
         break;
     case 11:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[9], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f50, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[9], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f50, 9, 1, idx);
         break;
     case 12:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[10], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f54, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[10], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f54, 9, 1, idx);
         break;
     case 13:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[11], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f58, 5, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[11], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->f58, 5, 1, idx);
         break;
     case 14:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[12], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h5C, 4, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[12], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h5C, 4, 1, idx);
         break;
     case 15:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[13], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h5E, 2, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[13], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h5E, 2, 1, idx);
         break;
     case 16:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[14], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h60, 4, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[14], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h60, 4, 1, idx);
         break;
     case 17:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[15], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h62, 3, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[15], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h62, 3, 1, idx);
         break;
     case 18:
-        func_021C6380(a, (Work_021C61EC *)p, 0, y, p->win[16], idx);
-        func_021C68F0((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h64, 4, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, (Work_021C61EC *)p, 0, y, p->win[16], idx);
+        VIEWER_TEXT_PrintNumber((Work_021C68F0 *)p, a, 0xD8, 8, y, s, info->h64, 4, 1, idx);
         break;
     }
 }
@@ -1452,7 +1452,7 @@ void func_021C63B8(Work_021C63B8 *p, void *a, u32 sel, int y, int idx)
 
 
 
-void func_021C67E8(Work_021C67E8 *p, int v)
+void VIEWER_TEXT_SetScroll(Work_021C67E8 *p, int v)
 {
     p->list[p->count] = v;
     p->count++;
@@ -1463,28 +1463,28 @@ void func_021C67E8(Work_021C67E8 *p, int v)
 
 
 
-void func_021C6804(void *p, Info_021C67E8 *info)
+void VIEWER_TEXT_SetScrollParam(void *p, Info_021C67E8 *info)
 {
     int i;
 
     for (i = 0; i < 13; i++) {
-        func_021C67E8(p, i);
+        VIEWER_TEXT_SetScroll(p, i);
     }
     if (info->b0) {
-        func_021C67E8(p, 14);
-        func_021C67E8(p, 13);
+        VIEWER_TEXT_SetScroll(p, 14);
+        VIEWER_TEXT_SetScroll(p, 13);
     }
     if (info->b1) {
-        func_021C67E8(p, 15);
+        VIEWER_TEXT_SetScroll(p, 15);
     }
     if (info->b2) {
-        func_021C67E8(p, 16);
+        VIEWER_TEXT_SetScroll(p, 16);
     }
     if (info->b3) {
-        func_021C67E8(p, 17);
+        VIEWER_TEXT_SetScroll(p, 17);
     }
     if (info->b4) {
-        func_021C67E8(p, 18);
+        VIEWER_TEXT_SetScroll(p, 18);
     }
 }
 
@@ -1493,7 +1493,7 @@ void func_021C6804(void *p, Info_021C67E8 *info)
 
 
 
-void func_021C6874(Work_021C6874 *p, int scroll, int flush, int idx)
+void VIEWER_TEXT_DrawPage(Work_021C6874 *p, int scroll, int flush, int idx)
 {
     void *bg = p->bg;
     int i;
@@ -1501,7 +1501,7 @@ void func_021C6874(Work_021C6874 *p, int scroll, int flush, int idx)
 
     BMP_Clear(BMP_WIN_GetBmp(bg), 0);
     for (i = 0; i < 5; i++) {
-        func_021C63B8((Work_021C63B8 *)p, bg, p->list[i + top], scroll % 16 + i * 16, idx);
+        VIEWER_TEXT_DrawRow((Work_021C63B8 *)p, bg, p->list[i + top], scroll % 16 + i * 16, idx);
     }
     if (flush) {
         BMP_WIN_TransferChars(bg);
@@ -1515,11 +1515,11 @@ void func_021C6874(Work_021C6874 *p, int scroll, int flush, int idx)
 
 
 
-void func_021C68F0(Work_021C68F0 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx)
+void VIEWER_TEXT_PrintNumber(Work_021C68F0 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx)
 {
     u32 w;
 
-    func_0201F35C(s, n, kind, mode, 1);
+    WORDSET_FormatNumber(s, n, kind, mode, 1);
     w = func_0201D304(s, (u32)p->f31FC, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }
@@ -1528,12 +1528,12 @@ void func_021C68F0(Work_021C68F0 *p, void *a, int x, int dx, int y, void *s, int
 
 
 
-void func_021C6954(Work_021C6954 *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx)
+void VIEWER_TEXT_PrintDigits(Work_021C6954 *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx)
 {
     u32 w;
 
-    func_0201EFA4(p->f3204, 0, n, digits, mode, 1);
-    func_0201F250(p->f3204, (void *)((u32)s), p->f3294[k]);
+    WORDSET_SetSlotNumber(p->f3204, 0, n, digits, mode, 1);
+    WORDSET_CopyTaggedText(p->f3204, (void *)((u32)s), p->f3294[k]);
     w = func_0201D304(s, (u32)p->f31FC, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }
@@ -1542,14 +1542,14 @@ void func_021C6954(Work_021C6954 *p, void *a, int x, int dx, int y, void *s, u32
 
 
 
-void func_021C69D4(Work_021C69D4 *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx)
+void VIEWER_TEXT_PrintString(Work_021C69D4 *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx)
 {
     u32 w;
 
-    func_0201EFA4(p->f3204, 0, p->info->b2F + 2000, 4, mode, 1);
-    func_0201EFA4(p->f3204, 1, p->info->b30, 2, mode, 1);
-    func_0201EFA4(p->f3204, 2, p->info->b31, 2, mode, 1);
-    func_0201F250(p->f3204, (void *)((u32)s), p->f329C);
+    WORDSET_SetSlotNumber(p->f3204, 0, p->info->b2F + 2000, 4, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 1, p->info->b30, 2, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 2, p->info->b31, 2, mode, 1);
+    WORDSET_CopyTaggedText(p->f3204, (void *)((u32)s), p->f329C);
     w = func_0201D304(s, (u32)p->f31FC, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }
@@ -1559,16 +1559,16 @@ void func_021C69D4(Work_021C69D4 *p, void *a, int x, int dx, int y, void *s, u32
 
 
 
-void func_021C6A84(Work_021C6A84 *p, void *win, int x, int ofs, int y, void *str, u32 mode, int col)
+void VIEWER_TEXT_PrintStringClipped(Work_021C6A84 *p, void *win, int x, int ofs, int y, void *str, u32 mode, int col)
 {
     int w;
 
-    func_0201EFA4(p->f3204, 0, p->info->b32 + 2000, 4, mode, 1);
-    func_0201EFA4(p->f3204, 1, p->info->b33, 2, mode, 1);
-    func_0201EFA4(p->f3204, 2, p->info->b34, 2, mode, 1);
-    func_0201EFA4(p->f3204, 3, p->info->h2C, 2, 2, 1);
-    func_0201EFA4(p->f3204, 4, p->info->b35, 2, 2, 1);
-    func_0201F250(p->f3204, str, p->f32A0);
+    WORDSET_SetSlotNumber(p->f3204, 0, p->info->b32 + 2000, 4, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 1, p->info->b33, 2, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 2, p->info->b34, 2, mode, 1);
+    WORDSET_SetSlotNumber(p->f3204, 3, p->info->h2C, 2, 2, 1);
+    WORDSET_SetSlotNumber(p->f3204, 4, p->info->b35, 2, 2, 1);
+    WORDSET_CopyTaggedText(p->f3204, str, p->f32A0);
     w = func_0201D304(str, (u32)p->f31FC, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(win), x - (w + ofs), y, str, p->f31FC, d_021C8768[col]);
 }
@@ -1578,12 +1578,12 @@ void func_021C6A84(Work_021C6A84 *p, void *win, int x, int ofs, int y, void *str
 
 
 
-void func_021C6B5C(Work_021C6B5C *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx)
+void VIEWER_TEXT_PrintStringPad(Work_021C6B5C *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx)
 {
     u32 w;
 
-    func_0201EFA4(p->f3204, 0, n, 3, mode, 1);
-    func_0201F250(p->f3204, (void *)((u32)s), p->f32A4);
+    WORDSET_SetSlotNumber(p->f3204, 0, n, 3, mode, 1);
+    WORDSET_CopyTaggedText(p->f3204, (void *)((u32)s), p->f32A4);
     w = func_0201D304(s, (u32)p->f31FC, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }
@@ -1593,11 +1593,11 @@ void func_021C6B5C(Work_021C6B5C *p, void *a, int x, int dx, int y, void *s, u32
 
 
 
-void func_021C6BD4(Work_021C6BD4 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx)
+void VIEWER_TEXT_PrintWrapped(Work_021C6BD4 *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx)
 {
     u32 w;
 
-    func_0201F35C(s, n, kind, mode, 1);
+    WORDSET_FormatNumber(s, n, kind, mode, 1);
     w = func_0201D304(s, (u32)p->f31FC, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }
@@ -1607,7 +1607,7 @@ void func_021C6BD4(Work_021C6BD4 *p, void *a, int x, int dx, int y, void *s, int
 
 
 
-void func_021C6C38(Work_021C6C38 *p, void *a, int x, int dx, int y, void *s)
+void VIEWER_TEXT_Print(Work_021C6C38 *p, void *a, int x, int dx, int y, void *s)
 {
     u32 w;
 
@@ -1620,21 +1620,21 @@ void func_021C6C38(Work_021C6C38 *p, void *a, int x, int dx, int y, void *s)
 
 
 
-void func_021C6C7C(Work_021C6C7C *p, void *a, int y, const Info_021C6C38 *info, void *s, int idx)
+void VIEWER_TEXT_PrintRow(Work_021C6C7C *p, void *a, int y, const Info_021C6C38 *info, void *s, int idx)
 {
     int v;
 
     if (info->f1C == 0) {
-        func_021C6BD4((Work_021C6BD4 *)p, a, 0xD8, 0, y, s, info->b2E, 2, 2, 0xD0, 0x10, idx);
-        func_021C6BD4((Work_021C6BD4 *)p, a, 0xD8, 0x13, y, s, info->h2A, 3, 1, 0xAD, 0x1B, idx);
+        VIEWER_TEXT_PrintWrapped((Work_021C6BD4 *)p, a, 0xD8, 0, y, s, info->b2E, 2, 2, 0xD0, 0x10, idx);
+        VIEWER_TEXT_PrintWrapped((Work_021C6BD4 *)p, a, 0xD8, 0x13, y, s, info->h2A, 3, 1, 0xAD, 0x1B, idx);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
     } else {
         v = func_0200864C(info->f1C);
         if (v > 999) {
             v = 999;
         }
-        func_021C6BD4((Work_021C6BD4 *)p, a, 0xD8, 0, y, s, func_02008650(info->f1C), 2, 2, 0xD0, 0x10, idx);
-        func_021C6BD4((Work_021C6BD4 *)p, a, 0xD8, 0x13, y, s, v, 3, 1, 0xAD, 0x1B, idx);
+        VIEWER_TEXT_PrintWrapped((Work_021C6BD4 *)p, a, 0xD8, 0, y, s, func_02008650(info->f1C), 2, 2, 0xD0, 0x10, idx);
+        VIEWER_TEXT_PrintWrapped((Work_021C6BD4 *)p, a, 0xD8, 0x13, y, s, v, 3, 1, 0xAD, 0x1B, idx);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
     }
 }
@@ -1644,14 +1644,14 @@ void func_021C6C7C(Work_021C6C7C *p, void *a, int y, const Info_021C6C38 *info, 
 
 
 
-void func_021C6D98(void) { }
+void VIEWER_TEXT_NoOp(void) { }
 
 
 
 
 
 
-void func_021C6D9C(Anim_021C6D9C *a, u32 x)
+void VIEWER_TEXT_InitActors(Anim_021C6D9C *a, u32 x)
 {
     void *h;
 
@@ -1676,7 +1676,7 @@ void func_021C6D9C(Anim_021C6D9C *a, u32 x)
 
 
 
-void func_021C6E8C(Anim_021C6E8C *a)
+void VIEWER_TEXT_CreateActor(Anim_021C6E8C *a)
 {
     ObjTemplateTable tbl = d_021C87A4;
     ObjPos pos;
@@ -1703,7 +1703,7 @@ void func_021C6E8C(Anim_021C6E8C *a)
 
 
 
-void func_021C6F4C(Anim_021C6F4C *a)
+void VIEWER_TEXT_DeleteActors(Anim_021C6F4C *a)
 {
     u8 i;
 
@@ -1722,7 +1722,7 @@ void func_021C6F4C(Anim_021C6F4C *a)
 
 
 
-void func_021C6FA0(Work_021C6FA0 *p, int idx, u8 a, u8 b)
+void VIEWER_TEXT_SetActorAnim(Work_021C6FA0 *p, int idx, u8 a, u8 b)
 {
     CLACT_SetActorAnimSeq(p->anim[idx], a);
     CLACT_RestartActorAnim(p->anim[idx]);
@@ -1734,24 +1734,24 @@ void func_021C6FA0(Work_021C6FA0 *p, int idx, u8 a, u8 b)
 
 
 
-int func_021C6FC4(void *proc, int *seq, void *parent)
+int VIEWER_TEXT_Create(void *proc, int *seq, void *parent)
 {
     Work_021C6FC4 *p;
 
     GFL_HEAP_CreateChildHeap(1, 0x27, 0x20000);
     p = PROCSYS_AllocProcWork(proc, 0x1C8, 0x27);
     MIi_CpuClearFast(0, p, 0x1C8);
-    func_021C7130((Work *)p, (Parent_021C7130 *)parent);
-    func_021C7208();
-    func_021C7228((Work_021C7228 *)p);
-    func_021C72FC((Work_021C72FC *)p);
-    func_021C7504((Work_021C7504 *)p);
-    func_021C75E4(p);
-    func_021C76A4(p);
-    func_021C7744(p);
-    func_021C78C4(p);
-    func_021C7934(p);
-    func_021C81A4(p, p->f114);
+    VIEWER_TEXT_LoadResources((Work *)p, (Parent_021C7130 *)parent);
+    VIEWER_TEXT_InitVram();
+    VIEWER_TEXT_InitBg((Work_021C7228 *)p);
+    VIEWER_TEXT_LoadBgResources((Work_021C72FC *)p);
+    VIEWER_TEXT_InitClact((Work_021C7504 *)p);
+    VIEWER_ACTOR_CreateObjects(p);
+    VIEWER_ACTOR_Init3D(p);
+    VIEWER_ACTOR_CreateModel(p);
+    VIEWER_ACTOR_InitBgWindow(p);
+    VIEWER_ACTOR_CreateFont(p);
+    VIEWER_ACTOR_SetSelection(p, p->f114);
     GFL_NET_RestartWithDefaultTimeout(1, 0x27);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x27);
     return 1;
@@ -1762,13 +1762,13 @@ int func_021C6FC4(void *proc, int *seq, void *parent)
 
 
 
-int func_021C705C(void *a, void *b, int c, Work_021C705C *p)
+int VIEWER_TEXT_Main(void *a, void *b, int c, Work_021C705C *p)
 {
-    if (func_021C79A0(p) == 0) {
+    if (VIEWER_ACTOR_DispatchState(p) == 0) {
         return 1;
     }
-    func_021C7830(p);
-    func_021C7970(p);
+    VIEWER_ACTOR_DrawModel(p);
+    VIEWER_ACTOR_PrintQueMain(p);
     CLACT_DrawSystem();
     if (++p->f11C >= 0x100) {
         p->f11C = 0;
@@ -1780,20 +1780,20 @@ int func_021C705C(void *a, void *b, int c, Work_021C705C *p)
 
 
 
-int func_021C7098(void *proc, void *seq, int c, Work_021C7098 *p)
+int VIEWER_TEXT_Delete(void *proc, void *seq, int c, Work_021C7098 *p)
 {
-    func_021C795C(p);
-    func_021C78F8(p);
-    func_021C7808(p);
-    func_021C7730(p);
-    func_021C7658(p);
-    func_021C74D0((Work_021C74D0 *)p);
-    func_021C72C8((Work_021C72C8 *)p);
-    func_021C71CC((Work *)p);
-    func_021C81C0(p);
+    VIEWER_ACTOR_DeleteFont(p);
+    VIEWER_ACTOR_DeleteBgWindow(p);
+    VIEWER_ACTOR_DeleteModel(p);
+    VIEWER_ACTOR_Exit3D(p);
+    VIEWER_ACTOR_DeleteObjects(p);
+    VIEWER_TEXT_FreeBgResources((Work_021C74D0 *)p);
+    VIEWER_TEXT_ExitBg((Work_021C72C8 *)p);
+    VIEWER_TEXT_FreeResources((Work *)p);
+    VIEWER_ACTOR_SetRtcDate(p);
     func_020315D4(proc);
     func_0203084C(0x27);
-    func_020306F0(0x27);
+    GFL_HEAP_DeleteChecked(0x27);
     return 1;
 }
 
@@ -1801,7 +1801,7 @@ int func_021C7098(void *proc, void *seq, int c, Work_021C7098 *p)
 
 
 
-void func_021C70EC(void *unused, Work_021C70EC *p)
+void VIEWER_TEXT_VBlank(void *unused, Work_021C70EC *p)
 {
     int v = -(p->f11C / 2);
 
@@ -1810,14 +1810,14 @@ void func_021C70EC(void *unused, Work_021C70EC *p)
     func_02040618(3, 0, v);
     func_02040618(3, 3, v);
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
 }
 
 
 
 
 
-void func_021C7130(Work *p, Parent_021C7130 *parent)
+void VIEWER_TEXT_LoadResources(Work *p, Parent_021C7130 *parent)
 {
     int i;
 
@@ -1831,19 +1831,19 @@ void func_021C7130(Work *p, Parent_021C7130 *parent)
     }
     p->f28 = STRBUF_Create(0x68, 0x27);
     p->f24 = WORDSET_Create(8, 0x40, 0x27);
-    p->fF4 = func_020056A0(func_021C70EC, (Work_021C70EC *)p, 0);
+    p->fF4 = func_020056A0(VIEWER_TEXT_VBlank, (Work_021C70EC *)p, 0);
     p->f118 = 8;
     p->f144 = -1;
-    func_021C80B4(p);
+    VIEWER_ACTOR_SetPageCount(p);
     p->f184 = GAME_DATA_GetSaveBlock21(p->f108->f4);
-    func_021C8208(p);
+    VIEWER_ACTOR_GetRtcDate(p);
 }
 
 
 
 
 
-void func_021C71CC(Work *p)
+void VIEWER_TEXT_FreeResources(Work *p)
 {
     int i;
 
@@ -1870,7 +1870,7 @@ static inline void GX_SetDispSelect(GXDispSelect sel)
 
 
 
-void func_021C7208(void)
+void VIEWER_TEXT_InitVram(void)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C88FC);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
@@ -1880,7 +1880,7 @@ void func_021C7208(void)
 
 
 
-void func_021C7228(Work_021C7228 *p)
+void VIEWER_TEXT_InitBg(Work_021C7228 *p)
 {
     BankCfg bank;
     BgTemplates tmpl;
@@ -1888,7 +1888,7 @@ void func_021C7228(Work_021C7228 *p)
 
     BG_SYS_Create(0x27);
     bank = d_021C895C;
-    func_0203FC28((struct DispConfig *)(&bank));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&bank));
     tmpl = d_021C89E0;
     for (i = 0; i < 6; i++) {
         u32 v = d_021C885C[i];
@@ -1906,7 +1906,7 @@ void func_021C7228(Work_021C7228 *p)
 
 
 
-void func_021C72C8(Work_021C72C8 *p)
+void VIEWER_TEXT_ExitBg(Work_021C72C8 *p)
 {
     u32 i;
 
@@ -1927,7 +1927,7 @@ void func_021C72C8(Work_021C72C8 *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C72FC(Work_021C72FC *p)
+void VIEWER_TEXT_LoadBgResources(Work_021C72FC *p)
 {
     typedef enum { Zero } ZeroArg;
     ZeroArg z = Zero;
@@ -1949,13 +1949,13 @@ void func_021C72FC(Work_021C72FC *p)
     func_02049658(arc2, func_02027628(), 2, 0, 0, 0, 0x27);
     func_020498F4(arc2, func_0202762C(), 2, 0, 0, 0, 0x27);
     ARC_UTIL_UploadPaletteFromHandle(arc2, func_02027624(), 0, 0, 0x1C0, 0x20, 0x27);
-    func_020413B0(2, 0, 0x15, 0x20, 3, 0xE);
+    BG_SYS_FillTileMap(2, 0, 0x15, 0x20, 3, 0xE);
     func_020409B4(2);
     ARC_TOOL_DeleteHandle(arc2);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x27);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x27);
-    func_0201F57C(4, 0xE, 0, 0x27);
-    func_0201F554(4, 1, 0, 0x27);
+    BMP_MENUWORK_LoadPltt(4, 0xE, 0, 0x27);
+    BMP_MENUWORK_LoadChar(4, 1, 0, 0x27);
     for (i = 0; i < 3; i++) {
         p->f14C[i] = func_02049F78(arc, 4 - i, (u32)(&p->f158[i]), 0x27);
     }
@@ -1968,7 +1968,7 @@ void func_021C72FC(Work_021C72FC *p)
 
 
 
-void func_021C74D0(Work_021C74D0 *p)
+void VIEWER_TEXT_FreeBgResources(Work_021C74D0 *p)
 {
     int i;
 
@@ -1984,7 +1984,7 @@ void func_021C74D0(Work_021C74D0 *p)
 
 
 
-void func_021C7504(Work_021C7504 *p)
+void VIEWER_TEXT_InitClact(Work_021C7504 *p)
 {
     void *arc = func_020490F4(func_020275E4(), 0x27);
 

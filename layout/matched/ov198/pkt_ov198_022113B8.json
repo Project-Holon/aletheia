@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022113B8",
+   "name": "B_PLIST_MAIN_CopyFrame",
    "address": "0x022113B8",
    "kind": "game",
    "region": "ov198",

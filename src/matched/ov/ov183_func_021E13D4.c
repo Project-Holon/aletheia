@@ -1,5 +1,5 @@
 /*
- * function: func_021E13D4
+ * function: BR_CODEIN_ProfileReturnTrue
  * address: 0x021E13D4
  * packet: pkt_ov183_021E13D4
  * region: ov183
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021E13D4(void) {return 1;}
+int BR_CODEIN_ProfileReturnTrue(void) {return 1;}

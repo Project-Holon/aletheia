@@ -1,5 +1,5 @@
 /*
- * function: func_021BC330
+ * function: ZKNSEARCH_SYS_UnregisterHBlank
  * address:  0x021BC330
  * packet:   pkt_ov210_021BC330
  * region:   ov210
@@ -23,7 +23,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern u32 func_02030EAC(u32 a);
 
-u32 func_021BC330(u8 *p)
+u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p)
 {
     return func_02030EAC(((struct Obj25584 *)p)->f8);
 }

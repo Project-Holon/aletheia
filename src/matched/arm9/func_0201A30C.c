@@ -17,7 +17,7 @@
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
- *   func_02019B58   0x02019B58  thumb
+ *   POKE_TOOL_SetDefaultName   0x02019B58  thumb
  *
  * Guarded sweep over a record array: only when the object reports state zero
  * does it walk the records and act on those whose 0xA9 flag is set.  The
@@ -36,7 +36,7 @@ extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern u32  POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void func_02019B58(void *p);
+extern void POKE_TOOL_SetDefaultName(void *p);
 
 void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c)
 {
@@ -49,6 +49,6 @@ void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c)
         void *e = POKEPARTY_GetMember(a1, i);
 
         if (POKE_TOOL_GetPartyValue(e, 0xA9, 0) != 0)
-            func_02019B58(e);
+            POKE_TOOL_SetDefaultName(e);
     }
 }

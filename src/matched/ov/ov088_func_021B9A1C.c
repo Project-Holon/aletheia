@@ -20,7 +20,7 @@
  *   func_020409B4  0x020409B4  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_Init  0x02040C14  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -74,7 +74,7 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_020409B4(u32 layer);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -116,7 +116,7 @@ void STARTMENU_LogoInit(Work *p, u32 heap)
     func_0204989C(0x1A, 3, 6, 0, 0, 1, heap);
     func_02040588(6, 1);
     BG_SYS_Init(5, 0, 1, 0);
-    func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
     p->win = BMP_WIN_Create(5, 0, 0x13, 0x20, 2, 0xA, 0);
     p->bmp = (u32)BMP_WIN_GetBmp((struct Descriptor *)p->win);
     BMP_Clear((struct CharBuf *)p->bmp, 0);

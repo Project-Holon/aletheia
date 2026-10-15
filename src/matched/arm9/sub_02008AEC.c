@@ -3,7 +3,7 @@
  * asm/arm9/src/001_02007664.s.  Not an SDK symbol: it is absent from
  * layout/symbols_sdk.txt.
  *
- * function: sub_02008AEC
+ * function: CONSOLE_STAMP_GetSize
  * address:  0x02008AEC
  * packet:   pkt_02008A34
  * region:   arm9
@@ -32,7 +32,7 @@ struct Sub02008AECObj {
     unsigned char unk00[0x5C];
 };
 
-u32 sub_02008AEC(void)
+u32 CONSOLE_STAMP_GetSize(void)
 {
     return sizeof(struct Sub02008AECObj);
 }

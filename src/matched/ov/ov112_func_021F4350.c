@@ -1,5 +1,5 @@
 /*
- * function: func_021F4350
+ * function: MUSICAL_MCSS_Main
  * address: 0x021F4350
  * packet: pkt_ov112_021F4350
  * region: ov112
@@ -12,17 +12,17 @@
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_021F4794 0x021F4794 thumb ov112
- *   func_021F485C 0x021F485C thumb ov112
+ *   MUSICAL_MCSS_PrintStream 0x021F4794 thumb ov112
+ *   MUSICAL_MCSS_OpenMenu 0x021F485C thumb ov112
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   MUSICAL_SAVE_NoOp 0x0200A640 thumb
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_021FCDEC 0x021FCDEC thumb ov132
- *   func_021FCE00 0x021FCE00 thumb ov132
- *   func_021F4804 0x021F4804 thumb ov112
+ *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
+ *   MUS_COMM_FUNC_CheckTimingSync 0x021FCE00 thumb ov132
+ *   MUSICAL_MCSS_PrintQue 0x021F4804 thumb ov112
  *   func_0200FB24 0x0200FB24 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -47,8 +47,8 @@ typedef struct { u8 b[8]; } Box;
 extern const Box d_021F8290;
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void func_021F4794(u8 *,u32);
-extern void func_021F485C(u8 *);
+extern void MUSICAL_MCSS_PrintStream(u8 *,u32);
+extern void MUSICAL_MCSS_OpenMenu(u8 *);
 extern void APP_TASKMENU_UpdateMenu(void *);
 struct Actor;
 struct Descriptor;
@@ -62,9 +62,9 @@ extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void *MUSICAL_SAVE_NoOp(void *);
 extern void MI_CpuCopy8(const void *,void *,u32);
-extern void func_021FCDEC(int,int);
-extern int func_021FCE00(char *p, int id);
-extern void func_021F4804(u8 *,u32);
+extern void MUS_COMM_FUNC_SetTimingSync(int,int);
+extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
+extern void MUSICAL_MCSS_PrintQue(u8 *,u32);
 extern u32 func_0200FB24(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *p);
@@ -79,7 +79,7 @@ extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
-void func_021F4350(u8 *p)
+void MUSICAL_MCSS_Main(u8 *p)
 {
     u8 v;
     switch (((struct Obj00226 *)p)->f4) {
@@ -89,14 +89,14 @@ void func_021F4350(u8 *p)
     case 1:
         if(WIPE_SYS_EndCheck()==1) {
             if(((struct Obj00226 *)p)->fC==1) {
-                func_021F4794(p,3);
+                MUSICAL_MCSS_PrintStream(p,3);
                 ((struct Obj00226 *)p)->f4=2;
             } else ((struct Obj00226 *)p)->f4=5;
         }
         break;
     case 2:
         if(!((struct Obj00226 *)p)->f24) {
-            func_021F485C(p);
+            MUSICAL_MCSS_OpenMenu(p);
             ((struct Obj00226 *)p)->f4=3;
         }
         break;
@@ -108,8 +108,8 @@ void func_021F4350(u8 *p)
             if(v==0) MI_CpuCopy8(((struct Obj00226 *)p)->f10,MUSICAL_SAVE_NoOp(((struct Obj00226 *)p)->f14),432);
             if(*(int *)&((struct Obj00226 *)p)->f44) {
                 ((struct Obj00226 *)p)->f4=4;
-                func_021FCDEC(*(int *)&((struct Obj00226 *)p)->f44,71);
-                func_021F4804(p,6);
+                MUS_COMM_FUNC_SetTimingSync(*(int *)&((struct Obj00226 *)p)->f44,71);
+                MUSICAL_MCSS_PrintQue(p,6);
             } else ((struct Obj00226 *)p)->f4=7;
         } else if(func_0200FB24()!=0) {
             APP_TASKMENU_CloseMenu(((struct Obj00226 *)p)->f3C);
@@ -117,7 +117,7 @@ void func_021F4350(u8 *p)
         }
         break;
     case 4:
-        if(func_021FCE00(((struct Obj00226 *)p)->f44,71)==1) ((struct Obj00226 *)p)->f4=7;
+        if(MUS_COMM_FUNC_CheckTimingSync(((struct Obj00226 *)p)->f44,71)==1) ((struct Obj00226 *)p)->f4=7;
         else if(func_0200FB24()!=0) ((struct Obj00226 *)p)->f4=7;
         break;
     case 5:

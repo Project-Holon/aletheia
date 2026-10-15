@@ -25,7 +25,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   CLACT_RegisterCharacter        0x0204A6C8  arm
  *   CLACT_RegisterCellAnim        0x0204AF28  arm
  *   CLACT_CreateActor  0x0204B294  arm
@@ -213,7 +213,7 @@ struct Pos_021BD574 { u16 x, y, z, pad; };
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 
 extern u32  CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
@@ -499,7 +499,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
             if (i != 1 && i != 5) {
                 func_02040618(i, 0, 0);
                 func_02040618(i, 3, 0);
-                func_020414AC(i);
+                BG_SYS_FreeSlot(i);
             }
         }
         if (func_021BDAD0(scn) != 2) {

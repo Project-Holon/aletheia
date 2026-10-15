@@ -1,5 +1,5 @@
 /*
- * function: func_021CB754
+ * function: BSUBWAY_SCR_WaitCommEntryMenu
  * address:  0x021CB754
  * packet:   pkt_ov021_021CB754
  * region:   ov021
@@ -45,7 +45,7 @@ extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
 extern u32 COMM_ENTRY_MENU_Main(u8 *p);
 extern u32 COMM_ENTRY_MENU_Delete(u32 *p);
 
-int func_021CB754(u32 unused, u32 a)
+int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 a)
 {
     void *s, *h;
     void *t;

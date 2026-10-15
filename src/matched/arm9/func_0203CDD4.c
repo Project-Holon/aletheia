@@ -60,7 +60,7 @@
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_HANDLE_ExitWork  0x020398B4  arm
  *   func_020307B0  0x020307B0  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_02034714  0x02034714  arm
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   NET_DEVICE_TABLE_Reset  0x0200F234  thumb
@@ -78,7 +78,7 @@ typedef unsigned int   u32;
 extern void *GFL_NET_GetSession(void);
 extern void GFL_NET_HANDLE_ExitWork(u8 *p);
 extern u32 func_020307B0(void *p);
-extern void func_020306F0(u32 a);
+extern void GFL_HEAP_DeleteChecked(u32 a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 a);
 extern void NET_DEVICE_TABLE_Reset(u32 a);
@@ -118,11 +118,11 @@ void GFL_NET_EndSession(void)
     case 1:
     case 2:
     case 6:
-        func_020306F0(b);
+        GFL_HEAP_DeleteChecked(b);
         break;
     case 3:
     case 4:
-        func_020306F0(c);
+        GFL_HEAP_DeleteChecked(c);
         break;
     case 0:
     case 5:
@@ -132,6 +132,6 @@ void GFL_NET_EndSession(void)
         return;
     }
 
-    func_020306F0(a);
+    GFL_HEAP_DeleteChecked(a);
     UI_ClearKeepAwakeFlagsGlobal(4);
 }

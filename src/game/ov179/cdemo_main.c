@@ -18,7 +18,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   CDEMO_WIPE_RunScript  0x021B6380  thumb  ov179
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
@@ -51,7 +51,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern int CDEMO_WIPE_RunScript(char *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void GX_SetGraphicsMode(int,int,int);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, unsigned int ang, const void *v1, const void *v2, u8 mode);
@@ -101,7 +101,7 @@ int CDEMO_MAIN_Update(int a, int b, int c, int d)
 int CDEMO_MAIN_Destroy(void *p)
 {
     func_020315D4(p);
-    func_020306F0(0x7f);
+    GFL_HEAP_DeleteChecked(0x7f);
     return 1;
 }
 

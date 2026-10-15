@@ -1,5 +1,5 @@
 /*
- * function: func_0220F138
+ * function: B_PLIST_MAIN_SetActorAnimSeq
  * address:  0x0220F138
  * packet:   pkt_0220F138
  * region:   ov198
@@ -22,7 +22,7 @@ extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(void *, int);
 
-void func_0220F138(void *a, int b)
+void B_PLIST_MAIN_SetActorAnimSeq(void *a, int b)
 {
     if (b != CLACT_GetActorAnimSeq(a))
     {

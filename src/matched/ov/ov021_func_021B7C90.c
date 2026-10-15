@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   FIELD_RAIL_WORK_IsLocationValid  0x021B7DE0  thumb
  *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb
  *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb
@@ -30,7 +30,7 @@ struct Sub;
 extern void FIELD_RAIL_WORK_UpdateStep(struct Sub *o);
 extern void FIELD_RAIL_WORK_GetPos(void *p, void *q);
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int FIELD_RAIL_WORK_IsLocationValid(void *p, void *r);
 
 int FIELD_RAIL_StepLocation(struct Mgr *m, void *r, void *key, void *q)
@@ -39,7 +39,7 @@ int FIELD_RAIL_StepLocation(struct Mgr *m, void *r, void *key, void *q)
     FIELD_RAIL_WORK_StartStep(m->f1C, 4, key);
     FIELD_RAIL_WORK_UpdateStep((struct Sub *)m->f1C);
     FIELD_RAIL_WORK_GetPos(m->f1C, q);
-    if (func_0203EFC8(r, m->f1C + 0x5C, 8) == 0)
+    if (GF_STANDARD_CompareBytes(r, m->f1C + 0x5C, 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(m->f1C, m->f1C + 0x5C);
 }

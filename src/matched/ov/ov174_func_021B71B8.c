@@ -20,8 +20,8 @@
  *   STRBUF_Create 0x020457B0 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -50,8 +50,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 *GAME_DATA_GetMyStatus(void *);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -72,8 +72,8 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         dst=STRBUF_Create(128,*(u16 *)p);
         save=GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(p+0x30)+4));
         ws=GF_FONT_Create_EC64(*(u16 *)p);
-        func_0201F02C(ws,0,save);
-        func_0201F250(ws,dst,s);
+        WORDSET_SetSlotMyStatus(ws,0,save);
+        WORDSET_CopyTaggedText(ws,dst,s);
         STRBUF_Delete(s);
         WORDSET_DeleteStrbufED04(ws);
         s=dst;

@@ -1,5 +1,5 @@
 /*
- * function: func_02043130
+ * function: BG_SYS_AllocTileBuf
  * address:  0x02043130
  * packet:   pkt_02043130
  * region:   arm9
@@ -37,8 +37,8 @@
  *   MI_CpuCopy8      0x02082D44  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02043130.c \
- *       --func func_02043130 --addr 0x02043130 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_AllocTileBuf.c \
+ *       --func BG_SYS_AllocTileBuf --addr 0x02043130 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -50,7 +50,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void MI_CpuCopy8(void *dst, void *src, u32 n);
 
-void func_02043130(u16 flags, u8 *buf, u32 page)
+void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page)
 {
     u8 *tmp;
     u16 heap;

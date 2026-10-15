@@ -1,5 +1,5 @@
 /*
- * function: func_0217C384
+ * function: DWC_Svl_Process
  * address:  0x0217C384
  * packet:   pkt_ov009_0217C384
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_IsThreadTerminated  0x0208574C  arm
- *   func_0217C448          0x0217C448  arm  ov009
+ *   DWCi_Svl_ParseHttp          0x0217C448  arm  ov009
  *   DWC_Http_Destroy          0x02179CF4  arm  ov009
  *   DWCi_SetError          0x02059F54  arm
  *   g_021ACEF4             0x021ACEF4  data
@@ -27,11 +27,11 @@ typedef struct {
 } Svl;
 extern struct Svl *g_021ACEF4;
 extern int OS_IsThreadTerminated(void *thread);
-extern int func_0217C448(void);
+extern int DWCi_Svl_ParseHttp(void);
 extern void DWC_Http_Destroy(char *http);
 extern void DWCi_SetError(int error, int code);
 
-int func_0217C384(void)
+int DWC_Svl_Process(void)
 {
     if (g_021ACEF4 == 0) {
         return 0;
@@ -42,7 +42,7 @@ int func_0217C384(void)
     if (OS_IsThreadTerminated((char *)g_021ACEF4 + 0x1b7c) == 1) {
         switch (*(int *)((char *)g_021ACEF4 + 0x1028)) {
         case 8:
-            if (func_0217C448() == 0) {
+            if (DWCi_Svl_ParseHttp() == 0) {
                 DWC_Http_Destroy((char *)g_021ACEF4 + 8);
                 return 4;
             }

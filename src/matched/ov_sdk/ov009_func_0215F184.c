@@ -1,5 +1,5 @@
 /*
- * function: func_0215F184
+ * function: SOCLi_IsIPv4ValidNodeAddr
  * address:  0x0215F184
  * packet:   pkt_ov009_0215F184
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      SOCLi_IsIPv4ValidNodeAddr (libsoc.TWL.HYB.a(socl_misc.o))
  */
 
-int func_0215F184(unsigned long netmask, unsigned long addr)
+int SOCLi_IsIPv4ValidNodeAddr(unsigned long netmask, unsigned long addr)
 {
 	int ret = 0;
 	int notloop = 0;

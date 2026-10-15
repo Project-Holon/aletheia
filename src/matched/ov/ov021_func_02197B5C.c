@@ -12,7 +12,7 @@
  * symbols:
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   IRCBATTLEMENU_FreeMenuGraphics  0x02196768  thumb  ov021
- *   func_02155A8C  0x02155A8C  thumb  ov010
+ *   IRC_BATTLE_ENTRY_SetMode  0x02155A8C  thumb  ov010
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   func_020307B0  0x020307B0  arm
  *   IRCBATTLEMENU_DeleteClact  0x021974A0  thumb  ov021
@@ -32,7 +32,7 @@
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19637.h"
@@ -44,7 +44,7 @@ typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
 struct Obj;
 extern void IRCBATTLEMENU_FreeMenuGraphics(u8 *p);
-extern void func_02155A8C(u8 *, u32);
+extern void IRC_BATTLE_ENTRY_SetMode(u8 *, u32);
 struct Bank;
 struct Descriptor;
 struct Node;
@@ -73,7 +73,7 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 
 int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
 {
@@ -81,7 +81,7 @@ int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
         return 0;
     }
     IRCBATTLEMENU_FreeMenuGraphics((u8 *)d);
-    func_02155A8C(c, d[2]);
+    IRC_BATTLE_ENTRY_SetMode(c, d[2]);
     ((struct Obj19637 *)c)->f58 = d[3];
     if (d[0xBA] != 0) {
         TIME_ICON_Delete((u8 *)d[0xBA]);
@@ -115,6 +115,6 @@ int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
     BMP_WIN_Exit();
     BG_SYS_Delete();
     func_020315D4((struct S020315D4 *)a);
-    func_020306F0(0x1f);
+    GFL_HEAP_DeleteChecked(0x1f);
     return 1;
 }

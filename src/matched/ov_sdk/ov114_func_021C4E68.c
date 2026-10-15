@@ -11,15 +11,18 @@
  *
  *
  * Null-guarded release through the ov009 helper at 0x0217EAE0.
+ *
+ * symbols:
+ *   gsifree  0x0217EAE0  arm  ov009
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0217EAE0(int);
+extern void gsifree(int);
 
 void ghiFreeTempBuffer(int a)
 {
     if (a == 0)
         return;
-    func_0217EAE0(a);
+    gsifree(a);
 }

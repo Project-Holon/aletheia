@@ -13,7 +13,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02014910  0x02014910  thumb
+ *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   MI_CpuCopy8  0x02082D44  arm
@@ -26,7 +26,7 @@ struct Evt;
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
-extern void *func_02014910(char *a0, int a1, int a2, int a3);
+extern void *FIELD_STATUS_CreateSubProcListEvent(char *a0, int a1, int a2, int a3);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void MI_CpuCopy8(void *, void *, int);
@@ -46,7 +46,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(int a, int *st, int *o)
         (*st)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent((struct Evt *)a, func_02014910((char *)x, o[1], (int)((char *)o + 0x30), (int)((char *)o + 8)));
+        GAME_EVENT_CallEvent((struct Evt *)a, FIELD_STATUS_CreateSubProcListEvent((char *)x, o[1], (int)((char *)o + 0x30), (int)((char *)o + 8)));
         (*st)++;
         break;
     case 3:

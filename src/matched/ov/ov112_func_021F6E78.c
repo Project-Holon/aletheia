@@ -1,5 +1,5 @@
 /*
- * function: func_021F6E78
+ * function: STA_ACT_LIGHT_CreateActor
  * address: 0x021F6E78
  * packet: pkt_ov112_021F6E78
  * region: ov112
@@ -18,7 +18,7 @@ struct Obj;
 typedef struct { u16 x; u16 y; u16 z; u8 a; u8 b; } Pos;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-u8 *func_021F6E78(u8 *p, int v)
+u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v)
 {
     u8 i = 0;
     u8 *q;

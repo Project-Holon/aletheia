@@ -52,38 +52,16 @@
  *   SOC_SetResolver                  0x0215f7e8 arm
  */
 struct SOCConfig;
-typedef struct tagACFL {
+typedef struct ACFL {
     unsigned char state;
     unsigned char pad[3];
-} tagACFL;
-
-typedef struct tagACWORK_0205F07C {
-    unsigned char pad0[0xbf4];
-    tagACFL findList[11];
-    unsigned char pad1[0x14bd - 0xc20];
-    unsigned char connectApType;
-    unsigned char phaseBak;
-    unsigned char searchListNo;
-    unsigned char searchListNum;
-    signed char searchChannel;
-    unsigned char findListNum;
-    unsigned char connectNo;
-    unsigned char connectResult;
-    unsigned char count;
-    unsigned short stealthChannel;
-    long rwin;
-    unsigned char wontExecuteEULACheck;
-    unsigned short maxChannel;
-    unsigned char padding;
-    unsigned short passiveScanTime;
-    unsigned short activeScanTime;
-} tagACWORK_0205F07C;
+} ACFL;
 
 typedef void *(*SOCAlloc)(unsigned long, long);
 
 typedef void (*SOCFree)(unsigned long, void *, long);
 
-typedef struct tagACHOLD {
+typedef struct ACHOLD {
     SOCAlloc alloc;
     SOCFree free;
     unsigned char allocState;
@@ -106,7 +84,7 @@ typedef struct tagACHOLD {
     unsigned char proxyHost[100];
     unsigned char proxyId[32];
     unsigned char proxyPass[32];
-} tagACHOLD;
+} ACHOLD;
 
 typedef struct NCFGApInfo {
     unsigned char ispId[32];
@@ -133,18 +111,20 @@ typedef struct NCFGSlotInfo {
     unsigned char rest[0x10];
 } NCFGSlotInfo;
 
-typedef struct NCFGSlotInfoEx_0205F07C {
+typedef struct NCFGSlotInfoEx {
     NCFGApInfo ap;
     unsigned char rest0[0x92];
     unsigned char exFlag;
     unsigned char rest1[0x7d];
-} NCFGSlotInfoEx_0205F07C;
+} NCFGSlotInfoEx;
 
-typedef struct tagACWORK_0205F1B8 {
+typedef struct DWCNetcheckParam DWCNetcheckParam;
+
+typedef struct ACWORK {
     NCFGSlotInfo userInfo[3];
-    NCFGSlotInfoEx_0205F07C userInfoEx[3];
+    NCFGSlotInfoEx userInfoEx[3];
     unsigned char searchList[0xbf4 - 0x900];
-    tagACFL findList[11];
+    ACFL findList[11];
     unsigned char bssDesc[0x1460 - 0xc20];
     unsigned long long timeOut;
     unsigned char wepKey[0x14ba - 0x1468];
@@ -155,25 +135,6 @@ typedef struct tagACWORK_0205F1B8 {
     unsigned char useDSWireless : 1;
     unsigned char duplicateFlag : 1;
     unsigned char wpaSetting : 1;
-    unsigned char connectApType;
-    unsigned char phaseBak;
-    unsigned char searchListNo;
-    unsigned char searchListNum;
-    signed char searchChannel;
-    unsigned char findListNum;
-    unsigned char connectNo;
-    unsigned char connectResult;
-    unsigned char count;
-    unsigned short stealthChannel;
-    long rwin;
-} tagACWORK_0205F1B8;
-
-typedef struct DWCNetcheckParam DWCNetcheckParam;
-
-typedef struct tagACWORK_0205F2C4 {
-    unsigned char pad0[0xbf4];
-    tagACFL findList[11];
-    unsigned char pad1[0x14bd - 0xc20];
     unsigned char connectApType;
     unsigned char phaseBak;
     unsigned char searchListNo;
@@ -190,35 +151,7 @@ typedef struct tagACWORK_0205F2C4 {
     unsigned char padding;
     unsigned short passiveScanTime;
     unsigned short activeScanTime;
-} tagACWORK_0205F2C4;
-
-typedef struct tagACWORK {
-    NCFGSlotInfo userInfo[3];
-    NCFGSlotInfoEx_0205F07C userInfoEx[3];
-    unsigned char searchList[0xbf4 - 0x900];
-    tagACFL findList[11];
-    unsigned char bssDesc[0x1460 - 0xc20];
-    unsigned long long timeOut;
-    unsigned char wepKey[0x14ba - 0x1468];
-    unsigned char dmaNo;
-    unsigned char powerMode;
-    unsigned char connectType : 4;
-    unsigned char skipNetCheck : 1;
-    unsigned char useDSWireless : 1;
-    unsigned char duplicateFlag : 1;
-    unsigned char wpaSetting : 1;
-    unsigned char connectApType;
-    unsigned char phaseBak;
-    unsigned char searchListNo;
-    unsigned char searchListNum;
-    signed char searchChannel;
-    unsigned char findListNum;
-    unsigned char connectNo;
-    unsigned char connectResult;
-    unsigned char count;
-    unsigned short stealthChannel;
-    long rwin;
-} tagACWORK;
+} ACWORK;
 
 typedef struct SOCConfig {
     unsigned long vendor;
@@ -244,21 +177,21 @@ typedef struct SOCInAddr {
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern unsigned char DWCi_AC_GetPhase(void);
 extern long WCM_GetPhase(void);
-extern unsigned char ConnectTestStart(tagACWORK *wk);
-extern unsigned char GetIPAddress(tagACWORK_0205F1B8 *wk);
+extern unsigned char ConnectTestStart(ACWORK *wk);
+extern unsigned char GetIPAddress(ACWORK *wk);
 extern unsigned char ConnectTestCreate(void);
-extern unsigned char ConnectTestProcess(tagACWORK_0205F2C4 *wk);
-extern unsigned char ConnectTestEnd(tagACWORK_0205F07C *wk);
+extern unsigned char ConnectTestProcess(ACWORK *wk);
+extern unsigned char ConnectTestEnd(ACWORK *wk);
 extern unsigned char ConnectTestRetry(void);
 extern void DWC_Netcheck_Abort(void);
 extern void DWC_Netcheck_Destroy(void);
-extern void MakeSOCConfig(tagACHOLD *hd, tagACWORK *wk, struct SOCConfig *sc);
+extern void MakeSOCConfig(ACHOLD *hd, ACWORK *wk, struct SOCConfig *sc);
 extern int SOC_Startup(struct SOCConfig *config);
 extern void DWCi_AC_SetError(int error);
 extern unsigned char DWCi_ConvConnectAPType(unsigned char type);
 extern int OS_IsRunOnTwl(void);
 extern long SOC_GetHostID(void);
-extern void CheckSetDNS(tagACWORK *wk);
+extern void CheckSetDNS(ACWORK *wk);
 extern unsigned long long OS_GetTick(void);
 extern int DWC_Netcheck_Create(DWCNetcheckParam *param);
 extern int DWC_Netcheck_GetError(void);
@@ -287,23 +220,23 @@ extern SOCConfig g_020A16A0;
 unsigned char DWCi_AC_ConnectTest(void)
 {
     unsigned char phase;
-    tagACWORK_0205F07C *wk;
+    ACWORK *wk;
 
     phase = DWCi_AC_GetPhase();
-    wk = (tagACWORK_0205F07C *)DWCi_AC_GetMemPtr(0x10);
+    wk = (ACWORK *)DWCi_AC_GetMemPtr(0x10);
     if (WCM_GetPhase() == 9) {
         switch (phase) {
         case 10:
-            phase = ConnectTestStart((tagACWORK *)wk);
+            phase = ConnectTestStart((ACWORK *)wk);
             break;
         case 12:
-            phase = GetIPAddress((tagACWORK_0205F1B8 *)wk);
+            phase = GetIPAddress((ACWORK *)wk);
             break;
         case 13:
             phase = ConnectTestCreate();
             break;
         case 14:
-            phase = ConnectTestProcess((tagACWORK_0205F2C4 *)wk);
+            phase = ConnectTestProcess((ACWORK *)wk);
             break;
         case 15:
             phase = ConnectTestEnd(wk);
@@ -340,12 +273,12 @@ unsigned char DWCi_AC_ConnectTest(void)
 /*
  * sdk:      ConnectTestStart (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned char ConnectTestStart(tagACWORK *wk)
+unsigned char ConnectTestStart(ACWORK *wk)
 {
-    tagACHOLD *hd;
+    ACHOLD *hd;
     struct SOCConfig *sc;
 
-    hd = (tagACHOLD *)DWCi_AC_GetMemPtr(1);
+    hd = (ACHOLD *)DWCi_AC_GetMemPtr(1);
     sc = (struct SOCConfig *)DWCi_AC_GetMemPtr(4);
     MakeSOCConfig(hd, wk, sc);
     SOCLiYieldWait = 4;
@@ -364,13 +297,13 @@ unsigned char ConnectTestStart(tagACWORK *wk)
 /*
  * sdk:      GetIPAddress (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned char GetIPAddress(tagACWORK_0205F1B8 *wk)
+unsigned char GetIPAddress(ACWORK *wk)
 {
     unsigned char ap_type;
     unsigned long long t;
 
     if (SOC_GetHostID() != 0) {
-        CheckSetDNS((tagACWORK *)wk);
+        CheckSetDNS((ACWORK *)wk);
         if (wk->skipNetCheck == 1) {
             return 0xf;
         }
@@ -416,12 +349,12 @@ static unsigned char ConnectTestCreate(void)
 /*
  * sdk:      ConnectTestProcess (libdwcac.TWL.HYB.a(test.o))
  */
-unsigned char ConnectTestProcess(tagACWORK_0205F2C4 *wk)
+unsigned char ConnectTestProcess(ACWORK *wk)
 {
-    tagACHOLD *hd;
+    ACHOLD *hd;
     int result;
 
-    hd = (tagACHOLD *)DWCi_AC_GetMemPtr(1);
+    hd = (ACHOLD *)DWCi_AC_GetMemPtr(1);
     result = DWC_Netcheck_GetError();
     if (result != 0) {
         if (hd->endType == DWCi_ConvConnectAPType(wk->connectApType)) {
@@ -449,7 +382,7 @@ unsigned char ConnectTestProcess(tagACWORK_0205F2C4 *wk)
 /*
  * sdk:      ConnectTestEnd (test.o)
  */
-static unsigned char ConnectTestEnd(tagACWORK_0205F07C *wk)
+static unsigned char ConnectTestEnd(ACWORK *wk)
 {
     DWCi_AC_SetApType(wk->connectApType);
     DWCi_AC_CopyExSetting(wk->connectApType);
@@ -482,7 +415,7 @@ static unsigned char ConnectTestRetry(void)
 /*
  * sdk:      MakeSOCConfig (libdwcac.TWL.HYB.a(test.o))
  */
-void MakeSOCConfig(tagACHOLD *hd, tagACWORK *wk, SOCConfig *sc)
+void MakeSOCConfig(ACHOLD *hd, ACWORK *wk, SOCConfig *sc)
 {
     NCFGApInfo *info;
     unsigned char type;
@@ -581,7 +514,7 @@ static unsigned long ConvNetMask(unsigned char netmask)
 /*
  * sdk:      CheckSetDNS (libdwcac.TWL.HYB.a(test.o))
  */
-void CheckSetDNS(tagACWORK *wk)
+void CheckSetDNS(ACWORK *wk)
 {
     NCFGApInfo *info;
     int dns;

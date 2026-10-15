@@ -19,18 +19,18 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049990 0x02049990 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_GetHandleMemberSize 0x020493D4 arm
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
- *   func_02062A98 0x02062A98 arm
+ *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_0207D658 0x0207D658 arm
@@ -56,7 +56,7 @@
  *   d_021BC174 0x021BC174 data a1
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -64,7 +64,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   gSpeciesNameBank 0x020A7370 data
  *   d_021BC110 0x021BC110 data a2
@@ -422,18 +422,18 @@ extern unsigned func_02017EAC(void *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern u32 func_020307B0(void *p);
 extern void *func_020056A0(void (*cb)(int, char *), void *arg, int pri);
 extern void func_0207D658(u32 addr, int plane, int brightness);
@@ -457,7 +457,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -465,7 +465,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
@@ -686,9 +686,9 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
         ((struct Obj00022 *)p)->f4D = 6;
         ((struct Obj00022 *)p)->f4E = 4;
     }
-    func_0204047C(((struct Obj00022 *)p)->f4C, ((struct Obj00022 *)p)->f20);
-    func_0204047C(((struct Obj00022 *)p)->f4D, (u8)(((struct Obj00022 *)p)->f20 + 1));
-    func_0204047C(((struct Obj00022 *)p)->f4E, (u8)(((struct Obj00022 *)p)->f20 + 2));
+    BG_SYS_SetVisibleLayer(((struct Obj00022 *)p)->f4C, ((struct Obj00022 *)p)->f20);
+    BG_SYS_SetVisibleLayer(((struct Obj00022 *)p)->f4D, (u8)(((struct Obj00022 *)p)->f20 + 1));
+    BG_SYS_SetVisibleLayer(((struct Obj00022 *)p)->f4E, (u8)(((struct Obj00022 *)p)->f20 + 2));
     ((struct Obj00022 *)p)->f38 = 0;
     ((struct Obj00022 *)p)->f39 = 0;
     switch (((struct Obj00022 *)p)->f18) {
@@ -724,19 +724,19 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
     ((struct Obj00022 *)p)->f40 = 0;
     ((struct Obj00022 *)p)->f44 = 0;
     if (((struct Obj00022 *)p)->f18 == 2 && ((struct Obj00022 *)p)->f1C == 1) {
-        func_02041300(((struct Obj00022 *)p)->f4D, 0, 0, 0, 0x20, 3, 0x11);
+        BG_SYS_SetTileEntry(((struct Obj00022 *)p)->f4D, 0, 0, 0, 0x20, 3, 0x11);
         h = ((struct Obj00022 *)p)->f1C4;
         ARC_UTIL_UploadPaletteFromHandle(h, 2, ((struct Obj00022 *)p)->f48, 0, 0x80, 0x40, ((struct Obj00022 *)p)->f0);
         ((struct Obj00022 *)p)->f3C = func_02049740(h, 0xc, ((struct Obj00022 *)p)->f4E, 0x2000, 0, ((struct Obj00022 *)p)->f0);
         ((struct Obj00022 *)p)->f40 = 1;
         func_02049990(h, 0x24, ((struct Obj00022 *)p)->f4E, 0x400, (u16)((struct Obj00022 *)p)->f3C, 0x800, 0, ((struct Obj00022 *)p)->f0);
-        func_020413B0(((struct Obj00022 *)p)->f4E, 0, 0x20, 0x20, 0x15, 4);
-        func_020413B0(((struct Obj00022 *)p)->f4E, 0, 0x35, 0x20, 3, 5);
+        BG_SYS_FillTileMap(((struct Obj00022 *)p)->f4E, 0, 0x20, 0x20, 0x15, 4);
+        BG_SYS_FillTileMap(((struct Obj00022 *)p)->f4E, 0, 0x35, 0x20, 3, 5);
     }
     h = ((struct Obj00022 *)p)->f1C4;
     buf = func_02030734(((struct Obj00022 *)p)->f0, ARC_TOOL_GetHandleMemberSize(h, 9), 0, d_021BC220, 0x4f7);
     ARC_TOOL_ReadHandleMember(h, 9, buf);
-    func_02062A98(buf, &res);
+    NNS_G2dGetUnpackedPaletteData(buf, &res);
     data = *(char * *)&((struct Obj25394 *)res)->fC;
     for (i = 0; i < 5; i++) {
         *(u16 *)(p + i * 2 + 0x1a0) = *(u16 *)(data + i * 2 + 0x22);
@@ -1167,7 +1167,7 @@ void func_021BA960(int heap,int window,void *printer,int font,int input,unsigned
     int text;
     if(expansion) {
         text=(int)STRBUF_Create(128,heap);
-        func_0201F250((struct WordSet *)expansion,(void *)text,(void *)input);
+        WORDSET_CopyTaggedText((struct WordSet *)expansion,(void *)text,(void *)input);
     } else text=input;
     switch(alignment) {
     case 0: x=right; break;
@@ -1246,7 +1246,7 @@ void func_021BAA4C(char *p)
     }
     if (r7 != 0x3e7) {
         h2 = (u32)GF_FONT_Create_EC64(((struct Obj00031 *)p)->f0);
-        func_0201EFA4((struct WordSet *)h2, 0, r7, 3, 2, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)h2, 0, r7, 3, 2, 1);
         func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f270, 8, 5, 0x3e7 + 0x59, 0, h2);
         WORDSET_DeleteStrbufED04((struct WordSet *)h2);
     } else {
@@ -1314,9 +1314,9 @@ void func_021BACB0(char *p, int idx)
     if (c != 0x3e7) {
         h = (int)GF_FONT_Create_EC64(H(0));
         if (idx == 0) {
-            func_0201EFA4((struct WordSet *)h, 0, c, 3, 2, 0);
+            WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 0);
         } else {
-            func_0201EFA4((struct WordSet *)h, 0, c, 3, 2, 1);
+            WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 1);
         }
         func_021BA960(H(0), W(0x70), (void *)W(0x2c), W(0x28), W(0x270), 8, 5, 0x440, 0, h);
         WORDSET_DeleteStrbufED04((struct WordSet *)h);

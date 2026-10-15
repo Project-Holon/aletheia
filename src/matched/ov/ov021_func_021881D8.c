@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0216447C  0x0216447C  thumb  ov010
+ *   FIELD_MAP_CHANGE_Empty  0x0216447C  thumb  ov010
  *   FIELD_MSGBG_Create  0x021901EC  thumb  ov021
  *   FIELD_PLACE_NAME_Create  0x021BC388  thumb  ov021
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
@@ -66,7 +66,7 @@
  *   ZONEDATA_GetLightId  0x02013F2C  thumb
  *   FIELD_ZONEFOG_SetUp  0x021A0338  thumb  ov021
  *   ZONEDATA_GetAreaLightType  0x020140DC  thumb
- *   func_0203F4FC  0x0203F4FC  arm
+ *   GF_STANDARD_GetTime  0x0203F4FC  arm
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   FIELD_LIGHT_Create  0x021A03D0  thumb  ov021
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
@@ -117,7 +117,7 @@ struct Sub0200852CObj;
 struct Sub020140BCObj;
 struct Sub02014444Obj;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void func_0216447C(int sys, u16 id);
+extern void FIELD_MAP_CHANGE_Empty(int sys, u16 id);
 extern u8 *FIELD_MSGBG_Create(u16 heap, u32 b);
 extern int FIELD_PLACE_NAME_Create(int a, int b, int c);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
@@ -173,7 +173,7 @@ extern u32 ZONEDATA_GetFogId(u32 id);
 extern u32 ZONEDATA_GetLightId(u32 id);
 extern void FIELD_ZONEFOG_SetUp(u8 *p, u32 id, u32 c, u8 d);
 extern u8 ZONEDATA_GetAreaLightType(struct Sub020140BCObj *p);
-extern u32 func_0203F4FC(void);
+extern u32 GF_STANDARD_GetTime(void);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 extern u8 *FIELD_LIGHT_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct BigObj;
@@ -206,7 +206,7 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
     switch (((struct Obj00571 *)p)->fC8) {
     case 0: {
         int x;
-        func_0216447C(sys, F16(0xd0));
+        FIELD_MAP_CHANGE_Empty(sys, F16(0xd0));
         x = (int)FIELD_MSGBG_Create(F16(0), F32(0xa4));
         F32(0x2c) = 0;
         F32(0x28) = x;
@@ -278,7 +278,7 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         r = ZONEDATA_GetFogId(F16(0xd0));
         FIELD_ZONEFOG_SetUp((u8 *)F32(0x1c), r, ZONEDATA_GetLightId(F16(0xd0)), 1);
         r = ZONEDATA_GetAreaLightType((struct Sub020140BCObj *)F32(0xc));
-        g = func_0203F4FC();
+        g = GF_STANDARD_GetTime();
         F32(0x14) = (int)FIELD_LIGHT_Create(r, g, COMM_PLAYER_SUPPORT_GetInfoCode((void *)a), F32(0x18), F32(0xa8), F16(0));
         r = GAME_DATA_GetBgmInfo((const struct BigObj *)F32(8));
         F32(0x20) = WEATHER_Create(F32(0x10), F32(0x14), F32(0x18), F32(0x1c), r, COMM_PLAYER_SUPPORT_GetInfoCode((void *)a), 0x92);

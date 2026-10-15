@@ -15,7 +15,7 @@
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
  *   func_0203084C 0x0203084C arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -26,7 +26,7 @@ extern void MAILSYS_DeleteMessage(u8 *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *v);
 extern void *func_0203084C(u32 heapId);
-extern void func_020306F0(u32 v);
+extern void GFL_HEAP_DeleteChecked(u32 v);
 int MAILTOOL_ProcExit(u32 a, void *b, void *c, u32 *p)
 {
     u32 h;
@@ -35,6 +35,6 @@ int MAILTOOL_ProcExit(u32 a, void *b, void *c, u32 *p)
     h = (u16)p[0];
     func_020315D4((struct S020315D4 *)a);
     func_0203084C(h);
-    func_020306F0(h);
+    GFL_HEAP_DeleteChecked(h);
     return 1;
 }

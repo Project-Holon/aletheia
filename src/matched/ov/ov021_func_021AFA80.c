@@ -13,7 +13,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -30,7 +30,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct WordSet;
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 int SCRCMD_BufferNumber(Script *a, u32 b)
 {
@@ -41,6 +41,6 @@ int SCRCMD_BufferNumber(Script *a, u32 b)
     a->cur = p + 1;
     e = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
     f = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
-    func_0201EFA4((struct WordSet *)x, v, e, f, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)x, v, e, f, 0, 1);
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02159FE0
+ * function: MAP_REPLACE_FindFlyTargetIndex
  * address:  0x02159FE0
  * packet:   pkt_ov010_02159FE0
  * region:   ov010
@@ -28,7 +28,7 @@ typedef struct Ent {
 
 extern Ent d_02170FEC[];
 
-int func_02159FE0(int v)
+int MAP_REPLACE_FindFlyTargetIndex(int v)
 {
     unsigned int i;
 

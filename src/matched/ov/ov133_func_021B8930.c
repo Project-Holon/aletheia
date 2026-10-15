@@ -14,7 +14,7 @@
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021B8BB4 0x021B8BB4 thumb ov133
- *   func_021F50F4 0x021F50F4 thumb ov112
+ *   MUSICAL_MCSS_GetIndex 0x021F50F4 thumb ov112
  *   func_021B9028 0x021B9028 thumb ov133
  *   func_021B9D54 0x021B9D54 thumb ov133
  *   func_021B765C 0x021B765C thumb ov133
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int func_021B8BB4(u8 *, void *, const int *, u16 *);
-extern int func_021F50F4(unsigned);
+extern int MUSICAL_MCSS_GetIndex(unsigned);
 extern void func_021B9028(u8 *, int, u16);
 extern void func_021B9D54(u8 *, int);
 extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
@@ -47,7 +47,7 @@ int func_021B8930(u8 *p)
     pos[1] = *(int *)&((struct Obj00004 *)p)->f20 - 112;
     index = func_021B8BB4(p, 0, pos, &limit);
     if (index != 10) {
-    mode = func_021F50F4(index);
+    mode = MUSICAL_MCSS_GetIndex(index);
     if (mode == 7) mode = 6;
     if (mode == ((struct Obj00004 *)p)->fA4) {
         func_021B9028(p, 8, start);

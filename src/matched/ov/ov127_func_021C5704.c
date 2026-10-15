@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C41BC  0x021C41BC  thumb
+ *   WIFI_2DCHAR_DeleteActor  0x021C41BC  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *
  * Addresses are Black-image addresses.
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C41BC(u8 *p);
+extern void WIFI_2DCHAR_DeleteActor(u8 *p);
 extern void MI_CpuFill8(void *, int, int);
 
 void WF2DMAP_OBJDRAW_RemoveActor(u8 *p)
 {
-    func_021C41BC(((struct Obj23045 *)p)->f4);
+    WIFI_2DCHAR_DeleteActor(((struct Obj23045 *)p)->f4);
     MI_CpuFill8(p, 0, 0x14);
 }

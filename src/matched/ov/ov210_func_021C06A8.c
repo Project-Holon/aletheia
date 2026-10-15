@@ -1,5 +1,5 @@
 /*
- * function: func_021C06A8
+ * function: ZKNSEARCH_RESULT_Noop5
  * address: 0x021C06A8
  * packet: pkt_ov210_021C06A8
  * region: ov210
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov210/unit_021C04CC.c and filed here.
  */
 
-void func_021C06A8(void);
+void ZKNSEARCH_RESULT_Noop5(void);
 
 /*
  * Emitted from the ov021 instruction shape.
  *
  * Addresses are Black-image addresses.
  */
-void func_021C06A8(void)
+void ZKNSEARCH_RESULT_Noop5(void)
 {
 }

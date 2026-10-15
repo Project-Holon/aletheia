@@ -15,8 +15,8 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F184  0x0201F184  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb ov018
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb ov018
  *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb ov018
@@ -41,8 +41,8 @@ struct Ctx;
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 u8 *GAME_DATA_GetMyStatus(void *p);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0201F184(struct WordSet *p, u32 i, s32 v);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 void EVENT_COMM_COMMON_PrintMsg(u8 *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(u8 *p);
 int EVENT_COMM_COMMON_IsKeyTrg(void);
@@ -56,9 +56,9 @@ int EVENT_COMM_COMMON_TalkPowerShareTargetEventMain(int x, int *st, u8 *obj)
     m = (void *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)v));
     switch (*st) {
     case 0:
-        func_0201F02C((struct WordSet *)(((struct Obj05937 *)obj)->f10), 0, (void *)((int)(obj + 0x78)));
-        func_0201F02C((struct WordSet *)(((struct Obj05937 *)obj)->f10), 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData((const struct Ctx *)v)));
-        func_0201F184((struct WordSet *)(((struct Obj05937 *)obj)->f10), 2, ((struct Obj05937 *)obj)->f58);
+        WORDSET_SetSlotMyStatus((struct WordSet *)(((struct Obj05937 *)obj)->f10), 0, (void *)((int)(obj + 0x78)));
+        WORDSET_SetSlotMyStatus((struct WordSet *)(((struct Obj05937 *)obj)->f10), 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData((const struct Ctx *)v)));
+        WORDSET_SetSlotFromMsgA0((struct WordSet *)(((struct Obj05937 *)obj)->f10), 2, ((struct Obj05937 *)obj)->f58);
         EVENT_COMM_COMMON_PrintMsg(obj + 0x10, d_021838B8[obj[0x42]]);
         *st = *st + 1;
         break;

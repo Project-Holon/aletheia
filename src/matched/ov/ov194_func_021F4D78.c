@@ -1,5 +1,5 @@
 /*
- * function: func_021F4D78
+ * function: NAMEIN_GRAPHIC_DeleteMembers
  * address:  0x021F4D78
  * packet:   pkt_021F4D78
  * region:   ov194
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4D34  0x021F4D34  thumb  ov194
+ *   NAMEIN_GRAPHIC_FreeMember  0x021F4D34  thumb  ov194
  *   func_020307B0  0x020307B0  arm  ov194
  * Addresses are Black-image addresses.
  */
@@ -20,15 +20,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021F4D34(void *p);
+extern void NAMEIN_GRAPHIC_FreeMember(void *p);
 extern void func_020307B0(u8 *);
 
-void func_021F4D78(u8 *p)
+void NAMEIN_GRAPHIC_DeleteMembers(u8 *p)
 {
     int i;
 
     for (i = 0; i < 5; i++) {
-        func_021F4D34((void *)(*(u32 *)(p + i * 4)));
+        NAMEIN_GRAPHIC_FreeMember((void *)(*(u32 *)(p + i * 4)));
     }
     func_020307B0(p);
 }

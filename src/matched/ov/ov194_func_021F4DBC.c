@@ -1,5 +1,5 @@
 /*
- * function: func_021F4DBC
+ * function: NAMEIN_GRAPHIC_LoadCharMember
  * address:  0x021F4DBC
  * packet:   pkt_021F4DBC
  * region:   ov194
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 
-int func_021F4DBC(int a, int b)
+int NAMEIN_GRAPHIC_LoadCharMember(int a, int b)
 {
     return ARC_UTIL_LoadMember(0x77, a + 5, 0, b);
 }

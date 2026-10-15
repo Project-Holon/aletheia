@@ -1,5 +1,5 @@
 /*
- * function: func_021F5368
+ * function: MUSICAL_MCSS_SetRenderFrame
  * address:  0x021F5368
  * packet:   pkt_021F5368
  * region:   ov112
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F6264  0x021F6264  thumb  ov112
+ *   MUSICAL_MCSS_SetFieldC  0x021F6264  thumb  ov112
  */
 #include "../include/Obj22538.h"
 
-void func_021F6264(char *p, unsigned short v);
+void MUSICAL_MCSS_SetFieldC(char *p, unsigned short v);
 
-void func_021F5368(int *p, unsigned short v)
+void MUSICAL_MCSS_SetRenderFrame(int *p, unsigned short v)
 {
-    func_021F6264(*(char * *)&((struct Obj22538 *)p)->f8, v);
+    MUSICAL_MCSS_SetFieldC(*(char * *)&((struct Obj22538 *)p)->f8, v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F9EDC
+ * function: STA_ACT_EFFECT_StartSystem
  * address: 0x021F9EDC
  * packet: pkt_ov132_021F9EDC
  * region: ov132
@@ -22,7 +22,7 @@ extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern unsigned func_020056BC(void);
 extern void PARTICLE_SetupSystem(void *, void *, unsigned, unsigned);
-char *func_021F9EDC(char *p, u32 a)
+char *STA_ACT_EFFECT_StartSystem(char *p, u32 a)
 {
     char *q = 0;
     void *v;

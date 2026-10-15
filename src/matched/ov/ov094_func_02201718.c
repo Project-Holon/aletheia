@@ -23,7 +23,7 @@
  *   BTLV_EFFECT_GetEffvm 0x021F86C4 thumb ov094
  *   BTLV_EFFVM_GetFallbackScriptFlag 0x021F9824 thumb ov094
  *   MCSS_GetStopCellNum 0x02015EF4 thumb
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   func_02030734 0x02030734 arm
  *   MCSS_GetAnimSeqNum 0x02015EEC thumb
@@ -43,7 +43,7 @@ extern int BTLV_EFFECT_GetMcss(void);
 extern int BTLV_EFFECT_GetEffvm(void);
 extern int BTLV_EFFVM_GetFallbackScriptFlag(void *);
 extern u8 MCSS_GetStopCellNum(char *p);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u16 MCSS_GetAnimSeqNum(char *p);
 extern void MCSS_SetAnimeIndex(void *, u32);
@@ -70,7 +70,7 @@ void BTLV_MCSS_IdleAnimCallback(int i)
     }
     n = ((Flags *)(p + 0x54 + off))->count;
     ((Flags *)(p + 0x54 + off))->count = n - 1;
-    draw = func_0203F0A8();
+    draw = GF_STANDARD_Rand();
     if ((u32)(((u64)draw * n) >> 32) != 0) return;
     ((Flags *)(p + 0x54 + off))->count = 3;
     q = func_02030734((u16)((((struct Obj13608 *)p)->f540 & 0x7fff) | 0x8000), 12, 1, gBtlvMcssSourceFileName, 0xd5e);

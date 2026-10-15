@@ -1,5 +1,5 @@
 /*
- * function: func_021DE12C
+ * function: BR_CODEIN_ListDeleteActor
  * address: 0x021DE12C
  * packet: pkt_ov183_021DE12C
  * region: ov183
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void MI_CpuFill8(void *, int, unsigned);
-void func_021DE12C(char *p)
+void BR_CODEIN_ListDeleteActor(char *p)
 {
     int i;
     for (i = 0; i < 4; i++) {

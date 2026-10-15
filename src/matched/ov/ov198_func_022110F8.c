@@ -1,5 +1,5 @@
 /*
- * function: func_022110F8
+ * function: B_PLIST_MAIN_PushSelectionPair
  * address: 0x022110F8
  * packet: pkt_ov198_022110F8
  * region: ov198
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_022110F8(u8 *p, int a, int b)
+void B_PLIST_MAIN_PushSelectionPair(u8 *p, int a, int b)
 {
     u8 i;
     for (i = 0; i < 2; i++) {

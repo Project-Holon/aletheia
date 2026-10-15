@@ -1,7 +1,7 @@
 /*
  * file:     socl_misc.c
  * unit:     yes
- * function: func_0215F0C8, func_0215F0D4, func_0215F0F0, func_0215F184, func_0215F1D4
+ * function: func_0215F0C8, SOCLi_InitResource, SOCLi_IsIPv4ValidDNSAddr, SOCLi_IsIPv4ValidNodeAddr, SOCLi_CheckNConfig
  * address:  0x0215F0C8
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   g_021A82DC     0x021A82DC  data
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
-#include "../../matched/include/G_SOCLResource.h"
+#include "ov009_globals.h"
 
 #define IS_A(m, d, a) ((((unsigned int)(a) ^ (d)) & (m)) != 0 || ((d) & ~(m)) != 0)
 #define IS_B(m, d, a) (((((a) ^ (d)) & (m)) != 0 || (~(m) ^ ((d) & ~(m))) != 0) ? 1 : 0)
@@ -28,11 +28,11 @@ typedef unsigned long u32;
 
 extern void MI_CpuFill8(void *p, int v, int n);
 u32 SOCLi_RoundUp4(u32 size);
-void func_0215F0D4(void);
-int func_0215F0F0(unsigned long netmask, unsigned long dns, unsigned long addr);
-int func_0215F184(unsigned long netmask, unsigned long addr);
-int func_0215F1D4(void);
-extern struct SOCLResource g_021AA4AC;
+void SOCLi_InitResource(void);
+int SOCLi_IsIPv4ValidDNSAddr(unsigned long netmask, unsigned long dns, unsigned long addr);
+int SOCLi_IsIPv4ValidNodeAddr(unsigned long netmask, unsigned long addr);
+int SOCLi_CheckNConfig(void);
+extern SoclResource g_021AA4AC;
 extern unsigned long g_021A827C;
 extern unsigned long g_021A82BC;
 extern unsigned long g_021A8298;
@@ -48,7 +48,7 @@ u32 SOCLi_RoundUp4(u32 size)
 /*
  * Clears the eight bytes of the object at 0x021AA4AC.
  */
-void func_0215F0D4(void)
+void SOCLi_InitResource(void)
 {
     MI_CpuFill8(((char *)&g_021AA4AC), 0, 8);
 }
@@ -61,7 +61,7 @@ void func_0215F0D4(void)
  *
  * sdk:      SOCLi_IsIPv4ValidDNSAddr (libsoc.TWL.HYB.a(socl_misc.o))
  */
-int func_0215F0F0(unsigned long netmask, unsigned long dns, unsigned long addr)
+int SOCLi_IsIPv4ValidDNSAddr(unsigned long netmask, unsigned long dns, unsigned long addr)
 {
 	int ret = 0;
 	int notloop = 0;
@@ -79,7 +79,7 @@ int func_0215F0F0(unsigned long netmask, unsigned long dns, unsigned long addr)
 /*
  * sdk:      SOCLi_IsIPv4ValidNodeAddr (libsoc.TWL.HYB.a(socl_misc.o))
  */
-int func_0215F184(unsigned long netmask, unsigned long addr)
+int SOCLi_IsIPv4ValidNodeAddr(unsigned long netmask, unsigned long addr)
 {
 	int ret = 0;
 	int notloop = 0;
@@ -99,22 +99,22 @@ int func_0215F184(unsigned long netmask, unsigned long addr)
 /*
  * sdk:      SOCLi_CheckNConfig (libsoc.TWL.HYB.a(socl_misc.o))
  */
-int func_0215F1D4(void)
+int SOCLi_CheckNConfig(void)
 {
 	if (g_021A827C == 0 || ((~g_021A827C) & (~g_021A827C + 1)) != 0)
 		return 0;
-	if (func_0215F184(g_021A827C, g_021A82BC) == 0)
+	if (SOCLi_IsIPv4ValidNodeAddr(g_021A827C, g_021A82BC) == 0)
 		return 0;
 	if (g_021A8298 != 0) {
-		if (func_0215F184(g_021A827C, g_021A8298) == 0
+		if (SOCLi_IsIPv4ValidNodeAddr(g_021A827C, g_021A8298) == 0
 		    || (g_021A827C != 0xffffffff
 			&& (g_021A82BC & g_021A827C) != (g_021A8298 & g_021A827C))
 		    || g_021A82BC == g_021A8298)
 			g_021A8298 = 0;
 	}
-	if (func_0215F0F0(g_021A827C, g_021A82DC[0], g_021A82BC) == 0)
+	if (SOCLi_IsIPv4ValidDNSAddr(g_021A827C, g_021A82DC[0], g_021A82BC) == 0)
 		g_021A82DC[0] = 0;
-	if (func_0215F0F0(g_021A827C, g_021A82DC[1], g_021A82BC) == 0)
+	if (SOCLi_IsIPv4ValidDNSAddr(g_021A827C, g_021A82DC[1], g_021A82BC) == 0)
 		g_021A82DC[1] = 0;
 	return 1;
 }

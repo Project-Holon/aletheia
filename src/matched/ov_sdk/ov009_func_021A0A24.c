@@ -13,13 +13,13 @@
  *
  * symbols:
  *   InitCryptKey  0x021A0378  arm  ov009
- *   func_0219D478  0x0219D478  arm  ov009
+ *   GOADecrypt  0x0219D478  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
  *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   SBRefStr  0x0219F8B0  arm  ov009
- *   func_02184234  0x02184234  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
  *   IncomingListParseServer  0x021A08E8  arm  ov009
  *   memmove  0x02092364  arm
  *   gSBNullServer  0x021AEB00  data
@@ -71,13 +71,13 @@ typedef struct _SBServerList {
 } SBServerList;
 
 extern void InitCryptKey(SBServerList *slist, char *key, int keylen);
-extern void func_0219D478(void *state, unsigned char *bp, int len);
+extern void GOADecrypt(void *state, unsigned char *bp, int len);
 extern int NTSLengthSB(char *buf, int len);
 extern void SBServerListSetLastError(SBServerList *slist, char *theError);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern int func_02184200(void *array);
+extern int ArrayLength(void *array);
 extern char *SBRefStr(SBServerList *slist, char *str);
-extern void func_02184234(void *array, void *newElem);
+extern void ArrayAppend(void *array, void *newElem);
 extern int IncomingListParseServer(SBServerList *slist, char *buf, int len);
 extern void *memmove(void *dst, const void *src, unsigned int n);
 extern struct SBServer *gSBNullServer;
@@ -110,7 +110,7 @@ SBError ProcessMainListData(SBServerList *slist)
         slist->backendgameflags = NTOHS(slist->backendgameflags);
         inbuf += reqlen;
         inlen -= reqlen;
-        func_0219D478(slist->cryptkey, (unsigned char *)inbuf, inlen);
+        GOADecrypt(slist->cryptkey, (unsigned char *)inbuf, inlen);
     case 1:
         if (inlen < 6)
             break;
@@ -146,7 +146,7 @@ SBError ProcessMainListData(SBServerList *slist)
             inbuf++;
             inlen--;
         }
-        while (slist->expectedelements > func_02184200(slist->keylist)) {
+        while (slist->expectedelements > ArrayLength(slist->keylist)) {
             int keylen;
             if (inlen < 2)
                 break;
@@ -155,11 +155,11 @@ SBError ProcessMainListData(SBServerList *slist)
                 break;
             ki.keyType = (unsigned char)*inbuf;
             ki.keyName = SBRefStr(slist, inbuf + 1);
-            func_02184234(slist->keylist, &ki);
+            ArrayAppend(slist->keylist, &ki);
             inbuf += keylen + 1;
             inlen -= keylen + 1;
         }
-        if (slist->expectedelements > func_02184200(slist->keylist))
+        if (slist->expectedelements > ArrayLength(slist->keylist))
             break;
         slist->pstate = 3;
         slist->expectedelements = -1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BE8
+ * function: SUBWAY_MAP_GRAPHIC_DeleteCamera
  * address:  0x021B9BE8
  * packet:   pkt_021B9BE8
  * region:   ov224
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(u32 x);
 
-void func_021B9BE8(u32 *p)
+void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

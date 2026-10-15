@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020637D4  0x020637D4  arm
- *   func_02063E54  0x02063E54  arm
- *   sub_020307B0   0x020307B0  arm
- *   sub_02030EAC   0x02030EAC  arm
+ *   NNSi_G2dInitVramHandleEx  0x020637D4  arm
+ *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  */
 
 typedef unsigned char  u8;
@@ -43,10 +43,10 @@ struct Obj_0201691C {
 };
 
 struct Node;
-extern void func_020637D4(u32 *p);
-extern void func_02063E54(void *a, u32 b, int c, void *d);
-extern u32 sub_020307B0(void *p);
-extern void sub_02030EAC(struct Node *n);
+extern void NNSi_G2dInitVramHandleEx(u32 *p);
+extern void NNSi_G2dLoadVramResourceBySel(void *a, u32 b, int c, void *d);
+extern u32 GFL_HEAP_Free(void *p);
+extern void TCB_DeleteTask(struct Node *n);
 
 void MCSS_TransPaletteTask(void *a0, struct Obj_0201691C *a1)
 {
@@ -56,16 +56,16 @@ void MCSS_TransPaletteTask(void *a0, struct Obj_0201691C *a1)
         if (v < 0xc0 || v > 0xc8)
             return;
     }
-    func_020637D4(a1->f0c);
-    func_02063E54(a1->f04, a1->f1c, 0, a1->f0c);
+    NNSi_G2dInitVramHandleEx(a1->f0c);
+    NNSi_G2dLoadVramResourceBySel(a1->f04, a1->f1c, 0, a1->f0c);
     if (a1->f24 != 0) {
         if (a1->f24->f04 == a0)
             a1->f24->f04 = 0;
         if (a1->f24->f08 == a0)
             a1->f24->f08 = 0;
     }
-    sub_020307B0(((struct Obj04_0201691C *)a1->f04)->f0c);
-    sub_020307B0(a1->f04);
-    sub_020307B0(a1);
-    sub_02030EAC(a0);
+    GFL_HEAP_Free(((struct Obj04_0201691C *)a1->f04)->f0c);
+    GFL_HEAP_Free(a1->f04);
+    GFL_HEAP_Free(a1);
+    TCB_DeleteTask(a0);
 }

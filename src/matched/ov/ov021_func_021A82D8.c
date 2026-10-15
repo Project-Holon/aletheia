@@ -1,5 +1,5 @@
 /*
- * function: func_021A82D8
+ * function: FIELD_GROUND_ANIME_CallEnterEvent
  * address:  0x021A82D8
  * packet:   pkt_ov021_021A82D8
  * region:   ov021
@@ -32,7 +32,7 @@ extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, in
 struct Evt;
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-void func_021A82D8(void *a, Src **pp)
+void FIELD_GROUND_ANIME_CallEnterEvent(void *a, Src **pp)
 {
     Src *s;
     void *r;

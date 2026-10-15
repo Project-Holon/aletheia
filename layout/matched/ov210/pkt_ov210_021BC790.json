@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC790",
+   "name": "ZKNSEARCH_MAIN_InitPaletteAnim",
    "address": "0x021BC790",
    "kind": "game",
    "region": "ov210",

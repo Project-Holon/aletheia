@@ -1,5 +1,5 @@
 /*
- * function: func_0217CF5C
+ * function: gsCryptRSAVerifySignedHash
  * address:  0x0217CF5C
  * packet:   pkt_ov009_0217CF5C
  * region:   ov009
@@ -47,7 +47,7 @@ extern int gsLargeIntReverseBytes(gsLargeInt_t *lint);
 extern int func_0217E078(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
 extern int func_020923F0(const void *, const void *, u32);
 
-int func_0217CF5C(const gsCryptRSAKey *publicKey, const u8 *hash, u32 hashLen, const u8 *sig, u32 sigLen)
+int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u32 hashLen, const u8 *sig, u32 sigLen)
 {
     gsLargeInt_t lintRSASignature;
     u8 *packet = (u8 *)lintRSASignature.mData;

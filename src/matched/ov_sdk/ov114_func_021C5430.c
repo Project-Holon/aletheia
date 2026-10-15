@@ -13,8 +13,8 @@
  *
  * symbols:
  *   current_time  0x0217F264  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   ghiDoReceive  0x021C04D4  arm  ov114
  *   ghiFreeTempBuffer  0x021C4E68  arm  ov114
  *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
@@ -54,8 +54,8 @@ typedef struct {
 } GHIConnection;
 
 extern unsigned int current_time(void);
-extern void *func_0217EAB0(unsigned long size);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void *gsimalloc(unsigned long size);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 struct GHIBuffer;
 struct GHIConnection;
 extern int ghiDoReceive(struct GHIConnection *connection, char *buffer, int *bufferLen);
@@ -79,7 +79,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
     running_time = 0;
     bufferLen = 0;
 
-    buffer = func_0217EAB0(0x2000);
+    buffer = gsimalloc(0x2000);
     if (buffer == 0)
     {
         connection->completed = 1;
@@ -87,7 +87,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
         return;
     }
 
-    func_0217D254(8, (char *)3, 0x10, sGhttpReceivingFile);
+    gsDebugFormat(8, (char *)3, 0x10, sGhttpReceivingFile);
 
     while (!connection->completed && running_time < connection->maxRecvTime)
     {
@@ -103,7 +103,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
             }
             if (current_time() - connection->lastReceiveTime < 30000)
                 return;
-            func_0217D254(8, 0, 1, sGhttpReceiveFileIdleTimeout, current_time() - connection->lastReceiveTime);
+            gsDebugFormat(8, 0, 1, sGhttpReceiveFileIdleTimeout, current_time() - connection->lastReceiveTime);
             connection->lastReceiveTime = 0;
             connection->completed = 1;
             connection->result = 0x13;

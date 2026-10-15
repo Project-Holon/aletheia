@@ -1,5 +1,5 @@
 /*
- * function: func_0220ECCC
+ * function: B_PLIST_DRAW_LayoutMode3
  * address: 0x0220ECCC
  * packet: pkt_ov198_0220ECCC
  * region: ov198
@@ -16,12 +16,12 @@
  *   The (char *) and (const u8 *) casts on p keep p + i*4 from being CSE'd
  *   into one register, as in EC2C.
  * symbols:
- *   func_022110D4 0x022110D4 thumb ov198
- *   func_0220E7CC 0x0220E7CC thumb ov198
- *   func_0220E974 0x0220E974 thumb ov198
- *   func_0220E9A0 0x0220E9A0 thumb ov198
- *   func_0220EA30 0x0220EA30 thumb ov198
- *   func_0220F060 0x0220F060 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
+ *   B_PLIST_DRAW_PlaceActor 0x0220E7CC thumb ov198
+ *   B_PLIST_DRAW_SetActorAnim 0x0220E974 thumb ov198
+ *   B_PLIST_DRAW_SwapActorPair 0x0220E9A0 thumb ov198
+ *   B_PLIST_DRAW_SetActorAnimByMode 0x0220EA30 thumb ov198
+ *   B_PLIST_MAIN_SyncMoveActors 0x0220F060 thumb ov198
  *   d_02211D34 0x02211D34 data a2
  *   d_02211D68 0x02211D68 data a2
  *   d_02211D78 0x02211D78 data a2
@@ -37,25 +37,25 @@ extern const Table1 d_02211D34;
 typedef struct {Pair first,second,third,last;} Table2;
 extern const Table2 d_02211D68;
 extern const Pair d_02211D78;
-extern int func_022110D4(u8 *p, int i);
-extern void func_0220E7CC(u8 *p, u32 b);
-extern void func_0220E974(int mode, u8 *p, const struct Vec2 *q);
-extern void func_0220E9A0(char *p, u8 *q, Pair *pos);
-extern void func_0220EA30(u32 mode, u8 *p, const struct Vec2 *q);
-extern void func_0220F060(u8 *p);
-void func_0220ECCC(u8 *p)
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *p, int i);
+extern void B_PLIST_DRAW_PlaceActor(u8 *p, u32 b);
+extern void B_PLIST_DRAW_SetActorAnim(int mode, u8 *p, const struct Vec2 *q);
+extern void B_PLIST_DRAW_SwapActorPair(char *p, u8 *q, Pair *pos);
+extern void B_PLIST_DRAW_SetActorAnimByMode(u32 mode, u8 *p, const struct Vec2 *q);
+extern void B_PLIST_MAIN_SyncMoveActors(u8 *p);
+void B_PLIST_DRAW_LayoutMode3(u8 *p)
 {
     int i;
     u8 *rec;
     Pair pair;
-    i = func_022110D4(p, (*(u8 **)p)[0x20]);
+    i = B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[0x20]);
     rec = p + 4 + i * 0x4c;
     pair = d_02211D34.item;
-    func_0220E7CC(*(u8 **)(p + i * 4 + 0x1ed8), (u32)&pair);
-    func_0220E974(((Bits *)(rec + 0x17))->kind, *(u8 **)((char *)p + i * 4 + 0x1ef0), (const struct Vec2 *)&d_02211D68.second);
-    func_0220E9A0((char *)p, rec, (Pair *)&d_02211D78);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p + i * 4 + 0x1ed8), (u32)&pair);
+    B_PLIST_DRAW_SetActorAnim(((Bits *)(rec + 0x17))->kind, *(u8 **)((char *)p + i * 4 + 0x1ef0), (const struct Vec2 *)&d_02211D68.second);
+    B_PLIST_DRAW_SwapActorPair((char *)p, rec, (Pair *)&d_02211D78);
     pair.x += 8;
     pair.y += 8;
-    func_0220EA30(*(u16 *)(rec + 0x1a), *(u8 **)((const u8 *)p + i * 4 + 0x1ebc), (const struct Vec2 *)&pair);
-    func_0220F060(p);
+    B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)(rec + 0x1a), *(u8 **)((const u8 *)p + i * 4 + 0x1ebc), (const struct Vec2 *)&pair);
+    B_PLIST_MAIN_SyncMoveActors(p);
 }

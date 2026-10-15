@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DD0AC",
+   "name": "BR_CODEIN_RecordCreateTextWin",
    "address": "0x021DD0AC",
    "kind": "game",
    "region": "ov183",

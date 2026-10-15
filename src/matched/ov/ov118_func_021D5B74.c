@@ -1,5 +1,5 @@
 /*
- * function: func_021D5B74
+ * function: POKETRADE_DEMO_DOWN_StepSetupParticles
  * address:  0x021D5B74
  * packet:   pkt_ov118_021D5B74
  * region:   ov118
@@ -13,7 +13,7 @@
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_NEGO_PlaySeByKeyA  0x021DFA60  thumb  ov119
  *   POKETRADE_3D_SetupParticleSystemsHigh  0x021E3004  thumb  ov119
- *   func_021D5B98  0x021D5B98  thumb  ov118
+ *   POKETRADE_DEMO_DOWN_StepPlaySe  0x021D5B98  thumb  ov118
  *
  * Addresses are Black-image addresses.
  */
@@ -26,11 +26,11 @@ typedef int s32;
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_NEGO_PlaySeByKeyA(u32 key);
 extern void POKETRADE_3D_SetupParticleSystemsHigh(char *p);
-extern void func_021D5B98(u8 *p);
+extern void POKETRADE_DEMO_DOWN_StepPlaySe(u8 *p);
 
-void func_021D5B74(u8 *p)
+void POKETRADE_DEMO_DOWN_StepSetupParticles(u8 *p)
 {
     POKETRADE_NEGO_PlaySeByKeyA(((struct Obj13879 *)p)->fF2C);
     POKETRADE_3D_SetupParticleSystemsHigh(((struct Obj13879 *)p)->fC);
-    POKETRADE_PROC_SetStep(p, (int)func_021D5B98);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_DOWN_StepPlaySe);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020711C8
+ * function: NNSi_G3dTexMtxScaleRot4x4
  * address:  0x020711C8
  * packet:   pkt_02071104
  * region:   arm9
@@ -50,7 +50,7 @@
  *      (`ldrsh r5, [sb, #0x22]`, f2 52 d9 e1) and colours it r6.  This is the
  *      family's usual tell in its scheduling form -- 1.1p1 refuses to separate
  *      a load from its first use and reorders the pair to follow the
- *      consumption order, exactly as measured for func_02070F2C at
+ *      consumption order, exactly as measured for NNSi_G3dTexMtxScaleRotTrans4x4 at
  *      0x02070F54/0x02070F5C.  Four further spellings were measured against
  *      it under 1.1p1 (splitting x6's range instead of x7's: 28; both ranges
  *      split: 28; x5 hoisted between the two f18 products: 19; the f00 store
@@ -95,7 +95,7 @@ typedef unsigned int   u32;
 extern void func_0207C930(u32 numer, u32 denom);
 extern s32  func_0207C86C(void);
 
-void func_020711C8(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScaleRot4x4(struct DST *d, struct SRC *s)
 {
     s32 f12, e12;
     s32 a, b, p, r;

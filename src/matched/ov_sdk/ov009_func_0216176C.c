@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  *
- * Forwards (p + 0x1e0) to func_02163EB8 and returns the third argument.
+ * Forwards (p + 0x1e0) to CPSi_rc4_crypt and returns the third argument.
  *
  * symbols:
- *   func_02163EB8  0x02163EB8  arm  ov009
+ *   CPSi_rc4_crypt  0x02163EB8  arm  ov009
 
  */
 
@@ -24,7 +24,7 @@ typedef signed char    s8;
 
 void *decrypt(char *p, void *a, void *b)
 {
-    void func_02163EB8(void *, void *, void *);
-    func_02163EB8(p + 0x1e0, a, b);
+    void CPSi_rc4_crypt(void *, void *, void *);
+    CPSi_rc4_crypt(p + 0x1e0, a, b);
     return b;
 }

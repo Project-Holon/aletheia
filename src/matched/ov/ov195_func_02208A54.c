@@ -1,5 +1,5 @@
 /*
- * function: func_02208A54
+ * function: SHINKA_DEMO_EFFECT_InitUnit
  * address:  0x02208A54
  * packet:   pkt_02208A54
  * region:   ov195
@@ -16,7 +16,7 @@
 
 extern int G3D_UTIL_Create(int, int, int);
 
-void func_02208A54(char *a)
+void SHINKA_DEMO_EFFECT_InitUnit(char *a)
 {
     *(int *)&((struct Obj00687 *)a)->f14 = G3D_UTIL_Create(4, 1, ((struct Obj00687 *)a)->f0);
     ((struct Obj00687 *)a)->f1C = 0;

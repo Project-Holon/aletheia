@@ -12,7 +12,7 @@
  *
  * Checked heap-id lookup handing the arena to sub_02060E94 with a mode of
  * 4; see src/matched/sub_02030428.c for the shared preamble this family
- * has in common. The same (arena, 4) pair appears in sub_02030958, the
+ * has in common. The same (arena, 4) pair appears in GFL_HEAP_ReportOutOfMemory, the
  * out-of-memory reporter, so mode 4 is the heap-layer's own dump mode.
  *
  *   void *sub_0203038C(u32 heapId)

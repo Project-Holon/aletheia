@@ -17,7 +17,7 @@
  *   func_020409B4  0x020409B4  arm
  *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   OEKAKI_SetQuitButtonPressed  0x021852F4  thumb  ov023
  *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
  *   OEKAKI_PrintMessage  0x021861C4  thumb  ov023
@@ -47,7 +47,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 extern void APP_TASKMENU_TransWinAfterPrint(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void OEKAKI_SetQuitButtonPressed(void *p, int flag);
 extern void OEKAKI_ApplyRemoteStrokes(char *p);
 extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
@@ -80,7 +80,7 @@ int OEKAKI_StepQuitMenuResult(char *p, int x)
             OEKAKI_PrintMessage((u8 *)p, 4, 1);
         } else {
             OEKAKI_SetNextScene(p, 8);
-            func_0201F7A8((void *)(((struct Obj02741 *)p)->f11C), 2);
+            BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj02741 *)p)->f11C), 2);
         }
         w = ((struct Obj02741 *)p)->f118;
         BMP_WIN_TransferChars((struct Descriptor *)w);
@@ -90,7 +90,7 @@ int OEKAKI_StepQuitMenuResult(char *p, int x)
     case 1:
         OEKAKI_SetNextScene(p, 4);
         OEKAKI_SetQuitButtonPressed((void *)(((struct Obj02741 *)p)->f100), 0);
-        func_0201F7A8((void *)(((struct Obj02741 *)p)->f11C), 2);
+        BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj02741 *)p)->f11C), 2);
         w = ((struct Obj02741 *)p)->f118;
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);

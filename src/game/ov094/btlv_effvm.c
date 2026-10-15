@@ -60,7 +60,7 @@
  *   d_02209D84 0x02209D84 data ov094 a4
  *   d_02209DA8 0x02209DA8 data ov094 a4
  *   d_02209D9C 0x02209D9C data ov094 a4
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02049624  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
@@ -340,7 +340,7 @@ extern void PARTICLE_InitCamera(struct ParticleSys *sys, struct ParticleCameraPa
 
 extern int BUTTON_MAN_GetBlock(struct ParticleSys *p);
 
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
@@ -2434,7 +2434,7 @@ int BTLV_EFFVM_CmdLoadBgPalette(struct ScriptVm *vm, BtlvEffVmWork *work)
     int fileId;
 
     fileId = VM_GetU32(vm);
-    func_0204047C(3, 1);
+    BG_SYS_SetVisibleLayer(3, 1);
     func_02049624((void *)0x5f, (void *)(fileId + 1), (void *)3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     func_0204989C(0x5f, fileId, 3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), (int)0x5f, (int)(fileId + 2), (u16)((work->heapId & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
@@ -2486,11 +2486,11 @@ int BTLV_EFFVM_CmdNop5(struct ScriptVm *vm, BtlvEffVmWork *work)
 }
 
 /*
- * Script command: func_0204047C(3, arg) and sets the gfxReloadPending flag.
+ * Script command: BG_SYS_SetVisibleLayer(3, arg) and sets the gfxReloadPending flag.
  */
 int BTLV_EFFVM_CmdSetBgLayerEnable(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
-    func_0204047C(3, (unsigned char)VM_GetU32(vm));
+    BG_SYS_SetVisibleLayer(3, (unsigned char)VM_GetU32(vm));
     work->flags.bit.gfxReloadPending = 1;
     return work->result;
 }
@@ -3235,7 +3235,7 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
         scu = (void *)BTLV_EFFECT_GetRule();
         if (scu != 0)
             BTLV_SCU_ReloadGraphics(scu);
-        func_0204047C(3, 0);
+        BG_SYS_SetVisibleLayer(3, 0);
         work->flags.bit.gfxReloadPending = 0;
         func_02040618(3, 0, work->bg3ScrollX);
         func_02040618(3, 3, work->bg3ScrollY);

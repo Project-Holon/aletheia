@@ -16,9 +16,9 @@
  *   WCMi_SetPhase    0x02165A4C  arm  ov009
  *   func_02166E5C    0x02166E5C  arm  ov009
  *   func_021659B4    0x021659B4  arm  ov009
- *   func_02166804    0x02166804  arm  ov009
+ *   WCMi_ShelterRssi    0x02166804  arm  ov009
  *   DC_InvalidateRange 0x020862B8  arm
- *   func_02166358    0x02166358  arm  ov009
+ *   WCMi_CpsifRecvCallback    0x02166358  arm  ov009
  */
 
 typedef struct WMDcfRecvBuf {
@@ -52,9 +52,9 @@ extern int WCMi_GetSystemWork(void);
 extern void WCMi_SetPhase(unsigned char phase);
 extern void func_02166E5C(void);
 extern void func_021659B4(short result, void *para0, void *para1, long para2);
-extern void func_02166804(unsigned char rssi);
+extern void WCMi_ShelterRssi(unsigned char rssi);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
-extern void func_02166358(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
+extern void WCMi_CpsifRecvCallback(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
 
 void WcmWmcbStartDCF(void *arg)
 {
@@ -75,9 +75,9 @@ void WcmWmcbStartDCF(void *arg)
             func_021659B4(0, wcmw->notifyParam, 0, 0x4b7);
             return;
         case 0xf:
-            func_02166804((cb->recv->rateRssi >> 8) & 0xff);
+            WCMi_ShelterRssi((cb->recv->rateRssi >> 8) & 0xff);
             DC_InvalidateRange(cb->recv, 0x620);
-            func_02166358(cb->recv->srcAdrs, cb->recv->destAdrs, cb->recv->data, cb->recv->length);
+            WCMi_CpsifRecvCallback(cb->recv->srcAdrs, cb->recv->destAdrs, cb->recv->data, cb->recv->length);
             return;
         default:
             WCMi_SetPhase(0xb);

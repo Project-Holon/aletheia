@@ -24,14 +24,14 @@
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   func_02082A7C  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
- *   func_02062A4C  0x02062A4C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02062B30  0x02062B30  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   G2_GetBG1ScrPtr  0x0207DFB4  arm
- *   func_02062AD4  0x02062AD4  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   MIi_CpuClear16  0x02082A48  arm
  *   BMP_CreateFromVram  0x02043754  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
@@ -99,14 +99,14 @@ extern void GX_SetGraphicsMode(int layer, int x, int y);
 extern void *G2_GetBG1CharPtr(void);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int resident, int heapId);
-extern signed int func_02062A4C(struct NitroFileHeader *file, void **out);
+extern signed int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(void *data, u32 size);
 extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *ptr);
-extern int func_02062B30(void *file, void **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern void *G2_GetBG1ScrPtr(void);
-extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern void MIi_CpuClear16(int value, u32 dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern struct GfFont *GF_FONT_Create(int fontId, int a1, int a2, int a3, u32 heapId);
@@ -207,22 +207,22 @@ void ERROR_SCREEN_LoadBackground(void)
     func_02082A7C(0, G2_GetBG1CharPtr(), 0x4000);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
-    if (func_02062A4C(file, (void **)(&charData))) {
+    if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&charData))) {
         DWCi_ScreenDC_FlushRange(charData->pixels, charData->sizeBytes);
         CopyToVram(charData->pixels, G2_GetBG1CharPtr(), charData->sizeBytes);
     }
     func_020307B0(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
-    if (func_02062B30(file, (void **)(&screenData))) {
+    if (NNS_G2dGetUnpackedScreenData(file, (void **)(&screenData))) {
         DWCi_ScreenDC_FlushRange(screenData->tiles, screenData->sizeBytes);
         CopyToVram(screenData->tiles, G2_GetBG1ScrPtr(), screenData->sizeBytes);
     }
     func_020307B0(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
-    func_02062AD4(file, &unusedBlock);
-    if (func_02062A98(file, (void **)(&paletteData))) {
+    NNS_G2dGetUnpackedPaletteCompressInfo(file, &unusedBlock);
+    if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&paletteData))) {
         DWCi_ScreenDC_FlushRange(paletteData->colors, 0x20);
         CopyToVram(paletteData->colors, (void *)PLTT_MAIN_BG, 0x20);
     }

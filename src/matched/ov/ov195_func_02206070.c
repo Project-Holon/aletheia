@@ -1,5 +1,5 @@
 /*
- * function: func_02206070
+ * function: SHINKA_DEMO_VIEW_IsEvolveStarted
  * address:  0x02206070
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * Getter for the +0x38 word of the ov195 scene object (unlabelled leaf).
  */
-int func_02206070(int *p)
+int SHINKA_DEMO_VIEW_IsEvolveStarted(int *p)
 {
     return p[14];
 }

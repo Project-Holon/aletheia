@@ -1,5 +1,5 @@
 /*
- * function: func_02193378
+ * function: gpiValueForKeyWithIndex
  * address:  0x02193378
  * packet:   pkt_ov009_02193378
  * region:   ov009
@@ -20,7 +20,7 @@ extern unsigned char *strstr(const unsigned char *s1, const unsigned char *s2);
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 
-int func_02193378(char *command, char *key, int *index, char *value, int len)
+int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len)
 {
     char delimiter;
     char *start;

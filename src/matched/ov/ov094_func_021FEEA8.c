@@ -25,7 +25,7 @@
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
- *   func_02019C90 0x02019C90 thumb
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
  *   func_0202D034 0x0202D034 thumb
  *   MCSS_Add 0x020159C8 thumb
  *   MCSS_SetShadowAlpha 0x02015FD4 thumb
@@ -56,7 +56,7 @@ struct Obj;
 struct Rec;
 struct Sub150;
 extern u32 func_02017EAC(void *p);
-extern u32 func_02019C90(u16, u16, u32);
+extern u32 POKE_TOOL_GetPersonalParam(u16, u16, u32);
 extern int func_0202D034(u32, u32);
 extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void MCSS_SetShadowAlpha(char *p, int v);
@@ -99,7 +99,7 @@ void BTLV_MCSS_AddPoke(char *w, void *src, int key)
         BTLV_MCSS_SetSpriteWorkFlagForRule(w, key, 1);
         *(u32 *)(w + 0x34 + off) = func_02017E1C(src, 5, 0);
         *(u32 *)(w + 0x38 + off) = func_02017E1C(src, 0x6f, 0);
-        *(u16 *)(w + 0x40 + off) = func_02019C90(*(u32 *)(w + 0x34 + off), *(u32 *)(w + 0x38 + off), 0x26);
+        *(u16 *)(w + 0x40 + off) = POKE_TOOL_GetPersonalParam(*(u32 *)(w + 0x34 + off), *(u32 *)(w + 0x38 + off), 0x26);
         a = func_02017E1C(src, 0xa0, 0);
         b = func_02017E1C(src, 0xa1, 0);
         *(u16 *)(w + 0x42 + off) = func_0202D034(a, b);

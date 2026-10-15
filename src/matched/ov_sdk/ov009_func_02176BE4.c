@@ -1,5 +1,5 @@
 /*
- * function: func_02176BE4
+ * function: DWCi_IsReliableQueueFree
  * address:  0x02176BE4
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021AB178[];
 
-int func_02176BE4(void)
+int DWCi_IsReliableQueueFree(void)
 {
     return *(int *)(g_021AB178 + 4) < 0x6000;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5DB8
+ * function: VIEWER_MAIN_BlitBrush
  * address:  0x021C5DB8
  * packet:   pkt_ov111_021C5DB8
  * region:   ov111
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5CF4  0x021C5CF4  thumb  ov111
+ *   VIEWER_MAIN_BlitRect  0x021C5CF4  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char u8;
 
-extern void func_021C5CF4(u8 *pix, const u8 *brush, int x, int y, int w, int h, int clip, int side);
+extern void VIEWER_MAIN_BlitRect(u8 *pix, const u8 *brush, int x, int y, int w, int h, int clip, int side);
 
-int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side)
+int VIEWER_MAIN_BlitBrush(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side)
 {
     int n = 0;
     int x = *px;
@@ -51,7 +51,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
         } else {
             s = (y < y1) ? 1 : -1;
         }
-        func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+        VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
         x++;
         e = dx >> 1;
         n++;
@@ -61,7 +61,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
                 e += dx;
                 y += s;
             }
-            func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+            VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
             n++;
         }
     } else {
@@ -73,7 +73,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
         } else {
             s = (x < x1) ? 1 : -1;
         }
-        func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+        VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
         y++;
         e = dy >> 1;
         n++;
@@ -83,7 +83,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
                 e += dy;
                 x += s;
             }
-            func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+            VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
             n++;
         }
     }

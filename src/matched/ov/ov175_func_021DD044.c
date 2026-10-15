@@ -1,5 +1,5 @@
 /*
- * function: func_021DD044
+ * function: WIFIBATTLEMATCH_NET_CompareField
  * address:  0x021DD044
  * packet:   pkt_021DD044
  * region:   ov175
@@ -90,7 +90,7 @@ extern u32 g_021E35E4[];
 extern u32 g_021E3600[];
 extern u32 g_021E3618[];
 
-int func_021DD044(int a)
+int WIFIBATTLEMATCH_NET_CompareField(int a)
 {
     if (a <= 0)
         return (int)g_021E32C4;

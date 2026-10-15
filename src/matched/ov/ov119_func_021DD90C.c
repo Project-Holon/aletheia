@@ -10,7 +10,7 @@
  * 2026-10-02 lane R1: closed by storing the call result straight into items[i] and reading it back
  * (w=items[i]): the pointer local stays live across the call and the forwarded value is spilled.
  * symbols:
- *   d_021E76FC 0x021E76FC data a4
+ *   gOfferStatusLabelPos 0x021E76FC data a4
  *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int a,b; } Pair;
-extern const Pair d_021E76FC;
+extern const Pair gOfferStatusLabelPos;
 extern int POKETRADE_PROC_IsHostSide(void *);
 typedef signed short   s16;
 struct Cfg;
@@ -44,7 +44,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void POKETRADE_NEGO_DrawOfferStatusLabel(u8 *p,int i,int msg,int force)
 {
-    Pair t=d_021E76FC;
+    Pair t=gOfferStatusLabelPos;
     int w;
     int *items;
     if(force==0) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F760C",
+   "name": "STA_ACT_LIGHT_AddPokemonElem",
    "address": "0x021F760C",
    "kind": "game",
    "region": "ov112",

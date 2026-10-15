@@ -14,7 +14,7 @@
  *   BMP_WIN_GetPosY 0x02045760 arm
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   BMP_WIN_GetDispHeight 0x02045750 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj03954.h"
@@ -27,7 +27,7 @@ extern u8 BMP_WIN_GetPosX(struct Descriptor *);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *);
 extern u8 BMP_WIN_GetDispWidth(struct Descriptor *);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *);
-extern void func_020413B0(u32,u8,u8,u8,u8,u8);
+extern void BG_SYS_FillTileMap(u32,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 void BgTextLabel_SetPalette(u8 *p,u8 palette)
 {
@@ -39,6 +39,6 @@ void BgTextLabel_SetPalette(u8 *p,u8 palette)
     y=BMP_WIN_GetPosY(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     width=BMP_WIN_GetDispWidth(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     height=BMP_WIN_GetDispHeight(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    func_020413B0(layer,x,y,width,height,palette);
+    BG_SYS_FillTileMap(layer,x,y,width,height,palette);
     if (((struct Obj03954 *)p)->f1C!=0) func_02041B6C(BMP_WIN_GetBgLayer(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18));
 }

@@ -138,7 +138,6 @@ u32 WIFI_HISTORY_GetCountryRegionState(const struct WifiHistory *history, int co
 void WIFI_HISTORY_SetCountryRegionState(struct WifiHistory *history, int country, int region, int state);
 u8 WIFI_HISTORY_GetMode(const struct WifiHistory *history);
 void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history);
-u8 sub_02009584(const struct WifiHistory *history);
 u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *status, int flag);
 u8 WIFI_HISTORY_GetFirstFreeEntry(const struct WifiHistory *history);
 void WIFI_HISTORY_IncrementVisitedCountryCount(struct WifiHistory *history);
@@ -151,7 +150,6 @@ void WIFI_HISTORY_SetEntryField(struct WifiHistory *history, int index, u32 fiel
 struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, int index);
 void WIFI_HISTORY_Dummy(void);
 u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country);
-u32 sub_02009794(const struct WifiHistory *history, u32 country);
 u32 WIFILIST_GetWorkSize(void);
 struct WifiList *WIFILIST_Create(int heapId);
 void WIFILIST_Copy(const struct WifiList *src, struct WifiList *dest);
@@ -237,7 +235,7 @@ void GAME_SYNC_ClearBlock(struct GameSyncData *data)
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/001_02007664.s.
  *
- *           WIFI_HISTORY_GetMode, WIFI_HISTORY_PromoteVisitedStates, sub_02009584
+ *           WIFI_HISTORY_GetMode, WIFI_HISTORY_PromoteVisitedStates, WIFI_HISTORY_GetVisitedCountryCount
  *
  * alias: the save block with id 0x1D.  Its bulk is a 0xFF0-byte array of
  * two-bit fields at +0x348, sixteen bytes (sixty-four fields) per row, and
@@ -266,14 +264,14 @@ void GAME_SYNC_ClearBlock(struct GameSyncData *data)
  *   u8 sub_02009590(const struct WifiHistory *history,
  *                   const struct MyStatus *status, int flag)
  *   {
- *       u8 v = sub_02009584(history);
+ *       u8 v = WIFI_HISTORY_GetVisitedCountryCount(history);
  *
  *       if (flag == 0) {
  *           u8 t = MYSTATUS_GetLanguage(status);
  *
  *           if (t == 0) {
  *               v = 0;
- *           } else if (sub_02009794(history) != 0 && v != 0) {
+ *           } else if (WIFI_HISTORY_IsCountryVisited(history) != 0 && v != 0) {
  *               v = v - 1;
  *           }
  *       }
@@ -373,7 +371,7 @@ void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history)
 
 
 
-u8 sub_02009584(const struct WifiHistory *history)
+u8 WIFI_HISTORY_GetVisitedCountryCount(const struct WifiHistory *history)
 {
     return history->visitedCountryCount;
 }
@@ -412,7 +410,7 @@ u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *st
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
  *           WIFI_HISTORY_SetGreetingSet, WIFI_HISTORY_GetGreetingSet, WIFI_HISTORY_GetEntryField, WIFI_HISTORY_SetEntryField,
- *           WIFI_HISTORY_GetEntry, WIFI_HISTORY_Dummy, WIFI_HISTORY_MarkCountryVisited, sub_02009794
+ *           WIFI_HISTORY_GetEntry, WIFI_HISTORY_Dummy, WIFI_HISTORY_MarkCountryVisited, WIFI_HISTORY_IsCountryVisited
  *
  * alias: the rest of the save block with id 0x1D whose first half is
  * src/matched/unit_02009470.c.  This half is the twenty 0x28-byte records at
@@ -605,7 +603,7 @@ u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country)
         return isNew;
     }
     if (country < WIFI_HISTORY_COUNTRY_MAX) {
-        if (sub_02009794(history, country) == 0) {
+        if (WIFI_HISTORY_IsCountryVisited(history, country) == 0) {
             isNew = 1;
         }
         history->visitedCountryBits[country >> 3] |= (u8)(1 << (u8)(country & 7));
@@ -615,7 +613,7 @@ u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country)
 
 
 
-u32 sub_02009794(const struct WifiHistory *history, u32 country)
+u32 WIFI_HISTORY_IsCountryVisited(const struct WifiHistory *history, u32 country)
 {
     if (country < WIFI_HISTORY_COUNTRY_MAX) {
         u8 bit = (history->visitedCountryBits[country >> 3] >> (u8)(country & 7)) & 1;

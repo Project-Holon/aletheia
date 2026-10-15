@@ -1,5 +1,5 @@
 /*
- * function: func_0220673C
+ * function: SHINKA_DEMO_VIEW_IsMenuReady
  * address:  0x0220673C
  * packet:   pkt_0220673C
  * region:   ov195
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_0220673C(int *p)
+int SHINKA_DEMO_VIEW_IsMenuReady(int *p)
 {
     int v = **(int * *)&((struct Obj08348 *)p)->f58;
 

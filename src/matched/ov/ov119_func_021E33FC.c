@@ -27,7 +27,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   _fflt 0x0209BDBC arm
- *   d_021E7B9C 0x021E7B9C data a4
+ *   gSpeciesMcssOffset 0x021E7B9C data a4
  */
 typedef unsigned char u8;
 
@@ -47,7 +47,7 @@ typedef struct {
     int z;
 } Vec;
 
-extern Entry d_021E7B9C[4];
+extern Entry gSpeciesMcssOffset[4];
 typedef signed short   s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -75,14 +75,14 @@ void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon)
         flag = 1;
     found = 0;
     for (i = 0; i < 4; i++) {
-        if (a == d_021E7B9C[i].a && b == d_021E7B9C[i].b
-            && (d_021E7B9C[i].c == 3 || c == d_021E7B9C[i].c)
-            && (d_021E7B9C[i].d == 2 || flag == d_021E7B9C[i].d)) {
-            v.x = F32_TO_FX32(d_021E7B9C[i].x);
+        if (a == gSpeciesMcssOffset[i].a && b == gSpeciesMcssOffset[i].b
+            && (gSpeciesMcssOffset[i].c == 3 || c == gSpeciesMcssOffset[i].c)
+            && (gSpeciesMcssOffset[i].d == 2 || flag == gSpeciesMcssOffset[i].d)) {
+            v.x = F32_TO_FX32(gSpeciesMcssOffset[i].x);
             if (*dir >= 0)
                 v.x = -v.x;
-            v.y = F32_TO_FX32(d_021E7B9C[i].y);
-            v.z = F32_TO_FX32(d_021E7B9C[i].z);
+            v.y = F32_TO_FX32(gSpeciesMcssOffset[i].y);
+            v.z = F32_TO_FX32(gSpeciesMcssOffset[i].z);
             found = 1;
             break;
         }

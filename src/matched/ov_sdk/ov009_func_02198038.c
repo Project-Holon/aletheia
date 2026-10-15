@@ -1,5 +1,5 @@
 /*
- * function: func_02198038
+ * function: gti2NewSocketConnection
  * address:  0x02198038
  * packet:   pkt_ov009_02198038
  * region:   ov009
@@ -13,13 +13,13 @@
  *
  * symbols:
  *   func_02197D5C  0x02197D5C  arm  ov009
- *   func_02198028  0x02198028  arm  ov009
+ *   gti2CreateConnectionObject  0x02198028  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   current_time  0x0217F264  arm  ov009
- *   func_02194DA8  0x02194DA8  arm  ov009
+ *   gti2AllocateBuffer  0x02194DA8  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_0218474C  0x0218474C  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
  */
 
@@ -92,17 +92,17 @@ struct GTI2Socket {
 };
 
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern struct GTI2Connection *func_02198028(void);
+extern struct GTI2Connection *gti2CreateConnectionObject(void);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern unsigned int current_time(void);
-extern int func_02194DA8(struct GTI2Buffer *buffer, int size);
+extern int gti2AllocateBuffer(struct GTI2Buffer *buffer, int size);
 extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAllocate,
                                                  void (*elemFreeFn)(void *));
 extern void func_0218474C(struct HashImplementation *table, void *newElem);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern void func_021841B0(struct DArrayImplementation *array);
 
-int func_02198038(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip,
+int gti2NewSocketConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip,
                   unsigned short port)
 {
     struct GTI2Connection *connectionPtr = 0;
@@ -110,7 +110,7 @@ int func_02198038(struct GTI2Socket *socket, struct GTI2Connection **connection,
     if (func_02197D5C(socket, ip, port))
         return 5;
 
-    connectionPtr = func_02198028();
+    connectionPtr = gti2CreateConnectionObject();
     if (!connectionPtr)
         goto failed;
 
@@ -123,9 +123,9 @@ int func_02198038(struct GTI2Socket *socket, struct GTI2Connection **connection,
     connectionPtr->serialNumber = 0;
     connectionPtr->expectedSerialNumber = 0;
 
-    if (!func_02194DA8(&connectionPtr->incomingBuffer, socket->incomingBufferSize))
+    if (!gti2AllocateBuffer(&connectionPtr->incomingBuffer, socket->incomingBufferSize))
         goto failed;
-    if (!func_02194DA8(&connectionPtr->outgoingBuffer, socket->outgoingBufferSize))
+    if (!gti2AllocateBuffer(&connectionPtr->outgoingBuffer, socket->outgoingBufferSize))
         goto failed;
 
     connectionPtr->incomingBufferMessages = func_02184144(16, 64, 0);
@@ -149,8 +149,8 @@ int func_02198038(struct GTI2Socket *socket, struct GTI2Connection **connection,
 
 failed:
     if (connectionPtr) {
-        func_0217EAE0(connectionPtr->incomingBuffer.buffer);
-        func_0217EAE0(connectionPtr->outgoingBuffer.buffer);
+        gsifree(connectionPtr->incomingBuffer.buffer);
+        gsifree(connectionPtr->outgoingBuffer.buffer);
         if (connectionPtr->incomingBufferMessages)
             func_021841B0(connectionPtr->incomingBufferMessages);
         if (connectionPtr->outgoingBufferMessages)
@@ -159,7 +159,7 @@ failed:
             func_021841B0(connectionPtr->sendFilters);
         if (connectionPtr->receiveFilters)
             func_021841B0(connectionPtr->receiveFilters);
-        func_0217EAE0(connectionPtr);
+        gsifree(connectionPtr);
     }
     return 1;
 }

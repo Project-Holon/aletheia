@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7D0
+ * function: COMM_BTL_DEMO_MAIN_DrawGraphics
  * address: 0x021BA7D0
  * packet: pkt_ov213_021BA7D0
  * region: ov213
@@ -29,7 +29,7 @@ extern void PARTICLE_Main(void);
 extern void MTX_Identity33_(MtxFx33 *p);
 extern u32 func_02048A18(u8 *a0, int i);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
-void func_021BA7D0(unsigned char *p)
+void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p)
 {
     struct Arg arg;
     void *object;

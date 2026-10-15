@@ -1,5 +1,5 @@
 /*
- * function: func_021C5874
+ * function: VIEWER_MAIN_InitLcdBrightness
  * address:  0x021C5874
  * packet:   pkt_ov111_021C5874
  * region:   ov111
@@ -31,7 +31,7 @@ extern fx32 FX_Inv(fx32 v);
 extern void OS_WaitVBlankIntr(void);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
-void func_021C5874(void)
+void VIEWER_MAIN_InitLcdBrightness(void)
 {
     struct Mtx m;
     fx32 a, d;

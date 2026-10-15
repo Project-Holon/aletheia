@@ -1,5 +1,5 @@
 /*
- * function: func_021BDEF0
+ * function: CTVT_CALL_DrawMemberName
  * address: 0x021BDEF0
  * packet: pkt_ov172_021BDEF0
  * region: ov172
@@ -26,7 +26,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(u32 owner, void *b, short y, u32 c, void *d, u32 e, u32 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021BDEF0(u8 *p, char *a, u32 b)
+void CTVT_CALL_DrawMemberName(u8 *p, char *a, u32 b)
 {
     void *s;
     int x;

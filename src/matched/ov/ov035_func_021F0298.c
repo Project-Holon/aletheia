@@ -14,10 +14,10 @@
  *   BMP_WIN_SetDispHeight 0x02045790 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_0201F79C 0x0201F79C thumb
+ *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -36,10 +36,10 @@ extern void BMP_WIN_SetDispHeight(struct Descriptor *p, u8 v);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_0201F79C(void *desc, u32 kind, u32 base, u32 pal);
+extern void BMP_MENUWORK_DrawWindowEx(void *desc, u32 kind, u32 base, u32 pal);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -49,10 +49,10 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(char *p, int a1, int a2, int a3)
 
     BMP_WIN_SetDispHeight((struct Descriptor *)a1, a3);
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)a1)), 15);
-    func_0201F7A8((void *)a1, 2);
+    BMP_MENUWORK_DrawWindowBorder((void *)a1, 2);
     BMP_WIN_MakeScreen((struct Cfg *)a1);
     PRINTSYS_Print((void *)((int)BMP_WIN_GetBmp((struct Descriptor *)a1)), 0, 0, (void *)r7, (void *)(((struct Obj09808 *)p)->f34));
-    func_0201F79C((void *)a1, 0, ((struct Obj09808 *)p)->f14, 2);
+    BMP_MENUWORK_DrawWindowEx((void *)a1, 0, ((struct Obj09808 *)p)->f14, 2);
     BMP_WIN_TransferChars((struct Descriptor *)a1);
     STRBUF_Delete((struct U16Vec *)r7);
 }

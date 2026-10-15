@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * Blocked at MATCH: all 68 concrete bytes are correct and the call to
- * func_02063078 resolves off the second call site in
+ * NNS_G2dInitOamManagerModule resolves off the second call site in
  * src/matched/CLACT_ExitOamManagers.c, but the two PC24 sites at +0x0028 and +0x003C
  * (the calls to CLACT_InitOamManager) have no witness outside this range: those two
  * calls are the only branch references to 0x0204BD3C image wide.  No cut frees
  * them, and src/pending/CLACT_InitOamManager.c cannot supply a `matched` entry
- * because it is itself capped at MATCH by func_02063138, a fan-in-1 extern.
+ * because it is itself capped at MATCH by NNSi_G2dReserveOamManagerSpan, a fan-in-1 extern.
  *
  * symbols:
- *   func_02063078  0x02063078  arm
+ *   NNS_G2dInitOamManagerModule  0x02063078  arm
  *   CLACT_InitOamManager  0x0204BD3C  arm
  *
  * Bind both of a cell actor's 0x20-byte OAM sub-records to their hardware
@@ -50,12 +50,12 @@ struct Obj {
     struct Sub w[2];
 };
 
-extern void func_02063078(void);
+extern void NNS_G2dInitOamManagerModule(void);
 extern void CLACT_InitOamManager(char *p, int a, int b, int which);
 
 void CLACT_InitOamManagers(struct Obj *o, u32 base, u32 count, u32 base2, u8 count2)
 {
-    func_02063078();
+    NNS_G2dInitOamManagerModule();
     CLACT_InitOamManager((char *)(&o->w[0]), base, count, 0);
     CLACT_InitOamManager((char *)(&o->w[1]), base2, count2, 1);
 }

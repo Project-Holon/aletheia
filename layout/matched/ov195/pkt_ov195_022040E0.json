@@ -180,7 +180,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02206044",
+   "name": "SHINKA_DEMO_VIEW_RequestStart",
    "address": "0x02206044",
    "kind": "game",
    "region": "ov195",
@@ -192,7 +192,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0220604C",
+   "name": "SHINKA_DEMO_VIEW_IsStartDone",
    "address": "0x0220604C",
    "kind": "game",
    "region": "ov195",
@@ -204,7 +204,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02206050",
+   "name": "SHINKA_DEMO_VIEW_RequestConfirm",
    "address": "0x02206050",
    "kind": "game",
    "region": "ov195",
@@ -216,7 +216,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02206058",
+   "name": "SHINKA_DEMO_VIEW_IsConfirmDone",
    "address": "0x02206058",
    "kind": "game",
    "region": "ov195",
@@ -228,7 +228,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0220605C",
+   "name": "SHINKA_DEMO_VIEW_RequestEvolve",
    "address": "0x0220605C",
    "kind": "game",
    "region": "ov195",
@@ -240,7 +240,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02206064",
+   "name": "SHINKA_DEMO_VIEW_RequestFadeOut",
    "address": "0x02206064",
    "kind": "game",
    "region": "ov195",
@@ -252,7 +252,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0220606C",
+   "name": "SHINKA_DEMO_VIEW_IsEvolveReady",
    "address": "0x0220606C",
    "kind": "game",
    "region": "ov195",
@@ -264,7 +264,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02206070",
+   "name": "SHINKA_DEMO_VIEW_IsEvolveStarted",
    "address": "0x02206070",
    "kind": "game",
    "region": "ov195",
@@ -276,7 +276,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02206074",
+   "name": "SHINKA_DEMO_VIEW_IsEvolveDone",
    "address": "0x02206074",
    "kind": "game",
    "region": "ov195",
@@ -288,7 +288,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02206078",
+   "name": "SHINKA_DEMO_VIEW_TrySecondForm",
    "address": "0x02206078",
    "kind": "game",
    "region": "ov195",
@@ -300,7 +300,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0220882C",
+   "name": "SHINKA_DEMO_EFFECT_StartIntro",
    "address": "0x0220882C",
    "kind": "game",
    "region": "ov195",
@@ -312,7 +312,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02208844",
+   "name": "SHINKA_DEMO_EFFECT_AdvanceState",
    "address": "0x02208844",
    "kind": "game",
    "region": "ov195",
@@ -324,7 +324,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02208850",
+   "name": "SHINKA_DEMO_EFFECT_IsState4",
    "address": "0x02208850",
    "kind": "game",
    "region": "ov195",
@@ -336,7 +336,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02208860",
+   "name": "SHINKA_DEMO_EFFECT_IsCameraReady",
    "address": "0x02208860",
    "kind": "game",
    "region": "ov195",

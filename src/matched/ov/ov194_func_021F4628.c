@@ -1,5 +1,5 @@
 /*
- * function: func_021F4628
+ * function: NAMEIN_GRAPHIC_GetCallbackState
  * address: 0x021F4628
  * packet: pkt_ov194_021F4628
  * region: ov194
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24921.h"
-unsigned func_021F4628(unsigned char *p){return ((struct Obj24921 *)p)->f4;}
+unsigned NAMEIN_GRAPHIC_GetCallbackState(unsigned char *p){return ((struct Obj24921 *)p)->f4;}

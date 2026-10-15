@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C78F8",
+   "name": "VIEWER_ACTOR_DeleteBgWindow",
    "address": "0x021C78F8",
    "kind": "game",
    "region": "ov111",

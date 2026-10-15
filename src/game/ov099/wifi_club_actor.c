@@ -53,7 +53,7 @@
  *   WF2DMAP_SCRDRAW_CreateBitmapDesc  0x021C59F4  thumb  ov127
  *   WF2DMAP_SCRDRAW_DeleteBitmapDesc  0x021C5A4C  thumb  ov127
  *   func_02049B40  0x02049B40  arm
- *   func_02040EBC  0x02040EBC  arm
+ *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   func_02049624  0x02049624  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -82,7 +82,7 @@
  *   WF2DMAP_CMDQ_Push  0x021C5F44  thumb  ov127
  *   func_02049F34 0x02049F34 arm
  *   d_021C2878 0x021C2878 data ov099 a2
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sub_02082BCC  0x02082BCC  arm
  *   func_02061CA4  0x02061CA4  arm
  *   d_021C287C     0x021C287C  data  ov099  a1
@@ -153,7 +153,7 @@ extern void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *spriteMgr);
 extern void *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *a, void *b, LayerParams *params, int x);
 extern void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *layer);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02040EBC(u32 a, u32 b);
+extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern u16 WF2DMAP_MAP_GetWidth(u16 *tileMap);
 extern u16 WF2DMAP_MAP_GetHeight(u16 *tileMap);
@@ -183,7 +183,7 @@ extern u32 KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern void WF2DMAP_CMDQ_Push(void *cmdQueue, void *command);
 extern void *func_02049F34(u32 archive, u32 fileIndex, u32 outData, u32 heapId);
-extern u32 sub_020307B0(void *handle);
+extern u32 GFL_HEAP_Free(void *handle);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void sub_0203A5E4(u32 key);
@@ -759,7 +759,7 @@ void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, u32 clactResArc, u32 pa
 {
     u32 zero = 0;
     func_02049B40(paletteArc, 7, 0, 0, 0x100, heapId);
-    func_02040EBC(0, 0);
+    BG_SYS_LoadPlttEntry(0, 0);
     func_02049624((void *)paletteArc, (void *)0x10, 0, 0, zero, zero, heapId);
 }
 
@@ -1209,7 +1209,7 @@ void WIFICLUBACTOR_InitBlink(WifiClubActorSys *sys, WifiClubPaletteBlink *blink,
 
 void WIFICLUBACTOR_ExitBlink(int unused, WifiClubPaletteBlink *blink)
 {
-    sub_020307B0(blink->paletteHandle);
+    GFL_HEAP_Free(blink->paletteHandle);
     MI_CpuFill8(blink, 0, 0x14);
 }
 

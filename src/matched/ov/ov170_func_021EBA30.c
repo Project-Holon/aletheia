@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *
  * Clears a message window to colour 15 and draws its frame.
  */
@@ -24,12 +24,12 @@ struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
 void BOX2_SEQ_ClearMessageWindow(unsigned char *p, void *win)
 {
     BMP_Clear(BMP_WIN_GetBmp(win), 0xF);
-    func_0201F73C(win, 2, (unsigned short)*(int *)(WORK(p) + 0x178), 10);
+    BMP_MENUWORK_DrawWindow(win, 2, (unsigned short)*(int *)(WORK(p) + 0x178), 10);
 }

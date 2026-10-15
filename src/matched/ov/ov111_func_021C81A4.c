@@ -1,5 +1,5 @@
 /*
- * function: func_021C81A4
+ * function: VIEWER_ACTOR_SetSelection
  * address:  0x021C81A4
  * packet:   pkt_ov111_021C81A4
  * region:   ov111
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C810C  0x021C810C  thumb
- *   func_021C8364  0x021C8364  thumb
+ *   VIEWER_ACTOR_UpdateRowVisibility  0x021C810C  thumb
+ *   VIEWER_ACTOR_RefreshRows  0x021C8364  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,12 +24,12 @@ typedef struct {
     u16 f116;
 } Work;
 
-extern void func_021C810C(Work *p, int a, int b);
-extern void func_021C8364(Work *p);
+extern void VIEWER_ACTOR_UpdateRowVisibility(Work *p, int a, int b);
+extern void VIEWER_ACTOR_RefreshRows(Work *p);
 
-void func_021C81A4(Work *p, u16 v)
+void VIEWER_ACTOR_SetSelection(Work *p, u16 v)
 {
     p->f114 = v;
-    func_021C810C(p, v, p->f116);
-    func_021C8364(p);
+    VIEWER_ACTOR_UpdateRowVisibility(p, v, p->f116);
+    VIEWER_ACTOR_RefreshRows(p);
 }

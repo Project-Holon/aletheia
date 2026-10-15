@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215FA9C  0x0215FA9C  arm   ov009
- *   func_0217D254  0x0217D254  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
  *   SendConnectAck  0x0219A52C  arm   ov009
  *   StartReport  0x021994F0  arm   ov009
  *   SendPingPacket  0x02199A90  arm   ov009
@@ -64,7 +64,7 @@ typedef struct _NatNegPacket {
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 
 extern char *func_0215FA9C(unsigned int in);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 struct NATNegotiator;
 extern void SendConnectAck(struct NATNegotiator *neg, struct SOCSockAddrIn *toaddr);
 extern void SendPingPacket(struct NATNegotiator *neg);
@@ -79,23 +79,23 @@ void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fr
 {
     int errcode;
 
-    func_0217D254(7, 0, 8, gNatNegConnectPacketFmt, neg->cookie, p->finished, func_0215FA9C(p->ipaddr), NN_NTOHS(p->port));
+    gsDebugFormat(7, 0, 8, gNatNegConnectPacketFmt, neg->cookie, p->finished, func_0215FA9C(p->ipaddr), NN_NTOHS(p->port));
 
     if (p->finished == 0)
         SendConnectAck((struct NATNegotiator *)neg, fromaddr);
 
     if (neg->state >= 4) {
-        func_0217D254(7, 0, 8, gNatNegAlreadyConnectedFmt, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegAlreadyConnectedFmt, neg->cookie);
         return;
     }
 
     if (p->finished != 0) {
         errcode = 4;
         if (p->finished == 1) {
-            func_0217D254(7, 0, 8, gNatNegDeadbeatFmt, neg->cookie);
+            gsDebugFormat(7, 0, 8, gNatNegDeadbeatFmt, neg->cookie);
             errcode = 1;
         } else if (p->finished == 2) {
-            func_0217D254(7, 0, 8, gNatNegConnectTimeoutFmt, neg->cookie);
+            gsDebugFormat(7, 0, 8, gNatNegConnectTimeoutFmt, neg->cookie);
             errcode = 2;
         }
         StartReport(neg, errcode, -1, 0);

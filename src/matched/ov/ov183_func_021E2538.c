@@ -1,5 +1,5 @@
 /*
- * function: func_021E2538
+ * function: BR_CODEIN_SaveHitButtonB
  * address: 0x021E2538
  * packet: pkt_ov183_021E2538
  * region: ov183
@@ -16,7 +16,7 @@ extern void BR_UTIL_StartEffect(int obj, int one, int *args);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-int func_021E2538(char *p, int a, int b)
+int BR_CODEIN_SaveHitButtonB(char *p, int a, int b)
 {
     int ok = ((unsigned int)(a - 0x90) <= 0x48) &
              ((unsigned int)(b - 0x30) <= 0x10);

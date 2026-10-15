@@ -10,7 +10,7 @@
  * symbols:
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GSYNC_MENU_DeleteButtonWindows 0x021D4730 thumb ov123
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -24,7 +24,7 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void GSYNC_MENU_DeleteButtonWindows(char *);
 struct Rec;
 struct U16Vec;
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -34,7 +34,7 @@ void GSYNC_MENU_FreeResources(char *p)
 {
     GF_FONT_SetDefaultTextColor();
     GSYNC_MENU_DeleteButtonWindows(p);
-    func_02040DA8(5, 1, 0);
+    BG_SYS_SetTileUnit(5, 1, 0);
     BG_SYS_DeleteHalf((int)5, (u16)(((struct Obj01543 *)p)->f3C), (u16)(((struct Obj01543 *)p)->f3C >> 16));
     func_020403F4(5);
     func_020403F4(4);

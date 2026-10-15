@@ -15,9 +15,9 @@
  *   func_021BA218 0x021BA218 thumb ov133
  *   func_021BA228 0x021BA228 thumb ov133
  *   func_021B7A18 0x021B7A18 thumb ov133
- *   func_021F4EC4 0x021F4EC4 thumb ov112
- *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_021F4EE8 0x021F4EE8 thumb ov112
+ *   MUSICAL_MCSS_SetElemRot 0x021F4EC4 thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_SetElemFlag 0x021F4EE8 thumb ov112
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _ffltu 0x0209BE04 arm
  *   _fadd 0x0209C95C arm
@@ -42,9 +42,9 @@ extern u8 *func_021BA19C(u16 heap, struct Object *q, u8 *r, int *v);
 extern void func_021BA100(u8 *p, u8 *q);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern u8 *func_021BA228(u8 *p);
-extern void func_021F4EC4(u32 unused, u32 p, s16 *a, s16 *b);
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4EE8(int,int,int),func_021B7A18(u8 *),GFL_USE_PlaySeDefaultVolume(u32);
+extern void MUSICAL_MCSS_SetElemRot(u32 unused, u32 p, s16 *a, s16 *b);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
+extern void MUSICAL_MCSS_SetElemFlag(int,int,int),func_021B7A18(u8 *),GFL_USE_PlaySeDefaultVolume(u32);
 void func_021B8140(u8 *p)
 {
     Vec scale=d_021BA5B8;
@@ -62,9 +62,9 @@ void func_021B8140(u8 *p)
     func_021BA100(((struct Obj00004 *)p)->f1820,q);
     func_021BA21C(q,(const u8 *)(&pos));
     s=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);t=(u8 *)func_021BA218(q);
-    func_021F4EC4(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&old.x,&old.y);
-    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,old.x,old.y);
-    func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,0);
+    MUSICAL_MCSS_SetElemRot(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&old.x,&old.y);
+    MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,old.x,old.y);
+    MUSICAL_MCSS_SetElemFlag(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,0);
     v=(u32 *)func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
     *(u32 *)&((struct Obj00004 *)p)->f40=1;
     *(u32 *)&((struct Obj00004 *)p)->f44=v[0];*(u32 *)&((struct Obj00004 *)p)->f48=v[1];

@@ -14,7 +14,7 @@
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   MSGDATA_ReadString 0x02045CAC arm
  *   BTL_MSG_ExpandTags 0x021EEFE0 thumb ov093
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   gBtlMsgState 0x021F6398 data a4
  *   gBtlMsgFlags 0x021F63D8 data a4
  */
@@ -32,7 +32,7 @@ struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 static inline int classify(u8 k)
 {
     int x;
@@ -62,5 +62,5 @@ second:
     }
     MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.f14, b, (void *)gBtlMsgState.f0c);
     BTL_MSG_ExpandTags((void *)gBtlMsgState.f0c, p, (void *)gBtlMsgState.f08);
-    func_0201F250((struct WordSet *)gBtlMsgState.f08, (void *)a, (void *)gBtlMsgState.f0c);
+    WORDSET_CopyTaggedText((struct WordSet *)gBtlMsgState.f08, (void *)a, (void *)gBtlMsgState.f0c);
 }

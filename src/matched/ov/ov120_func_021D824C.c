@@ -1,5 +1,5 @@
 /*
- * function: func_021D824C
+ * function: GTSNEGO_MSG_ShiftListDown
  * address: 0x021D824C
  * packet: pkt_ov120_021D824C
  * region: ov120
@@ -26,7 +26,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021D824C(char *p)
+void GTSNEGO_MSG_ShiftListDown(char *p)
 {
     int i;
     char *t;

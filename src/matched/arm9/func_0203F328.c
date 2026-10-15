@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F328
+ * function: GF_STANDARD_Shuffle
  * address:  0x0203F328
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F388  0x0203F388  arm
+ *   GF_STANDARD_RandLcg  0x0203F388  arm
  *
  * TU: gf_standard.c.
  *
@@ -27,27 +27,27 @@
  * is 0x0203F328-0x0203F37C.  0x0203F328 wants seeding into
  * layout/function_starts.txt and 0x0203F32C wants removing from it.
  *
- * func_0203F388 has exactly one caller image-wide, this one, so its only
+ * GF_STANDARD_RandLcg has exactly one caller image-wide, this one, so its only
  * route to a witness is its own manifest entry in this same shard; the
  * first `manifest --verify` after adding both files leaves this one at
  * MATCH* and the second promotes it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F328.c \
- *       --func func_0203F328 --addr 0x0203F328 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_Shuffle.c \
+ *       --func GF_STANDARD_Shuffle --addr 0x0203F328 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203F388(u32 *seed);
+extern u16 GF_STANDARD_RandLcg(u32 *seed);
 
-void func_0203F328(u16 *p, u32 size, u32 seed)
+void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed)
 {
     u32 i;
     u32 n = size >> 1;
 
     for (i = 0; i < n; i++) {
-        p[i] ^= func_0203F388(&seed);
+        p[i] ^= GF_STANDARD_RandLcg(&seed);
     }
 }

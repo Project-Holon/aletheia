@@ -13,9 +13,10 @@
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_02198620                  0x02198620  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   g_021A3A54                     0x021A3A54  data
+ *   ArrayLength  0x02184200  arm
  */
 
 typedef void (*GSUdpErrCB)(int, void *);
@@ -40,11 +41,11 @@ typedef struct GSUdpEngineObject {
     void *userData;
 } GSUdpEngineObject;
 extern void *gsUdpEngineContext(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_02184200(const int *p);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern char g_021A3A54[];
 
 int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen)
@@ -55,7 +56,7 @@ int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short t
 
     aUdp = gsUdpEngineContext();
     if (aUdp->unrecognizedCB != 0) {
-        func_0217D254(12, 0, 16, g_021A3A54, func_02198620(theIp, thePort, anAddr));
+        gsDebugFormat(12, 0, 16, g_021A3A54, gt2AddressToString(theIp, thePort, anAddr));
         aRet = aUdp->unrecognizedCB(theIp, thePort, theMessage, theMsgLen, aUdp->userData);
         if (aRet != 0)
             return 1;

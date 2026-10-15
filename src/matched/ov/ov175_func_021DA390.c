@@ -1,5 +1,5 @@
 /*
- * function: func_021DA390
+ * function: WIFIBATTLEMATCH_NET_StopMatchmaking
  * address:  0x021DA390
  * packet:   pkt_021DA390
  * region:   ov175
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D9ED4  0x021D9ED4  thumb
- *   func_021D9EEC  0x021D9EEC  thumb
+ *   WIFIBATTLEMATCH_NET_SetTimingSyncRange  0x021D9ED4  thumb
+ *   WIFIBATTLEMATCH_NET_IsTimingSyncRange  0x021D9EEC  thumb
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
@@ -24,22 +24,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern void func_021D9ED4(char *obj, u32 v);
-extern int func_021D9EEC(char *obj);
+extern void WIFIBATTLEMATCH_NET_SetTimingSyncRange(char *obj, u32 v);
+extern int WIFIBATTLEMATCH_NET_IsTimingSyncRange(char *obj);
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 
-int func_021DA390(char *obj)
+int WIFIBATTLEMATCH_NET_StopMatchmaking(char *obj)
 {
     switch (((struct Obj02513 *)obj)->f154) {
     case 0:
-        func_021D9ED4(obj, 0x18);
+        WIFIBATTLEMATCH_NET_SetTimingSyncRange(obj, 0x18);
         ((struct Obj02513 *)obj)->f1A0 = 0;
         (((struct Obj02513 *)obj)->f154)++;
         break;
     case 1:
-        if (func_021D9EEC(obj) != 0)
+        if (WIFIBATTLEMATCH_NET_IsTimingSyncRange(obj) != 0)
             (((struct Obj02513 *)obj)->f154)++;
         else if ((((struct Obj02513 *)obj)->f1A0)++ > 600)
             (((struct Obj02513 *)obj)->f154)++;

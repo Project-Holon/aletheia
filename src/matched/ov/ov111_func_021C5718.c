@@ -1,5 +1,5 @@
 /*
- * function: func_021C5718
+ * function: VIEWER_MAIN_DrawSelected
  * address:  0x021C5718
  * packet:   pkt_ov111_021C5718
  * region:   ov111
@@ -13,10 +13,10 @@
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
- *   sub_02008A00  0x02008A00  thumb
- *   func_021C3EF8  0x021C3EF8  thumb
- *   func_021C61EC  0x021C61EC  thumb
- *   func_021C628C  0x021C628C  thumb
+ *   TRCARD_SIGN_SetSeenBefore  0x02008A00  thumb
+ *   VIEWER_MAIN_InitInfo  0x021C3EF8  thumb
+ *   VIEWER_TEXT_DrawTable  0x021C61EC  thumb
+ *   VIEWER_TEXT_DrawList  0x021C628C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -63,12 +63,12 @@ typedef struct {
 struct Sub020089A8Obj;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
-extern struct Sub020089A8Obj *sub_02008A00(struct Sub020089A8Obj *obj);
-extern void func_021C3EF8(Info *info);
-extern void func_021C61EC(Work *p, int v, int a);
-extern void func_021C628C(Work *p, int v, int a);
+extern struct Sub020089A8Obj *TRCARD_SIGN_SetSeenBefore(struct Sub020089A8Obj *obj);
+extern void VIEWER_MAIN_InitInfo(Info *info);
+extern void VIEWER_TEXT_DrawTable(Work *p, int v, int a);
+extern void VIEWER_TEXT_DrawList(Work *p, int v, int a);
 
-void func_021C5718(Work *p, int sel, int *seq)
+void VIEWER_MAIN_DrawSelected(Work *p, int sel, int *seq)
 {
     switch (sel) {
     case 3:
@@ -99,10 +99,10 @@ void func_021C5718(Work *p, int sel, int *seq)
         break;
     case 6:
         if (p->args->cfg->f4_6) {
-            sub_02008A00(GAME_DATA_GetSaveBlock21(p->args->f4));
+            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->f4));
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021C3EF8(p->info);
-            func_021C61EC(p, p->info->b6, 1);
+            VIEWER_MAIN_InitInfo(p->info);
+            VIEWER_TEXT_DrawTable(p, p->info->b6, 1);
         }
         break;
     case 7:
@@ -112,7 +112,7 @@ void func_021C5718(Work *p, int sel, int *seq)
             if (p->info->f48 > 0x18) {
                 p->info->f48 = 0;
             }
-            func_021C628C(p, p->info->f48, 1);
+            VIEWER_TEXT_DrawList(p, p->info->f48, 1);
         }
         break;
     case 10:

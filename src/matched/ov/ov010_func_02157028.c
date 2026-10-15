@@ -19,7 +19,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   _s32_div_f  0x0209C0A4  arm
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   _ull_mul  0x0209C054  arm
  *   sMusicalProgramFileName  0x02172768  data
  */
@@ -51,12 +51,12 @@ typedef struct Deal {
 } Deal;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern const char sMusicalProgramFileName[];
 
 static inline u32 RandN(u32 n)
 {
-    u32 r = func_0203F0A8();
+    u32 r = GF_STANDARD_Rand();
 
     if (n != 0)
         r = ((u64)r * n) >> 32;

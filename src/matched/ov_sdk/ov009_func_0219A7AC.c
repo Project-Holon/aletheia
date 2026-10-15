@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215FA9C  0x0215FA9C  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   SendPingPacket  0x02199A90  arm  ov009
  *   StartReport  0x021994F0  arm  ov009
  *   gNatNegPingPacketFmt     0x021A6330  data
@@ -63,7 +63,7 @@ typedef struct _NatNegPacket {
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 
 extern char *func_0215FA9C(unsigned int in);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 struct NATNegotiator;
 extern void SendPingPacket(struct NATNegotiator *neg);
 extern void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
@@ -75,15 +75,15 @@ extern char gNatNegConnectFinishedFmt[];
 
 void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
-    func_0217D254(7, 0, 8, gNatNegPingPacketFmt, neg->cookie, func_0215FA9C(fromaddr->addr),
+    gsDebugFormat(7, 0, 8, gNatNegPingPacketFmt, neg->cookie, func_0215FA9C(fromaddr->addr),
                   NN_NTOHS(fromaddr->port), p->gotyourdata, p->finished);
 
     if (neg->state < 4) {
-        func_0217D254(7, 0, 8, gNatNegPingEarlyFmt, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegPingEarlyFmt, neg->cookie);
         return;
     }
 
-    func_0217D254(7, 0, 8, gNatNegGotPingFmt, func_0215FA9C(fromaddr->addr), NN_NTOHS(fromaddr->port),
+    gsDebugFormat(7, 0, 8, gNatNegGotPingFmt, func_0215FA9C(fromaddr->addr), NN_NTOHS(fromaddr->port),
                   p->gotyourdata, p->finished);
 
     neg->guessedIP = fromaddr->addr;
@@ -94,7 +94,7 @@ void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *froma
     SendPingPacket((struct NATNegotiator *)neg);
 
     if (neg->state == 4 && neg->sendGotRemoteData) {
-        func_0217D254(7, 0, 8, gNatNegConnectFinishedFmt, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegConnectFinishedFmt, neg->cookie);
         StartReport(neg, 0, neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, fromaddr);
     }
 }

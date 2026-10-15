@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C4634",
-    "func_021C464C",
-    "func_021C465C",
-    "func_021C466C"
+    "WIFI_2DCHAR_StepActorAnimDispatch",
+    "WIFI_2DCHAR_SetAnimSeq",
+    "WIFI_2DCHAR_SetAnimSeq4",
+    "WIFI_2DCHAR_SetAnimSeqPlus5"
+   ],
+   "addresses": [
+    "0x021C4634",
+    "0x021C464C",
+    "0x021C465C",
+    "0x021C466C"
    ],
    "evidence": {
     "sole-ref": [

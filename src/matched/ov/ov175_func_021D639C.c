@@ -1,5 +1,5 @@
 /*
- * function: func_021D639C
+ * function: WIFIBATTLEMATCH_NET_DeleteBoxRecord
  * address:  0x021D639C
  * packet:   pkt_021D639C
  * region:   ov175
@@ -26,7 +26,7 @@ typedef unsigned long u32;
 
 extern void func_021E5D40(u32 p);
 
-void func_021D639C(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteBoxRecord(char *obj)
 {
     u32 p = ((struct Obj10680 *)obj)->f18;
 

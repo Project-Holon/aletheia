@@ -1,5 +1,5 @@
 /*
- * function: func_02206664
+ * function: SHINKA_DEMO_VIEW_Draw3d
  * address:  0x02206664
  * packet:   pkt_02206664
  * region:   ov195
@@ -23,8 +23,8 @@
  *   NNS_G3dGeFlushBuffer 0x0206DB80 arm
  *   G3D_SYSTEM_SetProjection 0x02046858 arm
  *   G3D_SYSTEM_SetLookAt 0x02046B40 arm
- *   func_02207510 0x02207510 thumb ov195
- *   func_02208570 0x02208570 thumb ov195
+ *   SHINKA_DEMO_VIEW_DrawGrid 0x02207510 thumb ov195
+ *   SHINKA_DEMO_VIEW_DrawQuad 0x02208570 thumb ov195
  */
 
 typedef unsigned char u8;
@@ -82,11 +82,11 @@ extern void NNS_G3dGeFlushBuffer(void);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
 struct Grid;
-extern void func_02207510(struct Grid *w, u16 heap);
+extern void SHINKA_DEMO_VIEW_DrawGrid(struct Grid *w, u16 heap);
 struct Quad;
-extern void func_02208570(struct Quad *p, u16 heap);
+extern void SHINKA_DEMO_VIEW_DrawQuad(struct Quad *p, u16 heap);
 
-void func_02206664(Owner *o)
+void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
 {
     u8 save0[0x20];
     u8 save1[0x24];
@@ -116,10 +116,10 @@ void func_02206664(Owner *o)
     REG_SPE_EMI = 0x7fff7fff;
     for (i = 0; i < 2; i++) {
         if (w->grid[i] != 0)
-            func_02207510(w->grid[i], o->heap);
+            SHINKA_DEMO_VIEW_DrawGrid(w->grid[i], o->heap);
     }
     if (w->quad != 0)
-        func_02208570(w->quad, o->heap);
+        SHINKA_DEMO_VIEW_DrawQuad(w->quad, o->heap);
     G3D_SYSTEM_SetProjection((const u32 *)save0);
     G3D_SYSTEM_SetLookAt(save1);
     G3D_SYSTEM_ApplyLookAt();

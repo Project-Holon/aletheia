@@ -1,5 +1,5 @@
 /*
- * function: func_021BA68C
+ * function: COMM_BTL_DEMO_MAIN_ShowBattleActor
  * address: 0x021BA68C
  * packet: pkt_ov213_021BA68C
  * region: ov213
@@ -18,4 +18,4 @@ typedef unsigned int   u32;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
-void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;CLACT_SetActorDrawEnable(*(void **)((unsigned)p+i*4),1);CLACT_SetActorAutoAnim(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}
+void COMM_BTL_DEMO_MAIN_ShowBattleActor(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;CLACT_SetActorDrawEnable(*(void **)((unsigned)p+i*4),1);CLACT_SetActorAutoAnim(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}

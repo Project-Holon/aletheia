@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02050A70",
+   "name": "DMA_UpdateChannels",
    "address": "0x02050A70",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050B14",
+   "name": "DMA_ProgramChannel",
    "address": "0x02050B14",
    "kind": "game",
    "region": "arm9",

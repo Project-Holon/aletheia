@@ -1,5 +1,5 @@
 /*
- * function: func_021C631C
+ * function: VIEWER_TEXT_FlushWindow
  * address:  0x021C631C
  * packet:   pkt_ov111_021C631C
  * region:   ov111
@@ -33,7 +33,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern const u8 d_021C876C[];
 
-void func_021C631C(Work *p, void **bg)
+void VIEWER_TEXT_FlushWindow(Work *p, void **bg)
 {
     int i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0220D418
+ * function: B_PLIST_DRAW_PrintSlotLabelBySelector
  * address: 0x0220D418
  * packet: pkt_ov198_0220D418
  * region: ov198
@@ -28,7 +28,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_0220D418(char *p, int i, int selector)
+void B_PLIST_DRAW_PrintSlotLabelBySelector(char *p, int i, int selector)
 {
     struct U16Vec *t;
     void *f;

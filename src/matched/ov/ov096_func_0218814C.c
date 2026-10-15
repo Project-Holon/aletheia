@@ -18,7 +18,7 @@
  *   TR_AI_RunScripts 0x021885BC thumb ov096
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   func_020870D0 0x020870D0 arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  */
 typedef unsigned char u8;
@@ -33,8 +33,8 @@ extern void TR_AI_RunScripts(int, u8 *);
 struct QG;
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u64 func_020870D0(void);
-extern u32 func_0203F0A8(void);
-inline static u32 draw_below(u32 n) { u64 random=func_0203F0A8(); if(n!=0) random=(random*n)>>32; return random; }
+extern u32 GF_STANDARD_Rand(void);
+inline static u32 draw_below(u32 n) { u64 random=GF_STANDARD_Rand(); if(n!=0) random=(random*n)>>32; return random; }
 int TR_AI_ThinkSingle(int a, Obj *b)
 {
     int scores[4];

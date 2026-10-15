@@ -1,5 +1,5 @@
 /*
- * function: func_021DF1DC
+ * function: BR_CODEIN_SearchCreateList
  * address: 0x021DF1DC
  * packet: pkt_ov183_021DF1DC
  * region: ov183
@@ -19,16 +19,16 @@
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_Create 0x02043678 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_SetString 0x02045924 arm
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BR_UTIL_SetListItemBitmap 0x021FCDAC thumb ov186
  *   STRBUF_Delete 0x02045808 arm
  *   BR_UTIL_RefreshList 0x021FCE50 thumb ov186
- *   func_021DF428 0x021DF428 thumb ov183
- *   func_021DF620 0x021DF620 thumb ov183
+ *   BR_CODEIN_SearchCreateActor 0x021DF428 thumb ov183
+ *   BR_CODEIN_SearchUpdateActor 0x021DF620 thumb ov183
  *   d_021E3700 0x021E3700 data a4
  */
 typedef unsigned char u8;
@@ -59,17 +59,17 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BR_UTIL_RefreshList(char *p);
-extern void func_021DF428(struct State *p, u32 mgr, u16 heap);
-extern void func_021DF620(struct State *p, int first, short step, u16 heap);
-void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u16 heap)
+extern void BR_CODEIN_SearchCreateActor(struct State *p, u32 mgr, u16 heap);
+extern void BR_CODEIN_SearchUpdateActor(struct State *p, int first, short step, u16 heap);
+void BR_CODEIN_SearchCreateList(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u16 heap)
 {
     unsigned first,second;
     int i;
@@ -100,8 +100,8 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
     for(i=0;i<*(int *)(base+0x1718);i++){
         bmp=BMP_Create(cfg.width,cfg.spacing,0x20,heap);
         BMP_Clear(bmp,0);
-        func_0201EFA4(p->words,0,i+1,2,0,1);
-        func_0201F250(p->words,buf1,msg);
+        WORDSET_SetSlotNumber(p->words,0,i+1,2,0,1);
+        WORDSET_CopyTaggedText(p->words,buf1,msg);
         STRBUF_SetString(buf2,(const u16 *)(base+i*0xc4));
         PRINTSYS_PrintColor(bmp,(short)(16-func_0201D304(buf1,first,0)),4,buf1,(void *)first,0x3DA0);
         PRINTSYS_PrintColor(bmp,0x14,4,buf2,(void *)first,0x3DA0);
@@ -111,6 +111,6 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
     STRBUF_Delete(buf1);
     STRBUF_Delete(msg);
     BR_UTIL_RefreshList(p->view);
-    func_021DF428((struct State *)p,mgr,heap);
-    for(i=0;i<*sel;i++)func_021DF620((struct State *)p,i+1,1,heap);
+    BR_CODEIN_SearchCreateActor((struct State *)p,mgr,heap);
+    for(i=0;i<*sel;i++)BR_CODEIN_SearchUpdateActor((struct State *)p,i+1,1,heap);
 }

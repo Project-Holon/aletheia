@@ -12,7 +12,7 @@
  * sdk:      ServerBrowserNewA (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   SBServerListInit  0x0219F9A8  arm  ov009
  *   SBQueryEngineInit  0x0219D864  arm  ov009
  *   func_0219E9F4  0x0219E9F4  arm  ov009
@@ -35,7 +35,7 @@ struct ServerBrowser {
     void *instance;
 };
 
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void SBServerListInit(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                           int queryFromVersion, int lanBrowse, void *callback, void *instance);
 extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
@@ -53,7 +53,7 @@ struct ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromG
 
     if (lanBrowse == 0 && gGsAvailabilityState != 1)
         return 0;
-    sb = func_0217EAB0(0x858);
+    sb = gsimalloc(0x858);
     if (sb == 0)
         return 0;
     sb->BrowserCallback = callback;

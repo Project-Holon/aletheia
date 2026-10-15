@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FCEA8  0x021FCEA8  thumb
+ *   MUS_COMM_FUNC_SendCommandWait  0x021FCEA8  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj23294.h"
 
 typedef unsigned int   u32;
-extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
+extern u32 MUS_COMM_FUNC_SendCommandWait(int unused, int kind, u32 value, u32 id);
 
 int STA_NET_NotifyHostKind6(char *p)
 {
-    return func_021FCEA8((int)p, 6, *(int *)(((struct Obj23294 *)p)->f140 + 0x28), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((int)p, 6, *(int *)(((struct Obj23294 *)p)->f140 + 0x28), 0xff);
 }

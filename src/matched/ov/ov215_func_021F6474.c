@@ -13,7 +13,7 @@
  *   EGG_DEMO_GRAPHIC_DeleteG3d 0x021F669C thumb ov215
  *   EGG_DEMO_GRAPHIC_DeleteClact 0x021F6600 thumb ov215
  *   EGG_DEMO_GRAPHIC_DeleteBg 0x021F657C thumb ov215
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -24,7 +24,7 @@ extern void func_02030EAC(struct Node *n);
 extern void EGG_DEMO_GRAPHIC_DeleteG3d(int *p);
 extern void EGG_DEMO_GRAPHIC_DeleteClact(char *p);
 extern void EGG_DEMO_GRAPHIC_DeleteBg(void *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -34,7 +34,7 @@ void EGG_DEMO_GRAPHIC_Delete(char *p)
     EGG_DEMO_GRAPHIC_DeleteG3d((int *)(p+8));
     EGG_DEMO_GRAPHIC_DeleteClact(p+4);
     EGG_DEMO_GRAPHIC_DeleteBg(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;

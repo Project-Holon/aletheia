@@ -14,7 +14,7 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_0215A4D8  0x0215A4D8  thumb  ov010
+ *   EVENT_POKE_STATUS_CheckFlag  0x0215A4D8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern unsigned func_0215A4D8(void *a, unsigned b);
+extern unsigned EVENT_POKE_STATUS_CheckFlag(void *a, unsigned b);
 
 int SCRCMD_WORK_CmdCheckEventFlagOffset(int a0, int a1)
 {
@@ -56,7 +56,7 @@ a1 = t4 + 0;
 loc_0215B39C:
 a0 = t6 + 0;
 a1 = t7 + 0;
-    a0 = func_0215A4D8((void *)a0, a1);
+    a0 = EVENT_POKE_STATUS_CheckFlag((void *)a0, a1);
 loc_0215B3A6:
 *q = a0;
 a0 = 0;

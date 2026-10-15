@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217D32C",
+   "name": "gsDebugBinary",
    "address": "0x0217D32C",
    "kind": "sdk",
    "region": "ov009",

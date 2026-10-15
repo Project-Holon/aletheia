@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204152C",
-    "func_02041570",
+    "BG_SYS_ClearLayer",
+    "BG_SYS_ClearLayerEx",
     "BG_SYS_GetGraphics"
    ],
    "addresses": [

@@ -64,7 +64,7 @@
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   PMS_INPUT_VIEW_GetCursorRes 0x021BAC50 thumb ov110
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   BMP_FillRect 0x02043AF4 arm
@@ -73,7 +73,7 @@
  *   PMS_INPUT_VIEW_LoadBgPalette 0x021BAD2C thumb ov110
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_SetActorPos 0x0204B528 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BMP_Blit 0x020439A0 arm
  *   PMS_INPUT_GetListItemCount 0x021BF734 thumb ov110
  *   PMS_INPUT_GetListWord 0x021BF758 thumb ov110
@@ -151,13 +151,13 @@ extern void STRBUF_Delete(struct U16Vec *);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
 
 extern void func_0207D63C(void *,int,int,int,int);
 
 extern void func_02040618(u32,u32,u32);
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 
 extern void BMP_Blit(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
 
@@ -274,7 +274,7 @@ void PMSIV_WORDWIN_Delete(struct PmsivWordwin *p) {
 /* Clears the list window and creates the actors. */
 void PMSIV_WORDWIN_Setup(struct PmsivWordwin *p) {
     BG_SYS_InitRun(2,32,0,42);
-    func_02041300(2,0,0,0,32,32,13);
+    BG_SYS_SetTileEntry(2,0,0,0,32,32,13);
     BMP_Clear(BMP_WIN_GetBmp(p->listWindow),0);
     BMP_WIN_MakeScreen(p->listWindow);
     BMP_WIN_TransferChars(p->listWindow);
@@ -575,7 +575,7 @@ void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
         return;
     }
     PMS_INPUT_GetListWord(p->input, n - 2, (int)(p->wordText));
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     if (y <= 240) {
         PRINTSYS_Print(BMP_WIN_GetBmp(p->listWindow), 112 * ((n - 2) & 1), y, p->wordText, (void *)font);
     } else {

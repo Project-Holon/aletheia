@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020682F8",
+   "name": "NNSi_G2dCharCanvasFill",
    "address": "0x020682F8",
    "kind": "game",
    "region": "arm9",

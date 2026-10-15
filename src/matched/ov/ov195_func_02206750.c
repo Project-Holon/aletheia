@@ -1,5 +1,5 @@
 /*
- * function: func_02206750
+ * function: SHINKA_DEMO_VIEW_ShowMenu
  * address:  0x02206750
  * packet:   pkt_02206750
  * region:   ov195
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_02206750(int *p)
+void SHINKA_DEMO_VIEW_ShowMenu(int *p)
 {
     char *q = *(char * *)&((struct Obj08348 *)p)->f58;
     int *r = *(int * *)&((struct Obj24968 *)q)->f8;

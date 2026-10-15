@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Logic read from the listing: state at p+0x8F4 (1 -> clear, flag = 1, call func_020414AC(7)); loop i over 8 slots, idx = i + row(p+0x8EC)*8 + 1; mode = byte p[0x8CB+idx] ? (func_02009864(p->f4, idx-1, 9) != 0) : 2; sel = idx == p[0x8ED] 
+ * Logic read from the listing: state at p+0x8F4 (1 -> clear, flag = 1, call BG_SYS_FreeSlot(7)); loop i over 8 slots, idx = i + row(p+0x8EC)*8 + 1; mode = byte p[0x8CB+idx] ? (func_02009864(p->f4, idx-1, 9) != 0) : 2; sel = idx == p[0x8ED] 
  * 
  *  idx == p[0x8F3]; slot = idx == p[0x8ED] ? p[0x8EE] : 0; redraw when flag == 1 or sel; WIFICLUB_DrawSlotFrame then (mode != 2) WIFICLUB_PrintSlotName + BMP_WIN_MakeScreen + WIFICLUB_DrawSlotStatusIcons, else the clear loop (BMP_WIN_GetBmp, BMP_Clear(.,0), BMP_WIN_TransferChars over the slot object and 2 sub objects at p+0x918+i*8+j*4). End: func_02041B6C(7), (6), BG_SYS_SetSubPlaneVisible(2,1), (8,1). Pool words verified against the listing.
  * 2026-10-05 wave D4 lane 04: EXACT. Fixes: window loads written as *(void **)(p + i*4 + 0x8F8) at each use (no w locals), px*16 and py*6 written inline at both calls (CSE temps, not named locals), px/py declared before sel.
@@ -18,7 +18,7 @@
  *   WIFICLUB_DrawSlotFrame 0x021C2224 thumb ov099
  *   WIFICLUB_PrintSlotName 0x021C2274 thumb ov099
  *   WIFICLUB_DrawSlotStatusIcons 0x021C22E8 thumb ov099
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -36,7 +36,7 @@ extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void WIFICLUB_DrawSlotFrame(char *p, u32 a1, u32 a2, u32 mode, u8 slot);
 extern void WIFICLUB_PrintSlotName(char *p, void *window, int id, int slot, int i);
 extern void WIFICLUB_DrawSlotStatusIcons(char *p, void *window, int id, int flag, int x, int y);
-extern void func_020414AC(u32 a);
+extern void BG_SYS_FreeSlot(u32 a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -58,7 +58,7 @@ void WIFICLUB_RedrawSlotPanels(char *p)
     if (*(int *)(p + 0x8F4) == 1) {
         *(int *)(p + 0x8F4) = 0;
         flag = 1;
-        func_020414AC(7);
+        BG_SYS_FreeSlot(7);
     } else {
         flag = 0;
     }

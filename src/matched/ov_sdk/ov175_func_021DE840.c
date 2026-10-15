@@ -12,10 +12,10 @@
  * sdk:      sakeiFreeOutputRecord (libdwcgssake.TWL.HYB.a(sakerequestread.o))
  *
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  */
 
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 
 struct SAKEField {
     char *name;
@@ -32,9 +32,9 @@ void sakeiFreeOutputRecord(int numFields, struct SAKEField *record)
         return;
     for (i = 0; i < numFields; i++) {
         if (record[i].type == 8 && record[i].value != 0)
-            func_0217EAE0(record[i].value);
+            gsifree(record[i].value);
         if (record[i].type == 5)
-            func_0217EAE0(record[i].value);
+            gsifree(record[i].value);
     }
-    func_0217EAE0(record);
+    gsifree(record);
 }

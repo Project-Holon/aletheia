@@ -13,7 +13,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049B40  0x02049B40  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *h);
@@ -41,7 +41,7 @@ void WORLDTRADE_LIST_LoadBgGraphics(u8 *p)
     void *h;
 
     func_02049B40(0x17, 5, 0, 0x1a0, 0x20, 0x48);
-    func_0201F5BC(4, 1, 2, 0, 0x48);
+    BMP_MENUWORK_LoadCharAndPltt(4, 1, 2, 0, 0x48);
     h = func_020490F4(0x60, 0x48);
     func_02049658(h, 0x10, 1, 0, 0xc00, 1, 0x48);
     func_02049B68(h, 6, 0, 0, 0x60, 0x48);

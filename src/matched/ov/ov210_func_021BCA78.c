@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA78
+ * function: ZKNSEARCH_MAIN_DeleteScrollWindow
  * address:  0x021BCA78
  * packet:   pkt_ov210_021BCA78
  * region:   ov210
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct WinMgr;
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
-void func_021BCA78(u8 *p)
+void ZKNSEARCH_MAIN_DeleteScrollWindow(u8 *p)
 {
     BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj00085 *)p)->f20);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02155A90
+ * function: IRC_BATTLE_ENTRY_GetGameSys
  * address:  0x02155A90
  * packet:   pkt_02155A90
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u32 func_02155A90(u8 *p)
+u32 IRC_BATTLE_ENTRY_GetGameSys(u8 *p)
 {
     return ((struct Obj17616 *)p)->f0;
 }

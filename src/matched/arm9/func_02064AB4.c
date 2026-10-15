@@ -21,9 +21,9 @@
  * is 180 bytes, 0 mismatches.
  *
  * symbols:
- *   func_02062F00  0x02062F00  arm
- *   func_02062D40  0x02062D40  arm
- *   func_020629E8  0x020629E8  arm
+ *   NNSi_G2dSetCellAnimationCurrentFrame  0x02062F00  arm
+ *   NNSi_G2dGetCellAnimationCurrentSequence  0x02062D40  arm
+ *   NNS_G2dGetMultiCellDataByIdx  0x020629E8  arm
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *   NNS_G2dSetSRTTranslate  0x020640DC  arm
  *   NNS_G2dSetSRTScale  0x02064120  arm
@@ -41,15 +41,15 @@
 #include "../include/Obj07024.h"
 
 typedef unsigned int   u32;
-extern int func_02062F00(void *s, u32 i);
+extern int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
 struct CellAnim;
 struct O02064140;
-extern void *func_02062D40(struct CellAnim *anim);
+extern void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim);
 typedef unsigned short u16;
 struct MCInstance;
 struct MultiCellBank;
 struct MultiCellData;
-extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
+extern struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx);
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern void NNS_G2dSetSRTTranslate(char *self, int a, int b);
 extern void NNS_G2dSetSRTScale(char *self, int a, int b);
@@ -63,10 +63,10 @@ void NNS_G2dSetMCAnimationCurrentFrame(char *self, unsigned int i)
     int kind;
     int item;
 
-    if (func_02062F00(self, i) == 0 || *(unsigned short *)(((struct Obj07024 *)self)->f4 + 4) == 0)
+    if (NNSi_G2dSetCellAnimationCurrentFrame(self, i) == 0 || *(unsigned short *)(((struct Obj07024 *)self)->f4 + 4) == 0)
         return;
-    p = func_02062D40((struct CellAnim *)self);
-    item = (int)func_020629E8((struct MultiCellBank *)(((struct Obj07024 *)self)->f44), ((struct Obj03475 *)p)->f0);
+    p = NNSi_G2dGetCellAnimationCurrentSequence((struct CellAnim *)self);
+    item = (int)NNS_G2dGetMultiCellDataByIdx((struct MultiCellBank *)(((struct Obj07024 *)self)->f44), ((struct Obj03475 *)p)->f0);
     kind = *(int *)(((struct Obj07024 *)self)->f1C + 4) & 0xff;
     NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x48), 1);
     switch (kind) {

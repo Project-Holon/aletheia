@@ -1,5 +1,5 @@
 /*
- * function: func_021D429C
+ * function: WIFIBATTLEMATCH_NET_Close
  * address: 0x021D429C
  * packet: pkt_ov175_021D429C
  * region: ov175
@@ -25,7 +25,7 @@ extern void func_02034A5C(int);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void GFL_USE_StopAllSe(void);
-int func_021D429C(int a,int b,int *p,int d)
+int WIFIBATTLEMATCH_NET_Close(int a,int b,int *p,int d)
 {
     int result;
     switch(((int *)p[2])[2]) {

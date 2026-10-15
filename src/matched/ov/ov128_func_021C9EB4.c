@@ -1,5 +1,5 @@
 /*
- * function: func_021C9EB4
+ * function: WF2DMAP_TOUCH_DeleteTileScreens
  * address:  0x021C9EB4
  * packet:   pkt_021C9EB4
  * region:   ov128
@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_021C9EB4(u8 *p, void *a1)
+void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *a1)
 {
     int i;
     for (i = 0; i < 10; i++)

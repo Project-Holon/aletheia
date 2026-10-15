@@ -1,5 +1,5 @@
 /*
- * function: func_021F26F0
+ * function: NAMEIN_GRAPHIC_DrawCellTips
  * address: 0x021F26F0
  * packet: pkt_ov194_021F26F0
  * region: ov194
@@ -19,10 +19,10 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021F4DA0 0x021F4DA0 thumb ov194
- *   func_021F4D9C 0x021F4D9C thumb ov194
- *   func_021F2818 0x021F2818 thumb ov194
- *   func_021F2614 0x021F2614 thumb ov194
+ *   NAMEIN_GRAPHIC_GetGridHeight 0x021F4DA0 thumb ov194
+ *   NAMEIN_GRAPHIC_GetGridWidth 0x021F4D9C thumb ov194
+ *   NAMEIN_GRAPHIC_PickerGetBox 0x021F2818 thumb ov194
+ *   NAMEIN_GRAPHIC_PickerToChar 0x021F2614 thumb ov194
  */
 #include "../include/Obj10808.h"
 #include "../include/Obj14500.h"
@@ -44,11 +44,11 @@ extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u16 func_021F4DA0(const u16 *p);
-extern u16 func_021F4D9C(const u16 *p);
-extern int func_021F2818(char *,Pair *,Box *);
-extern unsigned func_021F2614(char *,int *,u16 *);
-void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
+extern u16 NAMEIN_GRAPHIC_GetGridHeight(const u16 *p);
+extern u16 NAMEIN_GRAPHIC_GetGridWidth(const u16 *p);
+extern int NAMEIN_GRAPHIC_PickerGetBox(char *,Pair *,Box *);
+extern unsigned NAMEIN_GRAPHIC_PickerToChar(char *,int *,u16 *);
+void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u16 heap)
 {
  Box box;
  Pair xy;
@@ -57,10 +57,10 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
  u16 x,y;
  unsigned kind;
  text=STRBUF_Create(2,heap);
- for(xy.y=0;xy.y<func_021F4DA0(((struct Obj10808 *)p)->f0);xy.y++){
-  for(xy.x=0;xy.x<func_021F4D9C(((struct Obj10808 *)p)->f0);xy.x++){
-   if(func_021F2818(p,&xy,&box)){
-    kind=func_021F2614(p,(int *)&xy,codes);
+ for(xy.y=0;xy.y<NAMEIN_GRAPHIC_GetGridHeight(((struct Obj10808 *)p)->f0);xy.y++){
+  for(xy.x=0;xy.x<NAMEIN_GRAPHIC_GetGridWidth(((struct Obj10808 *)p)->f0);xy.x++){
+   if(NAMEIN_GRAPHIC_PickerGetBox(p,&xy,&box)){
+    kind=NAMEIN_GRAPHIC_PickerToChar(p,(int *)&xy,codes);
     if(kind==1 || kind==10 || kind==11){
      codes[1]=codes[0];codes[2]=STRBUF_GetEosChar();
      STRBUF_SetStringN(text,codes+1,2);

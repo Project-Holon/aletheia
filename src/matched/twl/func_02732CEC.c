@@ -23,7 +23,7 @@
  * symbols:
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  *   func_02165AF4  0x02165AF4  arm  ov009
- *   func_02166594  0x02166594  arm  ov009
+ *   WCMi_CpsifUnlockMutexInIRQ  0x02166594  arm  ov009
  */
 
 typedef struct OSThreadQueue { void *head; void *tail; } OSThreadQueue;
@@ -44,7 +44,7 @@ typedef struct NWMCallback { unsigned short apiid; unsigned short retcode; } NWM
 
 extern WCMCpsifWork *WCMi_GetCpsifWork(void);
 extern void func_02165AF4(void);
-extern void func_02166594(OSMutex *mutex);
+extern void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex);
 
 void WcmNwmcbSetDCFDataAsync(void *arg)
 {
@@ -70,7 +70,7 @@ void WcmNwmcbSetDCFDataAsync(void *arg)
         }
         sendCallback = wcmiw->sendCallback;
         wcmiw->sendCallback = 0;
-        func_02166594(&wcmiw->sendMutex);
+        WCMi_CpsifUnlockMutexInIRQ(&wcmiw->sendMutex);
         sendCallback(wcmResult);
         break;
     }

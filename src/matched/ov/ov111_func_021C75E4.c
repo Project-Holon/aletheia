@@ -1,5 +1,5 @@
 /*
- * function: func_021C75E4
+ * function: VIEWER_ACTOR_CreateObjects
  * address:  0x021C75E4
  * packet:   pkt_ov111_021C75E4
  * region:   ov111
@@ -51,7 +51,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern const ObjTemplate d_021C8AA0[36];
 
-void func_021C75E4(Work *p)
+void VIEWER_ACTOR_CreateObjects(Work *p)
 {
     ObjPos pos;
     int i;

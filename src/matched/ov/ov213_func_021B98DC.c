@@ -1,5 +1,5 @@
 /*
- * function: func_021B98DC
+ * function: COMM_BTL_DEMO_MAIN_GetSoundId
  * address:  0x021B98DC
  * packet:   pkt_021B98DC
  * region:   ov213
@@ -15,7 +15,7 @@
 
 extern int d_021BB004[];
 
-int func_021B98DC(int a, int b)
+int COMM_BTL_DEMO_MAIN_GetSoundId(int a, int b)
 {
     return *(int *)((char *)d_021BB004 + a * 8 + b * 4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FA0D0
+ * function: STA_ACT_AUDIENCE_Noop
  * address: 0x021FA0D0
  * packet: pkt_ov132_021FA0D0
  * region: ov132
@@ -11,4 +11,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021FA0D0(char *a0) { }
+void STA_ACT_AUDIENCE_Noop(char *a0) { }

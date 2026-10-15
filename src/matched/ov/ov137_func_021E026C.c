@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -20,7 +20,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj02871.h"
@@ -34,7 +34,7 @@ struct U16Vec;
 struct WordSet;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Cfg;
@@ -44,7 +44,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void GURU2_MAIN_PrintMessageWithNumber(u8 *p,int message,unsigned value)
 {
@@ -55,9 +55,9 @@ void GURU2_MAIN_PrintMessageWithNumber(u8 *p,int message,unsigned value)
     WORDSET_Callback_EF40(((struct Obj02871 *)s)->fC,0,value);
     text=STRBUF_Create(256,114);
     MSGDATA_ReadString(((struct Obj02871 *)s)->f8,message,text);
-    func_0201F250(((struct Obj02871 *)s)->fC,((struct Obj02871 *)s)->f5C,text);
+    WORDSET_CopyTaggedText(((struct Obj02871 *)s)->fC,((struct Obj02871 *)s)->f5C,text);
     STRBUF_Delete(text);
-    func_0201F73C(window,2,1,14);
+    BMP_MENUWORK_DrawWindow(window,2,1,14);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
     owner=((struct Obj02871 *)s)->f58;
     data=BMP_WIN_GetBmp(((struct Obj02871 *)s)->f28);

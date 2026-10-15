@@ -22,10 +22,10 @@
  * symbols:
  *   OS_SPrintf                  0x02084F40  arm
  *   gGsInt64Format                     0x021A3834  data
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   SOC_GetHostByName                  0x0215F650  arm ov009
  *   gGsResolveDebugFmt                     0x021A383C  data
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   strlen     0x0209477C  arm
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   memcpy     0x02092344  arm
@@ -85,9 +85,9 @@ typedef struct {
 } B64StreamData;
 
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
-extern void func_0217EAE0(void *p);
+extern void gsifree(void *p);
 extern int strlen(char *s);
 extern void *gsimalloc(unsigned long size);
 extern void *memcpy(void *dst, void *src, unsigned long n);
@@ -152,7 +152,7 @@ int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **ha
     struct GSIResolveHostnameInfo *info;
     struct SOCHostEnt *SOCHostEnt;
 
-    func_0217D254(8, (char *)3, 16, gGsResolveDebugFmt);
+    gsDebugFormat(8, (char *)3, 16, gGsResolveDebugFmt);
     SOCHostEnt = SOC_GetHostByName(hostname);
     if (SOCHostEnt == 0)
         return -1;
@@ -168,7 +168,7 @@ int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **ha
 
 void gsiCancelResolvingHostname(void *p)
 {
-    func_0217EAE0(p);
+    gsifree(p);
 }
 
 
@@ -181,7 +181,7 @@ int gsiGetResolvedIP(int *p)
 {
     int v = p[1];
 
-    func_0217EAE0(p);
+    gsifree(p);
 
     return v;
 }

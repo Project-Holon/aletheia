@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021FCA38, func_021FCAA0
+ * function: MUS_COMM_FUNC_DeleteBuffers, MUS_COMM_FUNC_SetReady
  * address: 0x021FCA38
  * packet: pkt_ov132_021FCA38
  * region: ov132
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021FCA38(char *p)
+void MUS_COMM_FUNC_DeleteBuffers(char *p)
 {
     u8 i;
     char *q;
@@ -33,7 +33,7 @@ void func_021FCA38(char *p)
     if(((struct Obj03291 *)p)->f128) func_020307B0(((struct Obj03291 *)p)->f128);
     if(((struct Obj03291 *)p)->f13C) func_020307B0(((struct Obj03291 *)p)->f13C);
 }
-void func_021FCAA0(char *p)
+void MUS_COMM_FUNC_SetReady(char *p)
 {
     ((struct Obj23271 *)p)->f10=1;
 }

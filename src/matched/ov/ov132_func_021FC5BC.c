@@ -1,5 +1,5 @@
 /*
- * function: func_021FC5BC
+ * function: SCRIPT_COMMAND_CmdStartSeq
  * address:  0x021FC5BC
  * packet:   pkt_021FC5BC
  * region:   ov132
@@ -23,7 +23,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void STA_ACTING_StartSeq(char *p, int a);
 
-int func_021FC5BC(int a, char **pp)
+int SCRIPT_COMMAND_CmdStartSeq(int a, char **pp)
 {
     char *p = *pp;
     int x = VM_GetU32((struct Cursor *)(((struct Obj14123 *)pp)->f4));

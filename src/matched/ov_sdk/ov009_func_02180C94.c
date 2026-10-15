@@ -19,13 +19,13 @@
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_02198620                  0x02198620  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
- *   func_02184234                  0x02184234  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
+ *   ArrayAppend                  0x02184234  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
  *   gt2Accept                  0x02195B2C  arm ov009
  *   gt2Reject                  0x02195B38  arm ov009
- *   func_02184200                  0x02184200  arm ov009
+ *   ArrayLength                  0x02184200  arm ov009
  *   func_02184324                  0x02184324  arm ov009
  *   func_02180420                  0x02180420  arm ov009
  *   gsUdpClosedRoutingCB                  0x02180518  arm ov009
@@ -82,13 +82,13 @@ typedef struct GT2ConnectionCallbacks {
 } GT2ConnectionCallbacks;
 
 extern GSUdpEngineObject *gsUdpEngineContext(void);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
-extern void func_02184234(void *array, void *newElem);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern void ArrayAppend(void *array, void *newElem);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern int gt2Accept(void *connection, GT2ConnectionCallbacks *callbacks);
 extern void gt2Reject(void *connection, unsigned char *message, int len);
-extern int func_02184200(void *array);
+extern int ArrayLength(void *array);
 extern void func_02184324(void *array, int n);
 extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
 extern void gsUdpClosedRoutingCB(void *theConnection, int reason);
@@ -109,14 +109,14 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
     GT2ConnectionCallbacks aCallbacks;
 
     aUdp = gsUdpEngineContext();
-    func_0217D254(12, 0, 16, g_021A3A8C, func_02198620(ip, port, anAddr));
+    gsDebugFormat(12, 0, 16, g_021A3A8C, gt2AddressToString(ip, port, anAddr));
 
     if (len >= 16) {
         memcpy(&aHandler.mInitialMsg, message, sizeof(aHandler.mInitialMsg));
         aRemotePeer.mAddr = ip;
         aRemotePeer.mPort = port;
         aRemotePeer.mConnection = connection;
-        func_02184234(aUdp->mRemotePeers, &aRemotePeer);
+        ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
         if (index != -1) {
             aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
@@ -124,17 +124,17 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
             aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
             aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
             gt2Accept(aRemotePeer.mConnection, &aCallbacks);
-            func_0217D254(12, 0, 16, g_021A3AB8);
+            gsDebugFormat(12, 0, 16, g_021A3AB8);
             return;
         }
     }
 
     if (aUdp->mAppConnAttempt) {
-        func_0217D254(12, 0, 16, g_021A3AFC, func_02198620(ip, port, anAddr));
+        gsDebugFormat(12, 0, 16, g_021A3AFC, gt2AddressToString(ip, port, anAddr));
         aUdp->mAppConnAttempt(ip, port, latency, message, len, aUdp->mAppUserData);
         return;
     }
 
     gt2Reject(connection, 0, 0);
-    func_02184324(aUdp->mRemotePeers, func_02184200(aUdp->mRemotePeers) - 1);
+    func_02184324(aUdp->mRemotePeers, ArrayLength(aUdp->mRemotePeers) - 1);
 }

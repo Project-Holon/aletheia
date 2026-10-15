@@ -1,5 +1,5 @@
 /*
- * function: func_021D6724
+ * function: WIFIBATTLEMATCH_NET_CopyBsubwayStat
  * address: 0x021D6724
  * packet: pkt_ov175_021D6724
  * region: ov175
@@ -13,7 +13,7 @@
  */
 typedef unsigned int u32;
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
-void func_021D6724(u32 *p, u32 *q)
+void WIFIBATTLEMATCH_NET_CopyBsubwayStat(u32 *p, u32 *q)
 {
     u32 *r = (u32 *)q[16];
     if (r[0] == 0) {

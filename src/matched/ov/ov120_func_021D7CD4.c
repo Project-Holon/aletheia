@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CD4
+ * function: GTSNEGO_MSG_CreateRowEx
  * address:  0x021D7CD4
  * packet:   pkt_021D7CD4
  * region:   ov120
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7C48  0x021D7C48  thumb
+ *   GTSNEGO_MSG_CreateRow  0x021D7C48  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021D7C48(u8 *p, int n, int a, int b, int c, int d);
+extern int GTSNEGO_MSG_CreateRow(u8 *p, int n, int a, int b, int c, int d);
 
-int func_021D7CD4(int a, int b, int c, int d)
+int GTSNEGO_MSG_CreateRowEx(int a, int b, int c, int d)
 {
-    return func_021D7C48((u8 *)a, b, c, d, 0x14, 6);
+    return GTSNEGO_MSG_CreateRow((u8 *)a, b, c, d, 0x14, 6);
 }

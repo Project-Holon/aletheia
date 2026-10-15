@@ -15,12 +15,12 @@
  *   gsUdpEngineContext                  0x02180404  arm ov009
  *   gt2GetRemoteIP                  0x02195E28  arm ov009
  *   gt2GetRemotePort                  0x02195E30  arm ov009
- *   func_02198620                  0x02198620  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
- *   func_02184200                  0x02184200  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
+ *   ArrayLength                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
- *   func_0218437C                  0x0218437C  arm ov009
+ *   ArrayDeleteAt                  0x0218437C  arm ov009
  *   func_02180474                  0x02180474  arm ov009
  *   g_021A38A8                     0x021A38A8  data
  *   g_021A38D0                     0x021A38D0  data
@@ -64,12 +64,12 @@ typedef struct GSUdpEngineObject {
 extern void *gsUdpEngineContext(void);
 extern int gt2GetRemoteIP(const int *p);
 extern unsigned short gt2GetRemotePort(const unsigned short *p);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_02184200(const int *p);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void func_0218437C(int a, int b);
+extern void ArrayDeleteAt(int a, int b);
 extern int func_02180474(void *theFirstPeer, void *theSecondPeer);
 extern char g_021A38A8[];
 extern char g_021A38D0[];
@@ -93,20 +93,20 @@ void gsUdpClosedRoutingCB(void *theConnection, int reason)
     else
         aReason = reason;
 
-    func_0217D254(12, 0, 16, g_021A38A8,
-        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
+    gsDebugFormat(12, 0, 16, g_021A38A8,
+        gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
-    len = func_02184200(aUdp->mMsgHandlers);
+    len = ArrayLength(aUdp->mMsgHandlers);
     for (index = 0; index < len; index++) {
         aHandler = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
         if (aHandler->mClosed) {
-            func_0217D254(12, 0, 16, g_021A38D0);
+            gsDebugFormat(12, 0, 16, g_021A38D0);
             aHandler->mClosed(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), aReason, aHandler->mUserData);
         }
     }
 
     if (aUdp->mAppClosed) {
-        func_0217D254(12, 0, 16, g_021A390C);
+        gsDebugFormat(12, 0, 16, g_021A390C);
         aUdp->mAppClosed(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), aReason, aUdp->mAppUserData);
     }
 
@@ -114,5 +114,5 @@ void gsUdpClosedRoutingCB(void *theConnection, int reason)
     index = func_021843E8(aUdp->mRemotePeers, &aRemotePeer, func_02180474, 0, 0);
     if (index == -1)
         return;
-    func_0218437C((int)aUdp->mRemotePeers, index);
+    ArrayDeleteAt((int)aUdp->mRemotePeers, index);
 }

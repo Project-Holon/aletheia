@@ -14,7 +14,7 @@
  *   func_021D5FA0 0x021D5FA0 thumb ov115
  *   func_021D5FC4 0x021D5FC4 thumb ov115
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -45,7 +45,7 @@ extern void func_021D5D3C(u8 *p);
 extern u32 func_021D5FA0(u32);
 extern u32 func_021D5FC4(u32);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -66,7 +66,7 @@ void func_021D5A9C(u8 *p) {
     BG_SYS_DeleteHalf(func_021D5FA0(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     n=((struct Obj00724 *)p)->f4;
     BG_SYS_DeleteHalf(func_021D5FC4(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     WORDSET_DeleteStrbufED04(((struct Obj00724 *)p)->f20);
     MSGDATA_Delete(((struct Obj00724 *)p)->f1C);
     GF_FONT_Delete(((struct Obj00724 *)p)->f24);

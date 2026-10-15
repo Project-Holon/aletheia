@@ -43,7 +43,7 @@
  *   490    the species whose egg has an entry of its own.
  *   650    the ordinary egg's index, so 651 is that species' egg; 651 again is
  *          the base the alternate-form block is counted from.
- *   0x1F, 0x20, 0x23   the three personal-record attributes func_02019C90
+ *   0x1F, 0x20, 0x23   the three personal-record attributes POKE_TOOL_GetPersonalParam
  *          answers: the form block's first index, the form count, and the
  *          "not drawn separately" flag.
  *   0x0209E474  the table itself, one packed byte per index.  Its contents are
@@ -63,6 +63,7 @@
  *   _IconPaletteTable  0x0209E474  data
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *
  * Verified with
  *   python tools/match.py tu --src src/pending/unit_0201BB5C.c \
@@ -78,7 +79,7 @@ struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *mon, u32 id, u32 v);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 
 extern const u8 _IconPaletteTable[];
 
@@ -93,9 +94,9 @@ u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg)
     if (isEgg != 0) {
         idx = (species == 490 ? 1 : 0) + 650;
     } else if (form != 0) {
-        first = func_02019C90((u16)species, 0, 0x1F);
-        hidden = func_02019C90((u16)species, 0, 0x23);
-        count = func_02019C90((u16)species, 0, 0x20);
+        first = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x1F);
+        hidden = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x23);
+        count = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x20);
         if (form >= count) {
             form = 0;
         }

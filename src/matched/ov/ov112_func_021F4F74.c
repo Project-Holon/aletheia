@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F74
+ * function: MUSICAL_MCSS_SetModeA
  * address: 0x021F4F74
  * packet: pkt_ov112_021F4F74
  * region: ov112
@@ -9,7 +9,7 @@
  * status: EXACT*
  */
 typedef unsigned short u16;
-int func_021F4F74(u16 *p, int mode)
+int MUSICAL_MCSS_SetModeA(u16 *p, int mode)
 {
     switch (mode) {
     case 0: case 1: if (p[3] & 1) return 1; break;

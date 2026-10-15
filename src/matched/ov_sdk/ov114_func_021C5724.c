@@ -12,7 +12,7 @@
  * sdk:      DWCi_SVLTokenWaitThread (libdwcnd.TWL.HYB.a(dwc_nd.o))
  *
  * symbols:
- *   func_02168040  0x02168040  arm  ov009
+ *   DWC_SVLProcess  0x02168040  arm  ov009
  *   strlen         0x0209477C  arm
  *   func_021C58C8  0x021C58C8  arm  ov114
  *   OS_SNPrintf  0x02084F80  arm
@@ -49,7 +49,7 @@ typedef struct SvlResult {
 
 extern struct NdState gDwcNdState;
 
-extern int func_02168040(void);
+extern int DWC_SVLProcess(void);
 extern void func_021C58C8(int reason, int error, int servererror);
 extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int DWC_Base64Encode(char *src, u32 srclen, char *dst, u32 dstlen);
@@ -69,7 +69,7 @@ static void DWCi_SVLTokenWaitThread(void)
     int errorcode;
 
     while (1) {
-        switch (func_02168040()) {
+        switch (DWC_SVLProcess()) {
         case 3:
             if (strlen(((SvlResult *)gDwcNdState.svl)->svlhost) + strlen("https:///download") > sizeof(url) - 1) {
                 func_021C58C8(0, 8, -1);

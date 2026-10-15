@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA10
+ * function: BR_CODEIN_CodeMain
  * address: 0x021DFA10
  * packet: pkt_ov183_021DFA10
  * region: ov183
@@ -30,7 +30,7 @@ extern int BR_UTIL_FlushText(u8 *p);
 extern void BR_UTIL_FlushWindow(void *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BR_UTIL_RunHandles(char *);
-int func_021DFA10(void *unused,u32 *state,int *q,char *p)
+int BR_CODEIN_CodeMain(void *unused,u32 *state,int *q,char *p)
 {
     int i;
     switch(*state) {

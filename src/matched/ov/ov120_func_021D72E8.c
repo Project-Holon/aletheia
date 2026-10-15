@@ -1,5 +1,5 @@
 /*
- * function: func_021D72E8
+ * function: GTSNEGO_MSG_GetListRowYF
  * address: 0x021D72E8
  * packet: pkt_ov120_021D72E8
  * region: ov120
@@ -14,7 +14,7 @@
  *   _fgeq 0x0209BB54 arm
  *   _ffix 0x0209C494 arm
  */
-int func_021D72E8(void *p, int n, int count)
+int GTSNEGO_MSG_GetListRowYF(void *p, int n, int count)
 {
     float f;
     float scale;

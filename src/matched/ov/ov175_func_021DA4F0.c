@@ -1,5 +1,5 @@
 /*
- * function: func_021DA4F0
+ * function: WIFIBATTLEMATCH_NET_GetMatchKeyDefault
  * address:  0x021DA4F0
  * packet:   pkt_021DA4F0
  * region:   ov175
@@ -12,10 +12,10 @@
  * symbols:
  *   (none)
  *
- * Matchmaking evaluation callback that scores every candidate 1000 (unlabelled; its address is a code pointer in func_021DA0D4's pool).
+ * Matchmaking evaluation callback that scores every candidate 1000 (unlabelled; its address is a code pointer in WIFIBATTLEMATCH_NET_SetMatchKey's pool).
  */
 
-int func_021DA4F0(int index, void *param)
+int WIFIBATTLEMATCH_NET_GetMatchKeyDefault(int index, void *param)
 {
     return 1000;
 }

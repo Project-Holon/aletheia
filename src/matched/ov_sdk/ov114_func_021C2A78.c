@@ -12,13 +12,13 @@
  * sdk:      ghiPostInitState (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm   ov009
+ *   ArrayLength  0x02184200  arm   ov009
  *   func_02184144  0x02184144  arm   ov009
  *   func_02184208  0x02184208  arm   ov009
  *   ghiPostStateInit  0x021C29AC  arm   ov114
  *   ghiPostStateCleanup  0x021C2A3C  arm   ov114
  *   func_021841B0  0x021841B0  arm   ov009
- *   func_02184234  0x02184234  arm   ov009
+ *   ArrayAppend  0x02184234  arm   ov009
  *   ghiPostGetContentLength  0x021C297C  arm   ov114
  */
 
@@ -50,14 +50,14 @@ typedef struct GHIConnection {
     int i184;
 } GHIConnection;
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184144(int, int, void (*)(void *));
 extern void *func_02184208(void *, int);
 struct Obj;
 extern int ghiPostStateInit(struct Obj *o);
 extern void ghiPostStateCleanup(void *);
 extern void func_021841B0(void *);
-extern void func_02184234(void *, void *);
+extern void ArrayAppend(void *, void *);
 extern int ghiPostGetContentLength(GHIConnection *);
 
 int ghiPostInitState(GHIConnection *connection)
@@ -75,7 +75,7 @@ int ghiPostInitState(GHIConnection *connection)
     connection->i184 = 0;
     connection->i178 = data->type;
     connection->i17C = data->p8;
-    len = func_02184200(data->objects);
+    len = ArrayLength(data->objects);
     connection->states = func_02184144(0x10, len, 0);
     if (connection->states == 0)
         return 0;
@@ -91,7 +91,7 @@ int ghiPostInitState(GHIConnection *connection)
             connection->states = 0;
             return 0;
         }
-        func_02184234(connection->states, &state);
+        ArrayAppend(connection->states, &state);
     }
     connection->contentLength = ghiPostGetContentLength(connection);
     if (connection->postData->mode == 1)

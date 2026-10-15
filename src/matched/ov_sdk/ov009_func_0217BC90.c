@@ -1,5 +1,5 @@
 /*
- * function: func_0217BC90
+ * function: DWC_CheckProfanityProcess
  * address:  0x0217BC90
  * packet:   pkt_ov009_0217BC90
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   DWC_AC_GetApType  0x0205BDD0  arm
- *   func_0217BDA8  0x0217BDA8  arm  ov009
+ *   DWCi_Prof_ParseResponse  0x0217BDA8  arm  ov009
  *   func_02059F54  0x02059F54  arm
  *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm
@@ -47,14 +47,14 @@ typedef struct DWCProfWorkarea {
 
 extern int OS_IsThreadTerminated(OSThread *thread);
 extern unsigned char DWC_AC_GetApType(void);
-extern int func_0217BDA8(void);
+extern int DWCi_Prof_ParseResponse(void);
 extern void func_02059F54(int error, int errorCode);
 extern void DWC_Http_Destroy(char *http);
 extern void func_0205A1B0(int name, void *ptr, long size);
 
 extern DWCProfWorkarea *g_021ACEF0;
 
-int func_0217BC90(void)
+int DWC_CheckProfanityProcess(void)
 {
     int retval;
     unsigned char aptype;
@@ -68,7 +68,7 @@ int func_0217BC90(void)
 
         switch (g_021ACEF0->http.error) {
         case 8:
-            if (func_0217BDA8() == 0)
+            if (DWCi_Prof_ParseResponse() == 0)
                 retval = 3;
             else
                 retval = 2;

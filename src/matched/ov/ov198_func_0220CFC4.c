@@ -1,5 +1,5 @@
 /*
- * function: func_0220CFC4
+ * function: B_PLIST_DRAW_PrintBankEntry
  * address: 0x0220CFC4
  * packet: pkt_ov198_0220CFC4
  * region: ov198
@@ -12,7 +12,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  */
@@ -32,16 +32,16 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern int func_022110D4(u8 *, int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_0220CFC4(char *p, int index)
+void B_PLIST_DRAW_PrintBankEntry(char *p, int index)
 {
     char *elem;
     void *bank;
     void *t;
     void *f;
-    elem = p + 4 + func_022110D4((u8 *)p, index) * 0x4C;
+    elem = p + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)p, index) * 0x4C;
     bank = func_02045B38(0, 2, 0xB7, ((struct Obj25164 *)(*(char * *)&((struct Obj06650 *)p)->f0))->f10);
     t = func_02045EC0(bank, ((struct Obj25165 *)elem)->f18);
     f = ((struct Obj06650 *)p)->f1EAC;

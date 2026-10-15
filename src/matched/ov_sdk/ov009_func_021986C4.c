@@ -1,5 +1,5 @@
 /*
- * function: func_021986C4
+ * function: gt2StringToAddress
  * address:  0x021986C4
  * packet:   pkt_ov009_021986C4
  * region:   ov009
@@ -42,7 +42,7 @@ extern u16 __ctype_mapC[];
 
 #define GT2_ISDIGIT(c) ((u32)(c) >= 0x80 ? 0 : (__ctype_mapC[(c)] & 8))
 
-int func_021986C4(char *string, u32 *ip, u16 *port)
+int gt2StringToAddress(char *string, u32 *ip, u16 *port)
 {
     u32 srcIP = 0;
     u16 srcPort = 0;

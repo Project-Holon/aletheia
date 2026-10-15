@@ -17,9 +17,9 @@
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
  *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F134  0x0201F134  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  */
 
@@ -35,9 +35,9 @@ extern u32 BTL_MAIN_GetTrainerNameAndType(u8 *p, int i, u32 *out);
 extern int BTL_MAIN_GetTrainerHandle(char *p, int i);
 extern int BTL_MAIN_UpdateCommPlayerSupport(void *battle);
 extern u8 TPOKE_DATA_GetGenderValue(u32 cls);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotFromMsgBE(struct WordSet *p, u32 i, u32 v);
 extern struct G_ov093_021F6398 gBtlMsgState;
 
 void BTL_MSG_SetClientName(void *win, u8 slot, u8 k)
@@ -50,15 +50,15 @@ void BTL_MSG_SetClientName(void *win, u8 slot, u8 k)
             if ((int)BTL_MAIN_GetCompetitor((*(void * *)&gBtlMsgState)) == 1) {
                 v = BTL_MAIN_GetTrainerId((*(void * *)&gBtlMsgState), k);
                 if (v != 0)
-                    func_0201F134(win, slot, v);
+                    WORDSET_SetSlotFromMsgBE(win, slot, v);
             } else {
                 v = BTL_MAIN_GetTrainerNameAndType((*(void * *)&gBtlMsgState), k, &t);
-                func_0201EE0C(win, slot, (void *)v, TPOKE_DATA_GetGenderValue(t), 1, 2);
+                WORDSET_SetSlotTag(win, slot, (void *)v, TPOKE_DATA_GetGenderValue(t), 1, 2);
             }
         } else {
-            func_0201F02C(win, slot, (void *)BTL_MAIN_GetTrainerHandle((*(void * *)&gBtlMsgState), k));
+            WORDSET_SetSlotMyStatus(win, slot, (void *)BTL_MAIN_GetTrainerHandle((*(void * *)&gBtlMsgState), k));
         }
     } else {
-        func_0201F02C(win, slot, (void *)BTL_MAIN_UpdateCommPlayerSupport((*(void * *)&gBtlMsgState)));
+        WORDSET_SetSlotMyStatus(win, slot, (void *)BTL_MAIN_UpdateCommPlayerSupport((*(void * *)&gBtlMsgState)));
     }
 }

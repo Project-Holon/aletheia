@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD78
+ * function: ZKNSEARCH_MAIN_ExitListPage4
  * address:  0x021BDD78
  * packet:   pkt_021BDD78
  * region:   ov210
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCD3C  0x021BCD3C  thumb  ov210
- *   func_021BF38C  0x021BF38C  thumb  ov210
- *   func_021C0550  0x021C0550  thumb  ov210
+ *   ZKNSEARCH_MAIN_SetFadeStateB  0x021BCD3C  thumb  ov210
+ *   ZKNSEARCH_MAIN_HideAllActors  0x021BF38C  thumb  ov210
+ *   ZKNSEARCH_RESULT_DeleteFrameList  0x021C0550  thumb  ov210
  * Addresses are Black-image addresses.
  */
 
@@ -21,15 +21,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021BCD3C(u8 *);
-extern void func_021BF38C(u8 *);
-extern void func_021C0550(int p);
+extern void ZKNSEARCH_MAIN_SetFadeStateB(u8 *);
+extern void ZKNSEARCH_MAIN_HideAllActors(u8 *);
+extern void ZKNSEARCH_RESULT_DeleteFrameList(int p);
 
-u32 func_021BDD78(u8 *p)
+u32 ZKNSEARCH_MAIN_ExitListPage4(u8 *p)
 {
-    func_021BCD3C(p);
-    func_021BF38C(p);
-    func_021C0550((int)p);
+    ZKNSEARCH_MAIN_SetFadeStateB(p);
+    ZKNSEARCH_MAIN_HideAllActors(p);
+    ZKNSEARCH_RESULT_DeleteFrameList((int)p);
     return 3;
 }
 

@@ -13,14 +13,14 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, ov217_func_021C2E20.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02062B30 0x02062B30 arm
- *   func_02041090 0x02041090 arm
+ *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
  *   RESEARCH_COMMON_UpdatePaletteAnime 0x021C09D0 thumb ov217
@@ -51,7 +51,7 @@
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
  *   func_0207D63C 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
@@ -79,7 +79,7 @@
  *   d_021C30A8 0x021C30A8 data a1
  *   SYMBOL_SAVE_SetBitDescriptor 0x0200E440 thumb
  *   BMP_OAM_SetPalette  0x02025A54  thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_GetBuf 0x0204162C arm
  *   BG_SYS_GetScrollX_1648  0x02041648  arm
@@ -159,6 +159,7 @@
  *   func_02030734  0x02030734  arm
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 #include "../../matched/include/Obj00801.h"
 #include "../../matched/include/Obj25879.h"
@@ -314,7 +315,7 @@ typedef struct { unsigned short x, y; } Pos;
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -328,13 +329,13 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
 extern u32 func_020307B0(void *p);
 
-extern int func_02062B30(void *, void **);
+extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
-extern void func_02041090(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_020413B0(int index, int x0, int y0, int w, int h, int pal);
+extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
 
 extern u32 RESEARCH_COMMON_GetHeapId(void *);
 
@@ -414,7 +415,7 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 extern u32 BG_SYS_ClearSlot();
 
-extern void func_02040DA8(u32, u32, u32);
+extern void BG_SYS_SetTileUnit(u32, u32, u32);
 
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 
@@ -496,7 +497,7 @@ extern u32 PALETTE_ANIME_IsRunning();
 
 extern u32 PALANM_TransferPalettes(struct S02021D50 *p);
 
-extern u32 func_020419E4();
+extern u32 BG_SYS_Update();
 
 extern u32 ListViewState_GetMode(void *p);
 
@@ -1921,7 +1922,7 @@ void RESEARCH_LIST_ShowCursor(u8 *p)
     slot=p[0x32];
     x=RESEARCH_LIST_GetRowOffset((u32)p,slot);
     y=RESEARCH_LIST_GetRowBase((u32)p,slot);
-    func_020413B0(2,x,y,28,3,10);
+    BG_SYS_FillTileMap(2,x,y,28,3,10);
     func_02041B6C(2);
     ((struct ResearchTop *)p)->cursorVisible=1;
 }
@@ -1934,7 +1935,7 @@ void RESEARCH_LIST_HideCursor(u8 *p)
     slot=p[0x32];
     x=RESEARCH_LIST_GetRowOffset((u32)p,slot);
     y=RESEARCH_LIST_GetRowBase((u32)p,slot);
-    func_020413B0(2,x,y,28,3,9);
+    BG_SYS_FillTileMap(2,x,y,28,3,9);
     func_02041B6C(2);
     ((struct ResearchTop *)p)->cursorVisible=0;
 }
@@ -2513,7 +2514,7 @@ void RESEARCH_LIST_ClearKeyRepeatTimer(void *p)
 
 void RESEARCH_LIST_VBlankHandler(u32 a0, u32 a1)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)(((struct ResearchTop *)a1)->palAnm));
 }
@@ -2845,7 +2846,7 @@ void RESEARCH_LIST_InitTables(u8 *p)
 
 void RESEARCH_LIST_InitBackgrounds(char *p)
 {
-    func_0203FC28(&d_021C30C0);
+    BG_SYS_SetGraphicsMode(&d_021C30C0);
     BG_SYS_InitBgLayer(6, &d_021C3110, 0);
     BG_SYS_InitBgLayer(7, &d_021C3130, 0);
     BG_SYS_InitBgLayer(0, &d_021C30F0, 0);
@@ -2884,8 +2885,8 @@ void RESEARCH_LIST_LoadBackground6(char *p)
     void *screen;
     arc = func_020490F4(192, (u16)((((struct ResearchTop *)p)->heapId & 0x7FFF) | 0x8000));
     buf = ARC_TOOL_LoadHandleMember(arc, 13, ((struct ResearchTop *)p)->heapId);
-    func_02062B30(buf, &screen);
-    func_02041090(6, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    NNS_G2dGetUnpackedScreenData(buf, &screen);
+    BG_SYS_DrawTile(6, (u32)((char *)screen + 12), 0, 0, 32, 24);
     func_02041B6C(6);
     func_020307B0(buf);
     ARC_TOOL_DeleteHandle(arc);
@@ -2903,7 +2904,7 @@ u32 RESEARCH_LIST_UpdateBackground7(u32 a0)
 
 void RESEARCH_LIST_ShowBackground7(u32 a0)
 {
-    func_02040DA8(7, 1, 0);
+    BG_SYS_SetTileUnit(7, 1, 0);
 }
 
 void RESEARCH_LIST_LoadBackground2(char *p)
@@ -2913,8 +2914,8 @@ void RESEARCH_LIST_LoadBackground2(char *p)
     void *screen;
     arc = func_020490F4(192, (u16)((((struct ResearchTop *)p)->heapId & 0x7FFF) | 0x8000));
     buf = ARC_TOOL_LoadHandleMember(arc, 3, ((struct ResearchTop *)p)->heapId);
-    func_02062B30(buf, &screen);
-    func_02041090(0, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    NNS_G2dGetUnpackedScreenData(buf, &screen);
+    BG_SYS_DrawTile(0, (u32)((char *)screen + 12), 0, 0, 32, 24);
     func_02041B6C(0);
     func_020307B0(buf);
     ARC_TOOL_DeleteHandle(arc);
@@ -2935,8 +2936,8 @@ void RESEARCH_LIST_LoadListBackground(struct ResearchTop *p)
     int v = RESEARCH_LIST_GetEntryCount(p) * 3;
     void *res = ARC_TOOL_LoadHandleMember(heap, 5, p->heapId);
     char *q;
-    func_02062B30(res, (void **)(&q));
-    func_02041090(2, (u32)(q + 0xc), 0, 0, 0x20, (u8)v);
+    NNS_G2dGetUnpackedScreenData(res, (void **)(&q));
+    BG_SYS_DrawTile(2, (u32)(q + 0xc), 0, 0, 0x20, (u8)v);
     func_02041B6C(2);
     func_020307B0(res);
     ARC_TOOL_DeleteHandle(heap);
@@ -2954,7 +2955,7 @@ u32 RESEARCH_LIST_UpdateBackground3(u32 a0)
 
 void RESEARCH_LIST_ShowBackground3(u32 a0)
 {
-    func_02040DA8(3, 1, 0);
+    BG_SYS_SetTileUnit(3, 1, 0);
 }
 
 void RESEARCH_LIST_CreateLabels(struct ResearchTop *p)

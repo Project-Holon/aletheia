@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F1A10",
+   "name": "NAMEIN_GRAPHIC_ClearCursor",
    "address": "0x021F1A10",
    "kind": "game",
    "region": "ov194",

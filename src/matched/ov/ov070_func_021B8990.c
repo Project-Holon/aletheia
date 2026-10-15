@@ -29,7 +29,7 @@
  *   ITEMMENU_HideSideWindows  0x021BAF10  thumb  ov070
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   BMP_WIN_Delete  0x020452E8  arm
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
@@ -41,7 +41,7 @@
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   KEY_SetRepeatSpeed  0x02036270  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 
 typedef unsigned char u8;
@@ -116,7 +116,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void ITEMMENU_HideSideWindows(char *p);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_02040DA8(u32 a, u32 b, u32 c);
+extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -129,7 +129,7 @@ extern void BG_SYS_Delete(void);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *a);
-extern void func_020306F0(unsigned int a);
+extern void GFL_HEAP_DeleteChecked(unsigned int a);
 
 int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
 {
@@ -154,7 +154,7 @@ int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
         BG_SYS_DeleteHalf((int)3, (unsigned short)o->f838, (unsigned short)(o->f838 >> 16));
         BMP_WIN_Delete((struct Descriptor *)o->f4FC);
     }
-    func_02040DA8(3, 1, 0);
+    BG_SYS_SetTileUnit(3, 1, 0);
     GF_FONT_Delete((void *)o->f530);
     APP_KEYCURSOR_Delete(o->f518);
     PRINTSYS_QUE_Clear((struct PrintSys *)o->f50C);
@@ -168,6 +168,6 @@ int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
     par->f38 = o->f84C;
     KEY_SetRepeatSpeed(o->f86C, o->f870);
     func_020315D4(proc);
-    func_020306F0(0xE);
+    GFL_HEAP_DeleteChecked(0xE);
     return 1;
 }

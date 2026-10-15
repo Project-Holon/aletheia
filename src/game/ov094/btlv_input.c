@@ -21,8 +21,8 @@
  *   func_02030CBC  0x02030CBC  arm
  *   func_020056A0  0x020056A0  thumb
  *   func_02030EAC 0x02030EAC arm
- *   func_02030DA4 0x02030DA4 arm
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Noop 0x02030DA4 arm
+ *   TCB_Main  0x02030D28  arm
  *   func_02030DA8  0x02030DA8  arm
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
@@ -46,7 +46,7 @@
  *   CLACT_SetActorAffineMode  0x0204B570  arm
  *   d_0220AEB0  0x0220AEB0  data  a4
  *   BTLV_FINGER_CURSOR_Delete  0x02209B30  thumb  ov094
- *   func_0203FC6C 0x0203FC6C arm
+ *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -119,8 +119,8 @@
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   PALANM_CopyToSlot  0x020215BC  thumb
@@ -130,8 +130,8 @@
  *   func_021D5528 0x021D5528 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   d_0220A386 0x0220A386 data a1
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_02041300  0x02041300  arm
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   d_0220A50C 0x0220A50C data a4
  *   func_0201BC78 0x0201BC78 thumb
  *   func_0201BCEC 0x0201BCEC thumb
@@ -145,7 +145,7 @@
  *   d_0220A544 0x0220A544 data ov094 a4
  *   d_0220A580     0x0220A580  data   ov094  a4
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_0201EF34  0x0201EF34  thumb
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
  *   KEY_GetRepeat  0x0203633C  arm
  *   BTLV_GAUGE_TakeSlotEvent  0x02207D78  thumb  ov094
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
@@ -178,19 +178,12 @@
  *   FX_ModS32  0x0207C994  arm  arm9
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
  *   GXx_GetMasterBrightness_  0x0207D55C  arm  arm9
+ *   BG_SYS_ClearLayer  0x0204152C  arm  arm9
  */
 #include "../../matched/include/Obj21770.h"
 #include "../../matched/include/Obj21781.h"
 #include "../../matched/include/Obj21782.h"
-#include "../../matched/include/Obj00823.h"
-#include "../../matched/include/Obj21789.h"
-#include "../../matched/include/Obj21791.h"
-#include "../../matched/include/Obj21793.h"
-#include "../../matched/include/Obj21794.h"
-#include "../../matched/include/Obj21796.h"
-#include "../../matched/include/Obj21798.h"
 #include "../../matched/include/Obj21799.h"
-#include "../../matched/include/Obj04404.h"
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
 #include "btlv_effect_shared_types.h"
@@ -260,20 +253,16 @@ struct Struct36;
 
 struct QG;
 
-struct Ctx_v53DC;
-
 struct Bmp;
 
 struct Obj020437AC;
 
-typedef signed short s16_02201DA0;
 
 
+typedef struct BtlvInputVisibilityTask { BtlvInput *owner; int mode; } BtlvInputVisibilityTask;
 
-typedef struct Res_02201DA0 { BtlvInput *owner; int v; } Res_02201DA0;
 
-
-typedef struct Ent_02202238 { char pad[0x20]; int f20; } Ent_02202238;
+typedef struct BtlvInputBgLayer { char tmplBytes[0x20]; int type; } BtlvInputBgLayer;
 
 
 
@@ -334,7 +323,7 @@ typedef struct {
     char pad0[0xa];
     s8 id;              /* 0x0a */
     char padb;
-} Ent_v1DA0;
+} BtlvInputTargetRegion;
 
 typedef struct {
     void *key;          /* 0x00 */
@@ -344,16 +333,16 @@ typedef struct {
 
 
 
-typedef struct Tbl_v1DA0 {
-    Pair_02201B20 p[3];
-} Tbl_v1DA0;
+typedef struct BtlvInputFingerTable {
+    Pair_02201B20 pos[3];
+} BtlvInputFingerTable;
 
 
-typedef struct Desc_02201B20 {
-    void *a;
-    void *b;
-    const int *c;
-} Desc_02201B20;
+typedef struct BtlvInputCommandDesc {
+    void *buttons;
+    void *selectFlags;
+    const int *values;
+} BtlvInputCommandDesc;
 
 /* The rodata objects at 0x0220A380..0x0220A3B4 are one section to the compiler: loads go
  * through the section base (sec_0220A380 + field) and addresses taken get their own words;
@@ -364,8 +353,8 @@ typedef struct Sec {
     u8 pal[3][2];
     u8 mode[3][2];
     u16 h[5];
-    Desc_02201B20 da;
-    Desc_02201B20 db;
+    BtlvInputCommandDesc da;
+    BtlvInputCommandDesc db;
 } Sec;
 
 
@@ -387,7 +376,7 @@ typedef struct Sec {
 
 
 
-typedef struct { int a, b; } Pair_022033F4;
+typedef struct { int start, end; } BtlvInputWipeOffset;
 
 
 
@@ -426,10 +415,10 @@ typedef struct BtlvInputCursorActorTask {
 
 typedef struct Quad { u16 v[4]; } Quad;
 
-typedef struct BtlvInputCursorPoint { short x; short y; } BtlvInputCursorPoint;
+typedef struct BtlvInputPoint { short x; short y; } BtlvInputPoint;
 
 /* One row of d_0220A85C: six cursor positions and the animation sequence per slot. */
-typedef struct BtlvInputCursorRow { BtlvInputCursorPoint point[6]; int animSeq[2]; } BtlvInputCursorRow;
+typedef struct BtlvInputCursorRow { BtlvInputPoint point[6]; int animSeq[2]; } BtlvInputCursorRow;
 
 /* Work of the palette flash task (allocated by BTLV_INPUT_StartPaletteFlashTask). */
 typedef struct BtlvInputPaletteFlashTask {
@@ -451,13 +440,9 @@ typedef struct BtlvInputBgScrollOffsetTask {
 
 typedef int BOOL;
 
-typedef short s16_02204CC0;
+typedef struct BtlvInputTextPos { int x, y; } BtlvInputTextPos;
 
-typedef struct Point_02201B20 { s16_02204CC0 x, y; } Point_02201B20;
-
-typedef struct Pos_02204C98 { int x, y; } Pos_02204C98;
-
-typedef struct PosTab { Pos_02204C98 v[4]; } PosTab;
+typedef struct BtlvInputTextPosRow { BtlvInputTextPos pos[4]; } BtlvInputTextPosRow;
 
 typedef struct { int w[9]; } Struct36;
 
@@ -467,7 +452,7 @@ typedef struct Slots {
     u8 b[4];
 } Slots;
 
-typedef struct Entry_v3E30 {
+typedef struct BtlvInputTargetButton {
     u8 kind : 2;
     u8 flag : 1;
     u8 pad0 : 5;
@@ -475,13 +460,13 @@ typedef struct Entry_v3E30 {
     short show;
     short pad6;
     void *text;
-} Entry_v3E30;
+} BtlvInputTargetButton;
 
-typedef struct Info_v3E30 {
-    Entry_v3E30 e[6];
-    u8 b48;
-    u8 b49;
-} Info_v3E30;
+typedef struct BtlvInputTargetInfo {
+    BtlvInputTargetButton buttons[6];
+    u8 battlerCount;    /* active battlers: 2 single, 4 double, 6 triple */
+    u8 targetGroup;
+} BtlvInputTargetInfo;
 
 
 typedef struct Out {
@@ -489,21 +474,15 @@ typedef struct Out {
     int fc;
 } Out;
 
-typedef struct Res_02204C98 {
+typedef struct BtlvInputTargetRes {
     u32 pad[3];
-    u16 *fc;
-} Res_02204C98;
+    u16 *palette;
+} BtlvInputTargetRes;
 
 
 typedef struct { u16 value[4]; u8 a[4], b[4]; u8 pad10[8]; } Buffer;
 
 typedef struct { u8 first, second; } Palette;
-
-
-
-typedef short s16_022057CC;
-
-typedef struct Point_022053DC { s16_022057CC x, y; } Point_022053DC;
 
 
 
@@ -522,86 +501,30 @@ typedef struct Five { int v[5]; } Five;
 
 
 
-typedef struct { void *h; int x; } Slot;
-
 typedef struct {
-    int v[6];
-} Q_v53DC;
+    int seq[6];
+} BtlvInputTargetAnim;
 
 
 
 
 
-typedef struct Point_02205F40 { s16 x, y; } Point_02205F40;
-
-typedef struct {
-    char p0[0x58];
-    int f58;
-    char p5c[0x68 - 0x5c];
-    u32 lo : 4;
-    u32 b4 : 1;
-    u32 cur : 4;
-    u32 prev : 4;
-    u32 redraw : 1;
-    u32 rest68 : 18;
-    u32 b0 : 1;
-    u32 b1 : 1;
-    u32 rest6c : 30;
-    char p70[0x17c - 0x70];
-    void *f17c;
-    char p180[0x220 - 0x180];
-    int f220;
-    char p224[0x242 - 0x224];
-    u8 tbl[3][8];
-    u8 f25a[8];
-    u8 f262[4];
-    u16 f266[3];
-    u16 f26c[4];
-    u8 *f274;
-    int f278;
-    int f27c;
-} W_02206140;
-
-typedef struct {
-    u8 (*tab)[4];
-    int *flags;
-} Ctx_v53DC;
-
-typedef short s16_022064CC;
-
-typedef struct Point_022064CC { s16_022064CC x, y; } Point_022064CC;
-
-typedef struct {
-    char p0[0x68];
-    u32 b0 : 5;
-    u32 sel : 4;
-    u32 rest : 23;
-    char p6c[0x180 - 0x6c];
-    Slot slots[6];
-    char p1b0[0x274 - 0x1b0];
-    u8 *f274;
-} W_022064CC;
-
-typedef struct {
-    unsigned int lo : 31;
-    unsigned int top : 1;
-} Top;
-
-typedef struct {
-    char *s;
-    int f4;
-    int f8;
-    int fc;
-} Ctx_022064CC;
+/* Button table and per-button select flags; callers pass their command
+ * descriptor (Cmd/Desc) as this. */
+typedef struct BtlvInputSection {
+    u8 (*buttons)[4];
+    int *selectFlags;
+} BtlvInputSection;
 
 typedef struct PalAnmObj PalAnmObj;
 
-typedef struct { char *p; int state, colour, flag; } Ctx_0220663C;
-
-typedef struct {
-    unsigned int lo : 4;
-    unsigned int b4 : 1;
-} Bf_022064CC;
+/* Work of the button flash task (allocated by BTLV_INPUT_SetSelection). */
+typedef struct BtlvInputButtonFlashTask {
+    BtlvInput *input;
+    int state;
+    int colour;
+    int flag;
+} BtlvInputButtonFlashTask;
 
 
 extern u32 func_020307B0(void *p);
@@ -616,9 +539,9 @@ extern void *func_020056A0(void (*)(void *, void *), void *, int);
 
 extern void func_02030EAC(struct Node *n);
 
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 
-extern void * func_02030D28(struct Ctx *c);
+extern void * TCB_Main(struct Ctx *c);
 
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 
@@ -685,7 +608,7 @@ extern void BTLV_FINGER_CURSOR_Delete(void *);
 
 extern void INFOWIN_Update(void *);
 
-extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
+extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *req, u32 which);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -713,7 +636,7 @@ extern int INFOWIN_Exit(void);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void func_0204152C(int channel, u16 val);
+extern void BG_SYS_ClearLayer(int channel, u16 val);
 
 extern void func_020403F4(u32 i);
 
@@ -721,7 +644,7 @@ extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
-extern int PALANM_RequestFadeOverwrite(void *, u16, u16, s16_02201DA0, u8, u8, u16, void *);
+extern int PALANM_RequestFadeOverwrite(void *, u16, u16, s16, u8, u8, u16, void *);
 
 extern u32 CLACT_GetUnitDrawEnable(struct Bank *bank);
 
@@ -731,7 +654,7 @@ extern void GF_FONT_SetTextColor(u32, u32, u32);
 
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-extern void PRINTSYS_Print(void *x, s16_02201DA0 y, s16_02201DA0 z, void *s, void *w);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -801,17 +724,17 @@ extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 
-extern void func_0201EFA4(u32 p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(u32 p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 
@@ -819,7 +742,7 @@ extern u16 func_021D5528(u8 *, u8, u8 *, u8 *);
 
 extern int BTL_POKEPARAM_IsFainted(void *);
 
-extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
 
 extern int func_0201BC78(void);
 
@@ -1001,7 +924,7 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
 
 void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q);
 
-void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const Info_v3E30 *p);
+void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const BtlvInputTargetInfo *p);
 
 void BTLV_INPUT_DrawMessageText(BtlvInput *input, const int *c);
 
@@ -1037,13 +960,13 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input);
 
 void BTLV_INPUT_DeleteBackActor(BtlvInput *input);
 
-int BTLV_INPUT_ProcessButtonSelection(W_02206140 *p, const Ctx_v53DC *c, s8 (*rows)[12], u8 *list, int ret, int arg6);
+int BTLV_INPUT_ProcessButtonSelection(BtlvInput *input, const BtlvInputSection *section, s8 (*rows)[12], u8 *list, int ret, int transformed);
 
 int BTLV_INPUT_ProcessKeyRepeat(BtlvInput *input);
 
-void BTLV_INPUT_UpdateButtonActors(W_022064CC *p, u8 (* __restrict tab)[4], s8 (*rows)[12]);
+void BTLV_INPUT_UpdateButtonActors(BtlvInput *input, u8 (* __restrict tab)[4], s8 (*rows)[12]);
 
-int BTLV_INPUT_SetSelection(char *s, int a, int b);
+int BTLV_INPUT_SetSelection(BtlvInput *input, int a, int b);
 
 void BTLV_INPUT_ButtonFlashTaskMain(void *task, void *arg);
 
@@ -1065,7 +988,7 @@ int BTLV_INPUT_AllocTaskSlot(BtlvInput *input);
 
 void BTLV_INPUT_DeleteAllTasks(BtlvInput *input);
 
-int BTLV_INPUT_IsWazaSelectable(char *p, char *q, int i);
+int BTLV_INPUT_IsWazaSelectable(BtlvInput *input, const BtlvInputSection *section, int i);
 
 void BTLV_INPUT_UpdateWazaRow(BtlvInput *input);
 
@@ -1093,17 +1016,17 @@ extern const char d_0220AEB0[];
 
 extern char d_0220A3D4[];
 
-extern const Ent_02202238 d_0220A8BC[];
+extern const BtlvInputBgLayer d_0220A8BC[];
 
 extern u8 d_0689E090[][15];
 
 extern u8 d_0689E0B0[][15];
 
-extern Ent_v1DA0 *gBtlvScdTargetRegionsSingleB[][15];
+extern BtlvInputTargetRegion *gBtlvScdTargetRegionsSingleB[][15];
 
-extern Ent_v1DA0 *gBtlvScdTargetRegionsDoubleB[][15];
+extern BtlvInputTargetRegion *gBtlvScdTargetRegionsDoubleB[][15];
 
-extern const Tbl_v1DA0 d_0220A598;
+extern const BtlvInputFingerTable d_0220A598;
 
 extern const Sec sec_0220A380;
 
@@ -1113,7 +1036,7 @@ extern void *const d_0220AE98[];
 
 extern void *const d_0220AEA4[];
 
-extern const Pair_022033F4 d_0220A4EC[];
+extern const BtlvInputWipeOffset d_0220A4EC[];
 
 extern const BtlvInputPaletteCycleEntry d_0220A46C[][2];
 
@@ -1127,17 +1050,17 @@ extern const u8 d_0220A38C[][2];
 
 extern const int d_0220A3E4[][2];
 
-extern const PosTab d_0220A5B0;
+extern const BtlvInputTextPosRow d_0220A5B0;
 
-extern const PosTab d_0220A5D0;
+extern const BtlvInputTextPosRow d_0220A5D0;
 
 extern const int d_0220A5F0[];
 
 extern const u16 d_0220A392[];
 
-extern const Point_02201B20 d_0220A3C4[];
+extern const BtlvInputPoint d_0220A3C4[];
 
-extern const Pos_02204C98 d_0220A4AC[];
+extern const BtlvInputTextPos d_0220A4AC[];
 
 extern const int d_0220A7FC[2][6][2];
 
@@ -1145,11 +1068,11 @@ extern const int d_0220A94C[2][3][15];
 
 extern const Palette d_0220A386[];
 
-extern const Point_022053DC d_0220A50C[][3];
+extern const BtlvInputPoint d_0220A50C[][3];
 
 extern const Five d_0220A558, d_0220A56C, d_0220A544;
 
-extern const Q_v53DC d_0220A580;
+extern const BtlvInputTargetAnim d_0220A580;
 
 BtlvInput *BTLV_INPUT_CreateDefault(int a, int b, int c, int d, int e, u16 k)
 {
@@ -1164,7 +1087,7 @@ void BTLV_INPUT_CreateWithMode(int a, int b, int c, int d, int e, int f, int g, 
 BtlvInput *BTLV_INPUT_Create(int a, int b, int c, int d, int e, int f, int g, int h, u16 heap)
 {
     BtlvInput *input;
-    Res_02201DA0 *r;
+    BtlvInputVisibilityTask *r;
     int i;
 
     input = func_02030734(heap, 0x2e0, 1, d_0220AEB0, 0x39a);
@@ -1199,7 +1122,7 @@ BtlvInput *BTLV_INPUT_Create(int a, int b, int c, int d, int e, int f, int g, in
     BTLV_INPUT_LoadScreenResources(input);
     r = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x3cc);
     r->owner = input;
-    r->v = g;
+    r->mode = g;
     BTLV_INPUT_RegisterTask((void *)input, (int)func_02030DA8(input->taskMgr, (void (*)(void *, void *))(BTLV_INPUT_VisibilityTaskMain), r, 0), 0);
     return input;
 }
@@ -1213,26 +1136,26 @@ void BTLV_INPUT_Delete(BtlvInput *input)
     MSGDATA_Delete(input->msgData);
     if (input->fingerCursor != 0)
         BTLV_FINGER_CURSOR_Delete(input->fingerCursor);
-    func_02030DA4(input->taskMgr);
+    TCB_Noop(input->taskMgr);
     func_020307B0(input->taskMgrMem);
     func_020307B0(input);
 }
 
 void BTLV_INPUT_UpdateInfoWindow(BtlvInput *input)
 {
-    INFOWIN_Update(func_02030D28((struct Ctx *)input->taskMgr));
+    INFOWIN_Update(TCB_Main((struct Ctx *)input->taskMgr));
 }
 
 void BTLV_INPUT_InfoWindowTask(void *unused, void *arg)
 {
     BtlvInput *input = arg;
 
-    INFOWIN_Update(func_02030D28((struct Ctx *)input->taskMgr));
+    INFOWIN_Update(TCB_Main((struct Ctx *)input->taskMgr));
 }
 
 void BTLV_INPUT_LoadScreenResources(BtlvInput *input)
 {
-    func_0203FC6C((const struct BgVramReq *)d_0220A3D4, 1);
+    BG_SYS_ApplyGraphicsMode((const struct BgVramReq *)d_0220A3D4, 1);
     input->arc = func_020490F4(0xb, input->heap);
     input->unitWaza = CLACT_CreateUnit(4, 2, input->heap);
     input->unitButtons = CLACT_CreateUnit(0xc, 2, input->heap);
@@ -1356,8 +1279,8 @@ void BTLV_INPUT_InitBgLayers(BtlvInput *input)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        BG_SYS_InitBgLayer((u8)(i + 4), (const struct BgTemplate *)(&d_0220A8BC[i]), (u8)d_0220A8BC[i].f20);
-        func_0204152C((u8)(i + 4), (int)0x3ff);
+        BG_SYS_InitBgLayer((u8)(i + 4), (const struct BgTemplate *)(&d_0220A8BC[i]), (u8)d_0220A8BC[i].type);
+        BG_SYS_ClearLayer((u8)(i + 4), (int)0x3ff);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)input, i + 4, 0, 0, 2, 2, 2, 2);
     }
 }
@@ -1532,7 +1455,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
     }
     case 3:
         t = func_02030734(HEAPID(input->heap), 0x24, 1, d_0220AEB0, 0x5ec);
-        BTLV_INPUT_DrawTargetButtons((void *)input, (Out *)((struct Out *)t), (const Info_v3E30 *)arg);
+        BTLV_INPUT_DrawTargetButtons((void *)input, (Out *)((struct Out *)t), (const BtlvInputTargetInfo *)arg);
         input->flags.busy = 1;
         t->input = input;
         t->slot = ((u8 *)arg)[0x48];
@@ -1637,7 +1560,7 @@ int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, Cmd *c, int x)
     int i;
     int cnt;
     int idx;
-    Ent_v1DA0 *e;
+    BtlvInputTargetRegion *e;
     int mode;
 
     if (input->flags.busy || PALANM_GetFadeRequestBits((const char *)input->palAnm) != 0 || input->flags.inputLock)
@@ -1665,12 +1588,12 @@ int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, Cmd *c, int x)
             r = BTLV_INPUT_ProcessKeyRepeat((void *)input);
         }
         if (r != -1)
-            r = BTLV_INPUT_SetSelection((void *)input, r, c->vals[r]);
+            r = BTLV_INPUT_SetSelection(input, r, c->vals[r]);
         return r;
     }
 
     k = TOUCHPANEL_HitTrg(c->key);
-    r = BTLV_INPUT_ProcessButtonSelection((void *)input, (const Ctx_v53DC *)c, (s8 (*)[12])x, (u8 *)0, k, input->transformed);
+    r = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)c, (s8 (*)[12])x, (u8 *)0, k, input->transformed);
     if (r != -1) {
         keys = KEY_GetCont();
         if (input->enabled[r] == 0 && (!(keys & 0x200) || input->screen != 2)) {
@@ -1682,7 +1605,7 @@ int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, Cmd *c, int x)
         } else if (r < 4 && (keys & 0x200) && input->screen == 2 && input->enabled2[r] == 0) {
             r = -1;
         } else if (k != -1) {
-            if (BTLV_INPUT_IsWazaSelectable((void *)input, (char *)c, r) == 0 && !input->flags2.choiceMade) {
+            if (BTLV_INPUT_IsWazaSelectable(input, (const BtlvInputSection *)c, r) == 0 && !input->flags2.choiceMade) {
                 BTLV_INPUT_PlaySelectSe((void *)input);
                 mode = input->screen;
                 switch (mode) {
@@ -1716,21 +1639,21 @@ int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, Cmd *c, int x)
         }
     }
     if (r != -1)
-        r = BTLV_INPUT_SetSelection((void *)input, r, c->vals[r]);
+        r = BTLV_INPUT_SetSelection(input, r, c->vals[r]);
     return r;
 }
 
 int BTLV_INPUT_GetScreenButtonTable(BtlvInput *input)
 {
     int r = 0;
-    Tbl_v1DA0 t;
+    BtlvInputFingerTable t;
 
     switch (input->flags.fingerStep) {
     case 0:
         t = d_0220A598;
         if (input->fingerCursor == 0)
             input->fingerCursor = BTLV_FINGER_CURSOR_Create(input->palAnm, 0xb, input->heap);
-        if (BTLV_FINGER_CURSOR_Start(input->fingerCursor, t.p[input->flags.fingerPos].x, t.p[input->flags.fingerPos].y, 2, 7, 0x10) != 0) {
+        if (BTLV_FINGER_CURSOR_Start(input->fingerCursor, t.pos[input->flags.fingerPos].x, t.pos[input->flags.fingerPos].y, 2, 7, 0x10) != 0) {
             input->flags.fingerStep = input->flags.fingerStep + 1;
             input->flags.fingerPos = input->flags.fingerPos + 1;
         }
@@ -1777,11 +1700,11 @@ int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out)
         return 0;
     }
     if (input->struggle == 1) {
-        a = TOUCHPANEL_HitTrg(sec_0220A380.db.a);
-        i = BTLV_INPUT_ProcessButtonSelection((void *)input, (const Ctx_v53DC *)((Cmd *)(&sec_0220A380.db)), (s8 (*)[12])((int)(d_0220AE98[input->flags.slotIndex])), (u8 *)((int)0), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
+        a = TOUCHPANEL_HitTrg(sec_0220A380.db.buttons);
+        i = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)((Cmd *)(&sec_0220A380.db)), (s8 (*)[12])((int)(d_0220AE98[input->flags.slotIndex])), (u8 *)((int)0), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
     } else {
-        a = TOUCHPANEL_HitTrg(sec_0220A380.da.a);
-        i = BTLV_INPUT_ProcessButtonSelection((void *)input, (const Ctx_v53DC *)((Cmd *)(&sec_0220A380.da)), (s8 (*)[12])((int)(d_0220AEA4[input->flags.slotIndex])), (u8 *)((int)d_0220A380), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
+        a = TOUCHPANEL_HitTrg(sec_0220A380.da.buttons);
+        i = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)((Cmd *)(&sec_0220A380.da)), (s8 (*)[12])((int)(d_0220AEA4[input->flags.slotIndex])), (u8 *)((int)d_0220A380), a, BTL_POKEPARAM_IsTransformed(input->pokeParam[input->flags.slotIndex]));
     }
     if (i != -1) {
         held = KEY_GetCont();
@@ -1799,23 +1722,23 @@ int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out)
     }
     if (i != -1) {
         if (input->struggle == 1) {
-            r = BTLV_INPUT_IsWazaSelectable((void *)input, (char *)(&sec_0220A380.db), i);
+            r = BTLV_INPUT_IsWazaSelectable(input, (const BtlvInputSection *)(&sec_0220A380.db), i);
             if (r == 0 && !(input->flags2.choiceMade)) {
                 input->lastChoice[input->partyIdx][input->screen] = i;
                 BTLV_INPUT_PlayOpenSe((void *)input);
             } else if (r == 1 && !(input->flags2.choiceMade)) {
                 BTLV_INPUT_PlayCursorSe((void *)input);
             }
-            i = BTLV_INPUT_SetSelection((void *)input, i, sec_0220A380.db.c[i]);
+            i = BTLV_INPUT_SetSelection(input, i, sec_0220A380.db.values[i]);
         } else {
-            r = BTLV_INPUT_IsWazaSelectable((void *)input, (char *)(&sec_0220A380.da), i);
+            r = BTLV_INPUT_IsWazaSelectable(input, (const BtlvInputSection *)(&sec_0220A380.da), i);
             if (r == 0 && !(input->flags2.choiceMade)) {
                 input->lastChoice[input->partyIdx][input->screen] = i;
                 BTLV_INPUT_PlayOpenSe((void *)input);
             } else if (r == 1 && !(input->flags2.choiceMade)) {
                 BTLV_INPUT_PlayCursorSe((void *)input);
             }
-            i = BTLV_INPUT_SetSelection((void *)input, i, sec_0220A380.da.c[i]);
+            i = BTLV_INPUT_SetSelection(input, i, sec_0220A380.da.values[i]);
         }
     }
     if (i != -1)
@@ -2194,7 +2117,7 @@ void BTLV_INPUT_ListScreenOpenTask(void *h, void *arg)
             func_020498F4((void *)ctx->input->arc, 0x64, 4, 0, 0, 0, ctx->input->heap);
             BMP_WIN_MakeScreen(ctx->input->bmpWinA);
             func_020409B4(6);
-            BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].a, d_0220A4EC[ctx->input->flags.slotIndex].b, 8, 8);
+            BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].start, d_0220A4EC[ctx->input->flags.slotIndex].end, 8, 8);
             BTLV_INPUT_StartPaletteCycleTask((void *)ctx->input, 0, 0);
             BTLV_INPUT_StartPaletteFlashTask((void *)ctx->input, 0);
             BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, -1, 0, 0, 1, 1, 2, 0);
@@ -2289,7 +2212,7 @@ void BTLV_INPUT_ListScreenOpenInstantTask(void *h, void *arg)
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
         BTLV_INPUT_RestoreWindowPalette((void *)ctx->input);
         func_020409B4(6);
-        BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].a, d_0220A4EC[ctx->input->flags.slotIndex].b, 8, 8);
+        BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].start, d_0220A4EC[ctx->input->flags.slotIndex].end, 8, 8);
         BTLV_INPUT_StartPaletteCycleTask((void *)ctx->input, 0, 0);
         BTLV_INPUT_StartPaletteFlashTask((void *)ctx->input, 0);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, -1, 0, 0, 1, 1, 2, 0);
@@ -2327,7 +2250,7 @@ void BTLV_INPUT_ScreenResetTask(void *h, void *arg)
         BTLV_INPUT_InitButtonState((void *)ctx->input);
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
         func_020409B4(6);
-        BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].a, d_0220A4EC[ctx->input->flags.slotIndex].b, 8, 8);
+        BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].start, d_0220A4EC[ctx->input->flags.slotIndex].end, 8, 8);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, -1, 0, 0, 1, 1, 2, 0);
         ctx->state++;
         break;
@@ -2695,10 +2618,10 @@ void BTLV_INPUT_StartScreenTransition(BtlvInput *input, int screen)
 
 void BTLV_INPUT_VisibilityTaskMain(void *task, void *arg)
 {
-    Res_02201DA0 *r = arg;
+    BtlvInputVisibilityTask *r = arg;
 
     if (BTLV_EFFECT_GetWorkPtr() != 0) {
-        BTLV_EFFECT_SetVisibilityMode(r->v);
+        BTLV_EFFECT_SetVisibilityMode(r->mode);
         BTLV_INPUT_DeleteTask((void *)r->owner, task);
     }
 }
@@ -2864,7 +2787,7 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  *   as u8 locals assigned b, g, r and passed r, g, b (keeps col in r0, the
  *   image's r2-first order, and with it q r6 / i*8 r7, the 0x224/0x22c hoist
  *   slot order and the w/2 spill in the third print); (2) `const Slots *q`
- *   (q + i formed before the stack-argument stores of both func_0201EFA4
+ *   (q + i formed before the stack-argument stores of both WORDSET_SetSlotNumber
  *   calls); (3) the enum VRAM_BASE local of the EXACT sibling BTLV_INPUT_CreateBackActor
  *   for the 0x06600000 + buf operand order. Measured inert or worse:
  *   opt_lifetimes off (alone 713, with CSE off no change), optimization_level
@@ -2947,7 +2870,7 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  *   as u8 locals assigned b, g, r and passed r, g, b (keeps col in r0, the
  *   image's r2-first order, and with it q r6 / i*8 r7, the 0x224/0x22c hoist
  *   slot order and the w/2 spill in the third print); (2) `const Slots *q`
- *   (q + i formed before the stack-argument stores of both func_0201EFA4
+ *   (q + i formed before the stack-argument stores of both WORDSET_SetSlotNumber
  *   calls); (3) the enum VRAM_BASE local of the EXACT sibling BTLV_INPUT_CreateBackActor
  *   for the 0x06600000 + buf operand order. Measured inert or worse:
  *   opt_lifetimes off (alone 713, with CSE off no change), optimization_level
@@ -2960,8 +2883,8 @@ void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, in
  */
 void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
 {
-    PosTab t1 = d_0220A5B0;
-    PosTab t2 = d_0220A5D0;
+    BtlvInputTextPosRow t1 = d_0220A5B0;
+    BtlvInputTextPosRow t2 = d_0220A5D0;
     int font;
     void *pltt;
     void *chr;
@@ -3008,21 +2931,21 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
             func_020307B0(chr);
             GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
             GF_FONT_SetTextColor(1, 2, 0);
-            func_0201EF34((struct WordSet *)font, 0, q->id[i]);
-            func_0201F250((struct WordSet *)font, str1, m0);
+            WORDSET_SetSlotFromMsgCB((struct WordSet *)font, 0, q->id[i]);
+            WORDSET_CopyTaggedText((struct WordSet *)font, str1, m0);
             BTLV_INPUT_GetTextBlockSize(str1, (int)input->font, &w, &h);
             PRINTSYS_Print(input->bmpA, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, input->font);
-            func_0201EFA4(font, 0, q->a[i], 2, 1, 1);
-            func_0201EFA4(font, 1, q->b[i], 2, 1, 1);
-            func_0201F250((struct WordSet *)font, str2, m2);
+            WORDSET_SetSlotNumber(font, 0, q->a[i], 2, 1, 1);
+            WORDSET_SetSlotNumber(font, 1, q->b[i], 2, 1, 1);
+            WORDSET_CopyTaggedText((struct WordSet *)font, str2, m2);
             col = BTLV_INPUT_GetNeighbourIndex(q->a[i], q->b[i]);
             cb = (u8)(col & 0x1f);
             cg = (u8)((col >> 5) & 0x1f);
             cr = (u8)((col >> 10) & 0x1f);
             GF_FONT_SetTextColor(cr, cg, cb);
-            PRINTSYS_Print(input->bmpA, t1.v[i].x, t1.v[i].y, m1, input->font);
+            PRINTSYS_Print(input->bmpA, t1.pos[i].x, t1.pos[i].y, m1, input->font);
             BTLV_INPUT_GetTextBlockSize(str2, (int)input->font, &w, &h);
-            PRINTSYS_Print(input->bmpA, t2.v[i].x - w / 2, t2.v[i].y, str2, input->font);
+            PRINTSYS_Print(input->bmpA, t2.pos[i].x - w / 2, t2.pos[i].y, str2, input->font);
             GF_FONT_SetTextColor(c[2], c[1], c[0]);
             input->enabled[i] = q->a[i] != 0;
             input->enabled2[i] = q->id[i] != 0;
@@ -3050,7 +2973,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
 
 #pragma opt_common_subs reset
 
-void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const Info_v3E30 *p)
+void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const BtlvInputTargetInfo *p)
 {
     int n;
     int k;
@@ -3063,7 +2986,7 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const Info_v3E30 *
     void *r;
     int ww;
     int hh;
-    Res_02204C98 *res;
+    BtlvInputTargetRes *res;
     u8 c[3];
 
     n = (input->battleType == 2) ? 6 : 4;
@@ -3073,34 +2996,34 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const Info_v3E30 *
     h = (int)GF_FONT_Create_EC64((u16)((input->heap & 0x7fff) | 0x8000));
     GF_FONT_SetTextColor(1, 2, 0);
     for (i = 0; i < n; i++) {
-        if (p->e[i].show != 0) {
-            w = func_02045EC0(input->msgData, p->e[i].kind + 3);
-            func_0201EEF4((void *)h, 0, p->e[i].text);
-            func_0201F250((struct WordSet *)h, v, w);
+        if (p->buttons[i].show != 0) {
+            w = func_02045EC0(input->msgData, p->buttons[i].kind + 3);
+            WORDSET_SetSlotMonSpecies((void *)h, 0, p->buttons[i].text);
+            WORDSET_CopyTaggedText((struct WordSet *)h, v, w);
             BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, (int)input->font, &ww, &hh);
             PRINTSYS_Print((void *)(input->bmpA), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, (void *)(input->font));
             STRBUF_Delete(w);
         }
-        input->enabled[i] = p->e[i].flag;
+        input->enabled[i] = p->buttons[i].flag;
     }
     input->enabled[i] = 1;
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
     WORDSET_DeleteStrbufED04((struct WordSet *)h);
     STRBUF_Delete(v);
-    idx = (p->b48 - 2) / 2;
-    input->flags2.targetGroup = p->b49;
-    out->fc = d_0220A94C[k][idx][p->b49];
+    idx = (p->battlerCount - 2) / 2;
+    input->flags2.targetGroup = p->targetGroup;
+    out->fc = d_0220A94C[k][idx][p->targetGroup];
     m = 3;
     if (input->battleType != 2)
         m = 2;
     for (i = 0; i < m; i++) {
         r = ARC_UTIL_LoadPaletteBlockFromArchive(11, 0xd3, (u32)(&res), (u16)((input->heap & 0x7fff) | 0x8000));
-        PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), res->palette, 1, (u16)(i * 16 + 0x70), 0x20);
         func_020307B0(r);
     }
     for (m *= 2; i < m; i++) {
         r = ARC_UTIL_LoadPaletteBlockFromArchive(11, 0xd4, (u32)(&res), (u16)((input->heap & 0x7fff) | 0x8000));
-        PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), res->palette, 1, (u16)(i * 16 + 0x70), 0x20);
         func_020307B0(r);
     }
 }
@@ -3182,13 +3105,13 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *b)
     w = func_02045EC0(input->msgData, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(9, 10, 0);
-    func_0201EFA4(h, 0, b[2], 3, 2, 1);
-    func_0201F250((void *)h, v, w);
+    WORDSET_SetSlotNumber(h, 0, b[2], 3, 2, 1);
+    WORDSET_CopyTaggedText((void *)h, v, w);
     PRINTSYS_Print((void *)(input->bmpA), 0x8c, 8, v, (void *)(input->font));
     if (b[0] != b[1])
         GF_FONT_SetTextColor(7, 8, 0);
-    func_0201EFA4(h, 0, b[1], 3, 2, 1);
-    func_0201F250((void *)h, v, w);
+    WORDSET_SetSlotNumber(h, 0, b[1], 3, 2, 1);
+    WORDSET_CopyTaggedText((void *)h, v, w);
     PRINTSYS_Print((void *)(input->bmpA), 0x60, 8, v, (void *)(input->font));
     GF_FONT_SetTextColor(1, 2, 0);
     extra = func_02045EC0(input->msgData, 7);
@@ -3220,7 +3143,7 @@ void BTLV_INPUT_ClearButtonState(BtlvInput *input)
     BTLV_INPUT_DeleteWazaActors(input);
     BTLV_INPUT_DeleteBackActor(input);
     BTLV_INPUT_DeleteStatusIcons(input);
-    func_02041300(4, 0, 0x20, 2, 0x20, 0x20, 0);
+    BG_SYS_SetTileEntry(4, 0, 0x20, 2, 0x20, 0x20, 0);
     PALANM_RequestFadeOverwrite((void *)input->palAnm, 2, 0x3e00, 0, 0, 0, 0, input->taskMgr);
     PALANM_RequestFadeOverwrite((void *)input->palAnm, 8, 0x700, 0, 0, 0, 0, input->taskMgr);
 }
@@ -3262,8 +3185,8 @@ void BTLV_INPUT_CreateActionButtons(BtlvInput *input, BtlvInputPartyInfo *info)
     int i;
     int k;
     void **r;
-    const Point_022053DC *pt;
-    s16_022057CC x, y;
+    const BtlvInputPoint *pt;
+    s16 x, y;
 
     n = (input->battleType == 3) ? 2 : input->battleType + 1;
     k = 0;
@@ -3354,7 +3277,7 @@ void BTLV_INPUT_CreateStatusIcons(BtlvInput *input, int n)
     Five a = d_0220A558;
     Five b = d_0220A56C;
     Five c = d_0220A544;
-    Point_022053DC v;
+    BtlvInputPoint v;
     int index;
     void **q;
     if (n == 0) return;
@@ -3394,7 +3317,7 @@ void BTLV_INPUT_DeleteStatusIcons(BtlvInput *input)
 void BTLV_INPUT_CreateWazaCursorActors(BtlvInput *input, int mode)
 {
     BtlvInputActor *slots;
-    Point_022053DC pos;
+    BtlvInputPoint pos;
     int add;
     int step;
     char *row;
@@ -3420,7 +3343,7 @@ void BTLV_INPUT_CreateWazaCursorActors(BtlvInput *input, int mode)
         CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)slots[i].actor, (const struct Vec2 *)(&pos), 1);
         CLACT_SetActorAutoAnim(slots[i].actor, 1);
         CLACT_SetActorAnimSeq(slots[i].actor, add + *(u8 *)(row + i * 12 + 0x75));
-        pos.x += (s16_022057CC)step;
+        pos.x += (s16)step;
     }
 }
 
@@ -3465,7 +3388,7 @@ void BTLV_INPUT_DeleteWazaCursorActors(BtlvInput *input)
  */
 void BTLV_INPUT_CreateTargetActors(BtlvInput *input)
 {
-    Q_v53DC q = d_0220A580;
+    BtlvInputTargetAnim q = d_0220A580;
     int o0;
     int o1;
     int o2;
@@ -3486,7 +3409,7 @@ void BTLV_INPUT_CreateTargetActors(BtlvInput *input)
         *(u32 *)(target + o3) = (u32)CLACT_CreateActor((void *)*(u32 *)((char *)input + o0), input->resButtonChr, *(u32 *)((char *)input + o1),
                                          *(u32 *)((char *)input + o2), d_0220A392, 1, input->heap);
         CLACT_SetActorAutoAnim((struct Obj *)*(int *)(target + o4), 1);
-        CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(target + o5)), q.v[j]);
+        CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(target + o5)), q.seq[j]);
         CLACT_SetActorDrawEnable((struct Obj *)((BtlvInput *)target)->targets[0].actor, 0);
     }
 }
@@ -3521,7 +3444,7 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input)
     void *msg;
     int font;
     void *bmp;
-    Point_02205F40 pos;
+    BtlvInputPoint pos;
     int w;
     int h;
     u8 c[3];
@@ -3543,8 +3466,8 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input)
     BMP_Clear(bmp, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(0xe, 0xa, 0);
-    func_0201EF34((struct WordSet *)font, 0, 0xa5);
-    func_0201F250((struct WordSet *)font, str, msg);
+    WORDSET_SetSlotFromMsgCB((struct WordSet *)font, 0, 0xa5);
+    WORDSET_CopyTaggedText((struct WordSet *)font, str, msg);
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)str, (int)(input->font), &w, &h);
     PRINTSYS_Print(bmp, 0x38 - w / 2, 8, str, input->font);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
@@ -3571,14 +3494,10 @@ void BTLV_INPUT_DeleteBackActor(BtlvInput *input)
 }
 
 /*
- * `const Ctx_v53DC *c` lets the scheduler hoist the reload of c above the
- * bitfield store in the ret != -1 arm.
+ * `const BtlvInputSection *section` lets the scheduler hoist the reload of
+ * section above the bitfield store in the ret != -1 arm.
  */
-/*
- * `const Ctx *c` lets the scheduler hoist the reload of c above the
- * bitfield store in the ret != -1 arm.
- */
-int BTLV_INPUT_ProcessButtonSelection(W_02206140 *p, const Ctx_v53DC *c, s8 (*rows)[12], u8 *list, int ret, int arg6)
+int BTLV_INPUT_ProcessButtonSelection(BtlvInput *input, const BtlvInputSection *section, s8 (*rows)[12], u8 *list, int ret, int transformed)
 {
     int keys;
     int cont;
@@ -3591,27 +3510,27 @@ int BTLV_INPUT_ProcessButtonSelection(W_02206140 *p, const Ctx_v53DC *c, s8 (*ro
     keys = KEY_GetTrg();
     cont = KEY_GetCont();
     done = 0;
-    if (p->b0 == 0)
+    if (input->flags2.inputEnabled == 0)
         keys &= ~2;
-    if (p->redraw) {
-        p->redraw = 0;
-        BTLV_INPUT_UpdateWazaRow((BtlvInput *)p);
-        BTLV_INPUT_UpdateButtonActors((W_022064CC *)p, (u8 (*)[4])c->tab, rows);
-        CLACT_SetUnitDrawEnable(p->f17c, 1);
+    if (input->flags.redraw) {
+        input->flags.redraw = 0;
+        BTLV_INPUT_UpdateWazaRow(input);
+        BTLV_INPUT_UpdateButtonActors(input, section->buttons, rows);
+        CLACT_SetUnitDrawEnable(input->unitCursors, 1);
     }
     v = -1;
     if (ret != v) {
-        *p->f274 = 0;
-        p->cur = 0;
-        p->prev = 0xF;
-        BTLV_INPUT_UpdateButtonActors((W_022064CC *)p, (u8 (*)[4])c->tab, rows);
+        *input->cursorVisible = 0;
+        input->flags.cursor = 0;
+        input->flags.prevCursor = 0xF;
+        BTLV_INPUT_UpdateButtonActors(input, section->buttons, rows);
         return ret;
     }
     if (keys == 0)
         goto end;
-    if (*p->f274 != 0) {
+    if (*input->cursorVisible != 0) {
         v = -128;
-        row = rows[p->cur];
+        row = rows[input->flags.cursor];
         switch (keys) {
         case 0x40:
             v = row[6];
@@ -3628,7 +3547,7 @@ int BTLV_INPUT_ProcessButtonSelection(W_02206140 *p, const Ctx_v53DC *c, s8 (*ro
         case 2:
             k = row[11];
             if (k < 0) {
-                if (p->b4 == 1)
+                if (input->flags.restrictedChoice == 1)
                     v = (s8)-k;
             } else {
                 v = k;
@@ -3637,74 +3556,74 @@ int BTLV_INPUT_ProcessButtonSelection(W_02206140 *p, const Ctx_v53DC *c, s8 (*ro
         }
         if (keys == 1) {
             ret = row[10];
-            if (ret < 4 && (cont & 0x200) && p->f58 == 5 && (arg6 == 1 || p->f220 == 1))
+            if (ret < 4 && (cont & 0x200) && input->screen == 5 && (transformed == 1 || input->struggle == 1))
                 goto draw;
-            if (ret < 4 && (cont & 0x200) && p->f58 == 2 && arg6 == 1)
+            if (ret < 4 && (cont & 0x200) && input->screen == 2 && transformed == 1)
                 goto draw;
-            if (p->f25a[ret] == 1) {
-                if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, ret) == 0)
-                    BTLV_INPUT_PlaySelectSe((BtlvInput *)p);
+            if (input->enabled[ret] == 1) {
+                if (BTLV_INPUT_IsWazaSelectable(input, section, ret) == 0)
+                    BTLV_INPUT_PlaySelectSe(input);
                 else
-                    BTLV_INPUT_PlayCursorSe((BtlvInput *)p);
+                    BTLV_INPUT_PlayCursorSe(input);
                 done = 1;
-            } else if (ret < 4 && (cont & 0x200) && p->f58 == 2 && p->f262[ret] == 1) {
-                BTLV_INPUT_PlaySelectSe((BtlvInput *)p);
+            } else if (ret < 4 && (cont & 0x200) && input->screen == 2 && input->enabled2[ret] == 1) {
+                BTLV_INPUT_PlaySelectSe(input);
             }
         } else if (v != -128) {
-            BTLV_INPUT_PlayCancelSe((BtlvInput *)p);
+            BTLV_INPUT_PlayCancelSe(input);
             if (v < 0) {
-                if (-v != p->prev && p->prev != 0xF)
-                    v = (s8)p->prev;
+                if (-v != input->flags.prevCursor && input->flags.prevCursor != 0xF)
+                    v = (s8)input->flags.prevCursor;
                 else
                     v *= -1;
             } else if (v & 0x40) {
                 i = 0;
                 v &= ~0x40;
                 for (; list[i] != 0xff; i++) {
-                    if (p->prev == list[i]) {
-                        v = (s8)p->prev;
+                    if (input->flags.prevCursor == list[i]) {
+                        v = (s8)input->flags.prevCursor;
                         break;
                     }
                 }
             }
-            p->prev = p->cur;
-            p->cur = v;
+            input->flags.prevCursor = input->flags.cursor;
+            input->flags.cursor = v;
             if (keys == 2) {
                 if (v != 0xF)
-                    BTLV_INPUT_PlayCursorSe((BtlvInput *)p);
+                    BTLV_INPUT_PlayCursorSe(input);
                 ret = v;
                 done = 1;
             }
         }
     } else if (keys & 0xcf3) {
-        *p->f274 = 1;
-        BTLV_INPUT_UpdateWazaRow((BtlvInput *)p);
-        BTLV_INPUT_PlayCancelSe((BtlvInput *)p);
+        *input->cursorVisible = 1;
+        BTLV_INPUT_UpdateWazaRow(input);
+        BTLV_INPUT_PlayCancelSe(input);
     }
 draw:
-    BTLV_INPUT_UpdateButtonActors((W_022064CC *)p, (u8 (*)[4])c->tab, rows);
+    BTLV_INPUT_UpdateButtonActors(input, section->buttons, rows);
 end:
     if (done == 1) {
-        switch (p->f58) {
+        switch (input->screen) {
         case 2:
-            if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, p->cur) == 0)
-                p->f266[p->f27c] = p->f26c[p->cur];
+            if (BTLV_INPUT_IsWazaSelectable(input, section, input->flags.cursor) == 0)
+                input->lastMove[input->partyIdx] = input->moveIds[input->flags.cursor];
         case 1:
         case 5:
-            if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, p->cur) == 0)
-                p->tbl[p->f27c][p->f58] = p->cur;
-            p->b1 = 1;
+            if (BTLV_INPUT_IsWazaSelectable(input, section, input->flags.cursor) == 0)
+                input->lastChoice[input->partyIdx][input->screen] = input->flags.cursor;
+            input->flags2.choiceMade = 1;
             break;
         case 3:
-            if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, ret) == 0)
-                p->tbl[p->f27c][p->f58] = p->cur | (p->tbl[p->f27c][2] << 4);
-            p->b1 = 1;
+            if (BTLV_INPUT_IsWazaSelectable(input, section, ret) == 0)
+                input->lastChoice[input->partyIdx][input->screen] = input->flags.cursor | (input->lastChoice[input->partyIdx][2] << 4);
+            input->flags2.choiceMade = 1;
             break;
         }
-        p->cur = 0;
-        p->prev = 0xF;
-        p->redraw = 1;
-        CLACT_SetUnitDrawEnable(p->f17c, 0);
+        input->flags.cursor = 0;
+        input->flags.prevCursor = 0xF;
+        input->flags.redraw = 1;
+        CLACT_SetUnitDrawEnable(input->unitCursors, 0);
     }
     return ret;
 }
@@ -3733,15 +3652,15 @@ int BTLV_INPUT_ProcessKeyRepeat(BtlvInput *input)
  * load above the x store in cases 2..5 (e[1] vs pos.x) but not in cases 0/1
  * (e[0] vs pos.x, same offset), which is the original's mixed schedule.
  */
-void BTLV_INPUT_UpdateButtonActors(W_022064CC *p, u8 (* __restrict tab)[4], s8 (*rows)[12])
+void BTLV_INPUT_UpdateButtonActors(BtlvInput *input, u8 (* __restrict tab)[4], s8 (*rows)[12])
 {
-    Point_022064CC pos;
+    BtlvInputPoint pos;
     u8 *e;
     int k;
     int i;
 
     for (i = 0; i < 6; i++) {
-        k = rows[p->sel][i];
+        k = rows[input->flags.cursor][i];
         if (k >= 0) {
             e = tab[k];
             switch (i) {
@@ -3770,65 +3689,65 @@ void BTLV_INPUT_UpdateButtonActors(W_022064CC *p, u8 (* __restrict tab)[4], s8 (
                 pos.y = e[1];
                 break;
             }
-            CLACT_SetActorDrawEnable(p->slots[i].h, *p->f274);
-            CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(p->slots[i].h), (const struct Vec2 *)(&pos), 1);
+            CLACT_SetActorDrawEnable(input->targets[i].actor, *input->cursorVisible);
+            CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->targets[i].actor), (const struct Vec2 *)(&pos), 1);
         } else {
-            CLACT_SetActorDrawEnable(p->slots[i].h, 0);
+            CLACT_SetActorDrawEnable(input->targets[i].actor, 0);
         }
     }
 }
 
-int BTLV_INPUT_SetSelection(char *s, int a, int b)
+int BTLV_INPUT_SetSelection(BtlvInput *input, int a, int b)
 {
-    Ctx_022064CC *c;
+    BtlvInputButtonFlashTask *c;
     int flag;
 
     if (b < 0)
         return a;
-    if ((KEY_GetCont() & 0x200) && a < 4 && (((struct Obj00823 *)s)->f58 == 2 || ((struct Obj00823 *)s)->f58 == 5))
-        ((struct Obj00823 *)s)->f70 = a | 0x8000;
+    if ((KEY_GetCont() & 0x200) && a < 4 && (input->screen == 2 || input->screen == 5))
+        input->pending = a | 0x8000;
     else
-        ((struct Obj00823 *)s)->f70 = a;
-    c = func_02030734((u16)((((struct Obj00823 *)s)->f240 & 0x7fff) | 0x8000), 0x10, 0, d_0220AEB0, 0x1440);
+        input->pending = a;
+    c = func_02030734((u16)((input->heap & 0x7fff) | 0x8000), 0x10, 0, d_0220AEB0, 0x1440);
     flag = 0;
     if ((0x10000 & b) == 0)
         flag = 1;
-    ((Top *)(s + 0x68))->top = flag;
-    c->s = s;
-    c->f4 = 0;
-    c->f8 = (u16)b;
-    if (((struct Obj00823 *)s)->f220 == 1 && c->f8 == 0)
-        c->fc = 1;
+    input->flags.inputLock = flag;
+    c->input = input;
+    c->state = 0;
+    c->colour = (u16)b;
+    if (input->struggle == 1 && c->colour == 0)
+        c->flag = 1;
     else
-        c->fc = 0;
-    BTLV_INPUT_RegisterTask((BtlvInput *)s, (int)func_02030DA8(((struct Obj00823 *)s)->f0, BTLV_INPUT_ButtonFlashTaskMain, c, 0), (int)((void *)BTLV_INPUT_ButtonFlashTaskEnd));
+        c->flag = 0;
+    BTLV_INPUT_RegisterTask(input, (int)func_02030DA8(input->taskMgr, BTLV_INPUT_ButtonFlashTaskMain, c, 0), (int)((void *)BTLV_INPUT_ButtonFlashTaskEnd));
     return -1;
 }
 
 void BTLV_INPUT_ButtonFlashTaskMain(void *task, void *arg)
 {
-    Ctx_0220663C *c = arg;
+    BtlvInputButtonFlashTask *c = arg;
 
     switch (c->state) {
     case 0:
         if (c->flag == 1)
-            PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj21789 *)(c->p))->f64, 8, 2, 0, 0, 8, 0x7fff, *(void **)c->p);
+            PALANM_RequestFade(c->input->palAnm, 8, 2, 0, 0, 8, 0x7fff, c->input->taskMgr);
         else
-            PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj21791 *)(c->p))->f64, 2, c->colour, 0, 0, 8, 0x7fff, *(void **)c->p);
+            PALANM_RequestFade(c->input->palAnm, 2, c->colour, 0, 0, 8, 0x7fff, c->input->taskMgr);
         c->state++;
         break;
     case 1:
-        if (PALANM_GetFadeRequestBits(*(char * *)&((struct Obj21793 *)(c->p))->f64) == 0) {
+        if (PALANM_GetFadeRequestBits((const char *)c->input->palAnm) == 0) {
             if (c->flag == 1)
-                PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj21794 *)(c->p))->f64, 8, 2, 0, 8, 0, 0x7fff, *(void **)c->p);
+                PALANM_RequestFade(c->input->palAnm, 8, 2, 0, 8, 0, 0x7fff, c->input->taskMgr);
             else
-                PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj21796 *)(c->p))->f64, 2, c->colour, 0, 8, 0, 0x7fff, *(void **)c->p);
+                PALANM_RequestFade(c->input->palAnm, 2, c->colour, 0, 8, 0, 0x7fff, c->input->taskMgr);
             c->state++;
         }
         break;
     case 2:
-        if (PALANM_GetFadeRequestBits(*(char * *)&((struct Obj21798 *)(c->p))->f64) == 0)
-            BTLV_INPUT_DeleteTask((BtlvInput *)c->p, task);
+        if (PALANM_GetFadeRequestBits((const char *)c->input->palAnm) == 0)
+            BTLV_INPUT_DeleteTask(c->input, task);
         break;
     }
 }
@@ -3854,8 +3773,8 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
     w = func_02045EC0(input->msgData, 8);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(1, 2, 0);
-    func_0201EFA4((u32)((struct WordSet *)h), 0, ((struct Obj21799 *)runInfo)->fC4, 2, 0, 1);
-    func_0201F250((struct WordSet *)h, v, w);
+    WORDSET_SetSlotNumber((u32)((struct WordSet *)h), 0, ((struct Obj21799 *)runInfo)->fC4, 2, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)h, v, w);
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, (int)input->font, &v18, &v14);
     PRINTSYS_Print((void *)(input->bmpB), 12 - v18 / 2, 0, v, (void *)(input->font));
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
@@ -3955,15 +3874,15 @@ void BTLV_INPUT_DeleteAllTasks(BtlvInput *input)
     }
 }
 
-int BTLV_INPUT_IsWazaSelectable(char *p, char *q, int i)
+int BTLV_INPUT_IsWazaSelectable(BtlvInput *input, const BtlvInputSection *section, int i)
 {
     int r;
 
-    if (!((Bf_022064CC *)(p + 0x68))->b4 || ((struct Obj00823 *)p)->f58 != 1)
-        return 1 & ((int *)*(int * *)&((struct Obj04404 *)q)->f4)[i];
-    r = (((int *)*(int * *)&((struct Obj04404 *)q)->f4)[i] & 2) >> 1;
+    if (!input->flags.restrictedChoice || input->screen != 1)
+        return 1 & section->selectFlags[i];
+    r = (section->selectFlags[i] & 2) >> 1;
     if (r == 1)
-        *(char *)(p + ((struct Obj00823 *)p)->f27C * 8 + 0x242 + ((struct Obj00823 *)p)->f58) = 0;
+        input->lastChoice[input->partyIdx][input->screen] = 0;
     return r;
 }
 

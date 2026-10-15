@@ -1,5 +1,5 @@
 /*
- * function: func_021C74D0
+ * function: VIEWER_TEXT_FreeBgResources
  * address:  0x021C74D0
  * packet:   pkt_ov111_021C74D0
  * region:   ov111
@@ -61,7 +61,7 @@ typedef struct {
 
 extern u32 func_020307B0(void *p);
 
-void func_021C74D0(Work *p)
+void VIEWER_TEXT_FreeBgResources(Work *p)
 {
     int i;
 

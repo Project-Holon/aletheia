@@ -12,9 +12,9 @@
  * sdk:      gsiStartResolvingHostname (gsplatformutil.o)
  *
  * symbols:
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   SOC_GetHostByName                  0x0215F650  arm ov009
- *   func_0217EAB0                  0x0217EAB0  arm ov009
+ *   gsimalloc                  0x0217EAB0  arm ov009
  *   gGsResolveDebugFmt                     0x021A383C  data
  */
 
@@ -30,9 +30,9 @@ struct GSIResolveHostnameInfo {
     unsigned long ip;
 };
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern char gGsResolveDebugFmt[];
 
 int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle)
@@ -40,11 +40,11 @@ int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **ha
     struct GSIResolveHostnameInfo *info;
     struct SOCHostEnt *SOCHostEnt;
 
-    func_0217D254(8, (char *)3, 16, gGsResolveDebugFmt);
+    gsDebugFormat(8, (char *)3, 16, gGsResolveDebugFmt);
     SOCHostEnt = SOC_GetHostByName(hostname);
     if (SOCHostEnt == 0)
         return -1;
-    info = (struct GSIResolveHostnameInfo *)func_0217EAB0(8);
+    info = (struct GSIResolveHostnameInfo *)gsimalloc(8);
     if (info == 0)
         return -1;
     info->ip = *(unsigned long *)SOCHostEnt->addrList[0];

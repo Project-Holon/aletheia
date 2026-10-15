@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203EF5C
+ * function: GF_STANDARD_Init
  * address:  0x0203EF5C
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -13,7 +13,7 @@
  * symbols:
  *   g_021469F8     0x021469F8  data
  *   g_020A7E4C     0x020A7E4C  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MATHi_CRC16InitTable  0x020819B8  arm
  *
  * TU: gf_standard.c.  The allocation site string at 0x020A7E4C reads
@@ -30,8 +30,8 @@
  * neither 625 nor 4129 costs a pool word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203EF5C.c \
- *       --func func_0203EF5C --addr 0x0203EF5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_Init.c \
+ *       --func GF_STANDARD_Init --addr 0x0203EF5C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -50,14 +50,14 @@ struct Mt {
 extern struct Mt *g_021469F8;
 extern char g_020A7E4C[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 struct MATHCRC16Table;
 extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 
-void func_0203EF5C(u32 heapId)
+void GF_STANDARD_Init(u32 heapId)
 {
-    g_021469F8 = sub_02030734(heapId, 0xbcc, 0, g_020A7E4C, 49);
+    g_021469F8 = GFL_HEAP_Alloc(heapId, 0xbcc, 0, g_020A7E4C, 49);
     g_021469F8->index = 625;
     g_021469F8->unk_9c4 = 0;
     g_021469F8->unk_9c8 = 0x9908b0df;

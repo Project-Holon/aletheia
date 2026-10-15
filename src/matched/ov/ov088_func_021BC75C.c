@@ -16,7 +16,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -42,7 +42,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -64,7 +64,7 @@ void STARTMENU_ConfigPromptDrawQuestion(u8 *p)
     BMP_WIN_MakeScreen((struct Cfg *)W(0xc));
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0xc))), 0xf);
     s = (u32)func_02045EC0((struct MsgBank *)arc, W(4));
-    func_0201F73C((void *)W(0xc), 0, 1, 1);
+    BMP_MENUWORK_DrawWindow((void *)W(0xc), 0, 1, 1);
     PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0xc))), 2, 2, (void *)s, (void *)W(8));
     STRBUF_Delete((struct U16Vec *)s);
     BMP_WIN_TransferChars((struct Descriptor *)W(0xc));

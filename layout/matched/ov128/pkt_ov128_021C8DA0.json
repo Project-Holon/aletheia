@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C8DA0",
-    "func_021C8E24"
+    "WF2DMAP_TOUCH_CreateNameEntry",
+    "WF2DMAP_TOUCH_DrawFriendKeyThunk"
+   ],
+   "addresses": [
+    "0x021C8DA0",
+    "0x021C8E24"
    ]
   }
  ]

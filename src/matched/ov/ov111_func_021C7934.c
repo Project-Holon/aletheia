@@ -1,5 +1,5 @@
 /*
- * function: func_021C7934
+ * function: VIEWER_ACTOR_CreateFont
  * address:  0x021C7934
  * packet:   pkt_ov111_021C7934
  * region:   ov111
@@ -44,7 +44,7 @@ struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 
-void func_021C7934(Work *p)
+void VIEWER_ACTOR_CreateFont(Work *p)
 {
     p->f4 = GF_FONT_Create(0x17, 0, 0, 0, 0x27);
     p->f14 = (void *)PRINTSYS_QUE_Create((void *)0x27);

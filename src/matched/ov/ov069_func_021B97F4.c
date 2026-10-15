@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
@@ -40,7 +40,7 @@ typedef unsigned short u16;
 extern void BG_SYS_Create(u16 heapId);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u8);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -55,7 +55,7 @@ void BSUBWAY_RECORD_LIST_SetupBgLayers(void)
 
     BG_SYS_Create(0x80);
     a = sRecordListDispConfig;
-    func_0203FC28((struct DispConfig *)(&a));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&a));
     b = sRecordListBgTemplates;
     for (i = 0; i < 5; i++) {
         id = sRecordListBgIds[i];

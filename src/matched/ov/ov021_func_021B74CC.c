@@ -13,8 +13,8 @@
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -51,8 +51,8 @@ struct Descriptor;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void FIELD_MSGBG_MsgWinPrintStr(int a0, int a1, u16 a2, int a3);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(u8 *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -68,8 +68,8 @@ void PDW_POSTMAN_PrintListWin(Obj *p)
         MSGDATA_ReadString((struct MsgBank *)((u32)msg), p->f24[i].a, (void *)p->f18);
         FIELD_MSGBG_MsgWinPrintStr(p->f0C, 0, i * 14, p->f18);
         MSGDATA_ReadString((struct MsgBank *)p->f08, 5, (void *)p->f18);
-        func_0201EFA4((struct WordSet *)p->f14, 0, p->f24[i].b, 2, 1, 1);
-        func_0201F250((struct WordSet *)p->f14, (void *)p->f1C, (void *)p->f18);
+        WORDSET_SetSlotNumber((struct WordSet *)p->f14, 0, p->f24[i].b, 2, 1, 1);
+        WORDSET_CopyTaggedText((struct WordSet *)p->f14, (void *)p->f1C, (void *)p->f18);
         FIELD_MSGBG_MsgWinPrintStr(p->f0C, 0x6c, i * 14, p->f1C);
     }
     MSGDATA_Delete(msg);

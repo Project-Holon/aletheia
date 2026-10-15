@@ -1,5 +1,5 @@
 /*
- * function: func_021F6230
+ * function: MUSICAL_MCSS_SetFieldB
  * address: 0x021F6230
  * packet: pkt_ov112_021F6230
  * region: ov112
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj22544.h"
 typedef unsigned char u8;
-void func_021F6230(u8 *p, int a)
+void MUSICAL_MCSS_SetFieldB(u8 *p, int a)
 {
     ((struct Obj22544 *)p)->f10 = a;
 }

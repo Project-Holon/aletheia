@@ -1,5 +1,5 @@
 /*
- * function: func_021BFAE4
+ * function: DEMO3D_EXP_C_CRUISER_Update
  * address: 0x021BFAE4
  * packet: pkt_ov203_021BFAE4
  * region: ov203
@@ -21,7 +21,7 @@ extern int func_021BE620(char *p);
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
 extern const struct Vec2 d_021C3BD0[];
-void func_021BFAE4(char *p)
+void DEMO3D_EXP_C_CRUISER_Update(char *p)
 {
     unsigned char *a = *(unsigned char * *)&((struct Obj14600 *)p)->f10;
     int progress = func_021BE620(((struct Obj14600 *)p)->f8) >> 12;

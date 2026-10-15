@@ -1,5 +1,5 @@
 /*
- * function: func_02063640
+ * function: NNS_G2dResetOamManagerBuffer
  * address:  0x02063640
  * packet:   pkt_02063000
  * region:   arm9
@@ -196,7 +196,7 @@ static inline void ResetOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
     }
 }
 
-void func_02063640(NNSG2dOamManagerInstance *pMan)
+void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan)
 {
     {
         if (pMan->bFastTransferEnable) {

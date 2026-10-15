@@ -1,5 +1,5 @@
 /*
- * function: func_021DAE18
+ * function: WIFIBATTLEMATCH_NET_ShutdownReport
  * address:  0x021DAE18
  * packet:   pkt_021DAE18
  * region:   ov175
@@ -24,7 +24,7 @@ typedef unsigned long u32;
 extern void DWC_ScDestroyReport(u32 report);
 extern void DWC_ScShutdown(void);
 
-void func_021DAE18(char *obj)
+void WIFIBATTLEMATCH_NET_ShutdownReport(char *obj)
 {
     if (((struct Obj03320 *)obj)->f170 == 1) {
         if (((struct Obj03320 *)obj)->f12C > 0x13)

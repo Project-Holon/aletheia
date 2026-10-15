@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020629E8",
+   "name": "NNS_G2dGetMultiCellDataByIdx",
    "address": "0x020629E8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062A00",
+   "name": "NNS_G2dGetUnpackedCharacterData",
    "address": "0x02062A00",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062A3C",
+   "name": "NNSi_G2dFixupCharacterData",
    "address": "0x02062A3C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062A4C",
+   "name": "NNS_G2dGetUnpackedCharacterDataEx",
    "address": "0x02062A4C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062A88",
+   "name": "NNSi_G2dFixupCharacterDataEx",
    "address": "0x02062A88",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062A98",
+   "name": "NNS_G2dGetUnpackedPaletteData",
    "address": "0x02062A98",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062AD4",
+   "name": "NNS_G2dGetUnpackedPaletteCompressInfo",
    "address": "0x02062AD4",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062B10",
+   "name": "NNSi_G2dFixupPaletteCompressInfo",
    "address": "0x02062B10",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062B20",
+   "name": "NNSi_G2dFixupPaletteData",
    "address": "0x02062B20",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062D40",
+   "name": "NNSi_G2dGetCellAnimationCurrentSequence",
    "address": "0x02062D40",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02062F1C",
+   "name": "NNSi_G2dGetCellAnimFrameIdx",
    "address": "0x02062F1C",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062F78",
+   "name": "NNSi_G2dResetCellAnimationState",
    "address": "0x02062F78",
    "kind": "game",
    "region": "arm9",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02063068",
+   "name": "NNSi_G2dCpuLoadOamMain",
    "address": "0x02063068",
    "kind": "game",
    "region": "arm9",

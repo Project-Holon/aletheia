@@ -31,8 +31,8 @@
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   d_021E7EC4 0x021E7EC4 data a4
- *   d_021E7F84 0x021E7F84 data a4
+ *   gSummaryIconCoords 0x021E7EC4 data a4
+ *   gSummaryIconStates 0x021E7F84 data a4
  */
 #include "../include/Obj00001.h"
 typedef unsigned int u32;
@@ -42,8 +42,8 @@ typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
 struct Obj;
 typedef struct { int v[8]; } Coords;
 typedef struct { int v[8][2]; } States;
-extern const Coords d_021E7EC4;
-extern const States d_021E7F84;
+extern const Coords gSummaryIconCoords;
+extern const States gSummaryIconStates;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 POKE_TOOL_IsShiny(void *);
 extern u32 POKERUS_IsCured(void *);
@@ -67,8 +67,8 @@ void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
     int state,sprite;
     int *row;
     bits=POKE_TOOL_GetPartyValue(mon,11,0);
-    coords=d_021E7EC4;
-    states=d_021E7F84;
+    coords=gSummaryIconCoords;
+    states=gSummaryIconStates;
     in.f0=0; in.f4=0;
     in.f8=func_020275E4();
     in.fC=func_02027748();

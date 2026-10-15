@@ -13,10 +13,10 @@
  * symbols:
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj00636.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-struct PalAnmSlot;extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32);extern void PALANM_Delete(void *);extern void func_02030DA4(void *);extern void func_020307B0(void *);
-void func_021BAF30(int unused,u8 *p){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00636 *)p)->f2E0,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00636 *)p)->f2E0,2);PALANM_Delete(((struct Obj00636 *)p)->f2E0);func_02030DA4(((struct Obj00636 *)p)->f2D8);func_020307B0(((struct Obj00636 *)p)->f2DC);}
+struct PalAnmSlot;extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32);extern void PALANM_Delete(void *);extern void TCB_Noop(void *);extern void func_020307B0(void *);
+void func_021BAF30(int unused,u8 *p){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00636 *)p)->f2E0,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00636 *)p)->f2E0,2);PALANM_Delete(((struct Obj00636 *)p)->f2E0);TCB_Noop(((struct Obj00636 *)p)->f2D8);func_020307B0(((struct Obj00636 *)p)->f2DC);}

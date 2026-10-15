@@ -1,5 +1,5 @@
 /*
- * function: func_021F4480
+ * function: NAMEIN_GRAPHIC_GetNameForAction
  * address:  0x021F4480
  * packet:   pkt_021F4480
  * region:   ov194
@@ -28,7 +28,7 @@ extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32  gSpeciesNameBank;
 
-int func_021F4480(u8 *p, int a, int b)
+int NAMEIN_GRAPHIC_GetNameForAction(u8 *p, int a, int b)
 {
     switch (a) {
     case 0:

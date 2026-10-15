@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021951E8",
+   "name": "gti2PingCallback",
    "address": "0x021951E8",
    "kind": "sdk",
    "region": "ov009",

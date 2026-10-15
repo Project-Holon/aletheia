@@ -12,7 +12,7 @@
  * sdk:      SOCLi_WriteBuffer (socl_write.o)
  *
  * symbols:
- *   func_0215E23C  0x0215E23C  arm  ov009
+ *   SOCLi_AllocWriteBuffer  0x0215E23C  arm  ov009
  *   func_0215E2E4  0x0215E2E4  arm  ov009
  */
 
@@ -65,7 +65,7 @@ struct SOCLiCommandWrite {
     unsigned long remote_ip;
 };
 
-extern int func_0215E23C(void *a, int n, int m, int *out, int f5);
+extern int SOCLi_AllocWriteBuffer(void *a, int n, int m, int *out, int f5);
 extern int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block);
 
@@ -93,7 +93,7 @@ static int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long 
             buffer_min = buffer_len;
     }
     while (buffer_len > 0) {
-        write_len = func_0215E23C(socket, buffer_len, buffer_min, (int *)(&wrtbuf_in), flag_block);
+        write_len = SOCLi_AllocWriteBuffer(socket, buffer_len, buffer_min, (int *)(&wrtbuf_in), flag_block);
         if (write_len > 0) {
             result = func_0215E2E4(socket, buffer, write_len, wrtbuf_in, remote_port, remote_ip, flag_block);
             if (result <= 0)

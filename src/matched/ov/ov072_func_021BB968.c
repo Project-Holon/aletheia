@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02040DA8  0x02040DA8  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
@@ -26,8 +26,8 @@ typedef unsigned int  u32;
 
 extern struct Ent sTownMapGrhBgTable[];
 
-extern void func_02040DA8(u32 a, u32 b, u32 c);
-extern void func_020414AC(u8 a);
+extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeSlot(u8 a);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -38,10 +38,10 @@ void TOWNMAP_GRH_ExitBgLayers(void *p)
     int i;
     u32 id;
 
-    func_02040DA8(1, 1, 0);
+    BG_SYS_SetTileUnit(1, 1, 0);
     for (i = 0; i < 7; i++) {
         id = sTownMapGrhBgTable[i].id;
-        func_020414AC(id);
+        BG_SYS_FreeSlot(id);
         func_020403F4((u8)id);
     }
     BMP_WIN_Exit();

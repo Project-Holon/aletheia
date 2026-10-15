@@ -1,5 +1,5 @@
 /*
- * function: func_021D6AF0
+ * function: GTSNEGO_MSG_CreateActorAt
  * address: 0x021D6AF0
  * packet: pkt_ov120_021D6AF0
  * region: ov120
@@ -19,7 +19,7 @@ typedef struct Record {u16 x,y,z;u8 a,b;} Record;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-void func_021D6AF0(u8 *p,u16 x,u16 y,int flag) {
+void GTSNEGO_MSG_CreateActorAt(u8 *p,u16 x,u16 y,int flag) {
 Record r;int i;
 for(i=0;i<12;i++) {
 if(!*(void **)(p+i*4+0xc4)) {

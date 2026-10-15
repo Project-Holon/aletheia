@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_anim_bank.c
  * unit:     yes
- * function: func_02062634, func_02062670, func_0206267C, func_02062688, func_020627D8, func_020627F0, func_02062810, func_02062820, func_0206285C, func_02062884, func_02062920, func_0206295C, func_0206296C, func_020629E8, func_02062A00, func_02062A3C, func_02062A4C, func_02062A88, func_02062A98, func_02062AD4, func_02062B10, func_02062B20
+ * function: NNS_G2dGetUnpackedAnimBank, NNS_G2dGetUnpackedAnimBankEx, NNSi_G2dGetUnpackedAnimBank, NNSi_G2dUnpackAnimBank, NNS_G2dGetAnimSequenceByIdx, NNSi_G2dGetCellDataBankOamBase, NNSi_G2dFixupCellAnimBankTbl, NNS_G2dGetUnpackedCellBank, NNS_G2dGetCellDataByIdx, NNSi_G2dUnpackCellBank, NNS_G2dGetUnpackedMultiCellBank, NNSi_G2dFixupMultiCellAnimBankTbl, NNSi_G2dUnpackMultiCellBank, NNS_G2dGetMultiCellDataByIdx, NNS_G2dGetUnpackedCharacterData, NNSi_G2dFixupCharacterData, NNS_G2dGetUnpackedCharacterDataEx, NNSi_G2dFixupCharacterDataEx, NNS_G2dGetUnpackedPaletteData, NNS_G2dGetUnpackedPaletteCompressInfo, NNSi_G2dFixupPaletteCompressInfo, NNSi_G2dFixupPaletteData
  * address:  0x02062634
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   NNS_G2dFindBinaryBlock    0x02062B64  arm
- *   func_02062BAC 0x02062BAC arm
+ *   NNSi_G2dFixupOffsets 0x02062BAC arm
  */
 #include "../../matched/include/Obj02023.h"
 #include "../../matched/include/Obj02615.h"
@@ -128,42 +128,42 @@ struct MultiCellBank_020627D8 {
 };
 
 extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
-extern void func_02062BAC(struct Tbl *t);
-int func_02062634(u32 a, u32 *out);
-void func_02062670(u32 a, u32 *out);
-void func_0206267C(u32 a, u32 *out);
-void func_02062688(volatile struct AnimBank_02062634 *bank);
-struct AnimSequence_020627D8 *func_020627D8(struct AnimBank_020627D8 *bank, u32 idx);
-void *func_020627F0(struct CellDataBank *bank);
-void func_02062810(void *p);
-int func_02062820(int a, int *out);
-void *func_0206285C(struct CellDataBank *bank, u32 idx);
-void func_02062884(int *p);
-int func_02062920(u32 a, u32 *out);
-void func_0206295C(void *animBank);
-void func_0206296C(volatile struct MultiCellBank_020627D8 *bank);
-struct MultiCellData *func_020629E8(struct MultiCellBank_020627D8 *bank, u32 idx);
-s32 func_02062A00(struct NitroFileHeader *file, void **out);
-void func_02062A3C(u8 *block);
-s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-void func_02062A88(u8 *block);
-s32 func_02062A98(struct NitroFileHeader *file, void **out);
-s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-void func_02062B10(u8 *block);
-void func_02062B20(u8 *block);
+extern void NNSi_G2dFixupOffsets(struct Tbl *t);
+int NNS_G2dGetUnpackedAnimBank(u32 a, u32 *out);
+void NNS_G2dGetUnpackedAnimBankEx(u32 a, u32 *out);
+void NNSi_G2dGetUnpackedAnimBank(u32 a, u32 *out);
+void NNSi_G2dUnpackAnimBank(volatile struct AnimBank_02062634 *bank);
+struct AnimSequence_020627D8 *NNS_G2dGetAnimSequenceByIdx(struct AnimBank_020627D8 *bank, u32 idx);
+void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank);
+void NNSi_G2dFixupCellAnimBankTbl(void *p);
+int NNS_G2dGetUnpackedCellBank(int a, int *out);
+void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx);
+void NNSi_G2dUnpackCellBank(int *p);
+int NNS_G2dGetUnpackedMultiCellBank(u32 a, u32 *out);
+void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
+void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank_020627D8 *bank);
+struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank_020627D8 *bank, u32 idx);
+s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
+void NNSi_G2dFixupCharacterData(u8 *block);
+s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+void NNSi_G2dFixupCharacterDataEx(u8 *block);
+s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
+void NNSi_G2dFixupPaletteCompressInfo(u8 *block);
+void NNSi_G2dFixupPaletteData(u8 *block);
 
 
 
 
 /*
  * Blocking class: label.  Every concrete byte is right; the only unresolved site
- * is the tail `bl func_02062688` at 0x02062648, and 0x02062688 -- the packet's own
+ * is the tail `bl NNSi_G2dUnpackAnimBank` at 0x02062648, and 0x02062688 -- the packet's own
  * 336-byte function -- has no witness outside this file's range, because this is
  * its only caller.  The `bl NNS_G2dFindBinaryBlock` site resolves (`label x40`), so the
  * file closes on its own as soon as 0x02062688 is matched, which makes the site
  * `matched` instead of `label`.
  */
-int func_02062634(u32 a, u32 *out)
+int NNS_G2dGetUnpackedAnimBank(u32 a, u32 *out)
 {
     u32 r = (u32)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x41424E4B);
 
@@ -171,7 +171,7 @@ int func_02062634(u32 a, u32 *out)
         *out = 0;
         return 0;
     }
-    func_02062688((volatile struct AnimBank_02062634 *)(r + 8));
+    NNSi_G2dUnpackAnimBank((volatile struct AnimBank_02062634 *)(r + 8));
     *out = r + 8;
     return 1;
 }
@@ -179,12 +179,12 @@ int func_02062634(u32 a, u32 *out)
 
 
 
-void func_02062670(u32 a, u32 *out){ func_02062634(a, out); }
+void NNS_G2dGetUnpackedAnimBankEx(u32 a, u32 *out){ NNS_G2dGetUnpackedAnimBank(a, out); }
 
 
 
 
-void func_0206267C(u32 a, u32 *out){ func_02062634(a, out); }
+void NNSi_G2dGetUnpackedAnimBank(u32 a, u32 *out){ NNS_G2dGetUnpackedAnimBank(a, out); }
 
 
 
@@ -210,11 +210,11 @@ void func_0206267C(u32 a, u32 *out){ func_02062634(a, out); }
  *     INSIDE the guard (image `mov r8, r7` after the `bls`).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02062688.c \
- *       --func func_02062688 --addr 0x02062688 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dUnpackAnimBank.c \
+ *       --func NNSi_G2dUnpackAnimBank --addr 0x02062688 --arm --cc ../2.0/sp2
  *   EXACT, 336 bytes, no relocations (sp2p2 EXACT; dsi/1.1p1 332 DIFF).
  */
-void func_02062688(volatile struct AnimBank_02062634 *bank)
+void NNSi_G2dUnpackAnimBank(volatile struct AnimBank_02062634 *bank)
 {
     u16 i, j;
     u16 n;
@@ -301,9 +301,9 @@ void func_02062688(volatile struct AnimBank_02062634 *bank)
  *                              relative to the bank's +0x08 array
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020627D8.c  *       --func func_020627D8 --addr 0x020627D8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetAnimSequenceByIdx.c  *       --func NNS_G2dGetAnimSequenceByIdx --addr 0x020627D8 --cc 1.1p1
  */
-struct AnimSequence_020627D8 *func_020627D8(struct AnimBank_020627D8 *bank, u32 idx)
+struct AnimSequence_020627D8 *NNS_G2dGetAnimSequenceByIdx(struct AnimBank_020627D8 *bank, u32 idx)
 {
     if (bank->numSequences > idx) {
         return &bank->array[idx];
@@ -313,7 +313,7 @@ struct AnimSequence_020627D8 *func_020627D8(struct AnimBank_020627D8 *bank, u32 
 }
 
 
-void *func_020627F0(struct CellDataBank *bank)
+void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank)
 {
     if (bank->bankAttr & 1) {
         return (struct CellDataEx *)bank->cells + bank->numCells;
@@ -325,22 +325,22 @@ void *func_020627F0(struct CellDataBank *bank)
 
 
 
-void func_02062810(void *p)
+void NNSi_G2dFixupCellAnimBankTbl(void *p)
 {
-    func_02062BAC((struct Tbl *)((u8 *)p + 8));
+    NNSi_G2dFixupOffsets((struct Tbl *)((u8 *)p + 8));
 }
 
 
 
 
-int func_02062820(int a, int *out)
+int NNS_G2dGetUnpackedCellBank(int a, int *out)
 {
     char *o = (char *)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x4345424b);
     if (o == 0) {
         *out = 0;
         return 0;
     }
-    func_02062884((int *)(o + 8));
+    NNSi_G2dUnpackCellBank((int *)(o + 8));
     *out = (int)(o + 8);
     return 1;
 }
@@ -368,15 +368,15 @@ int func_02062820(int a, int *out)
  * the extra bounding-box rectangle. Every cell in the a/0/0/4 rig archive is
  * the plain 8-byte kind.
  *
- * func_02062884 fixes the block up and is what pins the OAM array's own base:
+ * NNSi_G2dUnpackCellBank fixes the block up and is what pins the OAM array's own base:
  * it walks the cells adding the address *past* the end of the cell array
- * (func_020627F0) to each cell's own offset field, so a cell's OAM offset is
+ * (NNSi_G2dGetCellDataBankOamBase) to each cell's own offset field, so a cell's OAM offset is
  * relative to the byte after the last cell record, not to the block.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206285C.c  *       --func func_0206285C --addr 0x0206285C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetCellDataByIdx.c  *       --func NNS_G2dGetCellDataByIdx --addr 0x0206285C --cc 1.1p1
  */
-void *func_0206285C(struct CellDataBank *bank, u32 idx)
+void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx)
 {
     if (idx >= bank->numCells) {
         return 0;
@@ -398,18 +398,18 @@ void *func_0206285C(struct CellDataBank *bank, u32 idx)
  * followed by E12FFF1C, or E51FF004 + one word.  The `add` between the load
  * and the branch makes the veneer class refuse, `label` refuses because this
  * call is the only branch to the stub in the image, and naming the real
- * callee (func_02062BAC, arm) resolves the site but reproduces 3 concrete
+ * callee (NNSi_G2dFixupOffsets, arm) resolves the site but reproduces 3 concrete
  * bytes (the original `bl` displacement points at the stub).  So this stays
- * MATCH and src/pending/func_02062820.c cannot be promoted.
+ * MATCH and src/pending/NNS_G2dGetUnpackedCellBank.c cannot be promoted.
  */
-void func_02062884(int *p)
+void NNSi_G2dUnpackCellBank(int *p)
 {
     u16 i;
     int base;
     p[1] = (int)((char *)p[1] + (int)p);
-    base = (int)func_020627F0((struct CellDataBank *)p);
+    base = (int)NNSi_G2dGetCellDataBankOamBase((struct CellDataBank *)p);
     for (i = 0; i < ((struct Obj02023 *)p)->f0; i++) {
-        int *e = func_0206285C((struct CellDataBank *)p, i);
+        int *e = NNS_G2dGetCellDataByIdx((struct CellDataBank *)p, i);
         e[1] = (int)((char *)e[1] + base);
     }
     if (p[3] != 0) {
@@ -422,18 +422,18 @@ void func_02062884(int *p)
     if (p[5] == 0)
         return;
     p[5] = (int)((char *)p[5] + (int)p);
-    func_02062810((void *)p[5]);
+    NNSi_G2dFixupCellAnimBankTbl((void *)p[5]);
 }
 
 
 
 /*
- * Blocking class: label.  Same shape as src/pending/func_02062634.c one tag over:
+ * Blocking class: label.  Same shape as src/pending/NNS_G2dGetUnpackedAnimBank.c one tag over:
  * every concrete byte is right, the only unresolved site is the tail
- * `bl func_0206296C` at 0x02062934, and this call is the only branch to
+ * `bl NNSi_G2dUnpackMultiCellBank` at 0x02062934, and this call is the only branch to
  * 0x0206296C in the image.  The `bl NNS_G2dFindBinaryBlock` site resolves (`label x40`).
  */
-int func_02062920(u32 a, u32 *out)
+int NNS_G2dGetUnpackedMultiCellBank(u32 a, u32 *out)
 {
     u32 r = (u32)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x4D43424B);
 
@@ -441,15 +441,15 @@ int func_02062920(u32 a, u32 *out)
         *out = 0;
         return 0;
     }
-    func_0206296C((volatile struct MultiCellBank_020627D8 *)(r + 8));
+    NNSi_G2dUnpackMultiCellBank((volatile struct MultiCellBank_020627D8 *)(r + 8));
     *out = r + 8;
     return 1;
 }
 
 
-void func_0206295C(void *animBank)
+void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank)
 {
-    func_02062BAC((struct Tbl *)((u8 *)animBank + 8));
+    NNSi_G2dFixupOffsets((struct Tbl *)((u8 *)animBank + 8));
 }
 
 
@@ -474,7 +474,7 @@ void func_0206295C(void *animBank)
  * The 8-byte descriptor stride is what the loop's `lsl #3` proves; a 10- or
  * 12-byte descriptor is not what this game reads.
  *
- * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/func_0206296C.c.txt records
+ * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/NNSi_G2dUnpackMultiCellBank.c.txt records
  * this function as a 120-of-124-byte near miss: the image re-loads the +0x04
  * field it has just stored (`ldr r4,[r0,#4]` at +0x24), and every plain
  * spelling lets -O4,p forward the stored value instead, four bytes short.
@@ -494,10 +494,10 @@ void func_0206295C(void *animBank)
  * bank->nodeBase)`, EXACT at compile 429 of 800.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206296C.c \
- *       --func func_0206296C --addr 0x0206296C --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dUnpackMultiCellBank.c \
+ *       --func NNSi_G2dUnpackMultiCellBank --addr 0x0206296C --cc 1.1p1 --arm
  */
-void func_0206296C(volatile struct MultiCellBank_020627D8 *bank)
+void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank_020627D8 *bank)
 {
     u16 i;
     u16 n;
@@ -523,7 +523,7 @@ void func_0206296C(volatile struct MultiCellBank_020627D8 *bank)
     if (anim != 0) {
         anim = anim + (u32)bank;
         bank->animBank = anim;
-        func_0206295C(anim);
+        NNSi_G2dFixupMultiCellAnimBankTbl(anim);
     }
 }
 
@@ -535,7 +535,7 @@ void func_0206296C(volatile struct MultiCellBank_020627D8 *bank)
  * Returns the idx'th multi-cell descriptor of an NNS G2D multi-cell bank
  * (the NMCR file's 'KBCM' block body), or NULL when idx is out of range.
  * The `lsl #3` pins the descriptor stride at 8 bytes, and the sibling fixup
- * routine at 0x0206296C (see docs/notes/func_0206296C.c.txt) pins the rest
+ * routine at 0x0206296C (see docs/notes/NNSi_G2dUnpackMultiCellBank.c.txt) pins the rest
  * of the block layout:
  *
  *   bank  +0x00  u16 numMultiCell
@@ -551,9 +551,9 @@ void func_0206296C(volatile struct MultiCellBank_020627D8 *bank)
  * A 10- or 12-byte descriptor stride is not what this game reads.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020629E8.c  *       --func func_020629E8 --addr 0x020629E8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetMultiCellDataByIdx.c  *       --func NNS_G2dGetMultiCellDataByIdx --addr 0x020629E8 --cc 1.1p1
  */
-struct MultiCellData *func_020629E8(struct MultiCellBank_020627D8 *bank, u32 idx)
+struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank_020627D8 *bank, u32 idx)
 {
     if (idx < bank->numMultiCell) {
         return &bank->array[idx];
@@ -570,9 +570,9 @@ struct MultiCellData *func_020629E8(struct MultiCellBank_020627D8 *bank, u32 idx
  * Returns 1 on success, 0 (and a NULL out-pointer) when the block is absent.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062A00.c  *       --func func_02062A00 --addr 0x02062A00 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetUnpackedCharacterData.c  *       --func NNS_G2dGetUnpackedCharacterData --addr 0x02062A00 --cc 1.1p1
  */
-s32 func_02062A00(struct NitroFileHeader *file, void **out)
+s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out)
 {
     void *block = NNS_G2dFindBinaryBlock(file, 0x43484152);
 
@@ -581,7 +581,7 @@ s32 func_02062A00(struct NitroFileHeader *file, void **out)
         return 0;
     }
 
-    func_02062A3C((u8 *)block + 8);
+    NNSi_G2dFixupCharacterData((u8 *)block + 8);
     *out = (u8 *)block + 8;
     return 1;
 }
@@ -595,9 +595,9 @@ s32 func_02062A00(struct NitroFileHeader *file, void **out)
  * self-relative offset that becomes an absolute pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062A3C.c  *       --func func_02062A3C --addr 0x02062A3C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupCharacterData.c  *       --func NNSi_G2dFixupCharacterData --addr 0x02062A3C --cc 1.1p1
  */
-void func_02062A3C(u8 *block)
+void NNSi_G2dFixupCharacterData(u8 *block)
 {
     ((struct Obj11515 *)block)->f14 = ((struct Obj11515 *)block)->f14 + (u32)block;
 }
@@ -610,9 +610,9 @@ void func_02062A3C(u8 *block)
  * Returns 1 on success, 0 (and a NULL out-pointer) when the block is absent.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062A4C.c  *       --func func_02062A4C --addr 0x02062A4C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetUnpackedCharacterDataEx.c  *       --func NNS_G2dGetUnpackedCharacterDataEx --addr 0x02062A4C --cc 1.1p1
  */
-s32 func_02062A4C(struct NitroFileHeader *file, void **out)
+s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out)
 {
     void *block = NNS_G2dFindBinaryBlock(file, 0x43484152);
 
@@ -621,7 +621,7 @@ s32 func_02062A4C(struct NitroFileHeader *file, void **out)
         return 0;
     }
 
-    func_02062A88((u8 *)block + 8);
+    NNSi_G2dFixupCharacterDataEx((u8 *)block + 8);
     *out = (u8 *)block + 8;
     return 1;
 }
@@ -635,9 +635,9 @@ s32 func_02062A4C(struct NitroFileHeader *file, void **out)
  * self-relative offset that becomes an absolute pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062A88.c  *       --func func_02062A88 --addr 0x02062A88 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupCharacterDataEx.c  *       --func NNSi_G2dFixupCharacterDataEx --addr 0x02062A88 --cc 1.1p1
  */
-void func_02062A88(u8 *block)
+void NNSi_G2dFixupCharacterDataEx(u8 *block)
 {
     ((struct Obj11517 *)block)->f14 = ((struct Obj11517 *)block)->f14 + (u32)block;
 }
@@ -650,9 +650,9 @@ void func_02062A88(u8 *block)
  * Returns 1 on success, 0 (and a NULL out-pointer) when the block is absent.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062A98.c  *       --func func_02062A98 --addr 0x02062A98 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetUnpackedPaletteData.c  *       --func NNS_G2dGetUnpackedPaletteData --addr 0x02062A98 --cc 1.1p1
  */
-s32 func_02062A98(struct NitroFileHeader *file, void **out)
+s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out)
 {
     void *block = NNS_G2dFindBinaryBlock(file, 0x504C5454);
 
@@ -661,7 +661,7 @@ s32 func_02062A98(struct NitroFileHeader *file, void **out)
         return 0;
     }
 
-    func_02062B20((u8 *)block + 8);
+    NNSi_G2dFixupPaletteData((u8 *)block + 8);
     *out = (u8 *)block + 8;
     return 1;
 }
@@ -674,9 +674,9 @@ s32 func_02062A98(struct NitroFileHeader *file, void **out)
  * Returns 1 on success, 0 (and a NULL out-pointer) when the block is absent.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062AD4.c  *       --func func_02062AD4 --addr 0x02062AD4 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetUnpackedPaletteCompressInfo.c  *       --func NNS_G2dGetUnpackedPaletteCompressInfo --addr 0x02062AD4 --cc 1.1p1
  */
-s32 func_02062AD4(struct NitroFileHeader *file, void **out)
+s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out)
 {
     void *block = NNS_G2dFindBinaryBlock(file, 0x50434D50);
 
@@ -685,7 +685,7 @@ s32 func_02062AD4(struct NitroFileHeader *file, void **out)
         return 0;
     }
 
-    func_02062B10((u8 *)block + 8);
+    NNSi_G2dFixupPaletteCompressInfo((u8 *)block + 8);
     *out = (u8 *)block + 8;
     return 1;
 }
@@ -699,9 +699,9 @@ s32 func_02062AD4(struct NitroFileHeader *file, void **out)
  * self-relative offset that becomes an absolute pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062B10.c  *       --func func_02062B10 --addr 0x02062B10 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupPaletteCompressInfo.c  *       --func NNSi_G2dFixupPaletteCompressInfo --addr 0x02062B10 --cc 1.1p1
  */
-void func_02062B10(u8 *block)
+void NNSi_G2dFixupPaletteCompressInfo(u8 *block)
 {
     ((struct Obj11520 *)block)->f4 = ((struct Obj11520 *)block)->f4 + (u32)block;
 }
@@ -715,9 +715,9 @@ void func_02062B10(u8 *block)
  * self-relative offset that becomes an absolute pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062B20.c  *       --func func_02062B20 --addr 0x02062B20 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupPaletteData.c  *       --func NNSi_G2dFixupPaletteData --addr 0x02062B20 --cc 1.1p1
  */
-void func_02062B20(u8 *block)
+void NNSi_G2dFixupPaletteData(u8 *block)
 {
     ((struct Obj11521 *)block)->fC = ((struct Obj11521 *)block)->fC + (u32)block;
 }

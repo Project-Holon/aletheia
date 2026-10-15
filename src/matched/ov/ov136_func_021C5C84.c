@@ -10,7 +10,7 @@
  * symbols:
  *   MB_SEQ_StepSelectFlash 0x021C5C84 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj10603.h"
@@ -30,7 +30,7 @@ struct Fade {
 };
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 
 int MB_SEQ_StepSelectFlash(u8 *p)
@@ -41,7 +41,7 @@ int MB_SEQ_StepSelectFlash(u8 *p)
         if (s->a == 0) {
             CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(*(u8 * *)&((struct Obj10603 *)p)->f8 + s->idx * 4 + 0x1F0)), s->lo, 1);
         } else {
-            func_020413B0(s->idx, s->b4, s->b5, s->b6, s->b7, s->lo);
+            BG_SYS_FillTileMap(s->idx, s->b4, s->b5, s->b6, s->b7, s->lo);
             func_02041B6C(s->idx);
         }
         s->state++;
@@ -52,7 +52,7 @@ int MB_SEQ_StepSelectFlash(u8 *p)
             if (s->a == 0) {
                 CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(*(u8 * *)&((struct Obj10603 *)p)->f8 + s->idx * 4 + 0x1F0)), s->hi, 1);
             } else {
-                func_020413B0(s->idx, s->b4, s->b5, s->b6, s->b7, s->hi);
+                BG_SYS_FillTileMap(s->idx, s->b4, s->b5, s->b6, s->b7, s->hi);
                 func_02041B6C(s->idx);
             }
             s->count = 0;

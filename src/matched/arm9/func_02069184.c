@@ -1,5 +1,5 @@
 /*
- * function: func_02069184
+ * function: NNSi_G2dCalcCharAreaSize
  * address:  0x02069184
  * packet:   pkt_02069078
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Number of OBJs NitroSystem's 1D OBJ arrangement (func_020691E0) spends on
+ * Number of OBJs NitroSystem's 1D OBJ arrangement (NNSi_G2dMakeCharObjArea) spends on
  * an areaWidth x areaHeight character area: 8x8-char OBJs over the aligned
  * part, then per 8-char strip one OBJ for a 4-char remainder and two for
  * each of the 2- and 1-char remainders (a 1x8 or 2x8 OBJ does not exist),
@@ -28,7 +28,7 @@
  */
 typedef unsigned int u32;
 
-u32 func_02069184(u32 areaWidth, u32 areaHeight)
+u32 NNSi_G2dCalcCharAreaSize(u32 areaWidth, u32 areaHeight)
 {
     u32 numX8 = areaWidth >> 3;
     u32 numY8 = areaHeight >> 3;

@@ -1,5 +1,5 @@
 /*
- * function: func_02189A7C
+ * function: gpiSendBufferToPeer
  * address:  0x02189A7C
  * packet:   pkt_ov009_02189A7C
  * region:   ov009
@@ -33,7 +33,7 @@ extern int gsUdpEngineSendMessage(unsigned int ip, unsigned short port, char *he
 extern void *memmove(void *dest, const void *src, unsigned int n);
 extern int gsUdpEngineGetPeerState(unsigned int ip, unsigned short port, int *state);
 
-int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short port,
+int gpiSendBufferToPeer(GPIConnection **connection, unsigned int ip, unsigned short port,
                   GPIBuffer *outputBuffer, int *closed, int clipSentData)
 {
     GPIConnection *iconnection;

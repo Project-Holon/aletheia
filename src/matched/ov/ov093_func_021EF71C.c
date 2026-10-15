@@ -11,8 +11,8 @@
  *
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   gBtlMsgState     0x021F6398  data   a4
  */
 
@@ -40,18 +40,18 @@ typedef struct {
 struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern D gBtlMsgState;
 
 void BTL_MSG_BuildBallStatusOpen(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
     MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.f1c, 0x10, (void *)gBtlMsgState.fc);
-    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 0, b, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 1, c, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 2, d, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 3, e, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 4, f, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 5, g, 2, 0, 1);
-    func_0201F250((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
+    WORDSET_SetSlotNumber((struct WordSet *)gBtlMsgState.f8, 0, b, 2, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)gBtlMsgState.f8, 1, c, 2, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)gBtlMsgState.f8, 2, d, 2, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)gBtlMsgState.f8, 3, e, 2, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)gBtlMsgState.f8, 4, f, 2, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)gBtlMsgState.f8, 5, g, 2, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
 }

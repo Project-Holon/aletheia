@@ -1,5 +1,5 @@
 /*
- * function: func_0219E274
+ * function: CheckValidKey
  * address:  0x0219E274
  * packet:   pkt_ov009_0219E274
  * region:   ov009
@@ -30,7 +30,7 @@ typedef struct {
 
 extern char *g_021A8120[2];
 
-int func_0219E274(char *key)
+int CheckValidKey(char *key)
 {
     char *InvalidKeys[2];
     unsigned int i;

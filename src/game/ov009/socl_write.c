@@ -1,7 +1,7 @@
 /*
  * file:     socl_write.c
  * unit:     yes
- * function: func_0215E024, func_0215E138, func_0215E23C, func_0215E2C0, func_0215E2E4, func_0215E450, func_0215E588, func_0215E620
+ * function: SOCL_WriteTo, SOCLi_WriteBuffer, SOCLi_AllocWriteBuffer, SOCLi_GetWriteBufferFreeSize, SOCLi_ExecWriteCommand, SOCLi_WriteCallBack, SOCLi_GetOptimumSendBufLen, SOCLi_MemCpy
  * address:  0x0215E024
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -14,9 +14,9 @@
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   OS_TryLockMutex  0x020860D0  arm
  *   OS_LockMutex  0x02086028  arm
- *   func_0215E138  0x0215E138  arm  ov009
+ *   SOCLi_WriteBuffer  0x0215E138  arm  ov009
  *   func_02086078  0x02086078  arm
- *   func_0215E2E4  0x0215E2E4  arm  ov009
+ *   SOCLi_ExecWriteCommand  0x0215E2E4  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_SleepThread  0x020857B0  arm
@@ -24,9 +24,9 @@
  *   func_02082EA4  0x02082EA4  arm
  *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   SOCLi_ExecCommandPacketInSendPipe  0x0215CF98  arm  ov009
- *   func_0215E450  0x0215E450  arm  ov009
+ *   SOCLi_WriteCallBack  0x0215E450  arm  ov009
  *   CPS_SocBind  0x0215AAB0  arm  ov009
- *   func_0215E620  0x0215E620  arm  ov009
+ *   SOCLi_MemCpy  0x0215E620  arm  ov009
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
@@ -34,7 +34,7 @@
  *   gMslRefToken     0x02150FEC  data
  *   g_021AA450     0x021AA450  data
  */
-#include "../../matched/include/G_CPSConfig.h"
+#include "ov009_globals.h"
 
 struct SOCLiSocketRingBuffer {
     long size;
@@ -125,18 +125,18 @@ extern void CPS_TcpClose(void);
 extern void OS_WakeupThread(void *queue);
 extern int func_0209C0A4(int a, int b);
 extern Info gMslRefToken;
-extern struct CPSConfig g_021AA450;
-int func_0215E024(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
+extern CpsConfig g_021AA450;
+int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
                   int flags);
-static int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
+static int SOCLi_WriteBuffer(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block);
-int func_0215E23C(struct SOCLSocket *socket, int n, int m, int *out, int f5);
-long func_0215E2C0(struct SOCLSocket *socket);
-static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
+int SOCLi_AllocWriteBuffer(struct SOCLSocket *socket, int n, int m, int *out, int f5);
+long SOCLi_GetWriteBufferFreeSize(struct SOCLSocket *socket);
+static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block);
-static int func_0215E450(void *arg);
-int func_0215E588(int len);
-int func_0215E620(u8 *dst, int len, struct SOCLiCommandWrite *r);
+static int SOCLi_WriteCallBack(void *arg);
+int SOCLi_GetOptimumSendBufLen(int len);
+int SOCLi_MemCpy(u8 *dst, int len, struct SOCLiCommandWrite *r);
 
 
 static inline int isNotReady(struct SOCLSocket *socket)
@@ -161,7 +161,7 @@ static inline int isStream(signed char m)
  *
  * The second state test is a volatile load: the image reloads socket->state between the two bit tests.
  */
-int func_0215E024(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
+int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
                   int flags)
 {
     int result;
@@ -186,7 +186,7 @@ int func_0215E024(int s, void *buffer, int buffer_len, unsigned short remote_por
         OS_LockMutex(send_pipe->mutex);
         flag_block = 1;
     }
-    result = func_0215E138(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
+    result = SOCLi_WriteBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
     func_02086078(send_pipe->mutex);
     return result;
 }
@@ -195,7 +195,7 @@ int func_0215E024(int s, void *buffer, int buffer_len, unsigned short remote_por
 /*
  * sdk:      SOCLi_WriteBuffer (socl_write.o)
  */
-static int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
+static int SOCLi_WriteBuffer(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block)
 {
     int result;
@@ -219,9 +219,9 @@ static int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long 
             buffer_min = buffer_len;
     }
     while (buffer_len > 0) {
-        write_len = func_0215E23C(socket, buffer_len, buffer_min, (int *)(&wrtbuf_in), flag_block);
+        write_len = SOCLi_AllocWriteBuffer(socket, buffer_len, buffer_min, (int *)(&wrtbuf_in), flag_block);
         if (write_len > 0) {
-            result = func_0215E2E4(socket, buffer, write_len, wrtbuf_in, remote_port, remote_ip, flag_block);
+            result = SOCLi_ExecWriteCommand(socket, buffer, write_len, wrtbuf_in, remote_port, remote_ip, flag_block);
             if (result <= 0)
                 return -6;
             buffer += write_len;
@@ -253,7 +253,7 @@ static int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long 
  * fifth argument.  The success path copies the u16 at +0x100 out.  The whole
  * scan runs inside a OS_DisableInterrupts/OS_RestoreInterrupts interrupt bracket.
  */
-int func_0215E23C(struct SOCLSocket *socket, int n, int m, int *out, int f5)
+int SOCLi_AllocWriteBuffer(struct SOCLSocket *socket, int n, int m, int *out, int f5)
 {
     struct SOCLiSocketSendCommandPipe *base;
     int st;
@@ -266,7 +266,7 @@ int func_0215E23C(struct SOCLSocket *socket, int n, int m, int *out, int f5)
     st = OS_DisableInterrupts();
     flag = f5 & 1;
     for (;;) {
-        v = func_0215E2C0(socket);
+        v = SOCLi_GetWriteBufferFreeSize(socket);
         if (v >= m) {
             if (v >= n)
                 v = n;
@@ -301,10 +301,10 @@ int func_0215E23C(struct SOCLSocket *socket, int n, int m, int *out, int f5)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0215E2C0.c \
- *       --func func_0215E2C0 --addr 0x0215E2C0 --region ov009 --arm --cc 1.1p1 \
+ *       --func SOCLi_GetWriteBufferFreeSize --addr 0x0215E2C0 --region ov009 --arm --cc 1.1p1 \
  *       --lang c99 --diff
  */
-long func_0215E2C0(struct SOCLSocket *socket)
+long SOCLi_GetWriteBufferFreeSize(struct SOCLSocket *socket)
 {
 	struct SOCLiSocketSendCommandPipe *send_pipe = socket->send_pipe;
 	long wrtbuf_size = send_pipe->buffer.size;
@@ -323,7 +323,7 @@ long func_0215E2C0(struct SOCLSocket *socket)
 /*
  * sdk:      SOCLi_ExecWriteCommand (socl_write.o)
  */
-static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
+static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block)
 {
     struct SOCLiSocketSendCommandPipe *send_pipe = socket->send_pipe;
@@ -333,7 +333,7 @@ static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long 
     unsigned char *wrtbuf;
     int result;
 
-    command = func_0215CE3C(func_0215E450, send_pipe->exe_socket, flag_block);
+    command = func_0215CE3C(SOCLi_WriteCallBack, send_pipe->exe_socket, flag_block);
     if (command == 0)
         return -0x21;
     if ((flag_block & 1) && socket->flag_mode != 1)
@@ -388,7 +388,7 @@ static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long 
 /*
  * sdk:      SOCLi_WriteCallBack (socl_write.o)
  */
-static int func_0215E450(void *arg)
+static int SOCLi_WriteCallBack(void *arg)
 {
     unsigned char *sndbuf;
     struct SOCLSocket *socket;
@@ -414,11 +414,11 @@ static int func_0215E450(void *arg)
         hdr = 0x2a;
     sndbuf = socket->cps_socket.field58;
     if (socket->flag_mode == 0 || socket->flag_mode == 4)
-        sndbuf_len = func_0215E588(socket->cps_socket.field54 - hdr);
+        sndbuf_len = SOCLi_GetOptimumSendBufLen(socket->cps_socket.field54 - hdr);
     else
         sndbuf_len = socket->cps_socket.field54 - hdr;
     for (;;) {
-        int n = func_0215E620(sndbuf + hdr, sndbuf_len, cpacket);
+        int n = SOCLi_MemCpy(sndbuf + hdr, sndbuf_len, cpacket);
         if (n <= 0)
             goto done;
         result = CPS_SocWrite(sndbuf + hdr, n);
@@ -461,10 +461,10 @@ done:
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0215E588.c \
- *       --func func_0215E588 --addr 0x0215E588 --region ov009 --arm --cc 1.1p1 \
+ *       --func SOCLi_GetOptimumSendBufLen --addr 0x0215E588 --region ov009 --arm --cc 1.1p1 \
  *       --lang c99 --diff
  */
-int func_0215E588(int len)
+int SOCLi_GetOptimumSendBufLen(int len)
 {
 	Soc *soc;
 	int temp;
@@ -510,7 +510,7 @@ int func_0215E588(int len)
  * the byte copier at 0x02082EA4, and the two cursors advanced in place.
  * Returns the number of bytes produced.
  */
-int func_0215E620(u8 *dst, int len, struct SOCLiCommandWrite *r)
+int SOCLi_MemCpy(u8 *dst, int len, struct SOCLiCommandWrite *r)
 {
     int n;
     int m;

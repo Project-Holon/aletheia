@@ -20,9 +20,9 @@
  *   func_021BA148 0x021BA148 thumb ov133
  *   func_021BA1D8 0x021BA1D8 thumb ov133
  *   func_021BA22C 0x021BA22C thumb ov133
- *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_021F4EA4 0x021F4EA4 thumb ov112
- *   func_021F4E8C 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -52,9 +52,9 @@ extern void func_021BA24C(char *p, u32 v);
 extern void func_021BA148(u8 *p, u8 *q);
 extern void func_021BA1D8(u8 *p, u8 *q);
 extern void func_021BA22C(u8 *p, const u8 *src);
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4EA4(u32 unused, u32 p, u32 q);
-extern void func_021F4E8C(int, int, Vec *);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
+extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
+extern void MUSICAL_MCSS_SetElemPos(int, int, Vec *);
 void func_021B8C6C(struct O *p)
 {
     Vec v1;
@@ -97,8 +97,8 @@ void func_021B8C6C(struct O *p)
             if (n != 0) {
                 x = s + ((0x1000 - s) * n) / 10;
                 sx = x;
-                func_021F4EB4((u32)p->f1884, data, sx, sx);
-                func_021F4EA4((int)p->f1884, data, (u32)(&v1));
+                MUSICAL_MCSS_SetElemRotZ((u32)p->f1884, data, sx, sx);
+                MUSICAL_MCSS_SetElemScale((int)p->f1884, data, (u32)(&v1));
                 w = 10 - (u16)n;
                 a0 = A[0];
                 x = B[0] - a0;
@@ -113,7 +113,7 @@ void func_021B8C6C(struct O *p)
                 if (x > 0) v1.y = (int)(0.5f + (float)(x << 12));
                 else v1.y = (int)((float)(x << 12) - 0.5f);
                 v1.z = 0x46000;
-                func_021F4E8C((int)p->f1884, data, &v1);
+                MUSICAL_MCSS_SetElemPos((int)p->f1884, data, &v1);
                 func_021BA24C((char *)cur, n);
             } else {
                 func_021BA148(p->f1828, cur);
@@ -136,7 +136,7 @@ void func_021B8C6C(struct O *p)
                 B2 = (int *)func_021BA228(e);
                 n2 = (u16)(cnt0 - 1);
                 if (n2 != 0) {
-                    func_021F4EA4((int)p->f1884, data2, (u32)(&v2));
+                    MUSICAL_MCSS_SetElemScale((int)p->f1884, data2, (u32)(&v2));
                     wb = 10 - n2;
                     a0b = A2[0];
                     x = B2[0] - a0b;
@@ -150,14 +150,14 @@ void func_021B8C6C(struct O *p)
                     x = a1b + x / 10;
                     if (x > 0) v2.y = (int)(0.5f + (float)(x << 12));
                     else v2.y = (int)((float)(x << 12) - 0.5f);
-                    func_021F4E8C((int)p->f1884, data2, &v2);
+                    MUSICAL_MCSS_SetElemPos((int)p->f1884, data2, &v2);
                 } else {
-                    func_021F4EA4((int)p->f1884, data2, (u32)(&v3));
+                    MUSICAL_MCSS_SetElemScale((int)p->f1884, data2, (u32)(&v3));
                     if (B2[0] > 0) v3.x = (int)(0.5f + (float)(B2[0] << 12));
                     else v3.x = (int)((float)(B2[0] << 12) - 0.5f);
                     if (B2[1] > 0) v3.y = (int)(0.5f + (float)(B2[1] << 12));
                     else v3.y = (int)((float)(B2[1] << 12) - 0.5f);
-                    func_021F4E8C((int)p->f1884, data2, &v3);
+                    MUSICAL_MCSS_SetElemPos((int)p->f1884, data2, &v3);
                     func_021BA22C(e, (const u8 *)B2);
                 }
                 func_021BA24C((char *)e, n2);

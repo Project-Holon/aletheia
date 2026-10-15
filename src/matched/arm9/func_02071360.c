@@ -1,5 +1,5 @@
 /*
- * function: func_02071360
+ * function: NNSi_G3dTexMtxScale4x4
  * address:  0x02071360
  * packet:   pkt_02071360
  * region:   arm9
@@ -26,8 +26,8 @@
  * project default.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02071360.c \
- *       --func func_02071360 --addr 0x02071360 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexMtxScale4x4.c \
+ *       --func NNSi_G3dTexMtxScale4x4 --addr 0x02071360 --arm
  */
 
 typedef unsigned char  u8;
@@ -53,7 +53,7 @@ struct DST {
     s32 f34;
 };
 
-void func_02071360(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScale4x4(struct DST *d, struct SRC *s)
 {
     d->f00 = s->f18;
     d->f14 = s->f1c;

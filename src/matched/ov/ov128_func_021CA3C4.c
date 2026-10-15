@@ -1,5 +1,5 @@
 /*
- * function: func_021CA3C4
+ * function: WF2DMAP_TOUCH_PlayActorAnimB
  * address: 0x021CA3C4
  * packet: pkt_ov128_021CA3C4
  * region: ov128
@@ -22,4 +22,4 @@ struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void func_021CA3C4(char *p) {CLACT_SetActorAnimFrame(((struct Obj03813 *)p)->f168,0);CLACT_SetActorAnimSeq(((struct Obj03813 *)p)->f168,8);CLACT_SetActorAutoAnim(((struct Obj03813 *)p)->f168,1);}
+void WF2DMAP_TOUCH_PlayActorAnimB(char *p) {CLACT_SetActorAnimFrame(((struct Obj03813 *)p)->f168,0);CLACT_SetActorAnimSeq(((struct Obj03813 *)p)->f168,8);CLACT_SetActorAutoAnim(((struct Obj03813 *)p)->f168,1);}

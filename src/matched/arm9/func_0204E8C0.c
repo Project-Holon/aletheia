@@ -1,5 +1,5 @@
 /*
- * function: func_0204E8C0
+ * function: DOUBLE3DDISP_Init
  * address:  0x0204E8C0
  * packet:   pkt_0204E6F4
  * region:   arm9
@@ -17,10 +17,10 @@
  * neighbours are in.
  *
  * Blocked at MATCH on the `label`/`matched` classes: all 68 concrete bytes
- * are right, but func_0204E914 (0x0204E914) has exactly one branch
+ * are right, but DOUBLE3DDISP_InitOam (0x0204E914) has exactly one branch
  * reference image-wide, the call at the end of this function, so the site
  * has no witness and no cut frees it.  0x0204E914 is closed to a register
- * allocation residue, see docs/notes/func_0204E914.c.txt, which also
+ * allocation residue, see docs/notes/DOUBLE3DDISP_InitOam.c.txt, which also
  * carries the C for it.
  *
  * Constructor: allocate the 0x6c-byte singleton on the caller's heap and
@@ -32,13 +32,13 @@
  *
  * symbols:
  *   func_02030734       0x02030734  arm
- *   func_0204E914       0x0204E914  arm
+ *   DOUBLE3DDISP_InitOam       0x0204E914  arm
  *   double3Ddisp_File   0x020A7F94  data
  *   g_02146A80          0x02146A80  data
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204E8C0.c \
- *       --func func_0204E8C0 --addr 0x0204E8C0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/DOUBLE3DDISP_Init.c \
+ *       --func DOUBLE3DDISP_Init --addr 0x0204E8C0 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Double3Ddisp.h"
@@ -51,9 +51,9 @@ extern struct Double3Ddisp *g_02146A80;
 extern const char double3Ddisp_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0204E914(void);
+extern void  DOUBLE3DDISP_InitOam(void);
 
-void func_0204E8C0(u32 heap)
+void DOUBLE3DDISP_Init(u32 heap)
 {
     g_02146A80 = func_02030734(heap, 0x6c, 1, double3Ddisp_File, 63);
 
@@ -61,5 +61,5 @@ void func_0204E8C0(u32 heap)
     g_02146A80->unk04 = 1;
     g_02146A80->unk08 = 0;
 
-    func_0204E914();
+    DOUBLE3DDISP_InitOam();
 }

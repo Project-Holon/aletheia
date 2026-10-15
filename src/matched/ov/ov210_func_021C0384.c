@@ -1,5 +1,5 @@
 /*
- * function: func_021C0384
+ * function: ZKNSEARCH_LIST_InitFrameList2
  * address: 0x021C0384
  * packet: pkt_ov210_021C0384
  * region: ov210
@@ -15,7 +15,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
  *   func_02045EC0 0x02045EC0 arm
- *   func_021BCEF4 0x021BCEF4 thumb ov210
+ *   ZKNSEARCH_MAIN_LookupEntryId 0x021BCEF4 thumb ov210
  *   d_021C0C48 0x021C0C48 data a4
  */
 #include "../include/Obj04624.h"
@@ -34,8 +34,8 @@ extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u16 func_021BCEF4(int a0, int a1);
-void func_021C0384(char *ctx)
+extern u16 ZKNSEARCH_MAIN_LookupEntryId(int a0, int a1);
+void ZKNSEARCH_LIST_InitFrameList2(char *ctx)
 {
     void *archive = func_020490F4(159, 0x807b);
     Template config;
@@ -49,5 +49,5 @@ void func_021C0384(char *ctx)
     FRAME_LIST_CopyMapToBuffer(((struct Obj04624 *)ctx)->f1E0, (unsigned int)archive, 97, 0, 0);
     FRAME_LIST_LoadPalettes(((struct Obj04624 *)ctx)->f1E0, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i <= 16; i++) { FRAME_LIST_AddItem(((struct Obj04624 *)ctx)->f1E0, 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(((struct Obj04624 *)ctx)->f1D0, func_021BCEF4((int)ctx, i)); }
+    for (i = 0; i <= 16; i++) { FRAME_LIST_AddItem(((struct Obj04624 *)ctx)->f1E0, 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(((struct Obj04624 *)ctx)->f1D0, ZKNSEARCH_MAIN_LookupEntryId((int)ctx, i)); }
 }

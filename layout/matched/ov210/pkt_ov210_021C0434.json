@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0434",
+   "name": "ZKNSEARCH_COND_InitFrameList",
    "address": "0x021C0434",
    "kind": "game",
    "region": "ov210",

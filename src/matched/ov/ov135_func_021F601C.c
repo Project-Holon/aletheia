@@ -26,6 +26,7 @@
  *   WORLDTRADE_BOX_ClampSlot  0x021F6B34  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 
 typedef signed char s8;
@@ -59,7 +60,7 @@ typedef struct {
 extern u32 WORLDTRADE_UpdateTaskMenuList(u8 *p);
 extern void WORLDTRADE_CloseTaskMenuList(u8 *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot);
 extern u32 WORLDTRADE_BOX_GetBoxCount(void *mon);
@@ -78,7 +79,7 @@ int WORLDTRADE_BOX_StateOfferMenuInput(Work *p)
     case 1:
         WORLDTRADE_CloseTaskMenuList((u8 *)p);
         BMP_MENUWORK_Delete(p->de8);
-        func_0201F7A8(p->d40, 0);
+        BMP_MENUWORK_DrawWindowBorder(p->d40, 0);
         p->state = 2;
         WORLDTRADE_SetStateAndReturn((u8 *)p, 8, 5);
         break;
@@ -112,7 +113,7 @@ int WORLDTRADE_BOX_StateOfferMenuInput(Work *p)
     case (u32)-2:
         WORLDTRADE_CloseTaskMenuList((u8 *)p);
         BMP_MENUWORK_Delete(p->de8);
-        func_0201F7A8(p->d40, 0);
+        BMP_MENUWORK_DrawWindowBorder(p->d40, 0);
         p->state = 0;
         break;
     }

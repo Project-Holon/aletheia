@@ -1,5 +1,5 @@
 /*
- * function: func_021E1C44
+ * function: BR_CODEIN_ProfileFindRecord
  * address: 0x021E1C44
  * packet: pkt_ov183_021E1C44
  * region: ov183
@@ -13,7 +13,7 @@
  * extent: 58 code bytes, alignment padding at021E1C7E..021E1C80; next function starts1C80.
  * retry: 5 one runs, once-only permuter budget300 found expand(n x2) after9 candidates; emitted DIFF4 baseline agrees; winner validated by run6.
  */
-int func_021E1C44(const char *p, int a)
+int BR_CODEIN_ProfileFindRecord(const char *p, int a)
 {
   int i;
   int found;

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   PARTICLE_InitManager 0x02050B80 arm
  *   func_021D98F4 0x021D98F4 thumb ov121
  *   d_021DF598 0x021DF598 data a4
@@ -22,7 +22,7 @@ extern const Config d_021DF598;
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void PARTICLE_InitManager(u32 heap);
 extern void func_021D98F4(u32 *p, u32 heap);
 void func_021D9750(u8 *p)
@@ -31,7 +31,7 @@ void func_021D9750(u8 *p)
     func_02040588(0,0);
     c=d_021DF598;
     c.d=1;
-    func_0203FC28((struct DispConfig *)(&c));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&c));
     func_021D98F4((u32 *)(p+12),((struct Obj13945 *)p)->f18);
     PARTICLE_InitManager(((struct Obj13945 *)p)->f18);
 }

@@ -13,10 +13,10 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_Callback 0x0201EE60 thumb
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201EF34 0x0201EF34 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   DENDOU_VIEW_PresentWindow 0x021DD94C thumb ov171
@@ -39,10 +39,10 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void DENDOU_VIEW_PresentWindow(int *);
@@ -55,7 +55,7 @@ void DENDOU_VIEW_DrawMemberInfo(u8 *p)
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00142 *)p)->fB50),0);
     s0=func_02045EC0(((struct Obj00142 *)p)->fB60,5);
     WORDSET_Callback(((struct Obj00142 *)p)->fB64,0,((struct Obj05441 *)row)->f10);
-    func_0201F250(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s0);
+    WORDSET_CopyTaggedText(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s0);
     TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),0,0,*(u32 *)&((struct Obj00142 *)p)->fB68,((struct Obj00142 *)p)->fB58,0x440,0);
     STRBUF_Delete(s0);
     if(((struct RowBits *)row)->kind==0) {
@@ -76,24 +76,24 @@ void DENDOU_VIEW_DrawMemberInfo(u8 *p)
     TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),80,4,(u32)s3,((struct Obj00142 *)p)->fB5C,0x440,0);
     STRBUF_Delete(s3);
     s4=func_02045EC0(((struct Obj00142 *)p)->fB60,8);
-    func_0201EFA4(((struct Obj00142 *)p)->fB64,0,row[0x12],3,0,1);
-    func_0201F250(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s4);
+    WORDSET_SetSlotNumber(((struct Obj00142 *)p)->fB64,0,row[0x12],3,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s4);
     TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),width+80,0,*(u32 *)&((struct Obj00142 *)p)->fB68,((struct Obj00142 *)p)->fB58,0x440,0);
     STRBUF_Delete(s4);
     s5=func_02045EC0(((struct Obj00142 *)p)->fB60,9);
-    func_0201EE0C(((struct Obj00142 *)p)->fB64,0,(const void *)(((struct Obj05441 *)row)->f0),0,1,2);
-    func_0201F250(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s5);
+    WORDSET_SetSlotTag(((struct Obj00142 *)p)->fB64,0,(const void *)(((struct Obj05441 *)row)->f0),0,1,2);
+    WORDSET_CopyTaggedText(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s5);
     TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),0,24,*(u32 *)&((struct Obj00142 *)p)->fB68,((struct Obj00142 *)p)->fB58,0x440,0);
     STRBUF_Delete(s5);
     s6=func_02045EC0(((struct Obj00142 *)p)->fB60,10);
-    func_0201EE0C(((struct Obj00142 *)p)->fB64,0,(const void *)(((struct Obj05441 *)row)->f4),0,1,2);
-    func_0201F250(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s6);
+    WORDSET_SetSlotTag(((struct Obj00142 *)p)->fB64,0,(const void *)(((struct Obj05441 *)row)->f4),0,1,2);
+    WORDSET_CopyTaggedText(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s6);
     TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),0,48,*(u32 *)&((struct Obj00142 *)p)->fB68,((struct Obj00142 *)p)->fB58,0x440,0);
     STRBUF_Delete(s6);
     for(i=0;i<4;i++) {
         s7=func_02045EC0(((struct Obj00142 *)p)->fB60,i+12);
-        func_0201EF34(((struct Obj00142 *)p)->fB64,0,*(u16 *)(row+i*2+0x14));
-        func_0201F250(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s7);
+        WORDSET_SetSlotFromMsgCB(((struct Obj00142 *)p)->fB64,0,*(u16 *)(row+i*2+0x14));
+        WORDSET_CopyTaggedText(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s7);
         TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),(i&1)*96,(i>>1)*16+88,*(u32 *)&((struct Obj00142 *)p)->fB68,((struct Obj00142 *)p)->fB58,0x440,0);
         STRBUF_Delete(s7);
     }

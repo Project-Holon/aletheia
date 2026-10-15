@@ -1,5 +1,5 @@
 /*
- * function: func_021BD844
+ * function: CTVT_CALL_InitGraphics
  * address: 0x021BD844
  * packet: pkt_ov172_021BD844
  * region: ov172
@@ -26,7 +26,7 @@
  *   func_02027624 0x02027624 thumb
  *   func_02027628 0x02027628 thumb
  *   func_0202762C 0x0202762C thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02027614 0x02027614 thumb
  *   func_02027618 0x02027618 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -64,7 +64,7 @@ extern u32 func_020275E4(void);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -83,7 +83,7 @@ extern u32 func_020307B0(void *p);
 #define W(o) (*(u32 *)(p + (o)))
 #define BG (*(void **)(p + 0x17c))
 #define HEAP (*(u16 *)p)
-void func_021BD844(u8 *p)
+void CTVT_CALL_InitGraphics(u8 *p)
 {
     struct Sub0200852CObj *t;
     void *dev;
@@ -121,7 +121,7 @@ void func_021BD844(u8 *p)
     func_02049B68(dev, func_02027624(), 4, 0xc0, 0x20, HEAP);
     func_02049658(dev, func_02027628(), 5, z, z, z, HEAP);
     func_020498F4(dev, func_0202762C(), 5, z, z, z, HEAP);
-    func_020413B0(5, z, 0x15, 0x20, 3, 6);
+    BG_SYS_FillTileMap(5, z, 0x15, 0x20, 3, 6);
     func_020409B4(5);
     W(0x18c) = CLACT_RegisterPaletteEx(dev, func_02027614(), z, 0xe0, z, 3, HEAP);
     W(0x19c) = CLACT_RegisterCharacter(dev, func_02027618(), z, z, HEAP);

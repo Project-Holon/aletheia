@@ -1,5 +1,5 @@
 /*
- * function: func_021F3E78
+ * function: NAMEIN_GRAPHIC_IsMsgDrawDone
  * address: 0x021F3E78
  * packet: pkt_ov194_021F3E78
  * region: ov194
@@ -22,4 +22,4 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-int func_021F3E78(u8 *p) {int window;window=((struct Obj05513 *)p)->f10;if(p[12]) {if(PRINTSYS_QUE_IsExistTarget((struct PrintSys *)window,(void *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj05513 *)p)->f8)))==0) {BMP_WIN_TransferChars(((struct Obj05513 *)p)->f8);p[12]=0;}}if(!p[12]) return 1;return 0;}
+int NAMEIN_GRAPHIC_IsMsgDrawDone(u8 *p) {int window;window=((struct Obj05513 *)p)->f10;if(p[12]) {if(PRINTSYS_QUE_IsExistTarget((struct PrintSys *)window,(void *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj05513 *)p)->f8)))==0) {BMP_WIN_TransferChars(((struct Obj05513 *)p)->f8);p[12]=0;}}if(!p[12]) return 1;return 0;}

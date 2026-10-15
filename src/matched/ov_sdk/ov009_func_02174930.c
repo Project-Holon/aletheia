@@ -15,7 +15,7 @@
  *   func_02175F3C  0x02175F3C arm   ov009
  *   ServerBrowserCount  0x0219F068 arm   ov009
  *   ServerBrowserGetServer  0x0219F058 arm   ov009
- *   func_0219E120  0x0219E120 arm   ov009
+ *   SBServerGetIntValueA  0x0219E120 arm   ov009
  *   func_021685CC  0x021685CC arm   ov009
  *   _s32_div_f     0x0209C0A4 arm
  *   func_0219E084  0x0219E084 arm   ov009
@@ -34,7 +34,7 @@ extern int ServerBrowserCount(void *sb);
 extern void *ServerBrowserGetServer(void *sb, int index);
 struct SBServer;
 struct ServerBrowser;
-extern int func_0219E120(struct SBServer *server, char *key, int idefault);
+extern int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault);
 extern unsigned long func_021685CC(unsigned long max);
 extern void func_0219E084(void *server, char *key, int value);
 extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
@@ -57,7 +57,7 @@ void DWCi_RandomizeServers(void)
         return;
     for (i = 0; i < ServerBrowserCount(((struct DWCstMatchControl *)func_02175F3C())->sb); i++) {
         server = ServerBrowserGetServer(((struct DWCstMatchControl *)func_02175F3C())->sb, i);
-        tmpEval = func_0219E120(server, g_021A21BC, -1);
+        tmpEval = SBServerGetIntValueA(server, g_021A21BC, -1);
         if (tmpEval > maxEval)
             maxEval = tmpEval;
         sum += g_021A19C0[i];

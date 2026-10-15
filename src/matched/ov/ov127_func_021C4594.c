@@ -1,5 +1,5 @@
 /*
- * function: func_021C4594
+ * function: WIFI_2DCHAR_ReleasePalette
  * address:  0x021C4594
  * packet:   pkt_021C4594
  * region:   ov127
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void CLACT_ReleasePalette(u32 i);
 
-void func_021C4594(u8 *p)
+void WIFI_2DCHAR_ReleasePalette(u8 *p)
 {
     CLACT_ReleasePalette((u32)(((struct Obj14020 *)p)->f2F4));
     *(u32 *)&((struct Obj14020 *)p)->f2F4 = (u32)-1;

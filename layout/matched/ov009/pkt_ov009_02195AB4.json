@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02195AB4",
+   "name": "gt2CreateSocket",
    "address": "0x02195AB4",
    "kind": "sdk",
    "region": "ov009",

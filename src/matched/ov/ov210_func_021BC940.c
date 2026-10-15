@@ -1,5 +1,5 @@
 /*
- * function: func_021BC940
+ * function: ZKNSEARCH_MAIN_InitTextSystem
  * address: 0x021BC940
  * packet: pkt_ov210_021BC940
  * region: ov210
@@ -25,7 +25,7 @@ extern struct GfFont *GF_FONT_Create(int, int, int, int, u32);
 extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32, u32);
-void func_021BC940(char *p)
+void ZKNSEARCH_MAIN_InitTextSystem(char *p)
 {
     *(struct MsgBank * *)&((struct Obj06693 *)p)->f1D0 = func_02045B38(0, 2, 277, 123);
     *(struct GfFont * *)&((struct Obj06693 *)p)->f1CC = GF_FONT_Create(23, 0, 0, 0, 123);

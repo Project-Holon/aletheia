@@ -1,5 +1,5 @@
 /*
- * function: func_02193418
+ * function: gpiValueForKey
  * address:  0x02193418
  * packet:   pkt_0219091C
  * region:   ov009
@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 extern u8 *strstr(const u8 *s1, const u8 *s2);
 extern int strlen(const u8 *s);
 
-int func_02193418(const char *command, const char *key, char *value, int valueLen)
+int gpiValueForKey(const char *command, const char *key, char *value, int valueLen)
 {
     char *p;
     int i;

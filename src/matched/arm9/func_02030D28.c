@@ -1,5 +1,5 @@
 /*
- * function: func_02030D28
+ * function: TCB_Main
  * address:  0x02030D28
  * packet:   pkt_02030D28
  * region:   arm9
@@ -24,8 +24,8 @@
  * byte-exact under 1.1p1 -O4,p.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02030D28.c \
- *       --func func_02030D28 --addr 0x02030D28 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCB_Main.c \
+ *       --func TCB_Main --addr 0x02030D28 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -55,7 +55,7 @@ struct Ctx {
     struct Node  *slots[1];   /* +0x38 */
 };
 
-void func_02030D28(struct Ctx *c)
+void TCB_Main(struct Ctx *c)
 {
     if (c->busy != 0) {
         return;

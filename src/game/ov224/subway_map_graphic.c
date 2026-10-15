@@ -1,7 +1,7 @@
 /*
  * file:     subway_map_graphic.c
  * unit:     yes
- * function: func_021B95A0, func_021B9718, func_021B9788, func_021B9820, func_021B9824, func_021B9898, func_021B989C, func_021B9940, func_021B99E8, func_021B9A44, func_021B9A58, func_021B9A6C, func_021B9ACC, func_021B9B04, func_021B9B08, func_021B9B10, func_021B9B50, func_021B9B6C, func_021B9B74, func_021B9B7C, func_021B9BE8
+ * function: SUBWAY_MAP_GRAPHIC_Init, SUBWAY_MAP_GRAPHIC_Exit, SUBWAY_MAP_GRAPHIC_Main, SUBWAY_MAP_GRAPHIC_TaskNoop, SUBWAY_MAP_GRAPHIC_LoadCommonAssets, SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets, SUBWAY_MAP_GRAPHIC_Setup3d, SUBWAY_MAP_GRAPHIC_CreateScreen, SUBWAY_MAP_GRAPHIC_DeleteScreen, SUBWAY_MAP_GRAPHIC_DrawScreen, SUBWAY_MAP_GRAPHIC_VBlankScreen, SUBWAY_MAP_GRAPHIC_CreateBg, SUBWAY_MAP_GRAPHIC_DeleteBg, SUBWAY_MAP_GRAPHIC_DrawBg, SUBWAY_MAP_GRAPHIC_VBlankBg, SUBWAY_MAP_GRAPHIC_CreateClactUnit, SUBWAY_MAP_GRAPHIC_DeleteClactUnit, SUBWAY_MAP_GRAPHIC_DrawClactUnit, SUBWAY_MAP_GRAPHIC_VBlankClactUnit, SUBWAY_MAP_GRAPHIC_CreateCamera, SUBWAY_MAP_GRAPHIC_DeleteCamera
  * address:  0x021B95A0
  * region:   ov224
  * compiler: dsi/1.1p1
@@ -18,12 +18,12 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_020490F4 0x020490F4 arm
@@ -37,15 +37,15 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
- *   d_021B9C04 0x021B9C04 data a4
- *   d_021B9D40 0x021B9D40 data a4
+ *   gSubwayMapGraphicSubBgLayerTable 0x021B9C04 data a4
+ *   gSubwayMapGraphicChoiceAssets 0x021B9D40 data a4
  *   func_020403F4 0x020403F4 arm
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
@@ -56,23 +56,23 @@
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
- *   table_021B9C80 0x021B9C80 data ov224
+ *   gSubwayMapGraphicLightParams 0x021B9C80 data ov224
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   file 0x021B9D58 data ov224 a1
  *   vram 0x021B9CA0 data
  *   func_020307B0 0x020307B0 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   config 0x021B9C54 data
- *   table_021B9CD0 0x021B9CD0 data ov224
+ *   gSubwayMapGraphicMainBgLayerTable 0x021B9CD0 data ov224
  *   d_021B9CD0 0x021B9CD0 data a4
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -91,14 +91,8 @@
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
-#include "../../matched/include/Obj06730.h"
-#include "../../matched/include/Obj14799.h"
-#include "../../matched/include/Obj26109.h"
-#include "../../matched/include/Obj26110.h"
-#include "../../matched/include/Obj14800.h"
-#include "../../matched/include/Obj26111.h"
-
 #define DISP (*(volatile u16 *)0x04000060)
 struct GfFont;
 struct Obj0203159C;
@@ -116,9 +110,9 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef enum { ZERO=0,ONE=1 } Index;
+typedef enum { SUB_BG_LAYER_FIRST = 0, SUB_BG_LAYER_SECOND = 1 } SubBgLayerIndex;
 
-typedef enum { MODE=2 } Mode;
+typedef enum { SUB_DISPLAY_MODE_2 = 2 } SubDisplayMode;
 
 struct BgTemplate {u32 words[8];};
 
@@ -126,7 +120,11 @@ struct Entry { u32 id; struct BgTemplate bg; u32 kind,visible; };
 
 struct Assets {u32 palette,screen,chars;};
 
-struct Work {u16 heap,pad2; void **args; void *screen,*font;u32 string;void *task;};
+struct SubwayMapWork {u16 heap,pad2; void **args; void *screen,*font;u32 string;void *task;};
+
+struct SubwayMapClactUnit {int unit;};
+
+struct SubwayMapScreen {u32 bgState; struct SubwayMapClactUnit clactUnit; void *camera; void *task;};
 
 typedef signed int     s32;
 
@@ -141,13 +139,13 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);
 extern void MI_CpuFill8(void *,u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void *func_020056A0(u32,u32,u32);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0207D518(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -164,7 +162,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
@@ -178,18 +176,18 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern u32 func_020307B0(void *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -201,41 +199,40 @@ extern void G3D_SYSTEM_Init(u32,u32,u32,u32,unsigned short,u32,void(*)(void));
 extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,void *,void *,void *,u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(u32 x);
-int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args);
-int func_021B9718(void *a,int b,int c,char *p);
-int func_021B9788(void *a,unsigned *state,int b,char *p);
-void func_021B9820(void);
-void func_021B9824(u16 *work);
-void func_021B9898(char *unused);
-void func_021B989C(void);
-void *func_021B9940(u32 swap, u32 heap);
-void func_021B99E8(char *p);
-void func_021B9A44(void *p);
-void func_021B9A58(void *unused, char *p);
-void func_021B9A6C(void *p, u32 heap);
-void func_021B9ACC(void *p);
-void func_021B9B04(void *a0);
-void func_021B9B08(void *a0);
-void func_021B9B10(unsigned char *p, int a, int b);
-void func_021B9B50(char *p);
-void func_021B9B6C(void *a0);
-void func_021B9B74(void *a0);
-void func_021B9B7C(void **p,u32 heap);
-void func_021B9BE8(u32 *p);
-extern const struct Entry d_021B9C04[];
-extern struct Assets d_021B9D40[];
-extern u16 table_021B9C80[][4];
+int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args);
+int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p);
+int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p);
+void SUBWAY_MAP_GRAPHIC_TaskNoop(void);
+void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work);
+void SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(char *unused);
+void SUBWAY_MAP_GRAPHIC_Setup3d(void);
+void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap);
+void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p);
+void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p);
+void SUBWAY_MAP_GRAPHIC_VBlankScreen(void *unused, char *p);
+void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap);
+void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p);
+void SUBWAY_MAP_GRAPHIC_DrawBg(void *a0);
+void SUBWAY_MAP_GRAPHIC_VBlankBg(void *a0);
+void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b);
+void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p);
+void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *a0);
+void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *a0);
+void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap);
+void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p);
+extern const struct Entry gSubwayMapGraphicSubBgLayerTable[];
+extern struct Assets gSubwayMapGraphicChoiceAssets[];
+extern u16 gSubwayMapGraphicLightParams[][4];
 extern char file[], vram[];
 extern u32 config[];
-extern struct Record table_021B9CD0[];
-extern const u8 d_021B9CD0[];
+extern struct Record gSubwayMapGraphicMainBgLayerTable[];
 extern const s16 cfg[];
 extern u32 vecA[],vecB[],vecC[];
 
 
 
 
-static inline void SetMode(Mode mode) {
+static inline void GXS_SetMode(SubDisplayMode mode) {
  *(volatile u32 *)0x04001000 &= 0xffff1fff;
  *(volatile u32 *)0x04001000 |= mode<<15;
 }
@@ -243,10 +240,10 @@ static inline void SetMode(Mode mode) {
 
 
 
-int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
+int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args)
 {
- struct Work *p;
- Index i;
+ struct SubwayMapWork *p;
+ SubBgLayerIndex i;
  const struct Entry *row;
  u32 id,choice;
  u16 heap;
@@ -255,22 +252,22 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  p=PROCSYS_AllocProcWork(proc,0x18,0x88);
  MI_CpuFill8(p,0,0x18);
  p->heap=0x88; p->args=args;
- p->screen=func_021B9940(1,p->heap);
+ p->screen=SUBWAY_MAP_GRAPHIC_CreateScreen(1,p->heap);
  p->font=GF_FONT_Create(23,0,0,0,p->heap);
  p->string=PRINTSYS_QUE_Create((void *)(u32)p->heap);
- func_0204047C(1,1); func_0204047C(2,0);
- p->task=func_020056A0((u32)func_021B9820,(u32)p,1);
- func_021B9824((u16 *)p);
- i=ZERO;
+ BG_SYS_SetVisibleLayer(1,1); BG_SYS_SetVisibleLayer(2,0);
+ p->task=func_020056A0((u32)SUBWAY_MAP_GRAPHIC_TaskNoop,(u32)p,1);
+ SUBWAY_MAP_GRAPHIC_LoadCommonAssets((u16 *)p);
+ i=SUB_BG_LAYER_FIRST;
  *(volatile u16 *)0x04001050=0;
- SetMode(MODE);
+ GXS_SetMode(SUB_DISPLAY_MODE_2);
  BG_SYS_ClearSubPlanes();
  func_0207D518(0);
  BG_SYS_ClearSubBgPlanes();
  do {
-  row=&d_021B9C04[i]; id=row->id;
+  row=&gSubwayMapGraphicSubBgLayerTable[i]; id=row->id;
   BG_SYS_InitBgLayer((u8)id,&row->bg,(u8)row->kind);
-  func_020414AC(id);
+  BG_SYS_FreeSlot(id);
   func_02040588(id,row->visible);
   i++;
  }while(i<1U);
@@ -279,9 +276,9 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  choice=1;
  if(*((u8 *)*p->args+0x1d)!=1) choice=0;
  arc=func_020490F4(30,heap);
- func_02049B68(arc,d_021B9D40[choice].palette,4,0,0,heap);
- func_02049658(arc,d_021B9D40[choice].screen,4,0,0,0,heap);
- func_020498F4(arc,d_021B9D40[choice].chars,4,0,0,0,heap);
+ func_02049B68(arc,gSubwayMapGraphicChoiceAssets[choice].palette,4,0,0,heap);
+ func_02049658(arc,gSubwayMapGraphicChoiceAssets[choice].screen,4,0,0,0,heap);
+ func_020498F4(arc,gSubwayMapGraphicChoiceAssets[choice].chars,4,0,0,0,heap);
  ARC_TOOL_DeleteHandle(arc);
  func_020409B4(4);
  FADE_Start(3,16,0,0);
@@ -297,16 +294,16 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  * lever: enum do-loop with unsigned bound retains one table iteration; unsigned for-loop folds it, enum for-loop adds an entry guard.
  * volatile: sub-display blend/control reads and writes 021B973C-021B9746.
  */
-int func_021B9718(void *a,int b,int c,char *p)
+int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p)
 {
-    Index i=ZERO;
-    do { func_020403F4((unsigned char)d_021B9C04[i].id); i++; } while(i<1U);
+    SubBgLayerIndex i=SUB_BG_LAYER_FIRST;
+    do { func_020403F4((unsigned char)gSubwayMapGraphicSubBgLayerTable[i].id); i++; } while(i<1U);
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=~0xe000;
-    func_021B9898(p);
-    func_02030EAC(((struct Obj06730 *)p)->f14); PRINTSYS_QUE_Clear(((struct Obj06730 *)p)->f10); PRINTSYS_QUE_Delete(((struct Obj06730 *)p)->f10);
-    GF_FONT_Delete(((struct Obj06730 *)p)->fC); func_021B99E8(*(char * *)&((struct Obj06730 *)p)->f8);
-    func_020315D4(a); func_020306F0(136);
+    SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(p);
+    func_02030EAC(((struct SubwayMapWork *)p)->task); PRINTSYS_QUE_Clear((void *)((struct SubwayMapWork *)p)->string); PRINTSYS_QUE_Delete((void *)((struct SubwayMapWork *)p)->string);
+    GF_FONT_Delete(((struct SubwayMapWork *)p)->font); SUBWAY_MAP_GRAPHIC_DeleteScreen(*(char * *)&((struct SubwayMapWork *)p)->screen);
+    func_020315D4(a); GFL_HEAP_DeleteChecked(136);
     return 1;
 }
 
@@ -315,7 +312,7 @@ int func_021B9718(void *a,int b,int c,char *p)
 
 
 
-int func_021B9788(void *a,unsigned *state,int b,char *p)
+int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p)
 {
     int x,y,flag;
     switch(*state) {
@@ -330,7 +327,7 @@ int func_021B9788(void *a,unsigned *state,int b,char *p)
     case 3: if(!FADE_IsActive()) *state=4; break;
     case 4: return 1;
     }
-    PRINTSYS_QUE_Main(((struct Obj14799 *)p)->f10); func_021B9A44(((struct Obj14799 *)p)->f8);
+    PRINTSYS_QUE_Main((void *)((struct SubwayMapWork *)p)->string); SUBWAY_MAP_GRAPHIC_DrawScreen(((struct SubwayMapWork *)p)->screen);
     return 0;
 }
 
@@ -339,14 +336,14 @@ int func_021B9788(void *a,unsigned *state,int b,char *p)
 
 
 
-void func_021B9820(void) {}
+void SUBWAY_MAP_GRAPHIC_TaskNoop(void) {}
 
 
 
 
 
 
-void func_021B9824(u16 *work)
+void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
 {
     void *narc = func_020490F4(0xce, *work);
     func_02049B68(narc, 0, 0, 0, 0, *work);
@@ -361,7 +358,7 @@ void func_021B9824(u16 *work)
 
 
 
-void func_021B9898(char *unused) {}
+void SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(char *unused) {}
 
 
 
@@ -412,7 +409,7 @@ static inline void G3X_EdgeMarking(int enable) {
 
 
 
-void func_021B989C(void)
+void SUBWAY_MAP_GRAPHIC_Setup3d(void)
 {
     u32 i;
     BG_SYS_SetMainPlaneVisible(1,1);
@@ -426,7 +423,7 @@ void func_021B989C(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,0x7fff,0x3f,0);
     *(volatile u32 *)0x04000580 = 0xbfff0000;
-    for (; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i,table_021B9C80[i]);
+    for (; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i,gSubwayMapGraphicLightParams[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }
 
@@ -457,7 +454,7 @@ static inline void GXS_SetVisibleWnd(int window) {
 
 
 
-void *func_021B9940(u32 swap, u32 heap)
+void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
     char *p = func_02030734(heap, 16, 0, file, 460);
     MI_CpuFill8(p, 0, 16);
@@ -467,28 +464,28 @@ void *func_021B9940(u32 swap, u32 heap)
     GXS_SetVisibleWnd(0);
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)vram);
-    func_0204363C(swap);
+    BMP_SetDisplaySwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
-    func_021B9A6C(p, heap);
-    func_021B9B10((unsigned char *)p + 4, (int)vram, heap);
-    func_021B9B7C((void **)(p + 8), heap);
-    ((struct Obj26109 *)p)->fC = func_020056A0((u32)func_021B9A58, (u32)p, 0);
+    GF_FONT_InitTextColor();
+    SUBWAY_MAP_GRAPHIC_CreateBg(p, heap);
+    SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (int)vram, heap);
+    SUBWAY_MAP_GRAPHIC_CreateCamera((void **)(p + 8), heap);
+    ((struct SubwayMapScreen *)p)->task = func_020056A0((u32)SUBWAY_MAP_GRAPHIC_VBlankScreen, (u32)p, 0);
     return p;
 }
 
 
 
 
-void func_021B99E8(char *p)
+void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p)
 {
-    func_02030EAC(((struct Obj26110 *)p)->fC);
-    func_021B9BE8((u32 *)(p + 8));
-    func_021B9B50(p + 4);
-    func_021B9ACC(p);
-    func_0201DD68();
+    func_02030EAC(((struct SubwayMapScreen *)p)->task);
+    SUBWAY_MAP_GRAPHIC_DeleteCamera((u32 *)(p + 8));
+    SUBWAY_MAP_GRAPHIC_DeleteClactUnit(p + 4);
+    SUBWAY_MAP_GRAPHIC_DeleteBg(p);
+    GF_FONT_SetDefaultTextColor();
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
@@ -500,12 +497,12 @@ void func_021B99E8(char *p)
 
 
 
-void func_021B9A44(void *p)
+void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p)
 {
-    void func_021B9B6C(void *);
-    void func_021B9B04(void *);
-    func_021B9B6C((char *)p + 4);
-    func_021B9B04(p);
+    void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *);
+    void SUBWAY_MAP_GRAPHIC_DrawBg(void *);
+    SUBWAY_MAP_GRAPHIC_DrawClactUnit((char *)p + 4);
+    SUBWAY_MAP_GRAPHIC_DrawBg(p);
 }
 
 
@@ -514,35 +511,35 @@ void func_021B9A44(void *p)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021B9A58(void *unused, char *p)
+void SUBWAY_MAP_GRAPHIC_VBlankScreen(void *unused, char *p)
 {
-    func_021B9B08(p);
-    func_021B9B74(p + 4);
+    SUBWAY_MAP_GRAPHIC_VBlankBg(p);
+    SUBWAY_MAP_GRAPHIC_VBlankClactUnit(p + 4);
 }
 
 
 
-void func_021B9A6C(void *p, u32 heap)
+void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap)
 {
     u32 i = 0;
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)config);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)config);
     for (; i < 2; i++) {
-        struct Record *r = &table_021B9CD0[i];
+        struct Record *r = &gSubwayMapGraphicMainBgLayerTable[i];
         u32 id = r->id;
         BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
-        func_020414AC(id);
+        BG_SYS_FreeSlot(id);
         func_02040588(id, r->visible);
     }
 }
 
 
 
-void func_021B9ACC(void *p) {
+void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p) {
     u32 i;
-    for (i=0; i<2; i++) func_020403F4((u8)(*(const u32 *)(d_021B9CD0+i*44)));
+    for (i=0; i<2; i++) func_020403F4((u8)(*(const u32 *)((const u8 *)gSubwayMapGraphicMainBgLayerTable+i*44)));
     BMP_WIN_Exit();
     BG_SYS_Delete();
     MI_CpuFill8(p,0,4);
@@ -550,21 +547,21 @@ void func_021B9ACC(void *p) {
 
 
 
-void func_021B9B04(void *a0) {}
+void SUBWAY_MAP_GRAPHIC_DrawBg(void *a0) {}
 
 
 
-void func_021B9B08(void *a0) { func_020419E4(); }
+void SUBWAY_MAP_GRAPHIC_VBlankBg(void *a0) { BG_SYS_Update(); }
 
 
 
 
-void func_021B9B10(unsigned char *p, int a, int b)
+void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021B9C64, a, b);
-    ((struct Obj14800 *)p)->f0 = (int)CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer((void *)((struct Obj14800 *)p)->f0);
+    ((struct SubwayMapClactUnit *)p)->unit = (int)CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer((void *)((struct SubwayMapClactUnit *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -572,32 +569,32 @@ void func_021B9B10(unsigned char *p, int a, int b)
 
 
 
-void func_021B9B50(char *p)
+void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj26111 *)p)->f0));
+    CLACT_DeleteUnit((struct Bank *)(((struct SubwayMapClactUnit *)p)->unit));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }
 
 
 
-void func_021B9B6C(void *a0) { CLACT_DrawSystem(); }
+void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *a0) { CLACT_DrawSystem(); }
 
 
 
-void func_021B9B74(void *a0) { CLACT_VBlankSystem(); }
+void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *a0) { CLACT_VBlankSystem(); }
 
 
 
-void func_021B9B7C(void **p,u32 heap)
+void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap)
 {
-    G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021B989C);
+    G3D_SYSTEM_Init(0,1,0,1,0,heap,SUBWAY_MAP_GRAPHIC_Setup3d);
     *p = G3D_CAMERA_Create(0,cfg[6],cfg[7],0x1555,0,0x1000,0x400000,0,
         vecA,vecB,vecC,heap);
 }
 
 
-void func_021B9BE8(u32 *p)
+void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p)
 {
     G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

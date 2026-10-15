@@ -1,5 +1,5 @@
 /*
- * function: func_021C4F80
+ * function: VIEWER_MAIN_InitBrightness
  * address:  0x021C4F80
  * packet:   pkt_ov111_021C4F80
  * region:   ov111
@@ -45,7 +45,7 @@ typedef struct {
 extern fx32 FX_Inv(fx32 v);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
-void func_021C4F80(Work *p)
+void VIEWER_MAIN_InitBrightness(Work *p)
 {
     struct Mtx m;
 

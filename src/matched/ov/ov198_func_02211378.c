@@ -1,5 +1,5 @@
 /*
- * function: func_02211378
+ * function: B_PLIST_MAIN_EndSwap
  * address:  0x02211378
  * packet:   pkt_02211378
  * region:   ov198
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F7A8 0x0201F7A8 thumb
- *   func_0220C688 0x0220C688 thumb
- *   func_0220E27C 0x0220E27C thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
+ *   B_PLIST_DRAW_PrintHeader10 0x0220C688 thumb
+ *   B_PLIST_DRAW_ShowSubWindow 0x0220E27C thumb
  */
 #include "../include/Obj25281.h"
 
 typedef unsigned int   u32;
-extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_0220C688(char *p);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
+extern void B_PLIST_DRAW_PrintHeader10(char *p);
 typedef unsigned char  u8;
-extern void func_0220E27C(u8 *p);
+extern void B_PLIST_DRAW_ShowSubWindow(u8 *p);
 
-int func_02211378(char *p)
+int B_PLIST_MAIN_EndSwap(char *p)
 {
-    func_0201F7A8(((struct Obj25281 *)p)->f1F68, 0);
-    func_0220C688(p);
-    func_0220E27C((u8 *)p);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj25281 *)p)->f1F68, 0);
+    B_PLIST_DRAW_PrintHeader10(p);
+    B_PLIST_DRAW_ShowSubWindow((u8 *)p);
     return 8;
 }

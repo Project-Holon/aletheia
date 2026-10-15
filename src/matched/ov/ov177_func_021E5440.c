@@ -13,11 +13,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   func_021E5568 0x021E5568 thumb ov177
  *   func_021E560C 0x021E560C thumb ov177
  *   func_021E5554 0x021E5554 thumb ov177
@@ -34,11 +34,11 @@ extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void func_021E5568(void *, int);
 extern void func_021E560C(int *, int, int);
 extern void func_021E5554(int, int *);
@@ -53,11 +53,11 @@ int *func_021E5440(unsigned swap, int heap)
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021E8B2C);
-    func_0204363C(swap);
+    BMP_SetDisplaySwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     func_021E5568(p, heap);
     func_021E560C(p + 1, (int)d_021E8B2C, heap);
     p[3] = func_020056A0(func_021E5554, p, 0);

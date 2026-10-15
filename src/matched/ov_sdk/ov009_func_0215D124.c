@@ -1,5 +1,5 @@
 /*
- * function: func_0215D124
+ * function: SOCLi_CreateSocketCallBack
  * address:  0x0215D124
  * packet:   pkt_ov009_0215D124
  * region:   ov009
@@ -17,7 +17,7 @@
  *   CPS_SocUse  0x0215AB10  arm  ov009
  *   CPS_SocDatagramMode  0x0215AA88  arm  ov009
  *   CPS_SetUdpCallback  0x0215AB94  arm  ov009
- *   func_0215DF08  0x0215DF08  arm  ov009
+ *   SOCLi_UdpRecvCallback  0x0215DF08  arm  ov009
  */
 
 typedef struct {
@@ -40,9 +40,9 @@ extern void CPS_SocUse(void);
 extern void CPS_SocDatagramMode(void);
 extern void CPS_SetUdpCallback(int (*callback)(unsigned char *, unsigned long, void *));
 struct CPSSoc;
-extern int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc);
+extern int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *soc);
 
-int func_0215D124(void *arg)
+int SOCLi_CreateSocketCallBack(void *arg)
 {
 	Socket *socket;
 	unsigned char *send_pipe;
@@ -59,7 +59,7 @@ int func_0215D124(void *arg)
 	case 1:
 		CPS_SocUse();
 		CPS_SocDatagramMode();
-		CPS_SetUdpCallback((int (*)(unsigned char *, long unsigned int,  void *))func_0215DF08);
+		CPS_SetUdpCallback((int (*)(unsigned char *, long unsigned int,  void *))SOCLi_UdpRecvCallback);
 		break;
 	case 2:
 		CPS_SocDatagramMode();

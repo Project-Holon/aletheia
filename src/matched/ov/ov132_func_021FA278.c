@@ -1,5 +1,5 @@
 /*
- * function: func_021FA278
+ * function: STA_ACT_AUDIENCE_Noop3
  * address: 0x021FA278
  * packet: pkt_ov132_021FA278
  * region: ov132
@@ -8,6 +8,6 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021FA278(void *a0)
+void STA_ACT_AUDIENCE_Noop3(void *a0)
 {
 }

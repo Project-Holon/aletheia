@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201F4A0
+ * function: WORDSET_ParsePackedLimits
  *
  * symbols:
  *   func_0201F4A0_Table  0x0209E864  data
@@ -30,7 +30,7 @@
  * table address 0x0209E864, and the pool word inside this function is the
  * only word in the image that holds it, so the `literal` class discards its
  * only witness and no cut helps.  Expressing the address as an offset from
- * func_0201F35C's nearby table would resolve it, but that is a claim that the
+ * WORDSET_FormatNumber's nearby table would resolve it, but that is a claim that the
  * two are one object and the image does not say so.
  *
  * Three details cost time and are worth keeping:
@@ -72,7 +72,7 @@ struct Lim {
     u32 hi2;
 };
 
-void func_0201F4A0(void *dest, void *src)
+void WORDSET_ParsePackedLimits(void *dest, void *src)
 {
     u32 mask = 0x1FF;
     struct Lim lim;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8950
+ * function: WF2DMAP_SCENE_SetSlot
  * address: 0x021D8950
  * packet: pkt_ov129_021D8950
  * region: ov129
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj01937.h"
 
-void func_021D8950(char *p,int v)  {
+void WF2DMAP_SCENE_SetSlot(char *p,int v)  {
     ((struct Obj01937 *)p)->f244=((struct Obj01937 *)p)->f240;
     ((struct Obj01937 *)p)->f240=v;
     ((struct Obj01937 *)p)->f248=0;

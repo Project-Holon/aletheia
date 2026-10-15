@@ -1,5 +1,5 @@
 /*
- * function: func_02198A0C
+ * function: Think
  * address:  0x02198A0C
  * packet:   pkt_ov009_02198A0C
  * region:   ov009
@@ -19,12 +19,12 @@
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm
- *   func_02198850  0x02198850  arm  ov009
+ *   AddressToString  0x02198850  arm  ov009
  *   func_021988F4  0x021988F4  arm  ov009
  *   func_02198958  0x02198958  arm  ov009
- *   func_0219898C  0x0219898C  arm  ov009
+ *   OutputMapping  0x0219898C  arm  ov009
  *   gotADDRESS1b   0x021AE44C  data
  *   gotERT3        0x021AE450  data
  *   gotERT2        0x021AE454  data
@@ -144,12 +144,12 @@ typedef struct _NAT {
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
-extern char *func_02198850(unsigned int ip, unsigned short port, char *string);
+extern char *AddressToString(unsigned int ip, unsigned short port, char *string);
 extern unsigned int func_021988F4(void);
 extern unsigned short func_02198958(int sock);
-extern void func_0219898C(AddressMapping *theMap);
+extern void OutputMapping(AddressMapping *theMap);
 
 /* natify.o .bss (from 0x021AE44C), at the vendor layout */
 static int nIndex = 0;
@@ -169,7 +169,7 @@ extern char g_021A59F0[];
 extern char g_021A5A20[];
 extern char g_021A5A50[];
 
-int func_02198A0C(int sock, NAT *nat)
+int Think(int sock, NAT *nat)
 {
     int length;
     unsigned char ptype;
@@ -184,7 +184,7 @@ int func_02198A0C(int sock, NAT *nat)
     if (sock != -1 && func_0217EF50(sock)) do {
         length = func_0217EC60(sock, g_021AE498, 512, 0, &saddr, &saddrlen);
         if (length == -1) {
-            func_0217D254(7, 0, 8, g_021A59B4, GOAGetLastError(sock));
+            gsDebugFormat(7, 0, 8, g_021A59B4, GOAGetLastError(sock));
             break;
         }
 
@@ -202,17 +202,17 @@ int func_02198A0C(int sock, NAT *nat)
             switch (p.Packet.Init.porttype) {
             case 1:
                 gotERT1 = 1;
-                func_0217D254(7, 0, 16, g_021A59CC, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
+                gsDebugFormat(7, 0, 16, g_021A59CC, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
                 break;
             case 2:
                 nat->ipRestricted = 0;
                 gotERT2 = 1;
-                func_0217D254(7, 0, 16, g_021A59F0, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
+                gsDebugFormat(7, 0, 16, g_021A59F0, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
                 break;
             case 3:
                 nat->portRestricted = 0;
                 gotERT3 = 1;
-                func_0217D254(7, 0, 16, g_021A5A20, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
+                gsDebugFormat(7, 0, 16, g_021A5A20, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
                 break;
             }
         } else if (ptype == 11) {
@@ -238,8 +238,8 @@ int func_02198A0C(int sock, NAT *nat)
             nat->mappings[p.cookie].privatePort = NN_NTOHS(func_02198958(sock));
             nat->mappings[p.cookie].publicIp = p.Packet.Init.localip;
             nat->mappings[p.cookie].publicPort = NN_NTOHS(p.Packet.Init.localport);
-            func_0217D254(7, 0, 16, g_021A5A50, p.cookie, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
-            func_0219898C(&nat->mappings[p.cookie]);
+            gsDebugFormat(7, 0, 16, g_021A5A50, p.cookie, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
+            OutputMapping(&nat->mappings[p.cookie]);
         }
     } while (sock != -1 && func_0217EF50(sock));
 

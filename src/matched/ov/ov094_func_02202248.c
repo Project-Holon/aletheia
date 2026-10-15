@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FC6C 0x0203FC6C arm
+ *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   func_020490F4 0x020490F4 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BTLV_INPUT_InitBgLayers 0x0220255C thumb ov094
@@ -38,7 +38,7 @@ typedef unsigned int u32;
 extern char d_0220A3D4[];
 struct BgVramReq;
 struct Main;
-extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
+extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *req, u32 which);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -66,7 +66,7 @@ extern void BTLV_INPUT_InfoWindowTask(void *unused, void **p);
 extern void BTLV_INPUT_ChangeScreen(char *s, int mode, void *arg);
 void BTLV_INPUT_LoadScreenResources(char *p)
 {
-    func_0203FC6C((const struct BgVramReq *)d_0220A3D4, 1);
+    BG_SYS_ApplyGraphicsMode((const struct BgVramReq *)d_0220A3D4, 1);
     ((struct Obj00083 *)p)->f48 = func_020490F4(0xb, ((struct Obj00083 *)p)->f240);
     ((struct Obj00083 *)p)->f1F8 = (int)CLACT_CreateUnit(4, 2, ((struct Obj00083 *)p)->f240);
     ((struct Obj00083 *)p)->f118 = (int)CLACT_CreateUnit(0xc, 2, ((struct Obj00083 *)p)->f240);

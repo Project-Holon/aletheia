@@ -1,5 +1,5 @@
 /*
- * function: func_02062BAC
+ * function: NNSi_G2dFixupOffsets
  * address:  0x02062BAC
  * packet:   pkt_02062B64
  * region:   arm9
@@ -68,8 +68,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062BAC.c \
- *       --func func_02062BAC --addr 0x02062BAC --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupOffsets.c \
+ *       --func NNSi_G2dFixupOffsets --addr 0x02062BAC --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 72 = original 72, 0 relocation sites
  */
 
@@ -83,7 +83,7 @@ struct Tbl {
     u8  **offsets;              /* 0x04  itself an offset until fixed up     */
 };
 
-void func_02062BAC(struct Tbl *t)
+void NNSi_G2dFixupOffsets(struct Tbl *t)
 {
     u16 i;
 

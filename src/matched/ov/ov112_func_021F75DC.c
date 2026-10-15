@@ -1,5 +1,5 @@
 /*
- * function: func_021F75DC
+ * function: STA_ACT_LIGHT_SetElemFrame
  * address: 0x021F75DC
  * packet: pkt_ov112_021F75DC
  * region: ov112
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F75DC(u8 *p, u16 v)
+void STA_ACT_LIGHT_SetElemFrame(u8 *p, u16 v)
 {
     u8 i;
     *(u16 *)(p + 0x434) = v;

@@ -15,9 +15,9 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *
  * Twin of SHINKA_DEMO_GRAPHIC_SetupSubBg: the `(int)i` cast on the id read keeps the element
@@ -43,9 +43,9 @@ extern void BG_SYS_Create(void *);
 extern void BMP_WIN_Init(void *);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8, u8);
 
 void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b)
@@ -55,13 +55,13 @@ void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b)
     MI_CpuFill8(a, 0, 4);
     BG_SYS_Create(b);
     BMP_WIN_Init(b);
-    func_0203FC28((struct DispConfig *)d_02208CA0);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_02208CA0);
     for (i = 0; i < 6; i++) {
         u32 v = d_02208D1C[(int)i].id;
         if (v <= 3) {
             Entry *e = &((Entry *)d_02208D1C)[i];
             BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
-            func_020414AC(v);
+            BG_SYS_FreeSlot(v);
             func_02040588(v, e->mode);
         }
     }

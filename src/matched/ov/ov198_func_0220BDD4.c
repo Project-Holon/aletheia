@@ -1,5 +1,5 @@
 /*
- * function: func_0220BDD4
+ * function: B_PLIST_DRAW_DeleteStateWindows
  * address:  0x0220BDD4
  * packet:   pkt_0220BDD4
  * region:   ov198
@@ -18,7 +18,7 @@ struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_0220BDD4(char *p)
+void B_PLIST_DRAW_DeleteStateWindows(char *p)
 {
     unsigned int i;
     for (i = 0; i < ((struct Obj25132 *)p)->f2174; i++)

@@ -8,18 +8,18 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020308B8
+ * function: GFL_HEAP_ReadAllocSiteName
  *
  * Copies a block's allocation-site name out of its header into a caller
  * buffer and answers whether the name is plausible. A leaf: no prologue,
  * no relocations.
  *
- *   int sub_020308B8(u8 *dst, const char *src)
+ *   int GFL_HEAP_ReadAllocSiteName(u8 *dst, const char *src)
  *
  * Three passes, in this order:
  *
  *  1. Copy up to 0x12 bytes, stopping on the NUL, then NUL-terminate at
- *     the copied length. This is the read-back of what sub_02030880
+ *     the copied length. This is the read-back of what GFL_HEAP_StampAllocSite
  *     stamped, and it is the mirror image of that function's loop: there
  *     the terminator is stored and the length test comes after the store,
  *     here the test comes first and the terminator is written separately,
@@ -37,13 +37,13 @@
  * seeds the pass-2 index: one `mov r2, #0` doing three jobs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020308B8.c \
- *       --func sub_020308B8 --addr 0x020308B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_ReadAllocSiteName.c \
+ *       --func GFL_HEAP_ReadAllocSiteName --addr 0x020308B8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 
-int sub_020308B8(u8 *dst, const char *src)
+int GFL_HEAP_ReadAllocSiteName(u8 *dst, const char *src)
 {
     int len;
     int i;

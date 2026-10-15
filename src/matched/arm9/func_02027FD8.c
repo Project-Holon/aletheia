@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 
 typedef unsigned char u8;
@@ -21,10 +21,10 @@ struct TaskMenuState {
     void *child;
 };
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s)
 {
-    sub_020307B0(s->child);
-    return sub_020307B0(s);
+    GFL_HEAP_Free(s->child);
+    return GFL_HEAP_Free(s);
 }

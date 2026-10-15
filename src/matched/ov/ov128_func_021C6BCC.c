@@ -15,7 +15,7 @@
  *   STRBUF_SetString 0x02045924 arm
  *   func_020084E4 0x020084E4 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj00329.h"
@@ -36,7 +36,7 @@ struct Strbuf;
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u32 func_020307B0(void *p);
 void func_021C6BCC(u8 *p,u8 *q,int idx,unsigned heap)
 {
@@ -49,6 +49,6 @@ void func_021C6BCC(u8 *p,u8 *q,int idx,unsigned heap)
     STRBUF_SetString(str,(const u16 *)func_020099D4(base,idx));
     func_020084E4(obj,str);
     STRBUF_Delete(str);
-    func_0201F02C(((struct Obj00329 *)p)->f0,0,obj);
+    WORDSET_SetSlotMyStatus(((struct Obj00329 *)p)->f0,0,obj);
     func_020307B0(obj);
 }

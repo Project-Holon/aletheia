@@ -12,10 +12,10 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201F184  0x0201F184  thumb
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
  *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
@@ -74,10 +74,10 @@ struct WordSet;
 void *GAME_EVENT_GetGameSystem(struct Obj *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 u8 *GAME_DATA_GetMyStatus(void *p);
-void func_0201F184(struct WordSet *p, u32 i, s32 v);
+void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
@@ -97,9 +97,9 @@ int EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain(void *a, int *state, Ov018
     v = INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sub)));
     switch (*state) {
     case 0:
-        func_0201F02C(c->obj.f00, 0, c->f78);
-        func_0201F02C(c->obj.f00, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(sub)));
-        func_0201F184(c->obj.f00, 2, c->f58);
+        WORDSET_SetSlotMyStatus(c->obj.f00, 0, c->f78);
+        WORDSET_SetSlotMyStatus(c->obj.f00, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(sub)));
+        WORDSET_SetSlotFromMsgA0(c->obj.f00, 2, c->f58);
         EVENT_COMM_COMMON_PrintMsg(&c->obj, d_02183890[c->f42]);
         (*state)++;
         break;

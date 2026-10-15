@@ -13,6 +13,7 @@
  *   BTLV_INPUT_ReleaseScreenResources  0x022023D0  thumb  ov094
  *   BTLV_FINGER_CURSOR_Delete  0x02209B30  thumb  ov094
  *   MSGDATA_Delete  0x02045C04  arm  arm9
+ *   TCB_Noop  0x02030DA4  arm  arm9
  */
 typedef struct Obj {
     void *h0;
@@ -26,7 +27,7 @@ extern void BTLV_INPUT_ReleaseScreenResources(char *p);
 struct Rec;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void BTLV_FINGER_CURSOR_Delete(void *);
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
@@ -39,7 +40,7 @@ void BTLV_INPUT_Delete(Obj *p)
     MSGDATA_Delete(p->h5c);
     if (p->h60 != 0)
         BTLV_FINGER_CURSOR_Delete(p->h60);
-    func_02030DA4(p->h0);
+    TCB_Noop(p->h0);
     func_020307B0(p->h4);
     func_020307B0(p);
 }

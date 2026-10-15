@@ -1,5 +1,5 @@
 /*
- * function: func_0215D3A0
+ * function: SOCLi_InitSocketBuffer
  * address:  0x0215D3A0
  * packet:   pkt_ov009_0215D3A0
  * region:   ov009
@@ -22,7 +22,7 @@ typedef struct {
 
 extern unsigned long func_0215F0C8(unsigned long size);
 
-unsigned char *func_0215D3A0(unsigned char *ptr, Buf *buf, unsigned long size)
+unsigned char *SOCLi_InitSocketBuffer(unsigned char *ptr, Buf *buf, unsigned long size)
 {
 	buf->data = size ? ptr : 0;
 	buf->size = size;

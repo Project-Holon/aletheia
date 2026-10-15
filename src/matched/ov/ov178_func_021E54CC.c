@@ -15,7 +15,7 @@
  *   ov090_id 0x0000005A data
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj14379.h"
 #include "../include/Obj24455.h"
@@ -32,7 +32,7 @@ extern void func_02034A5C(s32 handle);
 extern unsigned ov090_id[];
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned);
+extern void GFL_HEAP_DeleteChecked(unsigned);
 int PARTY_STATUS_Destroy(void *handle,int unused,char *q,char *p)
 {
  unsigned char i;
@@ -41,6 +41,6 @@ int PARTY_STATUS_Destroy(void *handle,int unused,char *q,char *p)
  if(n!=0)POKEPARTY_Add(((struct Obj14379 *)q)->f1C,POKEPARTY_GetMember(((struct Obj14379 *)q)->f4,n-1));
  }
  PLIST_COMM_End(p+8);func_02034A5C((unsigned)ov090_id);
- func_0203133C(((struct Obj24455 *)p)->fD0);func_020315D4(handle);func_020306F0(0x58);
+ func_0203133C(((struct Obj24455 *)p)->fD0);func_020315D4(handle);GFL_HEAP_DeleteChecked(0x58);
  return 1;
 }

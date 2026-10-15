@@ -1,5 +1,5 @@
 /*
- * function: func_0219D3AC
+ * function: GOADecryptByte
  * address:  0x0219D3AC
  * packet:   pkt_ov009_0219D3AC
  * region:   ov009
@@ -23,7 +23,7 @@ struct GOACryptState {
     unsigned char last_cipher;
 };
 
-unsigned char func_0219D3AC(struct GOACryptState *state, unsigned char b)
+unsigned char GOADecryptByte(struct GOACryptState *state, unsigned char b)
 {
     unsigned char swaptemp;
 

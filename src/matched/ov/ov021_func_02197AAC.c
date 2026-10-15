@@ -18,7 +18,7 @@
  *   TCBL_Main  0x020310C4  arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
- *   func_02155A90  0x02155A90  thumb  ov010
+ *   IRC_BATTLE_ENTRY_GetGameSys  0x02155A90  thumb  ov010
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
@@ -44,7 +44,7 @@ extern void func_02040618(u32, u32, u32);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void CLACT_DrawSystem(void);
-extern u32 func_02155A90(u8 *p);
+extern u32 IRC_BATTLE_ENTRY_GetGameSys(u8 *p);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
@@ -74,10 +74,10 @@ u32 IRCBATTLEMENU_Main(u32 r0, u32 r1, u32 r2, u8 *a)
     PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj01495 *)a)->f2BC));
     CLACT_DrawSystem();
     if (((struct Obj01495 *)a)->f306 == 0) {
-        GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)func_02155A90((u8 *)(((struct Obj01495 *)a)->f2E4)));
+        GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)IRC_BATTLE_ENTRY_GetGameSys((u8 *)(((struct Obj01495 *)a)->f2E4)));
     }
     if (WIPE_SYS_EndCheck() != 0) {
-        if (GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)func_02155A90((u8 *)(((struct Obj01495 *)a)->f2E4))) != 0) {
+        if (GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)IRC_BATTLE_ENTRY_GetGameSys((u8 *)(((struct Obj01495 *)a)->f2E4))) != 0) {
             ((struct Obj01495 *)a)->f8 = 12;
             ret = 1;
             WIPE_SetBrightnessFadeOut(0, 0);

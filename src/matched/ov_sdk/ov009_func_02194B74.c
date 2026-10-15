@@ -1,5 +1,5 @@
 /*
- * function: func_02194B74
+ * function: gti2GetChallenge
  * address:  0x02194B74
  * packet:   pkt_ov009_02194B74
  * region:   ov009
@@ -20,7 +20,7 @@
  * the odd/even parity fix-up driven by the vendor CALCULATEODDMODE macro.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02194B74.c  *       --func func_02194B74 --addr 0x02194B74 --region ov009 --arm --cc 1.1p1 --lang c99
+ *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02194B74.c  *       --func gti2GetChallenge --addr 0x02194B74 --region ov009 --arm --cc 1.1p1 --lang c99
  */
 
 #define CALCULATEODDMODE(buffer, i, oddmode) ((buffer[i-1] & 1) ^ (i & 1) ^ oddmode ^ (buffer[0] & 1) ^ ((buffer[0] < 79) ? 1 : 0) ^ ((buffer[i-1] < buffer[0]) ? 1 : 0))
@@ -29,7 +29,7 @@ extern unsigned int current_time(void);
 extern void srand();
 extern int rand();
 
-unsigned char *func_02194B74(unsigned char *buffer)
+unsigned char *gti2GetChallenge(unsigned char *buffer)
 {
 	int i;
 	int oddmode;

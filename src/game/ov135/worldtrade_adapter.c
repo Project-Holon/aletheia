@@ -30,7 +30,7 @@
  *   func_02030734 0x02030734 arm
  *   WORLDTRADE_ADAPTER_CreateMonFromBox  0x022025E4  thumb
  *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
@@ -61,7 +61,7 @@
  *   WORLDTRADE_ADAPTER_UpdateMessageSystem  0x022029F8  thumb
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
  *   WORLDTRADE_BOX_IsSpeciesFlagged 0x021F6DE8 thumb ov135
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   func_020173EC 0x020173EC thumb
@@ -69,7 +69,7 @@
  *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045B38 0x02045B38 arm
  *   WORLDTRADE_GetIsDeposited  0x0200AD8C  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORLDTRADE_SetIsDeposited  0x0200AD94  thumb
  *   WORLDTRADE_SetPokemon 0x0200ADB8 thumb
  *   POKEPARTY_RemoveMember 0x0201A9C8 thumb
@@ -84,7 +84,7 @@
  *   WORLDTRADE_SetLastTradeId  0x0200ADD0  thumb
  *   func_0200949C 0x0200949C thumb
  *   func_020094D8 0x020094D8 thumb
- *   func_02019B58  0x02019B58  thumb
+ *   POKE_TOOL_SetDefaultName  0x02019B58  thumb
  *   MAIL_Create  0x02008F08  thumb
  *   func_02008F88  0x02008F88  thumb
  *   g_02203F5C  0x02203F5C  data  ov135
@@ -112,21 +112,6 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  */
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj23460.h"
-#include "../../matched/include/Obj23461.h"
-#include "../../matched/include/Obj23462.h"
-#include "../../matched/include/Obj23463.h"
-#include "../../matched/include/Obj23464.h"
-#include "../../matched/include/Obj23465.h"
-#include "../../matched/include/Obj23466.h"
-#include "../../matched/include/Obj23467.h"
-#include "../../matched/include/Obj23476.h"
-#include "../../matched/include/Obj23477.h"
-#include "../../matched/include/Obj23478.h"
-#include "../../matched/include/Obj23479.h"
-#include "../../matched/include/Obj23480.h"
-#include "../../matched/include/Obj23481.h"
-#include "../../matched/include/Obj07257.h"
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -159,7 +144,7 @@ extern u32 POKEPARTY_GetCount(void *p);
 
 extern int TOUCHPANEL_GetTrg(void);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 
 extern u32 FILE_UTIL_Check136C(u16 v);
@@ -174,7 +159,7 @@ extern int func_020076D0(void *save, int *pbox, int *pslot);
 
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 extern u32 func_020173EC(void);
 
@@ -294,7 +279,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
 
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 
 extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
 
@@ -328,7 +313,7 @@ extern u32 func_0200949C(const struct Sub02009470Obj *obj, int row, int col);
 
 extern void func_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
 
-extern void func_02019B58(void *mon);
+extern void POKE_TOOL_SetDefaultName(void *mon);
 
 extern void *MAIL_Create(int a0);
 
@@ -591,7 +576,7 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
     bank = func_02045B38(0, 2, 0x51, (u16)id);
     str = func_02045EC0(bank, 0xF);
     MSGDATA_Delete(bank);
-    func_02019B58(mon);
+    POKE_TOOL_SetDefaultName(mon);
     POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)STRBUF_GetChars(str));
     if (FILE_UTIL_Check136C((u16)func_02017E1C(mon, 6, 0)) != 0) {
         buf = MAIL_Create((u16)id);
@@ -610,7 +595,7 @@ void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c)
 {
     void *blk = POKE_TOOL_CreateFromBoxParam((void *)c, 0x48);
 
-    func_0201EEF4((void *)a, b, blk);
+    WORDSET_SetSlotMonSpecies((void *)a, b, blk);
     func_020307B0(blk);
 }
 
@@ -654,7 +639,7 @@ u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d)
     u32 t1 = (u32)func_02045EC0((struct MsgBank *)b, c);
     u32 t2 = (u32)STRBUF_Create(0x200, d);
 
-    func_0201F250((struct WordSet *)a, (void *)t2, (void *)t1);
+    WORDSET_CopyTaggedText((struct WordSet *)a, (void *)t2, (void *)t1);
     STRBUF_Delete((struct U16Vec *)t1);
     return t2;
 }
@@ -888,8 +873,8 @@ void WORLDTRADE_ADAPTER_PrintNumber(Ctx_02202A50 *ctx, u32 num, u32 digits, u32 
     str = STRBUF_Create(0x20, ctx->heap);
     fmt = STRBUF_Create(0x20, ctx->heap);
     func_02045CAC(ctx->bank, 0xFD, fmt);
-    func_0201EFA4(ctx->words, 0, num, digits, mode, 1);
-    func_0201F250(ctx->words, str, fmt);
+    WORDSET_SetSlotNumber(ctx->words, 0, num, digits, mode, 1);
+    WORDSET_CopyTaggedText(ctx->words, str, fmt);
     for (i = 0; i < 8; i++) {
         if (ctx->used[i] == 0) {
             ctx->slot[i].win = win;

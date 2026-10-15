@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   gBtlNet     0x021F3B88  data  ov093
  *   gBtlNetSourceName     0x021F3A98  data  ov093  a1
  */
@@ -28,12 +28,12 @@ struct S {
 
 extern struct S *gBtlNet;
 extern const char gBtlNetSourceName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void *BTL_NET_AllocPerapVoiceBuf(int idx, int unused, u32 size)
 {
     if (size == 4)
         return (u8 *)gBtlNet + 0xbf4 + idx * 0xbbc;
-    gBtlNet->tblA[idx] = sub_02030734((u16)((gBtlNet->f04 & 0x7fff) | 0x8000), size, 1, gBtlNetSourceName, 0x21f);
+    gBtlNet->tblA[idx] = GFL_HEAP_Alloc((u16)((gBtlNet->f04 & 0x7fff) | 0x8000), size, 1, gBtlNetSourceName, 0x21f);
     return gBtlNet->tblA[idx];
 }

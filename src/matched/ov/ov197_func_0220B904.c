@@ -1,5 +1,5 @@
 /*
- * function: func_0220B904
+ * function: B_BAG_MAIN_PrintItemMsg
  * address:  0x0220B904
  * packet:   pkt_0220B904
  * region:   ov197
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0220B928 0x0220B928 thumb
+ *   B_BAG_MAIN_StartItemMsg 0x0220B928 thumb
  */
 #include "../include/Obj14543.h"
 
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0220B928(char *p);
+extern void B_BAG_MAIN_StartItemMsg(char *p);
 
-void func_0220B904(char *p)
+void B_BAG_MAIN_PrintItemMsg(char *p)
 {
-    func_0201F73C(((struct Obj14543 *)p)->f24, 2, 1, 0xb);
+    BMP_MENUWORK_DrawWindow(((struct Obj14543 *)p)->f24, 2, 1, 0xb);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj14543 *)p)->f24), 0xf);
-    func_0220B928(p);
+    B_BAG_MAIN_StartItemMsg(p);
 }

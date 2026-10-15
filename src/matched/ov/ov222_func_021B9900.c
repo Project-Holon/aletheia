@@ -1,5 +1,5 @@
 /*
- * function: func_021B9900
+ * function: ZENKOKU_ZUKAN_AWARD_LoadBgAssets
  * address: 0x021B9900
  * packet: pkt_ov222_021B9900
  * region: ov222
@@ -25,7 +25,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020409B4(unsigned);
-void func_021B9900(char*p)
+void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(char*p)
 {
     void *h;
     h=func_020490F4(0xca,((struct Obj08456 *)p)->f0);

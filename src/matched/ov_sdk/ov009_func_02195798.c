@@ -1,5 +1,5 @@
 /*
- * function: func_02195798
+ * function: gti2CheckTimeout
  * address:  0x02195798
  * packet:   pkt_ov009_02195798
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   gti2SendClosed  0x02197BB8  arm  ov009
  *   func_021959D0  0x021959D0  arm  ov009
- *   func_0219500C  0x0219500C  arm  ov009
+ *   gti2ConnectedCallback  0x0219500C  arm  ov009
  */
 
 typedef struct Conn {
@@ -28,9 +28,9 @@ typedef struct Conn {
 
 extern int gti2SendClosed(int *p);
 extern void func_021959D0(Conn *c);
-extern int func_0219500C(Conn *c, int result, unsigned char *msg, int len);
+extern int gti2ConnectedCallback(Conn *c, int result, unsigned char *msg, int len);
 
-int func_02195798(Conn *c, unsigned int now)
+int gti2CheckTimeout(Conn *c, unsigned int now)
 {
 	int timedOut;
 
@@ -48,7 +48,7 @@ int func_02195798(Conn *c, unsigned int now)
 		if (timedOut) {
 			gti2SendClosed((int *)c);
 			func_021959D0(c);
-			if (!func_0219500C(c, 6, 0, 0))
+			if (!gti2ConnectedCallback(c, 6, 0, 0))
 				return 0;
 		}
 	}

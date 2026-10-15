@@ -13,7 +13,7 @@
  *
  * symbols:
  *   ghiResizeBuffer  0x021bfb90  arm   ov114
- *   func_0217D254  0x0217d254  arm   ov009
+ *   gsDebugFormat  0x0217d254  arm   ov009
  *   ghiResetBuffer  0x021c00fc  arm   ov114
  *   memmove  0x02092364  arm
  *   sGhttpGhidecryptreceiveddataReadPastTheEnd     0x021ce5b4  data  ov114
@@ -47,7 +47,7 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int ghiResizeBuffer(GHIBuffer *, int);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiResetBuffer(GHIBuffer *);
 extern void *memmove(void *, const void *, unsigned int);
 extern char sGhttpGhidecryptreceiveddataReadPastTheEnd[];
@@ -77,7 +77,7 @@ int ghiDecryptReceivedData(GHIConnection *connection)
         if (aResult == 2 && aWriteLen == 0)
             continue;
         if (aReadLen > connection->recvBuffer.len) {
-            func_0217D254(8, (char *)4, 1, sGhttpGhidecryptreceiveddataReadPastTheEnd, aReadLen, connection->recvBuffer.len);
+            gsDebugFormat(8, (char *)4, 1, sGhttpGhidecryptreceiveddataReadPastTheEnd, aReadLen, connection->recvBuffer.len);
             return 0;
         }
         connection->recvBuffer.pos += aReadLen;

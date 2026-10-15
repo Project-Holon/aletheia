@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022101FC",
+   "name": "B_PLIST_MAIN_ApplyMode4",
    "address": "0x022101FC",
    "kind": "game",
    "region": "ov198",

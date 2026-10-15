@@ -11,13 +11,13 @@
  *
  * symbols:
  *   MB_SEQ_VBlankTask 0x021C54FC thumb
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 void MB_SEQ_VBlankTask(void)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
 }

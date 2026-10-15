@@ -35,6 +35,8 @@
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  *
  * The temporary heap id is formed twice: once through an inline that
  * rewrites its own parameter (the image copies heap before the and), held
@@ -115,8 +117,8 @@ extern void func_020409B4(u32 index);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 extern void PRINTSYS_PrintQueColor(unsigned print, void *bmp, short x, short y, void *str, unsigned font, u16 color);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -209,8 +211,8 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
                 work->ent[i].shown = 1;
             }
             level = func_02017E1C(mon, 0x9E, 0);
-            func_0201EFA4(fmt, 0, level, 3, 1, 1);
-            func_0201F250(fmt, buf, sLevel);
+            WORDSET_SetSlotNumber(fmt, 0, level, 3, 1, 1);
+            WORDSET_CopyTaggedText(fmt, buf, sLevel);
             x = 20 - func_0201D304(buf, font, 0) / 2;
             PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), x, 0x24, buf, font, 0x440);
             work->ent[i].shown = 1;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734     0x02030734  arm
- *   func_020637D4     0x020637D4  arm
+ *   NNSi_G2dInitVramHandleEx     0x020637D4  arm
  *   ARC_UTIL_LoadPaletteBlockFromArchive     0x02049F34  arm
  *   func_020056A0     0x020056A0  thumb
  *   MCSS_TransTextureTask     0x02016880  thumb
@@ -48,7 +48,7 @@ typedef struct {
 } Sub;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020637D4(u32 *p);
+extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020056A0(void *fn, Sub *s, u32 a);
 struct Obj_02016880;
@@ -68,7 +68,7 @@ void *MCSS_Init(u32 id, void *heap)
     o->f14 = (u32)func_02030734((u32)heap, id * 4, 1, sFile_020A72CC, 0x7f);
     o->f30 = 9 << 14;
     o->f34 = 0x1000;
-    func_020637D4((u32 *)o->f18);
+    NNSi_G2dInitVramHandleEx((u32 *)o->f18);
     m = ((u32)heap & 0x7fff) | 0x8000;
     s = func_02030734((u32)((void *)(u16)m), 0x2c, 1, sFile_020A72CC, 0x8e);
     s->f20 = o;

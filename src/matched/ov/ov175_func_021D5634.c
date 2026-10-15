@@ -1,5 +1,5 @@
 /*
- * function: func_021D5634
+ * function: WIFIBATTLEMATCH_NET_TaskStepI
  * address: 0x021D5634
  * packet: pkt_ov175_021D5634
  * region: ov175
@@ -13,12 +13,12 @@
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  *   func_021E8AB4 0x021E8AB4 thumb ov177
  *   func_021E8738 0x021E8738 thumb ov177
- *   func_021D6550 0x021D6550 thumb ov175
- *   func_021D65DC 0x021D65DC thumb ov175
- *   func_021D65C8 0x021D65C8 thumb ov175
- *   func_021DA36C 0x021DA36C thumb ov175
- *   func_021D56D4 0x021D56D4 thumb ov175
- *   func_021D5560 0x021D5560 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupSprite 0x021D6550 thumb ov175
+ *   WIFIBATTLEMATCH_NET_IsSpriteAnimDone 0x021D65DC thumb ov175
+ *   WIFIBATTLEMATCH_NET_DeleteSprite 0x021D65C8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DisconnectWifi 0x021DA36C thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepJ 0x021D56D4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepH 0x021D5560 thumb ov175
  */
 extern void func_021E8AA0(int *p, int v);
 extern int func_021E8844(const int *p);
@@ -26,13 +26,13 @@ extern void func_021E8AB8(unsigned);
 extern void func_021E8AB4(unsigned,unsigned);
 extern void func_021E8738(int *,int,int,int);
 typedef unsigned int   u32;
-extern void func_021D6550(u32 *p, int mode);
-extern int func_021D65DC(char *);
-extern void func_021D65C8(char *);
-extern void func_021DA36C(void *);
-extern void func_021D56D4(unsigned sys, int *state, int *p);
-extern void func_021D5560(unsigned sys, int *state, int *p);
-void func_021D5634(unsigned sys,int *state,int *p)
+extern void WIFIBATTLEMATCH_NET_SetupSprite(u32 *p, int mode);
+extern int WIFIBATTLEMATCH_NET_IsSpriteAnimDone(char *);
+extern void WIFIBATTLEMATCH_NET_DeleteSprite(char *);
+extern void WIFIBATTLEMATCH_NET_DisconnectWifi(void *);
+extern void WIFIBATTLEMATCH_NET_TaskStepJ(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepH(unsigned sys, int *state, int *p);
+void WIFIBATTLEMATCH_NET_TaskStepI(unsigned sys,int *state,int *p)
 {
     int result;
     switch(state[0]) {
@@ -41,14 +41,14 @@ void func_021D5634(unsigned sys,int *state,int *p)
         state[0]=3;
         func_021E8AB4(sys,1);
         break;
-    case 1: func_021D6550((u32 *)p,0); state[0]=2; break;
+    case 1: WIFIBATTLEMATCH_NET_SetupSprite((u32 *)p,0); state[0]=2; break;
     case 2:
-        result=func_021D65DC((char *)p);
+        result=WIFIBATTLEMATCH_NET_IsSpriteAnimDone((char *)p);
         if(result!=-1) {
-            func_021D65C8((char *)p);
+            WIFIBATTLEMATCH_NET_DeleteSprite((char *)p);
             switch(result) {
-            case 0: func_021DA36C((void *)p[12]); func_021E8AA0((int *)sys,(int)func_021D56D4); break;
-            case 1: func_021E8AA0((int *)sys,(int)func_021D5560); break;
+            case 0: WIFIBATTLEMATCH_NET_DisconnectWifi((void *)p[12]); func_021E8AA0((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepJ); break;
+            case 1: func_021E8AA0((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepH); break;
             }
         }
         break;

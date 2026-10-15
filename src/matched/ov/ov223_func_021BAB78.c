@@ -12,7 +12,7 @@
  *   file 0x021BCB00 data
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned short u16;
@@ -21,7 +21,7 @@ extern const char file[];
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02041090(unsigned,unsigned,unsigned,unsigned,u8,u8);
+extern void BG_SYS_DrawTile(unsigned,unsigned,unsigned,unsigned,u8,u8);
 extern void func_02041B6C(unsigned);
 void func_021BAB78(u16 *p)
 {
@@ -37,7 +37,7 @@ void func_021BAB78(u16 *p)
             index++;
         }
     }
-    func_02041090(2,(unsigned)buffer,0,0,32,24);
+    BG_SYS_DrawTile(2,(unsigned)buffer,0,0,32,24);
     func_02041B6C(2);
     func_020307B0(buffer);
 }

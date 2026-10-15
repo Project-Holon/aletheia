@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F10
+ * function: NAMEIN_GRAPHIC_CompareEntry
  * address: 0x021F4F10
  * packet: pkt_ov194_021F4F10
  * region: ov194
@@ -11,7 +11,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  */
 extern unsigned short STRBUF_GetEosChar(void);
-int func_021F4F10(const unsigned short *a, const unsigned short *b)
+int NAMEIN_GRAPHIC_CompareEntry(const unsigned short *a, const unsigned short *b)
 {
     unsigned short sentinel = STRBUF_GetEosChar();
     int i;

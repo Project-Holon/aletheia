@@ -1,5 +1,5 @@
 /*
- * function: func_0215A460
+ * function: EVENT_POKE_STATUS_NormalizeTicks
  * address:  0x0215A460
  * packet:   pkt_0215A460
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-u32 func_0215A460(u32 a)
+u32 EVENT_POKE_STATUS_NormalizeTicks(u32 a)
 {
 if (a < 5000)
 return (u16)(a - 3000);

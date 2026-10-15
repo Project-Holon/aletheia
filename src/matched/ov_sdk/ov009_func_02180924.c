@@ -15,9 +15,9 @@
  *   gsUdpEngineContext                  0x02180404  arm ov009
  *   gt2GetRemoteIP                  0x02195E28  arm ov009
  *   gt2GetRemotePort                  0x02195E30  arm ov009
- *   func_02198620                  0x02198620  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
- *   func_02184200                  0x02184200  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
+ *   ArrayLength                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   g_021A39C8                     0x021A39C8  data
  *   g_021A39EC                     0x021A39EC  data
@@ -61,9 +61,9 @@ typedef struct GSUdpEngineObject {
 extern void *gsUdpEngineContext(void);
 extern int gt2GetRemoteIP(const int *p);
 extern unsigned short gt2GetRemotePort(const unsigned short *p);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_02184200(const int *p);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 extern char g_021A39C8[];
 extern char g_021A39EC[];
@@ -79,21 +79,21 @@ void gsUdpPingRoutingCB(void *theConnection, int theLatency)
 
     aUdp = gsUdpEngineContext();
 
-    func_0217D254(12, 0, 16, g_021A39C8,
-        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
+    gsDebugFormat(12, 0, 16, g_021A39C8,
+        gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
-    len = func_02184200(aUdp->mMsgHandlers);
+    len = ArrayLength(aUdp->mMsgHandlers);
     for (index = 0; index < len; index++) {
         aHandler = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
         if (aHandler->mPingReply) {
-            func_0217D254(12, 0, 16, g_021A39EC);
+            gsDebugFormat(12, 0, 16, g_021A39EC);
             aHandler->mPingReply(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), theLatency, aHandler->mUserData);
             return;
         }
     }
 
     if (aUdp->mAppPingReply) {
-        func_0217D254(12, 0, 16, g_021A3A14);
+        gsDebugFormat(12, 0, 16, g_021A3A14);
         aUdp->mAppPingReply(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), theLatency, aUdp->mAppUserData);
     }
 }

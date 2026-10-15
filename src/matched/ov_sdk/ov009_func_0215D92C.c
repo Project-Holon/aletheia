@@ -23,7 +23,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215DA34  0x0215DA34  arm  ov009
+ *   SOCLi_ReadCPSBuffer  0x0215DA34  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
@@ -47,7 +47,7 @@ struct SOCLSocket {
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned char *func_0215DA34(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
+extern unsigned char *SOCLi_ReadCPSBuffer(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
 				    unsigned short *remote_port, unsigned long *remote_ip);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 
@@ -71,7 +71,7 @@ static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len
 	int result = 0;
 
 	enable = OS_DisableInterrupts();
-	cpsbuffer = func_0215DA34(socket, &cpsbuffer_len, &my_port, &his_port, &his_ip);
+	cpsbuffer = SOCLi_ReadCPSBuffer(socket, &cpsbuffer_len, &my_port, &his_port, &his_ip);
 	if (cpsbuffer != 0) {
 		if (cpsbuffer_len == 0) {
 			result = -6;

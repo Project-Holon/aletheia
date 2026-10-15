@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFFC
+ * function: WIFIBATTLEMATCH_NET_ClearStruct
  * address:  0x021DCFFC
  * packet:   pkt_021DCFFC
  * region:   ov175
@@ -22,7 +22,7 @@ typedef unsigned long u32;
 
 extern void MI_CpuFill8(void *p, int a, int len);
 
-void func_021DCFFC(void *p)
+void WIFIBATTLEMATCH_NET_ClearStruct(void *p)
 {
     MI_CpuFill8(p, 0, 0x20);
 }

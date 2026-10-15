@@ -1,7 +1,7 @@
 /*
  * file:     md5.c
  * unit:     yes
- * function: func_02162FC0, func_02162FD8, func_02162FF0, func_021633F0, func_02163438, func_021634F0
+ * function: func_02162FC0, func_02162FD8, CPSi_md5_block, func_021633F0, func_02163438, func_021634F0
  * address:  0x02162FC0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -45,11 +45,10 @@ typedef struct CPSMd5Ctx_021633F0 {
 
 extern void MI_CpuCopy8(void *a, void *b, int n);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
-extern void CPSi_md5_block(CPSMd5Ctx_021633F0 *ctx, unsigned char *m);
 extern void char_from_long(unsigned char *d, unsigned long *s, unsigned int len);
 void func_02162FC0(void *a, void *b, int n);
 void func_02162FD8(void *a, void *b, int n);
-void func_02162FF0(CPSMd5Ctx_02162FC0 *ctx, unsigned char *m);
+void CPSi_md5_block(CPSMd5Ctx_021633F0 *ctx, unsigned char *m);
 void CPSi_md5_init(CPSMd5Ctx_021633F0 *ctx);
 void CPSi_md5_calc(CPSMd5Ctx_021633F0 *ctx, void *data0, int datalen);
 void CPSi_md5_result(CPSMd5Ctx_021633F0 *ctx, unsigned char *digest);
@@ -82,7 +81,7 @@ void func_02162FD8(void *a, void *b, int n)
  * Table-driven MD5 block: four rounds of four iterations, each iteration
  * doing four steps indexed through itab (message word) and ktab (constant).
  */
-void func_02162FF0(CPSMd5Ctx_02162FC0 *ctx, unsigned char *m)
+void CPSi_md5_block(CPSMd5Ctx_021633F0 *ctx, unsigned char *m)
 {
     unsigned long x[16];
     unsigned long a, b, c, d;

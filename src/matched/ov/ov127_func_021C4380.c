@@ -1,5 +1,5 @@
 /*
- * function: func_021C4380
+ * function: WIFI_2DCHAR_RegisterBmpCharCell
  * address: 0x021C4380
  * packet: pkt_ov127_021C4380
  * region: ov127
@@ -19,7 +19,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 typedef struct { u32 mode, handle, owner, a, b; } Entry;
 typedef struct { u8 pad[16]; Entry entries[18]; u8 gap[384]; u32 source; } Context;
-void func_021C4380(Context *ctx, int i, u32 a, u32 b, u32 c)
+void WIFI_2DCHAR_RegisterBmpCharCell(Context *ctx, int i, u32 a, u32 b, u32 c)
 {
     int n;
     n = (i - 16) * 2;

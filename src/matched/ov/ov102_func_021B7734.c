@@ -17,7 +17,7 @@
  * IRC_COMPATIBLE_MENU_ExitDisplay 0x021B78D0 thumb ov102
  * IRC_COMPATIBLE_MENU_ExitText 0x021B7C88 thumb ov102
  * func_020315D4 0x020315D4 arm
- * func_020306F0 0x020306F0 arm
+ * GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj22138.h"
 extern void IRC_APPBAR_Delete(void *p);
@@ -31,7 +31,7 @@ extern void IRC_COMPATIBLE_MENU_ExitDisplay(void *);
 extern void IRC_COMPATIBLE_MENU_ExitText(void *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned);
+extern void GFL_HEAP_DeleteChecked(unsigned);
 int IRC_COMPATIBLE_MENU_ProcExit(unsigned a,int b,int c,char *p) {
  IRC_APPBAR_Delete((void *)(((struct Obj22138 *)p)->f468));
  IRC_COMPATIBLE_MENU_ExitFloaters((u8 *)(p+0x118));
@@ -43,6 +43,6 @@ int IRC_COMPATIBLE_MENU_ProcExit(unsigned a,int b,int c,char *p) {
  IRC_COMPATIBLE_MENU_ExitDisplay(p);
  IRC_COMPATIBLE_MENU_ExitText(p+0x9c);
  func_020315D4((struct S020315D4 *)a);
- func_020306F0(0x3b);
+ GFL_HEAP_DeleteChecked(0x3b);
  return 1;
 }

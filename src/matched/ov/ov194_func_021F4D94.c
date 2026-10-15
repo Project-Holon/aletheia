@@ -1,5 +1,5 @@
 /*
- * function: func_021F4D94
+ * function: NAMEIN_GRAPHIC_GetWord
  * address: 0x021F4D94
  * packet: pkt_ov194_021F4D94
  * region: ov194
@@ -11,4 +11,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021F4D94(const u8 *p, u32 i) { return *(const u32 *)(p + i * 4); }
+u32 NAMEIN_GRAPHIC_GetWord(const u8 *p, u32 i) { return *(const u32 *)(p + i * 4); }

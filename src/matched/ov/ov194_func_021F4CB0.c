@@ -1,5 +1,5 @@
 /*
- * function: func_021F4CB0
+ * function: NAMEIN_GRAPHIC_InitClact
  * address:  0x021F4CB0
  * packet:   pkt_021F4CB0
  * region:   ov194
@@ -31,7 +31,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021F4CB0(unsigned char *p, int a, int b)
+void NAMEIN_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021F55B4, a, b);

@@ -33,7 +33,7 @@
  *   GAME_DATA_Delete 0x02012704 thumb
  *   OS_ResetSystem 0x02087BCC arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   func_02030734 0x02030734 arm
@@ -77,7 +77,7 @@
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02167ED8 0x02167ED8 arm ov009
+ *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   PROCSYS_Create 0x02031324 arm
  *   func_0203133C 0x0203133C arm
  *   PROCSYS_Main 0x02031330 arm
@@ -302,7 +302,7 @@ extern void BATTLE_REC_FreeWork(void);
 extern void GAME_DATA_Delete(u8 *p);
 extern void OS_ResetSystem(u32_0221268C parameter);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32_0221268C);
+extern void GFL_HEAP_DeleteChecked(u32_0221268C);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u32_022126F4 GFL_NET_ERR_ShowScreen(u32_022126F4 a0);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
@@ -346,7 +346,7 @@ extern u32_022133E4 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
-extern int func_02167ED8(void *date, void *time);
+extern int DWC_GetDateTime(void *date, void *time);
 extern void *PROCSYS_Create(int);
 extern void func_0203133C(struct S020314B8 *p);
 extern u32 PROCSYS_Main(void *);
@@ -479,7 +479,7 @@ int func_0221268C(void *sys, int unused, void *data, char *p)
     if (((struct Obj03352 *)p)->fC != 1) OS_ResetSystem(0);
     if (((struct Obj03352 *)p)->f14) func_020307B0(data);
     func_020315D4(sys);
-    func_020306F0(0x56);
+    GFL_HEAP_DeleteChecked(0x56);
     GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
@@ -1100,7 +1100,7 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
             *(u8 *)((unsigned)p+i+0x3e)=func_02017E1C(mon,0x6e,zero);
         }
     }
-    if(func_02167ED8(&date,&time)==0) func_02034714(d_02213D00,0,d_02213D00);
+    if(DWC_GetDateTime(&date,&time)==0) func_02034714(d_02213D00,0,d_02213D00);
     ((Flags *)(p + 0x44))->year=date.a;
     ((Flags *)(p + 0x44))->month=date.b;
     ((Flags *)(p + 0x44))->day=date.c;
@@ -1296,7 +1296,7 @@ int func_02213850(void *a, void *b, void *c, char *work)
     }
     func_0203133C(((struct Obj06662 *)work)->f0);
     func_020315D4(a);
-    func_020306F0(0x58);
+    GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02211A10
+ * function: B_PLIST_MAIN_SetActorsVisible
  * address:  0x02211A10
  * packet:   pkt_ov198_02211A10
  * region:   ov198
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 extern u32 B_APP_TOOL_SetActorsVisible(u32, u32);
 
-u32 func_02211A10(u8 *p, u32 v)
+u32 B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v)
 {
     u32 i = 0x218c;
 

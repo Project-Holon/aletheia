@@ -1,5 +1,5 @@
 /*
- * function: func_02057E68
+ * function: SPL_EMITTER_EvalCurve
  * address:  0x02057E68
  * packet:   pkt_02057830
  * region:   arm9
@@ -30,7 +30,7 @@ struct Obj {
     short _34;
 };
 
-void func_02057E68(struct Obj *o, struct Src *s, int t)
+void SPL_EMITTER_EvalCurve(struct Obj *o, struct Src *s, int t)
 {
     struct Curve *cv;
     int b0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0220BF40
+ * function: B_BAG_MAIN_StepFrameAnim
  * address: 0x0220BF40
  * packet: pkt_ov197_0220BF40
  * region: ov197
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct WinMgr;
 extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
-void func_0220BF40(char *p)
+void B_BAG_MAIN_StepFrameAnim(char *p)
 {
     if(((struct Obj01005 *)p)->f527) {
         switch(((struct Obj01005 *)p)->f524) {

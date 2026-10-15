@@ -34,10 +34,10 @@
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   EVENT_GSYNC_Entry  0x02154668  thumb  ov000
  *   abs_id_0       0x00000000  data
- *   func_021559E4  0x021559E4  thumb  ov010
+ *   IRC_BATTLE_ENTRY_Create  0x021559E4  thumb  ov010
  *   SCRCMD_NETWORK_CreateWifiProcEvent  0x0215FBF4  thumb  ov010
  *   EVENT_RESEARCH_RADAR_CreateTopTask  0x02167044  thumb  ov010
- *   func_021945A4  0x021945A4  thumb  ov021
+ *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent  0x021945A4  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -74,10 +74,10 @@ extern int C_GEAR_StepFadeIcon(char *p);
 extern int C_GEAR_StepIconAnim(char *p);
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void *EVENT_GSYNC_Entry(void *p);
-extern void *func_021559E4(void *a, int b, void *c, int d);
+extern void *IRC_BATTLE_ENTRY_Create(void *a, int b, void *c, int d);
 extern struct Desc *SCRCMD_NETWORK_CreateWifiProcEvent(int a0, int a1, struct Desc *a2, int a3);
 extern void *EVENT_RESEARCH_RADAR_CreateTopTask(void *a, void *b);
-extern void *func_021945A4(void *a, u32 b, u32 c);
+extern void *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(void *a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -119,7 +119,7 @@ int C_GEAR_PanelEventMain(void *a, int unused, Req *q)
         x = GAME_EVENT_CreateOverlayEvent((void *)(*(int *)(p + 0x1c)), (u32)abs_id_0, (void *)EVENT_GSYNC_Entry, h);
         break;
     case 1:
-        x = func_021559E4((void *)(*(int *)(p + 0x1c)), h, 0, 1);
+        x = IRC_BATTLE_ENTRY_Create((void *)(*(int *)(p + 0x1c)), h, 0, 1);
         break;
     case 5:
         x = SCRCMD_NETWORK_CreateWifiProcEvent(*(int *)(p + 0x1c), h, 0, 1);
@@ -128,7 +128,7 @@ int C_GEAR_PanelEventMain(void *a, int unused, Req *q)
         x = EVENT_RESEARCH_RADAR_CreateTopTask((void *)(*(int *)(p + 0x1c)), (void *)h);
         break;
     case 7:
-        x = func_021945A4((void *)(*(int *)(p + 0x1c)), h, 4);
+        x = FIELD_COMM_ACTOR_CreateSubscreenChangeEvent((void *)(*(int *)(p + 0x1c)), h, 4);
         break;
     case 12:
         buf = func_02030734(4, 8, 1, (const char *)(&d_021F3554), 0x14B7);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FBD78
+ * function: SCRIPT_COMMAND_CmdSetFlags
  * address: 0x021FBD78
  * packet: pkt_ov132_021FBD78
  * region: ov132
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-int func_021FBD78(int unused, char *p)
+int SCRIPT_COMMAND_CmdSetFlags(int unused, char *p)
 {
     int a, b, c, d;
     a = VM_GetU32(((struct Obj03290 *)p)->f4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C705C
+ * function: VIEWER_TEXT_Main
  * address:  0x021C705C
  * packet:   pkt_ov111_021C705C
  * region:   ov111
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C79A0  0x021C79A0  thumb
- *   func_021C7830  0x021C7830  thumb
- *   func_021C7970  0x021C7970  thumb
+ *   VIEWER_ACTOR_DispatchState  0x021C79A0  thumb
+ *   VIEWER_ACTOR_DrawModel  0x021C7830  thumb
+ *   VIEWER_ACTOR_PrintQueMain  0x021C7970  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
  *
  * Addresses are Black-image addresses.
@@ -62,18 +62,18 @@ typedef struct {
     u8 f17C[8];
 } Work;
 
-extern int func_021C79A0(Work *p);
-extern void func_021C7830(Work *p);
-extern void func_021C7970(Work *p);
+extern int VIEWER_ACTOR_DispatchState(Work *p);
+extern void VIEWER_ACTOR_DrawModel(Work *p);
+extern void VIEWER_ACTOR_PrintQueMain(Work *p);
 extern void CLACT_DrawSystem(void);
 
-int func_021C705C(void *a, void *b, int c, Work *p)
+int VIEWER_TEXT_Main(void *a, void *b, int c, Work *p)
 {
-    if (func_021C79A0(p) == 0) {
+    if (VIEWER_ACTOR_DispatchState(p) == 0) {
         return 1;
     }
-    func_021C7830(p);
-    func_021C7970(p);
+    VIEWER_ACTOR_DrawModel(p);
+    VIEWER_ACTOR_PrintQueMain(p);
     CLACT_DrawSystem();
     if (++p->f11C >= 0x100) {
         p->f11C = 0;

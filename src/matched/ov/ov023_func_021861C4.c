@@ -11,11 +11,11 @@
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
@@ -40,11 +40,11 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern signed char MSG_SPEED_GetWait(void);
@@ -62,10 +62,10 @@ void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode)
 
     str = STRBUF_Create(0x50, 0x28);
     MSGDATA_ReadString(((struct Obj00525 *)w)->f14, msg, str);
-    func_0201F250(((struct Obj00525 *)w)->f10, ((struct Obj00525 *)w)->f30, str);
+    WORDSET_CopyTaggedText(((struct Obj00525 *)w)->f10, ((struct Obj00525 *)w)->f30, str);
     STRBUF_Delete(str);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00525 *)w)->f11C), 15);
-    func_0201F73C(((struct Obj00525 *)w)->f11C, 0, 1, 10);
+    BMP_MENUWORK_DrawWindow(((struct Obj00525 *)w)->f11C, 0, 1, 10);
     if (((struct Obj00525 *)w)->f16C != 0) {
         PRINTSYS_PrintStreamDelete(((struct Obj00525 *)w)->f16C);
         ((struct Obj00525 *)w)->f16C = 0;

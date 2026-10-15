@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02193A0C",
+   "name": "BucketDiv",
    "address": "0x02193A0C",
    "kind": "sdk",
    "region": "ov009",

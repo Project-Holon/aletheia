@@ -1,5 +1,5 @@
 /*
- * function: func_0217FE68
+ * function: gsiExecuteSoapCustom
  * address:  0x0217FE68
  * packet:   pkt_ov009_0217FE68
  * region:   ov009
@@ -12,14 +12,14 @@
  * sdk:      gsiExecuteSoapCustom (gssoap.o)
  *
  * symbols:
- *   func_0217EAB0                  0x0217EAB0  arm ov009
+ *   gsimalloc                  0x0217EAB0  arm ov009
  *   gsiCoreCreateTask                  0x0217CF24  arm ov009
  *   gsiCoreExecuteTask                  0x0217CE48  arm ov009
- *   func_0217FF94                  0x0217FF94  arm ov009
- *   func_0218005C                  0x0218005C  arm ov009
- *   func_0217FF70                  0x0217FF70  arm ov009
- *   func_02180080                  0x02180080  arm ov009
- *   func_0218002C                  0x0218002C  arm ov009
+ *   gsiSoapTaskExecute                  0x0217FF94  arm ov009
+ *   gsiSoapTaskCallback                  0x0218005C  arm ov009
+ *   gsiSoapTaskThink                  0x0217FF70  arm ov009
+ *   gsiSoapTaskCleanup                  0x02180080  arm ov009
+ *   gsiSoapTaskCancel                  0x0218002C  arm ov009
  */
 
 typedef struct GSTask {
@@ -47,21 +47,21 @@ typedef struct GSSoapTask {
     int completed;
 } GSSoapTask;
 typedef void (*GSSoapCallback)(int, void *, void *, void *);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern GSTask *gsiCoreCreateTask(void);
 extern void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs);
-extern void func_0217FF94(void *theTask);
-extern void func_0218005C(void *theTask);
-extern int func_0217FF70(void *theTask);
-extern int func_02180080(int *p);
-extern void func_0218002C(void *theTask);
+extern void gsiSoapTaskExecute(void *theTask);
+extern void gsiSoapTaskCallback(void *theTask);
+extern int gsiSoapTaskThink(void *theTask);
+extern int gsiSoapTaskCleanup(int *p);
+extern void gsiSoapTaskCancel(void *theTask);
 
-GSSoapTask *func_0217FE68(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void (*theCustomFunc)(void *, void *), void *theUserData)
+GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void (*theCustomFunc)(void *, void *), void *theUserData)
 {
     GSSoapTask *aSoapTask;
     GSTask *aCoreTask;
 
-    aSoapTask = (GSSoapTask *)func_0217EAB0(sizeof(GSSoapTask));
+    aSoapTask = (GSSoapTask *)gsimalloc(sizeof(GSSoapTask));
     aSoapTask->callback = theCallbackFunc;
     aSoapTask->customFunc = theCustomFunc;
     aSoapTask->url = theURL;
@@ -74,11 +74,11 @@ GSSoapTask *func_0217FE68(char *theURL, char *theService, void *theRequestSoap, 
     aSoapTask->result = 0;
     aSoapTask->completed = 0;
     aCoreTask = gsiCoreCreateTask();
-    aCoreTask->callback = func_0218005C;
-    aCoreTask->execute = func_0217FF94;
-    aCoreTask->think = func_0217FF70;
-    aCoreTask->cleanup = (int (*)(void *))func_02180080;
-    aCoreTask->cancel = func_0218002C;
+    aCoreTask->callback = gsiSoapTaskCallback;
+    aCoreTask->execute = gsiSoapTaskExecute;
+    aCoreTask->think = gsiSoapTaskThink;
+    aCoreTask->cleanup = (int (*)(void *))gsiSoapTaskCleanup;
+    aCoreTask->cancel = gsiSoapTaskCancel;
     aCoreTask->obj = aSoapTask;
     aSoapTask->coreTask = aCoreTask;
     gsiCoreExecuteTask(aCoreTask, 0);

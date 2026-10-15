@@ -10,20 +10,20 @@
  * trailing: 0220BB92..0220BB93 is two-byte alignment padding.
  * lever: the inline byte range guard adds 255 before its u8 narrowing.
  * symbols:
- *   func_02210B00 0x02210B00 thumb ov198
+ *   B_PLIST_MAIN_GetSlotState 0x02210B00 thumb ov198
  *   B_PLIST_ANM_UploadTileBuffer 0x0220B6D0 thumb ov198
  *   B_PLIST_ANM_UpdateSelectedTile 0x0220BBF0 thumb ov198
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   B_PLIST_ANM_CountActiveRecords 0x0220BBB4 thumb ov198
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u8 low:7,high:1;} Bits;
-extern int func_02210B00(u8 *p, int i);
+extern int B_PLIST_MAIN_GetSlotState(u8 *p, int i);
 extern void B_PLIST_ANM_UploadTileBuffer(u8 *,u8,u8,u8);
 extern void B_PLIST_ANM_UpdateSelectedTile(u8 *);
-extern int func_022110D4(u8 *,int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern u8 B_PLIST_ANM_CountActiveRecords(u8 *);
 void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
 {
@@ -31,7 +31,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  case 0:{
   u16 i;
   for(i=0;i<6;i++){
-   int s=func_02210B00(p,i);
+   int s=B_PLIST_MAIN_GetSlotState(p,i);
    if(s==0) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,3,1);
    else if(s==1) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,0);
    else if(s==2) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,1);
@@ -43,7 +43,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  case 8:{
   u16 i;
   for(i=0;i<6;i++){
-   int s=func_02210B00(p,i);
+   int s=B_PLIST_MAIN_GetSlotState(p,i);
    if(s==0) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,3,1);
    else if(s==1) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,0);
    else if(s==2) B_PLIST_ANM_UploadTileBuffer(p,(u8)i,0,1);
@@ -53,7 +53,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  }
  case 1:{
   B_PLIST_ANM_UploadTileBuffer(p,6,0,0);B_PLIST_ANM_UploadTileBuffer(p,7,0,0);
-  if(((Bits *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+0x1b))->high){
+  if(((Bits *)((u32)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4c+0x1b))->high){
    B_PLIST_ANM_UploadTileBuffer(p,8,3,0);B_PLIST_ANM_UploadTileBuffer(p,10,3,0);
   }else{
    B_PLIST_ANM_UploadTileBuffer(p,8,0,0);B_PLIST_ANM_UploadTileBuffer(p,10,0,0);
@@ -75,7 +75,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
    B_PLIST_ANM_UploadTileBuffer(p,12,3,0);B_PLIST_ANM_UploadTileBuffer(p,13,3,0);
   }
   for(i=0;i<4;i++){
-   if(*(u16 *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+14),0,0);
+   if(*(u16 *)((u32)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+14),0,0);
    else B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+14),3,0);
   }
   B_PLIST_ANM_UploadTileBuffer(p,9,0,0);B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
@@ -92,7 +92,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  case 5:{
   u16 i;
   for(i=0;i<4;i++){
-   if(*(u16 *)((u32)p+(u32)func_022110D4(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+18),0,0);
+   if(*(u16 *)((u32)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4c+i*8+0x30)!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+18),0,0);
    else B_PLIST_ANM_UploadTileBuffer(p,(u8)(i+18),3,0);
   }
   B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;

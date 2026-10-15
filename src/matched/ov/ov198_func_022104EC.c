@@ -1,5 +1,5 @@
 /*
- * function: func_022104EC
+ * function: B_PLIST_MAIN_InitBg
  * address: 0x022104EC
  * packet: pkt_ov198_022104EC
  * region: ov198
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FC6C 0x0203FC6C arm
+ *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -37,17 +37,17 @@ struct BgTemplate {
 };
 extern const struct BgVramReq d_02212144;
 extern const struct BgTemplate d_02212174,d_022121B4,d_02212154,d_02212194;
-extern void func_0203FC6C(const struct BgVramReq *,u32);
+extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetFlagField06(u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-void func_022104EC(u8 *p)
+void B_PLIST_MAIN_InitBg(u8 *p)
 {
     struct BgVramReq req=d_02212144;
     struct BgTemplate cfg7,cfg6,cfg5,cfg4;
-    func_0203FC6C(&req,1);
+    BG_SYS_ApplyGraphicsMode(&req,1);
     cfg7=d_02212174;
     BG_SYS_InitBgLayer(7,&cfg7,0);
     cfg6=d_022121B4;

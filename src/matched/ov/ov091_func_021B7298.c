@@ -35,7 +35,7 @@
  *   func_02027624  0x02027624  thumb
  *   func_02027628  0x02027628  thumb
  *   func_02027630  0x02027630  thumb
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02027758  0x02027758  thumb
  *   func_0202775C  0x0202775C  thumb
  *   func_02027760  0x02027760  thumb
@@ -78,7 +78,7 @@ extern u32 func_020275E4(void);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_02027630(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_02027758(void);
 extern int func_0202775C(int a);
 extern int func_02027760(int a);
@@ -130,7 +130,7 @@ void POKELIST_LoadGraphics(u8 *p)
     func_02049B68(h, func_02027624(), 0, 0x160, 0x20, ((struct Obj00047 *)p)->f0);
     func_02049658(h, func_02027628(), 1, 0, 0, 0, ((struct Obj00047 *)p)->f0);
     func_020498F4(h, func_02027630(), 1, 0, 0, 0, ((struct Obj00047 *)p)->f0);
-    func_020413B0(1, 0, 0, 0x40, 0x20, 0xb);
+    BG_SYS_FillTileMap(1, 0, 0, 0x40, 0x20, 0xb);
     ((struct Obj00047 *)p)->f18C = CLACT_RegisterPaletteEx(h2, func_02027758(), 0, 0xa0, 0, 1, ((struct Obj00047 *)p)->f0);
     ((struct Obj00047 *)p)->f1B0 = CLACT_RegisterCharacter(h2, func_0202775C(2), 0, 0, ((struct Obj00047 *)p)->f0);
     ((struct Obj00047 *)p)->f1CC = CLACT_RegisterCellAnim(h2, func_02027760(2), func_02027764(2), ((struct Obj00047 *)p)->f0);

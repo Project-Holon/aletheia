@@ -1,5 +1,5 @@
 /*
- * function: func_02208994
+ * function: SHINKA_DEMO_EFFECT_DeleteParticle
  * address:  0x02208994
  * packet:   pkt_02208994
  * region:   ov195
@@ -18,7 +18,7 @@ extern void PARTICLE_ExitManager(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02208994(char *a)
+void SHINKA_DEMO_EFFECT_DeleteParticle(char *a)
 {
     PARTICLE_ExitManager();
     func_020307B0(a);

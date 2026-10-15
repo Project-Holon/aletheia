@@ -1,5 +1,5 @@
 /*
- * function: func_021C40A0
+ * function: WIFI_2DCHAR_RegisterBmp
  * address:  0x021C40A0
  * packet:   pkt_021C40A0
  * region:   ov127
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4494  0x021C4494  thumb
+ *   WIFI_2DCHAR_RegisterBmpHandles  0x021C4494  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C4494(u8 *p, u32 a, u32 heap);
+extern void WIFI_2DCHAR_RegisterBmpHandles(u8 *p, u32 a, u32 heap);
 
-void func_021C40A0(u8 *p, int a, int b, int c)
+void WIFI_2DCHAR_RegisterBmp(u8 *p, int a, int b, int c)
 {
-    func_021C4494(p, a, c);
+    WIFI_2DCHAR_RegisterBmpHandles(p, a, c);
     ((struct Obj03277 *)p)->f2F0 = b;
 }

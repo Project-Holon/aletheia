@@ -1,5 +1,5 @@
 /*
- * function: func_02164358
+ * function: CPSi_big_sqr
  * address:  0x02164358
  * packet:   pkt_ov009_02164358
  * region:   ov009
@@ -12,23 +12,23 @@
  * sdk:      CPSi_big_sqr (libssl.TWL.HYB.a(biginteger.o))
  *
  * symbols:
- *   func_02163F24  0x02163F24  arm  ov009
+ *   count_digits  0x02163F24  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021641FC  0x021641FC  arm  ov009
  */
 
-extern int func_02163F24(const unsigned short *p, int n);
+extern int count_digits(const unsigned short *p, int n);
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 
-void func_02164358(unsigned short *c, unsigned short *a, int digits)
+void CPSi_big_sqr(unsigned short *c, unsigned short *a, int digits)
 {
     int i;
     int j;
     int digits_a;
     unsigned long tmp;
 
-    digits_a = func_02163F24(a, digits);
+    digits_a = count_digits(a, digits);
     if (digits > digits_a * 2)
         MI_CpuFill8(c + digits_a * 2, 0, (digits - digits_a * 2) * 2);
     for (i = 0; i < digits_a; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021F32D8
+ * function: NAMEIN_GRAPHIC_GetGridAction
  * address:  0x021F32D8
  * packet:   pkt_021F32D8
  * region:   ov194
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj10809.h"
 
-int func_021F32D8(char *p, unsigned short *out)
+int NAMEIN_GRAPHIC_GetGridAction(char *p, unsigned short *out)
 {
     int s = ((struct Obj10809 *)p)->fE8;
     if ((s == 1 || s == 2 || s == 9) && out != 0)

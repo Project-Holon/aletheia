@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FBE00",
+   "name": "SCRIPT_COMMAND_CmdFreeEntry",
    "address": "0x021FBE00",
    "kind": "game",
    "region": "ov132",

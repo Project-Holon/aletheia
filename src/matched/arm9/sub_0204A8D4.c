@@ -13,7 +13,7 @@
  *   g_ClactSystem     0x02146A74  data
  *   VMAN_IsHandleInvalid  0x02034640  arm
  *   VMAN_Free  0x020346B8  arm
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *
  * Retire one slot of the 0x40-byte table at +0x10c of the singleton behind
  * 0x02146A74.  The two eight-byte sub-objects at +0x2c and +0x34 are returned
@@ -26,7 +26,7 @@
  * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md read from
  * the other side, the same shape as src/matched/CLACT_ReleasePalette.c).  The payload
  * pointer is the one exception: it is bound to a local, which is why the `bl`
- * to sub_020307B0 needs no load in front of it.
+ * to GFL_HEAP_Free needs no load in front of it.
  *
  * +0x3c is a bitfield word, not a mask word.  The evidence is the guard:
  * `lsl #31` / `lsrs #31` to read bit 0, where a plain `x & 1` compiles to
@@ -72,7 +72,7 @@ struct Sentinel;
 extern int VMAN_IsHandleInvalid(struct Sentinel *p);
 struct Owner;
 extern void VMAN_Free(struct Owner *owner, struct Sentinel *p);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void CLACT_ReleaseCharacter(u32 i)
 {
@@ -89,7 +89,7 @@ void CLACT_ReleaseCharacter(u32 i)
     payload = g_ClactSystem->owner_slots[i].unk_24;
     if (payload != 0) {
         if (g_ClactSystem->owner_slots[i].unk_3c_0 == 0) {
-            sub_020307B0(payload);
+            GFL_HEAP_Free(payload);
         } else {
             g_ClactSystem->owner_slots[i].unk_3c_0 = 0;
         }

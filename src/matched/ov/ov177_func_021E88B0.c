@@ -13,7 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -41,7 +41,7 @@ struct Slot;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,int,u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -62,7 +62,7 @@ Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
     out->mgr=p->x2;
     out->counter=p->kind;
     out->win=(void *)BMP_WIN_Create((u8)p->a,(u8)x,(u8)y,(u8)width,height,p->b,1);
-    func_0201F73C(out->win,2,p->d,(u8)p->c);
+    BMP_MENUWORK_DrawWindow(out->win,2,p->d,(u8)p->c);
     q=out->win;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);

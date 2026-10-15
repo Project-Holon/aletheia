@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BB0, func_021B9BFC
+ * function: ZENKOKU_ZUKAN_AWARD_FlushWindows, ZENKOKU_ZUKAN_AWARD_IsWindowsReady
  * unit: yes
  * address: 0x021B9BB0
  * packet: pkt_ov222_021B9BB0
@@ -31,7 +31,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
-void func_021B9BB0(char*p)
+void ZENKOKU_ZUKAN_AWARD_FlushWindows(char*p)
 {
     u8 i;
     for(i=0;i<5;i++){
@@ -45,7 +45,7 @@ void func_021B9BB0(char*p)
         }
     }
 }
-int func_021B9BFC(char*p)
+int ZENKOKU_ZUKAN_AWARD_IsWindowsReady(char*p)
 {
     u8 i;
     for(i=0;i<5;i++){

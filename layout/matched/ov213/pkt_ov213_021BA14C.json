@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA14C",
+   "name": "COMM_BTL_DEMO_MAIN_UpdateRowDelay",
    "address": "0x021BA14C",
    "kind": "game",
    "region": "ov213",

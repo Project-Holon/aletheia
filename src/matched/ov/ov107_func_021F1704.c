@@ -16,10 +16,10 @@
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   TALKMSGWIN_DrawWindowFrame  0x02194A24  thumb
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   func_02028470  0x02028470  thumb
  */
 
@@ -61,9 +61,9 @@ void *BMP_WIN_GetBmp(struct Descriptor *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-void func_0201F250(struct WordSet *ws, void *dst, void *src);
+void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 int TALKMSGWIN_DrawWindowFrame(void *, void *, int);
-void func_0201F73C(void *, int, int, int);
+void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int, void *, int, int, int);
 void func_02028470(u8 *p, u32 v);
 
@@ -89,7 +89,7 @@ void MB_UTIL_MSG_PrintStream(Ov107Ctx *p, int a, int b)
     p->f20 = func_02045EC0(p->f1C, a);
     if (p->f24 != 0) {
         s = STRBUF_Create(0x17B, p->f00);
-        func_0201F250(p->f24, s, p->f20);
+        WORDSET_CopyTaggedText(p->f24, s, p->f20);
         STRBUF_Delete(p->f20);
         p->f20 = s;
     }
@@ -97,7 +97,7 @@ void MB_UTIL_MSG_PrintStream(Ov107Ctx *p, int a, int b)
     if (p->f04 == 8) {
         TALKMSGWIN_DrawWindowFrame(p->f54, p->f10, 0);
     } else {
-        func_0201F73C(p->f10, 1, 1, 0xD);
+        BMP_MENUWORK_DrawWindow(p->f10, 1, 1, 0xD);
     }
     if (p->f08 == 1) {
         func_02028470(p->f28, 6);

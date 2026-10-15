@@ -1,5 +1,5 @@
 /*
- * function: func_0216D27C
+ * function: DWCi_ConnectToGameServerAsync
  * address:  0x0216D27C
  * packet:   pkt_ov009_0216D27C
  * region:   ov009
@@ -74,7 +74,7 @@ extern void DWCi_HandleMatchCommandError(void);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 
-void func_0216D27C(int topology, int serverPid, void *matchedCallback, void *matchedParam,
+void DWCi_ConnectToGameServerAsync(int topology, int serverPid, void *matchedCallback, void *matchedParam,
                    void *newClientCallback, void *newClientParam, void *attemptCallback,
                    u8 *connectionUserData, void *attemptParam)
 {

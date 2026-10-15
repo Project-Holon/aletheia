@@ -19,8 +19,8 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   BEACON_GetPoints 0x0200C274 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   ITEMMENU_PrintToWindow 0x021BB6E0 thumb ov070
  *   ITEMMENU_FlushWindowAt 0x021BB724 thumb ov070
  * blocker-C: 02045CAC verified EXACT, 344B, scratch arm9-blocker.log;
@@ -43,7 +43,7 @@
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -71,7 +71,7 @@
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -97,8 +97,8 @@ extern void BMP_Clear(struct CharBuf *,u8);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void *GAME_DATA_GetMiscSave(int *);
 extern u32 BEACON_GetPoints(struct Blk34 *);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void ITEMMENU_PrintToWindow(int,u32 *,u32,u16,s16,u16);
 extern void ITEMMENU_FlushWindowAt(void **);
 #define P(k) (*(void **)((u32)p+(k)))
@@ -112,8 +112,8 @@ void ITEMMENU_PrintMoney(u8 *p)
  ITEMMENU_PrintToWindow((int)p,(u32 *)((u32)p+(win-8)),W(0x524),0,4,0x3C40);
  ITEMMENU_FlushWindowAt((void **)((unsigned long)p+(win-8)));
  MSGDATA_ReadString(P(0x51C),0x52,P(0x524));
- func_0201EFA4(P(0x520),0,BEACON_GetPoints(GAME_DATA_GetMiscSave(P(0))),7,1,1);
- func_0201F250(P(0x520),P(0x528),P(0x524));
+ WORDSET_SetSlotNumber(P(0x520),0,BEACON_GetPoints(GAME_DATA_GetMiscSave(P(0))),7,1,1);
+ WORDSET_CopyTaggedText(P(0x520),P(0x528),P(0x524));
  ITEMMENU_PrintToWindow((int)p,(u32 *)((u32)p+win),W(0x528),0,4,0x3C40);
  ITEMMENU_FlushWindowAt((void **)((u32)p+win));
 }

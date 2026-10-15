@@ -18,7 +18,7 @@
  *
  * symbols:
  *   g_ClactSystem     0x02146A74  data
- *   func_02063378  0x02063378  arm
+ *   NNS_G2dEntryOamManagerAffine  0x02063378  arm
  */
 
 #include "../include/G_Mgr.h"
@@ -27,9 +27,9 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern struct Mgr *g_ClactSystem;
-extern void func_02063378(void *block, u32 arg);
+extern void NNS_G2dEntryOamManagerAffine(void *block, u32 arg);
 
 void CLACT_SetOamManagerSubParam(u32 arg)
 {
-    func_02063378((u8 *)g_ClactSystem + 0x20, arg);
+    NNS_G2dEntryOamManagerAffine((u8 *)g_ClactSystem + 0x20, arg);
 }

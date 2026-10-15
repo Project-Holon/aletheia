@@ -1,5 +1,5 @@
 /*
- * function: func_021D4244
+ * function: GTSNEGO_DISP_SetStateCallback
  * address: 0x021D4244
  * packet: pkt_ov120_021D4244
  * region: ov120
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4240 0x021D4240 thumb ov120
+ *   GTSNEGO_DISP_SetCallback 0x021D4240 thumb ov120
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D4240(int *,int);
-void func_021D4244(int *p, int v, int a2) {func_021D4240(p,v);}
+extern void GTSNEGO_DISP_SetCallback(int *,int);
+void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2) {GTSNEGO_DISP_SetCallback(p,v);}

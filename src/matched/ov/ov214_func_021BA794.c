@@ -14,8 +14,8 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -71,8 +71,8 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintQueColor(int, int, int, int, int, int, int);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct S;
 extern void func_021BA4E8(void *unused, struct S *p);
 
@@ -123,8 +123,8 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
         h2 = (int)func_02045EC0((struct MsgBank *)e->f58, 0x12);
         p2 = (int)STRBUF_Create(8, e->f00);
         PRINTSYS_QUE_Clear((struct PrintSys *)e->f18);
-        func_0201EFA4((struct WordSet *)x, 1, v, 2, 2, 1);
-        func_0201F250((struct WordSet *)x, (void *)p2, (void *)h2);
+        WORDSET_SetSlotNumber((struct WordSet *)x, 1, v, 2, 2, 1);
+        WORDSET_CopyTaggedText((struct WordSet *)x, (void *)p2, (void *)h2);
         q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->f98);
         PRINTSYS_PrintQueColor(e->f18, q, 2, 2, p2, e->f08, flag);
         e->fA8 = 0;

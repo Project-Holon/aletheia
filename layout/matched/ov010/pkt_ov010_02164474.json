@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02164474",
+   "name": "FIELD_MAP_CHANGE_MoveActiveEntries",
    "address": "0x02164474",
    "kind": "game",
    "region": "ov010",

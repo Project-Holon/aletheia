@@ -1,5 +1,5 @@
 /*
- * function: func_021CA0BC
+ * function: WF2DMAP_TOUCH_CreatePalAnims
  * address: 0x021CA0BC
  * packet: pkt_ov128_021CA0BC
  * region: ov128
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct CodeIn;
 extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
-void func_021CA0BC(u8 *p,u16 heap)
+void WF2DMAP_TOUCH_CreatePalAnims(u8 *p,u16 heap)
 {
     ((struct Obj03812 *)p)->f184=BLINK_PALANM_Create(48,16,0,heap);
     BLINK_PALANM_LoadPalettes(((struct Obj03812 *)p)->f184,*(u8 * *)&((struct Obj03812 *)p)->f8,0,32,48);

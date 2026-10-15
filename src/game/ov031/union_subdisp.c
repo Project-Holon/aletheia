@@ -91,7 +91,7 @@
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
  *   func_02034714  0x02034714  arm
  *   sUnionSubdispEmptyStr     0x021F10D0  data  a4
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PMS_DRAW_IsActive  0x0202DCC4  thumb
  *   PMS_DRAW_Clear  0x0202DC9C  thumb
@@ -278,7 +278,7 @@ enum {
 extern u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *pmsDraw);
 extern UnionChatEntry *UNION_CHAT_LOG_GetLine(UnionChatLog *log, u32 index);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 extern u32 PMS_DRAW_IsActive(const struct PmsDraw *pmsDraw, u32 id);
 extern void PMS_DRAW_Clear(struct PmsDraw *pmsDraw, int id, u32 isTrans);
@@ -803,7 +803,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     offset = (lineNo * UNION_SUBDISP_LINE_COPY_STRIDE) << 1;
     palette = UNION_SUBDISP_GetLinePalette(entry);
     MI_CpuCopy8(screen, (u8 *)screen + offset, UNION_SUBDISP_LINE_COPY_SIZE);
-    func_020413B0(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
+    BG_SYS_FillTileMap(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
     func_02041B6C(UNION_SUBDISP_BG_CHAT);
     textOffset = sUnionSubdispChatTextOffset;
     if (work->lineKind[lineNo] == UNION_SUBDISP_LINE_PMS) {
@@ -1228,7 +1228,7 @@ int UNION_SUBDISP_SetLinePalette(UnionSubdispWork *unused, int lineNo, int highl
     default:
         return 0;
     }
-    func_020413B0(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
+    BG_SYS_FillTileMap(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
     func_02041B6C(UNION_SUBDISP_BG_CHAT);
     return 1;
 }

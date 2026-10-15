@@ -1,5 +1,5 @@
 /*
- * function: sub_02040618
+ * function: BG_SYS_FillScrollArea
  * address:  0x02040618
  * packet:   pkt_02040618
  * region:   arm9
@@ -12,13 +12,13 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   func_02042360  0x02042360  arm
- *   func_020423D4  0x020423D4  arm
+ *   BG_SYS_RotScale  0x020423D4  arm
  *   GFL_NET_SetIrcParams  0x0203D814  arm
  *
  * The per-layer scroll register flush.  Closed in wave 11 by two facts:
  * GFL_NET_SetIrcParams takes the layer's scroll pair (x, y) as its two arguments
  * (the case-1 arm keeps r0/r1 live across the register write for the call,
- * as in func_02041B94), and scrollX is read before scrollY.  The star is the
+ * as in BG_SYS_CommitScroll), and scrollX is read before scrollY.  The star is the
  * unlabelled follower BG_SYS_GetScrollX (already EXACT in unit_020407E8.c); the
  * true extent is 464 bytes, ending at 0x020407E8.
  */
@@ -35,12 +35,12 @@ extern struct BgLayer *g_02146A44;
 
 struct Obj;
 extern void func_02042360(struct Obj *p, u32 op, u32 value);
-extern void func_020423D4(u32 layer);
+extern void BG_SYS_RotScale(u32 layer);
 extern void GFL_NET_SetIrcParams(u32 x, u32 y);
 
 #define W(a) (*(volatile u32 *)(a))
 
-void sub_02040618(u32 layer, u32 a, u32 b)
+void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b)
 {
     u32 mask = 0x1ff;
     u32 hmask = mask << 16;
@@ -63,14 +63,14 @@ void sub_02040618(u32 layer, u32 a, u32 b)
         if (((u8 *)g_02146A44)[0x74] == 0) {
             W(0x04000018) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(2);
+            BG_SYS_RotScale(2);
         }
         break;
     case 3:
         if (((u8 *)g_02146A44)[0xa0] == 0) {
             W(0x0400001c) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(3);
+            BG_SYS_RotScale(3);
         }
         break;
     case 4:
@@ -83,14 +83,14 @@ void sub_02040618(u32 layer, u32 a, u32 b)
         if (((u8 *)g_02146A44)[0x124] == 0) {
             W(0x04001018) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(6);
+            BG_SYS_RotScale(6);
         }
         break;
     case 7:
         if (((u8 *)g_02146A44)[0x150] == 0) {
             W(0x0400101c) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(7);
+            BG_SYS_RotScale(7);
         }
         break;
     }

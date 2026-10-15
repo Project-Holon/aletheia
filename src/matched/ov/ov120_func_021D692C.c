@@ -1,5 +1,5 @@
 /*
- * function: func_021D692C
+ * function: GTSNEGO_DISP_CreateTouchbar
  * address: 0x021D692C
  * packet: pkt_ov120_021D692C
  * region: ov120
@@ -21,7 +21,7 @@ typedef struct Config { Data *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1c
 extern const Data d_021D8990;
 extern void MI_CpuFill8(void *, u32, u32);
 extern void *TOUCHBAR_Create(Config *, int);
-void func_021D692C(u8 *p, int n)
+void GTSNEGO_DISP_CreateTouchbar(u8 *p, int n)
 {
     Data data = d_021D8990;
     Config c;

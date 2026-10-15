@@ -23,7 +23,7 @@
  *   KEY_SetRepeatSpeed  0x02036270  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_02034A5C  0x02034A5C  arm
@@ -47,7 +47,7 @@ extern void BOX2_MAIN_DeleteBgSys(void *p);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
 extern void ARC_TOOL_DeleteHandle(u32 a);
 extern u32 func_020307B0(void *p);
-extern void func_020306F0(unsigned int a);
+extern void GFL_HEAP_DeleteChecked(unsigned int a);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_02034A5C(int a);
@@ -68,7 +68,7 @@ int BOX2_SEQ_DeleteBox2Main(u8 *p)
     KEY_SetRepeatSpeed(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x50));
     ARC_TOOL_DeleteHandle(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x1b0));
     func_020307B0(((struct Obj00000 *)p)->f2C);
-    func_020306F0(0x4c);
+    GFL_HEAP_DeleteChecked(0x4c);
     *(u32 *)&((struct Obj00000 *)p)->f2C = 0;
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;

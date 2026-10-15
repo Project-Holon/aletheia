@@ -1,5 +1,5 @@
 /*
- * function: func_0218022C
+ * function: _UTF8ToUCS2ConversionLengthOnly
  * address:  0x0218022C
  * packet:   pkt_02156B70
  * region:   ov009
@@ -15,7 +15,7 @@
  * string counts as zero characters.
  */
 
-int func_0218022C(const char *s, int n)
+int _UTF8ToUCS2ConversionLengthOnly(const char *s, int n)
 {
     int count = 0;
 

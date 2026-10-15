@@ -1,5 +1,5 @@
 /*
- * function: func_02208B54
+ * function: SHINKA_DEMO_EFFECT_RemoveUnit
  * address:  0x02208B54
  * packet:   pkt_02208B54
  * region:   ov195
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
- *   func_02208714 0x02208714 thumb
+ *   SHINKA_DEMO_EFFECT_FreeNode 0x02208714 thumb
  */
 #include "../include/Obj05518.h"
 
 typedef unsigned int   u32;
 struct Ctx;
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
-extern void func_02208714(void *p);
+extern void SHINKA_DEMO_EFFECT_FreeNode(void *p);
 
-void func_02208B54(char *a)
+void SHINKA_DEMO_EFFECT_RemoveUnit(char *a)
 {
     G3D_UTIL_RemoveUnit((struct Ctx *)(*(int *)&((struct Obj05518 *)a)->f14), ((struct Obj05518 *)a)->f18);
-    func_02208714((void *)(((struct Obj05518 *)a)->f20));
+    SHINKA_DEMO_EFFECT_FreeNode((void *)(((struct Obj05518 *)a)->f20));
     ((struct Obj05518 *)a)->f1C = 0;
 }

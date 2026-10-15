@@ -20,7 +20,7 @@
  * GURU2_RECEIPT_GetJoinedBits 0x021DE37C thumb ov137
  * GURU2_RECEIPT_FreeStrings 0x021DD380 thumb ov137
  * func_020315D4 0x020315D4 arm
- * func_020306F0 0x020306F0 arm
+ * GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
@@ -55,7 +55,7 @@ extern int GURU2_RECEIPT_GetMemberCount(void *p);
 extern u32 GURU2_RECEIPT_GetJoinedBits(void *);
 extern void GURU2_RECEIPT_FreeStrings(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 int GURU2_RECEIPT_ProcExit(void *a,int b,void *c,u8 *p)
 {
     TCBL_DeleteAllTasks((struct Tcbl *)(((struct Obj02207 *)p)->fF4)); TCBL_Destroy((struct S02031140 *)(((struct Obj02207 *)p)->fF4));
@@ -67,6 +67,6 @@ int GURU2_RECEIPT_ProcExit(void *a,int b,void *c,u8 *p)
     ((struct Obj23709 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->f10=((struct Obj02207 *)p)->f8;
     ((struct Obj23710 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->f8=GURU2_RECEIPT_GetMemberCount(p);
     ((struct Obj23711 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->fC=GURU2_RECEIPT_GetJoinedBits(p);
-    GURU2_RECEIPT_FreeStrings(p); func_020315D4(a); func_020306F0(114);
+    GURU2_RECEIPT_FreeStrings(p); func_020315D4(a); GFL_HEAP_DeleteChecked(114);
     return 1;
 }

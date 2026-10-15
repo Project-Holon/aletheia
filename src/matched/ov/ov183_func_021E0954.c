@@ -1,5 +1,5 @@
 /*
- * function: func_021E0954
+ * function: BR_CODEIN_ProfileCreateActors
  * address: 0x021E0954
  * packet: pkt_ov183_021E0954
  * region: ov183
@@ -21,7 +21,7 @@
  * symbols:
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
- *   func_021E0E40 0x021E0E40 thumb ov183
+ *   BR_CODEIN_ProfileGetActorIndex 0x021E0E40 thumb ov183
  */
 #include "../include/Obj08316.h"
 typedef unsigned int u32;
@@ -32,8 +32,8 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern int func_021E0E40(int,int);
-void func_021E0954(char *p)
+extern int BR_CODEIN_ProfileGetActorIndex(int,int);
+void BR_CODEIN_ProfileCreateActors(char *p)
 {
     int i,special,normal,base;
     u32 owner;
@@ -68,7 +68,7 @@ void func_021E0954(char *p)
                 void *obj;
                 params.a=i*8+76;params.b=24;
                 q=p+normal*28;
-                params.c=func_021E0E40(((struct Obj08316 *)q)->f0,((struct Obj08316 *)q)->f8);
+                params.c=BR_CODEIN_ProfileGetActorIndex(((struct Obj08316 *)q)->f0,((struct Obj08316 *)q)->f8);
                 obj=CLACT_CreateActor((void *)owner,*(u32 *)(p+aA),*(u32 *)(p+bA),*(u32 *)(p+cA),&params,1,*(u16 *)(p+heapA));
                 ((struct Obj08316 *)q)->fC=obj;CLACT_SetActorObjMode(obj,1);
                 normal++;

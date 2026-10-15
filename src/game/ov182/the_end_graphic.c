@@ -19,7 +19,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   func_0207E468 0x0207E468 arm
@@ -30,7 +30,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_IsActive 0x0204E804 arm
  *   KEY_GetTrg 0x020362DC arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -38,7 +38,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
@@ -52,25 +52,25 @@
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   d_021B9CE0 0x021B9CE0 data a1
  *   d_021B9C48 0x021B9C48 data a4
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   d_021B9BFC 0x021B9BFC data a4
  *   d_021B9C78 0x021B9C78 data a4
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   d_021B9C0C      0x021B9C0C  data
  *   CLACT_InitSystem   0x0204A48C  arm
  *   CLACT_CreateUnit   0x0204B100  arm
@@ -127,7 +127,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, u
 extern void MI_CpuFill8(void *, int, int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern unsigned GPOWER_GetSpecialPowerId(void);
 extern void func_0207E468(void *, int, int);
@@ -137,7 +137,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern int FADE_IsActive(void);
 extern unsigned KEY_GetTrg(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -145,7 +145,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(unsigned char *);
 extern void func_020409B4(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -158,19 +158,19 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
-extern void func_0201DD68(void);
+extern void GF_FONT_InitTextColor(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(unsigned char);
-extern void func_020419E4(void);
+extern void BG_SYS_FreeSlot(unsigned char);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -238,8 +238,8 @@ int THE_END_GRAPHIC_Init(void *task, int b, int c)
     ((struct Obj03328 *)p)->f4 = THE_END_GRAPHIC_Create(1, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->f8 = GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->fC = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj03328 *)p)->f0));
-    func_0204047C(1, 1);
-    func_0204047C(2, 0);
+    BG_SYS_SetVisibleLayer(1, 1);
+    BG_SYS_SetVisibleLayer(2, 0);
     ((struct Obj03328 *)p)->f14 = func_020056A0(THE_END_GRAPHIC_DummyTask, p, 1);
     THE_END_GRAPHIC_LoadGraphics((u16 *)p);
     if (GPOWER_GetSpecialPowerId() == 0x14)
@@ -272,7 +272,7 @@ int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
     GF_FONT_Delete(((struct Obj06593 *)p)->f8);
     THE_END_GRAPHIC_Delete(((struct Obj06593 *)p)->f4);
     func_020315D4(task);
-    func_020306F0(0x88);
+    GFL_HEAP_DeleteChecked(0x88);
     return 1;
 }
 
@@ -353,7 +353,7 @@ void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
     func_02049658(q, 3, 1, 0, 0, 0, *p);
     func_020498F4(q, 5, 1, 0, 0, 0, *p);
     if (GPOWER_GetSpecialPowerId() == 0x14)
-        func_020413B0(1, 0, 0, 0x20, 0x18, 1);
+        BG_SYS_FillTileMap(1, 0, 0, 0x20, 0x18, 1);
     ARC_TOOL_DeleteHandle(q);
     func_020409B4(1);
     func_02040588(1, 1);
@@ -431,11 +431,11 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
     *(volatile u32 *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B9C48);
-    func_0204363C(a);
+    BMP_SetDisplaySwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     THE_END_GRAPHIC_InitWindows(p, heap);
     THE_END_GRAPHIC_InitActors((int *)(p + 4), (int)d_021B9C48, heap);
     THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
@@ -459,7 +459,7 @@ void THE_END_GRAPHIC_Delete(char *p)
     THE_END_GRAPHIC_DeleteCamera((unsigned *)(p + 8));
     THE_END_GRAPHIC_DeleteActors(p + 4);
     THE_END_GRAPHIC_ExitWindows(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
@@ -508,12 +508,12 @@ void THE_END_GRAPHIC_InitWindows(void *p, int heap)
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_021B9BFC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021B9BFC);
     for (; i < 2; i++) {
         r = &d_021B9C78[i];
         id = r->id;
         BG_SYS_InitBgLayer((unsigned char)id, (const struct BgTemplate *)r->v, (unsigned char)r->a);
-        func_020414AC(id);
+        BG_SYS_FreeSlot(id);
         func_02040588(id, r->b);
     }
 }
@@ -538,7 +538,7 @@ void THE_END_GRAPHIC_Dummy2(void *p){}
 
 
 
-void THE_END_GRAPHIC_RefreshDisplay(void *a0) { func_020419E4(); }
+void THE_END_GRAPHIC_RefreshDisplay(void *a0) { BG_SYS_Update(); }
 
 
 

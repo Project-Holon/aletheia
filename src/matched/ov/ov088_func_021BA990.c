@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   SDK_AUTOLOAD_DTCM_START 0x02FE0000 data
  */
@@ -22,12 +22,12 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 /* HW_INTR_CHECK_BUF: the IRQ check word at DTCM + 0x3FF8. */
 #define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 
 void STARTMENU_VblankTask(void)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     OSi_IRQ_CHECK_FLAG |= 1;
 }

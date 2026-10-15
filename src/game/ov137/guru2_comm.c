@@ -82,7 +82,7 @@ extern void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p,void *q);
 
 extern void GURU2_MAIN_StoreAngles(struct Guru2Game *p, u16 *q);
 
-extern void GURU2_MAIN_SetPlayerSelectedSlot(int *p, int a, int b);
+extern void GURU2_MAIN_SetPlayerSelectedSlot(struct Guru2Game *p, int a, int b);
 
 void *GURU2_GetUnionApp(struct Guru2Comm *p);
 

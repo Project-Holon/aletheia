@@ -1,5 +1,5 @@
 /*
- * function: func_021F62EC
+ * function: MUSICAL_MCSS_NoOp9
  * address: 0x021F62EC
  * packet: pkt_ov112_021F62EC
  * region: ov112
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F62EC(char *p) {((struct Obj22549 *)p)->fEC&=~4u;}
+void MUSICAL_MCSS_NoOp9(char *p) {((struct Obj22549 *)p)->fEC&=~4u;}

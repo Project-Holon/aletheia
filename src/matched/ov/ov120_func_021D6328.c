@@ -1,5 +1,5 @@
 /*
- * function: func_021D6328
+ * function: GTSNEGO_DISP_BlendPalette
  * address: 0x021D6328
  * packet: pkt_ov120_021D6328
  * region: ov120
@@ -39,7 +39,7 @@ extern void func_0207E5D0(void *,int,int);
 extern void func_0207E468(void *,int,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
-void func_021D6328(u8 *p,int bank,int *offset,int *size,int count)
+void GTSNEGO_DISP_BlendPalette(u8 *p,int bank,int *offset,int *size,int count)
 {
     int i;
     void *obj;

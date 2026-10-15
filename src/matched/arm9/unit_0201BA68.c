@@ -43,7 +43,7 @@
  *   1311   the member the alternate forms start at, which is 652 * 2 + 7, i.e.
  *          immediately after the two egg indices.  A White build with a
  *          different species count would move this number and only this one.
- *   0x1F, 0x20, 0x23   the three personal-record attributes func_02019C90
+ *   0x1F, 0x20, 0x23   the three personal-record attributes POKE_TOOL_GetPersonalParam
  *          answers: the form block's first index, the form count, and the flag
  *          that says the forms are not drawn separately.
  *
@@ -73,6 +73,7 @@
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  */
 
 typedef unsigned char  u8;
@@ -84,7 +85,7 @@ struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *mon, u32 id, u32 v);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern u32  ARC_TOOL_GetMemberSize(u32 kind, u32 member);
 
 u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
@@ -118,9 +119,9 @@ u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
     if (isEgg != 0) {
         idx = (u32)((species == 490 ? 1 : 0) + 650) * 2 + 7;
     } else if (form != 0) {
-        first = func_02019C90((u16)species, 0, 0x1F);
-        hidden = func_02019C90((u16)species, 0, 0x23);
-        count = func_02019C90((u16)species, 0, 0x20);
+        first = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x1F);
+        hidden = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x23);
+        count = POKE_TOOL_GetPersonalParam((u16)species, 0, 0x20);
         if (form >= count) {
             form = 0;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_02194DA8
+ * function: gti2AllocateBuffer
  * address:  0x02194DA8
  * packet:   pkt_ov009_02194DA8
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      gti2AllocateBuffer (gt2buffer.o)
  *
  * symbols:
- *   func_0217EAB0 0x0217EAB0  arm
+ *   gsimalloc 0x0217EAB0  arm
  */
 
 typedef struct {
@@ -21,11 +21,11 @@ typedef struct {
     int length;
 } GTI2Buffer;
 
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 
-int func_02194DA8(GTI2Buffer *buffer, int size)
+int gti2AllocateBuffer(GTI2Buffer *buffer, int size)
 {
-    buffer->buffer = func_0217EAB0(size);
+    buffer->buffer = gsimalloc(size);
     if (buffer->buffer == 0)
         return 0;
     buffer->size = size;

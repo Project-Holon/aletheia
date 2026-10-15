@@ -1,7 +1,7 @@
 /*
  * file:     musical_dressup_sys.c
  * unit:     yes
- * function: func_02155478, func_021559E4, func_02155A4C, func_02155A6C, func_02155A8C, func_02155A90, func_02155A94, MUSICAL_EVENT_Create, MUSICAL_EVENT_Main, MUSICAL_EVENT_CreateLocalPerformer, MUSICAL_EVENT_Free, MUSICAL_EVENT_CreateDressupParam, MUSICAL_EVENT_SendLocalPerformer, MUSICAL_EVENT_CreateStage, MUSICAL_EVENT_ScorePerformers, MUSICAL_EVENT_CreateShowRecord, MUSICAL_EVENT_ApplyResults, MUSICAL_EVENT_RollProgramRewards, MUSICAL_EVENT_RunLeaveSequence, MUSICAL_EVENT_RunEnterSequence, MUSICAL_EVENT_SpawnSeatEffect, MUSICAL_EVENT_SpawnExitEffect, MUSICAL_EVENT_ShowMessage, MUSICAL_EVENT_CountNpcSlotsBelow, MUSICAL_EVENT_GetLocalSlot, MUSICAL_EVENT_GetPlayerOfSlot, MUSICAL_EVENT_GetProgramBestCategory, MUSICAL_EVENT_AllocTitleString, MUSICAL_EVENT_GetScoreCapped, MUSICAL_EVENT_GetMaxScore, MUSICAL_EVENT_GetMinScore, MUSICAL_EVENT_GetSlotOfRank, MUSICAL_EVENT_GetBestAppealCategory, MUSICAL_EVENT_GetPortraitClass, MUSICAL_EVENT_SetPlayerNameWord, MUSICAL_EVENT_SetPokemonNameWord, MUSICAL_EVENT_ReceiveShowProgram, MUSICAL_EVENT_CheckNetError, MUSICAL_EVENT_IsAborted, MUSICAL_DRESSUP_SYS_Init, MUSICAL_DRESSUP_SYS_Exit, MUSICAL_DRESSUP_SYS_Main, MUSICAL_DRESSUP_SYS_Create, MUSICAL_DRESSUP_SYS_Delete, MUSICAL_STAGE_SYS_Init, MUSICAL_STAGE_SYS_Exit, MUSICAL_STAGE_SYS_Main, MUSICAL_STAGE_SYS_Create, MUSICAL_STAGE_SYS_Delete, MUSICAL_STAGE_SYS_SetLocalPerformer, MUSICAL_STAGE_SYS_CreateNpcPerformer, MUSICAL_STAGE_SYS_SetRemotePerformer, MUSICAL_STAGE_SYS_SetPerformerProp, MUSICAL_PROGRAM_Create, MUSICAL_PROGRAM_Delete, MUSICAL_PROGRAM_SplitBonus, MUSICAL_PROGRAM_GetCategoryBonus, MUSICAL_PROGRAM_PackBonus, MUSICAL_PROGRAM_UnpackBonus, MUSICAL_PROGRAM_PackPicks, MUSICAL_PROGRAM_UnpackPicks, MUSICAL_PROGRAM_GetBestCategory, MUSICAL_PROGRAM_CreateNpcPerformer, MUSICAL_PROGRAM_GetBaseProgramId, MUSICAL_PROGRAM_GetPropRow, MUSICAL_PROGRAM_GetNpcPortraitClass, MUSICAL_PROGRAM_GetNpcNameId, MUSICAL_PROGRAM_GetCategoryShare, func_0215739C, func_02157450, func_02157650, func_0215765C, func_02157660, func_02157664, func_02157668
+ * function: IRC_BATTLE_ENTRY_Main, IRC_BATTLE_ENTRY_Create, IRC_BATTLE_ENTRY_FreeParties, IRC_BATTLE_ENTRY_RestoreBgm, IRC_BATTLE_ENTRY_SetMode, IRC_BATTLE_ENTRY_GetGameSys, IRC_BATTLE_ENTRY_GetSaveControl, MUSICAL_EVENT_Create, MUSICAL_EVENT_Main, MUSICAL_EVENT_CreateLocalPerformer, MUSICAL_EVENT_Free, MUSICAL_EVENT_CreateDressupParam, MUSICAL_EVENT_SendLocalPerformer, MUSICAL_EVENT_CreateStage, MUSICAL_EVENT_ScorePerformers, MUSICAL_EVENT_CreateShowRecord, MUSICAL_EVENT_ApplyResults, MUSICAL_EVENT_RollProgramRewards, MUSICAL_EVENT_RunLeaveSequence, MUSICAL_EVENT_RunEnterSequence, MUSICAL_EVENT_SpawnSeatEffect, MUSICAL_EVENT_SpawnExitEffect, MUSICAL_EVENT_ShowMessage, MUSICAL_EVENT_CountNpcSlotsBelow, MUSICAL_EVENT_GetLocalSlot, MUSICAL_EVENT_GetPlayerOfSlot, MUSICAL_EVENT_GetProgramBestCategory, MUSICAL_EVENT_AllocTitleString, MUSICAL_EVENT_GetScoreCapped, MUSICAL_EVENT_GetMaxScore, MUSICAL_EVENT_GetMinScore, MUSICAL_EVENT_GetSlotOfRank, MUSICAL_EVENT_GetBestAppealCategory, MUSICAL_EVENT_GetPortraitClass, MUSICAL_EVENT_SetPlayerNameWord, MUSICAL_EVENT_SetPokemonNameWord, MUSICAL_EVENT_ReceiveShowProgram, MUSICAL_EVENT_CheckNetError, MUSICAL_EVENT_IsAborted, MUSICAL_DRESSUP_SYS_Init, MUSICAL_DRESSUP_SYS_Exit, MUSICAL_DRESSUP_SYS_Main, MUSICAL_DRESSUP_SYS_Create, MUSICAL_DRESSUP_SYS_Delete, MUSICAL_STAGE_SYS_Init, MUSICAL_STAGE_SYS_Exit, MUSICAL_STAGE_SYS_Main, MUSICAL_STAGE_SYS_Create, MUSICAL_STAGE_SYS_Delete, MUSICAL_STAGE_SYS_SetLocalPerformer, MUSICAL_STAGE_SYS_CreateNpcPerformer, MUSICAL_STAGE_SYS_SetRemotePerformer, MUSICAL_STAGE_SYS_SetPerformerProp, MUSICAL_PROGRAM_Create, MUSICAL_PROGRAM_Delete, MUSICAL_PROGRAM_SplitBonus, MUSICAL_PROGRAM_GetCategoryBonus, MUSICAL_PROGRAM_PackBonus, MUSICAL_PROGRAM_UnpackBonus, MUSICAL_PROGRAM_PackPicks, MUSICAL_PROGRAM_UnpackPicks, MUSICAL_PROGRAM_GetBestCategory, MUSICAL_PROGRAM_CreateNpcPerformer, MUSICAL_PROGRAM_GetBaseProgramId, MUSICAL_PROGRAM_GetPropRow, MUSICAL_PROGRAM_GetNpcPortraitClass, MUSICAL_PROGRAM_GetNpcNameId, MUSICAL_PROGRAM_GetCategoryShare, IRC_BATTLE_TASK_Main, IRC_BATTLE_TASK_Create, IRC_BATTLE_TASK_SetFormationOnce, IRC_BATTLE_TASK_Empty0, IRC_BATTLE_TASK_Empty1, IRC_BATTLE_TASK_Empty2, IRC_BATTLE_TASK_Empty3
  * address:  0x02155478
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -81,10 +81,10 @@
  *   POKEPARTY_Create  0x0201A920  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
- *   func_021F685C  0x021F685C  thumb  ov112
- *   func_021F68BC  0x021F68BC  thumb  ov112
+ *   MUSICAL_MCSS_AllocSmall  0x021F685C  thumb  ov112
+ *   MUSICAL_MCSS_LoadDistSave  0x021F68BC  thumb  ov112
  *   STA_NET_GetField48  0x021FD904  thumb  ov132
- *   func_021FC848  0x021FC848  thumb  ov132
+ *   MUS_COMM_FUNC_InitWork  0x021FC848  thumb  ov132
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -102,26 +102,26 @@
  *   STA_NET_SetState6Pair  0x021FD918  thumb  ov132
  *   STA_NET_GetCurrentSlotValue  0x021FD8D4  thumb  ov132
  *   STA_NET_GetSlotValueByIndex  0x021FD8EC  thumb  ov132
- *   func_021FCE28  0x021FCE28  thumb  ov132
+ *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb  ov132
  *   STA_NET_GetSlot1Done  0x021FD83C  thumb  ov132
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_02008530  0x02008530  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
- *   func_02030B50  0x02030B50  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DumpReport  0x02030B50  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   MUSICAL_DRESSUP_SYS_ProcTable     0x02172724  data
  *   MUSICAL_STAGE_SYS_ProcTable     0x02172748  data
  *   d_021F8360     0x021F8360  data
- *   func_021F675C  0x021F675C  thumb
+ *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb
  *   STA_NET_SetState12  0x021FD938  thumb  ov132
- *   func_021F6888  0x021F6888  thumb
+ *   MUSICAL_MCSS_FreeMon  0x021F6888  thumb
  *   STA_NET_SetState18Value  0x021FD948  thumb  ov132
  *   STA_NET_FindRecValueByKey  0x021FD4F8  thumb  ov132
  *   BR_UTIL_EffectIdle  0x021FD964  thumb  ov186
- *   func_021F4F14  0x021F4F14  thumb  ov112
- *   func_021F5140  0x021F5140  thumb  ov112
- *   func_021F4F40  0x021F4F40  thumb  ov112
+ *   MUSICAL_MCSS_LoadActorData  0x021F4F14  thumb  ov112
+ *   MUSICAL_MCSS_GetElemA  0x021F5140  thumb  ov112
+ *   MUSICAL_MCSS_FreeActorData  0x021F4F40  thumb  ov112
  *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -157,11 +157,11 @@
  *   SCRIPT_SYS_GetEventScriptWork   0x021589D0  thumb  ov010
  *   MSGDATA_CreateFromMemory  0x02045C44  arm
  *   func_02008550  0x02008550  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_021FCE44  0x021FCE44  thumb  ov132
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201EF14  0x0201EF14  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   MUS_COMM_FUNC_GetSlotValueB  0x021FCE44  thumb  ov132
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpeciesAlt  0x0201EF14  thumb
  *   STA_NET_GetPairA  0x021FD954  thumb  ov132
  *   STA_NET_GetPairB  0x021FD95C  thumb  ov132
  *   PROCSYS_AllocProcWork  0x0203159C  arm
@@ -177,9 +177,9 @@
  *   STA_ACTING_Update  0x021F879C  thumb
  *   STA_ACTING_Delete  0x021F8640  thumb
  *   sMusicalStageSysFileName  0x02172754  data
- *   func_021F67E0  0x021F67E0  thumb  ov112
+ *   MUSICAL_MCSS_AllocMon  0x021F67E0  thumb  ov112
  *   _s32_div_f  0x0209C0A4  arm
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   _ull_mul  0x0209C054  arm
  *   sMusicalProgramFileName  0x02172768  data
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
@@ -193,7 +193,7 @@
 
 /*
  * Types of this file. Three original files share it:
- *  - an IR battle entry sequence (IrcBattleEntryWork, func_02155478 and the
+ *  - an IR battle entry sequence (IrcBattleEntryWork, IRC_BATTLE_ENTRY_Main and the
  *    accessors after it, plus the IrcBattleTask at the end),
  *  - the musical show sequence (musical_event.c: MusicalEventWork),
  *  - the musical dress-up, stage and show-program objects.
@@ -633,36 +633,36 @@ extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, void *value);
 extern void GAME_BEACON_SEARCH_SetNamedEvent(void *strbuf);
 extern void STRBUF_Delete(void *strbuf);
 extern void *GAME_DATA_GetSaveBlock2A(void *gameData);
-extern void *func_021F685C(u32 heapId);
+extern void *MUSICAL_MCSS_AllocSmall(u32 heapId);
 extern int STA_NET_GetField48(void *session);
 extern u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *save);
-extern void func_021F68BC(void *musicalSystem, void *saveControl, void *session, u8 kind, u16 heapId);
+extern void MUSICAL_MCSS_LoadDistSave(void *musicalSystem, void *saveControl, void *session, u8 kind, u16 heapId);
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 extern void *POKE_TOOL_Dummy(void *mon);
-extern void func_021FC848(void *session, void *myStatus, void *monData, void *gameComm, void *musicalSystem, u16 heapId);
+extern void MUS_COMM_FUNC_InitWork(void *session, void *myStatus, void *monData, void *gameComm, void *musicalSystem, u16 heapId);
 extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *save);
 extern u32 func_02005728(u32 n);
 extern u32 STA_NET_GetField158(void *session);
 extern void STA_NET_SetState6Pair(void *session, u32 lo, u32 hi);
 extern u32 STA_NET_GetCurrentSlotValue(void *session);
 extern u8 STA_NET_GetSlotValueByIndex(void *session, int index);
-extern void *func_021FCE28(void *session, u32 index);
+extern void *MUS_COMM_FUNC_GetSlotValueA(void *session, u32 index);
 extern u32 STA_NET_GetSlot1Done(void *session);
 extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 extern void MISC_SAVEDATA_InsertRecentValue(void *list, u32 id);
 extern u32 func_02008530(const void *myStatus);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_02030B50(void *p);
-extern void func_020306F0(u32 heapId);
-extern void *func_021F675C(void *mon, int heapId);
+extern void GFL_HEAP_DumpReport(void *p);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
+extern void *MUSICAL_MCSS_CreateMon(void *mon, int heapId);
 extern void STA_NET_SetState12(void *session);
-extern int func_021F6888(void *musicalSystem);
+extern int MUSICAL_MCSS_FreeMon(void *musicalSystem);
 extern void STA_NET_SetState18Value(void *session, void *performer);
 extern MusicalPerformer *STA_NET_FindRecValueByKey(void *session, u8 slot);
 extern u32 BR_UTIL_EffectIdle(void *session, u32 player, u32 index);
-extern void *func_021F4F14(int heapId);
-extern unsigned char func_021F5140(void *table, int propId);
-extern void func_021F4F40(void **table);
+extern void *MUSICAL_MCSS_LoadActorData(int heapId);
+extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
+extern void MUSICAL_MCSS_FreeActorData(void **table);
 extern void GF_STANDARD_SetField00_F4E4(RtcDate *date);
 extern void STRBUF_ToChars(void *strbuf, u16 *out, u32 n);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
@@ -692,11 +692,11 @@ extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *gameSys, int m
 extern int SCRIPT_SYS_GetEventScriptWork(void *event);
 extern void *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern u8 func_02008550(const void *myStatus);
-extern void func_0201F02C(void *wordSet, u32 slot, void *myStatus);
-extern void func_0201EE0C(void *wordSet, u32 slot, const void *str, u32 n, u32 f, u32 c);
-extern void *func_021FCE44(void *session, u32 index);
-extern void func_0201EEF4(void *wordSet, u32 slot, void *mon);
-extern void func_0201EF14(void *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 slot, void *myStatus);
+extern void WORDSET_SetSlotTag(void *wordSet, u32 slot, const void *str, u32 n, u32 f, u32 c);
+extern void *MUS_COMM_FUNC_GetSlotValueB(void *session, u32 index);
+extern void WORDSET_SetSlotMonSpecies(void *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMonSpeciesAlt(void *wordSet, u32 slot, void *mon);
 extern u32 STA_NET_GetPairA(void *session);
 extern u32 STA_NET_GetPairB(void *session);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
@@ -708,8 +708,8 @@ extern void STA_NET_BeginTransfer(void *session);
 extern void *STA_ACTING_Create(void *input, int heapId);
 extern int STA_ACTING_Update(void *ui);
 extern void STA_ACTING_Delete(void *ui);
-extern MusicalPerformer *func_021F67E0(u16 monsNo, u8 form, u8 c, u8 d, u32 personality, u16 heapId);
-extern u32 func_0203F0A8(void);
+extern MusicalPerformer *MUSICAL_MCSS_AllocMon(u16 monsNo, u8 form, u8 c, u8 d, u32 personality, u16 heapId);
+extern u32 GF_STANDARD_Rand(void);
 extern int _s32_div_f(int dividend, int divisor);
 extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *gameSys, u32 b);
 extern void BTL_SETUP_FreeSlots(struct BattleSetupParam *setup);
@@ -752,13 +752,13 @@ extern const Float3 d_0216FF08;
 extern u8 d_0217277C[];
 
 /* Functions of this file. */
-int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work);
-struct GameEvent *func_021559E4(void *gameSys, int unused, struct GameEvent *event, int create);
-void func_02155A4C(IrcBattleEntryWork *work);
-void func_02155A6C(IrcBattleEntryWork *work);
-void func_02155A8C(IrcBattleEntryWork *work, u32 mode);
-void *func_02155A90(IrcBattleEntryWork *work);
-void *func_02155A94(IrcBattleEntryWork *work);
+int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work);
+struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, int unused, struct GameEvent *event, int create);
+void IRC_BATTLE_ENTRY_FreeParties(IrcBattleEntryWork *work);
+void IRC_BATTLE_ENTRY_RestoreBgm(IrcBattleEntryWork *work);
+void IRC_BATTLE_ENTRY_SetMode(IrcBattleEntryWork *work, u32 mode);
+void *IRC_BATTLE_ENTRY_GetGameSys(IrcBattleEntryWork *work);
+void *IRC_BATTLE_ENTRY_GetSaveControl(IrcBattleEntryWork *work);
 struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIndex, u32 linkMode, MusicalLink *link);
 int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work);
 void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work);
@@ -820,13 +820,13 @@ int MUSICAL_PROGRAM_GetPropRow(MusicalShowProgram *program);
 u8 MUSICAL_PROGRAM_GetNpcPortraitClass(MusicalShowProgram *program, u8 npcIndex);
 u8 MUSICAL_PROGRAM_GetNpcNameId(MusicalShowProgram *program, int npcIndex);
 u16 MUSICAL_PROGRAM_GetCategoryShare(MusicalShowProgram *program, int category);
-int func_0215739C(void *event, u32 *state, IrcBattleTaskWork *work);
-struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request);
-void func_02157650(int *formation, int value);
-void func_0215765C(void);
-void func_02157660(void);
-void func_02157664(void);
-void func_02157668(void);
+int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work);
+struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request);
+void IRC_BATTLE_TASK_SetFormationOnce(int *formation, int value);
+void IRC_BATTLE_TASK_Empty0(void);
+void IRC_BATTLE_TASK_Empty1(void);
+void IRC_BATTLE_TASK_Empty2(void);
+void IRC_BATTLE_TASK_Empty3(void);
 
 
 /*
@@ -841,7 +841,7 @@ void func_02157668(void);
  * case 19 writes (*step)++ in both arms; state 10 writes the
  * GFL_USE_CancelChangeAndPlayBgm call in each arm.
  */
-int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
+int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work)
 {
     Tbl4 ruleTable;
     BattleRecSaveArgs recArgs;
@@ -1009,7 +1009,7 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
             BTL_SETUP_Delete(work->setup);
             work->setup = 0;
             GFL_USE_CancelChangeAndStopBgm();
-            func_02155A6C(work);
+            IRC_BATTLE_ENTRY_RestoreBgm(work);
             *step = 17;
         }
         break;
@@ -1081,7 +1081,7 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         }
         break;
     case 21:
-        func_02155A6C(work);
+        IRC_BATTLE_ENTRY_RestoreBgm(work);
         GAME_EVENT_CallEvent(parentEvent, FIELD_STATUS_CreateFieldOpenEvent(gameSys));
         (*step)++;
         break;
@@ -1091,7 +1091,7 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         break;
     case 23:
         GFL_NET_IRC_WIRELESS_Exit();
-        func_02155A4C(work);
+        IRC_BATTLE_ENTRY_FreeParties(work);
         return 1;
     case 24:
         (*step)++;
@@ -1117,17 +1117,17 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
 /*
  * Creates (create != 0) or retargets the IR battle entry event and fills
  * its work: the five party lists are allocated here and freed by
- * func_02155A4C.
+ * IRC_BATTLE_ENTRY_FreeParties.
  */
-struct GameEvent *func_021559E4(void *gameSys, int unused, struct GameEvent *event, int create)
+struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, int unused, struct GameEvent *event, int create)
 {
     IrcBattleEventTask *task;
     int i;
 
     if (create != 0)
-        event = func_020122C0(gameSys, 0, func_02155478, 0xE8);
+        event = func_020122C0(gameSys, 0, IRC_BATTLE_ENTRY_Main, 0xE8);
     else
-        GAME_EVENT_Change(event, func_02155478, 0xE8);
+        GAME_EVENT_Change(event, IRC_BATTLE_ENTRY_Main, 0xE8);
     task = func_020124E8(event);
     task->saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSys));
     task->gameData = GAMESYSTEM_GetGameData(gameSys);
@@ -1141,7 +1141,7 @@ struct GameEvent *func_021559E4(void *gameSys, int unused, struct GameEvent *eve
 /*
  * Frees the four link party lists and then the own party list.
  */
-void func_02155A4C(IrcBattleEntryWork *work)
+void IRC_BATTLE_ENTRY_FreeParties(IrcBattleEntryWork *work)
 {
     int i;
 
@@ -1153,7 +1153,7 @@ void func_02155A4C(IrcBattleEntryWork *work)
 /*
  * Stops the saved BGM (if any) and clears it.
  */
-void func_02155A6C(IrcBattleEntryWork *work)
+void IRC_BATTLE_ENTRY_RestoreBgm(IrcBattleEntryWork *work)
 {
     if (work->savedBgm != 0) {
         GFL_USE_CancelChangeAndPlayBgm(work->savedBgm, 0xFFFF);
@@ -1165,7 +1165,7 @@ void func_02155A6C(IrcBattleEntryWork *work)
 /*
  * Stores the mode word.
  */
-void func_02155A8C(IrcBattleEntryWork *work, u32 mode)
+void IRC_BATTLE_ENTRY_SetMode(IrcBattleEntryWork *work, u32 mode)
 {
     work->mode = mode;
 }
@@ -1173,7 +1173,7 @@ void func_02155A8C(IrcBattleEntryWork *work, u32 mode)
 /*
  * Reads the game system pointer.
  */
-void *func_02155A90(IrcBattleEntryWork *work)
+void *IRC_BATTLE_ENTRY_GetGameSys(IrcBattleEntryWork *work)
 {
     return work->gameSys;
 }
@@ -1181,7 +1181,7 @@ void *func_02155A90(IrcBattleEntryWork *work)
 /*
  * Reads the save control pointer.
  */
-void *func_02155A94(IrcBattleEntryWork *work)
+void *IRC_BATTLE_ENTRY_GetSaveControl(IrcBattleEntryWork *work)
 {
     return work->saveControl;
 }
@@ -1222,13 +1222,13 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->stage = 0;
     work->result = 0;
     work->save = GAME_DATA_GetSaveBlock2A(gameData);
-    work->musicalSystem = func_021F685C(4);
+    work->musicalSystem = MUSICAL_MCSS_AllocSmall(4);
     if (work->linkMode == 0 || STA_NET_GetField48(work->link->session) == 1)
-        func_021F68BC(work->musicalSystem, work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
+        MUSICAL_MCSS_LoadDistSave(work->musicalSystem, work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
     if (work->linkMode == 1) {
         work->state = MUSICAL_EVENT_STATE_LINK_WAIT_PEERS;
         work->step = 0;
-        func_021FC848(work->session, GAME_DATA_GetMyStatus(work->gameData), POKE_TOOL_Dummy(work->ownMon), work->gameComm, work->musicalSystem, 4);
+        MUS_COMM_FUNC_InitWork(work->session, GAME_DATA_GetMyStatus(work->gameData), POKE_TOOL_Dummy(work->ownMon), work->gameComm, work->musicalSystem, 4);
     } else {
         u16 maxLevel = MUSICAL_SAVE_GetFanPoints(work->save);
         u8 i;
@@ -1279,7 +1279,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
             list = MISC_SAVEDATA_GetBlock44(work->saveControl);
             for (i = 0; i < 4; i++) {
                 if (STA_NET_GetCurrentSlotValue(work->link->session) != STA_NET_GetSlotValueByIndex(work->link->session, i)) {
-                    void *peerStatus = func_021FCE28(work->link->session, i);
+                    void *peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->link->session, i);
                     if (peerStatus != 0)
                         MISC_SAVEDATA_InsertRecentValue(list, func_02008530(peerStatus));
                 }
@@ -1403,8 +1403,8 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
         work->state = MUSICAL_EVENT_STATE_END;
         break;
     case MUSICAL_EVENT_STATE_END:
-        func_02030B50((void *)4);
-        func_020306F0(0x2C);
+        GFL_HEAP_DumpReport((void *)4);
+        GFL_HEAP_DeleteChecked(0x2C);
         return 1;
     case MUSICAL_EVENT_STATE_ABORT_LEAVE:
         if (MUSICAL_EVENT_RunLeaveSequence(event, work) == 1)
@@ -1437,7 +1437,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
  */
 void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work)
 {
-    work->localPerformer = func_021F675C(work->ownMon, 4);
+    work->localPerformer = MUSICAL_MCSS_CreateMon(work->ownMon, 4);
     if (work->linkMode != 0) {
         STA_NET_GetField48(work->link->session);
         STA_NET_SetState12(work->link->session);
@@ -1462,7 +1462,7 @@ int MUSICAL_EVENT_Free(MusicalEventWork *work)
         func_020307B0(work->result);
     }
     if (work->musicalSystem != 0)
-        func_021F6888(work->musicalSystem);
+        MUSICAL_MCSS_FreeMon(work->musicalSystem);
     if (work->localPerformer != 0)
         func_020307B0(work->localPerformer);
     if (work->program != 0)
@@ -1534,7 +1534,7 @@ void MUSICAL_EVENT_CreateStage(MusicalEventWork *work)
  * Adds the program's per-category share to the total of every performer for
  * each equipped prop. In a wireless show the props the peers report as used
  * are marked first. The u8 local category is what puts the truncation of
- * func_021F5140's result ahead of the work->program load.
+ * MUSICAL_MCSS_GetElemA's result ahead of the work->program load.
  */
 void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work)
 {
@@ -1555,17 +1555,17 @@ void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work)
             }
         }
     }
-    propTable = func_021F4F14(4);
+    propTable = MUSICAL_MCSS_LoadActorData(4);
     for (i = 0; i < 4; i++) {
         performer = work->stage->performers[i];
         for (j = 0; j < 9; j++) {
             if (performer->equipUsed[j] == 1) {
-                category = (u32)func_021F5140(propTable, (u16)performer->equips[j].propId);
+                category = (u32)MUSICAL_MCSS_GetElemA(propTable, (u16)performer->equips[j].propId);
                 performer->totalScore += MUSICAL_PROGRAM_GetCategoryShare(work->program, category);
             }
         }
     }
-    func_021F4F40(propTable);
+    MUSICAL_MCSS_FreeActorData(propTable);
 }
 
 /*
@@ -1631,7 +1631,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
         if (i == work->localSlot)
             peerName = GAME_DATA_GetMyStatus(work->gameData);
         else if (work->linkMode == 1)
-            peerName = func_021FCE28(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, i));
+            peerName = MUS_COMM_FUNC_GetSlotValueA(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, i));
         if (peerName != 0) {
             MI_CpuCopy8(peerName, record->performers[i].name, 0x10);
         } else {
@@ -1707,16 +1707,16 @@ void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work)
     {
         u8 count[4] = {0, 0, 0, 0};
 
-        propTable = func_021F4F14(4);
+        propTable = MUSICAL_MCSS_LoadActorData(4);
         performer = work->stage->performers[work->localSlot];
         for (j = 0; j < 9; j++) {
             if (performer->equips[j].propId != 0xFF)
-                count[(u8)(u32)func_021F5140(propTable, (u16)performer->equips[j].propId)]++;
+                count[(u8)(u32)MUSICAL_MCSS_GetElemA(propTable, (u16)performer->equips[j].propId)]++;
         }
         for (j = 0; j < 4; j++)
             MUSICAL_SAVE_SetEquippedProp(work->save, j, count[j]);
     }
-    func_021F4F40(propTable);
+    MUSICAL_MCSS_FreeActorData(propTable);
     zoneId = *GAME_DATA_GetMyPlayerWork(work->gameData);
     NATSUKI_Calc(work->ownMon, 6, zoneId, 4);
     trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
@@ -1946,7 +1946,7 @@ u8 MUSICAL_EVENT_CountNpcSlotsBelow(MusicalEventWork *work, u8 n)
         if (work->session == 0) {
             if (i == 0)
                 continue;
-        } else if (func_021FCE28(work->session, i) != 0) {
+        } else if (MUS_COMM_FUNC_GetSlotValueA(work->session, i) != 0) {
             continue;
         }
         count++;
@@ -2097,7 +2097,7 @@ u8 MUSICAL_EVENT_GetPortraitClass(MusicalEventWork *work, u8 slot)
     if (slot == work->localSlot)
         return 0;
     if (work->linkMode == 1) {
-        peerStatus = func_021FCE28(work->session, player);
+        peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->session, player);
         if (peerStatus != 0) {
             if (func_02008550(peerStatus) == 0)
                 return 1;
@@ -2118,12 +2118,12 @@ void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *word
     void *peerStatus;
 
     if (slot == work->localSlot) {
-        func_0201F02C(wordSet, wordIndex, GAME_DATA_GetMyStatus(work->gameData));
+        WORDSET_SetSlotMyStatus(wordSet, wordIndex, GAME_DATA_GetMyStatus(work->gameData));
         done = 1;
     } else if (work->linkMode == 1) {
-        peerStatus = func_021FCE28(work->session, player);
+        peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->session, player);
         if (peerStatus != 0) {
-            func_0201F02C(wordSet, wordIndex, peerStatus);
+            WORDSET_SetSlotMyStatus(wordSet, wordIndex, peerStatus);
             done = 1;
         }
     }
@@ -2132,7 +2132,7 @@ void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *word
         void *msgData = func_02045B38(0, 2, 0x4C, 4);
         void *str = func_02045EC0(msgData, nameId);
 
-        func_0201EE0C(wordSet, wordIndex, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
     }
@@ -2140,7 +2140,7 @@ void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *word
 
 /*
  * Twin of MUSICAL_EVENT_SetPlayerNameWord for the Pokemon name: the own Pokemon, the peer's
- * Pokemon (func_021FCE44), or failing both the NPC Pokemon name from message
+ * Pokemon (MUS_COMM_FUNC_GetSlotValueB), or failing both the NPC Pokemon name from message
  * bank 0x4D.
  */
 void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex)
@@ -2151,12 +2151,12 @@ void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wor
 
     if (slot == work->localSlot) {
         GAME_DATA_GetMyStatus(work->gameData);
-        func_0201EEF4(wordSet, wordIndex, work->ownMon);
+        WORDSET_SetSlotMonSpecies(wordSet, wordIndex, work->ownMon);
         done = 1;
     } else if (work->linkMode == 1) {
-        peerMon = func_021FCE44(work->session, player);
+        peerMon = MUS_COMM_FUNC_GetSlotValueB(work->session, player);
         if (peerMon != 0) {
-            func_0201EF14(wordSet, wordIndex, peerMon);
+            WORDSET_SetSlotMonSpeciesAlt(wordSet, wordIndex, peerMon);
             done = 1;
         }
     }
@@ -2165,7 +2165,7 @@ void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wor
         void *msgData = func_02045B38(0, 2, 0x4D, 4);
         void *str = func_02045EC0(msgData, nameId);
 
-        func_0201EE0C(wordSet, wordIndex, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
     }
@@ -2238,7 +2238,7 @@ int MUSICAL_DRESSUP_SYS_Exit(void *proc, int unused1, int unused2, MusicalDressu
 {
     func_020307B0(work->paramCopy);
     func_020315D4(proc);
-    func_020306F0(0x2d);
+    GFL_HEAP_DeleteChecked(0x2d);
     func_02034A5C((u32)ov133_id);
     return 1;
 }
@@ -2333,8 +2333,8 @@ int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, MusicalStage *prevStage)
         MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 3, 2, 0x15, 0, 2);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_LOCAL;
         GFL_HEAP_CreateChildHeap(1, 0x802C, 0x80000);
-        work->stage->musicalSystem = func_021F685C(1);
-        func_021F68BC(work->stage->musicalSystem, 0, 0, 0, 0x2C);
+        work->stage->musicalSystem = MUSICAL_MCSS_AllocSmall(1);
+        MUSICAL_MCSS_LoadDistSave(work->stage->musicalSystem, 0, 0, 0, 0x2C);
         work->stage->program = MUSICAL_PROGRAM_Create(0x2E, work->stage->musicalSystem, 0);
         MUSICAL_PROGRAM_SplitBonus(0x2E, work->stage->program, work->stage);
         work->stage->performers[0]->totalScore = 75;
@@ -2356,14 +2356,14 @@ int MUSICAL_STAGE_SYS_Exit(void *proc, int unused, int keepStage, MusicalStageWo
 {
     if (keepStage == 0) {
         MUSICAL_PROGRAM_Delete(work->stage->program);
-        func_021F6888(work->stage->musicalSystem);
-        func_020306F0(0x2c);
+        MUSICAL_MCSS_FreeMon(work->stage->musicalSystem);
+        GFL_HEAP_DeleteChecked(0x2c);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_NPC;
         MUSICAL_STAGE_SYS_Delete(work->stage);
         func_02034A5C((u32)ov112_id);
     }
     func_020315D4(proc);
-    func_020306F0(0x2e);
+    GFL_HEAP_DeleteChecked(0x2e);
     return 1;
 }
 
@@ -2440,7 +2440,7 @@ int MUSICAL_STAGE_SYS_SetLocalPerformer(MusicalStage *stage, int slot, MusicalPe
  */
 void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId)
 {
-    stage->performers[slot] = func_021F67E0(monsNo, form, 0, 0, personality, heapId);
+    stage->performers[slot] = MUSICAL_MCSS_AllocMon(monsNo, form, 0, 0, personality, heapId);
     stage->performers[slot]->origin = MUSICAL_PERFORMER_NPC;
     stage->performers[slot]->appealBase = appealBase;
 }
@@ -2476,7 +2476,7 @@ void MUSICAL_STAGE_SYS_SetPerformerProp(MusicalStage *stage, u8 slot, u8 bodySlo
 
 static inline u32 RandBelow(u32 n)
 {
-    u32 r = func_0203F0A8();
+    u32 r = GF_STANDARD_Rand();
 
     if (n != 0)
         r = ((u64)r * n) >> 32;
@@ -2577,7 +2577,7 @@ void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, Musical
     u8 propsInCategory[4];
     u8 propsOfPerformer[4][4];
 
-    propTable = func_021F4F14(heapId);
+    propTable = MUSICAL_MCSS_LoadActorData(heapId);
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++)
             propsOfPerformer[j][i] = 0;
@@ -2588,7 +2588,7 @@ void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, Musical
         u8 j;
         for (j = 0; j < 9; j++) {
             if (performer->equips[j].propId != 0xFF) {
-                category = (u32)func_021F5140(propTable, (u16)performer->equips[j].propId);
+                category = (u32)MUSICAL_MCSS_GetElemA(propTable, (u16)performer->equips[j].propId);
                 propsOfPerformer[i][category]++;
                 propsInCategory[category]++;
             }
@@ -2604,7 +2604,7 @@ void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, Musical
             performer->appealScore[j] = score;
         }
     }
-    func_021F4F40(propTable);
+    MUSICAL_MCSS_FreeActorData(propTable);
 }
 
 /*
@@ -2737,7 +2737,7 @@ u16 MUSICAL_PROGRAM_GetCategoryShare(MusicalShowProgram *program, int category)
  * field, runs the battle (the ov008 runner gets the setup, the slot record
  * and a zero word) and returns 1 when done.
  */
-int func_0215739C(void *event, u32 *state, IrcBattleTaskWork *work)
+int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work)
 {
     void *gameSys = work->gameSys;
 
@@ -2786,15 +2786,15 @@ int func_0215739C(void *event, u32 *state, IrcBattleTaskWork *work)
 }
 
 /*
- * Creates the IR battle task: allocates it with func_0215739C as its
+ * Creates the IR battle task: allocates it with IRC_BATTLE_TASK_Main as its
  * callback, picks the formation slot for battle kinds 4..23 (four kinds per
- * rule, the first matching case wins through func_02157650), runs the
+ * rule, the first matching case wins through IRC_BATTLE_TASK_SetFormationOnce), runs the
  * matching setup builder and returns the event.
  */
-struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request)
+struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request)
 {
     int formation = 0x29;
-    struct GameEvent *event = func_020122C0(gameSys, 0, func_0215739C, 0xFC);
+    struct GameEvent *event = func_020122C0(gameSys, 0, IRC_BATTLE_TASK_Main, 0xFC);
     IrcBattleTaskWork *work = func_020124E8(event);
     struct BattleSetupParam *setup;
     void *sysData;
@@ -2805,57 +2805,57 @@ struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBatt
     setup = &work->setup;
     switch (kind) {
     case 5:
-        func_02157650(&formation, 0);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 0);
     case 4:
-        func_02157650(&formation, 2);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 2);
     case 7:
-        func_02157650(&formation, 1);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 1);
     case 6:
-        func_02157650(&formation, 3);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 3);
         sysData = GAMESYSTEM_GetGameData(gameSys);
         BTL_SETUP_SetupCommSingle(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
-        func_02157650(&formation, 4);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 4);
     case 8:
-        func_02157650(&formation, 6);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 6);
     case 11:
-        func_02157650(&formation, 5);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 5);
     case 10:
-        func_02157650(&formation, 7);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 7);
         sysData = GAMESYSTEM_GetGameData(gameSys);
         BTL_SETUP_SetupCommDouble(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
-        func_02157650(&formation, 8);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 8);
     case 12:
-        func_02157650(&formation, 10);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 10);
     case 15:
-        func_02157650(&formation, 9);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 9);
     case 14:
-        func_02157650(&formation, 11);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 11);
         sysData = GAMESYSTEM_GetGameData(gameSys);
         BTL_SETUP_SetupCommTriple(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 17:
-        func_02157650(&formation, 12);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 12);
     case 16:
-        func_02157650(&formation, 14);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 14);
     case 19:
-        func_02157650(&formation, 13);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 13);
     case 18:
-        func_02157650(&formation, 15);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 15);
         sysData = GAMESYSTEM_GetGameData(gameSys);
         BTL_SETUP_SetupCommRotation(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 21:
-        func_02157650(&formation, 16);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 16);
     case 20:
-        func_02157650(&formation, 18);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 18);
     case 23:
-        func_02157650(&formation, 17);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 17);
     case 22:
-        func_02157650(&formation, 19);
+        IRC_BATTLE_TASK_SetFormationOnce(&formation, 19);
         sysData = GAMESYSTEM_GetGameData(gameSys);
         BTL_SETUP_SetupCommMulti(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
         break;
@@ -2876,25 +2876,25 @@ struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBatt
  * Stores value into *formation only while it still holds the unset
  * sentinel 0x29, so the first call wins.
  */
-void func_02157650(int *formation, int value)
+void IRC_BATTLE_TASK_SetFormationOnce(int *formation, int value)
 {
     if (*formation == 0x29)
         *formation = value;
 }
 
 /* Four empty leaves (unused callback slots). */
-void func_0215765C(void)
+void IRC_BATTLE_TASK_Empty0(void)
 {
 }
 
-void func_02157660(void)
+void IRC_BATTLE_TASK_Empty1(void)
 {
 }
 
-void func_02157664(void)
+void IRC_BATTLE_TASK_Empty2(void)
 {
 }
 
-void func_02157668(void)
+void IRC_BATTLE_TASK_Empty3(void)
 {
 }

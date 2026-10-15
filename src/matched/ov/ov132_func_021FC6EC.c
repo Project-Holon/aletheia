@@ -1,5 +1,5 @@
 /*
- * function: func_021FC6EC
+ * function: MUS_COMM_FUNC_UpdateNetState
  * address: 0x021FC6EC
  * packet: pkt_ov132_021FC6EC
  * region: ov132
@@ -18,8 +18,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GAMESYSTEM_SetFieldMapState 0x02012124 thumb
- *   func_021FCDEC 0x021FCDEC thumb ov132
- *   func_021FCE00 0x021FCE00 thumb ov132
+ *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
+ *   MUS_COMM_FUNC_CheckTimingSync 0x021FCE00 thumb ov132
  * 0203D1B4's forwarding matched void declaration loses its live result.
  * 0203D7BC retains the original caller's unused zero argument.
  */
@@ -37,19 +37,19 @@ extern u32 GFL_NET_IsParentAid(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
-extern void func_021FCDEC(int,int);
-extern int func_021FCE00(char *p, int id);
-int func_021FC6EC(int *state,u8 *p)
+extern void MUS_COMM_FUNC_SetTimingSync(int,int);
+extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
+int MUS_COMM_FUNC_UpdateNetState(int *state,u8 *p)
 {
  switch(*state) {
  case 0:
   if(GFL_NET_GetNegotiationNum()<=1) {GFL_NET_Exit(0);return 1;}
   if(((struct Obj08173 *)p)->fC==1) GFL_NET_COMMAND_DeleteCommandTable(0x1100);
-  if(((struct Obj08173 *)p)->f8==1) {GFL_NET_SetLoginOption(0);func_021FCDEC((int)p,0x41);*state=1;}
+  if(((struct Obj08173 *)p)->f8==1) {GFL_NET_SetLoginOption(0);MUS_COMM_FUNC_SetTimingSync((int)p,0x41);*state=1;}
   else *state=2;
   break;
  case 1:
-  if(func_021FCE00((char *)p,0x41)==1) *state=2;
+  if(MUS_COMM_FUNC_CheckTimingSync((char *)p,0x41)==1) *state=2;
   if(GFL_NET_GetNegotiationNum()<=1 || func_0200FB24()!=0) *state=10;
   break;
  case 2:

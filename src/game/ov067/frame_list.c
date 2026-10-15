@@ -15,8 +15,8 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_020307B0 0x020307B0 arm
- *   func_020410D0  0x020410D0  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020355D8  0x020355D8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -62,7 +62,7 @@
  *   BMP_WIN_GetPosY  0x02045760  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  */
@@ -72,8 +72,8 @@ struct Bitmap;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *ptr);
-extern void func_020410D0(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
-extern void func_020413B0(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
+extern void BG_SYS_DrawTileEx(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
+extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
 extern void func_020355D8(u8 value);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
@@ -116,7 +116,7 @@ extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 extern void *BMP_GetPixels(const struct Bitmap *bitmap);
 extern u32 BGWINFRM_GetFrameBuffer(struct BgWinFrm *mgr, u32 index);
-extern void func_02041300(u32 layer, int value, int x, int y, u8 width, u8 height, u8 mode);
+extern void BG_SYS_SetTileEntry(u32 layer, int value, int x, int y, u8 width, u8 height, u8 mode);
 extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anim);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *printer);
 FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId);
@@ -1268,7 +1268,7 @@ void FRAME_LIST_ScrollBgRows(FrameList *list, int windowIndex, s8 y)
             y += 0x20;
         else if (y >= 0x20)
             y -= 0x20;
-        func_020410D0(bgFrame, list->params.tileX, (u8)y, list->params.tileWidth, 1, frameBuffer, 0, tileRow, list->params.tileWidth, list->params.rowHeight);
+        BG_SYS_DrawTileEx(bgFrame, list->params.tileX, (u8)y, list->params.tileWidth, 1, frameBuffer, 0, tileRow, list->params.tileWidth, list->params.rowHeight);
         y++;
     }
     func_02041B6C((u8)bgFrame);
@@ -1284,7 +1284,7 @@ void FRAME_LIST_ClearBgRows(FrameList *list, u32 layer, s8 y)
             y += 0x20;
         else if (y >= 0x20)
             y -= 0x20;
-        func_02041300(layer, 0, list->params.tileX, (u8)y, list->params.tileWidth, 1, 0);
+        BG_SYS_SetTileEntry(layer, 0, list->params.tileX, (u8)y, list->params.tileWidth, 1, 0);
         y++;
     }
     func_02041B6C(layer);
@@ -1346,7 +1346,7 @@ void FRAME_LIST_SetRowPalette(FrameList *list, int row, u32 pltt)
     for (; tileRow < list->params.rowHeight; tileRow++) {
         if (pos < 0) pos += 32;
         else if (pos >= 32) pos -= 32;
-        func_020413B0(list->params.bgLayer, list->params.tileX, (u8)pos, list->params.tileWidth, 1, (u8)pltt);
+        BG_SYS_FillTileMap(list->params.bgLayer, list->params.tileX, (u8)pos, list->params.tileWidth, 1, (u8)pltt);
         pos++;
     }
     func_02041B6C(list->params.bgLayer);

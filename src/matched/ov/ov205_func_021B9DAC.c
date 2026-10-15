@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DAC
+ * function: SAVE_SCREEN_DeleteNoticeBackground
  * address: 0x021B9DAC
  * packet: pkt_ov205_021B9DAC
  * region: ov205
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void BMP_WIN_Exit(void); extern void BG_SYS_Delete(void);
-void func_021B9DAC(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
+void SAVE_SCREEN_DeleteNoticeBackground(void) { BMP_WIN_Exit();BG_SYS_Delete(); }

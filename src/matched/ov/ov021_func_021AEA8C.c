@@ -13,7 +13,7 @@
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   SCRIPT_WORK_GetScriptId  0x02158F8C  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_0215A460  0x0215A460  thumb  ov010
+ *   EVENT_POKE_STATUS_NormalizeTicks  0x0215A460  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  */
 
@@ -27,7 +27,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern u16 SCRIPT_WORK_GetScriptId(u8 *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u32 func_0215A460(u32 a);
+extern u32 EVENT_POKE_STATUS_NormalizeTicks(u32 a);
 
 int SCRCMD_GetScriptTrainerId(u32 a, u32 b)
 {
@@ -36,6 +36,6 @@ int SCRCMD_GetScriptTrainerId(u32 a, u32 b)
 
     SCRIPT_WORK_ResetFieldParam((int)x);
     y = SCRIPT_WORK_GetScriptId(x);
-    *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = func_0215A460(y);
+    *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = EVENT_POKE_STATUS_NormalizeTicks(y);
     return 0;
 }

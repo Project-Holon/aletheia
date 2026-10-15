@@ -15,8 +15,8 @@
  *   the Sav destination took ip and the record copy counter (mov r5,#0x13) was scheduled above the trailing
  *   strb. Without the pragma this form gives the old 18 bytes (source and destination colours swapped).
  * symbols:
- *   func_02167FA8 0x02167FA8 arm ov009
- *   func_02168040 0x02168040 arm ov009
+ *   DWC_SVLGetTokenAsync 0x02167FA8 arm ov009
+ *   DWC_SVLProcess 0x02168040 arm ov009
  *   DWC_GetLastErrorEx 0x02059E38 arm
  *   GDS_SOCKET_Lock 0x021D7CAC arm ov125
  *   GDS_SOCKET_Unlock 0x021D7CC0 arm ov125
@@ -29,8 +29,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 b[301]; } Sav;
 typedef struct { int w[0x138 / 4]; } Blob;
-extern int func_02167FA8(char *svl, void *result);
-extern int func_02168040(void);
+extern int DWC_SVLGetTokenAsync(char *svl, void *result);
+extern int DWC_SVLProcess(void);
 extern int DWC_GetLastErrorEx(int *, int *);
 extern void GDS_SOCKET_Lock(void);
 extern void GDS_SOCKET_Unlock(void);
@@ -48,12 +48,12 @@ int GDS_SOCKET_WaitToken(void)
 
     if (D(0x138) == 1)
         return 1;
-    if (func_02167FA8((char *)sGdsSvlService, buf) == 0) {
+    if (DWC_SVLGetTokenAsync((char *)sGdsSvlService, buf) == 0) {
         D(0x250) = 0xE;
         return 0;
     }
     for (;;) {
-        r = func_02168040();
+        r = DWC_SVLProcess();
         if (r == 3) {
             Sav *t = (Sav *)(gGdsSocket + 6);
             *t = *(Sav *)(buf + 0x45);

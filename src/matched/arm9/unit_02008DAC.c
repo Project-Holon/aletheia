@@ -11,27 +11,33 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008DAC, sub_02008DF0, sub_02008DFC
+ * function: RECORD_AddCounter, RECORD_AddOne, RECORD_GetCounterClamped
  *
  * alias: the second half of the clamped read-modify-write layer over the save
  * block with id 0x26; see src/matched/unit_02008D1C.c for the cut.
  *
- * sub_02008DF0 is twelve bytes with no prologue and carries no label in the
+ * RECORD_AddOne is twelve bytes with no prologue and carries no label in the
  * listing: `ldr r3, [pc, #4]; movs r2, #1; bx r3` plus the pool word
- * 0x02008DAD.  That is `return sub_02008DAC(obj, i, 1);`, the increment-by-one
+ * 0x02008DAD.  That is `return RECORD_AddCounter(obj, i, 1);`, the increment-by-one
  * spelling of the function above it, and it is `local` to this range because
- * sub_02008DAC is in it.
+ * RECORD_AddCounter is in it.
  *
- * The one byte that had to be found: `adds r2, r0, r7` in sub_02008DAC is the
+ * The one byte that had to be found: `adds r2, r0, r7` in RECORD_AddCounter is the
  * counter plus the delta with the *call result* in the left slot, and that
  * only happens when a named local holds it.  Written inline in either operand
- * order, `sub_02008CB4(obj, i) + delta` and `delta + sub_02008CB4(obj, i)`
+ * order, `RECORD_GetCounter(obj, i) + delta` and `delta + RECORD_GetCounter(obj, i)`
  * both give `adds r2, r7, r0`.  See
  * docs/idioms/commutative-operand-order-names-the-temporary.md.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02008DAC.c \
  *       --addr 0x02008DAC --thumb
+ *
+ * symbols:
+ *   RECORD_Seal  0x02008C64  thumb
+ *   RECORD_Unseal  0x02008C94  thumb
+ *   RECORD_GetCounter  0x02008CB4  thumb
+ *   RECORD_SetCounter  0x02008CD4  thumb
  */
 
 typedef unsigned int u32;
@@ -39,44 +45,44 @@ typedef unsigned int u32;
 struct Sub02008C20Obj;
 
 extern int sub_02008CF8(int idx);
-extern void sub_02008C64(struct Sub02008C20Obj *obj, int i);
-extern void sub_02008C94(struct Sub02008C20Obj *obj, int i);
-extern u32 sub_02008CB4(const struct Sub02008C20Obj *obj, int i);
-extern u32  sub_02008CD4(struct Sub02008C20Obj *obj, int i, u32 value);
+extern void RECORD_Seal(struct Sub02008C20Obj *obj, int i);
+extern void RECORD_Unseal(struct Sub02008C20Obj *obj, int i);
+extern u32 RECORD_GetCounter(const struct Sub02008C20Obj *obj, int i);
+extern u32  RECORD_SetCounter(struct Sub02008C20Obj *obj, int i, u32 value);
 
-u32 sub_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
+u32 RECORD_AddCounter(struct Sub02008C20Obj *obj, int i, u32 delta);
 
-u32 sub_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta)
+u32 RECORD_AddCounter(struct Sub02008C20Obj *obj, int i, u32 delta)
 {
     u32 max = sub_02008CF8(i);
     u32 result;
     u32 cur;
 
-    sub_02008C94(obj, i);
-    cur = sub_02008CB4(obj, i);
+    RECORD_Unseal(obj, i);
+    cur = RECORD_GetCounter(obj, i);
     result = cur + delta;
     if (result < max) {
-        result = sub_02008CD4(obj, i, result);
+        result = RECORD_SetCounter(obj, i, result);
     } else {
-        result = sub_02008CD4(obj, i, max);
+        result = RECORD_SetCounter(obj, i, max);
     }
-    sub_02008C64(obj, i);
+    RECORD_Seal(obj, i);
     return result;
 }
 
-u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i)
+u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i)
 {
-    return sub_02008DAC(obj, i, 1);
+    return RECORD_AddCounter(obj, i, 1);
 }
 
-u32 sub_02008DFC(struct Sub02008C20Obj *obj, int i)
+u32 RECORD_GetCounterClamped(struct Sub02008C20Obj *obj, int i)
 {
     u32 max = sub_02008CF8(i);
     u32 result;
 
-    sub_02008C94(obj, i);
-    result = sub_02008CB4(obj, i);
-    sub_02008C64(obj, i);
+    RECORD_Unseal(obj, i);
+    result = RECORD_GetCounter(obj, i);
+    RECORD_Seal(obj, i);
     if (result <= max) {
         max = result;
     }

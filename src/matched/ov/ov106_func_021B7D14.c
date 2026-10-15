@@ -29,9 +29,9 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -73,13 +73,13 @@ extern BgEntry gIrcRankingBgEntries[];
 extern void MI_CpuFill8(void *, int, u32);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 struct Cfg;
 struct CharBuf;
 struct Rec;
 struct U16Vec;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
@@ -108,11 +108,11 @@ void IRC_RANKING_GfxInit(u32 *p, void *arg, u32 heap) {
  MI_CpuFill8(p, 0, 0x10);
  BG_SYS_Create(heap);
  BMP_WIN_Init(heap);
- func_0203FC28(&gIrcRankingDispConfig);
+ BG_SYS_SetGraphicsMode(&gIrcRankingDispConfig);
  for (i = 0; i < 8; i++) {
   bg = gIrcRankingBgEntries[i].bg;
   BG_SYS_InitBgLayer((u8)bg, &gIrcRankingBgEntries[i].t, (u8)gIrcRankingBgEntries[i].type);
-  func_020414AC(bg);
+  BG_SYS_FreeSlot(bg);
   func_02040588(bg, 1);
  }
  p[0] = (u32)func_020490F4(0x4d, heap);

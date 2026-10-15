@@ -26,7 +26,7 @@
  *   PLIST_MESSAGE_SetWordSetPokemon  0x021BB99C  thumb  ov091
  *   PLIST_MENU_GetItemUseMessage  0x021BC228  thumb  ov091
  *   PLIST_MENU_Open  0x021BBAF8  thumb  ov091
- *   func_021F6744  0x021F6744  thumb  ov112
+ *   MUSICAL_MCSS_GetMonValue  0x021F6744  thumb  ov112
  */
 #include "../include/Obj00009.h"
 #include "../include/Obj20858.h"
@@ -47,7 +47,7 @@ extern void PLIST_MESSAGE_DestroyWordSet(void *p, u32 s);
 extern void PLIST_MESSAGE_SetWordSetPokemon(int a, int b, int c, int d);
 extern int PLIST_MENU_GetItemUseMessage(int unused, int id);
 extern void PLIST_MENU_Open(u8 *a, u8 *b, int *items);
-extern int func_021F6744(void *p);
+extern int MUSICAL_MCSS_GetMonValue(void *p);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -146,7 +146,7 @@ void POKELIST_OpenContextMenu(u8 *p)
         }
         break;
     case 25:
-        if (func_021F6744((void *)W(0x38)) == 1) {
+        if (MUSICAL_MCSS_GetMonValue((void *)W(0x38)) == 1) {
             buf[0] = 0xb;
             buf[1] = 0;
             buf[2] = 6;

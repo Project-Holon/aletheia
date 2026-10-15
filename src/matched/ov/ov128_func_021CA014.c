@@ -1,5 +1,5 @@
 /*
- * function: func_021CA014
+ * function: WF2DMAP_TOUCH_ParseKey
  * address: 0x021CA014
  * packet: pkt_ov128_021CA014
  * region: ov128
@@ -20,7 +20,7 @@ typedef unsigned long long u64;
 extern u16 STRBUF_GetEosChar(void);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-u64 func_021CA014(void *p,int *ok)
+u64 WF2DMAP_TOUCH_ParseKey(void *p,int *ok)
 {
     u16 end=STRBUF_GetEosChar();
     u16 *text=STRBUF_GetChars(p);

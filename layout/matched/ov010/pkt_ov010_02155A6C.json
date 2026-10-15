@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02155A6C",
+   "name": "IRC_BATTLE_ENTRY_RestoreBgm",
    "address": "0x02155A6C",
    "kind": "game",
    "region": "ov010",

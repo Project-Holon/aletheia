@@ -1,5 +1,5 @@
 /*
- * function: func_021D7484
+ * function: GTSNEGO_MSG_DeleteIdleActors
  * address: 0x021D7484
  * packet: pkt_ov120_021D7484
  * region: ov120
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021D7484(char *p) { CLACT_SetActorDrawEnable(((struct Obj00199 *)p)->f12C,0); CLACT_DeleteActor(((struct Obj00199 *)p)->f12C); CLACT_SetActorDrawEnable(((struct Obj00199 *)p)->f130,0); CLACT_DeleteActor(((struct Obj00199 *)p)->f130); }
+void GTSNEGO_MSG_DeleteIdleActors(char *p) { CLACT_SetActorDrawEnable(((struct Obj00199 *)p)->f12C,0); CLACT_DeleteActor(((struct Obj00199 *)p)->f12C); CLACT_SetActorDrawEnable(((struct Obj00199 *)p)->f130,0); CLACT_DeleteActor(((struct Obj00199 *)p)->f130); }

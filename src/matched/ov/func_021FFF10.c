@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -23,6 +23,8 @@
  *   g_022039A4  0x022039A4  data  ov135
  *   g_02203984  0x02203984  data  ov135
  *   g_022039C4  0x022039C4  data  ov135
+ *   BG_SYS_SetTileEntry  0x02041300  arm  arm9
+ *   BG_SYS_ClearLayerEx  0x02041570  arm  arm9
  *
  * Three-layer bring-up with layer 0's tilemap cleared and plane 0x10 turned
  * on through both 020434DC and 02043598.
@@ -57,7 +59,7 @@ struct BgTemplate {
 };
 
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -65,9 +67,9 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_ClearSlot(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
 extern struct DispConfig g_02203914;
 extern struct BgTemplate g_022039A4;
@@ -79,7 +81,7 @@ void WORLDTRADE_TITLE_SetupBgPlanes(void)
     struct DispConfig c = g_02203914;
     u32 v = BG_SYS_GetSubVisiblePlanes();
 
-    func_0203FC28(&c);
+    BG_SYS_SetGraphicsMode(&c);
     BG_SYS_SetSubVisiblePlanes(v);
     {
         struct BgTemplate t = g_022039A4;

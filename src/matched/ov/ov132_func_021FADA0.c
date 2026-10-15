@@ -1,5 +1,5 @@
 /*
- * function: func_021FADA0
+ * function: STA_ACT_SCRIPT_AddTask
  * address: 0x021FADA0
  * packet: pkt_ov132_021FADA0
  * region: ov132
@@ -25,7 +25,7 @@ struct Node;
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern u32 func_020307B0(void *p);
 extern void NNS_FndAppendListObject(void *, void *);
-void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key)
+void *STA_ACT_SCRIPT_AddTask(char *p, u32 fn, u32 arg, u32 key)
 {
     char *q;
     q = func_02030734(((struct Obj14095 *)p)->f0, 16, 0, d_021FDCEC, 0x115);

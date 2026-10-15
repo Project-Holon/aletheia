@@ -1,5 +1,5 @@
 /*
- * function: func_02208A78
+ * function: SHINKA_DEMO_EFFECT_DrawNodes
  * address: 0x02208A78
  * packet: pkt_ov195_02208A78
  * region: ov195
@@ -22,4 +22,4 @@ extern u32 func_02048A18(u8 *a0, int i);
 struct Transform;
 struct Arg;
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
-void func_02208A78(Anim *p) { u16 i; Node *n; for(i=0;i<p->count;i++) { n=p->nodes+i; if(n->f40) G3D_SYSTEM_DrawObject((void *)func_02048A18(p->res,n->id),(struct Arg *)((struct Transform *)&n->tx)); } }
+void SHINKA_DEMO_EFFECT_DrawNodes(Anim *p) { u16 i; Node *n; for(i=0;i<p->count;i++) { n=p->nodes+i; if(n->f40) G3D_SYSTEM_DrawObject((void *)func_02048A18(p->res,n->id),(struct Arg *)((struct Transform *)&n->tx)); } }

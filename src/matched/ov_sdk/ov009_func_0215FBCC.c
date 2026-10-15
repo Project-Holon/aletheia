@@ -12,7 +12,7 @@
  * sdk:      SOC_Poll (libsoc.TWL.HYB.a(soc.o))
  *
  * symbols:
- *   func_0215EFB0  0x0215EFB0  arm  ov009
+ *   SOCL_GetStatus  0x0215EFB0  arm  ov009
  *   OS_Sleep  0x02085A38  arm
  */
 
@@ -22,7 +22,7 @@ typedef struct {
 	short revents;
 } PollFD;
 
-extern int func_0215EFB0(int s);
+extern int SOCL_GetStatus(int s);
 extern void OS_Sleep(unsigned long msec);
 
 int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout)
@@ -45,7 +45,7 @@ int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout)
 		fp = fds;
 		for (i = 0; i < nfds; i++, fp++) {
 			status_mask = fp->events | 0xe0;
-			status = status_mask & func_0215EFB0(fp->fd);
+			status = status_mask & SOCL_GetStatus(fp->fd);
 			fp->revents = (short)status;
 			if (status) {
 				num_good++;

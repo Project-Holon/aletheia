@@ -1,5 +1,5 @@
 /*
- * function: func_021C4424
+ * function: WIFI_2DCHAR_ReleaseCell
  * address:  0x021C4424
  * packet:   pkt_021C4424
  * region:   ov127
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C4440  0x021C4440  thumb
- *   func_021C4464  0x021C4464  thumb
+ *   WIFI_2DCHAR_ReleaseCellPair  0x021C4440  thumb
+ *   WIFI_2DCHAR_ReleaseCellChar  0x021C4464  thumb
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021C4440(char *, int);
+extern void WIFI_2DCHAR_ReleaseCellPair(char *, int);
 typedef unsigned char  u8;
-extern void func_021C4464(u8 *p, int i);
+extern void WIFI_2DCHAR_ReleaseCellChar(u8 *p, int i);
 
-void func_021C4424(char *p, int i)
+void WIFI_2DCHAR_ReleaseCell(char *p, int i)
 {
     if (*(int *)(p + i * 0x14 + 0x10) == 0)
-        func_021C4440(p, i);
+        WIFI_2DCHAR_ReleaseCellPair(p, i);
     else
-        func_021C4464((u8 *)p, i);
+        WIFI_2DCHAR_ReleaseCellChar((u8 *)p, i);
 }

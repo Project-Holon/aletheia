@@ -12,7 +12,7 @@
  * symbols:
  *   FIELD_MSGBG_MenuFuncMain  0x021909E4  thumb  ov021
  *   GFL_NET_ConnectMacAddressChild  0x0203D000  arm
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -47,7 +47,7 @@ struct Handle;
 struct WordSet;
 extern int FIELD_MSGBG_MenuFuncMain(struct Handle *h);
 extern void GFL_NET_ConnectMacAddressChild(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void COMM_ENTRY_MENU_PrintMessage(u8 *p, u32 m);
 
 int COMM_ENTRY_PollParentList(u8 *p)
@@ -65,7 +65,7 @@ int COMM_ENTRY_PollParentList(u8 *p)
         if (n->e[r].used == 1) {
             n->cur = &n->e[r];
             GFL_NET_ConnectMacAddressChild(n->cur->name + 0x20);
-            func_0201F02C((struct WordSet *)(((struct Obj00011 *)p)->f4), 0, (void *)((int)n->cur));
+            WORDSET_SetSlotMyStatus((struct WordSet *)(((struct Obj00011 *)p)->f4), 0, (void *)((int)n->cur));
             COMM_ENTRY_MENU_PrintMessage(p, 0x20);
             n->f2d4 = 0;
         }

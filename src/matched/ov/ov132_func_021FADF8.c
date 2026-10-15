@@ -1,5 +1,5 @@
 /*
- * function: func_021FADF8
+ * function: STA_ACT_SCRIPT_RemoveTask
  * address: 0x021FADF8
  * packet: pkt_ov132_021FADF8
  * region: ov132
@@ -21,7 +21,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 struct DList;
 extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
-void func_021FADF8(char *p, char *q)
+void STA_ACT_SCRIPT_RemoveTask(char *p, char *q)
 {
     func_020307B0(((struct Obj14096 *)q)->f8);
     func_02030EAC(((struct Obj14096 *)q)->fC);

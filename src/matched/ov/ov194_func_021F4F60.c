@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F60
+ * function: NAMEIN_GRAPHIC_FreePairMember
  * address: 0x021F4F60
  * packet: pkt_ov194_021F4F60
  * region: ov194
@@ -13,4 +13,4 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021F4F60(void *p) {func_020307B0(p);}
+void NAMEIN_GRAPHIC_FreePairMember(void *p) {func_020307B0(p);}

@@ -26,7 +26,7 @@
  *   DWC_AddMatchKeyString  0x0216CA04  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   sprintf  0x02094530  arm
- *   func_0203F004  0x0203F004  arm
+ *   GF_STANDARD_GetStringLength  0x0203F004  arm
  *   DWC_RAP_AllocRecvBuffer  0x02156C00  thumb  ov009
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
  *   GFL_NET_GetUserArg  0x0203D650  arm
@@ -73,7 +73,7 @@ void DWC_RAP_FreeRecvBuffers(void);
 u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc);
 void MI_CpuFill8(void *p, int v, int n);
 u32 sprintf(char *dst, u32 n, ...);
-u32 func_0203F004(const u8 *s);
+u32 GF_STANDARD_GetStringLength(const u8 *s);
 void DWC_RAP_AllocRecvBuffer(u32 a);
 void DWC_RAP_SetState(int v);
 u32 GFL_NET_GetUserArg(void);
@@ -104,7 +104,7 @@ int DWC_RAP_StartMatchWithKey(void *a0, int n, int a2)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
     MI_CpuFill8(_pRapWork->name, 0, 0x80);
     sprintf(_pRapWork->name, (u32)d_021A1974, d_021A1C74, a0);
-    if ((int)func_0203F004((const u8 *)_pRapWork->name) >= 0x80)
+    if ((int)GF_STANDARD_GetStringLength((const u8 *)_pRapWork->name) >= 0x80)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
     if (a2)
         DWC_AddMatchKeyString(1, _pRapWork->name, _pRapWork->name);

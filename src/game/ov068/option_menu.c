@@ -29,7 +29,7 @@
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -38,22 +38,22 @@
  *   TCBL_Main  0x020310C4  arm
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0204363C  0x0204363C  arm
+ *   BMP_SetDisplaySwap  0x0204363C  arm
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
- *   func_0201DD60  0x0201DD60  thumb
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_020056A0  0x020056A0  thumb
  *   gOptionMenuDispVram     0x021BB598  data  a4
  *   func_02030EAC  0x02030EAC  arm
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   func_020490F4  0x020490F4  arm
@@ -69,7 +69,7 @@
  *   gOptionMenuDispConfig  0x021BB540  data  a4
  *   gOptionMenuBgLayers  0x021BB614  data  a4
  *   BMP_WIN_Delete  0x020452E8  arm
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
@@ -88,7 +88,7 @@
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   gOptionMenuLabels     0x021BB820  data  ov068  a4
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   FX_SinCosTable_     0x020A1B38  data  a2
  *   func_02061CA4  0x02061CA4  arm
  *   CLACT_InitSystem  0x0204A48C  arm
@@ -125,7 +125,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02028470  0x02028470  thumb
  *   BMP_WIN_GetPalette  0x02045778  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   func_020409B4  0x020409B4  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   func_02045CAC  0x02045CAC  arm
@@ -156,7 +156,7 @@
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
  *   func_02040804  0x02040804  arm
  *   gOptionMenuSettingRows     0x021BB570  data  a4
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   CLACT_ChangeActorAnimSeq  0x0204B8A0  arm
  *   gOptionMenuRowPalettes     0x021BB538  data  a1
  *   BG_SYS_ResetSlot  0x02041EE4  arm
@@ -182,7 +182,7 @@
  *   gOptionMenuSettingRowChoices     0x021BB574  data  a4
  *   gOptionMenuChoiceValues     0x021BB708  data  a4
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
- *   func_0203EFC8 0x0203EFC8 arm
+ *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
@@ -243,7 +243,7 @@ extern struct Config *func_0200873C(struct SaveData *saveData);
 extern void TCBL_Destroy(struct TaskList *taskList);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern void func_020315D4(struct Proc *proc);
-extern void func_020306F0(unsigned int heapId);
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern void func_02034A5C(int a);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *menuRes);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
@@ -252,21 +252,21 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
 extern void TCBL_Main(struct TaskList *taskList);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *config);
-extern void func_0204363C(u32 v);
+extern void BMP_SetDisplaySwap(u32 v);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern struct Task *func_020056A0(void (*fn)(struct Task *, OptionMenuScreen *), OptionMenuScreen *arg, u32 priority);
 extern void func_02030EAC(struct Task *task);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
-extern void func_0203FC28(struct DispConfig *config);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const BgTemplate *layout, u32 type);
-extern void func_020414AC(u8 id);
+extern void BG_SYS_FreeSlot(u8 id);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
 extern void *func_020490F4(u32 id, u32 heapId);
@@ -280,7 +280,7 @@ extern void *func_02049F34(u32 arcId, u32 id, PaletteResource **out, u32 heapId)
 extern void func_020307B0(void *p);
 extern struct BmpWindow *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWindow *window);
-extern void func_02040DA8(u32 a, u32 b, u32 c);
+extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -331,7 +331,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern struct StringBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02028470(PrintWaitState *waitState, u32 v);
 extern u8 BMP_WIN_GetPalette(struct BmpWindow *window);
-extern void func_0201F73C(struct BmpWindow *window, int a1, int a2, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWindow *window, int a1, int a2, int palette);
 extern void func_020409B4(u32 index);
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 extern void func_02045CAC(struct MsgBank *msgBank, u32 index, struct StringBuf *dest);
@@ -361,7 +361,7 @@ extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
 extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, TaskMenuItem *item, u8 y, u32 width, u32 height, u32 heapId);
 extern u32 func_02040804(u32 layer);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void CLACT_ChangeActorAnimSeq(struct ClActor *actor, u16 v);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const ClPos *delta, u32 which);
@@ -382,12 +382,12 @@ extern void CONFIG_SetBattleScene(struct Config *config, unsigned int value);
 extern void CONFIG_SetBattleStyle(struct Config *config, unsigned int value);
 extern void CONFIG_SetSoundMode(struct Config *config, unsigned int value);
 extern void CONFIG_SetButtonMode(struct Config *config, unsigned int value);
-extern int func_0203EFC8(const u8 *, const u8 *, u32);
+extern int GF_STANDARD_CompareBytes(const u8 *, const u8 *, u32);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printSys);
 extern int func_020071F0(struct SaveData *saveData);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern signed char MSG_SPEED_GetWait(void);
 
 int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args);
@@ -550,7 +550,7 @@ int OPTION_MENU_Exit(struct Proc *proc, int *seq, void *args, OptionMenuWork *wo
     GF_FONT_Delete(work->font);
     OPTION_MENU_ExitScreen(&work->screen);
     func_020315D4(proc);
-    func_020306F0(0x1c);
+    GFL_HEAP_DeleteChecked(0x1c);
     func_02034A5C((int)ov067_id);
     return 1;
 }
@@ -576,11 +576,11 @@ void OPTION_MENU_InitScreen(OptionMenuScreen *screen, u16 heapId)
     REG_B_DISPCNT &= DISPCNT_WINDOWS_OFF;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&gOptionMenuDispVram);
-    func_0204363C(0);
+    BMP_SetDisplaySwap(0);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     GF_FONT_SetTextColor(0xf, 0xe, 0);
     OPTION_MENU_InitGfx(&screen->gfx, heapId);
     OPTION_MENU_InitSprites(&screen->sprites, &gOptionMenuDispVram, heapId);
@@ -592,7 +592,7 @@ void OPTION_MENU_ExitScreen(OptionMenuScreen *screen)
     func_02030EAC(screen->task);
     OPTION_MENU_ExitSprites(&screen->sprites);
     OPTION_MENU_ExitGfx(&screen->gfx);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     REG_A_BLDCNT = 0;
     REG_B_BLDCNT = 0;
     REG_A_DISPCNT &= DISPCNT_WINDOWS_OFF;
@@ -649,11 +649,11 @@ void OPTION_MENU_InitGfx(OptionMenuGfx *gfx, u16 heapId)
     MI_CpuFill8(gfx, 0, sizeof(OptionMenuGfx));
     BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
-    func_0203FC28(&gOptionMenuDispConfig);
+    BG_SYS_SetGraphicsMode(&gOptionMenuDispConfig);
     for (i = 0; i < 6; i++) {
         layerId = gOptionMenuBgLayers[i].layerId;
         BG_SYS_InitBgLayer((u8)layerId, &gOptionMenuBgLayers[i].layout, (u8)gOptionMenuBgLayers[i].mapType);
-        func_020414AC(layerId);
+        BG_SYS_FreeSlot(layerId);
         func_02040588(layerId, 1);
     }
     func_02040588(3, 0);
@@ -693,9 +693,9 @@ void OPTION_MENU_ExitGfx(OptionMenuGfx *gfx)
         }
     }
     func_020307B0(gfx->screenBuffer);
-    func_02040DA8(4, 1, 0);
+    BG_SYS_SetTileUnit(4, 1, 0);
     i = 0;
-    func_02040DA8(3, 1, 0);
+    BG_SYS_SetTileUnit(3, 1, 0);
     for (i = 0; i < 6; i++) {
         func_020403F4((u8)gOptionMenuBgLayers[i].layerId);
     }
@@ -784,7 +784,7 @@ void OPTION_MENU_RestartGfxBlink(OptionMenuGfx *gfx)
 
 void OPTION_MENU_FlushGfx(OptionMenuGfx *gfx)
 {
-    func_020419E4();
+    BG_SYS_Update();
 }
 
 /*
@@ -1048,7 +1048,7 @@ void OPTION_MENU_InitTextBox(OptionMenuTextBox *box, struct BmpWindow *window, s
     box->printSys = printSys;
     box->mode = 0;
     func_02028470(&box->waitState, 0x406);
-    func_0201F73C(box->window, 2, 1, BMP_WIN_GetPalette(window));
+    BMP_MENUWORK_DrawWindow(box->window, 2, 1, BMP_WIN_GetPalette(window));
     BMP_Clear(BMP_WIN_GetBmp(box->window), (u8)box->fillColor);
     printWindow = box->window;
     BMP_WIN_TransferChars(printWindow);
@@ -1557,31 +1557,31 @@ void OPTION_MENU_DrawList(OptionMenuList *list, int highlight)
         highlight = 0;
     list->highlight = highlight;
     base = ((int)func_02040804(list->subLayer) + 0x14) / 0x18;
-    func_020413B0((u8)(list->subLayer), 0, 0, 0x20, 0x20, 5);
+    BG_SYS_FillTileMap((u8)(list->subLayer), 0, 0, 0x20, 0x20, 5);
     i = 0;
     for (k = 0; k < OPTION_COUNT; k++)
-        func_020413B0((u8)(list->subLayer), i, (base + k) * 3 + 2, 0x20, 3, gOptionMenuRowPalettes[k]);
+        BG_SYS_FillTileMap((u8)(list->subLayer), i, (base + k) * 3 + 2, 0x20, 3, gOptionMenuRowPalettes[k]);
     for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
         if (list->cursor == gOptionMenuChoices[i].settingIndex && highlight) {
             if (OPTION_MENU_IsChoiceSelected(&list->settings, i))
-                func_020413B0((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 7);
+                BG_SYS_FillTileMap((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 7);
             else
-                func_020413B0((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 0xC);
+                BG_SYS_FillTileMap((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 0xC);
         } else {
             if (OPTION_MENU_IsChoiceSelected(&list->settings, i))
-                func_020413B0((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 0);
+                BG_SYS_FillTileMap((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 0);
             else
-                func_020413B0((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 3);
+                BG_SYS_FillTileMap((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 3);
         }
     }
     for (i = OPTION_ACTOR_CHOICE_COUNT; i < OPTION_WINDOW_LABEL_COUNT; i++) {
         if (i - OPTION_ACTOR_CHOICE_COUNT == list->cursor && highlight)
-            func_020413B0((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 7);
+            BG_SYS_FillTileMap((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 7);
         else
-            func_020413B0((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 0);
+            BG_SYS_FillTileMap((u8)(list->mainLayer), gOptionMenuLabels[i].x, gOptionMenuLabels[i].y, gOptionMenuLabels[i].width, gOptionMenuLabels[i].height, 0);
     }
     if (highlight)
-        func_020413B0((u8)(list->subLayer), 0, list->cursor * 3 + 2, 0x20, 3, 7);
+        BG_SYS_FillTileMap((u8)(list->subLayer), 0, list->cursor * 3 + 2, 0x20, 3, 7);
     func_02041B6C((u8)(list->subLayer));
     func_02041B6C((u8)(list->mainLayer));
     for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
@@ -1911,7 +1911,7 @@ int OPTION_MENU_TakeChangedSetting(OptionSettings *settings)
 
 int OPTION_MENU_AreSettingsEqual(const OptionSettings *a, const OptionSettings *b)
 {
-    if (func_0203EFC8(a->values, b->values, OPTION_COUNT) == 0) return 1;
+    if (GF_STANDARD_CompareBytes(a->values, b->values, OPTION_COUNT) == 0) return 1;
     return 0;
 }
 

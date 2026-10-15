@@ -15,6 +15,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -39,7 +40,7 @@ struct WordSet;
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 int SCRCMD_BufferPlayerName(Ctx *s, u32 b)
 {
@@ -50,6 +51,6 @@ int SCRCMD_BufferPlayerName(Ctx *s, u32 b)
     SCRIPT_WORK_ResetFieldParam((int)x);
     y = (u32)GAME_DATA_GetMyStatus(SCRCMD_WORK_GetGameData((void *)b));
     w = (u32)SCRIPT_WORK_GetWordSet(x);
-    func_0201F02C((struct WordSet *)w, Ctx_ReadByte(s), (void *)y);
+    WORDSET_SetSlotMyStatus((struct WordSet *)w, Ctx_ReadByte(s), (void *)y);
     return 0;
 }

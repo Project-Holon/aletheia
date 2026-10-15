@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FA04C",
+   "name": "STA_ACT_AUDIENCE_Delete",
    "address": "0x021FA04C",
    "kind": "game",
    "region": "ov132",

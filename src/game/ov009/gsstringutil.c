@@ -1,7 +1,7 @@
 /*
  * file:     gsstringutil.c
  * unit:     yes
- * function: func_021800CC, func_021801C0, func_0218022C, func_021802C8, func_021802EC, func_02180334, func_021803BC, gsUdpEngineContext
+ * function: _ReadUCS2CharFromUTF8String, _UCS2CharToUTF8String, _UTF8ToUCS2ConversionLengthOnly, UTF8ToUCS2StringAlloc, UTF8ToUCS2StringAllocLen, UTF8ToUCS2StringLen2, gsiSafeStrcpyA, gsUdpEngineContext
  * address:  0x021800CC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *
  * symbols:
  *   strlen                  0x0209477C  arm
- *   func_0217EAB0                  0x0217EAB0  arm ov009
+ *   gsimalloc                  0x0217EAB0  arm ov009
  *   func_02092344  0x02092344  arm
  *   g_021AD188  0x021AD188  data
  */
@@ -25,15 +25,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern int strlen(const u8 *s);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
-int func_021800CC(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut);
-int func_021801C0(unsigned short theUCS2Char, char *theUTF8String);
-int func_0218022C(const char *s, int n);
-unsigned short *func_021802C8(char *theUTF8String);
-unsigned short *func_021802EC(char *theUTF8String, int theUTF8StringLength);
-int func_02180334(const unsigned char *src, int size, u16 *out, int max);
-int func_021803BC(char *dst, const char *src, unsigned int n);
+int _ReadUCS2CharFromUTF8String(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut);
+int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
+int _UTF8ToUCS2ConversionLengthOnly(const char *s, int n);
+unsigned short *UTF8ToUCS2StringAlloc(char *theUTF8String);
+unsigned short *UTF8ToUCS2StringAllocLen(char *theUTF8String, int theUTF8StringLength);
+int UTF8ToUCS2StringLen2(const unsigned char *src, int size, u16 *out, int max);
+int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 void *gsUdpEngineContext(void);
 extern char g_021AD188[];
 
@@ -41,7 +41,7 @@ extern char g_021AD188[];
 /*
  * sdk:      _ReadUCS2CharFromUTF8String (gsstringutil.o)
  */
-int func_021800CC(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut)
+int _ReadUCS2CharFromUTF8String(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut)
 {
     char c;
 
@@ -81,7 +81,7 @@ int func_021800CC(char *theUTF8String, int theMaxBytes, unsigned short *theUnico
 /*
  * sdk:      _UCS2CharToUTF8String (gsstringutil.o)
  */
-int func_021801C0(unsigned short theUCS2Char, char *theUTF8String)
+int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String)
 {
     if (theUCS2Char <= 0x7f) {
         theUTF8String[0] = (char)theUCS2Char;
@@ -105,7 +105,7 @@ int func_021801C0(unsigned short theUCS2Char, char *theUTF8String)
  * 1110xxxx with two valid continuations costs 3, anything else 1.  A null
  * string counts as zero characters.
  */
-int func_0218022C(const char *s, int n)
+int _UTF8ToUCS2ConversionLengthOnly(const char *s, int n)
 {
     int count = 0;
 
@@ -136,11 +136,11 @@ int func_0218022C(const char *s, int n)
 /*
  * sdk:      UTF8ToUCS2StringAlloc (gsstringutil.o)
  */
-unsigned short *func_021802C8(char *theUTF8String)
+unsigned short *UTF8ToUCS2StringAlloc(char *theUTF8String)
 {
     if (theUTF8String == 0)
         return 0;
-    return func_021802EC(theUTF8String, strlen((const u8 *)theUTF8String));
+    return UTF8ToUCS2StringAllocLen(theUTF8String, strlen((const u8 *)theUTF8String));
 }
 
 
@@ -148,16 +148,16 @@ unsigned short *func_021802C8(char *theUTF8String)
 /*
  * sdk:      UTF8ToUCS2StringAllocLen (gsstringutil.o)
  */
-unsigned short *func_021802EC(char *theUTF8String, int theUTF8StringLength)
+unsigned short *UTF8ToUCS2StringAllocLen(char *theUTF8String, int theUTF8StringLength)
 {
     unsigned short *aUCS2String;
     int newLength;
 
     if (theUTF8String == 0)
         return 0;
-    newLength = func_0218022C(theUTF8String, theUTF8StringLength);
-    aUCS2String = (unsigned short *)func_0217EAB0((newLength + 1) * 2);
-    func_02180334((const unsigned char *)theUTF8String, theUTF8StringLength, aUCS2String, newLength);
+    newLength = _UTF8ToUCS2ConversionLengthOnly(theUTF8String, theUTF8StringLength);
+    aUCS2String = (unsigned short *)gsimalloc((newLength + 1) * 2);
+    UTF8ToUCS2StringLen2((const unsigned char *)theUTF8String, theUTF8StringLength, aUCS2String, newLength);
     return aUCS2String;
 }
 
@@ -165,12 +165,12 @@ unsigned short *func_021802EC(char *theUTF8String, int theUTF8StringLength)
 
 /*
  * Transcode the null-terminated text at `src` into 16-bit units at `out`,
- * asking func_021800CC to consume one character at a time from the remaining
+ * asking _ReadUCS2CharFromUTF8String to consume one character at a time from the remaining
  * `size` bytes, until the input ends, `max` units have been produced, or the
  * input is exhausted.  Returns one past the number of units written, or 0 on
  * a decoding failure; a null source writes a lone terminator and returns 1.
  */
-int func_02180334(const unsigned char *src, int size, u16 *out, int max)
+int UTF8ToUCS2StringLen2(const unsigned char *src, int size, u16 *out, int max)
 {
     int n = 0;
     int off = 0;
@@ -181,7 +181,7 @@ int func_02180334(const unsigned char *src, int size, u16 *out, int max)
         return 1;
     }
     while (*src != 0 && max + 1 > n && size > off) {
-        int r = func_021800CC((char *)src, size - off, dst);
+        int r = _ReadUCS2CharFromUTF8String((char *)src, size - off, dst);
 
         if (r == 0) {
             *out = 0;
@@ -203,7 +203,7 @@ int func_02180334(const unsigned char *src, int size, u16 *out, int max)
  * length helper, clamp to n-1, copy, NUL-terminate, return the byte count.
  * (A strlcpy-shaped helper.)
  */
-int func_021803BC(char *dst, const char *src, unsigned int n)
+int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n)
 {
     unsigned int len = strlen((const u8 *)src);
 

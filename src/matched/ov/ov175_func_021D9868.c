@@ -1,5 +1,5 @@
 /*
- * function: func_021D9868
+ * function: WIFIBATTLEMATCH_NET_IsCompCardReady
  * address:  0x021D9868
  * packet:   pkt_021D9868
  * region:   ov175
@@ -20,7 +20,7 @@ typedef unsigned long u32;
 
 extern u32 func_021E777C(u32 p);
 
-u32 func_021D9868(char *obj)
+u32 WIFIBATTLEMATCH_NET_IsCompCardReady(char *obj)
 {
     return func_021E777C(((struct Obj24304 *)obj)->f20);
 }

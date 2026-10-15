@@ -1,5 +1,5 @@
 /*
- * function: func_0219D2A4
+ * function: GOAHashInit
  * address:  0x0219D2A4
  * packet:   pkt_ov009_0219D2A4
  * region:   ov009
@@ -23,7 +23,7 @@ struct GOACryptState {
     unsigned char last_cipher;
 };
 
-void func_0219D2A4(struct GOACryptState *state)
+void GOAHashInit(struct GOACryptState *state)
 {
     int i, j;
 

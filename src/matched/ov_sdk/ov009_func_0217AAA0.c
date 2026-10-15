@@ -1,5 +1,5 @@
 /*
- * function: func_0217AAA0
+ * function: DWC_Netcheck_GetError
  * address:  0x0217AAA0
  * packet:   pkt_ov009_0217AAA0
  * region:   ov009
@@ -21,7 +21,7 @@ extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern char *g_021ACE5C[];
 
-int func_0217AAA0(void)
+int DWC_Netcheck_GetError(void)
 {
     int error;
     OS_LockMutex(g_021ACE5C[1] + 0x11dc);

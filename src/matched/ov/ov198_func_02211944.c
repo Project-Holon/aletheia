@@ -1,5 +1,5 @@
 /*
- * function: func_02211944
+ * function: B_PLIST_MAIN_ClearSelection
  * address:  0x02211944
  * packet:   pkt_02211944
  * region:   ov198
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_02211944(u8 **p)
+void B_PLIST_MAIN_ClearSelection(u8 **p)
 {
     u32 i;
 

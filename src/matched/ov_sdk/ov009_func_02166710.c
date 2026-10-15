@@ -1,5 +1,5 @@
 /*
- * function: func_02166710
+ * function: WCM_CalcLinkLevel
  * address:  0x02166710
  * packet:   pkt_ov009_02166710
  * region:   ov009
@@ -31,7 +31,7 @@ typedef struct WCMWork {
 
 extern int WCMi_GetSystemWork(void);
 
-WMLinkLevel func_02166710(unsigned char rssi)
+WMLinkLevel WCM_CalcLinkLevel(unsigned char rssi)
 {
     WCMWork *w;
 

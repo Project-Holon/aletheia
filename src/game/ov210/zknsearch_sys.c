@@ -1,7 +1,7 @@
 /*
  * file:     zknsearch_sys.c
  * unit:     yes
- * function: func_021BC240, func_021BC270, func_021BC284, func_021BC294, func_021BC2AC, func_021BC2B8, func_021BC318, func_021BC330, func_021BC33C, func_021BC3D4, func_021BC3E8
+ * function: ZKNSEARCH_SYS_Create, ZKNSEARCH_SYS_IsReady, ZKNSEARCH_SYS_Delete, ZKNSEARCH_SYS_RegisterVBlank, ZKNSEARCH_SYS_UnregisterVBlank, ZKNSEARCH_SYS_VBlankHandler, ZKNSEARCH_SYS_RegisterHBlank, ZKNSEARCH_SYS_UnregisterHBlank, ZKNSEARCH_SYS_HBlankHandler, ZKNSEARCH_SYS_SetVramBanks, ZKNSEARCH_SYS_GetVramBanks
  * address:  0x021BC240
  * region:   ov210
  * compiler: dsi/1.1p1
@@ -16,10 +16,10 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021BCF50  0x021BCF50  thumb  ov210
+ *   ZKNSEARCH_MAIN_RunState  0x021BCF50  thumb  ov210
  *   func_02030EAC  0x02030EAC  arm
  *   d_02FE0000 0x02FE0000 data a4
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -27,6 +27,7 @@
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021C0754  0x021C0754  data  a4
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm  arm9
  */
 #include "../../matched/include/Obj25581.h"
 #include "../../matched/include/Obj25582.h"
@@ -54,12 +55,12 @@ typedef signed int     s32;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u32 func_021BCF50(u8 *p);
+extern u32 ZKNSEARCH_MAIN_RunState(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 extern u32 func_020056A0(void (*)(void), u8 *, u32);
 extern u32 func_02030EAC(u32 a);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
@@ -67,22 +68,22 @@ extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-u32 func_021BC240(void *man, u32 b, u32 arg);
-u32 func_021BC270(u32 a, u32 b, u32 c, u32 d);
-u32 func_021BC284(void *p);
-void func_021BC294(u8 *p);
-u32 func_021BC2AC(u8 *p);
-void func_021BC2B8(void *unused,unsigned char *p);
-void func_021BC318(u8 *p);
-u32 func_021BC330(u8 *p);
-void func_021BC33C(void *ctx, unsigned char *p);
-void func_021BC3D4(void);
-void *func_021BC3E8(void);
+u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg);
+u32 ZKNSEARCH_SYS_IsReady(u32 a, u32 b, u32 c, u32 d);
+u32 ZKNSEARCH_SYS_Delete(void *p);
+void ZKNSEARCH_SYS_RegisterVBlank(u8 *p);
+u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *p);
+void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *p);
+void ZKNSEARCH_SYS_RegisterHBlank(u8 *p);
+u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p);
+void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *p);
+void ZKNSEARCH_SYS_SetVramBanks(void);
+void *ZKNSEARCH_SYS_GetVramBanks(void);
 extern unsigned d_02FE0000[];
 extern u8 d_021C0754[];
 
 
-u32 func_021BC240(void *man, u32 b, u32 arg)
+u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg)
 {
     u32 *p;
     GFL_HEAP_CreateChildHeap(1, 0x7b, 0x60000);
@@ -96,34 +97,34 @@ u32 func_021BC240(void *man, u32 b, u32 arg)
 /*
  * Addresses are Black-image addresses.
  */
-u32 func_021BC270(u32 a, u32 b, u32 c, u32 d)
+u32 ZKNSEARCH_SYS_IsReady(u32 a, u32 b, u32 c, u32 d)
 {
-    return func_021BCF50((u8 *)d) == 0;
+    return ZKNSEARCH_MAIN_RunState((u8 *)d) == 0;
 }
 
 
-u32 func_021BC284(void *p)
+u32 ZKNSEARCH_SYS_Delete(void *p)
 {
     func_020315D4(p);
-    func_020306F0(0x7b);
+    GFL_HEAP_DeleteChecked(0x7b);
     return 1;
 }
 
 
-void func_021BC294(u8 *p)
+void ZKNSEARCH_SYS_RegisterVBlank(u8 *p)
 {
-    ((struct Obj25581 *)p)->f4 = func_020056A0((void (*)(void))func_021BC2B8, p, 0);
+    ((struct Obj25581 *)p)->f4 = func_020056A0((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, p, 0);
 }
 
 
-u32 func_021BC2AC(u8 *p)
+u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *p)
 {
     return func_02030EAC(((struct Obj25582 *)p)->f4);
 }
 
-void func_021BC2B8(void *unused,unsigned char *p)
+void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *p)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC));
     if (p[0x2b8]==1) {
@@ -139,26 +140,26 @@ void func_021BC2B8(void *unused,unsigned char *p)
 }
 
 
-void func_021BC318(u8 *p)
+void ZKNSEARCH_SYS_RegisterHBlank(u8 *p)
 {
-    ((struct Obj25583 *)p)->f8 = (u32)func_02005624((u32)func_021BC33C, (u32)p, 0);
+    ((struct Obj25583 *)p)->f8 = (u32)func_02005624((u32)ZKNSEARCH_SYS_HBlankHandler, (u32)p, 0);
 }
 
 
-u32 func_021BC330(u8 *p)
+u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p)
 {
     return func_02030EAC(((struct Obj25584 *)p)->f8);
 }
 
 /*
- * Unlabelled leaf in ov210 directly after func_021BC318 (which ends at
+ * Unlabelled leaf in ov210 directly after ZKNSEARCH_SYS_RegisterHBlank (which ends at
  * 0x021BC328, pool at 0x021BC32C); it saves nothing, so disasm.py prints it
  * inside a .word run.  It is the function-pointer blocker target of
- * func_021BC318 (pkt_021BC318).  Reads a mode byte from [p+0x2b9] and a
+ * ZKNSEARCH_SYS_RegisterHBlank (pkt_021BC318).  Reads a mode byte from [p+0x2b9] and a
  * halfword from the IO register at 0x04000006, then writes one of six packed
  * halfwords to the register at 0x04001052.
  */
-void func_021BC33C(void *ctx, unsigned char *p)
+void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *p)
 {
     int v = *(volatile unsigned short *)0x04000006;
     int b = p[0x2b9];
@@ -191,14 +192,14 @@ void func_021BC33C(void *ctx, unsigned char *p)
 }
 
 
-void func_021BC3D4(void)
+void ZKNSEARCH_SYS_SetVramBanks(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C0754);
 }
 
 
-void *func_021BC3E8(void)
+void *ZKNSEARCH_SYS_GetVramBanks(void)
 {
     return d_021C0754;
 }

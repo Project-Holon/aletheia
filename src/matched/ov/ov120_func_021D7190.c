@@ -1,5 +1,5 @@
 /*
- * function: func_021D7190
+ * function: GTSNEGO_MSG_SetListActorPos
  * address: 0x021D7190
  * packet: pkt_ov120_021D7190
  * region: ov120
@@ -20,7 +20,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021D7190(u8 *p, int index, int x, int y)
+void GTSNEGO_MSG_SetListActorPos(u8 *p, int index, int x, int y)
 {
     Vec pos;
     if (index < 6) {

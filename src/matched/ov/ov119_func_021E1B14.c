@@ -11,9 +11,9 @@
  * splitting old's base assignment and naming the else-side p+0x8c4
  * address settles the early r4/r7 allocation. No signature mutation.
  * symbols:
- *   d_021E7934 0x021E7934 data a4
- *   d_021E7914 0x021E7914 data a4
- *   d_021E794C 0x021E794C data a4
+ *   gOfferCardWindowPosA 0x021E7934 data a4
+ *   gOfferCardWindowPosB 0x021E7914 data a4
+ *   gOfferCardWindowPosC 0x021E794C data a4
  *   func_02017E1C 0x02017E1C thumb
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -37,7 +37,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int a,b;} Pair;
-extern const Pair d_021E7934,d_021E7914,d_021E794C;
+extern const Pair gOfferCardWindowPosA,gOfferCardWindowPosB,gOfferCardWindowPosC;
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 struct Cfg;
@@ -60,9 +60,9 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void POKETRADE_SAVE_DrawOfferCardWindow(char *p,int i,void *mon)
 {
-    Pair a=d_021E7934;
-    Pair b=d_021E7914;
-    Pair c=d_021E794C;
+    Pair a=gOfferCardWindowPosA;
+    Pair b=gOfferCardWindowPosB;
+    Pair c=gOfferCardWindowPosC;
     u32 flag;
     const char *old;
     u32 index;

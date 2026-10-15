@@ -1,5 +1,5 @@
 /*
- * function: func_021C8F88
+ * function: WF2DMAP_TOUCH_DrawFriendKey
  * address: 0x021C8F88
  * packet: pkt_ov128_021C8F88
  * region: ov128
@@ -25,7 +25,7 @@
  *   Remaining 22 B: pure colour swap, classes {10, i} and {2, text} swapped (orig r5/r4, build r4/r5).
  *   Tried, no change: u8 heap, text/i decl order, w1 inline, x decl order, long i/x/n, six pragmas
  *   (propagation worse), pal/gfx swap 28, t before call 98, w1 late 39, u32/u8 i 146/130, i<13 24.
- *   Twin search: grep DWC_CreateFriendKey / func_021CA4B4 / STRBUF_AppendChar in src/matched/ov: no loop twin.
+ *   Twin search: grep DWC_CreateFriendKey / WF2DMAP_TOUCH_TransferScreen / STRBUF_AppendChar in src/matched/ov: no loop twin.
  *   Idioms checked: two-long-lived-values-in-each-others-registers (no applicable form),
  *   a-long-index-colours-apart-from-an-int (22), a-colour-swap-...-opt-lifetimes-off (22),
  *   a-loop-counter-zero-before-an-offset-assignment (n/a).
@@ -56,7 +56,7 @@
  * symbols:
  *   func_021C63AC 0x021C63AC thumb ov128
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   func_021CA4B4 0x021CA4B4 thumb ov128
+ *   WF2DMAP_TOUCH_TransferScreen 0x021CA4B4 thumb ov128
  *   STRBUF_Create 0x020457B0 arm
  *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
@@ -79,7 +79,7 @@ typedef struct { u16 v[10]; } Tbl;
 extern const Tbl d_021CA674;
 extern void func_021C63AC(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void func_021CA4B4(char *p);
+extern void WF2DMAP_TOUCH_TransferScreen(char *p);
 struct BigObj;
 struct DWCstAccUserData;
 struct Descriptor;
@@ -100,7 +100,7 @@ static inline u8 *second(u8 *p)
 {
     return p + 8;
 }
-void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
+void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
 {
     u8 *w1;
     void *buf2;
@@ -120,7 +120,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
     if (key != 0) {
         MSGDATA_ReadString(*(void **)(ctx + 4), 0x35, (void *)text);
         TOUCHBAR_PrintAligned(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
-        func_021CA4B4(*(char **)p);
+        WF2DMAP_TOUCH_TransferScreen(*(char **)p);
         pal = *(u32 *)(ctx + 0x17c);
         gfx = *(u32 *)(ctx + 0x34);
         t = d_021CA674;
@@ -135,11 +135,11 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
                 x += 8;
             key = key / 10;
         }
-        func_021CA4B4(*(char **)(p + 8));
+        WF2DMAP_TOUCH_TransferScreen(*(char **)(p + 8));
     } else {
         MSGDATA_ReadString(*(void **)(ctx + 4), 0x36, (void *)text);
         TOUCHBAR_PrintAligned(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
-        func_021CA4B4(*(char **)p);
+        WF2DMAP_TOUCH_TransferScreen(*(char **)p);
     }
     STRBUF_Delete((void *)text);
     STRBUF_Delete(buf2);

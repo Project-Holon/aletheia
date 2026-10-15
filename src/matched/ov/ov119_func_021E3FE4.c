@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F5DC  0x0201F5DC  thumb
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  */
 #include "../include/Obj13916.h"
 
-extern void *func_0201F5DC(void *, unsigned, unsigned, unsigned);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *, unsigned, unsigned, unsigned);
 
 void POKETRADE_2D_CreateFontResource(char *p)
 {
-    ((struct Obj13916 *)p)->f644 = func_0201F5DC((void *)6, 15, 0, ((struct Obj13916 *)p)->f5F4);
+    ((struct Obj13916 *)p)->f644 = BMP_MENUWORK_LoadFrameGfx((void *)6, 15, 0, ((struct Obj13916 *)p)->f5F4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02208770
+ * function: SHINKA_DEMO_EFFECT_Destroy
  * address:  0x02208770
  * packet:   pkt_02208770
  * region:   ov195
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02208B54 0x02208B54 thumb
- *   func_02208A6C 0x02208A6C thumb
- *   func_02208994 0x02208994 thumb
+ *   SHINKA_DEMO_EFFECT_RemoveUnit 0x02208B54 thumb
+ *   SHINKA_DEMO_EFFECT_DeleteUnit 0x02208A6C thumb
+ *   SHINKA_DEMO_EFFECT_DeleteParticle 0x02208994 thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj05518.h"
 
-extern void func_02208B54(char *a);
-extern void func_02208A6C(char *p);
-extern void func_02208994(char *a);
+extern void SHINKA_DEMO_EFFECT_RemoveUnit(char *a);
+extern void SHINKA_DEMO_EFFECT_DeleteUnit(char *p);
+extern void SHINKA_DEMO_EFFECT_DeleteParticle(char *a);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02208770(char *a)
+void SHINKA_DEMO_EFFECT_Destroy(char *a)
 {
-    func_02208B54(a);
-    func_02208A6C(a);
-    func_02208994((char *)(((struct Obj05518 *)a)->f10));
+    SHINKA_DEMO_EFFECT_RemoveUnit(a);
+    SHINKA_DEMO_EFFECT_DeleteUnit(a);
+    SHINKA_DEMO_EFFECT_DeleteParticle((char *)(((struct Obj05518 *)a)->f10));
     func_020307B0(a);
 }

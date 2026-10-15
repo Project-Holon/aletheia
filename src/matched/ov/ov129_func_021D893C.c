@@ -1,5 +1,5 @@
 /*
- * function: func_021D893C
+ * function: WF2DMAP_SCENE_VBlank
  * address:  0x021D893C
  * packet:   pkt_021D893C
  * region:   ov129
@@ -21,7 +21,7 @@ struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void CLACT_VBlankSystem(void);
 
-void func_021D893C(int a, char *p)
+void WF2DMAP_SCENE_VBlank(int a, char *p)
 {
     PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj23114 *)p)->f290));
     CLACT_VBlankSystem();

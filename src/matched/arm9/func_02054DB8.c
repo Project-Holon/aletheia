@@ -1,5 +1,5 @@
 /*
- * function: func_02054DB8
+ * function: SPL_EMITTER_UpdateParticleMotionEx
  * address:  0x02054DB8
  * packet:   pkt_02052F58
  * region:   arm9
@@ -23,14 +23,14 @@
  * SPLDraw_Child_DirectionalBillboard: draws one child particle as a
  * billboard stretched along its velocity (the "directional billboard" draw
  * type), through SPLDraw_Setup (POLYGON_ATTR), a hand-built 4x3 load matrix
- * and SPLUtil_DrawXYPlane (func_020565C8) with the child texture tiling.
+ * and SPLUtil_DrawXYPlane (SPL_EMITTER_DrawQuad) with the child texture tiling.
  *
  * Wave 9, third lane: this body and every declaration it uses are the public
  * pret/pokeplatinum decompilation of the same NitroSystem particle library
  * (SPL; docs/families/cluster_02052F58.h), lib/spl/src/spl_draw.c SPLDraw_Child_DirectionalBillboard, with the
  * lib/spl/include/spl_*.h structs, and the SDK G3/MTX/VEC inlines written out
  * from sdk/TwlSDK/include; only the callees are pinned to Black addresses.
- * It compiled EXACT at the cluster pin unchanged, closing docs/notes/func_02054DB8.c.txt (286 out after two lanes).
+ * It compiled EXACT at the cluster pin unchanged, closing docs/notes/SPL_EMITTER_UpdateParticleMotionEx.c.txt (286 out after two lanes).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -649,7 +649,7 @@ static inline BOOL SPLDraw_Setup(const SPLParticle *ptcl, const SPLManager *mgr)
     reg_G3_POLYGON_ATTR;
     return alpha == 0;
 }
-void func_02054DB8(SPLManager *mgr, SPLParticle *ptcl)
+void SPL_EMITTER_UpdateParticleMotionEx(SPLManager *mgr, SPLParticle *ptcl)
 {
     VecFx32 vel_dir;
     VecFx32 trs;

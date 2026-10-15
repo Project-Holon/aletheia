@@ -1,5 +1,5 @@
 /*
- * function: func_021FB3E0
+ * function: SCRIPT_COMMAND_CmdAddActorPos
  * address: 0x021FB3E0
  * packet: pkt_ov132_021FB3E0
  * region: ov132
@@ -15,15 +15,15 @@
  *   (mask, x, y, z, wait / i, ctx).
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021FB1F4 0x021FB1F4 thumb ov132
+ *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
- *   func_021F8044 0x021F8044 thumb ov112
- *   func_021F8054 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
  *   func_02030734 0x02030734 arm
  *   VEC_Subtract 0x0207CA00 arm
- *   func_021FADA0 0x021FADA0 thumb ov132
- *   func_021FB528 0x021FB528 thumb ov132
+ *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
+ *   SCRIPT_COMMAND_TaskActorMove 0x021FB528 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
 typedef unsigned char u8;
@@ -33,22 +33,22 @@ typedef enum { COORD_ZERO } Coord;
 typedef struct {int x,y,z;} Vec;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021FB1F4(char *,int);
+extern int SCRIPT_COMMAND_GetActorMask(char *,int);
 extern void *STA_ACTING_GetActorSystem(char *);
 extern void *STA_ACTING_GetActor(char *,u32);
-extern void func_021F8044(void *,u32 *,u32 *);
-extern void func_021F8054(void *,u32 *,const u32 *);
+extern void STA_ACT_LIGHT_ElemOpA(void *,u32 *,u32 *);
+extern void STA_ACT_LIGHT_ElemOpB(void *,u32 *,const u32 *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void VEC_Subtract(const void *,const void *,void *);
-extern void *func_021FADA0(char *,u32,u32,u32);
-extern void func_021FB528(int,char *);
+extern void *STA_ACT_SCRIPT_AddTask(char *,u32,u32,u32);
+extern void SCRIPT_COMMAND_TaskActorMove(int,char *);
 extern const char d_021FDD00[];
 static inline void vset(Vec *v,Coord x,Coord y,Coord z)
 {
     v->x=x;v->y=y;v->z=z;
 }
 #pragma opt_loop_invariants off
-int func_021FB3E0(int unused,char *p)
+int SCRIPT_COMMAND_CmdAddActorPos(int unused,char *p)
 {
     int mask;
     Coord x,y,z;
@@ -56,7 +56,7 @@ int func_021FB3E0(int unused,char *p)
     int rate;
     Coord wait;
     owner=*(char **)p;
-    mask=func_021FB1F4(p,VM_GetU32(*(void **)(p+4)));
+    mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(*(void **)(p+4)));
     rate=VM_GetU32(*(void **)(p+4));
     x=VM_GetU32(*(void **)(p+4));
     y=VM_GetU32(*(void **)(p+4));
@@ -72,22 +72,22 @@ int func_021FB3E0(int unused,char *p)
         if(mask&(1<<i)) {
             target=STA_ACTING_GetActor(*(void **)(owner+52),i);
             if (rate==0) {
-                func_021F8044(ctx,(u32 *)target,pos);
+                STA_ACT_LIGHT_ElemOpA(ctx,(u32 *)target,pos);
                 pos[0]+=x;pos[1]+=y;pos[2]+=z;
-                func_021F8054(ctx,(u32 *)target,pos);
+                STA_ACT_LIGHT_ElemOpB(ctx,(u32 *)target,pos);
             } else {
                 q=func_02030734(*(u16 *)owner,56,0,d_021FDD00,0x31B);
                 *(char **)(q+48)=owner;
                 *(char **)q=target;
                 *(void **)(q+4)=*(void **)(owner+52);
                 *(u16 *)(q+46)=0;
-                func_021F8044(ctx,(u32 *)target,(u32 *)(q+8));
+                STA_ACT_LIGHT_ElemOpA(ctx,(u32 *)target,(u32 *)(q+8));
                 vset((Vec *)(q+20),*(int *)(q+8)+x,*(int *)(q+12)+y,*(int *)(q+16)+z);
                 *(u16 *)(q+44)=rate;
                 *(int *)(q+32)=(int)x/(int)rate;
                 *(int *)(q+36)=(int)y/(int)rate;
                 *(int *)(q+40)=(int)z/(int)rate;
-                *(void **)(q+52)=func_021FADA0(owner,(u32)func_021FB528,(u32)q,10);
+                *(void **)(q+52)=STA_ACT_SCRIPT_AddTask(owner,(u32)SCRIPT_COMMAND_TaskActorMove,(u32)q,10);
             }
         }
     }

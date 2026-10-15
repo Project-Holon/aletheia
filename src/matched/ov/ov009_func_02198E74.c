@@ -14,13 +14,14 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_02198A0C  0xfunc_02198A0C  arm
+ *   Think  0x02198A0C  arm
+ *   Think  0xfunc_02198A0C  arm
  */
 
 struct _NAT;
-extern int func_02198A0C(int sock, struct _NAT *nat);
+extern int Think(int sock, struct _NAT *nat);
 
 int NatifyThink(int sock, void *nat)
 {
-    return func_02198A0C(sock, nat);
+    return Think(sock, nat);
 }

@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201EEF4 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  */
 #include "../include/Obj20890.h"
 typedef unsigned int u32;
 struct WordSet;
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-void PLIST_MESSAGE_SetWordSetPokemon(int a,int b,int c,int d) {func_0201EEF4(((struct Obj20890 *)b)->f2C,c,(void *)d);}
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+void PLIST_MESSAGE_SetWordSetPokemon(int a,int b,int c,int d) {WORDSET_SetSlotMonSpecies(((struct Obj20890 *)b)->f2C,c,(void *)d);}

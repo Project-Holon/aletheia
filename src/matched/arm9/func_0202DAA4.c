@@ -28,7 +28,7 @@
  *   ARC_UTIL_LoadScreenDataFromHandle  0x02049E74  arm
  *   CLACT_TransferCharacter  0x0204A9D0  arm
  *   CLACT_TransferPalette  0x0204ADEC  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  */
 
 typedef unsigned short u16;
@@ -45,7 +45,7 @@ struct Sub0204A9D0;
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
 void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which)
 {
@@ -54,7 +54,7 @@ void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, vola
     void *a;
 
     res = ARC_TOOL_LoadHandleMember(set, POKEGRA_GetTrainerPalArcIndex(id, 0), which);
-    func_02062A98(res, &b);
+    NNS_G2dGetUnpackedPaletteData(res, &b);
     CLACT_TransferPalette(dstB, b, 1);
     func_020307B0(res);
 

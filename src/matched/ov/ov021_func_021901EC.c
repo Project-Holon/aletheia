@@ -16,6 +16,7 @@
  *   d_021DDA50  0x021DDA50  data  ov021  a4
  *   TCBL_Create  0x0203101C  arm  arm9
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm  arm9
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm  arm9
  */
 #include "../include/Obj01849.h"
 
@@ -36,7 +37,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void FIELD_MSGBG_KeyWaitInit(u32 a);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 
 u8 *FIELD_MSGBG_Create(u16 heap, u32 b)
 {
@@ -50,6 +51,6 @@ u8 *FIELD_MSGBG_Create(u16 heap, u32 b)
     ((struct Obj01849 *)o)->f164 = (u32)TCBL_Create(((struct Obj01849 *)o)->f0, ((struct Obj01849 *)o)->f0, 1, 4);
     FIELD_MSGBG_KeyWaitInit((u32)(o + 0x160));
     ((struct Obj01849 *)o)->f174 = ARC_UTIL_LoadMember(5, 0xc, 0, heap);
-    func_02062A4C((struct NitroFileHeader *)(((struct Obj01849 *)o)->f174), (void **)(o + 0x178));
+    NNS_G2dGetUnpackedCharacterDataEx((struct NitroFileHeader *)(((struct Obj01849 *)o)->f174), (void **)(o + 0x178));
     return o;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02179218
+ * function: DWC_Auth_SetCalInfoToHttp
  * address:  0x02179218
  * packet:   pkt_ov009_02179218
  * region:   ov009
@@ -17,24 +17,24 @@
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
  *   wcslen  0x02096578  arm
  *   DWC_Http_Add_HeaderItem  0x02179E60  arm  ov009
- *   g_021A24E0     0x021A24E0  data ov009
- *   g_021A24EC     0x021A24EC  data ov009
- *   g_021A24F4     0x021A24F4  data ov009
- *   g_021A24FC     0x021A24FC  data ov009
- *   g_021A2504     0x021A2504  data ov009
- *   g_021A250C     0x021A250C  data ov009
- *   g_021A2514     0x021A2514  data ov009
- *   g_021A251C     0x021A251C  data ov009
- *   g_021A2524     0x021A2524  data ov009
- *   g_021A252C     0x021A252C  data ov009
- *   g_021A2534     0x021A2534  data ov009
- *   g_021A253C     0x021A253C  data ov009
- *   g_021A2544     0x021A2544  data ov009
- *   g_021A254C     0x021A254C  data ov009
- *   g_021A2554     0x021A2554  data ov009
- *   g_021A255C     0x021A255C  data ov009
- *   g_021A2574     0x021A2574  data ov009
- *   g_021A2580     0x021A2580  data ov009
+ *   gDwcCalFmtVersion     0x021A24E0  data ov009
+ *   gDwcCalKeyVersion     0x021A24EC  data ov009
+ *   gDwcCalKeyUserId     0x021A24F4  data ov009
+ *   gDwcCalKeyPasswd     0x021A24FC  data ov009
+ *   gDwcCalKeyBssid     0x021A2504  data ov009
+ *   gDwcCalKeyApInfo     0x021A250C  data ov009
+ *   gDwcCalKeyGameCd     0x021A2514  data ov009
+ *   gDwcCalKeyMakerCd     0x021A251C  data ov009
+ *   gDwcCalKeyUnitCd     0x021A2524  data ov009
+ *   gDwcCalKeyMacAdr     0x021A252C  data ov009
+ *   gDwcCalKeyLang     0x021A2534  data ov009
+ *   gDwcCalKeyBirth     0x021A253C  data ov009
+ *   gDwcCalKeyDevTime     0x021A2544  data ov009
+ *   gDwcCalKeyDevName     0x021A254C  data ov009
+ *   gDwcCalKeySsid     0x021A2554  data ov009
+ *   gDwcCalFmtHeaderVersion     0x021A255C  data ov009
+ *   gDwcCalHeaderVersion     0x021A2574  data ov009
+ *   gDwcCalHeaderGameCd     0x021A2580  data ov009
  */
 
 typedef struct DWCHttp DWCHttp;
@@ -63,65 +63,65 @@ typedef unsigned short u16;
 extern int wcslen(const u16 *s);
 extern int DWC_Http_Add_HeaderItem(char *http, char *label, char *data);
 
-extern const char g_021A24E0[];
-extern const char g_021A24EC[];
-extern const char g_021A24F4[];
-extern const char g_021A24FC[];
-extern const char g_021A2504[];
-extern const char g_021A250C[];
-extern const char g_021A2514[];
-extern const char g_021A251C[];
-extern const char g_021A2524[];
-extern const char g_021A252C[];
-extern const char g_021A2534[];
-extern const char g_021A253C[];
-extern const char g_021A2544[];
-extern const char g_021A254C[];
-extern const char g_021A2554[];
-extern const char g_021A255C[];
-extern const char g_021A2574[];
-extern const char g_021A2580[];
+extern const char gDwcCalFmtVersion[];
+extern const char gDwcCalKeyVersion[];
+extern const char gDwcCalKeyUserId[];
+extern const char gDwcCalKeyPasswd[];
+extern const char gDwcCalKeyBssid[];
+extern const char gDwcCalKeyApInfo[];
+extern const char gDwcCalKeyGameCd[];
+extern const char gDwcCalKeyMakerCd[];
+extern const char gDwcCalKeyUnitCd[];
+extern const char gDwcCalKeyMacAdr[];
+extern const char gDwcCalKeyLang[];
+extern const char gDwcCalKeyBirth[];
+extern const char gDwcCalKeyDevTime[];
+extern const char gDwcCalKeyDevName[];
+extern const char gDwcCalKeySsid[];
+extern const char gDwcCalFmtHeaderVersion[];
+extern const char gDwcCalHeaderVersion[];
+extern const char gDwcCalHeaderGameCd[];
 
-int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid)
+int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid)
 {
     char buf[33];
 
-    OS_SNPrintf(buf, sizeof(buf), g_021A24E0, 5, 3);
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24EC, buf, strlen((const u8 *)buf)) != 0)
+    OS_SNPrintf(buf, sizeof(buf), gDwcCalFmtVersion, 5, 3);
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyVersion, buf, strlen((const u8 *)buf)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24F4, calinfo->userid, strlen((const u8 *)calinfo->userid)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyUserId, calinfo->userid, strlen((const u8 *)calinfo->userid)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A24FC, calinfo->passwd, strlen((const u8 *)calinfo->passwd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyPasswd, calinfo->passwd, strlen((const u8 *)calinfo->passwd)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2504, calinfo->bssid, strlen((const u8 *)calinfo->bssid)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyBssid, calinfo->bssid, strlen((const u8 *)calinfo->bssid)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A250C, calinfo->apinfo, strlen((const u8 *)calinfo->apinfo)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyApInfo, calinfo->apinfo, strlen((const u8 *)calinfo->apinfo)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2514, calinfo->gamecd, strlen((const u8 *)calinfo->gamecd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyGameCd, calinfo->gamecd, strlen((const u8 *)calinfo->gamecd)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A251C, calinfo->makercd, strlen((const u8 *)calinfo->makercd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyMakerCd, calinfo->makercd, strlen((const u8 *)calinfo->makercd)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2524, calinfo->unitcd, strlen((const u8 *)calinfo->unitcd)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyUnitCd, calinfo->unitcd, strlen((const u8 *)calinfo->unitcd)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A252C, calinfo->macadr, strlen((const u8 *)calinfo->macadr)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyMacAdr, calinfo->macadr, strlen((const u8 *)calinfo->macadr)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2534, calinfo->lang, strlen((const u8 *)calinfo->lang)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyLang, calinfo->lang, strlen((const u8 *)calinfo->lang)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A253C, calinfo->birth, strlen((const u8 *)calinfo->birth)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyBirth, calinfo->birth, strlen((const u8 *)calinfo->birth)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2544, calinfo->devtime, strlen((const u8 *)calinfo->devtime)) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyDevTime, calinfo->devtime, strlen((const u8 *)calinfo->devtime)) != 0)
         return 0;
-    if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A254C, (char *)calinfo->devname, wcslen(calinfo->devname) * 2) != 0)
+    if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeyDevName, (char *)calinfo->devname, wcslen(calinfo->devname) * 2) != 0)
         return 0;
     if (allowessid == 1) {
-        if (DWC_Http_Add_PostBase64Item(http, (char *)g_021A2554, calinfo->ssid, strlen((const u8 *)calinfo->ssid)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, (char *)gDwcCalKeySsid, calinfo->ssid, strlen((const u8 *)calinfo->ssid)) != 0)
             return 0;
     }
 
-    OS_SNPrintf(buf, sizeof(buf), g_021A255C, 5, 3);
-    if (DWC_Http_Add_HeaderItem((char *)http, (char *)g_021A2574, buf) != 0)
+    OS_SNPrintf(buf, sizeof(buf), gDwcCalFmtHeaderVersion, 5, 3);
+    if (DWC_Http_Add_HeaderItem((char *)http, (char *)gDwcCalHeaderVersion, buf) != 0)
         return 0;
-    if (DWC_Http_Add_HeaderItem((char *)http, (char *)g_021A2580, calinfo->gamecd) != 0)
+    if (DWC_Http_Add_HeaderItem((char *)http, (char *)gDwcCalHeaderGameCd, calinfo->gamecd) != 0)
         return 0;
     return 1;
 }

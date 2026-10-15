@@ -35,7 +35,7 @@
  *   EVENT_COMM_COMMON_CmdCallMissionInfoEvent  0x0217F914  thumb  ov018
  *   FIELD_SUBPROC_MGR_RunUpdate  0x021BB948  thumb  ov021
  *   FIELD_MSGBG_Main  0x021903E0  thumb  ov021
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   FIELD_TASK_MANAGER_Update  0x021C6D90  thumb  ov021
  *   FIELD_G3D_MAPPER_SetFocusPos  0x0218D158  thumb  ov021
  *   FIELDMAP_UpdateG3d  0x02189004  thumb  ov021
@@ -85,7 +85,7 @@ extern void FIELD_EFFECT_Update(u32 a);
 extern void EVENT_COMM_COMMON_CmdCallMissionInfoEvent(u32 a);
 extern void FIELD_SUBPROC_MGR_RunUpdate(u8 *p);
 extern void FIELD_MSGBG_Main(struct Obj *o);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern void FIELD_TASK_MANAGER_Update(u8 *p);
 extern void FIELD_G3D_MAPPER_SetFocusPos(struct T *dst, const struct V3 *src);
 extern void FIELDMAP_UpdateG3d(u8 *p);
@@ -130,7 +130,7 @@ int FIELDMAP_SeqUpdate(void *a, u8 *p)
     FIELD_SUBPROC_MGR_RunUpdate((u8 *)(((struct Obj00518 *)p)->fBC));
     if (((struct Obj00518 *)p)->f28 != 0)
         FIELD_MSGBG_Main((struct Obj *)(((struct Obj00518 *)p)->f28));
-    func_02030D28((struct Ctx *)(((struct Obj00518 *)p)->f110));
+    TCB_Main((struct Ctx *)(((struct Obj00518 *)p)->f110));
     FIELD_TASK_MANAGER_Update((u8 *)(((struct Obj00518 *)p)->f134));
     if (*(Rec12 * *)&((struct Obj00518 *)p)->fF0 != 0)
         *(Rec12 *)(p + 0xF4) = **(Rec12 * *)&((struct Obj00518 *)p)->fF0;

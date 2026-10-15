@@ -29,7 +29,7 @@
  *   func_02008554  0x02008554  thumb
  *   GAME_BEACON_SetTrainerView  0x02027174  thumb
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Push 0x02031348 arm
  *   d_021725FC 0x021725FC data a4
@@ -221,7 +221,7 @@ extern u8 *func_02012944(void *p);
 extern u8 func_02008554(const struct MyStatus *obj);
 extern int GAME_BEACON_SetTrainerView();
 extern void func_020315D4(struct ProcSys *p);
-extern void func_020306F0(unsigned int heapId);
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern void *PROCSYS_Create(int a0);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
 int TRCARD_SYS_RunChildProc(void **childSlot);
@@ -410,7 +410,7 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
     func_020307B0(work->param->profile);
     func_020307B0(work->param);
     func_020315D4((struct ProcSys *)proc);
-    func_020306F0(0x26);
+    GFL_HEAP_DeleteChecked(0x26);
     return 1;
 }
 
@@ -421,7 +421,7 @@ int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work)
 {
     func_020307B0((void *)work->param);
     func_020315D4(proc);
-    func_020306F0(0x26);
+    GFL_HEAP_DeleteChecked(0x26);
     return 1;
 }
 

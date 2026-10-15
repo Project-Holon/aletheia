@@ -1,5 +1,5 @@
 /*
- * function: func_021D9D50
+ * function: WIFIBATTLEMATCH_NET_GetSetCompStat
  * address:  0x021D9D50
  * packet:   pkt_021D9D50
  * region:   ov175
@@ -33,7 +33,7 @@ typedef unsigned long u32;
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32 save, u32 table, u32 slot);
 extern void BSUBWAY_SAVEDATA_SetStat(u32 save, u32 table, u32 slot, u32 value);
 
-int func_021D9D50(char *obj, u32 *rec)
+int WIFIBATTLEMATCH_NET_GetSetCompStat(char *obj, u32 *rec)
 {
     int changed = 0;
 

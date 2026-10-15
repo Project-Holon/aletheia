@@ -1,5 +1,5 @@
 /*
- * function: func_021DB328
+ * function: WIFIBATTLEMATCH_NET_OnRecvFlagB
  * address:  0x021DB328
  * packet:   pkt_021DB328
  * region:   ov175
@@ -26,7 +26,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
-void func_021DB328(u32 a, u32 b, u32 c, char *d, u32 e)
+void WIFIBATTLEMATCH_NET_OnRecvFlagB(u32 a, u32 b, u32 c, char *d, u32 e)
 {
     if (e != (u32)GFL_NET_HANDLE_GetCurrentHandle())
         return;

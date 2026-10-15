@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   d_021E792C 0x021E792C data
+ *   gOutsideAreaHitRect 0x021E792C data
  */
 extern int TOUCHPANEL_HitTrg(const void *);
-extern const char d_021E792C[];
+extern const char gOutsideAreaHitRect[];
 int POKETRADE_SAVE_IsTouchOutsideArea(void *a0)
 {
-    if (TOUCHPANEL_HitTrg(d_021E792C) == 0) return 1;
+    if (TOUCHPANEL_HitTrg(gOutsideAreaHitRect) == 0) return 1;
     return 0;
 }

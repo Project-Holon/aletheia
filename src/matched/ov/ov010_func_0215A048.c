@@ -1,5 +1,5 @@
 /*
- * function: func_0215A048
+ * function: MAP_REPLACE_SetDirectLocation
  * address: 0x0215A048
  * packet: pkt_ov010_0215A048
  * region: ov010
@@ -18,6 +18,6 @@
  */
 typedef unsigned short u16;
 extern void ZONEDATA_SetDirectLocation(void *, int, short, int, int, int);
-void func_0215A048(void *a, int b, int c, unsigned d, u16 e) {
+void MAP_REPLACE_SetDirectLocation(void *a, int b, int c, unsigned d, u16 e) {
  ZONEDATA_SetDirectLocation(a, b, 1, d << 16, 0, (unsigned)e << 16);
 }

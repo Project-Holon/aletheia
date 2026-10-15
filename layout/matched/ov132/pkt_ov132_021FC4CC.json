@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC4CC",
+   "name": "SCRIPT_COMMAND_CmdSetCharColor",
    "address": "0x021FC4CC",
    "kind": "game",
    "region": "ov132",

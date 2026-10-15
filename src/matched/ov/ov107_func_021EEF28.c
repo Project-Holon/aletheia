@@ -14,7 +14,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -51,7 +51,7 @@ extern void WIPE_SetBrightnessFadeOut(u32,u32);
 extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void MB_COMM_SYS_InitBgLayer(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
@@ -70,7 +70,7 @@ void MB_COMM_SYS_InitDisplay(u8 *p) {
  *(volatile u16 *)0x04000304 |= 0x8000;
  BG_SYS_SetVramBanks(&d_021F6C10);
  BG_SYS_Create(((struct Obj00057 *)p)->f0);BMP_WIN_Init(((struct Obj00057 *)p)->f0);
- func_0203FC28(&d_021F6B00);
+ BG_SYS_SetGraphicsMode(&d_021F6B00);
  MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B50),0,0);MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B70),1,0);
  MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B90),2,0);MB_COMM_SYS_InitBgLayer((u32)(&d_021F6BB0),3,0);
  MB_COMM_SYS_InitBgLayer((u32)(&d_021F6BD0),4,0);MB_COMM_SYS_InitBgLayer((u32)(&d_021F6BF0),5,0);

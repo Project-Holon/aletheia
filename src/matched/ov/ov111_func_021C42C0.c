@@ -1,5 +1,5 @@
 /*
- * function: func_021C42C0
+ * function: VIEWER_MAIN_FreeResources
  * address:  0x021C42C0
  * packet:   pkt_ov111_021C42C0
  * region:   ov111
@@ -46,7 +46,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 
-void func_021C42C0(Work *p)
+void VIEWER_MAIN_FreeResources(Work *p)
 {
     int i;
 

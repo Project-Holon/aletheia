@@ -15,7 +15,7 @@
  *   LOCAL_TVT_SYS_PrintMessage 0x021B6A04 thumb ov174
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  */
 
@@ -30,7 +30,7 @@ extern void LOCAL_TVT_SYS_PrintMessage(u8 *p, int a);
 struct WordSet;
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 void LOCAL_TVT_SYS_ApplyStep(u8 *p)
 {
@@ -47,6 +47,6 @@ void LOCAL_TVT_SYS_ApplyStep(u8 *p)
         WORDSET_DeleteStrbufED04(*(void **)(p + 0x74));
     }
     *(void **)(p + 0x74) = GF_FONT_Create_EC64(*(u16 *)p);
-    func_0201F02C(*(void **)(p + 0x74), 0, GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(p + 0x30) + 4)));
+    WORDSET_SetSlotMyStatus(*(void **)(p + 0x74), 0, GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(p + 0x30) + 4)));
     LOCAL_TVT_SYS_PrintMessage(p, b);
 }

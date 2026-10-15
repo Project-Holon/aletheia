@@ -13,7 +13,7 @@
  * row y on bg layer 2 with palette pal, then commits the layer.
  *
  * symbols:
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   d_021BD5EE     0x021BD5EE  data  ov088  a2
  */
@@ -24,11 +24,11 @@ typedef unsigned int u32;
 
 extern u16 d_021BD5EE[];
 
-extern void func_020413B0(u32, u32, u8, u8, u8, u32);
+extern void BG_SYS_FillTileMap(u32, u32, u8, u8, u8, u32);
 extern void func_02041B6C(u32);
 
 void STARTMENU_PaintRowPalette(void *p, u8 row, int y, int pal)
 {
-    func_020413B0(2, 3, y, 0x1a, *(u16 *)((char *)d_021BD5EE + row * 4), pal);
+    BG_SYS_FillTileMap(2, 3, y, 0x1a, *(u16 *)((char *)d_021BD5EE + row * 4), pal);
     func_02041B6C(2);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     socl_read.c
  * unit:     yes
- * function: func_0215D6C8, func_0215D7FC, func_0215D898, func_0215D92C, func_0215DA34, func_0215DAA8, func_0215DB0C, func_0215DC5C, func_0215DD28, func_0215DD78, func_0215DD88, func_0215DDC4, func_0215DF08
+ * function: SOCL_ReadFrom, SOCLi_ReadAndConsumeBuffer, SOCLi_ReadBuffer, SOCLi_CopyCPSBuffer, SOCLi_ReadCPSBuffer, SOCLi_ExecReadCommand, SOCLi_ReadCallBack, SOCLi_ReadSSLNblockCallBack, SOCLi_ConsumeBuffer, SOCLi_ConsumeCallBack, SOCLi_ConsumeCPSBuffer, SOCLi_ReadUdpBuffer, SOCLi_UdpRecvCallback
  * address:  0x0215D6C8
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -28,27 +28,27 @@
  *   OS_SleepThread  0x020857B0  arm
  *   OS_WakeupThread  0x02085800  arm
  *   gSoclConfig  0x021A1CD8  data
- *   g_021AA4A4  0x021AA4A4  data
+ *   gSoclUdpDropCounts  0x021AA4A4  data
  */
-#include "../../matched/include/G_021A1CD8.h"
+#include "socl_command_types.h"
 
 /* CPS socket: the first 0xa0 bytes of every SOCLSocket */
 struct CPSSoc {
-    unsigned char pad0[8];
+    unsigned char reserved0[8];
     unsigned char state;
-    unsigned char pad9;
+    unsigned char reserved9;
     unsigned short local_port;
-    unsigned char padc[0x18 - 0xc];
+    unsigned char reservedc[0x18 - 0xc];
     unsigned short remote_port;
     unsigned short remote_port2;
     unsigned long remote_ip;
     unsigned long remote_ip2;
-    unsigned char pad24[0x4c - 0x24];
+    unsigned char reserved24[0x4c - 0x24];
     unsigned char *buf;
     long total;
-    long field54;
-    unsigned char *field58;
-    unsigned char pad5c[0xa0 - 0x5c];
+    long reserved54;
+    unsigned char *reserved58;
+    unsigned char reserved5c[0xa0 - 0x5c];
 };
 
 struct SOCLiUdpData {
@@ -89,10 +89,10 @@ struct SOCLSocket {
 struct SOCLiCommandRead {
     int (*handler)(void *);
     struct SOCLSocket *socket;
-    long field8;
-    signed char fieldC;
-    signed char fieldD;
-    unsigned char padE[2];
+    long reserved8;
+    signed char reservedC;
+    signed char reservedD;
+    unsigned char reservedE[2];
     unsigned char *buffer;
     long buffer_len;
     unsigned short *remote_port;
@@ -115,29 +115,29 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_SleepThread(void *queue);
 extern void OS_WakeupThread(void *queue);
-extern struct G_021A1CD8 *gSoclConfig;
-extern unsigned long g_021AA4A4[2];
+extern SoclConfig *gSoclConfig;
+extern unsigned long gSoclUdpDropCounts[2];
 
-int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip,
+int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip,
                   int flags);
-int func_0215D7FC(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ReadAndConsumeBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, int flag_block, int flags);
-int func_0215D898(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ReadBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, long flag_block);
-static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+static int SOCLi_CopyCPSBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip);
-unsigned char *func_0215DA34(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
+unsigned char *SOCLi_ReadCPSBuffer(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
                              unsigned short *remote_port, unsigned long *remote_ip);
-int func_0215DAA8(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ExecReadCommand(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, long flag_block);
-static int func_0215DB0C(void *arg);
-static int func_0215DC5C(void *arg);
-int func_0215DD28(struct SOCLSocket *socket);
-int func_0215DD78(void *arg);
-long func_0215DD88(struct SOCLSocket *socket);
-static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+static int SOCLi_ReadCallBack(void *arg);
+static int SOCLi_ReadSSLNblockCallBack(void *arg);
+int SOCLi_ConsumeBuffer(struct SOCLSocket *socket);
+int SOCLi_ConsumeCallBack(void *arg);
+long SOCLi_ConsumeCPSBuffer(struct SOCLSocket *socket);
+static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip, long flag_block);
-int func_0215DF08(unsigned char *data, unsigned long len, struct SOCLSocket *socket);
+int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct SOCLSocket *socket);
 
 static inline int isNotReady(struct SOCLSocket *socket)
 {
@@ -160,7 +160,7 @@ static inline int isStream(signed char m)
  *
  * The second state test is a volatile load: the image reloads socket->state between the two bit tests.
  */
-int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip,
+int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip,
                   int flags)
 {
     struct SOCLiSocketRecvCommandPipe *recv_pipe;
@@ -190,7 +190,7 @@ int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_po
     } else {
         OS_LockMutex(recv_pipe->mutex);
     }
-    result = func_0215D7FC(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
+    result = SOCLi_ReadAndConsumeBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
     func_02086078(recv_pipe->mutex);
     return result;
 }
@@ -198,10 +198,10 @@ int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_po
 /*
  * When the +0xa0 object exists and the caller asked for flag 2, latch its
  * +0xfe byte to 1 and put it back afterwards.  Mode 1 at +0xaf takes the
- * direct path, anything else goes through func_0215D898 and follows up with
- * func_0215DD28 when that did not fail.
+ * direct path, anything else goes through SOCLi_ReadBuffer and follows up with
+ * SOCLi_ConsumeBuffer when that did not fail.
  */
-int func_0215D7FC(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ReadAndConsumeBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, int flag_block, int flags)
 {
     struct SOCLiSocketRecvCommandPipe *recv_pipe = socket->recv_pipe;
@@ -220,11 +220,11 @@ int func_0215D7FC(struct SOCLSocket *socket, void *buffer, int buffer_len, unsig
     }
 
     if (socket->flag_mode == 1) {
-        r = func_0215DDC4(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
+        r = SOCLi_ReadUdpBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
     } else {
-        r = func_0215D898(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
+        r = SOCLi_ReadBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
         if (r >= 0)
-            func_0215DD28(socket);
+            SOCLi_ConsumeBuffer(socket);
     }
 
     if (t != 0)
@@ -236,19 +236,19 @@ int func_0215D7FC(struct SOCLSocket *socket, void *buffer, int buffer_len, unsig
 /*
  * sdk:      SOCLi_ReadBuffer (libsoc.TWL.HYB.a(socl_read.o))
  */
-int func_0215D898(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ReadBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, long flag_block)
 {
     int result;
 
     if (socket->flag_mode == 4)
-        return func_0215DAA8(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
-    result = func_0215D92C(socket, buffer, buffer_len, remote_port, remote_ip);
+        return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
+    result = SOCLi_CopyCPSBuffer(socket, buffer, buffer_len, remote_port, remote_ip);
     if (result != -6)
         return result;
     if ((flag_block & 1) == 0)
         return result;
-    return func_0215DAA8(socket, buffer, buffer_len, remote_port, remote_ip, 1);
+    return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, 1);
 }
 
 static inline int SOCL_SocketIsTCP(struct SOCLSocket *socket)
@@ -268,9 +268,9 @@ static inline int SOCL_SocketIsTCP(struct SOCLSocket *socket)
  * (modulo assert line constants).  At -O4,p the guard arm is kept as a branch
  * only when `consumed` is also `volatile long` (volatile is invisible in this
  * DWARF); either change alone stays 260/264.  Earlier "front-end wall" notes
- * (lanes U41, W8, A, 07; docs/notes/func_0215D92C.c.txt) are superseded.
+ * (lanes U41, W8, A, 07; docs/notes/SOCLi_CopyCPSBuffer.c.txt) are superseded.
  */
-static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+static int SOCLi_CopyCPSBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip)
 {
     unsigned long enable;
@@ -285,7 +285,7 @@ static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len
     int result = 0;
 
     enable = OS_DisableInterrupts();
-    cpsbuffer = func_0215DA34(socket, &cpsbuffer_len, &my_port, &his_port, &his_ip);
+    cpsbuffer = SOCLi_ReadCPSBuffer(socket, &cpsbuffer_len, &my_port, &his_port, &his_ip);
     if (cpsbuffer != 0) {
         if (cpsbuffer_len == 0) {
             result = -6;
@@ -320,7 +320,7 @@ static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len
 /*
  * sdk:      SOCLi_ReadCPSBuffer (libsoc.TWL.HYB.a(socl_read.o))
  */
-unsigned char *func_0215DA34(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
+unsigned char *SOCLi_ReadCPSBuffer(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
                              unsigned short *remote_port, unsigned long *remote_ip)
 {
     struct SOCLiSocketRecvCommandPipe *recv_pipe;
@@ -349,16 +349,16 @@ unsigned char *func_0215DA34(struct SOCLSocket *socket, long *buffer_len, unsign
 /*
  * sdk:      SOCLi_ExecReadCommand (libsoc.TWL.HYB.a(socl_read.o))
  */
-int func_0215DAA8(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ExecReadCommand(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, long flag_block)
 {
     struct SOCLiCommandRead *command;
     long result;
 
     if (flag_block & 1)
-        command = SOCLi_CreateCommandPacket(func_0215DB0C, socket, 1);
+        command = SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
     else
-        command = SOCLi_CreateCommandPacket(func_0215DC5C, socket, 1);
+        command = SOCLi_CreateCommandPacket(SOCLi_ReadSSLNblockCallBack, socket, 1);
     command->buffer = buffer;
     command->buffer_len = buffer_len;
     command->remote_port = remote_port;
@@ -369,7 +369,7 @@ int func_0215DAA8(struct SOCLSocket *socket, void *buffer, int buffer_len, unsig
 /*
  * sdk:      SOCLi_ReadCallBack (socl_read.o)
  */
-static int func_0215DB0C(void *arg)
+static int SOCLi_ReadCallBack(void *arg)
 {
     struct SOCLSocket *socket;
     int result;
@@ -414,13 +414,13 @@ static int func_0215DB0C(void *arg)
         return buffer_len;
     }
     if (cpsbuffer != 0)
-        result = func_0215D92C(socket, buffer, buffer_len, remote_port, remote_ip);
+        result = SOCLi_CopyCPSBuffer(socket, buffer, buffer_len, remote_port, remote_ip);
     else
         result = 0;
     if (result <= 0)
         return result;
     if (recv_pipe->consumed >= recv_pipe->consumed_min)
-        func_0215DD88(socket);
+        SOCLi_ConsumeCPSBuffer(socket);
     return result;
 }
 
@@ -431,7 +431,7 @@ static int func_0215DB0C(void *arg)
  * declared volatile or the scheduler hoists the state load into the first
  * block (image keeps it last, right before the tst).
  */
-static int func_0215DC5C(void *arg)
+static int SOCLi_ReadSSLNblockCallBack(void *arg)
 {
     struct SOCLiCommandRead *cpacket;
     struct SOCLSocket *socket;
@@ -475,7 +475,7 @@ static int func_0215DC5C(void *arg)
 /*
  * sdk:      SOCLi_ConsumeBuffer (libsoc.TWL.HYB.a(socl_read.o))
  */
-int func_0215DD28(struct SOCLSocket *socket)
+int SOCLi_ConsumeBuffer(struct SOCLSocket *socket)
 {
     struct SOCLiSocketRecvCommandPipe *recv_pipe;
     struct SOCLiCommandRead *command;
@@ -485,22 +485,22 @@ int func_0215DD28(struct SOCLSocket *socket)
     if (recv_pipe->consumed < recv_pipe->consumed_min)
         return 0;
     result = 0;
-    command = SOCLi_CreateCommandPacket(func_0215DD78, socket, result);
+    command = SOCLi_CreateCommandPacket(SOCLi_ConsumeCallBack, socket, result);
     if (command == 0)
         return result - 0x21;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, command);
 }
 
 /* SOCLi_ConsumeCallBack: the command's socket sits at +4 */
-int func_0215DD78(void *arg)
+int SOCLi_ConsumeCallBack(void *arg)
 {
-    return func_0215DD88(((struct SOCLiCommandRead *)arg)->socket);
+    return SOCLi_ConsumeCPSBuffer(((struct SOCLiCommandRead *)arg)->socket);
 }
 
 /*
  * sdk:      SOCLi_ConsumeCPSBuffer (libsoc.TWL.HYB.a(socl_read.o))
  */
-long func_0215DD88(struct SOCLSocket *socket)
+long SOCLi_ConsumeCPSBuffer(struct SOCLSocket *socket)
 {
     struct SOCLiSocketRecvCommandPipe *recv_pipe;
     unsigned long enable;
@@ -520,7 +520,7 @@ long func_0215DD88(struct SOCLSocket *socket)
 /*
  * sdk:      SOCLi_ReadUdpBuffer (socl_read.o)
  */
-static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip, long flag_block)
 {
     unsigned long enable;
@@ -574,7 +574,7 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
-int func_0215DF08(unsigned char *data, unsigned long len, struct SOCLSocket *socket)
+int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct SOCLSocket *socket)
 {
     struct SOCLiSocketRecvCommandPipe *pipe = socket->recv_pipe;
     struct SOCLiUdpData *udpheader;
@@ -596,10 +596,10 @@ int func_0215DF08(unsigned char *data, unsigned long len, struct SOCLSocket *soc
             if (pipe->head == 0)
                 pipe->head = udpheader;
         } else {
-            g_021AA4A4[0]++;
+            gSoclUdpDropCounts[0]++;
         }
     } else {
-        g_021AA4A4[1]++;
+        gSoclUdpDropCounts[1]++;
     }
     socket->cps_socket.remote_port = socket->cps_socket.remote_port2;
     socket->cps_socket.remote_ip = socket->cps_socket.remote_ip2;

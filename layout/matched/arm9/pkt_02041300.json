@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02041300",
+   "name": "BG_SYS_SetTileEntry",
    "address": "0x02041300",
    "kind": "game",
    "region": "arm9",

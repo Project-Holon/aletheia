@@ -1,5 +1,5 @@
 /*
- * function: func_021BED54
+ * function: ZKNSEARCH_MAIN_DeleteActorSystem
  * address:  0x021BED54
  * packet:   pkt_ov210_021BED54
  * region:   ov210
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF370 0x021BF370 thumb ov210
- *   func_021BF080 0x021BF080 thumb ov210
+ *   ZKNSEARCH_MAIN_DeleteActors 0x021BF370 thumb ov210
+ *   ZKNSEARCH_MAIN_ReleaseActorRes 0x021BF080 thumb ov210
  *   CLACT_ExitSystem 0x0204A5AC arm
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BF370(int p);
+extern void ZKNSEARCH_MAIN_DeleteActors(int p);
 typedef unsigned char  u8;
-extern void func_021BF080(u8 *p);
+extern void ZKNSEARCH_MAIN_ReleaseActorRes(u8 *p);
 extern void CLACT_ExitSystem(void);
 
-void func_021BED54(int p)
+void ZKNSEARCH_MAIN_DeleteActorSystem(int p)
 {
-    func_021BF370(p);
-    func_021BF080((u8 *)p);
+    ZKNSEARCH_MAIN_DeleteActors(p);
+    ZKNSEARCH_MAIN_ReleaseActorRes((u8 *)p);
     CLACT_ExitSystem();
 }

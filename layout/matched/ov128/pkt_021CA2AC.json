@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA2AC",
+   "name": "WF2DMAP_TOUCH_SetItemHighlight3",
    "address": "0x021CA2AC",
    "kind": "game",
    "region": "ov128",

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0217BC90 0x0217BC90 arm ov009
+ *   DWC_CheckProfanityProcess 0x0217BC90 arm ov009
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -23,7 +23,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0217BC90(void);
+extern int DWC_CheckProfanityProcess(void);
 struct MsgBank;
 struct Rec;
 struct U16Vec;
@@ -47,7 +47,7 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
     void *str;
     u16 *text;
     int i;
-    done = func_0217BC90() == 2;
+    done = DWC_CheckProfanityProcess() == 2;
     if (done) positive = ((struct Obj05420 *)p)->f1320 > 0;
     if (done) {
         if (positive) {

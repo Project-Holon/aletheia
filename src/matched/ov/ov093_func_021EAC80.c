@@ -21,7 +21,7 @@
  *   func_021EAD94 0x021EAD94 thumb ov093
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_0220F3E8 0x0220F3E8 thumb ov198
+ *   B_PLIST_MAIN_Create 0x0220F3E8 thumb ov198
  *   ov196_id 0x000000C4 data
  *   ov198_id 0x000000C6 data
  */
@@ -35,7 +35,7 @@ extern void func_021EAD84(void *);
 extern int func_021EAD94(void *);
 extern int func_02034AC4(signed int);
 extern void func_02034A5C(int);
-extern void func_0220F3E8(u8 *p);
+extern void B_PLIST_MAIN_Create(u8 *p);
 extern u8 ov196_id[], ov198_id[];
 
 int BTLV_CORE_ProcMoveForgetScreen(u8 *p, u8 *out)
@@ -50,7 +50,7 @@ int BTLV_CORE_ProcMoveForgetScreen(u8 *p, u8 *out)
         if (func_021EAD54(((struct Obj01694 *)p)->f180)) {
             func_021EAD64(((struct Obj01694 *)p)->f180);
             func_02034AC4((int)ov198_id);
-            func_0220F3E8(p + 0x10c);
+            B_PLIST_MAIN_Create(p + 0x10c);
             p[0x174]++;
         }
         break;

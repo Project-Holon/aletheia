@@ -1,5 +1,5 @@
 /*
- * function: func_02189BE4
+ * function: gpiReadMessageFromBuffer
  * address:  0x02189BE4
  * packet:   pkt_ov009_02189BE4
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   strchr         0x02094a28  arm
  *   strncmp        0x020949f4  arm
- *   func_02193418  0x02193418  arm   ov009
+ *   gpiValueForKey  0x02193418  arm   ov009
  *   atoi           0x020964e0  arm
  *   g_021A45B4     0x021a45b4  data
  *   g_021A45BC     0x021a45bc  data
@@ -29,13 +29,13 @@ typedef struct {
 } GPIBuffer;
 extern char *strchr(const char *, int);
 extern int strncmp(const char *, const char *, unsigned int);
-extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
+extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(const char *);
 extern char g_021A45B4[];
 extern char g_021A45BC[];
 extern char g_021A45C0[];
 
-int func_02189BE4(int unused, GPIBuffer *inputBuffer, char **message, int *type, int *plen)
+int gpiReadMessageFromBuffer(int unused, GPIBuffer *inputBuffer, char **message, int *type, int *plen)
 {
     char intValue[16];
     int len;
@@ -49,10 +49,10 @@ int func_02189BE4(int unused, GPIBuffer *inputBuffer, char **message, int *type,
         if (strncmp(str - 5, g_021A45B4, 5) != 0)
             return 3;
         *str = 0;
-        if (!func_02193418(inputBuffer->buffer, g_021A45BC, intValue, 16))
+        if (!gpiValueForKey(inputBuffer->buffer, g_021A45BC, intValue, 16))
             return 3;
         *type = atoi(intValue);
-        if (!func_02193418(inputBuffer->buffer, g_021A45C0, intValue, 16))
+        if (!gpiValueForKey(inputBuffer->buffer, g_021A45C0, intValue, 16))
             return 3;
         len = atoi(intValue);
         if (inputBuffer->len > len + 1 + (str - inputBuffer->buffer)) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020582CC",
+   "name": "SPL_EMITTER_AddVec",
    "address": "0x020582CC",
    "kind": "game",
    "region": "arm9",

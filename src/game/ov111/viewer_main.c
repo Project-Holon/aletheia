@@ -1,7 +1,7 @@
 /*
  * file:     viewer_main.c
  * unit:     yes
- * function: func_021C3CC0, func_021C3EF8, func_021C3F18, func_021C3F54, func_021C40DC, func_021C41C4, func_021C42C0, func_021C436C, func_021C43C4, func_021C43E8, func_021C4524, func_021C4530, func_021C453C, func_021C46F0, func_021C4754, func_021C479C, func_021C47EC, func_021C4858, func_021C49D8, func_021C4AB0, func_021C4B74, func_021C4B9C, func_021C4D48, func_021C4E0C, func_021C4F80, func_021C5008, func_021C5054, func_021C513C, func_021C51B4, func_021C51E4, func_021C523C, func_021C5264, func_021C5280, func_021C5484, func_021C555C, func_021C55A4, func_021C567C, func_021C56E8, func_021C5718, func_021C581C, func_021C5874, func_021C58E0, func_021C5938, func_021C5958, func_021C59B0, func_021C59DC, func_021C5ACC, func_021C5AEC, func_021C5B34, func_021C5B80, func_021C5BCC, func_021C5CF4, func_021C5DB8, func_021C5F50, func_021C5F64
+ * function: VIEWER_MAIN_Create, VIEWER_MAIN_InitInfo, VIEWER_MAIN_PlaySe, VIEWER_MAIN_Main, VIEWER_MAIN_Delete, VIEWER_MAIN_LoadResources, VIEWER_MAIN_FreeResources, VIEWER_MAIN_SetupBgSlot, VIEWER_MAIN_ClearBgSlot, VIEWER_MAIN_InitBg, VIEWER_MAIN_GetBgParamA, VIEWER_MAIN_GetBgParamB, VIEWER_MAIN_LoadBgResources, VIEWER_MAIN_ExitBg, VIEWER_MAIN_SetBgSlotKind, VIEWER_MAIN_ResetBgSlot, VIEWER_MAIN_Draw, VIEWER_MAIN_UpdateRowA, VIEWER_MAIN_UpdateRowB, VIEWER_MAIN_UpdateRowC, VIEWER_MAIN_UpdateRows, VIEWER_MAIN_Update, VIEWER_MAIN_SetWindowPlane, VIEWER_MAIN_UpdateWindows, VIEWER_MAIN_InitBrightness, VIEWER_MAIN_CheckInputHeld, VIEWER_MAIN_HandleKey, VIEWER_MAIN_ToggleFavorite, VIEWER_MAIN_SetRowState, VIEWER_MAIN_SetRowDrawEnable, VIEWER_MAIN_DrawRowBg, VIEWER_MAIN_HitRow, VIEWER_MAIN_HandleRowTouch, VIEWER_MAIN_HandleRowKey, VIEWER_MAIN_HandlePageTouch, VIEWER_MAIN_HandlePageInput, VIEWER_MAIN_HandleInput, VIEWER_MAIN_UpdateInput, VIEWER_MAIN_DrawSelected, VIEWER_MAIN_VBlank, VIEWER_MAIN_InitLcdBrightness, VIEWER_MAIN_UploadBg, VIEWER_MAIN_SetWindowRect, VIEWER_MAIN_CopyBg3, VIEWER_MAIN_CopyBg6, VIEWER_MAIN_ClearBgBuf, VIEWER_MAIN_UploadBgBuf, VIEWER_MAIN_ClearBg, VIEWER_MAIN_UpdateBrightness, VIEWER_MAIN_CheckTouch, VIEWER_MAIN_HandleScrollTouch, VIEWER_MAIN_BlitRect, VIEWER_MAIN_BlitBrush, VIEWER_MAIN_CopyTouchPos, VIEWER_MAIN_DrawBrushStroke
  * address:  0x021C3CC0
  * region:   ov111
  * compiler: dsi/1.1p1
@@ -30,11 +30,11 @@
  *   TCBL_Create  0x0203101C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_021C6D9C  0x021C6D9C  thumb  ov111
- *   func_021C6804  0x021C6804  thumb  ov111
- *   func_021C6E8C  0x021C6E8C  thumb  ov111
- *   func_021C6000  0x021C6000  thumb  ov111
- *   func_021C6D98  0x021C6D98  thumb  ov111
+ *   VIEWER_TEXT_InitActors  0x021C6D9C  thumb  ov111
+ *   VIEWER_TEXT_SetScrollParam  0x021C6804  thumb  ov111
+ *   VIEWER_TEXT_CreateActor  0x021C6E8C  thumb  ov111
+ *   VIEWER_TEXT_Init  0x021C6000  thumb  ov111
+ *   VIEWER_TEXT_NoOp  0x021C6D98  thumb  ov111
  *   d_021C8564     0x021C8564  data  a4
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
@@ -51,14 +51,14 @@
  *   func_02008A14  0x02008A14  thumb
  *   func_02008A1C  0x02008A1C  thumb
  *   PMS_DRAW_Delete  0x0202DC08  thumb
- *   func_021C6F4C  0x021C6F4C  thumb  ov111
+ *   VIEWER_TEXT_DeleteActors  0x021C6F4C  thumb  ov111
  *   func_020307B0  0x020307B0  arm
- *   func_021C60A0  0x021C60A0  thumb  ov111
+ *   VIEWER_TEXT_Exit  0x021C60A0  thumb  ov111
  *   func_02030EAC  0x02030EAC  arm
  *   TCBL_Destroy  0x02031140  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -73,9 +73,9 @@
  *   func_02049F34  0x02049F34  arm
  *   d_021C8E20     0x021C8E20  data  a4
  *   d_021C86E8     0x021C86E8  data  a4
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_02040588  0x02040588  arm
  *   d_021C85C8     0x021C85C8  data  a4
  *   d_021C85E8     0x021C85E8  data  a4
@@ -90,7 +90,7 @@
  *   func_020275E4  0x020275E4  thumb
  *   func_02027628  0x02027628  thumb
  *   func_0202762C  0x0202762C  thumb
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -99,11 +99,11 @@
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021C85D8     0x021C85D8  data  a4
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   func_021C60CC  0x021C60CC  thumb  ov111
- *   func_021C6874  0x021C6874  thumb  ov111
- *   func_021C636C  0x021C636C  thumb  ov111
- *   func_021C631C  0x021C631C  thumb  ov111
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
+ *   VIEWER_TEXT_Draw  0x021C60CC  thumb  ov111
+ *   VIEWER_TEXT_DrawPage  0x021C6874  thumb  ov111
+ *   VIEWER_TEXT_DrawWindow  0x021C636C  thumb  ov111
+ *   VIEWER_TEXT_FlushWindow  0x021C631C  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   PMS_DRAW_SetDecoVisible  0x0202DCD4  thumb
  *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
@@ -125,15 +125,15 @@
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   d_021C8554     0x021C8554  data  a1
  *   d_021C8594     0x021C8594  data  a1
- *   sub_02008A00  0x02008A00  thumb
- *   func_021C61EC  0x021C61EC  thumb
- *   func_021C628C  0x021C628C  thumb
- *   func_020419E4  0x020419E4  arm
+ *   TRCARD_SIGN_SetSeenBefore  0x02008A00  thumb
+ *   VIEWER_TEXT_DrawTable  0x021C61EC  thumb
+ *   VIEWER_TEXT_DrawList  0x021C628C  thumb
+ *   BG_SYS_Update  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   OS_WaitVBlankIntr  0x02087AE4  arm
- *   func_02040B1C  0x02040B1C  arm
- *   func_020410D0  0x020410D0  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_0207E468  0x0207E468  arm
@@ -1017,11 +1017,11 @@ extern void *func_020056A0(void (*cb)(void *, Work_021C581C *), void *ctx, int p
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_021C6D9C(Anim_021C3CC0 *a, const void *cfg);
-extern void func_021C6804(Work_021C3CC0 *p, Info_021C3CC0 *info);
-extern void func_021C6E8C(Anim_021C3CC0 *a);
-extern void func_021C6000(Work_021C3CC0 *p);
-extern void func_021C6D98(Work_021C3CC0 *p, void *bg, u32 a, void *b);
+extern void VIEWER_TEXT_InitActors(Anim_021C3CC0 *a, const void *cfg);
+extern void VIEWER_TEXT_SetScrollParam(Work_021C3CC0 *p, Info_021C3CC0 *info);
+extern void VIEWER_TEXT_CreateActor(Anim_021C3CC0 *a);
+extern void VIEWER_TEXT_Init(Work_021C3CC0 *p);
+extern void VIEWER_TEXT_NoOp(Work_021C3CC0 *p, void *bg, u32 a, void *b);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -1037,14 +1037,14 @@ extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
 extern void func_02008A1C(struct Sub020089A8Obj *obj, u8 value);
 extern void PMS_DRAW_Delete(struct Obj *p);
-extern void func_021C6F4C(Anim_021C3F54 *a);
+extern void VIEWER_TEXT_DeleteActors(Anim_021C3F54 *a);
 extern u32 func_020307B0(void *p);
-extern void func_021C60A0(Work_021C40DC *p);
+extern void VIEWER_TEXT_Exit(Work_021C40DC *p);
 extern void func_02030EAC(struct Node *n);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_020355D8(u32 v);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -1057,9 +1057,9 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u32 bgId);
+extern void BG_SYS_FreeSlot(u32 bgId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -1068,7 +1068,7 @@ extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 fl
 extern u32 func_020275E4(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -1076,11 +1076,11 @@ extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_020403F4(u32 bgId);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_021C60CC(Work_v4754 *p, void **bg, Info_v4754 *info);
-extern void func_021C6874(Work_v4754 *p, int scroll, int flush, int idx);
-extern void func_021C636C(Work_v4754 *p, void **bg, Info_v4754 *info);
-extern void func_021C631C(Work_v4754 *p, void **bg);
-extern void func_021C6FA0(Anim_v4858 *a, int idx, u8 x, u8 y);
+extern void VIEWER_TEXT_Draw(Work_v4754 *p, void **bg, Info_v4754 *info);
+extern void VIEWER_TEXT_DrawPage(Work_v4754 *p, int scroll, int flush, int idx);
+extern void VIEWER_TEXT_DrawWindow(Work_v4754 *p, void **bg, Info_v4754 *info);
+extern void VIEWER_TEXT_FlushWindow(Work_v4754 *p, void **bg);
+extern void VIEWER_TEXT_SetActorAnim(Anim_v4858 *a, int idx, u8 x, u8 y);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void PMS_DRAW_SetDecoVisible(struct Obj0202DCC4 *p, u32 i, u32 val);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
@@ -1097,74 +1097,74 @@ extern int TOUCHPANEL_HitCont(const void *p);
 extern int TOUCHPANEL_HitTrg(const void *rect);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
-extern struct Sub020089A8Obj *sub_02008A00(struct Sub020089A8Obj *obj);
-extern void func_021C61EC(Work_021C5718 *p, int v, int a);
-extern void func_021C628C(Work_021C5718 *p, int v, int a);
-extern void func_020419E4(void);
+extern struct Sub020089A8Obj *TRCARD_SIGN_SetSeenBefore(struct Sub020089A8Obj *obj);
+extern void VIEWER_TEXT_DrawTable(Work_021C5718 *p, int v, int a);
+extern void VIEWER_TEXT_DrawList(Work_021C5718 *p, int v, int a);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 extern void OS_WaitVBlankIntr(void);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void func_02041B6C(u32 bit);
 extern void func_0207E468(const void *src, u32 offset, u32 size);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
-int func_021C3CC0(void *man, int *state, Args_v3CC0 *args);
-void func_021C3EF8(Info_021C3EF8 *info);
-void func_021C3F18(Work_021C3F18 *p, int speed);
-int func_021C3F54(void *proc, int *seq, int c, Work_021C3F54 *p);
-int func_021C40DC(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p);
-void func_021C41C4(Work_021C41C4 *p);
-void func_021C42C0(Work_021C42C0 *p);
-void func_021C436C(Work_021C436C *p, int k, int alt);
-void func_021C43C4(Work_021C43C4 *p, int k);
-void func_021C43E8(void);
-int func_021C4524(int x);
-int func_021C4530(int x);
-void func_021C453C(Work_v3CC0 *p);
-void func_021C46F0(void);
-void func_021C4754(Work_021C4754 *p, int kind);
-void func_021C479C(Work_021C479C *p);
-void func_021C47EC(Work_v4754 *p);
-void func_021C4858(Work_021C4858 *p, int flag);
-void func_021C49D8(Work_021C4858 *p, int flag);
-void func_021C4AB0(Work_021C4858 *p, int flag);
-void func_021C4B74(Work_021C4858 *p, int flag);
-int func_021C4B9C(Work_021C4B9C *p);
-void func_021C4D48(int side);
-int func_021C4E0C(char *p);
-void func_021C4F80(Work_021C4F80 *p);
-int func_021C5008(Work_021C5008 *p);
-int func_021C5054(Work_v4858 *p);
-void func_021C513C(Work_v4858 *p);
-void func_021C51B4(Work_021C51B4_021C51B4 *p, int flag, int v);
-void func_021C51E4(Work_021C51E4 *p, int flag);
-void func_021C523C(Work_021C523C *p, int flag);
-int func_021C5264(Work_021C5264 *p, int hit);
-int func_021C5280(Work_v51B4 *p, int hit);
-int func_021C5484(Work_021C5484 *p, int hit);
-void func_021C555C(Work_021C555C *p);
-void func_021C55A4(Work_v5484 *p);
-int func_021C567C(Work_021C567C *p);
-int func_021C56E8(Work_021C56E8 *p);
-void func_021C5718(Work_021C5718 *p, int sel, int *seq);
-void func_021C581C(void *task, Work_021C581C *p);
-void func_021C5874(void);
-void func_021C58E0(Work_021C58E0_021C567C *p);
-void func_021C5938(void *p);
-void func_021C5958(const u8 *src, u8 *dst);
-void func_021C59B0(const u8 *src, u8 *dst);
-void func_021C59DC(u32 bg, int mode);
-void func_021C5ACC(u32 bg, const void *src, int mode);
-void func_021C5AEC(Work_021C5AEC *p);
-void func_021C5B34(Work_021C5B34 *p);
-void func_021C5B80(Work_021C5B80 *p);
-void func_021C5BCC(Work_021C5BCC *p, int side);
-void func_021C5CF4(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode, int sel);
-int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side);
-void func_021C5F50(TouchPos_021C567C *src, TouchPos_021C567C *dst);
-int func_021C5F64(u8 *pix, TouchPos_021C567C *cur, TouchPos_021C567C *prev, int flush, const void *src, u8 clip, u8 side);
+int VIEWER_MAIN_Create(void *man, int *state, Args_v3CC0 *args);
+void VIEWER_MAIN_InitInfo(Info_021C3EF8 *info);
+void VIEWER_MAIN_PlaySe(Work_021C3F18 *p, int speed);
+int VIEWER_MAIN_Main(void *proc, int *seq, int c, Work_021C3F54 *p);
+int VIEWER_MAIN_Delete(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p);
+void VIEWER_MAIN_LoadResources(Work_021C41C4 *p);
+void VIEWER_MAIN_FreeResources(Work_021C42C0 *p);
+void VIEWER_MAIN_SetupBgSlot(Work_021C436C *p, int k, int alt);
+void VIEWER_MAIN_ClearBgSlot(Work_021C43C4 *p, int k);
+void VIEWER_MAIN_InitBg(void);
+int VIEWER_MAIN_GetBgParamA(int x);
+int VIEWER_MAIN_GetBgParamB(int x);
+void VIEWER_MAIN_LoadBgResources(Work_v3CC0 *p);
+void VIEWER_MAIN_ExitBg(void);
+void VIEWER_MAIN_SetBgSlotKind(Work_021C4754 *p, int kind);
+void VIEWER_MAIN_ResetBgSlot(Work_021C479C *p);
+void VIEWER_MAIN_Draw(Work_v4754 *p);
+void VIEWER_MAIN_UpdateRowA(Work_021C4858 *p, int flag);
+void VIEWER_MAIN_UpdateRowB(Work_021C4858 *p, int flag);
+void VIEWER_MAIN_UpdateRowC(Work_021C4858 *p, int flag);
+void VIEWER_MAIN_UpdateRows(Work_021C4858 *p, int flag);
+int VIEWER_MAIN_Update(Work_021C4B9C *p);
+void VIEWER_MAIN_SetWindowPlane(int side);
+int VIEWER_MAIN_UpdateWindows(char *p);
+void VIEWER_MAIN_InitBrightness(Work_021C4F80 *p);
+int VIEWER_MAIN_CheckInputHeld(Work_021C5008 *p);
+int VIEWER_MAIN_HandleKey(Work_v4858 *p);
+void VIEWER_MAIN_ToggleFavorite(Work_v4858 *p);
+void VIEWER_MAIN_SetRowState(Work_021C51B4_021C51B4 *p, int flag, int v);
+void VIEWER_MAIN_SetRowDrawEnable(Work_021C51E4 *p, int flag);
+void VIEWER_MAIN_DrawRowBg(Work_021C523C *p, int flag);
+int VIEWER_MAIN_HitRow(Work_021C5264 *p, int hit);
+int VIEWER_MAIN_HandleRowTouch(Work_v51B4 *p, int hit);
+int VIEWER_MAIN_HandleRowKey(Work_021C5484 *p, int hit);
+void VIEWER_MAIN_HandlePageTouch(Work_021C555C *p);
+void VIEWER_MAIN_HandlePageInput(Work_v5484 *p);
+int VIEWER_MAIN_HandleInput(Work_021C567C *p);
+int VIEWER_MAIN_UpdateInput(Work_021C56E8 *p);
+void VIEWER_MAIN_DrawSelected(Work_021C5718 *p, int sel, int *seq);
+void VIEWER_MAIN_VBlank(void *task, Work_021C581C *p);
+void VIEWER_MAIN_InitLcdBrightness(void);
+void VIEWER_MAIN_UploadBg(Work_021C58E0_021C567C *p);
+void VIEWER_MAIN_SetWindowRect(void *p);
+void VIEWER_MAIN_CopyBg3(const u8 *src, u8 *dst);
+void VIEWER_MAIN_CopyBg6(const u8 *src, u8 *dst);
+void VIEWER_MAIN_ClearBgBuf(u32 bg, int mode);
+void VIEWER_MAIN_UploadBgBuf(u32 bg, const void *src, int mode);
+void VIEWER_MAIN_ClearBg(Work_021C5AEC *p);
+void VIEWER_MAIN_UpdateBrightness(Work_021C5B34 *p);
+void VIEWER_MAIN_CheckTouch(Work_021C5B80 *p);
+void VIEWER_MAIN_HandleScrollTouch(Work_021C5BCC *p, int side);
+void VIEWER_MAIN_BlitRect(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode, int sel);
+int VIEWER_MAIN_BlitBrush(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side);
+void VIEWER_MAIN_CopyTouchPos(TouchPos_021C567C *src, TouchPos_021C567C *dst);
+int VIEWER_MAIN_DrawBrushStroke(u8 *pix, TouchPos_021C567C *cur, TouchPos_021C567C *prev, int flush, const void *src, u8 clip, u8 side);
 extern const u8 d_021C8564[];
 extern const u32 d_021C8E20[][2];
 extern const u32 d_021C86E8[][2];
@@ -1193,7 +1193,7 @@ extern const u8 d_021C86A8[2][2][16];
 
 
 
-int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
+int VIEWER_MAIN_Create(void *man, int *state, Args_v3CC0 *args)
 {
     Work_021C3CC0 *p;
     int i;
@@ -1235,16 +1235,16 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
         p->f32CA_1 = 1;
     }
     BG_SYS_Create(p->heap);
-    func_021C41C4((Work_021C41C4 *)p);
+    VIEWER_MAIN_LoadResources((Work_021C41C4 *)p);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
-    func_021C43E8();
-    func_021C453C((Work_v3CC0 *)p);
-    func_021C6D9C((Anim_021C3CC0 *)(&p->anim), d_021C8564);
-    func_021C6804(p, p->args->info);
-    func_021C6E8C((Anim_021C3CC0 *)(&p->anim));
-    func_021C6000(p);
+    VIEWER_MAIN_InitBg();
+    VIEWER_MAIN_LoadBgResources((Work_v3CC0 *)p);
+    VIEWER_TEXT_InitActors((Anim_021C3CC0 *)(&p->anim), d_021C8564);
+    VIEWER_TEXT_SetScrollParam(p, p->args->info);
+    VIEWER_TEXT_CreateActor((Anim_021C3CC0 *)(&p->anim));
+    VIEWER_TEXT_Init(p);
     p->f32B0 = PMS_DRAW_Create((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);
-    func_021C6D98(p, p->bg[4], 1, p->f320C);
+    VIEWER_TEXT_NoOp(p, p->bg[4], 1, p->f320C);
     if (p->args->f14 == 2) {
         p->args->f14 = 0;
         p->f3034 = 1;
@@ -1263,9 +1263,9 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
     p->f3050 = 0x60;
     p->f3054 = 0;
     p->f3058 = 0;
-    func_021C5874();
-    func_021C47EC((Work_v4754 *)p);
-    p->f31F4 = func_020056A0(func_021C581C, p, 1);
+    VIEWER_MAIN_InitLcdBrightness();
+    VIEWER_MAIN_Draw((Work_v4754 *)p);
+    p->f31F4 = func_020056A0(VIEWER_MAIN_VBlank, p, 1);
     p->f31F8 = TCBL_Create(p->heap, p->heap, 3, 0);
     GFL_NET_RestartWithDefaultTimeout(1, p->heap);
     WIPE_SYS_Start((void *)1, 3, 3, 0, 6, 1, p->heap);
@@ -1283,7 +1283,7 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021C3EF8(Info_021C3EF8 *info)
+void VIEWER_MAIN_InitInfo(Info_021C3EF8 *info)
 {
     info->b6++;
     if (info->b6 > (info->f4_1 + 1) * 8 - 1) {
@@ -1299,7 +1299,7 @@ void func_021C3EF8(Info_021C3EF8 *info)
 
 
 
-void func_021C3F18(Work_021C3F18 *p, int speed)
+void VIEWER_MAIN_PlaySe(Work_021C3F18 *p, int speed)
 {
     if (p->cooldown != 0) {
         p->cooldown--;
@@ -1323,7 +1323,7 @@ void func_021C3F18(Work_021C3F18 *p, int speed)
 
 
 
-int func_021C3F54(void *proc, int *seq, int c, Work_021C3F54 *p)
+int VIEWER_MAIN_Main(void *proc, int *seq, int c, Work_021C3F54 *p)
 {
     switch (*seq) {
     case 0:
@@ -1332,10 +1332,10 @@ int func_021C3F54(void *proc, int *seq, int c, Work_021C3F54 *p)
         }
         break;
     case 1:
-        func_021C5718((Work_021C5718 *)p, func_021C56E8((Work_021C56E8 *)p), (int *)seq);
-        func_021C5AEC((Work_021C5AEC *)p);
+        VIEWER_MAIN_DrawSelected((Work_021C5718 *)p, VIEWER_MAIN_UpdateInput((Work_021C56E8 *)p), (int *)seq);
+        VIEWER_MAIN_ClearBg((Work_021C5AEC *)p);
         if (p->args->cfg->f4_6) {
-            func_021C3F18((Work_021C3F18 *)p, func_021C5F64((u8 *)p->pix, (TouchPos_021C567C *)(&p->cur), (TouchPos_021C567C *)(&p->prev), 1, p->pix, p->f305E, p->f305C));
+            VIEWER_MAIN_PlaySe((Work_021C3F18 *)p, VIEWER_MAIN_DrawBrushStroke((u8 *)p->pix, (TouchPos_021C567C *)(&p->cur), (TouchPos_021C567C *)(&p->prev), 1, p->pix, p->f305E, p->f305C));
         }
         break;
     case 2:
@@ -1356,12 +1356,12 @@ int func_021C3F54(void *proc, int *seq, int c, Work_021C3F54 *p)
         }
         break;
     case 5:
-        if (func_021C4B9C((Work_021C4B9C *)p)) {
+        if (VIEWER_MAIN_Update((Work_021C4B9C *)p)) {
             *seq = 1;
         }
         break;
     case 9:
-        if (func_021C4E0C((char *)p)) {
+        if (VIEWER_MAIN_UpdateWindows((char *)p)) {
             *seq = 1;
         }
         break;
@@ -1406,13 +1406,13 @@ int func_021C3F54(void *proc, int *seq, int c, Work_021C3F54 *p)
  *
  * Addresses are Black-image addresses.
  */
-int func_021C40DC(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p)
+int VIEWER_MAIN_Delete(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p)
 {
     void *a;
     void *b;
 
     if (!p->info->f4_5) {
-        func_021C59B0(p->pix, p->info->bitmap);
+        VIEWER_MAIN_CopyBg6(p->pix, p->info->bitmap);
         MI_CpuCopy8(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
@@ -1423,19 +1423,19 @@ int func_021C40DC(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p)
         func_02008A1C(b, p->info->f4_4);
     }
     PMS_DRAW_Delete(p->f32B0);
-    func_021C5874();
-    func_021C42C0((Work_021C42C0 *)p);
-    func_021C6F4C((Anim_021C3F54 *)(&p->anim));
+    VIEWER_MAIN_InitLcdBrightness();
+    VIEWER_MAIN_FreeResources((Work_021C42C0 *)p);
+    VIEWER_TEXT_DeleteActors((Anim_021C3F54 *)(&p->anim));
     func_020307B0(p->f302C);
     func_020307B0(p->f31D8);
     func_020307B0(p->f31E8);
-    func_021C60A0(p);
-    func_021C46F0();
+    VIEWER_TEXT_Exit(p);
+    VIEWER_MAIN_ExitBg();
     func_02030EAC(p->f31F4);
     TCBL_Destroy((struct S02031140 *)p->f31F8);
     func_020355D8(p->f3060);
     func_020315D4(man);
-    func_020306F0(0x27);
+    GFL_HEAP_DeleteChecked(0x27);
     return 1;
 }
 
@@ -1447,7 +1447,7 @@ int func_021C40DC(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p)
 
 
 
-void func_021C41C4(Work_021C41C4 *p)
+void VIEWER_MAIN_LoadResources(Work_021C41C4 *p)
 {
     int i;
 
@@ -1481,7 +1481,7 @@ void func_021C41C4(Work_021C41C4 *p)
 
 
 
-void func_021C42C0(Work_021C42C0 *p)
+void VIEWER_MAIN_FreeResources(Work_021C42C0 *p)
 {
     int i;
 
@@ -1513,7 +1513,7 @@ void func_021C42C0(Work_021C42C0 *p)
 
 
 
-void func_021C436C(Work_021C436C *p, int k, int alt)
+void VIEWER_MAIN_SetupBgSlot(Work_021C436C *p, int k, int alt)
 {
     int j = 1;
     u32 file;
@@ -1536,7 +1536,7 @@ void func_021C436C(Work_021C436C *p, int k, int alt)
 
 
 
-void func_021C43C4(Work_021C43C4 *p, int k)
+void VIEWER_MAIN_ClearBgSlot(Work_021C43C4 *p, int k)
 {
     func_02049B40(0x29, d_021C86E8[k][1], 4, 0x80, 0x20, p->heap);
 }
@@ -1549,44 +1549,44 @@ void func_021C43C4(Work_021C43C4 *p, int k)
 
 
 
-void func_021C43E8(void)
+void VIEWER_MAIN_InitBg(void)
 {
     *(volatile u16 *)0x04000304 |= 0x8000;
     {
         struct DispConfig disp = d_021C85C8;
-        func_0203FC28(&disp);
+        BG_SYS_SetGraphicsMode(&disp);
     }
     {
         struct BgTemplate t = d_021C85E8;
         BG_SYS_InitBgLayer(7, &t, 2);
-        func_020414AC(7);
+        BG_SYS_FreeSlot(7);
         func_02040588(7, 1);
     }
     {
         struct BgTemplatePair t = d_021C8668;
         BG_SYS_InitBgLayer(4, &t.t[0], 0);
-        func_020414AC(4);
+        BG_SYS_FreeSlot(4);
         func_02040588(4, 1);
         BG_SYS_InitBgLayer(5, &t.t[1], 0);
-        func_020414AC(5);
+        BG_SYS_FreeSlot(5);
         func_02040588(5, 1);
     }
     {
         struct BgTemplate t = d_021C8608;
         BG_SYS_InitBgLayer(6, &t, 2);
-        func_020414AC(6);
+        BG_SYS_FreeSlot(6);
         func_02040588(6, 1);
     }
     {
         struct BgTemplate t = d_021C8628;
         BG_SYS_InitBgLayer(2, &t, 0);
-        func_020414AC(2);
+        BG_SYS_FreeSlot(2);
         func_02040588(2, 0);
     }
     {
         struct BgTemplate t = d_021C8648;
         BG_SYS_InitBgLayer(3, &t, 0);
-        func_020414AC(3);
+        BG_SYS_FreeSlot(3);
         func_02040588(3, 1);
     }
 }
@@ -1601,7 +1601,7 @@ void func_021C43E8(void)
 /*
  * Two ternaries selecting between two constants.
  */
-int func_021C4524(int x)
+int VIEWER_MAIN_GetBgParamA(int x)
 {
     return x == 0x14 ? 0x20 : 0x1C;
 }
@@ -1614,7 +1614,7 @@ int func_021C4524(int x)
 
 
 
-int func_021C4530(int x)
+int VIEWER_MAIN_GetBgParamB(int x)
 {
     return x == 0x14 ? 0x2A : 0x29;
 }
@@ -1627,9 +1627,9 @@ int func_021C4530(int x)
 
 
 
-void func_021C453C(Work_v3CC0 *p)
+void VIEWER_MAIN_LoadBgResources(Work_v3CC0 *p)
 {
-    func_021C436C((Work_021C436C *)p, p->info->b3, p->info->f4_2);
+    VIEWER_MAIN_SetupBgSlot((Work_021C436C *)p, p->info->b3, p->info->f4_2);
     if (p->info->f4_7 == 0) {
         p->f302C = func_02049DB4(0x28, 0x1F, 0, (u32)(&p->f3030), p->heap);
         if (p->info->f4_1 == 0) {
@@ -1640,20 +1640,20 @@ void func_021C453C(Work_v3CC0 *p)
     } else {
         p->f302C = func_02049DB4(0x29, d_021C86E8[p->info->b6][0], 0, (u32)(&p->f3030), p->heap);
         p->f31D8 = ARC_UTIL_LoadPaletteDataFromArchive(0x29, 0x20, 0, (u32)(&p->f31DC), p->heap);
-        func_021C43C4((Work_021C43C4 *)p, p->info->b6);
+        VIEWER_MAIN_ClearBgSlot((Work_021C43C4 *)p, p->info->b6);
     }
-    func_021C58E0((Work_021C58E0_021C567C *)p);
-    func_02049624((void *)0x28, (void *)func_021C4524(p->info->kind), (void *)6, 0, 0, 0, p->heap);
-    func_0204989C(0x28, func_021C4530(p->info->kind), 6, 0, 0, 0, p->heap);
+    VIEWER_MAIN_UploadBg((Work_021C58E0_021C567C *)p);
+    func_02049624((void *)0x28, (void *)VIEWER_MAIN_GetBgParamA(p->info->kind), (void *)6, 0, 0, 0, p->heap);
+    func_0204989C(0x28, VIEWER_MAIN_GetBgParamB(p->info->kind), 6, 0, 0, 0, p->heap);
     func_02049624((void *)0x28, (void *)0x1E, (void *)5, 0, 0, 0, p->heap);
     func_0204989C(0x28, 0x28, 5, 0, 0, 0, p->heap);
     func_02049624((void *)0x28, (void *)0x1E, (void *)3, 0, 0, 0, p->heap);
     func_0204989C(0x28, 0x28, 3, 0, 0, 0, p->heap);
     func_02049B40(0x28, 0xF, 0, 0, 0x20, p->heap);
-    func_021C5958(p->info->bitmap, p->pix);
+    VIEWER_MAIN_CopyBg3(p->info->bitmap, p->pix);
     func_02049624((void *)func_020275E4(), (void *)func_02027628(), (void *)4, 0, 0, 0, p->heap);
     func_0204989C(func_020275E4(), func_0202762C(), 4, 0, 0, 0, p->heap);
-    func_020413B0(4, 0, 0x15, 0x20, 3, 0xC);
+    BG_SYS_FillTileMap(4, 0, 0x15, 0x20, 3, 0xC);
     func_020409B4(4);
 }
 
@@ -1665,7 +1665,7 @@ void func_021C453C(Work_v3CC0 *p)
 
 
 
-void func_021C46F0(void)
+void VIEWER_MAIN_ExitBg(void)
 {
     BG_SYS_SetMainPlaneVisible(0x1F, 0);
     BG_SYS_SetSubPlaneVisible(0x1F, 0);
@@ -1689,7 +1689,7 @@ void func_021C46F0(void)
 
 
 
-void func_021C4754(Work_021C4754 *p, int kind)
+void VIEWER_MAIN_SetBgSlotKind(Work_021C4754 *p, int kind)
 {
     FileTable t = d_021C85D8;
     int j = 1;
@@ -1707,14 +1707,14 @@ void func_021C4754(Work_021C4754 *p, int kind)
 
 
 
-void func_021C479C(Work_021C479C *p)
+void VIEWER_MAIN_ResetBgSlot(Work_021C479C *p)
 {
     if (p->f3034 == 0) {
-        func_0204989C(0x28, func_021C4530(p->info->kind), 6, 0, 0, 0, p->heap);
+        func_0204989C(0x28, VIEWER_MAIN_GetBgParamB(p->info->kind), 6, 0, 0, 0, p->heap);
         BG_SYS_ClearSlot(7);
     } else {
-        func_021C4754((Work_021C4754 *)p, p->info->kind);
-        func_021C5938(p);
+        VIEWER_MAIN_SetBgSlotKind((Work_021C4754 *)p, p->info->kind);
+        VIEWER_MAIN_SetWindowRect(p);
         BG_SYS_ClearSlot(7);
     }
 }
@@ -1725,20 +1725,20 @@ void func_021C479C(Work_021C479C *p)
 
 
 
-void func_021C47EC(Work_v4754 *p)
+void VIEWER_MAIN_Draw(Work_v4754 *p)
 {
-    func_021C479C((Work_021C479C *)p);
-    func_021C60CC(p, p->bg, p->info);
+    VIEWER_MAIN_ResetBgSlot((Work_021C479C *)p);
+    VIEWER_TEXT_Draw(p, p->bg, p->info);
     PMS_DRAW_Main(p->f32B0);
     if (p->f3034 == 0) {
-        func_021C6874(p, p->scroll, 0, 0);
-        func_021C58E0((Work_021C58E0_021C567C *)p);
+        VIEWER_TEXT_DrawPage(p, p->scroll, 0, 0);
+        VIEWER_MAIN_UploadBg((Work_021C58E0_021C567C *)p);
     } else {
-        func_021C636C(p, p->bg, p->info);
-        func_021C5ACC(7, p->pix, p->phase);
+        VIEWER_TEXT_DrawWindow(p, p->bg, p->info);
+        VIEWER_MAIN_UploadBgBuf(7, p->pix, p->phase);
     }
-    func_021C4B74((Work_021C4858 *)p, p->f3034);
-    func_021C631C(p, p->bg);
+    VIEWER_MAIN_UpdateRows((Work_021C4858 *)p, p->f3034);
+    VIEWER_TEXT_FlushWindow(p, p->bg);
 }
 
 
@@ -1750,29 +1750,29 @@ void func_021C47EC(Work_v4754 *p)
 
 
 
-void func_021C4858(Work_021C4858 *p, int flag)
+void VIEWER_MAIN_UpdateRowA(Work_021C4858 *p, int flag)
 {
     if (flag == 0) {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 4, 0x12, 0);
-        func_021C6FA0(&p->anim, 5, 6, 0);
-        func_021C6FA0(&p->anim, 2, 0x10, 1);
-        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
     } else if (p->h305E == 0) {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 1, 0, 1);
-        func_021C6FA0(&p->anim, 6, 0x16, 1);
-        func_021C6FA0(&p->anim, 4, 0x12, p->info->f4_4 ^ 1);
-        func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, p->info->f4_4 ^ 1);
-        func_021C51B4((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 1);
-        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, p->info->f4_4 ^ 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->b32F6 * 2, p->info->f4_4 ^ 1);
+        VIEWER_MAIN_SetRowState((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
     } else {
-        func_021C6FA0(&p->anim, 0, 0xF, 1);
-        func_021C6FA0(&p->anim, 1, 0xE, 1);
-        func_021C6FA0(&p->anim, 4, 0x14, 1);
-        func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, 1);
-        func_021C6FA0(&p->anim, 6, 0x16, 0);
-        func_021C6FA0(&p->anim, 2, 10, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 0xF, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0xE, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x14, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->b32F6 * 2, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 10, 0);
     }
 }
 
@@ -1785,22 +1785,22 @@ void func_021C4858(Work_021C4858 *p, int flag)
 
 
 
-void func_021C49D8(Work_021C4858 *p, int flag)
+void VIEWER_MAIN_UpdateRowB(Work_021C4858 *p, int flag)
 {
     if (flag == 0) {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 4, 0x12, 0);
-        func_021C6FA0(&p->anim, 5, 6, 0);
-        func_021C6FA0(&p->anim, 2, 0x10, 1);
-        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
     } else {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 1, 0, 1);
-        func_021C6FA0(&p->anim, 4, 0x12, 0);
-        func_021C6FA0(&p->anim, 6, 0x16, 1);
-        func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, 0);
-        func_021C51B4((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 0);
-        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->b32F6 * 2, 0);
+        VIEWER_MAIN_SetRowState((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
     }
 }
 
@@ -1813,23 +1813,23 @@ void func_021C49D8(Work_021C4858 *p, int flag)
 
 
 
-void func_021C4AB0(Work_021C4858 *p, int flag)
+void VIEWER_MAIN_UpdateRowC(Work_021C4858 *p, int flag)
 {
     if (flag == 0) {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 1, 0xE, 0);
-        func_021C6FA0(&p->anim, 2, 0x10, 0);
-        func_021C6FA0(&p->anim, 5, 6, 0);
-        func_021C6FA0(&p->anim, 7, 6, 0);
-        func_021C6FA0(&p->anim, 4, 0, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0xE, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, 6, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0, 0);
     } else {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 1, 0, 0);
-        func_021C6FA0(&p->anim, 4, 0x12, 0);
-        func_021C6FA0(&p->anim, 6, 0x16, 1);
-        func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, 0);
-        func_021C51B4((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 0);
-        func_021C6FA0(&p->anim, 7, 6, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->b32F6 * 2, 0);
+        VIEWER_MAIN_SetRowState((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, 6, 0);
     }
 }
 
@@ -1842,14 +1842,14 @@ void func_021C4AB0(Work_021C4858 *p, int flag)
 
 
 
-void func_021C4B74(Work_021C4858 *p, int flag)
+void VIEWER_MAIN_UpdateRows(Work_021C4858 *p, int flag)
 {
     if (p->info->f4_7 == 1) {
-        func_021C4AB0((Work_021C4858 *)p, flag);
+        VIEWER_MAIN_UpdateRowC((Work_021C4858 *)p, flag);
     } else if (p->f24->f8 == 0) {
-        func_021C49D8((Work_021C4858 *)p, flag);
+        VIEWER_MAIN_UpdateRowB((Work_021C4858 *)p, flag);
     } else {
-        func_021C4858((Work_021C4858 *)p, flag);
+        VIEWER_MAIN_UpdateRowA((Work_021C4858 *)p, flag);
     }
 }
 
@@ -1874,7 +1874,7 @@ static inline fx32 FX_Mul(fx32 v1, fx32 v2)
 
 
 
-int func_021C4B9C(Work_021C4B9C *p)
+int VIEWER_MAIN_Update(Work_021C4B9C *p)
 {
     int done = 0;
 
@@ -1902,20 +1902,20 @@ int func_021C4B9C(Work_021C4B9C *p)
         break;
     case 2:
         p->f3034 ^= 1;
-        func_021C479C((Work_021C479C *)p);
-        func_021C4B74((Work_021C4858 *)p, p->f3034);
+        VIEWER_MAIN_ResetBgSlot((Work_021C479C *)p);
+        VIEWER_MAIN_UpdateRows((Work_021C4858 *)p, p->f3034);
         p->state++;
         break;
     case 3:
         if (p->f3034 == 0) {
-            func_021C58E0((Work_021C58E0_021C567C *)p);
+            VIEWER_MAIN_UploadBg((Work_021C58E0_021C567C *)p);
         } else {
-            func_021C5ACC(7, p->pix, p->phase);
+            VIEWER_MAIN_UploadBgBuf(7, p->pix, p->phase);
         }
         p->state++;
         break;
     case 4:
-        func_021C631C((Work_v4754 *)p, p->bg);
+        VIEWER_TEXT_FlushWindow((Work_v4754 *)p, p->bg);
         p->state++;
         break;
     case 5:
@@ -1984,7 +1984,7 @@ static inline void SetWndOutsidePlane(int wnd, int effect)
 
 
 
-void func_021C4D48(int side)
+void VIEWER_MAIN_SetWindowPlane(int side)
 {
     if (side < 0) {
         REG_DB_BLDCNT = 0;
@@ -2018,7 +2018,7 @@ void func_021C4D48(int side)
  * if/else arm. The compiler sinks the common stores into the join block and keeps the 0x305C
  * constant live, so 0x304C/0x3050 come out as 0x305C-0x10 / 0x305C-0xC.
  */
-int func_021C4E0C(char *p)
+int VIEWER_MAIN_UpdateWindows(char *p)
 {
     switch (*(u8 *)(p + 0x32C6)) {
     case 0:
@@ -2044,8 +2044,8 @@ int func_021C4E0C(char *p)
         break;
     case 2:
         *(u16 *)(p + 0x305E) = 1;
-        func_021C4B74((Work_021C4858 *)p, *(int *)(p + 0x3034));
-        func_021C4D48(*(u16 *)(p + 0x305C));
+        VIEWER_MAIN_UpdateRows((Work_021C4858 *)p, *(int *)(p + 0x3034));
+        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
         return 1;
     case 3:
         *(u8 *)(p + 0x32C6) = 4;
@@ -2063,8 +2063,8 @@ int func_021C4E0C(char *p)
         *(int *)(p + 0x304C) = 0x80;
         *(int *)(p + 0x3050) = 0x60;
         *(u16 *)(p + 0x305E) = 0;
-        func_021C4B74((Work_021C4858 *)p, *(int *)(p + 0x3034));
-        func_021C4D48(-1);
+        VIEWER_MAIN_UpdateRows((Work_021C4858 *)p, *(int *)(p + 0x3034));
+        VIEWER_MAIN_SetWindowPlane(-1);
         return 1;
     case 6:
         *(u8 *)(p + 0x32C6) = 7;
@@ -2078,7 +2078,7 @@ int func_021C4E0C(char *p)
         break;
     case 8:
         *(u16 *)(p + 0x305C) ^= 1;
-        func_021C4D48(*(u16 *)(p + 0x305C));
+        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
         return 1;
     case 9:
         *(u8 *)(p + 0x32C6) = 10;
@@ -2092,7 +2092,7 @@ int func_021C4E0C(char *p)
         break;
     case 11:
         *(u16 *)(p + 0x305C) ^= 1;
-        func_021C4D48(*(u16 *)(p + 0x305C));
+        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
         return 1;
     }
     *(u8 *)(p + 0x32CA) |= 4;
@@ -2106,7 +2106,7 @@ int func_021C4E0C(char *p)
 
 
 
-void func_021C4F80(Work_021C4F80 *p)
+void VIEWER_MAIN_InitBrightness(Work_021C4F80 *p)
 {
     struct Mtx m;
 
@@ -2126,7 +2126,7 @@ void func_021C4F80(Work_021C4F80 *p)
 
 
 
-int func_021C5008(Work_021C5008 *p)
+int VIEWER_MAIN_CheckInputHeld(Work_021C5008 *p)
 {
     if (p->mode == 1) {
         if (TOUCHPANEL_GetCont()) {
@@ -2154,36 +2154,36 @@ int func_021C5008(Work_021C5008 *p)
 
 
 
-int func_021C5054(Work_v4858 *p)
+int VIEWER_MAIN_HandleKey(Work_v4858 *p)
 {
     u32 key = KEY_GetTrg();
 
     if (key & 2) {
         if (p->h305E == 0) {
-            func_021C6FA0(&p->anim, 0, 9, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 0, 9, 1);
             GFL_USE_PlaySeDefaultVolume(0x551);
             func_020355D8((u32)0);
             return 4;
         }
     } else if (key & 0x400) {
         if (p->h305E == 0 && !p->info->f4_7) {
-            func_021C6FA0(&p->anim, 1, 8, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 1, 8, 1);
             GFL_USE_PlaySeDefaultVolume(0x556);
             return 5;
         }
     } else if (key & 0x30) {
         if (p->h305E == 0) {
-            func_021C6FA0(&p->anim, 6, 0x17, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x17, 1);
             return 3;
         }
     } else if (key & 0x800) {
         if (!p->info->f4_7) {
-            func_021C513C(p);
+            VIEWER_MAIN_ToggleFavorite(p);
         }
     } else if (key & 1) {
         if (!p->info->f4_7 && p->f3034 == 0) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021C6FA0(&p->anim, 2, 0x11, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x11, 1);
             return 10;
         }
     }
@@ -2196,18 +2196,18 @@ int func_021C5054(Work_v4858 *p)
 
 
 
-void func_021C513C(Work_v4858 *p)
+void VIEWER_MAIN_ToggleFavorite(Work_v4858 *p)
 {
     int v;
 
     GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->f3034 == 0) {
         v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
-        func_021C6FA0(&p->anim, 7, v + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
         GAME_DATA_SetSaveFlag(p->args->f4, 0x15, v);
     } else {
         v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) ^ 1;
-        func_021C6FA0(&p->anim, 7, v + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
         GAME_DATA_SetSaveFlag(p->args->f4, 0x16, v);
     }
 }
@@ -2218,12 +2218,12 @@ void func_021C513C(Work_v4858 *p)
 
 
 
-void func_021C51B4(Work_021C51B4_021C51B4 *p, int flag, int v)
+void VIEWER_MAIN_SetRowState(Work_021C51B4_021C51B4 *p, int flag, int v)
 {
     if (flag == 0) {
-        func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 10, v);
+        VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 10, v);
     } else {
-        func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 12, v);
+        VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 12, v);
     }
 }
 
@@ -2234,14 +2234,14 @@ void func_021C51B4(Work_021C51B4_021C51B4 *p, int flag, int v)
 
 
 
-void func_021C51E4(Work_021C51E4 *p, int flag)
+void VIEWER_MAIN_SetRowDrawEnable(Work_021C51E4 *p, int flag)
 {
     if (flag == 0) {
-        func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0xB, 1);
+        VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0xB, 1);
         CLACT_SetActorDrawEnable(p->anim.obj[4], 0);
         CLACT_SetActorDrawEnable(p->anim.obj[5], 0);
     } else {
-        func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0xD, 1);
+        VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0xD, 1);
         CLACT_SetActorDrawEnable(p->anim.obj[4], 1);
         CLACT_SetActorDrawEnable(p->anim.obj[5], 1);
     }
@@ -2254,7 +2254,7 @@ void func_021C51E4(Work_021C51E4 *p, int flag)
 
 
 
-void func_021C523C(Work_021C523C *p, int flag)
+void VIEWER_MAIN_DrawRowBg(Work_021C523C *p, int flag)
 {
     if (flag) {
         p->phase = 0;
@@ -2262,7 +2262,7 @@ void func_021C523C(Work_021C523C *p, int flag)
     } else {
         p->phase = 2;
     }
-    func_021C59DC(7, p->phase);
+    VIEWER_MAIN_ClearBgBuf(7, p->phase);
 }
 
 
@@ -2270,7 +2270,7 @@ void func_021C523C(Work_021C523C *p, int flag)
 
 
 
-int func_021C5264(Work_021C5264 *p, int hit)
+int VIEWER_MAIN_HitRow(Work_021C5264 *p, int hit)
 {
     if (p->info->f4_5 && hit >= 3 && hit <= 9) {
         return 1;
@@ -2282,48 +2282,48 @@ int func_021C5264(Work_021C5264 *p, int hit)
 
 
 
-int func_021C5280(Work_v51B4 *p, int hit)
+int VIEWER_MAIN_HandleRowTouch(Work_v51B4 *p, int hit)
 {
-    if (func_021C5264((Work_021C5264 *)p, hit) == 1) {
+    if (VIEWER_MAIN_HitRow((Work_021C5264 *)p, hit) == 1) {
         return 0;
     }
     switch (hit) {
     case 0:
-        func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 0, 9, 1);
+        VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 0, 9, 1);
         GFL_USE_PlaySeDefaultVolume(0x551);
         func_020355D8((u32)1);
         return 4;
     case 1:
-        func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 1, 8, 1);
+        VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 1, 8, 1);
         GFL_USE_PlaySeDefaultVolume(0x556);
         return 5;
     case 2:
         TOUCHPANEL_GetPointCont(&p->f32D8, &p->f32DC);
-        func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 6, 0x17, 1);
+        VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 6, 0x17, 1);
         return 3;
     case 3:
         if (p->f3034 != 0) {
             if (p->args->info->f4_6) {
-                func_021C51E4((Work_021C51E4 *)p, p->info->f4_4);
+                VIEWER_MAIN_SetRowDrawEnable((Work_021C51E4 *)p, p->info->f4_4);
                 p->info->f4_4 ^= 1;
-                func_021C4754((Work_021C4754 *)p, p->info->kind);
-                func_021C523C((Work_021C523C *)p, p->info->f4_4);
+                VIEWER_MAIN_SetBgSlotKind((Work_021C4754 *)p, p->info->kind);
+                VIEWER_MAIN_DrawRowBg((Work_021C523C *)p, p->info->f4_4);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
         } else {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0x11, 1);
+            VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0x11, 1);
             return 10;
         }
         break;
     case 4:
         if (p->f3034 != 0 && !p->info->f4_4 && p->args->info->f4_6) {
             if (p->h305E == 0) {
-                func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 4, 0x13, 1);
+                VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 4, 0x13, 1);
                 GFL_USE_PlaySeDefaultVolume(0x648);
                 p->b32C6 = 0;
             } else {
-                func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 4, 0x15, 1);
+                VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 4, 0x15, 1);
                 GFL_USE_PlaySeDefaultVolume(0x649);
                 p->b32C6 = 3;
             }
@@ -2333,12 +2333,12 @@ int func_021C5280(Work_v51B4 *p, int hit)
     case 5:
         if (p->f3034 != 0 && p->args->info->f4_6 && !p->info->f4_4) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 5, 9 - p->b32F6 * 2, 1);
+            VIEWER_TEXT_SetActorAnim((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }
         break;
     case 6:
-        func_021C513C((Work_v4858 *)p);
+        VIEWER_MAIN_ToggleFavorite((Work_v4858 *)p);
         break;
     case 7:
         if (p->f3034 == 0) {
@@ -2363,12 +2363,12 @@ int func_021C5280(Work_v51B4 *p, int hit)
 
 
 
-int func_021C5484(Work_021C5484 *p, int hit)
+int VIEWER_MAIN_HandleRowKey(Work_021C5484 *p, int hit)
 {
     switch (hit) {
     case 4:
         if (p->f3034 != 0) {
-            func_021C6FA0((Anim_v4858 *)(&p->anim), 4, 0x15, 1);
+            VIEWER_TEXT_SetActorAnim((Anim_v4858 *)(&p->anim), 4, 0x15, 1);
             GFL_USE_PlaySeDefaultVolume(0x649);
             p->b32C6 = 3;
             return 8;
@@ -2377,12 +2377,12 @@ int func_021C5484(Work_021C5484 *p, int hit)
     case 5:
         if (p->f3034 != 0) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021C6FA0((Anim_v4858 *)(&p->anim), 5, 9 - p->b32F6 * 2, 1);
+            VIEWER_TEXT_SetActorAnim((Anim_v4858 *)(&p->anim), 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }
         break;
     case 6:
-        func_021C513C((Work_v4858 *)p);
+        VIEWER_MAIN_ToggleFavorite((Work_v4858 *)p);
         break;
     case 10:
         if (p->h305C == 0) {
@@ -2406,10 +2406,10 @@ int func_021C5484(Work_021C5484 *p, int hit)
 
 
 
-void func_021C555C(Work_021C555C *p)
+void VIEWER_MAIN_HandlePageTouch(Work_021C555C *p)
 {
     if (p->f3034 != 0 && TOUCHPANEL_HitCont(d_021C8544) && p->b32F7 == 1) {
-        func_021C6874((Work_v4754 *)p, p->scroll, 1, 0);
+        VIEWER_TEXT_DrawPage((Work_v4754 *)p, p->scroll, 1, 0);
         p->b32F7 = 0;
         p->b32F8 = 0;
         p->b330E = 0;
@@ -2419,7 +2419,7 @@ void func_021C555C(Work_021C555C *p)
 
 
 
-void func_021C55A4(Work_v5484 *p)
+void VIEWER_MAIN_HandlePageInput(Work_v5484 *p)
 {
     u32 x, y;
     int lim;
@@ -2445,7 +2445,7 @@ void func_021C55A4(Work_v5484 *p)
         }
         if (p->prevScroll != p->scroll) {
             p->b32F7 = 1;
-            func_021C6874((Work_v4754 *)p, p->scroll, 1, 1);
+            VIEWER_TEXT_DrawPage((Work_v4754 *)p, p->scroll, 1, 1);
             GFL_USE_PlaySeDefaultVolume(0x645);
         }
         p->prevScroll = p->scroll;
@@ -2455,7 +2455,7 @@ void func_021C55A4(Work_v5484 *p)
 
 
 
-int func_021C567C(Work_021C567C *p)
+int VIEWER_MAIN_HandleInput(Work_021C567C *p)
 {
     int hit;
     int r;
@@ -2466,19 +2466,19 @@ int func_021C567C(Work_021C567C *p)
         hit = TOUCHPANEL_HitTrg(d_021C8554);
     }
     if (p->h305E == 0) {
-        r = func_021C5280((Work_v51B4 *)p, hit);
+        r = VIEWER_MAIN_HandleRowTouch((Work_v51B4 *)p, hit);
     } else {
-        r = func_021C5484((Work_021C5484 *)p, hit);
+        r = VIEWER_MAIN_HandleRowKey((Work_021C5484 *)p, hit);
     }
     if (r != 0) {
         return r;
     }
     if (p->f3034 != 0) {
         if (p->h305E == 0) {
-            func_021C55A4((Work_v5484 *)p);
-            func_021C5BCC((Work_021C5BCC *)p, 0);
+            VIEWER_MAIN_HandlePageInput((Work_v5484 *)p);
+            VIEWER_MAIN_HandleScrollTouch((Work_021C5BCC *)p, 0);
         } else {
-            func_021C5BCC((Work_021C5BCC *)p, 1);
+            VIEWER_MAIN_HandleScrollTouch((Work_021C5BCC *)p, 1);
         }
     }
     return 0;
@@ -2488,22 +2488,22 @@ int func_021C567C(Work_021C567C *p)
 
 
 
-int func_021C56E8(Work_021C56E8 *p)
+int VIEWER_MAIN_UpdateInput(Work_021C56E8 *p)
 {
-    func_021C5008((Work_021C5008 *)p);
-    func_021C555C((Work_021C555C *)p);
-    func_021C5B80((Work_021C5B80 *)p);
+    VIEWER_MAIN_CheckInputHeld((Work_021C5008 *)p);
+    VIEWER_MAIN_HandlePageTouch((Work_021C555C *)p);
+    VIEWER_MAIN_CheckTouch((Work_021C5B80 *)p);
     if (p->mode == 1) {
-        return func_021C567C((Work_021C567C *)p);
+        return VIEWER_MAIN_HandleInput((Work_021C567C *)p);
     }
-    return func_021C5054((Work_v4858 *)p);
+    return VIEWER_MAIN_HandleKey((Work_v4858 *)p);
 }
 
 
 
 
 
-void func_021C5718(Work_021C5718 *p, int sel, int *seq)
+void VIEWER_MAIN_DrawSelected(Work_021C5718 *p, int sel, int *seq)
 {
     switch (sel) {
     case 3:
@@ -2534,10 +2534,10 @@ void func_021C5718(Work_021C5718 *p, int sel, int *seq)
         break;
     case 6:
         if (p->args->cfg->f4_6) {
-            sub_02008A00(GAME_DATA_GetSaveBlock21(p->args->f4));
+            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->f4));
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021C3EF8((Info_021C3EF8 *)p->info);
-            func_021C61EC(p, p->info->b6, 1);
+            VIEWER_MAIN_InitInfo((Info_021C3EF8 *)p->info);
+            VIEWER_TEXT_DrawTable(p, p->info->b6, 1);
         }
         break;
     case 7:
@@ -2547,7 +2547,7 @@ void func_021C5718(Work_021C5718 *p, int sel, int *seq)
             if (p->info->f48 > 0x18) {
                 p->info->f48 = 0;
             }
-            func_021C628C(p, p->info->f48, 1);
+            VIEWER_TEXT_DrawList(p, p->info->f48, 1);
         }
         break;
     case 10:
@@ -2561,20 +2561,20 @@ void func_021C5718(Work_021C5718 *p, int sel, int *seq)
 
 
 
-void func_021C581C(void *task, Work_021C581C *p)
+void VIEWER_MAIN_VBlank(void *task, Work_021C581C *p)
 {
     int ofs;
 
-    func_021C5B34((Work_021C5B34 *)p);
+    VIEWER_MAIN_UpdateBrightness((Work_021C5B34 *)p);
     ofs = -(p->shake / 2);
     func_02040618(5, 0, ofs);
     func_02040618(5, 3, ofs);
     func_02040618(3, 0, ofs);
     func_02040618(3, 3, ofs);
     if (p->dirty) {
-        func_021C4F80((Work_021C4F80 *)p);
+        VIEWER_MAIN_InitBrightness((Work_021C4F80 *)p);
     }
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
 }
 
@@ -2582,7 +2582,7 @@ void func_021C581C(void *task, Work_021C581C *p)
 
 
 
-void func_021C5874(void)
+void VIEWER_MAIN_InitLcdBrightness(void)
 {
     struct Mtx m;
     fx32 a, d;
@@ -2603,28 +2603,28 @@ void func_021C5874(void)
 
 
 
-void func_021C58E0(Work_021C58E0_021C567C *p)
+void VIEWER_MAIN_UploadBg(Work_021C58E0_021C567C *p)
 {
     ScrnData_021C567C *s;
 
-    func_02040B1C(7, p->chr->data, p->chr->size, 0);
+    BG_SYS_LoadTileData(7, p->chr->data, p->chr->size, 0);
     s = p->scrn;
-    func_020410D0(7, 0x15, 2, 10, 11, (u32)s + 0xC, 0x15, 2, s->w >> 3, s->h >> 3);
+    BG_SYS_DrawTileEx(7, 0x15, 2, 10, 11, (u32)s + 0xC, 0x15, 2, s->w >> 3, s->h >> 3);
     func_020409B4(7);
 }
 
 
 
 
-void func_021C5938(void *p)
+void VIEWER_MAIN_SetWindowRect(void *p)
 {
-    func_02041300(7, 0, 0x14, 6, 6, 9, 0x10);
+    BG_SYS_SetTileEntry(7, 0, 0x14, 6, 6, 9, 0x10);
 }
 
 
 
 
-void func_021C5958(const u8 *src, u8 *dst)
+void VIEWER_MAIN_CopyBg3(const u8 *src, u8 *dst)
 {
     int i;
 
@@ -2638,7 +2638,7 @@ void func_021C5958(const u8 *src, u8 *dst)
 
 
 
-void func_021C59B0(const u8 *src, u8 *dst)
+void VIEWER_MAIN_CopyBg6(const u8 *src, u8 *dst)
 {
     int i, j;
     int v;
@@ -2655,7 +2655,7 @@ void func_021C59B0(const u8 *src, u8 *dst)
 
 
 
-void func_021C59DC(u32 bg, int mode)
+void VIEWER_MAIN_ClearBgBuf(u32 bg, int mode)
 {
     u16 *map = (u16 *)BG_SYS_GetBuf((u8)bg);
     u8 x, y;
@@ -2702,22 +2702,22 @@ void func_021C59DC(u32 bg, int mode)
 
 
 
-void func_021C5ACC(u32 bg, const void *src, int mode)
+void VIEWER_MAIN_UploadBgBuf(u32 bg, const void *src, int mode)
 {
-    func_02040B1C((u8)bg, src, 0x3000, 1);
-    func_021C59DC(bg, mode);
+    BG_SYS_LoadTileData((u8)bg, src, 0x3000, 1);
+    VIEWER_MAIN_ClearBgBuf(bg, mode);
 }
 
 
 
 
-void func_021C5AEC(Work_021C5AEC *p)
+void VIEWER_MAIN_ClearBg(Work_021C5AEC *p)
 {
     if (p->f3034 != 0 && p->info->f4_4) {
         p->blink++;
         if (p->blink > 20) {
             p->phase ^= 1;
-            func_021C59DC(7, p->phase);
+            VIEWER_MAIN_ClearBgBuf(7, p->phase);
             p->blink = 0;
         }
     }
@@ -2726,7 +2726,7 @@ void func_021C5AEC(Work_021C5AEC *p)
 
 
 
-void func_021C5B34(Work_021C5B34 *p)
+void VIEWER_MAIN_UpdateBrightness(Work_021C5B34 *p)
 {
     u16 *pal = p->pltt->data;
 
@@ -2744,7 +2744,7 @@ void func_021C5B34(Work_021C5B34 *p)
 
 
 
-void func_021C5B80(Work_021C5B80 *p)
+void VIEWER_MAIN_CheckTouch(Work_021C5B80 *p)
 {
     if ((p->f3034 != 0 && p->h305E == 0 && TOUCHPANEL_HitCont(d_021C8534))
         || (p->h305E == 1 && TOUCHPANEL_HitCont(d_021C854C))) {
@@ -2755,7 +2755,7 @@ void func_021C5B80(Work_021C5B80 *p)
 
 
 
-void func_021C5BCC(Work_021C5BCC *p, int side)
+void VIEWER_MAIN_HandleScrollTouch(Work_021C5BCC *p, int side)
 {
     u32 x, y;
 
@@ -2810,7 +2810,7 @@ void func_021C5BCC(Work_021C5BCC *p, int side)
  * (tail merging leaves a lone branch per arm). xx and yy declared at the top,
  * before j, k, n, give the image colours (xx r2, k r3, n r4).
  */
-void func_021C5CF4(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode, int sel)
+void VIEWER_MAIN_BlitRect(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode, int sel)
 {
     int xx, yy;
     int j, k, n = 0;
@@ -2844,7 +2844,7 @@ void func_021C5CF4(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode,
 
 
 
-int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side)
+int VIEWER_MAIN_BlitBrush(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side)
 {
     int n = 0;
     int x = *px;
@@ -2876,7 +2876,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
         } else {
             s = (y < y1) ? 1 : -1;
         }
-        func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+        VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
         x++;
         e = dx >> 1;
         n++;
@@ -2886,7 +2886,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
                 e += dx;
                 y += s;
             }
-            func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+            VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
             n++;
         }
     } else {
@@ -2898,7 +2898,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
         } else {
             s = (x < x1) ? 1 : -1;
         }
-        func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+        VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
         y++;
         e = dy >> 1;
         n++;
@@ -2908,7 +2908,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
                 e += dy;
                 x += s;
             }
-            func_021C5CF4(pix, brush, x, y, 0xC0, 0x40, clip, side);
+            VIEWER_MAIN_BlitRect(pix, brush, x, y, 0xC0, 0x40, clip, side);
             n++;
         }
     }
@@ -2920,7 +2920,7 @@ int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, in
 
 
 
-void func_021C5F50(TouchPos_021C567C *src, TouchPos_021C567C *dst)
+void VIEWER_MAIN_CopyTouchPos(TouchPos_021C567C *src, TouchPos_021C567C *dst)
 {
     dst->x = src->x;
     dst->y = src->y;
@@ -2931,7 +2931,7 @@ void func_021C5F50(TouchPos_021C567C *src, TouchPos_021C567C *dst)
 
 
 
-int func_021C5F64(u8 *pix, TouchPos_021C567C *cur, TouchPos_021C567C *prev, int flush, const void *src, u8 clip, u8 side)
+int VIEWER_MAIN_DrawBrushStroke(u8 *pix, TouchPos_021C567C *cur, TouchPos_021C567C *prev, int flush, const void *src, u8 clip, u8 side)
 {
     int drew = 0;
     int n = 0;
@@ -2948,13 +2948,13 @@ int func_021C5F64(u8 *pix, TouchPos_021C567C *cur, TouchPos_021C567C *prev, int 
             px = prev->x - 0x20 - ofs;
             py = prev->y - 0x5A;
         }
-        n = func_021C5DB8(pix, d_021C86A8[clip][cur->size], cur->x - 0x20 - ofs, cur->y - 0x5A, &px, &py, 0, prev->active, clip, side);
+        n = VIEWER_MAIN_BlitBrush(pix, d_021C86A8[clip][cur->size], cur->x - 0x20 - ofs, cur->y - 0x5A, &px, &py, 0, prev->active, clip, side);
         drew = 1;
     }
     if (drew && flush) {
-        func_02040B1C(7, src, 0x3000, 1);
+        BG_SYS_LoadTileData(7, src, 0x3000, 1);
     }
-    func_021C5F50(cur, prev);
+    VIEWER_MAIN_CopyTouchPos(cur, prev);
     cur->active = 0;
     return n;
 }

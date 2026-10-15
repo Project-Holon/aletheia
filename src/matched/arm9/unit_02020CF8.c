@@ -25,7 +25,7 @@
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * BMP_CURSOR_Create is a debug-allocator constructor in the
- * `sub_02030734(heap, size, count, file, line)` shape documented for
+ * `GFL_HEAP_Alloc(heap, size, count, file, line)` shape documented for
  * playtime.c: it allocates a 12-byte object tagged with the string at
  * 0x020A73A0 and line 0x3a, zeroing the first word when the allocation
  * succeeds.  0x020A73A0 spells "bmp_cursor.c", the second original source

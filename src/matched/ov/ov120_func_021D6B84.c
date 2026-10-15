@@ -1,5 +1,5 @@
 /*
- * function: func_021D6B84
+ * function: GTSNEGO_MSG_SetActorMode
  * address: 0x021D6B84
  * packet: pkt_ov120_021D6B84
  * region: ov120
@@ -23,4 +23,4 @@ struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void func_021D6B84(u8 *p,u32 n){int got;int mode;got=CLACT_GetActorAnimSeq(*(void **)(p+0xc4+n*4));mode=1;if(got>=2)mode=3;CLACT_SetActorAnimSeq(*(void **)(p+0xc4+n*4),mode);CLACT_SetActorAutoAnim(*(void **)(p+0xc4+n*4),1);}
+void GTSNEGO_MSG_SetActorMode(u8 *p,u32 n){int got;int mode;got=CLACT_GetActorAnimSeq(*(void **)(p+0xc4+n*4));mode=1;if(got>=2)mode=3;CLACT_SetActorAnimSeq(*(void **)(p+0xc4+n*4),mode);CLACT_SetActorAutoAnim(*(void **)(p+0xc4+n*4),1);}

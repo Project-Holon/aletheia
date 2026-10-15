@@ -1,7 +1,7 @@
 /*
  * file:     zenkoku_zukan_award_graphic.c
  * unit:     yes
- * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update, ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task, func_021BA048, ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop, ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects, ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact, ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw, ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank, ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera, ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera
+ * function: ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update, ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task, ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg, ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop, ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects, ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact, ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact, ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw, ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank, ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera, ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera
  * address:  0x021B9F10
  * region:   ov222
  * compiler: dsi/1.1p1
@@ -17,30 +17,30 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021BA390 0x021BA390 data a1
  *   d_021BA2CC 0x021BA2CC data a4
  *   func_02030EAC 0x02030EAC arm
  *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera 0x021BA1C8 thumb ov222
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   config 0x021BA280 data a4
  *   records 0x021BA2FC data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -58,11 +58,6 @@
  *   vec2 0x021BA25C data a4
  *   vec3 0x021BA274 data ov222
  */
-#include "../../matched/include/Obj26083.h"
-#include "../../matched/include/Obj26084.h"
-#include "../../matched/include/Obj14785.h"
-#include "../../matched/include/Obj26085.h"
-
 struct DispVram;
 struct Node;
 struct BgTemplate;
@@ -81,32 +76,43 @@ struct Record_021BA0A8 { u32 id;u8 template_data[32];u32 type;u32 enabled; };
 
 typedef signed short s16;
 
+struct ClactCtx {
+    struct Bank *unit;     /* +0x00 CLACT unit from CLACT_CreateUnit */
+};
+
+struct ZenkokuZukanAwardGraphic {
+    u32 bgState;           /* +0x00 zeroed by SetupBg and CleanupBg, never read */
+    struct ClactCtx clact; /* +0x04 CLACT context */
+    u32 *camera;           /* +0x08 G3D camera from SetupCamera */
+    void *proc;            /* +0x0C task proc from func_020056A0 */
+};
+
 struct Vec3 { u32 x,y,z; };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void*,int,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void* func_020056A0(u32,u32,u32);
 extern void func_02030EAC(struct Node *n);
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -126,7 +132,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p);
-void func_021BA048(void *p,u32 heap);
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p);
@@ -156,15 +162,15 @@ void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  BG_SYS_ClearGraphicsMemory(0);
  g=d_021BA2CC;
  BG_SYS_SetVramBanks((const struct DispVram *)g);
- func_0204363C(swap);
+ BMP_SetDisplaySwap(swap);
  BG_SYS_ResetSubDisplay();
  BG_SYS_ClearMainPlanes();
  BG_SYS_ClearSubPlanes();
- func_0201DD60();
- func_021BA048(p,heap);
+ GF_FONT_InitTextColor();
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(int)g,heap);
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
- *(void* *)&((struct Obj26083 *)p)->fC=func_020056A0((u32)ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task,(u32)p,0);
+ *(void* *)&((struct ZenkokuZukanAwardGraphic *)p)->proc=func_020056A0((u32)ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task,(u32)p,0);
  return p;
 }
 
@@ -174,11 +180,11 @@ void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  */
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char *p)
 {
-    func_02030EAC((struct Node *)(((struct Obj26084 *)p)->fC));
+    func_02030EAC(((struct ZenkokuZukanAwardGraphic *)p)->proc);
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera((u32 *)(p+8));
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact(p+4);
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
@@ -203,18 +209,18 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p)
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank(p + 4);
 }
 
-void func_021BA048(void *p,u32 heap)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap)
 {
     u32 i;
     MI_CpuFill8(p,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)config);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)config);
     for(i=0;i<2;i++) {
         const struct Record_021BA048 *r=&records[i];
         u32 id=r->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)r->template_data,(u8)r->type);
-        func_020414AC(id);
+        BG_SYS_FreeSlot(id);
         func_02040588(id,r->enabled);
     }
 }
@@ -223,15 +229,15 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p) { u32 i;for(i=0;i<2;i++)func
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p) { }
 
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p) { func_020419E4(); }
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p) { BG_SYS_Update(); }
 
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BA290, a, b);
-    ((struct Obj14785 *)p)->f0 = (int)CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer((void *)((struct Obj14785 *)p)->f0);
+    ((struct ClactCtx *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer(((struct ClactCtx *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -242,7 +248,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
  */
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj26085 *)p)->f0));
+    CLACT_DeleteUnit(((struct ClactCtx *)p)->unit);
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }

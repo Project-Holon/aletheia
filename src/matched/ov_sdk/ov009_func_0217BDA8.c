@@ -1,5 +1,5 @@
 /*
- * function: func_0217BDA8
+ * function: DWCi_Prof_ParseResponse
  * address:  0x0217BDA8
  * packet:   pkt_ov009_0217BDA8
  * region:   ov009
@@ -60,7 +60,7 @@ extern int errno;
 extern char g_021A282C[];
 extern char g_021A2838[];
 
-int func_0217BDA8(void)
+int DWCi_Prof_ParseResponse(void)
 {
     DWCProfFieldNames regionResultFieldName = g_021A27B8;
     int isAllRegionResult = 0;

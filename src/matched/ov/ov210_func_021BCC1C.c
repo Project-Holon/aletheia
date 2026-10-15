@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC1C
+ * function: ZKNSEARCH_MAIN_DeleteResultGraphics
  * address:  0x021BCC1C
  * packet:   pkt_021BCC1C
  * region:   ov210
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 
-u32 func_021BCC1C(u8 *p)
+u32 ZKNSEARCH_MAIN_DeleteResultGraphics(u8 *p)
 {
     return func_020307B0((void *)(((struct Obj25587 *)p)->f2BC));
 }

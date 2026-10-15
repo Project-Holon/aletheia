@@ -13,7 +13,7 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   SCRIPT_WORK_GetReturnFlag 0x0215911C thumb ov010
- *   func_0215A500 0x0215A500 thumb ov010
+ *   EVENT_POKE_STATUS_ResetFlag 0x0215A500 thumb ov010
  */
 
 typedef unsigned int u32;
@@ -26,5 +26,5 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 SCRIPT_WORK_GetReturnFlag(void *p);
-extern void func_0215A500(char *a, unsigned b);
-int SCRCMD_NETWORK_CmdApplyTableEventKeys(void *a,void *b) { void *p; void *s; int i; Entry *t; p=SCRCMD_WORK_GetScriptWork(b); s=(void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(p))); t=(Entry *)SCRIPT_WORK_GetReturnFlag(p); for(i=0;i<0x6b;i++) func_0215A500(s,t[i].c); return 0; }
+extern void EVENT_POKE_STATUS_ResetFlag(char *a, unsigned b);
+int SCRCMD_NETWORK_CmdApplyTableEventKeys(void *a,void *b) { void *p; void *s; int i; Entry *t; p=SCRCMD_WORK_GetScriptWork(b); s=(void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(p))); t=(Entry *)SCRIPT_WORK_GetReturnFlag(p); for(i=0;i<0x6b;i++) EVENT_POKE_STATUS_ResetFlag(s,t[i].c); return 0; }

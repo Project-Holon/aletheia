@@ -17,7 +17,7 @@
  *   EVENT_COMM_COMMON_MsgEventMain  0x02182920  thumb  ov018
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   func_02034714  0x02034714  arm
  *   d_02183B4C     0x02183B4C  data   a1
  */
@@ -50,7 +50,7 @@ extern void GAME_EVENT_Change(char *p, int a1, int a2);
 extern void EVENT_COMM_COMMON_MsgEventMain();
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuCopy8(void *, void *, int);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02183B4C[];
 
@@ -65,7 +65,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(void *a, Src *b, u16 *c)
     MI_CpuCopy8(b, p, 0x98);
     if (v != 0) {
         p->f9C = c[b->f42];
-        func_0201F02C(b->f10, 0, b->f78);
+        WORDSET_SetSlotMyStatus(b->f10, 0, b->f78);
     } else {
         func_02034714(d_02183B4C, 0, d_02183B4C);
     }

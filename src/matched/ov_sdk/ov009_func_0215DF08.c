@@ -1,5 +1,5 @@
 /*
- * function: func_0215DF08
+ * function: SOCLi_UdpRecvCallback
  * address:  0x0215DF08
  * packet:   pkt_ov009_0215DF08
  * region:   ov009
@@ -17,7 +17,7 @@
  *   OS_WakeupThread  0x02085800  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gSoclConfig     0x021A1CD8  data
- *   g_021AA4A4     0x021AA4A4  data
+ *   gSoclUdpDropCounts     0x021AA4A4  data
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
@@ -56,14 +56,14 @@ struct CPSSoc {
 };
 
 extern struct G_021A1CD8 *gSoclConfig;
-extern unsigned long g_021AA4A4[2];
+extern unsigned long gSoclUdpDropCounts[2];
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 extern void OS_WakeupThread(void *queue);
 
-int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc)
+int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *soc)
 {
 	struct SOCLRecvPipe *pipe = soc->recv_pipe;
 	struct SOCLiUdpData *udpheader;
@@ -85,10 +85,10 @@ int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc)
 			if (pipe->first == 0)
 				pipe->first = udpheader;
 		} else {
-			g_021AA4A4[0]++;
+			gSoclUdpDropCounts[0]++;
 		}
 	} else {
-		g_021AA4A4[1]++;
+		gSoclUdpDropCounts[1]++;
 	}
 	soc->remote_port = soc->remote_port2;
 	soc->remote_ip = soc->remote_ip2;

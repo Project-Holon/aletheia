@@ -1,5 +1,5 @@
 /*
- * function: func_021F675C
+ * function: MUSICAL_MCSS_CreateMon
  * address: 0x021F675C
  * packet: pkt_ov112_021F675C
  * region: ov112
@@ -20,7 +20,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 POKE_TOOL_IsShiny(void *);
 extern const char d_021F83E4[];
-char *func_021F675C(void *a,u16 heap)
+char *MUSICAL_MCSS_CreateMon(void *a,u16 heap)
 {
     char *p;
     int i;

@@ -65,12 +65,12 @@
  *   GURU2_RECEIPT_GetMemberCount 0x021DE354 thumb ov137
  *   GURU2_RECEIPT_GetJoinedBits 0x021DE37C thumb ov137
  *   GURU2_RECEIPT_FreeStrings 0x021DD380 thumb ov137
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
  *   gGuru2MemberPaletteStepThreshold 0x021E1AEE data a1
  *   gGuru2MemberPaletteStepIndex 0x021E1AEF data a1
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   TCBL_Main  0x020310C4  arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -79,7 +79,7 @@
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -122,17 +122,17 @@
  *   GURU2_COMM_Send 0x021DCBC4 thumb ov137
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   PRINTSYS_PrintStreamStop 0x0201CE0C thumb
  *   func_02008534 0x02008534 thumb
  *   func_02008500 0x02008500 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_02008530 0x02008530 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
@@ -140,7 +140,7 @@
  *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
  *   KEY_GetTrg 0x020362DC arm
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -157,7 +157,7 @@
  *   gClActorInitParam 0x020A1448 data a4
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   CLACT_CreateActor 0x0204B294 arm
  *   gGuru2LobbyActorResourceIds 0x021E1B20 data a4
@@ -290,13 +290,13 @@ unsigned GURU2_RECEIPT_GetJoinedBits(void *p);
 
 void GURU2_RECEIPT_FreeStrings(u8 *p);
 
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 
 extern void GX_LoadOBJPltt(void *, int, int);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
@@ -495,7 +495,7 @@ int GURU2_RECEIPT_ProcMain(int a,int b,int c,u8 *p)
  * GURU2_RECEIPT_GetJoinedBits 0x021DE37C thumb ov137
  * GURU2_RECEIPT_FreeStrings 0x021DD380 thumb ov137
  * func_020315D4 0x020315D4 arm
- * func_020306F0 0x020306F0 arm
+ * GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 int GURU2_RECEIPT_ProcExit(void *a,int b,void *c,u8 *p)
 {
@@ -508,7 +508,7 @@ int GURU2_RECEIPT_ProcExit(void *a,int b,void *c,u8 *p)
     ((struct Guru2Session *)((struct Guru2MainCtx *)p)->fC)->startConfirmed=*(unsigned int *)&((struct Guru2MainCtx *)p)->f8;
     ((struct Guru2Session *)((struct Guru2MainCtx *)p)->fC)->playerCount=GURU2_RECEIPT_GetMemberCount(p);
     ((struct Guru2Session *)((struct Guru2MainCtx *)p)->fC)->memberMask=GURU2_RECEIPT_GetJoinedBits(p);
-    GURU2_RECEIPT_FreeStrings(p); func_020315D4(a); func_020306F0(114);
+    GURU2_RECEIPT_FreeStrings(p); func_020315D4(a); GFL_HEAP_DeleteChecked(114);
     return 1;
 }
 
@@ -542,7 +542,7 @@ void GURU2_RECEIPT_VBlank(void *a0, void *work)
 {
     GURU2_RECEIPT_AnimatePalette(a0, work);
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
 }
 
 void GURU2_RECEIPT_UpdateQueues(u8 *p)
@@ -572,7 +572,7 @@ typedef union { struct { u32 a,b; } words; u64 wide; } WordPair;
 
 typedef struct { char pad[0x4824]; WordPair current,previous; } FrameRecord;
 
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 
@@ -604,7 +604,7 @@ extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5,
 
 extern void func_0204989C(u32,u32,u32,u32,u32,u32,u16);
 
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
@@ -684,7 +684,7 @@ extern void GFL_NET_SetLoginOption(u8 a0);
 
 extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
 
@@ -697,15 +697,15 @@ extern u16 func_02008534(const struct Sub0200852CObj *obj);
 
 extern void func_02008500(void *,void *);
 
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
@@ -721,7 +721,7 @@ extern u32 KEY_GetTrg(void);
 
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 
@@ -838,7 +838,7 @@ extern const WinDat gGuru2YesNoMenuTemplate;
 extern const u8 gGuru2MemberPaletteIndex[];
 
 /*
- * func_0203FC28 0x0203FC28 arm
+ * BG_SYS_SetGraphicsMode 0x0203FC28 arm
  * BG_SYS_InitBgLayer 0x0203FCA0 arm
  * BG_SYS_ClearSlot 0x020414EC arm
  * BG_SYS_InitRun 0x02040B94 arm
@@ -854,7 +854,7 @@ void GURU2_RECEIPT_InitBg(void)
     struct DispConfig d;
     struct BgTemplate a,b,c,e,f;
     d=gGuru2LobbyDispConfig;
-    func_0203FC28((struct DispConfig *)&d);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)&d);
     a=gGuru2LobbyBg0Template;
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)&a, 0); BG_SYS_ClearSlot(4);
     b=gGuru2LobbyBg1Template;
@@ -913,7 +913,7 @@ void GURU2_RECEIPT_ExitBg(u32 a0) {func_020403F4(6);func_020403F4(5);func_020403
  * func_02049624 0x02049624 arm
  * func_0204989C 0x0204989C arm
  * func_02040588 0x02040588 arm
- * func_0201F5BC 0x0201F5BC thumb
+ * BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  */
 void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
 {
@@ -924,8 +924,8 @@ void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
     func_02049B40(30,13,4,0,352,114);
     func_02049624((void *)30,(void *)14,(void *)6,0,0,0,114);
     func_0204989C(30,3,6,0,0,0,114);
-    func_0201F5BC(0,1,10,0,114);
-    func_0201F5BC(0,31,11,0,114);
+    BMP_MENUWORK_LoadCharAndPltt(0,1,10,0,114);
+    BMP_MENUWORK_LoadCharAndPltt(0,31,11,0,114);
     func_02040588(0,1);
     func_02040588(1,1);
     func_02040588(6,1);
@@ -1248,7 +1248,7 @@ int GURU2_RECEIPT_StateQuitMenu(char *p, int state) {
         } else {
             ((struct Guru2MainCtx *)p)->f118 = 0xd;
             GURU2_COMM_Send(((struct Guru2MainCtx *)p)->f10, 0x2802, 0, 0);
-            func_0201F02C(((struct Guru2MainCtx *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), 0));
+            WORDSET_SetSlotMyStatus(((struct Guru2MainCtx *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), 0));
         }
         ((struct Guru2MainCtx *)p)->fE8 = 0;
     }
@@ -1260,7 +1260,7 @@ int GURU2_RECEIPT_StateShowQuitMessage(char *p, int state) {
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
         GURU2_RECEIPT_PrintMessage(p, 5, 0);
     } else {
-        func_0201F02C(((struct Guru2MainCtx *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), 0));
+        WORDSET_SetSlotMyStatus(((struct Guru2MainCtx *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), 0));
         GURU2_RECEIPT_PrintMessage(p, 0x10, 0);
     }
     GURU2_RECEIPT_SetPendingState(p, 0xe);
@@ -1344,7 +1344,7 @@ void GURU2_RECEIPT_SetStateFromParent(char *p,int state,int player) {
         break;
     case 19:
         if (((struct Guru2MainCtx *)p)->f4810==1) return;
-        func_0201F02C(((struct Guru2MainCtx *)p)->f3C,0,UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p),player));
+        WORDSET_SetSlotMyStatus(((struct Guru2MainCtx *)p)->f3C,0,UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p),player));
         if (player==GFL_NET_SYSTEM_GetCurrentAid()) return;
         if (((struct Guru2MainCtx *)p)->fE8) {
             BMP_MENU_DeleteYesNo(((struct Guru2MainCtx *)p)->fE8);
@@ -1376,13 +1376,13 @@ void GURU2_RECEIPT_SetStateFromChild(struct Guru2MainCtx *p, int command, int pl
         case 1:
             target = UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), player);
             if (target != 0)
-                func_0201F02C(p->f3C, 0, target);
+                WORDSET_SetSlotMyStatus(p->f3C, 0, target);
             p->f118 = command;
             ((struct Guru2MainCtx2 *)p->f10)->f2C = UNION_APP_GetMemberCount(GURU2_RECEIPT_GetUnionApp((u8 *)p));
             ((struct Guru2MainCtx2 *)p->f10)->f30 = 0;
             return;
         case 19:
-            func_0201F02C(p->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), player));
+            WORDSET_SetSlotMyStatus(p->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), player));
             if (player != GFL_NET_SYSTEM_GetCurrentAid()) {
                 if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
                     ((struct Guru2MainCtx2 *)p->f10)->f30 &= player ^ 0xffff;
@@ -1421,9 +1421,9 @@ int GURU2_RECEIPT_PrintMemberList(void *window,int unused,u16 color,Context *p) 
             value=func_02008534(p->entries[i].current);
             text=STRBUF_Create(16,0x72);
             func_02008500(p->entries[i].current,p->names[i]);
-            func_0201EFA4(p->formatter,0,value,5,2,1);
+            WORDSET_SetSlotNumber(p->formatter,0,value,5,2,1);
             format=func_02045EC0(p->bank,1);
-            func_0201F250(p->formatter,text,format);
+            WORDSET_CopyTaggedText(p->formatter,text,format);
             if (player==i) ink=0x860; else ink=color;
             y=18*i+1;
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(window),5,18*i+1,p->names[i],p->font,ink);
@@ -1487,10 +1487,10 @@ void GURU2_RECEIPT_PrintMessage(char *p, int message, int unused) {
     void *window;
     text = STRBUF_Create(0xb4, 0x72);
     func_02045CAC(*(void * *)&((struct Guru2MainCtx *)p)->f40, message, text);
-    func_0201F250(((struct Guru2MainCtx *)p)->f3C, ((struct Guru2MainCtx *)p)->f5C, text);
+    WORDSET_CopyTaggedText(((struct Guru2MainCtx *)p)->f3C, ((struct Guru2MainCtx *)p)->f5C, text);
     STRBUF_Delete(text);
     BMP_Clear(BMP_WIN_GetBmp(((struct Guru2MainCtx *)p)->fD4), 0xf);
-    func_0201F73C(((struct Guru2MainCtx *)p)->fD4, 0, 1, 0xa);
+    BMP_MENUWORK_DrawWindow(((struct Guru2MainCtx *)p)->fD4, 0, 1, 0xa);
     if (((struct Guru2MainCtx *)p)->fF0 != 0)
         PRINTSYS_PrintStreamDelete(((struct Guru2MainCtx *)p)->fF0);
     ((struct Guru2MainCtx *)p)->fF0 = PRINTSYS_PrintStream(((struct Guru2MainCtx *)p)->fD4, 0, 0, ((struct Guru2MainCtx *)p)->f5C, ((struct Guru2MainCtx *)p)->f38, 0, ((struct Guru2MainCtx *)p)->fF4, 0, 0x72, 0xf);
@@ -1523,7 +1523,7 @@ int GURU2_RECEIPT_IsMessageDone(char *p) {
  */
 void GURU2_RECEIPT_ClearMessageFrame(u8 *p)
 {
-    func_0201F7A8(((struct Guru2MainCtx *)p)->fD4, 0);
+    BMP_MENUWORK_DrawWindowBorder(((struct Guru2MainCtx *)p)->fD4, 0);
 }
 
 void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)

@@ -1,7 +1,7 @@
 /*
  * file:     comm_entry_menu.c
  * unit:     yes
- * function: COMM_ENTRY_MENU_Create, COMM_ENTRY_MENU_Delete, COMM_ENTRY_MENU_SetCallbacks, COMM_ENTRY_MENU_AddMember, COMM_ENTRY_MENU_Main, COMM_ENTRY_MENU_MainRecruit, COMM_ENTRY_MENU_MainMode1, COMM_ENTRY_MENU_MainMode2, COMM_ENTRY_MENU_MainMode3, COMM_ENTRY_MENU_ProcessMemberQueues, COMM_ENTRY_MENU_CollectMemberNames, COMM_ENTRY_MENU_CheckDisconnects, COMM_ENTRY_MENU_UpdateMemberList, COMM_ENTRY_MENU_AdvanceMemberStates, COMM_ENTRY_MENU_ClearMember, COMM_ENTRY_MENU_LatchRequest, COMM_ENTRY_MENU_ProcessRequest, COMM_ENTRY_MENU_ProcessCancel, COMM_ENTRY_MENU_ProcessStartConfirm, COMM_ENTRY_MENU_MarkMemberReady, COMM_ENTRY_MENU_SetAcceptFlag, COMM_ENTRY_MENU_SetCancelFlag, COMM_ENTRY_MENU_SetBusyFlags, COMM_ENTRY_MENU_CountAcceptedMembers, COMM_ENTRY_MENU_GetAcceptedMask, COMM_ENTRY_MENU_IsIdle, COMM_ENTRY_MENU_OpenWindows, COMM_ENTRY_MENU_CloseWindows, COMM_ENTRY_MENU_PrintRemaining, COMM_ENTRY_MENU_UpdateMemberName, COMM_ENTRY_MENU_ClearMemberName, COMM_ENTRY_MENU_PrintMemberName, COMM_ENTRY_MENU_EraseMemberName, COMM_ENTRY_MENU_RefreshNames, COMM_ENTRY_MENU_PrintMessage, COMM_ENTRY_MENU_SnapshotStates, COMM_ENTRY_MENU_StatesUnchanged, COMM_ENTRY_MENU_ClearPendingBits, COMM_ENTRY_MENU_QueueSend, COMM_ENTRY_MENU_AckSend, COMM_ENTRY_MENU_GetNameBuffer, COMM_ENTRY_MENU_SetNameBuffer, COMM_ENTRY_MENU_StartYesNo, COMM_ENTRY_MENU_EndYesNo, COMM_ENTRY_MENU_MainYesNo, COMM_ENTRY_PollParentList, COMM_ENTRY_TickParentTimeouts, COMM_ENTRY_ScanParents, COMM_ENTRY_AddParent, COMM_ENTRY_ClearParentSlot, COMM_ENTRY_BuildParentItems, COMM_ENTRY_RunLeaveConfirm, COMM_ENTRY_ResetLeaveConfirm, COMM_ENTRY_StoreJoinReply, COMM_ENTRY_GetRosterSize, COMM_ENTRY_IsOtherMemberConnected, COMM_ENTRY_StartNetCommands, COMM_ENTRY_EndNetCommands, COMM_ENTRY_GetRosterBuffer, COMM_ENTRY_RecvJoinRequest, COMM_ENTRY_SendJoinRequest, COMM_ENTRY_RecvJoinAccept, func_021CF220, func_021CF27C, func_021CF288, func_021CF2E4, COMM_ENTRY_SendSessionLock, COMM_ENTRY_RecvReady, func_021CF32C, func_021CF36C, COMM_ENTRY_SendAccept, COMM_ENTRY_RecvCancel, COMM_ENTRY_SendCancel, COMM_ENTRY_RecvRoster, COMM_ENTRY_SendRoster
+ * function: COMM_ENTRY_MENU_Create, COMM_ENTRY_MENU_Delete, COMM_ENTRY_MENU_SetCallbacks, COMM_ENTRY_MENU_AddMember, COMM_ENTRY_MENU_Main, COMM_ENTRY_MENU_MainRecruit, COMM_ENTRY_MENU_MainMode1, COMM_ENTRY_MENU_MainMode2, COMM_ENTRY_MENU_MainMode3, COMM_ENTRY_MENU_ProcessMemberQueues, COMM_ENTRY_MENU_CollectMemberNames, COMM_ENTRY_MENU_CheckDisconnects, COMM_ENTRY_MENU_UpdateMemberList, COMM_ENTRY_MENU_AdvanceMemberStates, COMM_ENTRY_MENU_ClearMember, COMM_ENTRY_MENU_LatchRequest, COMM_ENTRY_MENU_ProcessRequest, COMM_ENTRY_MENU_ProcessCancel, COMM_ENTRY_MENU_ProcessStartConfirm, COMM_ENTRY_MENU_MarkMemberReady, COMM_ENTRY_MENU_SetAcceptFlag, COMM_ENTRY_MENU_SetCancelFlag, COMM_ENTRY_MENU_SetBusyFlags, COMM_ENTRY_MENU_CountAcceptedMembers, COMM_ENTRY_MENU_GetAcceptedMask, COMM_ENTRY_MENU_IsIdle, COMM_ENTRY_MENU_OpenWindows, COMM_ENTRY_MENU_CloseWindows, COMM_ENTRY_MENU_PrintRemaining, COMM_ENTRY_MENU_UpdateMemberName, COMM_ENTRY_MENU_ClearMemberName, COMM_ENTRY_MENU_PrintMemberName, COMM_ENTRY_MENU_EraseMemberName, COMM_ENTRY_MENU_RefreshNames, COMM_ENTRY_MENU_PrintMessage, COMM_ENTRY_MENU_SnapshotStates, COMM_ENTRY_MENU_StatesUnchanged, COMM_ENTRY_MENU_ClearPendingBits, COMM_ENTRY_MENU_QueueSend, COMM_ENTRY_MENU_AckSend, COMM_ENTRY_MENU_GetNameBuffer, COMM_ENTRY_MENU_SetNameBuffer, COMM_ENTRY_MENU_StartYesNo, COMM_ENTRY_MENU_EndYesNo, COMM_ENTRY_MENU_MainYesNo, COMM_ENTRY_PollParentList, COMM_ENTRY_TickParentTimeouts, COMM_ENTRY_ScanParents, COMM_ENTRY_AddParent, COMM_ENTRY_ClearParentSlot, COMM_ENTRY_BuildParentItems, COMM_ENTRY_RunLeaveConfirm, COMM_ENTRY_ResetLeaveConfirm, COMM_ENTRY_StoreJoinReply, COMM_ENTRY_GetRosterSize, COMM_ENTRY_IsOtherMemberConnected, COMM_ENTRY_StartNetCommands, COMM_ENTRY_EndNetCommands, COMM_ENTRY_GetRosterBuffer, COMM_ENTRY_RecvJoinRequest, COMM_ENTRY_SendJoinRequest, COMM_ENTRY_RecvJoinAccept, COMM_ENTRY_SendJoinAccept, COMM_ENTRY_RecvJoinRedirect, COMM_ENTRY_SendJoinRedirect, COMM_ENTRY_RecvSessionLock, COMM_ENTRY_SendSessionLock, COMM_ENTRY_RecvReady, COMM_ENTRY_SendReady, COMM_ENTRY_RecvAccept, COMM_ENTRY_SendAccept, COMM_ENTRY_RecvCancel, COMM_ENTRY_SendCancel, COMM_ENTRY_RecvRoster, COMM_ENTRY_SendRoster
  * address:  0x021CD48C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,8 +15,8 @@
  *
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
  *   func_02030734  0x02030734  arm
@@ -61,15 +61,15 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_BeaconScanStart  0x0203D010  arm
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   COMM_ENTRY_RunLeaveConfirm  0x021CF068  thumb  ov021
  *   COMM_ENTRY_ResetLeaveConfirm  0x021CF0F4  thumb  ov021
- *   func_021CF32C  0x021CF32C  thumb  ov021
+ *   COMM_ENTRY_SendReady  0x021CF32C  thumb  ov021
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
- *   func_021CF220  0x021CF220  thumb  ov021
- *   func_021CF288  0x021CF288  thumb  ov021
+ *   COMM_ENTRY_SendJoinAccept  0x021CF220  thumb  ov021
+ *   COMM_ENTRY_SendJoinRedirect  0x021CF288  thumb  ov021
  *   COMM_ENTRY_SendRoster  0x021CF3FC  thumb  ov021
  *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
  *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
@@ -79,7 +79,7 @@
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   FIELD_MSGBG_FillMsgWin  0x02190794  thumb  ov021
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   gCommEntryEmptyMac     0x021DB470  data  a4
  *   func_02008534  0x02008534  thumb
  *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
@@ -102,7 +102,7 @@
  *   FIELD_MSGBG_DeleteMenuItems  0x02190A6C  thumb  ov021
  *   func_02045CAC  0x02045CAC  arm
  *   STRBUF_SetString  0x02045924  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   FIELD_MSGBG_AddMenuItemStr  0x02190A64  thumb  ov021
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   data_021DB4BC  0x021DB4BC  data
@@ -462,8 +462,8 @@ typedef struct CommEntryMenu {
 } CommEntryMenu;
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EFA4(struct WordSet *ws, u32 slot, u32 number, u32 digits, u32 dispType, u32 charCode);
-extern void func_0201F250(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *format);
+extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 slot, u32 number, u32 digits, u32 dispType, u32 charCode);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *format);
 extern int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
@@ -499,7 +499,7 @@ extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, unsig
 extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
 extern u32 func_0200FB24(void);
 extern void GFL_NET_BeaconScanStart(void);
-extern void func_0201F02C(struct WordSet *ws, u32 slot, const void *myStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *ws, u32 slot, const void *myStatus);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 a2, u32 userArg);
@@ -511,7 +511,7 @@ extern void FIELD_MSGBG_ClearPrintQue(FieldMsgBg *msgBg);
 extern int FIELD_MSGBG_IsMsgWinTransDone(FieldMsgWin *msgWin);
 extern void FIELD_MSGBG_FillMsgWin(FieldMsgWin *msgWin, int x, int y, int width, int height);
 extern void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
-extern int func_0203EFC8(const void *a, const void *b, int n);
+extern int GF_STANDARD_CompareBytes(const void *a, const void *b, int n);
 extern u16 func_02008534(const void *myStatus);
 extern void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
 extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
@@ -522,7 +522,7 @@ extern int FIELD_MSGBG_IsPrintQueFinished(FieldMsgBg *msgBg);
 extern int FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 v);
 extern int MYSTATUS_GetSize(void);
 extern u32 GFL_NET_IsParentAid(void);
@@ -602,14 +602,14 @@ CommEntryRoster *COMM_ENTRY_GetRosterBuffer(u32 netId, CommEntryMenu *menu);
 int COMM_ENTRY_RecvJoinRequest(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu);
 u32 COMM_ENTRY_SendJoinRequest(const void *myStatus, u32 isChild, u32 netMode);
 void COMM_ENTRY_RecvJoinAccept(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu);
-u32 func_021CF220(u32 index, u32 netMode, const void *myStatus);
-void func_021CF27C(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu);
-u32 func_021CF288(u32 index, u32 netMode, const void *myStatus);
-void func_021CF2E4(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
+u32 COMM_ENTRY_SendJoinAccept(u32 index, u32 netMode, const void *myStatus);
+void COMM_ENTRY_RecvJoinRedirect(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu);
+u32 COMM_ENTRY_SendJoinRedirect(u32 index, u32 netMode, const void *myStatus);
+void COMM_ENTRY_RecvSessionLock(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
 int COMM_ENTRY_SendSessionLock(int netMode);
 void COMM_ENTRY_RecvReady(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
-u32 func_021CF32C(u32 netMode);
-void func_021CF36C(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
+u32 COMM_ENTRY_SendReady(u32 netMode);
+void COMM_ENTRY_RecvAccept(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
 int COMM_ENTRY_SendAccept(int netMode);
 void COMM_ENTRY_RecvCancel(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
 int COMM_ENTRY_SendCancel(int netMode);
@@ -984,7 +984,7 @@ int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
             } else if (menu->cancelFlag == 1) {
                 menu->state = CHOOSE_SHOW_CANCEL_MESSAGE;
             } else {
-                func_0201F02C(menu->wordSet, 0, menu->parentList.selected);
+                WORDSET_SetSlotMyStatus(menu->wordSet, 0, menu->parentList.selected);
                 COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_JOINED);
                 menu->state = CHOOSE_WAIT_JOINED_MESSAGE;
             }
@@ -1014,7 +1014,7 @@ int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
             break;
         }
         if (menu->lockNotifyPending == 1) {
-            if (func_021CF32C(menu->netMode) == 1) {
+            if (COMM_ENTRY_SendReady(menu->netMode) == 1) {
                 menu->lockNotifyPending = 0;
             }
         }
@@ -1060,7 +1060,7 @@ int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
         MI_CpuCopy8(GFL_NET_GetInitParam(), &menu->netInitBackup, sizeof(GFLNetInitializeStruct));
         COMM_ENTRY_EndNetCommands();
         GFL_NET_Exit(0);
-        func_0201F02C(menu->wordSet, 0, menu->parentMyStatus);
+        WORDSET_SetSlotMyStatus(menu->wordSet, 0, menu->parentMyStatus);
         COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_SWITCHING);
         menu->state = CHOOSE_SWITCH_WAIT_EXIT;
         break;
@@ -1122,7 +1122,7 @@ int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu)
             break;
         }
         if (menu->lockNotifyPending == 1) {
-            if (func_021CF32C(menu->netMode) == 1) {
+            if (COMM_ENTRY_SendReady(menu->netMode) == 1) {
                 menu->lockNotifyPending = 0;
             }
         }
@@ -1166,7 +1166,7 @@ int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu)
         break;
     case HOST_SWITCH_SHOW_MESSAGE:
         GFL_NET_Exit(0);
-        func_0201F02C(menu->wordSet, 0, menu->parentList.selected);
+        WORDSET_SetSlotMyStatus(menu->wordSet, 0, menu->parentList.selected);
         COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_SWITCHING);
         menu->state = HOST_SWITCH_WAIT_MESSAGE;
         break;
@@ -1244,7 +1244,7 @@ int COMM_ENTRY_MENU_MainMode3(CommEntryMenu *menu)
             break;
         }
         if (menu->lockNotifyPending == 1) {
-            if (func_021CF32C(menu->netMode) == 1) {
+            if (COMM_ENTRY_SendReady(menu->netMode) == 1) {
                 menu->lockNotifyPending = 0;
             }
         }
@@ -1288,7 +1288,7 @@ int COMM_ENTRY_MENU_MainMode3(CommEntryMenu *menu)
         break;
     case JOIN_SWITCH_SHOW_MESSAGE:
         GFL_NET_Exit(0);
-        func_0201F02C(menu->wordSet, 0, menu->parentMyStatus);
+        WORDSET_SetSlotMyStatus(menu->wordSet, 0, menu->parentMyStatus);
         COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_SWITCHING);
         menu->state = JOIN_SWITCH_WAIT_MESSAGE;
         break;
@@ -1324,10 +1324,10 @@ void COMM_ENTRY_MENU_ProcessMemberQueues(CommEntryMenu *menu)
     for (netId = 0; netId < 4; netId++) {
         bit = 1 << netId;
         if (menu->pendingAddBits & bit) {
-            if (func_021CF220(netId, menu->netMode, menu->myStatus) == 1)
+            if (COMM_ENTRY_SendJoinAccept(netId, menu->netMode, menu->myStatus) == 1)
                 menu->pendingAddBits ^= (u8)bit;
         } else if (menu->pendingRemoveBits & bit) {
-            if (func_021CF288(netId, menu->netMode, menu->myStatus) == 1)
+            if (COMM_ENTRY_SendJoinRedirect(netId, menu->netMode, menu->myStatus) == 1)
                 menu->pendingRemoveBits ^= (u8)bit;
         }
     }
@@ -1490,7 +1490,7 @@ void COMM_ENTRY_MENU_ProcessRequest(CommEntryMenu *menu)
     }
     switch (confirm->state) {
     case CONFIRM_ASK:
-        func_0201F02C(menu->wordSet, 0, request);
+        WORDSET_SetSlotMyStatus(menu->wordSet, 0, request);
         COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_ASK_JOIN_REQUEST);
         confirm->state++;
         break;
@@ -1760,8 +1760,8 @@ int COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count)
 {
     if (menu->memberWin && FIELD_MSGBG_IsMsgWinTransDone(menu->memberWin) == 1) {
         FIELD_MSGBG_FillMsgWin(menu->memberWin, 0, 0x40, 0x90, 0x50);
-        func_0201EFA4(menu->wordSet, 0, menu->maxMembers - count, 1, 0, 1);
-        func_0201F250(menu->wordSet, menu->remainingStr, menu->remainingFormat);
+        WORDSET_SetSlotNumber(menu->wordSet, 0, menu->maxMembers - count, 1, 0, 1);
+        WORDSET_CopyTaggedText(menu->wordSet, menu->remainingStr, menu->remainingFormat);
         FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, 0x40, menu->remainingStr);
         return 1;
     }
@@ -1773,7 +1773,7 @@ void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *memb
 {
     MacAddress *macs;
     macs = menu->memberMacs;
-    if (func_0203EFC8(member->mac, macs[index].b, 6)) {
+    if (GF_STANDARD_CompareBytes(member->mac, macs[index].b, 6)) {
         COMM_ENTRY_MENU_PrintMemberName(menu, member, (u8)index);
         MI_CpuCopy8(member->mac, macs[index].b, 6);
     }
@@ -1782,7 +1782,7 @@ void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *memb
 
 void COMM_ENTRY_MENU_ClearMemberName(CommEntryMenu *menu, CommEntryMember *member, int index)
 {
-    if (func_0203EFC8((u8 *)menu->memberMacs + index * 6, gCommEntryEmptyMac, 6)) {
+    if (GF_STANDARD_CompareBytes((u8 *)menu->memberMacs + index * 6, gCommEntryEmptyMac, 6)) {
         COMM_ENTRY_MENU_EraseMemberName(menu, index);
         MI_CpuCopy8(gCommEntryEmptyMac, menu->memberMacs[index].b, 6);
     }
@@ -1794,10 +1794,10 @@ void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, 
 {
     u32 trainerId;
     if (menu->memberWin != 0) {
-        func_0201F02C(menu->wordSet, 0, myStatus);
+        WORDSET_SetSlotMyStatus(menu->wordSet, 0, myStatus);
         trainerId = func_02008534(myStatus);
-        func_0201EFA4(menu->wordSet, 1, trainerId, 5, 2, 1);
-        func_0201F250(menu->wordSet, menu->nameStr, menu->nameFormat);
+        WORDSET_SetSlotNumber(menu->wordSet, 1, trainerId, 5, 2, 1);
+        WORDSET_CopyTaggedText(menu->wordSet, menu->nameStr, menu->nameFormat);
         FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, (row & 0xfff) << 4, menu->nameStr);
     }
 }
@@ -1832,7 +1832,7 @@ void COMM_ENTRY_MENU_PrintMessage(CommEntryMenu *menu, u32 msgId)
         return;
     menu->lastMessageId = msgId;
     format = func_02045EC0(menu->msgData, msgId);
-    func_0201F250(menu->wordSet, menu->msgStr, format);
+    WORDSET_CopyTaggedText(menu->wordSet, menu->msgStr, format);
     STRBUF_Delete(format);
     FIELD_MSGBG_ClearSysWin(menu->sysWin);
     FIELD_MSGBG_SysWinPrintStr(menu->sysWin, 0, 0, menu->msgStr);
@@ -2046,7 +2046,7 @@ int COMM_ENTRY_PollParentList(CommEntryMenu *menu)
         if (list->slots[choice].used == 1) {
             list->selected = &list->slots[choice];
             GFL_NET_ConnectMacAddressChild(list->selected->mac);
-            func_0201F02C(menu->wordSet, 0, list->selected);
+            WORDSET_SetSlotMyStatus(menu->wordSet, 0, list->selected);
             COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_LEAVE_REFUSED);
             list->waitFrames = 0;
         }
@@ -2093,7 +2093,7 @@ void COMM_ENTRY_AddParent(CommEntryMenu *menu, u8 *mac, CommEntryBeaconData *bea
     int i;
 
     for (i = 0; i < COMM_ENTRY_PARENT_SLOTS; i++) {
-        if (list->slots[i].used == 1 && func_0203EFC8(list->slots[i].mac, mac, 6) == 0) {
+        if (list->slots[i].used == 1 && GF_STANDARD_CompareBytes(list->slots[i].mac, mac, 6) == 0) {
             list->slots[i].timeout = COMM_ENTRY_PARENT_TIMEOUT_FRAMES;
             return;
         }
@@ -2133,16 +2133,16 @@ void COMM_ENTRY_BuildParentItems(CommEntryMenu *menu)
     func_02045CAC(menu->msgData, 0x1a, emptyFormat);
     func_02045CAC(menu->msgData, 0x1b, nameFormat);
     for (i = 0; i < COMM_ENTRY_PARENT_SLOTS; i++) {
-        func_0201EFA4(menu->wordSet, 0, i + 1, 2, 2, 1);
+        WORDSET_SetSlotNumber(menu->wordSet, 0, i + 1, 2, 2, 1);
         if (menu->parentList.slots[i].used == 1) {
-            func_0201F02C(menu->wordSet, 1, &menu->parentList.slots[i]);
-            func_0201EFA4(menu->wordSet, 2, func_02008534(&menu->parentList.slots[i]), 5, 2, 1);
-            func_0201F250(menu->wordSet, line, nameFormat);
+            WORDSET_SetSlotMyStatus(menu->wordSet, 1, &menu->parentList.slots[i]);
+            WORDSET_SetSlotNumber(menu->wordSet, 2, func_02008534(&menu->parentList.slots[i]), 5, 2, 1);
+            WORDSET_CopyTaggedText(menu->wordSet, line, nameFormat);
         } else {
             STRBUF_SetString(emptyStr, &emptyChar);
-            func_0201EE0C(menu->wordSet, 1, emptyStr, 0, 1, 2);
-            func_0201EE0C(menu->wordSet, 2, emptyStr, 0, 1, 2);
-            func_0201F250(menu->wordSet, line, emptyFormat);
+            WORDSET_SetSlotTag(menu->wordSet, 1, emptyStr, 0, 1, 2);
+            WORDSET_SetSlotTag(menu->wordSet, 2, emptyStr, 0, 1, 2);
+            WORDSET_CopyTaggedText(menu->wordSet, line, emptyFormat);
         }
         FIELD_MSGBG_AddMenuItemStr(menu->parentList.items, line, i, menu->heapId);
     }
@@ -2267,7 +2267,7 @@ void COMM_ENTRY_RecvJoinAccept(u32 netId, u32 size, const void *parentMyStatus, 
 }
 
 /* Sends the join accept with the parent's MyStatus to member index. */
-u32 func_021CF220(u32 index, u32 netMode, const void *myStatus)
+u32 COMM_ENTRY_SendJoinAccept(u32 index, u32 netMode, const void *myStatus)
 {
     GFLNetHandle *handle;
 
@@ -2281,13 +2281,13 @@ u32 func_021CF220(u32 index, u32 netMode, const void *myStatus)
 }
 
 /* Receive of the join redirect. */
-void func_021CF27C(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu)
+void COMM_ENTRY_RecvJoinRedirect(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu)
 {
     COMM_ENTRY_StoreJoinReply(menu, 2, parentMyStatus);
 }
 
 /* Sends the join redirect with the parent's MyStatus to member index. */
-u32 func_021CF288(u32 index, u32 netMode, const void *myStatus)
+u32 COMM_ENTRY_SendJoinRedirect(u32 index, u32 netMode, const void *myStatus)
 {
     GFLNetHandle *handle;
 
@@ -2301,7 +2301,7 @@ u32 func_021CF288(u32 index, u32 netMode, const void *myStatus)
 }
 
 /* Receive of the session lock. */
-void func_021CF2E4(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
+void COMM_ENTRY_RecvSessionLock(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
 {
     COMM_ENTRY_MENU_SetBusyFlags(menu);
 }
@@ -2321,7 +2321,7 @@ void COMM_ENTRY_RecvReady(u32 netId, u32 size, const void *data, CommEntryMenu *
     COMM_ENTRY_MENU_MarkMemberReady(menu, (u8)netId);
 }
 
-u32 func_021CF32C(u32 netMode)
+u32 COMM_ENTRY_SendReady(u32 netMode)
 {
     if (netMode == 1)
         GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
@@ -2330,7 +2330,7 @@ u32 func_021CF32C(u32 netMode)
 }
 
 /* Receive of the accept message. */
-void func_021CF36C(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
+void COMM_ENTRY_RecvAccept(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
 {
     COMM_ENTRY_MENU_SetAcceptFlag(menu);
 }

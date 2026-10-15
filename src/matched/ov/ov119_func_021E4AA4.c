@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E82A4 0x021E82A4 data
+ *   gBoxIconFilter 0x021E82A4 data
  */
-extern const unsigned char d_021E82A4[];
+extern const unsigned char gBoxIconFilter[];
 int POKETRADE_2D_IsBoxIconMatch(int i, int x)
 {
-    if (x == d_021E82A4[i]) {
+    if (x == gBoxIconFilter[i]) {
         return 1;
     }
     return 0;

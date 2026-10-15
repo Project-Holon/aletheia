@@ -17,10 +17,10 @@
  *   data_021C8618  0x021C8618  data
  *   func_020403F4  0x020403F4  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_02040588  0x02040588  arm
  *   func_02040618  0x02040618  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   ZUKAN_DETAIL_AREA_LoadMapGraphics  0x021C0090  thumb  ov208
  *   ov208_func_021C0134  0x021C0134  thumb  ov208
  *   ZUKAN_DETAIL_AREA_CreateTownIconActors  0x021C0450  thumb  ov208
@@ -100,10 +100,10 @@ extern void *ov208_func_021BC3B8(int key);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_020403F4(u32 i);
 extern void BG_SYS_InitBgLayer(u8 bgId, const struct BgTemplate *tmpl, u8 type);
-extern void func_020414AC(u8 bgId);
+extern void BG_SYS_FreeSlot(u8 bgId);
 extern void func_02040588(u8 which, u8 enable);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C0134(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, int key);
@@ -179,22 +179,22 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         for (j = 0; j < 2; j++) {
             func_020403F4((u8)data_021C85C0[j].bg);
             BG_SYS_InitBgLayer(data_021C85C0[j].bg, &data_021C85C0[j].tmpl, data_021C85C0[j].type);
-            func_020414AC(data_021C85C0[j].bg);
+            BG_SYS_FreeSlot(data_021C85C0[j].bg);
             func_02040588(data_021C85C0[j].bg, data_021C85C0[j].on);
         }
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
                 func_02040618(i, 0, 0);
                 func_02040618(i, 3, 0);
-                func_020414AC(i);
+                BG_SYS_FreeSlot(i);
             }
         }
-        func_0204047C(2, 2);
-        func_0204047C(3, 3);
-        func_0204047C(0, 1);
-        func_0204047C(6, 1);
-        func_0204047C(7, 2);
-        func_0204047C(4, 3);
+        BG_SYS_SetVisibleLayer(2, 2);
+        BG_SYS_SetVisibleLayer(3, 3);
+        BG_SYS_SetVisibleLayer(0, 1);
+        BG_SYS_SetVisibleLayer(6, 1);
+        BG_SYS_SetVisibleLayer(7, 2);
+        BG_SYS_SetVisibleLayer(4, 3);
         ZUKAN_DETAIL_AREA_LoadMapGraphics(heap, p, key);
         ov208_func_021C0134(heap, p, key);
         ZUKAN_DETAIL_AREA_CreateTownIconActors(heap, p, key);
@@ -296,7 +296,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         for (k = 0; k < 2; k++) {
             func_020403F4((u8)data_021C8618[k].bg);
             BG_SYS_InitBgLayer(data_021C8618[k].bg, &data_021C8618[k].tmpl, data_021C8618[k].type);
-            func_020414AC(data_021C8618[k].bg);
+            BG_SYS_FreeSlot(data_021C8618[k].bg);
             func_02040588(data_021C8618[k].bg, data_021C8618[k].on);
         }
         return 1;

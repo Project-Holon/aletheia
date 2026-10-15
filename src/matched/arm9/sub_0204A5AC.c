@@ -22,7 +22,7 @@
  *   CLACT_ExitRenderer  0x0204BE28  arm
  *   CLACT_ExitTransferPool  0x0204C6E4  arm
  *   CLACT_ExitResources  0x0204D8AC  arm
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *
  * Tear down the single global cell-actor system behind 0x02146A74.  The block
  * is one allocation with four embedded sub-objects at +0x00, +0x40, +0x0e0 and
@@ -61,7 +61,7 @@ extern void CLACT_ExitOamManagers(struct Obj *o);
 extern void CLACT_ExitRenderer(int *p);
 extern void CLACT_ExitTransferPool(struct Pool *p);
 extern void CLACT_ExitResources(struct Res *res);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void CLACT_ExitSystem(void)
 {
@@ -70,6 +70,6 @@ void CLACT_ExitSystem(void)
     CLACT_ExitRenderer((int *)(((u8 *)g_ClactSystem) + 0x40));
     CLACT_ExitTransferPool((struct Pool *)(((u8 *)g_ClactSystem) + 0xe0));
     CLACT_ExitResources((struct Res *)(((u8 *)g_ClactSystem) + 0x104));
-    sub_020307B0(((u8 *)g_ClactSystem));
+    GFL_HEAP_Free(((u8 *)g_ClactSystem));
     g_ClactSystem = 0;
 }

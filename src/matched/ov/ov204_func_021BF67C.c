@@ -13,7 +13,7 @@
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   func_021BF7F0 0x021BF7F0 thumb ov204
  *   MCSS_Add  0x020159C8  thumb  arm9
@@ -36,7 +36,7 @@ extern u32 func_020307B0(void *p);
 extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void MCSS_SetScale(void *p, u32 *src);
 extern void MCSS_SetAnmStopFlag(void *);
-extern unsigned int func_0203F0A8(void);
+extern unsigned int GF_STANDARD_Rand(void);
 typedef unsigned char  u8;
 extern void func_021BF7F0(u8 *p);
 extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
@@ -55,6 +55,6 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
     MCSS_SetAnmStopFlag(*(void **)(base + off));
     *(unsigned int *)(p + off + 12) = 0;
     *(unsigned int *)(p + off + 16) = 1;
-    ((struct Obj10881 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;
+    ((struct Obj10881 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
     MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }

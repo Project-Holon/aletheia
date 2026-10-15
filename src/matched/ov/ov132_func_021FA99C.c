@@ -1,5 +1,5 @@
 /*
- * function: func_021FA99C
+ * function: STA_ACT_BUTTON_LoadCharacter
  * address: 0x021FA99C
  * packet: pkt_ov132_021FA99C
  * region: ov132
@@ -32,7 +32,7 @@ extern void DWCi_ScreenDC_FlushRange(void *,u32);
 extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
-void func_021FA99C(u8 *p,u16 slot,int resource,u32 type)
+void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
 {
     int blob;
     u32 charSize,palSize;

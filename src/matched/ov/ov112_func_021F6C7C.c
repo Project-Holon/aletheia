@@ -1,5 +1,5 @@
 /*
- * function: func_021F6C7C
+ * function: STA_ACT_LIGHT_DeleteUnit
  * address: 0x021F6C7C
  * packet: pkt_ov112_021F6C7C
  * region: ov112
@@ -20,4 +20,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_ReleasePalette(u32);extern void CLACT_ReleaseCharacter(u32);extern void CLACT_ReleaseCellAnim(u32);extern void CLACT_DeleteUnit(void *);extern void func_020307B0(void *);
-void func_021F6C7C(char *p) {CLACT_ReleasePalette(((struct Obj08024 *)p)->fAC);CLACT_ReleaseCharacter(((struct Obj08024 *)p)->fB0);CLACT_ReleaseCellAnim(((struct Obj08024 *)p)->fB4);CLACT_DeleteUnit(((struct Obj08024 *)p)->fA8);func_020307B0(p);}
+void STA_ACT_LIGHT_DeleteUnit(char *p) {CLACT_ReleasePalette(((struct Obj08024 *)p)->fAC);CLACT_ReleaseCharacter(((struct Obj08024 *)p)->fB0);CLACT_ReleaseCellAnim(((struct Obj08024 *)p)->fB4);CLACT_DeleteUnit(((struct Obj08024 *)p)->fA8);func_020307B0(p);}

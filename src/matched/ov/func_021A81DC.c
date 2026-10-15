@@ -1,5 +1,5 @@
 /*
- * function: func_021A81DC
+ * function: FIELD_GROUND_ANIME_GetCurrentStep
  * address:  0x021A81DC
  * packet:   pkt_021A81DC
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u8 func_021A81DC(u32 a)
+u8 FIELD_GROUND_ANIME_GetCurrentStep(u32 a)
 {
 return *(u8 *)((u8 *)(((a + *(u8 *)((u8 *)((a + 54)))) + 44)));
 }

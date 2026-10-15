@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_GetFriendBuddyStatus  0x0216980C  arm  ov009
- *   func_021684CC  0x021684CC  arm  ov009
+ *   DWC_GetCommonValueString  0x021684CC  arm  ov009
  *   strtoul        0x02095EAC  arm
  *   strcpy         0x02094798  arm
  *   DWCi_IsLockedBuddyStatus  0x02176984  arm  ov009
@@ -38,7 +38,7 @@ typedef struct {
 extern char gDwcFriendMaxEntryKey[];
 extern char gDwcFriendNumEntryKey[];
 extern int DWCi_GetFriendBuddyStatus(void *friendData, GPBuddyStatus *status);
-extern int func_021684CC(char *key, char *value, char *string, char separator);
+extern int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
 extern unsigned long strtoul(const char *s, char **end, int base);
 extern int DWCi_IsLockedBuddyStatus(GPBuddyStatus *status);
 
@@ -52,14 +52,14 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
     if (DWCi_GetFriendBuddyStatus(friendData, &status)) {
         if (status.status == 6) {
             if (maxEntry) {
-                len = func_021684CC(gDwcFriendMaxEntryKey, valueStr, status.statusString, '/');
+                len = DWC_GetCommonValueString(gDwcFriendMaxEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
                     *maxEntry = strtoul(valueStr, 0, 10);
                 else
                     *maxEntry = 0;
             }
             if (numEntry) {
-                len = func_021684CC(gDwcFriendNumEntryKey, valueStr, status.statusString, '/');
+                len = DWC_GetCommonValueString(gDwcFriendNumEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
                     *numEntry = strtoul(valueStr, 0, 10);
                 else

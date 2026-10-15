@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   INTRUDE_COMM_FindFreeResultSlot  0x02175C78  thumb  ov011
  */
 
@@ -22,7 +22,7 @@ typedef struct Rec {
 } Rec;
 
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int INTRUDE_COMM_FindFreeResultSlot(u8 *p, void *b, int c);
 
 int INTRUDE_COMM_StoreResultRecord(u8 *a, Rec *b, int c)
@@ -31,7 +31,7 @@ int INTRUDE_COMM_StoreResultRecord(u8 *a, Rec *b, int c)
     int r;
 
     dst = (Rec *)(a + 0xac);
-    if (func_0203EFC8(a + 0x78, (const u8 *)b, 0x30) != 0) {
+    if (GF_STANDARD_CompareBytes(a + 0x78, (const u8 *)b, 0x30) != 0) {
         (a + c)[0x197] = 2;
         return 0;
     }

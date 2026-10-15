@@ -1,5 +1,5 @@
 /*
- * function: func_0219091C
+ * function: gpiProcessSearch
  * address:  0x0219091C
  * packet:   pkt_ov009_0219091C
  * region:   ov009
@@ -29,28 +29,28 @@
  * .maxResults at +0x198 / +0x19c).
  *
  * symbols:
- *   func_0218998C  0x0218998C  arm  ov009
- *   func_02193488  0x02193488  arm  ov009
- *   func_0218946C  0x0218946C  arm  ov009
- *   func_0218949C  0x0218949C  arm  ov009
- *   func_0218934C  0x0218934C  arm  ov009
- *   func_02193748  0x02193748  arm  ov009
+ *   gpiSendFromBuffer  0x0218998C  arm  ov009
+ *   gpiCheckSocketConnect  0x02193488  arm  ov009
+ *   gpiAppendStringToBuffer  0x0218946C  arm  ov009
+ *   gpiAppendIntToBuffer  0x0218949C  arm  ov009
+ *   gpiAppendCharToBuffer  0x0218934C  arm  ov009
+ *   gpiEncodeString  0x02193748  arm  ov009
  *   func_02189780  0x02189780  arm  ov009
- *   func_0219329C  0x0219329C  arm  ov009
- *   func_0219359C  0x0219359C  arm  ov009
- *   func_02193418  0x02193418  arm  ov009
- *   func_02189DFC  0x02189DFC  arm  ov009
- *   func_02189D78  0x02189D78  arm  ov009
- *   func_02193710  0x02193710  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
- *   func_021906E0  0x021906E0  arm  ov009
- *   func_0219327C  0x0219327C  arm  ov009
- *   func_021803BC  0x021803BC  arm  ov009
+ *   gpiCheckForError  0x0219329C  arm  ov009
+ *   gpiReadKeyAndValue  0x0219359C  arm  ov009
+ *   gpiValueForKey  0x02193418  arm  ov009
+ *   gpiAddCallback  0x02189DFC  arm  ov009
+ *   gpiCallErrorCallback  0x02189D78  arm  ov009
+ *   gpiSetError  0x02193710  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
+ *   gpiProfileSearch  0x021906E0  arm  ov009
+ *   strzcpy  0x0219327C  arm  ov009
+ *   gsiSafeStrcpyA  0x021803BC  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   msleep  0x0217F2BC  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0217EAC8  0x0217EAC8  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gsirealloc  0x0217EAC8  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   strcmp  0x020948E0  arm
  *   strstr  0x02094B20  arm
  *   memset        0x020923B0  arm
@@ -349,34 +349,34 @@ typedef struct {
     int  *matches;                    /* +0x10 */
 } GPProfileListResponseArg;           /* 0x14 */
 
-extern GPResult func_0218998C(GPConnection *connection, int sock, GPIBuffer *buffer,
+extern GPResult gpiSendFromBuffer(GPConnection *connection, int sock, GPIBuffer *buffer,
                               GPIBool *connClosed, GPIBool flag, char *tag);
-extern GPResult func_02193488(GPConnection *connection, int sock, int *state);
-extern void func_0218946C(GPConnection *connection, GPIBuffer *buffer, char *str);
-extern void func_0218949C(GPConnection *connection, GPIBuffer *buffer, int value);
-extern void func_0218934C(GPConnection *connection, GPIBuffer *buffer, int ch);
-extern void func_02193748(const char *plaintext, char *encoded);
+extern GPResult gpiCheckSocketConnect(GPConnection *connection, int sock, int *state);
+extern void gpiAppendStringToBuffer(GPConnection *connection, GPIBuffer *buffer, char *str);
+extern void gpiAppendIntToBuffer(GPConnection *connection, GPIBuffer *buffer, int value);
+extern void gpiAppendCharToBuffer(GPConnection *connection, GPIBuffer *buffer, int ch);
+extern void gpiEncodeString(const char *plaintext, char *encoded);
 extern GPResult func_02189780(GPConnection *connection, int sock, GPIBuffer *buffer,
                               int *len, GPIBool *connClosed, char *tag);
-extern GPIBool func_0219329C(GPConnection *connection, char *buffer, GPIBool flag);
-extern GPResult func_0219359C(GPConnection *connection, char *buffer, int *index,
+extern GPIBool gpiCheckForError(GPConnection *connection, char *buffer, GPIBool flag);
+extern GPResult gpiReadKeyAndValue(GPConnection *connection, char *buffer, int *index,
                               char *key, char *value);
-extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-extern GPResult func_02189DFC(GPConnection *connection, GPICallback callback, void *arg,
+extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
+extern GPResult gpiAddCallback(GPConnection *connection, GPICallback callback, void *arg,
                               GPIOperation *operation, int type);
-extern void func_02189D78(GPConnection *connection, GPResult result, GPIBool fatal);
-extern void func_02193710(GPConnection *connection, GPErrorCode code, char *string);
-extern void func_02193734(GPConnection *connection, char *string);
-extern GPResult func_021906E0(GPConnection *connection, char *nick, char *uniquenick,
+extern void gpiCallErrorCallback(GPConnection *connection, GPResult result, GPIBool fatal);
+extern void gpiSetError(GPConnection *connection, GPErrorCode code, char *string);
+extern void gpiSetErrorString(GPConnection *connection, char *string);
+extern GPResult gpiProfileSearch(GPConnection *connection, char *nick, char *uniquenick,
                               char *email, char *firstname, char *lastname, int icquin,
                               int skip, GPEnum blocking, void *callback, void *param);
-extern void func_0219327C(char *dest, char *src, int len);
-extern int func_021803BC(char *dst, const char *src, unsigned int n);
+extern void strzcpy(char *dest, char *src, int len);
+extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern u32 current_time(void);
 extern void msleep(u32 ms);
-extern void *func_0217EAB0(int size);
-extern void *func_0217EAC8(void *mem, int size);
-extern void func_0217EAE0(void *mem);
+extern void *gsimalloc(int size);
+extern void *gsirealloc(void *mem, int size);
+extern void gsifree(void *mem);
 extern int strcmp(const char *s1, const char *s2);
 extern char *strstr(char *hay, char *needle);
 extern void *memset(void *dst, int ch, unsigned long n);
@@ -463,19 +463,19 @@ extern char g_02192E08[];
 extern char g_02192E0C[];
 
 #define Error(connection, result, string) \
-    { func_02193734(connection, string); return (result); }
+    { gpiSetErrorString(connection, string); return (result); }
 #define CallbackError(connection, result, code, string) \
-    { func_02193710(connection, (code), string); \
-      func_02189D78(connection, (result), GP_NON_FATAL); return (result); }
+    { gpiSetError(connection, (code), string); \
+      gpiCallErrorCallback(connection, (result), GP_NON_FATAL); return (result); }
 #define CallbackFatalError(connection, result, code, string) \
-    { func_02193710(connection, (code), string); \
-      func_02189D78(connection, (result), GP_FATAL); return (result); }
+    { gpiSetError(connection, (code), string); \
+      gpiCallErrorCallback(connection, (result), GP_FATAL); return (result); }
 #define CHECK_RESULT(result) \
     { GPResult __result__ = (result); if (__result__ != GP_NO_ERROR) { return __result__; } }
 #define freeclear(mem) \
-    { func_0217EAE0(mem); (mem) = 0; }
+    { gsifree(mem); (mem) = 0; }
 
-GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
+GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
 {
     int state;
     GPISearchData *data;
@@ -515,11 +515,11 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
 
     do
     {
-        CHECK_RESULT(func_0218998C(connection, data->sock, &data->outputBuffer, &connClosed, GPITrue, g_0219184C));
+        CHECK_RESULT(gpiSendFromBuffer(connection, data->sock, &data->outputBuffer, &connClosed, GPITrue, g_0219184C));
 
         if (operation->state == GPI_CONNECTING)
         {
-            CHECK_RESULT(func_02193488(connection, data->sock, &state));
+            CHECK_RESULT(gpiCheckSocketConnect(connection, data->sock, &state));
 
             if (state == GPI_DISCONNECTED)
                 CallbackError(connection, GP_SERVER_ERROR, GPI_SEARCH_CONNECTION_FAILED, g_02191850);
@@ -528,206 +528,206 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
             {
                 if (data->type == GPI_SEARCH_PROFILE)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_02191854);
-                    func_0218946C(connection, &data->outputBuffer, g_02191858);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->sessKey);
-                    func_0218946C(connection, &data->outputBuffer, g_0219185C);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->profileid);
-                    func_0218946C(connection, &data->outputBuffer, g_02191860);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->namespaceID);
-                    func_0218946C(connection, &data->outputBuffer, g_02191864);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->partnerID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191854);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191858);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->sessKey);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219185C);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->profileid);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191860);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->namespaceID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191864);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->partnerID);
                     if (data->nick[0] != '\0')
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_02191868);
-                        func_0218946C(connection, &data->outputBuffer, data->nick);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191868);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, data->nick);
                     }
                     if (data->uniquenick[0] != '\0')
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_0219186C);
-                        func_0218946C(connection, &data->outputBuffer, data->uniquenick);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219186C);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, data->uniquenick);
                     }
                     if (data->email[0] != '\0')
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_02191870);
-                        func_0218946C(connection, &data->outputBuffer, data->email);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191870);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, data->email);
                     }
                     if (data->firstname[0] != '\0')
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_02191874);
-                        func_0218946C(connection, &data->outputBuffer, data->firstname);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191874);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, data->firstname);
                     }
                     if (data->lastname[0] != '\0')
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_02191878);
-                        func_0218946C(connection, &data->outputBuffer, data->lastname);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191878);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, data->lastname);
                     }
                     if (data->icquin != 0)
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_0219187C);
-                        func_0218949C(connection, &data->outputBuffer, data->icquin);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219187C);
+                        gpiAppendIntToBuffer(connection, &data->outputBuffer, data->icquin);
                     }
                     if (data->skip > 0)
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_02191880);
-                        func_0218949C(connection, &data->outputBuffer, data->skip);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191880);
+                        gpiAppendIntToBuffer(connection, &data->outputBuffer, data->skip);
                     }
                 }
                 else if (data->type == GPI_SEARCH_PROFILE_UNIQUENICK)
                 {
                     int i;
-                    func_0218946C(connection, &data->outputBuffer, g_02191884);
-                    func_0218946C(connection, &data->outputBuffer, g_02191858);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->sessKey);
-                    func_0218946C(connection, &data->outputBuffer, g_0219185C);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->profileid);
-                    func_0218946C(connection, &data->outputBuffer, g_0219186C);
-                    func_0218946C(connection, &data->outputBuffer, data->uniquenick);
-                    func_0218946C(connection, &data->outputBuffer, g_02191888);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191884);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191858);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->sessKey);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219185C);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->profileid);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219186C);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->uniquenick);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191888);
                     if (data->numNamespaces > 0)
                     {
                         for (i = 0; i < data->numNamespaces; i++)
                         {
                             if (i > 0)
-                                func_0218934C(connection, &data->outputBuffer, ',');
-                            func_0218949C(connection, &data->outputBuffer, data->namespaceIDs[i]);
+                                gpiAppendCharToBuffer(connection, &data->outputBuffer, ',');
+                            gpiAppendIntToBuffer(connection, &data->outputBuffer, data->namespaceIDs[i]);
                         }
                     }
                     else
                     {
-                        func_0218949C(connection, &data->outputBuffer, iconnection->namespaceID);
+                        gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->namespaceID);
                     }
                 }
                 else if (data->type == GPI_SEARCH_IS_VALID)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_0219188C);
-                    func_0218946C(connection, &data->outputBuffer, g_02191870);
-                    func_0218946C(connection, &data->outputBuffer, data->email);
-                    func_0218946C(connection, &data->outputBuffer, g_02191864);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->partnerID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219188C);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191870);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->email);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191864);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->partnerID);
                 }
                 else if (data->type == GPI_SEARCH_NICKS)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_02191890);
-                    func_0218946C(connection, &data->outputBuffer, g_02191870);
-                    func_0218946C(connection, &data->outputBuffer, data->email);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191890);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191870);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->email);
 
-                    func_02193748(data->password, passwordenc);
-                    func_0218946C(connection, &data->outputBuffer, g_02191894);
-                    func_0218946C(connection, &data->outputBuffer, passwordenc);
+                    gpiEncodeString(data->password, passwordenc);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191894);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, passwordenc);
 
-                    func_0218946C(connection, &data->outputBuffer, g_02191860);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->namespaceID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191860);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->namespaceID);
 
-                    func_0218946C(connection, &data->outputBuffer, g_02191864);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->partnerID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191864);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->partnerID);
                 }
                 else if (data->type == GPI_SEARCH_PLAYERS)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_02191898);
-                    func_0218946C(connection, &data->outputBuffer, g_02191858);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->sessKey);
-                    func_0218946C(connection, &data->outputBuffer, g_0219185C);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->profileid);
-                    func_0218946C(connection, &data->outputBuffer, g_0219189C);
-                    func_0218949C(connection, &data->outputBuffer, data->productID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191898);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191858);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->sessKey);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219185C);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->profileid);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219189C);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, data->productID);
                 }
                 else if (data->type == GPI_SEARCH_CHECK)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_021918A0);
-                    func_0218946C(connection, &data->outputBuffer, g_02191868);
-                    func_0218946C(connection, &data->outputBuffer, data->nick);
-                    func_0218946C(connection, &data->outputBuffer, g_02191870);
-                    func_0218946C(connection, &data->outputBuffer, data->email);
-                    func_0218946C(connection, &data->outputBuffer, g_02191864);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->partnerID);
-                    func_02193748(data->password, passwordenc);
-                    func_0218946C(connection, &data->outputBuffer, g_02191894);
-                    func_0218946C(connection, &data->outputBuffer, passwordenc);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918A0);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191868);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->nick);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191870);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->email);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191864);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->partnerID);
+                    gpiEncodeString(data->password, passwordenc);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191894);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, passwordenc);
                 }
                 else if (data->type == GPI_SEARCH_NEWUSER)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_021918A4);
-                    func_0218946C(connection, &data->outputBuffer, g_02191868);
-                    func_0218946C(connection, &data->outputBuffer, data->nick);
-                    func_0218946C(connection, &data->outputBuffer, g_02191870);
-                    func_0218946C(connection, &data->outputBuffer, data->email);
-                    func_02193748(data->password, passwordenc);
-                    func_0218946C(connection, &data->outputBuffer, g_02191894);
-                    func_0218946C(connection, &data->outputBuffer, passwordenc);
-                    func_0218946C(connection, &data->outputBuffer, g_021918A8);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->productID);
-                    func_0218946C(connection, &data->outputBuffer, g_02191860);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->namespaceID);
-                    func_0218946C(connection, &data->outputBuffer, g_0219186C);
-                    func_0218946C(connection, &data->outputBuffer, data->uniquenick);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918A4);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191868);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->nick);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191870);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->email);
+                    gpiEncodeString(data->password, passwordenc);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191894);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, passwordenc);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918A8);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->productID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191860);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->namespaceID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219186C);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->uniquenick);
                     if (data->cdkey[0])
                     {
-                        func_0218946C(connection, &data->outputBuffer, g_021918AC);
-                        func_0218946C(connection, &data->outputBuffer, data->cdkey);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918AC);
+                        gpiAppendStringToBuffer(connection, &data->outputBuffer, data->cdkey);
                     }
-                    func_0218946C(connection, &data->outputBuffer, g_02191864);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->partnerID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191864);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->partnerID);
                 }
                 else if (data->type == GPI_SEARCH_OTHERS_BUDDY)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_021918B0);
-                    func_0218946C(connection, &data->outputBuffer, g_02191858);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->sessKey);
-                    func_0218946C(connection, &data->outputBuffer, g_0219185C);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->profileid);
-                    func_0218946C(connection, &data->outputBuffer, g_02191860);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->namespaceID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918B0);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191858);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->sessKey);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219185C);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->profileid);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191860);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->namespaceID);
                 }
                 else if (data->type == GPI_SEARCH_OTHERS_BUDDY_LIST)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_021918B4);
-                    func_0218946C(connection, &data->outputBuffer, g_02191858);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->sessKey);
-                    func_0218946C(connection, &data->outputBuffer, g_0219185C);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->profileid);
-                    func_0218946C(connection, &data->outputBuffer, g_021918B8);
-                    func_0218949C(connection, &data->outputBuffer, data->numOfRevBuddyProfiles);
-                    func_0218946C(connection, &data->outputBuffer, g_021918BC);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918B4);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191858);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->sessKey);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219185C);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->profileid);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918B8);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, data->numOfRevBuddyProfiles);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918BC);
                     if (data->revBuddyProfileIds)
                     {
                         int i;
 
-                        func_0218949C(connection, &data->outputBuffer, data->revBuddyProfileIds[0]);
+                        gpiAppendIntToBuffer(connection, &data->outputBuffer, data->revBuddyProfileIds[0]);
 
                         for (i = 1; i < data->numOfRevBuddyProfiles; i++)
                         {
-                            func_0218946C(connection, &data->outputBuffer, g_021918C0);
-                            func_0218949C(connection, &data->outputBuffer, data->revBuddyProfileIds[i]);
+                            gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918C0);
+                            gpiAppendIntToBuffer(connection, &data->outputBuffer, data->revBuddyProfileIds[i]);
                         }
                     }
-                    func_0218946C(connection, &data->outputBuffer, g_02191860);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->namespaceID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191860);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->namespaceID);
                 }
                 else if (data->type == GPI_SEARCH_SUGGEST_UNIQUE)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_021918C4);
-                    func_0218946C(connection, &data->outputBuffer, g_021918C8);
-                    func_0218946C(connection, &data->outputBuffer, data->uniquenick);
-                    func_0218946C(connection, &data->outputBuffer, g_02191860);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->namespaceID);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918C4);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918C8);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, data->uniquenick);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191860);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->namespaceID);
                 }
                 else if (data->type == GPI_SEARCH_PROFILE_LIST)
                 {
-                    func_0218946C(connection, &data->outputBuffer, g_021918CC);
-                    func_0218946C(connection, &data->outputBuffer, g_02191858);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->sessKey);
-                    func_0218946C(connection, &data->outputBuffer, g_0219185C);
-                    func_0218949C(connection, &data->outputBuffer, iconnection->profileid);
-                    func_0218946C(connection, &data->outputBuffer, g_021918D0);
-                    func_0218949C(connection, &data->outputBuffer, data->profile);
-                    func_0218946C(connection, &data->outputBuffer, g_021918D4);
-                    func_0218949C(connection, &data->outputBuffer, data->maxResults);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918CC);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_02191858);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->sessKey);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_0219185C);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, iconnection->profileid);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918D0);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, data->profile);
+                    gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918D4);
+                    gpiAppendIntToBuffer(connection, &data->outputBuffer, data->maxResults);
                 }
 
-                func_0218946C(connection, &data->outputBuffer, g_021918D8);
-                func_0218946C(connection, &data->outputBuffer, g_021918DC);
-                func_0218946C(connection, &data->outputBuffer, g_021918E0);
+                gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918D8);
+                gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918DC);
+                gpiAppendStringToBuffer(connection, &data->outputBuffer, g_021918E0);
 
                 operation->state = GPI_WAITING;
             }
@@ -752,7 +752,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
 
                 operation->state = GPI_FINISHING;
 
-                if (func_0219329C(connection, data->inputBuffer.buffer, GPITrue))
+                if (gpiCheckForError(connection, data->inputBuffer.buffer, GPITrue))
                 {
                     data->remove = GPITrue;
                     return GP_SERVER_ERROR;
@@ -769,11 +769,11 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     done = GPIFalse;
                     do
                     {
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                         if (strcmp(key, g_021918EC) == 0)
                         {
-                            CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                            CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                             if (strcmp(key, g_021918F0) == 0)
                             {
                                 if (strcmp(value, g_021918F4) != 0)
@@ -785,7 +785,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         else if (strcmp(key, g_021918F8) == 0)
                         {
                             arg.numMatches++;
-                            arg.matches = (GPProfileSearchMatch *)func_0217EAC8(arg.matches, sizeof(GPProfileSearchMatch) * arg.numMatches);
+                            arg.matches = (GPProfileSearchMatch *)gsirealloc(arg.matches, sizeof(GPProfileSearchMatch) * arg.numMatches);
                             if (arg.matches == 0)
                                 Error(connection, GP_MEMORY_ERROR, g_021918FC);
                             match = &arg.matches[arg.numMatches - 1];
@@ -797,20 +797,20 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                             do
                             {
                                 oldIndex = index;
-                                CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                                CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                                 if (strcmp(key, g_02191900) == 0)
-                                    func_0219327C(match->nick, value, 31);
+                                    strzcpy(match->nick, value, 31);
                                 else if (strcmp(key, g_02191904) == 0)
-                                    func_0219327C(match->uniquenick, value, 21);
+                                    strzcpy(match->uniquenick, value, 21);
                                 else if (strcmp(key, g_02191908) == 0)
                                     match->namespaceID = atoi(value);
                                 else if (strcmp(key, g_0219190C) == 0)
-                                    func_0219327C(match->firstname, value, 31);
+                                    strzcpy(match->firstname, value, 31);
                                 else if (strcmp(key, g_02191910) == 0)
-                                    func_0219327C(match->lastname, value, 31);
+                                    strzcpy(match->lastname, value, 31);
                                 else if (strcmp(key, g_02191914) == 0)
-                                    func_0219327C(match->email, value, 51);
+                                    strzcpy(match->email, value, 51);
                                 else if ((strcmp(key, g_021918F8) == 0) || (strcmp(key, g_021918EC) == 0))
                                 {
                                     doneParsingMatch = GPITrue;
@@ -833,7 +833,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         ((void (*)(GPConnection *, void *, void *))callback.callback)(connection, &arg, callback.param);
 
                     if ((more == GP_MORE) && (arg.more == GP_MORE))
-                        CHECK_RESULT(func_021906E0(connection, data->nick, data->uniquenick, data->email, data->firstname, data->lastname, data->icquin, arg.numMatches + data->skip, (GPEnum)operation->blocking, operation->callback.callback, operation->callback.param));
+                        CHECK_RESULT(gpiProfileSearch(connection, data->nick, data->uniquenick, data->email, data->firstname, data->lastname, data->icquin, arg.numMatches + data->skip, (GPEnum)operation->blocking, operation->callback.callback, operation->callback.param));
 
                     freeclear(arg.matches);
                 }
@@ -844,21 +844,21 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     {
                         GPIsValidEmailResponseArg *arg;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_0219191C) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
 
-                        arg = (GPIsValidEmailResponseArg *)func_0217EAB0(sizeof(GPIsValidEmailResponseArg));
+                        arg = (GPIsValidEmailResponseArg *)gsimalloc(sizeof(GPIsValidEmailResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = GP_NO_ERROR;
-                        func_0219327C(arg->email, data->email, 51);
+                        strzcpy(arg->email, data->email, 51);
                         if (value[0] == '0')
                             arg->isValid = GP_INVALID;
                         else
                             arg->isValid = GP_VALID;
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, 0));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, 0));
                     }
                 }
                 else if (data->type == GPI_SEARCH_NICKS)
@@ -868,34 +868,34 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     {
                         GPGetUserNicksResponseArg *arg;
 
-                        arg = (GPGetUserNicksResponseArg *)func_0217EAB0(sizeof(GPGetUserNicksResponseArg));
+                        arg = (GPGetUserNicksResponseArg *)gsimalloc(sizeof(GPGetUserNicksResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = GP_NO_ERROR;
-                        func_021803BC(arg->email, data->email, 51);
+                        gsiSafeStrcpyA(arg->email, data->email, 51);
                         arg->numNicks = 0;
                         arg->nicks = 0;
                         arg->uniquenicks = 0;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_02192A94) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
 
                         done = GPIFalse;
                         do
                         {
-                            CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                            CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                             if (strcmp(key, g_02191900) == 0)
                             {
-                                tempPtr = func_0217EAC8(arg->nicks, sizeof(char *) * (arg->numNicks + 1));
+                                tempPtr = gsirealloc(arg->nicks, sizeof(char *) * (arg->numNicks + 1));
                                 if (tempPtr == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->nicks = (char **)tempPtr;
-                                tempPtr = func_0217EAB0(31);
+                                tempPtr = gsimalloc(31);
                                 if (tempPtr == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->nicks[arg->numNicks] = (char *)tempPtr;
-                                func_0219327C(arg->nicks[arg->numNicks], value, 31);
+                                strzcpy(arg->nicks[arg->numNicks], value, 31);
                                 arg->numNicks++;
                             }
                             else if (strcmp(key, g_02191904) == 0)
@@ -903,15 +903,15 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                                 if (arg->numNicks <= 0)
                                     continue;
 
-                                tempPtr = func_0217EAC8(arg->uniquenicks, sizeof(char *) * arg->numNicks);
+                                tempPtr = gsirealloc(arg->uniquenicks, sizeof(char *) * arg->numNicks);
                                 if (tempPtr == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->uniquenicks = (char **)tempPtr;
-                                tempPtr = func_0217EAB0(21);
+                                tempPtr = gsimalloc(21);
                                 if (tempPtr == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->uniquenicks[arg->numNicks - 1] = (char *)tempPtr;
-                                func_0219327C(arg->uniquenicks[arg->numNicks - 1], value, 21);
+                                strzcpy(arg->uniquenicks[arg->numNicks - 1], value, 21);
                             }
                             else if (strcmp(key, g_02192A98) == 0)
                             {
@@ -924,7 +924,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         }
                         while (!done);
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, GPI_ADD_NICKS));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, GPI_ADD_NICKS));
                     }
                 }
                 else if (data->type == GPI_SEARCH_PLAYERS)
@@ -935,7 +935,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         GPFindPlayersResponseArg *arg;
                         GPFindPlayerMatch *match;
 
-                        arg = (GPFindPlayersResponseArg *)func_0217EAB0(sizeof(GPFindPlayersResponseArg));
+                        arg = (GPFindPlayersResponseArg *)gsimalloc(sizeof(GPFindPlayersResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->productID = data->productID;
@@ -946,7 +946,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         done = GPIFalse;
                         do
                         {
-                            CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                            CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                             if (strcmp(key, g_02192A9C) == 0)
                             {
@@ -955,7 +955,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                             else if (strcmp(key, g_02192AA0) == 0)
                             {
                                 arg->numMatches++;
-                                arg->matches = (GPFindPlayerMatch *)func_0217EAC8(arg->matches, sizeof(GPFindPlayerMatch) * arg->numMatches);
+                                arg->matches = (GPFindPlayerMatch *)gsirealloc(arg->matches, sizeof(GPFindPlayerMatch) * arg->numMatches);
                                 if (arg->matches == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 match = &arg->matches[arg->numMatches - 1];
@@ -968,12 +968,12 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                                 do
                                 {
                                     oldIndex = index;
-                                    CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                                    CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                                     if (strcmp(key, g_02192AA4) == 0)
-                                        func_0219327C(match->statusString, value, 256);
+                                        strzcpy(match->statusString, value, 256);
                                     else if (strcmp(key, g_02191900) == 0)
-                                        func_0219327C(match->nick, value, 31);
+                                        strzcpy(match->nick, value, 31);
                                     if (strcmp(key, g_02192AA8) == 0)
                                         match->status = (GPEnum)atoi(value);
                                     else if ((strcmp(key, g_02192AA0) == 0) || (strcmp(key, g_02192A9C) == 0))
@@ -990,7 +990,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                             }
                         } while (!done);
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, GPI_ADD_PMATCH));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, GPI_ADD_PMATCH));
                     }
                 }
                 else if (data->type == GPI_SEARCH_CHECK)
@@ -1000,7 +1000,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     {
                         GPCheckResponseArg *arg;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_02192AAC) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
 
@@ -1012,18 +1012,18 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         }
                         else
                         {
-                            if (!func_02193418(data->inputBuffer.buffer, g_02192AB0, value, sizeof(value)))
+                            if (!gpiValueForKey(data->inputBuffer.buffer, g_02192AB0, value, sizeof(value)))
                                 CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
                             pid = atoi(value);
                         }
 
-                        arg = (GPCheckResponseArg *)func_0217EAB0(sizeof(GPCheckResponseArg));
+                        arg = (GPCheckResponseArg *)gsimalloc(sizeof(GPCheckResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = (GPResult)rcode;
                         arg->profile = pid;
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, 0));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, 0));
                     }
                 }
                 else if (data->type == GPI_SEARCH_NEWUSER)
@@ -1033,14 +1033,14 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     {
                         GPNewUserResponseArg *arg;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_02192AB4) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
 
                         rcode = atoi(value);
                         if (rcode)
                             iconnection->errorCode = (GPErrorCode)rcode;
-                        if (!func_02193418(data->inputBuffer.buffer, g_02192AB0, value, sizeof(value)))
+                        if (!gpiValueForKey(data->inputBuffer.buffer, g_02192AB0, value, sizeof(value)))
                         {
                             if (rcode == 0)
                                 CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
@@ -1049,13 +1049,13 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         else
                             pid = atoi(value);
 
-                        arg = (GPNewUserResponseArg *)func_0217EAB0(sizeof(GPNewUserResponseArg));
+                        arg = (GPNewUserResponseArg *)gsimalloc(sizeof(GPNewUserResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = (GPResult)rcode;
                         arg->profile = pid;
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, 0));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, 0));
                     }
                 }
                 else if (data->type == GPI_SEARCH_OTHERS_BUDDY)
@@ -1065,21 +1065,21 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     {
                         GPGetReverseBuddiesResponseArg *arg;
 
-                        arg = (GPGetReverseBuddiesResponseArg *)func_0217EAB0(sizeof(GPGetReverseBuddiesResponseArg));
+                        arg = (GPGetReverseBuddiesResponseArg *)gsimalloc(sizeof(GPGetReverseBuddiesResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = GP_NO_ERROR;
                         arg->numProfiles = 0;
                         arg->profiles = 0;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_02192AB8) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
 
                         done = GPIFalse;
                         do
                         {
-                            CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                            CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                             if (strcmp(key, g_02192ABC) == 0)
                             {
@@ -1087,7 +1087,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                             }
                             else if (strcmp(key, g_02192AC0) == 0)
                             {
-                                tempPtr = func_0217EAC8(arg->profiles, sizeof(GPProfileSearchMatch) * (arg->numProfiles + 1));
+                                tempPtr = gsirealloc(arg->profiles, sizeof(GPProfileSearchMatch) * (arg->numProfiles + 1));
                                 if (tempPtr == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->profiles = (GPProfileSearchMatch *)tempPtr;
@@ -1101,18 +1101,18 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                                 do
                                 {
                                     oldIndex = index;
-                                    CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                                    CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                                     if (strcmp(key, g_02191900) == 0)
-                                        func_0219327C(match->nick, value, 31);
+                                        strzcpy(match->nick, value, 31);
                                     else if (strcmp(key, g_02191904) == 0)
-                                        func_0219327C(match->uniquenick, value, 21);
+                                        strzcpy(match->uniquenick, value, 21);
                                     else if (strcmp(key, g_02192AC4) == 0)
-                                        func_0219327C(match->firstname, value, 31);
+                                        strzcpy(match->firstname, value, 31);
                                     else if (strcmp(key, g_02192AC8) == 0)
-                                        func_0219327C(match->lastname, value, 31);
+                                        strzcpy(match->lastname, value, 31);
                                     else if (strcmp(key, g_02191914) == 0)
-                                        func_0219327C(match->email, value, 51);
+                                        strzcpy(match->email, value, 51);
                                     else if ((strcmp(key, g_02192AC0) == 0) || (strcmp(key, g_02192ABC) == 0))
                                     {
                                         doneParsingMatch = GPITrue;
@@ -1128,7 +1128,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         }
                         while (!done);
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, GPI_ADD_REVERSE_BUDDIES));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, GPI_ADD_REVERSE_BUDDIES));
                     }
                 }
                 else if (data->type == GPI_SEARCH_OTHERS_BUDDY_LIST)
@@ -1138,21 +1138,21 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     {
                         GPGetReverseBuddiesListResponseArg *arg;
 
-                        arg = (GPGetReverseBuddiesListResponseArg *)func_0217EAB0(sizeof(GPGetReverseBuddiesListResponseArg));
+                        arg = (GPGetReverseBuddiesListResponseArg *)gsimalloc(sizeof(GPGetReverseBuddiesListResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = GP_NO_ERROR;
                         arg->numOfUniqueMatchs = 0;
                         arg->matches = 0;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_02192ACC) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
 
                         done = GPIFalse;
                         do
                         {
-                            CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                            CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                             if (strcmp(key, g_02192AD0) == 0)
                             {
@@ -1160,7 +1160,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                             }
                             else if (strcmp(key, g_02192AC0) == 0)
                             {
-                                tempPtr = func_0217EAC8(arg->matches, sizeof(GPUniqueMatch) * (arg->numOfUniqueMatchs + 1));
+                                tempPtr = gsirealloc(arg->matches, sizeof(GPUniqueMatch) * (arg->numOfUniqueMatchs + 1));
                                 if (tempPtr == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->matches = (GPUniqueMatch *)tempPtr;
@@ -1174,10 +1174,10 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                                 do
                                 {
                                     oldIndex = index;
-                                    CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                                    CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
 
                                     if (strcmp(key, g_02191904) == 0)
-                                        func_0219327C(uniqueNickMatch->uniqueNick, value, 21);
+                                        strzcpy(uniqueNickMatch->uniqueNick, value, 21);
                                     else if ((strcmp(key, g_02192AC0) == 0) || (strcmp(key, g_02192AD0) == 0))
                                     {
                                         doneParsingMatch = GPITrue;
@@ -1193,7 +1193,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         }
                         while (!done);
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, GPI_ADD_REVERSE_BUDDIES_LIST));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, GPI_ADD_REVERSE_BUDDIES_LIST));
                     }
                 }
                 else if (data->type == GPI_SEARCH_SUGGEST_UNIQUE)
@@ -1204,32 +1204,32 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         int count = 0;
                         GPSuggestUniqueNickResponseArg *arg;
 
-                        arg = (GPSuggestUniqueNickResponseArg *)func_0217EAB0(sizeof(GPSuggestUniqueNickResponseArg));
+                        arg = (GPSuggestUniqueNickResponseArg *)gsimalloc(sizeof(GPSuggestUniqueNickResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = GP_NO_ERROR;
                         arg->numSuggestedNicks = 0;
                         arg->suggestedNicks = 0;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_02192AE0) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
                         arg->numSuggestedNicks = atoi(value);
 
-                        arg->suggestedNicks = (char **)func_0217EAB0(sizeof(char *) * arg->numSuggestedNicks);
+                        arg->suggestedNicks = (char **)gsimalloc(sizeof(char *) * arg->numSuggestedNicks);
                         if (!arg->suggestedNicks)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
 
                         done = GPIFalse;
                         do
                         {
-                            CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                            CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                             if (strcmp(key, g_02191900) == 0)
                             {
-                                arg->suggestedNicks[count] = func_0217EAB0(21);
+                                arg->suggestedNicks[count] = gsimalloc(21);
                                 if (arg->suggestedNicks[count] == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
-                                func_0219327C(arg->suggestedNicks[count], value, 21);
+                                strzcpy(arg->suggestedNicks[count], value, 21);
                                 count++;
                             }
                             else if (strcmp(key, g_02192DFC) == 0)
@@ -1245,7 +1245,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         }
                         while (!done);
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, GPI_ADD_SUGGESTED_UNIQUE));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, GPI_ADD_SUGGESTED_UNIQUE));
                     }
                 }
                 else if (data->type == GPI_SEARCH_PROFILE_LIST)
@@ -1255,7 +1255,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                     {
                         GPProfileListResponseArg *arg;
 
-                        arg = (GPProfileListResponseArg *)func_0217EAB0(sizeof(GPProfileListResponseArg));
+                        arg = (GPProfileListResponseArg *)gsimalloc(sizeof(GPProfileListResponseArg));
                         if (arg == 0)
                             Error(connection, GP_MEMORY_ERROR, g_021918FC);
                         arg->result = GP_NO_ERROR;
@@ -1264,14 +1264,14 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         arg->hidden = 0;
                         arg->profile = ((GPISearchData *)operation->data)->profile;
 
-                        CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                        CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                         if (strcmp(key, g_02192E00) != 0)
                             CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE, g_02191918);
 
                         done = GPIFalse;
                         do
                         {
-                            CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
+                            CHECK_RESULT(gpiReadKeyAndValue(connection, data->inputBuffer.buffer, &index, key, value));
                             if (strcmp(key, g_02192E04) == 0)
                             {
                                 done = GPITrue;
@@ -1286,7 +1286,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                                 int count = atoi(value);
                                 if (count > 0)
                                 {
-                                    tempPtr = func_0217EAB0(sizeof(int) * count);
+                                    tempPtr = gsimalloc(sizeof(int) * count);
                                     if (tempPtr == 0)
                                         Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                     arg->matches = (int *)tempPtr;
@@ -1304,7 +1304,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         }
                         while (!done);
 
-                        CHECK_RESULT(func_02189DFC(connection, callback, arg, operation, GPI_ADD_PROFILE_LIST));
+                        CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, GPI_ADD_PROFILE_LIST));
                     }
                 }
 

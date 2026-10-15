@@ -17,7 +17,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -28,7 +28,7 @@
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   gGreetingCounterTable     0x021DD774  data  ov021
  *   func_02008DFC  0x02008DFC  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   func_02008550  0x02008550  thumb
  *   SCRCMD_GREETING_AdjustMessageIdByMisc  0x021D2CE8  thumb  ov021
  *   SCRCMD_GREETING_AdjustMessageIdByRandom  0x021D2D24  thumb  ov021
@@ -63,7 +63,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
@@ -76,7 +76,7 @@ extern u32 func_020056EC(u32 v);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern const Entry gGreetingCounterTable[];
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *a, int i);
 extern u32 SCRCMD_GREETING_AdjustMessageIdByRandom(void *a, u32 v, int c);
@@ -103,7 +103,7 @@ int SCRCMD_GetNpcGreetingMessage(u32 a, u32 b)
     ws = (u32)SCRIPT_WORK_GetWordSet(o);
     v = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     out = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
-    func_0201F02C((struct WordSet *)ws, 0, (void *)name);
+    WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, (void *)name);
     party = GAME_DATA_GetMyParty(h);
     n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
@@ -123,12 +123,12 @@ int SCRCMD_GetNpcGreetingMessage(u32 a, u32 b)
         e0 = gGreetingCounterTable[k].a;
         if (e0 != -1) {
             s0 = func_02008DFC((struct Sub02008C20Obj *)tr, e0);
-            func_0201EFA4((struct WordSet *)ws, 1, s0, gGreetingCounterTable[k].c, 0, 1);
+            WORDSET_SetSlotNumber((struct WordSet *)ws, 1, s0, gGreetingCounterTable[k].c, 0, 1);
         }
         e1 = gGreetingCounterTable[k].b;
         if (e1 != -1) {
             s1 = func_02008DFC((struct Sub02008C20Obj *)tr, e1);
-            func_0201EFA4((struct WordSet *)ws, 2, s1, gGreetingCounterTable[k].d, 0, 1);
+            WORDSET_SetSlotNumber((struct WordSet *)ws, 2, s1, gGreetingCounterTable[k].d, 0, 1);
         }
         if (k < 11) {
             if (e0 != -1 && e1 != -1) {

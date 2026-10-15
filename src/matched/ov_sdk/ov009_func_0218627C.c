@@ -1,5 +1,5 @@
 /*
- * function: func_0218627C
+ * function: gpSetStatusA
  * address:  0x0218627C
  * packet:   pkt_ov009_0218627C
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      gpSetStatusA (libdwcgsgp.TWL.HYB.a gp.o)
  *
  * symbols:
- *   func_02193734  0x02193734  arm  ov009
- *   func_0219327C  0x0219327C  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
+ *   strzcpy  0x0219327C  arm  ov009
  *   strcmp  0x020948E0  arm
- *   func_0218946C  0x0218946C  arm  ov009
- *   func_0218949C  0x0218949C  arm  ov009
+ *   gpiAppendStringToBuffer  0x0218946C  arm  ov009
+ *   gpiAppendIntToBuffer  0x0218949C  arm  ov009
  *   g_021A4024     0x021A4024  data
  *   g_021A40C0     0x021A40C0  data
  *   g_021A40D8     0x021A40D8  data
@@ -47,11 +47,11 @@ typedef struct GPIConnection {
 
 typedef void *GPConnection;
 
-extern void func_02193734(int *p, int b);
-extern void func_0219327C(char *p, int b, int n);
+extern void gpiSetErrorString(int *p, int b);
+extern void strzcpy(char *p, int b, int n);
 extern int strcmp(const char *a, const char *b);
-extern int func_0218946C(int *connection, int *buffer, const char *string);
-extern int func_0218949C(int *connection, int *buffer, int value);
+extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
+extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 extern char g_021A4024[];
 extern char g_021A40C0[];
 extern char g_021A40D8[];
@@ -61,7 +61,7 @@ extern char g_021A40FC[];
 extern char g_021A410C[];
 extern char g_021A4098[];
 
-int func_0218627C(GPConnection *connection, int status, const char *statusString, const char *locationString)
+int gpSetStatusA(GPConnection *connection, int status, const char *statusString, const char *locationString)
 {
     char statusStringFixed[256];
     char locationStringFixed[256];
@@ -74,25 +74,25 @@ int func_0218627C(GPConnection *connection, int status, const char *statusString
         return 0;
     if (iconnection->connectState == 4)
     {
-        func_02193734((int *)connection, (int)g_021A4024);
+        gpiSetErrorString((int *)connection, (int)g_021A4024);
         return 2;
     }
     if (statusString == 0)
     {
-        func_02193734((int *)connection, (int)g_021A40C0);
+        gpiSetErrorString((int *)connection, (int)g_021A40C0);
         return 2;
     }
     if (locationString == 0)
     {
-        func_02193734((int *)connection, (int)g_021A40D8);
+        gpiSetErrorString((int *)connection, (int)g_021A40D8);
         return 2;
     }
 
-    func_0219327C(statusStringFixed, (int)statusString, sizeof(statusStringFixed));
+    strzcpy(statusStringFixed, (int)statusString, sizeof(statusStringFixed));
     for (i = 0; statusStringFixed[i]; i++)
         if (statusStringFixed[i] == '\\')
             statusStringFixed[i] = '/';
-    func_0219327C(locationStringFixed, (int)locationString, sizeof(locationStringFixed));
+    strzcpy(locationStringFixed, (int)locationString, sizeof(locationStringFixed));
     for (i = 0; locationStringFixed[i]; i++)
         if (locationStringFixed[i] == '\\')
             locationStringFixed[i] = '/';
@@ -103,17 +103,17 @@ int func_0218627C(GPConnection *connection, int status, const char *statusString
         return 0;
 
     iconnection->lastStatus = status;
-    func_0219327C(iconnection->lastStatusString, (int)statusStringFixed, sizeof(iconnection->lastStatusString));
-    func_0219327C(iconnection->lastLocationString, (int)locationStringFixed, sizeof(iconnection->lastLocationString));
+    strzcpy(iconnection->lastStatusString, (int)statusStringFixed, sizeof(iconnection->lastStatusString));
+    strzcpy(iconnection->lastLocationString, (int)locationStringFixed, sizeof(iconnection->lastLocationString));
 
-    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A40F0);
-    func_0218949C((int *)connection, (int *)iconnection->outputBuffer, status);
-    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A4070);
-    func_0218949C((int *)connection, (int *)iconnection->outputBuffer, iconnection->sessKey);
-    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A40FC);
-    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, statusStringFixed);
-    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A410C);
-    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, locationStringFixed);
-    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A4098);
+    gpiAppendStringToBuffer((int *)connection, (int *)iconnection->outputBuffer, g_021A40F0);
+    gpiAppendIntToBuffer((int *)connection, (int *)iconnection->outputBuffer, status);
+    gpiAppendStringToBuffer((int *)connection, (int *)iconnection->outputBuffer, g_021A4070);
+    gpiAppendIntToBuffer((int *)connection, (int *)iconnection->outputBuffer, iconnection->sessKey);
+    gpiAppendStringToBuffer((int *)connection, (int *)iconnection->outputBuffer, g_021A40FC);
+    gpiAppendStringToBuffer((int *)connection, (int *)iconnection->outputBuffer, statusStringFixed);
+    gpiAppendStringToBuffer((int *)connection, (int *)iconnection->outputBuffer, g_021A410C);
+    gpiAppendStringToBuffer((int *)connection, (int *)iconnection->outputBuffer, locationStringFixed);
+    gpiAppendStringToBuffer((int *)connection, (int *)iconnection->outputBuffer, g_021A4098);
     return 0;
 }

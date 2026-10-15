@@ -12,7 +12,7 @@
  * sdk:      NNBeginNegotiationWithSocket (libdwcgsnatneg.TWL.HYB.a natneg.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   ResolveServers  0x02199D60  arm  ov009
  *   AddNegotiator  0x02199138  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
@@ -54,7 +54,7 @@ typedef struct _NATNegotiator {
     int result;                                      /* 0x44 */
 } NATNegotiator;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int ResolveServers(void);
 extern NATNegotiator *AddNegotiator(void);
 extern int func_0217EB18(int pf, int type, int protocol);
@@ -79,24 +79,24 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
     int namelen;
 
     if (gGsAvailabilityState != 1) {
-        func_0217D254(7, 0, 4, gNatNegBackendUnavailFmt, cookie);
+        gsDebugFormat(7, 0, 4, gNatNegBackendUnavailFmt, cookie);
         return 2;
     }
 
     if (!ResolveServers()) {
-        func_0217D254(7, 0, 4, gNatNegResolveFailFmt, cookie);
+        gsDebugFormat(7, 0, 4, gNatNegResolveFailFmt, cookie);
         return 3;
     }
 
     neg = AddNegotiator();
     if (neg == 0) {
-        func_0217D254(7, (char *)2, 1, gNatNegAllocFailFmt);
+        gsDebugFormat(7, (char *)2, 1, gNatNegAllocFailFmt);
         return 1;
     }
 
     neg->negotiateSock = func_0217EB18(2, 2, 0);
     if (neg->negotiateSock == -1) {
-        func_0217D254(7, 0, 1, gNatNegSocketFailFmt);
+        gsDebugFormat(7, 0, 1, gNatNegSocketFailFmt);
         RemoveNegotiator(neg);
         return 2;
     }
@@ -119,7 +119,7 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
 
     namelen = sizeof(saddr);
     func_0217ED0C(neg->negotiateSock, &saddr, &namelen);
-    func_0217D254(7, 0, 8, gNatNegSocketFmt, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
+    gsDebugFormat(7, 0, 8, gNatNegSocketFmt, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
 
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE0C
+ * function: ZKNSEARCH_MAIN_StartScrollMove
  * address: 0x021BCE0C
  * packet: pkt_ov210_021BCE0C
  * region: ov210
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct WinMgr;
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-void func_021BCE0C(char *p, int delta)
+void ZKNSEARCH_MAIN_StartScrollMove(char *p, int delta)
 {
     int magnitude;
     int direction;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8638
+ * function: GTSNEGO_MSG_SetDecide
  * address:  0x021D8638
  * packet:   pkt_021D8638
  * region:   ov120
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 
-void func_021D8638(u8 *p)
+void GTSNEGO_MSG_SetDecide(u8 *p)
 {
     APP_TASKMENU_WIN_SetDecide(((struct Obj22848 *)p)->fC4, 1);
 }

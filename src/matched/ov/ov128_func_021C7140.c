@@ -12,12 +12,12 @@
  *   func_021C63AC 0x021C63AC thumb ov128
  *   STRBUF_Create 0x020457B0 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   func_021CA4B4 0x021CA4B4 thumb ov128
+ *   WF2DMAP_TOUCH_TransferScreen 0x021CA4B4 thumb ov128
  *   STRBUF_Delete 0x02045808 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -36,13 +36,13 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void func_021CA4B4(char *p);
+extern void WF2DMAP_TOUCH_TransferScreen(char *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -71,14 +71,14 @@ void func_021C7140(struct P *p, u8 *a, u8 *ctx, u16 heap)
     p->buf=STRBUF_Create(128,heap);
     buf=STRBUF_Create(128,heap);
     text=STRBUF_Create(128,heap);
-    func_0201F02C(((struct Obj02482 *)ctx)->f0,0,GAME_DATA_GetMyStatus(((struct Obj14034 *)a)->f4));
+    WORDSET_SetSlotMyStatus(((struct Obj02482 *)ctx)->f0,0,GAME_DATA_GetMyStatus(((struct Obj14034 *)a)->f4));
     for(i=0;i<3;i++) {
         MSGDATA_ReadString(((struct Obj02482 *)ctx)->f4,i+1,text);
-        func_0201F250(((struct Obj02482 *)ctx)->f0,buf,text);
+        WORDSET_CopyTaggedText(((struct Obj02482 *)ctx)->f0,buf,text);
         width=func_0201D304((struct StrObj *)((u32)buf),((struct Obj02482 *)ctx)->f17C,0);
         TOUCHBAR_PrintAligned((u8 *)p+12,(void *)(((struct Obj02482 *)ctx)->f34),(192-width)/2,i*40+8,(u32)buf,((struct Obj02482 *)ctx)->f17C,0x440,0);
     }
-    func_021CA4B4(((struct Obj02841 *)p)->fC);
+    WF2DMAP_TOUCH_TransferScreen(((struct Obj02841 *)p)->fC);
     STRBUF_Delete(buf);
     STRBUF_Delete(text);
     ((struct Obj02841 *)p)->f14=ARC_UTIL_LoadPaletteDataFromHandle(((struct Obj02482 *)ctx)->f8,13,0,(void **)((u8 *)p+24),heap);

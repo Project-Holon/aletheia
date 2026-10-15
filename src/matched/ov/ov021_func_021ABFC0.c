@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_EFFECT_DeleteObjectMgr  0x021AC03C  thumb
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -30,7 +30,7 @@ typedef struct {
 } T;
 
 extern void FIELD_EFFECT_DeleteObjectMgr(int a);
-extern void func_02030DA4(int a);
+extern void TCB_Noop(int a);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
@@ -38,7 +38,7 @@ void FIELD_EFFECT_ExitObjectSystem(T *t)
 {
     if (t->f20 != 0) {
         FIELD_EFFECT_DeleteObjectMgr(t->f20);
-        func_02030DA4(t->f1c);
+        TCB_Noop(t->f1c);
         func_020307B0(t->f18);
     }
 }

@@ -13,7 +13,7 @@
  *   func_02030EAC  0x02030EAC  arm
  *   OPTION_MENU_ExitSprites  0x021B9F70  thumb  ov068
  *   OPTION_MENU_ExitGfx  0x021B9B6C  thumb  ov068
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj20635.h"
@@ -26,7 +26,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void OPTION_MENU_ExitSprites(u32 *p);
 extern void OPTION_MENU_ExitGfx(u32 *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *p, u32 a, u32 b);
 
 void OPTION_MENU_ExitScreen(u8 *p)
@@ -34,7 +34,7 @@ void OPTION_MENU_ExitScreen(u8 *p)
     func_02030EAC((struct Node *)(((struct Obj20635 *)p)->fD0));
     OPTION_MENU_ExitSprites((u32 *)(p + 0x7c));
     OPTION_MENU_ExitGfx((u32 *)p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04000000 &= 0xffff1fff;

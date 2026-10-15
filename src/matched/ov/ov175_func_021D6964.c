@@ -1,5 +1,5 @@
 /*
- * function: func_021D6964
+ * function: WIFIBATTLEMATCH_NET_CompCreate
  * address: 0x021D6964
  * packet: pkt_ov175_021D6964
  * region: ov175
@@ -26,14 +26,14 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
  *   WORDSET_Create 0x0201EC74 thumb
- *   func_021D9DC8 0x021D9DC8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CreateNetContext 0x021D9DC8 thumb ov175
  *   func_021E8568 0x021E8568 thumb ov177
  *   func_021E8A3C 0x021E8A3C thumb ov177
- *   func_021D6BF4 0x021D6BF4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepA 0x021D6BF4 thumb ov175
  *   func_021E7D20 0x021E7D20 thumb ov177
  *   func_021E7E0C 0x021E7E0C thumb ov177
  *   POKEPARTY_Create 0x0201A920 thumb
- *   func_021DD008 0x021DD008 thumb ov175
+ *   WIFIBATTLEMATCH_NET_RestartNet 0x021DD008 thumb ov175
  */
 typedef unsigned int u32;
 extern const char ov067_id[],ov114_id[];
@@ -61,15 +61,15 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, unsigned short heap);
 typedef unsigned short u16;
-extern char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap);
+extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 a, void *save, u32 b, u16 heap);
 extern u32 func_021E8568(int,int,int,int,u32,u32,int);
 extern int *func_021E8A3C(int,int,int);
-extern void func_021D6BF4(u32,void *,char *);
+extern void WIFIBATTLEMATCH_NET_CompStepA(u32,void *,char *);
 extern void **func_021E7D20(void *,void *,unsigned);
 extern void func_021E7E0C(void **p, int on);
 extern struct Party *POKEPARTY_Create(u32 heap);
-extern void func_021DD008(char *,int);
-int func_021D6964(void *sys,int unused,u32 *ctx)
+extern void WIFIBATTLEMATCH_NET_RestartNet(char *,int);
+int WIFIBATTLEMATCH_NET_CompCreate(void *sys,int unused,u32 *ctx)
 {
     u32 *p;
     func_02034AC4((int)ov067_id); func_02034AC4((int)ov114_id);
@@ -83,12 +83,12 @@ int func_021D6964(void *sys,int unused,u32 *ctx)
     p[3]=(u32)GF_FONT_Create(0x17,3,0,0,87);
     p[4]=PRINTSYS_QUE_Create((void *)87); p[5]=(u32)func_02045B38(0,2,0xd2,87);
     p[6]=(u32)WORDSET_Create(8,0x40,87);
-    p[0x34/4]=(u32)func_021D9DC8(((u32 *)p[0x104/4])[0xf],(void *)(*(u32 *)ctx[2]),ctx[7],87);
+    p[0x34/4]=(u32)WIFIBATTLEMATCH_NET_CreateNetContext(((u32 *)p[0x104/4])[0xf],(void *)(*(u32 *)ctx[2]),ctx[7],87);
     p[0x2c/4]=func_021E8568(0,15,14,10,p[4],p[2],87);
-    p[0x38/4]=(u32)func_021E8A3C((int)p,(int)func_021D6BF4,87);
+    p[0x38/4]=(u32)func_021E8A3C((int)p,(int)WIFIBATTLEMATCH_NET_CompStepA,87);
     p[0x3c/4]=(u32)func_021E8A3C((int)p,0,87);
     p[0x28/4]=(u32)func_021E7D20((void *)func_021E5548((int *)p[0]),(void *)p[1],87);
     func_021E7E0C((void **)p[0x28/4],0);
-    p[0xfc/4]=(u32)POKEPARTY_Create(87); func_021DD008((char *)p[0x34/4],1);
+    p[0xfc/4]=(u32)POKEPARTY_Create(87); WIFIBATTLEMATCH_NET_RestartNet((char *)p[0x34/4],1);
     return 1;
 }

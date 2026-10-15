@@ -1,5 +1,5 @@
 /*
- * function: func_021DBBAC
+ * function: WIFIBATTLEMATCH_NET_GdbCopyFieldE
  * address: 0x021DBBAC
  * packet: pkt_ov175_021DBBAC
  * region: ov175
@@ -16,7 +16,7 @@ struct Field {const char *name;unsigned long type;void *value;unsigned long size
 extern int GF_STANDARD_CompareString(const char *,const char *);
 extern void MI_CpuCopy8(const void *,void *,unsigned long);
 extern const char d_021E2F38[];
-void func_021DBBAC(int count,struct Field **recs,void *dst,int nfields)
+void WIFIBATTLEMATCH_NET_GdbCopyFieldE(int count,struct Field **recs,void *dst,int nfields)
 {
     int i,j;
     struct Field *f;

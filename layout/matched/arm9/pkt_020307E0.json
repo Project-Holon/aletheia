@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020307E0",
+   "name": "GFL_HEAP_CheckAllocator",
    "address": "0x020307E0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030830",
+   "name": "GFL_HEAP_GetHeapHead",
    "address": "0x02030830",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0203084C",
+   "name": "GFL_HEAP_GetHeapHeadChecked",
    "address": "0x0203084C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030880",
+   "name": "GFL_HEAP_StampAllocSite",
    "address": "0x02030880",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020308B8",
+   "name": "GFL_HEAP_ReadAllocSiteName",
    "address": "0x020308B8",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030958",
+   "name": "GFL_HEAP_ReportOutOfMemory",
    "address": "0x02030958",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030984",
+   "name": "GFL_HEAP_AuditAlloc",
    "address": "0x02030984",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020309B8",
+   "name": "GFL_HEAP_AuditFree",
    "address": "0x020309B8",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030A00",
+   "name": "GFL_HEAP_NotifyAlloc",
    "address": "0x02030A00",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030A2C",
+   "name": "GFL_HEAP_NotifyFree",
    "address": "0x02030A2C",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030A5C",
+   "name": "GFL_HEAP_DumpIfLive",
    "address": "0x02030A5C",
    "kind": "game",
    "region": "arm9",

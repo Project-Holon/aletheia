@@ -1,5 +1,5 @@
 /*
- * function: func_020565C8
+ * function: SPL_EMITTER_DrawQuad
  * address:  0x020565C8
  * packet:   pkt_02052F58
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * One of the two textured-quad emitters in the table at 0x020A7FDC
- * (Rig_Hooks2 = { func_020565C8, func_0205650C }, docs/families/
+ * (Rig_Hooks2 = { SPL_EMITTER_DrawQuad, SPL_EMITTER_DrawQuadEx }, docs/families/
  * cluster_02052F58.h).  Emits one GX_BEGIN_QUADS quad of side 0x2000 centred
  * on the two passed coordinates, texcoords (0,0) (s,0) (s,t) (0,t).
  * Plane: the second coordinate goes to the VTX_10 y field (bits 10..19).
@@ -30,8 +30,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020565C8.c \
- *       --func func_020565C8 --addr 0x020565C8 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_DrawQuad.c \
+ *       --func SPL_EMITTER_DrawQuad --addr 0x020565C8 --arm --cc ../1.2/sp2
  */
 
 typedef signed int s32;
@@ -57,7 +57,7 @@ static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z)
     reg_G3_VTX_10 = GX_VECVTX10(x, y, z);
 }
 
-void func_020565C8(s32 s, s32 t, s32 x, s32 y)
+void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y)
 {
     G3_Begin(1);
     G3_TexCoord(0, 0);

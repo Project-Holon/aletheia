@@ -11,8 +11,8 @@
  * arithmetic: ROM b={0,128} makes b.v[side]+16 equal 16/144; mode is forwarded unchanged and no input domain is added.
  * interface: 020450F0's second argument is explicitly narrowed to u8 at 021E1E5A/60; its own body accepts u32.
  * symbols:
- *   d_021E7944 0x021E7944 data a4
- *   d_021E793C 0x021E793C data a4
+ *   gSummaryPagePosA 0x021E7944 data a4
+ *   gSummaryPagePosB 0x021E793C data a4
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -47,7 +47,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { int v[2]; } Pair;
-extern const Pair d_021E7944, d_021E793C;
+extern const Pair gSummaryPagePosA, gSummaryPagePosB;
 struct Descriptor;
 struct Cfg;
 struct MsgBank;
@@ -83,8 +83,8 @@ extern void POKETRADE_2D_LoadSummaryBackground(char *p, int a1, int a2);
 #define P(k) (*(void **)(p+(k)))
 void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon)
 {
-    Pair a=d_021E7944;
-    Pair b=d_021E793C;
+    Pair a=gSummaryPagePosA;
+    Pair b=gSummaryPagePosB;
     int side=0;
     u32 flag;
     if(I(0xf54)<128) side=1;

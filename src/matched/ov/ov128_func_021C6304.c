@@ -13,7 +13,7 @@
  *   func_021C6664 0x021C6664 thumb ov128
  *   func_021C6420 0x021C6420 thumb ov128
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021C665C 0x021C665C thumb ov128
  *   id43 0x00000043 data
@@ -31,7 +31,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021C6664(u8 *p);
 extern void func_021C6420(u8 *p, void *a1);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern void func_021C665C(void *);
 extern char id43[],id127[];
@@ -40,7 +40,7 @@ int func_021C6304(void *p,int a,int b,char *q)
     func_02030EAC(((struct Obj10480 *)q)->f5A8); ((struct Obj10480 *)q)->f5A8=0;
     func_021C6664((u8 *)(q+4));
     func_021C6420((u8 *)(q+0x190),((struct Obj10480 *)q)->f1F8);
-    func_020315D4(p); func_020306F0(52);
+    func_020315D4(p); GFL_HEAP_DeleteChecked(52);
     func_02034A5C((u32)id43); func_02034A5C((u32)id127);
     return 1;
 }

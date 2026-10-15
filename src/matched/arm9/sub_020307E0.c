@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020307E0
+ * function: GFL_HEAP_CheckAllocator
  *
  * BLOCKED on one relocation site: all 80 concrete bytes are correct, but
  * the call to sub_020302A4 at +0004 has no witness, that call being
@@ -21,7 +21,7 @@
  * A heap-state assertion, guarded on the result of sub_020302A4 and then
  * dispatched on the heap-layer state word returned by sub_02030524.
  *
- *   void sub_020307E0(void *p, u32 size)
+ *   void GFL_HEAP_CheckAllocator(void *p, u32 size)
  *
  * Neither call takes an argument. The dispatch is the ARM form of the
  * dense switch: `cmp r0, #5` then `addls pc, pc, r0, lsl #2`, so the table
@@ -44,8 +44,8 @@
  *   OS_Terminate    0x02088234  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020307E0.c \
- *       --func sub_020307E0 --addr 0x020307E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_HEAP_CheckAllocator.c \
+ *       --func GFL_HEAP_CheckAllocator --addr 0x020307E0 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -55,7 +55,7 @@ typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
 
-void sub_020307E0(void *p, u32 size)
+void GFL_HEAP_CheckAllocator(void *p, u32 size)
 {
     if (sub_020302A4(p, size) != 0) {
         return;

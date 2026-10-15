@@ -1,5 +1,5 @@
 /*
- * function: func_0218F9F8
+ * function: gpiProfilesTableHash
  * address:  0x0218F9F8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern unsigned long long func_0209C0A4(int v);
 
-int func_0218F9F8(int *p)
+int gpiProfilesTableHash(int *p)
 {
     return (int)(func_0209C0A4(*p) >> 32);
 }

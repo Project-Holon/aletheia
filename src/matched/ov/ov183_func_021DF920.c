@@ -1,5 +1,5 @@
 /*
- * function: func_021DF920
+ * function: BR_CODEIN_CodeCreate
  * address: 0x021DF920
  * packet: pkt_ov183_021DF920
  * region: ov183
@@ -17,7 +17,7 @@
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
- *   func_021E02F8 0x021E02F8 thumb ov183
+ *   BR_CODEIN_CodeSetupText 0x021E02F8 thumb ov183
  */
 #include "../include/Obj01765.h"
 #include "../include/Obj02230.h"
@@ -35,8 +35,8 @@ extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void BR_RES_LoadSprite(char *base, u32 idx, u32 area);
-extern void func_021E02F8(char *p, int *q);
-int func_021DF920(void *obj, int unused, char *q)
+extern void BR_CODEIN_CodeSetupText(char *p, int *q);
+int BR_CODEIN_CodeCreate(void *obj, int unused, char *q)
 {
     char *p;
     int i;
@@ -55,6 +55,6 @@ int func_021DF920(void *obj, int unused, char *q)
     ((struct Obj02230 *)q)->f17 = 0xFF;
     ((struct Obj02230 *)q)->f18 = 0x13;
     BR_RES_LoadSprite((char *)(((struct Obj02230 *)q)->f8), 6, ((struct Obj01765 *)p)->f54);
-    func_021E02F8(p, (int *)q);
+    BR_CODEIN_CodeSetupText(p, (int *)q);
     return 1;
 }

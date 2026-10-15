@@ -1,5 +1,5 @@
 /*
- * function: func_0219500C
+ * function: gti2ConnectedCallback
  * address:  0x0219500C
  * packet:   pkt_ov009_0219500C
  * region:   ov009
@@ -34,7 +34,7 @@ typedef struct Conn {
 
 extern void func_02197FDC(Sock *sock);
 
-int func_0219500C(Conn *c, int result, unsigned char *msg, int len)
+int gti2ConnectedCallback(Conn *c, int result, unsigned char *msg, int len)
 {
 	if (!c)
 		return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219D2F0
+ * function: GOACryptInit
  * address:  0x0219D2F0
  * packet:   pkt_ov009_0219D2F0
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      GOACryptInit (libdwcgsserverbrowsing.TWL.HYB.a(sb_crypt.o))
  *
  * symbols:
- *   func_0219D2A4  0x0219D2A4  arm  ov009
- *   func_0219D1F4  0x0219D1F4  arm  ov009
+ *   GOAHashInit  0x0219D2A4  arm  ov009
+ *   keyrand  0x0219D1F4  arm  ov009
  */
 
 struct GOACryptState {
@@ -25,11 +25,11 @@ struct GOACryptState {
     unsigned char last_cipher;
 };
 
-extern void func_0219D2A4(struct GOACryptState *state);
-extern unsigned char func_0219D1F4(struct GOACryptState *state, int limit, unsigned char *user_key,
+extern void GOAHashInit(struct GOACryptState *state);
+extern unsigned char keyrand(struct GOACryptState *state, int limit, unsigned char *user_key,
                                    unsigned char keysize, unsigned char *rsum, unsigned int *keypos);
 
-void func_0219D2F0(struct GOACryptState *state, unsigned char *key, unsigned char keysize)
+void GOACryptInit(struct GOACryptState *state, unsigned char *key, unsigned char keysize)
 {
     unsigned int keypos;
     unsigned char rsum;
@@ -38,7 +38,7 @@ void func_0219D2F0(struct GOACryptState *state, unsigned char *key, unsigned cha
     int i;
 
     if (keysize < 1) {
-        func_0219D2A4(state);
+        GOAHashInit(state);
         return;
     }
     for (i = 0; i < 256; i++)
@@ -46,7 +46,7 @@ void func_0219D2F0(struct GOACryptState *state, unsigned char *key, unsigned cha
     keypos = 0;
     rsum = 0;
     for (i = 255; i >= 0; i--) {
-        toswap = func_0219D1F4(state, i, key, keysize, &rsum, &keypos);
+        toswap = keyrand(state, i, key, keysize, &rsum, &keypos);
         swaptemp = state->cards[i];
         state->cards[i] = state->cards[toswap];
         state->cards[toswap] = swaptemp;

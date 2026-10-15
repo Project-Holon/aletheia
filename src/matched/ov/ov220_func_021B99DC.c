@@ -1,5 +1,5 @@
 /*
- * function: func_021B99DC
+ * function: TH_AWARD_CreateSpeciesActors
  * address: 0x021B99DC
  * packet: pkt_ov220_021B99DC
  * region: ov220
@@ -61,7 +61,7 @@ extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern u32 POKE_TOOL_CalcIconPalette(u32, u32, u32, u32);
-void func_021B99DC(char *p)
+void TH_AWARD_CreateSpeciesActors(char *p)
 {
   const u8 *coords;
   void *owner;

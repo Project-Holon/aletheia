@@ -25,7 +25,7 @@
  *   OEKAKI_GetJoinedBits  0x02186558  thumb  ov023
  *   OEKAKI_FreeWork  0x02184B04  thumb  ov023
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 #include "../include/Obj01361.h"
 
@@ -52,7 +52,7 @@ extern int OEKAKI_GetJoinedBits(char *p);
 extern void OEKAKI_FreeWork(char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 
 int OEKAKI_Exit(u32 a, int *seq, u8 *c, u8 *d)
 {
@@ -95,7 +95,7 @@ int OEKAKI_Exit(u32 a, int *seq, u8 *c, u8 *d)
     case 3:
         OEKAKI_FreeWork((char *)d);
         func_020315D4((struct S020315D4 *)a);
-        func_020306F0(0x28);
+        GFL_HEAP_DeleteChecked(0x28);
         return 1;
     }
     return 0;

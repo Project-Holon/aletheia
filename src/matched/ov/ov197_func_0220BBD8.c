@@ -1,5 +1,5 @@
 /*
- * function: func_0220BBD8
+ * function: B_BAG_MAIN_GetItemFlag
  * address: 0x0220BBD8
  * packet: pkt_ov197_0220BBD8
  * region: ov197
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern u32 sub_0202F144(u32);
-int func_0220BBD8(u32 key) { return (u16)sub_0202F144(key); }
+int B_BAG_MAIN_GetItemFlag(u32 key) { return (u16)sub_0202F144(key); }

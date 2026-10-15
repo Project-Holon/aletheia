@@ -1,5 +1,5 @@
 /*
- * function: func_021C9730
+ * function: WF2DMAP_TOUCH_DeleteEditWidgets
  * address: 0x021C9730
  * packet: pkt_ov128_021C9730
  * region: ov128
@@ -9,38 +9,38 @@
  * status: EXACT*
  * extent: two-byte zero padding at 021C979E before next label 021C97A0.
  * symbols:
- *   func_021CA444 0x021CA444 thumb ov128
- *   func_021CA458 0x021CA458 thumb ov128
- *   func_021C9EFC 0x021C9EFC thumb ov128
- *   func_021C9EF0 0x021C9EF0 thumb ov128
+ *   WF2DMAP_TOUCH_ClearSlotArray 0x021CA444 thumb ov128
+ *   WF2DMAP_TOUCH_AddSlot 0x021CA458 thumb ov128
+ *   WF2DMAP_TOUCH_ClearTileRecord 0x021C9EFC thumb ov128
+ *   WF2DMAP_TOUCH_Noop 0x021C9EF0 thumb ov128
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_021C9EB4 0x021C9EB4 thumb ov128
- *   func_021C9E54 0x021C9E54 thumb ov128
+ *   WF2DMAP_TOUCH_DeleteTileScreens 0x021C9EB4 thumb ov128
+ *   WF2DMAP_TOUCH_DeleteWidgetHandles 0x021C9E54 thumb ov128
  */
 typedef unsigned char u8;
-extern void func_021CA444(char *p);
-extern void func_021CA458(char *p, void *q);
-extern void func_021C9EFC(void *,int);
-extern void func_021C9EF0(void *);
+extern void WF2DMAP_TOUCH_ClearSlotArray(char *p);
+extern void WF2DMAP_TOUCH_AddSlot(char *p, void *q);
+extern void WF2DMAP_TOUCH_ClearTileRecord(void *,int);
+extern void WF2DMAP_TOUCH_Noop(void *);
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_021C9EB4(u8 *,void *);
-extern void func_021C9E54(u8 *);
-void func_021C9730(u8 *p,void *unused,u8 *q)
+extern void WF2DMAP_TOUCH_DeleteTileScreens(u8 *,void *);
+extern void WF2DMAP_TOUCH_DeleteWidgetHandles(u8 *);
+void WF2DMAP_TOUCH_DeleteEditWidgets(u8 *p,void *unused,u8 *q)
 {
     u8 *base;
     int j;
     int i;
-    func_021CA444((char *)q);
-    func_021CA458((char *)q,q+12);
+    WF2DMAP_TOUCH_ClearSlotArray((char *)q);
+    WF2DMAP_TOUCH_AddSlot((char *)q,q+12);
     base=p+20;
     for(i=0;i<3;i++) {
-        for(j=0;j<8;j++) func_021C9EFC(base+i*76,j);
-        func_021C9EF0(base+i*76);
+        for(j=0;j<8;j++) WF2DMAP_TOUCH_ClearTileRecord(base+i*76,j);
+        WF2DMAP_TOUCH_Noop(base+i*76);
     }
     for(i=0;i<2;i++) BMP_WIN_Delete(*(void **)(p+i*8+0x118));
-    func_021C9EB4(p,q);
+    WF2DMAP_TOUCH_DeleteTileScreens(p,q);
     p+=0xf8;
-    func_021C9E54(p);
+    WF2DMAP_TOUCH_DeleteWidgetHandles(p);
 }

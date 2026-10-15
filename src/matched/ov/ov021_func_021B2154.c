@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
  *   FIELD_RAIL_WORK_SetLineLocation  0x021B8484  thumb  ov021
- *   func_021B7DC0  0x021B7DC0  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb  ov021
  *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -27,7 +27,7 @@ extern int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void *FLDMMDL_RAIL_GetRailWork(void *a);
 extern void FIELD_RAIL_WORK_SetLineLocation(u8 *p, u32 a, u32 b, int c);
-extern void func_021B7DC0(u32, void *);
+extern void FIELD_RAIL_WORK_GetLocation(u32, void *);
 extern void FLDMMDL_RAIL_SetLocation(void *a, void *r);
 
 int SCRCMD_FLDMMDL_SetPlayerRailLocation(u32 a, u32 b)
@@ -45,7 +45,7 @@ int SCRCMD_FLDMMDL_SetPlayerRailLocation(u32 a, u32 b)
     z = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     o = (u32)FLDMMDL_RAIL_GetRailWork((void *)h);
     FIELD_RAIL_WORK_SetLineLocation((u8 *)o, x, y, z);
-    func_021B7DC0(o, buf);
+    FIELD_RAIL_WORK_GetLocation(o, buf);
     FLDMMDL_RAIL_SetLocation((void *)h, buf);
     return 0;
 }

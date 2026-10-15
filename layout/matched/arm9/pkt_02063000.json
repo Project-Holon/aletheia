@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02063078",
+   "name": "NNS_G2dInitOamManagerModule",
    "address": "0x02063078",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02063138",
+   "name": "NNSi_G2dReserveOamManagerSpan",
    "address": "0x02063138",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    }
   },
   {
-   "name": "func_02063294",
+   "name": "NNSi_G2dEntryOamManagerOam",
    "address": "0x02063294",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02063378",
+   "name": "NNS_G2dEntryOamManagerAffine",
    "address": "0x02063378",
    "kind": "game",
    "region": "arm9",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206343C",
+   "name": "NNS_G2dApplyOamManagerToHW",
    "address": "0x0206343C",
    "kind": "game",
    "region": "arm9",
@@ -84,7 +84,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02063640",
+   "name": "NNS_G2dResetOamManagerBuffer",
    "address": "0x02063640",
    "kind": "game",
    "region": "arm9",

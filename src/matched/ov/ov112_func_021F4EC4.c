@@ -1,5 +1,5 @@
 /*
- * function: func_021F4EC4
+ * function: MUSICAL_MCSS_SetElemRot
  * address: 0x021F4EC4
  * packet: pkt_ov112_021F4EC4
  * region: ov112
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021F4EC4(u32 unused,u32 p,s16 *a,s16 *b) { *a=((struct Obj01396 *)p)->f1C; *b=((struct Obj01396 *)p)->f1E; }
+void MUSICAL_MCSS_SetElemRot(u32 unused,u32 p,s16 *a,s16 *b) { *a=((struct Obj01396 *)p)->f1C; *b=((struct Obj01396 *)p)->f1E; }

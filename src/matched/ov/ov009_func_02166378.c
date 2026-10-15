@@ -12,15 +12,15 @@
  * Address of the module state object.
  *
  * symbols:
- *   g_021AA7DC  0x021AA7DC  data
+ *   gWcmCpsifWork  0x021AA7DC  data
  */
 
 #include "../include/G_WCMCpsifWork.h"
 
-extern struct WCMCpsifWork g_021AA7DC;
+extern struct WCMCpsifWork gWcmCpsifWork;
 
 void *WCMi_GetCpsifWork(void)
 {
-    return ((char *)&g_021AA7DC);
+    return ((char *)&gWcmCpsifWork);
 }
 

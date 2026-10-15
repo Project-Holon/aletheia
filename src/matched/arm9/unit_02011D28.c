@@ -11,14 +11,14 @@
  * function: GAMESYSTEM_CallIfSet, GAMESYSTEM_ReadTimerTwice
  *
  * symbols:
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *
  * GAMESYSTEM_CallIfSet calls its argument, if not null, purely for effect: the
  * call falls straight through into `mvns r0, r4` with no branch around it,
  * so the return value is always the bitwise complement of the function
  * pointer itself, never whatever the call returned.
  *
- * GAMESYSTEM_ReadTimerTwice calls func_0203F0A8 twice and returns nothing, a debug
+ * GAMESYSTEM_ReadTimerTwice calls GF_STANDARD_Rand twice and returns nothing, a debug
  * marker pair (begin/end) around nothing in between.
  *
  * GAMESYSTEM_LeakHeapPenalty and GAMESYSTEM_LeakHeapPenaltyRepeat, on either side of the function between
@@ -46,7 +46,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 
 u32 GAMESYSTEM_CallIfSet(u32 (*fn)(void))
 {
@@ -58,6 +58,6 @@ u32 GAMESYSTEM_CallIfSet(u32 (*fn)(void))
 
 void GAMESYSTEM_ReadTimerTwice(void)
 {
-    func_0203F0A8();
-    func_0203F0A8();
+    GF_STANDARD_Rand();
+    GF_STANDARD_Rand();
 }

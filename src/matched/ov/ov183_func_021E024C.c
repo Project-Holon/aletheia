@@ -1,5 +1,5 @@
 /*
- * function: func_021E024C
+ * function: BR_CODEIN_CodeStepPokeList
  * address: 0x021E024C
  * packet: pkt_ov183_021E024C
  * region: ov183
@@ -14,7 +14,7 @@
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
- *   func_021E03B0 0x021E03B0 thumb ov183
+ *   BR_CODEIN_CodeSetMenuText 0x021E03B0 thumb ov183
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
@@ -29,11 +29,11 @@ extern int BR_UTIL_GetListMenuHitId(char *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 extern void BR_UTIL_StartEffect(int, int, int *);
-extern void func_021E03B0(char *, char *, int);
+extern void BR_CODEIN_CodeSetMenuText(char *, char *, int);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-int func_021E024C(char *p, char *q)
+int BR_CODEIN_CodeStepPokeList(char *p, char *q)
 {
     int selected, pressed;
     unsigned int x, y;
@@ -54,7 +54,7 @@ int func_021E024C(char *p, char *q)
         a = func_0200856C(v);
         ((struct Obj00351 *)q)->f17 = func_02008570(v);
         ((struct Obj00351 *)q)->f16 = a;
-        func_021E03B0(p, q, 2);
+        BR_CODEIN_CodeSetMenuText(p, q, 2);
         ((struct Obj00277 *)p)->f50 = 0;
         return 1;
     } else if (pressed != 0) {

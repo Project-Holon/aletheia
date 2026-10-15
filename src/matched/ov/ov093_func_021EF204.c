@@ -15,7 +15,7 @@
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   BTL_MSG_ExpandTags  0x021EEFE0  thumb  ov093
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  */
@@ -42,7 +42,7 @@ extern void *BTL_MAIN_GetCompetitor(void ***p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 void BTL_MSG_BuildStandardSingle(u32 a, u32 b, u32 *p)
 {
@@ -60,5 +60,5 @@ void BTL_MSG_BuildStandardSingle(u32 a, u32 b, u32 *p)
     }
     MSGDATA_ReadString((void *)gBtlMsgState.t[1], (u16)(b + x), (void *)gBtlMsgState.f0c);
     BTL_MSG_ExpandTags((void *)gBtlMsgState.f0c, p, (void *)gBtlMsgState.f08);
-    func_0201F250((void *)gBtlMsgState.f08, (void *)a, (void *)gBtlMsgState.f0c);
+    WORDSET_CopyTaggedText((void *)gBtlMsgState.f08, (void *)a, (void *)gBtlMsgState.f0c);
 }

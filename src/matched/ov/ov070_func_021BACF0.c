@@ -24,7 +24,7 @@
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   ITEMMENU_PrintToWindow  0x021BB6E0  thumb  ov070
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   ITEMMENU_FlushWindowAt  0x021BB724  thumb  ov070
  */
 #include "../include/Obj00002.h"
@@ -44,7 +44,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern signed char MSG_SPEED_GetWait(void);
 extern int PRINTSYS_PrintStream(int, int, int, int, int, int, int, int, int, int);
 extern void ITEMMENU_PrintToWindow(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void ITEMMENU_FlushWindowAt(void **p);
 
 void ITEMMENU_ShowMessage(int p, int mode)
@@ -64,6 +64,6 @@ void ITEMMENU_ShowMessage(int p, int mode)
     } else {
         ITEMMENU_PrintToWindow(p, (u32 *)win, *(int *)&((struct Obj00002 *)p)->f528, 0, 0, 0x44F);
     }
-    func_0201F73C((void *)(*(int *)&((struct Obj04334 *)win)->f0), 1, (u16)((struct Obj00002 *)p)->f838, 0xD);
+    BMP_MENUWORK_DrawWindow((void *)(*(int *)&((struct Obj04334 *)win)->f0), 1, (u16)((struct Obj00002 *)p)->f838, 0xD);
     ITEMMENU_FlushWindowAt((void **)win);
 }

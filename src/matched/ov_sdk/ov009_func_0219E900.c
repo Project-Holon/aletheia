@@ -1,5 +1,5 @@
 /*
- * function: func_0219E900
+ * function: SBAllocServer
  * address:  0x0219E900
  * packet:   pkt_ov009_0219E900
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      SBAllocServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_server.o))
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_02184638  0x02184638  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   func_0219E8D4  0x0219E8D4  arm  ov009
  *   func_0219E89C  0x0219E89C  arm  ov009
  *   func_0219E8C4  0x0219E8C4  arm  ov009
@@ -35,24 +35,24 @@ struct SBServer {
     unsigned char splitResponseBitmap;
 };
 
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *func_02184638(int elemSize, int nBuckets, int nChains, int (*hashFn)(void *, int),
                            int (*compFn)(void *, void *), void (*freeFn)(void *));
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern int func_0219E8D4(void *a, void *b);
 extern void func_0219E89C(void *elem);
 extern int func_0219E8C4(void *elem, int numbuckets);
 
-struct SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport)
+struct SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport)
 {
     struct SBServer *server;
 
-    server = func_0217EAB0(sizeof(struct SBServer));
+    server = gsimalloc(sizeof(struct SBServer));
     if (server == 0)
         return 0;
     server->keyvals = func_02184638(8, 8, 4, func_0219E8C4, func_0219E8D4, func_0219E89C);
     if (server->keyvals == 0) {
-        func_0217EAE0(server);
+        gsifree(server);
         return 0;
     }
     server->state = 0;

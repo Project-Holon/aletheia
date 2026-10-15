@@ -1,5 +1,5 @@
 /*
- * function: func_021D7AF4
+ * function: GTSNEGO_MSG_UpdatePrintStream
  * address: 0x021D7AF4
  * packet: pkt_ov120_021D7AF4
  * region: ov120
@@ -22,7 +22,7 @@ extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern u32 KEY_GetTrg(void);
-int func_021D7AF4(char *p)
+int GTSNEGO_MSG_UpdatePrintStream(char *p)
 {
     if (((struct Obj06441 *)p)->f9C) {
         switch (PRINTSYS_PrintStreamGetState(((struct Obj06441 *)p)->f9C)) {

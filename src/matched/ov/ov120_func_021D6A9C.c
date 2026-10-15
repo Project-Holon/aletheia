@@ -1,5 +1,5 @@
 /*
- * function: func_021D6A9C
+ * function: GTSNEGO_MSG_SetCursorAnimSeq
  * address: 0x021D6A9C
  * packet: pkt_ov120_021D6A9C
  * region: ov120
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern const u8 data_021D8B73[];
-int func_021D6A9C(u8 *p,u32 n){void *obj=((struct Obj22840 *)p)->f134;if(!obj)return 0;CLACT_SetActorAnimSeq(obj,*(const u8 *)((u32)data_021D8B73+n*4));return 1;}
+int GTSNEGO_MSG_SetCursorAnimSeq(u8 *p,u32 n){void *obj=((struct Obj22840 *)p)->f134;if(!obj)return 0;CLACT_SetActorAnimSeq(obj,*(const u8 *)((u32)data_021D8B73+n*4));return 1;}

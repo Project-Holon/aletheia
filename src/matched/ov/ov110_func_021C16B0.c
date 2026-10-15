@@ -12,7 +12,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   PMS_SELECT_GRAPHIC_ExitSceneActors 0x021C181C thumb ov110
  *   PMS_SELECT_GRAPHIC_ExitSceneBgs 0x021C1798 thumb ov110
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -23,7 +23,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void PMS_SELECT_GRAPHIC_ExitSceneActors(void **p);
 extern void PMS_SELECT_GRAPHIC_ExitSceneBgs(void *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -31,7 +31,7 @@ void PMS_SELECT_GRAPHIC_DeleteScene(u8 *p) {
     func_02030EAC(((struct Obj22415 *)p)->fC);
     PMS_SELECT_GRAPHIC_ExitSceneActors((void **)(p+4));
     PMS_SELECT_GRAPHIC_ExitSceneBgs(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;

@@ -71,7 +71,7 @@
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   C_GEAR_SetPowerState  0x021F3144  thumb  ov029
  *   C_GEAR_ApplyIndicators  0x021F2D84  thumb  ov029
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetVisitProgress  0x021585E0  thumb  ov010
  *   INTRUDE_COMM_SetCompleted  0x02158614  thumb  ov010
@@ -122,7 +122,7 @@ extern void C_GEAR_UpdateClock(char *p);
 extern int GAMESYSTEM_IsEventActive(char *p);
 extern void C_GEAR_SetPowerState(u8 *p, int v);
 extern void C_GEAR_ApplyIndicators(u8 *p);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetVisitProgress(int a);
 extern void INTRUDE_COMM_SetCompleted(void *p);
@@ -181,7 +181,7 @@ void C_GEAR_Init(u8 *p, int a1, int a2, int a3, int e)
         C_GEAR_StepOpen((char *)p);
     }
     if (*(int *)(p + 0x204) != 0)
-        func_02030D28((struct Ctx *)(*(int *)(p + 0x204)));
+        TCB_Main((struct Ctx *)(*(int *)(p + 0x204)));
     h = GAMESYSTEM_GetGameComm((const struct Ctx *)a3);
     if (h != 0 && INTRUDE_COMM_GetVisitProgress(h) == 2)
         INTRUDE_COMM_SetCompleted((void *)h);

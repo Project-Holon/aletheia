@@ -1,5 +1,5 @@
 /*
- * function: func_021C7AD4
+ * function: VIEWER_ACTOR_PrintTextAt
  * address:  0x021C7AD4
  * packet:   pkt_ov111_021C7AD4
  * region:   ov111
@@ -100,7 +100,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern const int d_021C8894[];
 
-void func_021C7AD4(Work *p, int x, int k, int col)
+void VIEWER_ACTOR_PrintTextAt(Work *p, int x, int k, int col)
 {
     void *v;
 

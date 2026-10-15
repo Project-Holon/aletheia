@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_0204152C, func_02041570, BG_SYS_GetGraphics
+ * function: BG_SYS_ClearLayer, BG_SYS_ClearLayerEx, BG_SYS_GetGraphics
  * address:  0x0204152C
  * packet:   pkt_0204152C
  * region:   arm9
@@ -49,7 +49,7 @@ extern void MIi_CpuClear16(u16 val, void *dest, u32 size);
 extern void func_020409B4(u32 index);
 extern void func_02041B6C(u32 bit);
 
-void func_0204152C(int channel, u16 val)
+void BG_SYS_ClearLayer(int channel, u16 val)
 {
     struct Channel *ch = &ptr_02146A44[channel];
     if (ch->field_08 == 0) {
@@ -59,7 +59,7 @@ void func_0204152C(int channel, u16 val)
     func_020409B4(channel);
 }
 
-void func_02041570(int channel, u16 val)
+void BG_SYS_ClearLayerEx(int channel, u16 val)
 {
     struct Channel *ch = &ptr_02146A44[channel];
     if (ch->field_08 == 0) {

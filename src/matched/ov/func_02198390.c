@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_02198318(its own argument 1, 0x1, 0x20, 0x1) and returns 0x1.
+ * Calls FLDMMDL_ACMD_StayWalkInit(its own argument 1, 0x1, 0x20, 0x1) and returns 0x1.
  *
  * symbols:
- *   func_02198318  0x02198318  thumb
+ *   FLDMMDL_ACMD_StayWalkInit  0x02198318  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_02198318(u32 a, u32 b, u16 c, u16 d);
+extern void FLDMMDL_ACMD_StayWalkInit(u32 a, u32 b, u16 c, u16 d);
 
 u32 FLDMMDL_ACMD_StayWalkDown32F(u32 a1)
 {
-    func_02198318(a1, 0x1, 0x20, 0x1);
+    FLDMMDL_ACMD_StayWalkInit(a1, 0x1, 0x20, 0x1);
 
     return 0x1;
 }

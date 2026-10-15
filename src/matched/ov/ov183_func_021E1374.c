@@ -1,5 +1,5 @@
 /*
- * function: func_021E1374
+ * function: BR_CODEIN_ProfileSetAnimSeq
  * address:  0x021E1374
  * packet:   pkt_021E1374
  * region:   ov183
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E1374(char *p, int v)
+void BR_CODEIN_ProfileSetAnimSeq(char *p, int v)
 {
     ((struct Obj00143 *)p)->f22C = v;
     ((struct Obj00143 *)p)->f230 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4C6C
+ * function: NAMEIN_GRAPHIC_ExitBg
  * address: 0x021F4C6C
  * packet: pkt_ov194_021F4C6C
  * region: ov194
@@ -22,7 +22,7 @@ extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *, u32, u32);
-void func_021F4C6C(void *p)
+void NAMEIN_GRAPHIC_ExitBg(void *p)
 {
     u32 i;
     for (i = 0; i < 8; i++)

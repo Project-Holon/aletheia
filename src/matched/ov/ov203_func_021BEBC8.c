@@ -1,5 +1,5 @@
 /*
- * function: func_021BEBC8
+ * function: DEMO3D_DATA_PlaySe
  * address: 0x021BEBC8
  * packet: pkt_ov203_021BEBC8
  * region: ov203
@@ -20,7 +20,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int GFL_USE_GetSeSlot(unsigned);
 extern void GFL_USE_SetSeSlotVolume(int,unsigned);
 extern void GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
-void func_021BEBC8(void *unused,int ignored,int *s)
+void DEMO3D_DATA_PlaySe(void *unused,int ignored,int *s)
 {
     int channel;
     if(s[4]!=-1){GFL_USE_PlaySeInSlot((void *)s[0],s[4]);channel=s[4];}

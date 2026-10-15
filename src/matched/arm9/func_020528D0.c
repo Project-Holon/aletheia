@@ -1,5 +1,5 @@
 /*
- * function: func_020528D0
+ * function: SPL_EMITTER_AllocPlttVramList
  * address:  0x020528D0
  * packet:   pkt_020528D0
  * region:   arm9
@@ -17,7 +17,7 @@
  * of o->f2c with a non-zero resource size, allocate through the caller's
  * callback (first argument is the SIZE word, second is kind == 2) and upload
  * with GX_LoadTexPltt; the handle (0 when skipped) goes to row+0x08.  Then
- * GX_EndLoadTexPltt; always returns 1.  Twin of func_02052984 (textures).
+ * GX_EndLoadTexPltt; always returns 1.  Twin of SPL_EMITTER_AllocTexVramList (textures).
  *
  * What closed it (wave 9): array indexing o->f2c[i] and "kind == 2 ? 1 : 0"
  * instead of hand-written offset/one/zero locals (the wave-7 note's 8-byte
@@ -57,7 +57,7 @@ extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(void *dst, u32 a, u32 b);
 extern void GX_EndLoadTexPltt(void);
 
-int func_020528D0(struct Obj *o, Alloc alloc)
+int SPL_EMITTER_AllocPlttVramList(struct Obj *o, Alloc alloc)
 {
     int i;
 

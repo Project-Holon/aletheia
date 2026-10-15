@@ -1,5 +1,5 @@
 /*
- * function: func_021BA330
+ * function: COMM_BTL_DEMO_MAIN_DrawRowText
  * address:  0x021BA330
  * packet:   pkt_ov213_021BA330
  * region:   ov213
@@ -39,7 +39,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void func_021BA330(void *p, int a)
+void COMM_BTL_DEMO_MAIN_DrawRowText(void *p, int a)
 {
     int z = 0;
     int q;

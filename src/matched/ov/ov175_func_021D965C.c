@@ -1,5 +1,5 @@
 /*
- * function: func_021D965C
+ * function: WIFIBATTLEMATCH_NET_SetupCompRecord
  * address:  0x021D965C
  * packet:   pkt_021D965C
  * region:   ov175
@@ -89,7 +89,7 @@ extern u32 BSUBWAY_SAVEDATA_GetStat(u32 a, u32 b, u32 c);
 extern int func_021E5548(int *p);
 extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 
-void func_021D965C(struct Obj *obj)
+void WIFIBATTLEMATCH_NET_SetupCompRecord(struct Obj *obj)
 {
     struct Profile prof;
     u32 sys;

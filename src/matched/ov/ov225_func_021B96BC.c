@@ -1,5 +1,5 @@
 /*
- * function: func_021B96BC
+ * function: MANUAL_GRAPHIC_Main
  * address: 0x021B96BC
  * packet: pkt_ov225_021B96BC
  * region: ov225
@@ -78,7 +78,7 @@ struct Owner;
 struct Q;
 extern struct Q *func_021BB854(struct Owner *p, struct Data *data);
 extern void func_021B9E60(char *);
-int func_021B96BC(void *a,u32 *state,void *unused,char *p)
+int MANUAL_GRAPHIC_Main(void *a,u32 *state,void *unused,char *p)
 {
  int done;
  u32 count;

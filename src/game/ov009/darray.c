@@ -1,7 +1,7 @@
 /*
  * file:     darray.c
  * unit:     yes
- * function: func_021840CC, func_021840F0, func_02184120, func_02184144, func_021841B0, func_02184200, func_02184208, func_02184234, func_0218424C, func_021842D0, func_02184324, func_0218437C, func_0218439C, func_021843C8, func_021843E8, func_021844A0, func_021844DC, func_0218452C, func_02184558, func_021845AC
+ * function: func_021840CC, func_021840F0, func_02184120, func_02184144, func_021841B0, ArrayLength, func_02184208, ArrayAppend, func_0218424C, func_021842D0, func_02184324, ArrayDeleteAt, func_0218439C, ArraySort, func_021843E8, func_021844A0, func_021844DC, func_0218452C, func_02184558, func_021845AC
  * address:  0x021840CC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -58,19 +58,17 @@ extern void func_021840CC(int a, int b);
 extern void func_02184324(int a, int b);
 extern void qsort(int a, int b, int c, int d);
 extern int _s32_div_f(int a, int b);
-extern int ArrayLength(struct DArrayImplementation *array);
-extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 void ArrayFree(struct DArrayImplementation *array);
-int func_02184200(const int *array);
+int ArrayLength(const int *array);
 void *ArrayNth(struct DArrayImplementation *array, int n);
-void func_02184234(void *p, void *a);
+void ArrayAppend(void *p, void *a);
 void ArrayInsertAt(struct DArrayImplementation *array, void *newElem, int n);
 void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
 void ArrayRemoveAt(struct DArrayImplementation *array, int n);
-void func_0218437C(int a, int b);
+void ArrayDeleteAt(int a, int b);
 void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem, int n);
-void func_021843C8(int *p, int b);
+void ArraySort(int *p, int b);
 int ArraySearch(struct DArrayImplementation *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 void ArrayMapBackwards(struct DArrayImplementation *array, void (*fn)(void *, void *), void *clientData);
 void *ArrayMapBackwards2(struct DArrayImplementation *array, int (*fn)(void *, void *), void *clientData);
@@ -138,7 +136,7 @@ void ArrayFree(struct DArrayImplementation *array)
     gsifree(array);
 }
 
-int func_02184200(const int *array)
+int ArrayLength(const int *array)
 {
     return *array;
 }
@@ -169,7 +167,7 @@ void *ArrayNth(struct DArrayImplementation *array, int n)
 /*
  * Guarded forward of a word load: calls func_0218424C(p, a, *p) when p is set.
  */
-void func_02184234(void *p, void *a)
+void ArrayAppend(void *p, void *a)
 {
     void func_0218424C(void *, void *, void *);
     if (p) func_0218424C(p, a, *(void **)p);
@@ -225,7 +223,7 @@ void ArrayRemoveAt(struct DArrayImplementation *array, int n)
 /*
  * Calls the two helpers on both arguments.
  */
-void func_0218437C(int a, int b)
+void ArrayDeleteAt(int a, int b)
 {
     func_021840CC(a, b);
     func_02184324(a, b);
@@ -248,7 +246,7 @@ void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem, int n)
 /*
  * Tail call on three fields of the object and the second argument.
  */
-void func_021843C8(int *p, int b)
+void ArraySort(int *p, int b)
 {
     qsort(p[5], p[0], p[2], b);
 }
@@ -315,8 +313,8 @@ void ArrayClear(struct DArrayImplementation *array)
 {
     int i;
 
-    for (i = ArrayLength(array) - 1; i >= 0; i--)
-        ArrayDeleteAt(array, i);
+    for (i = ArrayLength((const int *)array) - 1; i >= 0; i--)
+        ArrayDeleteAt((int)array, i);
 }
 
 

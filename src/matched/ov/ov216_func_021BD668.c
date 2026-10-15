@@ -13,7 +13,7 @@
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BEACON_DETAIL_GRA_Callback 0x021BD6BC thumb ov216
- *   func_021BCD00 0x021BCD00 arm ov216
+ *   func_021BCD00 0x021BCD00 thumb ov216
  */
 #include "../include/Obj03943.h"
 #include "../include/Obj25779.h"

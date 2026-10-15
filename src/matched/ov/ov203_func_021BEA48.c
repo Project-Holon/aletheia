@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA48
+ * function: DEMO3D_DATA_DeleteTask
  * address: 0x021BEA48
  * packet: pkt_ov203_021BEA48
  * region: ov203
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * trailing: 64 bytes are existing matched func_021BEAB8, pkt_ov203_021BEAB8.
+ * trailing: 64 bytes are existing matched DEMO3D_DATA_ApplyCapture, pkt_ov203_021BEAB8.
  * symbols:
  *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   func_0208068C 0x0208068C arm
@@ -19,7 +19,7 @@ extern void func_0208068C(int);
 extern void MIi_CpuClearFast(unsigned,void *,unsigned);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *);
-void func_021BEA48(int *s,unsigned a,unsigned b,unsigned c)
+void DEMO3D_DATA_DeleteTask(int *s,unsigned a,unsigned b,unsigned c)
 {
     GX_SetGraphicsMode(a,b,c);func_0208068C(s[0]);
     switch(s[1]){

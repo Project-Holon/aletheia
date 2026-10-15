@@ -12,7 +12,7 @@
  * sdk:      NegotiateThink (libdwcgsnatneg.TWL.HYB.a natneg.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   RemoveNegotiator  0x021991C8  arm  ov009
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
@@ -79,7 +79,7 @@ typedef struct _NATNegotiator {
     SOCSockAddrIn remoteaddr;                        /* 0x4C */
 } NATNegotiator;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void RemoveNegotiator(NATNegotiator *neg);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
@@ -116,12 +116,12 @@ void NegotiateThink(NATNegotiator *neg)
     int error;
 
     if (neg == 0) {
-        func_0217D254(7, (char *)4, 4, gNatNegThinkNullFmt);
+        gsDebugFormat(7, (char *)4, 4, gNatNegThinkNullFmt);
         return;
     }
 
     if (neg->state == ns_canceled) {
-        func_0217D254(7, (char *)2, 8, gNatNegThinkRemoveFmt, neg->cookie);
+        gsDebugFormat(7, (char *)2, 8, gNatNegThinkRemoveFmt, neg->cookie);
         RemoveNegotiator(neg);
         return;
     }
@@ -132,7 +132,7 @@ void NegotiateThink(NATNegotiator *neg)
                 break;
             error = func_0217EC60(neg->negotiateSock, gNatNegRecvBuf, 512, 0, &saddr, &saddrlen);
             if (error == -1) {
-                func_0217D254(7, 0, 8, gNatNegRecvErrFmt, neg->cookie, GOAGetLastError(neg->negotiateSock));
+                gsDebugFormat(7, 0, 8, gNatNegRecvErrFmt, neg->cookie, GOAGetLastError(neg->negotiateSock));
                 break;
             }
             NNProcessData(gNatNegRecvBuf, error, &saddr);
@@ -144,14 +144,14 @@ void NegotiateThink(NATNegotiator *neg)
     if ((neg->state == ns_preinitsent || neg->state == ns_preinitack || neg->state == ns_initsent ||
          neg->state == ns_connectping) && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, 0, 8, gNatNegInitTimeoutFmt, neg->cookie);
+            gsDebugFormat(7, 0, 8, gNatNegInitTimeoutFmt, neg->cookie);
             if ((unsigned int)neg->state <= ns_initsent)
                 StartReport(neg, 2, -1, 0);
             else
                 StartReport(neg, 3, -1, 0);
         } else {
             neg->retryCount++;
-            func_0217D254(7, 0, 8, gNatNegResendInitFmt, neg->cookie, neg->retryCount);
+            gsDebugFormat(7, 0, 8, gNatNegResendInitFmt, neg->cookie, neg->retryCount);
             if ((unsigned int)neg->state <= ns_preinitack)
                 SendPreinitPacket((struct NATNegotiator *)neg);
             else if (neg->state == ns_initsent)
@@ -162,17 +162,17 @@ void NegotiateThink(NATNegotiator *neg)
     }
 
     if (neg->state == ns_initack && current_time() > neg->retryTime) {
-        func_0217D254(7, 0, 8, gNatNegNoPingFmt, neg->cookie);
+        gsDebugFormat(7, 0, 8, gNatNegNoPingFmt, neg->cookie);
         StartReport(neg, 1, -1, 0);
     }
 
     if (neg->state == ns_connectping && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, 0, 8, gNatNegPingTimeoutFmt, neg->cookie);
+            gsDebugFormat(7, 0, 8, gNatNegPingTimeoutFmt, neg->cookie);
             StartReport(neg, 3, -1, 0);
         } else {
             neg->retryCount++;
-            func_0217D254(7, 0, 8, gNatNegResendPingFmt, neg->cookie, neg->retryCount);
+            gsDebugFormat(7, 0, 8, gNatNegResendPingFmt, neg->cookie, neg->retryCount);
             SendPingPacket((struct NATNegotiator *)neg);
             neg->retryTime = current_time() + 700;
         }
@@ -180,26 +180,26 @@ void NegotiateThink(NATNegotiator *neg)
 
     if (neg->state == ns_reportsent && current_time() > neg->retryTime) {
         if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, (char *)3, 8, gNatNegReportTimeoutFmt, neg->cookie);
+            gsDebugFormat(7, (char *)3, 8, gNatNegReportTimeoutFmt, neg->cookie);
             neg->state = ns_finished;
         } else {
             SendReportPacket((struct NATNegotiator *)neg);
             neg->retryCount++;
-            func_0217D254(7, 0, 8, gNatNegResendReportFmt, neg->cookie, neg->retryCount);
+            gsDebugFormat(7, 0, 8, gNatNegResendReportFmt, neg->cookie, neg->retryCount);
             neg->retryTime = current_time() + 500;
         }
     }
 
     if (neg->state == ns_finished || neg->state == ns_reportack) {
         if (neg->sendGotRemoteData)
-            func_0217D254(7, (char *)3, 8, gNatNegBothDoneFmt, neg->cookie);
+            gsDebugFormat(7, (char *)3, 8, gNatNegBothDoneFmt, neg->cookie);
         else if (current_time() > neg->retryTime)
-            func_0217D254(7, (char *)3, 8, gNatNegLingerDoneFmt, neg->cookie);
+            gsDebugFormat(7, (char *)3, 8, gNatNegLingerDoneFmt, neg->cookie);
         RemoveFinishedNegotiator((int *)neg);
     }
 
     if (neg->state == ns_canceled) {
-        func_0217D254(7, (char *)2, 8, gNatNegRemovePostFmt, neg->cookie);
+        gsDebugFormat(7, (char *)2, 8, gNatNegRemovePostFmt, neg->cookie);
         RemoveNegotiator(neg);
     }
 }

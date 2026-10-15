@@ -18,16 +18,16 @@
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021BC990    0x021BC990 data ov211
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BC8C8 0x021BC8C8 data a4
@@ -50,8 +50,8 @@
  *   func_0200E8D8 0x0200E8D8 thumb
  *   func_0200E8CC 0x0200E8CC thumb
  *   func_0200E8D0 0x0200E8D0 thumb
- *   func_02040B1C 0x02040B1C arm
- *   func_02040E78 0x02040E78 arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
+ *   BG_SYS_LoadPltt 0x02040E78 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207F308 0x0207F308 arm
  *   func_0207F394 0x0207F394 arm
@@ -76,7 +76,7 @@
  *   tick 0x021BC890 thumb ov211
  *   transition 0x0202208C thumb
  *   idle 0x020221A4 thumb
- *   func_02041F6C  0x02041F6C  arm
+ *   BG_SYS_SetScrollY  0x02041F6C  arm
  */
 #include "../../matched/include/Obj10925.h"
 #include "../../matched/include/Obj25638.h"
@@ -122,15 +122,15 @@ struct Object_021BC5B0 { struct Owner_021BC5B0 *owner; u8 pad[6]; u8 timer,state
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
 extern void func_02030EAC(struct Node *);
 extern void BG_SYS_Create(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_02041570(int, u16);
+extern void BG_SYS_ClearLayerEx(int, u16);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),BG_SYS_Delete(void);
@@ -145,8 +145,8 @@ extern u32_021BC5B0 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32_021BC5B0,u32_02
 extern void *func_020073D8(struct Sub020073D8Ctrl *,u32_021BC5B0,u32_021BC5B0);
 extern u32_021BC5B0 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
-extern void func_02040B1C(int index, const void *src, u32_021BC5B0 size, u32_021BC5B0 tile);
-extern void func_02040E78(u32_021BC5B0,void *,u32_021BC5B0,u32_021BC5B0);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32_021BC5B0 size, u32_021BC5B0 tile);
+extern void BG_SYS_LoadPltt(u32_021BC5B0,void *,u32_021BC5B0,u32_021BC5B0);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F428(void);
 extern void func_0207F5B0(void),func_0207F5C8(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F65C(void);
@@ -165,7 +165,7 @@ extern void adjust(u32_021BC7A0,u32_021BC7A0,u32_021BC7A0);
 extern void tick(void);
 extern void transition(void *,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0,u32_021BC7A0);
 extern u32_021BC7A0 idle(void);
-extern void func_02041F6C(u32 which, u32 op, u32 value);
+extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
 void ZUKAN_SEARCH_SCREEN_SetupVram(void);
 void ZUKAN_SEARCH_SCREEN_VBlank(void);
 void ZUKAN_SEARCH_SCREEN_RegisterVBlank(unsigned char *p);
@@ -198,7 +198,7 @@ void ZUKAN_SEARCH_SCREEN_SetupVram(void)
 
 
 
-void ZUKAN_SEARCH_SCREEN_VBlank(void){func_020419E4();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
+void ZUKAN_SEARCH_SCREEN_VBlank(void){BG_SYS_Update();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
 
 
 
@@ -216,14 +216,14 @@ void ZUKAN_SEARCH_SCREEN_InitBg(void)
     Config32 b, c, d, e, f;
     BG_SYS_Create(0x7e);
     a = d_021BC8C8;
-    func_0203FC28((struct DispConfig *)(&a));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&a));
     b = d_021BC910;
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&b), 2);
     BG_SYS_ClearSlot(3);
     c = d_021BC930;
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&c), 0);
     BG_SYS_InitRun(1, 0x20, 0x7fe0, 0x807e);
-    func_02041570(1, 0x3ff);
+    BG_SYS_ClearLayerEx(1, 0x3ff);
     d = d_021BC950;
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&d), 0);
     BG_SYS_ClearSlot(2);
@@ -284,9 +284,9 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *p)
         if(block!=0&&func_0200E8D8(block)==1){
             tiles=func_0200E8CC(block);
             palette=func_0200E8D0(block);
-            func_02040B1C(1,tiles,0x6000,0);
-            func_02040E78(1,palette,0x200,0);
-            func_02040E78(5,palette,0x200,0);
+            BG_SYS_LoadTileData(1,tiles,0x6000,0);
+            BG_SYS_LoadPltt(1,palette,0x200,0);
+            BG_SYS_LoadPltt(5,palette,0x200,0);
             DWCi_ScreenDC_FlushRange(palette,0x200);
             func_0207F308();
             func_0207F394(palette,0x4000,0x200);
@@ -410,8 +410,8 @@ int ZUKAN_SEARCH_SCREEN_Update(struct Object_021BC5B0 *p)
 
 void ZUKAN_SEARCH_SCREEN_Tick(void)
 {
-    func_02041F6C(3, 4, 0x80);
-    func_02041F6C(3, 7, 0x80);
-    func_02041F6C(7, 4, 0x80);
-    func_02041F6C(7, 7, 0x80);
+    BG_SYS_SetScrollY(3, 4, 0x80);
+    BG_SYS_SetScrollY(3, 7, 0x80);
+    BG_SYS_SetScrollY(7, 4, 0x80);
+    BG_SYS_SetScrollY(7, 7, 0x80);
 }

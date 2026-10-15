@@ -26,8 +26,8 @@
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
- *   func_02030DA4 0x02030DA4 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Noop 0x02030DA4 arm
+ *   TCB_Main 0x02030D28 arm
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PALANM_TransferPalettes 0x02021D50  thumb
  *   PALANM_LoadHandlePaletteToSlotAt 0x02021660 thumb
@@ -37,7 +37,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049740  0x02049740  arm
  *   func_02049990  0x02049990  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02041B6C  0x02041B6C  arm
  *   data_021C80E0  0x021C80E0  data
@@ -160,9 +160,9 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
 extern u32 PALANM_Delete(void *a0);
 
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
@@ -182,7 +182,7 @@ extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
@@ -505,7 +505,7 @@ void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p)
     if(((struct Obj02544 *)p)->fC&4)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,2);
     if(((struct Obj02544 *)p)->fC&1)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,0);
     PALANM_Delete(((struct Obj02544 *)p)->f8);
-    func_02030DA4(((struct Obj02544 *)p)->f0);
+    TCB_Noop(((struct Obj02544 *)p)->f0);
     func_020307B0((void *)(((struct Obj02544 *)p)->f4));
     func_020307B0((void *)((unsigned)p));
 }
@@ -515,7 +515,7 @@ void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p)
  */
 void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(char *p)
 {
-    func_02030D28((struct Ctx *)(((struct Obj04893 *)p)->f0));
+    TCB_Main((struct Ctx *)(((struct Obj04893 *)p)->f0));
     switch (((struct Obj04893 *)p)->f10) {
     case 0:
     case 1:
@@ -629,8 +629,8 @@ struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 l
     if (kind == 3 && sub == 0)
         scr = 0x20;
     func_02049990(h, scr, layer, 0, (u16)w->chrOfs, 0, 0, heap);
-    func_020413B0(layer, 0, 0x15, 0x20, 3, pal);
-    func_020413B0(layer, 0, 0, 0x20, 0x15, objPal);
+    BG_SYS_FillTileMap(layer, 0, 0x15, 0x20, 3, pal);
+    BG_SYS_FillTileMap(layer, 0, 0, 0x20, 0x15, objPal);
     ARC_TOOL_DeleteHandle(h);
     func_02041B6C(layer);
     w->layer = layer;
@@ -678,7 +678,7 @@ u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 coun
     if (skip == 0)
         chrOfs = func_02049740(h, scr, layer, 0, 0, heap);
     func_02049990(h, cell, layer, 0, (u16)chrOfs, 0, 0, heap);
-    func_020413B0(layer, 0, 0, 0x20, 0x18, pal);
+    BG_SYS_FillTileMap(layer, 0, 0, 0x20, 0x18, pal);
     ARC_TOOL_DeleteHandle(h);
     func_02041B6C(layer);
     return chrOfs;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FBA6C
+ * function: SCRIPT_COMMAND_CmdCompareScores
  * address:  0x021FBA6C
  * packet:   pkt_ov132_021FBA14
  * region:   ov132
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * notes:    unlabelled Thumb function after func_021FBA14 (its listing extent
+ * notes:    unlabelled Thumb function after SCRIPT_COMMAND_TaskRotate (its listing extent
  *           ran past it); seeded in layout/function_starts.txt.
  *
  * symbols:
@@ -38,14 +38,14 @@
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
- *   func_021F8044 0x021F8044 thumb ov112
- *   func_021F6F04 0x021F6F04 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
  *   _fdiv 0x0209CE10 arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   d_021FDC16 0x021FDC16 data a2
  *   func_02040618 0x02040618 arm
@@ -75,8 +75,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_021F4F54 0x021F4F54 thumb ov112
- *   func_021F4F70 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
+ *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
@@ -92,8 +92,8 @@
  *   func_02011290 0x02011290 thumb
  *   VM_Delete 0x02011264 thumb
  *   NNS_FndGetNextListObject 0x02060614 arm
- *   func_02030DA4 0x02030DA4 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Noop 0x02030DA4 arm
+ *   TCB_Main 0x02030D28 arm
  *   VM_Create 0x0201121C thumb
  *   VM_Init 0x0201126C thumb
  *   VM_Start 0x0201127C thumb
@@ -114,20 +114,20 @@
  *   STA_ACTING_ShowAnim  0x021F9D80  thumb
  *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
  *   STA_ACTING_HideAnim  0x021F9D90  thumb
- *   func_021F80D4 0x021F80D4 thumb ov112
- *   func_021F812C 0x021F812C thumb ov112
- *   func_021F8054 0x021F8054 thumb ov112
+ *   STA_ACT_LIGHT_SetElemVisibleB 0x021F80D4 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpE 0x021F812C thumb ov112
+ *   STA_ACT_LIGHT_ElemOpB 0x021F8054 thumb ov112
  *   VEC_Subtract 0x0207CA00 arm
- *   func_021F80B0 0x021F80B0 thumb ov112
- *   func_021F80A0 0x021F80A0 thumb ov112
- *   func_021F80C8 0x021F80C8 thumb ov112
- *   func_021F8140 0x021F8140 thumb ov112
+ *   STA_ACT_LIGHT_CallElemB 0x021F80B0 thumb ov112
+ *   STA_ACT_LIGHT_CallElemA 0x021F80A0 thumb ov112
+ *   STA_ACT_LIGHT_CallElemC 0x021F80C8 thumb ov112
+ *   STA_ACT_LIGHT_CallElemE 0x021F8140 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  *   STA_ACTING_PositionAnim 0x021F9D18 thumb ov132
  *   STA_ACTING_SetSelection 0x021F95CC thumb ov132
  *   STA_ACTING_LoadRankAnim 0x021F9140 thumb ov132
  *   STA_ACTING_LoadAnimMember 0x021F91A8 thumb ov132
- *   func_021F8084 0x021F8084 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpD 0x021F8084 thumb ov112
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
@@ -144,19 +144,19 @@
  *   STA_ACTING_SetSlot 0x021F9DB8 thumb ov132
  *   STA_ACTING_GetSlot 0x021F9DB0 thumb ov132
  *   STA_ACT_OBJ_FreeEntry 0x021F6B80 thumb ov112
- *   func_021F6BC0 0x021F6BC0 thumb ov112
+ *   STA_ACT_LIGHT_SetElemVisible 0x021F6BC0 thumb ov112
  *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
  *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
  *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
  *   STA_ACTING_SetAnimSlot 0x021F9DCC thumb ov132
  *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
- *   func_021F6E78 0x021F6E78 thumb ov112
- *   func_021F6F14 0x021F6F14 thumb ov112
- *   func_021F6F1C 0x021F6F1C thumb ov112
+ *   STA_ACT_LIGHT_CreateActor 0x021F6E78 thumb ov112
+ *   STA_ACT_LIGHT_SetElemA 0x021F6F14 thumb ov112
+ *   STA_ACT_LIGHT_SetElemB 0x021F6F1C thumb ov112
  *   STA_ACTING_SetCharSlot 0x021F9DE8 thumb ov132
  *   STA_ACTING_MarkDirty 0x021F95E8 thumb ov132
- *   func_021F6EE4 0x021F6EE4 thumb ov112
- *   func_021F6EF4 0x021F6EF4 thumb ov112
+ *   STA_ACT_LIGHT_DeleteActor 0x021F6EE4 thumb ov112
+ *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
  *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
  *   STA_ACTING_PrintText 0x021F93D8 thumb ov132
  *   STA_ACTING_ClearText  0x021F94B0  thumb
@@ -191,7 +191,7 @@
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   MUSICAL_SAVE_GetFanPoints 0x0200A81C thumb
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   STA_NET_SendRandomOrder 0x021FD84C thumb ov132
  *   STA_NET_NotifyHostKind4 0x021FD6C8 thumb ov132
@@ -209,14 +209,152 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020084BC 0x020084BC thumb
- *   func_021F9E40  0x021F9E40  thumb  ov132
- *   func_021FADA0  0x021FADA0  thumb  ov132
- *   func_021FB190  0x021FB190  thumb  ov132
- *   func_021FB528  0x021FB528  thumb  ov132
- *   func_021FB8CC  0x021FB8CC  thumb  ov132
+ *   STA_ACT_EFFECT_SetSceneField14  0x021F9E40  thumb  ov132
+ *   STA_ACT_SCRIPT_AddTask  0x021FADA0  thumb  ov132
+ *   SCRIPT_COMMAND_TaskCameraTarget  0x021FB190  thumb  ov132
+ *   SCRIPT_COMMAND_TaskActorMove  0x021FB528  thumb  ov132
+ *   SCRIPT_COMMAND_TaskShake  0x021FB8CC  thumb  ov132
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
+ *   STA_ACT_LIGHT_ElemOpC  0x021F8068  thumb  ov112
+ *   STA_ACT_EFFECT_GetSceneOwner  0x021F9E44  thumb
+ *   STA_ACT_EFFECT_Noop  0x021F9E4C  thumb
+ *   STA_ACT_EFFECT_Create  0x021F9E50  thumb
+ *   STA_ACT_EFFECT_Delete  0x021F9E94  thumb
+ *   STA_ACT_EFFECT_Update  0x021F9ECC  thumb
+ *   STA_ACT_EFFECT_Draw  0x021F9ED4  thumb
+ *   STA_ACT_EFFECT_StartSystem  0x021F9EDC  thumb
+ *   STA_ACT_EFFECT_KillSystem  0x021F9F58  thumb
+ *   STA_ACT_EFFECT_StartEffect  0x021F9F74  thumb
+ *   STA_ACT_EFFECT_KillEffect  0x021F9FB4  thumb
+ *   STA_ACT_EFFECT_SetEmitterPos  0x021F9FD0  thumb
+ *   STA_ACT_AUDIENCE_Create  0x021F9FEC  thumb
+ *   STA_ACT_AUDIENCE_Delete  0x021FA04C  thumb
+ *   STA_ACT_AUDIENCE_Update  0x021FA064  thumb
+ *   STA_ACT_AUDIENCE_Noop  0x021FA0D0  thumb
+ *   STA_ACT_AUDIENCE_Noop2  0x021FA0D4  thumb
+ *   STA_ACT_AUDIENCE_SetupRecords  0x021FA0D8  thumb
+ *   STA_ACT_AUDIENCE_Noop3  0x021FA278  thumb
+ *   STA_ACT_AUDIENCE_UpdateRecords  0x021FA27C  thumb
+ *   STA_ACT_AUDIENCE_UpdateRecord  0x021FA2A0  thumb
+ *   STA_ACT_AUDIENCE_DrawRecord  0x021FA3A8  thumb
+ *   STA_ACT_AUDIENCE_ApplyChoices  0x021FA4AC  thumb
+ *   STA_ACT_AUDIENCE_RandomizeRecords  0x021FA528  thumb
+ *   STA_ACT_AUDIENCE_SetSlotValue  0x021FA558  thumb
+ *   STA_ACT_AUDIENCE_SetHighlight  0x021FA56C  thumb
+ *   STA_ACT_AUDIENCE_SetBgScroll  0x021FA57C  thumb
+ *   STA_ACT_BUTTON_Create  0x021FA5B0  thumb
+ *   STA_ACT_BUTTON_Delete  0x021FA64C  thumb
+ *   STA_ACT_BUTTON_Update  0x021FA6CC  thumb
+ *   STA_ACT_BUTTON_CreateActors  0x021FA7E0  thumb
+ *   STA_ACT_BUTTON_LoadCharacter  0x021FA99C  thumb
+ *   STA_ACT_BUTTON_SetVisible  0x021FAAB8  thumb
+ *   STA_ACT_SCRIPT_Create  0x021FAAF4  thumb
+ *   STA_ACT_SCRIPT_Delete  0x021FAB58  thumb
+ *   STA_ACT_SCRIPT_Update  0x021FABD8  thumb
+ *   STA_ACT_SCRIPT_AddScript  0x021FAC74  thumb
+ *   STA_ACT_SCRIPT_AddScriptFromTable  0x021FAD0C  thumb
+ *   STA_ACT_SCRIPT_RunScript  0x021FAD2C  thumb
+ *   STA_ACT_SCRIPT_CountScripts  0x021FAD7C  thumb
+ *   STA_ACT_SCRIPT_RemoveTask  0x021FADF8  thumb
+ *   STA_ACT_SCRIPT_StepTaskInt  0x021FAE1C  thumb
+ *   STA_ACT_SCRIPT_StepTaskVec  0x021FAE4C  thumb
+ *   STA_ACT_SCRIPT_StepTaskActor  0x021FAEA8  thumb
+ *   STA_ACT_SCRIPT_TickSlot  0x021FAEE8  thumb
+ *   STA_ACT_SCRIPT_SetWaitFlag  0x021FAF10  thumb
+ *   STA_ACT_SCRIPT_SkipArg  0x021FAF1C  thumb
+ *   STA_ACT_SCRIPT_SetWaitFromArg  0x021FAF28  thumb
+ *   STA_ACT_SCRIPT_SetRemainingWait  0x021FAF38  thumb
+ *   STA_ACT_SCRIPT_SetPendingFlag  0x021FAF54  thumb
+ *   SCRIPT_COMMAND_CmdCameraTo224  0x021FAF70  thumb
+ *   SCRIPT_COMMAND_CmdCameraTo0  0x021FAFDC  thumb
+ *   SCRIPT_COMMAND_CmdSetCameraPos  0x021FB050  thumb
+ *   SCRIPT_COMMAND_TaskCameraPos  0x021FB0DC  thumb
+ *   SCRIPT_COMMAND_CmdSetCameraTarget  0x021FB104  thumb
+ *   SCRIPT_COMMAND_CmdSkipArg  0x021FB1C0  thumb
+ *   SCRIPT_COMMAND_CmdShowAnim  0x021FB1CC  thumb
+ *   SCRIPT_COMMAND_CmdHideAnim  0x021FB1E4  thumb
+ *   SCRIPT_COMMAND_GetActorMask  0x021FB1F4  thumb
+ *   SCRIPT_COMMAND_CmdSetActorFrame  0x021FB208  thumb
+ *   SCRIPT_COMMAND_CmdSetActorVisible  0x021FB258  thumb
+ *   SCRIPT_COMMAND_CmdSetActorPos  0x021FB2B0  thumb
+ *   SCRIPT_COMMAND_CmdAddActorPos  0x021FB3E0  thumb
+ *   SCRIPT_COMMAND_CmdActorAnimRestart  0x021FB55C  thumb
+ *   SCRIPT_COMMAND_CmdActorAnimPause  0x021FB5A4  thumb
+ *   SCRIPT_COMMAND_CmdSetActorFlag  0x021FB5EC  thumb
+ *   SCRIPT_COMMAND_CmdSetActorScale  0x021FB640  thumb
+ *   SCRIPT_COMMAND_CmdSetActorLight  0x021FB698  thumb
+ *   SCRIPT_COMMAND_CmdPositionAnim  0x021FB6F0  thumb
+ *   SCRIPT_COMMAND_CmdSetSelection  0x021FB738  thumb
+ *   SCRIPT_COMMAND_CmdClearSelection  0x021FB774  thumb
+ *   SCRIPT_COMMAND_CmdLoadRankAnim  0x021FB7A4  thumb
+ *   SCRIPT_COMMAND_CmdLoadAnimMember  0x021FB7D8  thumb
+ *   SCRIPT_COMMAND_CmdStartShake  0x021FB808  thumb
+ *   SCRIPT_COMMAND_CmdRotateActor  0x021FB948  thumb
+ *   SCRIPT_COMMAND_TaskRotate  0x021FBA14  thumb
+ *   SCRIPT_COMMAND_CmdSetFlags  0x021FBD78  thumb
+ *   SCRIPT_COMMAND_CmdAddEntry  0x021FBDCC  thumb
+ *   SCRIPT_COMMAND_CmdFreeEntry  0x021FBE00  thumb
+ *   SCRIPT_COMMAND_CmdShowEntry  0x021FBE38  thumb
+ *   SCRIPT_COMMAND_CmdHideEntry  0x021FBE64  thumb
+ *   SCRIPT_COMMAND_CmdSetEntryTarget  0x021FBE90  thumb
+ *   SCRIPT_COMMAND_TaskEntryTarget  0x021FBF74  thumb
+ *   SCRIPT_COMMAND_CmdSetAnimSlot  0x021FBFA8  thumb
+ *   SCRIPT_COMMAND_CmdFreeAnimSlot  0x021FBFDC  thumb
+ *   SCRIPT_COMMAND_CmdStartEffect  0x021FC014  thumb
+ *   SCRIPT_COMMAND_CmdKillEffect  0x021FC080  thumb
+ *   SCRIPT_COMMAND_CmdMoveEffect  0x021FC0AC  thumb
+ *   SCRIPT_COMMAND_TaskMoveEffect  0x021FC178  thumb
+ *   SCRIPT_COMMAND_CmdSetChar  0x021FC1D4  thumb
+ *   SCRIPT_COMMAND_CmdFreeChar  0x021FC22C  thumb
+ *   SCRIPT_COMMAND_CmdSetCharPos  0x021FC268  thumb
+ *   SCRIPT_COMMAND_TaskCharMove  0x021FC34C  thumb
+ *   SCRIPT_COMMAND_CmdCharFollowActor  0x021FC380  thumb
+ *   SCRIPT_COMMAND_TaskCharFollow  0x021FC490  thumb
+ *   SCRIPT_COMMAND_CmdSetCharColor  0x021FC4CC  thumb
+ *   SCRIPT_COMMAND_CmdPrintText  0x021FC53C  thumb
+ *   SCRIPT_COMMAND_CmdClearText  0x021FC560  thumb
+ *   SCRIPT_COMMAND_CmdSetTextColor  0x021FC570  thumb
+ *   SCRIPT_COMMAND_CmdInstallBgm  0x021FC5A0  thumb
+ *   SCRIPT_COMMAND_CmdStartSeq  0x021FC5BC  thumb
+ *   SCRIPT_COMMAND_CmdStopSeq  0x021FC5D8  thumb
+ *   SCRIPT_COMMAND_CmdReplaceWave  0x021FC5E8  thumb
+ *   SCRIPT_COMMAND_CmdPlayBgm  0x021FC61C  thumb
+ *   SCRIPT_COMMAND_CmdStopBgm  0x021FC634  thumb
+ *   MUS_COMM_FUNC_Create  0x021FC644  thumb
+ *   MUS_COMM_FUNC_Delete  0x021FC684  thumb
+ *   MUS_COMM_FUNC_StartSession  0x021FC694  thumb
+ *   MUS_COMM_FUNC_UpdateNetState  0x021FC6EC  thumb
+ *   MUS_COMM_FUNC_WaitSessionNull  0x021FC7DC  thumb
+ *   MUS_COMM_FUNC_Task  0x021FC7F8  thumb
+ *   MUS_COMM_FUNC_SetHostFlag  0x021FC804  thumb
+ *   MUS_COMM_FUNC_InitCommandTable  0x021FC81C  thumb
+ *   MUS_COMM_FUNC_InitWork  0x021FC848  thumb
+ *   MUS_COMM_FUNC_DeleteBuffers  0x021FCA38  thumb
+ *   MUS_COMM_FUNC_SetReady  0x021FCAA0  thumb
+ *   MUS_COMM_FUNC_Update  0x021FCAA8  thumb
+ *   MUS_COMM_FUNC_SetTimingSync  0x021FCDEC  thumb
+ *   MUS_COMM_FUNC_CheckTimingSync  0x021FCE00  thumb
+ *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb
+ *   MUS_COMM_FUNC_GetSlotValueB  0x021FCE44  thumb
+ *   MUS_COMM_FUNC_GetRecordPtr  0x021FCE60  thumb
+ *   MUS_COMM_FUNC_GetRecordSize  0x021FCE64  thumb
+ *   MUS_COMM_FUNC_Equals  0x021FCE68  thumb
+ *   MUS_COMM_FUNC_SendCommand  0x021FCE74  thumb
+ *   MUS_COMM_FUNC_SendCommandWait  0x021FCEA8  thumb
+ *   MUS_COMM_FUNC_HandlePacket  0x021FCEDC  thumb
+ *   MUS_COMM_FUNC_SendMyStatus  0x021FD14C  thumb
+ *   MUS_COMM_FUNC_SetEntryFlag  0x021FD208  thumb
+ *   MUS_COMM_FUNC_ClearEntryFlag  0x021FD218  thumb
+ *   MUS_COMM_FUNC_SendBoxData  0x021FD22C  thumb
+ *   MUS_COMM_FUNC_ReceiveBoxData  0x021FD2B8  thumb
+ *   MUS_COMM_FUNC_ResetBoxFlags  0x021FD328  thumb
+ *   MUS_COMM_FUNC_SendStatusBlock  0x021FD350  thumb
+ *   MUS_COMM_FUNC_SetRecordData  0x021FD3D8  thumb
+ *   MUS_COMM_FUNC_ClearRecordData  0x021FD3F0  thumb
+ *   MUS_COMM_FUNC_SendRecordBlock  0x021FD400  thumb
+ *   MUS_COMM_FUNC_ReceiveRecordBlock  0x021FD470  thumb
  */
 
 #include "../../game/ov132/ov132_types.h"
@@ -358,9 +496,9 @@ extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *STA_ACTING_GetCharSystem(void *);
 extern void *STA_ACTING_GetCharSlot(void *,u8);
-extern void func_021F8044(void *unused, u32 *p, u32 *q);
-extern void func_021F6F04(void *,char *,Vec *);
-extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
+extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
+extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 extern void func_02040618(unsigned, unsigned, unsigned);
 extern void CLACT_DeleteActor(struct Obj_021F9E40 *p);
@@ -379,8 +517,8 @@ extern int STA_ACTING_GetCurrentAction(char *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 STA_ACTING_GetActorCount(u8 *p);
-extern u8 *func_021F4F54(u8 *,int);
-extern int func_021F4F70(int *);
+extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *,int);
+extern int MUSICAL_MCSS_NoOp6(int *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -400,8 +538,8 @@ extern void NNS_FndInitList(int p0, int p1);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern void VM_Delete(void *);
 extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
-extern void func_02030DA4(void *);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Noop(void *);
+extern void TCB_Main(struct Ctx *c);
 extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 extern void VM_Init(struct ScriptVm *vm, void *user);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
@@ -419,22 +557,22 @@ extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
 extern void STA_ACTING_ShowAnim(char *p);
 extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
 extern void STA_ACTING_HideAnim(char *p);
-extern void func_021F80D4(char *, char *, int);
-extern int func_021F812C(int unused, int *p, int flag);
-extern void func_021F8054(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_SetElemVisibleB(char *, char *, int);
+extern int STA_ACT_LIGHT_ElemOpE(int unused, int *p, int flag);
+extern void STA_ACT_LIGHT_ElemOpB(void *unused, u32 *p, const u32 *q);
 extern void VEC_Subtract(void *,void *,void *);
-extern void func_021F80B0(char *, char *);
-extern void func_021F80A0(int a, u8 *p);
-extern void func_021F80C8(int, void *, u8);
-extern void func_021F8140(int a, u8 *p, int b);
+extern void STA_ACT_LIGHT_CallElemB(char *, char *);
+extern void STA_ACT_LIGHT_CallElemA(int a, u8 *p);
+extern void STA_ACT_LIGHT_CallElemC(int, void *, u8);
+extern void STA_ACT_LIGHT_CallElemE(int a, u8 *p, int b);
 extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
 extern void STA_ACTING_PositionAnim(char *p, unsigned i);
 extern void STA_ACTING_SetSelection(char *,unsigned char,int);
 extern void STA_ACTING_LoadRankAnim(unsigned char *,unsigned char,unsigned char);
 extern void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
-extern void func_021F8084(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_ElemOpD(void *unused, u32 *p, const u32 *q);
 extern int func_0209C0A4();
-extern void func_021F8068(int self, char *p, u16 v);
+extern void STA_ACT_LIGHT_ElemOpC(int self, char *p, u16 v);
 extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
 extern u16 STA_ACTING_GetBonus(char *p, u32 i);
 extern void STA_ACTING_SetField10(char *p, u32 v);
@@ -447,19 +585,19 @@ extern struct Entry *STA_ACT_OBJ_AddEntry(struct Object *,unsigned short);
 extern void STA_ACTING_SetSlot(void *p, void *v, u32 i);
 extern unsigned int *STA_ACTING_GetSlot(void *,unsigned char);
 extern void STA_ACT_OBJ_FreeEntry(unsigned int *,unsigned int *);
-extern void func_021F6BC0(char *,unsigned int *,unsigned int);
+extern void STA_ACT_LIGHT_SetElemVisible(char *,unsigned int *,unsigned int);
 extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
 extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
 extern void *STA_ACTING_GetAnimHandle(void *p);
 extern void STA_ACTING_SetAnimSlot(void *p, void *v, u32 i);
 extern void *STA_ACTING_GetAnimSlot(void *,u8);
-extern u8 *func_021F6E78(u8 *p, int v);
-extern void func_021F6F14(void *a, char *p, u16 b, u8 c);
-extern void func_021F6F1C(void *a, char *p, u32 b, u32 c);
+extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
+extern void STA_ACT_LIGHT_SetElemA(void *a, char *p, u16 b, u8 c);
+extern void STA_ACT_LIGHT_SetElemB(void *a, char *p, u32 b, u32 c);
 extern void STA_ACTING_SetCharSlot(void *,void *,u8);
 extern void STA_ACTING_MarkDirty(char *p);
-extern void func_021F6EE4(void *,u8 *);
-extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_DeleteActor(void *,u8 *);
+extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 extern void *STA_ACTING_GetBoard(void *p);
 extern void STA_ACTING_PrintText(u8 *,u16,u32);
 extern void STA_ACTING_ClearText(u8 *p);
@@ -494,7 +632,7 @@ extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
 extern void MI_CpuFill8(void *,u8,u32);
 extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern int STA_NET_SendRandomOrder(u8 *p);
 extern int STA_NET_NotifyHostKind4(u8 *p);
 extern int STA_NET_SendSlot1Command(u8 *p);
@@ -511,149 +649,149 @@ extern struct Entry *GFL_NET_HANDLE_GetNetHandle(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void MI_CpuCopy8(void *,void *,u32);
 extern int func_020084BC(const u16 *values);
-void func_021F9E40(u8 *p,u32 v);
-u32 func_021F9E44(u8 *p);
-void func_021F9E4C(u8 *a0);
-char *func_021F9E50(unsigned heap);
-void func_021F9E94(u8 *p);
-int func_021F9ECC(u8 *a0);
-int func_021F9ED4(u8 *a0);
-char *func_021F9EDC(char *p, u32 a);
-void func_021F9F58(u8 *unused,u8 *p);
-void func_021F9F74(char *p, unsigned i, Vec *v);
-void func_021F9FB4(char *p, int i);
-void func_021F9FD0(char *p, int i, int a);
-char *func_021F9FEC(unsigned heap, void *a, unsigned b);
-void func_021FA04C(u8 *p);
-void func_021FA064(char *p);
-void func_021FA0D0(char *a0);
-void func_021FA0D4(void *p);
-void func_021FA0D8(char *p, char *q);
-void func_021FA278(void *a0);
-void func_021FA27C(char *p);
-void func_021FA2A0(char *p,u8 *rec);
-void func_021FA3A8(char *p,u8 *rec,unsigned type);
-void func_021FA4AC(char *p);
-void func_021FA528(char *p);
-void func_021FA558(char *p, int i, int v);
-void func_021FA56C(char *p, u8 v);
-void func_021FA57C(void *unused, int x);
-char *func_021FA5B0(unsigned heap, void *a, char *b);
-void func_021FA64C(char *p);
-void func_021FA6CC(char *p);
-void func_021FA7E0(char *p);
-void func_021FA99C(u8 *p,u16 slot,int resource,u32 type);
-void func_021FAAB8(char *p, unsigned flag);
-void *func_021FAAF4(u32 heap, void *owner);
-void func_021FAB58(char *p);
-void func_021FABD8(char *p);
-void *func_021FAC74(char *p, void *arg, int flag);
-char *func_021FAD0C(char *p, char *base, unsigned index, unsigned char flag);
-int func_021FAD2C(void *unused, char *p);
-u8 func_021FAD7C(char *p);
-void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key);
-void func_021FADF8(char *p, char *q);
-int func_021FAE1C(char *p, int *out);
-int func_021FAE4C(char *p, int *out);
-int func_021FAEA8(char *p, void *out);
-int func_021FAEE8(char *p);
-int func_021FAF10(void *unused, char *p);
-int func_021FAF1C(void *a, char *p);
-int func_021FAF28(void *a, u8 *p);
-int func_021FAF38(void *a, u8 *p);
-int func_021FAF54(int a, char *b);
-int func_021FAF70(void *unused, char *ctx);
-int func_021FAFDC(void *unused, char *ctx);
-int func_021FB050(void *unused, char *ctx);
-void func_021FB0DC(void *unused, char *p);
-int func_021FB104(void *unused, char *ctx);
-void func_021FB190(void *unused, char *p);
-int func_021FB1C0(void *unused,char *p);
-int func_021FB1CC(int a, char **pp);
-int func_021FB1E4(void *a, void **pp);
-int func_021FB1F4(char *p, int i);
-int func_021FB208(int unused, char *p);
-int func_021FB258(int unused, char *p);
-int func_021FB2B0(int unused,char *p);
-int func_021FB3E0(int unused,char *p);
-void func_021FB528(int unused,char *p);
-int func_021FB55C(int unused, char *p);
-int func_021FB5A4(int unused, char *p);
-int func_021FB5EC(int unused, char *p);
-int func_021FB640(int unused, char *p);
-int func_021FB698(int unused, char *p);
-int func_021FB6F0(int unused, char *p);
-int func_021FB738(int unused,char *p);
-int func_021FB774(int unused,char *p);
-int func_021FB7A4(int unused,char *p);
-int func_021FB7D8(int unused,char *p);
-int func_021FB808(int unused, char *p);
-void func_021FB8CC(int unused, char *p);
-int func_021FB948(int unused,char *p);
-void func_021FBA14(int a0, int *a1);
-int func_021FBA6C(int unused, Msg *m);
-int func_021FBD78(int unused, char *p);
-int func_021FBDCC(int unused,char *p);
-int func_021FBE00(int unused,char *p);
-int func_021FBE38(int unused,char *p);
-int func_021FBE64(int unused,char *p);
-int func_021FBE90(int unused,char *p);
-void func_021FBF74(int unused,char *p);
-int func_021FBFA8(int unused,char *p);
-int func_021FBFDC(int unused,char *p);
-int func_021FC014(int unused, char *p);
-int func_021FC080(int unused,char *p);
-int func_021FC0AC(int unused,char *p);
-void func_021FC178(int a, char *p);
-int func_021FC1D4(int a,char **p);
-int func_021FC22C(int unused,char *p);
-int func_021FC268(int unused,char *p);
-void func_021FC34C(int unused,char *p);
-int func_021FC380(int unused,char *p);
-void func_021FC490(int unused,char *p);
-int func_021FC4CC(int a,char **p);
-int func_021FC53C(int unused,char *p);
-int func_021FC560(void *a, void **pp);
-int func_021FC570(int unused,char *p);
-int func_021FC5A0(int a, char **pp);
-int func_021FC5BC(int a, char **pp);
-int func_021FC5D8(int a, char **pp);
-int func_021FC5E8(int unused,char *p);
-int func_021FC61C(int a, char **pp);
-int func_021FC634(int a, char **pp);
-void func_021FC644(int a, void *b, void *c, int d);
-void func_021FC684(char *p);
-void *func_021FC694(int a,char *p);
-int func_021FC6EC(int *state,u8 *p);
-int func_021FC7DC(int unused,int unused1,void *p);
-void func_021FC7F8(int unused,int unused1,char *p);
-void func_021FC804(char *p);
-void func_021FC81C(char *p);
-void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap);
-void func_021FCA38(char *p);
-void func_021FCAA0(char *p);
-void func_021FCAA8(char *p);
-void func_021FCDEC(int a, int b);
-int func_021FCE00(char *p,int id);
-int func_021FCE28(char *p,u32 index);
-int func_021FCE44(char *p,u32 index);
-char *func_021FCE60(char *p);
-u32 func_021FCE64(void);
-int func_021FCE68(int a,int b);
-void func_021FCE74(int unused,int kind,u32 value,u32 id);
-u32 func_021FCEA8(int unused,int kind,u32 value,u32 id);
-void func_021FCEDC(unsigned long slot, int unused, const Packet *q, char *p);
-u32 func_021FD14C(Owner_021F9E40 *p);
-void func_021FD208(int i, int b, int c, T *p);
-u32 func_021FD218(int i, T *p);
-int func_021FD22C(char *p);
-void func_021FD2B8(int a,int b,int c,char *p);
-void *func_021FD328(int a,char *p);
-int func_021FD350(char *p, char *src);
-void func_021FD3D8(long i,int b,int c,struct Context *p);
-void *func_021FD3F0(long i,struct Context *p);
-int func_021FD400(const char *p);
-void func_021FD470(int a,int b,int c,const Owner_021FD22C *p);
+void STA_ACT_EFFECT_SetSceneField14(u8 *p,u32 v);
+u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p);
+void STA_ACT_EFFECT_Noop(u8 *a0);
+char *STA_ACT_EFFECT_Create(unsigned heap);
+void STA_ACT_EFFECT_Delete(u8 *p);
+int STA_ACT_EFFECT_Update(u8 *a0);
+int STA_ACT_EFFECT_Draw(u8 *a0);
+char *STA_ACT_EFFECT_StartSystem(char *p, u32 a);
+void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p);
+void STA_ACT_EFFECT_StartEffect(char *p, unsigned i, Vec *v);
+void STA_ACT_EFFECT_KillEffect(char *p, int i);
+void STA_ACT_EFFECT_SetEmitterPos(char *p, int i, int a);
+char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, unsigned b);
+void STA_ACT_AUDIENCE_Delete(u8 *p);
+void STA_ACT_AUDIENCE_Update(char *p);
+void STA_ACT_AUDIENCE_Noop(char *a0);
+void STA_ACT_AUDIENCE_Noop2(void *p);
+void STA_ACT_AUDIENCE_SetupRecords(char *p, char *q);
+void STA_ACT_AUDIENCE_Noop3(void *a0);
+void STA_ACT_AUDIENCE_UpdateRecords(char *p);
+void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec);
+void STA_ACT_AUDIENCE_DrawRecord(char *p,u8 *rec,unsigned type);
+void STA_ACT_AUDIENCE_ApplyChoices(char *p);
+void STA_ACT_AUDIENCE_RandomizeRecords(char *p);
+void STA_ACT_AUDIENCE_SetSlotValue(char *p, int i, int v);
+void STA_ACT_AUDIENCE_SetHighlight(char *p, u8 v);
+void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x);
+char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b);
+void STA_ACT_BUTTON_Delete(char *p);
+void STA_ACT_BUTTON_Update(char *p);
+void STA_ACT_BUTTON_CreateActors(char *p);
+void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type);
+void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag);
+void *STA_ACT_SCRIPT_Create(u32 heap, void *owner);
+void STA_ACT_SCRIPT_Delete(char *p);
+void STA_ACT_SCRIPT_Update(char *p);
+void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag);
+char *STA_ACT_SCRIPT_AddScriptFromTable(char *p, char *base, unsigned index, unsigned char flag);
+int STA_ACT_SCRIPT_RunScript(void *unused, char *p);
+u8 STA_ACT_SCRIPT_CountScripts(char *p);
+void *STA_ACT_SCRIPT_AddTask(char *p, u32 fn, u32 arg, u32 key);
+void STA_ACT_SCRIPT_RemoveTask(char *p, char *q);
+int STA_ACT_SCRIPT_StepTaskInt(char *p, int *out);
+int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out);
+int STA_ACT_SCRIPT_StepTaskActor(char *p, void *out);
+int STA_ACT_SCRIPT_TickSlot(char *p);
+int STA_ACT_SCRIPT_SetWaitFlag(void *unused, char *p);
+int STA_ACT_SCRIPT_SkipArg(void *a, char *p);
+int STA_ACT_SCRIPT_SetWaitFromArg(void *a, u8 *p);
+int STA_ACT_SCRIPT_SetRemainingWait(void *a, u8 *p);
+int STA_ACT_SCRIPT_SetPendingFlag(int a, char *b);
+int SCRIPT_COMMAND_CmdCameraTo224(void *unused, char *ctx);
+int SCRIPT_COMMAND_CmdCameraTo0(void *unused, char *ctx);
+int SCRIPT_COMMAND_CmdSetCameraPos(void *unused, char *ctx);
+void SCRIPT_COMMAND_TaskCameraPos(void *unused, char *p);
+int SCRIPT_COMMAND_CmdSetCameraTarget(void *unused, char *ctx);
+void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p);
+int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p);
+int SCRIPT_COMMAND_CmdShowAnim(int a, char **pp);
+int SCRIPT_COMMAND_CmdHideAnim(void *a, void **pp);
+int SCRIPT_COMMAND_GetActorMask(char *p, int i);
+int SCRIPT_COMMAND_CmdSetActorFrame(int unused, char *p);
+int SCRIPT_COMMAND_CmdSetActorVisible(int unused, char *p);
+int SCRIPT_COMMAND_CmdSetActorPos(int unused,char *p);
+int SCRIPT_COMMAND_CmdAddActorPos(int unused,char *p);
+void SCRIPT_COMMAND_TaskActorMove(int unused,char *p);
+int SCRIPT_COMMAND_CmdActorAnimRestart(int unused, char *p);
+int SCRIPT_COMMAND_CmdActorAnimPause(int unused, char *p);
+int SCRIPT_COMMAND_CmdSetActorFlag(int unused, char *p);
+int SCRIPT_COMMAND_CmdSetActorScale(int unused, char *p);
+int SCRIPT_COMMAND_CmdSetActorLight(int unused, char *p);
+int SCRIPT_COMMAND_CmdPositionAnim(int unused, char *p);
+int SCRIPT_COMMAND_CmdSetSelection(int unused,char *p);
+int SCRIPT_COMMAND_CmdClearSelection(int unused,char *p);
+int SCRIPT_COMMAND_CmdLoadRankAnim(int unused,char *p);
+int SCRIPT_COMMAND_CmdLoadAnimMember(int unused,char *p);
+int SCRIPT_COMMAND_CmdStartShake(int unused, char *p);
+void SCRIPT_COMMAND_TaskShake(int unused, char *p);
+int SCRIPT_COMMAND_CmdRotateActor(int unused,char *p);
+void SCRIPT_COMMAND_TaskRotate(int a0, int *a1);
+int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m);
+int SCRIPT_COMMAND_CmdSetFlags(int unused, char *p);
+int SCRIPT_COMMAND_CmdAddEntry(int unused,char *p);
+int SCRIPT_COMMAND_CmdFreeEntry(int unused,char *p);
+int SCRIPT_COMMAND_CmdShowEntry(int unused,char *p);
+int SCRIPT_COMMAND_CmdHideEntry(int unused,char *p);
+int SCRIPT_COMMAND_CmdSetEntryTarget(int unused,char *p);
+void SCRIPT_COMMAND_TaskEntryTarget(int unused,char *p);
+int SCRIPT_COMMAND_CmdSetAnimSlot(int unused,char *p);
+int SCRIPT_COMMAND_CmdFreeAnimSlot(int unused,char *p);
+int SCRIPT_COMMAND_CmdStartEffect(int unused, char *p);
+int SCRIPT_COMMAND_CmdKillEffect(int unused,char *p);
+int SCRIPT_COMMAND_CmdMoveEffect(int unused,char *p);
+void SCRIPT_COMMAND_TaskMoveEffect(int a, char *p);
+int SCRIPT_COMMAND_CmdSetChar(int a,char **p);
+int SCRIPT_COMMAND_CmdFreeChar(int unused,char *p);
+int SCRIPT_COMMAND_CmdSetCharPos(int unused,char *p);
+void SCRIPT_COMMAND_TaskCharMove(int unused,char *p);
+int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p);
+void SCRIPT_COMMAND_TaskCharFollow(int unused,char *p);
+int SCRIPT_COMMAND_CmdSetCharColor(int a,char **p);
+int SCRIPT_COMMAND_CmdPrintText(int unused,char *p);
+int SCRIPT_COMMAND_CmdClearText(void *a, void **pp);
+int SCRIPT_COMMAND_CmdSetTextColor(int unused,char *p);
+int SCRIPT_COMMAND_CmdInstallBgm(int a, char **pp);
+int SCRIPT_COMMAND_CmdStartSeq(int a, char **pp);
+int SCRIPT_COMMAND_CmdStopSeq(int a, char **pp);
+int SCRIPT_COMMAND_CmdReplaceWave(int unused,char *p);
+int SCRIPT_COMMAND_CmdPlayBgm(int a, char **pp);
+int SCRIPT_COMMAND_CmdStopBgm(int a, char **pp);
+void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d);
+void MUS_COMM_FUNC_Delete(char *p);
+void *MUS_COMM_FUNC_StartSession(int a,char *p);
+int MUS_COMM_FUNC_UpdateNetState(int *state,u8 *p);
+int MUS_COMM_FUNC_WaitSessionNull(int unused,int unused1,void *p);
+void MUS_COMM_FUNC_Task(int unused,int unused1,char *p);
+void MUS_COMM_FUNC_SetHostFlag(char *p);
+void MUS_COMM_FUNC_InitCommandTable(char *p);
+void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap);
+void MUS_COMM_FUNC_DeleteBuffers(char *p);
+void MUS_COMM_FUNC_SetReady(char *p);
+void MUS_COMM_FUNC_Update(char *p);
+void MUS_COMM_FUNC_SetTimingSync(int a, int b);
+int MUS_COMM_FUNC_CheckTimingSync(char *p,int id);
+int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index);
+int MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index);
+char *MUS_COMM_FUNC_GetRecordPtr(char *p);
+u32 MUS_COMM_FUNC_GetRecordSize(void);
+int MUS_COMM_FUNC_Equals(int a,int b);
+void MUS_COMM_FUNC_SendCommand(int unused,int kind,u32 value,u32 id);
+u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id);
+void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q, char *p);
+u32 MUS_COMM_FUNC_SendMyStatus(Owner_021F9E40 *p);
+void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, T *p);
+u32 MUS_COMM_FUNC_ClearEntryFlag(int i, T *p);
+int MUS_COMM_FUNC_SendBoxData(char *p);
+void MUS_COMM_FUNC_ReceiveBoxData(int a,int b,int c,char *p);
+void *MUS_COMM_FUNC_ResetBoxFlags(int a,char *p);
+int MUS_COMM_FUNC_SendStatusBlock(char *p, char *src);
+void MUS_COMM_FUNC_SetRecordData(long i,int b,int c,struct Context *p);
+void *MUS_COMM_FUNC_ClearRecordData(long i,struct Context *p);
+int MUS_COMM_FUNC_SendRecordBlock(const char *p);
+void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const Owner_021FD22C *p);
 extern const char d_021FDCB0[];
 extern const char d_021FDCC4[];
 extern u16 d_021FDC16[];
@@ -668,7 +806,7 @@ extern char d_021FDE4C[];
 extern char d_021FDDEC[];
 extern char d_021FDC38[];
 
-int func_021FBA6C(int unused, Msg *m)
+int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
 {
     Obj_021FBA6C *o = m->f0;
     u32 vec[4];
@@ -696,7 +834,7 @@ int func_021FBA6C(int unused, Msg *m)
             idx = i;
     }
     for (i = 0; i < 4; i++) {
-        func_021F8044(h, STA_ACTING_GetActor(o->f34, i), &v.x);
+        STA_ACT_LIGHT_ElemOpA(h, STA_ACTING_GetActor(o->f34, i), &v.x);
         vec[i] = v.x;
         if (i == idx)
             base = v.x;
@@ -727,7 +865,7 @@ int func_021FBA6C(int unused, Msg *m)
         a->f00 = (u32)STA_ACTING_GetActor(o->f34, k);
         a->f04 = o->f34;
         a->f2E = 0;
-        func_021F8044(h, (void *)a->f00, (u32 *)&a->f08);
+        STA_ACT_LIGHT_ElemOpA(h, (void *)a->f00, (u32 *)&a->f08);
         a->f14.x = base + (dir[k] << 18);
         a->f14.y = a->f08.y;
         a->f14.z = a->f08.z;
@@ -735,7 +873,7 @@ int func_021FBA6C(int unused, Msg *m)
         a->f20.x = func_0209C0A4(a->f14.x - a->f08.x, a->f2C);
         a->f20.y = func_0209C0A4(a->f14.y - a->f08.y, a->f2C);
         a->f20.z = func_0209C0A4(a->f14.z - a->f08.z, a->f2C);
-        a->f34 = func_021FADA0((char *)o, (u32)func_021FB528, (u32)a, 10);
+        a->f34 = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskActorMove, (u32)a, 10);
         if (a->f2C != 0) {
             R20 *b = func_02030734(o->f0, 0x20, 0, d_021FDD00, 0x54B);
             u16 t = a->f2C;
@@ -747,7 +885,7 @@ int func_021FBA6C(int unused, Msg *m)
             b->f04 = 0;
             b->f08 = 15;
             b->f0C = (u8)(t / 15 + rem);
-            b->f1C = func_021FADA0((char *)o, (u32)func_021FB8CC, (u32)b, 10);
+            b->f1C = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskShake, (u32)b, 10);
         }
         total += a->f14.x;
     }
@@ -763,8 +901,8 @@ int func_021FBA6C(int unused, Msg *m)
         f = func_0209CB8C(f, 0x43000000);
         c->f08 = func_0209C494(f);
         c->f0C = x;
-        c->f14 = func_021FADA0((char *)o, (u32)func_021FB190, (u32)c, 10);
-        func_021F9E40((u8 *)o->f34, 1);
+        c->f14 = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskCameraTarget, (u32)c, 10);
+        STA_ACT_EFFECT_SetSceneField14((u8 *)o->f34, 1);
         STA_ACTING_SetField10(o->f34, 1);
         if (y == 1) {
             m->f14 = x;

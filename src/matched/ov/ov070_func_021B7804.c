@@ -13,7 +13,7 @@
  *   ITEMMENU_ShowQuantityWindows  0x021B7D9C  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemNameCounted  0x021B6204  thumb  ov070
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   ITEMMENU_ShowMessageDefault  0x021BADAC  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   ITEMMENU_TaskTossQuantityInput  0x021B7868  thumb  ov070
@@ -38,7 +38,7 @@ struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_RegisterItemNameCounted(u8 *p, int a, unsigned int b, int c, int d);
 struct WordSet;
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_ShowMessageDefault(void *p);
 extern void ITEMMENU_SetTask(char *p, int k);
 extern void ITEMMENU_TaskTossQuantityInput(struct Obj *o);
@@ -49,7 +49,7 @@ void ITEMMENU_TaskTossAskQuantity(Obj *o)
     ITEMMENU_ShowQuantityWindows((u8 *)o, 1);
     MSGDATA_ReadString(o->f51C, 0x35, (void *)o->f524);
     ITEMMENU_RegisterItemNameCounted((u8 *)o, 0, o->f84C, 1, 0);
-    func_0201F250(o->f520, o->f528, (void *)o->f524);
+    WORDSET_CopyTaggedText(o->f520, o->f528, (void *)o->f524);
     ITEMMENU_ShowMessageDefault(o);
     ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskTossQuantityInput));
 }

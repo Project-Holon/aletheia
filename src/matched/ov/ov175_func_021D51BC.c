@@ -1,5 +1,5 @@
 /*
- * function: func_021D51BC
+ * function: WIFIBATTLEMATCH_NET_TaskStepF
  * address: 0x021D51BC
  * packet: pkt_ov175_021D51BC
  * region: ov175
@@ -11,8 +11,8 @@
  * DA36C receives the live context in r0 here despite its no-argument body.
  * symbols:
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_021D54E8 0x021D54E8 thumb ov175
- *   func_021D61A4 0x021D61A4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepG 0x021D54E8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskCleanupA 0x021D61A4 thumb ov175
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
  *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb
@@ -23,20 +23,20 @@
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  *   func_021E8AC0 0x021E8AC0 thumb ov177
- *   func_021DA5B0 0x021DA5B0 thumb ov175
- *   func_021DA6B8 0x021DA6B8 thumb ov175
- *   func_021DADAC 0x021DADAC thumb ov175
- *   func_021D9F04 0x021D9F04 thumb ov175
- *   func_021DA36C 0x021DA36C thumb ov175
- *   func_021DA384 0x021DA384 thumb ov175
- *   func_021DA390 0x021DA390 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupMatchReport 0x021DA5B0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_ScProcess 0x021DA6B8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GetReportState 0x021DADAC thumb ov175
+ *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DisconnectWifi 0x021DA36C thumb ov175
+ *   WIFIBATTLEMATCH_NET_ClearCancelFlag 0x021DA384 thumb ov175
+ *   WIFIBATTLEMATCH_NET_StopMatchmaking 0x021DA390 thumb ov175
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021DBC04 0x021DBC04 thumb ov175
- *   func_021DBDAC 0x021DBDAC thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupGdbUpload 0x021DBC04 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GdbUpdateRecord 0x021DBDAC thumb ov175
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  */
@@ -48,8 +48,8 @@ struct Big;
 struct L0200ED54;
 extern void func_021E8AA0(int *, int);
 struct Sub0200852CObj;
-extern void func_021D54E8(unsigned sys, int *state, int *p);
-extern void func_021D61A4(void *obj, int unused, u8 *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepG(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj, int unused, u8 *p);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void DWC_RAPCOMMON_CreateSubHeap(int, int, int, int);
 extern void DWC_RAPCOMMON_SetHeapTag(int);
@@ -60,26 +60,26 @@ extern int func_021E8844(const int *);
 extern void func_021E8AB8(unsigned);
 extern void func_021E8AA8(int);
 extern void func_021E8AC0(int, int);
-extern void func_021DA5B0(char *, int, int, u32, u32 *, u32);
+extern void WIFIBATTLEMATCH_NET_SetupMatchReport(char *, int, int, u32, u32 *, u32);
 struct Record;
-extern int func_021DA6B8(char *p, u32 *out);
-extern u32 func_021DADAC(u8 *p);
-extern int func_021D9F04(char *, void *, void *);
-extern void func_021DA36C(int);
-extern void func_021DA384(char *);
-extern int func_021DA390(char *);
+extern int WIFIBATTLEMATCH_NET_ScProcess(char *p, u32 *out);
+extern u32 WIFIBATTLEMATCH_NET_GetReportState(u8 *p);
+extern int WIFIBATTLEMATCH_NET_HandleNetError(char *, void *, void *);
+extern void WIFIBATTLEMATCH_NET_DisconnectWifi(int);
+extern void WIFIBATTLEMATCH_NET_ClearCancelFlag(char *);
+extern int WIFIBATTLEMATCH_NET_StopMatchmaking(char *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void MI_CpuFill8(void *, int, unsigned);
-extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
-extern int func_021DBDAC(char *);
+extern void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *p, u32 mode, struct Record *src);
+extern int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
 #define P(k) (*(int *)(p + (k)))
 #define Q(k) (*(int *)(q + (k)))
-void func_021D51BC(unsigned sys, int *state, char *p)
+void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *p)
 {
     char *q = (char *)P(0x40);
     Rec84 rec;
@@ -88,7 +88,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
     switch (*state) {
     case 0:
         if (Q(12) == 2 && P(0xf8) == 0) {
-            func_021E8AA0((int *)sys, (int)func_021D54E8);
+            func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepG);
             return;
         }
         P(0xf8) = 0;
@@ -103,44 +103,44 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         func_021E8AB4(sys, 2);
         break;
     case 2:
-        func_021DA5B0((char *)P(0x30), 1, 2, ((u32 *)Q(8))[1], (u32 *)Q(0x2c), Q(12) == 2);
+        WIFIBATTLEMATCH_NET_SetupMatchReport((char *)P(0x30), 1, 2, ((u32 *)Q(8))[1], (u32 *)Q(0x2c), Q(12) == 2);
         P(0xfc) = 0;
         P(0xf4) = 0;
         *state = 3;
         break;
     case 3:
         if (P(0xfc) == 0) {
-            P(0xfc) = func_021DA6B8((void *)P(0x30), (u32 *)(p + 0xf4));
+            P(0xfc) = WIFIBATTLEMATCH_NET_ScProcess((void *)P(0x30), (u32 *)(p + 0xf4));
             if (P(0xfc) != 0 && P(0xf4) != 0)
                 func_021E8AC0(*(int *)Q(8), *(int *)Q(0x2c));
         }
         if (P(0xfc) == 1) {
-            ((u32 *)Q(0x2c))[5] = func_021DADAC((u8 *)P(0x30));
+            ((u32 *)Q(0x2c))[5] = WIFIBATTLEMATCH_NET_GetReportState((u8 *)P(0x30));
             *state = 4;
         }
         if (P(0xfc) != 0) {
-            switch (func_021D9F04((char *)P(0x30), 0, (void *)1)) {
-            case 1: func_021DA36C(P(0x30));
+            switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)P(0x30), 0, (void *)1)) {
+            case 1: WIFIBATTLEMATCH_NET_DisconnectWifi(P(0x30));
             case 2: case 4:
                 DWC_RAPCOMMON_DestroySubHeap();
-                func_021E8AA0((int *)sys, (int)func_021D61A4);
+                func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA);
                 break;
             }
         }
         break;
     case 4:
         DWC_RAPCOMMON_DestroySubHeap();
-        if (Q(12) == 2) func_021E8AA0((int *)sys, (int)func_021D54E8);
+        if (Q(12) == 2) func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepG);
         else *state = 5;
         break;
     case 5:
         list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
         MISC_SAVEDATA_InsertRecentValue(list, func_02008530((void *)Q(0x18)));
         *state = 6;
-        func_021DA384((char *)P(0x30));
+        WIFIBATTLEMATCH_NET_ClearCancelFlag((char *)P(0x30));
         break;
     case 6:
-        if (func_021DA390((char *)P(0x30))) {
+        if (WIFIBATTLEMATCH_NET_StopMatchmaking((char *)P(0x30))) {
             if (*(int *)((int *)P(0x40))[8] == 0) *state = 8;
             else {
                 func_021E8738((int *)P(0x24), P(0x10), 42, 2);
@@ -148,9 +148,9 @@ void func_021D51BC(unsigned sys, int *state, char *p)
                 func_021E8AB4(sys, 7);
             }
         }
-        switch (func_021D9F04((char *)P(0x30), 0, (void *)1)) {
+        switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)P(0x30), 0, (void *)1)) {
         case 1: case 4: *state = 7; break;
-        case 2: func_021E8AA0((int *)sys, (int)func_021D61A4); break;
+        case 2: func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA); break;
         }
         break;
     case 7:
@@ -160,19 +160,19 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         MI_CpuFill8(&rec, 0, 0x54);
         rec.data = *(Rec80 *)((int *)P(0x40))[9];
         rec.last = *(u32 *)((int *)P(0x40))[10];
-        func_021DBC04((u8 *)P(0x30), 3, (struct Record *)(&rec));
+        WIFIBATTLEMATCH_NET_SetupGdbUpload((u8 *)P(0x30), 3, (struct Record *)(&rec));
         *state = 9;
         break;
     case 9:
-        result = func_021DBDAC((char *)P(0x30));
+        result = WIFIBATTLEMATCH_NET_GdbUpdateRecord((char *)P(0x30));
         if (result == 1) {
             *(int *)((int *)P(0x40))[8] = 0x708;
             *state = 10;
         }
         if (result != 0) {
-            switch (func_021D9F04((char *)P(0x30), 0, 0)) {
+            switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)P(0x30), 0, 0)) {
             case 2:
-                func_021E8AA0((int *)sys, (int)func_021D61A4);
+                func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA);
                 *(int *)((int *)P(0x40))[8] = 0x708;
                 break;
             case 1:

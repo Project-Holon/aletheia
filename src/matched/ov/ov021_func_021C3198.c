@@ -13,6 +13,7 @@
  *
  * symbols:
  *   d_021DA700     0x021DA700  data  ov021
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -22,7 +23,7 @@ typedef struct { u32 v[4]; } T;
 struct Node;
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_02030EAC(struct Node *n);
 extern const T d_021DA700;
 
@@ -32,7 +33,7 @@ void FLD3D_CI_DisplayRestoreTask(void *p, u32 *done)
 
     func_02040588(0, 1);
     t = d_021DA700;
-    func_0203FC28((struct DispConfig *)(&t));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&t));
     func_02030EAC(p);
     if (done != 0)
         *done = 1;

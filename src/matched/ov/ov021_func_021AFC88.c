@@ -16,7 +16,7 @@
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   BEACON_GetGreetCount  0x0200C1C4  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ extern void *BEACON_GetBlock(void *sys);
 struct WordSet;
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern u32 BEACON_GetGreetCount(struct Blk34 *p);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 int SCRCMD_BufferBeaconGreetCount(Ctx *a0, int a1)
 {
@@ -51,6 +51,6 @@ int SCRCMD_BufferBeaconGreetCount(Ctx *a0, int a1)
     p = a0->cur;
     b = *p;
     a0->cur = p + 1;
-    func_0201EFA4((struct WordSet *)r, b, BEACON_GetGreetCount(h), 9, 1, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)r, b, BEACON_GetGreetCount(h), 9, 1, 1);
     return 0;
 }

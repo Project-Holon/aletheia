@@ -81,10 +81,10 @@
  *   OS_SetArenaLo       0x02086774  arm
  *   OS_CreateExtraHeap  0x02086B98  arm
  *   OS_AllocFromHeap    0x020868E0  arm
- *   func_02030D28     0x02030D28  arm
+ *   TCB_Main     0x02030D28  arm
  *   func_02030DA8     0x02030DA8  arm
- *   func_0203F034     0x0203F034  arm
- *   func_0203F258     0x0203F258  arm
+ *   GF_STANDARD_RandSeed     0x0203F034  arm
+ *   GF_STANDARD_CalcHash     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
  *   func_02034F5C       0x02034F5C  arm
  *   KEY_GetCont       0x0203630C  arm
@@ -143,6 +143,12 @@
  *   GFL_NET_ERR_PollNetState  0x0200F2D4  thumb
  *   MSG_SPEED_SetSaveControl  0x02012FF0  thumb
  *   GF_STANDARD_Reset  0x0203F3B4  arm
+ *   WORDSET_LoadSpeciesNameBank  0x0201F344  thumb
+ *   GFL_HEAP_InitSystemHeapChecked  0x02030BA4  arm
+ *   GF_STANDARD_Init  0x0203EF5C  arm
+ *   GF_STANDARD_Setup  0x0203F3F0  arm
+ *   BG_SYS_Update  0x020419E4  arm
+ *   DMA_UpdateChannels  0x02050A70  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -256,7 +262,7 @@ extern void MSG_SPEED_SetSaveControl(struct SaveData *save);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
 extern void SAVEDATA_SetFailHook(u32 handler);
-extern void func_0201F344(u16 heapId);
+extern void WORDSET_LoadSpeciesNameBank(u16 heapId);
 extern void POKE_TOOL_InitSystem(u32 heapId);
 extern void PM_VOICE_Init(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
 extern void CONFIG_InitKeyControlTable(void);
@@ -305,10 +311,10 @@ extern void  OS_SetArenaLo(u32 id, void *lo);
 extern u32   OS_CreateExtraHeap(u32 id);
 extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
 extern void GFL_HEAP_Init(u32 arenaTable, u32 arenaCount, u32 heapCount, u32 flags);
-extern void  func_02030BA4(u32 size);
+extern void  GFL_HEAP_InitSystemHeapChecked(u32 size);
 extern void  GFL_HEAP_CreateChildHeap(u32 arenaId, u32 heapId, u32 size);
 extern void  GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 heapId);
-extern void  func_0203EF5C(u32 mode);
+extern void  GF_STANDARD_Init(u32 mode);
 extern void ARC_TOOL_SetTable(u32 table, u32 count);
 extern void func_02034E24(u32 heapId, u8 mode);
 extern void  func_02034978(void);
@@ -328,14 +334,14 @@ extern void func_0202F774(u32 on);
 extern void func_02034F5C(void);
 extern int GFL_NET_ERR_PollNetState(void);
 extern int PROCSYS_MainGlobal(void);
-extern void func_0203F3F0(void);
-extern int func_02030D28(struct TcbList *list);
+extern void GF_STANDARD_Setup(void);
+extern int TCB_Main(struct TcbList *list);
 extern struct Tcb *func_02030DA8(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
-extern int func_020419E4(int);
-extern int func_02050A70(int);
+extern int BG_SYS_Update(int);
+extern int DMA_UpdateChannels(int);
 extern int FADE_Update(int);
-extern void  func_0203F034(u32 seed);
-extern void func_0203F258(struct GflRandom *out);
+extern void  GF_STANDARD_RandSeed(u32 seed);
+extern void GF_STANDARD_CalcHash(struct GflRandom *out);
 extern unsigned int KEY_GetCont(void);
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
 extern void NNS_SndSetMasterVolume(u32 volume);
@@ -580,7 +586,7 @@ void GFL_USE_InitGameSystems(void)
     func_0200F6B8();
     func_0200F6D8(8);
     SAVEDATA_SetFailHook((u32)&func_0200FB6C);
-    func_0201F344(0);
+    WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
     PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
@@ -813,7 +819,7 @@ void GFL_USE_InitSystem(void)
         GFL_HEAP_Init((u32)_ArenaTableDs, 2, 0xAD, 0);
     }
 
-    func_02030BA4(0x2000);
+    GFL_HEAP_InitSystemHeapChecked(0x2000);
     GFL_HEAP_CreateChildHeap(1, 7, 0x25000);
 
     if (OS_IsRunOnTwl() == 0) {
@@ -822,7 +828,7 @@ void GFL_USE_InitSystem(void)
         GFL_HEAP_CreateChildHeap(1, 9, 0x3F00);
     }
 
-    func_0203EF5C(0);
+    GF_STANDARD_Init(0);
     ARC_TOOL_SetTable((u32)_ArcPathTable, 0xEB);
     func_02034E24(0, 0);
 
@@ -858,7 +864,7 @@ void GFL_USE_PollFrameInput(void)
     func_02034F5C();
     GFL_NET_ERR_PollNetState();
     PROCSYS_MainGlobal();
-    func_0203F3F0();
+    GF_STANDARD_Setup();
 }
 
 
@@ -898,7 +904,7 @@ void GFL_USE_NoOpFrameHook(void)
 
 void GFL_USE_RunHBlankTasks(void)
 {
-    func_02030D28(_GflUse.runtime->hblankTasks);
+    TCB_Main(_GflUse.runtime->hblankTasks);
 }
 
 
@@ -936,7 +942,7 @@ void GFL_USE_ClearVBlankHook(void)
 
 void GFL_USE_RunMainTasks(void)
 {
-    FADE_Update(func_02050A70(func_020419E4(func_02030D28(_GflUse.runtime->mainTasks))));
+    FADE_Update(DMA_UpdateChannels(BG_SYS_Update(TCB_Main(_GflUse.runtime->mainTasks))));
     _GflUse.frameCount++;
 }
 
@@ -1068,14 +1074,14 @@ struct TcbList *GFL_USE_GetMainTaskList(void)
 
 void GFL_USE_InitRandomState(struct GflRandom *rand)
 {
-    func_0203F258(rand);
+    GF_STANDARD_CalcHash(rand);
 }
 
 
 void GFL_USE_InitRandom(void)
 {
     GFL_USE_InitRandomState(&_GflUse.runtime->rand);
-    func_0203F034(GFL_USE_GetRandom(0));
+    GF_STANDARD_RandSeed(GFL_USE_GetRandom(0));
 }
 
 

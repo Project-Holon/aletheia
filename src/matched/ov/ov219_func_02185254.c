@@ -11,7 +11,7 @@
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
@@ -32,7 +32,7 @@ struct Descriptor;
 struct Record;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -53,7 +53,7 @@ void func_02185254(char *p,unsigned key,unsigned member)
     func_02184D30(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,first,0,0);
     STRBUF_Delete(second);
     STRBUF_Delete(first);
-    func_0201F73C(((struct Obj02934 *)p)->fC040,0,34,7);
+    BMP_MENUWORK_DrawWindow(((struct Obj02934 *)p)->fC040,0,34,7);
     object=((struct Obj02934 *)p)->fC040;
     BMP_WIN_TransferChars(object);
     BMP_WIN_MakeScreen(object);

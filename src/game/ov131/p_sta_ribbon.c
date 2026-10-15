@@ -47,14 +47,14 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_02049EF4 0x02049EF4 arm
- *   func_020410D0 0x020410D0 arm
- *   func_02040AE0 0x02040AE0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
+ *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_02041300 0x02041300 arm
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   P_STA_RIBBON_FileName 0x021DC834 data a1
@@ -64,10 +64,10 @@
  *   P_STA_RIBBON_KindCountInit 0x021DC2B0 data a1
  *   BMP_GetPixels 0x020437D4 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   P_STA_RIBBON_GetRibbonDescMsg 0x021DBF94 thumb ov131
@@ -252,7 +252,7 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, void *str, void *font, u16 colors);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
@@ -262,16 +262,16 @@ extern void func_02041B6C(u32 bgId);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
-extern void func_0201EFA4(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
+extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void *func_02049EF4(void *arc, unsigned int fileId, unsigned int a, void **outData, unsigned short heapId);
-extern void func_020410D0(u32 bgId, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
-extern void func_02040AE0(u32 palIndex, const void *src, u32 size);
+extern void BG_SYS_DrawTileEx(u32 bgId, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
+extern void BG_SYS_DecodeTile(u32 palIndex, const void *src, u32 size);
 extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 space);
-extern void func_02041300(unsigned int bgId, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
-extern void func_02041570(int bgId, u16 value);
+extern void BG_SYS_SetTileEntry(unsigned int bgId, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
+extern void BG_SYS_ClearLayerEx(int bgId, u16 value);
 extern void *func_02049E74(void *arc, u32 fileId, u32 a, void **outData, u16 heapId);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
@@ -279,7 +279,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, void *str, void *font);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 PRINTSYS_QUE_IsExistTarget(void *printQue, struct Bmp *bmp);
 extern void GFL_USE_PlaySeInSlot(u32 seId, int flag);
 extern unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
@@ -676,11 +676,11 @@ void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *work)
 {
     u8 i;
     u16 ownedIdx;
-    func_020410D0(2,0,0,32,24,(u32)work->listScrn->data,0,0,32,32);
+    BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->listScrn->data,0,0,32,32);
     func_02041B6C(2);
-    func_02040AE0(6,work->listPal->data,work->listPal->dataSize);
+    BG_SYS_DecodeTile(6,work->listPal->data,work->listPal->dataSize);
     func_02041B6C(6);
-    func_020410D0(5,0,0,32,3,(u32)work->titleScrn->data,0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(u32)work->titleScrn->data,0,0,32,32);
     func_02041B6C(5);
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
         ownedIdx=work->rows[i].ownedIdx;
@@ -716,7 +716,7 @@ void P_STA_RIBBON_Hide(PStatusWork *wk, PStaRibbonWork *work)
 {
     unsigned char i;
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++) P_STA_OAM_SetBitmapActorsEnabled(work->rows[i].actors,0);
-    func_02041300(1,0,0,0,19,21,16);
+    BG_SYS_SetTileEntry(1,0,0,0,19,21,16);
     func_020409B4(1);
     work->isActive=0;
     CLACT_SetActorAnimSeq(wk->buttonActor[STA_RIBBON_BUTTON_PAGE_TAB],2);
@@ -778,11 +778,11 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     text=func_02045EC0(work->msgBank,owned->category+160);
     buffer=STRBUF_Create(32,wk->heapId);
     wordSet=GF_FONT_Create_EC64(wk->heapId);
-    func_0201EFA4(wordSet,0,owned->number,2,2,1);
-    func_0201F250(wordSet,buffer,text);
+    WORDSET_SetSlotNumber(wordSet,0,owned->number,2,2,1);
+    WORDSET_CopyTaggedText(wordSet,buffer,text);
     GF_FONT_SetTextColor(1,2,0);
     PRINTSYS_Print(row->bmp,10,6,buffer,wk->font);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     STRBUF_Delete(text);
     STRBUF_Delete(buffer);
     WORDSET_DeleteStrbufED04(wordSet);
@@ -930,7 +930,7 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     work->detailObj=CLACT_CreateActor((void *)(u32)wk->clunit,work->detailChrRes,wk->objRes[STA_RIBBON_RES_DETAIL_PLTT],wk->objRes[STA_RIBBON_RES_DETAIL_CELL],&pos,1,wk->heapId);
     CLACT_SetActorPaletteOffset(work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
     CLACT_SetActorDrawEnable(work->detailObj,1);
-    func_02040AE0(6,work->detailPal->data,work->detailPal->dataSize);
+    BG_SYS_DecodeTile(6,work->detailPal->data,work->detailPal->dataSize);
     func_02041B6C(6);
     work->isDetailShown=1;
 }
@@ -952,10 +952,10 @@ void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work)
     if(work->isDetailShown==1) {
         CLACT_ReleaseCharacter(work->detailChrRes);
         CLACT_DeleteActor(work->detailObj);
-        func_02041570(4,0);
+        BG_SYS_ClearLayerEx(4,0);
         func_02041B6C(4);
         work->isDetailShown=0;
-        func_02040AE0(6,work->listPal->data,work->listPal->dataSize);
+        BG_SYS_DecodeTile(6,work->listPal->data,work->listPal->dataSize);
         func_02041B6C(6);
     }
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_GetGenderRatioClass  0x020185F8  thumb
- *   func_02019C54  0x02019C54  thumb
+ *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
  *
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 
 extern u32 POKE_TOOL_GetGenderRatioClass(int a0, int a1, int a2);
 struct Personal;
-extern void *func_02019C54(u32 a, u32 b);
+extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern u32 POKE_PERSONAL_IsPlaceholderAbility(u32 v);
 
@@ -51,7 +51,7 @@ u32 POKE_TOOL_AdjustPersonalRnd(u32 a0, u16 a1, u16 a2, u8 a3, u8 a4, int a5)
             a0 ^= 0x10000u;
         }
     } else {
-        u8 b = (u8)POKE_PERSONAL_GetParam(func_02019C54(a1, a2), 0x14);
+        u8 b = (u8)POKE_PERSONAL_GetParam(POKE_TOOL_GetPersonalData(a1, a2), 0x14);
 
         a0 = (0xFF00u ^ ((((a0 & 0xFFFF0000u) >> 16) ^ (u16)a0) & 0xFF00u)) << 16;
         if ((a0 & 0x10000u) != ((u32)a4 << 16)) {

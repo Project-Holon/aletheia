@@ -14,7 +14,7 @@
  * symbols:
  *   PLIST_MESSAGE_CloseWindow  0x021BB7A4  thumb  ov091
  *   POKELIST_IsItemMode  0x021B9A84  thumb  ov091
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   PLIST_PLATE_GetLabelState  0x021BB43C  thumb  ov091
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -34,7 +34,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void PLIST_MESSAGE_CloseWindow(void *p, u32 *s);
 extern int POKELIST_IsItemMode(u32 p);
-extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern int PLIST_PLATE_GetLabelState(int *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
@@ -57,7 +57,7 @@ void POKELIST_HandleCommand(u8 *p)
 
     PLIST_MESSAGE_CloseWindow(p, (u32 *)W(0x150));
     if (POKELIST_IsItemMode((u32)p) == 1) {
-        func_02041300(0, 0, 0, 0x15, 0x20, 3, 0x10);
+        BG_SYS_SetTileEntry(0, 0, 0, 0x15, 0x20, 3, 0x10);
         for (i = 0; i < 6; i++) {
             ((u8 *)W(0x280))[i + 0x49] = 0;
         }

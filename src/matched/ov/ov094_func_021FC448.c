@@ -24,7 +24,7 @@
  *   func_02011290 0x02011290 thumb
  *   BTLV_EFFECT_GetRule 0x021F8764 thumb ov094
  *   BTLV_SCU_ReloadGraphics 0x021EB2A8 thumb ov093
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_02040618 0x02040618 arm
  *   func_0207D63C 0x0207D63C arm
  *   GFL_USE_StopAllSe 0x02006210 thumb
@@ -94,7 +94,7 @@ extern void BTLV_EFFECT_SetAllPokeSpriteAnim(int);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern int BTLV_EFFECT_GetRule(void);
 extern void BTLV_SCU_ReloadGraphics(const u8 *a);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(int, int, int, int, int);
 extern void GFL_USE_StopAllSe(void);
@@ -144,7 +144,7 @@ int BTLV_EFFVM_ReleaseScriptResources(void *a, State *s)
         q = (void *)BTLV_EFFECT_GetRule();
         if (q != 0)
             BTLV_SCU_ReloadGraphics(q);
-        func_0204047C(3, 0);
+        BG_SYS_SetVisibleLayer(3, 0);
         s->flags.bit.b4 = 0;
         func_02040618(3, 0, s->f264);
         func_02040618(3, 3, s->f268);

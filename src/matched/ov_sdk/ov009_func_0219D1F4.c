@@ -1,5 +1,5 @@
 /*
- * function: func_0219D1F4
+ * function: keyrand
  * address:  0x0219D1F4
  * packet:   pkt_ov009_0219D1F4
  * region:   ov009
@@ -24,7 +24,7 @@ struct GOACryptState {
     unsigned char last_cipher;
 };
 
-unsigned char func_0219D1F4(struct GOACryptState *state, int limit, unsigned char *user_key,
+unsigned char keyrand(struct GOACryptState *state, int limit, unsigned char *user_key,
                             unsigned char keysize, unsigned char *rsum, unsigned int *keypos)
 {
     unsigned int u, retry_limiter, mask;

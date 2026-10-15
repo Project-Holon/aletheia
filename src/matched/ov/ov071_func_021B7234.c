@@ -12,7 +12,7 @@
  * symbols:
  *   MONOLITH_TOOL_GetSlotIconStates  0x021B6F40  thumb  ov071
  *   func_02030734  0x02030734  arm
- *   func_02041090  0x02041090  arm
+ *   BG_SYS_DrawTile  0x02041090  arm
  *   func_020307B0  0x020307B0  arm
  *   d_021BABE4     0x021BABE4  data  a1
  */
@@ -31,7 +31,7 @@ extern const char d_021BABE4[];
 typedef unsigned int   u32;
 extern void *MONOLITH_TOOL_GetSlotIconStates(u8 **p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern u32 func_020307B0(void *p);
 
 void func_021B7234(void *a, int flag, int bg)
@@ -83,6 +83,6 @@ void func_021B7234(void *a, int flag, int bg)
     for (i = 0; i < 30; i++) {
         buf[i] |= 0x1000;
     }
-    func_02041090((u8)bg, (u32)buf, (u8)1, (u8)y, 30, 1);
+    BG_SYS_DrawTile((u8)bg, (u32)buf, (u8)1, (u8)y, 30, 1);
     func_020307B0(buf);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF080
+ * function: ZKNSEARCH_MAIN_ReleaseActorRes
  * address: 0x021BF080
  * packet: pkt_ov210_021BF080
  * region: ov210
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
-void func_021BF080(u8 *p)
+void ZKNSEARCH_MAIN_ReleaseActorRes(u8 *p)
 {
     unsigned i;
     for (i = 0; i < 6; i++) {

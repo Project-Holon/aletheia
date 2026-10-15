@@ -12,7 +12,7 @@
  * sdk:      StartReport (natneg.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   func_02199FB4  0x02199FB4  arm  ov009
  *   SendReportPacket  0x02199394  arm  ov009
  *   current_time  0x0217F264  arm  ov009
@@ -47,7 +47,7 @@ typedef struct _NATNegotiator {
 
 extern char gNatNegReportFailFmt[];
 extern char gNatNegReportDoneFmt[];
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void func_02199FB4(int cookie);
 struct NATNegotiator;
 extern void SendReportPacket(struct NATNegotiator *neg);
@@ -60,12 +60,12 @@ void StartReport(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remo
     if (remoteaddr)
         neg->remoteaddr = *remoteaddr;
     if (result == 1 || result == 2) {
-        func_0217D254(7, (char *)3, 8, gNatNegReportFailFmt, neg->cookie);
+        gsDebugFormat(7, (char *)3, 8, gNatNegReportFailFmt, neg->cookie);
         neg->state = 5;
         neg->reportCallback(neg->result, neg->socket, &neg->remoteaddr, neg->userdata);
         func_02199FB4(neg->cookie);
     } else {
-        func_0217D254(7, (char *)3, 8, gNatNegReportDoneFmt, neg->cookie);
+        gsDebugFormat(7, (char *)3, 8, gNatNegReportDoneFmt, neg->cookie);
         SendReportPacket((struct NATNegotiator *)neg);
         neg->state = 7;
         neg->timeout = current_time() + 500;

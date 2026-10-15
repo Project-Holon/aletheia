@@ -1,5 +1,5 @@
 /*
- * function: func_021C7908
+ * function: VIEWER_ACTOR_FlushBgWindow
  * address:  0x021C7908
  * packet:   pkt_ov111_021C7908
  * region:   ov111
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -43,7 +43,7 @@ typedef struct {
     int state;
 } Work;
 
-extern void func_0201F73C(void *p, int a, int b, int c);
+extern void BMP_MENUWORK_DrawWindow(void *p, int a, int b, int c);
 struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -51,11 +51,11 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned int index);
 
-void func_021C7908(Work *p)
+void VIEWER_ACTOR_FlushBgWindow(Work *p)
 {
     void *v;
 
-    func_0201F73C(p->f8, 0, 1, 0xE);
+    BMP_MENUWORK_DrawWindow(p->f8, 0, 1, 0xE);
     v = p->f8;
     BMP_WIN_TransferChars(v);
     BMP_WIN_MakeScreen(v);

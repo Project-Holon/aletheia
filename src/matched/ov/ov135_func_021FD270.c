@@ -11,8 +11,8 @@
  *
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F31C  0x0201F31C  thumb
- *   func_0201F048  0x0201F048  thumb
+ *   WORDSET_ClearAllSlots  0x0201F31C  thumb
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
  *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   WORLDTRADE_ADAPTER_CreateString  0x02202670  thumb
  */
@@ -48,8 +48,8 @@ typedef struct {
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F31C(struct WordSet *p);
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_ClearAllSlots(struct WordSet *p);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 
@@ -58,9 +58,9 @@ void WORLDTRADE_LIST_CreateStrings(Work *p)
     Entry *e = &p->arr[p->cur];
 
     p->str = STRBUF_Create(0xB4, 0x48);
-    func_0201F31C(p->words);
+    WORDSET_ClearAllSlots(p->words);
     if (e->lang != 0) {
-        func_0201F048(p->words, 8, e->lang);
+        WORDSET_SetSlotFromMsgE7(p->words, 8, e->lang);
     }
     if (e->ver != 0) {
         WORDSET_DeleteMsgdataF094(p->words, 9, e->lang, e->ver);

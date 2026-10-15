@@ -1,5 +1,5 @@
 /*
- * function: func_021F4408
+ * function: NAMEIN_GRAPHIC_GetIconMode
  * address:  0x021F4408
  * packet:   pkt_021F4408
  * region:   ov194
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-int func_021F4408(int x, int y)
+int NAMEIN_GRAPHIC_GetIconMode(int x, int y)
 {
     switch (x) {
     case 0:

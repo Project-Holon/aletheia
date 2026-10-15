@@ -1,5 +1,5 @@
 /*
- * function: func_021FD3D8
+ * function: MUS_COMM_FUNC_SetRecordData
  * address: 0x021FD3D8
  * packet: pkt_ov132_021FD3D8
  * region: ov132
@@ -13,7 +13,7 @@
 #include "../include/Obj23285.h"
 struct Record { int f0; int flag; char pad8[0x14]; char *data; char pad20[0x10]; };
 struct Context { char pad0[0x60]; struct Record rec[4]; };
-void func_021FD3D8(long i,int b,int c,struct Context *p)
+void MUS_COMM_FUNC_SetRecordData(long i,int b,int c,struct Context *p)
 {
     char *s;
     p->rec[i].flag=1;

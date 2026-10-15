@@ -1,5 +1,5 @@
 /*
- * function: func_02063378
+ * function: NNS_G2dEntryOamManagerAffine
  * address:  0x02063378
  * packet:   pkt_02063000
  * region:   arm9
@@ -150,7 +150,7 @@ static inline void SetAffineParams_(NNSG2dOamType type, const MtxFx22 *mtx, u16 
     }
 }
 
-u16 func_02063378(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx)
+u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx)
 {
     if (HasEnoughCapacity_(&pMan->managedAffineArea, 1)) {
         const u16 currentAffineIdx = pMan->managedAffineArea.currentIdx;

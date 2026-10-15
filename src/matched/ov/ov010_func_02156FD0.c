@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F67E0  0x021F67E0  thumb  ov112
+ *   MUSICAL_MCSS_AllocMon  0x021F67E0  thumb  ov112
  */
 
 typedef unsigned char u8;
@@ -29,11 +29,11 @@ typedef struct Stage {
     Obj *f04[4];        /* 0x04 */
 } Stage;
 
-extern char *func_021F67E0(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
+extern char *MUSICAL_MCSS_AllocMon(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
 
 void MUSICAL_STAGE_SYS_CreateNpcPerformer(Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y)
 {
-    s->f04[idx] = (Obj *)func_021F67E0(id, v, 0, 0, w, y);
+    s->f04[idx] = (Obj *)MUSICAL_MCSS_AllocMon(id, v, 0, 0, w, y);
     s->f04[idx]->kind = 2;
     s->f04[idx]->f78 = x;
 }

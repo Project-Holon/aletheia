@@ -24,8 +24,8 @@
  *   func_021BA228 0x021BA228 thumb ov133
  *   func_021BA218 0x021BA218 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
- *   func_021F4EA4 0x021F4EA4 thumb ov112
- *   func_021F4E8C 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  *   func_02040618 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   FX_SinCosTable_ 0x020A1B38 data
@@ -44,8 +44,8 @@ extern void *func_021BA184(char *p);
 extern u8 *func_021BA228(u8 *p);
 extern u32 func_021BA218(u8 *p);
 extern u32 func_021BA208(u8 *p);
-extern void func_021F4EA4(u32 unused, u32 p, u32 q);
-extern void func_021F4E8C(u8 *, int, int *);
+extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
+extern void MUSICAL_MCSS_SetElemPos(u8 *, int, int *);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int FX_Sqrt(int);
@@ -74,13 +74,13 @@ void func_021B918C(u8 *p)
         d = x * x + y * y;
         dist = FX_Sqrt(FXI(d));
         ang = FX_Atan2Idx(FXI(y), FXI(x));
-        func_021F4EA4((u32)(*(u8 **)(p + 0x1884)), id, (u32)v);
+        MUSICAL_MCSS_SetElemScale((u32)(*(u8 **)(p + 0x1884)), id, (u32)v);
         k = dist + FXI(*(int *)(p + 0x10));
         sc = &FX_SinCosTable_[ang >> 4];
         v[0] = (fx32)(((long long)sc->c * k + 0x800) >> 12) + 0x80000;
         k = dist + FXF((float)*(int *)(p + 0x10) * 0.6666667f);
         v[1] = (fx32)(((long long)sc->s * k + 0x800) >> 12) + 0x50000;
-        func_021F4E8C(*(u8 **)(p + 0x1884), id, v);
+        MUSICAL_MCSS_SetElemPos(*(u8 **)(p + 0x1884), id, v);
         e = (u8 *)func_021BA208(e);
     }
     func_02040618(2, 3, -*(int *)(p + 0x10));

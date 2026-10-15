@@ -74,8 +74,8 @@
  *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
- *   sub_02008DF0 0x02008DF0 thumb
- *   sub_02008DAC 0x02008DAC thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
+ *   RECORD_AddCounter 0x02008DAC thumb
  *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  *   NATSUKI_CalcParty 0x0201B818 thumb
@@ -108,7 +108,7 @@
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
  *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   BTL_REC_InitPacket 0x021EE8B4 thumb ov093
  *   BTL_REC_MakeSkipPacket 0x021EE8D8 thumb ov093
  *   BTL_REC_AddRecord  0x021EE8F4  thumb  ov093
@@ -293,7 +293,7 @@
  *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
  *   BTL_EVENT_RemoveDeadFactors 0x021D701C thumb ov093
  *   BTL_MAIN_GetPmsWork 0x021B8630 thumb ov093
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
  *   COMM_PLAYER_SUPPORT_SavePreviousAndSuspend 0x0202E7E4 thumb
@@ -399,7 +399,7 @@
  *   FX_Sqrt  0x0207C7B4  arm
  *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  *   gEffortValueStatTable      0x021EFDC0  data  ov093
- *   func_02019C90   0x02019C90  thumb arm9
+ *   POKE_TOOL_GetPersonalParam   0x02019C90  thumb arm9
  *   POKE_TOOL_DecodePartyParam   0x02017D30  thumb arm9
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   gBagItemEffectTable 0x021EFDE4 data a4
@@ -1661,8 +1661,8 @@ extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern void STRBUF_SetChars(struct Buf *buf, const void *src, u32 n);
 char *COMM_PLAYER_SUPPORT_GetCurrent(char *p);
 int BTL_SETUP_CheckStatusFlag(char *base, int m);
-extern u32 sub_02008DF0(struct Sub02008C20Obj *, int);
-extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *, int);
+extern u32 RECORD_AddCounter(struct Sub02008C20Obj *, int, u32);
 extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
 extern void NATSUKI_CalcParty(void *a0, int a1, int a2);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
@@ -1674,7 +1674,7 @@ extern u8 BTL_MAIN_GetCommPos(u8 **p);
 extern u32 BTL_CALC_ActionGetKind(Action *);
 extern u16 BTL_MAIN_GetWinBgm(void **);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void GAME_BEACON_SetPokeLevelUp(u32);
 extern void GAME_BEACON_SetPokeCapture(u16);
 extern void *SHINKA_CHECK_OpenHandle(u16 heap);
@@ -1839,7 +1839,7 @@ extern void BTL_EVENT_ClearClientReservedChoice(u8 *);
 extern void BTL_EVENT_RemoveDeadFactors(void);
 extern u32 BTL_MAIN_GetPmsWork(u32 **p);
 extern u32 COMM_PLAYER_SUPPORT_GetMode(BtlServerFlow *);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(void *);
 extern u8 *BTL_ID_GetTurnCheckSick(u32);
 extern void BTL_SICK_ProcAddedOrTurnEnd(u8 *, u8 *, union Slot, u32, BtlServerFlow *);
@@ -1937,7 +1937,7 @@ extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 GPOWER_ApplyExpRate(u32);
 extern int FX_Sqrt(int x);
 extern u32 BTL_POKEPARAM_GetMaxLevelExp(u8 *p);
-extern u32 func_02019C90(u32 a, u32 b, u32 c);
+extern u32 POKE_TOOL_GetPersonalParam(u32 a, u32 b, u32 c);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern int BTL_MAIN_CheckZukanSeen(char *p, void *m);
@@ -11724,7 +11724,7 @@ void BTL_SERVER_FLOW_ProcPlayerSupportHeal(BtlServerFlow *flow)
         }
     }
     if (n == 0) return;
-    draw = func_0203F0A8();
+    draw = GF_STANDARD_Rand();
     slot = (u32)draw;
     if (n != 0) slot = (u32)((draw * (u32)n) >> 32);
     id = list[slot];
@@ -18986,7 +18986,7 @@ loop:
             BTL_SERVER_FLOW_TryClearContFlag(flow, poke, 3);
             t = func_021D69AC(poke, 4);
             if (!(t && (t = (u8)(t - 1)) < 24)) t = 31;
-            if (t != 31) func_0203EFC8((const u8 *)flow, poke, 1);
+            if (t != 31) GF_STANDARD_CompareBytes((const u8 *)flow, poke, 1);
             changed = 1;
         }
         if (BTL_SERVER_FLOW_QueryPokeGroundedEvent(flow, poke, 1)) changed = 1;
@@ -19729,7 +19729,7 @@ u32 BTL_SERVER_FLOW_CalcLevelScaledExp(void *poke, u32 baseExp, u16 defeatedLeve
 /*
  * Builds the six per-party "battle handicap" bytes and writes them to the
  * output record.  Reads the record's u16 fields 0xc and 0x13, asks the
- * battle dispatcher func_02019C90 for a base value per entry of the six
+ * battle dispatcher POKE_TOOL_GetPersonalParam for a base value per entry of the six
  * entry table at 0x021EFDC0 (6-byte records: u8 at +0, u16 at +2, u16 at
  * +4), doubles them when the mode field 0x12 is 0xd7, then walks the table
  * again to add BTL_CALC_GetItemParam's value for the entry whose +4 field matches
@@ -19752,7 +19752,7 @@ void BTL_SERVER_FLOW_AddDefeatEffortValues(u32 *gainer, u8 *defeatedPoke, u8 *ex
     m = BTL_POKEPARAM_GetSpecies((struct QF *)defeatedPoke);
     v6 = (u16)func_021D59B4(defeatedPoke, 0x13);
     for (i = 0; i < 6; i++) {
-        buf[i] = (u8)func_02019C90(m, v6, gEffortValueStatTable[i].f0);
+        buf[i] = (u8)POKE_TOOL_GetPersonalParam(m, v6, gEffortValueStatTable[i].f0);
     }
     if (BTL_POKEPARAM_GetItem((struct QI *)gainer) == 0xd7) {
         for (i = 0; i < 6; i++) {
@@ -20030,7 +20030,7 @@ int BTL_SERVER_FLOW_CalcCaptureShakes(BtlServerFlow *flow, void *thrower, void *
     }
     species = BTL_POKEPARAM_GetSpecies((void *)target);
     form = func_021D59B4((void *)target, 19);
-    v *= (u16)func_02019C90(species, form, 8);
+    v *= (u16)POKE_TOOL_GetPersonalParam(species, form, 8);
     factor = BTL_SERVER_FLOW_GetBallCatchRate(flow, thrower, (void *)target, ballItemId);
     v = ((s64)v * factor + 0x800) >> 12;
     v = (u32)v / a;

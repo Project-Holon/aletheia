@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02025B3C  0x02025B3C  thumb
- *   func_02025BA0  0x02025BA0  thumb
+ *   BMP_OAM_GetRecordIndex  0x02025B3C  thumb
+ *   BMP_OAM_GetRecordField  0x02025BA0  thumb
  *
  * A two-stage lookup: map a caller value to a record index with
- * func_02025B3C (src/matched/sub_02025B3C.c), then map that index to a
- * message/asset id with func_02025BA0 (src/matched/sub_02025BA0.c). The
+ * BMP_OAM_GetRecordIndex (src/matched/sub_02025B3C.c), then map that index to a
+ * message/asset id with BMP_OAM_GetRecordField (src/matched/sub_02025BA0.c). The
  * first call's result is left in its return register and flows straight
  * into the second call's argument.
  *
@@ -29,10 +29,10 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02025B3C(u32 key);
-extern u32 func_02025BA0(u32 idx);
+extern u32 BMP_OAM_GetRecordIndex(u32 key);
+extern u32 BMP_OAM_GetRecordField(u32 idx);
 
 u32 BMP_OAM_Get(u32 a)
 {
-    return func_02025BA0(func_02025B3C(a));
+    return BMP_OAM_GetRecordField(BMP_OAM_GetRecordIndex(a));
 }

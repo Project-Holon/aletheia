@@ -17,8 +17,8 @@
  *   func_0200E8D8 0x0200E8D8 thumb
  *   func_0200E8CC 0x0200E8CC thumb
  *   func_0200E8D0 0x0200E8D0 thumb
- *   func_02040B1C 0x02040B1C arm
- *   func_02040E78 0x02040E78 arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
+ *   BG_SYS_LoadPltt 0x02040E78 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207F308 0x0207F308 arm
  *   func_0207F394 0x0207F394 arm
@@ -36,8 +36,8 @@ extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
 extern void *func_020073D8(struct Sub020073D8Ctrl *,u32,u32);
 extern u32 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern void func_02040E78(u32,void *,u32,u32);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32,u32),func_0207F428(void);
 extern void func_0207F5B0(void),func_0207F5C8(const void *,u32,u32),func_0207F65C(void);
@@ -51,9 +51,9 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *p)
         if(block!=0&&func_0200E8D8(block)==1){
             tiles=func_0200E8CC(block);
             palette=func_0200E8D0(block);
-            func_02040B1C(1,tiles,0x6000,0);
-            func_02040E78(1,palette,0x200,0);
-            func_02040E78(5,palette,0x200,0);
+            BG_SYS_LoadTileData(1,tiles,0x6000,0);
+            BG_SYS_LoadPltt(1,palette,0x200,0);
+            BG_SYS_LoadPltt(5,palette,0x200,0);
             DWCi_ScreenDC_FlushRange(palette,0x200);
             func_0207F308();
             func_0207F394(palette,0x4000,0x200);

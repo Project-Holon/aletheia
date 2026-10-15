@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PLIST_MESSAGE_RedrawWindow  0x021BBA28  thumb  ov091
  */
 
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void PLIST_MESSAGE_RedrawWindow(int a, int b);
 
 void PLIST_MESSAGE_OpenWindow(void *a, u32 *s, u32 k)
@@ -39,6 +39,6 @@ void PLIST_MESSAGE_OpenWindow(void *a, u32 *s, u32 k)
         s[1] = BMP_WIN_Create(0, 2, 0x13, 0x1c, 4, 0xe, 1);
         break;
     }
-    func_0201F73C((void *)s[1], 1, 1, 0xc);
+    BMP_MENUWORK_DrawWindow((void *)s[1], 1, 1, 0xc);
     PLIST_MESSAGE_RedrawWindow((int)a, (int)s);
 }

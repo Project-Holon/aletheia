@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
@@ -32,7 +32,7 @@ extern const B32 gOekakiBgTemplate2;
 extern const B32 gOekakiBgTemplate4;
 extern const B32 gOekakiBgTemplate5;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 struct BgTemplate;
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 typedef unsigned int   u32;
@@ -51,7 +51,7 @@ void OEKAKI_SetupBgs(void)
     B32 t5;
 
     t = gOekakiDispConfig;
-    func_0203FC28((struct DispConfig *)(&t));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&t));
 
     t0 = gOekakiBgTemplate0;
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&t0), 0);

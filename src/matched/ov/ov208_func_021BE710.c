@@ -10,7 +10,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02040618 0x02040618 arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   ZUKAN_DETAIL_HEADBAR_CreateWindows 0x021BE868 thumb ov208
  *   func_021BE920 0x021BE920 thumb ov208
  *   func_021BE864 0x021BE864 thumb ov208
@@ -23,7 +23,7 @@ struct Ov208Icon { u16 heap,pad2; unsigned f4,f8; int fc; unsigned pad10[2],f18,
 extern const char d_021C8DFC[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02040618(unsigned,unsigned,unsigned);
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 struct Ov208Gfx;
 extern void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Gfx *g);
 extern void func_021BE920(struct Ov208Icon *);
@@ -35,7 +35,7 @@ struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
     struct Ov208Icon *p=func_02030734(heap,0x34,1,d_021C8DFC,120);
     p->heap=heap;p->f4=arg;p->f8=0;p->fc=5;
     func_02040618(5,3,24);
-    func_0204047C(5,0);
+    BG_SYS_SetVisibleLayer(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows((struct Ov208Gfx *)p);
     func_021BE920(p);
     p->f28=(unsigned)func_020056A0((unsigned)func_021BE864,(unsigned)p,1);

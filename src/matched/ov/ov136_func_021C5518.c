@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -39,7 +39,7 @@ extern const struct BgTemplate g_7940;
 extern const struct BgTemplate g_7A00;
 extern const struct BgTemplate g_7920;
 extern void BG_SYS_Create(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32);
 typedef unsigned char  u8;
@@ -52,7 +52,7 @@ void MB_SEQ_InitBgs(u8 *a0)
     BG_SYS_Create(0x66);
     {
         struct DispConfig d = g_7910;
-        func_0203FC28(&d);
+        BG_SYS_SetGraphicsMode(&d);
     }
     {
         struct BgTemplate t = g_79E0;

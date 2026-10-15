@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb
  *   _u32_div_f  0x0209C2B0  arm
  * Addresses are Black-image addresses.
@@ -26,7 +26,7 @@ typedef signed int     s32;
 
 struct Spec { u16 id : 11; u16 lvl : 5; u8 lo; u8 hi; };
 
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern u32 FIELD_ENCOUNT_RandPercent(void);
 
 u8 FIELD_ENCOUNT_PickSlotByType(u8 *u, struct Spec *specs, u32 type)
@@ -39,8 +39,8 @@ u8 FIELD_ENCOUNT_PickSlotByType(u8 *u, struct Spec *specs, u32 type)
     n = 0;
     for (i = 0; i < u[0x14]; i++) {
         if (specs[i].lvl != 0x1F) {
-            t1 = func_02019C90(specs[i].id, specs[i].lvl, 6);
-            t2 = func_02019C90(specs[i].id, specs[i].lvl, 7);
+            t1 = POKE_TOOL_GetPersonalParam(specs[i].id, specs[i].lvl, 6);
+            t2 = POKE_TOOL_GetPersonalParam(specs[i].id, specs[i].lvl, 7);
             if (t1 == type || t2 == type) {
                 buf[n] = i;
                 n++;

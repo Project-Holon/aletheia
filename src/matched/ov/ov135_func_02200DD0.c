@@ -13,13 +13,14 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   WORLDTRADE_TITLE_LoadMainBgSwap 0x02200AB4 thumb ov135
  *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb  arm9
  */
 #include "../include/Obj00137.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201F5BC(u32, u32, u32, u32, u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void WORLDTRADE_TITLE_LoadMainBgSwap(u8 *);
@@ -27,8 +28,8 @@ extern void WORLDTRADE_TITLE_LoadSubBgSwap(u8 *);
 void WORLDTRADE_SERVER_LoadBgGraphics(u8 *p)
 {
     func_02049B40(0x17, 5, 0, 0x1a0, 0x20, 0x48);
-    func_0201F5BC(0, 1, 0xe, 0, 0x48);
-    func_0201F5BC(0, 0x1f, 0xb, 0, 0x48);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0x48);
+    BMP_MENUWORK_LoadCharAndPltt(0, 0x1f, 0xb, 0, 0x48);
     if (((struct Obj00137 *)p)->fE18 == 0) {
         func_02040588(4, 0);
         func_02040588(5, 0);

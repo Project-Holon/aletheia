@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   FX_Div   0x0207C768  arm
  *   BTLV_EFFECT_RegisterTask  0x021F896C  thumb  ov094
@@ -53,7 +53,7 @@ typedef struct {
 } Mover;
 
 extern const char gBtlvMcssSourceFileName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern u32 FX_Div(u32 a, u32 b);
 extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
@@ -64,7 +64,7 @@ extern void BTLV_EFFECT_ComputeVectorStep(const VecFx32 *a, const VecFx32 *b, Ve
 void BTLV_MCSS_CreateTweenTask(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
                    int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50)
 {
-    Mover *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0xa4e);
+    Mover *o = GFL_HEAP_Alloc((u16)((w->heap & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0xa4e);
 
     o->w = w;
     o->i = i;

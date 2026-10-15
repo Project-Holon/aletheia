@@ -1,5 +1,5 @@
 /*
- * function: func_021B9964
+ * function: ZENKOKU_ZUKAN_AWARD_SetupWindows
  * address: 0x021B9964
  * packet: pkt_ov222_021B9964
  * region: ov222
@@ -14,7 +14,7 @@
  *   the first string handle (x = (u16)width): a separate width local gives the r4/r6 swap and a hoisted 0x440. (2) The
  *   9-byte window table is declared const (the const load of byte 2 is hoisted into the load slot after byte 4).
  *   Widths and the 437DC results of the first and third text blocks are discarded by the original (reproduced).
- *   Callee check: func_021B9BB0 takes 1 argument as called. Data hints: data a1.
+ *   Callee check: ZENKOKU_ZUKAN_AWARD_FlushWindows takes 1 argument as called. Data hints: data a1.
  *
  * symbols:
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -32,8 +32,8 @@
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -42,7 +42,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_021B9BB0 0x021B9BB0 thumb ov222
+ *   ZENKOKU_ZUKAN_AWARD_FlushWindows 0x021B9BB0 thumb ov222
  *   d_021BA220 0x021BA220 data a1
  *   d_021BA1E0 0x021BA1E0 data a1
  */
@@ -83,8 +83,8 @@ extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -93,8 +93,8 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
-extern void func_021B9BB0(char *p);
-void func_021B9964(struct Obj *p)
+extern void ZENKOKU_ZUKAN_AWARD_FlushWindows(char *p);
+void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct Obj *p)
 {
     u8 i, j;
     char *msg;
@@ -128,8 +128,8 @@ void func_021B9964(struct Obj *p)
     t = (u32)func_02045EC0(p->bank, 4);
     x = (u32)STRBUF_Create(0x20, p->heap);
     off = 0;
-    func_0201F02C((struct WordSet *)ws, 0, msg);
-    func_0201F250((struct WordSet *)ws, (void *)x, (void *)t);
+    WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, msg);
+    WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)x, (void *)t);
     func_0201D304((struct StrObj *)x, (u32)p->str, 0);
     BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[2]));
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), 0, 0, x, (u32)p->str, 0x440);
@@ -153,5 +153,5 @@ void func_021B9964(struct Obj *p)
         BMP_WIN_MakeScreen(d);
         func_02041B6C(BMP_WIN_GetBgLayer(d));
     }
-    func_021B9BB0((char *)p);
+    ZENKOKU_ZUKAN_AWARD_FlushWindows((char *)p);
 }

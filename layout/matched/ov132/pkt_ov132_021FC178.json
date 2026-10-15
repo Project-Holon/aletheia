@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC178",
+   "name": "SCRIPT_COMMAND_TaskMoveEffect",
    "address": "0x021FC178",
    "kind": "game",
    "region": "ov132",

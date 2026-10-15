@@ -1,5 +1,5 @@
 /*
- * function: func_021867C0
+ * function: gpiResetProfile
  * address:  0x021867C0
  * packet:   pkt_ov009_021867C0
  * region:   ov009
@@ -31,7 +31,7 @@ typedef struct GPIProfile {
     int f28;
 } GPIProfile;
 
-int func_021867C0(int unused, GPIProfile *profile)
+int gpiResetProfile(int unused, GPIProfile *profile)
 {
     profile->f8 = 0;
     profile->fC = 0;

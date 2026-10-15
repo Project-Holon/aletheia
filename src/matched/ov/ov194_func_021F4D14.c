@@ -1,5 +1,5 @@
 /*
- * function: func_021F4D14, func_021F4D1C
+ * function: NAMEIN_GRAPHIC_VBlankClact, NAMEIN_GRAPHIC_LoadWord
  * address: 0x021F4D14
  * packet: pkt_ov194_021F4D14
  * region: ov194
@@ -17,5 +17,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021F4D14(u8 *a0) { CLACT_VBlankSystem(); }
-u32 func_021F4D1C(const u32 *p) { return *p; }
+void NAMEIN_GRAPHIC_VBlankClact(u8 *a0) { CLACT_VBlankSystem(); }
+u32 NAMEIN_GRAPHIC_LoadWord(const u32 *p) { return *p; }

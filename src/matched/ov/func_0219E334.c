@@ -13,7 +13,7 @@
  *
  * symbols:
  *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
- *   func_021B7DC0  0x021B7DC0  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17973.h"
@@ -24,10 +24,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void *FLDMMDL_GetMoveProcWork(void *p);
-extern u32 func_021B7DC0(u32, u32);
+extern u32 FIELD_RAIL_WORK_GetLocation(u32, u32);
 
 int FLDMMDL_RAIL_GetNowLocation(u32 a, u32 b)
 {
-return func_021B7DC0(((struct Obj17973 *)((u8 *)(FLDMMDL_GetMoveProcWork((void *)a))))->f0, b);
+return FIELD_RAIL_WORK_GetLocation(((struct Obj17973 *)((u8 *)(FLDMMDL_GetMoveProcWork((void *)a))))->f0, b);
 }
 

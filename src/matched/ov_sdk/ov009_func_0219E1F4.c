@@ -1,5 +1,5 @@
 /*
- * function: func_0219E1F4
+ * function: SBServerGetPublicQueryPort
  * address:  0x0219E1F4
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Halfword at +4 with its two bytes exchanged.
  */
 
-unsigned short func_0219E1F4(const unsigned short *p)
+unsigned short SBServerGetPublicQueryPort(const unsigned short *p)
 {
     int v = p[2];
 

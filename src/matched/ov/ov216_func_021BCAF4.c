@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  */
-extern void func_020419E4(void);
-void func_021BCAF4(void *a0){func_020419E4();}
+extern void BG_SYS_Update(void);
+void func_021BCAF4(void *a0){BG_SYS_Update();}

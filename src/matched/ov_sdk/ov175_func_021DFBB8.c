@@ -17,9 +17,9 @@
  * docs/idioms/an-unsigned-counter-keeps-the-subs-bne-of-a-countdown-loop.md.
  *
  * symbols:
- *   func_02184938  0x02184938  arm  ov009
+ *   GSMD5Init  0x02184938  arm  ov009
  *   func_0218497C  0x0218497C  arm  ov009
- *   func_02184A34  0x02184A34  arm  ov009
+ *   GSMD5Final  0x02184A34  arm  ov009
  *   sciWsSubmitReport  0x021E0DB8  arm  ov175
  */
 
@@ -53,9 +53,9 @@ struct SCInterface {
 };
 
 struct GSMD5_CTX;
-extern void func_02184938(struct GSMD5_CTX *context);
+extern void GSMD5Init(struct GSMD5_CTX *context);
 extern void func_0218497C(GSMD5_CTX *ctx, unsigned char *input, unsigned int len);
-extern void func_02184A34(unsigned char *digest, struct GSMD5_CTX *context);
+extern void GSMD5Final(unsigned char *digest, struct GSMD5_CTX *context);
 extern int sciWsSubmitReport(void *ws, unsigned int gameId, char *sessionId, char *connectionId,
                          struct SCIReport *report, int isAuth, void *cert, void *priv,
                          void *cb, unsigned int timeout, void *userData);
@@ -86,9 +86,9 @@ int scSubmitReport(void *theInterface, void *theReport, int isAuthoritative, voi
         p[3] = 0;
         p += 4;
     } while (--n);
-    func_02184938((struct GSMD5_CTX *)(&md5));
+    GSMD5Init((struct GSMD5_CTX *)(&md5));
     func_0218497C(&md5, (unsigned char *)aReport->mData, aReport->mLength);
-    func_02184A34(header->mChecksum, (struct GSMD5_CTX *)(&md5));
+    GSMD5Final(header->mChecksum, (struct GSMD5_CTX *)(&md5));
     return sciWsSubmitReport(anInterface, anInterface->mGameId, (char *)anInterface->mSessionId,
                          (char *)anInterface->mConnectionId, aReport, isAuthoritative,
                          theCertificate, thePrivateData, theCallback, theTimeoutMs, theUserData);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2640
+ * function: BR_CODEIN_SoclMain
  * address: 0x021E2640
  * packet: pkt_ov183_021E2640
  * region: ov183
@@ -34,7 +34,7 @@ extern void BR_UTIL_RunHandles(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BR_UTIL_FlushWindow(void *p);
 extern int BR_UTIL_FlushText(u8 *p);
-int func_021E2640(int a,int b,int c,char *p)
+int BR_CODEIN_SoclMain(int a,int b,int c,char *p)
 {
     int i;
     if (!GAME_DATA_IsSaving((const u8 *)(((struct Obj24673 *)(*(char * *)&((struct Obj03883 *)p)->f3C))->f14)) && BR_NET_HandleNetError((char *)(((struct Obj24674 *)(*(char * *)&((struct Obj03883 *)p)->f3C))->fC))==2) {

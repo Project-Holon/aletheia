@@ -13,7 +13,7 @@
  *   gBtlMsgState  0x021F6398  data  a4
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   BTL_MSG_ExpandTags  0x021EEFE0  thumb  ov093
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  */
 
 typedef unsigned char u8;
@@ -33,11 +33,11 @@ struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 void BTL_MSG_BuildString(u32 a, u32 b, u32 c)
 {
     MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.t[0], b, (void *)gBtlMsgState.fc);
     BTL_MSG_ExpandTags((void *)gBtlMsgState.fc, (const u32 *)c, (void *)gBtlMsgState.f8);
-    func_0201F250((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
+    WORDSET_CopyTaggedText((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
 }

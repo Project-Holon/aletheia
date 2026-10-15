@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
@@ -29,14 +29,14 @@ struct DispConfig;
 struct BgTemplate;
 extern struct DispConfig d_021C30C0;
 extern const struct BgTemplate d_021C3110, d_021C3130, d_021C30F0, d_021C3150, d_021C3170;
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void BMP_WIN_Init(u16);
 void RESEARCH_LIST_InitBackgrounds(char *p)
 {
-    func_0203FC28(&d_021C30C0);
+    BG_SYS_SetGraphicsMode(&d_021C30C0);
     BG_SYS_InitBgLayer(6, &d_021C3110, 0);
     BG_SYS_InitBgLayer(7, &d_021C3130, 0);
     BG_SYS_InitBgLayer(0, &d_021C30F0, 0);

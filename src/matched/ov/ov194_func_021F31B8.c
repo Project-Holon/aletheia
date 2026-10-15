@@ -1,5 +1,5 @@
 /*
- * function: func_021F31B8
+ * function: NAMEIN_GRAPHIC_DeleteGrid
  * address: 0x021F31B8
  * packet: pkt_ov194_021F31B8
  * region: ov194
@@ -11,8 +11,8 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021F2608 0x021F2608 thumb ov194
- *   func_021F1A10 0x021F1A10 thumb ov194
+ *   NAMEIN_GRAPHIC_ClearPicker 0x021F2608 thumb ov194
+ *   NAMEIN_GRAPHIC_ClearCursor 0x021F1A10 thumb ov194
  */
 #include "../include/Obj24905.h"
 typedef unsigned char u8;
@@ -22,6 +22,6 @@ struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_021F2608(void *);
-extern void func_021F1A10(void *);
-void func_021F31B8(u8 *p) {int off;BMP_WIN_Delete(((struct Obj24905 *)p)->fE0);func_021F2608(p);func_021F1A10(p+36);off=0x11c;func_020307B0(*(void **)(p+off));func_020307B0(*(void **)(p+off+4));off+=20;MI_CpuFill8(p,0,off);}
+extern void NAMEIN_GRAPHIC_ClearPicker(void *);
+extern void NAMEIN_GRAPHIC_ClearCursor(void *);
+void NAMEIN_GRAPHIC_DeleteGrid(u8 *p) {int off;BMP_WIN_Delete(((struct Obj24905 *)p)->fE0);NAMEIN_GRAPHIC_ClearPicker(p);NAMEIN_GRAPHIC_ClearCursor(p+36);off=0x11c;func_020307B0(*(void **)(p+off));func_020307B0(*(void **)(p+off+4));off+=20;MI_CpuFill8(p,0,off);}

@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_020419E4.
+ * Tail call to BG_SYS_Update.
  *
  * symbols:
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  */
 
 void OPTION_MENU_FlushGfx(char *a0)
 {
-    void func_020419E4(void);
-    func_020419E4();
+    void BG_SYS_Update(void);
+    BG_SYS_Update();
 }

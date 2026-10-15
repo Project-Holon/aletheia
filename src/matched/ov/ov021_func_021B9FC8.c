@@ -40,7 +40,7 @@
  *   VEC_Mag  0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   VEC_Distance  0x0207CF3C  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   _ll_mul        0x0209C054  arm
  * Addresses are Black-image addresses.
  */
@@ -81,7 +81,7 @@ int VEC_Mag(V *a);
 void VEC_Normalize(V *a, V *b);
 int VEC_Distance(const V *a, const V *b);
 typedef signed int     s32;
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 static inline int FX_Mul(int a, int b)
 {
@@ -183,7 +183,7 @@ int FIELD_RAIL_LINEFUNC_Arc(int a, void *p, const V *pos, Rec *out, int arg)
                 }
                 FIELD_RAIL_ClampLocation(p, out, &buf);
                 FIELD_RAIL_GetLocationPos(p, out, arg);
-                if (func_0203EFC8((const u8 *)out, (const u8 *)(&buf), 8) == 0) {
+                if (GF_STANDARD_CompareBytes((const u8 *)out, (const u8 *)(&buf), 8) == 0) {
                     return 1;
                 }
                 return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FA6CC
+ * function: STA_ACT_BUTTON_Update
  * address: 0x021FA6CC
  * packet: pkt_ov132_021FA6CC
  * region: ov132
@@ -45,7 +45,7 @@ extern void func_020355D8(u8);
 extern int STA_ACTING_GetCurrentAction(char *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-void func_021FA6CC(char *p)
+void STA_ACT_BUTTON_Update(char *p)
 {
     Key key;
     Pos pos;

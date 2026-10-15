@@ -32,7 +32,7 @@
  *   CLACT_RegisterCellAnim        0x0204AF28  arm
  *   KEY_GetTrg 0x020362DC arm
  *   func_02040618 0x02040618 arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_021BDCF8 0x021BDCF8 thumb ov208
  *   d_021C8DE4 0x021C8DE4 data a1
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -147,7 +147,7 @@ extern u32 KEY_GetTrg(void);
 
 extern void func_02040618(unsigned,unsigned,unsigned);
 
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 
 extern void func_021BDCF8(struct Ov208Scene *);
 
@@ -317,7 +317,7 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
     ((struct Obj01080 *)p)->f0=heap;((struct Obj01080 *)p)->f4=arg;
     ((struct Obj01080 *)p)->f8=0;((struct Obj01080 *)p)->fC=0;((struct Obj01080 *)p)->f10=0;
     ((struct Obj01080 *)p)->f14=1;((struct Obj01080 *)p)->f18=0;((struct Obj01080 *)p)->f1C=0;((struct Obj01080 *)p)->f20=0;
-    func_02040618(1,3,-24);func_0204047C(1,0);
+    func_02040618(1,3,-24);BG_SYS_SetVisibleLayer(1,0);
     p[0x38]=0;((struct Obj01080 *)p)->f3C=0;
     *(struct Bank * *)&((struct Obj01080 *)p)->f28=CLACT_CreateUnit(16,0,((struct Obj01080 *)p)->f0);
     CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj01080 *)p)->f28);
@@ -579,7 +579,7 @@ void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char v)
 void ZUKAN_DETAIL_TOUCHBAR_FlushBar(int unused, char *p)
 {
     if (((struct Obj09201 *)p)->f3C != 0) {
-        func_0204047C(1, ((struct Obj09201 *)p)->f38);
+        BG_SYS_SetVisibleLayer(1, ((struct Obj09201 *)p)->f38);
         ((struct Obj09201 *)p)->f3C = 0;
     }
 }

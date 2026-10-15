@@ -1,5 +1,5 @@
 /*
- * function: func_0204047C
+ * function: BG_SYS_SetVisibleLayer
  * address:  0x0204047C
  * packet:   pkt_0204047C
  * region:   arm9
@@ -19,7 +19,7 @@
  * with no relocation.
  */
 
-void func_0204047C(int idx, unsigned short val)
+void BG_SYS_SetVisibleLayer(int idx, unsigned short val)
 {
     volatile unsigned short *p;
 

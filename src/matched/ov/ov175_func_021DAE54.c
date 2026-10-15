@@ -1,5 +1,5 @@
 /*
- * function: func_021DAE54
+ * function: WIFIBATTLEMATCH_NET_SubmitReport
  * address:  0x021DAE54
  * packet:   pkt_021DAE54
  * region:   ov175
@@ -42,7 +42,7 @@ extern int DWC_ScReportEnd(u32 h, u32 a, int flag);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 
-int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int flag, int have, int twoway)
+int WIFIBATTLEMATCH_NET_SubmitReport(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int flag, int have, int twoway)
 {
     int r;
     int mode;

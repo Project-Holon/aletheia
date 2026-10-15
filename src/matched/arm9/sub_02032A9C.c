@@ -13,7 +13,7 @@
  *   BACKUP_SYSTEM_GetRecordWork  0x020319A4  arm
  *   BACKUP_SYSTEM_GetAreaAddr  0x02031EAC  arm
  *   FLASH_ACCESS_Read  0x020335E8  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   SAVEDATA_GetBlockOffset  0x02033B68  arm
  *   SAVEDATA_GetBlockSize  0x02033BAC  arm
  *   unk_02146994   0x02146994  data
@@ -51,7 +51,7 @@ extern u32 BACKUP_SYSTEM_GetRecordWork(u8 *p, u32 id);
 extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
 extern int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern u32 SAVEDATA_GetBlockOffset(u8 *p, u32 i);
 extern u32 SAVEDATA_GetBlockSize(u8 *p, u32 i);
 
@@ -103,7 +103,7 @@ u32 BACKUP_SYSTEM_CompareRecordStep(struct SaveBackup *p, u32 id, u32 mode, u32 
             return 1;
         }
 
-        if (func_0203EFC8(p->unk38, src + done, chunk) != 0) {
+        if (GF_STANDARD_CompareBytes(p->unk38, src + done, chunk) != 0) {
             return 1;
         }
 

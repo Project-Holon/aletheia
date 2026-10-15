@@ -1,5 +1,5 @@
 /*
- * function: func_021A810C
+ * function: FIELD_GROUND_ANIME_GetPlayerPos
  * address:  0x021A810C
  * packet:   pkt_021A810C
  * region:   ov021
@@ -27,7 +27,7 @@ struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void FIELD_PLAYER_GetPos(u8 *p, struct VecFx32 *out);
 
-void func_021A810C(struct Obj00020 *p, struct VecFx32 *out)
+void FIELD_GROUND_ANIME_GetPlayerPos(struct Obj00020 *p, struct VecFx32 *out)
 {
     FIELD_PLAYER_GetPos((u8 *)FIELDMAP_GetFieldPlayer(p), out);
 }

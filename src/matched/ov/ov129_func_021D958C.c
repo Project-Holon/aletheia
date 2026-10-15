@@ -23,7 +23,7 @@
  *   func_021D93D4 0x021D93D4 thumb ov129
  *   func_021D9320 0x021D9320 thumb ov129
  *   func_021D9348 0x021D9348 thumb ov129
- *   func_021D8AF4 0x021D8AF4 thumb ov129
+ *   WF2DMAP_SCENE_ResetState 0x021D8AF4 thumb ov129
  *   func_021D9E48 0x021D9E48 thumb ov129
  *   func_021D9EE8 0x021D9EE8 thumb ov129
  *   func_021D9564 0x021D9564 thumb ov129
@@ -42,7 +42,7 @@ extern void func_021D9E98(char *p, int i);
 extern void func_021D93D4(char *p);
 extern int func_021D9320(u8 *p);
 extern void func_021D9348(char *p);
-extern void func_021D8AF4(char *p, int v);
+extern void WF2DMAP_SCENE_ResetState(char *p, int v);
 extern void func_021D9E48(char *p, int i, int a);
 extern void func_021D9EE8(char *p, int i, int j);
 extern void func_021D9564(u8 *p, int n);
@@ -78,7 +78,7 @@ void func_021D958C(u32 n, int touch, char *p)
                     func_021D9348(p);
                     GFL_USE_PlaySeDefaultVolume(1357);
                 } else {
-                    func_021D8AF4(p, 4);
+                    WF2DMAP_SCENE_ResetState(p, 4);
                 }
             } else if (n >= 12 && n <= 21) {
                 if (*(int *)(p + 0x240) == 0) return;

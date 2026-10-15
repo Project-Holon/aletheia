@@ -15,7 +15,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   CG_HELP_SetupBgLayer 0x021D4534 thumb ov124
  *   func_0207D63C 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -47,7 +47,7 @@ struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16), BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 struct BgTemplate;
 extern void CG_HELP_SetupBgLayer(const struct BgTemplate *p, int layer, int type);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
@@ -80,7 +80,7 @@ void CG_HELP_InitDisplay(char *p)
     BG_SYS_SetVramBanks((const struct DispVram *)gCgHelpVramBanks);
     BG_SYS_Create(((struct Obj00068 *)p)->f0);
     BMP_WIN_Init(((struct Obj00068 *)p)->f0);
-    func_0203FC28((struct DispConfig *)gCgHelpDispConfig);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)gCgHelpDispConfig);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer4, 4, 0);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer5, 5, 0);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer6, 6, 0);

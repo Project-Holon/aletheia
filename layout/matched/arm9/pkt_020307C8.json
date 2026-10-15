@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020307C8",
+   "name": "GFL_HEAP_InitAllocatorChecked",
    "address": "0x020307C8",
    "kind": "sdk",
    "region": "arm9",

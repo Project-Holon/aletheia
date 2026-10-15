@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C4524",
-    "func_021C4530"
+    "VIEWER_MAIN_GetBgParamA",
+    "VIEWER_MAIN_GetBgParamB"
+   ],
+   "addresses": [
+    "0x021C4524",
+    "0x021C4530"
    ]
   }
  ]

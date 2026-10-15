@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_cell_transfer.c
  * unit:     yes
- * function: NNSi_G2dGetCellTransferState, func_02066890, NNS_G2dInitCellTransferStateManager, func_02066998, NNSi_G2dRequestCellTransferState, func_02066AE0, NNSi_G2dResetCellTransferState
+ * function: NNSi_G2dGetCellTransferState, NNS_G2dSetCellTransferState, NNS_G2dInitCellTransferStateManager, NNS_G2dUpdateCellTransferStateManager, NNSi_G2dRequestCellTransferState, NNSi_G2dGetCellTransferStateIndex, NNSi_G2dResetCellTransferState
  * address:  0x02066878
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -17,7 +17,7 @@
  * -1 sentinel through NNSi_G2dSrtcSetTable(rec, 0/1/2, v), then store the four
  * stacked words at +0x0c..+0x18.
  * FRONT END: a `../2.0/sp2` PIN row, the "kept constants" tell in its
- * sentinel form -- the same pin src/matched/func_02066AE0.c takes in this
+ * sentinel form -- the same pin src/matched/NNSi_G2dGetCellTransferStateIndex.c takes in this
  * cluster and docs/notes/pkt_02066E30.c.txt records for 0x0206775C.  The
  * image materialises `mvn r0, #0` FRESH before each of the three guards and
  * compares register-to-register (0x020668B8, 0x020668D4, 0x020668F0).
@@ -38,8 +38,8 @@
  * computation, and it is the inlined form of the cluster's out-of-line
  * accessor NNSi_G2dGetCellTransferState (0x02066878).
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02066890.c \
- *       --func func_02066890 --addr 0x02066890 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNS_G2dSetCellTransferState.c \
+ *       --func NNS_G2dSetCellTransferState --addr 0x02066890 --cc ../2.0/sp2 --arm
  * Publish the record pool (callback, count, array) into the global bank at
  * 0x02148B20, then, for each of the n 0x30-byte records, run the per-record
  * routine NNSi_G2dSrtcInitTable on it and clear the nine words at +0x0C..+0x2C.
@@ -111,8 +111,8 @@
  *     it already has in r2: the accessor NNSi_G2dGetCellTransferState (0x02066878, the
  *     same `base + i * 0x30` shape) is inlined at the store and not at the
  *     load.  Storing through `c` drops both instructions.
- *   python3 tools/match.py one --src src/matched/func_02066AE0.c \
- *       --func func_02066AE0 --addr 0x02066AE0 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dGetCellTransferStateIndex.c \
+ *       --func NNSi_G2dGetCellTransferStateIndex --addr 0x02066AE0 --cc ../2.0/sp2 --arm
  * Release one 0x30-byte cell of the bank whose array pointer lives at
  * +8 of the global at 0x02148B20: hand it to NNSi_G2dSrtcInitTable, then clear the
  * nine words from +0xc to +0x2c.
@@ -179,11 +179,11 @@ extern void NNSi_G2dSrtcInitTable(s32 *tbl);
 extern void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v);
 extern s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i);
 CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx);
-void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 void NNS_G2dInitCellTransferStateManager(CellTransferState *pStates, u32 numStates, TransferFunc pTransferFunc);
-void func_02066998(void);
+void NNS_G2dUpdateCellTransferStateManager(void);
 CellTransferState *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte);
-int func_02066AE0(void);
+int NNSi_G2dGetCellTransferStateIndex(void);
 void NNSi_G2dResetCellTransferState(u32 stateIdx);
 extern CellTransferStateManager sCellTransferStateManager;
 extern s32 tbl_020A1808[VRAM_TYPE_MAX];
@@ -196,7 +196,7 @@ CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx)
 }
 
 
-void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
+void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
     CellTransferState *rec = &sCellTransferStateManager.pStateArray[idx];
 
@@ -242,7 +242,7 @@ static inline BOOL ShouldTransfer_(const CellTransferState *s, VRamType t)
 }
 
 
-void func_02066998(void)
+void NNS_G2dUpdateCellTransferStateManager(void)
 {
     u32 i;
     VRamType t;
@@ -279,7 +279,7 @@ CellTransferState *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset,
 
 
 
-int func_02066AE0(void)
+int NNSi_G2dGetCellTransferStateIndex(void)
 {
     u32 i = 0;
 

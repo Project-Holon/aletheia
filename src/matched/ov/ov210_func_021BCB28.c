@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB28
+ * function: ZKNSEARCH_MAIN_LoadBgTile90
  * address:  0x021BCB28
  * packet:   pkt_ov210_021BCB28
  * region:   ov210
@@ -26,7 +26,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021BCB28(u8 *a0)
+void ZKNSEARCH_MAIN_LoadBgTile90(u8 *a0)
 {
     void *h = func_020490F4(159, 0x807b);
     func_020498F4(h, 90, 3, 0, 0, 0, 123);

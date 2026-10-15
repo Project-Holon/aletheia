@@ -1,5 +1,5 @@
 /*
- * function: func_0220D39C
+ * function: B_BAG_MAIN_StateWaitFade
  * address:  0x0220D39C
  * packet:   pkt_0220D39C
  * region:   ov197
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-int func_0220D39C(char *a)
+int B_BAG_MAIN_StateWaitFade(char *a)
 {
     if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25090 *)a)->f8)) == 0)
         return 0x14;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E19EC
+ * function: BR_CODEIN_ProfileHandleInput
  * address: 0x021E19EC
  * packet: pkt_ov183_021E19EC
  * region: ov183
@@ -11,11 +11,11 @@
  * 2026-10-05 wave P5 lane T5 (pengy share): earlier DIFF, two residues (merged far-branch stubs, idx-12 CSE).
  * 2026-10-05 wave P5 lane T5b: EXACT with the ov129 021D958C forms: idx is u32 (unsigned % and / by plain 5),
  *   `if (*(int *)(p + 0x22C) != 1) return;` then `if (arg == 0) {`, non-const Record pointer. One compile.
- *   Callbacks: func_021E1910 passes this as BUTTON_MAN_Create's callback (idx, arg, obj).
+ *   Callbacks: BR_CODEIN_ProfileCreateButtons passes this as BUTTON_MAN_Create's callback (idx, arg, obj).
  * symbols:
- *   func_021E0E40 0x021E0E40 thumb ov183
- *   func_021E1708 0x021E1708 thumb ov183
- *   func_021E1850 0x021E1850 thumb ov183
+ *   BR_CODEIN_ProfileGetActorIndex 0x021E0E40 thumb ov183
+ *   BR_CODEIN_ProfileBuildAnimName 0x021E1708 thumb ov183
+ *   BR_CODEIN_ProfileApplyRecords 0x021E1850 thumb ov183
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -27,14 +27,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int tag,value,mode,handle; char rest[12];} Record;
 struct Obj;
-extern int func_021E0E40(int,int);
-extern void func_021E1708(char *);
-extern void func_021E1850(char *);
+extern int BR_CODEIN_ProfileGetActorIndex(int,int);
+extern void BR_CODEIN_ProfileBuildAnimName(char *);
+extern void BR_CODEIN_ProfileApplyRecords(char *);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void BR_UTIL_StartEffect(int,int,int *);
-void func_021E19EC(u32 idx, int arg, char *p)
+void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, char *p)
 {
     Record *rec = (Record *)p;
     u32 i, j, v;
@@ -87,7 +87,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         BR_UTIL_StartEffect(*(int *)(p + 0x348), 1, args);
         i = *(int *)(p + 0x188);
         v = idx - 11;
-        CLACT_SetActorAnimSeq((struct Obj *)rec[i].handle, (u16)func_021E0E40(rec[i].tag = v, rec[i].mode));
+        CLACT_SetActorAnimSeq((struct Obj *)rec[i].handle, (u16)BR_CODEIN_ProfileGetActorIndex(rec[i].tag = v, rec[i].mode));
         old = rec[i].value;
         j = i + 1;
         if (j == *(u32 *)(p + 0x23C)) {
@@ -107,9 +107,9 @@ void func_021E19EC(u32 idx, int arg, char *p)
         }
         }
     } else if (idx == 0x16) {
-        func_021E1850(p);
+        BR_CODEIN_ProfileApplyRecords(p);
     } else {
-        func_021E1708(p);
+        BR_CODEIN_ProfileBuildAnimName(p);
     }
     }
 }

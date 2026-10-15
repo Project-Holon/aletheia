@@ -10,9 +10,9 @@
  * status: EXACT
  * lever: Signed halfword sin/cos locals settle the six-byte register pair; four ov112 leaves supply the helper witnesses.
  * symbols:
- *   func_021F4F04 0x021F4F04 thumb ov112
- *   func_021F4EFC 0x021F4EFC thumb ov112
- *   func_021F4EE0 0x021F4EE0 thumb ov112
+ *   MUSICAL_MCSS_GetElemOffset 0x021F4F04 thumb ov112
+ *   MUSICAL_MCSS_GetElemFlag 0x021F4EFC thumb ov112
+ *   MUSICAL_MCSS_GetElemField 0x021F4EE0 thumb ov112
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
  *   _ffix 0x0209C494 arm
@@ -24,9 +24,9 @@ typedef unsigned short u16;
 typedef short s16;
 typedef struct { int x, y; } Offset;
 typedef struct { u16 lo : 2; u16 flag : 1; u16 hi : 13; } Flags;
-extern void func_021F4F04(u8 *, Offset *);
-extern int func_021F4EFC(int, Flags *);
-extern void func_021F4EE0(int, u16 *, u16 *);
+extern void MUSICAL_MCSS_GetElemOffset(u8 *, Offset *);
+extern int MUSICAL_MCSS_GetElemFlag(int, Flags *);
+extern void MUSICAL_MCSS_GetElemField(int, u16 *, u16 *);
 extern const s16 FX_SinCosTable_[];
 int func_021BA25C(u8 *p, int x, int y)
 {
@@ -36,9 +36,9 @@ int func_021BA25C(u8 *p, int x, int y)
     s16 c;
     int dx, dy;
     s16 rx, ry;
-    func_021F4F04(((struct Obj04524 *)p)->fC, (Offset *)pos);
-    if (func_021F4EFC(0, ((struct Obj04524 *)p)->fC) == 1) {
-        func_021F4EE0(0, ((struct Obj04524 *)p)->fC, &angle);
+    MUSICAL_MCSS_GetElemOffset(((struct Obj04524 *)p)->fC, (Offset *)pos);
+    if (MUSICAL_MCSS_GetElemFlag(0, ((struct Obj04524 *)p)->fC) == 1) {
+        MUSICAL_MCSS_GetElemField(0, ((struct Obj04524 *)p)->fC, &angle);
         s = FX_SinCosTable_[(angle >> 4) * 2];
         c = FX_SinCosTable_[(angle >> 4) * 2 + 1];
         dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);

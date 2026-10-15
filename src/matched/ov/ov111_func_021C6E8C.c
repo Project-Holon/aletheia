@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E8C
+ * function: VIEWER_TEXT_CreateActor
  * address:  0x021C6E8C
  * packet:   pkt_ov111_021C6E8C
  * region:   ov111
@@ -69,7 +69,7 @@ extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern const ObjTemplateTable d_021C87A4;
 
-void func_021C6E8C(Anim *a)
+void VIEWER_TEXT_CreateActor(Anim *a)
 {
     ObjTemplateTable tbl = d_021C87A4;
     ObjPos pos;

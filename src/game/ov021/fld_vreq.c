@@ -1,7 +1,7 @@
 /*
  * file:     fld_vreq.c
  * unit:     yes
- * function: FLD_VREQ_Create, FLD_VREQ_Delete, FLD_VREQ_VBlank, FLD_VREQ_SetBgVisible, FLD_VREQ_SetSubMasterBrightness, FLD_VREQ_SetMainBlendAlpha, FLD_VREQ_SetMainBlendBrightnessExt, FLD_VREQ_SetMainBlendAlphaEv, FLD_VREQ_SetSubBlendAlpha, FLD_VREQ_ApplyBlendNone, FLD_VREQ_ApplyBlendAlpha, FLD_VREQ_ApplyBlendBrightness, func_021D331C, FLD_VREQ_ApplyChangeBlendBrightness
+ * function: FLD_VREQ_Create, FLD_VREQ_Delete, FLD_VREQ_VBlank, FLD_VREQ_SetBgVisible, FLD_VREQ_SetSubMasterBrightness, FLD_VREQ_SetMainBlendAlpha, FLD_VREQ_SetMainBlendBrightnessExt, FLD_VREQ_SetMainBlendAlphaEv, FLD_VREQ_SetSubBlendAlpha, FLD_VREQ_ApplyBlendNone, FLD_VREQ_ApplyBlendAlpha, FLD_VREQ_ApplyBlendBrightness, FLD_VREQ_ApplyBlendControl, FLD_VREQ_ApplyChangeBlendBrightness
  * address:  0x021D317C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -80,7 +80,7 @@ void FLD_VREQ_SetSubBlendAlpha(FldVReq *vreq, u32 plane1, u32 plane2, u32 ev1, u
 void FLD_VREQ_ApplyBlendNone(void *params, int isMain);
 void FLD_VREQ_ApplyBlendAlpha(int *params, int isMain);
 void FLD_VREQ_ApplyBlendBrightness(u32 *params, int isMain);
-void func_021D331C(const int *params, int isMain);
+void FLD_VREQ_ApplyBlendControl(const int *params, int isMain);
 void FLD_VREQ_ApplyBlendAlphaEv(u32 *params, int isMain);
 void FLD_VREQ_ApplyChangeBlendBrightness(u32 *params, int isMain);
 extern char d_021DE6C8[];       /* "fld_vreq.c" */
@@ -220,7 +220,7 @@ void FLD_VREQ_ApplyBlendBrightness(u32 *params, int isMain)
 /*
  * FLD_VREQ_ApplyBlendAlphaEv is an unlabelled leaf after the first function's pool.
  */
-void func_021D331C(const int *params, int isMain)
+void FLD_VREQ_ApplyBlendControl(const int *params, int isMain)
 {
     if (isMain) {
         func_0207D67C(_REG_MAIN_BLDCNT, params[0], params[1], params[2], params[3], params[4]);

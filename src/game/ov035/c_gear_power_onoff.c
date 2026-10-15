@@ -17,13 +17,13 @@
  *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
  *   ICA_ANIME_GetField24 0x02012138 thumb
  *   func_0202EB44 0x0202EB44 thumb
- *   func_0201214C 0x0201214C thumb
+ *   ICA_ANIME_IsConfigFlagSet 0x0201214C thumb
  *   func_020307B0 0x020307B0 arm
  *   sPowerOnOffTable 0x021F0640 data ov035 a4
  *   FIELD_SUBSCREEN_SetPanelResult 0x021A0FA0 thumb ov021
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -55,7 +55,7 @@
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_02049B40 0x02049B40 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_SetDispHeight 0x02045790 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -69,11 +69,11 @@
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0201F614 0x0201F614 thumb
+ *   BMP_MENUWORK_DeleteHalf 0x0201F614 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_0201F79C 0x0201F79C thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   d_021F064C    0x021F064C data ov035 a4
  *   APP_TASKMENU_OpenMenuFastDecide 0x0202784C thumb
  *   APP_TASKMENU_SetDisableKey 0x02027CD8 thumb
@@ -139,12 +139,12 @@ typedef struct CGearPowerOnOffTable {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *ICA_ANIME_GetField24(const void *gameSystem);
 extern int func_0202EB44(void);
-extern u32 func_0201214C(const void *gameSystem);
+extern u32 ICA_ANIME_IsConfigFlagSet(const void *gameSystem);
 extern u32 func_020307B0(void *p);
 extern void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *subscreen, int mode);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned int heapId);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 extern struct PrintQue *PRINTSYS_QUE_Create(unsigned int heapId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
@@ -172,7 +172,7 @@ extern void BG_SYS_Delete_03F4(u32 i);
 extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern u32 APP_TASKMENU_RES_Delete(void *taskMenuRes);
 extern void func_02049B40(int, int, int, int, int, int);
-extern void *func_0201F5DC(u32 layer, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, unsigned int a1, unsigned int a2, unsigned int a3);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_SetDispHeight(struct BmpWin *window, u8 v);
 extern void *BMP_WIN_GetBmp(struct BmpWin *window);
@@ -186,11 +186,11 @@ extern void STRBUF_Delete(struct Strbuf *text);
 extern int APP_KEYCURSOR_Delete(void *keyCursor);
 extern void TCBL_Destroy(void *tcbl);
 extern u32 BMP_WIN_Delete(struct BmpWin *window);
-extern void func_0201F614(int, unsigned int);
+extern void BMP_MENUWORK_DeleteHalf(int, unsigned int);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_Print(void *bitmap, s16 x, s16 y, struct Strbuf *msg, struct GfFont *font);
-extern void func_0201F79C(struct BmpWin *window, u32 kind, void *menuWork, u32 pal);
-extern void func_0201F7A8(struct BmpWin *window, u32 kind);
+extern void BMP_MENUWORK_DrawWindowEx(struct BmpWin *window, u32 kind, void *menuWork, u32 pal);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *window, u32 kind);
 extern void *APP_TASKMENU_OpenMenuFastDecide(void *menuInit, void *taskMenuRes);
 extern int APP_TASKMENU_SetDisableKey(void *taskMenu, int a1);
 extern void APP_TASKMENU_CloseMenu(void *taskMenu);
@@ -248,7 +248,7 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
     C_GEAR_POWER_ONOFF_InitScreen(work, heapId);
     if (func_0202EB44() == 0)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_UNAVAILABLE;
-    else if (func_0201214C(gameSystem) == 1)
+    else if (ICA_ANIME_IsConfigFlagSet(gameSystem) == 1)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_TURN_OFF;
     else
         work->scene = C_GEAR_POWER_ONOFF_SCENE_TURN_ON;
@@ -270,7 +270,7 @@ void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate) {
 void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
 {
     work->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     work->msgBank = func_02045B38(0, 2, 0x16, heapId);
     work->printQue = PRINTSYS_QUE_Create(heapId);
     C_GEAR_POWER_ONOFF_InitBgs(work, heapId);
@@ -357,7 +357,7 @@ void C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(CGearPowerOnOffWork *work)
 void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
 {
     func_02049B40(0x17, 5, 4, 0x20, 0x20, heapId);
-    work->bmpMenuWork = func_0201F5DC(5, 2, 0, heapId);
+    work->bmpMenuWork = BMP_MENUWORK_LoadFrameGfx(5, 2, 0, heapId);
     work->messageWindow = BMP_WIN_Create(5, 1, 1, 0x1E, 6, 1, 1);
     work->menuWindow = BMP_WIN_Create(5, 1, 0xD, 0x1E, 0xA, 1, 1);
     BMP_WIN_SetDispHeight(work->messageWindow, 4);
@@ -377,7 +377,7 @@ void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
 /*
  * interface: 0201F614 forwards r0 and splits packed r1 into two halfwords;
  *            02028604 uses only r0; legacy trailing inputs are unread.
- * 2026-10-05 (D8 lane 15): 0201F614 now filed EXACT as src/matched/arm9/func_0201F614.c (u16 lo, u16 hi split of r1).
+ * 2026-10-05 (D8 lane 15): 0201F614 now filed EXACT as src/matched/arm9/BMP_MENUWORK_DeleteHalf.c (u16 lo, u16 hi split of r1).
  * Re-run after the integrator regenerates the layout; expected EXACT.
  */
 void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
@@ -392,7 +392,7 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
     TCBL_Destroy(work->tcbl);
     BMP_WIN_Delete(work->menuWindow);
     BMP_WIN_Delete(work->messageWindow);
-    func_0201F614(5, (unsigned int)work->bmpMenuWork);
+    BMP_MENUWORK_DeleteHalf(5, (unsigned int)work->bmpMenuWork);
 }
 
 
@@ -403,7 +403,7 @@ void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *w
 {
     struct Strbuf *msg = func_02045EC0(work->msgBank, msgId);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
-    func_0201F79C(window, 0, work->bmpMenuWork, 2);
+    BMP_MENUWORK_DrawWindowEx(window, 0, work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }
@@ -418,10 +418,10 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct B
 
     BMP_WIN_SetDispHeight(window, height);
     BMP_Clear(BMP_WIN_GetBmp(window), 15);
-    func_0201F7A8(window, 2);
+    BMP_MENUWORK_DrawWindowBorder(window, 2);
     BMP_WIN_MakeScreen(window);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
-    func_0201F79C(window, 0, work->bmpMenuWork, 2);
+    BMP_MENUWORK_DrawWindowEx(window, 0, work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }

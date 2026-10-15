@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *
  * Null-guarded two-step release; always answers 0.  The `adds r4, r0, #0`
@@ -24,13 +24,13 @@ typedef signed short   s16;
 typedef int BOOL;
 
 struct Descriptor;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 int WIFICLUB_DeleteWindow(void *p)
 {
     if (p != 0) {
-        func_0201F7A8(p, 0);
+        BMP_MENUWORK_DrawWindowBorder(p, 0);
         BMP_WIN_Delete(p);
     }
 

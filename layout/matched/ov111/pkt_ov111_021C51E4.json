@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C51E4",
+   "name": "VIEWER_MAIN_SetRowDrawEnable",
    "address": "0x021C51E4",
    "kind": "game",
    "region": "ov111",

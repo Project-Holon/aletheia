@@ -1,5 +1,5 @@
 /*
- * function: func_0220C2F8
+ * function: B_PLIST_DRAW_FillTypeBar
  * address: 0x0220C2F8
  * packet: pkt_ov198_0220C2F8
  * region: ov198
@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: u16 value and u8 width/return preserve stack-store scheduling.
  * symbols:
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   func_0202D01C 0x0202D01C thumb
  *   func_0202D034 0x0202D034 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -20,16 +20,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_022110D4(u8 *,int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern u8 func_0202D01C(u32,u32,u32);
 extern int func_0202D034(u32,u32);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Bmp;
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
+void B_PLIST_DRAW_FillTypeBar(u8 *p,int slot,int index,u16 value,u8 extra)
 {
-    char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
+    char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     u8 color=1;
     u8 width=func_0202D01C(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12,48);
     switch(func_0202D034(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12)) {

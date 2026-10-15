@@ -12,14 +12,15 @@
  * Releases the pointed-to block and clears the pointer.
  *
  * symbols:
+ *   gsifree  0x0217EAE0  arm
 
  */
 
-extern void func_0217EAE0(void *p);
+extern void gsifree(void *p);
 
 void gpiFreeMessage(void **p)
 {
-    func_0217EAE0(*p);
+    gsifree(*p);
     *p = 0;
 }
 

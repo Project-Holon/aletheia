@@ -1,7 +1,7 @@
 /*
  * file:     gf_font.c
  * unit:     yes
- * function: GF_FONT_Task, func_0201D110, func_0201D26C, func_0201D2C8, func_0201D304, func_0201D33C, func_0201D37C, func_0201D42C, GF_FONT_CountControlTag, GF_FONT_SearchIndex, func_0201D528, func_0201D5C4, GF_FONT_CheckD5CC, func_0201D5F4, func_0201D60C, func_0201D658, func_0201D670, func_0201D688, func_0201D69C, func_0201D6B8, func_0201D6C4, GF_FONT_CopyStrbufD6D8, GF_FONT_Copy, GF_FONT_UpdatePrintsy, GF_FONT_Create, GF_FONT_Delete, GF_FONT_LoadResource, GF_FONT_FreeBuffers, GF_FONT_SetFormat, GF_FONT_InitPreloadedGlyphs, GF_FONT_InitStreamedGlyphs, GF_FONT_ExitFormat, GF_FONT_FreeGlyphData, GF_FONT_ExitStreamedGlyphs, GF_FONT_ReadGlyph, GF_FONT_GetGlyphIndex, GF_FONT_ReadPreloadedGlyph, GF_FONT_ReadStreamedGlyph, GF_FONT_DecodeGlyph, GF_FONT_GetCharWidth, GF_FONT_GetField58, GF_FONT_GetProportionalWidth, GF_FONT_GetFixedWidth, func_0201DD60, func_0201DD68, GF_FONT_SetTextColor, GF_FONT_GetTextColor, GF_FONT_IsTextColorDifferent, GF_FONT_DecodeGlyph8x8, GF_FONT_InitBitReader, func_0201E4D4, GF_FONT_DecodeGlyph8x16, GF_FONT_DecodeGlyph16x8, GF_FONT_DecodeGlyph16x16, GF_FONT_Create_EC64, WORDSET_Create, WORDSET_DeleteStrbufED04, WORDSET_Init, func_0201ED64, func_0201ED84, func_0201EDD0, func_0201EE0C, WORDSET_Callback, func_0201EE84, func_0201EEA4, WORDSET_Callback_EEC4, func_0201EED4, func_0201EEF4, func_0201EF14, func_0201EF34, WORDSET_Callback_EF40, WORDSET_Callback_EF4C, func_0201EF5C, func_0201EF6C, func_0201EF8C, func_0201EF98, func_0201EFA4, func_0201EFC8, func_0201EFFC, func_0201F020, func_0201F02C, func_0201F048, WORDSET_DeleteMsgdataF094, WORDSET_Set, func_0201F104, WORDSET_Callback_F124, func_0201F134, func_0201F140, func_0201F14C, func_0201F158, func_0201F164, func_0201F184, func_0201F198, func_0201F1B0, func_0201F1C8, WORDSET_DrawF1E0, func_0201F230, func_0201F250, func_0201F31C, func_0201F344, func_0201F35C, func_0201F41C, WORDSET_CheckF448, WORDSET_CheckF47C, func_0201F4A0
+ * function: GF_FONT_Task, GF_FONT_Apply, GF_FONT_MeasureTextWidth, GF_FONT_CountLine, GF_FONT_MeasureWidestLine, GF_FONT_InitCallerSuppliedArray, GF_FONT_CopyLine, GF_FONT_CountLines, GF_FONT_CountControlTag, GF_FONT_SearchIndex, GF_FONT_MeasureText, GF_FONT_GetTagChar, GF_FONT_CheckD5CC, GF_FONT_GetTagGroup, GF_FONT_AppendTag, GF_FONT_GetTagKind, GF_FONT_GetTagParam, GF_FONT_SkipTag, GF_FONT_GetAlignedSize, GF_FONT_GetAllocSize, GF_FONT_GetQueueLength, GF_FONT_CopyStrbufD6D8, GF_FONT_Copy, GF_FONT_UpdatePrintsy, GF_FONT_Create, GF_FONT_Delete, GF_FONT_LoadResource, GF_FONT_FreeBuffers, GF_FONT_SetFormat, GF_FONT_InitPreloadedGlyphs, GF_FONT_InitStreamedGlyphs, GF_FONT_ExitFormat, GF_FONT_FreeGlyphData, GF_FONT_ExitStreamedGlyphs, GF_FONT_ReadGlyph, GF_FONT_GetGlyphIndex, GF_FONT_ReadPreloadedGlyph, GF_FONT_ReadStreamedGlyph, GF_FONT_DecodeGlyph, GF_FONT_GetCharWidth, GF_FONT_GetField58, GF_FONT_GetProportionalWidth, GF_FONT_GetFixedWidth, GF_FONT_InitTextColor, GF_FONT_SetDefaultTextColor, GF_FONT_SetTextColor, GF_FONT_GetTextColor, GF_FONT_IsTextColorDifferent, GF_FONT_DecodeGlyph8x8, GF_FONT_InitBitReader, GF_FONT_ReadBits, GF_FONT_DecodeGlyph8x16, GF_FONT_DecodeGlyph16x8, GF_FONT_DecodeGlyph16x16, GF_FONT_Create_EC64
  * address:  0x0201CEE0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from gf_font.c by tools/splitfile.py.
  *
  * symbols:
  *   BMP_GetWidth  0x020437DC  arm
@@ -46,51 +46,19 @@
  *   gFontState   0x02146578  data
  *   gGlyphExpandTable   0x02146588  data
  *   gTopBitMasks   0x0209E74C  data
- *   gWordsetFileName  0x020A7364  data  a1
- *   STRBUF_Create   0x020457B0  arm
- *   gSpeciesNameBank   0x020A7370  data
- *   PMSI_PARAM_ValidateDecoValue  0x0202473C  thumb
- *   BMP_OAM_Get  0x02025B94  thumb
- *   _u32_div_f     0x0209C2B0  arm
- *   gDigitGlyphsFullWidth     0x0209E784  data
- *   gDigitGlyphsHalfWidth     0x0209E758  data
- *   gPowersOfTen     0x0209E838  data
- *   gPackedCharTable  0x0209E864  data
- *   PMSI_PARAM_ValidateWord  0x020246C8  thumb
- *   PMS_WORD_LoadString  0x02024838  thumb
- *   STRBUF_Append  0x02045AA8  arm
- *   MYSTATUS_NameToStrbuf  0x02008500  thumb
- *   STRBUF_Delete  0x02045808  arm
- *   STRBUF_Copy  0x02045838  arm
  *   STRBUF_GetLength  0x020458F8  arm
- *   STRBUF_GetEosChar  0x02045A98  arm
- *   MSGDATA_Delete  0x02045C04  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
+ *   WORDSET_Create 0x0201EC74 thumb arm9
  */
+#include "gf_font_shared_types.h"
+
 struct Bmp;
+
 struct Descriptor;
-struct Strbuf;
+
 struct ArcFile;
-struct WordSet;
-struct MsgBank;
-struct WordTag;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
 
 typedef signed short   s16;
-
-typedef signed int     s32;
-
-struct Strbuf {
-    u16 capacity;
-    u16 length;
-    u32 magic;
-    u16 chars[1];
-};
 
 struct PrintCtx {
     s16   penX;
@@ -154,13 +122,6 @@ struct PrintQueue {
     u8  data[4];
 };
 
-
-
-
-
-
-
-
 struct CMap {
     u16 ccodeBegin;
     u16 ccodeEnd;
@@ -170,13 +131,7 @@ struct CMap {
     u16 mapInfo[1];
 };
 
-
-
-
-
-
 typedef signed   char  s8;
-
 
 struct BitReader {
     const u8 *src;
@@ -188,31 +143,6 @@ struct FontState {
     u8               textColor[3];
     u8               pad;
     struct BitReader reader;
-};
-
-struct WordTag {
-    u8 reserved00[3];
-    u8 grammarCase : 7;
-    u8 isSingular : 1;
-    u8 addsMarker;
-};
-
-struct WordSlot {
-    struct WordTag tag;
-    struct Strbuf *text;
-};
-
-struct WordSet {
-    u32 slotCount;
-    u32 heapId;
-    struct WordSlot *slots;
-    struct Strbuf *scratch;
-};
-
-struct PackedLimits {
-    u32 tableEndCode;
-    u32 tableByteBias;
-    u32 invalidFromCode;
 };
 
 struct FontInfo {
@@ -249,7 +179,9 @@ struct GlyphWidthTable {
 struct GfFont;
 
 typedef void (*GlyphReadFunc)(const struct GfFont *font, u32 glyphIndex, void *dst, u8 *metrics);
+
 typedef void (*GlyphDecodeFunc)(const u8 *src, u32 lastGroupBits, u16 *dst);
+
 typedef u32 (*CharWidthFunc)(struct GfFont *font, u32 glyphIndex);
 
 struct GfFont {
@@ -277,181 +209,188 @@ struct GfFont {
 };
 
 typedef void (*FormatInitFunc)(struct GfFont *font, u32 tilesWide, u32 tilesHigh, u32 heapId);
+
 typedef void (*FormatExitFunc)(struct GfFont *font);
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
+
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
+
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 transparentColor);
+
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 fillColor);
+
 extern void BMP_Clear(struct Bmp *bmp, u8 fillColor);
+
 extern void BMP_WIN_TransferChars(struct Descriptor *target);
+
 extern u16 *PRINTSYS_PrintStep(struct PrintCtx *ctx, u16 *cursor, u32 stopAtPause);
+
 extern void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
+
 extern signed char MSG_SPEED_GetSlowerWait(void);
+
 extern signed char MSG_SPEED_GetFasterWait(void);
+
 extern void PRINTSYS_SplitWait(s32 speedSetting, u8 *waitAndGlyphs);
+
 extern u16 *STRBUF_GetChars(struct Strbuf *text);
+
 extern void STRBUF_Clear(struct Strbuf *text);
+
 extern void STRBUF_AppendChar(struct Strbuf *text, u16 value);
+
 extern u16 STRBUF_GetLength(struct Strbuf *text);
+
 extern void *memcpy(void *dst, const void *src, u32 n);
+
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+
 extern struct ArcFile *func_020490F4(unsigned int id, unsigned int heap);
+
 extern u32 func_020307B0(void *block);
+
 extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+
 extern void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcFile *arc, u32 member, u32 *out);
+
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+
 extern void ARC_TOOL_DeleteHandle(struct ArcFile *arc);
+
 extern void func_0204960C(struct ArcFile *arc, u32 offset);
+
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
-extern u32 func_02017E88(void *mon, u32 paramId, u32 arg);
-extern void STRBUF_Delete(struct Strbuf *text);
-extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
-extern struct MsgBank *func_02045B38(u32 isResident, u32 archiveId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void func_02045CAC(struct MsgBank *bank, u32 entryIndex, struct Strbuf *dest);
-extern u32 PMSI_PARAM_ValidateWord(u16 *value, u32 mode, u32 flag);
-extern u32 PMSI_PARAM_ValidateDecoValue(u32 *value, u32 mode);
-extern void PMS_WORD_LoadString(u32 messageId, struct Strbuf *dest, u32 heapId);
-extern u16 func_02045F50(const struct MsgBank *bank);
-extern void MYSTATUS_NameToStrbuf(void *source, struct Strbuf *dest);
-extern u32 BMP_OAM_Get(u32 value);
-extern u32 TPOKE_DATA_GetRecordField(void *source, u32 index);
-extern void func_0200785C(void *save, u32 box, struct Strbuf *dest);
-extern u16  STRBUF_GetEosChar(void);
-extern u32 _u32_div_f(u32 dividend, u32 divisor);
-extern void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
+
 void GF_FONT_Task(void *task, struct TextPrinter *printer);
+
 void GF_FONT_Apply(struct TextPrinter *printer);
-u32 sub_0201D26C(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
+
+u32 GF_FONT_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
+
 u32 GF_FONT_CountLine(struct Strbuf *text);
-u32 sub_0201D304(struct Strbuf *text, struct GfFont *font, u32 spacing);
+
+u32 GF_FONT_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+
 u32 GF_FONT_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u32 spacing, u32 *widths, u32 maxLines);
+
 u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber);
-u32 sub_0201D42C(struct Strbuf *text, struct GfFont *font);
+
+u32 GF_FONT_CountLines(struct Strbuf *text, struct GfFont *font);
+
 u32 GF_FONT_CountControlTag(struct Strbuf *text);
+
 u32 GF_FONT_SearchIndex(struct Strbuf *text, u8 markerId);
-u32 func_0201D528(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing);
-u32 func_0201D5C4(void);
+
+u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing);
+
+u32 GF_FONT_GetTagChar(void);
+
 u32 GF_FONT_CheckD5CC(const u16 *tag);
-u32 func_0201D5F4(const u16 *tag);
-void func_0201D60C(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
-u32 func_0201D658(const u16 *tag);
-u32 func_0201D670(const u16 *tag, u32 paramIndex);
-u16 *func_0201D688(u16 *tag);
-u32 func_0201D69C(struct Strbuf *text);
-u32 func_0201D6B8(struct Strbuf *text);
-u32 func_0201D6C4(const struct PrintQueue *queue);
+
+u32 GF_FONT_GetTagGroup(const u16 *tag);
+
+void GF_FONT_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
+
+u32 GF_FONT_GetTagKind(const u16 *tag);
+
+u32 GF_FONT_GetTagParam(const u16 *tag, u32 paramIndex);
+
+u16 *GF_FONT_SkipTag(u16 *tag);
+
+u32 GF_FONT_GetAlignedSize(struct Strbuf *text);
+
+u32 GF_FONT_GetAllocSize(struct Strbuf *text);
+
+u32 GF_FONT_GetQueueLength(const struct PrintQueue *queue);
+
 void GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, void *record, struct Strbuf *text);
+
 void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit);
+
 void *GF_FONT_UpdatePrintsy(struct PrintQueue *queue, void *record);
+
 struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+
 u32 GF_FONT_Delete(struct GfFont *font);
+
 void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32 heapId);
+
 void GF_FONT_FreeBuffers(struct GfFont *font);
+
 void GF_FONT_SetFormat(struct GfFont *font, u32 format, u32 heapId);
+
 void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHigh, u8 heapId);
+
 void GF_FONT_InitStreamedGlyphs(struct GfFont *font, int tilesWide, int tilesHigh);
+
 void GF_FONT_ExitFormat(struct GfFont *font);
+
 void GF_FONT_FreeGlyphData(struct GfFont *font);
+
 void GF_FONT_ExitStreamedGlyphs(struct GfFont *font);
+
 void GF_FONT_ReadGlyph(struct GfFont *font, u16 ch, void *dst, u8 *metrics);
+
 u32 GF_FONT_GetGlyphIndex(struct GfFont *font, u16 ch);
+
 void GF_FONT_ReadPreloadedGlyph(const struct GfFont *font, u32 glyphIndex, void *dst, u8 *metrics);
+
 void GF_FONT_ReadStreamedGlyph(const struct GfFont *font, u32 glyphIndex, void *dst, u8 *metrics);
+
 void GF_FONT_DecodeGlyph(const struct GfFont *font, const u8 *glyph, u32 lastGroupBits, void *dst, u8 *metrics);
+
 u32 GF_FONT_GetCharWidth(struct GfFont *font, u16 ch);
+
 u32 GF_FONT_GetField58(struct GfFont *font);
+
 u32 GF_FONT_GetProportionalWidth(struct GfFont *font, u32 glyphIndex);
+
 u32 GF_FONT_GetFixedWidth(struct GfFont *font, u32 glyphIndex);
-void func_0201DD60(void);
-void func_0201DD68(void);
+
+void GF_FONT_InitTextColor(void);
+
+void GF_FONT_SetDefaultTextColor(void);
+
 void GF_FONT_SetTextColor(u32 red, u32 green, u32 blue);
+
 void GF_FONT_GetTextColor(u8 *red, u8 *green, u8 *blue);
+
 u32 GF_FONT_IsTextColorDifferent(u32 red, u32 green, u32 blue);
+
 void GF_FONT_DecodeGlyph8x8(const u8 *src, u32 lastGroupBits, u16 *dst);
+
 void GF_FONT_InitBitReader(struct BitReader *reader, const u8 *src);
+
 u8 GF_FONT_ReadBits(struct BitReader *reader, u8 count);
+
 void GF_FONT_DecodeGlyph8x16(const u8 *src, u32 lastGroupBits, u16 *dst);
+
 void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst);
+
 void GF_FONT_DecodeGlyph16x16(const u8 *src, u32 lastGroupBits, u16 *dst);
+
 struct WordSet *GF_FONT_Create_EC64(u16 heapId);
+
 struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId);
-u32 WORDSET_DeleteStrbufED04(struct WordSet *words);
-void WORDSET_Init(struct WordTag *tag);
-void func_0201ED64(struct WordSet *words, u32 slot);
-void func_0201ED84(struct WordSet *words, u32 slot, struct Strbuf *src, const struct WordTag *tag);
-void func_0201EDD0(struct WordSet *words, u32 slot, u32 messageId, u32 entryIndex);
-void func_0201EE0C(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
-void WORDSET_Callback(struct WordSet *words, u32 slot, u16 speciesId);
-void func_0201EE84(struct WordSet *words, u32 slot, void *mon);
-void func_0201EEA4(struct WordSet *words, u32 slot, void *mon);
-void WORDSET_Callback_EEC4(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201EED4(struct WordSet *words, u32 slot, void *mon);
-void func_0201EEF4(struct WordSet *words, u32 slot, void *mon);
-void func_0201EF14(struct WordSet *words, u32 slot, void *mon);
-void func_0201EF34(struct WordSet *words, u32 slot, u32 entryIndex);
-void WORDSET_Callback_EF40(struct WordSet *words, u32 slot, u32 entryIndex);
-void WORDSET_Callback_EF4C(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201EF5C(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201EF6C(struct WordSet *words, u32 slot, u32 entryIndex, u32 useFirstBank, u32 useSecondBank);
-void func_0201EF8C(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201EF98(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201EFA4(struct WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
-void func_0201EFC8(struct WordSet *words, u32 slot, u32 pmsWord);
-void func_0201EFFC(struct WordSet *words, u32 slot, u32 markerFlag);
-void func_0201F020(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F02C(struct WordSet *words, u32 slot, void *source);
-void func_0201F048(struct WordSet *words, u32 slot, u32 entryIndex);
-void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 entryIndex);
-void WORDSET_Set(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F104(struct WordSet *words, u32 slot, void *source);
-void WORDSET_Callback_F124(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F134(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F140(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F14C(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F158(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F164(struct WordSet *words, u32 slot, void *save, u32 boxIndex);
-void func_0201F184(struct WordSet *words, u32 slot, s32 entryIndex);
-void func_0201F198(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F1B0(struct WordSet *words, u32 slot, u8 entryIndex);
-void func_0201F1C8(struct WordSet *words, u32 slot, u32 entryIndex);
-void WORDSET_DrawF1E0(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F230(struct WordSet *words, u32 slot, u32 entryIndex);
-void func_0201F250(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-void func_0201F31C(struct WordSet *words);
-void func_0201F344(u16 heapId);
-void func_0201F35C(struct Strbuf *text, s32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
-void func_0201F41C(const u16 *src, u16 *dst, u32 maxLength);
-u32 WORDSET_CheckF448(const u16 *left, const u16 *right);
-u32 WORDSET_CheckF47C(struct Strbuf *text);
-void func_0201F4A0(struct Strbuf *dst, struct Strbuf *src);
+
 extern const char gGfFontFileName[];
+
 extern const char gGfFontFileName[];
+
 extern FormatInitFunc gFontFormatInitFuncs[];
+
 extern const char gGfFontFileName[];
+
 extern FormatExitFunc gFontFormatExitFuncs[];
+
 extern struct FontState gFontState;
+
 extern u16 gGlyphExpandTable[256];
+
 extern const u8         gTopBitMasks[];
-extern char gWordsetFileName[];
-extern void *gSpeciesNameBank;
-extern u16  gDigitGlyphsFullWidth[];
-extern u16  gDigitGlyphsHalfWidth[];
-extern u32  gPowersOfTen[];
-extern const u16 gPackedCharTable[];
-
-
-
-
-
-
-
-
 
 static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
 {
@@ -459,14 +398,6 @@ static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
         return (u8)(tag[1] >> 8);
     return 0xFF;
 }
-
-
-
-
-
-
-
-
 
 /*
  * The per-frame task callback that PRINTSYS_PrintStreamCallBack installs for a printsys
@@ -619,24 +550,10 @@ end:
     ;
 }
 
-
-
-
-
-
-
-
 static inline u32 TagKindByte(const u16 *tag)
 {
     return (u8)tag[1];
 }
-
-
-
-
-
-
-
 
 static inline u16 TagKindOrNone(u16 code, const u16 *tag)
 {
@@ -645,26 +562,12 @@ static inline u16 TagKindOrNone(u16 code, const u16 *tag)
     return 0xFFFF;
 }
 
-
-
-
-
-
-
-
 static inline u16 TagParam(u16 code, const u16 *tag, u32 paramIndex)
 {
     if (code == 0xF000)
         return *(tag + paramIndex + 3);
     return 0;
 }
-
-
-
-
-
-
-
 
 static inline u16 TagParamOfCursor(const u16 *tag, u32 paramIndex)
 {
@@ -674,13 +577,6 @@ static inline u16 TagParamOfCursor(const u16 *tag, u32 paramIndex)
     return 0;
 }
 
-
-
-
-
-
-
-
 static inline u16 *SkipTag(u16 *tag)
 {
     if (tag[0] == 0xF000)
@@ -688,24 +584,11 @@ static inline u16 *SkipTag(u16 *tag)
     return tag;
 }
 
-
-
-
-
-
-
-
 static inline void SetWaitState(struct TextPrinter *printer, u32 waitKind)
 {
     printer->state = 1;
     printer->waitKind = waitKind;
 }
-
-
-
-
-
-
 
 /*
  * Applies the 0xF000 control block the text record's cursor is parked on
@@ -804,13 +687,6 @@ void GF_FONT_Apply(struct TextPrinter *printer)
         printer->cursor = cursor + 1;
 }
 
-
-
-
-
-
-
-
 /*
  * printsys.c: measures one line of a string object.  It sums the per-glyph
  * advance GF_FONT_GetCharWidth returns plus a fixed inter-character spacing until it
@@ -827,10 +703,10 @@ void GF_FONT_Apply(struct TextPrinter *printer)
  * while folding away the second compare.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201D26C.c
- *       --func sub_0201D26C --addr 0x0201D26C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_MeasureTextWidth.c
+ *       --func GF_FONT_MeasureTextWidth --addr 0x0201D26C --cc 1.1p1 --thumb
  */
-u32 sub_0201D26C(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next)
+u32 GF_FONT_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next)
 {
     u32 width;
     u16 code;
@@ -854,13 +730,6 @@ u32 sub_0201D26C(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next)
     }
     return width;
 }
-
-
-
-
-
-
-
 
 /*
  * printsys.c: counts the lines of a string object, i.e. one plus the number
@@ -897,16 +766,9 @@ u32 GF_FONT_CountLine(struct Strbuf *text)
     return lineCount;
 }
 
-
-
-
-
-
-
-
 /*
  * printsys.c: the width of the widest line of a multi-line string.  It walks
- * the string object's halfword payload one line at a time with sub_0201D26C,
+ * the string object's halfword payload one line at a time with GF_FONT_MeasureTextWidth,
  * which measures one line and writes the cursor for the next one back through
  * its fourth argument, and keeps the running maximum.  0xFFFF is the string
  * terminator (the same sentinel PRINTSYS_RunJob stops on).
@@ -915,10 +777,10 @@ u32 GF_FONT_CountLine(struct Strbuf *text)
  * the loop test reloads it every iteration.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201D304.c
- *       --func sub_0201D304 --addr 0x0201D304 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_MeasureWidestLine.c
+ *       --func GF_FONT_MeasureWidestLine --addr 0x0201D304 --cc 1.1p1 --thumb
  */
-u32 sub_0201D304(struct Strbuf *text, struct GfFont *font, u32 spacing)
+u32 GF_FONT_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing)
 {
     u16 *cursor;
     u32 widest;
@@ -927,7 +789,7 @@ u32 sub_0201D304(struct Strbuf *text, struct GfFont *font, u32 spacing)
     widest = 0;
     cursor = STRBUF_GetChars(text);
     while (*cursor != 0xFFFF) {
-        lineWidth = sub_0201D26C(cursor, font, spacing, &cursor);
+        lineWidth = GF_FONT_MeasureTextWidth(cursor, font, spacing, &cursor);
         if (lineWidth > widest) {
             widest = lineWidth;
         }
@@ -935,17 +797,10 @@ u32 sub_0201D304(struct Strbuf *text, struct GfFont *font, u32 spacing)
     return widest;
 }
 
-
-
-
-
-
-
-
 /*
  * printsys.c: fills a caller-supplied array with the pixel width of each line
  * of a string object, at most `max` of them, and returns how many were
- * written.  sub_0201D26C measures one line and hands back the cursor for the
+ * written.  GF_FONT_MeasureTextWidth measures one line and hands back the cursor for the
  * next through its fourth argument; the cursor is a stack local because its
  * address is taken.
  *
@@ -964,18 +819,11 @@ u32 GF_FONT_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u3
         if (*cursor == 0xFFFF) {
             break;
         }
-        widths[lineIndex] = sub_0201D26C(cursor, font, spacing, &cursor);
+        widths[lineIndex] = GF_FONT_MeasureTextWidth(cursor, font, spacing, &cursor);
         lineIndex++;
     }
     return lineIndex;
 }
-
-
-
-
-
-
-
 
 /*
  * printsys.c: copies line `n` of a string object into a second, freshly
@@ -1034,23 +882,16 @@ u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber)
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * printsys.c: the pixel height of a string object, i.e. its line count times
  * the font's line height (GF_FONT_GetField58).  The line counter is a u16, so the
  * increment carries the halfword truncation pair.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201D42C.c
- *       --func sub_0201D42C --addr 0x0201D42C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_CountLines.c
+ *       --func GF_FONT_CountLines --addr 0x0201D42C --cc 1.1p1 --thumb
  */
-u32 sub_0201D42C(struct Strbuf *text, struct GfFont *font)
+u32 GF_FONT_CountLines(struct Strbuf *text, struct GfFont *font)
 {
     u16 *cursor;
     u16 code;
@@ -1075,17 +916,10 @@ u32 sub_0201D42C(struct Strbuf *text, struct GfFont *font)
     return (lineBreaks + 1) * GF_FONT_GetField58(font);
 }
 
-
-
-
-
-
-
-
 /*
  * Counts the control tags of a message string for which GF_FONT_CheckD5CC returns
  * true.  The walk is the one every routine in this neighbourhood uses: 0xF000
- * opens a tag and func_0201D688 steps over it, anything else is one halfword,
+ * opens a tag and GF_FONT_SkipTag steps over it, anything else is one halfword,
  * and 0xFFFF ends the string.
  *
  * The counter and the cursor are interchanged unless the cursor is declared
@@ -1112,7 +946,7 @@ u32 GF_FONT_CountControlTag(struct Strbuf *text)
             if (GF_FONT_CheckD5CC(cursor) != 0) {
                 count = (u16)(count + 1);
             }
-            cursor = func_0201D688(cursor);
+            cursor = GF_FONT_SkipTag(cursor);
         } else {
             cursor = cursor + 1;
         }
@@ -1120,17 +954,10 @@ u32 GF_FONT_CountControlTag(struct Strbuf *text)
     return count;
 }
 
-
-
-
-
-
-
-
 /*
  * Finds the index of the 0xBD06 tag whose first parameter is the caller's
  * value, counting 0xFFFE separators as it goes.  The tag's parameter is read
- * with func_0201D670's body written out inline (`p[0] == 0xF000 ? p[3] : 0`),
+ * with GF_FONT_GetTagParam's body written out inline (`p[0] == 0xF000 ? p[3] : 0`),
  * including the redundant re-test of p[0] that the caller has already made: that
  * guard is in the bytes and removing it costs four instructions.
  *
@@ -1170,20 +997,13 @@ u32 GF_FONT_SearchIndex(struct Strbuf *text, u8 markerId)
                     return (u8)lineBreaks;
                 }
             }
-            cursor = func_0201D688(cursor);
+            cursor = GF_FONT_SkipTag(cursor);
         } else {
             cursor = cursor + 1;
         }
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * Measures a message string up to the 0xBD06 tag whose parameter is the
@@ -1204,7 +1024,7 @@ u32 GF_FONT_SearchIndex(struct Strbuf *text, u8 markerId)
  *   python tools/match.py tu --src src/matched/unit_0201D528.c \
  *       --addr 0x0201D528 --thumb
  */
-u32 func_0201D528(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing)
+u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing)
 {
     u32 width = 0;
     u16 *cursor;
@@ -1247,26 +1067,19 @@ u32 func_0201D528(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spa
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
- *           func_0201D658, func_0201D670, func_0201D688
+ *           GF_FONT_GetTagKind, GF_FONT_GetTagParam, GF_FONT_SkipTag
  *
  * The message-tag primitives of the text stack, seven functions and 216 bytes.
  * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
  * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  func_0201D688 steps a cursor over one tag
+ * and the parameters follow at +6.  GF_FONT_SkipTag steps a cursor over one tag
  * and is what every walker in this region loops on.
  *
  * Three of the seven carry no label in the generated listing, because a
  * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
  * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * func_0201D5F4, func_0201D658 and func_0201D670 were read out of the `.word`
+ * GF_FONT_GetTagGroup, GF_FONT_GetTagKind and GF_FONT_GetTagParam were read out of the `.word`
  * run the listing prints.
  *
  * Three details cost time and each is in an existing idiom:
@@ -1277,12 +1090,12 @@ u32 func_0201D528(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spa
  *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
  *     the u16 promotes to a signed int before the shift; writing the field as
  *     u32 gives `lsrs` and one wrong byte.
- *   - func_0201D670 indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
+ *   - GF_FONT_GetTagParam indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
  *     form folds the addition into the index and scales once, the pointer form
  *     scales `i` and leaves the +3 as the load's immediate, which is
  *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
  *
- * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
+ * GF_FONT_AppendTag's parameter count is `u16`, not `u32`: it is passed straight to
  * STRBUF_AppendChar with no truncation, and a `u32` parameter costs the `lsls` /
  * `lsrs` pair there.
  *
@@ -1292,17 +1105,10 @@ u32 func_0201D528(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spa
  *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
  *       --addr 0x0201D5C4 --thumb
  */
-u32 func_0201D5C4(void)
+u32 GF_FONT_GetTagChar(void)
 {
     return 0xF000;
 }
-
-
-
-
-
-
-
 
 u32 GF_FONT_CheckD5CC(const u16 *tag)
 {
@@ -1321,14 +1127,7 @@ u32 GF_FONT_CheckD5CC(const u16 *tag)
     return 0;
 }
 
-
-
-
-
-
-
-
-u32 func_0201D5F4(const u16 *tag)
+u32 GF_FONT_GetTagGroup(const u16 *tag)
 {
     if (tag[0] == 0xF000) {
         return (u8)(tag[1] >> 8);
@@ -1336,14 +1135,7 @@ u32 func_0201D5F4(const u16 *tag)
     return 0xFF;
 }
 
-
-
-
-
-
-
-
-void func_0201D60C(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params)
+void GF_FONT_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params)
 {
     u32 index;
 
@@ -1355,14 +1147,7 @@ void func_0201D60C(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, con
     }
 }
 
-
-
-
-
-
-
-
-u32 func_0201D658(const u16 *tag)
+u32 GF_FONT_GetTagKind(const u16 *tag)
 {
     if (tag[0] == 0xF000) {
         return (u8)tag[1];
@@ -1370,14 +1155,7 @@ u32 func_0201D658(const u16 *tag)
     return 0xFF;
 }
 
-
-
-
-
-
-
-
-u32 func_0201D670(const u16 *tag, u32 paramIndex)
+u32 GF_FONT_GetTagParam(const u16 *tag, u32 paramIndex)
 {
     if (tag[0] == 0xF000) {
         return *(tag + paramIndex + 3);
@@ -1385,27 +1163,13 @@ u32 func_0201D670(const u16 *tag, u32 paramIndex)
     return 0;
 }
 
-
-
-
-
-
-
-
-u16 *func_0201D688(u16 *tag)
+u16 *GF_FONT_SkipTag(u16 *tag)
 {
     if (tag[0] == 0xF000) {
         return tag + 3 + tag[2];
     }
     return tag;
 }
-
-
-
-
-
-
-
 
 /*
  * The first three functions of gf_font.c.  The file identity is in the image:
@@ -1415,14 +1179,14 @@ u16 *func_0201D688(u16 *tag)
  * functions after it are an unsolved register allocation, not a missing
  * declaration; see the note at the end of this comment.
  *
- * func_0201D69C sizes a string's storage: two bytes per character plus the
+ * GF_FONT_GetAlignedSize sizes a string's storage: two bytes per character plus the
  * terminator, rounded up to a multiple of four.  The rounding is a `while`
  * loop over `n & 3`, not an `& ~3` or a `+ 3 & ~3`: this front end has no
  * immediate `bic`, so either of those would materialise the mask and the
  * function would be four bytes shorter with no loop at all.  The loop really
  * is in the original.
  *
- * func_0201D6C4 is the used-byte count of a wrap-around byte ring.  The
+ * GF_FONT_GetQueueLength is the used-byte count of a wrap-around byte ring.  The
  * fall-through arm of `cmp r1, r2` / `bhs` is the non-wrapped case, so the
  * source wrote `if (head < tail)` first
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md); written as the
@@ -1447,7 +1211,7 @@ u16 *func_0201D688(u16 *tag)
  *   python tools/match.py tu --src src/matched/unit_0201D69C.c \
  *       --addr 0x0201D69C --thumb
  */
-u32 func_0201D69C(struct Strbuf *text)
+u32 GF_FONT_GetAlignedSize(struct Strbuf *text)
 {
     u32 bytes = (STRBUF_GetLength(text) + 1) * 2;
 
@@ -1457,40 +1221,18 @@ u32 func_0201D69C(struct Strbuf *text)
     return bytes;
 }
 
-
-
-
-
-
-
-
-u32 func_0201D6B8(struct Strbuf *text)
+u32 GF_FONT_GetAllocSize(struct Strbuf *text)
 {
-    return func_0201D69C(text) + 0x20;
+    return GF_FONT_GetAlignedSize(text) + 0x20;
 }
 
-
-
-
-
-
-
-
-u32 func_0201D6C4(const struct PrintQueue *queue)
+u32 GF_FONT_GetQueueLength(const struct PrintQueue *queue)
 {
     if (queue->head < queue->tail) {
         return queue->tail - queue->head;
     }
     return queue->tail + (queue->capacity - queue->head);
 }
-
-
-
-
-
-
-
-
 
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
@@ -1509,7 +1251,7 @@ u32 func_0201D6C4(const struct PrintQueue *queue)
  * changes.
  *
  * What it is: the cache-side of a record reader.  It asks
- * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)func_0201D69C(c), 2) for a slot
+ * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)GF_FONT_GetAlignedSize(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
  * and then walks the list hanging off queue->firstRecord through GF_FONT_UpdatePrintsy until it
@@ -1535,7 +1277,7 @@ void GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, void *record, struct Strbu
     u32 zero;
 
     textCopy = GF_FONT_Copy(queue, (const u8 *)STRBUF_GetChars(text),
-                           (u16)func_0201D69C(text), 2);
+                           (u16)GF_FONT_GetAlignedSize(text), 2);
     newRecord = GF_FONT_Copy(queue, record, 0x1c, 0x1c);
     zero = 0;
     GF_FONT_Copy(queue, (const u8 *)(&zero), 4, 4);
@@ -1557,14 +1299,6 @@ void GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, void *record, struct Strbu
     queue->firstRecord = newRecord;
     queue->text = textCopy;
 }
-
-
-
-
-
-
-
-
 
 /*
  * printsys.c: append `len` bytes to the byte ring at +0x18 in `unit`-sized
@@ -1614,13 +1348,6 @@ void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit
     return data + startOffset;
 }
 
-
-
-
-
-
-
-
 /*
  * Steps the printsys.c record ring one slot on and returns the word stored
  * there, which is the next record or NULL.  The ring lives at +0x18 of the
@@ -1659,13 +1386,6 @@ void *GF_FONT_UpdatePrintsy(struct PrintQueue *queue, void *record)
     return *(void **)&queue->data[(u16)offset];
 }
 
-
-
-
-
-
-
-
 /*
  * gf_font.c's constructor: allocates the 0x94-byte font object, opens the
  * resource handle for `a0`, records the archive id at +0x54, then hands the
@@ -1698,26 +1418,12 @@ struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixed
     return font;
 }
 
-
-
-
-
-
-
-
 u32 GF_FONT_Delete(struct GfFont *font)
 {
     GF_FONT_ExitFormat(font);
     GF_FONT_FreeBuffers(font);
     return func_020307B0(font);
 }
-
-
-
-
-
-
-
 
 /*
  * note:     promoted 2026-09-21: the +0x16C ABS32 to 0x0201DC88 is now
@@ -1810,15 +1516,6 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
     font->missingGlyphIndex = (u16)GF_FONT_GetGlyphIndex(font, 0x3F);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * gf_font.c's buffer release: frees the three heap blocks the constructor hung
  * off the object at +0x90, +0x84 and +0x88 and closes the resource handle at
@@ -1849,13 +1546,6 @@ void GF_FONT_FreeBuffers(struct GfFont *font)
         ARC_TOOL_DeleteHandle(font->arc);
     }
 }
-
-
-
-
-
-
-
 
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
@@ -1890,13 +1580,6 @@ void GF_FONT_SetFormat(struct GfFont *font, u32 format, u32 heapId)
     gFontFormatInitFuncs[format](font, font->tilesWide, font->tilesHigh, heapId);
 }
 
-
-
-
-
-
-
-
 void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHigh, u8 heapId)
 {
     u32 size;
@@ -1920,14 +1603,6 @@ void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHi
         font->decodeGlyph = decode;
     }
 }
-
-
-
-
-
-
-
-
 
 /*
  * gf_font.c's format-1 hook installer: clears +0xC, plants the shared measure
@@ -1962,14 +1637,6 @@ void GF_FONT_InitStreamedGlyphs(struct GfFont *font, int tilesWide, int tilesHig
         font->decodeGlyph = (tilesHigh == 1) ? GF_FONT_DecodeGlyph16x8 : GF_FONT_DecodeGlyph16x16;
 }
 
-
-
-
-
-
-
-
-
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
@@ -1997,13 +1664,6 @@ void GF_FONT_ExitFormat(struct GfFont *font)
 {
     gFontFormatExitFuncs[font->format](font);
 }
-
-
-
-
-
-
-
 
 /*
  * gf_font.c's glyph-buffer release, an empty hook, and the entry point every
@@ -2035,32 +1695,14 @@ void GF_FONT_FreeGlyphData(struct GfFont *font)
     font->glyphData = 0;
 }
 
-
-
-
-
-
-
 void GF_FONT_ExitStreamedGlyphs(struct GfFont *font)
 {
 }
-
-
-
-
-
-
 
 void GF_FONT_ReadGlyph(struct GfFont *font, u16 ch, void *dst, u8 *metrics)
 {
     font->readGlyph(font, GF_FONT_GetGlyphIndex(font, ch), dst, metrics);
 }
-
-
-
-
-
-
 
 /*
  * gf_font.c's character-to-glyph-index lookup: NitroSystem's character-map
@@ -2130,12 +1772,6 @@ u32 GF_FONT_GetGlyphIndex(struct GfFont *font, u16 ch)
     }
 }
 
-
-
-
-
-
-
 /*
  * gf_font.c's glyph fetch for a preloaded font: copy glyph record i
  * (mapSize bytes) out of the resident body into the scratch buffer, then
@@ -2157,10 +1793,6 @@ void GF_FONT_ReadPreloadedGlyph(const struct GfFont *font, u32 glyphIndex, void 
     MI_CpuCopy8(font->glyphData + glyphIndex * font->glyph.cellSize, font->scratch, font->glyph.cellSize);
     GF_FONT_DecodeGlyph(font, font->scratch, font->lastGroupBits, dst, metrics);
 }
-
-
-
-
 
 /*
  * gf_font.c's glyph fetch for a streamed font: seek the resource handle to
@@ -2184,12 +1816,6 @@ void GF_FONT_ReadStreamedGlyph(const struct GfFont *font, u32 glyphIndex, void *
     ARC_TOOL_ReadHandle(font->arc, font->glyph.cellSize, font->scratch);
     GF_FONT_DecodeGlyph(font, font->scratch, font->lastGroupBits, dst, metrics);
 }
-
-
-
-
-
-
 
 /*
  * gf_font.c's glyph hand-off: the rendering hook installed at +8 of the font
@@ -2217,18 +1843,13 @@ void GF_FONT_DecodeGlyph(const struct GfFont *font, const u8 *glyph, u32 lastGro
     metrics[3] = font->info.lineHeight;
 }
 
-
-
-
-
-
 /*
  * The gf_font.c width query and the accessor for the byte at +0x59.
  *
  * GF_FONT_GetCharWidth returns whatever the function pointer at +0x6C returns, and the
  * tail call shape (`ldr r2, [r4, #0x6c]`, `blx r2`, `pop {r4, pc}`) is the same
  * bytes whether the C declares a return value or not, so the return type is
- * fixed by the caller instead: func_0201D528 adds the result to a running width.
+ * fixed by the caller instead: GF_FONT_MeasureText adds the result to a running width.
  *
  * GF_FONT_GetField58 has no label in the listing; it is three halfwords between two
  * literal pools.
@@ -2244,17 +1865,10 @@ u32 GF_FONT_GetCharWidth(struct GfFont *font, u16 ch)
     return font->getCharWidth(font, GF_FONT_GetGlyphIndex(font, ch));
 }
 
-
-
-
 u32 GF_FONT_GetField58(struct GfFont *font)
 {
     return font->info.lineHeight;
 }
-
-
-
-
 
 /*
  * gf_font.c streamed-glyph lookup: classify glyph `id` through a
@@ -2318,19 +1932,14 @@ u32 GF_FONT_GetProportionalWidth(struct GfFont *font, u32 glyphIndex)
     return font->info.defaultCharWidth;
 }
 
-
-
-
-
-
 /*
  * Three unlabelled leaves of gf_font.c: the accessor for the byte at +0x5E and
  * a two-step thunk that resets the text colour to (1, 2, 0).
  *
- * func_0201DD60 and func_0201DD68 are both the pool-word-and-bx shape
+ * GF_FONT_InitTextColor and GF_FONT_SetDefaultTextColor are both the pool-word-and-bx shape
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes, and neither carries
  * a label, because a tail call saves nothing and the prologue sweep never fires.
- * The chain is real: func_0201DD60 tail-calls func_0201DD68, which tail-calls
+ * The chain is real: GF_FONT_InitTextColor tail-calls GF_FONT_SetDefaultTextColor, which tail-calls
  * GF_FONT_SetTextColor with three constants.  Writing it as one function that calls
  * GF_FONT_SetTextColor directly loses eight bytes.
  *
@@ -2349,27 +1958,15 @@ u32 GF_FONT_GetFixedWidth(struct GfFont *font, u32 glyphIndex)
     return font->info.defaultCharWidth;
 }
 
-
-
-
-void func_0201DD60(void)
+void GF_FONT_InitTextColor(void)
 {
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
 }
 
-
-
-
-
-
-void func_0201DD68(void)
+void GF_FONT_SetDefaultTextColor(void)
 {
     GF_FONT_SetTextColor(1, 2, 0);
 }
-
-
-
-
 
 /*
  * gf_font.c's text-colour setter, 136 bytes.  It records the three requested
@@ -2434,10 +2031,6 @@ void GF_FONT_SetTextColor(u32 red, u32 green, u32 blue)
     }
 }
 
-
-
-
-
 /*
  * The current text colour, read back and compared.  gFontState is the three
  * bytes GF_FONT_SetTextColor stores the last requested colour into.
@@ -2463,10 +2056,6 @@ void GF_FONT_GetTextColor(u8 *red, u8 *green, u8 *blue)
     *blue = gFontState.textColor[2];
 }
 
-
-
-
-
 u32 GF_FONT_IsTextColorDifferent(u32 red, u32 green, u32 blue)
 {
     if (red != gFontState.textColor[0] || green != gFontState.textColor[1] || blue != gFontState.textColor[2]) {
@@ -2474,9 +2063,6 @@ u32 GF_FONT_IsTextColorDifferent(u32 red, u32 green, u32 blue)
     }
     return 0;
 }
-
-
-
 
 static inline u8 ReadBits(struct BitReader *reader, u8 count)
 {
@@ -2510,8 +2096,6 @@ static inline u8 ReadBits(struct BitReader *reader, u8 count)
     }
     return (u8)((lowBits >> bitsTaken) | highBits);
 }
-
-
 
 /*
  * gf_font.c's format-1 glyph decoder, one of the four hooks GF_FONT_InitStreamedGlyphs
@@ -2581,10 +2165,6 @@ void GF_FONT_DecodeGlyph8x8(const u8 *src, u32 lastGroupBits, u16 *dst)
     dst[15] = gGlyphExpandTable[ReadBits(&gFontState.reader, lastGroupBits)];
 }
 
-
-
-
-
 /*
  * Opens the bit reader the glyph decompressor in this packet runs on: the
  * cursor at +0 is the byte pointer, +4 is the number of bits still unread out
@@ -2610,9 +2190,6 @@ void GF_FONT_InitBitReader(struct BitReader *reader, const u8 *src)
     reader->current = src[0];
     reader->bitsLeft = 8;
 }
-
-
-
 
 /*
  * The bit reader behind the compressed glyph stream: pulls `n` bits out of a
@@ -2659,11 +2236,6 @@ u8 GF_FONT_ReadBits(struct BitReader *reader, u8 count)
     }
     return (u8)((lowBits >> bitsTaken) | highBits);
 }
-
-
-
-
-
 
 /*
  * One of the four compressed-glyph decoders src/matched/GF_FONT_InitStreamedGlyphs.c and
@@ -2733,11 +2305,6 @@ void GF_FONT_DecodeGlyph8x16(const u8 *src, u32 lastGroupBits, u16 *dst)
     dst[30] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
     dst[31] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
 }
-
-
-
-
-
 
 /*
  * One of the four compressed-glyph decoders src/matched/GF_FONT_InitStreamedGlyphs.c and
@@ -2811,10 +2378,6 @@ void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst)
     dst2[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
     dst2[15] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
 }
-
-
-
-
 
 /*
  * One of the four compressed-glyph decoders src/matched/GF_FONT_InitStreamedGlyphs.c and
@@ -2914,9 +2477,6 @@ void GF_FONT_DecodeGlyph16x16(const u8 *src, u32 lastGroupBits, u16 *dst)
     dst2[46] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
 }
 
-
-
-
 /*
  * The first function of wordset.c.  The file identity is in the image: the
  * constructor at 0x0201EC74, immediately after this, passes 0x020A7364 to the
@@ -2942,1073 +2502,4 @@ void GF_FONT_DecodeGlyph16x16(const u8 *src, u32 lastGroupBits, u16 *dst)
 struct WordSet *GF_FONT_Create_EC64(u16 heapId)
 {
     return WORDSET_Create(8, 0x20, heapId);
-}
-
-
-
-
-
-/*
- * wordset.c's constructor, the function src/matched/unit_0201EC64.c tail
- * calls with the default counts (8 slots, 0x20 bytes of string each).  It
- * allocates a 0x10-byte header and an array of `n` 0xc-byte WordSlot records
- * through the debug allocator func_02030734(heap, size, flag, file, line),
- * gives the header and every entry a string object from STRBUF_Create, and
- * returns 0 as soon as any allocation fails.
- *
- * The `__FILE__` argument is 0x020A7364, "wordset.c", and IS attestable by
- * the `string` class: the six bytes before it are the NUL terminator of
- * "gf_font.c" plus padding, so the run start is fixed from outside this
- * range (unlike the tables of
- * docs/idioms/a-string-after-a-data-table-has-no-witness.md).
- *
- * TWO LEVERS, both of which the earlier pass in docs/notes/pkt_0201EC74.c.txt
- * missed and which together took the function from 152 bytes / 65 differing
- * rows to EXACT:
- *
- *  - **The failure path is a `goto fail;` chain with ONE `return 0;` at the
- *    end.**  Every failure return in the image lands on the single epilogue
- *    at 0x0201ECFA.  Written as four separate `return 0;` statements the
- *    compiler materialises the epilogue inline at the FIRST failure site and
- *    branches over the copy, which is eight bytes too long and reshuffles
- *    the two callee-saved slots (the pool word lands in r7 and the parameter
- *    copy of `n` in r5, the opposite of the image).  This is the explicit
- *    `goto` case of
- *    docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md:
- *    statements sit between the guards, so nothing else reproduces the
- *    shared exit.  That alone brings the compile to 144 bytes and 14
- *    differing bytes.
- *
- *  - **`heap` is `u8`, not `u32`.**  With `u32` the prologue schedules the
- *    three argument spills and the pool load in a different order
- *    (`ldr r5,[pc]` ahead of `adds r7,r0,#0`, and `str r1,[sp,#4]` ahead of
- *    `str r2,[sp,#8]`), fourteen bytes across the prologue and the first
- *    store pair.  Narrowing the parameter changes nothing about the code
- *    that runs -- the value is spilled to sp+8 untruncated and read back as
- *    a word for `p->heap = heap` -- but it changes the order mwccarm's value
- *    numbering creates the three incoming values in, which is what the
- *    prologue schedule follows.  This is the family's heap-id width seen
- *    once more: func_0201F344 in src/matched/unit_0201F31C.c takes its heap
- *    as u16 for the same class of reason.
- *
- *    Found by tools/permuter.py (--mode hill --budget 800 --jobs 8 --types),
- *    which reported `type:p(heap:u32->u8)` at compile 244 of 800:
- *      baseline  DIFF   asm=855  bytes-out=14  size=144/144
- *      244       EXACT  asm=0    bytes-out=0   size=144/144
- *
- * STRBUF_Create is ARM, not Thumb.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table; the two counts are the caller's, not content constants.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/WORDSET_Create.c \
- *       --func WORDSET_Create --addr 0x0201EC74 --cc 1.1p1 --thumb
- */
-struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId)
-{
-    struct WordSet *words;
-    u32 slot = 0;
-
-    words = func_02030734(heapId, 0x10, 0, gWordsetFileName, 0x9F);
-    if (words == 0) {
-        goto fail;
-    }
-    words->slotCount = slotCount;
-    words->heapId = heapId;
-    words->scratch = STRBUF_Create(textCapacity, heapId);
-    if (words->scratch == 0) {
-        goto fail;
-    }
-    words->slots = func_02030734(heapId, slotCount * 0xc, slot, gWordsetFileName, 0xA8);
-    if (words->slots == 0) {
-        goto fail;
-    }
-    while (slot < slotCount) {
-        WORDSET_Init(&words->slots[slot].tag);
-        words->slots[slot].text = STRBUF_Create(textCapacity, heapId);
-        if (words->slots[slot].text == 0) {
-            break;
-        }
-        slot++;
-    }
-    if (slot != slotCount) {
-        goto fail;
-    }
-    return words;
-fail:
-    return 0;
-}
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           func_0201EDD0, func_0201EE0C, WORDSET_Callback, func_0201EE84,
- *           func_0201EEA4, WORDSET_Callback_EEC4, func_0201EED4, func_0201EEF4,
- *           func_0201EF14, func_0201EF34, WORDSET_Callback_EF40, WORDSET_Callback_EF4C,
- *           func_0201EF5C, func_0201EF6C, func_0201EF8C, func_0201EF98,
- *           func_0201EFA4, func_0201EFC8
- *
- * 760 bytes, 0x0201ED04..0x0201EFFC, 22 functions, the body of wordset.c.
- * The file name is attested at the constructor 0x0201EC74, which is just
- * before this range and is a near miss; see src/matched/unit_0201EC64.c.
- *
- * The object is a small table of substitution slots:
- *
- *     struct WordSet { u32 slotCount; u32 heapId; struct WordSlot *slots;
- *                      struct Strbuf *scratch; };
- *     struct WordSlot { struct WordTag tag; struct Strbuf *text; };     // 12 bytes
- *
- * and every setter in the file ends the same way, by handing a rendered
- * string to func_0201ED84, which copies the caller's five-byte Tag into the
- * slot (or clears it when the caller passes NULL) and then copies the string
- * itself.  The five-byte tag is not a scalar: the byte at +3 is two
- * bitfields, a seven-bit value and a one-bit flag, which is what the
- * `ldrb`/`bics #0x7F`/`orrs` and `ldrb`/`bics #0x80`/`lsls #0x1F` pairs in
- * func_0201EE0C are.  Writing that byte as a plain u8 with masks costs a pool
- * word and an `ands` for each of the two fields
- * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md is the same
- * effect on the reading side).
- *
- * WORDSET_Init is the tag clear and takes a `struct WordTag *`, not a
- * `struct WordSlot *`: func_0201EE0C calls it on a bare stack local, which is
- * what fixes the parameter type.  The two are the same address for an entry,
- * so the distinction is only visible at that one call site.
- *
- * WORDSET_Callback reaches a file-scope pointer at 0x020A7370.  Exactly two
- * literal pools in the image hold that address, this function's and
- * func_0201F344's in src/matched/unit_0201F0F8.c, so each file is the other's
- * `literal` witness and the two may not be merged into one range.
- *
- * func_0201EF6C is three separate early returns rather than one conjunction:
- * each `bl` is followed by its own `pop`, which is the shape
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md
- * records for a chain the compiler does not tail-merge.
- *
- * Addresses are Black-image addresses.  func_02017E1C and func_02017E88 are
- * the pair of species-keyed getters this file reads names through; they are
- * not resolved here and nothing in this range reads a version flag or an
- * exclusive-species table directly, but any renaming of those two should be
- * checked against Pokemon White.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201ED04.c  *       --addr 0x0201ED04 --thumb
- */
-u32 WORDSET_DeleteStrbufED04(struct WordSet *words)
-{
-    u32 slot;
-
-    if (words->slots != 0) {
-        for (slot = 0; slot < words->slotCount; slot++) {
-            if (words->slots[slot].text == 0) {
-                break;
-            }
-            STRBUF_Delete(words->slots[slot].text);
-        }
-        func_020307B0(words->slots);
-    }
-    if (words->scratch != 0) {
-        STRBUF_Delete(words->scratch);
-    }
-    words->slotCount = 0;
-    return func_020307B0(words);
-}
-
-
-
-
-void WORDSET_Init(struct WordTag *tag)
-{
-    MI_CpuFill8(tag, 0, 5);
-    tag->addsMarker = 0;
-}
-
-
-
-
-void func_0201ED64(struct WordSet *words, u32 slot)
-{
-    WORDSET_Init(&words->slots[slot].tag);
-    STRBUF_Clear(words->slots[slot].text);
-}
-
-
-
-
-void func_0201ED84(struct WordSet *words, u32 slot, struct Strbuf *src,
-                   const struct WordTag *tag)
-{
-    if (slot < words->slotCount) {
-        if (tag != 0) {
-            words->slots[slot].tag = *tag;
-        } else {
-            WORDSET_Init(&words->slots[slot].tag);
-        }
-        STRBUF_Copy(words->slots[slot].text, src);
-    }
-}
-
-
-
-
-void func_0201EDD0(struct WordSet *words, u32 slot, u32 messageId, u32 entryIndex)
-{
-    struct MsgBank *bank = func_02045B38(0, 2, (u16)messageId, (u16)words->heapId);
-
-    if (bank != 0) {
-        func_02045CAC(bank, entryIndex, words->scratch);
-        func_0201ED84(words, slot, words->scratch, 0);
-        MSGDATA_Delete(bank);
-    }
-}
-
-
-
-
-void func_0201EE0C(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender)
-{
-    struct WordTag tag;
-
-    WORDSET_Init(&tag);
-    tag.grammarCase = grammarCase;
-    tag.isSingular = (isPlural == 0);
-    func_0201ED84(words, slot, src, &tag);
-}
-
-
-
-
-void WORDSET_Callback(struct WordSet *words, u32 slot, u16 speciesId)
-{
-    func_02045CAC(gSpeciesNameBank, speciesId, words->scratch);
-    func_0201ED84(words, slot, words->scratch, 0);
-}
-
-
-
-
-void func_0201EE84(struct WordSet *words, u32 slot, void *mon)
-{
-    WORDSET_Callback(words, slot, func_02017E1C(mon, 5, 0));
-}
-
-
-
-
-void func_0201EEA4(struct WordSet *words, u32 slot, void *mon)
-{
-    WORDSET_Callback(words, slot, func_02017E88(mon, 5, 0));
-}
-
-
-
-
-void WORDSET_Callback_EEC4(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x119, entryIndex);
-}
-
-
-
-
-void func_0201EED4(struct WordSet *words, u32 slot, void *mon)
-{
-    WORDSET_Callback_EEC4(words, slot, (u16)func_02017E1C(mon, 5, 0));
-}
-
-
-
-
-void func_0201EEF4(struct WordSet *words, u32 slot, void *mon)
-{
-    func_02017E1C(mon, 0x73, (u32)words->scratch);
-    func_0201ED84(words, slot, words->scratch, 0);
-}
-
-
-
-
-void func_0201EF14(struct WordSet *words, u32 slot, void *mon)
-{
-    func_02017E88(mon, 0x73, (u32)words->scratch);
-    func_0201ED84(words, slot, words->scratch, 0);
-}
-
-
-
-
-void func_0201EF34(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0xCB, entryIndex);
-}
-
-
-
-
-void WORDSET_Callback_EF40(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x36, entryIndex);
-}
-
-
-
-
-void WORDSET_Callback_EF4C(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x117, entryIndex);
-}
-
-
-
-
-void func_0201EF5C(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x118, entryIndex);
-}
-
-
-
-
-void func_0201EF6C(struct WordSet *words, u32 slot, u32 entryIndex, u32 useFirstBank, u32 useSecondBank)
-{
-    if (useFirstBank != 0) {
-        func_0201EF5C(words, slot, entryIndex);
-        return;
-    }
-    if (useSecondBank != 0) {
-        WORDSET_Callback_EF4C(words, slot, entryIndex);
-        return;
-    }
-    WORDSET_Callback_EF40(words, slot, entryIndex);
-}
-
-
-
-
-void func_0201EF8C(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0xB6, entryIndex);
-}
-
-
-
-
-void func_0201EF98(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x18, entryIndex);
-}
-
-
-
-
-void func_0201EFA4(struct WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth)
-{
-    func_0201F35C(words->scratch, number, topDigitIndex, padMode, isHalfWidth);
-    func_0201ED84(words, slot, words->scratch, 0);
-}
-
-
-
-
-void func_0201EFC8(struct WordSet *words, u32 slot, u32 pmsWord)
-{
-    u16 word = pmsWord;
-
-    PMSI_PARAM_ValidateWord(&word, 0, 0);
-    PMS_WORD_LoadString((u16)word, words->scratch, (u16)words->heapId);
-    func_0201ED84(words, slot, words->scratch, 0);
-}
-
-
-
-
-
-/*
- * Promoted from src/pending/sub_0201EFFC.c: every concrete byte was
- * already reproduced, and the one relocation, the call to
- * PMSI_PARAM_ValidateDecoValue, was capped at MATCH because the only branch to that
- * address anywhere in the image is the one inside this function. Now
- * that src/matched/sub_0202473C.c is an EXACT entry, the `matched` class
- * attests the call without needing a second caller (docs/MATCHING.md,
- * "the matched class"), and this file closes to EXACT.
- *
- * The last function of wordset.c's body: it normalises a value through
- * PMSI_PARAM_ValidateDecoValue and stores the result into the one-byte flag of the
- * slot's tag. The value is passed by address, so it lives on the stack
- * and is read back after the call; the `str r2, [sp]` before the call and
- * the `ldr r2, [sp]` after it are that, not a spill.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201EFFC.c \
- *       --func func_0201EFFC --addr 0x0201EFFC --cc 1.1p1 --thumb
- */
-void func_0201EFFC(struct WordSet *words, u32 slot, u32 markerFlag)
-{
-    u32 flag = markerFlag;
-
-    PMSI_PARAM_ValidateDecoValue(&flag, 0);
-    if (slot < words->slotCount) {
-        words->slots[slot].tag.addsMarker = flag;
-    }
-}
-
-
-
-
-
-/*
- * Three of the wordset.c setters, cut off at 0x0201F094 because the function
- * there is the only caller of 0x02025B94 anywhere in the image and so cannot
- * be attested; see src/pending/sub_0201F094.c.  The rest of the run continues
- * in src/matched/unit_0201F0F8.c.
- *
- * func_0201F048 renders message 0xE7 with an argument and falls back to
- * clearing the slot when the argument is out of the message's own range; the
- * `bhs` is the unsigned compare against func_02045F50's result, and the
- * fall-through arm is the in-range one
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * The call to func_0201ED64 is carried by the `matched` class: its only six
- * callers in the image are all inside this packet, so no cut reaches it, but
- * src/matched/unit_0201ED04.c is an EXACT entry covering that address.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201F020.c  *       --addr 0x0201F020 --thumb
- */
-void func_0201F020(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0xC7, entryIndex);
-}
-
-
-
-
-void func_0201F02C(struct WordSet *words, u32 slot, void *source)
-{
-    MYSTATUS_NameToStrbuf(source, words->scratch);
-    func_0201ED84(words, slot, words->scratch, 0);
-}
-
-
-
-
-void func_0201F048(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    struct MsgBank *bank = func_02045B38(0, 2, (u16)0xE7, (u16)words->heapId);
-
-    if (bank != 0) {
-        if (entryIndex < func_02045F50(bank)) {
-            func_02045CAC(bank, entryIndex, words->scratch);
-            func_0201ED84(words, slot, words->scratch, 0);
-        } else {
-            func_0201ED64(words, slot);
-        }
-        MSGDATA_Delete(bank);
-    }
-}
-
-
-
-
-
-/*
- * Promoted from src/pending/sub_0201F094.c: every concrete byte was
- * already reproduced, and the one relocation, the call to
- * BMP_OAM_Get, was capped at MATCH because the only branch to that
- * address anywhere in the image is the one inside this function. Now
- * that src/matched/sub_02025B94.c is an EXACT entry, the `matched` class
- * attests the call without needing a second caller, and this file closes
- * to EXACT.
- *
- * A wordset.c setter that maps a caller value to a message id through
- * BMP_OAM_Get and renders it. That is why the wordset.c setter run is
- * committed as src/matched/unit_0201F020.c and
- * src/matched/unit_0201F0F8.c with this function left out between them;
- * it can now be folded back in on a future pass.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201F094.c \
- *       --func WORDSET_DeleteMsgdataF094 --addr 0x0201F094 --cc 1.1p1 --thumb
- */
-void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 entryIndex)
-{
-    u32 messageId = BMP_OAM_Get(key);
-    struct MsgBank *bank;
-
-    if (messageId != 0 && entryIndex != 0) {
-        bank = func_02045B38(0, 2, (u16)messageId, (u16)words->heapId);
-        if (bank != 0) {
-            if (entryIndex < func_02045F50(bank)) {
-                func_02045CAC(bank, entryIndex, words->scratch);
-                func_0201ED84(words, slot, words->scratch, 0);
-                MSGDATA_Delete(bank);
-                return;
-            }
-            MSGDATA_Delete(bank);
-        }
-    }
-    func_0201ED64(words, slot);
-}
-
-
-
-
-
-/*
- *           func_0201F140, func_0201F14C, func_0201F158, func_0201F164,
- *           func_0201F184, func_0201F198, func_0201F1B0, func_0201F1C8,
- *           WORDSET_DrawF1E0, func_0201F230
- *
- * The second half of the wordset.c setter run, 0x0201F0F8..0x0201F250.
- * Every one of these is the same shape: clamp or range-check the caller's
- * value, then render one message id through func_0201EDD0.  The constants are
- * message ids and the ones above 255 (0x116, 0x11B, 0x1CD) arrive from the
- * function's own literal pool because Thumb's `movs` immediate stops at 255;
- * they are plain numbers, not relocations, which is the negative case of
- * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
- *
- * func_0201F184 clamps with a signed `blt`, so its value parameter is `s32`
- * while every other clamp in the file is an unsigned `bls`/`bhi`.
- *
- * WORDSET_DrawF1E0 clears the slot unconditionally before the range check and
- * only overwrites it when the id is in range, so a caller with an
- * out-of-range id leaks the rendered string; that is what the bytes say and
- * it is reproduced here rather than tidied.
- *
- * The calls to func_0201ED64 are carried by the `matched` class through
- * src/matched/unit_0201ED04.c; all six of its callers are inside this packet.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201F0F8.c  *       --addr 0x0201F0F8 --thumb
- */
-void WORDSET_Set(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0xBF, entryIndex);
-}
-
-
-
-
-void func_0201F104(struct WordSet *words, u32 slot, void *source)
-{
-    WORDSET_Set(words, slot, (u8)TPOKE_DATA_GetRecordField(source, 1));
-}
-
-
-
-
-void WORDSET_Callback_F124(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x11B, entryIndex);
-}
-
-
-
-
-void func_0201F134(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0xBE, entryIndex);
-}
-
-
-
-
-void func_0201F140(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0xB4, entryIndex);
-}
-
-
-
-
-void func_0201F14C(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x37, entryIndex);
-}
-
-
-
-
-void func_0201F158(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    func_0201EDD0(words, slot, 0x59, entryIndex);
-}
-
-
-
-
-void func_0201F164(struct WordSet *words, u32 slot, void *save, u32 boxIndex)
-{
-    func_0200785C(save, boxIndex, words->scratch);
-    func_0201ED84(words, slot, words->scratch, 0);
-}
-
-
-
-
-void func_0201F184(struct WordSet *words, u32 slot, s32 entryIndex)
-{
-    if (entryIndex >= 0x30) {
-        entryIndex = 0;
-    }
-    func_0201EDD0(words, slot, 0xA0, entryIndex);
-}
-
-
-
-
-void func_0201F198(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    if (entryIndex > 8) {
-        func_0201ED64(words, slot);
-        return;
-    }
-    func_0201EDD0(words, slot, 0x2B, entryIndex);
-}
-
-
-
-
-void func_0201F1B0(struct WordSet *words, u32 slot, u8 entryIndex)
-{
-    if (entryIndex > 0x91) {
-        func_0201ED64(words, slot);
-        return;
-    }
-    func_0201EDD0(words, slot, 0, entryIndex);
-}
-
-
-
-
-void func_0201F1C8(struct WordSet *words, u32 slot, u32 entryIndex)
-{
-    if (entryIndex > 8) {
-        func_0201ED64(words, slot);
-        return;
-    }
-    func_0201EDD0(words, slot, 0x38, entryIndex);
-}
-
-
-
-
-void WORDSET_DrawF1E0(struct WordSet *words, u32 slot, u32 weekday)
-{
-    struct MsgBank *bank = func_02045B38(0, 3, (u16)0x1CD, (u16)words->heapId);
-
-    func_0201ED64(words, slot);
-    if (weekday <= 6 && bank != 0) {
-        func_02045CAC(bank, weekday + 0x2B, words->scratch);
-        func_0201ED84(words, slot, words->scratch, 0);
-        MSGDATA_Delete(bank);
-    }
-}
-
-
-
-
-void func_0201F230(struct WordSet *words, u32 slot, u32 month)
-{
-    if (month < 1) {
-        month = 1;
-    } else if (month > 0xC) {
-        month = 0xC;
-    }
-    func_0201EDD0(words, slot, 0x116, month - 1);
-}
-
-
-
-
-
-/*
- * wordset.c's message expander, 204 bytes.  It walks the source message a
- * halfword at a time and rewrites it into the destination buffer: an ordinary
- * character is copied straight through, a 0xF000 tag that is not a word
- * reference is copied verbatim halfword by halfword, and a word reference is
- * replaced by the stored word itself.
- *
- * The tag primitives it calls are the seven of src/matched/unit_0201D5C4.c:
- * func_0201D5C4 is the 0xF000 marker, GF_FONT_CheckD5CC says whether the tag is a
- * word reference, func_0201D670 reads parameter 0 (the word index),
- * func_0201D60C writes a new tag, and func_0201D688 steps the cursor past a
- * tag.  The word table hangs off the object at +8 and its entries are 0xC
- * bytes: a flag at +4 and the word's own message at +8.  When the flag is set
- * the expansion is bracketed by two freshly built 0xBD tags, kinds 6 and 4,
- * whose single parameter is the word index and the constant 0x54.
- *
- * Three details cost time:
- *
- *   - **The entry pointer is a named local for the first tag write and the
- *     written-out expression for the second.**  `&tbl[i]` must be bound to a
- *     local, because the two `strh`s into the parameter buffer sit between the
- *     flag test and the first write, and the buffer has its address taken, so
- *     re-reading `words->slots` after them costs a reload the original does not
- *     have.  Binding it for the *second* write as well is four bytes too long
- *     the other way: the local would then be live across func_0201D60C and the
- *     index has to be spilled.  The original recomputes the address from the
- *     two callee-saved registers it already holds, which is what writing the
- *     expression out gives.
- *   - **The character copies are `*p++`, not `p[0]` then `p++`.**  With the
- *     increment spelled separately the compiler sinks it past the call and
- *     then folds the loop-bottom re-read into the copy's own load; the
- *     function is four bytes short and the bottom of the loop is wrong.
- *   - **`q` is declared before `p`.**  The two cursors are the only locals
- *     live across the inner loop, and declaring `p` first swaps r4 and r5
- *     throughout (docs/idioms/declaration-order-decides-which-register-a-local-gets.md).
- *
- * EXACT*: the two bytes after the epilogue are the unit's alignment padding
- * and 0x0201F31C, the next function, already carries a label.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201F250.c \
- *       --func func_0201F250 --addr 0x0201F250 --cc 1.1p1 --thumb
- */
-void func_0201F250(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src)
-{
-    u16 tagParams[2];
-    u32 terminator;
-    u32 tagMarker;
-    u16 *copyCursor;
-    u16 *cursor;
-    u32 slot;
-    struct WordSlot *entry;
-
-    cursor = STRBUF_GetChars(src);
-    STRBUF_Clear(dst);
-    terminator = STRBUF_GetEosChar();
-    tagMarker = func_0201D5C4();
-    while (cursor[0] != terminator) {
-        if (cursor[0] == tagMarker) {
-            if (GF_FONT_CheckD5CC(cursor) != 0) {
-                slot = func_0201D670(cursor, 0);
-                entry = &words->slots[slot];
-                if (entry->tag.addsMarker != 0) {
-                    tagParams[1] = (u16)slot;
-                    tagParams[0] = 0x54;
-                    func_0201D60C(entry->text, 0xBD, 6, 1, &tagParams[1]);
-                    func_0201D60C(words->slots[slot].text, 0xBD, 4, 1, &tagParams[0]);
-                }
-                func_0201F4A0(dst, words->slots[slot].text);
-                cursor = func_0201D688(cursor);
-            } else {
-                copyCursor = cursor;
-                cursor = func_0201D688(cursor);
-                while (copyCursor < cursor) {
-                    STRBUF_AppendChar(dst, *copyCursor++);
-                }
-            }
-        } else {
-            STRBUF_AppendChar(dst, *cursor++);
-        }
-    }
-}
-
-
-
-
-
-/*
- * The wordset.c "clear every slot" walk and the one-line initialiser that
- * fills the file-scope template string at 0x020A7370.  That pointer is loaded
- * by WORDSET_Callback in src/matched/unit_0201ED04.c and by seven functions
- * outside this region, so the `literal` class has witnesses to spare.
- *
- * func_0201F344 takes its heap id as a u16: the 4th argument of
- * func_02045B38 is a u16 and the original passes the incoming register
- * straight through with no `lsls`/`lsrs` truncation pair, which a u32
- * parameter would have cost.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201F31C.c  *       --addr 0x0201F31C --thumb
- */
-void func_0201F31C(struct WordSet *words)
-{
-    u32 slot;
-
-    for (slot = 0; slot < words->slotCount; slot++) {
-        STRBUF_Clear(words->slots[slot].text);
-    }
-}
-
-
-
-
-void func_0201F344(u16 heapId)
-{
-    gSpeciesNameBank = func_02045B38(0, 2, 0x46, heapId);
-}
-
-
-
-
-
-/*
- *           The three data pool words -- gDigitGlyphsFullWidth, gDigitGlyphsHalfWidth, gPowersOfTen -- have no
- *           witness outside 0201F35C..0201F41C: each address appears in exactly one
- *           literal pool image-wide, this function's own, so the 'literal' class has
- *           nothing to offer and no other matched entry names them. A second reader of
- *           any of the three tables would release this file to EXACT.
- */
-void func_0201F35C(struct Strbuf *text, s32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth)
-{
-    u16 *digitGlyphs;
-    u32 divisor;
-    u32 digit;
-
-    if (isHalfWidth == 0) {
-        digitGlyphs = gDigitGlyphsFullWidth;
-    } else {
-        digitGlyphs = gDigitGlyphsHalfWidth;
-    }
-    STRBUF_Clear(text);
-
-    if ((u16)(number < 0) != 0) {
-        u32 glyph;
-        s32 minusOne = ~0;
-        number = minusOne * number;
-        if (isHalfWidth == 0) {
-            glyph = 0x30FC;
-        } else {
-            glyph = 0x2D;
-        }
-        STRBUF_AppendChar(text, (u16)glyph);
-    }
-
-    divisor = gPowersOfTen[topDigitIndex];
-    while (divisor != 0) {
-        digit = _u32_div_f((u32)number, divisor);
-        digit = (u16)digit;
-        number = number - divisor * digit;
-        if (digit >= 10) {
-            digit = 10;
-        }
-        if (padMode == 2) {
-            STRBUF_AppendChar(text, digitGlyphs[digit]);
-        } else if (digit != 0 || divisor == 1) {
-            padMode = 2;
-            STRBUF_AppendChar(text, digitGlyphs[digit]);
-        } else if (padMode == 1) {
-            u32 glyph;
-            if (isHalfWidth == 0) {
-                glyph = 0x3000;
-            } else {
-                glyph = 0x20;
-            }
-            STRBUF_AppendChar(text, (u16)glyph);
-        }
-        divisor = _u32_div_f(divisor, 10);
-    }
-}
-
-
-
-
-
-/*
- * Decimal number printer.  STRBUF_Clear(ctx) resets the glyph writer;
- * STRBUF_AppendChar(ctx, u16) emits one glyph; _u32_div_f is the mwccarm
- * integer-division helper (docs/idioms/runtime-helper-reloc.md).
- *
- * `flag` selects one of two glyph tables (0x0209E784 full-width,
- * 0x0209E758 half-width) and the matching minus / space glyphs
- * (0x30FC vs 0x2D, 0x3000 vs 0x20): this is the full-width/half-width
- * font pair, not a version-specific table.
- *
- * Two idioms carried the last four bytes: the negation is `~0 * n`, not
- * `-n` (which compiles to `rsbs`), and the remainder is `n - d * q`, not
- * `n - q * d` (docs/idioms/commutative-operand-order-names-the-temporary.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0201F35C.c \
- *       --func func_0201F35C --addr 0x0201F35C --cc 1.1p1 --thumb
- */
-
-
-/*
- * Two wide-string helpers.  func_0201F41C is a bounded copy that always
- * terminates the destination; WORDSET_CheckF448 is an equality test.  Both read
- * the terminator character from STRBUF_GetEosChar rather than from a constant,
- * and both hold it in a named local, which is what puts the call result in
- * the left slot of func_0201F41C's `cmp r0, r1`
- * (docs/idioms/cmp-operand-order-names-the-temporary.md).
- *
- * The last store of func_0201F41C is `*(dst + n - 1) = eos`, not
- * `dst[n - 1] = eos`.  The two are the same value and different code: the
- * subscript form folds the subtraction into the index and scales once
- * (`subs`/`lsls`/`strh` with a register offset), while the pointer form
- * scales `n`, adds it to the base and then subtracts the element size
- * (`lsls`/`adds`/`subs #2`/`strh`).  Seven bytes, and nothing else in the
- * function moves; see
- * docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201F41C.c  *       --addr 0x0201F41C --thumb
- */
-void func_0201F41C(const u16 *src, u16 *dst, u32 maxLength)
-{
-    u16 terminator = STRBUF_GetEosChar();
-    u32 index;
-
-    for (index = 0; index < maxLength; index++) {
-        dst[index] = src[index];
-        if (terminator == src[index]) {
-            break;
-        }
-    }
-    *(dst + maxLength - 1) = terminator;
-}
-
-
-
-
-
-u32 WORDSET_CheckF448(const u16 *left, const u16 *right)
-{
-    u16 terminator = STRBUF_GetEosChar();
-
-    while (*left != terminator) {
-        if (*left != *right) {
-            return 0;
-        }
-        left++;
-        right++;
-    }
-    if (*right != terminator) {
-        return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-/*
- * "Is this string a packed nine-bit run", the predicate func_0201F4A0 tests
- * before unpacking.  A non-empty string whose first character is 0xF100 is
- * one; the marker is materialised as `movs r0, #0xF1` / `lsls r0, #8` rather
- * than from a pool word, so it is a plain constant.
- *
- * The two tests share one `movs r0, #0; pop` exit and neither jumps over an
- * inline epilogue, which is the single-conjunction shape of
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md:
- * written as two separate early returns the function grows a second epilogue.
- *
- * This is its own file rather than part of src/pending/sub_0201F4A0.c
- * because func_0201F4A0 holds the only call to it in the image.  Matched
- * apart, that call is an ordinary `label` witness from outside this range,
- * and the `matched` class then carries the site in func_0201F4A0 itself.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201F47C.c \
- *       --addr 0x0201F47C --thumb
- */
-u32 WORDSET_CheckF47C(struct Strbuf *text)
-{
-    if (STRBUF_GetLength(text) != 0 && *STRBUF_GetChars(text) == 0xF100) {
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-/*
- * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
- *
- * The nine-bit unpacker.  A string whose first character is 0xF100
- * (WORDSET_CheckF47C, src/matched/unit_0201F47C.c) carries its text as a run of
- * nine-bit codes packed into the halfwords after the marker; this walks them
- * and appends one character at a time to the destination.  0x1FF is the
- * terminator as well as the field mask, codes 0x100..0x131 are translated
- * through a 16-bit table and anything at or above 0x132 becomes 0x3F, '?'.
- *
- * Every concrete byte is reproduced.  The one unresolved relocation is the
- * table address 0x0209E864, and the pool word inside this function is the
- * only word in the image that holds it, so the `literal` class discards its
- * only witness and no cut helps.  Expressing the address as an offset from
- * func_0201F35C's nearby table would resolve it, but that is a claim that the
- * two are one object and the image does not say so.
- *
- * Three details cost time and are worth keeping:
- *
- *  - the bit cursor is signed.  `cmp r5, #0x10` / `blt` is a signed compare
- *    even though the value is never negative, so the local is `s32`; `u32`
- *    gives `blo` and one wrong byte.
- *  - the two range limits and the table bias live in a local aggregate, not
- *    in scalars.  Each of the two limits is stored twice, once as 0x1FF and
- *    once as 0x1FF - 0xCD, because mwccarm's value numbering follows a scalar
- *    local but stops at a member of an aggregate; written as scalars the
- *    constants fold and six instructions disappear.  That is
- *    docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md seen
- *    from the assignment side rather than the test side.
- *  - the unpacking loop is the fall-through arm and the plain-string copy is
- *    the `else`.  Written as an early return for the plain case the copy is
- *    emitted first and every branch in the function moves
- *    (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/pending/sub_0201F4A0.c  *       --addr 0x0201F4A0 --thumb
- */
-void func_0201F4A0(struct Strbuf *dst, struct Strbuf *src)
-{
-    u32 codeMask = 0x1FF;
-    struct PackedLimits limits;
-    const u16 *cursor;
-    s32 bitPos;
-    u16 code;
-
-    if (WORDSET_CheckF47C(src) != 0) {
-        cursor = STRBUF_GetChars(src) + 1;
-        limits.tableEndCode = codeMask;
-        limits.tableEndCode -= 0xCD;
-        limits.invalidFromCode = codeMask;
-        limits.invalidFromCode -= 0xCD;
-        limits.tableByteBias = codeMask + 1;
-        bitPos = 0;
-        for (;;) {
-            code = (*cursor >> bitPos) & codeMask;
-            bitPos += 9;
-            if (bitPos >= 16) {
-                cursor++;
-                bitPos -= 16;
-                if (bitPos != 0) {
-                    code |= (*cursor << (9 - bitPos)) & codeMask;
-                }
-            }
-            if (code == codeMask) {
-                return;
-            }
-            if (code >= 0x100 && code < limits.tableEndCode) {
-                code = *(const u16 *)((const u8 *)&gPackedCharTable[code]
-                                      - limits.tableByteBias);
-            } else if (code >= limits.invalidFromCode) {
-                code = 0x3F;
-            }
-            STRBUF_AppendChar(dst, code);
-        }
-    } else {
-        STRBUF_Append(dst, src);
-    }
 }

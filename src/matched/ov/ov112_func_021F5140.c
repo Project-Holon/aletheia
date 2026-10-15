@@ -1,5 +1,5 @@
 /*
- * function: func_021F5140
+ * function: MUSICAL_MCSS_GetElemA
  * address:  0x021F5140
  * packet:   pkt_021F5140
  * region:   ov112
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F4F54  0x021F4F54  thumb  ov112
+ *   MUSICAL_MCSS_GetElemPtr  0x021F4F54  thumb  ov112
  */
 
-unsigned char *func_021F4F54(unsigned char *p, int i);
+unsigned char *MUSICAL_MCSS_GetElemPtr(unsigned char *p, int i);
 
-unsigned char func_021F5140(void *p, int i)
+unsigned char MUSICAL_MCSS_GetElemA(void *p, int i)
 {
-    return *(unsigned char *)(func_021F4F54(p, i) + 9);
+    return *(unsigned char *)(MUSICAL_MCSS_GetElemPtr(p, i) + 9);
 }

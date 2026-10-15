@@ -1,5 +1,5 @@
 /*
- * function: func_0215DD28
+ * function: SOCLi_ConsumeBuffer
  * address:  0x0215DD28
  * packet:   pkt_ov009_0215DD28
  * region:   ov009
@@ -34,7 +34,7 @@ extern Command *SOCLi_CreateCommandPacket(int (*handler)(void *), Socket *socket
 extern int SOCLi_ExecCommandPacketInRecvPipe(Socket *socket, Command *command);
 extern int SOCLi_ConsumeCallBack(void *arg);
 
-int func_0215DD28(Socket *socket)
+int SOCLi_ConsumeBuffer(Socket *socket)
 {
     RecvPipe *recv_pipe;
     Command *command;

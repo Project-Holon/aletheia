@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   d_021DF86E 0x021DF86E data ov121 a2
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef union Rect { u16 h[4]; u8 b[8]; } Rect;
 extern const Rect d_021DF86E[];
-extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 struct CharBuf;
 struct Descriptor;
 struct Obj;
@@ -51,7 +51,7 @@ void func_021DB938(char *p,int a,u16 index)
         yy=rect.b[1]+y;
         tile=y*32+384;
         for(x=0;x<12;x++)
-            func_02041300(3,(u16)(x+tile),(u8)(rect.b[0]+x),yy,1,1,3);
+            BG_SYS_SetTileEntry(3,(u16)(x+tile),(u8)(rect.b[0]+x),yy,1,1,3);
     }
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0xb08+index*4)),0);
     BMP_WIN_TransferChars(*(void **)(p+0xb08+index*4));

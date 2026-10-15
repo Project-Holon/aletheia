@@ -17,7 +17,7 @@
  *   func_020409B4 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02040588 0x02040588 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -47,7 +47,7 @@ extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u
 extern void func_020409B4(u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -86,7 +86,7 @@ void MB_COMM_SYS_LoadGraphics(u8 *p) {
  archive=func_020490F4(func_020275E4(),((struct Obj00057 *)p)->f0);
  func_02049B68((void *)((u32)archive),func_02027624(),4,256,32,((struct Obj00057 *)p)->f0);
  func_02049658((void *)((u32)archive),func_02027628(),6,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),func_0202762C(),6,0,0,0,((struct Obj00057 *)p)->f0);
- func_020413B0(6,0,21,32,3,8);func_020409B4(6);
+ BG_SYS_FillTileMap(6,0,21,32,3,8);func_020409B4(6);
  *(int *)&((struct Obj00057 *)p)->f70=CLACT_RegisterPaletteEx((void *)((u32)archive),func_02027614(),1,0,0,3,((struct Obj00057 *)p)->f0);
  *(int *)&((struct Obj00057 *)p)->f74=CLACT_RegisterCharacter((void *)((u32)archive),func_02027618(),0,1,((struct Obj00057 *)p)->f0);
  first=func_0202761C(2);

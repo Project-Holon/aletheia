@@ -12,14 +12,14 @@
  * sdk:      FreeKeyList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   SBReleaseStr  0x0219F920  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
  */
 
 struct SBL { char pad0[8]; void *keys; };
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *a, int n);
 extern void SBReleaseStr(void *slist, char *s);
 extern void func_021841B0(void *a);
@@ -28,7 +28,7 @@ void FreeKeyList(struct SBL *slist)
 	int i;
 	if (slist->keys == 0)
 		return;
-	for (i = 0; i < func_02184200(slist->keys); i++)
+	for (i = 0; i < ArrayLength(slist->keys); i++)
 		SBReleaseStr(slist, *(char **)func_02184208(slist->keys, i));
 	func_021841B0(slist->keys);
 	slist->keys = 0;

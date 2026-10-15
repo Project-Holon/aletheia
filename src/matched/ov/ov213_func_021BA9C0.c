@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9C0
+ * function: COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded
  * address:  0x021BA9C0
  * packet:   pkt_021BA9C0
  * region:   ov213
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA9AC 0x021BA9AC thumb
+ *   COMM_BTL_DEMO_MAIN_UnloadObject 0x021BA9AC thumb
  */
 #include "../include/Obj02551.h"
 
-extern void func_021BA9AC(char *p);
+extern void COMM_BTL_DEMO_MAIN_UnloadObject(char *p);
 
-void func_021BA9C0(void *a)
+void COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(void *a)
 {
     if (((struct Obj02551 *)a)->fF)
-        func_021BA9AC(a);
+        COMM_BTL_DEMO_MAIN_UnloadObject(a);
 }

@@ -1,5 +1,5 @@
 /*
- * function: sub_02030BBC
+ * function: GFL_HEAP_AllocSystemChecked
  * address:  0x02030BBC
  * packet:   pkt_02030BBC
  * region:   arm9
@@ -29,14 +29,14 @@
  * which makes the site `matched`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030BBC.c \
- *       --func sub_02030BBC --addr 0x02030BBC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_AllocSystemChecked.c \
+ *       --func GFL_HEAP_AllocSystemChecked --addr 0x02030BBC --cc 1.1p1 --arm
  */
 
 typedef unsigned int   u32;
 extern void *GFL_HEAP_AllocSystem(u32 size);
 
-void *sub_02030BBC(u32 a0)
+void *GFL_HEAP_AllocSystemChecked(u32 a0)
 {
     return GFL_HEAP_AllocSystem(a0);
 }

@@ -12,7 +12,7 @@
  * sdk:      DWCi_RegisterMatchmakeKeys (dwc_match.o)
  *
  * symbols:
- *   func_0219D158  0x0219D158  arm  ov009
+ *   qr2_register_keyA  0x0219D158  arm  ov009
  *   g_021A20A4     0x021A20A4  data
  *   g_021A2170     0x021A2170  data
  *   g_021A2164     0x021A2164  data
@@ -29,15 +29,15 @@ extern char g_021A21BC[];
 extern char g_021A20D4[];
 extern char g_021A20E0[];
 extern char g_021A217C[];
-extern void func_0219D158(int keyid, char *key);
+extern void qr2_register_keyA(int keyid, char *key);
 
 void DWCi_RegisterMatchmakeKeys(void)
 {
-    func_0219D158(0x32, g_021A20A4);
-    func_0219D158(0x33, g_021A2170);
-    func_0219D158(0x34, g_021A2164);
-    func_0219D158(0x35, g_021A21BC);
-    func_0219D158(0x36, g_021A20D4);
-    func_0219D158(0x37, g_021A20E0);
-    func_0219D158(0x38, g_021A217C);
+    qr2_register_keyA(0x32, g_021A20A4);
+    qr2_register_keyA(0x33, g_021A2170);
+    qr2_register_keyA(0x34, g_021A2164);
+    qr2_register_keyA(0x35, g_021A21BC);
+    qr2_register_keyA(0x36, g_021A20D4);
+    qr2_register_keyA(0x37, g_021A20E0);
+    qr2_register_keyA(0x38, g_021A217C);
 }

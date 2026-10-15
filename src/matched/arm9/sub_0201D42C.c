@@ -1,5 +1,5 @@
 /*
- * function: sub_0201D42C
+ * function: GF_FONT_CountLines
  * address:  0x0201D42C
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -18,8 +18,8 @@
  * increment carries the halfword truncation pair.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201D42C.c
- *       --func sub_0201D42C --addr 0x0201D42C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_CountLines.c
+ *       --func GF_FONT_CountLines --addr 0x0201D42C --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -37,7 +37,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 struct Font;
 extern u32 GF_FONT_GetLineHeight(struct Font *p);
 
-u32 sub_0201D42C(struct StrObj *s, void *font)
+u32 GF_FONT_CountLines(struct StrObj *s, void *font)
 {
     u16 *p;
     u16 c;

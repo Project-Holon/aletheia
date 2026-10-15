@@ -25,7 +25,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_02030734 0x02030734 arm
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitRenderer 0x0204B258 arm
@@ -57,17 +57,17 @@
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   func_0202D01C  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
  *   gSpeciesNameBank     0x020A7370  data
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_020413B0  0x020413B0  arm
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BMP_WIN_SetPosX 0x02045780 arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_Clear  0x02043B5C  arm
  *   POKE_REGULATION_CheckPokemon 0x02019DA4 thumb
  *   func_0202D034 0x0202D034 thumb
@@ -114,7 +114,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *window);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern struct Obj *CLACT_CreateRenderer(u16 *area, u32 mode, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *unit);
@@ -141,16 +141,16 @@ extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *boxMon);
 extern void CLACT_SetActorPaletteOffset(struct Obj *actor, u32 palette, u32 flag);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
-extern void func_0201EEF4(struct WordSet *wordSet, u32 index, void *mon);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padMode, u32 d);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, void *mon);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padMode, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcLevel(void *mon);
 extern u8 func_0202D01C(u32 a, u32 b, u32 c);
 extern void BMP_FillRect(struct Bmp *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BMP_WIN_SetPosX(struct Descriptor *window, u8 x);
-extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int POKE_REGULATION_CheckPokemon(void *regulation, void *mon);
 extern u8 func_0202D034(u32 a, u32 b);
@@ -225,7 +225,7 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
     if (slot != 0) isOther = 1;
     kind = slot != 0;
     tileX = x + 0x10;
-    func_020410D0(2, (u8)tileX, y, 0x10, 6, (u32)((u8 *)work->paletteData + 0xc),
+    BG_SYS_DrawTileEx(2, (u8)tileX, y, 0x10, 6, (u32)((u8 *)work->paletteData + 0xc),
                  gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 0x20, 0x20);
     plate->isEgg = func_02017E1C(plate->mon, POKE_TOOL_PARAM_IS_EGG, 0);
     surface.areaLeft = 0;
@@ -259,7 +259,7 @@ PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot)
     PlistPlate *plate = func_02030734(work->heapId, 0x44, 0, gPlistPlateSourceName, 0xea);
     u8 *palette = (u8 *)work->paletteData + 0xc;
 
-    func_020410D0(2, (u8)(gPlistPlateTileX[slot * 2] + 0x10), gPlistPlateTileY[slot * 2], 0x10, 6,
+    BG_SYS_DrawTileEx(2, (u8)(gPlistPlateTileX[slot * 2] + 0x10), gPlistPlateTileY[slot * 2], 0x10, 6,
                   (u32)palette, 0, 0x13, 0x20, 0x20);
     plate->slot = slot;
     plate->mon = 0;
@@ -399,7 +399,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     }
     if (isRefresh == 0) {
         wordSet = GF_FONT_Create_EC64(work->heapId);
-        func_0201EEF4(wordSet, 0, plate->mon);
+        WORDSET_SetSlotMonSpecies(wordSet, 0, plate->mon);
         POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
         WORDSET_DeleteStrbufED04(wordSet);
     }
@@ -416,7 +416,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     if (isTeachMode == 0) {
         if ((POKE_TOOL_GetStatusCondition(plate->mon) == 0 && plate->hp != 0) || plate->labelState != PLIST_PLATE_LABEL_NONE) {
             wordSetB = GF_FONT_Create_EC64(work->heapId);
-            func_0201EFA4(wordSetB, 0, POKE_TOOL_CalcLevel(plate->mon), 3, 0, 1);
+            WORDSET_SetSlotNumber(wordSetB, 0, POKE_TOOL_CalcLevel(plate->mon), 3, 0, 1);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             } else {
@@ -471,7 +471,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             CLACT_SetActorDrawEnable(plate->hpBarActor, 0);
         } else {
             wordSetB = GF_FONT_Create_EC64(work->heapId);
-            func_0201EFA4(wordSetB, 0, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
+            WORDSET_SetSlotNumber(wordSetB, 0, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             } else {
@@ -479,7 +479,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             }
             WORDSET_DeleteStrbufED04(wordSetB);
             wordSetC = GF_FONT_Create_EC64(work->heapId);
-            func_0201EFA4(wordSetC, 0, plate->hp, 3, 1, 1);
+            WORDSET_SetSlotNumber(wordSetC, 0, plate->hp, 3, 1, 1);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
             } else {
@@ -556,7 +556,7 @@ void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
     void *eggText;
     wordSet = GF_FONT_Create_EC64(work->heapId);
     eggText = func_02045EC0(gSpeciesNameBank, PLIST_PLATE_MSG_EGG);
-    func_0201EE0C(wordSet, 0, eggText, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 0, eggText, 0, 1, 2);
     POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
     STRBUF_Delete(eggText);
     WORDSET_DeleteStrbufED04(wordSet);
@@ -603,11 +603,11 @@ void PLIST_PLATE_SetSelected(PokelistWork *work, PlistPlate *plate, int selected
 void PLIST_PLATE_SetPalette(PokelistWork *work, PlistPlate *plate, int palette)
 {
     if (palette == 3 && PLIST_PLATE_GetHpBarColor(plate) == PLIST_PLATE_HPBAR_FULL)
-        func_020413B0(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 4);
+        BG_SYS_FillTileMap(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 4);
     else if (palette == 6 && PLIST_PLATE_GetHpBarColor(plate) == PLIST_PLATE_HPBAR_FULL)
-        func_020413B0(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 7);
+        BG_SYS_FillTileMap(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 7);
     else
-        func_020413B0(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, palette);
+        BG_SYS_FillTileMap(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, palette);
     func_02041B6C(2);
 }
 
@@ -629,8 +629,8 @@ void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int
     kind = plate->slot != 0;
     x += 16;
     slideX = (unsigned)x + slideX;
-    func_020410D0(2, (u8)slideX, y, 16, 6, (u32)((u8 *)work->paletteData + 12), gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 32, 32);
-    func_020413B0(2, slideX, y, 16, 6, 5);
+    BG_SYS_DrawTileEx(2, (u8)slideX, y, 16, 6, (u32)((u8 *)work->paletteData + 12), gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 32, 32);
+    BG_SYS_FillTileMap(2, slideX, y, 16, 6, 5);
     BMP_WIN_MakeScreen(plate->window);
     func_02041B6C(1);
     func_02041B6C(2);
@@ -645,8 +645,8 @@ void PLIST_PLATE_ClearSlideTrail(PokelistWork *work, PlistPlate *plate, int slid
     if (slot % 2 == 0)
         slideX = -slideX;
     left = x + 0x10 + slideX;
-    func_02041300(2, 0, left, y, 0x10, 6, 5);
-    func_02041300(1, 0, left, y, 0x10, 6, 5);
+    BG_SYS_SetTileEntry(2, 0, left, y, 0x10, 6, 5);
+    BG_SYS_SetTileEntry(1, 0, left, y, 0x10, 6, 5);
 }
 
 void PLIST_PLATE_SetMon(PokelistWork *work, PlistPlate *plate, void *mon, int slideX)

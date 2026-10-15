@@ -1,5 +1,5 @@
 /*
- * function: func_02062688
+ * function: NNSi_G2dUnpackAnimBank
  * address:  0x02062688
  * packet:   pkt_02062688
  * region:   arm9
@@ -29,8 +29,8 @@
  *     INSIDE the guard (image `mov r8, r7` after the `bls`).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02062688.c \
- *       --func func_02062688 --addr 0x02062688 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dUnpackAnimBank.c \
+ *       --func NNSi_G2dUnpackAnimBank --addr 0x02062688 --arm --cc ../2.0/sp2
  *   EXACT, 336 bytes, no relocations (sp2p2 EXACT; dsi/1.1p1 332 DIFF).
  */
 typedef unsigned char  u8;
@@ -78,7 +78,7 @@ struct AnimBank {
     u8 *sub;                    /* +0x14 */
 };
 
-void func_02062688(volatile struct AnimBank *bank)
+void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank)
 {
     u16 i, j;
     u16 n;

@@ -25,7 +25,7 @@
  *   WEATHER_TASK_IsFogIdle 0x021A23B0 thumb ov021
  *   WEATHER_TASK_GetCameraScroll 0x021A244C thumb ov021
  *   WEATHER_TASK_ShiftParticles 0x021A2564 thumb ov021
- *   func_02014A10 0x02014A10 thumb
+ *   ZONEDATA_GetLightTableMember 0x02014A10 thumb
  *   WEATHER_TASK_PrewarmParticles 0x021A2254 thumb ov021
  *   WEATHER_TASK_SetLight 0x021A2114 thumb ov021
  *   WEATHER_TASK_StepSpawnTimer 0x021A2248 thumb ov021
@@ -170,7 +170,7 @@ int WEATHER_RAIN_BeginParticles(WeatherTaskSys *task, int variant, int heapId)
         work->fogDelay = work->fogDelay - 1;
         if (work->fogDelay == 0) {
             WEATHER_TASK_ChangeFog(task, 8, 0x7F5F, 0x5A, variant);
-            WEATHER_TASK_FadeLight(task, 0x3E, func_02014A10(2));
+            WEATHER_TASK_FadeLight(task, 0x3E, ZONEDATA_GetLightTableMember(2));
             WEATHER_TASK_PlaySe(task, 0x691);
         }
     } else if (WEATHER_TASK_IsFogIdle(task) != 0 && spawnerSettled != 0) {
@@ -189,7 +189,7 @@ int WEATHER_RAIN_BeginPlain(WeatherTaskSys *task, int variant, u16 heapId)
     WEATHER_TASK_InitFog(task, 8, 0x7F5F, variant);
     WEATHER_TASK_PrewarmParticles(task, WEATHER_RAIN_SpawnParticles, 0x14, 0xA, 1, heapId);
     WEATHER_TASK_PlaySe(task, 0x691);
-    WEATHER_TASK_SetLight(task, 0x3E, func_02014A10(2));
+    WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(2));
     return 1;
 }
 
@@ -368,7 +368,7 @@ int WEATHER_THUNDERSTORM_BeginParticles(WeatherTaskSys *task, int variant, int h
     work = WEATHER_TASK_GetWorkBuffer(task);
     switch (work->step) {
     case THUNDERSTORM_BEGIN_LOAD_LIGHT:
-        WEATHER_TASK_FadeLight(task, 0x3E, func_02014A10(6));
+        WEATHER_TASK_FadeLight(task, 0x3E, ZONEDATA_GetLightTableMember(6));
         work->step = work->step + 1;
         work->stepTimer = 0x5A;
         break;
@@ -423,7 +423,7 @@ int WEATHER_THUNDERSTORM_BeginPlain(WeatherTaskSys *task, int variant, u16 heapI
     WEATHER_TASK_InitFog(task, 9, 0x7F80, variant);
     WEATHER_TASK_PrewarmParticles(task, WEATHER_THUNDERSTORM_SpawnParticles, 0x14, 5, 1, heapId);
     WEATHER_TASK_PlaySe(task, 0x690);
-    WEATHER_TASK_SetLight(task, 0x3E, func_02014A10(6));
+    WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(6));
     WEATHER_TASK_SetBillboardVisible(task, 1, 0);
     return 1;
 }
@@ -588,7 +588,7 @@ int WEATHER_STORM_BeginParticles(WeatherTaskSys *task, int variant, int heapId)
     work = WEATHER_TASK_GetWorkBuffer(task);
     switch (work->step) {
     case STORM_BEGIN_LOAD_LIGHT:
-        WEATHER_TASK_FadeLight(task, 0x3E, func_02014A10(7));
+        WEATHER_TASK_FadeLight(task, 0x3E, ZONEDATA_GetLightTableMember(7));
         work->stepTimer = 0x5A;
         work->step = work->step + 1;
         break;
@@ -632,7 +632,7 @@ int WEATHER_STORM_BeginPlain(WeatherTaskSys *task, int variant, u16 heapId)
     WEATHER_TASK_PlaySe(task, 0x690);
     WEATHER_STORM_StartCalm(task, work, variant, 0);
     WEATHER_TASK_SetBillboardVisible(task, 1, 0);
-    WEATHER_TASK_SetLight(task, 0x3E, func_02014A10(7));
+    WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(7));
     return 1;
 }
 

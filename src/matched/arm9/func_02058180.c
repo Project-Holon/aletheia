@@ -1,5 +1,5 @@
 /*
- * function: func_02058180
+ * function: SPL_EMITTER_AddScaledVec
  * address:  0x02058180
  * packet:   pkt_02057830
  * region:   arm9
@@ -30,7 +30,7 @@ struct B {
     int f1c;
 };
 
-void func_02058180(struct A *a, struct B *b, volatile int *c)
+void SPL_EMITTER_AddScaledVec(struct A *a, struct B *b, volatile int *c)
 {
     c[0] = c[0] + (a->scale * (a->x - b->f08 - b->f14) >> 12);
     c[1] = c[1] + (a->scale * (a->y - b->f0c - b->f18) >> 12);

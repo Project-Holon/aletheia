@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gsiGetResolvedIP  0x0217F1CC  arm   ov009
- *   func_0217D254  0x0217D254  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
  *   ghiCallProgressCallback  0x021C02C8  arm   ov114
  *   sGhttpErrorResolvingHostname     0x021CF0F8  data  ov114
  *   sGhttpDnsLookupComplete     0x021CF114  data  ov114
@@ -34,7 +34,7 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int gsiGetResolvedIP(int *p);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiCallProgressCallback(GHIConnection *, char *, int);
 extern char sGhttpErrorResolvingHostname[];
 extern char sGhttpDnsLookupComplete[];
@@ -43,7 +43,7 @@ void ghiDoLookupPending(GHIConnection *connection)
 {
     connection->f1C = gsiGetResolvedIP(connection->f1CC);
     if (connection->f1C == (unsigned int)-1) {
-        func_0217D254(8, (char *)3, 1, sGhttpErrorResolvingHostname);
+        gsDebugFormat(8, (char *)3, 1, sGhttpErrorResolvingHostname);
         connection->f1CC = 0;
         connection->f124 = 1;
         connection->f40 = 4;
@@ -55,7 +55,7 @@ void ghiDoLookupPending(GHIConnection *connection)
         return;
     }
     connection->f1CC = 0;
-    func_0217D254(8, (char *)3, 16, sGhttpDnsLookupComplete);
+    gsDebugFormat(8, (char *)3, 16, sGhttpDnsLookupComplete);
     connection->f10 = 3;
     ghiCallProgressCallback(connection, 0, 0);
 }

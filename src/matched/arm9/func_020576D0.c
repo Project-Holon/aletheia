@@ -1,5 +1,5 @@
 /*
- * function: func_020576D0
+ * function: SPL_EMITTER_ScaleVec
  * address:  0x020576D0
  * packet:   pkt_02056460
  * region:   arm9
@@ -39,8 +39,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020576D0.c \
- *       --func func_020576D0 --addr 0x020576D0 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_ScaleVec.c \
+ *       --func SPL_EMITTER_ScaleVec --addr 0x020576D0 --arm --cc ../1.2/sp2
  */
 
 typedef int          fx32;
@@ -65,7 +65,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
 extern void VEC_Fx16CrossProduct(const struct Vec16 *a, const struct Vec16 *b, struct Vec16 *out);
 extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
 
-void func_020576D0(fx32 *out, const struct VecFx32 *src, const struct Mtx3 *m)
+void SPL_EMITTER_ScaleVec(fx32 *out, const struct VecFx32 *src, const struct Mtx3 *m)
 {
     struct Vec16 v;
 

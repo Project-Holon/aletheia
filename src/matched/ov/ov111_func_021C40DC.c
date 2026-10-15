@@ -1,5 +1,5 @@
 /*
- * function: func_021C40DC
+ * function: VIEWER_MAIN_Delete
  * address:  0x021C40DC
  * packet:   pkt_ov111_021C40DC
  * region:   ov111
@@ -11,7 +11,7 @@
  * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
- *   func_021C59B0  0x021C59B0  thumb  ov111
+ *   VIEWER_MAIN_CopyBg6  0x021C59B0  thumb  ov111
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089CC  0x020089CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
@@ -20,17 +20,17 @@
  *   func_02008A14  0x02008A14  thumb
  *   func_02008A1C  0x02008A1C  thumb
  *   PMS_DRAW_Delete  0x0202DC08  thumb
- *   func_021C5874  0x021C5874  thumb  ov111
- *   func_021C42C0  0x021C42C0  thumb  ov111
- *   func_021C6F4C  0x021C6F4C  thumb  ov111
+ *   VIEWER_MAIN_InitLcdBrightness  0x021C5874  thumb  ov111
+ *   VIEWER_MAIN_FreeResources  0x021C42C0  thumb  ov111
+ *   VIEWER_TEXT_DeleteActors  0x021C6F4C  thumb  ov111
  *   func_020307B0  0x020307B0  arm
- *   func_021C60A0  0x021C60A0  thumb  ov111
- *   func_021C46F0  0x021C46F0  thumb  ov111
+ *   VIEWER_TEXT_Exit  0x021C60A0  thumb  ov111
+ *   VIEWER_MAIN_ExitBg  0x021C46F0  thumb  ov111
  *   func_02030EAC  0x02030EAC  arm
  *   TCBL_Destroy  0x02031140  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -87,7 +87,7 @@ typedef struct {
     void *f32B0;
 } Work;
 
-extern void func_021C59B0(const u8 *src, u8 *dst);
+extern void VIEWER_MAIN_CopyBg6(const u8 *src, u8 *dst);
 struct Node;
 struct Obj;
 struct S020315D4;
@@ -101,26 +101,26 @@ extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
 extern void func_02008A1C(struct Sub020089A8Obj *obj, u8 value);
 extern void PMS_DRAW_Delete(struct Obj *p);
-extern void func_021C5874(void);
-extern void func_021C42C0(Work *p);
-extern void func_021C6F4C(Anim *a);
+extern void VIEWER_MAIN_InitLcdBrightness(void);
+extern void VIEWER_MAIN_FreeResources(Work *p);
+extern void VIEWER_TEXT_DeleteActors(Anim *a);
 extern u32 func_020307B0(void *p);
-extern void func_021C60A0(Work *p);
-extern void func_021C46F0(void);
+extern void VIEWER_TEXT_Exit(Work *p);
+extern void VIEWER_MAIN_ExitBg(void);
 extern void func_02030EAC(struct Node *n);
 struct S02031140;
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_020355D8(u32 v);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 
-int func_021C40DC(void *man, int *state, Args *args, Work *p)
+int VIEWER_MAIN_Delete(void *man, int *state, Args *args, Work *p)
 {
     void *a;
     void *b;
 
     if (!p->info->f4_5) {
-        func_021C59B0(p->pix, p->info->bitmap);
+        VIEWER_MAIN_CopyBg6(p->pix, p->info->bitmap);
         MI_CpuCopy8(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
@@ -131,18 +131,18 @@ int func_021C40DC(void *man, int *state, Args *args, Work *p)
         func_02008A1C(b, p->info->f4_4);
     }
     PMS_DRAW_Delete(p->f32B0);
-    func_021C5874();
-    func_021C42C0(p);
-    func_021C6F4C(&p->anim);
+    VIEWER_MAIN_InitLcdBrightness();
+    VIEWER_MAIN_FreeResources(p);
+    VIEWER_TEXT_DeleteActors(&p->anim);
     func_020307B0(p->f302C);
     func_020307B0(p->f31D8);
     func_020307B0(p->f31E8);
-    func_021C60A0(p);
-    func_021C46F0();
+    VIEWER_TEXT_Exit(p);
+    VIEWER_MAIN_ExitBg();
     func_02030EAC(p->f31F4);
     TCBL_Destroy((struct S02031140 *)p->f31F8);
     func_020355D8(p->f3060);
     func_020315D4(man);
-    func_020306F0(0x27);
+    GFL_HEAP_DeleteChecked(0x27);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220C16C
+ * function: B_PLIST_DRAW_PrintNameWithValues
  * address: 0x0220C16C
  * packet: pkt_ov198_0220C16C
  * region: ov198
@@ -95,14 +95,14 @@
  *   parameter `index` reused for n as short/u16/u8 (40) or int/u32 (376). None keeps the n reload below the
  *   outgoing stack stores.
  * symbols:
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201D304 0x0201D304 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -110,7 +110,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Ov198P { char pad[0x1E9C]; u32 f1E9C; void *f1EA0; void *f1EA4; void *f1EA8; u32 f1EAC; };
 #define P ((struct Ov198P *)p)
-extern int func_022110D4(u8 *, int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 struct Descriptor;
 struct MsgBank;
 struct StrObj;
@@ -121,12 +121,12 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(u32, u32, s16, s16, void *, u32, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 static inline u32 half(u32 w) { return w >> 1; }
 
-void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
+void B_PLIST_DRAW_PrintNameWithValues(u8 *p, int slot, int index, u8 x0, u8 extra)
 {
     char *elem;
     void *text;
@@ -142,7 +142,7 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     u32 ctx3;
     u32 A;
     void *B;
-    elem = (char *)(p + 4) + func_022110D4(p, index) * 0x4C;
+    elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex(p, index) * 0x4C;
     text = func_02045EC0(P->f1EA0, 12);
     n = func_0201D304(text, P->f1E9C, 0);
     x0 = x0 - half(n);
@@ -155,8 +155,8 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     fl[slot] = 1;
     STRBUF_Delete(text);
     text2 = func_02045EC0(P->f1EA0, 13);
-    func_0201EFA4(P->f1EA4, 0, *(u16 *)(elem + 0x10), 3, 0, 1);
-    func_0201F250(P->f1EA4, P->f1EA8, text2);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, *(u16 *)(elem + 0x10), 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, P->f1EA8, text2);
     A = P->f1E9C;
     B = P->f1EA8;
     y = x0 - func_0201D304(B, A, 0);
@@ -165,8 +165,8 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     fl[slot] = 1;
     STRBUF_Delete(text2);
     text3 = func_02045EC0(P->f1EA0, 13);
-    func_0201EFA4(P->f1EA4, 0, *(u16 *)(elem + 0x12), 3, 0, 1);
-    func_0201F250(P->f1EA4, P->f1EA8, text3);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, *(u16 *)(elem + 0x12), 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, P->f1EA8, text3);
     ctx3 = P->f1EAC;
     PRINTSYS_PrintQueColor(ctx3, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x0 + n, ex, P->f1EA8, P->f1E9C, 0x3DC0);
     fl[slot] = 1;

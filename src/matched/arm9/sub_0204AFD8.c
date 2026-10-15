@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_ClactSystem   0x02146A74  data
- *   sub_020307B0 0x020307B0  arm
+ *   GFL_HEAP_Free 0x020307B0  arm
  *
  * Tear down one entry of the 0x14-byte table hanging off +0x114 of the
  * singleton at 0x02146A74: free the two payload pointers at +0 and +4 if
@@ -43,18 +43,18 @@ struct Slot {
 };
 
 extern struct Mgr *g_ClactSystem;
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void CLACT_ReleaseCellAnim(u32 i)
 {
     struct Slot *s = &((struct Slot *)g_ClactSystem->tb)[i];
 
     if (s->unk_00 != 0) {
-        sub_020307B0(s->unk_00);
+        GFL_HEAP_Free(s->unk_00);
         s->unk_00 = 0;
     }
     if (s->unk_04 != 0) {
-        sub_020307B0(s->unk_04);
+        GFL_HEAP_Free(s->unk_04);
         s->unk_04 = 0;
     }
     s->unk_10 = 1;

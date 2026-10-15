@@ -26,7 +26,7 @@
  *   gTrAiVmParams 0x0218A574 data
  *   VM_GetUserData 0x02011324 thumb
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
@@ -83,10 +83,10 @@
  *   BTL_SERVER_FLOW_CheckFieldEffectActive  0x021C82F4  thumb  ov093
  *   BTL_MAIN_GetOwnLanePos  0x021B8C38  thumb  ov093
  *   BTLV_EFFECT_GetPokeEffectValue 0x021F8AFC thumb ov094
- *   func_02019C90 0x02019C90 thumb
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
- *   func_02020F20  0x02020F20  thumb
+ *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
  *   FILE_UTIL_Get_1014  0x02021014  thumb
  *   gTrAiScriptCache 0x0218A7C0 data a4
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
@@ -112,7 +112,7 @@ extern u32 WAZA_TOOL_IsCacheCreated(void);
 extern void WAZA_TOOL_CreateCache(int n, u32 heap);
 extern TrAiWork *VM_GetUserData(ScriptVm *vm);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *m);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020307B0(void *p);
 extern void VM_Delete(void *);
@@ -167,12 +167,12 @@ extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *p);
 extern int BTL_SERVER_FLOW_CheckFieldEffectActive(void *, int, int);
 extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
 extern int BTLV_EFFECT_GetPokeEffectValue(int);
-extern u32 func_02019C90(u16, u16, u32);
+extern u32 POKE_TOOL_GetPersonalParam(u16, u16, u32);
 extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(void *q, u8 b);
 extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(void *p, u32 i);
 extern int WAZA_TOOL_GetParam(int, int);
 extern int WAZA_TOOL_GetFlag(int, int);
-extern void *func_02020F20(void *, int, u16);
+extern void *FILE_UTIL_LoadArcMember(void *, int, u16);
 extern u32 FILE_UTIL_Get_1014(void *p, u32 sel);
 extern void *ARC_TOOL_LoadHandleMember(void *arc, u32 member, u32 heap);
 ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scriptMask, u16 heapId);
@@ -388,7 +388,7 @@ int TR_AI_Think(ScriptVm *vm) {
                 candidates[n++] = ai->targetPos;
         }
     }
-    r = func_0203F0A8();
+    r = GF_STANDARD_Rand();
     if (n != 0)
         r = (r * n) >> 32;
     ai->targetPos = candidates[r];
@@ -434,9 +434,9 @@ void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos)
             ai->baseScores[i] = zero;
         else
             ai->baseScores[i] = 100;
-        ai->moveRoll[i] = 100 - (u32)(((u64)func_0203F0A8() * 0x10) >> 32);
+        ai->moveRoll[i] = 100 - (u32)(((u64)GF_STANDARD_Rand() * 0x10) >> 32);
     }
-    ai->randomByte = (u32)(((u64)func_0203F0A8() * 0x100) >> 32);
+    ai->randomByte = (u32)(((u64)GF_STANDARD_Rand() * 0x100) >> 32);
 }
 
 u8 TR_AI_GetChosenMove(ScriptVm *vm) { return VM_GetUserData(vm)->chosenMove; }
@@ -444,7 +444,7 @@ u8 TR_AI_GetChosenMove(ScriptVm *vm) { return VM_GetUserData(vm)->chosenMove; }
 u8 TR_AI_GetChosenTarget(ScriptVm *vm) { return VM_GetUserData(vm)->chosenTarget; }
 
 inline static u32 draw_below(u32 n) {
-    u32 r = func_0203F0A8();
+    u32 r = GF_STANDARD_Rand();
     u64 random = r;
     if (n != 0)
         r = (random * n) >> 32;
@@ -729,7 +729,7 @@ int TR_AI_CompareRandom(ScriptVm *vm, TrAiWork *ai, int op) {
     E zero;
     threshold = (u8 *)VM_GetU32(vm);
     jumpOffset = (int)VM_GetU32(vm);
-    random = func_0203F0A8();
+    random = GF_STANDARD_Rand();
     zero = Z0;
     return TR_AI_Compare(vm, op, ((random >> 24) | (zero << 8)), (int)threshold, jumpOffset);
 }
@@ -2177,9 +2177,9 @@ int TR_AI_GetAbility(TrAiWork *ai, int kind, u8 pos) {
         value = BTL_POKEPARAM_GetSpecies(poke);
         form = func_021D59B4(poke, 0x13);
         abilityCount = 0;
-        ability0 = func_02019C90(value, form, 0x1a);
-        ability1 = func_02019C90(value, form, 0x1b);
-        ability2 = func_02019C90(value, form, 0x1c);
+        ability0 = POKE_TOOL_GetPersonalParam(value, form, 0x1a);
+        ability1 = POKE_TOOL_GetPersonalParam(value, form, 0x1b);
+        ability2 = POKE_TOOL_GetPersonalParam(value, form, 0x1c);
         if (ability0 != 0) abilities[abilityCount++] = ability0;
         if (ability1 != 0) abilities[abilityCount++] = ability1;
         if (ability2 != 0) abilities[abilityCount++] = ability2;
@@ -2244,7 +2244,7 @@ u32 TR_AI_GetBestDamage(TrAiWork *ai, struct BtlPokeParam *attacker, struct BtlP
 /*
  * The apparent register-scheduling residue was a missing third argument:
  *   the image keeps `b` (r1) live and loads the halfword into r2, which is
- *   only possible if the callee takes (field, b, h).  func_02020F20 is
+ *   only possible if the callee takes (field, b, h).  FILE_UTIL_LoadArcMember is
  *   declared with the extra `int` argument and the call passes `b`.
  *   EXACT* because the follower at 0x0218A41A is an unlabelled `movs r0,r0`
  *   pad.
@@ -2254,7 +2254,7 @@ int TR_AI_GetItemField(TrAiWork *ai, int itemId, int field) {
     void *itemData;
     int value;
     heapId = ai->heapId;
-    itemData = func_02020F20(ai->itemArchive, itemId, heapId);
+    itemData = FILE_UTIL_LoadArcMember(ai->itemArchive, itemId, heapId);
     value = FILE_UTIL_Get_1014(itemData, field);
     func_020307B0(itemData);
     return value;

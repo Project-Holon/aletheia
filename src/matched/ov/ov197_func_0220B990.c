@@ -1,5 +1,5 @@
 /*
- * function: func_0220B990
+ * function: B_BAG_MAIN_ShowWindows
  * address:  0x0220B990
  * packet:   pkt_0220B990
  * region:   ov197
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 B_APP_TOOL_ShowWindows(u8 *, u32);
 
-u32 func_0220B990(u8 *p)
+u32 B_BAG_MAIN_ShowWindows(u8 *p)
 {
     return B_APP_TOOL_ShowWindows(p + 0x28, ((struct Obj25010 *)p)->f59C);
 }

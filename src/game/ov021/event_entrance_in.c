@@ -19,7 +19,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021A7E3C  0x021A7E3C  thumb  ov021
+ *   FIELD_GROUND_ANIME_CreateB  0x021A7E3C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   EVENT_FIELD_PROCLINK_IsHopDone  0x02161B1C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_IsAnimFlagSet  0x02161B74  thumb  ov010
@@ -59,7 +59,7 @@ extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern GameEvent *func_021A7E3C(EntranceParam *param);
+extern GameEvent *FIELD_GROUND_ANIME_CreateB(EntranceParam *param);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 extern int EVENT_FIELD_PROCLINK_IsHopDone(FieldMap *fieldMap);
 extern int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int animHandle);
@@ -162,7 +162,7 @@ u32 EVENT_ENTRANCE_IN_RunGroundAnime(GameEvent *event, int *seq, EntranceInWork 
 
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, func_021A7E3C(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateB(param));
         (*seq)++;
         break;
     case 1:
@@ -244,7 +244,7 @@ u32 EVENT_ENTRANCE_IN_RunCamera(GameEvent *event, int *seq, EntranceInWork *work
         *seq = 2;
         return ENTRANCE_EVENT_YIELD;
     case 2:
-        GAME_EVENT_CallEvent(event, func_021A7E3C(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateB(param));
         *seq = 3;
         return ENTRANCE_EVENT_YIELD;
     case 3:

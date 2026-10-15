@@ -1,5 +1,5 @@
 /*
- * function: func_0219319C
+ * function: FIELD_MSGBG_StoreSubMsgWin
  * address:  0x0219319C
  * packet:   pkt_ov021_0219319C
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-int func_0219319C(u8 *p, u32 v)
+int FIELD_MSGBG_StoreSubMsgWin(u8 *p, u32 v)
 {
     int i;
 

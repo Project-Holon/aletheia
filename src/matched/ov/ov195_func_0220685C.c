@@ -1,5 +1,5 @@
 /*
- * function: func_0220685C
+ * function: SHINKA_DEMO_VIEW_CreateGrid
  * address:  0x0220685C
  * packet:   pkt_0220685C
  * region:   ov195
@@ -66,7 +66,7 @@ extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
+Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
 {
     Grid *g = func_02030734(heap, sizeof(Grid), 1, d_02208F68, 0x720);
     u32 chrFile;

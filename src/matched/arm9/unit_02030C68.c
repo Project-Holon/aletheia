@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02030C68
+ * function: TCB_FreeTask
  * address:  0x02030C68
  * packet:   pkt_02030BD4
  * region:   arm9
@@ -27,7 +27,7 @@
  * source order: written ctx, cur, end the compiler emits the `stm` first
  * and the lone `str` last, six bytes apart.
  *
- * Decompiled to unstick src/pending/sub_02030EAC.c (fan-in 196), which is
+ * Decompiled to unstick src/pending/TCB_DeleteTask.c (fan-in 196), which is
  * this function's only caller image-wide and so had no `label` witness.
  *
  * Verified with:
@@ -56,7 +56,7 @@ struct Frame02030C68 {
     u32 unk14;
 };
 
-u32 func_02030C68(struct Ctx02030C68 *ctx, struct Frame02030C68 *frame)
+u32 TCB_FreeTask(struct Ctx02030C68 *ctx, struct Frame02030C68 *frame)
 {
     if (ctx->depth == 0) {
         return 0;

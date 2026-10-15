@@ -1,5 +1,5 @@
 /*
- * function: func_02166384
+ * function: WCM_GetApMacAddress
  * address:  0x02166384
  * packet:   pkt_ov009_02166384
  * region:   ov009
@@ -31,7 +31,7 @@ extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-unsigned char *func_02166384(void)
+unsigned char *WCM_GetApMacAddress(void)
 {
     unsigned char *mac;
     WCMWork *w;

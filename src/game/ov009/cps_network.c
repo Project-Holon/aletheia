@@ -65,7 +65,7 @@
  *   OS_SetThreadPriority             0x02085988 arm
  *   is_broadcast  0x021578EC  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
- *   func_02166444  0x02166444  arm  ov009
+ *   WCM_SendDCFDataEx  0x02166444  arm  ov009
  *   g_021A1CC0  0x021A1CC0  data
  *   MI_CpuCopy                       0x02082ea4 arm
  *   OS_SleepThread  0x020857B0  arm
@@ -135,7 +135,11 @@
  *   CPSDnsIp                 0x021A82DC  data
  */
 #include "cps_types.h"
-#include "../../matched/include/G_ArpEntry.h"
+typedef struct CpsArpEntry {
+    unsigned long ip;
+    unsigned char mac[6];
+    unsigned short when;
+} CpsArpEntry;
 
 #define NET_THREAD (*(void *volatile *)&g_021A826C.thread)
 #define BSWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
@@ -242,7 +246,7 @@ extern void OS_CancelAlarm(void *alarm);
 extern int OS_SetThreadPriority(void *thread, unsigned long prio);
 extern unsigned long is_broadcast(unsigned long ip);
 extern void func_02082EA4(void *src, void *dst, unsigned long size);
-extern long func_02166444(unsigned char *dst, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
+extern long WCM_SendDCFDataEx(unsigned char *dst, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 extern void OS_SleepThread(void *queue);
 extern unsigned long long func_020870D0(void);
@@ -378,7 +382,7 @@ extern char g_021A82FC[];
 extern u8 g_021A1CC0[];
 extern unsigned char g_021A82D4[6];
 extern unsigned char g_021A1CA1[6];
-extern struct ArpEntry g_021A8384[8];
+extern CpsArpEntry g_021A8384[8];
 extern unsigned long g_021A1CA8[];
 extern u8 g_021A8328[90];
 extern int OSi_ThreadInfo;
@@ -4498,7 +4502,7 @@ void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 
 void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len)
 {
     func_02082EA4(g_021A1CC0, hdr + 6, 6);
-    g_021A826C.wfailed = func_02166444(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;
+    g_021A826C.wfailed = WCM_SendDCFDataEx(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;
 }
 
 

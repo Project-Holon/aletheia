@@ -1,5 +1,5 @@
 /*
- * function: func_021D822C
+ * function: GTSNEGO_MSG_PrintListEntryAt
  * address: 0x021D822C
  * packet: pkt_ov120_021D822C
  * region: ov120
@@ -10,15 +10,15 @@
  * status: EXACT*
  * extent: trailing 2-byte alignment padding only.
  * symbols:
- *   func_021D4F70 0x021D4F70 thumb ov120
- *   func_021D8118 0x021D8118 thumb ov120
+ *   GTSNEGO_DISP_GetEntry 0x021D4F70 thumb ov120
+ *   GTSNEGO_MSG_PrintListEntry 0x021D8118 thumb ov120
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void *func_021D4F70(void **p, int i);
-extern int func_021D8118(char *p, void *r, int n);
+extern void *GTSNEGO_DISP_GetEntry(void **p, int i);
+extern int GTSNEGO_MSG_PrintListEntry(char *p, void *r, int n);
 extern void func_02041B6C(u32);
-void func_021D822C(char *p,void *q,int index) { func_021D8118(p,func_021D4F70(q,index),5); func_02041B6C(6); }
+void GTSNEGO_MSG_PrintListEntryAt(char *p,void *q,int index) { GTSNEGO_MSG_PrintListEntry(p,GTSNEGO_DISP_GetEntry(q,index),5); func_02041B6C(6); }

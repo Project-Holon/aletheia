@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) 3, 1, 0 to func_02040DA8.
+ * Tail-call veneer: forwards arg(s) 3, 1, 0 to BG_SYS_SetTileUnit.
  *
  * symbols:
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02040DA8(u32, u32, u32);
+extern void BG_SYS_SetTileUnit(u32, u32, u32);
 
 void RESEARCH_GRAPH_ShowBackground3(u32 a0, u32 a1, u32 a2)
 {
-    func_02040DA8(3, 1, 0);
+    BG_SYS_SetTileUnit(3, 1, 0);
 }
 

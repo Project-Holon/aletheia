@@ -13,16 +13,16 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021FCEA8 0x021FCEA8 thumb ov132
+ *   MUS_COMM_FUNC_SendCommandWait 0x021FCEA8 thumb ov132
  *   _u32_div_f 0x0209C2B0 arm
  *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   STA_SLOT_Noop 0x021FDA74 thumb ov132
- *   func_0203F0A8 0x0203F0A8 arm
- *   func_021FCE74  0x021FCE74  thumb
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
+ *   MUS_COMM_FUNC_SendCommand  0x021FCE74  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_021FCDEC 0x021FCDEC thumb ov132
+ *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
  */
 #include "ov132_types.h"
 
@@ -62,15 +62,15 @@ typedef signed int     s32;
 
 typedef unsigned long long u64;
 
-extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
+extern u32 MUS_COMM_FUNC_SendCommandWait(int unused, int kind, u32 value, u32 id);
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void STA_SLOT_Noop(int a0, int a1, int a2);
-extern u32 func_0203F0A8(void);
-extern void func_021FCE74(int unused, int kind, u32 value, u32 id);
+extern u32 GF_STANDARD_Rand(void);
+extern void MUS_COMM_FUNC_SendCommand(int unused, int kind, u32 value, u32 id);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
-extern void func_021FCDEC(int,int);
+extern void MUS_COMM_FUNC_SetTimingSync(int,int);
 u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key);
 void STA_NET_BeginTransfer(S *s);
 void STA_NET_UpdateTransferState(char *p);
@@ -144,7 +144,7 @@ void STA_NET_UpdateTransferState(char *p)
         switch(*(u32 *)&((struct ActingHost *)p)->f17C) {
         case 0: break;
         case 1:
-            if(func_021FCEA8((int)p,7,((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->f140))->f2C,0xff)==1) ((struct ActingHost *)p)->f17C=2;
+            if(MUS_COMM_FUNC_SendCommandWait((int)p,7,((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->f140))->f2C,0xff)==1) ((struct ActingHost *)p)->f17C=2;
             break;
         case 2: break;
         case 3:
@@ -213,19 +213,19 @@ int STA_NET_IsTransferDone(char *p) {if(((struct HostEntry *)(*(char * *)&((stru
 int STA_NET_NotifyHostKind4(u8 *p)
 {
     void *q = ((struct ActingHost *)p)->f140.p;
-    return func_021FCEA8((int)p, 4, (u32)(((struct HostEntry *)q)->f20), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((int)p, 4, (u32)(((struct HostEntry *)q)->f20), 0xff);
 }
 
 
 int STA_NET_NotifyHostKind5(char *p)
 {
-    return func_021FCEA8((int)p, 5, *(int *)(((struct ActingHost *)p)->f140.s + 0x24), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((int)p, 5, *(int *)(((struct ActingHost *)p)->f140.s + 0x24), 0xff);
 }
 
 
 int STA_NET_NotifyHostKind6(char *p)
 {
-    return func_021FCEA8((int)p, 6, *(int *)(((struct ActingHost *)p)->f140.s + 0x28), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((int)p, 6, *(int *)(((struct ActingHost *)p)->f140.s + 0x28), 0xff);
 }
 
 int STA_NET_SendSlot1Command(u8 *p)
@@ -309,7 +309,7 @@ int STA_NET_GetIndexedWord5E(int *p)
 static inline u8 random4(void)
 {
     u32 draw;
-    draw = func_0203F0A8();
+    draw = GF_STANDARD_Rand();
     return ((u64)draw * 4) >> 32;
 }
 
@@ -333,13 +333,13 @@ int STA_NET_SendRandomOrder(u8 *p)
         }
     }
     for (i = 0; i < 4; i++) result += slots[i] << (i * 4);
-    return func_021FCEA8((int)p, 1, result, 255);
+    return MUS_COMM_FUNC_SendCommandWait((int)p, 1, result, 255);
 }
 
 
 void STA_NET_SendKindA(char *p, int a)
 {
-    func_021FCE74((int)p, 0xa, a, 0xff);
+    MUS_COMM_FUNC_SendCommand((int)p, 0xa, a, 0xff);
 }
 
 u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
@@ -377,9 +377,9 @@ int STA_NET_GetIndexedWord57(int *p)
     return p[0x57];
 }
 
-void STA_NET_SetState6Pair(char *p, u32 a, int b) {func_021FCDEC((int)p,0x40);((struct ActingHost *)p)->f4C=6;((struct ActingHost *)p)->f144.s=a;((struct ActingHost *)p)->f148.s=b;}
+void STA_NET_SetState6Pair(char *p, u32 a, int b) {MUS_COMM_FUNC_SetTimingSync((int)p,0x40);((struct ActingHost *)p)->f4C=6;((struct ActingHost *)p)->f144.s=a;((struct ActingHost *)p)->f148.s=b;}
 
-void STA_NET_SetState12(char *p) {func_021FCDEC((int)p,0x42);((struct ActingHost *)p)->f4C=12;}
+void STA_NET_SetState12(char *p) {MUS_COMM_FUNC_SetTimingSync((int)p,0x42);((struct ActingHost *)p)->f4C=12;}
 
 /*
  * The larger indexed follower at 021FD964 is parked separately at DIFF.

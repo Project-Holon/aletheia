@@ -14,11 +14,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg 0x021B9FB0 thumb ov221
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact 0x021BA054 thumb ov221
@@ -38,11 +38,11 @@ extern void MI_CpuFill8(void*,int,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void* func_020056A0(u32,u32,u32);
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*,u32);
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char*,int,int);
@@ -61,11 +61,11 @@ void* CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  BG_SYS_ClearGraphicsMemory(0);
  g=d_021BA220;
  BG_SYS_SetVramBanks((const struct DispVram *)g);
- func_0204363C(swap);
+ BMP_SetDisplaySwap(swap);
  BG_SYS_ResetSubDisplay();
  BG_SYS_ClearMainPlanes();
  BG_SYS_ClearSubPlanes();
- func_0201DD60();
+ GF_FONT_InitTextColor();
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(int)g,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);

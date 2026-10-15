@@ -1,5 +1,5 @@
 /*
- * function: func_021CBF98
+ * function: BSUBWAY_SCR_Random
  * address:  0x021CBF98
  * packet:   pkt_ov021_021CBF98
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern u32 func_020056EC(u32 max);
 extern u32 _u32_div_f(u32 a, u32 b);
 
-u16 func_021CBF98(void *ctx)
+u16 BSUBWAY_SCR_Random(void *ctx)
 {
     return func_020056EC(0xffffffff) / 0xffff;
 }

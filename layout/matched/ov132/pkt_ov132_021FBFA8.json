@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FBFA8",
+   "name": "SCRIPT_COMMAND_CmdSetAnimSlot",
    "address": "0x021FBFA8",
    "kind": "game",
    "region": "ov132",

@@ -1,5 +1,5 @@
 /*
- * function: func_021DFF78
+ * function: BR_CODEIN_CodeDeleteMenu
  * address: 0x021DFF78
  * packet: pkt_ov183_021DFF78
  * region: ov183
@@ -23,7 +23,7 @@ extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void func_020409B4(u32 index);
-int func_021DFF78(char *p, char *q)
+int BR_CODEIN_CodeDeleteMenu(char *p, char *q)
 {
     if (((struct Obj04572 *)p)->fC) {
         BR_BTN_DeleteObject(((struct Obj04572 *)p)->fC);

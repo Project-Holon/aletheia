@@ -20,6 +20,8 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "../include/Obj02540.h"
 
@@ -35,9 +37,9 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(unsigned int, unsigned int, unsigned int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *PRINTSYS_PrintStream(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short);
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -50,12 +52,12 @@ void func_021BF23C(char *p, void *a, int flag)
     BMP_Clear(BMP_WIN_GetBmp(desc), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     MSGDATA_ReadString(((struct Obj02540 *)p)->fC, (unsigned int)a, ((struct Obj02540 *)p)->f3C);
-    func_0201F250(((struct Obj02540 *)p)->f8, ((struct Obj02540 *)p)->f40, ((struct Obj02540 *)p)->f3C);
+    WORDSET_CopyTaggedText(((struct Obj02540 *)p)->f8, ((struct Obj02540 *)p)->f40, ((struct Obj02540 *)p)->f3C);
     ((struct Obj02540 *)p)->f14 = PRINTSYS_PrintStream((unsigned int)desc, 4, 0, *(unsigned int *)&((struct Obj02540 *)p)->f40, ((struct Obj02540 *)p)->f10, value, ((struct Obj02540 *)p)->f18, 0xFFFF, ((struct Obj02540 *)p)->f0, 15);
     if (flag == 0)
-        func_0201F73C(desc, 1, 7, 9);
+        BMP_MENUWORK_DrawWindow(desc, 1, 7, 9);
     else
-        func_0201F73C(desc, 1, 16, 8);
+        BMP_MENUWORK_DrawWindow(desc, 1, 16, 8);
     BMP_WIN_TransferChars(desc);
     BMP_WIN_MakeScreen(desc);
     func_02041B6C(BMP_WIN_GetBgLayer(desc));

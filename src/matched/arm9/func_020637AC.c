@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020637AC
+ * function: NNSi_G2dSetVramHandle
  * address:  0x020637AC
  * packet:   pkt_02063640
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_020637AC(int *p, int i, int v){ p[i] = v; }
+void NNSi_G2dSetVramHandle(int *p, int i, int v){ p[i] = v; }

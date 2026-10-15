@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021CA478 0x021CA478 thumb ov128
+ *   WF2DMAP_TOUCH_UpdateSlots 0x021CA478 thumb ov128
  *   TCBL_Main 0x020310C4 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  */
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 struct Tcbl;
-extern void func_021CA478(char *p);
+extern void WF2DMAP_TOUCH_UpdateSlots(char *p);
 extern void TCBL_Main(struct Tcbl *p);
 extern void CLACT_DrawSystem(void);
-void func_021C6638(u8 *p) { if(((struct Obj06477 *)p)->f34) { PRINTSYS_QUE_Main(((struct Obj06477 *)p)->f34);func_021CA478((char *)p); } if(((struct Obj06477 *)p)->f28) TCBL_Main(((struct Obj06477 *)p)->f28);CLACT_DrawSystem(); }
+void func_021C6638(u8 *p) { if(((struct Obj06477 *)p)->f34) { PRINTSYS_QUE_Main(((struct Obj06477 *)p)->f34);WF2DMAP_TOUCH_UpdateSlots((char *)p); } if(((struct Obj06477 *)p)->f28) TCBL_Main(((struct Obj06477 *)p)->f28);CLACT_DrawSystem(); }

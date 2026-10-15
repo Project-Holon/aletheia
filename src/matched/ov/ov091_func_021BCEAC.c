@@ -25,7 +25,7 @@
  *   func_02027624 0x02027624 thumb
  *   func_02027628 0x02027628 thumb
  *   func_0202762C 0x0202762C thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -52,7 +52,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -82,7 +82,7 @@ void PLIST_MENU_LoadResources(u8 *p)
         func_02049B68(h, func_02027624(), 4, 0x40, 0x20, H);
         func_02049658((void *)((u32)h), func_02027628(), 5, 0, 0, 0, H);
         func_020498F4((void *)((u32)h), func_0202762C(), 5, 0, 0, 0, H);
-        func_020413B0(5, 0, 0, 0x20, 0x20, 2);
+        BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x20, 2);
         func_02041B6C(5);
     }
     ARC_TOOL_DeleteHandle(h2);

@@ -1,5 +1,5 @@
 /*
- * function: func_02194AD8
+ * function: gti2VerifyChallenge
  * address:  0x02194AD8
  * packet:   pkt_ov009_02194AD8
  * region:   ov009
@@ -18,7 +18,7 @@
 
  */
 
-int func_02194AD8(unsigned char *buffer)
+int gti2VerifyChallenge(unsigned char *buffer)
 {
     int oddmode;
     int i;

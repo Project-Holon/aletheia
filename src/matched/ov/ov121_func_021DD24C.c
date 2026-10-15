@@ -30,8 +30,8 @@
  *   STRBUF_SetStringN 0x02045994 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_021DA338 0x021DA338 thumb ov121
  *   func_021DA3EC 0x021DA3EC thumb ov121
  *   func_021DC024 0x021DC024 thumb ov121
@@ -184,8 +184,8 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *func_021DA338(char *p, u16 heap);
 extern void func_021DA3EC(char *p, char *desc, void *dst);
 extern int func_021DC024(void *p);
@@ -270,10 +270,10 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
     flags = out->a->fAC;
     t4 = func_02045EC0((void *)b->fC0, 0x9a);
     res = 0;
-    func_0201EFA4((void *)b->fCC, 0, (u16)(flags >> 16), 4, 1, 1);
-    func_0201EFA4((void *)b->fCC, 1, (u8)(flags >> 8), 2, 0, 1);
-    func_0201EFA4((void *)b->fCC, 2, (u8)flags, 2, 0, 1);
-    func_0201F250((void *)b->fCC, desc.e[4].f8, t4);
+    WORDSET_SetSlotNumber((void *)b->fCC, 0, (u16)(flags >> 16), 4, 1, 1);
+    WORDSET_SetSlotNumber((void *)b->fCC, 1, (u8)(flags >> 8), 2, 0, 1);
+    WORDSET_SetSlotNumber((void *)b->fCC, 2, (u8)flags, 2, 0, 1);
+    WORDSET_CopyTaggedText((void *)b->fCC, desc.e[4].f8, t4);
     out->f144 = func_021DA338(*(void **)b, heap);
     func_021DA3EC(out->f144, (char *)(&desc), (void *)b->fC8);
     STRBUF_Delete(desc.e[1].f8);

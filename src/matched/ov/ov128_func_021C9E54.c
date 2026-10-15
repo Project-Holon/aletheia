@@ -1,5 +1,5 @@
 /*
- * function: func_021C9E54
+ * function: WF2DMAP_TOUCH_DeleteWidgetHandles
  * address:  0x021C9E54
  * packet:   pkt_021C9E54
  * region:   ov128
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C9E54(u8 *p)
+void WF2DMAP_TOUCH_DeleteWidgetHandles(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++) {

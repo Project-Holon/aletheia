@@ -16,12 +16,12 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201D304 0x0201D304 thumb
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_02008534 0x02008534 thumb
  *   func_0200864C 0x0200864C thumb
  *   func_02008650 0x02008650 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   HALL_OF_FAME_PrintToPlate 0x021B77DC thumb ov180
  */
 #include "../include/Obj00350.h"
@@ -47,12 +47,12 @@ extern void BMP_Clear(struct CharBuf *,u8);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
-extern void func_0201F02C(struct WordSet *,u32,void *);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern u16 func_0200864C(const struct PlayTime *);
 extern u8 func_02008650(const struct PlayTime *);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void HALL_OF_FAME_PrintToPlate(u8 *p, int n, void *w, void *s, int x, int y);
 void HALL_OF_FAME_CreateTrainerPlates(char *p) {
     Param d;
@@ -77,19 +77,19 @@ void HALL_OF_FAME_CreateTrainerPlates(char *p) {
     BMP_OAM_SetEnabled(*(u8 **)(p+0x9138),0);
     BMP_Clear(*(struct CharBuf * *)&((struct Obj00350 *)p)->f913C,0);
     str=func_02045EC0(*(struct MsgBank **)(p+0x9038),5);
-    func_0201F02C(*(struct WordSet * *)&((struct Obj00350 *)p)->f903C,0,((struct Obj24494 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f4);
-    func_0201F250(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
+    WORDSET_SetSlotMyStatus(*(struct WordSet * *)&((struct Obj00350 *)p)->f903C,0,((struct Obj24494 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f4);
+    WORDSET_CopyTaggedText(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
     HALL_OF_FAME_PrintToPlate((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj * *)&((struct Obj00350 *)p)->f9040,8,0);
     STRBUF_Delete((struct U16Vec *)str);
     str=func_02045EC0(*(struct MsgBank **)(p+0x9038),6);
-    func_0201EFA4(*(struct WordSet **)(p+0x903c),0,func_02008534((const struct Sub0200852CObj *)(*(struct Player * *)&((struct Obj24495 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f4)),5,2,1);
-    func_0201F250(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
+    WORDSET_SetSlotNumber(*(struct WordSet **)(p+0x903c),0,func_02008534((const struct Sub0200852CObj *)(*(struct Player * *)&((struct Obj24495 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f4)),5,2,1);
+    WORDSET_CopyTaggedText(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
     HALL_OF_FAME_PrintToPlate((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj **)(p+0x9040),92,0);
     STRBUF_Delete((struct U16Vec *)str);
     str=func_02045EC0(*(struct MsgBank **)(p+0x9038),7);
-    func_0201EFA4(*(struct WordSet **)(p+0x903c),0,func_0200864C(*(struct PlayTime * *)&((struct Obj24496 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f8),3,0,1);
-    func_0201EFA4(*(struct WordSet **)(p+0x903c),1,func_02008650(*(struct PlayTime * *)&((struct Obj24497 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f8),2,2,1);
-    func_0201F250(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
+    WORDSET_SetSlotNumber(*(struct WordSet **)(p+0x903c),0,func_0200864C(*(struct PlayTime * *)&((struct Obj24496 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f8),3,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet **)(p+0x903c),1,func_02008650(*(struct PlayTime * *)&((struct Obj24497 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f8),2,2,1);
+    WORDSET_CopyTaggedText(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
     HALL_OF_FAME_PrintToPlate((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj **)(p+0x9040),200,0);
     STRBUF_Delete((struct U16Vec *)str);
 }

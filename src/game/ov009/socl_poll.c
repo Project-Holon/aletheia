@@ -1,7 +1,7 @@
 /*
  * file:     socl_poll.c
  * unit:     yes
- * function: func_0215EFB0, func_0215F080
+ * function: SOCL_GetStatus, SOCLi_GetReadBufferOccpiedSize
  * address:  0x0215EFB0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215E2C0  0x0215E2C0  arm  ov009
+ *   SOCLi_GetWriteBufferFreeSize  0x0215E2C0  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
 typedef struct {
@@ -29,10 +29,10 @@ typedef struct {
 
 extern int func_0215F3D0(Socket *socket);
 extern unsigned long OS_DisableInterrupts(void);
-extern long func_0215E2C0(Socket *socket);
+extern long SOCLi_GetWriteBufferFreeSize(Socket *socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-int func_0215EFB0(int s);
-int func_0215F080(char *p);
+int SOCL_GetStatus(int s);
+int SOCLi_GetReadBufferOccpiedSize(char *p);
 
 
 static inline int IsStream(Socket *socket)
@@ -51,7 +51,7 @@ static inline int IsStream(Socket *socket)
  * note:     state is spelled volatile: the only spelling found that reproduces the
  *           per-test ldrsh reloads (the vendor DWARF carries no volatile).
  */
-int func_0215EFB0(int s)
+int SOCL_GetStatus(int s)
 {
 	unsigned long enable;
 	int result;
@@ -67,10 +67,10 @@ int func_0215EFB0(int s)
 		}
 		if (socket->flag_mode == 1 || (socket->state & 4)) {
 			enable = OS_DisableInterrupts();
-			if (func_0215F080((char *)socket) > 0) {
+			if (SOCLi_GetReadBufferOccpiedSize((char *)socket) > 0) {
 				result |= 1;
 			}
-			if (func_0215E2C0(socket) > 0) {
+			if (SOCLi_GetWriteBufferFreeSize(socket) > 0) {
 				result |= 8;
 			}
 			OS_RestoreInterrupts(enable);
@@ -96,7 +96,7 @@ int func_0215EFB0(int s)
  * +4 of its +0x104 child, in modes 0 and 4 the +0x50 minus +0xf8 difference,
  * and 0 in every other case.
  */
-int func_0215F080(char *p)
+int SOCLi_GetReadBufferOccpiedSize(char *p)
 {
     char *q = *(char **)(p + 0xa0);
     int r = 0;

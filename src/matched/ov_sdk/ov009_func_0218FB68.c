@@ -1,5 +1,5 @@
 /*
- * function: func_0218FB68
+ * function: gpiProcessNewProfile
  * address:  0x0218FB68
  * packet:   pkt_ov009_0218FB68
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      gpiProcessNewProfile (libdwcgsgp.TWL.HYB.a gpiprofile.o)
  *
  * symbols:
- *   func_0219329C  0x0219329c  arm   ov009
+ *   gpiCheckForError  0x0219329c  arm   ov009
  *   strncmp  0x020949f4  arm
- *   func_02193710  0x02193710  arm   ov009
- *   func_02189D78  0x02189d78  arm   ov009
- *   func_02193418  0x02193418  arm   ov009
+ *   gpiSetError  0x02193710  arm   ov009
+ *   gpiCallErrorCallback  0x02189d78  arm   ov009
+ *   gpiValueForKey  0x02193418  arm   ov009
  *   atoi  0x020964e0  arm
- *   func_0217EAB0  0x0217eab0  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
- *   func_02189DFC  0x02189dfc  arm   ov009
- *   func_0218E240  0x0218e240  arm   ov009
+ *   gsimalloc  0x0217eab0  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   gpiAddCallback  0x02189dfc  arm   ov009
+ *   gpiRemoveOperation  0x0218e240  arm   ov009
  *   g_021A51D0     0x021a51d0  data
  *   g_021A51D8     0x021a51d8  data
  *   g_021A5208     0x021a5208  data
@@ -46,24 +46,24 @@ typedef struct {
 } GPNewProfileResponseArg;
 
 struct GPIOperation;
-extern int func_0219329C(int *connection, const char *input, int fatal);
+extern int gpiCheckForError(int *connection, const char *input, int fatal);
 typedef unsigned char  u8;
 extern int strncmp(const u8 *s1, const u8 *s2, unsigned int n);
 typedef unsigned int   u32;
-extern void func_02193710(int *connection, int result, int errorString);
-extern int func_02189D78(int *connection, int a1, int a2);
-extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
+extern void gpiSetError(int *connection, int result, int errorString);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(u32 a0);
-extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(int *p, int b);
-extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
-extern void func_0218E240(void **connection, struct GPIOperation *operation);
+extern void *gsimalloc(unsigned long size);
+extern void gpiSetErrorString(int *p, int b);
+extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
+extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern char g_021A51D0[];
 extern char g_021A51D8[];
 extern char g_021A5208[];
 extern char g_021A5214[];
 
-int func_0218FB68(void **connection, GPIOperation *operation, char *input)
+int gpiProcessNewProfile(void **connection, GPIOperation *operation, char *input)
 {
     char buffer[16];
     int pid;
@@ -71,34 +71,34 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
     GPNewProfileResponseArg *arg;
     int __result__;
 
-    if (func_0219329C((int *)connection, input, 1))
+    if (gpiCheckForError((int *)connection, input, 1))
         return 4;
     if (strncmp((const u8 *)input, (const u8 *)g_021A51D0, 5) != 0) {
-        func_02193710((int *)connection, 1, (int)g_021A51D8);
+        gpiSetError((int *)connection, 1, (int)g_021A51D8);
         __result__ = 3;
-        func_02189D78((int *)connection, __result__, 1);
+        gpiCallErrorCallback((int *)connection, __result__, 1);
         return __result__;
     }
-    if (!func_02193418(input, g_021A5208, buffer, 16)) {
-        func_02193710((int *)connection, 1, (int)g_021A51D8);
+    if (!gpiValueForKey(input, g_021A5208, buffer, 16)) {
+        gpiSetError((int *)connection, 1, (int)g_021A51D8);
         __result__ = 3;
-        func_02189D78((int *)connection, __result__, 1);
+        gpiCallErrorCallback((int *)connection, __result__, 1);
         return __result__;
     }
     pid = atoi((u32)buffer);
     callback = operation->callback;
     if (callback.callback != 0) {
-        arg = (GPNewProfileResponseArg *)func_0217EAB0(sizeof(GPNewProfileResponseArg));
+        arg = (GPNewProfileResponseArg *)gsimalloc(sizeof(GPNewProfileResponseArg));
         if (arg == 0) {
-            func_02193734((int *)connection, (int)g_021A5214);
+            gpiSetErrorString((int *)connection, (int)g_021A5214);
             return 1;
         }
         arg->profile = pid;
         arg->result = 0;
-        __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+        __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
         if (__result__ != 0)
             return __result__;
     }
-    func_0218E240(connection, (struct GPIOperation *)operation);
+    gpiRemoveOperation(connection, (struct GPIOperation *)operation);
     return 0;
 }

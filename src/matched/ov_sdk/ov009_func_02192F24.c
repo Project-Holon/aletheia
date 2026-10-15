@@ -1,5 +1,5 @@
 /*
- * function: func_02192F24
+ * function: gpiSendTransferReply
  * address:  0x02192F24
  * packet:   pkt_ov009_02192F24
  * region:   ov009
@@ -34,7 +34,7 @@ extern int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer,
 extern char g_021A5698[];
 extern char g_021A569C[];
 
-int func_02192F24(void **connection, struct GPITransferID *transferID, void *peer, int result, char *msg)
+int gpiSendTransferReply(void **connection, struct GPITransferID *transferID, void *peer, int result, char *msg)
 {
     char buffer[32];
     int r;

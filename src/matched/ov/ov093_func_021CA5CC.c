@@ -16,7 +16,7 @@
  *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
  *   BTL_SERVER_FLOW_TryClearContFlag 0x021C5418 thumb ov093
  *   BTL_POKEPARAM_GetCounter 0x021D69AC thumb ov093
- *   func_0203EFC8 0x0203EFC8 arm
+ *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   BTL_SERVER_FLOW_QueryPokeGroundedEvent 0x021C6F34 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_SERVER_FLOW_CureSick 0x021C5620 thumb ov093
@@ -37,7 +37,7 @@ extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern int BTL_SERVER_FLOW_TryClearContFlag(u8 *, u8 *, int);
 extern u8 BTL_POKEPARAM_GetCounter(u8 *, int);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int BTL_SERVER_FLOW_QueryPokeGroundedEvent(u8 *, u8 *, int);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void BTL_SERVER_FLOW_CureSick(u8 *p, u8 *a, int k, struct Slot *out);
@@ -61,7 +61,7 @@ loop:
             BTL_SERVER_FLOW_TryClearContFlag((u8 *)p, a, 3);
             t = BTL_POKEPARAM_GetCounter(a, 4);
             if (!(t && (t = (u8)(t - 1)) < 24)) t = 31;
-            if (t != 31) func_0203EFC8(p, a, 1);
+            if (t != 31) GF_STANDARD_CompareBytes(p, a, 1);
             changed = 1;
         }
         if (BTL_SERVER_FLOW_QueryPokeGroundedEvent((u8 *)p, a, 1)) changed = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5B34
+ * function: VIEWER_MAIN_UpdateBrightness
  * address:  0x021C5B34
  * packet:   pkt_ov111_021C5B34
  * region:   ov111
@@ -32,7 +32,7 @@ typedef struct {
 
 extern void func_0207E468(const void *src, u32 offset, u32 size);
 
-void func_021C5B34(Work *p)
+void VIEWER_MAIN_UpdateBrightness(Work *p)
 {
     u16 *pal = p->pltt->data;
 

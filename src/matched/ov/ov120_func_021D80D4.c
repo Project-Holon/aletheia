@@ -1,5 +1,5 @@
 /*
- * function: func_021D80D4
+ * function: GTSNEGO_MSG_DeleteEntryWindow
  * address: 0x021D80D4
  * packet: pkt_ov120_021D80D4
  * region: ov120
@@ -27,7 +27,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021D80D4(char *p)
+void GTSNEGO_MSG_DeleteEntryWindow(char *p)
 {
     if (((struct Obj05352 *)p)->f84) {
         BMP_Clear(BMP_WIN_GetBmp(((struct Obj05352 *)p)->f84),0);

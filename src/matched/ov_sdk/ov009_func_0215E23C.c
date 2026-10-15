@@ -1,5 +1,5 @@
 /*
- * function: func_0215E23C
+ * function: SOCLi_AllocWriteBuffer
  * address:  0x0215E23C
  * packet:   pkt_02156B70
  * region:   ov009
@@ -13,7 +13,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_SleepThread  0x020857B0  arm
- *   func_0215E2C0  0x0215E2C0  arm  ov009
+ *   SOCLi_GetWriteBufferFreeSize  0x0215E2C0  arm  ov009
  *
  * Pull a count out of the object at +0xa4, clamped to `n` (and, when it came
  * back short, to `m`) -- below `m` the loop instead either gives up with 0 or
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0215E23C(void *a, int n, int m, int *out, int f5)
+int SOCLi_AllocWriteBuffer(void *a, int n, int m, int *out, int f5)
 {
     u32 *base;
     int st;
@@ -39,7 +39,7 @@ int func_0215E23C(void *a, int n, int m, int *out, int f5)
     st = OS_DisableInterrupts();
     flag = f5 & 1;
     for (;;) {
-        v = func_0215E2C0(a);
+        v = SOCLi_GetWriteBufferFreeSize(a);
         if (v >= m) {
             if (v >= n)
                 v = n;

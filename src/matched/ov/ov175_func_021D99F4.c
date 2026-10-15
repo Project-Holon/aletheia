@@ -1,5 +1,5 @@
 /*
- * function: func_021D99F4
+ * function: WIFIBATTLEMATCH_NET_DeleteCompSprite
  * address:  0x021D99F4
  * packet:   pkt_021D99F4
  * region:   ov175
@@ -26,7 +26,7 @@ typedef unsigned long u32;
 
 extern void func_021E89D0(u32 p);
 
-void func_021D99F4(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteCompSprite(char *obj)
 {
     u32 p = ((struct Obj00013 *)obj)->f30;
 

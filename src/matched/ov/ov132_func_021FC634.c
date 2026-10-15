@@ -1,5 +1,5 @@
 /*
- * function: func_021FC634
+ * function: SCRIPT_COMMAND_CmdStopBgm
  * address:  0x021FC634
  * packet:   pkt_021FC634
  * region:   ov132
@@ -18,7 +18,7 @@
 
 extern void STA_ACTING_StopBgm(char *p);
 
-int func_021FC634(int a, char **pp)
+int SCRIPT_COMMAND_CmdStopBgm(int a, char **pp)
 {
     STA_ACTING_StopBgm(((struct Obj23270 *)(*pp))->f34);
     return 0;

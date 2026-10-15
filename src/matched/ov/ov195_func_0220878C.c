@@ -1,5 +1,5 @@
 /*
- * function: func_0220878C
+ * function: SHINKA_DEMO_EFFECT_Main
  * address:  0x0220878C
  * packet:   pkt_0220878C
  * region:   ov195
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02208C10 0x02208C10 thumb ov195
- *   func_02208C18 0x02208C18 thumb ov195
- *   func_02208C28 0x02208C28 thumb ov195
- *   func_02208C30 0x02208C30 thumb ov195
- *   func_02208A48 0x02208A48 thumb ov195
- *   func_02208B6C 0x02208B6C thumb ov195
- *   func_022089A4 0x022089A4 thumb ov195
+ *   SHINKA_DEMO_EFFECT_AnimSetState1 0x02208C10 thumb ov195
+ *   SHINKA_DEMO_EFFECT_AnimIsState2 0x02208C18 thumb ov195
+ *   SHINKA_DEMO_EFFECT_AnimSetState3 0x02208C28 thumb ov195
+ *   SHINKA_DEMO_EFFECT_AnimIsState0 0x02208C30 thumb ov195
+ *   SHINKA_DEMO_EFFECT_SetParticleTimerRaw 0x02208A48 thumb ov195
+ *   SHINKA_DEMO_EFFECT_UpdateAnime 0x02208B6C thumb ov195
+ *   SHINKA_DEMO_EFFECT_UpdateParticle 0x022089A4 thumb ov195
  */
 
 typedef unsigned char u8;
@@ -33,48 +33,48 @@ typedef struct Anim {
     void *ptc;
 } Anim;
 
-extern void func_02208C10(Anim *p);
-extern int func_02208C18(Anim *p);
-extern void func_02208C28(Anim *p);
-extern int func_02208C30(Anim *p);
+extern void SHINKA_DEMO_EFFECT_AnimSetState1(Anim *p);
+extern int SHINKA_DEMO_EFFECT_AnimIsState2(Anim *p);
+extern void SHINKA_DEMO_EFFECT_AnimSetState3(Anim *p);
+extern int SHINKA_DEMO_EFFECT_AnimIsState0(Anim *p);
 struct Ptc;
-extern void func_02208A48(struct Ptc *p, s32 timer);
-extern void func_02208B6C(char *p);
-extern void func_022089A4(struct Ptc *p);
+extern void SHINKA_DEMO_EFFECT_SetParticleTimerRaw(struct Ptc *p, s32 timer);
+extern void SHINKA_DEMO_EFFECT_UpdateAnime(char *p);
+extern void SHINKA_DEMO_EFFECT_UpdateParticle(struct Ptc *p);
 
-void func_0220878C(Anim *p)
+void SHINKA_DEMO_EFFECT_Main(Anim *p)
 {
     switch (p->state) {
     case 0:
     case 1:
         break;
     case 2:
-        func_02208C10(p);
+        SHINKA_DEMO_EFFECT_AnimSetState1(p);
         p->state = 3;
         break;
     case 3:
-        if (func_02208C18(p)) {
+        if (SHINKA_DEMO_EFFECT_AnimIsState2(p)) {
             p->state = 4;
             p->wait = 3;
-            func_02208A48(p->ptc, 0);
+            SHINKA_DEMO_EFFECT_SetParticleTimerRaw(p->ptc, 0);
         }
         break;
     case 4:
         if (p->wait == 0) {
-            func_02208C28(p);
+            SHINKA_DEMO_EFFECT_AnimSetState3(p);
             p->state = 5;
         } else {
             p->wait = p->wait - 1;
         }
         break;
     case 5:
-        if (func_02208C30(p))
+        if (SHINKA_DEMO_EFFECT_AnimIsState0(p))
             p->state = 6;
         break;
     case 6:
     case 7:
         break;
     }
-    func_02208B6C((char *)p);
-    func_022089A4(p->ptc);
+    SHINKA_DEMO_EFFECT_UpdateAnime((char *)p);
+    SHINKA_DEMO_EFFECT_UpdateParticle(p->ptc);
 }

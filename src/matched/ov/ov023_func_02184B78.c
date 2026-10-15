@@ -14,7 +14,7 @@
  *   func_02049B40  0x02049B40  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
 void OEKAKI_LoadBgGraphics(u8 *p, void *h)
 {
@@ -37,6 +37,6 @@ void OEKAKI_LoadBgGraphics(u8 *p, void *h)
     func_020498F4(h, 6, 2, 0, 0x600, 0, 0x28);
     func_02049658(h, 4, 5, 0, 0x2000, 0, 0x28);
     func_020498F4(h, 7, 5, 0, 0x600, 0, 0x28);
-    func_0201F5BC(0, 1, 10, 0, 0x28);
-    func_0201F5BC(0, 0x1F, 11, 0, 0x28);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 10, 0, 0x28);
+    BMP_MENUWORK_LoadCharAndPltt(0, 0x1F, 11, 0, 0x28);
 }

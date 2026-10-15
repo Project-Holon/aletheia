@@ -1,5 +1,5 @@
 /*
- * function: func_02163F7C
+ * function: CPSi_big_add
  * address:  0x02163F7C
  * packet:   pkt_ov009_02163F7C
  * region:   ov009
@@ -12,14 +12,14 @@
  * sdk:      CPSi_big_add (libssl.TWL.HYB.a(biginteger.o))
  *
  * symbols:
- *   func_02163F24  0x02163F24  arm  ov009
+ *   count_digits  0x02163F24  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  */
 
-extern int func_02163F24(const unsigned short *p, int n);
+extern int count_digits(const unsigned short *p, int n);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 
-void func_02163F7C(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
+void CPSi_big_add(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
 {
 	int digits_b;
 	int digits_a;
@@ -27,8 +27,8 @@ void func_02163F7C(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	int carry;
 	unsigned long tmp;
 
-	digits_a = func_02163F24(a, digits);
-	digits_b = func_02163F24(b, digits);
+	digits_a = count_digits(a, digits);
+	digits_b = count_digits(b, digits);
 	if (digits_a < digits_b) {
 		digits_a = digits_b;
 	}

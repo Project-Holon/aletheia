@@ -1,5 +1,5 @@
 ﻿/*
- * function: sub_02040820
+ * function: BG_SYS_SetScroll
  * address:  0x02040820
  * packet:   pkt_02040618
  * region:   arm9
@@ -14,14 +14,14 @@
  *   func_02040860  0x02040860  arm
  *   g_BgConfig     0x02146A44  data
  *
- * The affine entry point of the same BG scroll module as sub_02040618:
+ * The affine entry point of the same BG scroll module as BG_SYS_FillScrollArea:
  * refresh the layer's record through func_02042360, then hand the affine
  * transform on to func_02040860, which picks the hardware block from the
  * layer number.
  *
  * Parameters 2 and 3 are genuinely dead here.  Nothing sets r1 or r2
  * before either call, and func_02042360 takes one argument (the same call
- * in sub_02040618 reaches it with r1 and r2 holding that function's own
+ * in BG_SYS_FillScrollArea reaches it with r1 and r2 holding that function's own
  * untouched parameters), so this really is a wrapper that keeps an argument
  * shape it does not use rather than a forwarding call with extra arguments.
  * The four arguments func_02040860 does take are parameters 1, 4, 5 and 6,
@@ -31,11 +31,11 @@
  * table base before the scaled index, so that it parses as
  * ((base + 8) + index): here the compiler folds the whole thing into one
  * `add ip, ip, #8` and one `mla`, which is the direct confirmation that the
- * same expression in sub_02040618 has to be written the same way round.
+ * same expression in BG_SYS_FillScrollArea has to be written the same way round.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02040820.c \
- *       --func sub_02040820 --addr 0x02040820 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetScroll.c \
+ *       --func BG_SYS_SetScroll --addr 0x02040820 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -63,7 +63,7 @@ extern struct BgLayer *g_BgConfig;
 extern void func_02042360(void *p, u32 a, u32 b);
 extern void func_02040860(u32 layer, u32 a, u32 b, u32 c);
 
-void sub_02040820(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e)
+void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     func_02042360((u8 *)g_BgConfig + 8 + layer * sizeof(struct BgLayer), a, b);
     func_02040860(layer, c, d, e);

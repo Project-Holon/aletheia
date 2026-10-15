@@ -50,9 +50,9 @@
  *   EVENT_MAPCHANGE_UpdateFieldStateForZone  0x02185A68  thumb  ov020
  *   EVENT_MAPCHANGE_ApplyLocation  0x021857C0  thumb  ov020
  *   GAME_BEACON_SetZone  0x0202735C  thumb
- *   func_02164454  0x02164454  thumb  ov010
- *   func_0216445C  0x0216445C  thumb  ov010
- *   func_02164464  0x02164464  thumb  ov010
+ *   FIELD_MAP_CHANGE_ResetGimmickStateCase1  0x02164454  thumb  ov010
+ *   FIELD_MAP_CHANGE_ResetGimmickStateCase3  0x0216445C  thumb  ov010
+ *   FIELD_MAP_CHANGE_ResetGimmickStateCase2  0x02164464  thumb  ov010
  *   INTRUDE_COMM_ClearHoldMode  0x0215874C  thumb  ov010
  *   FIELD_STATUS_CreateFieldOpenNoNotifyEvent  0x020145FC  thumb
  *   FIELD_SOUND_SYSTEM_StartWaitSettledTask  0x02029C64  thumb
@@ -100,9 +100,9 @@ extern int FORMCHANGE_RevertShayminAtNight(int a, int b, u32 *p, int c);
 extern void EVENT_MAPCHANGE_UpdateFieldStateForZone(void *a, int b);
 extern void EVENT_MAPCHANGE_ApplyLocation(void *a, int b);
 extern void GAME_BEACON_SetZone(u32 a0, u32 a1);
-extern int func_02164454(int a, int b);
-extern int func_0216445C(int a, int b);
-extern int func_02164464(int a, int b);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int a, int b);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int a, int b);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int a, int b);
 extern void INTRUDE_COMM_ClearHoldMode(void *p);
 extern int FIELD_STATUS_CreateFieldOpenNoNotifyEvent(int a);
 extern void *FIELD_SOUND_SYSTEM_StartWaitSettledTask(void *a);
@@ -165,13 +165,13 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(int ctx, int *state, u8 **pp)
         func_021883CC((void (*)(void))func_02183B60, EVENT_MAPCHANGE_EndMarker, 0);
         switch (((struct Obj01649 *)p)->f30) {
         case 1:
-            func_02164454(y, ((struct Obj01649 *)p)->f14);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase1(y, ((struct Obj01649 *)p)->f14);
             break;
         case 2:
-            func_02164464(y, ((struct Obj01649 *)p)->f14);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase2(y, ((struct Obj01649 *)p)->f14);
             break;
         case 3:
-            func_0216445C(y, ((struct Obj01649 *)p)->f14);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase3(y, ((struct Obj01649 *)p)->f14);
             break;
         }
         func_02034A5C((int)ov230_id);

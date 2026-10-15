@@ -20,12 +20,12 @@
  *   DWCi_EndCloseStatsConnection  0x0216A00C  arm  ov009
  *   func_0218597C  0x0218597C  arm  ov009
  *   func_02185948  0x02185948  arm  ov009
- *   func_0218592C  0x0218592C  arm  ov009
+ *   gpDestroy  0x0218592C  arm  ov009
  *   DWCi_ShutdownLogin  0x0216A404  arm  ov009
  *   DWCi_ShutdownFriend  0x021691FC  arm  ov009
  *   func_0216F334  0x0216F334  arm  ov009
  *   DWCi_ShutdownTransport  0x0217772C  arm  ov009
- *   func_02195AD8  0x02195AD8  arm  ov009
+ *   gt2CloseSocket  0x02195AD8  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm
  *   g_021AA878     0x021AA878  data
  */
@@ -58,12 +58,12 @@ extern void CloseStatsConnection(void);
 extern void DWCi_EndCloseStatsConnection(void);
 extern int func_0218597C(void **conn, int func, void *callback, void *param);
 extern int func_02185948(void **conn);
-extern void func_0218592C(int **p);
+extern void gpDestroy(int **p);
 extern void DWCi_ShutdownLogin(void);
 extern void DWCi_ShutdownFriend(void);
 extern void func_0216F334(void);
 extern void DWCi_ShutdownTransport(void);
-extern void func_02195AD8(void *socket);
+extern void gt2CloseSocket(void *socket);
 extern void func_0205A1B0(int name, void *ptr, long size);
 
 void DWC_ShutdownFriendsMatch(void)
@@ -89,7 +89,7 @@ void DWC_ShutdownFriendsMatch(void)
         func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 1, 0, 0);
         func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 2, 0, 0);
         func_02185948(&((Ctl *)g_021AA878.st)->gpConn);
-        func_0218592C((int **)(&((Ctl *)g_021AA878.st)->gpConn));
+        gpDestroy((int **)(&((Ctl *)g_021AA878.st)->gpConn));
         ((Ctl *)g_021AA878.st)->gpConn = 0;
     }
     DWCi_ShutdownLogin();
@@ -97,7 +97,7 @@ void DWC_ShutdownFriendsMatch(void)
     func_0216F334();
     DWCi_ShutdownTransport();
     if (((Ctl *)g_021AA878.st)->socket != 0) {
-        func_02195AD8(((Ctl *)g_021AA878.st)->socket);
+        gt2CloseSocket(((Ctl *)g_021AA878.st)->socket);
         ((Ctl *)g_021AA878.st)->socket = 0;
     }
     func_0205A1B0(4, g_021AA878.st, 0);

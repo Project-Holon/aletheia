@@ -1,5 +1,5 @@
 /*
- * function: func_021FB104
+ * function: SCRIPT_COMMAND_CmdSetCameraTarget
  * address: 0x021FB104
  * packet: pkt_ov132_021FB104
  * region: ov132
@@ -12,8 +12,8 @@
  *   func_02030734 0x02030734 arm
  *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
  *   STA_ACTING_SetCameraTarget 0x021F9E08 thumb ov132
- *   func_021FADA0 0x021FADA0 thumb ov132
- *   func_021FB190 0x021FB190 thumb ov132
+ *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
+ *   SCRIPT_COMMAND_TaskCameraTarget 0x021FB190 thumb ov132
  *   d_021FDD00 0x021FDD00 data ov132 a4
  */
 #include "../include/Obj03820.h"
@@ -28,9 +28,9 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 typedef unsigned char  u8;
 extern u16 STA_ACTING_GetCameraTarget(u8 *p);
 extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
-extern void *func_021FADA0(char *, u32, u32, u32);
-extern void func_021FB190(void *unused, char *p);
-int func_021FB104(void *unused, char *ctx)
+extern void *STA_ACT_SCRIPT_AddTask(char *, u32, u32, u32);
+extern void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p);
+int SCRIPT_COMMAND_CmdSetCameraTarget(void *unused, char *ctx)
 {
     char *p;
     char *owner;
@@ -51,7 +51,7 @@ int func_021FB104(void *unused, char *ctx)
         ((struct Obj03820 *)p)->f4 = STA_ACTING_GetCameraTarget(((struct Obj08160 *)owner)->f34);
         ((struct Obj03820 *)p)->f8 = target;
         ((struct Obj03820 *)p)->fC = time;
-        ((struct Obj03820 *)p)->f14 = func_021FADA0(owner, (u32)func_021FB190, (u32)p, 10);
+        ((struct Obj03820 *)p)->f14 = STA_ACT_SCRIPT_AddTask(owner, (u32)SCRIPT_COMMAND_TaskCameraTarget, (u32)p, 10);
         if (wait == 1) {
             ((struct Obj06491 *)ctx)->f14 = ((struct Obj03820 *)p)->fC;
             return 1;

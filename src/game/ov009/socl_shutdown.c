@@ -1,7 +1,7 @@
 /*
  * file:     socl_shutdown.c
  * unit:     yes
- * function: func_0215E6B8, func_0215E764
+ * function: func_0215E6B8, SOCLi_ShutdownCallBack
  * address:  0x0215E6B8
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -54,7 +54,7 @@ extern int SOCLi_ExecCommandPacketInSendPipe(SOCLSocket *socket,
                                              SOCLiCommandPacket *command);
 extern void CPS_TcpShutdown(void);
 int SOCL_Shutdown(int s);
-int func_0215E764(void *arg);
+int SOCLi_ShutdownCallBack(void *arg);
 
 static int SOCLi_ShutdownCallBack(void *arg);
 
@@ -104,7 +104,7 @@ static inline int IsTcp(int mode)
 /*
  * sdk:      SOCLi_ShutdownCallBack (libsoc.TWL.HYB.a(socl_shutdown.o))
  */
-int func_0215E764(void *arg)
+int SOCLi_ShutdownCallBack(void *arg)
 {
     Socket *socket = ((Cmd *)arg)->socket;
 

@@ -46,7 +46,7 @@
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
- *   func_0203F4FC  0x0203F4FC  arm
+ *   GF_STANDARD_GetTime  0x0203F4FC  arm
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
@@ -103,7 +103,7 @@
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
  *   NET_WHPIPE_SetBeaconStatus  0x021780FC  thumb ov014
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
- *   func_0203EFC8 0x0203EFC8 arm
+ *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
@@ -127,9 +127,9 @@
  *   EVENT_FIELD_PROCLINK_GetReturnPendingSlot 0x0216202C thumb ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk 0x02162040 thumb ov010
  *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
- *   func_0216749C  0x0216749C  thumb ov010
- *   func_021673C4  0x021673C4  thumb ov010
- *   func_021673A8  0x021673A8  thumb ov010
+ *   COMM_PLAYER_GetListPage  0x0216749C  thumb ov010
+ *   COMM_PLAYER_GetState849  0x021673C4  thumb ov010
+ *   COMM_PLAYER_GetState848  0x021673A8  thumb ov010
  *   func_02012944  0x02012944  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   func_02008530  0x02008530  thumb
@@ -164,10 +164,10 @@
  *   func_0200855C  0x0200855C  thumb
  *   memset 0x02082BCC arm
  *   STRBUF_SetStringN  0x02045994  arm
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_Callback_EF40  0x0201EF40  thumb
- *   func_0201F184  0x0201F184  thumb
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  *   gIntrudePickTable     0x02176C4C  data  ov011  a1
  *   func_020056EC  0x020056EC  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
@@ -179,7 +179,7 @@
  *   POKEPARTY_IsMemberBattleReady  0x0201AB34  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   func_02019CA0  0x02019CA0  thumb
+ *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
  *   func_02034714  0x02034714  arm
  *   d_02177010     0x02177010  data  ov011  a1
  *   ICA_ANIME_GetField24  0x02012138  thumb
@@ -356,7 +356,7 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
-extern u32 func_0203F4FC(void);
+extern u32 GF_STANDARD_GetTime(void);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u32   GAMESYSTEM_IsFieldMapExist(const struct GameSystem *gameSystem);
 extern u32 GFL_NET_IsParentAid(void);
@@ -412,7 +412,7 @@ void *GAME_DATA_GetBattleRecSlot(void *saveData, u32 slot);
 void GFL_NET_NotifyUserEvent(GFLNetHandle *handle, u32 enable);
 void NET_WHPIPE_SetBeaconStatus(u8 value);
 u32 GFL_NET_IsConnectMember(u32 netId);
-s32 func_0203EFC8(const void *a, const void *b, u32 size);
+s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 size);
 extern IntrudeSaveSlot *GAME_DATA_GetLastBattleRecSlot(void *saveData);
 int GAME_DATA_GetPmsWork(struct GameData *gameData);
 void *GAME_DATA_GetMoveModelSys(const struct GameData *p);
@@ -435,9 +435,9 @@ void EVENT_FIELD_PROCLINK_ClearReturnResultSlot(u8 *slots, int index);
 int EVENT_FIELD_PROCLINK_GetReturnPendingSlot(u8 *slots, void *out, u8 *index);
 void EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(u8 *slots);
 void *SYMBOL_SAVE_GetBlock(void *p);
-unsigned short func_0216749C(void *symbolMap, u32 *out, u32 cap, int page, u8 *count);
-u8 func_021673C4(void *symbolMap);
-u8 func_021673A8(void *symbolMap);
+unsigned short COMM_PLAYER_GetListPage(void *symbolMap, u32 *out, u32 cap, int page, u8 *count);
+u8 COMM_PLAYER_GetState849(void *symbolMap);
+u8 COMM_PLAYER_GetState848(void *symbolMap);
 u8 *func_02012944(void *p);
 int MYSTATUS_GetSize(void);
 extern u32 func_02008530(const struct MemberRecord *record);
@@ -465,10 +465,10 @@ extern int GAME_DATA_GetBattleRecSlotByNetId(void *saveData, int index);
 extern u8 func_0200855C(const struct MemberRecord *record);
 extern void *memset(void *p, int value, unsigned int size);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern u32 func_020056EC(u32 a);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heap);
 extern void *PROCSYS_Create(int heap);
@@ -479,7 +479,7 @@ extern struct Party *POKEPARTY_Create(u32 heap);
 extern u32 POKEPARTY_IsMemberBattleReady(void *p, u32 idx);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void func_02019CA0(void *p, u32 v);
+extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 extern void func_02034714(const char *file, u32 line, const char *expr);
 extern u32 ICA_ANIME_GetField24(const struct GameSystem *a);
 extern u32 PROCSYS_Main(void *a);
@@ -929,7 +929,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
     case 3:
         if (INTRUDE_COMM_SendStatusRecord(work) == 1) {
             work->step = 7;
-            work->startTime = func_0203F4FC();
+            work->startTime = GF_STANDARD_GetTime();
             (*state)++;
         }
         break;
@@ -946,7 +946,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
         }
         if (GFL_NET_IsParentAid() == 1 && INTRUDE_COMM_IsSessionActive(&work->session) == 0) {
             startTime = work->startTime;
-            now = func_0203F4FC();
+            now = GF_STANDARD_GetTime();
             if (now < startTime) {
                 now += 86399;
             }
@@ -1895,7 +1895,7 @@ void INTRUDE_CMD_RecvRecordEcho(int netId, int size, void *record, IntrudeCommSy
 {
     IntrudeMemberRecord *pending;
     pending = INTRUDE_COMM_GetActiveSessionRequest(&w->session);
-    if (pending != 0 && func_0203EFC8(pending, record, 0x34) == 0) INTRUDE_COMM_ClearSessionTicks(&w->session);
+    if (pending != 0 && GF_STANDARD_CompareBytes(pending, record, 0x34) == 0) INTRUDE_COMM_ClearSessionTicks(&w->session);
 }
 
 
@@ -2723,10 +2723,10 @@ void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest
     u8 count[4];
     page = &work->ownSymbolPage;
     symbolMap = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)GAME_COMM_GetGameData(work->gameComm)));
-    func_0216749C(symbolMap, page->entries, 0x14, request->page, count);
+    COMM_PLAYER_GetListPage(symbolMap, page->entries, 0x14, request->page, count);
     page->count = count[0];
-    page->levelSmall = func_021673C4(symbolMap);
-    page->levelLarge = func_021673A8(symbolMap);
+    page->levelSmall = COMM_PLAYER_GetState849(symbolMap);
+    page->levelLarge = COMM_PLAYER_GetState848(symbolMap);
     netId = GFL_NET_SYSTEM_GetCurrentAid();
     page->netId = netId;
     page->page = request->page;
@@ -3470,7 +3470,7 @@ void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session)
 
 int INTRUDE_COMM_GetSessionElapsed(IntrudeSession *session)
 {
-    u32 now = func_0203F4FC();
+    u32 now = GF_STANDARD_GetTime();
     u32 start = session->startTick;
     if (now < start) now += 86400;
     return now - start;
@@ -3612,7 +3612,7 @@ static inline void MarkJoined(IntrudeSession *session, u8 bit)
  */
 void INTRUDE_COMM_AddSessionMember(IntrudeSession *session, u8 netId)
 {
-    if (session->joinedMask == 0) session->startTick = func_0203F4FC();
+    if (session->joinedMask == 0) session->startTick = GF_STANDARD_GetTime();
     MarkJoined(session, 1 << netId);
 }
 
@@ -3627,7 +3627,7 @@ void INTRUDE_COMM_StartSessionTimer(IntrudeSession *session, int seconds)
 {
     session->timeLimitSet = 1;
     session->request.amount = seconds;
-    if (GFL_NET_IsParentAid() == 0) session->startTick = func_0203F4FC();
+    if (GFL_NET_IsParentAid() == 0) session->startTick = GF_STANDARD_GetTime();
 }
 
 
@@ -3833,7 +3833,7 @@ int INTRUDE_COMM_StoreResultRecord(IntrudeSession *session, IntrudeMemberRecord 
     int slot;
 
     result = &session->result;
-    if (func_0203EFC8((const u8 *)&session->request, (const u8 *)record, 0x30) != 0) {
+    if (GF_STANDARD_CompareBytes((const u8 *)&session->request, (const u8 *)record, 0x30) != 0) {
         session->replyToSend[netId] = 2;
         return 0;
     }
@@ -4109,7 +4109,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, 
     session->slots[senderNetId].record = *pending;
     session->slots[senderNetId].state = 1;
     INTRUDE_COMM_SetSessionRequestSendFlag(session);
-    session->startTick = func_0203F4FC();
+    session->startTick = GF_STANDARD_GetTime();
     session->resultReported = 0;
     return 1;
 }
@@ -4227,7 +4227,7 @@ void INTRUDE_COMM_SetWordSetPlayerName(struct WordSet *wordSet, u32 slot, const 
 
     buffer = STRBUF_Create(size, heapId);
     STRBUF_SetStringN((struct Strbuf *)buffer, chars->chars, size);
-    func_0201EE0C(wordSet, slot, buffer, gender, 1, 2);
+    WORDSET_SetSlotTag(wordSet, slot, buffer, gender, 1, 2);
     STRBUF_Delete(buffer);
 }
 
@@ -4245,21 +4245,21 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
     switch (head->kind) {
     case 0:
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
-        func_0201EFA4(wordSet, 1, head->param.x, 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, head->param.x, 3, 0, 1);
         break;
     case 1:
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
-        func_0201F184(wordSet, 1, head->param.x);
+        WORDSET_SetSlotFromMsgA0(wordSet, 1, head->param.x);
         break;
     case 2:
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
-        func_0201F184(wordSet, 1, head->param.x);
+        WORDSET_SetSlotFromMsgA0(wordSet, 1, head->param.x);
         break;
     case 3: {
         const IntrudeParamPair *param = &head->param;
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         WORDSET_Callback_EF40(wordSet, 1, param->x);
-        func_0201EFA4(wordSet, 2, param->y, 5, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 2, param->y, 5, 0, 1);
         break;
     }
     case 4:
@@ -4270,12 +4270,12 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         break;
     }
-    func_0201EFA4(wordSet, 2, head->amount, 4, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, head->amount, 4, 0, 1);
     count = head->count;
     if (count > 20) {
         count = 1;
     }
-    func_0201EFA4(wordSet, 3, count, 4, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 3, count, 4, 0, 1);
 }
 
 
@@ -4352,7 +4352,7 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
         }
         if (POKEPARTY_IsMemberBattleReady(list, i) == 1) {
             POKEPARTY_Add(work->party, POKEPARTY_GetMember(list, i));
-            func_02019CA0(POKEPARTY_GetMember(work->party, count), param->level);
+            POKE_TOOL_SetLevelAndRecalc(POKEPARTY_GetMember(work->party, count), param->level);
             count++;
         }
     }

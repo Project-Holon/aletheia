@@ -15,7 +15,7 @@
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   INTRUDE_COMM_SetSessionRequestSendFlag  0x02175920  thumb  ov011
- *   func_0203F4FC  0x0203F4FC  arm
+ *   GF_STANDARD_GetTime  0x0203F4FC  arm
  */
 #include "../include/Obj12438.h"
 
@@ -73,7 +73,7 @@ extern int DWCi_GetHostStatus(void *p, Src *src);
 extern u32 GFL_NET_SYSTEM_GetConnectNum(void);
 extern int GFL_NET_GetNegotiationNum(void);
 extern void INTRUDE_COMM_SetSessionRequestSendFlag(void *p);
-extern u32 func_0203F4FC(void);
+extern u32 GF_STANDARD_GetTime(void);
 
 int INTRUDE_COMM_ReceiveJoinRequest(u8 *a0, Work *p, Src *src, int idx)
 {
@@ -104,7 +104,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(u8 *a0, Work *p, Src *src, int idx)
     p->entries[idx].rec = *tmp;
     p->entries[idx].state = 1;
     INTRUDE_COMM_SetSessionRequestSendFlag(p);
-    ((struct Obj12438 *)p)->f190 = func_0203F4FC();
+    ((struct Obj12438 *)p)->f190 = GF_STANDARD_GetTime();
     *((u8 *)p + 0x19C) = 0;
     return 1;
 }

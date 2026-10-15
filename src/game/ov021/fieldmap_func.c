@@ -55,7 +55,7 @@
  *   func_02030CBC  0x02030CBC  arm
  *   d_021DE2F8     0x021DE2F8  data  a4
  *   func_020307B0  0x020307B0  arm
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_02030DA8  0x02030DA8  arm
  *   func_02030EAC  0x02030EAC  arm
@@ -64,7 +64,7 @@
  *   func_02034714  0x02034714  arm
  *   func_020084F8  0x020084F8  thumb
  *   func_02008550  0x02008550  thumb
- *   func_0201F41C  0x0201F41C  thumb
+ *   WORDSET_CopyString  0x0201F41C  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -75,7 +75,7 @@
  *   func_0200EDC4  0x0200EDC4  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   gUnionChatEmptyMac     0x021D9AE0  data  a4
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
  *   d_021DE30C  0x021DE30C  data
  *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
@@ -282,7 +282,7 @@ void *func_02030734(unsigned int heapId, unsigned int size, int clear, const cha
 u32 func_02030CB0(u32 capacity);
 struct TcbList *func_02030CBC(u32 capacity, struct TcbList *buf);
 extern u32 func_020307B0(void *p);
-extern void func_02030D28(struct TcbList *list);
+extern void TCB_Main(struct TcbList *list);
 int func_02034AC4(s32 overlayId);
 struct Tcb *func_02030DA8(struct TcbList *list, TcbFunc fn, void *work, int priority);
 void func_02030EAC(struct Tcb *tcb);
@@ -291,7 +291,7 @@ void MI_CpuFill8(void *p, int v, int n);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 u32 func_020084F8(void *myStatus, u16 *dst, u32 size);
 u8 func_02008550(void *myStatus);
-void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 void OS_GetMacAddress(u8 *outMac);
 void MI_CpuCopy8(const void *src, void *dst, int n);
 void *ICA_ANIME_GetField1C(void *gameSystem);
@@ -300,7 +300,7 @@ void *GAME_DATA_GetSaveControl(void *gameData);
 void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 int UNION_CHARA_IsWifiFriendBeacon(void *wifiList, UnionBeacon *beacon);
 int func_0200EDC4(void *list, u32 trainerId);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void *FIELDMAP_GetEffectBbdAct(void *fieldMap);
 extern void *FIELD_EFFECT_GetArcHandle(void *fieldEffectCtrl);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *g3dHeap, u32 resId);
@@ -543,12 +543,12 @@ void FIELD_SUBPROC_MGR_Delete(FieldSubprocMgr *mgr)
 
 void FIELD_SUBPROC_MGR_RunUpdate(FieldSubprocMgr *mgr)
 {
-    func_02030D28(mgr->updateList);
+    TCB_Main(mgr->updateList);
 }
 
 void FIELD_SUBPROC_MGR_RunDraw(FieldSubprocMgr *mgr)
 {
-    func_02030D28(mgr->drawList);
+    TCB_Main(mgr->drawList);
 }
 
 void FIELD_SUBPROC_UpdateTcb(struct Tcb *tcb, FieldSubproc *proc)
@@ -659,7 +659,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         line->sex = func_02008550(myStatus);
         line->relation = 0;
     } else {
-        func_0201F41C(beaconPc->beacon.name, line->name, 8);
+        WORDSET_CopyString(beaconPc->beacon.name, line->name, 8);
         line->chatPms[0] = beaconPc->beacon.chatPms.word[0];
         line->chatPms[1] = beaconPc->beacon.chatPms.word[1];
         line->chatPms[2] = beaconPc->beacon.chatPms.word[2];
@@ -712,7 +712,7 @@ UnionChatLine *UNION_CHAT_LOG_GetLine(UnionChatRing *ring, u32 index)
 {
     UnionChatLine *line = &ring->line[index % 30];
 
-    if (func_0203EFC8(line->senderMac, (const u8 *)gUnionChatEmptyMac, 6) == 0) {
+    if (GF_STANDARD_CompareBytes(line->senderMac, (const u8 *)gUnionChatEmptyMac, 6) == 0) {
         line = 0;
     }
     return line;
@@ -730,7 +730,7 @@ int UNION_CHAT_LOG_IsNew(UnionChatRing *ring, const void *mac, u16 chatCount)
     for (i = ring->newestIndex; i > ring->newestIndex - 30; i--) {
         if (i < 0) return 1;
         line = UNION_CHAT_LOG_GetLine(ring, i);
-        if (line != 0 && func_0203EFC8(line->senderMac, mac, 6) == 0) {
+        if (line != 0 && GF_STANDARD_CompareBytes(line->senderMac, mac, 6) == 0) {
             if (line->chatCount != chatCount) return 1;
             return 0;
         }

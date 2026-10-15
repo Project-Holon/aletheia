@@ -18,7 +18,7 @@
  *   DWCs_GetSendState          0x02177788  arm  ov009
  *   DWCs_GetOutgoingBufferFreeSize  0x02177E64  arm  ov009
  *   DWCs_GetRequiredHeaderSize      0x0217721C  arm  ov009
- *   func_02176BE4          0x02176BE4  arm  ov009
+ *   DWCi_IsReliableQueueFree          0x02176BE4  arm  ov009
  */
 
 extern int DWCi_IsError(void);
@@ -27,7 +27,7 @@ extern int DWCi_IsValidAID(int aid);
 extern unsigned char DWCs_GetSendState(int i);
 extern int DWCs_GetOutgoingBufferFreeSize(int aid);
 extern int DWCs_GetRequiredHeaderSize(int type);
-extern int func_02176BE4(void);
+extern int DWCi_IsReliableQueueFree(void);
 
 int func_02176DFC(int aid, int type)
 {
@@ -42,5 +42,5 @@ int func_02176DFC(int aid, int type)
     freeSpace = DWCs_GetOutgoingBufferFreeSize(aid);
     if (freeSpace < DWCs_GetRequiredHeaderSize(type))
         return 0;
-    return func_02176BE4() != 0;
+    return DWCi_IsReliableQueueFree() != 0;
 }

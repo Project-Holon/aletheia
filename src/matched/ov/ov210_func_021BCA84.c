@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA84
+ * function: ZKNSEARCH_MAIN_LoadBgTile93
  * address: 0x021BCA84
  * packet: pkt_ov210_021BCA84
  * region: ov210
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BCA84(void *a0)
+void ZKNSEARCH_MAIN_LoadBgTile93(void *a0)
 {
     void *h = func_020490F4(159, 0x807b);
     func_020498F4(h, 93, 0, 0, 0, 0, 123);

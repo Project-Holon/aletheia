@@ -1,5 +1,5 @@
 /*
- * function: func_021FA558
+ * function: STA_ACT_AUDIENCE_SetSlotValue
  * address:  0x021FA558
  * packet:   pkt_021FA558
  * region:   ov132
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021FA558(char *p, int i, int v)
+void STA_ACT_AUDIENCE_SetSlotValue(char *p, int i, int v)
 {
     char *q = p + i * 4;
 

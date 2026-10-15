@@ -1,5 +1,5 @@
 /*
- * function: func_02198318
+ * function: FLDMMDL_ACMD_StayWalkInit
  * address:  0x02198318
  * packet:   pkt_ov021_02198318
  * region:   ov021
@@ -30,7 +30,7 @@ extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
 extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-void func_02198318(u32 a, u32 b, u16 c, u16 d)
+void FLDMMDL_ACMD_StayWalkInit(u32 a, u32 b, u16 c, u16 d)
 {
     u16 *p;
 

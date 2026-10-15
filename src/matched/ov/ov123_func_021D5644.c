@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: low and high halves of packed words pass to u16 callee parameters; no explicit high-half cast.
  * symbols:
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GSYNC_MESSAGE_ClearStream 0x021D584C thumb ov123
  *   GSYNC_MESSAGE_DeleteButtonManager 0x021D54E0 thumb ov123
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -43,7 +43,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -70,7 +70,7 @@ void GSYNC_MESSAGE_ExitSystem(char *p)
     GSYNC_MESSAGE_DeleteButtonManager((u8 *)p);
     APP_KEYCURSOR_Delete((int)(((struct Obj01154 *)p)->f40));
     WORDSET_DeleteStrbufED04(((struct Obj01154 *)p)->f24);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(((struct Obj01154 *)p)->f20);
     GF_FONT_Delete(((struct Obj01154 *)p)->f28);
     STRBUF_Delete(((struct Obj01154 *)p)->f2C);

@@ -19,7 +19,7 @@
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  */
@@ -52,7 +52,7 @@ extern void *BTL_MAIN_GetCompetitor(void ***p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BTL_MSG_SetPokeName(u8 a, u32 b);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 void BTL_MSG_BuildMoveEffectB(u32 a, u32 b, P *p)
 {
@@ -82,5 +82,5 @@ void BTL_MSG_BuildMoveEffectB(u32 a, u32 b, P *p)
     }
     pos = b + idx * 3;
     MSGDATA_ReadString((void *)gBtlMsgState.t[1], (u16)(pos + x), (void *)gBtlMsgState.f0c);
-    func_0201F250((void *)gBtlMsgState.f08, (void *)a, (void *)gBtlMsgState.f0c);
+    WORDSET_CopyTaggedText((void *)gBtlMsgState.f08, (void *)a, (void *)gBtlMsgState.f0c);
 }

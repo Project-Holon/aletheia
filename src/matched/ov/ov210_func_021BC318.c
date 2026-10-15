@@ -1,5 +1,5 @@
 /*
- * function: func_021BC318
+ * function: ZKNSEARCH_SYS_RegisterHBlank
  * address:  0x021BC318
  * packet:   pkt_021BC318
  * region:   ov210
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC33C  0x021BC33C  thumb  ov210
- * unblocked: func_021BC33C (ov210, unlabelled leaf) matched bottom-up and
+ *   ZKNSEARCH_SYS_HBlankHandler  0x021BC33C  thumb  ov210
+ * unblocked: ZKNSEARCH_SYS_HBlankHandler (ov210, unlabelled leaf) matched bottom-up and
  *   filed as pkt_021BC33C; the ABS32 site then attests as `matched, overlay`.
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void *func_02005624(u32 a, u32 b, u32 c);
-extern void func_021BC33C(void *ctx, unsigned char *p);
+extern void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *p);
 
-void func_021BC318(u8 *p)
+void ZKNSEARCH_SYS_RegisterHBlank(u8 *p)
 {
-    ((struct Obj25583 *)p)->f8 = (u32)func_02005624((u32)func_021BC33C, (u32)p, 0);
+    ((struct Obj25583 *)p)->f8 = (u32)func_02005624((u32)ZKNSEARCH_SYS_HBlankHandler, (u32)p, 0);
 }

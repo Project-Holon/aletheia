@@ -1,5 +1,5 @@
 /*
- * function: func_021BE3D4
+ * function: ZKNSEARCH_MAIN_UpdateBmpWindows
  * address: 0x021BE3D4
  * packet: pkt_ov210_021BE3D4
  * region: ov210
@@ -30,7 +30,7 @@ extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021BE3D4(u8 *p)
+void ZKNSEARCH_MAIN_UpdateBmpWindows(u8 *p)
 {
     int release, clear, get, flag;
     unsigned i;

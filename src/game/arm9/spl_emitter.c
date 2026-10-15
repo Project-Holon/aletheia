@@ -1,7 +1,7 @@
 /*
  * file:     spl_emitter.c
  * unit:     yes
- * function: func_020524C8, func_0205250C, func_020525A0, func_02052634, func_020526A8, func_02052770, func_020528A8, func_020528BC, func_020528D0, func_02052984, func_02052A50, func_02052DC8, func_02052F58, func_02052F90, func_02052FC8, func_02053044, func_0205312C, func_02053218, func_02053A60, func_02053D2C, func_02053D30, func_02053E1C, func_0205429C, func_02054718, func_02054A68, func_02054DB8, func_02055498, func_02055B80, func_02055FD4, func_02056420, func_02056460, func_0205650C, func_020565C8, func_02056684, func_020569A4, func_020576D0, func_02057830, func_02057AB8, func_02057B10, func_02057B5C, func_02057BC0, func_02057C9C, func_02057E68, func_02057EF8, func_02057F8C, func_020580A8, func_02058180, func_02058204, func_020582CC, func_02058300, func_02058380, func_020583CC
+ * function: SPL_EMITTER_FreeResourceList, SPL_EMITTER_FreeResource, SPL_EMITTER_AllocResourceEx, SPL_EMITTER_AllocResource, SPL_EMITTER_FreeNodeHeap, SPL_EMITTER_FreeTexNode, SPL_EMITTER_AllocPlttVramDefault, SPL_EMITTER_AllocTexVramDefault, SPL_EMITTER_AllocPlttVramList, SPL_EMITTER_AllocTexVramList, SPL_EMITTER_FreeNodeToHeap, SPL_EMITTER_AllocNodeFromHeap, SPL_EMITTER_AllocPlttVram, SPL_EMITTER_AllocTexVram, SPL_EMITTER_UpdateSubC, SPL_EMITTER_UpdateSubX, SPL_EMITTER_UpdateSubB, SPL_EMITTER_UpdateParticles, SPL_EMITTER_SetupResource, SPL_EMITTER_Noop, SPL_EMITTER_SetTextureParam, SPL_EMITTER_UpdateFrameMainEx, SPL_EMITTER_UpdateFrameMain, SPL_EMITTER_UpdateFrameA68Ex, SPL_EMITTER_UpdateFrameA68, SPL_EMITTER_UpdateParticleMotionEx, SPL_EMITTER_UpdateParticleMotion, SPL_EMITTER_UpdateFrameEx, SPL_EMITTER_UpdateFrame, SPL_EMITTER_SetRotMtx, SPL_EMITTER_CalcRotMtx, SPL_EMITTER_DrawQuadEx, SPL_EMITTER_DrawQuad, SPL_EMITTER_EmitParticle, SPL_EMITTER_LoadResource, SPL_EMITTER_ScaleVec, SPL_EMITTER_TransformVec, SPL_EMITTER_ClampU16, SPL_EMITTER_ClampShort, SPL_EMITTER_UpdateList, SPL_EMITTER_UpdateRecord, SPL_EMITTER_EvalKey, SPL_EMITTER_EvalCurve, SPL_EMITTER_LerpVec, SPL_EMITTER_InterpTarget, SPL_EMITTER_BuildFrame, SPL_EMITTER_AddScaledVec, SPL_EMITTER_UpdateNode, SPL_EMITTER_AddVec, SPL_EMITTER_FreeNode, SPL_EMITTER_AllocNode, SPL_EMITTER_ClearNodeList
  * address:  0x020524C8
  * region:   arm9
  * compiler: dsi/../1.2/sp2
@@ -15,9 +15,9 @@
  * Own object (particle library code after button_man.c): EXACT only with the
  * NITRO ../1.2/sp2 and ../1.2/base builds; DIFF with 1.1p1 and dsi/1.2 (the
  * builds of button_man.c), ../2.0/sp2, ../1.2/sp3 and -proc arm7tdmi.
- * Stand-ins left: fn = (Fn)func_02055498 and (Fn)func_02054DB8 (handlers stored
- * in an Obj/S row table); func_020524C8, func_0205250C, func_020525A0,
- * func_02052634, func_020526A8 and func_02052770 still use char * offsets and
+ * Stand-ins left: fn = (Fn)SPL_EMITTER_UpdateParticleMotion and (Fn)SPL_EMITTER_UpdateParticleMotionEx (handlers stored
+ * in an Obj/S row table); SPL_EMITTER_FreeResourceList, SPL_EMITTER_FreeResource, SPL_EMITTER_AllocResourceEx,
+ * SPL_EMITTER_AllocResource, SPL_EMITTER_FreeNodeHeap and SPL_EMITTER_FreeTexNode still use char * offsets and
  * the Head_020524C8/Head_02052770 views of the rig object; alias symbol rows
  * SPL* for functions of this file.
  *
@@ -1409,58 +1409,58 @@ extern void GX_EndLoadTex(void);
 extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(void *dst, u32 a, u32 b);
 extern void GX_EndLoadTexPltt(void);
-void func_020583CC(SPLList *list, SPLNode *node);
-SPLNode *func_02058380(SPLList *list);
-SPLNode *func_02058300(SPLList *list, SPLNode *node);
-void func_020582CC(struct Range *o, void *s, int *dst);
-void func_02058204(struct Range *o, struct Src *s, int *dst);
-void func_02058180(struct A *a, struct B_02058180 *b, volatile int *c);
-void func_020580A8(struct Obj_02057EF8 *o, u8 *dst);
-void func_02057F8C(struct A_02057F8C *a, struct S_02057EF8 *s, int unused, struct C *c);
-void func_02057EF8(struct A_02057EF8 *a, struct B_02057EF8 *b);
-void func_02057E68(struct Obj_02056420 *o, struct Src_02057E68 *s, int t);
-void func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t);
-void func_02057BC0(struct O_02057BC0 *o, struct S_02057BC0 *s, int t);
-void func_02057B5C(struct O_020576D0 *o, struct S_020576D0 *s, int t);
-void func_02057B10(struct Obj_02056420 *o, struct Src_020576D0 *s, int t);
-void func_02057AB8(struct Obj_020576D0 *o, int unused, int t);
-void func_02057830(struct Rig *m);
-void func_020576D0(fx32 *out, const VecFx32 *src, const struct Mtx3 *m);
-void func_020569A4(SPLEmitter *emtr, SPLParticleList *list);
-void func_02056684(struct Emt *e, struct Owner *o, SPLList *pool);
-void func_020565C8(s32 s, s32 t, s32 x, s32 y);
-void func_0205650C(s32 s, s32 t, s32 x, s32 z);
-void func_02056460(s32 sn, s32 cs, struct MtxFx43 *m);
-void func_02056420(s32 sn, s32 cs, struct MtxFx43 *m);
-void func_02055FD4(struct Obj *obj, struct S_020524C8 *s);
-void func_02055B80(struct Obj *obj, struct S_020524C8 *s);
-void func_02055498(SPLManager *mgr, SPLParticle *ptcl);
-void func_02054DB8(SPLManager *mgr, SPLParticle *ptcl);
-void func_02054A68(struct Obj *obj, struct S_020524C8 *s);
-void func_02054718(struct Obj *obj, struct S_020524C8 *s);
-void func_0205429C(struct Obj *obj, struct S_020524C8 *s);
-void func_02053E1C(struct Obj *obj, struct S_020524C8 *s);
-void func_02053D30(SPLTexture *tex);
-void func_02053D2C(SPLTexture *tex);
-void func_02053A60(volatile struct Obj_02053A60 *o, struct Cfg *cfg, const struct Vec3 *pos);
-void func_02053218(SPLManager *mgr, SPLEmitter *emtr);
-void func_0205312C(struct Obj *o);
-void func_02053044(struct Obj *o);
-void func_02052FC8(struct Obj *o);
-int func_02052F90(u32 a0, u32 a1);
-int func_02052F58(u32 a0, u32 a1);
-struct Head_02052DC8 *func_02052DC8(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5);
-void func_02052A50(struct Head_02052984 *h, struct Hdr *d);
-int func_02052984(struct Obj *o, AllocTex alloc);
-int func_020528D0(struct Obj *o, AllocTex alloc);
-void func_020528BC(u32 a0);
-void func_020528A8(u32 a0);
-void func_02052770(struct Head_02052770 *h);
-void func_020526A8(struct Head_020524C8 *h, u32 a);
-int func_02052634(char *p, int b, int c);
-int func_020525A0(char *p, int b, void (*fn)(void *));
-void func_0205250C(char *p, char *q);
-void func_020524C8(void *p);
+void SPL_EMITTER_ClearNodeList(SPLList *list, SPLNode *node);
+SPLNode *SPL_EMITTER_AllocNode(SPLList *list);
+SPLNode *SPL_EMITTER_FreeNode(SPLList *list, SPLNode *node);
+void SPL_EMITTER_AddVec(struct Range *o, void *s, int *dst);
+void SPL_EMITTER_UpdateNode(struct Range *o, struct Src *s, int *dst);
+void SPL_EMITTER_AddScaledVec(struct A *a, struct B_02058180 *b, volatile int *c);
+void SPL_EMITTER_BuildFrame(struct Obj_02057EF8 *o, u8 *dst);
+void SPL_EMITTER_InterpTarget(struct A_02057F8C *a, struct S_02057EF8 *s, int unused, struct C *c);
+void SPL_EMITTER_LerpVec(struct A_02057EF8 *a, struct B_02057EF8 *b);
+void SPL_EMITTER_EvalCurve(struct Obj_02056420 *o, struct Src_02057E68 *s, int t);
+void SPL_EMITTER_EvalKey(struct Out *out, struct Ctx *ctx, s32 t);
+void SPL_EMITTER_UpdateRecord(struct O_02057BC0 *o, struct S_02057BC0 *s, int t);
+void SPL_EMITTER_UpdateList(struct O_020576D0 *o, struct S_020576D0 *s, int t);
+void SPL_EMITTER_ClampShort(struct Obj_02056420 *o, struct Src_020576D0 *s, int t);
+void SPL_EMITTER_ClampU16(struct Obj_020576D0 *o, int unused, int t);
+void SPL_EMITTER_TransformVec(struct Rig *m);
+void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct Mtx3 *m);
+void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list);
+void SPL_EMITTER_EmitParticle(struct Emt *e, struct Owner *o, SPLList *pool);
+void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y);
+void SPL_EMITTER_DrawQuadEx(s32 s, s32 t, s32 x, s32 z);
+void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
+void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
+void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl);
+void SPL_EMITTER_UpdateParticleMotionEx(SPLManager *mgr, SPLParticle *ptcl);
+void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_UpdateFrameA68Ex(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S_020524C8 *s);
+void SPL_EMITTER_SetTextureParam(SPLTexture *tex);
+void SPL_EMITTER_Noop(SPLTexture *tex);
+void SPL_EMITTER_SetupResource(volatile struct Obj_02053A60 *o, struct Cfg *cfg, const struct Vec3 *pos);
+void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr);
+void SPL_EMITTER_UpdateSubB(struct Obj *o);
+void SPL_EMITTER_UpdateSubX(struct Obj *o);
+void SPL_EMITTER_UpdateSubC(struct Obj *o);
+int SPL_EMITTER_AllocTexVram(u32 a0, u32 a1);
+int SPL_EMITTER_AllocPlttVram(u32 a0, u32 a1);
+struct Head_02052DC8 *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5);
+void SPL_EMITTER_FreeNodeToHeap(struct Head_02052984 *h, struct Hdr *d);
+int SPL_EMITTER_AllocTexVramList(struct Obj *o, AllocTex alloc);
+int SPL_EMITTER_AllocPlttVramList(struct Obj *o, AllocTex alloc);
+void SPL_EMITTER_AllocTexVramDefault(u32 a0);
+void SPL_EMITTER_AllocPlttVramDefault(u32 a0);
+void SPL_EMITTER_FreeTexNode(struct Head_02052770 *h);
+void SPL_EMITTER_FreeNodeHeap(struct Head_020524C8 *h, u32 a);
+int SPL_EMITTER_AllocResource(char *p, int b, int c);
+int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
+void SPL_EMITTER_FreeResource(char *p, char *q);
+void SPL_EMITTER_FreeResourceList(void *p);
 extern const struct Vec16 g_020A7FEC;
 extern const fx16 FX_SinCosTable_[];
 extern u32 g_02146A8C;
@@ -1473,7 +1473,7 @@ extern const s16 func_02053E1C_Verts[];
 
 
 
-void func_020583CC(SPLList *list, SPLNode *node)
+void SPL_EMITTER_ClearNodeList(SPLList *list, SPLNode *node)
 {
     SPLNode *head;
 
@@ -1495,7 +1495,7 @@ void func_020583CC(SPLList *list, SPLNode *node)
 
 
 
-SPLNode *func_02058380(SPLList *list)
+SPLNode *SPL_EMITTER_AllocNode(SPLList *list)
 {
     SPLNode *ret;
     SPLNode *head;
@@ -1520,7 +1520,7 @@ SPLNode *func_02058380(SPLList *list)
 
 
 
-SPLNode *func_02058300(SPLList *list, SPLNode *node)
+SPLNode *SPL_EMITTER_FreeNode(SPLList *list, SPLNode *node)
 {
     SPLNode *next;
 
@@ -1554,10 +1554,10 @@ SPLNode *func_02058300(SPLList *list, SPLNode *node)
 /*
  * Handler row 0 of the 3D-rig table searched by BUTTON_MAN_FindRowData: adds the three
  * s16 components of o to dst[0..2].  Same compiler as its sibling
- * func_02058204 (1.1p1 merges the first two loads into an ldm).  The middle
- * argument is unused but kept for the handler signature func_02058204 has.
+ * SPL_EMITTER_UpdateNode (1.1p1 merges the first two loads into an ldm).  The middle
+ * argument is unused but kept for the handler signature SPL_EMITTER_UpdateNode has.
  */
-void func_020582CC(struct Range *o, void *s, int *dst)
+void SPL_EMITTER_AddVec(struct Range *o, void *s, int *dst)
 {
     dst[0] = dst[0] + o->v0;
     dst[1] = dst[1] + o->v1;
@@ -1583,7 +1583,7 @@ u32 g_02146A8C;
  *           (its own literal pool); every byte of the 188-byte function plus the
  *           pool at 0x020582C0 compares identical.
  */
-void func_02058204(struct Range *o, struct Src *s, int *dst)
+void SPL_EMITTER_UpdateNode(struct Range *o, struct Src *s, int *dst)
 {
     int r;
 
@@ -1611,7 +1611,7 @@ void func_02058204(struct Range *o, struct Src *s, int *dst)
 
 
 
-void func_02058180(struct A *a, struct B_02058180 *b, volatile int *c)
+void SPL_EMITTER_AddScaledVec(struct A *a, struct B_02058180 *b, volatile int *c)
 {
     c[0] = c[0] + (a->scale * (a->x - b->f08 - b->f14) >> 12);
     c[1] = c[1] + (a->scale * (a->y - b->f0c - b->f18) >> 12);
@@ -1641,7 +1641,7 @@ void func_02058180(struct A *a, struct B_02058180 *b, volatile int *c)
  *    from `lsl r2, r1, #1` + `add r1, r2, #1` + two `lsl #1`s, which is the
  *    `idx * 2` spelling (the `idx`/`idx + 1` spelling is 12 bytes short).
  */
-void func_020580A8(struct Obj_02057EF8 *o, u8 *dst)
+void SPL_EMITTER_BuildFrame(struct Obj_02057EF8 *o, u8 *dst)
 {
     u8 buf[0x28];
     int idx;
@@ -1693,7 +1693,7 @@ void func_020580A8(struct Obj_02057EF8 *o, u8 *dst)
  * `if (v < target) return;` after it is what makes the shared tail block
  * exist at all.
  */
-void func_02057F8C(struct A_02057F8C *a, struct S_02057EF8 *s, int unused, struct C *c)
+void SPL_EMITTER_InterpTarget(struct A_02057F8C *a, struct S_02057EF8 *s, int unused, struct C *c)
 {
     int target;
     int v;
@@ -1758,7 +1758,7 @@ static inline s32 FX_Mul(s32 a, s32 b)
 
 
 
-void func_02057EF8(struct A_02057EF8 *a, struct B_02057EF8 *b)
+void SPL_EMITTER_LerpVec(struct A_02057EF8 *a, struct B_02057EF8 *b)
 {
     b->_08 = b->_08 + FX_Mul(a->w, a->x - b->_08);
     b->_0C = b->_0C + FX_Mul(a->w, a->y - b->_0C);
@@ -1775,7 +1775,7 @@ void func_02057EF8(struct A_02057EF8 *a, struct B_02057EF8 *b)
 
 
 
-void func_02057E68(struct Obj_02056420 *o, struct Src_02057E68 *s, int t)
+void SPL_EMITTER_EvalCurve(struct Obj_02056420 *o, struct Src_02057E68 *s, int t)
 {
     struct Curve *cv;
     int b0;
@@ -1865,7 +1865,7 @@ static inline void ColLerp2(struct Out *out, s32 to, s32 from, u32 on, s32 num, 
  * Found by a joint search of the (to, from) signature over the 720 channel
  * orders; (to, from) with the note's order was 22 out.
  */
-void func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t)
+void SPL_EMITTER_EvalKey(struct Out *out, struct Ctx *ctx, s32 t)
 {
     struct Key *k = ctx->key;
     s32 t0 = k->t0;
@@ -1930,7 +1930,7 @@ u32 g_02146A8C;
  * order, nested-if, `b > t`, in-place member reads, three return types) are all
  * superseded by the base fix above; none of them is needed.
  */
-void func_02057BC0(struct O_02057BC0 *o, struct S_02057BC0 *s, int t)
+void SPL_EMITTER_UpdateRecord(struct O_02057BC0 *o, struct S_02057BC0 *s, int t)
 {
     struct Rec_0205312C *p;
     int a;
@@ -1997,7 +1997,7 @@ void func_02057BC0(struct O_02057BC0 *o, struct S_02057BC0 *s, int t)
  * proc_hints entry) the same source is 41 bytes out at the same 100-byte
  * size; wave r6's measurement of the family's small rows holds for this row.
  */
-void func_02057B5C(struct O_020576D0 *o, struct S_020576D0 *s, int t)
+void SPL_EMITTER_UpdateList(struct O_020576D0 *o, struct S_020576D0 *s, int t)
 {
     struct P *p;
     int i;
@@ -2033,7 +2033,7 @@ void func_02057B5C(struct O_020576D0 *o, struct S_020576D0 *s, int t)
 
 
 
-void func_02057B10(struct Obj_02056420 *o, struct Src_020576D0 *s, int t)
+void SPL_EMITTER_ClampShort(struct Obj_02056420 *o, struct Src_020576D0 *s, int t)
 {
     short cur;
 
@@ -2052,7 +2052,7 @@ void func_02057B10(struct Obj_02056420 *o, struct Src_020576D0 *s, int t)
 
 
 
-void func_02057AB8(struct Obj_020576D0 *o, int unused, int t)
+void SPL_EMITTER_ClampU16(struct Obj_020576D0 *o, int unused, int t)
 {
     u16 v;
 
@@ -2093,17 +2093,17 @@ void func_02057AB8(struct Obj_020576D0 *o, int unused, int t)
  * `m->f20->f00->mode` (one of the three unit axes, or VEC_Fx16Normalize of
  * m+0x50 in the default arm), then the two basis rows are the cross product
  * of v with a and of v with the first row, computed inline with the FX_Mul
- * rounding quartet (the same shape as the sibling func_020576D0), and the
+ * rounding quartet (the same shape as the sibling SPL_EMITTER_ScaleVec), and the
  * two rows are normalised in place with the same two-identical-arguments
  * call the sibling records as load-bearing.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02057830.c \
- *       --func func_02057830 --addr 0x02057830 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_TransformVec.c \
+ *       --func SPL_EMITTER_TransformVec --addr 0x02057830 --arm --cc ../1.2/sp2
  */
-void func_02057830(struct Rig *m)
+void SPL_EMITTER_TransformVec(struct Rig *m)
 {
     struct Vec16 a;
     struct Vec16 v;
@@ -2190,10 +2190,10 @@ void func_02057830(struct Rig *m)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020576D0.c \
- *       --func func_020576D0 --addr 0x020576D0 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_ScaleVec.c \
+ *       --func SPL_EMITTER_ScaleVec --addr 0x020576D0 --arm --cc ../1.2/sp2
  */
-void func_020576D0(fx32 *out, const VecFx32 *src, const struct Mtx3 *m)
+void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct Mtx3 *m)
 {
     struct Vec16 v;
 
@@ -2377,15 +2377,15 @@ static inline SPLParticle *SPLParticleList_PopFront(SPLParticleList *list)
  * spl_emit.c SPLEmitter_EmitParticles, lib/spl/include/spl_*.h), adapted
  * only by pinning its callees to Black addresses; it compiled EXACT at the
  * cluster pin on the first compile, all 3372 bytes (the listing extent to
- * func_020576D0, pool included; the worklist's 1544-byte figure was wrong).
+ * SPL_EMITTER_ScaleVec, pool included; the worklist's 1544-byte figure was wrong).
  * The struct layouts (SPLEmitter, SPLParticle, SPLResourceHeader,
  * SPLResource) therefore hold for Black unchanged, which settles most of
  * this cluster's field names.  `int i = 0;` before the loop is the
  * upstream's own spelling (commented there as required for matching).  The two statics upstream,
  * SPLEmitter_ComputeOrthogonalAxes and SPLUtil_TiltCoordinates, are the
- * separate functions func_02057830 and func_020576D0 here.
+ * separate functions SPL_EMITTER_TransformVec and SPL_EMITTER_ScaleVec here.
  */
-void func_020569A4(SPLEmitter *emtr, SPLParticleList *list)
+void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
 {
     SPLResource *res = emtr->resource;
     SPLResourceHeader *header = res->header;
@@ -2605,11 +2605,11 @@ void func_020569A4(SPLEmitter *emtr, SPLParticleList *list)
 /*
  * Particle spawn for the rig emitter (the SPL-style particle system this
  * cluster renders; docs/families/cluster_02052F58.h).  For each of
- * desc->f0c particles: pop one from the free list (func_02058380), push it
- * on the owner's live list at +0x14 (func_020583CC), copy the emitter
+ * desc->f0c particles: pop one from the free list (SPL_EMITTER_AllocNode), push it
+ * on the owner's live list at +0x14 (SPL_EMITTER_ClearNodeList), copy the emitter
  * position, set velocity = FX_Mul(emitter velocity, FX_Mul(f08 << 12, 0x10))
  * plus a random term in [-f02, f02) per axis from the LCG at 0x02146A8C
- * (0x5EEDF715 / 0x1B0CB173, the same generator func_02058204 uses), and
+ * (0x5EEDF715 / 0x1B0CB173, the same generator SPL_EMITTER_UpdateNode uses), and
  * fill scale, colour, the 5-bit tile fields, the rotation pair (3-way
  * switch on desc bits 3..4), life and the two 0xFFFF reciprocal rates.
  *
@@ -2631,10 +2631,10 @@ void func_020569A4(SPLEmitter *emtr, SPLParticleList *list)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02056684.c \
- *       --func func_02056684 --addr 0x02056684 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_EmitParticle.c \
+ *       --func SPL_EMITTER_EmitParticle --addr 0x02056684 --arm --cc ../1.2/sp2
  */
-void func_02056684(struct Emt *e, struct Owner *o, SPLList *pool)
+void SPL_EMITTER_EmitParticle(struct Emt *e, struct Owner *o, SPLList *pool)
 {
     struct Ptcl *p;
     struct Desc_02055FD4 *d = o->x->desc;
@@ -2731,7 +2731,7 @@ static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z)
 
 /*
  * One of the two textured-quad emitters in the table at 0x020A7FDC
- * (Rig_Hooks2 = { func_020565C8, func_0205650C }, docs/families/
+ * (Rig_Hooks2 = { SPL_EMITTER_DrawQuad, SPL_EMITTER_DrawQuadEx }, docs/families/
  * cluster_02052F58.h).  Emits one GX_BEGIN_QUADS quad of side 0x2000 centred
  * on the two passed coordinates, texcoords (0,0) (s,0) (s,t) (0,t).
  * Plane: the second coordinate goes to the VTX_10 y field (bits 10..19).
@@ -2751,10 +2751,10 @@ static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020565C8.c \
- *       --func func_020565C8 --addr 0x020565C8 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_DrawQuad.c \
+ *       --func SPL_EMITTER_DrawQuad --addr 0x020565C8 --arm --cc ../1.2/sp2
  */
-void func_020565C8(s32 s, s32 t, s32 x, s32 y)
+void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y)
 {
     G3_Begin(1);
     G3_TexCoord(0, 0);
@@ -2778,7 +2778,7 @@ void func_020565C8(s32 s, s32 t, s32 x, s32 y)
 
 /*
  * One of the two textured-quad emitters in the table at 0x020A7FDC
- * (Rig_Hooks2 = { func_020565C8, func_0205650C }, docs/families/
+ * (Rig_Hooks2 = { SPL_EMITTER_DrawQuad, SPL_EMITTER_DrawQuadEx }, docs/families/
  * cluster_02052F58.h).  Emits one GX_BEGIN_QUADS quad of side 0x2000 centred
  * on the two passed coordinates, texcoords (0,0) (s,0) (s,t) (0,t).
  * Plane: the second coordinate goes to the VTX_10 z field (bits 20..29).
@@ -2798,10 +2798,10 @@ void func_020565C8(s32 s, s32 t, s32 x, s32 y)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0205650C.c \
- *       --func func_0205650C --addr 0x0205650C --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_DrawQuadEx.c \
+ *       --func SPL_EMITTER_DrawQuadEx --addr 0x0205650C --arm --cc ../1.2/sp2
  */
-void func_0205650C(s32 s, s32 t, s32 x, s32 z)
+void SPL_EMITTER_DrawQuadEx(s32 s, s32 t, s32 x, s32 z)
 {
     G3_Begin(1);
     G3_TexCoord(0, 0);
@@ -2837,7 +2837,7 @@ void func_0205650C(s32 s, s32 t, s32 x, s32 z)
  * off-diagonals d-e and d+e, with the translation row left zero.
  *
  * Returns void, NOT u32: the sibling table rows are declared
- * `u32 (*const [])(s32, s32, void *)` in src/matched/func_02054718.c, but a
+ * `u32 (*const [])(s32, s32, void *)` in src/matched/SPL_EMITTER_UpdateFrameA68Ex.c, but a
  * `return 0` here costs the extra `mov r0, r4` and makes the function 176
  * bytes against 172.  The table is a mixed-prototype table.
  *
@@ -2855,10 +2855,10 @@ void func_0205650C(s32 s, s32 t, s32 x, s32 z)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02056460.c \
- *       --func func_02056460 --addr 0x02056460 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_CalcRotMtx.c \
+ *       --func SPL_EMITTER_CalcRotMtx --addr 0x02056460 --arm --cc ../1.2/sp2
  */
-void func_02056460(s32 sn, s32 cs, struct MtxFx43 *m)
+void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
 {
     s32 d = FX_Mul(0x1000 - cs, 0x555);
     s32 e = FX_Mul(sn, 0x93D);
@@ -2892,10 +2892,10 @@ void func_02056460(s32 sn, s32 cs, struct MtxFx43 *m)
 
 /*
  * Row 0 of the billboard basis table: the plain rotation about +Y, an unlabelled
- * leaf in front of func_02056460.  It is written after func_02056460 because
+ * leaf in front of SPL_EMITTER_CalcRotMtx.  It is written after SPL_EMITTER_CalcRotMtx because
  * this compiler places it first in the object only in that source order.
  */
-void func_02056420(s32 sn, s32 cs, struct MtxFx43 *m)
+void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
 {
     m->m[0] = cs;
     m->m[3] = 0;
@@ -2915,7 +2915,7 @@ void func_02056420(s32 sn, s32 cs, struct MtxFx43 *m)
 
 
 
-void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S_020524C8 *s)
 {
     struct Frame_02055FD4 f;
     struct SubC *p;
@@ -3022,7 +3022,7 @@ void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
     *(volatile u32 *)0x04000480 = (u16)v;
 
     p = obj->f40->f20->f00;
-    func_020565C8(obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+    SPL_EMITTER_DrawQuad(obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
 }
 
 
@@ -3041,14 +3041,14 @@ void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
 
 
 /*
- * Handler row of the rig dispatch (func_02053044 / func_0205312C pool rows;
+ * Handler row of the rig dispatch (SPL_EMITTER_UpdateSubX / SPL_EMITTER_UpdateSubB pool rows;
  * docs/families/cluster_02052F58.h): a Z-rotation billboard.  Same top as
- * func_0205429C (POLYGON_ATTR, the three-way scale switch), then instead of
+ * SPL_EMITTER_UpdateFrameMain (POLYGON_ATTR, the three-way scale switch), then instead of
  * the basis hooks it transforms the particle position by the current matrix
  * (MTX_MultVec43), reads sin/cos from the Verts table at
  * s->f20 >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
  * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + func_0207D918), mixes
- * the colour and calls the quad emitter func_020565C8 DIRECTLY.
+ * the colour and calls the quad emitter SPL_EMITTER_DrawQuad DIRECTLY.
  *
  * LOAD-BEARING SHAPES (wave 8):
  *   1. SubC->f30 is read into a local BEFORE the 0x040004A4 store, and
@@ -3063,10 +3063,10 @@ void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02055B80.c \
- *       --func func_02055B80 --addr 0x02055B80 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_UpdateFrameEx.c \
+ *       --func SPL_EMITTER_UpdateFrameEx --addr 0x02055B80 --arm --cc ../1.2/sp2
  */
-void func_02055B80(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameEx(struct Obj *obj, struct S_020524C8 *s)
 {
     struct Frame_02055FD4 f;
     struct SubC *p;
@@ -3173,7 +3173,7 @@ void func_02055B80(struct Obj *obj, struct S_020524C8 *s)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    func_020565C8(obj->f40->f7c, obj->f40->f7e, 0, 0);
+    SPL_EMITTER_DrawQuad(obj->f40->f7c, obj->f40->f7e, 0, 0);
 }
 
 
@@ -3300,7 +3300,7 @@ static inline BOOL SPLDraw_Setup(const SPLParticle *ptcl, const SPLManager *mgr)
 
 
 /*
- * SPLDraw_DirectionalBillboard: the parent-particle twin of func_02054DB8,
+ * SPLDraw_DirectionalBillboard: the parent-particle twin of SPL_EMITTER_UpdateParticleMotionEx,
  * ending in SPLUtil_DrawXYPlane with the emitter texture tiling and the
  * resource header polygonX/polygonY offsets.
  *
@@ -3311,7 +3311,7 @@ static inline BOOL SPLDraw_Setup(const SPLParticle *ptcl, const SPLManager *mgr)
  * from sdk/TwlSDK/include; only the callees are pinned to Black addresses.
  * It compiled EXACT at the cluster pin unchanged, closing docs/notes/pkt_02055498.c.txt (286 out after two lanes).
  */
-void func_02055498(SPLManager *mgr, SPLParticle *ptcl)
+void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl)
 {
     VecFx32 vel_dir;
     VecFx32 trs;
@@ -3464,16 +3464,16 @@ void func_02055498(SPLManager *mgr, SPLParticle *ptcl)
  * SPLDraw_Child_DirectionalBillboard: draws one child particle as a
  * billboard stretched along its velocity (the "directional billboard" draw
  * type), through SPLDraw_Setup (POLYGON_ATTR), a hand-built 4x3 load matrix
- * and SPLUtil_DrawXYPlane (func_020565C8) with the child texture tiling.
+ * and SPLUtil_DrawXYPlane (SPL_EMITTER_DrawQuad) with the child texture tiling.
  *
  * Wave 9, third lane: this body and every declaration it uses are the public
  * pret/pokeplatinum decompilation of the same NitroSystem particle library
  * (SPL; docs/families/cluster_02052F58.h), lib/spl/src/spl_draw.c SPLDraw_Child_DirectionalBillboard, with the
  * lib/spl/include/spl_*.h structs, and the SDK G3/MTX/VEC inlines written out
  * from sdk/TwlSDK/include; only the callees are pinned to Black addresses.
- * It compiled EXACT at the cluster pin unchanged, closing docs/notes/func_02054DB8.c.txt (286 out after two lanes).
+ * It compiled EXACT at the cluster pin unchanged, closing docs/notes/SPL_EMITTER_UpdateParticleMotionEx.c.txt (286 out after two lanes).
  */
-void func_02054DB8(SPLManager *mgr, SPLParticle *ptcl)
+void SPL_EMITTER_UpdateParticleMotionEx(SPLManager *mgr, SPLParticle *ptcl)
 {
     VecFx32 vel_dir;
     VecFx32 trs;
@@ -3644,19 +3644,19 @@ extern u32 (*const func_02054A68_Hooks2[])(s32, s32, s32, s32);
  * register `blx rN` these bytes contain.  EXACT at 848/848 under
  * `compiler: ../1.2/sp2`, `flags: -O4,p -proc arm946e`.
  *
- * Twin of func_02054718: the prologue, the frames and the arm bodies are
+ * Twin of SPL_EMITTER_UpdateFrameA68Ex: the prologue, the frames and the arm bodies are
  * byte-identical; it differs in the hook selector (bits 17..18 of
  * SubC.f00 rather than the u16 at SubX+0x14), in the MTX_Concat43 argument
  * order, and in a four-argument final hook.
  *
- * The same four source shapes that close func_02054718 close this row; see
+ * The same four source shapes that close SPL_EMITTER_UpdateFrameA68Ex close this row; see
  * its header for the measurements (the 0x040004A4 `|` chain order, the
  * `(s64)a * res->f30` operand order, `x` before `y` in case 0, and the three
  * 0x04000470 stores through locals loaded in reverse field order).
  *
  * Addresses are Black-image addresses.
  */
-void func_02054A68(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S_020524C8 *s)
 {
     struct Frame_02054A68 f;
     struct SubC *p;
@@ -3754,7 +3754,7 @@ extern u32 (*const func_02054718_Hooks2[])(s32, s32, s32, s32);
 
 
 
-void func_02054718(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameA68Ex(struct Obj *obj, struct S_020524C8 *s)
 {
     struct Frame_02054A68 f;
     struct SubC *p;
@@ -3856,7 +3856,7 @@ extern u32 (*const func_0205429C_Hooks2[])(s32, s32, s32, s32);
 
 
 
-void func_0205429C(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S_020524C8 *s)
 {
     struct Frame f;
     struct SubC *p;
@@ -3999,16 +3999,16 @@ extern u32 (*const func_02053E1C_Hooks2[])(s32, s32, s32, s32);
 
 
 /*
- * Handler row 0 of the rig render-list dispatch (func_02053044 /
- * func_0205312C pool rows; docs/families/cluster_02052F58.h).  Same skeleton
- * as func_0205429C, transcribed from it with five differences read off the
+ * Handler row 0 of the rig render-list dispatch (SPL_EMITTER_UpdateSubX /
+ * SPL_EMITTER_UpdateSubB pool rows; docs/families/cluster_02052F58.h).  Same skeleton
+ * as SPL_EMITTER_UpdateFrameMain, transcribed from it with five differences read off the
  * listing:
  *   - the basis hook is selected by SubD->hw bits 9..10 (BfHw.sel2, as in
- *     func_02054718), not SubC->f00 bits 17..18;
+ *     SPL_EMITTER_UpdateFrameA68Ex), not SubC->f00 bits 17..18;
  *   - the direction/negated-position choice is SubD->f10 bit 6 (BfSel.sel),
  *     not SubC->f48 bit 31;
  *   - the scale concat is MTX_Concat43(m2, m3, m1) -- operands the other way
- *     round from func_0205429C's (m3, m2, m1); the only 2 bytes the straight
+ *     round from SPL_EMITTER_UpdateFrameMain's (m3, m2, m1); the only 2 bytes the straight
  *     transcription had wrong;
  *   - the quad-emitter hook is SubD->hw bit 11 (BfHw.sel1);
  *   - its arguments are SubB +0x7c/+0x7e and two literal zeros.
@@ -4016,10 +4016,10 @@ extern u32 (*const func_02053E1C_Hooks2[])(s32, s32, s32, s32);
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02053E1C.c \
- *       --func func_02053E1C --addr 0x02053E1C --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_UpdateFrameMainEx.c \
+ *       --func SPL_EMITTER_UpdateFrameMainEx --addr 0x02053E1C --arm --cc ../1.2/sp2
  */
-void func_02053E1C(struct Obj *obj, struct S_020524C8 *s)
+void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S_020524C8 *s)
 {
     struct Frame f;
     struct SubC *p;
@@ -4195,7 +4195,7 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
  * G3_MtxMode / G3_Identity / G3_Scale / G3_MtxMode, over a copy of the
  * row's SPLTextureParam union (the copy is the dead `str r7, [sp]`).
  *
- * Closes docs/notes/func_02053D30.c.txt (41 out after two lanes, the whole
+ * Closes docs/notes/SPL_EMITTER_SetTextureParam.c.txt (41 out after two lanes, the whole
  * residue register naming).  What closed it, wave 9 third lane: the
  * function's structure and names were taken from the public pret/pokeplatinum
  * decompilation of the same library (lib/spl/src/spl_emitter.c,
@@ -4207,7 +4207,7 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
  * load-bearing: G3_TexPlttBase as an inline, `* FX32_ONE` versus `<< 12`,
  * and the union versus a plain bitfield struct.
  */
-void func_02053D30(SPLTexture *tex)
+void SPL_EMITTER_SetTextureParam(SPLTexture *tex)
 {
     SPLTextureParam param = tex->param;
     G3_TexImageParam(param.format, GX_TEXGEN_TEXCOORD, param.s, param.t, param.repeat, param.flip, param.palColor0, tex->texAddr);
@@ -4231,7 +4231,7 @@ void func_02053D30(SPLTexture *tex)
 
 
 
-void func_02053D2C(SPLTexture *tex)
+void SPL_EMITTER_Noop(SPLTexture *tex)
 {
 }
 
@@ -4279,10 +4279,10 @@ void func_02053D2C(SPLTexture *tex)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02053A60.c \
- *       --func func_02053A60 --addr 0x02053A60 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_SetupResource.c \
+ *       --func SPL_EMITTER_SetupResource --addr 0x02053A60 --arm --cc ../1.2/sp2
  */
-void func_02053A60(volatile struct Obj_02053A60 *o, struct Cfg *cfg, const struct Vec3 *pos)
+void SPL_EMITTER_SetupResource(volatile struct Obj_02053A60 *o, struct Cfg *cfg, const struct Vec3 *pos)
 {
   volatile struct Res0 *r;
   struct Cfg *c;
@@ -4444,9 +4444,9 @@ static inline SPLParticle *SPLParticleList_Erase(SPLParticleList *list, SPLParti
 
 /*
  * SPLEmitter_Update: the per-frame emitter step.  Emits new particles on the
- * emission interval (func_020569A4), collects the enabled animation
- * functions (func_02057E68 scale, func_02057C9C colour, func_02057BC0
- * alpha, func_02057B5C texture; children func_02057B10 / func_02057AB8),
+ * emission interval (SPL_EMITTER_LoadResource), collects the enabled animation
+ * functions (SPL_EMITTER_EvalCurve scale, SPL_EMITTER_EvalKey colour, SPL_EMITTER_UpdateRecord
+ * alpha, SPL_EMITTER_UpdateList texture; children SPL_EMITTER_ClampShort / SPL_EMITTER_ClampU16),
  * then integrates every particle and child particle (behaviours, air
  * resistance, velocity, polygon ID, age), erasing the dead ones back to the
  * manager free list, with the pre/post update callback around it all.
@@ -4458,7 +4458,7 @@ static inline SPLParticle *SPLParticleList_Erase(SPLParticleList *list, SPLParti
  * from sdk/TwlSDK/include; only the callees are pinned to Black addresses.
  * It compiled EXACT at the cluster pin unchanged, closing docs/notes/pkt_02053218.c.txt (last measured 1128/1152, 763 out, 1.1p1).
  */
-void func_02053218(SPLManager *mgr, SPLEmitter *emtr)
+void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr)
 {
     SPLParticle *ptcl;
     SPLParticle *next;
@@ -4669,15 +4669,15 @@ void func_02053218(SPLManager *mgr, SPLEmitter *emtr)
 
 
 /*
- * The sibling of func_02053044 in the same file: the same per-frame dispatch
+ * The sibling of SPL_EMITTER_UpdateSubX in the same file: the same per-frame dispatch
  * over a render list, but on the block's OTHER list (+0x08 rather than +0x14)
- * and with a disjoint handler set.  Unconditionally calls func_02053D30 on the
+ * and with a disjoint handler set.  Unconditionally calls SPL_EMITTER_SetTextureParam on the
  * 0x14-byte row the descriptor's byte at +0x47 selects, picks the per-node
  * handler from bits 4..5 of the descriptor's first word (the `lsl #26` /
  * `lsr #30` pair), and picks a SECOND per-node function from bit 11 of the
  * same word (`lsl #20` / `lsrs #31`, materialised as the `ldrne`/`ldreq`
  * pair at 0x020531B8/0x020531BC), then walks the list calling both.
- * Cases 3 and 4 share func_0205429C, exactly as cases 3/4 do in the sibling.
+ * Cases 3 and 4 share SPL_EMITTER_UpdateFrameMain, exactly as cases 3/4 do in the sibling.
  *
  * The descriptor's first word is READ TWICE, once for the switch field and
  * once for the bit-11 test (`ldr r0, [r5]` at 0x02053158 and again at
@@ -4694,19 +4694,19 @@ void func_02053218(SPLManager *mgr, SPLEmitter *emtr)
  * end emits under -proc arm946e.
  *
  * 236 bytes, ZERO concrete mismatches.  Three of seven relocation sites are
- * ABS32 pool words at +0x00D4/D8/E8 naming func_02055FD4, func_02055498 and
- * func_02053D2C, and this function's own pool at 0x02053200 is the only place
- * in the image those three words appear.  func_02054A68 and func_0205429C
+ * ABS32 pool words at +0x00D4/D8/E8 naming SPL_EMITTER_UpdateFrame, SPL_EMITTER_UpdateParticleMotion and
+ * SPL_EMITTER_Noop, and this function's own pool at 0x02053200 is the only place
+ * in the image those three words appear.  SPL_EMITTER_UpdateFrameA68 and SPL_EMITTER_UpdateFrameMain
  * already resolve `matched x1`; filing any one of the remaining three
- * promotes this file toward EXACT with no change to the C.  func_02055498 and
- * func_02055FD4 are unfiled 3D-rig rows (docs/FRONTEND-PINS.md); func_02053D2C
- * is an unlabelled leaf four bytes below func_02053D30.
+ * promotes this file toward EXACT with no change to the C.  SPL_EMITTER_UpdateParticleMotion and
+ * SPL_EMITTER_UpdateFrame are unfiled 3D-rig rows (docs/FRONTEND-PINS.md); SPL_EMITTER_Noop
+ * is an unlabelled leaf four bytes below SPL_EMITTER_SetTextureParam.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0205312C.c \
- *       --func func_0205312C --addr 0x0205312C --cc ../1.2/sp2 --arm
+ *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubB.c \
+ *       --func SPL_EMITTER_UpdateSubB --addr 0x0205312C --cc ../1.2/sp2 --arm
  */
-void func_0205312C(struct Obj *o)
+void SPL_EMITTER_UpdateSubB(struct Obj *o)
 {
     struct SubB *b = o->f40;
     struct SubC *d = b->f20->f00;
@@ -4714,30 +4714,30 @@ void func_0205312C(struct Obj *o)
     Fn1 g;
     struct S_020524C8 *n;
 
-    func_02053D30(o->f2c + d->f47);
+    SPL_EMITTER_SetTextureParam(o->f2c + d->f47);
 
     switch (d->f00.d.kind) {
     case 0:
-        fn = func_02055FD4;
+        fn = SPL_EMITTER_UpdateFrame;
         break;
     case 1:
-        fn = (Fn)func_02055498; /* stand-in: the row is an SPLManager * SPLParticle handler */
+        fn = (Fn)SPL_EMITTER_UpdateParticleMotion; /* stand-in: the row is an SPLManager * SPLParticle handler */
         break;
     case 2:
-        fn = func_02054A68;
+        fn = SPL_EMITTER_UpdateFrameA68;
         break;
     case 3:
-        fn = func_0205429C;
+        fn = SPL_EMITTER_UpdateFrameMain;
         break;
     case 4:
-        fn = func_0205429C;
+        fn = SPL_EMITTER_UpdateFrameMain;
         break;
     }
 
     if (d->f00.d.sel)
-        g = func_02053D30;
+        g = SPL_EMITTER_SetTextureParam;
     else
-        g = func_02053D2C;
+        g = SPL_EMITTER_Noop;
 
     n = b->f08;
     if (n == 0)
@@ -4758,18 +4758,18 @@ void func_0205312C(struct Obj *o)
 /*
  * Per-frame dispatch for one render list.  Reads the object's block at +0x40,
  * bails when bit 16 of the first word of the sub-block's *f00 chain is clear,
- * calls func_02053D30 on the 0x14-byte row the descriptor's byte at +0x0f
+ * calls SPL_EMITTER_SetTextureParam on the 0x14-byte row the descriptor's byte at +0x0f
  * selects, then picks a per-node handler from a 2-bit field of the
  * descriptor's halfword (bits 8..9, spelled as the shift pair `lsl #23` /
  * `lsr #30`), and walks the singly linked list at block+0x14 calling it.
  *
- * Cases 3 and 4 share func_02053E1C, and the `cmp r0, #4` says the switch has
+ * Cases 3 and 4 share SPL_EMITTER_UpdateFrameMainEx, and the `cmp r0, #4` says the switch has
  * exactly five arms, none of them empty; a sixth arm makes the table one entry
  * longer and shifts every branch.
  *
  * COMPILER PIN: ../1.2/sp2, on two tells at once, both documented in
  * docs/FRONTEND-PINS.md and both already carried by this region's
- * pkt_020526A8 family (func_020525A0.c, func_02052634.c, func_020528A8.c):
+ * pkt_020526A8 family (SPL_EMITTER_AllocResourceEx.c, SPL_EMITTER_AllocResource.c, SPL_EMITTER_AllocPlttVramDefault.c):
  *   - the interworking conflict, `blx r4` at 0x02053100 (`34 ff 2f e1`)
  *     beside the ARMv4T-style return `pop {r4, r5, r6, r7, lr}` / `bx lr` at
  *     0x02053114/0x02053118 (`f0 40 bd e8` / `1e ff 2f e1`); under
@@ -4783,21 +4783,21 @@ void func_0205312C(struct Obj *o)
  * ZERO concrete mismatches.
  *
  * Three of the five relocation sites are ABS32 pool words at +0x00D8/DC/E4
- * naming func_02055B80, func_02054DB8 and func_02053E1C.  Each is an unfiled
+ * naming SPL_EMITTER_UpdateFrameEx, SPL_EMITTER_UpdateParticleMotionEx and SPL_EMITTER_UpdateFrameMainEx.  Each is an unfiled
  * 3D-rig row (see docs/FRONTEND-PINS.md, "The 3D rig unit"), so neither the
  * `matched` class nor `literal` has a witness: this function's own pool at
  * 0x0205311C is the only place in the image those words appear, and the
  * sibling at 0x0205312C carries a DISJOINT handler set (0x02055FD4,
  * 0x02055498, 0x02054A68, 0x0205429C), so it cannot attest them either.
- * Filing any one of the three (func_02055B80 is the highest-value) promotes
- * this file toward EXACT with no change to the C.  func_02054718 already
+ * Filing any one of the three (SPL_EMITTER_UpdateFrameEx is the highest-value) promotes
+ * this file toward EXACT with no change to the C.  SPL_EMITTER_UpdateFrameA68Ex already
  * resolves `matched x1`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02053044.c \
- *       --func func_02053044 --addr 0x02053044 --cc ../1.2/sp2 --arm
+ *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubX.c \
+ *       --func SPL_EMITTER_UpdateSubX --addr 0x02053044 --cc ../1.2/sp2 --arm
  */
-void func_02053044(struct Obj *o)
+void SPL_EMITTER_UpdateSubX(struct Obj *o)
 {
     struct SubB *b = o->f40;
     struct SubX *s = b->f20;
@@ -4807,23 +4807,23 @@ void func_02053044(struct Obj *o)
     if (!s->f00->f00.z.b16)
         return;
 
-    func_02053D30(o->f2c + s->f14->f0f);
+    SPL_EMITTER_SetTextureParam(o->f2c + s->f14->f0f);
 
     switch (s->f14->hw.kind) {
     case 0:
-        fn = func_02055B80;
+        fn = SPL_EMITTER_UpdateFrameEx;
         break;
     case 1:
-        fn = (Fn)func_02054DB8; /* stand-in: the row is an SPLManager * SPLParticle handler */
+        fn = (Fn)SPL_EMITTER_UpdateParticleMotionEx; /* stand-in: the row is an SPLManager * SPLParticle handler */
         break;
     case 2:
-        fn = func_02054718;
+        fn = SPL_EMITTER_UpdateFrameA68Ex;
         break;
     case 3:
-        fn = func_02053E1C;
+        fn = SPL_EMITTER_UpdateFrameMainEx;
         break;
     case 4:
-        fn = func_02053E1C;
+        fn = SPL_EMITTER_UpdateFrameMainEx;
         break;
     }
 
@@ -4861,23 +4861,23 @@ void func_02053044(struct Obj *o)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02052FC8.c \
- *       --func func_02052FC8 --addr 0x02052FC8 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubC.c \
+ *       --func SPL_EMITTER_UpdateSubC --addr 0x02052FC8 --arm --cc ../1.2/sp2
  */
-void func_02052FC8(struct Obj *o)
+void SPL_EMITTER_UpdateSubC(struct Obj *o)
 {
     struct SubC *v = o->f40->f20->f00;
 
     if (v->f00.z.b21) {
-        func_02053044(o);
+        SPL_EMITTER_UpdateSubX(o);
         if (v->f00.z.b22)
             return;
-        func_0205312C(o);
+        SPL_EMITTER_UpdateSubB(o);
         return;
     }
     if (v->f00.z.b22 == 0)
-        func_0205312C(o);
-    func_02053044(o);
+        SPL_EMITTER_UpdateSubB(o);
+    SPL_EMITTER_UpdateSubX(o);
 }
 
 
@@ -4903,7 +4903,7 @@ extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
 
 
 /*
- * Twin of src/matched/func_02052F58.c: same twelve instructions and the same
+ * Twin of src/matched/SPL_EMITTER_AllocPlttVram.c: same twelve instructions and the same
  * two pool words by position, differing only in the global function pointer
  * it calls (0x020A8140 against 0x020A8148).  Carries the same per-file pin
  * for the same measured tells (register `blx r3` beside an ARMv4T
@@ -4915,10 +4915,10 @@ extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02052F90.c \
- *       --func func_02052F90 --addr 0x02052F90 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocTexVram.c \
+ *       --func SPL_EMITTER_AllocTexVram --addr 0x02052F90 --arm --cc ../1.2/sp2
  */
-int func_02052F90(u32 a0, u32 a1)
+int SPL_EMITTER_AllocTexVram(u32 a0, u32 a1)
 {
     return (NNS_GfdDefaultFuncAllocTexVram(a0, a1, 0) & 0xffff) << 3;
 }
@@ -4940,17 +4940,17 @@ int func_02052F90(u32 a0, u32 a1)
  * dead `push {r3}`.  Under 1.1p1 the 16-bit mask also folds into a shift pair
  * (`lsl r0,r0,#0x10; lsr r0,r0,#0xd`) where the image ANDs with a pooled
  * 0xffff; ../1.2/sp2 reproduces all of it.  Measured, same packet as
- * src/matched/func_020525A0.c (pinned for the frame tell).
+ * src/matched/SPL_EMITTER_AllocResourceEx.c (pinned for the frame tell).
  *
  * Evidence recorded in docs/notes/pkt_020526A8.c.txt.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02052F58.c \
- *       --func func_02052F58 --addr 0x02052F58 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocPlttVram.c \
+ *       --func SPL_EMITTER_AllocPlttVram --addr 0x02052F58 --arm --cc ../1.2/sp2
  */
-int func_02052F58(u32 a0, u32 a1)
+int SPL_EMITTER_AllocPlttVram(u32 a0, u32 a1)
 {
     return (NNS_GfdDefaultFuncAllocPlttVram(a0, a1, 0) & 0xffff) << 3;
 }
@@ -4987,7 +4987,7 @@ int func_02052F58(u32 a0, u32 a1)
  * Closed by indexing: `&p[i]` over a 0x9c-byte element type rather than a
  * hand-advanced `char *` (8 bytes out, a p/i register swap, otherwise).
  */
-struct Head_02052DC8 *func_02052DC8(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
+struct Head_02052DC8 *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
 {
     struct Head_02052DC8 *h;
     struct Node9C *p;
@@ -5056,7 +5056,7 @@ struct Head_02052DC8 *func_02052DC8(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a
  * tests reading the same fields (separate u32 locals give a r4/r5/r6
  * register cycle, 22 bytes out).
  */
-void func_02052A50(struct Head_02052984 *h, struct Hdr *d)
+void SPL_EMITTER_FreeNodeToHeap(struct Head_02052984 *h, struct Hdr *d)
 {
     u32 off;
     int i;
@@ -5087,12 +5087,12 @@ void func_02052A50(struct Head_02052984 *h, struct Hdr *d)
             struct Anim *p;
             rec->anims = h->alloc(rec->nanims * sizeof(struct Anim));
             p = rec->anims;
-            if (fl.b24) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020582CC; off += 8; p++; }
-            if (fl.b25) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058204; off += 8; p++; }
-            if (fl.b26) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058180; off += 0x10; p++; }
-            if (fl.b27) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020580A8; off += 4; p++; }
-            if (fl.b28) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057F8C; off += 8; p++; }
-            if (fl.b29) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057EF8; off += 0x10; }
+            if (fl.b24) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddVec; off += 8; p++; }
+            if (fl.b25) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_UpdateNode; off += 8; p++; }
+            if (fl.b26) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddScaledVec; off += 0x10; p++; }
+            if (fl.b27) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_BuildFrame; off += 4; p++; }
+            if (fl.b28) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_InterpTarget; off += 8; p++; }
+            if (fl.b29) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_LerpVec; off += 0x10; }
         } else {
             rec->anims = 0;
         }
@@ -5124,7 +5124,7 @@ void func_02052A50(struct Head_02052984 *h, struct Hdr *d)
  * row's texture handle (resource flag bit 17 set; the row index is the 8-bit
  * field at bits 18..25) or allocate through the caller's callback and upload
  * with GX_LoadTex, then GX_EndLoadTex.  Always returns 1.  Twin of
- * func_020528D0 (palettes).
+ * SPL_EMITTER_AllocPlttVramList (palettes).
  *
  * What closed it (wave 9): the natural spelling.  The byte-offset induction
  * variable and the two stack slots holding 1 and 0 are the compiler's own
@@ -5133,7 +5133,7 @@ void func_02052A50(struct Head_02052984 *h, struct Hdr *d)
  * The flags word is three declared bitfields (kind:4, shared at bit 17,
  * idx:8 at bits 18..25), and the row pointer is taken before the resource.
  */
-int func_02052984(struct Obj *o, AllocTex alloc)
+int SPL_EMITTER_AllocTexVramList(struct Obj *o, AllocTex alloc)
 {
     int i;
 
@@ -5166,14 +5166,14 @@ int func_02052984(struct Obj *o, AllocTex alloc)
  * of o->f2c with a non-zero resource size, allocate through the caller's
  * callback (first argument is the SIZE word, second is kind == 2) and upload
  * with GX_LoadTexPltt; the handle (0 when skipped) goes to row+0x08.  Then
- * GX_EndLoadTexPltt; always returns 1.  Twin of func_02052984 (textures).
+ * GX_EndLoadTexPltt; always returns 1.  Twin of SPL_EMITTER_AllocTexVramList (textures).
  *
  * What closed it (wave 9): array indexing o->f2c[i] and "kind == 2 ? 1 : 0"
  * instead of hand-written offset/one/zero locals (the wave-7 note's 8-byte
  * register swap was the compiler's strength reduction disagreeing with the
  * hand-reduced loop).
  */
-int func_020528D0(struct Obj *o, AllocTex alloc)
+int SPL_EMITTER_AllocPlttVramList(struct Obj *o, AllocTex alloc)
 {
     int i;
 
@@ -5201,22 +5201,22 @@ int func_020528D0(struct Obj *o, AllocTex alloc)
 
 
 /*
- * Twin of src/matched/func_020528A8.c, same twelve bytes by position: forward
- * r0 to 0x02052984 with the address of func_02052F90 as the second argument.
+ * Twin of src/matched/SPL_EMITTER_AllocPlttVramDefault.c, same twelve bytes by position: forward
+ * r0 to 0x02052984 with the address of SPL_EMITTER_AllocTexVram as the second argument.
  * Same 1.2 pin and same tail-call schedule tell.
  *
  * The callback site resolves through the `matched` class once
- * src/matched/func_02052F90.c is in the manifest.
+ * src/matched/SPL_EMITTER_AllocTexVram.c is in the manifest.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020528BC.c \
- *       --func func_020528BC --addr 0x020528BC --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocTexVramDefault.c \
+ *       --func SPL_EMITTER_AllocTexVramDefault --addr 0x020528BC --arm --cc ../1.2/sp2
  */
-void func_020528BC(u32 a0)
+void SPL_EMITTER_AllocTexVramDefault(u32 a0)
 {
-    func_02052984((struct Obj *)a0, (AllocTex)((void *)func_02052F90));
+    SPL_EMITTER_AllocTexVramList((struct Obj *)a0, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
 }
 
 
@@ -5226,7 +5226,7 @@ void func_020528BC(u32 a0)
 
 /*
  * A twelve-byte tailcall thunk: forward r0 to 0x020528D0 and pass the
- * address of func_02052F58 as the second argument.  mwcc emits a tail call as
+ * address of SPL_EMITTER_AllocPlttVram as the second argument.  mwcc emits a tail call as
  * a pool word plus `bx ip`, and for two pool words the 1.2 front end issues
  * the callee load into ip first, then the argument load; 1.1p1 issues them in
  * the other order (the documented tail-call schedule gap,
@@ -5234,18 +5234,18 @@ void func_020528BC(u32 a0)
  * so this row needs the packet's 1.2 pin as well.
  *
  * The callback site resolves through the `matched` class once
- * src/matched/func_02052F58.c is in the manifest: this row is filed after
+ * src/matched/SPL_EMITTER_AllocPlttVram.c is in the manifest: this row is filed after
  * that entry, and it is the second half of the pair.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020528A8.c \
- *       --func func_020528A8 --addr 0x020528A8 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocPlttVramDefault.c \
+ *       --func SPL_EMITTER_AllocPlttVramDefault --addr 0x020528A8 --arm --cc ../1.2/sp2
  */
-void func_020528A8(u32 a0)
+void SPL_EMITTER_AllocPlttVramDefault(u32 a0)
 {
-    func_020528D0((struct Obj *)a0, (AllocTex)((void *)func_02052F58));
+    SPL_EMITTER_AllocPlttVramList((struct Obj *)a0, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
 }
 
 
@@ -5263,7 +5263,7 @@ void func_020528A8(u32 a0)
  *   - if n's "expired" bit (+0x24 bit 4) is clear and the node's age n->f4c
  *     has reached the class lifetime c->f32, set the bit and zero the age;
  *   - if n's "suppressed" bit (+0x24 bit 2) is clear, read the 3-bit phase
- *     index at +0x80 bits 16..18 and call func_02053218(h, n) when the phase
+ *     index at +0x80 bits 16..18 and call SPL_EMITTER_UpdateParticles(h, n) when the phase
  *     is zero or matches the rig's own frame parity h->f48;
  *   - retire the node when either the class asks for it (c bit 14 set, a
  *     non-zero c->f3c cap, the expired bit set and the age past the cap) or
@@ -5300,11 +5300,11 @@ void func_020528A8(u32 a0)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02052770.c \
- *       --func func_02052770 --addr 0x02052770 --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_FreeTexNode.c \
+ *       --func SPL_EMITTER_FreeTexNode --addr 0x02052770 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-void func_02052770(struct Head_02052770 *h)
+void SPL_EMITTER_FreeTexNode(struct Head_02052770 *h)
 {
     struct Node_02052770 *n = h->list;
 
@@ -5327,7 +5327,7 @@ void func_02052770(struct Head_02052770 *h)
             if (n->f24_b2 == 0) {
                 idx = (((struct Node_02052770 *)n)->f80 << 13) >> 29;
                 if (idx == 0 || h->f48 == idx - 1)
-                    func_02053218((struct SPLManager *)h, (struct SPLEmitter *)n);
+                    SPL_EMITTER_UpdateParticles((struct SPLManager *)h, (struct SPLEmitter *)n);
             }
             if ((c->c00_b14 != 0 && c->f3c != 0 && n->f24_b4 != 0
                  && n->f4c > c->f3c) || n->f24_b0 != 0) {
@@ -5375,11 +5375,11 @@ void func_02052770(struct Head_02052770 *h)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020526A8.c \
- *       --func func_020526A8 --addr 0x020526A8 --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_FreeNodeHeap.c \
+ *       --func SPL_EMITTER_FreeNodeHeap --addr 0x020526A8 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-void func_020526A8(struct Head_020524C8 *h, u32 a)
+void SPL_EMITTER_FreeNodeHeap(struct Head_020524C8 *h, u32 a)
 {
     struct Node_020524C8 *n;
 
@@ -5392,7 +5392,7 @@ void func_020526A8(struct Head_020524C8 *h, u32 a)
         while (n != 0) {
             h->cur = n;
             if (n->f24_b3 == 0)
-                func_02052FC8((struct Obj *)h);
+                SPL_EMITTER_UpdateSubC((struct Obj *)h);
             n = n->next;
         }
     } else {
@@ -5400,7 +5400,7 @@ void func_020526A8(struct Head_020524C8 *h, u32 a)
         while (n != 0) {
             h->cur = n;
             if (n->f24_b3 == 0)
-                func_02052FC8((struct Obj *)h);
+                SPL_EMITTER_UpdateSubC((struct Obj *)h);
             n = n->prev;
         }
     }
@@ -5417,7 +5417,7 @@ void func_020526A8(struct Head_020524C8 *h, u32 a)
 /*
  * Promote-first callee of src/pending/PARTICLE_StartEffect.c (parks lane 2).
  * Pops one node off the list at p+0x10, runs the loader for the node and
- * (p->f28 + (arg1 << 5), arg2), then hands the node to func_020583CC; the
+ * (p->f28 + (arg1 << 5), arg2), then hands the node to SPL_EMITTER_ClearNodeList; the
  * node is discarded when bit 14 of the word at *(node->f20) is set.
  *
  * Built by the 1.2 front end, not dsi/1.1p1: the epilogue is the ARMv4T
@@ -5430,17 +5430,17 @@ void func_020526A8(struct Head_020524C8 *h, u32 a)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02052634.c \
- *       --func func_02052634 --addr 0x02052634 --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocResource.c \
+ *       --func SPL_EMITTER_AllocResource --addr 0x02052634 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-int func_02052634(char *p, int b, int c)
+int SPL_EMITTER_AllocResource(char *p, int b, int c)
 {
     void *r = 0;
 
     if (((struct Obj11462 *)p)->f10 != 0) {
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        func_02053A60(r, (void *)(((struct Obj11462 *)p)->f28 + (b << 5)), (const struct Vec3 *)c);
+        SPL_EMITTER_SetupResource(r, (void *)(((struct Obj11462 *)p)->f28 + (b << 5)), (const struct Vec3 *)c);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
         if ((*(u32 *)(*(u32 *)(*(u32 *)&((struct Obj00077 *)r)->f20)) << 0x11 >> 0x1f) != 0)
             r = 0;
@@ -5459,10 +5459,10 @@ int func_02052634(char *p, int b, int c)
 
 /*
  * Promote-first callee of src/pending/PARTICLE_StartEffectWithCallback.c (parks lane 2).
- * Same shape as its neighbour func_02052634 with two extra steps: the
+ * Same shape as its neighbour SPL_EMITTER_AllocResource with two extra steps: the
  * loader takes the address of a twelve-byte zeroed scratch block as its
  * third argument, and a non-null third parameter is called back with the
- * popped node before func_020583CC runs.
+ * popped node before SPL_EMITTER_ClearNodeList runs.
  *
  * Built by the 1.2 front end (ARMv4T-style `pop {... lr}; bx lr` epilogue
  * and a `sub sp, sp, #4` alignment word), see
@@ -5471,11 +5471,11 @@ int func_02052634(char *p, int b, int c)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020525A0.c \
- *       --func func_020525A0 --addr 0x020525A0 --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocResourceEx.c \
+ *       --func SPL_EMITTER_AllocResourceEx --addr 0x020525A0 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-int func_020525A0(char *p, int b, void (*fn)(void *))
+int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
 {
     void *r = 0;
 
@@ -5483,7 +5483,7 @@ int func_020525A0(char *p, int b, void (*fn)(void *))
         struct Scratch scratch = { 0, 0, 0 };
 
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        func_02053A60(r, (void *)(((struct Obj11461 *)p)->f28 + (b << 5)), (const struct Vec3 *)(&scratch));
+        SPL_EMITTER_SetupResource(r, (void *)(((struct Obj11461 *)p)->f28 + (b << 5)), (const struct Vec3 *)(&scratch));
         if (fn != 0)
             fn(r);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
@@ -5505,14 +5505,14 @@ int func_020525A0(char *p, int b, void (*fn)(void *))
 /*
  * Tear down one node q owned by container p.  Two identical drain loops move
  * every child off q's two sublists (q+8 and q+0x14) onto the container's own
- * recycle list at p+0x1c with func_020583CC; func_02058380 is the pop, and it
+ * recycle list at p+0x1c with SPL_EMITTER_ClearNodeList; SPL_EMITTER_AllocNode is the pop, and it
  * is re-called at the bottom of each loop rather than at the top, which is why
  * the original re-materialises `add r5,r7,#0x1c` and `add r4,r6,#k` INSIDE the
  * loop body rather than hoisting them (the two locals are declared in the
  * body, one live range per iteration).  Then q is unlinked from p+4 and pushed
  * onto p+0x10.
  *
- * Called from func_020524C8 next door, which drains p+4 through this routine.
+ * Called from SPL_EMITTER_FreeResourceList next door, which drains p+4 through this routine.
  *
  * Built by the 1.2 front end (`sub sp,sp,#4` alignment word and a
  * `pop {...,lr}; bx lr` epilogue), the packet-wide pin for this cluster.
@@ -5520,11 +5520,11 @@ int func_020525A0(char *p, int b, void (*fn)(void *))
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0205250C.c \
- *       --func func_0205250C --addr 0x0205250C --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_FreeResource.c \
+ *       --func SPL_EMITTER_FreeResource --addr 0x0205250C --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-void func_0205250C(char *p, char *q)
+void SPL_EMITTER_FreeResource(char *p, char *q)
 {
     void *n;
 
@@ -5559,7 +5559,7 @@ void func_0205250C(char *p, char *q)
 
 /*
  * Drain the singly-linked list hanging off p+4: for each node, cache its
- * `next` pointer (the first word) BEFORE handing the node to func_0205250C,
+ * `next` pointer (the first word) BEFORE handing the node to SPL_EMITTER_FreeResource,
  * which tears the node down.  The cached-next shape is what produces the
  * `ldr r4,[r1]` above the call and the `mov r1,r4; cmp r4,#0` pair below it.
  *
@@ -5570,17 +5570,17 @@ void func_0205250C(char *p, char *q)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020524C8.c \
- *       --func func_020524C8 --addr 0x020524C8 --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_FreeResourceList.c \
+ *       --func SPL_EMITTER_FreeResourceList --addr 0x020524C8 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-void func_020524C8(void *p)
+void SPL_EMITTER_FreeResourceList(void *p)
 {
     void *n = ((struct Obj16201 *)p)->f4;
 
     while (n != 0) {
         void *next = ((struct Obj16202 *)n)->f0;
-        func_0205250C(p, n);
+        SPL_EMITTER_FreeResource(p, n);
         n = next;
     }
 }

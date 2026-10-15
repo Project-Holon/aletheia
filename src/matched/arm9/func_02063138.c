@@ -1,5 +1,5 @@
 /*
- * function: func_02063138
+ * function: NNSi_G2dReserveOamManagerSpan
  * address:  0x02063138
  * packet:   pkt_02063000
  * region:   arm9
@@ -30,8 +30,8 @@
  * ../2.0/sp2 as for the rest of the cluster.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02063138.c
- *       --func func_02063138 --addr 0x02063138 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dReserveOamManagerSpan.c
+ *       --func NNSi_G2dReserveOamManagerSpan --addr 0x02063138 --arm --cc ../2.0/sp2
  *
  * symbols:
  *   g_02146BC8      0x02146BC8  data
@@ -78,7 +78,7 @@ static inline u32 IsFree(u16 *tbl, u16 first, u16 last)
     return 1;
 }
 
-u32 func_02063138(struct Span *s, u16 first, u16 count, u32 which)
+u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 which)
 {
     struct Bank *bank = &g_02146BC8[which];
     u16 last = first + (count - 1);

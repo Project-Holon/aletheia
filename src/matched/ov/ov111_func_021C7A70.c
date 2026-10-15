@@ -1,5 +1,5 @@
 /*
- * function: func_021C7A70
+ * function: VIEWER_ACTOR_CheckWipeEnd
  * address:  0x021C7A70
  * packet:   pkt_ov111_021C7A70
  * region:   ov111
@@ -90,7 +90,7 @@ typedef struct {
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021C7A70(Work *p)
+int VIEWER_ACTOR_CheckWipeEnd(Work *p)
 {
     if (WIPE_SYS_EndCheck()) {
         if (p->f110 == 0x12) {

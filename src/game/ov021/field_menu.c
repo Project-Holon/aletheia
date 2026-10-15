@@ -140,7 +140,7 @@
  *   func_02027628  0x02027628  thumb
  *   func_0202762C  0x0202762C  thumb
  *   func_02049EF4  0x02049EF4  arm
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 typedef unsigned char u8;
@@ -442,7 +442,7 @@ extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
 extern void *func_02049EF4(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
-extern void func_020410D0(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u8 layer);
 
 extern const struct BgTemplate gFieldMenuBgTemplate5;
@@ -1211,7 +1211,7 @@ void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)
     for (i = 0; i < 0x300; i++) {
         tiles[i] = (tiles[i] + 0x80) | 0x3000;
     }
-    func_020410D0((u8)layer, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
+    BG_SYS_DrawTileEx((u8)layer, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
     func_02041B6C(layer);
     func_020307B0(screenBuf);
 }

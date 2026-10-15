@@ -14,12 +14,15 @@
  * shared epilogue instead of inlining two `movs r0, #0`: the source is a nest
  * of three `if`s with one `return 1` inside and one `return 0` after them.
  * The compare is against the 8 bytes at 0x020A7250, a cast address constant
- * (no relocation), and `func_0203EFC8` is a memcmp-shaped helper whose zero
+ * (no relocation), and `GF_STANDARD_CompareBytes` is a memcmp-shaped helper whose zero
  * means equal.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/WIH_DWC_IsOpenTaggedBeacon.c \
  *       --func WIH_DWC_IsOpenTaggedBeacon --addr 0x0201054C --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  */
 #include "../include/Obj03426.h"
 
@@ -28,12 +31,12 @@ typedef unsigned short u16;
 
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 int WIH_DWC_IsOpenTaggedBeacon(const u8 *obj)
 {
     if (*(const u16 *)&((struct Obj03426 *)obj)->fA == 8) {
-        if (func_0203EFC8((const void *)0x020A7250, obj + 0xc, 8) != 0) {
+        if (GF_STANDARD_CompareBytes((const void *)0x020A7250, obj + 0xc, 8) != 0) {
             if ((*(const u16 *)&((struct Obj03426 *)obj)->f2C & 0x10) == 0) {
                 return 1;
             }

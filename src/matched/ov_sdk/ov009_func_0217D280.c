@@ -1,5 +1,5 @@
 /*
- * function: func_0217D280
+ * function: HexEncode16
  * address:  0x0217D280
  * packet:   pkt_ov009_0217D280
  * region:   ov009
@@ -31,7 +31,7 @@ extern const unsigned short g_020A61DC[];
 static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61DC[c] & 0x10)); }
 extern char g_021A3710[];
 
-void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen)
+void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen)
 {
     char *aTextOutStream = theOutStream + 41;
     unsigned int aWriteBit = theInLen & 1;

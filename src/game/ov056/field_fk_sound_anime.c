@@ -31,7 +31,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   gFkSoundAnimeSourceFile  0x021F4400  data  ov056  a1
  *   ICA_ANIME_Delete  0x02011558  thumb
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   ICA_ANIME_GetFrameNum  0x02011608  thumb
  *   ICA_ANIME_SetFrame  0x020115EC  thumb
  *   ICA_ANIME_GetTranslate  0x02011610  thumb
@@ -46,7 +46,7 @@
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern u32 sub_020307B0(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern struct IcaAnime *ICA_ANIME_CreateStream(u16 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, VecFx32 *translate);
 extern u32 ICA_ANIME_GetScale(struct IcaAnime *anime, VecFx32 *scale);
@@ -229,7 +229,7 @@ FkSoundAnime *FIELD_FK_SOUND_ANIME_Create(const void *soundIds, u32 arcId, u32 d
 void FIELD_FK_SOUND_ANIME_Delete(FkSoundAnime *sound)
 {
     ICA_ANIME_Delete(sound->anime);
-    sub_020307B0(sound);
+    GFL_HEAP_Free(sound);
 }
 
 

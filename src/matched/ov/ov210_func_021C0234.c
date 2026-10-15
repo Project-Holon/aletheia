@@ -1,5 +1,5 @@
 /*
- * function: func_021C0234
+ * function: ZKNSEARCH_MENU_InitFrameList
  * address: 0x021C0234
  * packet: pkt_ov210_021C0234
  * region: ov210
@@ -33,7 +33,7 @@ extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-void func_021C0234(char *ctx)
+void ZKNSEARCH_MENU_InitFrameList(char *ctx)
 {
     void *archive = func_020490F4(159, 0x807b);
     Template config;

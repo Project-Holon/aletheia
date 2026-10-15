@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02184200    0x02184200  arm
+ *   ArrayLength    0x02184200  arm
 */
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 
 void SBServerListCount(void *list)
 {
-    func_02184200(*(void **)((char *)list + 4));
+    ArrayLength(*(void **)((char *)list + 4));
 }

@@ -15,8 +15,8 @@
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -39,8 +39,8 @@ extern void BMP_Clear(struct CharBuf *,u8);
 extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -55,9 +55,9 @@ void func_021BA368(char *p)
     words=GF_FONT_Create_EC64(((struct Obj26163 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
     slot=func_02045EC0(*(struct MsgBank * *)&((struct Obj26164 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f1C,4);
     str=STRBUF_Create(16,((struct Obj26165 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
-    func_0201EFA4(words,0,((struct Obj02561 *)p)->fD+1,1,0,1);
-    func_0201EFA4(words,1,((struct Obj02561 *)p)->fC,1,0,1);
-    func_0201F250(words,str,slot);
+    WORDSET_SetSlotNumber(words,0,((struct Obj02561 *)p)->fD+1,1,0,1);
+    WORDSET_SetSlotNumber(words,1,((struct Obj02561 *)p)->fC,1,0,1);
+    WORDSET_CopyTaggedText(words,str,slot);
     PRINTSYS_PrintQueColor(((struct Obj26166 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18,(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),32,4,(u32)str,((struct Obj26167 *)(*(char * *)&((struct Obj02561 *)p)->f0))->fC,0x3c40);
     STRBUF_Delete(str);STRBUF_Delete(slot);WORDSET_DeleteStrbufED04(words);
     ((struct Obj02561 *)p)->f1C=1;func_021BA240(p);

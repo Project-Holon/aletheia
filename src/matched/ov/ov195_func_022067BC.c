@@ -1,5 +1,5 @@
 /*
- * function: func_022067BC
+ * function: SHINKA_DEMO_VIEW_StartFadeOut
  * address:  0x022067BC
  * packet:   pkt_022067BC
  * region:   ov195
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_022081A4 0x022081A4 thumb ov195
+ *   SHINKA_DEMO_VIEW_StartGridFade 0x022081A4 thumb ov195
  */
 
 typedef unsigned char u8;
@@ -36,9 +36,9 @@ typedef struct Owner {
 } Owner;
 
 struct Fade;
-extern void func_022081A4(struct Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
+extern void SHINKA_DEMO_VIEW_StartGridFade(struct Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
 
-void func_022067BC(Owner *o)
+void SHINKA_DEMO_VIEW_StartFadeOut(Owner *o)
 {
     int heap = o->heap;
     Work *w = o->work;
@@ -49,7 +49,7 @@ void func_022067BC(Owner *o)
         g = w->grid[i];
         if (g != 0) {
             g->state = 5;
-            func_022081A4((struct Fade *)g, heap, 0x7fff, 31, 0, 0, -1);
+            SHINKA_DEMO_VIEW_StartGridFade((struct Fade *)g, heap, 0x7fff, 31, 0, 0, -1);
         }
     }
 }

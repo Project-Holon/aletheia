@@ -1,5 +1,5 @@
 /*
- * function: func_0219D158
+ * function: qr2_register_keyA
  * address:  0x0219D158
  * packet:   pkt_ov009_0219D158
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      qr2_register_keyA (qr2regkeys.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A8088  0x021A8088  data
  *   g_021A80A0  0x021A80A0  data
  *   g_021A80CC  0x021A80CC  data
@@ -23,15 +23,15 @@ extern char g_021A8088[];
 extern char g_021A80A0[];
 extern char g_021A80CC[];
 extern char *g_021A7C90[254];
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 
-void func_0219D158(int keyid, char *key)
+void qr2_register_keyA(int keyid, char *key)
 {
-    func_0217D254(3, (char *)4, 0x40, g_021A8088);
+    gsDebugFormat(3, (char *)4, 0x40, g_021A8088);
     if (keyid < 0x32 || keyid > 0xfe) {
-        func_0217D254(3, (char *)4, 2, g_021A80A0, keyid, key);
+        gsDebugFormat(3, (char *)4, 2, g_021A80A0, keyid, key);
         return;
     }
-    func_0217D254(3, (char *)4, 0x10, g_021A80CC, keyid, key);
+    gsDebugFormat(3, (char *)4, 0x10, g_021A80CC, keyid, key);
     g_021A7C90[keyid] = key;
 }

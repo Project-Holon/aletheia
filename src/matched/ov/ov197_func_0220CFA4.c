@@ -1,5 +1,5 @@
 /*
- * function: func_0220CFA4
+ * function: B_BAG_MAIN_StateChangeCount
  * address: 0x0220CFA4
  * packet: pkt_ov197_0220CFA4
  * region: ov197
@@ -9,15 +9,15 @@
  * status: EXACT
  * lever: narrow value load then compound add before reading maximum fixes r0/r6 swap.
  * symbols:
- *   func_0220B520 0x0220B520 thumb ov197
- *   func_0220B584 0x0220B584 thumb ov197
+ *   B_BAG_MAIN_DrawPocket 0x0220B520 thumb ov197
+ *   B_BAG_MAIN_DrawHeader 0x0220B584 thumb ov197
  */
 #include "../include/Obj00314.h"
 typedef signed char s8;
 typedef unsigned char u8;
-extern void func_0220B520(char *);
-extern void func_0220B584(char *p);
-int func_0220CFA4(char *p)
+extern void B_BAG_MAIN_DrawPocket(char *);
+extern void B_BAG_MAIN_DrawHeader(char *p);
+int B_BAG_MAIN_StateChangeCount(char *p)
 {
     unsigned index = ((struct Obj00314 *)p)->f533;
     short *values = (short *)(*(char * *)&((struct Obj00314 *)p)->f0 + 0x38);
@@ -32,7 +32,7 @@ int func_0220CFA4(char *p)
     }
     values[index] = value;
 done:
-    func_0220B520(p);
-    func_0220B584(p);
+    B_BAG_MAIN_DrawPocket(p);
+    B_BAG_MAIN_DrawHeader(p);
     return 12;
 }

@@ -46,7 +46,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_IncrementMissionClearCount  0x0200BF78  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
  *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
@@ -151,7 +151,7 @@ u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 void *GAME_DATA_GetSaveControl(struct Big *p);
 u16 *INTRUDE_GetFromSave(void *sys);
 u32 INTRUDE_IncrementMissionClearCount(struct Rec1B0 *p);
-void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
@@ -248,7 +248,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
             }
             func_02007E50(m, 0x23F, n, c->f00);
             INTRUDE_IncrementMissionClearCount((struct Rec1B0 *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(w)));
-            func_0201EFA4(c->obj.f00, 0, c->f130, 3, 0, 1);
+            WORDSET_SetSlotNumber(c->obj.f00, 0, c->f130, 3, 0, 1);
             EVENT_COMM_COMMON_PrintMsg(&c->obj, 0x18);
             (*state)++;
         }
@@ -260,7 +260,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
         break;
     case 6:
         if (c->f135 != 0) {
-            func_0201EFA4(c->obj.f00, 0, c->f135, 3, 0, 1);
+            WORDSET_SetSlotNumber(c->obj.f00, 0, c->f135, 3, 0, 1);
             EVENT_COMM_COMMON_PrintMsg(&c->obj, 0x30);
             (*state)++;
         } else {
@@ -274,7 +274,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
         break;
     case 8:
         if (c->f134 != 0) {
-            func_0201EFA4(c->obj.f00, 0, c->f134, 3, 0, 1);
+            WORDSET_SetSlotNumber(c->obj.f00, 0, c->f134, 3, 0, 1);
             EVENT_COMM_COMMON_PrintMsg(&c->obj, 0x31);
             (*state)++;
         } else {

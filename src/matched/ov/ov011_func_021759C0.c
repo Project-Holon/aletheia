@@ -11,11 +11,11 @@
  * lever: u8 mask conversion through SetBits inline preserves the original
  * field load before the truncation finishes; open-coded byte locals differ.
  * symbols:
- *   func_0203F4FC 0x0203F4FC arm
+ *   GF_STANDARD_GetTime 0x0203F4FC arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_0203F4FC(void);
+extern u32 GF_STANDARD_GetTime(void);
 typedef struct {
     u8 pad0[0x190];
     u32 stamp;
@@ -30,6 +30,6 @@ static inline void SetBits(State *p, u8 bit)
 }
 void INTRUDE_COMM_AddSessionMember(State *p, u8 index)
 {
-    if (p->active == 0) p->stamp = func_0203F4FC();
+    if (p->active == 0) p->stamp = GF_STANDARD_GetTime();
     SetBits(p, 1 << index);
 }

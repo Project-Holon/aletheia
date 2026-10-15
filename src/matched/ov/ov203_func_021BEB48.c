@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB48
+ * function: DEMO3D_DATA_StartCapture
  * address: 0x021BEB48
  * packet: pkt_ov203_021BEB48
  * region: ov203
@@ -22,7 +22,7 @@ static inline void GX_SetCapture(GXCaptureSize sz,GXCaptureMode mode,GXCaptureSr
 {
     *(volatile unsigned *)0x04000064=(0x80000000|(mode<<29)|(b<<25)|(a<<24)|(sz<<20)|(dest<<16)|(evb<<8)|eva);
 }
-void func_021BEB48(CaptureConfig *s)
+void DEMO3D_DATA_StartCapture(CaptureConfig *s)
 {
     switch(s->bank){
     case 2:MIi_CpuClearFast(0,(void *)0x06800000,0x20000);break;

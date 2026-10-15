@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD18
+ * function: DEMO3D_DeleteContext
  * address:  0x021BDD18
  * packet:   pkt_021BDD18
  * region:   ov203
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BDD18(char *a)
+void DEMO3D_DeleteContext(char *a)
 {
     void **p = *(void ** *)&((struct Obj25307 *)a)->fC;
 

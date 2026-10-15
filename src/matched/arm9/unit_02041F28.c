@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02041F28, func_02041F6C, func_02041FB0
+ * function: BG_SYS_SetScrollX, BG_SYS_SetScrollY, BG_SYS_SetAffine
  * address:  0x02041F28
  * packet:   pkt_02041F28
  * region:   arm9
@@ -22,7 +22,7 @@
  * sets that slot's own bit in the halfword at +4 of the same context.
  *
  * Each helper is the three-argument set/add/sub family matched as
- * src/matched/sub_02043228.c and its siblings, so `op` and `value` pass
+ * src/matched/BG_SYS_SetAffineField.c and its siblings, so `op` and `value` pass
  * straight through in r1/r2 and the call site prepares only r0.  That is
  * what pins the register the context value lands in: written as a
  * one-argument call every instruction of the body is still right but the
@@ -65,19 +65,19 @@ struct Obj;
 extern void func_02043264(struct Obj *p, u32 op, u32 value);
 extern void func_020432E4(struct Obj *p, u32 op, u32 value);
 
-void func_02041F28(u32 which, u32 op, u16 value)
+void BG_SYS_SetScrollX(u32 which, u32 op, u16 value)
 {
     func_02043228((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-void func_02041F6C(u32 which, u32 op, u32 value)
+void BG_SYS_SetScrollY(u32 which, u32 op, u32 value)
 {
     func_02043264((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-void func_02041FB0(u32 which, u32 op, u16 value)
+void BG_SYS_SetAffine(u32 which, u32 op, u16 value)
 {
     func_020432E4((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);

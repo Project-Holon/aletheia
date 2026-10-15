@@ -1,5 +1,5 @@
 /*
- * function: func_0219E3CC
+ * function: SBServerParseQR2FullKeysSingle
  * address:  0x0219E3CC
  * packet:   pkt_ov009_0219E3CC
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   g_021A8164  0x021A8164  data
  *   NTSLengthSB  0x0219F978  arm  ov009
- *   func_0219D114  0x0219D114  arm  ov009
+ *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  *   strlen  0x0209477C  arm
@@ -29,12 +29,11 @@ typedef struct _SBServer _SBServer;
 extern char g_021A8164[];
 
 extern int NTSLengthSB(char *buf, int len);
-extern int func_0219D114(char *keyname);
+extern int qr2_internal_is_master_only_key(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern unsigned int strlen(const char *s);
 
-void func_0219E3CC(_SBServer *server, char *data, int len)
+void SBServerParseQR2FullKeysSingle(_SBServer *server, char *data, int len)
 {
     int dlen;
     char *k;
@@ -60,7 +59,7 @@ void func_0219E3CC(_SBServer *server, char *data, int len)
         v = data;
         data += dlen;
         len -= dlen;
-        if (!func_0219D114(k))
+        if (!qr2_internal_is_master_only_key(k))
             func_0219E01C(server, k, v);
     }
     data++;

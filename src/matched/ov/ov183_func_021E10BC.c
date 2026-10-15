@@ -1,5 +1,5 @@
 /*
- * function: func_021E10BC
+ * function: BR_CODEIN_ProfileDeleteOam
  * address: 0x021E10BC
  * packet: pkt_ov183_021E10BC
  * region: ov183
@@ -16,4 +16,4 @@
 struct Grid;
 extern void BMP_OAM_Delete(struct Grid *);
 extern void BMP_OAM_DeleteSys(void *);
-void func_021E10BC(char *p){ BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08317 *)p)->f304); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08317 *)p)->f308); BMP_OAM_DeleteSys(((struct Obj08317 *)p)->f300); }
+void BR_CODEIN_ProfileDeleteOam(char *p){ BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08317 *)p)->f304); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08317 *)p)->f308); BMP_OAM_DeleteSys(((struct Obj08317 *)p)->f300); }

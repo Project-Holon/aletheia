@@ -19,7 +19,7 @@
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepOpenDeclineMenu 0x021DE9E8 thumb ov119
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   d_021E80C4 0x021E80C4 data a4
+ *   gBrowseOffersHitArea 0x021E80C4 data a4
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   POKETRADE_2D_MovePickedIconActor 0x021E68F4 thumb ov119
@@ -44,7 +44,7 @@ extern void POKETRADE_NEGO_StepOpenDeclineMenu(void *);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
-extern const char d_021E80C4[];
+extern const char gBrowseOffersHitArea[];
 extern void func_020355D8(u8);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void POKETRADE_2D_MovePickedIconActor(int,int);
@@ -64,7 +64,7 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
     }
     sentinel=-1;
     if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==sentinel) {
-        idx=TOUCHPANEL_HitTrg(d_021E80C4);
+        idx=TOUCHPANEL_HitTrg(gBrowseOffersHitArea);
         if(idx!=sentinel) {
             func_020355D8(1);
             GFL_USE_PlaySeDefaultVolume(0x548);

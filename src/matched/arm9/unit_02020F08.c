@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02020F08
+ * function: FILE_UTIL_GetItemCount
  * address:  0x02020F08
  * packet:   pkt_02020E60
  * region:   arm9
@@ -25,12 +25,12 @@
  * path, so:
  *   - FILE_UTIL_Create_0F14 opens archive id 0x18 = 24 = a/0/2/4 as a persistent
  *     0x50-byte handle (func_020490F4 takes the archive id in r0), and
- *     func_02020F20 reads member `item` out of that same handle after
+ *     FILE_UTIL_LoadArcMember reads member `item` out of that same handle after
  *     clamping the item id to 626, the last of a/0/2/4's 627 members.
- *   - func_02020F08 answers archive id 0x19 = 25 = a/0/2/5, the item
+ *   - FILE_UTIL_GetItemCount answers archive id 0x19 = 25 = a/0/2/5, the item
  *     graphics archive FILE_UTIL_CreateArcTool0F34 reads icon members out of.
  *
- * func_02020F0C and func_02020F10 are constant 1 / constant 0 answers in
+ * FILE_UTIL_GetBankCount and FILE_UTIL_GetBaseIndex are constant 1 / constant 0 answers in
  * the same block; the value they stand for is not attested here, only the
  * constant.
  *
@@ -51,17 +51,17 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
-u32 func_02020F08(void)
+u32 FILE_UTIL_GetItemCount(void)
 {
     return 0x19;
 }
 
-u32 func_02020F0C(void)
+u32 FILE_UTIL_GetBankCount(void)
 {
     return 1;
 }
 
-u32 func_02020F10(void)
+u32 FILE_UTIL_GetBaseIndex(void)
 {
     return 0;
 }
@@ -71,7 +71,7 @@ void *FILE_UTIL_Create_0F14(u32 heap)
     return func_020490F4(0x18, heap);
 }
 
-u32 func_02020F20(void *handle, u32 item, u32 arg)
+u32 FILE_UTIL_LoadArcMember(void *handle, u32 item, u32 arg)
 {
     if (item > 626) {
         item = 0;

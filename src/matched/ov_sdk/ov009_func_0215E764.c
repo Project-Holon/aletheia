@@ -1,5 +1,5 @@
 /*
- * function: func_0215E764
+ * function: SOCLi_ShutdownCallBack
  * address:  0x0215E764
  * packet:   pkt_ov009_0215E764
  * region:   ov009
@@ -36,7 +36,7 @@ static inline int IsTcp(int mode)
     return r;
 }
 
-int func_0215E764(void *arg)
+int SOCLi_ShutdownCallBack(void *arg)
 {
     Socket *socket = ((Cmd *)arg)->socket;
 

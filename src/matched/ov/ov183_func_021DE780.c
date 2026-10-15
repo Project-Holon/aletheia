@@ -1,5 +1,5 @@
 /*
- * function: func_021DE780
+ * function: BR_CODEIN_ResultTeardown
  * address: 0x021DE780
  * packet: pkt_ov183_021DE780
  * region: ov183
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_UTIL_DeleteTextWin(void *, int);
-void func_021DE780(char *p, char *q)
+void BR_CODEIN_ResultTeardown(char *p, char *q)
 {
     int i;
     for (i = 0; i < 18; i++) {

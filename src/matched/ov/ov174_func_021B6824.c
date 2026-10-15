@@ -18,7 +18,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  */
 #include "../include/Obj00681.h"
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 void LOCAL_TVT_SYS_DeleteTextResources(u8 *p)
 {
     APP_KEYCURSOR_Delete((int)(((struct Obj00681 *)p)->f7C));
@@ -52,5 +52,5 @@ void LOCAL_TVT_SYS_DeleteTextResources(u8 *p)
     if(((struct Obj00681 *)p)->f5C) BMP_WIN_Delete(((struct Obj00681 *)p)->f5C);
     GF_FONT_Delete(((struct Obj00681 *)p)->f60);
     TCBL_Destroy(((struct Obj00681 *)p)->f58);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
 }

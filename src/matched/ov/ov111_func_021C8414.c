@@ -1,5 +1,5 @@
 /*
- * function: func_021C8414
+ * function: VIEWER_ACTOR_StepScrollCount
  * address:  0x021C8414
  * packet:   pkt_ov111_021C8414
  * region:   ov111
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef int s32;
 
-void func_021C8414(u8 *p, int idx)
+void VIEWER_ACTOR_StepScrollCount(u8 *p, int idx)
 {
     s32 *count = (s32 *)(p + 0x188);
 

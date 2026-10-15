@@ -22,7 +22,7 @@
  *   INTRUDE_COMM_GetActiveSessionRequest  0x02175B34  thumb  ov011
  *   func_02045EC0  0x02045EC0  arm
  *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   d_021BAA4C     0x021BAA4C  data  a4
@@ -76,7 +76,7 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
     extern void *func_02045EC0(struct MsgBank *bank, u32 index);
     extern void INTRUDE_COMM_SetWordSetRequest(Obj *, void *, void *, int);
-    extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+    extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
     extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
     extern void STRBUF_Delete(struct U16Vec *vec);
     void *s;
@@ -104,7 +104,7 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     t0 = func_02045EC0(q->f1c, e->kind);
     t1 = func_02045EC0(q->f1c, y);
     INTRUDE_COMM_SetWordSetRequest(e, src, q->f10, 0x61);
-    func_0201F250(q->f10, s, t1);
+    WORDSET_CopyTaggedText(q->f10, s, t1);
     w = q->f8;
     PRINTSYS_PrintQue(w, (u32)BMP_WIN_GetBmp(d->e[0].h), 0, 4, t0, (u32)q->fc);
     d->e[0].on = 1;

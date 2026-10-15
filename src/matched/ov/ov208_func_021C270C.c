@@ -55,8 +55,8 @@
  *   ZUKAN_DETAIL_COMMON_UpdatePaletteAnim 0x021BC678 thumb ov208
  *   ZUKAN_DETAIL_VOICE_UpdateBgmFade 0x021C2C1C thumb ov208
  *   func_02040618 0x02040618 arm
- *   func_020414AC 0x020414AC arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  */
@@ -69,8 +69,8 @@ extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 extern u16 func_021BC3BC(char *);
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern void func_02040618(u32,u32,u32);
-extern void func_020414AC(u8);
-extern void func_0204047C(int,u16);
+extern void BG_SYS_FreeSlot(u8);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
 extern int GAME_DATA_CheckSaveFlag(int,int);
 struct S;
@@ -132,14 +132,14 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused,int *seq,u16 *heap,u8 *p,int key)
             if(i!=1 && i!=5){
                 func_02040618(i,0,0);
                 func_02040618(i,3,0);
-                func_020414AC(i);
+                BG_SYS_FreeSlot(i);
             }
         }
-        func_0204047C(2,1);
-        func_0204047C(3,2);
-        func_0204047C(0,3);
-        func_0204047C(6,1);
-        func_0204047C(4,3);
+        BG_SYS_SetVisibleLayer(2,1);
+        BG_SYS_SetVisibleLayer(3,2);
+        BG_SYS_SetVisibleLayer(0,3);
+        BG_SYS_SetVisibleLayer(6,1);
+        BG_SYS_SetVisibleLayer(4,3);
         ZUKAN_DETAIL_VOICE_CreateNumberActors(heap,(struct S *)p,key);
         ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(heap,p,key,W(0x5c));
         CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((p+W(0x5c)*4)+0x54)),1);

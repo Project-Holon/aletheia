@@ -1,5 +1,5 @@
 /*
- * function: func_021C6000
+ * function: VIEWER_TEXT_Init
  * address:  0x021C6000
  * packet:   pkt_ov111_021C6000
  * region:   ov111
@@ -15,7 +15,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BG_SYS_Init  0x02040C14  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
@@ -45,13 +45,13 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02041B6C(u32 bit);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern const u8 d_021C8773[8][6];
 
-void func_021C6000(Work *p)
+void VIEWER_TEXT_Init(Work *p)
 {
     const u8 (*tbl)[6] = d_021C8773;
     u8 i;
@@ -62,7 +62,7 @@ void func_021C6000(Work *p)
         BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 0);
     }
     BG_SYS_Init(7, 0, 1, 0);
-    func_0201F5BC(4, 0x31, 0xD, p->f32D4, p->heap);
+    BMP_MENUWORK_LoadCharAndPltt(4, 0x31, 0xD, p->f32D4, p->heap);
     func_02049B40(0x17, 5, 4, 0x1C0, 0x20, p->heap);
     func_02041B6C(7);
     func_02041B6C(4);

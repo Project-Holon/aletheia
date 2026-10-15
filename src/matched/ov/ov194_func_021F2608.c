@@ -1,5 +1,5 @@
 /*
- * function: func_021F2608
+ * function: NAMEIN_GRAPHIC_ClearPicker
  * address: 0x021F2608
  * packet: pkt_ov194_021F2608
  * region: ov194
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *,int,u32);
-void func_021F2608(void *p) {MI_CpuFill8(p,0,36);}
+void NAMEIN_GRAPHIC_ClearPicker(void *p) {MI_CpuFill8(p,0,36);}

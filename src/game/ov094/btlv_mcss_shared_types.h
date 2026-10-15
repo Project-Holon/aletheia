@@ -97,7 +97,7 @@ typedef struct BtlvMcssIdentity {
     u32 species;                        /* 0x00 */
     u32 form;                           /* 0x04 */
     u32 personalRand;                   /* 0x08: seed of the Spinda spots */
-    u16 personalParam26;                /* 0x0c: func_02019C90(species, form, 0x26) */
+    u16 personalParam26;                /* 0x0c: POKE_TOOL_GetPersonalParam(species, form, 0x26) */
     u16 hpState;                        /* 0x0e: func_0202D034(hp, maxHp) at load time, 1 lowers the cry pitch */
 } BtlvMcssIdentity;
 

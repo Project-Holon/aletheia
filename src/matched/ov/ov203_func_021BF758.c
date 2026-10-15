@@ -12,12 +12,12 @@
  * symbols:
  *   memset 0x02082BCC arm
  *   func_02040588 0x02040588 arm
- *   func_0204047C 0x0204047C arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  */
 extern void *memset(void *,int,unsigned);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0204047C(int,unsigned short);
-extern void func_020414AC(unsigned char);
-void func_021BF758(void *p){unsigned z=0;memset(p,0,0x2c);func_02040588(1,0);func_0204047C(0,0);func_0204047C(1,1);*(volatile unsigned short *)0x04000050=z;func_020414AC(1);}
+extern void BG_SYS_SetVisibleLayer(int,unsigned short);
+extern void BG_SYS_FreeSlot(unsigned char);
+void func_021BF758(void *p){unsigned z=0;memset(p,0,0x2c);func_02040588(1,0);BG_SYS_SetVisibleLayer(0,0);BG_SYS_SetVisibleLayer(1,1);*(volatile unsigned short *)0x04000050=z;BG_SYS_FreeSlot(1);}

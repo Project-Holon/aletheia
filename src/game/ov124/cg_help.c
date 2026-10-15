@@ -28,7 +28,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_0207D63C 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -48,7 +48,7 @@
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -77,7 +77,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   gCgHelpTouchRects 0x021D4BE4 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
@@ -85,7 +85,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_02030734 0x02030734 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   gCgHelpPageAnimSeq 0x021D4CF4 data a4
@@ -98,7 +98,7 @@
  *   KEY_GetCont 0x0203630C arm
  *   func_0200854C 0x0200854C thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   WIPE_ResetWndMask  0x02022224  thumb  arm9
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
@@ -122,6 +122,9 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb  arm9
+ *   BMP_MENUWORK_GetPlttFileId  0x0201F548  thumb  arm9
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 
 struct Node;
@@ -237,7 +240,7 @@ extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16), BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -250,7 +253,7 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void func_02040588(u32 which, unsigned char enable);
-extern void func_020414AC(u32);
+extern void BG_SYS_FreeSlot(u32);
 extern void func_020409B4(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -274,16 +277,16 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
-extern void func_0201F5BC(u32, u32, u32, u32, u16);
-extern u8 func_0201F548(int);
-extern void func_0201DD68(void);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
+extern u8 BMP_MENUWORK_GetPlttFileId(int);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, void *printQue, u16 heap);
 extern void *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *APP_TASKMENU_WIN_Create(void *res, const void *req, u32, u32, u8, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -301,7 +304,7 @@ extern void PRINTSYS_PrintQueColor(void *printQue, void *bmp, u32 x, u32 y, void
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_02061CA4(void *, u32, u32, int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02041090(u32, void *, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(u32, void *, u32, u32, u8, u8);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
@@ -310,7 +313,7 @@ extern void *MYSTATUS_Create(int a0);
 extern unsigned int KEY_GetCont(void);
 extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 void CG_HELP_Setup(CgHelpWork *work);
 void CG_HELP_Teardown(CgHelpWork *work);
 int CG_HELP_Main(CgHelpWork *work);
@@ -464,7 +467,7 @@ void CG_HELP_InitDisplay(CgHelpWork *work)
     BG_SYS_SetVramBanks((const struct DispVram *)gCgHelpVramBanks);
     BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
-    func_0203FC28((struct DispConfig *)gCgHelpDispConfig);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)gCgHelpDispConfig);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer4, 4, 0);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer5, 5, 0);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer6, 6, 0);
@@ -499,7 +502,7 @@ void CG_HELP_SetupBgLayer(const struct BgTemplate *bgTemplate, int layer, int ty
 {
     BG_SYS_InitBgLayer(layer, bgTemplate, type);
     func_02040588(layer, 1);
-    func_020414AC(layer);
+    BG_SYS_FreeSlot(layer);
     func_020409B4(layer);
 }
 
@@ -556,9 +559,9 @@ void CG_HELP_InitWindows(CgHelpWork *work)
     GF_FONT_SetTextColor(15, 2, 0);
     work->msgData = func_02045B38(0, 2, 21, work->heapId);
     func_02049B40(23, 5, 4, 480, 32, work->heapId);
-    func_0201F5BC(5, 1, 13, 0, work->heapId);
-    func_02049B40(5, func_0201F548(0), 4, 416, 64, work->heapId);
-    func_0201DD68();
+    BMP_MENUWORK_LoadCharAndPltt(5, 1, 13, 0, work->heapId);
+    func_02049B40(5, BMP_MENUWORK_GetPlttFileId(0), 4, 416, 64, work->heapId);
+    GF_FONT_SetDefaultTextColor();
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     work->menuRes = APP_TASKMENU_RES_Create(4, 11, work->font, work->printQue, work->heapId);
     work->titleWin = BMP_WIN_Create(5, 2, 4, 28, 4, 15, 1);
@@ -566,7 +569,7 @@ void CG_HELP_InitWindows(CgHelpWork *work)
     BMP_Clear(BMP_WIN_GetBmp(work->titleWin), 1);
     BMP_WIN_TransferChars(work->titleWin);
     BMP_WIN_MakeScreen(work->titleWin);
-    func_0201F73C(work->titleWin, 1, 1, 14);
+    BMP_MENUWORK_DrawWindow(work->titleWin, 1, 1, 14);
     BMP_Clear(BMP_WIN_GetBmp(work->bodyWin), 0);
     BMP_WIN_TransferChars(work->bodyWin);
     BMP_WIN_MakeScreen(work->bodyWin);
@@ -602,7 +605,7 @@ void CG_HELP_FreeWindows(CgHelpWork *work)
     BMP_WIN_Delete(work->titleWin);
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
 }
 
 
@@ -677,11 +680,11 @@ void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page)
                 q[i * 4 + j] = j + gCgHelpPageTileBase[page] + i * 32 + 0xa000;
             }
         }
-        func_02041090(4, q, 2, 4, 4, 4);
+        BG_SYS_DrawTile(4, q, 2, 4, 4, 4);
         func_020307B0(q);
     } else {
         q = func_02030734(work->heapId, 32, 1, gCgHelpFileName, 0x2bb);
-        func_02041090(4, q, 2, 4, 4, 4);
+        BG_SYS_DrawTile(4, q, 2, 4, 4, 4);
         func_020307B0(q);
     }
     func_020409B4(4);
@@ -729,7 +732,7 @@ int CG_HELP_ProcExit(struct S020315D4 *task, int b, int keep, CgHelpWork *work)
         func_020307B0(work->args);
     }
     func_020315D4(task);
-    func_020306F0(0x8a);
+    GFL_HEAP_DeleteChecked(0x8a);
     return 1;
 }
 

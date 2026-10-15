@@ -1,5 +1,5 @@
 /*
- * function: func_0220C180
+ * function: B_BAG_MAIN_LoadItemGraphic
  * address: 0x0220C180
  * packet: pkt_ov197_0220C180
  * region: ov197
@@ -9,7 +9,7 @@
  * status: EXACT
  * matching: u16 item restores entry spill order without extra truncation; unsigned item differs in eight bytes.
  * symbols:
- *   func_02020F08 0x02020F08 thumb
+ *   FILE_UTIL_GetItemCount 0x02020F08 thumb
  *   func_020490F4 0x020490F4 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
@@ -23,7 +23,7 @@
 #include "../include/Obj25020.h"
 #include "../include/Obj25021.h"
 typedef unsigned short u16;
-extern unsigned func_02020F08(void);
+extern unsigned FILE_UTIL_GetItemCount(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned FILE_UTIL_Get(unsigned,unsigned);
 typedef unsigned int   u32;
@@ -34,14 +34,14 @@ extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern u32 func_020307B0(void *p);
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
+void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset)
 {
     char *q=*(char * *)&((struct Obj01075 *)p)->f0;
     unsigned first, second;
     void *arc;
     void *data,*buffer;
     if(((struct Obj14545 *)q)->f8==1) {first=3;second=4;} else {first=1;second=2;}
-    arc=func_020490F4(func_02020F08(),(u16)((((struct Obj14545 *)q)->fC&0x7fff)|0x8000));
+    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct Obj14545 *)q)->fC&0x7fff)|0x8000));
     buffer=ARC_UTIL_LoadScreenDataFromHandle(arc,FILE_UTIL_Get(item,first),0,(u32)(&data),((struct Obj25020 *)(*(char * *)&((struct Obj01075 *)p)->f0))->fC);
     CLACT_TransferCharacter(*(int *)(p+slot*4+0x544),data);
     func_020307B0(buffer);

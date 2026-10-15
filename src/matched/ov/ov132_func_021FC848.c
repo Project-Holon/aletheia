@@ -1,5 +1,5 @@
 /*
- * function: func_021FC848
+ * function: MUS_COMM_FUNC_InitWork
  * address: 0x021FC848
  * packet: pkt_ov132_021FC848
  * region: ov132
@@ -42,7 +42,7 @@ static inline void clear8(void *dest,u32 size)
 }
 #define W(q,k) (*(u32 *)((q)+(k)))
 #define P(q,k) (*(u8 **)((q)+(k)))
-void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
+void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
 {
  void *data;
  u32 size1,size2;

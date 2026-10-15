@@ -1,5 +1,5 @@
 /*
- * function: func_021BED68
+ * function: ZKNSEARCH_MAIN_UpdateActorAnims
  * address:  0x021BED68
  * packet:   pkt_ov210_021BED68
  * region:   ov210
@@ -22,7 +22,7 @@ extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
 
-void func_021BED68(int p)
+void ZKNSEARCH_MAIN_UpdateActorAnims(int p)
 {
     unsigned i;
 

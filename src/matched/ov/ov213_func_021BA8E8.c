@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8E8
+ * function: COMM_BTL_DEMO_MAIN_StartEffect
  * address: 0x021BA8E8
  * packet: pkt_ov213_021BA8E8
  * region: ov213
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int PARTICLE_StartEffect(void *,int,int);
-int func_021BA8E8(char *p,int b,int c) { return PARTICLE_StartEffect(((struct Obj25709 *)p)->f10,b,c); }
+int COMM_BTL_DEMO_MAIN_StartEffect(char *p,int b,int c) { return PARTICLE_StartEffect(((struct Obj25709 *)p)->f10,b,c); }

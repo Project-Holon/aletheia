@@ -1,5 +1,5 @@
 /*
- * function: func_0220F2DC
+ * function: B_PLIST_MAIN_SwapActorPos
  * address:  0x0220F2DC
  * packet:   pkt_0220F2DC
  * region:   ov198
@@ -10,7 +10,7 @@
   * status:   EXACT
  *
  * symbols:
- *   func_022110D4 0x022110D4 thumb
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
@@ -21,15 +21,15 @@ typedef unsigned int   u32;
 
 struct Obj;
 struct Vec2;
-extern int func_022110D4(u8 *p, int i);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *p, int i);
 struct Actor; struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_0220F2DC(char *p, int a1, int a2)
+void B_PLIST_MAIN_SwapActorPos(char *p, int a1, int a2)
 {
-    int i1 = func_022110D4((u8 *)p, a1);
-    int i2 = func_022110D4((u8 *)p, a2);
+    int i1 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, a1);
+    int i2 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, a2);
     u32 x;
     u32 y;
 

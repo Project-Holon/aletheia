@@ -1,5 +1,5 @@
 /*
- * function: func_021BBE5C
+ * function: CTVT_CALL_Exit
  * address:  0x021BBE5C
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -43,7 +43,7 @@ extern u32 func_020307B0(void *p);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 
-void func_021BBE5C(void *a0, char *a1)
+void CTVT_CALL_Exit(void *a0, char *a1)
 {
     u32 p;
     u8 i, j;

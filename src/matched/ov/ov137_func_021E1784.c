@@ -14,7 +14,7 @@
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
  *   func_0202F190 0x0202F190 thumb
- *   func_02019CE0 0x02019CE0 thumb
+ *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  */
 #include "../include/Obj14255.h"
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 typedef unsigned int   u32;
 extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 void GURU2_MAIN_CopyMemberPokemon(char *p, int i)
 {
     void *party;
@@ -43,5 +43,5 @@ void GURU2_MAIN_CopyMemberPokemon(char *p, int i)
     b = POKEPARTY_GetMember(other, slot);
     q = GURU2_MAIN_GetUnionApp(p);
     func_0202F190(b, (int)6, (u32)UNION_APP_GetMemberEntry(q, (u8)GFL_NET_SYSTEM_GetCurrentAid()), (int)30002, (int)114);
-    func_02019CE0(b, a);
+    POKE_TOOL_CopyPartyPokemon(b, a);
 }

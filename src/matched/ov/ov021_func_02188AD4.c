@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
@@ -38,7 +38,7 @@ typedef signed int     s32;
 
 extern u8 abs_id_13[];
 extern u8 abs_id_12[];
-extern void func_02030DA4(u32 a);
+extern void TCB_Noop(u32 a);
 struct Node;
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
@@ -55,7 +55,7 @@ extern u32 ZONEDATA_IsZone96Pair(u32 a);
 
 u32 FIELDMAP_SeqExitSystem(void *a, u8 *b)
 {
-    func_02030DA4(((struct Obj03103 *)b)->f110);
+    TCB_Noop(((struct Obj03103 *)b)->f110);
     func_020307B0((void *)(((struct Obj03103 *)b)->f114));
     FLD_VREQ_Delete(((struct Obj03103 *)b)->f14C);
     ((struct Obj03103 *)b)->f14C = 0;

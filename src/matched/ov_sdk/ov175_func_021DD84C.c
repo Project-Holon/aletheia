@@ -17,8 +17,8 @@
  *   gsXmlMoveToNext  0x021834E8  arm  ov009
  *   gsXmlReadChildAsStringNT  0x0218372C  arm  ov009
  *   sakeiCheckSakeResult  0x021DD64C  arm  ov175
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   sakeiFreeRequest  0x021DD604  arm  ov175
  */
 
@@ -52,8 +52,8 @@ extern int gsXmlMoveToStart(int *p);
 extern int gsXmlMoveToNext(void *stream, char *matchtag);
 extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
 extern s32 sakeiCheckSakeResult(const char *p);
-extern void *func_0217EAB0(unsigned long size);
-extern void func_0217EAE0(void *ptr);
+extern void *gsimalloc(unsigned long size);
+extern void gsifree(void *ptr);
 extern void sakeiFreeRequest(void *request);
 
 void sakeiSoapCallback(int httpResult, int unused, void *responseData, void *userData)
@@ -75,7 +75,7 @@ void sakeiSoapCallback(int httpResult, int unused, void *responseData, void *use
         } else {
             result = sakeiCheckSakeResult(resultString);
             if (result == 0 && request->mInfo->mOutputSize) {
-                request->mOutput = func_0217EAB0(request->mInfo->mOutputSize);
+                request->mOutput = gsimalloc(request->mInfo->mOutputSize);
                 if (request->mOutput) {
                     request->mSoapResponse = responseData;
                     result = request->mInfo->mParseFunc(request);
@@ -91,7 +91,7 @@ void sakeiSoapCallback(int httpResult, int unused, void *responseData, void *use
         request->mCallback(request->mSake, request, result, request->mInput, output, request->mUserData);
     if (request->mInfo->mFreeFunc)
         request->mInfo->mFreeFunc(request);
-    func_0217EAE0(request->mOutput);
+    gsifree(request->mOutput);
     request->mOutput = 0;
     sakeiFreeRequest(request);
 }

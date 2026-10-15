@@ -25,7 +25,7 @@
  *   but s takes r5 (`adds r5,r4,#0; adds r5,#0x1c`), so 387 B / 464. Lead:
  *   a second base the scheduler cannot disambiguate from p that still
  *   colours to r4 (p+0x1c..0x5f is a sub-object: case 1 passes &p[0x1c]
- *   to func_0220C834).
+ *   to B_BAG_MAIN_Create).
  * wave82 checks: 1 021B614C (`ldr r0,[r0,#0x10]`), 022026FC and 021B6B74
  *   read r0 only, unchanged arity; definition conflicts: arm9
  *   PALANM_GetPairedCodeForFirst is defined `void (int)` but its result feeds
@@ -77,7 +77,7 @@
  *   BTLV_INPUT_StartPaletteFadeTask 0x022025D8 thumb ov094
  *   BTLV_INPUT_IsScreenBusy 0x022026FC thumb ov094
  *   BTLV_INPUT_StartScreenFadeTask 0x0220266C thumb ov094
- *   func_0220C834 0x0220C834 thumb ov197
+ *   B_BAG_MAIN_Create 0x0220C834 thumb ov197
  *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
@@ -118,7 +118,7 @@ extern int PDC_MSG_TakeStreamEnded(u8 *);
 extern void BTLV_INPUT_StartPaletteFadeTask(char *, int);
 extern int BTLV_INPUT_IsScreenBusy(struct W *p);
 extern void BTLV_INPUT_StartScreenFadeTask(struct Obj *p);
-extern void func_0220C834(u8 *);
+extern void B_BAG_MAIN_Create(u8 *);
 extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
 extern int BTLV_EFFECT_IsBusy(void);
 extern void BTLV_EFFECT_ResumeVm(void);
@@ -155,7 +155,7 @@ int PDC_MAIN_StepChooseItem(struct P *p)
     case 1:
         if (!BTLV_INPUT_IsScreenBusy((struct W *)p->window)) {
             func_02034AC4((s32)ov197_id);
-            func_0220C834((u8 *)&p->b1c);
+            B_BAG_MAIN_Create((u8 *)&p->b1c);
             (p->state)++;
         }
         break;

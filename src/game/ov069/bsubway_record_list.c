@@ -35,9 +35,9 @@
  *   BSUBWAY_RECORD_LIST_DeleteActors  0x021B9BF0  thumb  ov069
  *   func_020315D4  0x020315D4  arm
  *   func_0203084C  0x0203084C  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -58,7 +58,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   sRecordListVramBanks 0x021BA620 data a4
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
@@ -77,7 +77,7 @@
  *   func_02049B68  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049B40  0x02049B40  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
@@ -135,10 +135,10 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CURSOR_MOVE_GetEntry 0x0202616C thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F048  0x0201F048  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
  *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_SetStringN  0x02045994  arm
  *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   func_02041B6C  0x02041B6C  arm
@@ -203,7 +203,7 @@ extern void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work);
 extern void func_020315D4(struct S020315D4 *p);
 extern void *func_0203084C(u32 heapId);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void *func_020490F4(u32 id, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -223,7 +223,7 @@ extern void func_02030EAC(void *task);
 extern void ARC_TOOL_DeleteHandle(void *p);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u8);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -239,7 +239,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
@@ -259,7 +259,7 @@ extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void CLACT_VBlankSystem(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *args);
 int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
 int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
@@ -361,10 +361,10 @@ extern u32 CURSOR_MOVE_Delete(struct CursorMove *cursor);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern const u8 *CURSOR_MOVE_GetEntry(struct CursorMove *cursor, unsigned int index);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
-extern void func_0201F048(struct WordSet *wordSet, u32 index, u32 trainerClass);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *wordSet, u32 index, u32 trainerClass);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *wordSet, u32 index, u32 trainerClass, u32 trainerIndex);
-extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
 extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
 extern struct Strbuf *PMSI_PARAM_ToString(const BsubwayPmsData *pms, unsigned int heap);
 extern void func_02041B6C(u32);
@@ -455,7 +455,7 @@ int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     BSUBWAY_RECORD_LIST_FreeWork(work);
     func_020315D4((struct S020315D4 *)proc);
     func_0203084C(0x80);
-    func_020306F0(0x80);
+    GFL_HEAP_DeleteChecked(0x80);
     return 1;
 }
 
@@ -463,7 +463,7 @@ int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
 void BSUBWAY_RECORD_LIST_VBlankTask(void)
 {
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
 }
 
 
@@ -519,7 +519,7 @@ void BSUBWAY_RECORD_LIST_SetupBgLayers(BsubwayRecordListWork *unusedWork)
 
     BG_SYS_Create(0x80);
     dispConfig = sRecordListDispConfig;
-    func_0203FC28(&dispConfig);
+    BG_SYS_SetGraphicsMode(&dispConfig);
     bgTemplates = sRecordListBgTemplates;
     for (i = 0; i < 5; i++) {
         bgId = sRecordListBgIds[i];
@@ -556,7 +556,7 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
     func_02049658(spriteArc, func_02027628(), 1, 0, 0, 0, 0x80);
     func_020498F4(spriteArc, func_0202762C(), 1, 0, 0, 0, 0x80);
     ARC_UTIL_UploadPaletteFromHandle(spriteArc, func_02027624(), 0, 0, 0x1C0, 0x20, 0x80);
-    func_020413B0(1, 0, 0x15, 0x20, 3, 0xE);
+    BG_SYS_FillTileMap(1, 0, 0x15, 0x20, 3, 0xE);
     func_020409B4(1);
     ARC_TOOL_DeleteHandle(spriteArc);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x80);
@@ -845,9 +845,9 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
     trainerIndex = record->trainerIndex;
     greeting = &record->greeting;
     nameStr = STRBUF_Create(0x10, 0x80);
-    func_0201EFA4(work->wordSet, 0, work->args->wordNumber0, 2, 0, 1);
-    func_0201EFA4(work->wordSet, 1, work->args->wordNumber1, 3, 0, 1);
-    func_0201F048(work->wordSet, 2, trainerClass);
+    WORDSET_SetSlotNumber(work->wordSet, 0, work->args->wordNumber0, 2, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, work->args->wordNumber1, 3, 0, 1);
+    WORDSET_SetSlotFromMsgE7(work->wordSet, 2, trainerClass);
     WORDSET_DeleteMsgdataF094(work->wordSet, 3, trainerClass, trainerIndex);
     BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_SUMMARY]), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE]), 0);
@@ -861,19 +861,19 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].window), 0, 0, nameStr, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].isPending = 1;
-        func_0201F250(work->wordSet, work->textBuf, work->messages[1]);
+        WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[1]);
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].isPending = 1;
-        func_0201F250(work->wordSet, work->textBuf, work->messages[2]);
+        WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[2]);
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].isPending = 1;
-        func_0201F250(work->wordSet, work->textBuf, work->messages[4]);
+        WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[4]);
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].isPending = 1;
-        func_0201F250(work->wordSet, work->textBuf, work->messages[5]);
+        WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[5]);
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0x10, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].isPending = 1;

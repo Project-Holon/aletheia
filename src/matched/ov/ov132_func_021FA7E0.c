@@ -1,5 +1,5 @@
 /*
- * function: func_021FA7E0
+ * function: STA_ACT_BUTTON_CreateActors
  * address: 0x021FA7E0
  * packet: pkt_ov132_021FA7E0
  * region: ov132
@@ -20,11 +20,11 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_021F4F54 0x021F4F54 thumb ov112
- *   func_021F4F70 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
+ *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021FA99C 0x021FA99C thumb ov132
+ *   STA_ACT_BUTTON_LoadCharacter 0x021FA99C thumb ov132
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
 #include "../include/Obj00151.h"
@@ -35,8 +35,8 @@ typedef unsigned int u32;
 typedef struct {s16 x,y,index;u8 a,b;} Params;
 struct Bank;
 extern u32 STA_ACTING_GetActorCount(u8 *p);
-extern u8 *func_021F4F54(u8 *,int);
-extern int func_021F4F70(int *);
+extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *,int);
+extern int MUSICAL_MCSS_NoOp6(int *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
@@ -46,8 +46,8 @@ extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void *,u32,u32,u32,u16),CLACT_RegisterCellAnim(void *,u32,u32,u32),CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_021FA99C(u8 *p, u16 slot, int resource, u32 type);
-void func_021FA7E0(char *p)
+extern void STA_ACT_BUTTON_LoadCharacter(u8 *p, u16 slot, int resource, u32 type);
+void STA_ACT_BUTTON_CreateActors(char *p)
 {
     Params configs[2];
     u8 *table;
@@ -72,7 +72,7 @@ void func_021FA7E0(char *p)
     ARC_TOOL_DeleteHandle(narc);
     for(i=0;i<2;i++) {
         if(*(u16 *)(p+i*2+0x48)!=255) {
-            format=func_021F4F70((int *)func_021F4F54(table,*(u16 *)(p+i*2+0x48)));
+            format=MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table,*(u16 *)(p+i*2+0x48)));
             if(i==0) configs[1].x=32;
             else configs[1].x=224;
             configs[1].y=160;
@@ -84,7 +84,7 @@ void func_021FA7E0(char *p)
             *(void **)(p+i*4+0x54)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f2C,((struct Obj00151 *)p)->f20,((struct Obj00151 *)p)->f38,&configs[1],1,((struct Obj00151 *)p)->f0);
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x4c),0);
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x54),0);
-            func_021FA99C((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
+            STA_ACT_BUTTON_LoadCharacter((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;

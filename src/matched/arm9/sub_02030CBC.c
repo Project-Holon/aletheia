@@ -1,5 +1,5 @@
 /*
- * function: sub_02030CBC
+ * function: TCB_Init
  * address:  0x02030CBC
  * packet:   pkt_02030CBC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030CF4  0x02030CF4  arm
+ *   TCB_Reset  0x02030CF4  arm
  *
  * Lay a timer context out over caller-supplied storage and return it.  The
  * two arrays live in the tail of the block: the free stack of `capacity`
@@ -19,8 +19,8 @@
  * Nothing is allocated here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030CBC.c \
- *       --func sub_02030CBC --addr 0x02030CBC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCB_Init.c \
+ *       --func TCB_Init --addr 0x02030CBC --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -49,15 +49,15 @@ struct Ctx {
     struct Node  *slots[1];   /* +0x38 */
 };
 
-extern void sub_02030CF4(struct Ctx *c);
+extern void TCB_Reset(struct Ctx *c);
 
-struct Ctx *sub_02030CBC(u32 capacity, struct Ctx *c)
+struct Ctx *TCB_Init(u32 capacity, struct Ctx *c)
 {
     c->capacity = capacity;
     c->freeList = c->slots;
     c->pool = (struct Node *)(c->freeList + capacity);
     c->top = 0;
     c->busy = 0;
-    sub_02030CF4(c);
+    TCB_Reset(c);
     return c;
 }

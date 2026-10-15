@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   CLACT_StartActorAnim 0x0204B95C arm
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 struct Actor;
 struct Ctx;
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 extern void CLACT_StartActorAnim(struct Actor *a);
@@ -36,7 +36,7 @@ void DOWSING_UpdateFade(char *p)
     u16 m;
     u8 i;
 
-    func_02030D28(((struct Obj00323 *)p)->fB4);
+    TCB_Main(((struct Obj00323 *)p)->fB4);
     if (((struct Obj00323 *)p)->fC0 == 0 || PALANM_GetFadeRequestBits(((struct Obj00323 *)p)->fBC) != 0)
         return;
     switch (((struct Obj00323 *)p)->fC0) {

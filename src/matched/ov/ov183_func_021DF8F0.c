@@ -1,5 +1,5 @@
 /*
- * function: func_021DF8F0
+ * function: BR_CODEIN_SearchHitBox
  * address: 0x021DF8F0
  * packet: pkt_ov183_021DF8F0
  * region: ov183
@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int func_021DF8F0(int x, int y)
+int BR_CODEIN_SearchHitBox(int x, int y)
 {
     int ok = ((unsigned)(x - 80) <= 88) & ((unsigned)(y - 32) <= 56);
     if (ok) GFL_USE_PlaySeDefaultVolume(0x703);

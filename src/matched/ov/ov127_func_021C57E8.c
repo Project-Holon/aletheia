@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=func_021C42C4; bx r3.
+ * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_StepActorAnim; bx r3.
  * Blocker of ov099 func_021BA2D4.
  *
  * symbols:
- *   func_021C42C4  0x021C42C4  thumb  ov127
+ *   WIFI_2DCHAR_StepActorAnim  0x021C42C4  thumb  ov127
  */
 #include "../include/Obj23047.h"
 
 typedef unsigned char  u8;
-extern void func_021C42C4(u8 *p);
+extern void WIFI_2DCHAR_StepActorAnim(u8 *p);
 
 void WF2DMAP_OBJDRAW_RefreshActor(char *p)
 {
-    func_021C42C4(((struct Obj23047 *)p)->f4);
+    WIFI_2DCHAR_StepActorAnim(((struct Obj23047 *)p)->f4);
 }

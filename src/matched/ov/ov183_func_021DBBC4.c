@@ -1,5 +1,5 @@
 /*
- * function: func_021DBBC4
+ * function: BR_CODEIN_RecordMain
  * address: 0x021DBBC4
  * packet: pkt_ov183_021DBBC4
  * region: ov183
@@ -37,7 +37,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern int BR_UTIL_FlushText(u8 *p);
 extern int BR_UTIL_MainProfileScreen(u8 *p);
 extern void BR_UTIL_FlushWindow(void *);
-int func_021DBBC4(int a,int b,int c,char *p)
+int BR_CODEIN_RecordMain(int a,int b,int c,char *p)
 {
     int i;
     if(GAME_DATA_IsSaving(((struct Obj24542 *)(*(char * *)&((struct Obj02892 *)p)->fD0))->f28)==0 && BR_NET_HandleNetError(((struct Obj24543 *)(*(char * *)&((struct Obj02892 *)p)->fD0))->f24)==2) {

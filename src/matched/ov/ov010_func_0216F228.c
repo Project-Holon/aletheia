@@ -12,7 +12,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 #include "../include/Obj19151.h"
 
@@ -23,12 +23,12 @@ typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 int TRCARD_SYS_ExitMinimal(void *a, int b, int c, char *d)
 {
     func_020307B0(((struct Obj19151 *)d)->f18);
     func_020315D4(a);
-    func_020306F0(0x26);
+    GFL_HEAP_DeleteChecked(0x26);
     return 1;
 }

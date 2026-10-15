@@ -1,5 +1,5 @@
 /*
- * function: func_021DB2D4
+ * function: WIFIBATTLEMATCH_NET_GetPlayerBuffer
  * address:  0x021DB2D4
  * packet:   pkt_021DB2D4
  * region:   ov175
@@ -24,7 +24,7 @@ struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 g_021E2EF8[];
-int func_021DB2D4(int a, char *b)
+int WIFIBATTLEMATCH_NET_GetPlayerBuffer(int a, char *b)
 {
     if (GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) == a) {
         func_02034714((const char *)((int)g_021E2EF8), 0, (const char *)((int)g_021E2EF8));

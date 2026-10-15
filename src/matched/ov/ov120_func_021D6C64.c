@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C64
+ * function: GTSNEGO_MSG_DeleteTileHandle
  * address:  0x021D6C64
  * packet:   pkt_021D6C64
  * region:   ov120
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021D6C64(u8 *p)
+void GTSNEGO_MSG_DeleteTileHandle(u8 *p)
 {
     void *q = ((struct Obj00199 *)p)->f120;
     if (q) {

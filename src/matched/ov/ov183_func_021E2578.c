@@ -1,5 +1,5 @@
 /*
- * function: func_021E2578
+ * function: BR_CODEIN_SoclCreate
  * address: 0x021E2578
  * packet: pkt_ov183_021E2578
  * region: ov183
@@ -13,7 +13,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
- *   func_021E26B8 0x021E26B8 thumb ov183
+ *   BR_CODEIN_SoclStep 0x021E26B8 thumb ov183
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  */
@@ -28,10 +28,10 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
-extern void func_021E26B8(int *task, int *state, char *p);
+extern void BR_CODEIN_SoclStep(int *task, int *state, char *p);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
-int func_021E2578(void *obj,int b,char *q)
+int BR_CODEIN_SoclCreate(void *obj,int b,char *q)
 {
     char *p;
     int i;
@@ -40,7 +40,7 @@ int func_021E2578(void *obj,int b,char *q)
     *(char * *)&((struct Obj03332 *)p)->f3C=q;
     ((struct Obj03332 *)p)->f38=BR_PROC_SYS_GetSlotId(((struct Obj06614 *)q)->f10);
     ((struct Obj03332 *)p)->f0=BMP_OAM_CreateSys(((struct Obj03332 *)p)->f38,((struct Obj06614 *)q)->f4);
-    ((struct Obj03332 *)p)->fC=BR_UTIL_CreateTask((int)p,(int)func_021E26B8,((struct Obj03332 *)p)->f38);
+    ((struct Obj03332 *)p)->fC=BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_SoclStep,((struct Obj03332 *)p)->f38);
     ((struct Obj03332 *)p)->f4=PRINTSYS_QUE_Create((void *)(unsigned int)((struct Obj03332 *)p)->f38);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x30)=BR_UTIL_CreateHandles((unsigned int)(((struct Obj06614 *)q)->f4),(char *)(((struct Obj06614 *)q)->f8),i,((struct Obj03332 *)p)->f38);
     return 1;

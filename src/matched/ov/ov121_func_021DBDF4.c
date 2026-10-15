@@ -15,6 +15,8 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj03788.h"
 #include "../include/Obj10418.h"
@@ -32,8 +34,8 @@ struct WordSet;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
@@ -51,10 +53,10 @@ void func_021DBDF4(char *out,const Record *src,char *p,u16 heap)
         flags=src->w[43];
         text=STRBUF_Create(128,heap);
         other=func_02045EC0(((struct Obj03788 *)p)->f1C,151);
-        func_0201EFA4(((struct Obj03788 *)p)->f18,0,(u16)(flags>>16),4,1,1);
-        func_0201EFA4(((struct Obj03788 *)p)->f18,1,(u8)(flags>>8),2,0,1);
-        func_0201EFA4(((struct Obj03788 *)p)->f18,2,(u8)flags,2,0,1);
-        func_0201F250(((struct Obj03788 *)p)->f18,text,other);
+        WORDSET_SetSlotNumber(((struct Obj03788 *)p)->f18,0,(u16)(flags>>16),4,1,1);
+        WORDSET_SetSlotNumber(((struct Obj03788 *)p)->f18,1,(u8)(flags>>8),2,0,1);
+        WORDSET_SetSlotNumber(((struct Obj03788 *)p)->f18,2,(u8)flags,2,0,1);
+        WORDSET_CopyTaggedText(((struct Obj03788 *)p)->f18,text,other);
         x=40;
         x-=(s16)(func_0201D304(text,*(u32 *)&((struct Obj03788 *)p)->f10,0)/2);
         y=8-(s16)(func_0201D42C(text,((struct Obj03788 *)p)->f10)/2);

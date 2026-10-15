@@ -14,8 +14,8 @@
  * symbols:
  *   func_0217EF50  0x0217EF50  arm   ov009
  *   func_0217EC60  0x0217EC60  arm   ov009
- *   func_0217D254  0x0217D254  arm   ov009
- *   func_0217D32C  0x0217D32C  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
+ *   gsDebugBinary  0x0217D32C  arm   ov009
  *   qr2_parse_queryA  0x0219C7C0  arm   ov009
  *   GOAGetLastError  0x0217ED54  arm   ov009
  *   g_021AE9F8     0x021AE9F8  data
@@ -80,8 +80,8 @@ typedef struct qr2_implementation_s {
 
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
 extern void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len, SOCSockAddrIn *sender);
 extern int GOAGetLastError(int sock);
 extern char g_021AE9F8[];
@@ -100,14 +100,14 @@ void qr2_check_queries(qr2_implementation_s *qrec)
         int error = func_0217EC60(qrec->hbsock, g_021AE9F8, 255, 0, &saddr, &saddrlen);
         if (error != -1) {
             g_021AE9F8[error] = 0;
-            func_0217D254(3, 0, 16, g_021A74AC, error);
-            func_0217D32C(3, 0, 32, g_021AE9F8, error);
+            gsDebugFormat(3, 0, 16, g_021A74AC, error);
+            gsDebugBinary(3, 0, 32, g_021AE9F8, error);
             qr2_parse_queryA(qrec, g_021AE9F8, error, &saddr);
         } else if (error == 0) {
-            func_0217D254(3, 0, 16, g_021A74D0, error);
+            gsDebugFormat(3, 0, 16, g_021A74D0, error);
         } else {
             int error2 = GOAGetLastError(qrec->hbsock);
-            func_0217D254(3, 0, 16, g_021A751C, error2);
+            gsDebugFormat(3, 0, 16, g_021A751C, error2);
         }
     }
 }

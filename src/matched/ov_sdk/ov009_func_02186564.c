@@ -1,5 +1,5 @@
 /*
- * function: func_02186564
+ * function: gpGetReversBuddiesList
  * address:  0x02186564
  * packet:   pkt_ov009_02186564
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      gpGetReversBuddiesList (gp.o)
  *
  * symbols:
- *   func_02193734  0x02193734  arm   ov009
- *   func_021908B0  0x021908B0  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   gpiOthersBuddyList  0x021908B0  arm   ov009
  *   g_021A4010     0x021A4010  data  ov009
  *   g_021A4024     0x021A4024  data  ov009
  */
@@ -33,12 +33,12 @@ typedef struct GPGetReverseBuddiesListResponseArg {
 
 typedef void (*GPCallback)(void **, void *, void *);
 
-extern void func_02193734(int *p, int b);
-extern int func_021908B0(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern void gpiSetErrorString(int *p, int b);
+extern int gpiOthersBuddyList(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern char g_021A4010[];
 extern char g_021A4024[];
 
-int func_02186564(void **connection, int *targets, int numOfTargets, int blocking,
+int gpGetReversBuddiesList(void **connection, int *targets, int numOfTargets, int blocking,
                   GPCallback callback, void *param)
 {
     GPIConnection *iconnection;
@@ -46,12 +46,12 @@ int func_02186564(void **connection, int *targets, int numOfTargets, int blockin
     if (connection == 0 || *connection == 0)
         return 2;
     if (callback == 0) {
-        func_02193734((int *)connection, (int)g_021A4010);
+        gpiSetErrorString((int *)connection, (int)g_021A4010);
         return 2;
     }
     iconnection = (GPIConnection *)*connection;
     if (iconnection->f1F4 == 4) {
-        func_02193734((int *)connection, (int)g_021A4024);
+        gpiSetErrorString((int *)connection, (int)g_021A4024);
         return 2;
     }
     if (iconnection->f108 != 0) {
@@ -59,5 +59,5 @@ int func_02186564(void **connection, int *targets, int numOfTargets, int blockin
         callback(connection, &arg, param);
         return 0;
     }
-    return func_021908B0(connection, targets, numOfTargets, blocking, callback, param);
+    return gpiOthersBuddyList(connection, targets, numOfTargets, blocking, callback, param);
 }

@@ -33,7 +33,7 @@
  *   d_021BEA90     0x021BEA90  data  a2
  *   d_021BEA9C     0x021BEA9C  data  a2
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   d_021BED80     0x021BED80  data  a1
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020355C4  0x020355C4  arm
@@ -97,7 +97,7 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040618  0x02040618  arm
  *   CLACT_InitSystem  0x0204A48C  arm
@@ -132,7 +132,7 @@
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
@@ -145,7 +145,7 @@
  *   func_02045B38  0x02045B38  arm
  *   func_02049B40  0x02049B40  arm
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -167,7 +167,7 @@
  *   func_02027624  0x02027624  thumb
  *   func_02027628  0x02027628  thumb
  *   func_02027630  0x02027630  thumb
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02027758  0x02027758  thumb
  *   func_0202775C  0x0202775C  thumb
  *   func_02027760  0x02027760  thumb
@@ -238,11 +238,11 @@
  *   PLIST_PLATE_IsEgg  0x021BB468  thumb  ov091
  *   PLIST_MENU_GetItemUseMessage  0x021BC228  thumb  ov091
  *   PLIST_MENU_Open  0x021BBAF8  thumb  ov091
- *   func_021F6744  0x021F6744  thumb  ov112
+ *   MUSICAL_MCSS_GetMonValue  0x021F6744  thumb  ov112
  *   POKELIST_HasBackButton  0x021B9AB4  thumb  ov091
  *   PLIST_MENU_SetTaskMenuWinActive  0x021BBE5C  thumb  ov091
  *   POKELIST_MoveCursorToPlate  0x021B8F68  thumb  ov091
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   PLIST_MENU_ButtonWinSetDecide  0x021BBE68  thumb  ov091
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   POKELIST_StartSwapAnimation  0x021B9968  thumb  ov091
@@ -264,7 +264,7 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   func_0207D658  0x0207D658  arm
- *   func_02041570  0x02041570  arm
+ *   BG_SYS_ClearLayerEx  0x02041570  arm
  *   POKELIST_RefreshCursor 0x021B8418 thumb ov091
  *   MOVE_POKEMON_IsSkillBlocked 0x0215EA14 thumb ov010
  *   ZONEDATA_IsNormalFieldZone 0x02013E04 thumb
@@ -283,7 +283,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   MAIL_FindEmptySlot  0x02009020  thumb
  *   MAIL_Create  0x02008F08  thumb
  *   func_0200903C  0x0200903C  thumb
@@ -295,7 +295,7 @@
  *   func_02007FB8 0x02007FB8 thumb
  *   func_02007F1C 0x02007F1C thumb
  *   func_02007E50 0x02007E50 thumb
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetUnitRenderer 0x0204B258 arm
  *   CLACT_SetSurfacePos 0x0204B09C arm
@@ -317,20 +317,20 @@
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   func_0202D01C  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
  *   gSpeciesNameBank     0x020A7370  data
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   BMP_Clear  0x02043B5C  arm
  *   POKE_REGULATION_CheckPokemon 0x02019DA4 thumb
  *   func_0202D034 0x0202D034 thumb
  *   CLACT_GetSurfacePos 0x0204B0C8 arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
  *   func_02028590  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
@@ -344,8 +344,8 @@
  *   func_02028484 0x02028484 thumb
  *   APP_KEYCURSOR_Animate 0x0202865C thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
- *   func_0201F73C  0x0201F73C  thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   func_02028470  0x02028470  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
@@ -357,8 +357,8 @@
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   WORDSET_Callback_EF4C 0x0201EF4C thumb
- *   func_0201EF34 0x0201EF34 thumb
- *   func_0201F140 0x0201F140 thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
+ *   WORDSET_SetSlotFromMsgB4 0x0201F140 thumb
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
  *   func_02049DB4  0x02049DB4  arm
  *   gPlistMenuAllocSite     0x021BED38  data  ov091  a1
@@ -377,9 +377,9 @@
  *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
  *   FILE_UTIL_Get_1014 0x02021014 thumb
  *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
- *   func_02019CF8 0x02019CF8 thumb
+ *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
- *   func_02019D00  0x02019D00  thumb
+ *   POKE_TOOL_GetBoxParamIndex  0x02019D00  thumb
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -414,7 +414,7 @@
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
- *   func_02011400  0x02011400  thumb
+ *   VM_GetTimeZoneLight  0x02011400  thumb
  *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
@@ -541,7 +541,7 @@ extern u32 func_02005728(u32 range);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 extern void func_020355D8(int a);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern u32 POKEPARTY_GetCount(void *);
 extern u8 func_020355C4(void);
 extern u16 FILE_UTIL_Get_12B0(u16 id);
@@ -594,7 +594,7 @@ extern void WIPE_ResetWndMask(int a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -614,7 +614,7 @@ extern unsigned int G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
-extern void func_020414AC(unsigned);
+extern void BG_SYS_FreeSlot(unsigned);
 extern void func_020409B4(u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -627,7 +627,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
@@ -649,7 +649,7 @@ extern u32 func_020275E4(void);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_02027630(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_02027758(void);
 extern int func_0202775C(int a);
 extern int func_02027760(int a);
@@ -695,8 +695,8 @@ extern void PLIST_MESSAGE_CloseWindow(PokelistWork *work, u32 *s);
 extern void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *m);
 extern void PLIST_BATTLE_RefreshOpponentMessage(PokelistWork *work);
 extern int PLIST_MENU_GetItemUseMessage(PokelistWork *work, int id);
-extern int func_021F6744(void *p);
-extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
+extern int MUSICAL_MCSS_GetMonValue(void *p);
+extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern void PLIST_MENU_ButtonWinSetDecide(int h, int f);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int  POKE_REGULATION_CheckSelection(u32 a0, u32 a1, u32 a2);
@@ -705,7 +705,7 @@ extern u32  KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 FILE_UTIL_GetId(u32 id);
@@ -730,7 +730,7 @@ extern void PRINTSYS_PrintQueColor(void *printSys, void *bmp, s16 x, s16 y, void
 extern void STRBUF_Delete(void *vec);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(void *wordSet, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(void *wordSet, void *dst, void *src);
 extern u32 func_02007FB8(void *bag, u16 itemId, u16 heapId);
 extern u32 func_02007F1C(void *bag, u16 itemId, u16 count, u16 heapId);
 extern u32 func_02007E50(void *bag, u16 itemId, u16 count, u16 heapId);
@@ -1011,7 +1011,7 @@ int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work)
         func_020307B0(work->arg);
     }
     func_020315D4((struct S020315D4 *)procObj);
-    func_020306F0(0x17);
+    GFL_HEAP_DeleteChecked(0x17);
     return 1;
 }
 
@@ -1496,7 +1496,7 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     BG_SYS_SetVramBanks((const struct DispVram *)(&a));
     BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
-    func_0203FC28((struct DispConfig *)d_021BEAEC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BEAEC);
     POKELIST_LoadBgPlane(d_021BEBDC, 3, 0);
     POKELIST_LoadBgPlane(d_021BEBBC, 2, 0);
     POKELIST_LoadBgPlane(d_021BEB9C, 1, 0);
@@ -1584,7 +1584,7 @@ void POKELIST_ShutdownLight(PokelistWork *work) { PARTICLE_ExitManager(); G3D_CA
 
 
 
-void POKELIST_LoadBgPlane(const void *work, unsigned id,unsigned type) { BG_SYS_InitBgLayer(id,work,type); func_02040588(id,1); func_020414AC(id); func_020409B4(id); }
+void POKELIST_LoadBgPlane(const void *work, unsigned id,unsigned type) { BG_SYS_InitBgLayer(id,work,type); func_02040588(id,1); BG_SYS_FreeSlot(id); func_020409B4(id); }
 
 
 
@@ -1642,7 +1642,7 @@ void POKELIST_CreateFonts(PokelistWork *work)
     func_02049B40(0x17, 5, 0, 0x1c0, 0x20, work->heapId);
     func_02049B40(0x17, 5, 4, 0x1c0, 0x20, work->heapId);
     work->printSys = PRINTSYS_QUE_CreateEx(0x1800, work->heapId);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
 }
 
 
@@ -1692,7 +1692,7 @@ void POKELIST_LoadGraphics(PokelistWork *work)
     func_02049B68(h, func_02027624(), 0, 0x160, 0x20, work->heapId);
     func_02049658(h, func_02027628(), 1, 0, 0, 0, work->heapId);
     func_020498F4(h, func_02027630(), 1, 0, 0, 0, work->heapId);
-    func_020413B0(1, 0, 0, 0x40, 0x20, 0xb);
+    BG_SYS_FillTileMap(1, 0, 0, 0x40, 0x20, 0xb);
     work->charRes[5] = CLACT_RegisterPaletteEx(h2, func_02027758(), 0, 0xa0, 0, 1, work->heapId);
     work->palRes[6] = CLACT_RegisterCharacter(h2, func_0202775C(2), 0, 0, work->heapId);
     work->cellRes[6] = CLACT_RegisterCellAnim(h2, func_02027760(2), func_02027764(2), work->heapId);
@@ -2126,7 +2126,7 @@ void POKELIST_OpenContextMenu(PokelistWork *work)
         }
         break;
     case 25:
-        if (func_021F6744((void *)work->selectedMon) == 1) {
+        if (MUSICAL_MCSS_GetMonValue((void *)work->selectedMon) == 1) {
             buf[0] = 0xb;
             buf[1] = 0;
             buf[2] = 6;
@@ -2241,7 +2241,7 @@ void POKELIST_HandleCommand(PokelistWork *work)
 
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     if (POKELIST_IsItemMode(work) == 1) {
-        func_02041300(0, 0, 0, 0x15, 0x20, 3, 0x10);
+        BG_SYS_SetTileEntry(0, 0, 0, 0x15, 0x20, 3, 0x10);
         for (i = 0; i < 6; i++) {
             work->arg->slotOrder[i] = 0;
         }
@@ -2826,7 +2826,7 @@ void POKELIST_CloseContextMenu(PokelistWork *work)
         func_0207D63C(0x04000050, 0x14, 8, 0x10, 0xa);
         work->fadeMode = 0;
     }
-    func_02041570(0, 0);
+    BG_SYS_ClearLayerEx(0, 0);
     work->touchMode = func_020355C4();
 }
 
@@ -3303,7 +3303,7 @@ void POKELIST_PrintExpandedTextMain(PokelistWork *work, struct Descriptor *windo
 {
     void *expanded = STRBUF_Create(16, work->heapId);
     void *text = func_02045EC0(work->msgBank, messageId);
-    func_0201F250(wordSet, expanded, text);
+    WORDSET_CopyTaggedText(wordSet, expanded, text);
     PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(window), x, y, expanded, work->fontMain, color);
     STRBUF_Delete(text);
     STRBUF_Delete(expanded);
@@ -3313,7 +3313,7 @@ void POKELIST_PrintExpandedTextSub(PokelistWork *work, struct Descriptor *window
 {
     void *expanded = STRBUF_Create(16, work->heapId);
     void *text = func_02045EC0(work->msgBank, messageId);
-    func_0201F250(wordSet, expanded, text);
+    WORDSET_CopyTaggedText(wordSet, expanded, text);
     PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(window), x, y, expanded, work->fontSub, color);
     STRBUF_Delete(text);
     STRBUF_Delete(expanded);
@@ -3323,7 +3323,7 @@ void POKELIST_PrintExpandedTextSubDirect(PokelistWork *work, struct Descriptor *
 {
     void *expanded = STRBUF_Create(16, work->heapId);
     void *text = func_02045EC0(work->msgBank, messageId);
-    func_0201F250(wordSet, expanded, text);
+    WORDSET_CopyTaggedText(wordSet, expanded, text);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(window), x, y, expanded, work->fontSub, color);
     STRBUF_Delete(text);
     STRBUF_Delete(expanded);

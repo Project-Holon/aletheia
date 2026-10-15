@@ -19,16 +19,16 @@
  *   func_02049B68  0x02049B68  arm
  *   func_020275E4  0x020275E4  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
- *   func_02040E78  0x02040E78  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02027628  0x02027628  thumb
  *   func_02027624  0x02027624  thumb
  *   func_0202762C  0x0202762C  thumb
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   func_0201F5DC  0x0201F5DC  thumb
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  *   func_02049B40  0x02049B40  arm
  */
 typedef unsigned char  u8;
@@ -45,16 +45,16 @@ extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_020275E4(void);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
+extern void BG_SYS_LoadPltt(u32 a, void *src, u32 size, u32 ofs);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_02027628(void);
 extern u32 func_02027624(void);
 extern u32 func_0202762C(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 extern u32 BG_SYS_GetBuf(int channel);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 
 void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
@@ -82,10 +82,10 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     pal = ARC_UTIL_LoadPaletteBlockFromArchive(func_020275E4(), 0x1f, (u32)(&pd), 0x804c);
     src = pd->fC;
     ofs = 0x194;
-    func_02040E78(0, src + 0x34, 4, ofs);
+    BG_SYS_LoadPltt(0, src + 0x34, 4, ofs);
     src += 0x14;
     ofs += 0x20;
-    func_02040E78(0, src, 4, ofs);
+    BG_SYS_LoadPltt(0, src, 4, ofs);
     func_020307B0(pal);
     func_02049658(arc, 6, 5, 0, 0, 1, 0x4c);
     func_020498F4(arc, 5, 5, 0, 0, 1, 0x4c);
@@ -96,7 +96,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     func_02049740(arc2, func_02027628(), 0, 0, 0, 0x4c);
     func_02049B68(arc2, func_02027624(), 0, 0xe0, 0x20, 0x4c);
     func_020498F4(arc2, func_0202762C(), 0, 0, 0, 0, 0x4c);
-    func_020413B0(0, 0, 0x15, 0x20, 3, 7);
+    BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 7);
     func_02041B6C(0);
     r6 = func_02049740(arc2, func_02027628(), 2, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle(arc2);
@@ -106,7 +106,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
         *(u16 *)((char *)b + 0x540 + i * 2) = r6 + *(u16 *)((char *)a + 0x540 + i * 2);
     }
     func_02041B6C(2);
-    *(int *)(ctx->f2c + 0x178) = (int)func_0201F5DC(0, 10, 0, 0x4c);
+    *(int *)(ctx->f2c + 0x178) = (int)BMP_MENUWORK_LoadFrameGfx(0, 10, 0, 0x4c);
     func_02049B40(0x17, 5, 0, 0x160, 0x20, 0x4c);
     func_02049B40(0x17, 5, 4, 0x1e0, 0x20, 0x4c);
 }

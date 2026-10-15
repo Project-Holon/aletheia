@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062634",
+   "name": "NNS_G2dGetUnpackedAnimBank",
    "address": "0x02062634",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02062670",
+   "name": "NNS_G2dGetUnpackedAnimBankEx",
    "address": "0x02062670",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206267C",
+   "name": "NNSi_G2dGetUnpackedAnimBank",
    "address": "0x0206267C",
    "kind": "game",
    "region": "arm9",

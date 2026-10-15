@@ -17,7 +17,7 @@
  *   strchr         0x02094A28  arm
  *   strncpy        0x02094860  arm
  *   strtoul        0x02095EAC  arm
- *   func_0216EAB8  0x0216EAB8  arm  ov009
+ *   DWCi_MatchGPRecvBuddyMsgCallback  0x0216EAB8  arm  ov009
  *   g_021A2030     0x021A2030  data
  *   g_021A2038     0x021A2038  data
  *   g_021AA878     0x021AA878  data
@@ -48,7 +48,7 @@ extern int memcmp(const void *a, const void *b, unsigned long n);
 extern char *strchr(const char *s, int c);
 extern char *strncpy(char *d, const char *s, unsigned long n);
 extern unsigned long strtoul(const char *s, char **end, int base);
-extern void func_0216EAB8(void **pconnection, int profileID, char *message);
+extern void DWCi_MatchGPRecvBuddyMsgCallback(void **pconnection, int profileID, char *message);
 
 void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *arg)
 {
@@ -75,5 +75,5 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
         if (((Ctl *)g_021AA878.st)->mode != 2 && ((Ctl *)g_021AA878.st)->mode != 3)
             return;
     }
-    func_0216EAB8(pconnection, arg->profile, message + strlen(g_021A2038));
+    DWCi_MatchGPRecvBuddyMsgCallback(pconnection, arg->profile, message + strlen(g_021A2038));
 }

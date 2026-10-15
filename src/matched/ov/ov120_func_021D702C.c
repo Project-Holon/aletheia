@@ -1,5 +1,5 @@
 /*
- * function: func_021D702C
+ * function: GTSNEGO_MSG_StepScroll
  * address: 0x021D702C
  * packet: pkt_ov120_021D702C
  * region: ov120
@@ -9,12 +9,12 @@
  * status: EXACT
  * lever: pass the named loaded state to out instead of rematerializing 1 or 2.
  * symbols:
- *   func_021D71E8 0x021D71E8 thumb ov120
+ *   GTSNEGO_MSG_MoveListActor 0x021D71E8 thumb ov120
  */
 #include "../include/Obj01541.h"
 typedef unsigned char u8;
-extern void func_021D71E8(u8 *, int, int);
-int func_021D702C(u8 *p, int *out)
+extern void GTSNEGO_MSG_MoveListActor(u8 *, int, int);
+int GTSNEGO_MSG_StepScroll(u8 *p, int *out)
 {
     int i;
     int state;
@@ -26,7 +26,7 @@ int func_021D702C(u8 *p, int *out)
             ((struct Obj01541 *)p)->f108=0;
             ((struct Obj01541 *)p)->f104-=48;
         }
-        for (i=0;i<6;i++) func_021D71E8(p,i,-8);
+        for (i=0;i<6;i++) GTSNEGO_MSG_MoveListActor(p,i,-8);
         ((struct Obj01541 *)p)->f100=1;
     }
     state=((struct Obj01541 *)p)->f108;
@@ -37,7 +37,7 @@ int func_021D702C(u8 *p, int *out)
             ((struct Obj01541 *)p)->f108=0;
             ((struct Obj01541 *)p)->f104+=48;
         }
-        for (i=0;i<6;i++) func_021D71E8(p,i,8);
+        for (i=0;i<6;i++) GTSNEGO_MSG_MoveListActor(p,i,8);
         ((struct Obj01541 *)p)->f100=1;
     }
     return ((struct Obj01541 *)p)->f108;

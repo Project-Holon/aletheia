@@ -1,5 +1,5 @@
 /*
- * function: func_021D63B0
+ * function: WIFIBATTLEMATCH_NET_IsBoxReady
  * address:  0x021D63B0
  * packet:   pkt_021D63B0
  * region:   ov175
@@ -22,7 +22,7 @@ typedef unsigned long u32;
 
 extern u32 func_021E64C8(u32 p);
 
-u32 func_021D63B0(char *obj)
+u32 WIFIBATTLEMATCH_NET_IsBoxReady(char *obj)
 {
     return func_021E64C8(((struct Obj24228 *)obj)->f18);
 }

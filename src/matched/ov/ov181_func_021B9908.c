@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
- *   sub_02040860 0x02040860 arm
+ *   BG_SYS_SetScrollRegs 0x02040860 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BAC74 0x021BAC74 data a4
@@ -30,10 +30,10 @@ typedef unsigned char  u8;
 struct BgTemplate;
 struct DispConfig;
 struct Mtx22;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-extern void sub_02040860(unsigned, unsigned, unsigned, unsigned);
+extern void BG_SYS_SetScrollRegs(unsigned, unsigned, unsigned, unsigned);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 void STAFF_ROLL_SetupBackgrounds(void)
@@ -44,13 +44,13 @@ void STAFF_ROLL_SetupBackgrounds(void)
     Big e;
     BG_SYS_Create(0x8E);
     a = d_021BAC74;
-    func_0203FC28((struct DispConfig *)(&a));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&a));
     b = d_021BACC4;
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&b), 0);
     c = d_021BAC84;
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&c), 2);
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&d), 0, (const void *)0x9000, (const void *)0x9000, 0);
-    sub_02040860(3, (unsigned)&d, 0x80, 0x60);
+    BG_SYS_SetScrollRegs(3, (unsigned)&d, 0x80, 0x60);
     e = d_021BACA4;
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&e), 0);
     BG_SYS_SetMainPlaneVisible(2, 1);

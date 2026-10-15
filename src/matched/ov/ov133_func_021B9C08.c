@@ -13,7 +13,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
@@ -32,7 +32,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021B9C08(u8 *p, unsigned int index, void *object)
@@ -43,7 +43,7 @@ void func_021B9C08(u8 *p, unsigned int index, void *object)
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00004 *)p)->f18EC), 15);
     if (object) {
         copy = STRBUF_Create(128, ((struct Obj00004 *)p)->f0);
-        func_0201F250(object, copy, text);
+        WORDSET_CopyTaggedText(object, copy, text);
         STRBUF_Delete(text);
         text = copy;
     }

@@ -17,7 +17,7 @@
  *   MSGDATA_LoadBank  0x02046110  arm
  *   func_02046180  0x02046180  arm
  *   func_020461B8  0x020461B8  arm
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   func_0204960C  0x0204960C  arm
@@ -62,7 +62,7 @@
  * linearisation order is what breaks the scheduler's tie between the two
  * ready gap fillers.
  *
- * The fourth argument of sub_02030734 is the BSS provenance object at
+ * The fourth argument of GFL_HEAP_Alloc is the BSS provenance object at
  * 0x020A7E8C, not a __FILE__ string: it sits above the arm9 static image
  * end and has 41 pool references image-wide.  In MSGDATA_CreateFromMemory the
  * allocator's third argument (clear) shares one `mov r5, #0` with the two
@@ -104,7 +104,7 @@ struct MsgBank {
 };
 
 extern char MSGDATA_AllocSite[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern u32 func_020307B0(void *p);
 struct ArcFile;
@@ -127,7 +127,7 @@ struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
 {
     struct MsgBank *bank;
 
-    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, MSGDATA_AllocSite, 0xa6);
+    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, 0x1c, 0, MSGDATA_AllocSite, 0xa6);
     bank->heapId = (u16)heapId;
     bank->stream = 0;
     bank->origin = 0;
@@ -164,7 +164,7 @@ void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest)
         void *buf;
 
         size = e->len * 2;
-        buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
+        buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
                            0, MSGDATA_AllocSite, 0xd6);
         if (buf != 0) {
             func_0204960C(bank->stream,

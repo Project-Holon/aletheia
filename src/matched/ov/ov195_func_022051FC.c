@@ -18,7 +18,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   func_02045B38 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -44,7 +44,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
@@ -65,7 +65,7 @@ void SHINKA_DEMO_SetupWindows(int a, char *b)
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
     func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
-    ((struct Obj00844 *)b)->f74 = (u32)func_0201F5DC((void *)1, 2, 0, ((struct Obj00844 *)b)->f2);
+    ((struct Obj00844 *)b)->f74 = (u32)BMP_MENUWORK_LoadFrameGfx((void *)1, 2, 0, ((struct Obj00844 *)b)->f2);
     ((struct Obj00844 *)b)->f78 = (u32)func_02045B38(0, 2, 0xac, ((struct Obj00844 *)b)->f2);
     ((struct Obj00844 *)b)->f7C = (u32)func_02045B38(0, 2, 0xcc, ((struct Obj00844 *)b)->f2);
     ((struct Obj00844 *)b)->f68 = (u32)TCBL_Create(((struct Obj00844 *)b)->f2, ((struct Obj00844 *)b)->f2, 1, 0);

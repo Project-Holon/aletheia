@@ -1,5 +1,5 @@
 /*
- * function: func_0220D2AC
+ * function: B_BAG_MAIN_StateMessageInput
  * address: 0x0220D2AC
  * packet: pkt_ov197_0220D2AC
  * region: ov197
@@ -15,7 +15,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetCont 0x0203630C arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_0220D8B0 0x0220D8B0 thumb ov197
+ *   B_BAG_MAIN_PlaySe2 0x0220D8B0 thumb ov197
  */
 #include "../include/Obj03346.h"
 
@@ -29,8 +29,8 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern int TOUCHPANEL_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
-extern void func_0220D8B0(char **, int);
-int func_0220D2AC(char *p)
+extern void B_BAG_MAIN_PlaySe2(char **, int);
+int B_BAG_MAIN_StateMessageInput(char *p)
 {
     switch (PRINTSYS_PrintStreamGetState(*(struct Rec * *)&((struct Obj03346 *)p)->f1C)) {
     case 0:
@@ -39,7 +39,7 @@ int func_0220D2AC(char *p)
         break;
     case 1:
         if (!((struct Obj03346 *)p)->f20 && (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3))) {
-            func_0220D8B0((char **)p, 0x547);
+            B_BAG_MAIN_PlaySe2((char **)p, 0x547);
             PRINTSYS_PrintStreamReleasePause(*(struct Rec * *)&((struct Obj03346 *)p)->f1C);
             ((struct Obj03346 *)p)->f20 = 1;
         }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020526A8",
+   "name": "SPL_EMITTER_FreeNodeHeap",
    "address": "0x020526A8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02052770",
+   "name": "SPL_EMITTER_FreeTexNode",
    "address": "0x02052770",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020528A8",
+   "name": "SPL_EMITTER_AllocPlttVramDefault",
    "address": "0x020528A8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020528BC",
+   "name": "SPL_EMITTER_AllocTexVramDefault",
    "address": "0x020528BC",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02052F58",
+   "name": "SPL_EMITTER_AllocPlttVram",
    "address": "0x02052F58",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02052F90",
+   "name": "SPL_EMITTER_AllocTexVram",
    "address": "0x02052F90",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02052FC8",
+   "name": "SPL_EMITTER_UpdateSubC",
    "address": "0x02052FC8",
    "kind": "game",
    "region": "arm9",

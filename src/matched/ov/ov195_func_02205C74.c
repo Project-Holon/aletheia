@@ -13,11 +13,11 @@
  *   d_02208F68 0x02208F68 data
  *   func_02030734 0x02030734 arm
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02019CE0 0x02019CE0 thumb
+ *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
- *   func_0220609C 0x0220609C thumb ov195
- *   func_02206108 0x02206108 thumb ov195
- *   func_022063E0 0x022063E0 thumb ov195
+ *   SHINKA_DEMO_VIEW_InitMcss 0x0220609C thumb ov195
+ *   SHINKA_DEMO_VIEW_CreateModels 0x02206108 thumb ov195
+ *   SHINKA_DEMO_VIEW_CreateWork 0x022063E0 thumb ov195
  */
 
 typedef unsigned char u8;
@@ -52,11 +52,11 @@ extern char d_02208F68[];
 struct RecDC;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
-extern void func_0220609C(char *a);
-extern void func_02206108(Owner *o);
-extern void func_022063E0(Owner *o);
+extern void SHINKA_DEMO_VIEW_InitMcss(char *a);
+extern void SHINKA_DEMO_VIEW_CreateModels(Owner *o);
+extern void SHINKA_DEMO_VIEW_CreateWork(Owner *o);
 
 Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
 {
@@ -69,7 +69,7 @@ Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
     o->res1 = 0;
     if (f08 == 0) {
         o->res1 = func_02030734(o->heap, POKE_TOOL_GetPartyParamSize(), 1, d_02208F68, 0x213);
-        func_02019CE0(o->res0, o->res1);
+        POKE_TOOL_CopyPartyPokemon(o->res0, o->res1);
         POKE_TOOL_ChangeSpecies(o->res1, o->f0c);
     }
     if (o->f08 == 0)
@@ -89,9 +89,9 @@ Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
         o->f48 = 0;
     else
         o->f48 = 1;
-    func_0220609C((char *)o);
-    func_02206108(o);
-    func_022063E0(o);
+    SHINKA_DEMO_VIEW_InitMcss((char *)o);
+    SHINKA_DEMO_VIEW_CreateModels(o);
+    SHINKA_DEMO_VIEW_CreateWork(o);
     o->f5c = 1;
     return o;
 }

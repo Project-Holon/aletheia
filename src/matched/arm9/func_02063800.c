@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02063800
+ * function: NNSi_G2dGetVramHandleEx
  * address:  0x02063800
  * packet:   pkt_02063640
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02063800(char *p, int i){ return *(int *)(p + i * 4 + 8); }
+int NNSi_G2dGetVramHandleEx(char *p, int i){ return *(int *)(p + i * 4 + 8); }

@@ -28,7 +28,7 @@
  *   FIELD_CAMERA_ANIME_Create  0x0218FE80  thumb  ov021
  *   FIELD_CAMERA_ANIME_Delete  0x0218FE98  thumb  ov021
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
- *   func_021A7B08  0x021A7B08  thumb  ov021
+ *   FIELD_GROUND_ANIME_GetEntryPos  0x021A7B08  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
  *   FIELD_CAMERA_ANIME_GetCurrentParam  0x0218FE78  thumb  ov021
@@ -59,7 +59,7 @@ extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
 extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
 extern void FIELD_CAMERA_ANIME_Delete(void);
 extern unsigned short FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern void func_021A7B08(FieldMap *fieldMap, VecFx32 *out);
+extern void FIELD_GROUND_ANIME_GetEntryPos(FieldMap *fieldMap, VecFx32 *out);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
 extern void FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
@@ -239,7 +239,7 @@ void ENTRANCE_CAMERA_SetupLeaveByDir(EntranceCamera *work)
     data->stopTrace = 0;
     data->detachTarget = 0;
     if (ENTRANCE_CAMERA_AimsAtEntrance(work)) {
-        func_021A7B08(work->fieldMap, &playerPos);
+        FIELD_GROUND_ANIME_GetEntryPos(work->fieldMap, &playerPos);
     } else {
         FIELD_PLAYER_GetPos(player, &playerPos);
     }
@@ -314,7 +314,7 @@ void ENTRANCE_CAMERA_SetupArriveByDir(EntranceCamera *work)
     data->stopTrace = 0;
     data->detachTarget = 0;
     if (ENTRANCE_CAMERA_AimsAtEntrance(work) != 0)
-        func_021A7B08(work->fieldMap, &pos);
+        FIELD_GROUND_ANIME_GetEntryPos(work->fieldMap, &pos);
     else
         FIELD_PLAYER_GetPos(player, &pos);
     switch (playerDir) {
@@ -379,7 +379,7 @@ void ENTRANCE_CAMERA_SetupLeaveByRecord(EntranceCamera *work)
         return;
     }
     if (ENTRANCE_CAMERA_AimsAtEntrance(work) != 0) {
-        func_021A7B08(work->fieldMap, &pos);
+        FIELD_GROUND_ANIME_GetEntryPos(work->fieldMap, &pos);
     } else {
         FIELD_PLAYER_GetPos(player, &pos);
     }
@@ -442,7 +442,7 @@ void ENTRANCE_CAMERA_SetupArriveByRecord(EntranceCamera *work)
     if (work->arriveActive == 0)
         return;
     if (ENTRANCE_CAMERA_AimsAtEntrance(work) != 0)
-        func_021A7B08(work->fieldMap, &pos);
+        FIELD_GROUND_ANIME_GetEntryPos(work->fieldMap, &pos);
     else
         FIELD_PLAYER_GetPos(player, &pos);
     if (data->detachTarget != 0 && ENTRANCE_CAMERA_AimsAtEntrance(work) != 0)

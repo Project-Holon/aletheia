@@ -13,17 +13,17 @@
  *   G2_GetBG1CharPtr    0x0207E24C  arm
  *   func_02082A7C    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
- *   func_02062A4C    0x02062A4C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx    0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange    0x020862F0  arm
  *   MIi_CpuCopy16    0x02082A60  arm
  *   func_020307B0    0x020307B0  arm
- *   func_02062B30    0x02062B30  arm
+ *   NNS_G2dGetUnpackedScreenData    0x02062B30  arm
  *   G2_GetBG1ScrPtr    0x0207DFB4  arm
- *   func_02062AD4    0x02062AD4  arm
- *   func_02062A98    0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteCompressInfo    0x02062AD4  arm
+ *   NNS_G2dGetUnpackedPaletteData    0x02062A98  arm
  *
  * Three copies of one block: register a handle with ARC_UTIL_LoadMember(0x16, i, 0, 7),
- * probe it (func_02062A4C / 02062B30 / 02062A98 with a stack out-pointer), and
+ * probe it (NNS_G2dGetUnpackedCharacterDataEx / 02062B30 / 02062A98 with a stack out-pointer), and
  * on success clear 0x20 bytes of the record's buffer through DWCi_ScreenDC_FlushRange and
  * fill it back through MIi_CpuCopy16 with the current frame-tick from the
  * getter (G2_GetBG1CharPtr / G2_GetBG1ScrPtr).  The handle is released with
@@ -56,14 +56,14 @@ struct NitroFileHeader;
 extern void *G2_GetBG1CharPtr(void);
 extern void func_02082A7C(u32 a, u32 b, u32 c);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
 extern void MIi_CpuCopy16(u32 a, u32 b, u32 c);
 extern u32 func_020307B0(void *p);
-extern int func_02062B30(void *file, void **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern void *G2_GetBG1ScrPtr(void);
-extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
 void func_0202F870(void)
 {
@@ -77,20 +77,20 @@ void func_0202F870(void)
 
     func_02082A7C(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     h = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
-    if (func_02062A4C((struct NitroFileHeader *)h, (void **)(&p1)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx((struct NitroFileHeader *)h, (void **)(&p1)) != 0) {
         DWCi_ScreenDC_FlushRange(p1[5], p1[4]);
         MIi_CpuCopy16(p1[5], (u32)G2_GetBG1CharPtr(), v1 = p1[4]);
     }
     func_020307B0((void *)h);
     h = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
-    if (func_02062B30((void *)h, (void **)(&p2)) != 0) {
+    if (NNS_G2dGetUnpackedScreenData((void *)h, (void **)(&p2)) != 0) {
         DWCi_ScreenDC_FlushRange((u32)p2 + 0xc, p2[2]);
         MIi_CpuCopy16((u32)p2 + 0xc, (u32)G2_GetBG1ScrPtr(), v2 = p2[2]);
     }
     func_020307B0((void *)h);
     h = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
-    func_02062AD4((struct NitroFileHeader *)h, (void **)(&p4));
-    if (func_02062A98((struct NitroFileHeader *)h, (void **)(&p3)) != 0) {
+    NNS_G2dGetUnpackedPaletteCompressInfo((struct NitroFileHeader *)h, (void **)(&p4));
+    if (NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)h, (void **)(&p3)) != 0) {
         DWCi_ScreenDC_FlushRange(p3[3], 0x20);
         MIi_CpuCopy16(p3[3], 0x05000000, 0x20);
     }

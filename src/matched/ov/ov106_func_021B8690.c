@@ -10,8 +10,8 @@
  * status: EXACT
  *
  * Evidence: original signed halfword loads and stores fix scroll widths.
- * ARM9 sub_02040618's legacy fourth input is forwarded only to
- * sub_02042360, whose complete three-input body does not read it;
+ * ARM9 BG_SYS_FillScrollArea's legacy fourth input is forwarded only to
+ * BG_SYS_SetScrollField, whose complete three-input body does not read it;
  * this caller supplies only three inputs, so the unused fourth is omitted.
  *
  * symbols:

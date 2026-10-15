@@ -13,9 +13,9 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02017E88  0x02017E88  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORLDTRADE_ADAPTER_CreateString  0x02202670  thumb
- *   func_02020F84  0x02020F84  thumb
+ *   FILE_UTIL_ReadString  0x02020F84  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
@@ -47,9 +47,9 @@ struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
-extern void func_02020F84(void *dst, u32 entry, u32 heap);
+extern void FILE_UTIL_ReadString(void *dst, u32 entry, u32 heap);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int WORLDTRADE_INPUT_PrintStringAlignedLine(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
@@ -84,10 +84,10 @@ void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void *
     s4f = func_02045EC0(bank, 0x4F);
     smode = func_02045EC0(bank, tbl_02202EB0[mode]);
     s70 = func_02045EC0(bank, 0x70);
-    func_0201EFA4(words, 3, key, 3, 0, 1);
+    WORDSET_SetSlotNumber(words, 3, key, 3, 0, 1);
     s71 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)words, (u32)bank, 0x71, 0x48);
     sname = func_02045EC0(names, name);
-    func_02020F84(ot, (u16)lv, 0x48);
+    FILE_UTIL_ReadString(ot, (u16)lv, 0x48);
     s41 = func_02045EC0(bank, 0x41);
     for (i = 0; i < 6; i++) {
         BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);

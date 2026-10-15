@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EB0
+ * function: COMM_BTL_DEMO_MAIN_TypeToFrame
  * address: 0x021B9EB0
  * packet: pkt_ov213_021B9EB0
  * region: ov213
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021B9EB0(void *p,u32 x) {if(!p)return 13;switch(x){case 3:return 13;case 0:return 10;case 1:return 11;case 2:return 12;default:return 10;}}
+int COMM_BTL_DEMO_MAIN_TypeToFrame(void *p,u32 x) {if(!p)return 13;switch(x){case 3:return 13;case 0:return 10;case 1:return 11;case 2:return 12;default:return 10;}}

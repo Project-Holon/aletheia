@@ -1,5 +1,5 @@
 /*
- * function: func_02053E1C
+ * function: SPL_EMITTER_UpdateFrameMainEx
  * address:  0x02053E1C
  * packet:   pkt_02052F58
  * region:   arm9
@@ -21,16 +21,16 @@
  *   func_0207D918        0x0207D918  arm
  * status:   EXACT
  *
- * Handler row 0 of the rig render-list dispatch (func_02053044 /
- * func_0205312C pool rows; docs/families/cluster_02052F58.h).  Same skeleton
- * as func_0205429C, transcribed from it with five differences read off the
+ * Handler row 0 of the rig render-list dispatch (SPL_EMITTER_UpdateSubX /
+ * SPL_EMITTER_UpdateSubB pool rows; docs/families/cluster_02052F58.h).  Same skeleton
+ * as SPL_EMITTER_UpdateFrameMain, transcribed from it with five differences read off the
  * listing:
  *   - the basis hook is selected by SubD->hw bits 9..10 (BfHw.sel2, as in
- *     func_02054718), not SubC->f00 bits 17..18;
+ *     SPL_EMITTER_UpdateFrameA68Ex), not SubC->f00 bits 17..18;
  *   - the direction/negated-position choice is SubD->f10 bit 6 (BfSel.sel),
  *     not SubC->f48 bit 31;
  *   - the scale concat is MTX_Concat43(m2, m3, m1) -- operands the other way
- *     round from func_0205429C's (m3, m2, m1); the only 2 bytes the straight
+ *     round from SPL_EMITTER_UpdateFrameMain's (m3, m2, m1); the only 2 bytes the straight
  *     transcription had wrong;
  *   - the quad-emitter hook is SubD->hw bit 11 (BfHw.sel1);
  *   - its arguments are SubB +0x7c/+0x7e and two literal zeros.
@@ -38,8 +38,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02053E1C.c \
- *       --func func_02053E1C --addr 0x02053E1C --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_UpdateFrameMainEx.c \
+ *       --func SPL_EMITTER_UpdateFrameMainEx --addr 0x02053E1C --arm --cc ../1.2/sp2
  */
 typedef signed int s32;
 typedef unsigned int u32;
@@ -169,7 +169,7 @@ extern void VEC_Normalize(const void *, void *);
 extern void func_0207D8E0(const void *);
 extern void func_0207D918(const void *);
 
-void func_02053E1C(struct Obj *obj, struct S *s)
+void SPL_EMITTER_UpdateFrameMainEx(struct Obj *obj, struct S *s)
 {
     struct Frame f;
     struct SubC *p;

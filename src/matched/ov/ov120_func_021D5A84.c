@@ -1,5 +1,5 @@
 /*
- * function: func_021D5A84
+ * function: GTSNEGO_DISP_OpenPartyMenu
  * address: 0x021D5A84
  * packet: pkt_ov120_021D5A84
  * region: ov120
@@ -8,33 +8,33 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D7AF4 0x021D7AF4 thumb ov120
- *   func_021D6988 0x021D6988 thumb ov120
+ *   GTSNEGO_MSG_UpdatePrintStream 0x021D7AF4 thumb ov120
+ *   GTSNEGO_DISP_GetTouchbar 0x021D6988 thumb ov120
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
- *   func_021D7B60 0x021D7B60 thumb ov120
- *   func_021D63F4 0x021D63F4 thumb ov120
- *   func_021D69F4 0x021D69F4 thumb ov120
- *   func_021D4244 0x021D4244 thumb ov120
- *   func_021D59E0 0x021D59E0 thumb ov120
+ *   GTSNEGO_MSG_OpenMenu 0x021D7B60 thumb ov120
+ *   GTSNEGO_DISP_SetTradePalette 0x021D63F4 thumb ov120
+ *   GTSNEGO_DISP_SetCursorState 0x021D69F4 thumb ov120
+ *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
+ *   GTSNEGO_DISP_OnPartyMenuDone 0x021D59E0 thumb ov120
  */
 #include "../include/Obj05347.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern int func_021D7AF4(char *p);
-extern u32 func_021D6988(u8 *p);
+extern int GTSNEGO_MSG_UpdatePrintStream(char *p);
+extern u32 GTSNEGO_DISP_GetTouchbar(u8 *p);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
-extern void *func_021D7B60(char *p, int n);
-extern void func_021D63F4(u8 *p, int flag, int mode);
-extern void func_021D69F4(u8 *p, void *q, u32 n);
-extern void func_021D4244(int *p, int v, int a2);
-extern void func_021D59E0(u8 *p);
-void func_021D5A84(u8 *p)
+extern void *GTSNEGO_MSG_OpenMenu(char *p, int n);
+extern void GTSNEGO_DISP_SetTradePalette(u8 *p, int flag, int mode);
+extern void GTSNEGO_DISP_SetCursorState(u8 *p, void *q, u32 n);
+extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
+extern void GTSNEGO_DISP_OnPartyMenuDone(u8 *p);
+void GTSNEGO_DISP_OpenPartyMenu(u8 *p)
 {
-    if (func_021D7AF4(((struct Obj05347 *)p)->f40)) {
-        TOUCHBAR_SetButtonVisible((unsigned char *)func_021D6988(((struct Obj05347 *)p)->f3C), 1, 0);
-        ((struct Obj05347 *)p)->f38 = func_021D7B60(((struct Obj05347 *)p)->f40, 1);
-        func_021D63F4(((struct Obj05347 *)p)->f3C, 1, 0);
-        func_021D69F4(((struct Obj05347 *)p)->f3C, 0, 9);
-        func_021D4244((int *)p, (int)func_021D59E0, 0x8d4);
+    if (GTSNEGO_MSG_UpdatePrintStream(((struct Obj05347 *)p)->f40)) {
+        TOUCHBAR_SetButtonVisible((unsigned char *)GTSNEGO_DISP_GetTouchbar(((struct Obj05347 *)p)->f3C), 1, 0);
+        ((struct Obj05347 *)p)->f38 = GTSNEGO_MSG_OpenMenu(((struct Obj05347 *)p)->f40, 1);
+        GTSNEGO_DISP_SetTradePalette(((struct Obj05347 *)p)->f3C, 1, 0);
+        GTSNEGO_DISP_SetCursorState(((struct Obj05347 *)p)->f3C, 0, 9);
+        GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_OnPartyMenuDone, 0x8d4);
     }
 }

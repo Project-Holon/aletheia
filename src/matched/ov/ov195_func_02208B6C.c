@@ -1,5 +1,5 @@
 /*
- * function: func_02208B6C
+ * function: SHINKA_DEMO_EFFECT_UpdateAnime
  * address:  0x02208B6C
  * packet:   pkt_02208B6C
  * region:   ov195
@@ -26,7 +26,7 @@ extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
 
-void func_02208B6C(char *p)
+void SHINKA_DEMO_EFFECT_UpdateAnime(char *p)
 {
     unsigned short i;
     int j = 0;

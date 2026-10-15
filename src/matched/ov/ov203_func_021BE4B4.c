@@ -11,7 +11,7 @@
  *   func_021BF810 0x021BF810 thumb ov203
  *   func_021BE158 0x021BE158 thumb ov203
  *   func_0200566C 0x0200566C thumb
- *   func_0204EA0C 0x0204EA0C arm
+ *   DOUBLE3DDISP_Exit 0x0204EA0C arm
  *   ICA_ANIME_Delete 0x02011558 thumb
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
@@ -25,7 +25,7 @@ struct Rec;
 extern void func_021BF810(char *p);
 extern void func_021BE158(void *);
 extern void func_0200566C(void);
-extern int func_0204EA0C(void);
+extern int DOUBLE3DDISP_Exit(void);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
@@ -37,7 +37,7 @@ void func_021BE4B4(char *ctx, int b, int c, u32 d)
     func_021BE158(((struct Obj03354 *)ctx)->f20);
     if (((struct Obj03354 *)ctx)->f10) {
         func_0200566C();
-        func_0204EA0C();
+        DOUBLE3DDISP_Exit();
     }
     ICA_ANIME_Delete(((struct Obj03354 *)ctx)->f18);
     for (i = 0; i < ((struct Obj03354 *)ctx)->f2C; i++) {

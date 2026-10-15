@@ -1,5 +1,5 @@
 /*
- * function: func_021F546C
+ * function: MUSICAL_MCSS_SetMatrix
  * address:  0x021F546C
  * packet:   pkt_ov112_021F546C
  * region:   ov112
@@ -11,7 +11,7 @@
  *
  * Slot writer (172 bytes): mode >= 7 sets track mode-7 (stride 0x38, array at p+0x14) enabled and copies four
  * Vec records plus two halfwords; mode 4 and 5 copy in->b.x/y into f524/f528 and f536/f540 style word groups
- * of the 0x22C scene slot and set a flag. The callback is registered by func_021F51F4 through func_021F56BC.
+ * of the 0x22C scene slot and set a flag. The callback is registered by MUSICAL_MCSS_DrawRenderObj through MUSICAL_MCSS_DrawMC.
  * 2026-10-05 (wave D9r lane 195): closed. The index is a compound product on a u32 byte offset:
  * `off = mode - 7; off *= 0x38;` with `base = (u32)p` and the first store at `base + off + 0x14`, then
  * `base += off` for the copies. This is the docs/idioms compound-multiply form: one web for the index and
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef struct { int x,y,z; } Vec;
 typedef struct { Vec a,b,c,d; u16 e,f; } Input;
 typedef struct { int pad[5]; u32 tracks[126]; /* 9 tracks of 0x38 bytes */ Vec t[2]; int flag[2]; } Big;
-void func_021F546C(unsigned mode, Input *in, Big *p)
+void MUSICAL_MCSS_SetMatrix(unsigned mode, Input *in, Big *p)
 {
     if (mode >= 7) {
         u32 off = mode - 7;

@@ -16,7 +16,7 @@
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   MUSICAL_EVENT_CheckNetError  0x02156BAC  thumb  ov010
  *   MUSICAL_EVENT_IsAborted  0x02156BCC  thumb  ov010
- *   func_021FCE00  0x021FCE00  thumb
+ *   MUS_COMM_FUNC_CheckTimingSync  0x021FCE00  thumb
  */
 #include "../include/Obj00005.h"
 
@@ -29,7 +29,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern int GAME_DATA_GetExternalWork(char *base);
 extern void MUSICAL_EVENT_CheckNetError(void *p);
 extern u32 MUSICAL_EVENT_IsAborted(void *p);
-extern int func_021FCE00();
+extern int MUS_COMM_FUNC_CheckTimingSync();
 
 int SCRCMD_MUSICAL_WaitSetMemberCount(int a0, int a1)
 {
@@ -64,7 +64,7 @@ a1 = ((struct Obj00005 *)t4)->f34;
 a0 = *(int *)&((struct Obj00005 *)t4)->f4;
 a1 = a1 << 0x18;
 a1 = (unsigned)a1 >> 0x18;
-    a0 = func_021FCE00(a0, a1);
+    a0 = MUS_COMM_FUNC_CheckTimingSync(a0, a1);
 loc_0215E0A2:
     if (a0 != 1) goto loc_0215E0AA;
 loc_0215E0A6:

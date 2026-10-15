@@ -14,6 +14,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_02008F84 0x02008F84 thumb
  *   func_02008F9C 0x02008F9C thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  */
 #include "../include/Obj00127.h"
 #include "../include/Obj23558.h"
@@ -28,7 +29,7 @@ extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
 extern u8 func_02008F9C(const struct Sub02008F80Obj *obj);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 struct WordSet;
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void MB_SEQ_SetWriterWord(u8 *p, u32 a1)
 {
@@ -40,6 +41,6 @@ void MB_SEQ_SetWriterWord(u8 *p, u32 a1)
     func_02008F84(entry);
     STRBUF_SetString(text, (const u16 *)func_02008F84(entry));
     n = func_02008F9C(entry);
-    func_0201EE0C(((struct Obj23558 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D4, 0, text, n, 1, 2);
+    WORDSET_SetSlotTag(((struct Obj23558 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D4, 0, text, n, 1, 2);
     STRBUF_Delete(text);
 }

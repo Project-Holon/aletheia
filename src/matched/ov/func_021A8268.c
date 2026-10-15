@@ -1,5 +1,5 @@
 /*
- * function: func_021A8268
+ * function: FIELD_GROUND_ANIME_HasBuildModel
  * address:  0x021A8268
  * packet:   pkt_021A8268
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A8268(u32 a)
+int FIELD_GROUND_ANIME_HasBuildModel(u32 a)
 {
 if (((struct Obj18070 *)((u8 *)(a)))->f28 != 0) {
     return 1;

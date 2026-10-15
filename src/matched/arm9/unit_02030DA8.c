@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_02030DA8, sub_02030DC8
+ * function: TCB_AddTask, TCB_InsertTask
  * address:  0x02030DA8
  * packet:   pkt_02030CBC
  * region:   arm9
@@ -11,12 +11,12 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030C44  0x02030C44  arm
- *   sub_02030DA8  0x02030DA8  arm
- *   sub_02030DC8  0x02030DC8  arm
+ *   TCB_AllocTask  0x02030C44  arm
+ *   TCB_AddTask  0x02030DA8  arm
+ *   TCB_InsertTask  0x02030DC8  arm
  *
  * Previously capped at MATCH: 0x02030C44 has exactly one caller image-wide,
- * the call inside sub_02030DC8 below, so no `label` witness exists and no cut
+ * the call inside TCB_InsertTask below, so no `label` witness exists and no cut
  * could free the site.  src/matched/unit_02030C44.c now reproduces the node
  * allocator's own byte range, so the PC24 at +0x34 resolves in the `matched`
  * class and the unit is EXACT.
@@ -76,25 +76,25 @@ struct Ctx {
     struct Node *unk_34;
 };
 
-extern struct Node *sub_02030C44(struct Ctx *c);
-extern struct Node *sub_02030DC8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key);
+extern struct Node *TCB_AllocTask(struct Ctx *c);
+extern struct Node *TCB_InsertTask(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key);
 
-struct Node *sub_02030DA8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
+struct Node *TCB_AddTask(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
 {
     struct Node *n;
 
     c->busy = 1;
-    n = sub_02030DC8(c, a, b, key);
+    n = TCB_InsertTask(c, a, b, key);
     c->busy = 0;
     return n;
 }
 
-struct Node *sub_02030DC8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
+struct Node *TCB_InsertTask(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
 {
     struct Node *n;
     struct Node *p;
 
-    n = sub_02030C44(c);
+    n = TCB_AllocTask(c);
     if (n == 0) {
         return 0;
     }

@@ -17,7 +17,7 @@
  *   GDS_SOCKET_ResolveHost 0x021D7E20 arm ov125
  *   CPS_Resolve 0x0215C910 arm ov009
  *   GDS_SOCKET_CopySslTemplate 0x021D8C14 arm ov125
- *   func_0215FC80 0x0215FC80 arm ov009
+ *   SOCL_EnableSsl 0x0215FC80 arm ov009
  */
 
 #include "../include/G_Clear.h"
@@ -31,7 +31,7 @@ extern int func_0215F428(int, int, int);
 extern int GDS_SOCKET_ResolveHost(const char *, char *);
 extern unsigned long CPS_Resolve(char *name);
 extern void GDS_SOCKET_CopySslTemplate(const char *, u8 *);
-extern int func_0215FC80(int s, void *con);
+extern int SOCL_EnableSsl(int s, void *con);
 int GDS_SOCKET_OpenAndResolve(void)
 {
     char out[16];
@@ -49,7 +49,7 @@ int GDS_SOCKET_OpenAndResolve(void)
     value = ((value >> 8) & 0x00ff00ff) | ((value << 8) & 0xff00ff00);
     ((u32 *)&gGdsSocket)[0x264/4] = (value >> 16) | (value << 16);
     GDS_SOCKET_CopySslTemplate(gGdsHostName, gGdsSslConnection);
-    if (func_0215FC80(((u32 *)&gGdsSocket)[0x26c/4], gGdsSslConnection) < 0) {
+    if (SOCL_EnableSsl(((u32 *)&gGdsSocket)[0x26c/4], gGdsSslConnection) < 0) {
         ((u32 *)&gGdsSocket)[0x250/4] = 15;
         return 0;
     }

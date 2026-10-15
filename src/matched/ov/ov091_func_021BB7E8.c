@@ -11,7 +11,7 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   PLIST_MESSAGE_RedrawWindow  0x021BBA28  thumb  ov091
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
@@ -30,7 +30,7 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PLIST_MESSAGE_RedrawWindow(int a, int b);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -46,7 +46,7 @@ void PLIST_MESSAGE_PrintText(u8 *a, u32 *s, u32 x)
     t = (u32)func_02045EC0((struct MsgBank *)(((struct Obj09930 *)a)->f134), x);
     if (s[11] != 0) {
         n = (u32)STRBUF_Create(0x100, ((struct Obj09930 *)a)->f0);
-        func_0201F250((struct WordSet *)s[11], (void *)n, (void *)t);
+        WORDSET_CopyTaggedText((struct WordSet *)s[11], (void *)n, (void *)t);
         STRBUF_Delete((struct U16Vec *)t);
         t = n;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD30
+ * function: ZKNSEARCH_MAIN_SetFadeStateA
  * address:  0x021BCD30
  * packet:   pkt_ov210_021BCD30
  * region:   ov210
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-void func_021BCD30(u8 *p)
+void ZKNSEARCH_MAIN_SetFadeStateA(u8 *p)
 {
     p[0x2b8] = 1;
 }

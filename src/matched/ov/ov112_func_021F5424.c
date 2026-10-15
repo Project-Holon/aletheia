@@ -1,5 +1,5 @@
 /*
- * function: func_021F5424
+ * function: MUSICAL_MCSS_GetRenderSize
  * address:  0x021F5424
  * packet:   pkt_ov112_021F5424
  * region:   ov112
@@ -14,21 +14,21 @@
  * (the two identical loads CSE, which schedules the load before the branch).
  *
  * symbols:
- *   func_021F626C  0x021F626C  thumb  ov112
- *   func_021F6280  0x021F6280  thumb  ov112
+ *   MUSICAL_MCSS_GetFieldC  0x021F626C  thumb  ov112
+ *   MUSICAL_MCSS_GetFieldD  0x021F6280  thumb  ov112
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj13831.h"
 
 typedef unsigned char  u8;
-extern void func_021F626C(u8 *p);
-extern void func_021F6280(u8 *p);
+extern void MUSICAL_MCSS_GetFieldC(u8 *p);
+extern void MUSICAL_MCSS_GetFieldD(u8 *p);
 
-void func_021F5424(int a0, int a1)
+void MUSICAL_MCSS_GetRenderSize(int a0, int a1)
 {
     if (a1 == 1)
-        func_021F626C((u8 *)(((struct Obj13831 *)a0)->f8));
+        MUSICAL_MCSS_GetFieldC((u8 *)(((struct Obj13831 *)a0)->f8));
     else
-        func_021F6280((u8 *)(((struct Obj13831 *)a0)->f8));
+        MUSICAL_MCSS_GetFieldD((u8 *)(((struct Obj13831 *)a0)->f8));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF0DC
+ * function: BR_CODEIN_SearchStepText
  * address: 0x021DF0DC
  * packet: pkt_ov183_021DF0DC
  * region: ov183
@@ -14,7 +14,7 @@
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DEE7C 0x021DEE7C thumb ov183
+ *   BR_CODEIN_SearchStep 0x021DEE7C thumb ov183
  */
 #include "../include/Obj01962.h"
 #include "../include/Obj24611.h"
@@ -30,8 +30,8 @@ extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 typedef unsigned int   u32;
-extern void func_021DEE7C(int *task, u32 *state, char *p);
-void func_021DF0DC(int *p, int *state, char *q)
+extern void BR_CODEIN_SearchStep(int *task, u32 *state, char *p);
+void BR_CODEIN_SearchStepText(int *p, int *state, char *q)
 {
     int args[2];
     switch (*state) {
@@ -57,7 +57,7 @@ void func_021DF0DC(int *p, int *state, char *q)
         if (BR_FADE_GetResult(*(int * *)&((struct Obj24616 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f8) != 0) *state = 3;
         break;
     case 3:
-        BR_UTIL_SetTaskStep(p, (int)func_021DEE7C);
+        BR_UTIL_SetTaskStep(p, (int)BR_CODEIN_SearchStep);
         break;
     }
 }

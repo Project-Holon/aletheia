@@ -11,13 +11,13 @@
  * function: STRBUF_Create
  *
  * symbols:
- *   sub_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   g_020A7E7C    0x020A7E7C  data
  *
  * The constructor of the u16-array object, and a clean specimen of the
  * debug-allocator calling convention this whole family is built on:
  *
- *   sub_02030734(heapId, size, clear, site, tag)
+ *   GFL_HEAP_Alloc(heapId, size, clear, site, tag)
  *
  * The fifth argument is a u16 passed on the stack, which the callee reads
  * back with a halfword load at [sp, #0x18]; here it is 100. It looks like
@@ -73,14 +73,14 @@ struct U16Vec {
  */
 
 extern struct AllocStamp g_020A7E7C;
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 
 struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId)
 {
     struct U16Vec *vec;
 
-    vec = (struct U16Vec *)sub_02030734(heapId, capacity * 2 + 0xa, 0,
+    vec = (struct U16Vec *)GFL_HEAP_Alloc(heapId, capacity * 2 + 0xa, 0,
                                         g_020A7E7C.site, 100);
     vec->magic = 0xB6F8D2ECu;
     vec->capacity = (u16)capacity;

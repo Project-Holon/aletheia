@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2E0
+ * function: COMM_BTL_DEMO_MAIN_RefreshRowText
  * address:  0x021BA2E0
  * packet:   pkt_021BA2E0
  * region:   ov213
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA330 0x021BA330 thumb
+ *   COMM_BTL_DEMO_MAIN_DrawRowText 0x021BA330 thumb
  */
 #include "../include/Obj08419.h"
 
-extern void func_021BA330(void *, int);
+extern void COMM_BTL_DEMO_MAIN_DrawRowText(void *, int);
 
-void func_021BA2E0(char *a)
+void COMM_BTL_DEMO_MAIN_RefreshRowText(char *a)
 {
     if (*(int *)&((struct Obj08419 *)a)->f50 == 0x2d)
-        func_021BA330(a, ((struct Obj08419 *)a)->fC);
+        COMM_BTL_DEMO_MAIN_DrawRowText(a, ((struct Obj08419 *)a)->fC);
 }

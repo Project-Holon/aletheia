@@ -1,5 +1,5 @@
 /*
- * function: func_021F6234
+ * function: MUSICAL_MCSS_GetFieldA
  * address:  0x021F6234
  * packet:   pkt_021F6234
  * region:   ov112
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj10307.h"
 
-void func_021F6234(char *p, int *q)
+void MUSICAL_MCSS_GetFieldA(char *p, int *q)
 {
     ((struct Obj10307 *)p)->fC8 = q[0];
     ((struct Obj10307 *)p)->fCC = q[1];

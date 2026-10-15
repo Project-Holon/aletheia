@@ -26,7 +26,7 @@
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   BEACON_STATUS_GetViewFlags  0x020275D0  thumb
  *   BEACON_STATUS_GetMessage  0x020275C4  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   GPOWER_GetActiveIdOfSameType 0x02010EA0 thumb
  *   GAME_BEACON_ACCESSOR_TablePop  0x021658D4  thumb  ov010
  *   GAME_BEACON_ACCESSOR_IsInfoInvalid  0x02165B5C  thumb  ov010
@@ -49,8 +49,8 @@
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
  *   d_021F3530     0x021F3530  data  a2
  *   func_02045CAC 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BG_SYS_Check1FF4  0x02041FF4  arm
@@ -102,7 +102,7 @@
  *   GAME_BEACON_ACCESSOR_GetDistributionSerial 0x02165EBC thumb ov010
  *   GAME_BEACON_ACCESSOR_GetInfoVersion 0x02165D20 thumb ov010
  *   TCBL_SetTaskFunc 0x02031288 arm
- *   func_0201F184 0x0201F184 thumb
+ *   WORDSET_SetSlotFromMsgA0 0x0201F184 thumb
  *   GPOWER_GetPowerCost 0x02010FA0 thumb
  *   func_02007FB8 0x02007FB8 thumb
  *   GPOWER_GetSelectedMinutesLeft 0x02010EEC thumb
@@ -128,7 +128,7 @@
  *   TCBL_Main 0x020310C4 arm
  *   GAME_BEACON_ACCESSOR_TableAddNewLogs 0x02165888 thumb ov010
  *   INTRUDE_COMM_SetCompleted 0x02158614 thumb ov010
- *   func_021945A4 0x021945A4 thumb ov021
+ *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent 0x021945A4 thumb ov021
  *   CALENDER_CreateTask 0x02164B38 thumb ov010
  *   GAME_EVENT_CreateOverlayEvent 0x020124AC thumb
  *   EVENT_NAMEIN_Create 0x021CD2A4 thumb ov021
@@ -170,7 +170,7 @@
  *   PRINTSYS_QUE_SetForceQueue  0x0201C4C8  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -202,8 +202,8 @@
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
- *   func_02062A98  0x02062A98  arm
- *   func_02062A00  0x02062A00  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   NNS_G2dGetUnpackedCharacterData  0x02062A00  arm
  *   DC_FlushAll    0x02086284  arm
  *   d_021F35BC     0x021F35BC  data  ov032  a2
  *   d_021F35C8     0x021F35C8  data  ov032  a2
@@ -368,7 +368,7 @@ extern u32 ICA_ANIME_GetUnk330(const struct Ctx *p);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern int BEACON_STATUS_GetMessage(void *p);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern u8 GPOWER_GetActiveIdOfSameType(int,u8 *);
 extern int GAME_BEACON_ACCESSOR_TablePop(struct Queue *q, struct Rec_021EFEC0 *out, u16 *tag);
 extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec_021EFEC0 *r);
@@ -386,8 +386,8 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags);
@@ -435,7 +435,7 @@ extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(struct Rec_021EFEC0 *r);
 extern u8 GAME_BEACON_ACCESSOR_GetInfoVersion(struct Rec_021EFEC0 *r);
 extern void TCBL_SetTaskFunc(int *p, int v);
-extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern unsigned int GPOWER_GetPowerCost(struct Rec02010FA0 *p, int idx);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
 extern int GPOWER_GetSelectedMinutesLeft(void);
@@ -459,7 +459,7 @@ extern u32 func_020307B0(void *p);
 extern void TCBL_Main(struct Tcbl *p);
 extern int GAME_BEACON_ACCESSOR_TableAddNewLogs(int a0);
 extern void INTRUDE_COMM_SetCompleted(void *p);
-extern void *func_021945A4(void *a, u32 b, u32 c);
+extern void *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(void *a, u32 b, u32 c);
 extern void *CALENDER_CreateTask(void *a, void *b, u8 c);
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d);
@@ -501,7 +501,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern void PRINTSYS_QUE_SetForceQueue(struct PrintSys *p, u32 v);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -529,8 +529,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 extern void DC_FlushAll(void);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
@@ -874,7 +874,7 @@ int BEACON_VIEW_ShowViewFlagMessage(BeaconViewWork *work)
     if (*f == 0)
         return 0;
     *f = 0;
-    func_0201EE0C(*(void * *)&work->wordSet, 0, (void *)BEACON_STATUS_GetMessage((void *)(work->beaconStatus)),
+    WORDSET_SetSlotTag(*(void * *)&work->wordSet, 0, (void *)BEACON_STATUS_GetMessage((void *)(work->beaconStatus)),
                   work->gender, 1, 2);
     func_021F18C4(work, 0xB);
     return 1;
@@ -1129,7 +1129,7 @@ int func_021F0438(BeaconViewWork *work)
     case 4:
         s = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)(work->recordLog), work->touchedRow + work->scrollTop);
         icon = func_021F0F44(work, s);
-        func_0201EE0C((void *)work->wordSet, 0, icon->messageString, icon->gender, 1, 2);
+        WORDSET_SetSlotTag((void *)work->wordSet, 0, icon->messageString, icon->gender, 1, 2);
         BEACON_VIEW_SetPrintQueueLimit(work, 1);
         func_021F18C4(work, 3);
         GAME_BEACON_SEARCH_SetThanks((void *)(*(int *)&work->saveInfo), icon->trainerId);
@@ -1574,7 +1574,7 @@ int func_021F0A18(BeaconViewWork *work, u32 *v)
 
 
 
-void func_021F0A98(BeaconViewWork *work,unsigned a) { func_02045CAC(work->messageBank,a,work->messageBuffer); func_0201F250((void *)work->wordSet,(void *)work->formatBuffer,work->messageBuffer); }
+void func_021F0A98(BeaconViewWork *work,unsigned a) { func_02045CAC(work->messageBank,a,work->messageBuffer); WORDSET_CopyTaggedText((void *)work->wordSet,(void *)work->formatBuffer,work->messageBuffer); }
 
 
 
@@ -1587,7 +1587,7 @@ void func_021F0A98(BeaconViewWork *work,unsigned a) { func_02045CAC(work->messag
 
 void func_021F0AC0(BeaconViewWork *work)
 {
-    func_0201EFA4((struct WordSet *)(*(int *)&work->wordSet), 0, work->recordCount, 2, 1, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)(*(int *)&work->wordSet), 0, work->recordCount, 2, 1, 1);
     func_021F0A98(work, 0);
     func_021F201C(work, &work->windows[2], (void *)(*(int *)&work->formatBuffer), 4, 0, 1, 0x3DC1, 0);
 }
@@ -1603,7 +1603,7 @@ void func_021F0AC0(BeaconViewWork *work)
 
 void func_021F0B10(BeaconViewWork *work, int a, int b)
 {
-    func_0201EFA4((struct WordSet *)(*(int *)&work->wordSet), 0, *(int *)&work->playTime, 5, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)(*(int *)&work->wordSet), 0, *(int *)&work->playTime, 5, 0, 1);
     func_021F0A98(work, a);
     func_021F201C(work, &work->windows[1], (void *)(*(int *)&work->formatBuffer), 0, 4, 0, 0x3C40, b);
 }
@@ -2688,7 +2688,7 @@ int func_021F199C(BeaconViewWork *work, void *x, int flag)
     if (r == GPOWER_GetActiveIdOfSameType(r, *(u8 * *)&work->powerRecord))
         return 0;
     GAME_BEACON_ACCESSOR_RegisterRecordWords((int)x, work->wordSet, work->uiHeapId);
-    func_0201F250((struct WordSet *)(work->wordSet), (void *)(work->formatBuffer), (void *)(*(u32 *)&work->messageBuffer));
+    WORDSET_CopyTaggedText((struct WordSet *)(work->wordSet), (void *)(work->formatBuffer), (void *)(*(u32 *)&work->messageBuffer));
     func_021F1A28(work, r, 1, (int *)((char *)&work->busyCount));
     return 1;
 }
@@ -2757,19 +2757,19 @@ void func_021F1A28(BeaconViewWork *work, int b, u8 c, int *r)
     task->duration = 0x5a;
     task->powerId = b;
     task->mode = c;
-    func_0201F184((struct WordSet *)(work->wordSet), 1, b);
+    WORDSET_SetSlotFromMsgA0((struct WordSet *)(work->wordSet), 1, b);
     if (task->mode == 0) {
         task->cost = GPOWER_GetPowerCost((struct Rec02010FA0 *)(work->powerRecord), b);
         task->nameStringId = func_02007FB8((u8 *)(work->messageArchive), 0x23f, work->uiHeapId);
-        func_0201EFA4((struct WordSet *)(work->wordSet), 2, task->cost, 3, 0, 1);
-        func_0201EFA4((struct WordSet *)(work->wordSet), 3, task->nameStringId, 3, 0, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(work->wordSet), 2, task->cost, 3, 0, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(work->wordSet), 3, task->nameStringId, 3, 0, 1);
         if (b == GPOWER_GetActiveIdOfSameType(b, (u8 *)(work->powerRecord))) {
             task->minutesLeft = GPOWER_GetSelectedMinutesLeft();
             if (task->minutesLeft != 0) {
                 task->hours = task->minutesLeft / 60;
                 task->minutes = task->minutesLeft % 60;
-                func_0201EFA4((struct WordSet *)(work->wordSet), 4, task->hours, 3, 0, 1);
-                func_0201EFA4((struct WordSet *)(work->wordSet), 5, task->minutes, 2, 0, 1);
+                WORDSET_SetSlotNumber((struct WordSet *)(work->wordSet), 4, task->hours, 3, 0, 1);
+                WORDSET_SetSlotNumber((struct WordSet *)(work->wordSet), 5, task->minutes, 2, 0, 1);
             }
         }
     }
@@ -3373,7 +3373,7 @@ void *func_021F2404(BeaconViewWork *work, int go)
     case 1:
     case 3:
         BEACON_STATUS_SetViewTop(*(void * *)&work->beaconStatus, 0);
-        r = func_021F254C(work, (unsigned)(func_021945A4(work->fieldSystem, (u32)(work->sessionInfo), 0)), 0, 3);
+        r = func_021F254C(work, (unsigned)(FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->fieldSystem, (u32)(work->sessionInfo), 0)), 0, 3);
         break;
     case 4:
         r = func_021F254C(work, (unsigned)(CALENDER_CreateTask(work->fieldSystem, work->sessionInfo, work->touchedRow + work->scrollTop)), 1, 0);
@@ -3779,7 +3779,7 @@ void func_021F2908(BeaconViewWork *work)
     PRINTSYS_QUE_SetForceQueue((struct PrintSys *)(work->printQueue), 1);
     PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(work->printQueue), 0x1f4, 0);
     work->font = FIELD_MSGBG_GetFont((u8 *)FIELDMAP_GetMsgBg((u8 *)(*(u32 *)&work->sessionInfo)));
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(void * *)&work->wordSet = GF_FONT_Create_EC64(work->mainHeapId);
     work->messageBank = func_02045B38(1, 2, 8, work->mainHeapId);
     work->messageBuffer = STRBUF_Create(0xd9, work->mainHeapId);
@@ -3803,7 +3803,7 @@ void func_021F2A04(BeaconViewWork *work)
     WORDSET_DeleteStrbufED04((struct WordSet *)((int)work->wordSet));
     PRINTSYS_QUE_Clear((struct PrintSys *)((int)work->printQueue));
     PRINTSYS_QUE_Delete((struct PrintSys *)((int)work->printQueue));
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)((int)work->paletteAnim), 3);
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)((int)work->paletteAnim), 1);
     PALANM_Delete((void *)((int)work->paletteAnim));
@@ -3955,18 +3955,18 @@ void func_021F2D20(BeaconViewWork *work, void *h)
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)work->paletteAnim, h, 0, work->uiHeapId, 3, 0x1c0, 0);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)work->paletteAnim, 0, 1, work->uiHeapId, 3, 0x20, 0xe0);
     work->panelPalette.res = ARC_TOOL_LoadHandleMember(h, 4, work->mainHeapId);
-    func_02062A98(work->panelPalette.res, (void **)(&work->panelPalette.header));
+    NNS_G2dGetUnpackedPaletteData(work->panelPalette.res, (void **)(&work->panelPalette.header));
     work->panelPalette.data = (u16 *)((u32 *)work->panelPalette.header)[3];
     work->iconPalette.res = ARC_TOOL_LoadHandleMember(h2, 0, work->mainHeapId);
-    func_02062A98(work->iconPalette.res, (void **)(&work->iconPalette.header));
+    NNS_G2dGetUnpackedPaletteData(work->iconPalette.res, (void **)(&work->iconPalette.header));
     work->iconPalette.data = (u16 *)((u32 *)work->iconPalette.header)[3];
     for (i = 0; i < 16; i++) {
         work->iconRes[i].file = ARC_TOOL_LoadHandleMember(h2, i + 0x31, work->mainHeapId);
-        func_02062A00(work->iconRes[i].file, &work->iconRes[i].data);
+        NNS_G2dGetUnpackedCharacterData(work->iconRes[i].file, &work->iconRes[i].data);
     }
     for (i = 0; i < 12; i++) {
         work->statusRes[i].file = ARC_TOOL_LoadHandleMember(h, i + 7, work->mainHeapId);
-        func_02062A00(work->statusRes[i].file, &work->statusRes[i].data);
+        NNS_G2dGetUnpackedCharacterData(work->statusRes[i].file, &work->statusRes[i].data);
     }
     DC_FlushAll();
     ARC_TOOL_DeleteHandle(h2);

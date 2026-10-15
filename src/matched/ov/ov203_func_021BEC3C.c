@@ -1,5 +1,5 @@
 /*
- * function: func_021BEC3C
+ * function: DEMO3D_DATA_FadeSeVolume
  * address:  0x021BEC3C
  * packet:   pkt_021BEC3C
  * region:   ov203
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BECA8 0x021BECA8 thumb
+ *   DEMO3D_DATA_CreateSeFade 0x021BECA8 thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Owner;
-extern void func_021BECA8(struct Owner *owner, u8 kind, u16 target, int start, int end, int duration, int flag);
+extern void DEMO3D_DATA_CreateSeFade(struct Owner *owner, u8 kind, u16 target, int start, int end, int duration, int flag);
 
-void func_021BEC3C(int a0, int a1, int *src)
+void DEMO3D_DATA_FadeSeVolume(int a0, int a1, int *src)
 {
-    func_021BECA8((struct Owner *)a0, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
+    DEMO3D_DATA_CreateSeFade((struct Owner *)a0, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
 }

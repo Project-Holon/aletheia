@@ -1,5 +1,5 @@
 /*
- * function: func_021C9BEC
+ * function: WF2DMAP_TOUCH_SetValue
  * address: 0x021C9BEC
  * packet: pkt_ov128_021C9BEC
  * region: ov128
@@ -9,4 +9,4 @@
  * status: EXACT*
  */
 typedef unsigned short u16;
-void func_021C9BEC(u16 *p, void *b, void *c, int flag, int value, int a5) { if(flag==0) *p=value; }
+void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value, int a5) { if(flag==0) *p=value; }

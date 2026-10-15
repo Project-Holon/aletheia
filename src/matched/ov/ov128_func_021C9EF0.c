@@ -1,5 +1,5 @@
 /*
- * function: func_021C9EF0
+ * function: WF2DMAP_TOUCH_Noop
  * address: 0x021C9EF0
  * packet: pkt_ov128_021C9EF0
  * region: ov128
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021C9EF0(void *a0) {}
+void WF2DMAP_TOUCH_Noop(void *a0) {}

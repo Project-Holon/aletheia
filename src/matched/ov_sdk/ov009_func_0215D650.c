@@ -1,5 +1,5 @@
 /*
- * function: func_0215D650
+ * function: SOCLi_BindCallBack
  * address:  0x0215D650
  * packet:   pkt_ov009_0215D650
  * region:   ov009
@@ -50,7 +50,7 @@ extern void func_02086078(void *mutex);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long CPS_TcpConnect(void);
 
-int func_0215D650(void *arg)
+int SOCLi_BindCallBack(void *arg)
 {
 	CmdBind *cpacket;
 	Socket *socket;

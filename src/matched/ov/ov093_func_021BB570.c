@@ -17,7 +17,7 @@
  *   BTL_SERVER_FLOW_StartAfterPokeChange  0x021BBD8C  thumb  ov093
  *   BTL_SERVER_FLOW_ResetInitStateAfterSelect  0x021BBD20  thumb  ov093
  *   BTL_SERVER_FLOW_StartAfterPokeSelect  0x021BBD2C  thumb  ov093
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  */
 #include "../include/Obj03190.h"
 
@@ -32,7 +32,7 @@ extern int BTL_SERVER_FLOW_StartAfterPokeChange(u8 *, int);
 extern void BTL_SERVER_FLOW_ResetInitStateAfterSelect(u8 *);
 extern int BTL_SERVER_FLOW_StartAfterPokeSelect(u8 *, int);
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 int BTL_SERVER_CompareFlowOutput(u8 *p, int sel, void *data, u32 n)
 {
@@ -58,7 +58,7 @@ int BTL_SERVER_CompareFlowOutput(u8 *p, int sel, void *data, u32 n)
         break;
     }
     s = *(u32 * *)&((struct Obj03190 *)p)->fCB0;
-    if (s[0] == n && func_0203EFC8((const u8 *)(s + 2), data, n) == 0)
+    if (s[0] == n && GF_STANDARD_CompareBytes((const u8 *)(s + 2), data, n) == 0)
         return 0;
     return 1;
 }

@@ -12,11 +12,11 @@
  * symbols:
  * func_02030EAC 0x02030EAC arm
  * BG_SYS_DeleteHalf 0x0203FB44 arm
- * func_02040DA8 0x02040DA8 arm
+ * BG_SYS_SetTileUnit 0x02040DA8 arm
  * func_020403F4 0x020403F4 arm
  * BMP_WIN_Exit 0x020450C8 arm
  * BG_SYS_Delete 0x0203F9B4 arm
- * func_020419E4 0x020419E4 arm
+ * BG_SYS_Update 0x020419E4 arm
  * IRC_COMPATIBLE_MENU_BgLayerIds 0x021B8AEC data a4
  */
 typedef unsigned char u8;
@@ -25,11 +25,11 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 typedef unsigned int   u32;
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_02040DA8(unsigned,unsigned,unsigned);
+extern void BG_SYS_SetTileUnit(unsigned,unsigned,unsigned);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern unsigned IRC_COMPATIBLE_MENU_BgLayerIds[];
 void IRC_COMPATIBLE_MENU_ExitBackgrounds(unsigned *p) {
  int i;
@@ -37,9 +37,9 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(unsigned *p) {
  func_02030EAC((struct Node *)p[1]);
  q=p[0];
  BG_SYS_DeleteHalf(5,(u16)q,(u16)(q>>16));
- func_02040DA8(5,1,0);
+ BG_SYS_SetTileUnit(5,1,0);
  for(i=0;i<8;i++) func_020403F4((u8)IRC_COMPATIBLE_MENU_BgLayerIds[i]);
  BMP_WIN_Exit();
  BG_SYS_Delete();
 }
-void IRC_COMPATIBLE_MENU_BackgroundVBlank(void) { func_020419E4(); }
+void IRC_COMPATIBLE_MENU_BackgroundVBlank(void) { BG_SYS_Update(); }

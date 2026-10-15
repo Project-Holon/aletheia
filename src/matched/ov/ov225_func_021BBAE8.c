@@ -11,7 +11,7 @@
  * symbols:
  *   func_021B9CDC 0x021B9CDC thumb ov225
  *   func_021B9E80 0x021B9E80 thumb ov225
- *   sub_02030EAC 0x02030EAC arm
+ *   TCB_DeleteTask 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10985.h"
@@ -23,6 +23,6 @@ typedef unsigned int u32;
 extern int func_021B9CDC(void *);
 extern void func_021B9E80(char *,u32);
 struct Node;
-extern void sub_02030EAC(struct Node *);
+extern void TCB_DeleteTask(struct Node *);
 extern u32 func_020307B0(void *p);
-void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); sub_02030EAC(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }
+void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); TCB_DeleteTask(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }

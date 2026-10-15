@@ -1,5 +1,5 @@
 /*
- * function: func_021DE15C
+ * function: BR_CODEIN_ListSetActorAnim
  * address: 0x021DE15C
  * packet: pkt_ov183_021DE15C
  * region: ov183
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern const u32 d_021E3358[];
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021DE15C(char *p, u32 value)
+void BR_CODEIN_ListSetActorAnim(char *p, u32 value)
 {
     u8 temp = value;
     int i;

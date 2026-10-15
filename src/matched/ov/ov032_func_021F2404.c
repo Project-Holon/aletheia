@@ -28,7 +28,7 @@
  *   INTRUDE_COMM_SetCompleted 0x02158614 thumb ov010
  *   BEACON_STATUS_SetViewTop 0x020275B8 thumb
  *   BEACON_STATUS_GetViewFlags 0x020275D0 thumb
- *   func_021945A4 0x021945A4 thumb ov021
+ *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent 0x021945A4 thumb ov021
  *   func_021F254C 0x021F254C thumb ov032
  *   func_021F2544 0x021F2544 thumb ov032
  *   CALENDER_CreateTask 0x02164B38 thumb ov010
@@ -53,7 +53,7 @@ struct Desc;
 extern void INTRUDE_COMM_SetCompleted(void *p);
 extern void BEACON_STATUS_SetViewTop(char *p, int v);
 extern void *BEACON_STATUS_GetViewFlags(char *p);
-extern void *func_021945A4(void *a, u32 b, u32 c);
+extern void *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(void *a, u32 b, u32 c);
 extern void *func_021F254C(char *p, void *task, int a, u32 b);
 extern void func_021F2544(char *p);
 extern void *CALENDER_CreateTask(void *a, void *b, u8 c);
@@ -75,7 +75,7 @@ void *func_021F2404(char *p, int go)
     case 1:
     case 3:
         BEACON_STATUS_SetViewTop(*(void **)(p + 0x34), 0);
-        r = func_021F254C(p, func_021945A4(*(void **)p, (u32)(*(void **)(p + 8)), 0), 0, 3);
+        r = func_021F254C(p, FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(*(void **)p, (u32)(*(void **)(p + 8)), 0), 0, 3);
         break;
     case 4:
         r = func_021F254C(p, CALENDER_CreateTask(*(void **)p, *(void **)(p + 8), *(u8 *)(p + 0x7e) + *(u8 *)(p + 0x7c)), 1, 0);

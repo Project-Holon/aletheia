@@ -1,5 +1,5 @@
 /*
- * function: func_021DC738
+ * function: WIFIBATTLEMATCH_NET_CreateHttpRap
  * address: 0x021DC738
  * packet: pkt_ov175_021DC738
  * region: ov175
@@ -23,7 +23,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *NHTTP_RAP_Create(int a, int b, int c);
-void func_021DC738(char *p,unsigned heap)
+void WIFIBATTLEMATCH_NET_CreateHttpRap(char *p,unsigned heap)
 {
     if(*(int *)&((struct Obj06575 *)p)->f121C!=0) func_02034714(d_021E2EF8,0,d_021E2EF8);
     ((struct Obj06575 *)p)->f12C=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDB5C
+ * function: CTVT_CALL_ReleaseGraphics
  * address: 0x021BDB5C
  * packet: pkt_ov172_021BDB5C
  * region: ov172
@@ -24,7 +24,7 @@ extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void ARC_TOOL_DeleteHandle(u32);
-void func_021BDB5C(u8 *p)
+void CTVT_CALL_ReleaseGraphics(u8 *p)
 {
     u8 i;
     CLACT_DeleteActor((struct Obj *)(((struct Obj14310 *)p)->f1B0));

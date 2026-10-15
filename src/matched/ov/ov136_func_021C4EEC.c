@@ -11,7 +11,7 @@
  *   ov136 leaf "return 0", not in any lane) lacks a witness. File that leaf, then re-verify.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -20,10 +20,10 @@
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
- *   func_0201F548 0x0201F548 thumb
+ *   BMP_MENUWORK_GetPlttFileId 0x0201F548 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   MAILSYS_OnKeyModeNoOp 0x021C4534 thumb ov136
@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -44,10 +44,10 @@ extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern u8 func_0201F548(int i);
+extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
+extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(u32 layer);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern int MAILSYS_OnKeyModeNoOp(void);
@@ -61,8 +61,8 @@ void MAILVIEW_LoadGraphics(u8 *p)
     u32 pal;
     u32 chr;
 
-    func_0201F5BC(0, 1, 4, 0, (u16)((struct Obj00540 *)p)->f0);
-    func_0201F5BC(0, 0xD, 6, 0, (u16)((struct Obj00540 *)p)->f0);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 4, 0, (u16)((struct Obj00540 *)p)->f0);
+    BMP_MENUWORK_LoadCharAndPltt(0, 0xD, 6, 0, (u16)((struct Obj00540 *)p)->f0);
     pal = k + 0xC;
     func_02049658(h, pal, 3, 0, 0, 1, (u16)((struct Obj00540 *)p)->f0);
     func_02049658(h, pal, 4, 0, 0, 1, (u16)((struct Obj00540 *)p)->f0);
@@ -77,11 +77,11 @@ void MAILVIEW_LoadGraphics(u8 *p)
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), h, k, (u16)((struct Obj00540 *)p)->f0, 0, 0x60, 0);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0x17, 7, (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x30);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0x17, 5, (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x50);
-    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, func_0201F548(0), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x40);
-    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, func_0201F548(1), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x60);
+    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, BMP_MENUWORK_GetPlttFileId(0), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x40);
+    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, BMP_MENUWORK_GetPlttFileId(1), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x60);
     GF_FONT_SetDefaultTextColor();
     ARC_TOOL_DeleteHandle(h);
-    func_02041300(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
     func_02041B6C(4);
     BG_SYS_SetMainPlaneVisible(1, 1);
     BG_SYS_SetMainPlaneVisible(2, 1);

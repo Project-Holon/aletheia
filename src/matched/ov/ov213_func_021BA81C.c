@@ -1,5 +1,5 @@
 /*
- * function: func_021BA81C
+ * function: COMM_BTL_DEMO_MAIN_InitEffect
  * address: 0x021BA81C
  * packet: pkt_ov213_021BA81C
  * region: ov213
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA8BC 0x021BA8BC thumb ov213
+ *   COMM_BTL_DEMO_MAIN_DeleteEffect 0x021BA8BC thumb ov213
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm
  *   PARTICLE_ReleaseCamera 0x02051758 arm
  *   PARTICLE_InitCamera 0x02051648 arm
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 struct Src648 {u32 f00,f04,f08,f0c,f10,f14,f18,f1c;};
 struct Dst648;
 extern int d_021BB324[],d_021BB330[],d_021BB360[];
-extern void func_021BA8BC(char *p, int object);
+extern void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object);
 extern int PARTICLE_CreateSystemDefault(int a,int b,int c,int d);
 extern int PARTICLE_ReleaseCamera(int a);
 extern void PARTICLE_InitCamera(struct Dst648 *p,struct Src648 *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
@@ -38,12 +38,12 @@ extern int PARTICLE_LoadArchiveMember(u32 a,u32 b,u32 c);
 extern u16 BUTTON_MAN_GetResourceType(void *res);
 extern u32 func_020056BC(void);
 extern void PARTICLE_SetupSystem(u8 *o,u32 a1,u32 a2,u32 a3);
-void func_021BA81C(u8 *p,unsigned code)
+void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
 {
     struct Src648 config;
     int resource;
     u32 context;
-    if(*(int *)&((struct Obj02925 *)p)->f10) func_021BA8BC((char *)p,*(int *)&((struct Obj02925 *)p)->f10);
+    if(*(int *)&((struct Obj02925 *)p)->f10) COMM_BTL_DEMO_MAIN_DeleteEffect((char *)p,*(int *)&((struct Obj02925 *)p)->f10);
     *(int *)&((struct Obj02925 *)p)->f10=PARTICLE_CreateSystemDefault((int)(p+20),0x4800,1,((struct Obj02925 *)p)->f4);
     config.f04=0x3000;
     config.f08=-0x3000;

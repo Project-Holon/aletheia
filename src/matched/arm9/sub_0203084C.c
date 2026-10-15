@@ -8,17 +8,17 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_0203084C
+ * function: GFL_HEAP_GetHeapHeadChecked
  *
  * Promoted from MATCH with no change to the C. The call to sub_020304CC at
  * +0004 was the one unresolved site: 0x020304CC's only branch reference in
  * the image is this call, so no `label` witness exists. It closed when
  * src/matched/sub_020304CC.c landed EXACT, which makes the site `matched`.
  *
- * Asserting wrapper around sub_020304CC, the same shape as sub_02030830
+ * Asserting wrapper around sub_020304CC, the same shape as GFL_HEAP_GetHeapHead
  * but with the assertion itself gated on the heap-layer state word.
  *
- *   void *sub_0203084C(u32 heapId)
+ *   void *GFL_HEAP_GetHeapHeadChecked(u32 heapId)
  *
  * The guard is one three-term conjunction, and the way it splits across
  * the instructions is what pins that reading: `cmp r0, #1` / `cmpne r0,
@@ -35,8 +35,8 @@
  *   OS_Terminate    0x02088234  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203084C.c \
- *       --func sub_0203084C --addr 0x0203084C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapHeadChecked.c \
+ *       --func GFL_HEAP_GetHeapHeadChecked --addr 0x0203084C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -46,7 +46,7 @@ typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
 
-void *sub_0203084C(u32 heapId)
+void *GFL_HEAP_GetHeapHeadChecked(u32 heapId)
 {
     void *p;
     u32 state;

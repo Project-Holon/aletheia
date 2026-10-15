@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB58
+ * function: WIFIBATTLEMATCH_NET_SetupPostData
  * address: 0x021DCB58
  * packet: pkt_ov175_021DCB58
  * region: ov175
@@ -31,7 +31,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u8 *NHTTP_RAP_Create(int,int,int);
 extern void NHTTP_RAP_AllocPostData(u8 *,int,int,int);
 extern void NHTTP_RAP_AppendPostData(u8 *,int,int);
-void func_021DCB58(char *p,void *q,int mode)
+void WIFIBATTLEMATCH_NET_SetupPostData(char *p,void *q,int mode)
 {
     int i;
     unsigned size;

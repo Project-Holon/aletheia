@@ -16,7 +16,7 @@
  *   func_021BA098 0x021BA098 thumb ov133
  *   func_021B94C0 0x021B94C0 thumb ov133
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EEF4 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   func_021B9C08 0x021B9C08 thumb ov133
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_021B952C 0x021B952C thumb ov133
@@ -38,7 +38,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021BA098(u8 *);
 extern void func_021B94C0(u8 *);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern void func_021B9C08(u8 *, unsigned int, void *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void func_021B952C(u8 *);
@@ -60,7 +60,7 @@ int func_021B940C(u8 *p)
         GFL_USE_PlaySeDefaultVolume(1962);
         func_021B94C0(p);
         obj = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
-        func_0201EEF4(obj, 0, ((struct Obj23318 *)(*(u8 * *)&((struct Obj23317 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4))->f4);
+        WORDSET_SetSlotMonSpecies(obj, 0, ((struct Obj23318 *)(*(u8 * *)&((struct Obj23317 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4))->f4);
         func_021B9C08(p, 0, obj);
         WORDSET_DeleteStrbufED04(obj);
         func_021BA098(p);

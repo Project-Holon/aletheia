@@ -15,7 +15,7 @@
  *   func_020498F4  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02040EBC  0x02040EBC  arm
+ *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  */
 
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_02040EBC(u32 a, u32 b);
+extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
 
 void VS_MULTI_LIST_LoadBgGraphics(int a0)
 {
@@ -41,5 +41,5 @@ void VS_MULTI_LIST_LoadBgGraphics(int a0)
     func_02049B68(h, 0x13, 0, 0, 0, 0x8071);
     func_020498F4(h, 0x10, 1, 0, 0x800, 1, 0x8071);
     ARC_TOOL_DeleteHandle(h);
-    func_02040EBC(4, 0);
+    BG_SYS_LoadPlttEntry(4, 0);
 }

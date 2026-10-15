@@ -18,8 +18,8 @@
  *   SBQueryEngineUpdateServer  0x0219D928  arm  ov009
  *   SBQueryEngineRemoveServerFromFIFOs  0x0219DF04  arm  ov009
  *   SBServerListDisconnect  0x021A02E0  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
- *   func_0219D8D8  0x0219D8D8  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
+ *   SBQueryEngineSetPublicIP  0x0219D8D8  arm  ov009
  */
 
 typedef struct SBServer {
@@ -76,8 +76,8 @@ extern void SBQueryEngineUpdateServer(struct SBQueryEngine *engine, struct SBSer
 extern void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
 struct SBL;
 extern void SBServerListDisconnect(struct SBL *slist);
-extern int func_02184200(const int *p);
-extern void func_0219D8D8(int *engine, int publicip);
+extern int ArrayLength(const int *p);
+extern void SBQueryEngineSetPublicIP(int *engine, int publicip);
 
 void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance)
 {
@@ -117,14 +117,14 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
     case 3:
         if (sb->disconnectFlag)
             SBServerListDisconnect((struct SBL *)serverlist);
-        if (func_02184200(serverlist->servers) == 0 || sb->engine.querylist.count == 0)
+        if (ArrayLength(serverlist->servers) == 0 || sb->engine.querylist.count == 0)
             sb->BrowserCallback(sb, 4, 0, sb->instance);
         break;
     case 5:
         sb->BrowserCallback(sb, 5, 0, sb->instance);
         break;
     case 6:
-        func_0219D8D8((int *)(&sb->engine), sb->list.mypublicip);
+        SBQueryEngineSetPublicIP((int *)(&sb->engine), sb->list.mypublicip);
         break;
     case 4:
     case 7:

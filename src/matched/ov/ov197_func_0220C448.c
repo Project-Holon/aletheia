@@ -1,5 +1,5 @@
 /*
- * function: func_0220C448
+ * function: B_BAG_MAIN_DeleteItemGraphics
  * address: 0x0220C448
  * packet: pkt_ov197_0220C448
  * region: ov197
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0220C6E8 0x0220C6E8 thumb ov197
- *   func_0220C6C0 0x0220C6C0 thumb ov197
+ *   B_BAG_MAIN_DeleteFingerCursor 0x0220C6E8 thumb ov197
+ *   B_BAG_MAIN_DeleteToolActors 0x0220C6C0 thumb ov197
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -19,20 +19,20 @@
 #include "../include/Obj25035.h"
 struct Obj;
 struct Bank;
-extern void func_0220C6E8(char *);
-extern void func_0220C6C0(char *);
+extern void B_BAG_MAIN_DeleteFingerCursor(char *);
+extern void B_BAG_MAIN_DeleteToolActors(char *);
 extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-void func_0220C448(char *p)
+void B_BAG_MAIN_DeleteItemGraphics(char *p)
 {
     unsigned i;
-    func_0220C6E8(p);
+    B_BAG_MAIN_DeleteFingerCursor(p);
     for (i = 0; i < 63; i++) CLACT_DeleteActor(*(struct Obj **)(p + i * 4 + 0x424));
-    func_0220C6C0(p);
+    B_BAG_MAIN_DeleteToolActors(p);
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x544) != -1) CLACT_ReleaseCharacter(*(int *)(p + i * 4 + 0x544));
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x568) != -1) CLACT_ReleasePalette(*(int *)(p + i * 4 + 0x568));
     for (i = 0; i < 3; i++) if (*(int *)(p + i * 4 + 0x58c) != -1) CLACT_ReleaseCellAnim(*(int *)(p + i * 4 + 0x58c));

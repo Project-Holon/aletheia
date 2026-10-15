@@ -39,7 +39,7 @@
  * `label` class has no outside witness.  It graduates for free, with no
  * change to this C, as soon as src/matched/ holds a GFL_NET_STATE_InitRandom entry:
  * the `matched` class then witnesses the site.  GFL_NET_STATE_InitRandom itself is
- * chain-capped on 0x0203F0A8 (see docs/notes/func_0203F0A8.c.txt), which is
+ * chain-capped on 0x0203F0A8 (see docs/notes/GF_STANDARD_Rand.c.txt), which is
  * why the pair is parked rather than finished here.
  */
 

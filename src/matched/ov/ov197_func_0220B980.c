@@ -1,5 +1,5 @@
 /*
- * function: func_0220B980
+ * function: B_BAG_MAIN_UpdateTool
  * address:  0x0220B980
  * packet:   pkt_0220B980
  * region:   ov197
@@ -16,7 +16,7 @@
 
 extern int B_APP_TOOL_Update(void *, int, int);
 
-int func_0220B980(char *a)
+int B_BAG_MAIN_UpdateTool(char *a)
 {
     return B_APP_TOOL_Update(a + 0x28, ((struct Obj25009 *)a)->f18, 0x23);
 }

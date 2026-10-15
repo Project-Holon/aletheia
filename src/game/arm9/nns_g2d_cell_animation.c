@@ -15,7 +15,7 @@
  * NitroSystem g2d animation controller reset: pCurrent goes to the loop
  * start frame when playing forward ((speed > 0) ^ bReverse) and to the last
  * frame otherwise; pActiveCurrent follows, currentTime clears, then a tail
- * call into func_02062D4C.  Written in the library's shape (controller and
+ * call into NNS_G2dTickAnimCtrl.  Written in the library's shape (controller and
  * sequence structs, forward test and frame-begin/end as inlines).  The kept
  * branches tell (docs/FRONTEND-PINS.md): the image branches over the two
  * three-instruction arms at 0x02062FB0..0x02062FCC where 1.1p1 predicates
@@ -23,7 +23,7 @@
  * 0 mismatches.
  *
  * symbols:
- *   func_02062D4C  0x02062D4C  arm
+ *   NNS_G2dTickAnimCtrl  0x02062D4C  arm
  */
 #include "cell_anim_types.h"
 
@@ -65,7 +65,7 @@ typedef unsigned char  u8;
 
 typedef signed int     s32;
 
-extern BOOL func_02062D4C(NNSG2dAnimController *pAnimCtrl, fx32 frames);
+extern BOOL NNS_G2dTickAnimCtrl(NNSG2dAnimController *pAnimCtrl, fx32 frames);
 void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl);
 void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
 void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int p1, int p2, int p3);
@@ -100,7 +100,7 @@ void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
     }
     pAnimCtrl->pActiveCurrent = pAnimCtrl->pCurrent;
     pAnimCtrl->currentTime = 0;
-    func_02062D4C(pAnimCtrl, 0);
+    NNS_G2dTickAnimCtrl(pAnimCtrl, 0);
 }
 
 

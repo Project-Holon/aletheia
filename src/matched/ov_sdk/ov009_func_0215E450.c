@@ -13,8 +13,8 @@
  *
  * symbols:
  *   CPS_SocBind  0x0215AAB0  arm  ov009
- *   func_0215E588  0x0215E588  arm  ov009
- *   func_0215E620  0x0215E620  arm  ov009
+ *   SOCLi_GetOptimumSendBufLen  0x0215E588  arm  ov009
+ *   SOCLi_MemCpy  0x0215E620  arm  ov009
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
@@ -70,10 +70,10 @@ struct SOCLiCommandWrite {
 };
 
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern int func_0215E588(int len);
+extern int SOCLi_GetOptimumSendBufLen(int len);
 typedef unsigned char  u8;
 struct Ring;
-extern int func_0215E620(u8 *dst, int len, struct Ring *r);
+extern int SOCLi_MemCpy(u8 *dst, int len, struct Ring *r);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_TcpClose(void);
 extern void OS_WakeupThread(void *queue);
@@ -112,11 +112,11 @@ static int func_0215E450(void *arg)
         hdr = 0x2a;
     sndbuf = socket->field58;
     if (socket->flag_mode == 0 || socket->flag_mode == 4)
-        sndbuf_len = func_0215E588(socket->field54 - hdr);
+        sndbuf_len = SOCLi_GetOptimumSendBufLen(socket->field54 - hdr);
     else
         sndbuf_len = socket->field54 - hdr;
     for (;;) {
-        int n = func_0215E620(sndbuf + hdr, sndbuf_len, (struct Ring *)cpacket);
+        int n = SOCLi_MemCpy(sndbuf + hdr, sndbuf_len, (struct Ring *)cpacket);
         if (n <= 0)
             goto done;
         result = CPS_SocWrite(sndbuf + hdr, n);

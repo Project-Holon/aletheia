@@ -1,5 +1,5 @@
 /*
- * function: func_0217F0D8
+ * function: gsiInterlockedDecrement
  * address:  0x0217F0D8
  * packet:   pkt_ov009_0217F0D8
  * region:   ov009
@@ -19,7 +19,7 @@
 extern unsigned long func_020879B4(void);
 extern unsigned long func_020879C8(unsigned long state);
 
-unsigned int func_0217F0D8(unsigned int *value)
+unsigned int gsiInterlockedDecrement(unsigned int *value)
 {
     unsigned long state;
     unsigned int ret;

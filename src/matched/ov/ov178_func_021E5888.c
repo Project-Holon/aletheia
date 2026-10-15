@@ -13,7 +13,7 @@
  *   PARTY_STATUS_DestroySubWork  0x021E5A44  thumb  ov178
  *   PARTY_STATUS_ExitSubWork  0x021E5B1C  thumb  ov178
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 typedef unsigned int u32;
 
@@ -21,7 +21,7 @@ extern void PARTY_STATUS_DestroySubWork(void **pp, u32 *c);
 extern void PARTY_STATUS_ExitSubWork(int *p, void *c);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 v);
+extern void GFL_HEAP_DeleteChecked(u32 v);
 
 int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d)
 {
@@ -34,6 +34,6 @@ int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d)
         break;
     }
     func_020315D4(a);
-    func_020306F0(0x58);
+    GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }

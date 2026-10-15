@@ -1,5 +1,5 @@
 /*
- * function: func_021F6F8C
+ * function: STA_ACT_LIGHT_DrawModel
  * address: 0x021F6F8C
  * packet: pkt_ov112_021F6F8C
  * region: ov112
@@ -23,4 +23,4 @@ extern void MTX_Identity33_(void *);
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 extern u32 d_021F8430[];
 extern struct Arg d_021F8418;
-void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { MTX_Identity33_(d_021F8430); G3D_SYSTEM_DrawObject(((struct Obj13838 *)p)->f3C,&d_021F8418); } }
+void STA_ACT_LIGHT_DrawModel(u8 *p) { if(((struct Obj13838 *)p)->f1C) { MTX_Identity33_(d_021F8430); G3D_SYSTEM_DrawObject(((struct Obj13838 *)p)->f3C,&d_021F8418); } }

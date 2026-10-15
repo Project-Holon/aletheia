@@ -1,5 +1,5 @@
 /*
- * function: func_02210710
+ * function: B_PLIST_MAIN_CreateTextResources
  * address: 0x02210710
  * packet: pkt_ov198_02210710
  * region: ov198
@@ -31,7 +31,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-void func_02210710(char *p)
+void B_PLIST_MAIN_CreateTextResources(char *p)
 {
     ((struct Obj02916 *)p)->f1EA0=func_02045B38(0,2,0x12,((struct Obj25254 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
     ((struct Obj02916 *)p)->f1E9C=GF_FONT_Create(0x17,3,0,0,((struct Obj25255 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4BD8
+ * function: NAMEIN_GRAPHIC_DrawDisplay
  * address:  0x021F4BD8
  * packet:   pkt_021F4BD8
  * region:   ov194
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F4D0C  0x021F4D0C  thumb  ov194
- *   func_021F4CA4  0x021F4CA4  thumb  ov194
+ *   NAMEIN_GRAPHIC_DrawClact  0x021F4D0C  thumb  ov194
+ *   NAMEIN_GRAPHIC_Empty  0x021F4CA4  thumb  ov194
  * Addresses are Black-image addresses.
  */
 
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021F4D0C(u8 *);
-extern void func_021F4CA4(u8 *);
+extern void NAMEIN_GRAPHIC_DrawClact(u8 *);
+extern void NAMEIN_GRAPHIC_Empty(u8 *);
 
-void func_021F4BD8(u8 *p)
+void NAMEIN_GRAPHIC_DrawDisplay(u8 *p)
 {
-    func_021F4D0C(p + 4);
-    func_021F4CA4(p);
+    NAMEIN_GRAPHIC_DrawClact(p + 4);
+    NAMEIN_GRAPHIC_Empty(p);
 }
 

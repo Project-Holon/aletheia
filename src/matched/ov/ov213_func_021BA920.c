@@ -1,5 +1,5 @@
 /*
- * function: func_021BA920
+ * function: COMM_BTL_DEMO_MAIN_BindModelPalette
  * address: 0x021BA920
  * packet: pkt_ov213_021BA920
  * region: ov213
@@ -26,4 +26,4 @@ extern int G3D_SYSTEM_GetObjectRender(int *),G3D_SYSTEM_GetRenderTexRes(int *),G
 extern int G3D_SYSTEM_GetResourceTex(char *);
 extern void NNS_G3dReleaseMdlPltt(char *);
 extern int NNS_G3dBindMdlPlttEx(char *,char *,u32,u32);
-int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct Obj25711 *)((char *)G3D_SYSTEM_GetRenderObj(q)))->f4; r=(char *)G3D_SYSTEM_GetResourceTex(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
+int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct Obj25711 *)((char *)G3D_SYSTEM_GetRenderObj(q)))->f4; r=(char *)G3D_SYSTEM_GetResourceTex(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }

@@ -23,7 +23,7 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   func_02030734 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -32,12 +32,12 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
  *   func_02028590  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
@@ -54,8 +54,8 @@
  *   APP_KEYCURSOR_Animate 0x0202865C thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_0201F73C  0x0201F73C  thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   func_02028470  0x02028470  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
@@ -67,8 +67,8 @@
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   WORDSET_Callback_EF4C 0x0201EF4C thumb
- *   func_0201EF34 0x0201EF34 thumb
- *   func_0201F140 0x0201F140 thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
+ *   WORDSET_SetSlotFromMsgB4 0x0201F140 thumb
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
  *   func_021BB9BC  0x021BB9BC  thumb
  */
@@ -93,7 +93,7 @@ extern void *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, void *bitmap, short x, short y, struct Strbuf *text, void *font, u16 flags);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct BmpWin *BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
@@ -102,12 +102,12 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EEF4(struct WordSet *wordSet, u32 index, void *mon);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, void *mon);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
 extern void BMP_Clear(void *bitmap, u8 value);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 heapId);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct KeyCursor *func_02028590(int a, int b, int c, u16 heapId);
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
@@ -123,8 +123,8 @@ extern s32 func_02028484(u8 *wait, struct TextStream *stream);
 extern void APP_KEYCURSOR_Animate(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
 extern u8 *TIME_ICON_CreateNode(struct Tcbl *taskList, struct BmpWin *win, u8 c, u8 d, u16 heapId);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
-extern void func_0201F73C(struct BmpWin *win, int a1, int a2, int a3);
-extern void func_0201F7A8(struct BmpWin *win, u32 kind);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void func_02028470(u8 *wait, u32 v);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct TextStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short x, short y, struct Strbuf *text, void *font, s32 a5, struct Tcbl *taskList, u32 a7, u32 heapId, u16 a9, int (*callback)(int));
@@ -136,8 +136,8 @@ extern int GFL_USE_PopBgm(void);
 extern int GFL_USE_IsAnySeBusy(void);
 extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 index, u32 v);
 extern void WORDSET_Callback_EF4C(struct WordSet *wordSet, u32 index, u32 v);
-extern void func_0201EF34(struct WordSet *wordSet, u32 index, u32 v);
-extern void func_0201F140(struct WordSet *wordSet, u32 index, u32 v);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 index, u32 v);
+extern void WORDSET_SetSlotFromMsgB4(struct WordSet *wordSet, u32 index, u32 v);
 extern void APP_KEYCURSOR_DrawMark(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
 extern const char sPlistMessageAllocSite[];
 
@@ -170,7 +170,7 @@ PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
     PlistMessage *msg;
 
     msg = func_02030734(work->heapId, sizeof(PlistMessage), 0, sPlistMessageAllocSite, 0x64);
-    func_0201F5BC(0, 1, 0xc, 0, work->heapId);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xc, 0, work->heapId);
     msg->taskList = TCBL_Create(work->heapId, work->heapId, 1, 0);
     msg->stream = 0;
     msg->windowKind = PLIST_MESSAGE_KIND_CLOSED;
@@ -251,7 +251,7 @@ void PLIST_MESSAGE_OpenWindow(PokelistWork *work, PlistMessage *msg, u32 kind)
         msg->window = BMP_WIN_Create(0, 2, 0x13, 0x1c, 4, 0xe, 1);
         break;
     }
-    func_0201F73C(msg->window, 1, 1, 0xc);
+    BMP_MENUWORK_DrawWindow(msg->window, 1, 1, 0xc);
     PLIST_MESSAGE_RedrawWindow(work, msg);
 }
 
@@ -262,7 +262,7 @@ void PLIST_MESSAGE_CloseWindow(PokelistWork *work, PlistMessage *msg)
             TIME_ICON_Delete(msg->prompt);
             msg->prompt = 0;
         }
-        func_0201F7A8(msg->window, 1);
+        BMP_MENUWORK_DrawWindowBorder(msg->window, 1);
         BMP_WIN_Delete(msg->window);
         PRINTSYS_QUE_Clear(msg->printSys);
         msg->windowKind = PLIST_MESSAGE_KIND_CLOSED;
@@ -283,7 +283,7 @@ void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageI
     text = func_02045EC0(work->msgBank, messageId);
     if (msg->wordSet != 0) {
         expanded = STRBUF_Create(0x100, work->heapId);
-        func_0201F250(msg->wordSet, expanded, text);
+        WORDSET_CopyTaggedText(msg->wordSet, expanded, text);
         STRBUF_Delete(text);
         text = expanded;
     }
@@ -302,7 +302,7 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
     text = func_02045EC0(work->msgBank, messageId);
     if (msg->wordSet != 0) {
         expanded = STRBUF_Create(0x100, work->heapId);
-        func_0201F250(msg->wordSet, expanded, text);
+        WORDSET_CopyTaggedText(msg->wordSet, expanded, text);
         STRBUF_Delete(text);
         text = expanded;
     }
@@ -352,19 +352,19 @@ void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg) { msg->w
 
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg) { WORDSET_DeleteStrbufED04(msg->wordSet); msg->wordSet = 0; }
 
-void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon) { func_0201EEF4(msg->wordSet, index, mon); }
+void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon) { WORDSET_SetSlotMonSpecies(msg->wordSet, index, mon); }
 
 void func_021BB9AC(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF40(msg->wordSet, index, itemId); }
 
 void func_021BB9BC(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF4C(msg->wordSet, index, itemId); }
 
-void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId) { func_0201EF34(msg->wordSet, index, moveId); }
+void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId) { WORDSET_SetSlotFromMsgCB(msg->wordSet, index, moveId); }
 
-void PLIST_MESSAGE_SetWordSetValue(int unused, PlistMessage *msg, u32 index, u32 value) { func_0201F140(msg->wordSet, index, (unsigned char)value); }
+void PLIST_MESSAGE_SetWordSetValue(int unused, PlistMessage *msg, u32 index, u32 value) { WORDSET_SetSlotFromMsgB4(msg->wordSet, index, (unsigned char)value); }
 
-void PLIST_MESSAGE_SetWordSetNumber(int unused, PlistMessage *msg, u32 index, int number, unsigned char digits) { func_0201EFA4(msg->wordSet, index, number, digits, 0, 1); }
+void PLIST_MESSAGE_SetWordSetNumber(int unused, PlistMessage *msg, u32 index, int number, unsigned char digits) { WORDSET_SetSlotNumber(msg->wordSet, index, number, digits, 0, 1); }
 
-void PLIST_MESSAGE_SetWordSetString(int unused, PlistMessage *msg, u32 index, const void *src, int n) { func_0201EE0C(msg->wordSet, index, src, n, 1, 2); }
+void PLIST_MESSAGE_SetWordSetString(int unused, PlistMessage *msg, u32 index, const void *src, int n) { WORDSET_SetSlotTag(msg->wordSet, index, src, n, 1, 2); }
 
 void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
 {
@@ -377,7 +377,7 @@ void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
     func_02041B6C(BMP_WIN_GetBgLayer(window));
 }
 
-void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused) { func_0201F5BC(0, 1, 12, 0, work->heapId); }
+void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused) { BMP_MENUWORK_LoadCharAndPltt(0, 1, 12, 0, work->heapId); }
 
 /*
  * Unlabelled store-and-return leaf (listed as .word at 0x021BBA68) called

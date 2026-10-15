@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204EA0C
+ * function: DOUBLE3DDISP_Exit
  * address:  0x0204EA0C
  * packet:   pkt_0204E8C0
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT*
  */
 
-int func_0204EA0C(void){ int t0, t1, t2, t3; t0 = func_02080B98(); t1 = func_02080BAC((int)t0); t2 = func_02080BC0((int)t1); t3 = func_020307B0((int)*(int *)((char *)(0x2146A80))); *(int *)((char *)(0x2146A80)) = (int)0; return 0; }
+int DOUBLE3DDISP_Exit(void){ int t0, t1, t2, t3; t0 = func_02080B98(); t1 = func_02080BAC((int)t0); t2 = func_02080BC0((int)t1); t3 = func_020307B0((int)*(int *)((char *)(0x2146A80))); *(int *)((char *)(0x2146A80)) = (int)0; return 0; }

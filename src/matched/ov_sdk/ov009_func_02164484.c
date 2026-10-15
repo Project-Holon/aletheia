@@ -1,5 +1,5 @@
 /*
- * function: func_02164484
+ * function: get48bits_1
  * address:  0x02164484
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-unsigned long long func_02164484(unsigned short *p)
+unsigned long long get48bits_1(unsigned short *p)
 {
     return (unsigned long long)*p << 32;
 }

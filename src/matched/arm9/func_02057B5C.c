@@ -1,5 +1,5 @@
 /*
- * function: func_02057B5C
+ * function: SPL_EMITTER_UpdateList
  * address:  0x02057B5C
  * packet:   pkt_02057B5C
  * region:   arm9
@@ -55,7 +55,7 @@ struct S {
     struct P *f10;
 };
 
-void func_02057B5C(struct O *o, struct S *s, int t)
+void SPL_EMITTER_UpdateList(struct O *o, struct S *s, int t)
 {
     struct P *p;
     int i;

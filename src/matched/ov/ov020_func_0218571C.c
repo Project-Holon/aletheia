@@ -13,7 +13,7 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   GAME_DATA_GetSituationWarpId 0x02012914 thumb
- *   func_02159FA8 0x02159FA8 thumb ov010
+ *   MAP_REPLACE_ApplyWarpLocation 0x02159FA8 thumb ov010
  *   EVENT_MAPCHANGE_RunSituationWarpArrivalEvent 0x02185694 thumb ov020
  */
 typedef struct { void *owner; void *object; unsigned char payload[0x1c]; } Work;
@@ -27,7 +27,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern u16 GAME_DATA_GetSituationWarpId(const struct BigObj *p);
-extern void func_02159FA8(int a, int b);
+extern void MAP_REPLACE_ApplyWarpLocation(int a, int b);
 extern int EVENT_MAPCHANGE_RunSituationWarpArrivalEvent(int a0, int *st, int *p);
 void *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(void *owner)
 {
@@ -38,6 +38,6 @@ void *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(void *owner)
     w = func_020124E8(task);
     w->owner = owner;
     w->object = GAMESYSTEM_GetGameData(owner);
-    func_02159FA8(GAME_DATA_GetSituationWarpId(w->object), (int)w->payload);
+    MAP_REPLACE_ApplyWarpLocation(GAME_DATA_GetSituationWarpId(w->object), (int)w->payload);
     return task;
 }

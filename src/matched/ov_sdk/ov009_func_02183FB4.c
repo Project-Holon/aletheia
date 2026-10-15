@@ -1,5 +1,5 @@
 /*
- * function: func_02183FB4
+ * function: PrintChar
  * address:  0x02183FB4
  * packet:   pkt_ov009_02183FB4
  * region:   ov009
@@ -12,22 +12,22 @@
  * sdk:      PrintChar (screen)
  *
  * symbols:
- *   func_02183F68  0x02183F68 arm ov009
+ *   ScrollTopScreen  0x02183F68 arm ov009
  *   g_021AD1C4     0x021AD1C4 data
  *   g_021AD1C8     0x021AD1C8 data
  */
 
-extern void func_02183F68(void);
+extern void ScrollTopScreen(void);
 extern int g_021AD1C4;
 extern unsigned short g_021AD1C8[768];
 
-void func_02183FB4(char c)
+void PrintChar(char c)
 {
     if (c == 13)
         return;
     if (g_021AD1C4 == 32)
     {
-        func_02183F68();
+        ScrollTopScreen();
         g_021AD1C4 = 0;
         if (c == 10)
             return;

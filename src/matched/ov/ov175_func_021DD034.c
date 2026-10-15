@@ -1,5 +1,5 @@
 /*
- * function: func_021DD034
+ * function: WIFIBATTLEMATCH_NET_GetRegKindA
  * address:  0x021DD034
  * packet:   pkt_021DD034
  * region:   ov175
@@ -17,7 +17,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021DD034(void)
+u32 WIFIBATTLEMATCH_NET_GetRegKindA(void)
 {
     return 0x15;
 }

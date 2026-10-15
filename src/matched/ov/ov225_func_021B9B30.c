@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B30, func_021B9B38
+ * function: MANUAL_GRAPHIC_VBlankClactUnit, MANUAL_GRAPHIC_GetUnitHandle
  * address: 0x021B9B30
  * packet: pkt_ov225_021B9B30
  * region: ov225
@@ -14,5 +14,5 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021B9B30(void *a0) {CLACT_VBlankSystem();}
-u32 func_021B9B38(const u32 *p) {return *p;}
+void MANUAL_GRAPHIC_VBlankClactUnit(void *a0) {CLACT_VBlankSystem();}
+u32 MANUAL_GRAPHIC_GetUnitHandle(const u32 *p) {return *p;}

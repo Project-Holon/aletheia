@@ -16,7 +16,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0217BC44 0x0217BC44 arm ov009
+ *   DWC_CheckProfanityExAsync 0x0217BC44 arm ov009
  */
 #include "../include/Obj06520.h"
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ extern u16 STRBUF_GetLength(struct U16Vec *);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_Delete(struct U16Vec *);
 extern void MI_CpuFill8(void *, int, u32);
-extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
+extern int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
 {
     struct U16Vec *s;
@@ -50,7 +50,7 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     }
     ((struct Obj06520 *)p)->f1318=(u32)(p+0x1300);
     ((struct Obj06520 *)p)->f1320=0;
-    func_0217BC44((short unsigned int **)(p+0x1318),1,0,0,(char *)(p+0x131C),(int *)(p+0x1320),0x80);
+    DWC_CheckProfanityExAsync((short unsigned int **)(p+0x1318),1,0,0,(char *)(p+0x131C),(int *)(p+0x1320),0x80);
     STRBUF_Delete(s);
     ((struct Obj06520 *)p)->f28=5;
     ((struct Obj06520 *)p)->fF8C=0;

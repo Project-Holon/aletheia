@@ -161,7 +161,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_02014910  0x02014910  thumb
+ *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -449,7 +449,7 @@ extern int SODATEYA_GetWithdrawCost(void **, int);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
 extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
-extern void *func_02014910(char *, int, int, int);
+extern void *FIELD_STATUS_CreateSubProcListEvent(char *, int, int, int);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *);
 extern struct GameEvent *func_020122C0(void *owner, void *, void *, u32 size);
 extern void *func_020124E8(struct GameEvent *);
@@ -2975,7 +2975,7 @@ int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *w
         *seq = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, func_02014910(gameSystem, (int)work->fieldMap, (int)work->menuParam, (int)work->menuState));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (int)work->fieldMap, (int)work->menuParam, (int)work->menuState));
         *seq = 3;
         break;
     case 3:

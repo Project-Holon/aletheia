@@ -1,5 +1,5 @@
 /*
- * function: func_0218E290
+ * function: gpiFindOperationByID
  * address:  0x0218E290
  * packet:   pkt_ov009_0218E290
  * region:   ov009
@@ -28,7 +28,7 @@ struct GPIOperation {
     struct GPIOperation *pnext;
 };
 
-int func_0218E290(void **connection, struct GPIOperation **operation, int id)
+int gpiFindOperationByID(void **connection, struct GPIOperation **operation, int id)
 {
     struct GPIOperation *op;
 

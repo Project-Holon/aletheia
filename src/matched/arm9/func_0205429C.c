@@ -1,5 +1,5 @@
 /*
- * function: func_0205429C
+ * function: SPL_EMITTER_UpdateFrameMain
  * address:  0x0205429C
  * packet:   pkt_0205429C
  * region:   arm9
@@ -32,11 +32,11 @@
  * `compiler: ../1.2/sp2`, `flags: -O4,p -proc arm946e`.
  *
  * The largest of the packet's four rows and the only one that builds an
- * orthonormal basis; same source shape as func_02053E1C
+ * orthonormal basis; same source shape as SPL_EMITTER_UpdateFrameMainEx
  * (docs/notes/pkt_02053218.c.txt) with the hook selector and the final hook
- * of func_02054A68.
+ * of SPL_EMITTER_UpdateFrameA68.
  *
- * The same four source shapes that close func_02054718 close this row; see
+ * The same four source shapes that close SPL_EMITTER_UpdateFrameA68Ex close this row; see
  * its header for the measurements (the 0x040004A4 `|` chain order, the
  * `(s64)a * res->f30` operand order, `x` before `y` in case 0, and the three
  * 0x04000470 stores through locals loaded in reverse field order).
@@ -162,7 +162,7 @@ extern void VEC_Normalize(const void *, void *);
 extern void func_0207D8E0(const void *);
 extern void func_0207D918(const void *);
 
-void func_0205429C(struct Obj *obj, struct S *s)
+void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S *s)
 {
     struct Frame f;
     struct SubC *p;

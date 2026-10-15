@@ -1,5 +1,5 @@
 /*
- * function: func_0220BF20
+ * function: B_BAG_MAIN_StartFrameAnim
  * address:  0x0220BF20
  * packet:   pkt_0220BF20
  * region:   ov197
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj08355.h"
 
-void func_0220BF20(char *p, int v)
+void B_BAG_MAIN_StartFrameAnim(char *p, int v)
 {
     ((struct Obj08355 *)p)->f524 = 0;
     ((struct Obj08355 *)p)->f525 = 0;

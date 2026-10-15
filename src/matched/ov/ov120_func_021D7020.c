@@ -1,5 +1,5 @@
 /*
- * function: func_021D7020
+ * function: GTSNEGO_MSG_ClearScrollState
  * address: 0x021D7020
  * packet: pkt_ov120_021D7020
  * region: ov120
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 
-void func_021D7020(u8 *p)
+void GTSNEGO_MSG_ClearScrollState(u8 *p)
 {
     ((struct Obj22843 *)p)->f108 = 0;
 }

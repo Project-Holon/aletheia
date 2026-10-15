@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDE0
+ * function: ZKNSEARCH_MAIN_IsActorAnimActive
  * address:  0x021BEDE0
  * packet:   pkt_ov210_021BEDE0
  * region:   ov210
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Indexed 32-bit field fetch (base + i*4 + 0x28) forwarded as a tail call to
- * 0x0204B98C.  Blocker target of func_021BE010.
+ * 0x0204B98C.  Blocker target of ZKNSEARCH_MAIN_UpdateMessageDialog.
  *
  * symbols:
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-int func_021BEDE0(int a0, int a1)
+int ZKNSEARCH_MAIN_IsActorAnimActive(int a0, int a1)
 {
     int *p = (int *)(a0 + a1 * 4);
 

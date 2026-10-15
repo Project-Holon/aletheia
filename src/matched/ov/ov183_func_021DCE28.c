@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE28
+ * function: BR_CODEIN_RecordDeleteProfileScreen
  * address: 0x021DCE28
  * packet: pkt_ov183_021DCE28
  * region: ov183
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void BR_UTIL_DeleteProfileScreen(int *);
-void func_021DCE28(char *p,char *unused) { if(((struct Obj00050 *)p)->fDC && *(int * *)&((struct Obj00050 *)p)->f44) { BR_UTIL_DeleteProfileScreen(*(int * *)&((struct Obj00050 *)p)->f44); *(int *)&((struct Obj00050 *)p)->f44=0; ((struct Obj00050 *)p)->fDC=0; } }
+void BR_CODEIN_RecordDeleteProfileScreen(char *p,char *unused) { if(((struct Obj00050 *)p)->fDC && *(int * *)&((struct Obj00050 *)p)->f44) { BR_UTIL_DeleteProfileScreen(*(int * *)&((struct Obj00050 *)p)->f44); *(int *)&((struct Obj00050 *)p)->f44=0; ((struct Obj00050 *)p)->fDC=0; } }

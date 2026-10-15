@@ -1,5 +1,5 @@
 /*
- * function: func_0220D358
+ * function: B_BAG_MAIN_StateWaitKey
  * address: 0x0220D358
  * packet: pkt_ov197_0220D358
  * region: ov197
@@ -11,7 +11,7 @@
  * leaf: parent-cleared 24-byte follower in D328 extent.
  */
 #include "../include/Obj14551.h"
-int func_0220D358(char *p)
+int B_BAG_MAIN_StateWaitKey(char *p)
 {
     if (((struct Obj14551 *)p)->f527 == 0) {
         return ((struct Obj14551 *)p)->f531;

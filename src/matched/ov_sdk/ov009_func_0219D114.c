@@ -1,5 +1,5 @@
 /*
- * function: func_0219D114
+ * function: qr2_internal_is_master_only_key
  * address:  0x0219D114
  * packet:   pkt_ov009_0219D114
  * region:   ov009
@@ -19,7 +19,7 @@
 extern char *g_021A7C90[254];
 extern int strcmp(const char *a, const char *b);
 
-int func_0219D114(char *keyname)
+int qr2_internal_is_master_only_key(char *keyname)
 {
     if (strcmp(keyname, g_021A7C90[31]) == 0 || strcmp(keyname, g_021A7C90[32]) == 0)
         return 1;

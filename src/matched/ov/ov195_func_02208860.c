@@ -1,5 +1,5 @@
 /*
- * function: func_02208860
+ * function: SHINKA_DEMO_EFFECT_IsCameraReady
  * address:  0x02208860
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -12,7 +12,7 @@
  * Camera-state predicate on the ov195 scene object's +8/+0xc words:
  * state 4 with +0xc <= 1, or state 5.  Unlabelled leaf.
  */
-int func_02208860(int *p)
+int SHINKA_DEMO_EFFECT_IsCameraReady(int *p)
 {
     if (p[2] == 4 && (unsigned)p[3] <= 1)
         return 1;

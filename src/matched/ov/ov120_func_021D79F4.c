@@ -1,5 +1,5 @@
 /*
- * function: func_021D79F4
+ * function: GTSNEGO_MSG_PrintWindow
  * address: 0x021D79F4
  * packet: pkt_ov120_021D79F4
  * region: ov120
@@ -15,7 +15,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
@@ -35,11 +35,11 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
-void func_021D79F4(u8 *p,u16 n)
+void GTSNEGO_MSG_PrintWindow(u8 *p,u16 n)
 {
     void *q;
     MSGDATA_ReadString(((struct Obj03783 *)p)->fC,n,(void *)(((struct Obj03783 *)p)->f1C));
@@ -48,7 +48,7 @@ void func_021D79F4(u8 *p,u16 n)
     BMP_Clear(BMP_WIN_GetBmp(q),15);
     GF_FONT_SetTextColor(1,2,15);
     PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,(void *)(((struct Obj03783 *)p)->f1C),(void *)(((struct Obj03783 *)p)->f14));
-    func_0201F73C(q,1,(u16)(((struct Obj03783 *)p)->f4),12);
+    BMP_MENUWORK_DrawWindow(q,1,(u16)(((struct Obj03783 *)p)->f4),12);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
     func_02041B6C(1);

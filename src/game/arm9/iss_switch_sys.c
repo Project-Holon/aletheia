@@ -44,9 +44,9 @@
  *   MIi_CpuCopy16  0x02082A60  arm
  *   ARC_UTIL_LoadPaletteDataFromArchive       0x02049EB4  arm
  *   func_02049EF4       0x02049EF4  arm
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BgWinFrmScreenTransFuncs     0x020A0058  data
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BMP_WIN_GetCharOffset  0x02045768  arm
  *   BMP_WIN_GetPalette  0x02045778  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
@@ -57,7 +57,7 @@
  *   PokegraFileName    0x020A77AC  data
  *   MIi_CpuCopyFast 0x02082B0C  arm
  *   SpindaSpotTables  0x020A779C  data
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   TrainerGraIndexTable  0x020A023C  data
  *   func_02017E88   0x02017E88  thumb
@@ -75,7 +75,7 @@
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   func_02049E74  0x02049E74  arm
  *   CLACT_TransferPalette  0x0204ADEC  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   PmsDrawFileName   0x020A77B8  data  a1
  *   CLACT_SetActorObjMode  0x0204B688  arm
@@ -112,7 +112,7 @@
  *   PMSI_PARAM_IsDecoWordAt  0x020244F8  thumb
  *   PMSI_PARAM_GetWordId  0x020244D4  thumb
  *   PMSI_PARAM_ToStringWords  0x02024368  thumb
- *   func_0201D528  0x0201D528  thumb
+ *   GF_FONT_MeasureText  0x0201D528  thumb
  *   GF_FONT_SearchIndex  0x0201D4BC  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
@@ -371,10 +371,10 @@ extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049EF4(void *arc, u32 member, u32 alloc, void **out,
                            u16 heap);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const u16 *a5,
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const u16 *a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void (*BgWinFrmScreenTransFuncs[])(u32);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
@@ -382,7 +382,7 @@ extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern u32 func_02017E88(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
@@ -401,7 +401,7 @@ extern int func_0202771C(int a);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 val);
 extern void *BMP_WIN_GetBmp(struct Descriptor *h);
@@ -438,7 +438,7 @@ extern u32   GF_FONT_CountControlTag(void *str);
 extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
 extern u16 PMSI_PARAM_GetWordId(void *obj, u32 idx);
 extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
-extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
+extern u32 GF_FONT_MeasureText(void *s, u8 b, void *c, u32 d);
 extern u32   GF_FONT_SearchIndex(void *s, u8 idx);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -1855,7 +1855,7 @@ void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y)
         putSizeY = putSizeY - (u8)(bottom - frame->ymax);
     }
 
-    func_020410D0(frame->bgFrame, putX, putY, putSizeX, putSizeY, frame->screen, srcX, srcY, frame->sizeX, frame->sizeY);
+    BG_SYS_DrawTileEx(frame->bgFrame, putX, putY, putSizeX, putSizeY, frame->screen, srcX, srcY, frame->sizeX, frame->sizeY);
     BgWinFrmScreenTransFuncs[wk->transMode](frame->bgFrame);
     frame->hidden = 0;
 }
@@ -1868,7 +1868,7 @@ void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx)
 /*
  * bgwinfrm.c.  Marks a window record dirty, rejects it when it lies wholly
  * outside its clip box (xmin..xmax, ymin..ymax), clips the origin and the
- * size against the box, then blits it through func_02041300 and runs the
+ * size against the box, then blits it through BG_SYS_SetTileEntry and runs the
  * manager's mode callback.  Same struct BgWinFrame as src/matched/BGWINFRM_StartMove.c.
  *
  * What closed it (wave 19): four spelling choices, all required.
@@ -1882,7 +1882,7 @@ void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx)
  *  - Declarations with oh first and sy last.  mwcc numbers spill slots from
  *    the last declared local upward, so sx, h, y, sy must keep that relative
  *    order (slots 0x20, 0x1c, 0x18, 0x14).
- * The callee prototype is the one func_02041300's own body declares.
+ * The callee prototype is the one BG_SYS_SetTileEntry's own body declares.
  */
 void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, u32 idx)
 {
@@ -1934,7 +1934,7 @@ void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, u32 idx)
         clearSizeY = clearSizeY - (s8)(bottom - frame->ymax);
     }
 
-    func_02041300(frame->bgFrame, 0, (u8)clearX, (u8)clearY, (u8)clearSizeX, (u8)clearSizeY, 0x10);
+    BG_SYS_SetTileEntry(frame->bgFrame, 0, (u8)clearX, (u8)clearY, (u8)clearSizeX, (u8)clearSizeY, 0x10);
     BgWinFrmScreenTransFuncs[wk->transMode](frame->bgFrame);
 }
 
@@ -2441,9 +2441,9 @@ void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
         }
         index = (isManaphy + 0x28a) * 0x14;
     } else if (formNo != 0) {
-        formStart = (s32)func_02019C90((u16)monsNo, 0, 0x1f);
-        palOnlyForms = (s32)func_02019C90((u16)monsNo, 0, 0x23);
-        formCount = (s32)func_02019C90((u16)monsNo, 0, 0x20);
+        formStart = (s32)POKE_TOOL_GetPersonalParam((u16)monsNo, 0, 0x1f);
+        palOnlyForms = (s32)POKE_TOOL_GetPersonalParam((u16)monsNo, 0, 0x23);
+        formCount = (s32)POKE_TOOL_GetPersonalParam((u16)monsNo, 0, 0x20);
         if (formNo >= formCount) {
             formNo = 0;
         }
@@ -2883,7 +2883,7 @@ void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *
     void *charData;
 
     file = ARC_TOOL_LoadHandleMember(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
-    func_02062A98(file, &palData);
+    NNS_G2dGetUnpackedPaletteData(file, &palData);
     CLACT_TransferPalette(palDst, palData, 1);
     func_020307B0(file);
 
@@ -3432,11 +3432,11 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     elem->printing = 1;
     for (i = 0; i < wordCount; i++) {
         if (elem->isDeco[i] == 1) {
-            u32 x = func_0201D528(word, i, (void *)font, 0);
+            u32 x = GF_FONT_MeasureText(word, i, (void *)font, 0);
             u32 y = GF_FONT_SearchIndex(word, i);
             PMS_DRAW_PlaceDecoActor(elem->decoActor[i], bmpWin, x, y, PMSI_PARAM_GetWordId((void *)param, i), (const struct PmsPos *)offset);
         } else if (isBlank[i] == 1) {
-            u32 x = func_0201D528(word, i, (void *)font, 0);
+            u32 x = GF_FONT_MeasureText(word, i, (void *)font, 0);
             u32 y = GF_FONT_SearchIndex(word, i);
             BMP_FillRect((u32)BMP_WIN_GetBmp((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
         }

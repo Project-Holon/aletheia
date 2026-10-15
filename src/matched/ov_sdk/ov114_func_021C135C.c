@@ -11,19 +11,22 @@
  *
  *
  * Releases the handle at +0x00 and empties the +0x00/+0x04 pair.
+ *
+ * symbols:
+ *   gsifree  0x0217EAE0  arm  ov009
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0217EAE0(void *);
+extern void gsifree(void *);
 
 void ghiFreeCertificateInfo(u8 *p)
 {
     void *q = *(void **)p;
 
     *(u32 *)(p + 4) = 0;
-    func_0217EAE0(q);
+    gsifree(q);
     *(u32 *)p = 0;
 }

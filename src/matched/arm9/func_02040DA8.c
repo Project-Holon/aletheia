@@ -1,5 +1,5 @@
 /*
- * function: func_02040DA8
+ * function: BG_SYS_SetTileUnit
  * address:  0x02040DA8
  * packet:   pkt_02040DA8
  * region:   arm9
@@ -22,13 +22,13 @@
  *
  * The declaration that closes this function is the depth byte's OFFSET: it is
  * +0x1F, not +0x1E.  Both bytes are live and independently read in this
- * family (func_02040B1C reads the +0x1E flag off the same 0x2C-stride
+ * family (BG_SYS_LoadTileData reads the +0x1E flag off the same 0x2C-stride
  * record); putting depth at +0x1E moves a live ldrb and loses the function.
  * See docs/families/bg_sys.h.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02040DA8.c \\
- *       --func func_02040DA8 --addr 0x02040DA8 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/BG_SYS_SetTileUnit.c \\
+ *       --func BG_SYS_SetTileUnit --addr 0x02040DA8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -49,7 +49,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-void func_02040DA8(u32 idx, u32 count, u32 tile)
+void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
 {
     u32 unit;
 

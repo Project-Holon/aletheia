@@ -37,9 +37,9 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
- *   func_0201EEF4  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
- *   func_0201EE84  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonName  0x0201EE84  thumb
  *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
  *   WORDSET_Set  0x0201F0F8  thumb
  *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
@@ -49,27 +49,27 @@
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
  *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F134  0x0201F134  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   sBtlMsgSidePairIds     0x021F39A0  data  a2
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_0201D5C4  0x0201D5C4  thumb
+ *   GF_FONT_GetTagChar  0x0201D5C4  thumb
  *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
- *   func_0201D670  0x0201D670  thumb
- *   func_0201D5F4  0x0201D5F4  thumb
- *   func_0201D658  0x0201D658  thumb
- *   func_0201D688  0x0201D688  thumb
+ *   GF_FONT_GetTagParam  0x0201D670  thumb
+ *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
+ *   GF_FONT_GetTagKind  0x0201D658  thumb
+ *   GF_FONT_SkipTag  0x0201D688  thumb
  *   STRBUF_GetChars  0x02045A90  arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EF8C 0x0201EF8C thumb
- *   func_0201EF34 0x0201EF34 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   func_0201F020 0x0201F020 thumb
+ *   WORDSET_SetSlotFromMsgC7 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
@@ -172,9 +172,9 @@ extern void STRBUF_Delete(struct Strbuf *buf);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct BtlPoke *BTL_SIDE_GetPokeById(struct BtlPokeList *list, u8 pokeId);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPoke *poke);
-extern void func_0201EEF4(struct WordSet *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 slot, void *mon);
 extern void *BTL_POKEPARAM_GetMon(struct BtlPoke *poke);
-extern void func_0201EE84(struct WordSet *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMonName(struct WordSet *wordSet, u32 slot, void *mon);
 extern unsigned short BTL_MAIN_GetTrainerType(struct BtlSystem *battle, int clientId);
 extern void WORDSET_Set(struct WordSet *wordSet, u32 slot, u32 value);
 extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlSystem *battle, int clientId);
@@ -184,25 +184,25 @@ extern const void *BTL_MAIN_GetTrainerNameAndType(struct BtlSystem *battle, int 
 extern struct Strbuf *BTL_MAIN_GetTrainerHandle(struct BtlSystem *battle, int clientId);
 extern struct Strbuf *BTL_MAIN_UpdateCommPlayerSupport(struct BtlSystem *battle);
 extern u8 TPOKE_DATA_GetGenderValue(u32 trainerClass);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 slot, const void *src, u32 classType, u32 nameMode, u32 nameFlags);
-extern void func_0201F02C(struct WordSet *wordSet, u32 slot, struct Strbuf *src);
-extern void func_0201F134(struct WordSet *wordSet, u32 slot, u32 value);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 slot, const void *src, u32 classType, u32 nameMode, u32 nameFlags);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 slot, struct Strbuf *src);
+extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 slot, u32 value);
 extern int BTL_MAIN_IsLocalSide(struct BtlSystem *battle, unsigned char clientId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dest, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dest, struct Strbuf *src);
 extern u16 STRBUF_GetEosChar(void);
-extern u32 func_0201D5C4(void);
+extern u32 GF_FONT_GetTagChar(void);
 extern u32 GF_FONT_CheckD5CC(const u16 *tag);
-extern u32 func_0201D670(const u16 *tag, u32 index);
-extern u32 func_0201D5F4(const u16 *tag);
-extern u32 func_0201D658(const u16 *tag);
-extern u16 *func_0201D688(u16 *tag);
+extern u32 GF_FONT_GetTagParam(const u16 *tag, u32 index);
+extern u32 GF_FONT_GetTagGroup(const u16 *tag);
+extern u32 GF_FONT_GetTagKind(const u16 *tag);
+extern u16 *GF_FONT_SkipTag(u16 *tag);
 extern u16 *STRBUF_GetChars(struct Strbuf *buf);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padding, u32 charSet);
-extern void func_0201EF8C(struct WordSet *wordSet, u32 slot, u32 value);
-extern void func_0201EF34(struct WordSet *wordSet, u32 slot, u32 value);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padding, u32 charSet);
+extern void WORDSET_SetSlotFromMsgB6(struct WordSet *wordSet, u32 slot, u32 value);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 slot, u32 value);
 extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 slot, u32 value);
-extern void func_0201F020(struct WordSet *wordSet, u32 slot, u32 value);
+extern void WORDSET_SetSlotFromMsgC7(struct WordSet *wordSet, u32 slot, u32 value);
 extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 clientId);
 extern int BTL_MAIN_IsOpposingPos(struct BtlSystem *battle, int clientId, int side);
 extern u8 BTL_MAIN_GetOwnClientId(struct BtlSystem *battle);
@@ -486,19 +486,19 @@ void BTL_MSG_Exit(void)
 
 void BTL_MSG_SetPokeName(u8 pokeId, u32 slot)
 {
-    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
+    WORDSET_SetSlotMonSpecies(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
 }
 
 
 void BTL_MSG_SetPokeSpecies(u8 pokeId, u32 slot)
 {
-    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
+    WORDSET_SetSlotMonSpecies(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
 }
 
 
 void BTL_MSG_SetPokeNickname(u8 pokeId, u8 slot)
 {
-    func_0201EE84(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
+    WORDSET_SetSlotMonName(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
 }
 
 
@@ -519,16 +519,16 @@ void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
             if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 1) {
                 trainerId = BTL_MAIN_GetTrainerId(gBtlMsgState.battle, clientId);
                 if (trainerId != 0)
-                    func_0201F134(wordSet, slot, trainerId);
+                    WORDSET_SetSlotFromMsgBE(wordSet, slot, trainerId);
             } else {
                 trainerData = BTL_MAIN_GetTrainerNameAndType(gBtlMsgState.battle, clientId, &trainerClass);
-                func_0201EE0C(wordSet, slot, trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, 2);
+                WORDSET_SetSlotTag(wordSet, slot, trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, 2);
             }
         } else {
-            func_0201F02C(wordSet, slot, BTL_MAIN_GetTrainerHandle(gBtlMsgState.battle, clientId));
+            WORDSET_SetSlotMyStatus(wordSet, slot, BTL_MAIN_GetTrainerHandle(gBtlMsgState.battle, clientId));
         }
     } else {
-        func_0201F02C(wordSet, slot, BTL_MAIN_UpdateCommPlayerSupport(gBtlMsgState.battle));
+        WORDSET_SetSlotMyStatus(wordSet, slot, BTL_MAIN_UpdateCommPlayerSupport(gBtlMsgState.battle));
     }
 }
 
@@ -573,7 +573,7 @@ void BTL_MSG_BuildString(struct Strbuf *dest, u32 msgId, u32 *args)
 {
     MSGDATA_ReadString(gBtlMsgState.banks[0], msgId, gBtlMsgState.msgBuf);
     BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -602,16 +602,16 @@ u16 *BTL_MSG_FindWordTag(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
 
     if (text != 0) {
         endMark = STRBUF_GetEosChar();
-        tagMark = func_0201D5C4();
+        tagMark = GF_FONT_GetTagChar();
         while (*text != endMark) {
             if (*text == tagMark) {
                 if (GF_FONT_CheckD5CC(text) != 0) {
-                    *outSlot = func_0201D670(text, 0);
-                    *outGroup = func_0201D5F4(text);
-                    *outKind = func_0201D658(text);
-                    return func_0201D688(text);
+                    *outSlot = GF_FONT_GetTagParam(text, 0);
+                    *outGroup = GF_FONT_GetTagGroup(text);
+                    *outKind = GF_FONT_GetTagKind(text);
+                    return GF_FONT_SkipTag(text);
                 }
-                text = func_0201D688(text);
+                text = GF_FONT_SkipTag(text);
             } else {
                 text = text + 1;
             }
@@ -662,20 +662,20 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
     u8 group;
     u8 kind;
     endMark = STRBUF_GetEosChar();
-    tagMark = func_0201D5C4();
+    tagMark = GF_FONT_GetTagChar();
     for (i = 0; i < 8; i++)
         removedBefore[i] = 0;
     cursor = STRBUF_GetChars(text);
     while (*cursor != endMark) {
         if (*cursor == tagMark) {
             if (GF_FONT_CheckD5CC(cursor)) {
-                slot = func_0201D670(cursor, 0);
-                if ((u8)func_0201D5F4(cursor) == 1 && func_0201D658(cursor) == 14) {
+                slot = GF_FONT_GetTagParam(cursor, 0);
+                if ((u8)GF_FONT_GetTagGroup(cursor) == 1 && GF_FONT_GetTagKind(cursor) == 14) {
                     for (i = slot + 1; i < 8; i++)
                         removedBefore[i]++;
                 }
             }
-            cursor = func_0201D688(cursor);
+            cursor = GF_FONT_SkipTag(cursor);
         } else
             cursor++;
     }
@@ -683,16 +683,16 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
     while (*cursor != endMark) {
         if (*cursor == tagMark) {
             if (GF_FONT_CheckD5CC(cursor)) {
-                slot = func_0201D670(cursor, 0);
+                slot = GF_FONT_GetTagParam(cursor, 0);
                 valueIndex = slot;
-                group = func_0201D5F4(cursor);
+                group = GF_FONT_GetTagGroup(cursor);
                 if (slot >= removedBefore[slot])
                     valueIndex = slot - removedBefore[slot];
                 if (group == 2) {
-                    kind = func_0201D658(cursor) + 1;
-                    func_0201EFA4(wordSet, slot, values[valueIndex], kind, 0, 1);
+                    kind = GF_FONT_GetTagKind(cursor) + 1;
+                    WORDSET_SetSlotNumber(wordSet, slot, values[valueIndex], kind, 0, 1);
                 } else {
-                    switch (func_0201D658(cursor)) {
+                    switch (GF_FONT_GetTagKind(cursor)) {
                     case 14:
                         BTL_MSG_SetClientValue(wordSet, slot, values[valueIndex]);
                         break;
@@ -712,24 +712,24 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
                         BTL_MSG_SetPokeNickname(values[valueIndex], slot);
                         break;
                     case 3:
-                        func_0201F020(wordSet, slot, values[valueIndex]);
+                        WORDSET_SetSlotFromMsgC7(wordSet, slot, values[valueIndex]);
                         break;
                     case 6:
-                        func_0201EF8C(wordSet, slot, values[valueIndex]);
+                        WORDSET_SetSlotFromMsgB6(wordSet, slot, values[valueIndex]);
                         break;
                     case 7:
-                        func_0201EF34(wordSet, slot, values[valueIndex]);
+                        WORDSET_SetSlotFromMsgCB(wordSet, slot, values[valueIndex]);
                         break;
                     case 9:
                         WORDSET_Callback_EF40(wordSet, slot, values[valueIndex]);
                         break;
                     case 15:
-                        func_0201F020(wordSet, slot, values[valueIndex]);
+                        WORDSET_SetSlotFromMsgC7(wordSet, slot, values[valueIndex]);
                         break;
                     }
                 }
             }
-            cursor = func_0201D688(cursor);
+            cursor = GF_FONT_SkipTag(cursor);
         } else
             cursor++;
     }
@@ -766,7 +766,7 @@ void BTL_MSG_BuildStandardSingle(struct Strbuf *dest, u32 msgId, u32 *args)
     sideVariant = BTL_MSG_GetSideVariant(clientId);
     MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(msgId + sideVariant), gBtlMsgState.msgBuf);
     BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -793,7 +793,7 @@ second:
     }
     MSGDATA_ReadString(gBtlMsgState.banks[1], msgId, gBtlMsgState.msgBuf);
     BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -821,7 +821,7 @@ void BTL_MSG_BuildMoveEffectA(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA 
     WORDSET_Callback_EF40(gBtlMsgState.wordSet, 1, args->value);
     position = msgId + entryIndex * 3;
     MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(position + sideVariant), gBtlMsgState.msgBuf);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -851,7 +851,7 @@ void BTL_MSG_BuildMoveEffectB(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsB 
     sideVariant = BTL_MSG_GetSideVariant(clientId);
     position = msgId + entryIndex * 3;
     MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(position + sideVariant), gBtlMsgState.msgBuf);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -867,7 +867,7 @@ void BTL_MSG_BuildMoveEffectC(struct Strbuf *dest, int msgId, u32 *args)
     sideVariant = BTL_MSG_GetSideVariant(clientId);
     position = msgId + entryIndex * 3;
     MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(position + sideVariant), gBtlMsgState.msgBuf);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -886,7 +886,7 @@ void BTL_MSG_BuildClientAction(struct Strbuf *dest, u32 msgId, u32 *args)
     }
     MSGDATA_ReadString(gBtlMsgState.banks[0], msgIndex, gBtlMsgState.msgBuf);
     BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -899,7 +899,7 @@ void BTL_MSG_BuildItemUse(struct Strbuf *dest, u8 clientId, u16 entry)
     BTL_MSG_SetPokeName(clientId, 0);
     base = entry * 3;
     MSGDATA_ReadString(gBtlMsgState.banks[2], (u16)(base + sideVariant), gBtlMsgState.msgBuf);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -936,7 +936,7 @@ void BTL_MSG_BuildUiStringFlagged(struct Strbuf *dest, u32 msgId, u32 *args)
     gBtlMsgState.useSpeciesName = 1;
     BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
     gBtlMsgState.useSpeciesName = 0;
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -957,31 +957,31 @@ void BTL_MSG_BuildTrainerStringBody(struct Strbuf *dest, u32 msgId, u32 *args)
 {
     MSGDATA_ReadString(gBtlMsgState.banks[6], msgId, gBtlMsgState.msgBuf);
     BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
 void BTL_MSG_BuildBallStatusOpen(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
 {
     MSGDATA_ReadString(gBtlMsgState.banks[3], 0x10, gBtlMsgState.msgBuf);
-    func_0201EFA4(gBtlMsgState.wordSet, 0, ball0, 2, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 1, ball1, 2, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 2, ball2, 2, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 3, ball3, 2, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 4, ball4, 2, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 5, ball5, 2, 0, 1);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 0, ball0, 2, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 1, ball1, 2, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 2, ball2, 2, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 3, ball3, 2, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 4, ball4, 2, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 5, ball5, 2, 0, 1);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
 void BTL_MSG_BuildBallStatusRefresh(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
 {
     MSGDATA_ReadString(gBtlMsgState.banks[3], 0x11, gBtlMsgState.msgBuf);
-    func_0201EFA4(gBtlMsgState.wordSet, 0, ball0, 3, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 1, ball1, 3, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 2, ball2, 3, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 3, ball3, 3, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 4, ball4, 3, 0, 1);
-    func_0201EFA4(gBtlMsgState.wordSet, 5, ball5, 3, 0, 1);
-    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 0, ball0, 3, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 1, ball1, 3, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 2, ball2, 3, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 3, ball3, 3, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 4, ball4, 3, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 5, ball5, 3, 0, 1);
+    WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }

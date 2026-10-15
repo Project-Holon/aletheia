@@ -1,7 +1,7 @@
 /*
  * file:     md5c.c
  * unit:     yes
- * function: func_02184938, func_0218497C, func_02184A34, func_02184AB4, func_02185798, func_021857F0, GSMD5_memcpy, GSMD5_memset, func_02185854, func_021858A8
+ * function: GSMD5Init, func_0218497C, GSMD5Final, GSMD5Transform, func_02185798, func_021857F0, GSMD5_memcpy, GSMD5_memset, GSMD5Print, GSMD5Digest
  * address:  0x02184938
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -75,23 +75,22 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern void GSMD5Transform(unsigned int * state, unsigned char * block);
 extern void Encode(unsigned char * output, unsigned int * input, unsigned int len);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 extern void GSMD5Init(struct GSMD5_CTX * context);
 extern void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
 extern void GSMD5Print(unsigned char * digest, char * output);
-void func_02184938(struct GSMD5_CTX * context);
+void GSMD5Init(struct GSMD5_CTX * context);
 void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
-void func_02184A34(unsigned char * digest, struct GSMD5_CTX * context);
-void func_02184AB4(u32 state[4], const u8 block[64]);
+void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
+void GSMD5Transform(u32 state[4], const u8 block[64]);
 void func_02185798(unsigned char * output, unsigned int * input, unsigned int len);
 void func_021857F0(u32 *dst, const u8 *src, u32 count);
 void *GSMD5_memcpy(void *dest, const void *src, unsigned int n);
 void *GSMD5_memset(void *p, int c, u32 n);
-void func_02185854(unsigned char * digest, char * output);
-void func_021858A8(unsigned char * input, unsigned int len, char * output);
+void GSMD5Print(unsigned char * digest, char * output);
+void GSMD5Digest(unsigned char * input, unsigned int len, char * output);
 extern unsigned char g_021A3FC0[64];
 extern char g_021A1A40[];
 
@@ -100,7 +99,7 @@ extern char g_021A1A40[];
 /*
  * sdk:      GSMD5Init (md5c)
  */
-void func_02184938(struct GSMD5_CTX * context)
+void GSMD5Init(struct GSMD5_CTX * context)
 {
     context->count[0] = context->count[1] = 0;
     context->state[0] = 0x67452301;
@@ -140,7 +139,7 @@ void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int
 /*
  * sdk:      GSMD5Final (md5c)
  */
-void func_02184A34(unsigned char * digest, struct GSMD5_CTX * context)
+void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context)
 {
     unsigned char bits[8];
     unsigned int index, padLen;
@@ -156,7 +155,7 @@ void func_02184A34(unsigned char * digest, struct GSMD5_CTX * context)
 
 
 
-void func_02184AB4(u32 state[4], const u8 block[64])
+void GSMD5Transform(u32 state[4], const u8 block[64])
 {
     u32 a = state[0];
     u32 b = state[1];
@@ -301,7 +300,7 @@ void *GSMD5_memset(void *p, int c, u32 n)
 
 
 
-void func_02185854(unsigned char * digest, char * output)
+void GSMD5Print(unsigned char * digest, char * output)
 {
     unsigned int i;
 
@@ -318,7 +317,7 @@ void func_02185854(unsigned char * digest, char * output)
 /*
  * sdk:      GSMD5Digest (md5c)
  */
-void func_021858A8(unsigned char * input, unsigned int len, char * output)
+void GSMD5Digest(unsigned char * input, unsigned int len, char * output)
 {
     struct GSMD5_CTX ctx;
     unsigned char digest[16];

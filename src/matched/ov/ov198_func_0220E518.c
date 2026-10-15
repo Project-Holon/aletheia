@@ -1,5 +1,5 @@
 /*
- * function: func_0220E518
+ * function: B_PLIST_DRAW_RegisterIconSet3
  * address: 0x0220E518
  * packet: pkt_ov198_0220E518
  * region: ov198
@@ -27,7 +27,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_0220E518(char *p)
+void B_PLIST_DRAW_RegisterIconSet3(char *p)
 {
     void *owner;
     owner = func_020490F4(83,(u16)((((struct Obj25208 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10 & 0x7fff) | 0x8000));

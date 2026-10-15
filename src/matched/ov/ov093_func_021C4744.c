@@ -25,7 +25,7 @@
  *  BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *  BTL_POKEPARAM_IsHpFull 0x021D5B48 thumb ov093
  *  BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *  func_0203F0A8 0x0203F0A8 arm
+ *  GF_STANDARD_Rand 0x0203F0A8 arm
  *  _ull_mul 0x0209C054 arm
  *  BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *  func_021D59B4 0x021D59B4 thumb ov093
@@ -47,7 +47,7 @@ extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j
 extern int BTL_POKEPARAM_IsFainted(void *p);
 extern int BTL_POKEPARAM_IsHpFull(u8 *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *, int);
 extern int func_021D59B4(u8 *p, int k);
 extern int BTL_SERVER_FLOW_TryRecoverHp(u8 *p, u8 *q, int a, int b);
@@ -83,7 +83,7 @@ void BTL_SERVER_FLOW_ProcPlayerSupportHeal(u8 *p)
         }
     }
     if (n == 0) return;
-    draw = func_0203F0A8();
+    draw = GF_STANDARD_Rand();
     slot = (u32)draw;
     if (n != 0) slot = (u32)((draw * (u32)n) >> 32);
     id = list[slot];

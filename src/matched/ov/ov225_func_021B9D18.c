@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021B9900 0x021B9900 thumb ov225
+ *   MANUAL_GRAPHIC_CreateScreen 0x021B9900 thumb ov225
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
@@ -35,7 +35,7 @@ struct State {
 };
 extern const char d_021BC004[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void *func_021B9900(u32,u32);
+extern void *MANUAL_GRAPHIC_CreateScreen(u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
@@ -50,7 +50,7 @@ void *func_021B9D18(void *owner,u16 heap)
 {
     struct State *p=func_02030734(heap,0x38,1,d_021BC004,0x4b);
     p->owner=owner; p->heap=heap;
-    p->screen=func_021B9900(1,p->heap);
+    p->screen=MANUAL_GRAPHIC_CreateScreen(1,p->heap);
     p->font=GF_FONT_Create(23,0,0,0,p->heap);
     p->str10=PRINTSYS_QUE_Create((void *)(u32)p->heap);
     p->str14=PRINTSYS_QUE_Create((void *)(u32)p->heap);

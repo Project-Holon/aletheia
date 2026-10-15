@@ -1,5 +1,5 @@
 /*
- * function: func_021DB698
+ * function: BR_CODEIN_ButtonCreate
  * address: 0x021DB698
  * packet: pkt_ov183_021DB698
  * region: ov183
@@ -34,7 +34,7 @@ extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap)
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap);
 extern void BR_FADE_SetBlendLevel(int,int,int);
-int func_021DB698(int *task,int b,char *p)
+int BR_CODEIN_ButtonCreate(int *task,int b,char *p)
 {
     char *s;
     s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,24,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct Obj01072 *)p)->f1C)));

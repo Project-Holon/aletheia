@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020637B4
+ * function: NNSi_G2dGetVramHandleValue
  * address:  0x020637B4
  * packet:   pkt_02063640
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_020637B4(int *p, int i){ return p[i]; }
+int NNSi_G2dGetVramHandleValue(int *p, int i){ return p[i]; }

@@ -17,7 +17,7 @@
  *   DWCi_GetGT2Connection  0x0216BAF4  arm  ov009
  *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410  arm  ov009
  *   DWCi_GT2ClosedProcess  0x0216C230  arm  ov009
- *   func_02195DC4  0x02195DC4  arm  ov009
+ *   gt2CloseConnectionHard  0x02195DC4  arm  ov009
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -28,7 +28,7 @@ struct GTI2Connection;
 extern int DWCi_GetGT2Connection(int aid);
 extern char *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
 extern void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
-extern void func_02195DC4(int conn);
+extern void gt2CloseConnectionHard(int conn);
 
 int DWCi_CloseConnectionHard(unsigned char aid)
 {
@@ -49,6 +49,6 @@ int DWCi_CloseConnectionHard(unsigned char aid)
         DWCi_GT2ClosedProcess(0, 0, 1, node[0x16]);
         return 0;
     }
-    func_02195DC4(conn);
+    gt2CloseConnectionHard(conn);
     return 0;
 }

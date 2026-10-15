@@ -24,7 +24,7 @@
  *   BR_RES_Delete 0x021FB92C thumb ov186
  *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 struct BigObj;
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
@@ -49,7 +49,7 @@ extern void BR_RES_Delete(char *p);
 extern void BR_GRAPHIC_Destroy(char *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
 {
     int *nested=(int *)((int *)p[6])[3];
@@ -72,6 +72,6 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     BR_RES_Delete((char *)p[1]);
     BR_GRAPHIC_Destroy((char *)p[0]);
     func_020315D4((struct S020315D4 *)sys);
-    func_020306F0(0x5a);
+    GFL_HEAP_DeleteChecked(0x5a);
     return 1;
 }

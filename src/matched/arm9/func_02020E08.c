@@ -17,7 +17,7 @@
  *   FS_SeekFile    0x02078B44  arm
  *   FS_ReadFile    0x02078B70  arm
  *   FS_GetLength   0x02078C28  arm
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *
  * "Read a byte range out of a whole file, by archive id", the raw-file
  * counterpart to the arc_tool.c NARC member API.  FILE_UTIL_OpenById (already
@@ -66,7 +66,7 @@ extern void  FS_CloseFile(struct FSFile *file);
 extern u32   FS_SeekFile(struct FSFile *file, int offset, u32 origin);
 extern u32   FS_ReadFile(struct FSFile *file, void *dst, u32 size);
 extern u32   FS_GetLength(struct FSFile *file);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void *FILE_UTIL_LoadRange(u32 archive_id, u32 heap, u32 offset, u32 size)
 {
@@ -77,7 +77,7 @@ void *FILE_UTIL_LoadRange(u32 archive_id, u32 heap, u32 offset, u32 size)
     if (size == 0) {
         size = FS_GetLength(&file);
     }
-    buf = sub_02030734(heap, size, 0, FILE_UTIL_FILE_NAME, 0xAC);
+    buf = GFL_HEAP_Alloc(heap, size, 0, FILE_UTIL_FILE_NAME, 0xAC);
     FS_SeekFile(&file, offset, 0);
     FS_ReadFile(&file, buf, size);
     FS_CloseFile(&file);

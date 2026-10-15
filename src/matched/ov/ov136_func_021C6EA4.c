@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02008FA4 0x02008FA4 thumb
- *   func_020213AC 0x020213AC thumb
+ *   FILE_UTIL_GetItemId 0x020213AC thumb
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
@@ -55,7 +55,7 @@ extern void MB_SEQ_SetDetailButtons(void *p);
 extern void MB_SEQ_PrintMenuMessage(u8 *p, unsigned int i);
 extern int MB_SEQ_SetMessageWait(char *p, int v, int w);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
-extern u16 func_020213AC(u32);
+extern u16 FILE_UTIL_GetItemId(u32);
 extern void MB_SEQ_CreatePartyListArgs(u8 *, int, u16, u16);
 extern int MB_SEQ_StartFadeOut(u8 *, u32);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
@@ -85,7 +85,7 @@ int MB_SEQ_StateActionMenu(u8 *p)
         u8 k;
         MB_SEQ_CloseMenu(p);
         k = p[0x1F];
-        MB_SEQ_CreatePartyListArgs(p, 0xE, func_020213AC(func_02008FA4(*(void **)(*(u8 * *)&((struct Obj00127 *)p)->f8 + k * 4 + 0x298))), k);
+        MB_SEQ_CreatePartyListArgs(p, 0xE, FILE_UTIL_GetItemId(func_02008FA4(*(void **)(*(u8 * *)&((struct Obj00127 *)p)->f8 + k * 4 + 0x298))), k);
         ((struct Obj00127 *)p)->f14 = 0;
         ((struct Obj00127 *)p)->f28 = 6;
         return MB_SEQ_StartFadeOut(p, 1);

@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FAAB8  0x021FAAB8  thumb
+ *   STA_ACT_BUTTON_SetVisible  0x021FAAB8  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj23210.h"
 
-extern void func_021FAAB8(char *p, unsigned flag);
+extern void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag);
 
 void STA_ACTING_ShowAnim(char *p)
 {
-    func_021FAAB8(((struct Obj23210 *)p)->fA4, 1);
+    STA_ACT_BUTTON_SetVisible(((struct Obj23210 *)p)->fA4, 1);
 }

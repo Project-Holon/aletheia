@@ -41,7 +41,7 @@
  *   BTL_FIELD_Create 0x021EF958 thumb ov093
  *   BTL_SIDE_Init 0x021B93E0 thumb ov093
  *   BTL_SETUP_ClearResultStats 0x021BA82C thumb ov093
- *   func_0203F258 0x0203F258 arm
+ *   GF_STANDARD_CalcHash 0x0203F258 arm
  *   BTL_CALC_Init 0x021D7840 thumb ov093
  *   BTL_SERVER_CMD_Dummy 0x021CD6EC thumb ov093
  *   BTL_CALC_CalcPrizeMoney 0x021D7F88 thumb ov093
@@ -114,7 +114,7 @@ extern u32 CONFIG_GetBattleStyle(void *);
 extern void *BTL_FIELD_Create(u32);
 extern void BTL_SIDE_Init(char *, u32, u32);
 extern void BTL_SETUP_ClearResultStats(char *);
-extern void func_0203F258(struct Lcg64 *);
+extern void GF_STANDARD_CalcHash(struct Lcg64 *);
 extern void BTL_CALC_Init(struct Lcg64 *, u32);
 extern void BTL_SERVER_CMD_Dummy(void);
 extern u32 BTL_CALC_CalcPrizeMoney(u8 *);
@@ -177,7 +177,7 @@ int BTL_MAIN_ProcInit(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
       *((u32 *) (p + 0x2c0)) = 0;
       *((u32 *) (p + 0x2c4)) = 0;
       if ((*((u8 **) p))[0x23] == 0)
-        func_0203F258((struct Lcg64 *) (p + 0x3f0));
+        GF_STANDARD_CalcHash((struct Lcg64 *) (p + 0x3f0));
       else
         *((struct Lcg64 *) (p + 0x3f0)) = *((struct Lcg64 *) (q + 0x9c));
       BTL_CALC_Init((struct Lcg64 *) (p + 0x3f0), *((u16 *) (p + 0x468)));

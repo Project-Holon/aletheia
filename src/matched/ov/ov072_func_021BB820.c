@@ -57,7 +57,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_020490F4  0x020490F4  arm
@@ -91,7 +91,7 @@ extern void BG_SYS_Create(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -112,7 +112,7 @@ void TOWNMAP_GRH_InitBgLayers(void *p, u16 heap)
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)(&sTownMapGrhDispConfig));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&sTownMapGrhDispConfig));
     for (; i < 7; i++) {
         id = sTownMapGrhBgTable[i].id;
         BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)(&sTownMapGrhBgTable[i].tmpl), (u8)sTownMapGrhBgTable[i].mode);

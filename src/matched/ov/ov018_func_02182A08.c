@@ -17,7 +17,7 @@
  *   EVENT_COMM_COMMON_MsgScriptEventMain  0x02182AA4  thumb  ov018
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   func_02034714  0x02034714  arm
  *   d_02183B50     0x02183B50  data   a1
  *   d_02183ABC     0x02183ABC  data   a2
@@ -60,7 +60,7 @@ extern void GAME_EVENT_Change(char *p, int a1, int a2);
 extern void EVENT_COMM_COMMON_MsgScriptEventMain();
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuCopy8(void *, void *, int);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02183B50[];
 extern u16 d_02183ABC[];
@@ -78,7 +78,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(void *a, Src *b)
     if (v != 0) {
         m = 0;
         p->f9C = d_02183ABC[b->f42];
-        func_0201F02C(b->f10, 0, b->f78);
+        WORDSET_SetSlotMyStatus(b->f10, 0, b->f78);
     } else {
         func_02034714(d_02183B50, 0, d_02183B50);
         return;

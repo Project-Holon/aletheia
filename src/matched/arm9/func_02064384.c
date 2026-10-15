@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062F00  0x02062F00  arm
+ *   NNSi_G2dSetCellAnimationCurrentFrame  0x02062F00  arm
  *   NNSi_G2dRefreshCellAnimation  0x0206419C  arm
  *
  * The single-step form of NNS_G2dTickCellAnimation: steps the node's cell animation by
@@ -28,12 +28,12 @@ typedef signed int     s32;
 
 struct CellAnim;
 
-extern int func_02062F00(void *s, u32 i);
+extern int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
 extern void NNSi_G2dRefreshCellAnimation(char *self);
 
 void NNS_G2dSetCellAnimationCurrentFrame(struct CellAnim *anim, u32 i)
 {
-    if (func_02062F00(anim, i) != 0) {
+    if (NNSi_G2dSetCellAnimationCurrentFrame(anim, i) != 0) {
         NNSi_G2dRefreshCellAnimation((char *)anim);
     }
 }

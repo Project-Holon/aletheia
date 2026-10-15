@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE24
+ * function: WIFIBATTLEMATCH_NET_SetErrorB
  * address:  0x021DCE24
  * packet:   pkt_021DCE24
  * region:   ov175
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
-void func_021DCE24(char *p, int v, int a2)
+void WIFIBATTLEMATCH_NET_SetErrorB(char *p, int v, int a2)
 {
     ((struct Obj14350 *)p)->f0 = v;
     ((struct Obj14350 *)p)->f1C = 1;

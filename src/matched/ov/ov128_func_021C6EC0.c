@@ -14,7 +14,7 @@
  * so this file should become EXACT after the next manifest refresh. Recoup trail: the
  * condition chain on *p (3,4,1) is an if/else-if chain with q[8]=5 repeated in each arm
  * (bne over b); the shared finish block (func_021C7694 with ctx as 2nd argument,
- * func_021CA19C, q[8]=3) is written out in each of its three arms (case 10 arm 0, case 10
+ * WF2DMAP_TOUCH_UpdateTopBar, q[8]=3) is written out in each of its three arms (case 10 arm 0, case 10
  * arm 1, case 11) and case 10 is an inner switch on the menu status. A goto finish form
  * and a return-0 form were each 4 to 70 bytes off. Callee problem: matched func_021C7694
  * takes one parameter but this caller passes two (p, ctx).
@@ -23,29 +23,29 @@
  *   func_021C6EA0 0x021C6EA0 thumb ov128
  *   func_021C72E4 0x021C72E4 thumb ov128
  *   func_021C74C4 0x021C74C4 thumb ov128
- *   func_021CA3A0 0x021CA3A0 thumb ov128
- *   func_021CA3C4 0x021CA3C4 thumb ov128
- *   func_021CA1E0 0x021CA1E0 thumb ov128
+ *   WF2DMAP_TOUCH_PlayActorAnimA 0x021CA3A0 thumb ov128
+ *   WF2DMAP_TOUCH_PlayActorAnimB 0x021CA3C4 thumb ov128
+ *   WF2DMAP_TOUCH_StepTopBarBlink 0x021CA1E0 thumb ov128
  *   func_021C76BC 0x021C76BC thumb ov128
  *   func_021C74E8 0x021C74E8 thumb ov128
  *   func_021C7500 0x021C7500 thumb ov128
  *   func_021C7558 0x021C7558 thumb ov128
- *   func_021CA014 0x021CA014 thumb ov128
+ *   WF2DMAP_TOUCH_ParseKey 0x021CA014 thumb ov128
  *   func_021C6B50 0x021C6B50 thumb ov128
  *   func_021C7674 0x021C7674 thumb ov128
  *   func_021C6E3C 0x021C6E3C thumb ov128
  *   func_021C6E74 0x021C6E74 thumb ov128
  *   func_021C6460 0x021C6460 thumb ov128
- *   func_021CA084 0x021CA084 thumb ov128
+ *   WF2DMAP_TOUCH_GetConfirmInput 0x021CA084 thumb ov128
  *   func_021C7694 0x021C7694 thumb ov128
- *   func_021CA19C 0x021CA19C thumb ov128
+ *   WF2DMAP_TOUCH_UpdateTopBar 0x021CA19C thumb ov128
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   MYSTATUS_Create 0x0200846C thumb
  *   func_020084E4 0x020084E4 thumb
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_020355C4 0x020355C4 arm
  *   d_021CA4F9 0x021CA4F9 data a1
@@ -60,22 +60,22 @@ struct U16Vec;
 struct WordSet;
 extern void func_021C72E4(u8 *p, int *q, u8 *ctx);
 extern int func_021C74C4(int *p, int *q, u8 *r);
-extern void func_021CA3A0(char *);
-extern void func_021CA3C4(char *);
-extern int func_021CA1E0(char *p);
+extern void WF2DMAP_TOUCH_PlayActorAnimA(char *);
+extern void WF2DMAP_TOUCH_PlayActorAnimB(char *);
+extern int WF2DMAP_TOUCH_StepTopBarBlink(char *p);
 extern int func_021C76BC(int *p, u8 *q);
 extern void func_021C74E8(u32 *p, u8 *q);
 extern void func_021C7500(u8 *,u8 *);
 extern void func_021C7558(u8 *,u8 *,unsigned,unsigned);
-extern u64 func_021CA014(void *,int *);
+extern u64 WF2DMAP_TOUCH_ParseKey(void *,int *);
 extern void func_021C6B50(void **p, unsigned long long value);
 extern int func_021C7674(void *p, int *q, u8 *r);
 extern void *func_021C6E3C(void *p, void **q, int a, int heap);
 extern int func_021C6E74(u8 *p);
 extern int func_021C6460(char *p, void *q, u32 arg);
-extern int func_021CA084(int *p);
+extern int WF2DMAP_TOUCH_GetConfirmInput(int *p);
 extern void func_021C7694(u8 *p, void *ctx);
-extern void func_021CA19C(unsigned *p);
+extern void WF2DMAP_TOUCH_UpdateTopBar(unsigned *p);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void);
 typedef signed int     s32;
@@ -84,7 +84,7 @@ extern s32 BLINK_PALANM_Update(struct Row *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void *MYSTATUS_Create(int);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u32 func_020307B0(void *p);
 extern u8 func_020355C4(void);
 extern void func_021C7138(u8 *,u8 *,u8 *);
@@ -113,8 +113,8 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         BLINK_PALANM_Update(*(void **)(ctx+0x184));
         result=func_021C74C4((int *)p,(int *)q,ctx);
         if(result!=0) {
-            if(*(u32 *)p==3) func_021CA3A0((char *)ctx);
-            else if(*(u32 *)p==4) func_021CA3C4((char *)ctx);
+            if(*(u32 *)p==3) WF2DMAP_TOUCH_PlayActorAnimA((char *)ctx);
+            else if(*(u32 *)p==4) WF2DMAP_TOUCH_PlayActorAnimB((char *)ctx);
             else *(u16 *)(p+8)=0;
             q[8]=4;
         }
@@ -125,7 +125,7 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         } else if(*(u32 *)p==4) {
             if(CLACT_IsActorAnimActive(*(void **)(ctx+0x168))==1) break;
         } else {
-            if(func_021CA1E0((char *)p)==1) break;
+            if(WF2DMAP_TOUCH_StepTopBarBlink((char *)p)==1) break;
         }
         if(func_021C76BC((int *)p,q)==1) {
             func_021C74E8((u32 *)p,q);
@@ -162,9 +162,9 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         if(WIPE_SYS_EndCheck()!=0) {
             text=MYSTATUS_Create(heap);
             func_020084E4(text,*(void **)(q+0x58));
-            func_0201F02C(*(void **)ctx,0,text);
+            WORDSET_SetSlotMyStatus(*(void **)ctx,0,text);
             func_020307B0(text);
-            number=func_021CA014(*(void **)(q+0x5C),&result);
+            number=WF2DMAP_TOUCH_ParseKey(*(void **)(q+0x5C),&result);
             if(result!=0) {
                 func_021C6B50((void **)ctx,number);
                 func_021C7558(p,ctx,55,heap);
@@ -190,7 +190,7 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
             submission=func_021C6460((char *)q,*(void **)(q+0x5C),*(u32 *)(q+0x58));
             if(submission==0) {
                 func_021C7694(p,ctx);
-                func_021CA19C((unsigned int *)p);
+                WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
                 q[8]=3;
             } else {
                 func_021C7558(p,ctx,d_021CA4F9[submission],heap);
@@ -201,15 +201,15 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         case 1:
             *(u32 *)q=func_020355C4();
             func_021C7694(p,ctx);
-            func_021CA19C((unsigned int *)p);
+            WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
             q[8]=3;
             break;
         }
         break;
     case 11:
-        if(func_021C7674(p,(int *)q,ctx)!=0 && func_021CA084((int *)q)==1) {
+        if(func_021C7674(p,(int *)q,ctx)!=0 && WF2DMAP_TOUCH_GetConfirmInput((int *)q)==1) {
             func_021C7694(p,ctx);
-            func_021CA19C((unsigned int *)p);
+            WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
             q[8]=3;
         }
         break;

@@ -13,7 +13,7 @@
  *   site 0x021BCB00 data a4
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned int u32;
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 extern const char site[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
-extern void func_02041090(u32,u32,u32,u32,u8,u8);
+extern void BG_SYS_DrawTile(u32,u32,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
 void func_021BAC70(const u16 *p)
 {
@@ -38,7 +38,7 @@ void func_021BAC70(const u16 *p)
         buffer[n]=v|0xd000;
         n++;
     }
-    func_02041090(2,(u32)buffer,0,0,32,24);
+    BG_SYS_DrawTile(2,(u32)buffer,0,0,32,24);
     func_02041B6C(2);func_020307B0(buffer);
     buffer=func_02030734(*p,1536,1,site,2488);
     n=0;
@@ -47,6 +47,6 @@ void func_021BAC70(const u16 *p)
         buffer[n]=v;
         n++;
     }
-    func_02041090(6,(u32)buffer,0,0,32,24);
+    BG_SYS_DrawTile(6,(u32)buffer,0,0,32,24);
     func_02041B6C(6);func_020307B0(buffer);
 }

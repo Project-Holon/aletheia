@@ -10,7 +10,7 @@
  * status:   EXACT
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0215A460 (0x0215A460) is a matched manifest entry, so the `matched`
+ * EVENT_POKE_STATUS_NormalizeTicks (0x0215A460) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
@@ -18,7 +18,7 @@
  *
  * symbols:
  *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
- *   func_0215A460  0x0215A460  thumb
+ *   EVENT_POKE_STATUS_NormalizeTicks  0x0215A460  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,11 +27,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0215A460(u32);
+extern u32 EVENT_POKE_STATUS_NormalizeTicks(u32);
 extern u32 FLDMMDL_GetEventId(void *p);
 
 int EVENT_TRAINER_EYE_GetTrainerId(u32 a)
 {
-return func_0215A460(FLDMMDL_GetEventId((void *)a));
+return EVENT_POKE_STATUS_NormalizeTicks(FLDMMDL_GetEventId((void *)a));
 }
 

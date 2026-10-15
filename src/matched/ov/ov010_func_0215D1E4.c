@@ -14,7 +14,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02014910  0x02014910  thumb
+ *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_020307B0  0x020307B0  arm
  */
@@ -38,7 +38,7 @@ extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, i
 struct Evt;
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
-extern void *func_02014910(char *a0, int a1, int a2, int a3);
+extern void *FIELD_STATUS_CreateSubProcListEvent(char *a0, int a1, int a2, int a3);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern u32 func_020307B0(void *p);
 
@@ -57,7 +57,7 @@ int SCRCMD_SODATEYA_RunPartyMenuEvent(void *a, u32 *st, Ctx *c)
         *st = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(a, func_02014910(p0, (int)c->f4, (int)c->f8, (int)c->fC));
+        GAME_EVENT_CallEvent(a, FIELD_STATUS_CreateSubProcListEvent(p0, (int)c->f4, (int)c->f8, (int)c->fC));
         *st = 3;
         break;
     case 3:

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1888
+ * function: NAMEIN_GRAPHIC_CreateActors
  * address: 0x021F1888
  * packet: pkt_ov194_021F1888
  * region: ov194
@@ -33,7 +33,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned);
-void func_021F1888(char *p,unsigned owner,u16 heap)
+void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
 {
     short pos[4];
     void *handle;

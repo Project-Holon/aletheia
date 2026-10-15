@@ -9,8 +9,8 @@
  * status: EXACT*
  * symbols:
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021B99F4 0x021B99F4 thumb ov225
+ *   MANUAL_GRAPHIC_DrawScreen 0x021B99F4 thumb ov225
  */
 #include "../include/Obj08467.h"
-struct PrintSys;extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);extern void func_021B99F4(char *);
-void func_021B9E60(char *p){PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f10);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f14);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f18);func_021B99F4(*(char * *)&((struct Obj08467 *)p)->f8);}
+struct PrintSys;extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);extern void MANUAL_GRAPHIC_DrawScreen(char *);
+void func_021B9E60(char *p){PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f10);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f14);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f18);MANUAL_GRAPHIC_DrawScreen(*(char * *)&((struct Obj08467 *)p)->f8);}

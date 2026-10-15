@@ -12,15 +12,15 @@
  * symbols:
  *   OS_GetMacAddress  0x02087C6C  arm
  *   RTC_GetDateTime     0x020889C0  arm
- *   func_0203F034     0x0203F034  arm
- *   func_0203F0A8     0x0203F0A8  arm
+ *   GF_STANDARD_RandSeed     0x0203F034  arm
+ *   GF_STANDARD_Rand     0x0203F0A8  arm
  *   g_02FFFC3C        0x02FFFC3C  data
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_STATE_InitRandom.c  *       --func GFL_NET_STATE_InitRandom --addr 0x0203AE20 --cc 1.1p1 --arm
  *
  * net_state.c RNG seeder.  Mixes the MAC with the RTC date/time and the
- * system word 0x02FFFC3C, seeds func_0203F034, draws two words into one
+ * system word 0x02FFFC3C, seeds GF_STANDARD_RandSeed, draws two words into one
  * u64 seed, and initialises a NitroSDK MATHRandContext64 with the SDK's
  * own MATH_InitRand64 inline (x = seed, mul 0x5D588B656C078965, add
  * 0x269EC3).  Wave 14 closed the 8-byte tail tie of
@@ -48,8 +48,8 @@ extern void OS_GetMacAddress(u8 *p);
 struct RTCDate;
 struct RTCTime;
 extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
-extern void func_0203F034(u32 seed);
-extern u32 func_0203F0A8(void);
+extern void GF_STANDARD_RandSeed(u32 seed);
+extern u32 GF_STANDARD_Rand(void);
 extern u32 g_02FFFC3C;
 struct Date { u32 year; u32 mon; u32 day; u32 wday; };
 struct Time { u32 hour; u32 min; u32 sec; };
@@ -65,9 +65,9 @@ void GFL_NET_STATE_InitRandom(MATHRandContext64 *o)
   seed = ((d.year + ((d.day * (d.mon << 8)) << 16)) + (t.hour << 16)) + ((t.min + t.sec) << 24);
   seed = seed + (mac[5] + ((mac[3] << 16) + (mac[4] << 8)));
   seed = seed + g_02FFFC3C;
-  func_0203F034(seed);
+  GF_STANDARD_RandSeed(seed);
   {
-    u32 hi = func_0203F0A8();
-    MATH_InitRand64(o, (((u64) hi) << 32) + func_0203F0A8());
+    u32 hi = GF_STANDARD_Rand();
+    MATH_InitRand64(o, (((u64) hi) << 32) + GF_STANDARD_Rand());
   }
 }

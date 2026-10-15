@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   func_02045EC0  0x02045EC0  arm
- *   sub_0201D304  0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetWidth  0x020437DC  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
@@ -37,7 +37,7 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
@@ -62,7 +62,7 @@ void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2)
             u32 t;
 
             msg = func_02045EC0(((struct Obj00081 *)st)->fC, 0x80);
-            w = (u16)sub_0201D304(msg, ((struct Obj00081 *)st)->f4, 0);
+            w = (u16)GF_FONT_MeasureWidestLine(msg, ((struct Obj00081 *)st)->f4, 0);
             h = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp(((struct Obj00081 *)st)->f20)));
             t = (u32)BMP_WIN_GetBmp(((struct Obj00081 *)st)->f20);
             d = h - w;

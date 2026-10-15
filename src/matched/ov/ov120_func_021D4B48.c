@@ -1,5 +1,5 @@
 /*
- * function: func_021D4B48
+ * function: GTSNEGO_DISP_StartMatchmaking
  * address: 0x021D4B48
  * packet: pkt_ov120_021D4B48
  * region: ov120
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D7AF4 0x021D7AF4 thumb ov120
+ *   GTSNEGO_MSG_UpdatePrintStream 0x021D7AF4 thumb ov120
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_021D8590 0x021D8590 thumb ov120
- *   func_021D505C 0x021D505C thumb ov120
- *   func_021D4988 0x021D4988 thumb ov120
- *   func_021D4A20 0x021D4A20 thumb ov120
- *   func_021D4244 0x021D4244 thumb ov120
+ *   GTSNEGO_MSG_CreateConfirmUi 0x021D8590 thumb ov120
+ *   GTSNEGO_DISP_OnDisconnectCallback 0x021D505C thumb ov120
+ *   GTSNEGO_DISP_HandleTradeKeys 0x021D4988 thumb ov120
+ *   GTSNEGO_DISP_ScoreMatch 0x021D4A20 thumb ov120
+ *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_02009CA8 0x02009CA8 thumb
- *   func_021D4F70 0x021D4F70 thumb ov120
+ *   GTSNEGO_DISP_GetEntry 0x021D4F70 thumb ov120
  *   MI_CpuCopy8 0x02082D44 arm
  *   DWC_AddMatchKeyInt 0x0216C8DC arm ov009
  *   func_0208D7E0 0x0208D7E0 arm
@@ -34,16 +34,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 value; u8 kind; u8 pad; u16 detail; u32 tail; } Record;
 struct Sub0200852CObj;
-extern int func_021D7AF4(char *p);
+extern int GTSNEGO_MSG_UpdatePrintStream(char *p);
 extern int GFL_NET_GetRunState(void);
-extern void func_021D8590(u8 *, int, int);
-extern void func_021D505C(int a, int b, int *p);
-extern void func_021D4988(int *a);
-extern int func_021D4A20(int, u8 *);
-extern void func_021D4244(int *p, int v, int a2);
+extern void GTSNEGO_MSG_CreateConfirmUi(u8 *, int, int);
+extern void GTSNEGO_DISP_OnDisconnectCallback(int a, int b, int *p);
+extern void GTSNEGO_DISP_HandleTradeKeys(int *a);
+extern int GTSNEGO_DISP_ScoreMatch(int, u8 *);
+extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
 extern void GFL_NET_SetWaitMode(int);
 extern void func_02009CA8(void *account, void *out);
-extern void *func_021D4F70(void **p, int i);
+extern void *GTSNEGO_DISP_GetEntry(void **p, int i);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
@@ -54,16 +54,16 @@ extern void DWC_RAP_SetVchatEnabled(int);
 extern void GFL_NET_STATE_SetError(int, u32, u32, u32);
 extern const u16 d_021D8B40[];
 extern const char d_021D8B50[];
-void func_021D4B48(u8 *p)
+void GTSNEGO_DISP_StartMatchmaking(u8 *p)
 {
     u32 values[8];
     void *q;
     int i;
     Record *r;
-    if (func_021D7AF4(((struct Obj01539 *)p)->f40)) {
+    if (GTSNEGO_MSG_UpdatePrintStream(((struct Obj01539 *)p)->f40)) {
         if (GFL_NET_GetRunState() == 0) {
-            func_021D8590(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)func_021D505C, (int)p);
-            func_021D4244((int *)p, (int)func_021D4988, 0x3ea);
+            GTSNEGO_MSG_CreateConfirmUi(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)GTSNEGO_DISP_OnDisconnectCallback, (int)p);
+            GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_HandleTradeKeys, 0x3ea);
             return;
         }
         GFL_NET_SetWaitMode(0);
@@ -80,7 +80,7 @@ void func_021D4B48(u8 *p)
             if (((struct Obj01539 *)p)->f148 == -1)
                 values[2] = 4;
             else {
-                q = func_021D4F70(((struct Obj01539 *)p)->f2C, ((struct Obj01539 *)p)->f148);
+                q = GTSNEGO_DISP_GetEntry(((struct Obj01539 *)p)->f2C, ((struct Obj01539 *)p)->f148);
                 values[7] = func_02008530(q);
                 ((struct Obj01539 *)p)->f18 = func_02008530(q);
             }
@@ -92,11 +92,11 @@ void func_021D4B48(u8 *p)
             r->kind = DWC_AddMatchKeyInt(r->kind, (char *)(&r->detail), (int *)r);
         }
         func_0208D7E0((char *)p + 0xb8, d_021D8B50, ((struct Obj01539 *)p)->f138, 1);
-        if (DWC_RAP_StartMatchWithFilter((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
+        if (DWC_RAP_StartMatchWithFilter((int)p + 0xb8, 2, (int)GTSNEGO_DISP_ScoreMatch, (int)p)) {
             GFL_NET_STATE_WifiEnterFriendMatch();
             DWC_RAP_SetVchatEnabled(0);
-            func_021D8590(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)func_021D505C, (int)p);
-            func_021D4244((int *)p, (int)func_021D4988, 0x41d);
+            GTSNEGO_MSG_CreateConfirmUi(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)GTSNEGO_DISP_OnDisconnectCallback, (int)p);
+            GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_HandleTradeKeys, 0x41d);
             return;
         }
         GFL_NET_STATE_SetError(0, 0, 0, 0x3f1);

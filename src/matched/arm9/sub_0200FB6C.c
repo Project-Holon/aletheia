@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   g_021461BC     0x021461BC  data
  *
@@ -38,7 +38,7 @@ struct Sub0200FB6CObj {
 };
 
 extern u32 func_020307B0(void *p);
-extern void func_020306F0(u32 id);
+extern void GFL_HEAP_DeleteChecked(u32 id);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u8   g_021461BC[0x1A];
 
@@ -49,7 +49,7 @@ void GFL_NET_ERR_ExitAndHalt(void)
     func_020307B0(obj->unk00);
     func_020307B0(obj->unk04);
     func_020307B0(obj->unk08);
-    func_020306F0(8);
+    GFL_HEAP_DeleteChecked(8);
 
     g_021461BC[0x19] = 0x60;
 

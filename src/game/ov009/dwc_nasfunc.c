@@ -1,7 +1,7 @@
 /*
  * file:     dwc_nasfunc.c
  * unit:     yes
- * function: func_02167ED8, func_02167FA8, func_02168040, func_02168064, func_02168124
+ * function: DWC_GetDateTime, DWC_SVLGetTokenAsync, DWC_SVLProcess, DWC_NASLoginAsync, DWC_NASLoginProcess
  * address:  0x02167ED8
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -18,14 +18,14 @@
  *   g_021AA838     0x021AA838  data
  *   g_021AA840     0x021AA840  data
  *   DWC_Auth_GetId  0x02058FB4  arm
- *   func_0217C070  0x0217C070  arm  ov009
+ *   DWC_Svl_Init  0x0217C070  arm  ov009
  *   strlen  0x0209477C  arm
- *   func_0217C144  0x0217C144  arm  ov009
- *   func_0217C104  0x0217C104  arm  ov009
+ *   DWC_Svl_GetTokenAsync  0x0217C144  arm  ov009
+ *   DWC_Svl_Cleanup  0x0217C104  arm  ov009
  *   DWC_Alloc      0x0205A16C  arm
  *   DWC_Free       0x0205A1B0  arm
  *   g_021A1F6C     0x021A1F6C  data
- *   func_0217C384  0x0217C384  arm  ov009
+ *   DWC_Svl_Process  0x0217C384  arm  ov009
  *   OS_Terminate   0x02088234  arm
  *   DWCi_SetError  0x02059F54  arm
  *   MI_CpuFill8    0x02082BCC  arm
@@ -40,7 +40,11 @@
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_02059F54  0x02059F54  arm
  */
-#include "../../matched/include/G_NasTimeDiff_.h"
+typedef struct NasTimeDiff {
+    int valid;
+    long long base;
+    long long diff;
+} NasTimeDiff;
 
 struct RTCDate;
 struct RTCTime;
@@ -84,11 +88,11 @@ extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
 extern void DWC_Auth_GetId(AuthId *id);
-extern int func_0217C070(void *(*alloc)(int, int), void (*free)(int, void *, unsigned long));
+extern int DWC_Svl_Init(void *(*alloc)(int, int), void (*free)(int, void *, unsigned long));
 extern int strlen(const u8 *s);
-extern int func_0217C144(char *svc, struct DWCSvlResult *result);
-extern void func_0217C104(void);
-extern int func_0217C384(void);
+extern int DWC_Svl_GetTokenAsync(char *svc, struct DWCSvlResult *result);
+extern void DWC_Svl_Cleanup(void);
+extern int DWC_Svl_Process(void);
 extern void *DWC_Alloc(int kind, int size);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern void OS_Terminate(void);
@@ -99,22 +103,22 @@ extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
 extern int DWC_Auth_GetError(void);
 extern void DWC_Auth_GetResult(int *result);
 extern void DWC_Auth_Destroy(void);
-extern struct NasTimeDiff_ g_021AA834;
+extern NasTimeDiff g_021AA834;
 extern long long g_021AA838;
 extern long long g_021AA840;
 extern char g_021A1F6C[];
 extern char g_021A1F74[];
 extern NalCnt *g_021AA830;
-int func_02167ED8(void *date, void *time);
-int func_02167FA8(char *svl, void *result);
-int func_02168040(void);
-int func_02168064(void);
-int func_02168124(void);
+int DWC_GetDateTime(void *date, void *time);
+int DWC_SVLGetTokenAsync(char *svl, void *result);
+int DWC_SVLProcess(void);
+int DWC_NASLoginAsync(void);
+int DWC_NASLoginProcess(void);
 
 /*
  * sdk:      DWC_GetDateTime (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  */
-int func_02167ED8(void *date, void *time)
+int DWC_GetDateTime(void *date, void *time)
 {
     long long localsec;
 
@@ -139,7 +143,7 @@ int func_02167ED8(void *date, void *time)
 /*
  * sdk:      DWC_SVLGetTokenAsync (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  */
-int func_02167FA8(char *svl, void *result)
+int DWC_SVLGetTokenAsync(char *svl, void *result)
 {
     AuthId id;
     int flag;
@@ -147,26 +151,26 @@ int func_02167FA8(char *svl, void *result)
     DWC_Auth_GetId(&id);
     if (id.f10 == 0)
         return 0;
-    if (func_0217C070(DWC_Alloc, DWC_Free) == 0)
+    if (DWC_Svl_Init(DWC_Alloc, DWC_Free) == 0)
         return 0;
     if (strlen((const u8 *)svl) == 0)
-        flag = func_0217C144(g_021A1F6C, result);
+        flag = DWC_Svl_GetTokenAsync(g_021A1F6C, result);
     else
-        flag = func_0217C144(svl, result);
+        flag = DWC_Svl_GetTokenAsync(svl, result);
     if (flag != 0)
         return 1;
-    func_0217C104();
+    DWC_Svl_Cleanup();
     return 0;
 }
 
 
 /*
- * Calls func_0217C104 when func_0217C384 returns 3 to 5.
+ * Calls DWC_Svl_Cleanup when DWC_Svl_Process returns 3 to 5.
  */
-int func_02168040(void)
+int DWC_SVLProcess(void)
 {
-    int v = func_0217C384();
-    if ((u32)(v - 3) <= 2) func_0217C104();
+    int v = DWC_Svl_Process();
+    if ((u32)(v - 3) <= 2) DWC_Svl_Cleanup();
     return v;
 }
 
@@ -174,7 +178,7 @@ int func_02168040(void)
 /*
  * sdk:      DWC_NASLoginAsync (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  */
-int func_02168064(void)
+int DWC_NASLoginAsync(void)
 {
     if (g_021AA830 != 0)
         OS_Terminate();
@@ -195,7 +199,7 @@ int func_02168064(void)
 /*
  * sdk:      DWC_NASLoginProcess (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  */
-int func_02168124(void)
+int DWC_NASLoginProcess(void)
 {
     AuthResult result;
 

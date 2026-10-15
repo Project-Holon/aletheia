@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF388",
+   "name": "BR_CODEIN_SearchDeleteList",
    "address": "0x021DF388",
    "kind": "game",
    "region": "ov183",

@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030A5C
+ * function: GFL_HEAP_DumpIfLive
  *
  * Dumps a heap, but only if the heap actually has live allocations.
  *
- *   void sub_02030A5C(u32 heapId)
+ *   void GFL_HEAP_DumpIfLive(u32 heapId)
  *
  * sub_0203046C returns the heap's +0xc record halfword, which
  * sub_02030098 increments on every successful allocation, so a zero answer
@@ -27,8 +27,8 @@
  *   sub_02030B50    0x02030B50  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030A5C.c \
- *       --func sub_02030A5C --addr 0x02030A5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_DumpIfLive.c \
+ *       --func GFL_HEAP_DumpIfLive --addr 0x02030A5C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -37,7 +37,7 @@ typedef unsigned int u32;
 extern u16 sub_0203046C(u32 heapId);
 extern void sub_02030B50(void *p);
 
-void sub_02030A5C(u32 heapId)
+void GFL_HEAP_DumpIfLive(u32 heapId)
 {
     if (sub_0203046C(heapId) != 0) {
         sub_02030B50((void *)heapId);

@@ -18,7 +18,7 @@
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   func_020490F4  0x020490F4  arm
@@ -28,7 +28,7 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -54,7 +54,7 @@
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   func_020403F4  0x020403F4  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020056A0 0x020056A0 thumb
@@ -250,7 +250,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(int);
+extern void BG_SYS_FreeSlot(int);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -260,7 +260,7 @@ extern s32_021C4F7C CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 f
 extern s32_021C4F7C CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
@@ -283,7 +283,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
@@ -370,7 +370,7 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     menu->resultValue = 25;
     menu->savedState = savedState;
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)gShortcutMenuBgTemplate, 0);
-    func_020414AC(1);
+    BG_SYS_FreeSlot(1);
     BG_SYS_Init(1, 0, 1, 0);
     menu->actorBank = CLACT_CreateUnit(8, 0, heapId);
     tileBase = 0x80;
@@ -383,7 +383,7 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     func_02049B68(resArchive, 6, 0, tileBase, 0x20, heapId);
     func_02049658(resArchive, 5, 1, 0, 0, 0, heapId);
     func_020498F4(resArchive, 7, 1, 0, 0, 0, heapId);
-    func_020413B0(1, 0, 11, 32, 1, 10);
+    BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
     ARC_TOOL_DeleteHandle(resArchive);
     MI_CpuFill8(&pos, 0, 8);
     pos.y = 0x60;
@@ -434,7 +434,7 @@ void SHORTCUT_MENU_Delete(ShortcutMenu *menu)
     CLACT_ReleaseCharacter(menu->palResId);
     CLACT_ReleaseCellAnim(menu->cellResId);
     CLACT_DeleteUnit(menu->actorBank);
-    func_02040DA8(1, 1, 0);
+    BG_SYS_SetTileUnit(1, 1, 0);
     func_020403F4(1);
     func_020307B0(menu);
 }
@@ -777,19 +777,19 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
     cursorRow = func_02020314(list) >> 3;
     rowHeightTiles = func_02020350(list, 9) >> 3;
     if (menu->moveMode == 0) {
-        func_020413B0(1, 1, 12, 30, 12, 11);
-        func_020413B0(1, 1, cursorRow + 12, 30, rowHeightTiles, 12);
-        func_020413B0(1, 0, 11, 32, 1, 10);
+        BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
+        BG_SYS_FillTileMap(1, 1, cursorRow + 12, 30, rowHeightTiles, 12);
+        BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
         func_02041B6C(1);
     } else if (menu->moveMode == 1) {
-        func_020413B0(1, 1, 12, 30, 12, 11);
+        BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
         func_020202FC(list, &listPos[1], &listPos[0]);
         baseY = func_02020350(list, 8);
         rowHeight = func_02020350(list, 9);
         cursorOffset = menu->savedCursor + menu->savedScroll - listPos[1];
         baseY = baseY + cursorOffset * rowHeight;
-        func_020413B0(1, 1, (baseY >> 3) + 12, 30, rowHeightTiles, 12);
-        func_020413B0(1, 0, 11, 32, 1, 10);
+        BG_SYS_FillTileMap(1, 1, (baseY >> 3) + 12, 30, rowHeightTiles, 12);
+        BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
         func_02041B6C(1);
     }
     if (menu->cursorWrapped == 1) {

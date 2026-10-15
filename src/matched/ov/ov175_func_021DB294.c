@@ -1,5 +1,5 @@
 /*
- * function: func_021DB294
+ * function: WIFIBATTLEMATCH_NET_OnRecvStatus
  * address: 0x021DB294
  * packet: pkt_ov175_021DB294
  * region: ov175
@@ -25,7 +25,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-void func_021DB294(int index, int unused, void *dest, char *ctx, int owner)
+void WIFIBATTLEMATCH_NET_OnRecvStatus(int index, int unused, void *dest, char *ctx, int owner)
 {
     void *record;
     record = GAME_DATA_GetPlayerStatus(((struct Obj14339 *)ctx)->f8, index);

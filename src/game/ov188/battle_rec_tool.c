@@ -14,9 +14,9 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02019A50 0x02019A50 thumb
- *   func_02019C38 0x02019C38 thumb
- *   func_02019A9C 0x02019A9C thumb
+ *   POKE_CRYPTO_XorBlock 0x02019A50 thumb
+ *   POKE_TOOL_GetBoxSubstruct 0x02019C38 thumb
+ *   POKE_CRYPTO_Checksum 0x02019A9C thumb
  *   g_0214616C     0x0214616C  data
  *   BATTLE_REC_TOOL_UnpackBattleRules  0x021EF2D4  thumb  ov188
  *   POKEPARTY_GetCapacity   0x0201AA14  thumb
@@ -55,11 +55,11 @@ typedef signed int     s32;
 
 extern void MI_CpuFill8(void *,int,u32);
 
-extern void func_02019A50(u16 *,u32,u32);
+extern void POKE_CRYPTO_XorBlock(u16 *,u32,u32);
 
-extern void *func_02019C38(struct BoxPokemon *,u32,u32);
+extern void *POKE_TOOL_GetBoxSubstruct(struct BoxPokemon *,u32,u32);
 
-extern u16 func_02019A9C(const u16 *,u32);
+extern u16 POKE_CRYPTO_Checksum(const u16 *,u32);
 
 extern int BATTLE_REC_TOOL_UnpackBattleRules(struct BattleSetupParam *setup, const struct BattleRecData *rec);
 
@@ -139,13 +139,13 @@ void BATTLE_REC_TOOL_PackMon(struct PokemonParam *mon, struct BattleRecMon *rec)
     int i;
     MI_CpuFill8(rec,0,sizeof(struct BattleRecMon));
     if (!mon->box.partyDecoded) {
-        func_02019A50((u16 *)&mon->statusCondition,0x54,mon->box.personality);
-        func_02019A50((u16 *)mon->box.blocks,0x80,mon->box.checksum);
+        POKE_CRYPTO_XorBlock((u16 *)&mon->statusCondition,0x54,mon->box.personality);
+        POKE_CRYPTO_XorBlock((u16 *)mon->box.blocks,0x80,mon->box.checksum);
     }
-    blockA=func_02019C38(&mon->box,mon->box.personality,0);
-    blockB=func_02019C38(&mon->box,mon->box.personality,1);
-    blockC=func_02019C38(&mon->box,mon->box.personality,2);
-    blockD=func_02019C38(&mon->box,mon->box.personality,3);
+    blockA=POKE_TOOL_GetBoxSubstruct(&mon->box,mon->box.personality,0);
+    blockB=POKE_TOOL_GetBoxSubstruct(&mon->box,mon->box.personality,1);
+    blockC=POKE_TOOL_GetBoxSubstruct(&mon->box,mon->box.personality,2);
+    blockD=POKE_TOOL_GetBoxSubstruct(&mon->box,mon->box.personality,3);
     rec->personality=mon->box.personality;
     rec->partyDecoded=0;
     rec->boxDecoded=0;
@@ -194,8 +194,8 @@ void BATTLE_REC_TOOL_PackMon(struct PokemonParam *mon, struct BattleRecMon *rec)
     rec->spAttack=mon->spAttack;
     rec->spDefense=mon->spDefense;
     if (!mon->box.partyDecoded) {
-        func_02019A50((u16 *)&mon->statusCondition,0x54,mon->box.personality);
-        func_02019A50((u16 *)mon->box.blocks,0x80,mon->box.checksum);
+        POKE_CRYPTO_XorBlock((u16 *)&mon->statusCondition,0x54,mon->box.personality);
+        POKE_CRYPTO_XorBlock((u16 *)mon->box.blocks,0x80,mon->box.checksum);
     }
 }
 
@@ -208,10 +208,10 @@ void BATTLE_REC_TOOL_UnpackMon(struct BattleRecMon *rec, struct PokemonParam *mo
     struct BoxPokemonBlockD *blockD;
     int i;
     MI_CpuFill8(mon,0,sizeof(struct PokemonParam));
-    blockA=func_02019C38(&mon->box,rec->personality,0);
-    blockB=func_02019C38(&mon->box,rec->personality,1);
-    blockC=func_02019C38(&mon->box,rec->personality,2);
-    blockD=func_02019C38(&mon->box,rec->personality,3);
+    blockA=POKE_TOOL_GetBoxSubstruct(&mon->box,rec->personality,0);
+    blockB=POKE_TOOL_GetBoxSubstruct(&mon->box,rec->personality,1);
+    blockC=POKE_TOOL_GetBoxSubstruct(&mon->box,rec->personality,2);
+    blockD=POKE_TOOL_GetBoxSubstruct(&mon->box,rec->personality,3);
     mon->box.personality=rec->personality;
     mon->box.partyDecoded=0;
     mon->box.boxDecoded=0;
@@ -259,9 +259,9 @@ void BATTLE_REC_TOOL_UnpackMon(struct BattleRecMon *rec, struct PokemonParam *mo
     mon->speed=rec->speed;
     mon->spAttack=rec->spAttack;
     mon->spDefense=rec->spDefense;
-    func_02019A50((u16 *)&mon->statusCondition,0x54,mon->box.personality);
-    mon->box.checksum=func_02019A9C((u16 *)mon->box.blocks,0x80);
-    func_02019A50((u16 *)mon->box.blocks,0x80,mon->box.checksum);
+    POKE_CRYPTO_XorBlock((u16 *)&mon->statusCondition,0x54,mon->box.personality);
+    mon->box.checksum=POKE_CRYPTO_Checksum((u16 *)mon->box.blocks,0x80);
+    POKE_CRYPTO_XorBlock((u16 *)mon->box.blocks,0x80,mon->box.checksum);
 }
 
 void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup)

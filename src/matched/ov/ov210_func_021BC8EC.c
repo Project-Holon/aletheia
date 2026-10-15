@@ -1,5 +1,5 @@
 /*
- * function: func_021BC8EC
+ * function: ZKNSEARCH_MAIN_ConfigureWindow
  * address: 0x021BC8EC
  * packet: pkt_ov210_021BC8EC
  * region: ov210
@@ -27,7 +27,7 @@ static inline void visible(int window)
 {
     *(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000 & ~0xe000) | (window<<13);
 }
-void func_021BC8EC(void)
+void ZKNSEARCH_MAIN_ConfigureWindow(void)
 {
     inside(29,1);
     outside(31,1);

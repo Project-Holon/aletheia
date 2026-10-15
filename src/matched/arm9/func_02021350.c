@@ -8,17 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
- * function: func_02021350
+ * function: FILE_UTIL_GetMachineIndex
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021350.c  *       --func func_02021350 --addr 0x02021350 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_GetMachineIndex.c  *       --func FILE_UTIL_GetMachineIndex --addr 0x02021350 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_02021350(u16 id)
+u8 FILE_UTIL_GetMachineIndex(u16 id)
 {
     if (id >= 0x1A4 && id <= 0x1A9) {
         return (u8)(id - 0x1A4);

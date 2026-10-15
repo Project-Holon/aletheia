@@ -1,5 +1,5 @@
 /*
- * function: func_021F1A10
+ * function: NAMEIN_GRAPHIC_ClearCursor
  * address: 0x021F1A10
  * packet: pkt_ov194_021F1A10
  * region: ov194
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *,int,int);
-void func_021F1A10(void *p) { MI_CpuFill8(p,0,180); }
+void NAMEIN_GRAPHIC_ClearCursor(void *p) { MI_CpuFill8(p,0,180); }

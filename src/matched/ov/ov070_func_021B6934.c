@@ -18,9 +18,9 @@
  *   MOVE_POKEMON_SAVE_SetCooldown  0x0200D55C  thumb
  *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
@@ -45,9 +45,9 @@ extern void ITEMMENU_RemoveSelectedItems(struct Obj *o, int x);
 struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_ShowMessage(int p, int mode);
 extern void  GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void ITEMMENU_SetTask(char *p, int k);
@@ -65,14 +65,14 @@ void ITEMMENU_UseRepel(u8 *p)
             MOVE_POKEMON_SAVE_SetCooldown(blk, v);
             ITEMMENU_RemoveSelectedItems((struct Obj *)p, 1);
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x3F, (void *)(((struct Obj00002 *)p)->f524));
-            func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, (void *)(((struct Obj00002 *)p)->f8));
+            WORDSET_SetSlotMyStatus((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, (void *)(((struct Obj00002 *)p)->f8));
             ITEMMENU_RegisterItemName(p, 1, ((struct Obj00002 *)p)->f84C);
-            func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
+            WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
             ITEMMENU_ShowMessage((int)p, 1);
             GFL_USE_PlaySeDefaultVolume(0x7CD);
         } else {
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x40, (void *)(((struct Obj00002 *)p)->f524));
-            func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
+            WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
             ITEMMENU_ShowMessage((int)p, 1);
         }
         ITEMMENU_SetTask((char *)p, (int)((void *)ITEMMENU_TaskWaitMessage));

@@ -13,11 +13,11 @@
  *   POKETRADE_2D_UpdateVisibleColumns 0x021E4E64 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_PROC_StepSummaryMenuChoice 0x021DB030 thumb ov119
- *   d_021E758C 0x021E758C data a4
+ *   gSummaryMenuPos 0x021E758C data a4
  */
 #include "../include/Obj00001.h"
 typedef struct { int a,b; } Pair;
-extern const Pair d_021E758C;
+extern const Pair gSummaryMenuPos;
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern void POKETRADE_SAVE_OpenTaskMenuAt(char *p, int *ids, int count, int x, int y);
 extern void POKETRADE_2D_UpdateVisibleColumns(int a, char *p, int b);
@@ -26,7 +26,7 @@ extern void POKETRADE_PROC_StepSummaryMenuChoice(char *p);
 void POKETRADE_PROC_StepOpenSummaryMenu(char *p)
 {
     if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
-        Pair t=d_021E758C;
+        Pair t=gSummaryMenuPos;
         POKETRADE_SAVE_OpenTaskMenuAt(p,(int *)(&t),2,0x20,0xc);
         ((struct Obj00001 *)p)->f1080=-1;
         POKETRADE_2D_UpdateVisibleColumns(*(int *)&((struct Obj00001 *)p)->f828,p,0);

@@ -20,14 +20,14 @@
  *   func_020403F4  0x020403F4  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_02062A4C  0x02062A4C  arm
- *   func_02062B30  0x02062B30  arm
- *   func_02062A98  0x02062A98  arm
- *   func_02040B1C  0x02040B1C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
- *   func_02040E78  0x02040E78  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   gFldFaceupBgTemplate     0x021F58F4  data  a4
  * Addresses are Black-image addresses.
@@ -73,14 +73,14 @@ extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
 extern void func_020403F4(u32 i);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern int func_02062B30(void *file, void **out);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
-extern void func_02040E78(u32 index, void *src, u32 size, u32 offset);
+extern void BG_SYS_LoadPltt(u32 index, void *src, u32 size, u32 offset);
 extern u32 func_020307B0(void *p);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
 #define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)
@@ -138,29 +138,29 @@ void FLD_FACEUP_SetupBg(u8 *w, int p)
         c = 2;
     }
     f = ARC_TOOL_LoadMember(0xbb, a, 0x8015);
-    func_02062A4C(f, (void **)(&chr1));
-    func_02040B1C(2, chr1->data, chr1->size, 0);
+    NNS_G2dGetUnpackedCharacterDataEx(f, (void **)(&chr1));
+    BG_SYS_LoadTileData(2, chr1->data, chr1->size, 0);
     func_020307B0(f);
     f = ARC_TOOL_LoadMember(0xbb, b, 0x8015);
-    func_02062B30(f, (void **)(&scr1));
+    NNS_G2dGetUnpackedScreenData(f, (void **)(&scr1));
     BG_SYS_PushTileSource(2, scr1->data, scr1->size, 0);
     func_020307B0(f);
     f = ARC_TOOL_LoadMember(0xbb, c, 0x8015);
-    func_02062A98(f, (void **)(&plt));
-    func_02040E78(2, plt->data, 0x140, 0);
+    NNS_G2dGetUnpackedPaletteData(f, (void **)(&plt));
+    BG_SYS_LoadPltt(2, plt->data, 0x140, 0);
     func_020307B0(f);
     f = ARC_TOOL_LoadMember(0xbb, 7, 0x8015);
-    func_02062A4C(f, (void **)(&chr2));
-    func_02040B1C(3, chr2->data, chr2->size, 0);
+    NNS_G2dGetUnpackedCharacterDataEx(f, (void **)(&chr2));
+    BG_SYS_LoadTileData(3, chr2->data, chr2->size, 0);
     func_020307B0(f);
     f = ARC_TOOL_LoadMember(0xbb, 11, 0x8015);
-    func_02062B30(f, (void **)(&scr2));
+    NNS_G2dGetUnpackedScreenData(f, (void **)(&scr2));
     BG_SYS_PushTileSource(3, scr2->data, scr2->size, 0);
     func_020307B0(f);
-    func_0204047C(0, 3);
-    func_0204047C(1, 0);
-    func_0204047C(2, 2);
-    func_0204047C(3, 1);
+    BG_SYS_SetVisibleLayer(0, 3);
+    BG_SYS_SetVisibleLayer(1, 0);
+    BG_SYS_SetVisibleLayer(2, 2);
+    BG_SYS_SetVisibleLayer(3, 1);
     func_02040588(2, 1);
     func_02040588(3, 1);
 }

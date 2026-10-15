@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC20
+ * function: DEMO3D_StartWipe
  * address: 0x021BDC20
  * packet: pkt_ov203_021BDC20
  * region: ov203
@@ -17,7 +17,7 @@ extern void func_021BE948(void *ctx, int mode, unsigned char *width, unsigned ch
 extern void WIPE_SetMstBrightColor(unsigned);
 extern unsigned FADE_GetSpeed(void);
 extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-int func_021BDC20(void *ctx, unsigned mode, unsigned heap)
+int DEMO3D_StartWipe(void *ctx, unsigned mode, unsigned heap)
 {
     unsigned char width, height;
     unsigned char factor;

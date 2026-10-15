@@ -1,5 +1,5 @@
 /*
- * function: func_021BC8B4
+ * function: ZKNSEARCH_MAIN_SetBrightness
  * address:  0x021BC8B4
  * packet:   pkt_ov210_021BC8B4
  * region:   ov210
@@ -22,7 +22,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern void func_0207D63C(u32 reg, u32 a, u32 b, u32 c, u32 d);
 
-void func_021BC8B4(int mode)
+void ZKNSEARCH_MAIN_SetBrightness(int mode)
 {
     if (mode == 1) {
         func_0207D63C(0x04000050, 8, 4, 16, 6);

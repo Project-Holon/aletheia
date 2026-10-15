@@ -1,5 +1,5 @@
 /*
- * function: func_020524C8
+ * function: SPL_EMITTER_FreeResourceList
  * address:  0x020524C8
  * packet:   pkt_02052274
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0205250C  0x0205250C  arm
+ *   SPL_EMITTER_FreeResource  0x0205250C  arm
  *
  * Drain the singly-linked list hanging off p+4: for each node, cache its
- * `next` pointer (the first word) BEFORE handing the node to func_0205250C,
+ * `next` pointer (the first word) BEFORE handing the node to SPL_EMITTER_FreeResource,
  * which tears the node down.  The cached-next shape is what produces the
  * `ldr r4,[r1]` above the call and the `mov r1,r4; cmp r4,#0` pair below it.
  *
@@ -24,22 +24,22 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020524C8.c \
- *       --func func_020524C8 --addr 0x020524C8 --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_FreeResourceList.c \
+ *       --func SPL_EMITTER_FreeResourceList --addr 0x020524C8 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
 #include "../include/Obj16201.h"
 #include "../include/Obj16202.h"
 
-extern void func_0205250C(char *p, char *q);
+extern void SPL_EMITTER_FreeResource(char *p, char *q);
 
-void func_020524C8(void *p)
+void SPL_EMITTER_FreeResourceList(void *p)
 {
     void *n = ((struct Obj16201 *)p)->f4;
 
     while (n != 0) {
         void *next = ((struct Obj16202 *)n)->f0;
-        func_0205250C(p, n);
+        SPL_EMITTER_FreeResource(p, n);
         n = next;
     }
 }

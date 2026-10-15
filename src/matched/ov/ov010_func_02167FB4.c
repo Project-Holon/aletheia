@@ -22,7 +22,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02014910  0x02014910  thumb
+ *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   MI_CpuCopy8    0x02082D44  arm
@@ -58,7 +58,7 @@ struct Party;
 struct PartyMon;
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
-extern void *func_02014910(char *a0, int a1, int a2, int a3);
+extern void *FIELD_STATUS_CreateSubProcListEvent(char *a0, int a1, int a2, int a3);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -84,7 +84,7 @@ int FLD_BTL_INST_TOOL_PokeListEventMain(void *evt, u32 *seq, SeqWork *w)
         (*seq)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(evt, func_02014910((char *)heap, (int)w->arg, (int)w->f30, (int)w->f08));
+        GAME_EVENT_CallEvent(evt, FIELD_STATUS_CreateSubProcListEvent((char *)heap, (int)w->arg, (int)w->f30, (int)w->f08));
         (*seq)++;
         break;
     case 3:

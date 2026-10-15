@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDD18",
+   "name": "DEMO3D_DeleteContext",
    "address": "0x021BDD18",
    "kind": "game",
    "region": "ov203",

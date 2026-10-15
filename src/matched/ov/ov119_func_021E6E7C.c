@@ -13,11 +13,11 @@
  *   BMP_GetByteSize 0x020437EC arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E804 0x0207E804 arm
- *   d_021E7DD8 0x021E7DD8 data a1
+ *   gOfferWindowActorTable 0x021E7DD8 data a1
  */
 typedef unsigned char u8;
 typedef struct { u8 v[8]; } Table;
-extern const Table d_021E7DD8;
+extern const Table gOfferWindowActorTable;
 extern int CLACT_GetCharacterVramAddress(unsigned int idx, unsigned int flag);
 typedef unsigned int   u32;
 struct Bmp;
@@ -26,7 +26,7 @@ extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void DWCi_ScreenDC_FlushRange(void *,int);
 extern void func_0207E804(const void *,void *,unsigned int);
 void POKETRADE_2D_UpdateOfferWindowActors(int p) {
-    Table t=d_021E7DD8;
+    Table t=gOfferWindowActorTable;
     int i,j;
     char *dest,*source;
     for(i=0;i<8;i++) {

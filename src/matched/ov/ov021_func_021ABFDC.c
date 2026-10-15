@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  */
 
 typedef unsigned short u16;
@@ -28,11 +28,11 @@ typedef struct {
 } T;
 
 struct Ctx;
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 
 void FIELD_EFFECT_RunTasks(T *t)
 {
     if (t->f1c != 0) {
-        func_02030D28((struct Ctx *)t->f1c);
+        TCB_Main((struct Ctx *)t->f1c);
     }
 }

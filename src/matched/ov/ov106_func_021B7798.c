@@ -23,7 +23,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj03744.h"
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int IRC_RANKING_ProcExit(void *a,int b,int *state,u8 *p)
 {
  int i;
@@ -58,5 +58,5 @@ int IRC_RANKING_ProcExit(void *a,int b,int *state,u8 *p)
  BMP_OAM_DeleteSys(((struct Obj03744 *)p)->f624);IRC_RANKING_DisplayExit(p);IRC_RANKING_DataDelete(((struct Obj03744 *)p)->f63C);
  MSGDATA_Delete(((struct Obj03744 *)p)->f620);GF_FONT_Delete(((struct Obj03744 *)p)->f618);PRINTSYS_QUE_Delete(((struct Obj03744 *)p)->f61C);
  if(*state==0)GAME_DATA_Delete(((struct Obj03744 *)p)->f628);
- func_020315D4(a);func_020306F0(67);return 1;
+ func_020315D4(a);GFL_HEAP_DeleteChecked(67);return 1;
 }

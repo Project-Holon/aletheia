@@ -1,5 +1,5 @@
 /*
- * function: func_021C41DC
+ * function: WIFI_2DCHAR_SetActorPos
  * address: 0x021C41DC
  * packet: pkt_ov127_021C41DC
  * region: ov127
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Actor;
 typedef struct Pt {u16 x,y;} Pt;
 extern void CLACT_SetActorPos(struct Actor *, const struct Pt *);
-void func_021C41DC(u8 *p,int x,int y)
+void WIFI_2DCHAR_SetActorPos(u8 *p,int x,int y)
 {
     Pt pos;
     pos.x=x; pos.y=y;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD020
+ * function: WIFIBATTLEMATCH_NET_GetGsProfileId
  * address:  0x021DD020
  * packet:   pkt_021DD020
  * region:   ov175
@@ -22,7 +22,7 @@ typedef unsigned long u32;
 
 extern int WIFILIST_GetGsProfileId(void *a0);
 
-u32 func_021DD020(char *obj)
+u32 WIFIBATTLEMATCH_NET_GetGsProfileId(char *obj)
 {
     return WIFILIST_GetGsProfileId((void *)(((struct Obj24397 *)obj)->f4));
 }

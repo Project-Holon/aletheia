@@ -1,5 +1,5 @@
 /*
- * function: func_0220C42C
+ * function: B_PLIST_DRAW_PrintItemOrName
  * address: 0x0220C42C
  * packet: pkt_ov198_0220C42C
  * region: ov198
@@ -12,10 +12,10 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  */
 #include "../include/Obj04599.h"
 #include "../include/Obj14555.h"
@@ -33,24 +33,24 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern int func_022110D4(u8 *, int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_0220C42C(char *p, int i, int index)
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+void B_PLIST_DRAW_PrintItemOrName(char *p, int i, int index)
 {
     char *elem;
     void *t;
     void *format;
     void *f;
-    elem = p + 4 + func_022110D4((u8 *)p, index) * 0x4C;
+    elem = p + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)p, index) * 0x4C;
     if (((struct Obj14555 *)elem)->f1A == 0)
         t = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 0x1E);
     else {
         t = (void *)STRBUF_Create(0x12, ((struct Obj25136 *)(*(char * *)&((struct Obj04599 *)p)->f0))->f10);
         format = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 15);
         WORDSET_Callback_EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
-        func_0201F250(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
+        WORDSET_CopyTaggedText(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
         STRBUF_Delete(format);
     }
     f = ((struct Obj04599 *)p)->f1EAC;

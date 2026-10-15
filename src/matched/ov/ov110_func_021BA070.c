@@ -24,7 +24,7 @@
  *   gPmsInputBgTemplate6 0x021C3654 data a4
  *   gPmsInputBgTemplate7 0x021C3634 data a4
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02040588 0x02040588 arm
@@ -48,7 +48,7 @@ struct BgTemplate;
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 struct GfFont;
 extern void BG_SYS_ClearSlot(u32 i);
@@ -60,7 +60,7 @@ void PMS_INPUT_VIEW_InitDisplay(u8 *p) {
     int i;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks((const struct DispVram *)gPmsInputVramBanks);
-    func_0203FC28((struct DispConfig *)gPmsInputDispConfig);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)gPmsInputDispConfig);
     BG_SYS_InitBgLayer(0,(const struct BgTemplate *)gPmsInputBgTemplate0,0);
     BG_SYS_InitBgLayer(1,(const struct BgTemplate *)gPmsInputBgTemplate1,0);
     BG_SYS_InitBgLayer(2,(const struct BgTemplate *)gPmsInputBgTemplate2,0);

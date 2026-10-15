@@ -61,7 +61,7 @@
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
@@ -85,11 +85,11 @@
  *   OS_WaitIrq                0x0208459C  arm
  *   func_02082A7C  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
- *   func_02062A4C  0x02062A4C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_02062B30  0x02062B30  arm
- *   func_02062AD4  0x02062AD4  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
+ *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   gNetErrWork       0x0214617C  data
  *   sNetErrScreenRes  0x0209DEA0  data
  *   sWifiPollLatch    0x02146178  data
@@ -331,7 +331,7 @@ extern int UI_ClearFlags39Global(u32 mode);
 extern void GFL_USE_PollPowerExit(void);
 extern int   GFL_NET_IsSessionNull(void);
 extern u32 func_020307B0(void *block);
-extern void func_020306F0(u32 heapId);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
 extern void GFL_NET_ClearExitFlag(void);
 extern int GFL_NET_Exit(int arg);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
@@ -354,11 +354,11 @@ extern void GFL_NET_GetIrcParams(u32 *x, u32 *y);
 extern void GX_SetBankForSubBG(u32 bank);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int heapId, int flag);
-extern s32 func_02062A4C(struct NitroResFile *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroResFile *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 size);
-extern int func_02062B30(void *file, void **out);
-extern s32 func_02062AD4(struct NitroResFile *file, void **out);
-extern s32 func_02062A98(struct NitroResFile *file, void **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroResFile *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroResFile *file, void **out);
 int GFL_NET_ERR_PollNetState(void);
 int GFL_NET_ERR_IsWifiGameKind(void);
 int GFL_NET_ERR_CompareFriend(void *candidate, void *userData, void *existing);
@@ -1064,7 +1064,7 @@ void GFL_NET_ERR_ExitAndHalt(void)
     func_020307B0(work->bg1CharBackup);
     func_020307B0(work->bg1ScrBackup);
     func_020307B0(work->plttBackup);
-    func_020306F0(NET_ERR_HEAP_ID);
+    GFL_HEAP_DeleteChecked(NET_ERR_HEAP_ID);
 
     gNetErrWork.netType = NET_ERR_NETTYPE_NO_BACKUP;
 
@@ -1362,7 +1362,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
 
     arcId = sNetErrScreenRes[screenIndex].arcId;
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].charFileId, 0, 1);
-    if (func_02062A4C(file, (void **)(&charData)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&charData)) != 0) {
         u32 size;
         void *dst;
         DWCi_ScreenDC_FlushRange(charData->pixels, charData->size);
@@ -1373,7 +1373,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     func_020307B0(file);
 
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].scrnFileId, 0, 1);
-    if (func_02062B30(file, (void **)(&scrnData)) != 0) {
+    if (NNS_G2dGetUnpackedScreenData(file, (void **)(&scrnData)) != 0) {
         u32 size;
         void *dst;
         DWCi_ScreenDC_FlushRange(scrnData->data, scrnData->size);
@@ -1384,8 +1384,8 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     func_020307B0(file);
 
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].plttFileId, 0, 1);
-    func_02062AD4(file, (void **)(&unusedData));
-    if (func_02062A98(file, (void **)(&plttData)) != 0) {
+    NNS_G2dGetUnpackedPaletteCompressInfo(file, (void **)(&unusedData));
+    if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&plttData)) != 0) {
         DWCi_ScreenDC_FlushRange(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);
         MIi_CpuCopy16(plttData->colors, (void *)HW_BG_PLTT, NET_ERR_PLTT_BACKUP_SIZE);
     }

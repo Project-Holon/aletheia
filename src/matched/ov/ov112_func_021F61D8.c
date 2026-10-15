@@ -1,5 +1,5 @@
 /*
- * function: func_021F61D8
+ * function: MUSICAL_MCSS_FreeMC
  * address: 0x021F61D8
  * packet: pkt_ov112_021F61D8
  * region: ov112
@@ -13,7 +13,7 @@
 #include "../include/Obj04460.h"
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-void func_021F61D8(char *a, char *p)
+void MUSICAL_MCSS_FreeMC(char *a, char *p)
 {
     func_020307B0(((struct Obj04460 *)p)->f0);
     func_020307B0(((struct Obj04460 *)p)->f10);

@@ -1,5 +1,5 @@
 /*
- * function: func_022101FC
+ * function: B_PLIST_MAIN_ApplyMode4
  * address:  0x022101FC
  * packet:   pkt_022101FC
  * region:   ov198
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02210C88 0x02210C88 thumb
+ *   B_PLIST_MAIN_ApplyMode 0x02210C88 thumb
  */
 #include "../include/Obj03351.h"
 #include "../include/Obj25233.h"
 
 typedef unsigned char  u8;
-extern int func_02210C88(u8 *p, unsigned mode);
+extern int B_PLIST_MAIN_ApplyMode(u8 *p, unsigned mode);
 
-int func_022101FC(char *p)
+int B_PLIST_MAIN_ApplyMode4(char *p)
 {
-    if (func_02210C88((u8 *)p, 4) == 0)
+    if (B_PLIST_MAIN_ApplyMode((u8 *)p, 4) == 0)
     {
         return 0xf;
     }

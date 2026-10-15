@@ -1,5 +1,5 @@
 /*
- * function: func_0204241C
+ * function: BG_SYS_LoadTileLayer
  * address:  0x0204241C
  * packet:   pkt_02041F28
  * region:   arm9
@@ -33,8 +33,8 @@
  * size, the arms get source, offset and size.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204241C.c \
- *       --func func_0204241C --addr 0x0204241C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_LoadTileLayer.c \
+ *       --func BG_SYS_LoadTileLayer --addr 0x0204241C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -49,7 +49,7 @@ extern void func_0207EABC(const void *src, u32 offset, u32 size);
 extern void func_0207EC34(const void *src, u32 offset, u32 size);
 extern void func_0207EDAC(const void *src, u32 offset, u32 size);
 
-void func_0204241C(u32 layer, const void *src, u32 offset, u32 size)
+void BG_SYS_LoadTileLayer(u32 layer, const void *src, u32 offset, u32 size)
 {
     DC_FlushRange((void *)src, size);
 

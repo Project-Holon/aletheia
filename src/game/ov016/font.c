@@ -31,10 +31,10 @@
  *   DWCi_OVRlAlloc                   0x021D705C  arm  ov016
  *   NNSi_G2dCalcRequiredOBJ          0x02069184  arm
  *   NNS_G2dCharCanvasInitForOBJ1D    0x02068FF0  arm
- *   func_02068FC4  0x02068FC4  arm
+ *   NNSi_G2dInitPenSimple  0x02068FC4  arm
  *   G2S_GetBG0ScrPtr  0x0207DF94  arm
  *   G2_GetBG0ScrPtr  0x0207DF60  arm
- *   func_02069078  0x02069078  arm
+ *   NNS_G2dMapScrToCharText  0x02069078  arm
  *   DWCi_FNTlClear  0x021D5F14  arm    ov016
  *   DWCi_TSKlForm  0x021D7680  arm    ov016
  *   sFontTable3     0x021DAA76  data
@@ -56,6 +56,7 @@
  *   DWCi_CELLlSetPalette             0x021D5098  arm  ov016
  *   DWCi_CELLlSetPriority            0x021D51F0  arm  ov016
  *   NNS_G2dArrangeOBJ1D              0x020691E0  arm
+ *   NNSi_G2dCharCanvasDrawChar  0x02068EA0  arm  arm9
  */
 struct Ctx;
 struct Fnt2;
@@ -147,10 +148,10 @@ extern u32 NNSi_G2dCalcRequiredOBJ(int w, int h);
 extern void NNS_G2dCharCanvasInitForOBJ1D(Canvas *cnv, void *base, int w, int h, int fmt);
 extern void DWCi_OVRlFree(void *ovram);
 extern void DWCi_QUElPushBack(void *queue, void *data);
-extern void func_02068FC4(int a, int b, int c, int d, int e);
+extern void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
 extern void *G2S_GetBG0ScrPtr(void);
 extern void *G2_GetBG0ScrPtr(void);
-extern void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
+extern void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 extern void *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
 extern void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void GX_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
@@ -159,7 +160,7 @@ extern void DWCi_TSKlDeleteEx(int a, void *task);
 extern void *G2_GetBG0CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void NNSi_G2dTextCanvasDrawText(TextCanvas *tc, int x, int y, int color, u32 flag, u16 *txt, Pair p);
-extern s8 func_02068EA0(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 code);
+extern s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 code);
 extern int NNS_G2dFontFindGlyphIndex(void *font, u16 c);
 extern CharWidths *NNS_G2dFontGetCharWidthsFromIndex(void *font, int idx);
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font);
@@ -298,7 +299,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
         *(volatile u16 *)0x04000008 &= 0xFFBF;
         *(volatile u16 *)0x04000008 = (*(volatile u16 *)0x04000008 & 0x43) | 0xC00;
     }
-    func_02068FC4((int)cv, (int)cv->buf, w, h, 4);
+    NNSi_G2dInitPenSimple((int)cv, (int)cv->buf, w, h, 4);
     MemFont *base = gFontWork;
     cv->text.pCanvas = cv;
     cv->text.pFont = &base->font[font];
@@ -309,7 +310,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     else
         scr = G2_GetBG0ScrPtr();
     chr = sFontTable1[lcd];
-    func_02069078(scr, w, h, 0, 0, 0x20, chr, 0xF);
+    NNS_G2dMapScrToCharText(scr, w, h, 0, 0, 0x20, chr, 0xF);
     DWCi_FNTlClear(cv, 0);
     cv->u.task = DWCi_TSKlForm(1, (void (*)(void *))taskLoad, &gFontWork->renew[lcd], 0xC8);
     return cv;
@@ -395,7 +396,7 @@ void DWCi_FNTlDraw(void *canvas, int x, int y, int color, u32 flag, u16 *txt)
 
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font)
 {
-    return func_02068EA0((struct Ctx *)canvas, (struct Fnt2 **)&gFontWork->font[font], x, y, color, chr);
+    return NNSi_G2dCharCanvasDrawChar((struct Ctx *)canvas, (struct Fnt2 **)&gFontWork->font[font], x, y, color, chr);
 }
 
 

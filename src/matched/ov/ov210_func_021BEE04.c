@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE04
+ * function: ZKNSEARCH_MAIN_GetActorVisible
  * address:  0x021BEE04
  * packet:   pkt_ov210_021BEE04
  * region:   ov210
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
-int func_021BEE04(int p, int i)
+int ZKNSEARCH_MAIN_GetActorVisible(int p, int i)
 {
     return CLACT_GetActorDrawEnable((struct Obj *)(((int *)(p + i * 4))[0xa]));
 }

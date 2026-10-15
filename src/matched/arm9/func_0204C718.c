@@ -11,7 +11,7 @@
  *
  * symbols:
  *   s_clact_c      0x020A7F74  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *
  * Allocate the pool's parallel array of 0x10-byte entries and zero each one.
@@ -48,7 +48,7 @@ struct Pool {
 
 extern char s_clact_c[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 
@@ -56,7 +56,7 @@ void CLACT_AllocTransferEntries(struct Pool *p, u32 n, u32 heapId)
 {
     u32 i;
 
-    p->ents = sub_02030734(heapId, n * sizeof(struct Entry), 0, s_clact_c,
+    p->ents = GFL_HEAP_Alloc(heapId, n * sizeof(struct Entry), 0, s_clact_c,
                            0x137b);
 
     for (i = 0; i < p->count; i++) {

@@ -12,7 +12,7 @@
  *   func_0217D028 0x0217D028 thumb ov176
  *   func_0217D1A0 0x0217D1A0 thumb ov176
  *   func_0217D244 0x0217D244 thumb ov176
- *   func_0217D188 0x0217D188 arm ov176
+ *   func_0217D188 0x0217D188 thumb ov176
  *   func_0217D2A4 0x0217D2A4 thumb ov176
  *   func_0217CFE8 0x0217CFE8 thumb ov176
  *   func_021E8AB4 0x021E8AB4 thumb ov177

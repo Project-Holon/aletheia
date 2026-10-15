@@ -24,7 +24,7 @@
  *   BOX2_SEQ_UpdatePrintQueue  0x021E1E34  thumb  ov170
  *   func_02030EAC  0x02030EAC  arm  arm9
  *   BOX2_SEQ_FlushDirtyBmpWins  0x021EAB04  thumb  ov170
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   PALANM_TransferPalettes  0x02021D50  thumb
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
@@ -32,7 +32,7 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *   PROCSYS_Main  0x02031330  arm  arm9
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -55,16 +55,16 @@
  *   func_02049B68  0x02049B68  arm
  *   func_020275E4  0x020275E4  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
- *   func_02040E78  0x02040E78  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02027628  0x02027628  thumb
  *   func_02027624  0x02027624  thumb
  *   func_0202762C  0x0202762C  thumb
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   func_0201F5DC  0x0201F5DC  thumb
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  *   func_02049B40  0x02049B40  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
@@ -121,8 +121,8 @@
  *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
  *   func_02007610 0x02007610 thumb
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb
- *   func_02019CF8 0x02019CF8 thumb
- *   func_02019D00 0x02019D00 thumb
+ *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
+ *   POKE_TOOL_GetBoxParamIndex 0x02019D00 thumb
  *   BOX2_SEQ_ShowSlotIcon 0x021EC48C thumb ov170
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
@@ -151,10 +151,10 @@
  *   BOX2_SEQ_MoveActor 0x021ED14C thumb ov170
  *   BOX2_SEQ_LayoutHandSlots 0x021ED310 thumb ov170
  *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
- *   func_02040B1C  0x02040B1C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
- *   func_02041090 0x02041090 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BOX2_SEQ_DrawBoxName 0x021EB7E8 thumb
  *   BOX2_UI_SetSlotOamEnabled 0x021EE224 thumb
  *   BOX2_UI_GetSlotOamEnabled 0x021EE234 thumb
@@ -284,7 +284,7 @@
  *   BOX2_MAIN_DeleteTextSystem  0x021DCE80  thumb  ov170
  *   BOX2_MAIN_DeletePalAnm  0x021DCDD8  thumb  ov170
  *   BOX2_MAIN_DeleteBgSys  0x021DCB48  thumb  ov170
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   BOX2_MAIN_IsTaskMenuFinished  0x021DCFC0  thumb  ov170
  *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
  *   BOX2_MAIN_SelectBox 0x021DD1C4 thumb
@@ -449,7 +449,7 @@ extern void func_0203133C(struct S020314B8 *p);
 
 extern void func_020315D4(struct S020315D4 *p);
 
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 extern int func_020056A0(void *, void *, int);
 
@@ -457,7 +457,7 @@ extern void func_02030EAC(struct Node *n);
 
 extern void BOX2_SEQ_FlushDirtyBmpWins(BoxWork *w);
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -535,7 +535,7 @@ int BOX2_MAIN_Exit(int a, int b, int c, int *d)
     func_0200780C((void *)(*(int *)(*d + 4)), ((struct Obj09220 *)d)->f14);
     func_0203133C((struct S020314B8 *)d[1]);
     func_020315D4((struct S020315D4 *)a);
-    func_020306F0(0x4b);
+    GFL_HEAP_DeleteChecked(0x4b);
     return 1;
 }
 
@@ -558,7 +558,7 @@ void BOX2_MAIN_DeleteVBlankTask(BoxTask *p)
 void BOX2_MAIN_VBlankHandler(u32 a, BoxTask *p)
 {
     BOX2_SEQ_FlushDirtyBmpWins(p->work);
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)((*(u32 *)&p->work->palAnm)));
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3ff8) |= 1;
@@ -763,7 +763,7 @@ typedef struct { void *task; void *text; } Request_021DF378;
 
 extern void BG_SYS_Create(u16 heap);
 
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -793,7 +793,7 @@ extern u32 func_020275E4(void);
 
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 
-extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
+extern void BG_SYS_LoadPltt(u32 a, void *src, u32 size, u32 ofs);
 
 extern u32 func_020307B0(void *p);
 
@@ -805,13 +805,13 @@ extern u32 func_02027624(void);
 
 extern u32 func_0202762C(void);
 
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void func_02041B6C(u32);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 
@@ -940,9 +940,9 @@ extern void func_02007610(void *save, unsigned b1, unsigned a, unsigned b2, unsi
 
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 
-extern u16 func_02019CF8(u32 item);
+extern u16 POKE_TOOL_GetPlateTypeForwarder(u32 item);
 
-extern u32 func_02019D00(u32 item);
+extern u32 POKE_TOOL_GetBoxParamIndex(u32 item);
 
 extern void BOX2_SEQ_ShowSlotIcon(BoxTask *p, int box, int pos, int win);
 
@@ -998,13 +998,13 @@ void BOX2_SEQ_LayoutHandSlots(BoxWork *w);
 
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u16);
 
-extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 
-extern void func_02041300(u32,int,u8,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(u32,int,u8,int,u8,u8,u8);
 
 extern void BOX2_SEQ_DrawBoxName(char **p, unsigned box, int i);
 
@@ -1395,7 +1395,7 @@ void BOX2_MAIN_InitBgSys(u8 *a0)
 
     BG_SYS_Create(0x4C);
     c = d_021EF7FC;
-    func_0203FC28(&c);
+    BG_SYS_SetGraphicsMode(&c);
     t0 = d_021EF82C;
     BG_SYS_InitBgLayer(0, &t0, 0);
     t1 = d_021EF8CC;
@@ -1459,10 +1459,10 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     pal = ARC_UTIL_LoadPaletteBlockFromArchive(func_020275E4(), 0x1f, (u32)(&pd), 0x804c);
     src = pd->fC;
     ofs = 0x194;
-    func_02040E78(0, src + 0x34, 4, ofs);
+    BG_SYS_LoadPltt(0, src + 0x34, 4, ofs);
     src += 0x14;
     ofs += 0x20;
-    func_02040E78(0, src, 4, ofs);
+    BG_SYS_LoadPltt(0, src, 4, ofs);
     func_020307B0((void *)pal);
     func_02049658((void *)arc, 6, 5, 0, 0, 1, 0x4c);
     func_020498F4((void *)arc, 5, 5, 0, 0, 1, 0x4c);
@@ -1473,7 +1473,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     func_02049740((void *)arc2, func_02027628(), 0, 0, 0, 0x4c);
     func_02049B68((void *)arc2, func_02027624(), 0, 0xe0, 0x20, 0x4c);
     func_020498F4((void *)arc2, func_0202762C(), 0, 0, 0, 0, 0x4c);
-    func_020413B0(0, 0, 0x15, 0x20, 3, 7);
+    BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 7);
     func_02041B6C(0);
     r6 = func_02049740((void *)arc2, func_02027628(), 2, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc2);
@@ -1483,7 +1483,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
         *(u16 *)((char *)b + 0x540 + i * 2) = r6 + *(u16 *)((char *)a + 0x540 + i * 2);
     }
     func_02041B6C(2);
-    *(int *)(ctx->f2c + 0x178) = (int)func_0201F5DC(0, 10, 0, 0x4c);
+    *(int *)(ctx->f2c + 0x178) = (int)BMP_MENUWORK_LoadFrameGfx(0, 10, 0, 0x4c);
     func_02049B40(0x17, 5, 0, 0x160, 0x20, 0x4c);
     func_02049B40(0x17, 5, 4, 0x1e0, 0x20, 0x4c);
 }
@@ -1618,7 +1618,7 @@ int BOX2_MAIN_IsTaskMenuFinished(BoxTask *p)
         if (f->flag == 0) {
             BOX2_SEQ_SetActorAutoAnim((BoxWork *)p->work, f->id, f->lo);
         } else {
-            func_020413B0(f->id, f->x, f->y, f->w, f->h, f->lo);
+            BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->lo);
             func_02041B6C(f->id);
         }
         f->state++;
@@ -1630,7 +1630,7 @@ int BOX2_MAIN_IsTaskMenuFinished(BoxTask *p)
         } else {
             f->count++;
             if (f->count == 4) {
-                func_020413B0(f->id, f->x, f->y, f->w, f->h, f->hi);
+                BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->hi);
                 func_02041B6C(f->id);
                 f->count = 0;
                 f->state++;
@@ -1960,7 +1960,7 @@ void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b)
 }
 
 /*
- * 2026-10-04 (wD2 lane 02): witness filed: src/matched/arm9/func_02019CF8.c (EXACT, Thumb forwarder to func_02019BBC).
+ * 2026-10-04 (wD2 lane 02): witness filed: src/matched/arm9/POKE_TOOL_GetPlateTypeForwarder.c (EXACT, Thumb forwarder to POKE_TOOL_GetPlateType).
  * Expected EXACT after the integrator's manifest refresh.
  *
  * Re-derives the form of a species whose form follows its held item
@@ -1978,7 +1978,7 @@ int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
     if (species == 0x1ED) {
         u16 item = func_02017E88((void *)mon, 6, 0);
         u16 form = func_02017E88((void *)mon, 0x6F, 0);
-        u16 want = func_02019CF8(item);
+        u16 want = POKE_TOOL_GetPlateTypeForwarder(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
@@ -1986,7 +1986,7 @@ int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
     } else if (species == 0x289) {
         u16 item = func_02017E88((void *)mon, 6, 0);
         u16 form = func_02017E88((void *)mon, 0x6F, 0);
-        u16 want = func_02019D00(item);
+        u16 want = POKE_TOOL_GetBoxParamIndex(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
@@ -2892,7 +2892,7 @@ void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c)
     void *r;
 
     r = ARC_UTIL_LoadBgCharDataFromArchive(0x74, b + 0xe, 1, (u32)(&out), 0x4c);
-    func_02040B1C(3, (const void *)(((struct Obj12153 *)out)->f14), ((struct Obj12153 *)out)->f10, (u32)c);
+    BG_SYS_LoadTileData(3, (const void *)(((struct Obj12153 *)out)->f14), ((struct Obj12153 *)out)->f10, (u32)c);
     func_020307B0((void *)r);
 }
 
@@ -2934,15 +2934,15 @@ void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 p
         yn=row+1;
         do{
             value=(src[col]&4095)+high+base;
-            func_02041090(3,(u32)&value,(u8)cur,yn,1,1);
+            BG_SYS_DrawTile(3,(u32)&value,(u8)cur,yn,1,1);
             ++cur;if(cur>=64)cur=0;
             ++col;
         }while(col<21);
         ++row;
     }while(row<20);
     func_020307B0((void *)handle);
-    func_02041300(3,0xe287,cur,0,2,20,17);
-    func_02041300(3,0xe2b0,cur,5,2,1,17);
+    BG_SYS_SetTileEntry(3,0xe287,cur,0,2,20,17);
+    BG_SYS_SetTileEntry(3,0xe2b0,cur,5,2,1,17);
 }
 
 void BOX2_MAIN_LoadBgTiles(void *a, void *b, int c, void *d, int e)

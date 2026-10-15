@@ -10,7 +10,7 @@
  *   G3D_SYSTEM_GetPlttManagerMode  0x02046C10  arm
  *   NNS_GfdSaveVramManager  0x0206164C  arm
  *   NNSi_GfdGetVramManagerWork  0x02061808  arm
- *   func_02052A50  0x02052A50  arm
+ *   SPL_EMITTER_FreeNodeToHeap  0x02052A50  arm
  *   PARTICLE_ApplyLoadHandlers  0x02051394  arm
  *   func_02030DA8  0x02030DA8  arm
  *   BUTTON_MAN_Func1A3C  0x02051A3C  arm
@@ -30,7 +30,7 @@ extern int G3D_SYSTEM_GetTexManagerMode(void);
 extern int G3D_SYSTEM_GetPlttManagerMode(void);
 extern void NNS_GfdSaveVramManager(u8 *p);
 extern void NNSi_GfdGetVramManagerWork(u8 *p);
-extern void func_02052A50(u32 a, u32 b);
+extern void SPL_EMITTER_FreeNodeToHeap(u32 a, u32 b);
 extern void PARTICLE_ApplyLoadHandlers(u8 *o);
 extern void func_02030DA8(u32 a, u32 b, u8 *c, u32 d);
 
@@ -70,7 +70,7 @@ void PARTICLE_SetupSystem(u8 *o, u32 a1, u32 a2, u32 a3)
     }
     v = ((struct Obj02319 *)o)->f0;
     ((struct Obj02319 *)o)->f4 = a1;
-    func_02052A50(v, a1);
+    SPL_EMITTER_FreeNodeToHeap(v, a1);
     if (a2 == 1) {
         PARTICLE_ApplyLoadHandlers(o);
         return;

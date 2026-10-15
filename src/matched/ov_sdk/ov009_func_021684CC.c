@@ -1,5 +1,5 @@
 /*
- * function: func_021684CC
+ * function: DWC_GetCommonValueString
  * address:  0x021684CC
  * packet:   pkt_ov009_021684CC
  * region:   ov009
@@ -23,7 +23,7 @@ extern char *strchr(const char *s, int c);
 extern int strncmp(const char *a, const char *b, unsigned long n);
 extern char *strncpy(char *d, const char *s, unsigned long n);
 
-int func_021684CC(char *key, char *value, char *string, char separator)
+int DWC_GetCommonValueString(char *key, char *value, char *string, char separator)
 {
     int len;
     char *pSrcEnd;

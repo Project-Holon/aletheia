@@ -1,5 +1,5 @@
 /*
- * function: func_021C8F2C
+ * function: WF2DMAP_TOUCH_GetFriendKeyInput
  * address: 0x021C8F2C
  * packet: pkt_ov128_021C8F2C
  * region: ov128
@@ -21,7 +21,7 @@ extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_020355D8(u8 v);
 extern u32 KEY_GetTrg(void);
 extern const u8 d_021CA529[];
-int func_021C8F2C(void *unused,int *q) {
+int WF2DMAP_TOUCH_GetFriendKeyInput(void *unused,int *q) {
  int v=TOUCHPANEL_HitTrg(d_021CA529);
  if(v!=-1) {func_020355D8(1);*q=1;return v;}
  if(KEY_GetTrg()&2) {func_020355D8(0);*q=0;return 0;}

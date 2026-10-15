@@ -1,5 +1,5 @@
 /*
- * function: func_0220C304
+ * function: B_BAG_MAIN_RegisterIconGraphics
  * address: 0x0220C304
  * packet: pkt_ov197_0220C304
  * region: ov197
@@ -36,7 +36,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_0220C304(char *p)
+void B_BAG_MAIN_RegisterIconGraphics(char *p)
 {
     void *arc = func_020490F4(11,(u16)((((struct Obj25027 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     char *data;

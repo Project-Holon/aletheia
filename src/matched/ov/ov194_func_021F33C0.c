@@ -1,5 +1,5 @@
 /*
- * function: func_021F33C0
+ * function: NAMEIN_GRAPHIC_AnimateGrid
  * address: 0x021F33C0
  * packet: pkt_ov194_021F33C0
  * region: ov194
@@ -13,7 +13,7 @@
  *   func_02040804 0x02040804 arm
  *   func_02040618 0x02040618 arm
  *   func_02040588 0x02040588 arm
- *   func_021F35A8 0x021F35A8 thumb ov194
+ *   NAMEIN_GRAPHIC_SwitchGridMode 0x021F35A8 thumb ov194
  *   _s32_div_f 0x0209C0A4 arm
  */
 typedef unsigned char u8;
@@ -23,8 +23,8 @@ typedef short s16;
 extern u32 func_02040804(u32 layer);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_021F35A8(char *, u32);
-int func_021F33C0(char *p) {
+extern void NAMEIN_GRAPHIC_SwitchGridMode(char *, u32);
+int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
     int c;
     int y;
     if (*(u32 *)(p + 0x110) != 0)
@@ -55,7 +55,7 @@ int func_021F33C0(char *p) {
         func_02040618(1, 3, y);
         func_02040618(3, 3, y);
         if (*(u32 *)(p + 0x118)) func_02040618(2, 3, y);
-        func_021F35A8(p, *(u32 *)(p + 0x114));
+        NAMEIN_GRAPHIC_SwitchGridMode(p, *(u32 *)(p + 0x114));
         *(u16 *)(p + 0x10c) = 2;
         break;
     case 2:

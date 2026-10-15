@@ -27,7 +27,7 @@
  *   BTL_MAIN_GetSlotClientIdThunk 0x021B8DE4 thumb ov093
  *   BTL_MAIN_IsOpposingPos 0x021B8CE8 thumb ov093
  *   func_020870D0 0x020870D0 arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  */
 typedef unsigned char u8;
@@ -70,10 +70,10 @@ extern int BTL_MAIN_IsPosInTable(int, u32);
 extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
 extern int BTL_MAIN_IsOpposingPos(int, int, int);
 extern u64 func_020870D0(void);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 inline static u32 draw_below(u32 n)
 {
-    u32 r = func_0203F0A8();
+    u32 r = GF_STANDARD_Rand();
     u64 random = r;
     if (n != 0)
         r = (random * n) >> 32;

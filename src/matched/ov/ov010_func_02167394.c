@@ -1,5 +1,5 @@
 /*
- * function: func_02167394
+ * function: COMM_PLAYER_GetModelId
  * address: 0x02167394
  * packet: pkt_ov010_02167394
  * region: ov010
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 d_02171F3C[];
-u8 func_02167394(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
+u8 COMM_PLAYER_GetModelId(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }

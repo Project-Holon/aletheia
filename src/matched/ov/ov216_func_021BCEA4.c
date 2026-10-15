@@ -39,7 +39,7 @@
  * };
  * 
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+ * extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
  * extern void func_020307B0(void *p);
  * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
@@ -77,7 +77,7 @@
  *         void *buf;
  * 
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
  *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -95,7 +95,7 @@
  * }
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -103,5 +103,5 @@ typedef unsigned int u32;
 struct WordSet;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank*,u32,void*);
-extern void func_0201F250(struct WordSet*,void*,void*);
-void func_021BCEA4(u8*p, u8 n){MSGDATA_ReadString(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));func_0201F250(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
+extern void WORDSET_CopyTaggedText(struct WordSet*,void*,void*);
+void func_021BCEA4(u8*p, u8 n){MSGDATA_ReadString(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}

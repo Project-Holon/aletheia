@@ -156,7 +156,7 @@
  *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_0200855C  0x0200855C  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   UNION_MSG_GetNoReplyMsg  0x0217EC04  thumb  ov019
  *   UNION_MSG_GetTalkParentGreetingMsg  0x0217EC1C  thumb  ov019
  *   UNION_MSG_GetTalkParentCancelMsg  0x0217EC28  thumb  ov019
@@ -955,7 +955,7 @@ u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 u8 func_0200855C(const void *obj);
 
-void func_0201F02C(void *wordSet, u32 slot, void *player);
+void WORDSET_SetSlotMyStatus(void *wordSet, u32 slot, void *player);
 
 u16 UNION_MSG_GetNoReplyMsg(UnionRoomWork *unisys);
 
@@ -3312,7 +3312,7 @@ int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituati
             messageId = 0x15d;
         }
         UNION_MSG_SetupTalkWindow(unisys, fieldMap);
-        func_0201F02C((struct WordSet *)(unisys->msgWork.wordSet), 0, &colosseum->player[colosseum->talkPlayer]);
+        WORDSET_SetSlotMyStatus((struct WordSet *)(unisys->msgWork.wordSet), 0, &colosseum->player[colosseum->talkPlayer]);
         UNION_MSG_PrintTalkMsg(unisys, messageId);
         (*seq)++;
         break;

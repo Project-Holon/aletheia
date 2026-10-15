@@ -33,8 +33,8 @@
  *   qr_build_query_reply  0x0219BE80  arm  ov009
  *   sendto  0x0217ECA4  arm  ov009
  *   current_time  0x0217F264  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_0217D32C  0x0217D32C  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   gsDebugBinary  0x0217D32C  arm  ov009
  */
 
 typedef struct SOCInAddr {
@@ -99,8 +99,8 @@ extern void qr_build_query_reply(qr2_implementation_s *qrec, qr2_buffer_s *buf, 
 struct SOCSockAddr;
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern unsigned int current_time(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
 
 void send_heartbeat(qr2_implementation_s *qrec, int statechanged)
 {
@@ -152,6 +152,6 @@ void send_heartbeat(qr2_implementation_s *qrec, int statechanged)
     qrec->lastka = qrec->lastheartbeat;
     if (statechanged)
         qrec->userstatechangerequested = 0;
-    func_0217D254(3, 0, 0x10, g_021A7B14, buf.len);
-    func_0217D32C(3, 0, 0x20, buf.buffer, buf.len);
+    gsDebugFormat(3, 0, 0x10, g_021A7B14, buf.len);
+    gsDebugBinary(3, 0, 0x20, buf.buffer, buf.len);
 }

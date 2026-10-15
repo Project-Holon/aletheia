@@ -1,5 +1,5 @@
 /*
- * function: func_021BC9D0
+ * function: ZKNSEARCH_MAIN_InitBlinkPalette
  * address:  0x021BC9D0
  * packet:   pkt_021BC9D0
  * region:   ov210
@@ -27,7 +27,7 @@ extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021BC9D0(int p)
+void ZKNSEARCH_MAIN_InitBlinkPalette(int p)
 {
     void *h = func_020490F4(0x9f, 0x807b);
 

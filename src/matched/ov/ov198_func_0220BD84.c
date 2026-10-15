@@ -1,5 +1,5 @@
 /*
- * function: func_0220BD84
+ * function: B_PLIST_DRAW_DeleteAuxWindow
  * address:  0x0220BD84
  * packet:   pkt_0220BD84
  * region:   ov198
@@ -23,7 +23,7 @@ typedef signed char    s8;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_0220BD84(u8 *p)
+void B_PLIST_DRAW_DeleteAuxWindow(u8 *p)
 {
     u32 t = ((struct Obj14554 *)p)->f2170;
 

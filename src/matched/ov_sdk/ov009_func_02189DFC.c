@@ -1,5 +1,5 @@
 /*
- * function: func_02189DFC
+ * function: gpiAddCallback
  * address:  0x02189DFC
  * packet:   pkt_0219091C
  * region:   ov009
@@ -19,8 +19,8 @@
  * epilogue is `pop {r4,r5,r6,lr}; add sp,#0x10; bx lr`.
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   g_021A45C8     0x021A45C8  data
  */
 
@@ -37,18 +37,18 @@ typedef struct {
     int pnext;
 } GPICallbackData;
 
-extern int *func_0217EAB0(int size);
-extern void func_02193734(int *connection, int string);
+extern int *gsimalloc(int size);
+extern void gpiSetErrorString(int *connection, int string);
 extern char g_021A45C8[];
 
-int func_02189DFC(int *connection, GPICallback callback, int arg, int *operation, int type)
+int gpiAddCallback(int *connection, GPICallback callback, int arg, int *operation, int type)
 {
     int *ic = (int *)*connection;
     GPICallbackData *data;
 
-    data = (GPICallbackData *)func_0217EAB0(0x18);
+    data = (GPICallbackData *)gsimalloc(0x18);
     if (data == 0) {
-        func_02193734(connection, (int)g_021A45C8);
+        gpiSetErrorString(connection, (int)g_021A45C8);
         return 1;
     }
     data->callback = callback;

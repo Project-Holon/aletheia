@@ -14,7 +14,7 @@
  *   WIFI_BSUBWAY_GRAPHIC_Create 0x021D821C thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_SetupBgAnim 0x021D7D0C thumb ov116
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 extern void *WIFI_BSUBWAY_GRAPHIC_Create(int, u32);
 extern void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *, u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -64,7 +64,7 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, u32 heap)
     ((struct Obj10342 *)p)->f4 = heap;
     WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(p, heap);
     P(0x97c) = (void *)BMP_WIN_Create(1, 1, 19, 30, 4, 12, 1);
-    func_0201F73C(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
+    BMP_MENUWORK_DrawWindow(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
     BMP_Clear(BMP_WIN_GetBmp(P(0x97c)), 15);
     BMP_WIN_MakeScreen(P(0x97c));
     BMP_WIN_TransferChars(P(0x97c));

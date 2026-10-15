@@ -1,5 +1,5 @@
 /*
- * function: func_02208804
+ * function: SHINKA_DEMO_EFFECT_Draw
  * address:  0x02208804
  * packet:   pkt_02208804
  * region:   ov195
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02208A78 0x02208A78 thumb
- *   func_02208A24 0x02208A24 thumb
+ *   SHINKA_DEMO_EFFECT_DrawNodes 0x02208A78 thumb
+ *   SHINKA_DEMO_EFFECT_DrawParticle 0x02208A24 thumb
  */
 #include "../include/Obj08350.h"
 
 struct Anim;
-extern void func_02208A78(struct Anim *p);
-extern void func_02208A24(int);
+extern void SHINKA_DEMO_EFFECT_DrawNodes(struct Anim *p);
+extern void SHINKA_DEMO_EFFECT_DrawParticle(int);
 
-void func_02208804(char *a)
+void SHINKA_DEMO_EFFECT_Draw(char *a)
 {
-    func_02208A78((struct Anim *)a);
-    func_02208A24(((struct Obj08350 *)a)->f10);
+    SHINKA_DEMO_EFFECT_DrawNodes((struct Anim *)a);
+    SHINKA_DEMO_EFFECT_DrawParticle(((struct Obj08350 *)a)->f10);
 }

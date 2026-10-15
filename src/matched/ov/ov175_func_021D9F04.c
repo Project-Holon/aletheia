@@ -1,5 +1,5 @@
 /*
- * function: func_021D9F04
+ * function: WIFIBATTLEMATCH_NET_HandleNetError
  * address:  0x021D9F04
  * packet:   pkt_021D9F04
  * region:   ov175
@@ -19,9 +19,9 @@
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   func_0200F7C0  0x0200F7C0  thumb
  *   DWC_RAPCOMMON_HandleNetError  0x02157170  thumb
- *   func_021DCE60  0x021DCE60  thumb
- *   func_021DCEE0  0x021DCEE0  thumb
- *   func_021DCFDC  0x021DCFDC  thumb
+ *   WIFIBATTLEMATCH_NET_GetErrorMsg  0x021DCE60  thumb
+ *   WIFIBATTLEMATCH_NET_GetErrorCode  0x021DCEE0  thumb
+ *   WIFIBATTLEMATCH_NET_MapErrorCode  0x021DCFDC  thumb
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
@@ -30,7 +30,7 @@
  *   func_0200FAAC  0x0200FAAC  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_0200FA84  0x0200FA84  thumb
- *   func_021DCFFC  0x021DCFFC  thumb
+ *   WIFIBATTLEMATCH_NET_ClearStruct  0x021DCFFC  thumb
  *
  * Error poll: while the link is up, classifies the transport error through 0x02157170 (0..4); otherwise classifies the stored error record by its kind, and on a nonzero class shuts the screens down, runs the class action (1 reset, 2 fatal screen, 3 retry) and clears the record.
  */
@@ -48,9 +48,9 @@ extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0200F7C0(u32 value);
 extern int DWC_RAPCOMMON_HandleNetError(void *a, void *b);
-extern u32 func_021DCE60(int a);
-extern u32 func_021DCEE0(int a, int b, int c);
-extern u32 func_021DCFDC(u32 v);
+extern u32 WIFIBATTLEMATCH_NET_GetErrorMsg(int a);
+extern u32 WIFIBATTLEMATCH_NET_GetErrorCode(int a, int b, int c);
+extern u32 WIFIBATTLEMATCH_NET_MapErrorCode(u32 v);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
@@ -59,11 +59,11 @@ extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 extern void func_0200FAAC(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_0200FA84(void);
-extern void func_021DCFFC(void *p);
+extern void WIFIBATTLEMATCH_NET_ClearStruct(void *p);
 
 typedef enum { RES_NONE, RES_1, RES_2, RES_3, RES_4 } Res;
 
-int func_021D9F04(char *ctx, void *a, void *b)
+int WIFIBATTLEMATCH_NET_HandleNetError(char *ctx, void *a, void *b)
 {
     u32 *rec = (u32 *)(ctx + 0x18);
     Res r = RES_NONE;
@@ -103,17 +103,17 @@ int func_021D9F04(char *ctx, void *a, void *b)
             r = RES_NONE;
             break;
         case 1:
-            r = func_021DCE60(rec[0]);
+            r = WIFIBATTLEMATCH_NET_GetErrorMsg(rec[0]);
             break;
         case 2:
-            r = func_021DCEE0(rec[1], rec[2], rec[3]);
+            r = WIFIBATTLEMATCH_NET_GetErrorCode(rec[1], rec[2], rec[3]);
             break;
         case 3:
         case 4:
             r = RES_NONE;
             break;
         case 5:
-            r = func_021DCFDC(rec[6]);
+            r = WIFIBATTLEMATCH_NET_MapErrorCode(rec[6]);
             break;
         default:
             r = RES_NONE;
@@ -147,7 +147,7 @@ int func_021D9F04(char *ctx, void *a, void *b)
             break;
         }
         if (r != RES_NONE)
-            func_021DCFFC(rec);
+            WIFIBATTLEMATCH_NET_ClearStruct(rec);
     }
     return r;
 }

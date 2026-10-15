@@ -1,5 +1,5 @@
 /*
- * function: func_021665E4
+ * function: WCM_GetMacAddress
  * address:  0x021665E4
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 extern char g_021AA80C[];
 extern void func_02082EA4(char *p, int a, int n);
 
-void func_021665E4(int a)
+void WCM_GetMacAddress(int a)
 {
     func_02082EA4(g_021AA80C, a, 6);
 }

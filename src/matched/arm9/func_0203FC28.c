@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203FC28
+ * function: BG_SYS_SetGraphicsMode
  * address:  0x0203FC28
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -24,8 +24,8 @@
  * they are two statements in the source and not one masked store.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203FC28.c \
- *       --func func_0203FC28 --addr 0x0203FC28 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetGraphicsMode.c \
+ *       --func BG_SYS_SetGraphicsMode --addr 0x0203FC28 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -44,7 +44,7 @@ extern void func_0207D518(u32 a);
 extern void BG_SYS_ClearMainBgPlanes(void);
 extern void BG_SYS_ClearSubBgPlanes(void);
 
-void func_0203FC28(struct DispConfig *cfg)
+void BG_SYS_SetGraphicsMode(struct DispConfig *cfg)
 {
     GX_SetGraphicsMode(cfg->unk_00, cfg->unk_04, cfg->unk_0c);
     func_0207D518(cfg->unk_08);

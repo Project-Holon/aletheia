@@ -22,6 +22,7 @@
  *   sNHTTPRapEvilCheckFileName 0x021CE3A0 data a4
  *   OS_LockMutex  0x02086028  arm
  *   OS_InitMutex  0x02086004  arm  arm9
+ *   WORDSET_CopyString  0x0201F41C  thumb  arm9
  */
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
@@ -46,7 +47,7 @@ extern u32 func_02008530(const struct MYSTATUS *mystatus_p);
 
 extern const void *func_020084F4(const void *p);
 
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
 u8 *NHTTP_RAP_EvilCheckAllocArray(int elemSize, int count, int heapId);
 
@@ -107,7 +108,7 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
     info_p->language = func_0200856C(mystatus_p);
     info_p->romVersion = func_02008570(mystatus_p);
     info_p->trainerId = func_02008530(mystatus_p);
-    func_0201F41C(func_020084F4(mystatus_p), info_p->name, 8);
+    WORDSET_CopyString(func_020084F4(mystatus_p), info_p->name, 8);
     info_p->reserved18 = 0;
     info_p->reserved24 = 0;
     info_p->reserved5c = 0;

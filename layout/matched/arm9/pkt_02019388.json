@@ -30,9 +30,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02019A50",
-    "func_02019A7C",
-    "func_02019A9C"
+    "POKE_CRYPTO_XorBlock",
+    "POKE_CRYPTO_NextRandom",
+    "POKE_CRYPTO_Checksum"
+   ],
+   "addresses": [
+    "0x02019A50",
+    "0x02019A7C",
+    "0x02019A9C"
    ]
   },
   {
@@ -47,11 +52,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02019B04"
+    "POKE_TOOL_ApplyNatureModifier"
+   ],
+   "addresses": [
+    "0x02019B04"
    ]
   },
   {
-   "name": "func_02019B44",
+   "name": "POKE_TOOL_GetNatureModifier",
    "address": "0x02019B44",
    "kind": "game",
    "region": "arm9",
@@ -74,10 +82,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02019C7C",
-    "func_02019C90",
-    "func_02019CA0",
-    "func_02019CE0"
+    "POKE_TOOL_GetPersonalGender",
+    "POKE_TOOL_GetPersonalParam",
+    "POKE_TOOL_SetLevelAndRecalc",
+    "POKE_TOOL_CopyPartyPokemon"
+   ],
+   "addresses": [
+    "0x02019C7C",
+    "0x02019C90",
+    "0x02019CA0",
+    "0x02019CE0"
    ]
   },
   {
@@ -92,8 +106,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02019D00",
-    "func_02019D30"
+    "POKE_TOOL_GetBoxParamIndex",
+    "POKE_TOOL_NormalizeForm"
+   ],
+   "addresses": [
+    "0x02019D00",
+    "0x02019D30"
    ]
   }
  ]

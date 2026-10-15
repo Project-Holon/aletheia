@@ -12,7 +12,7 @@
  *
  * symbols:
  *   BG_SYS_GetType  0x02041680  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *
  * The eight-piece frame around a window: base tile + 0..7 drawn at the
  * corners and edges one cell outside the on-screen extent (+7/+8), with the
@@ -48,7 +48,7 @@ struct Cfg {
 };
 
 extern u8 BG_SYS_GetType(int channel);
-extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
+extern void BG_SYS_SetTileEntry(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 
 void BMP_WIN_DrawFrame(struct Cfg *cfg, u16 base, u32 pal)
 {
@@ -59,24 +59,24 @@ void BMP_WIN_DrawFrame(struct Cfg *cfg, u16 base, u32 pal)
         pal = 0;
     }
 
-    func_02041300(cfg->unk_02, (u16)(pal | base), (u8)(cfg->unk_03 - 1),
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | base), (u8)(cfg->unk_03 - 1),
                   (u8)(cfg->unk_04 - 1), 1, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 1)), cfg->unk_03,
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | (base + 1)), cfg->unk_03,
                   (u8)(cfg->unk_04 - 1), cfg->unk_07, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 2)),
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | (base + 2)),
                   (u8)(cfg->unk_03 + cfg->unk_07), (u8)(cfg->unk_04 - 1),
                   1, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 3)),
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | (base + 3)),
                   (u8)(cfg->unk_03 - 1), cfg->unk_04, 1, cfg->unk_08, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 4)),
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | (base + 4)),
                   (u8)(cfg->unk_03 + cfg->unk_07), cfg->unk_04,
                   1, cfg->unk_08, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 5)),
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | (base + 5)),
                   (u8)(cfg->unk_03 - 1), (u8)(cfg->unk_04 + cfg->unk_08),
                   1, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 6)), cfg->unk_03,
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | (base + 6)), cfg->unk_03,
                   (u8)(cfg->unk_04 + cfg->unk_08), cfg->unk_07, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 7)),
+    BG_SYS_SetTileEntry(cfg->unk_02, (u16)(pal | (base + 7)),
                   (u8)(cfg->unk_03 + cfg->unk_07),
                   (u8)(cfg->unk_04 + cfg->unk_08), 1, 1, 0x11);
 }

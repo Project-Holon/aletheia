@@ -3,7 +3,7 @@
  * asm/arm9/src/001_02007664.s.  Not an SDK symbol: it is absent from
  * layout/symbols_sdk.txt.
  *
- * function: sub_020090B0
+ * function: CGEAR_SAVE_GetSize
  * address:  0x020090B0
  * packet:   pkt_02008FD8
  * region:   arm9
@@ -36,7 +36,7 @@ struct Sub020090B0Obj {
     u8  unk29[3];
 };
 
-u32 sub_020090B0(void)
+u32 CGEAR_SAVE_GetSize(void)
 {
     return sizeof(struct Sub020090B0Obj);
 }

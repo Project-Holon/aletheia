@@ -1,5 +1,5 @@
 /*
- * function: func_021C840C
+ * function: VIEWER_ACTOR_ResetDragFlags
  * address:  0x021C840C
  * packet:   pkt_ov111_021C840C
  * region:   ov111
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021C840C(u8 *p) { p[2] = 0; p[3] = 0; }
+void VIEWER_ACTOR_ResetDragFlags(u8 *p) { p[2] = 0; p[3] = 0; }

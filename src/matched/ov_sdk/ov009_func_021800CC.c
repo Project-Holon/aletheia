@@ -1,5 +1,5 @@
 /*
- * function: func_021800CC
+ * function: _ReadUCS2CharFromUTF8String
  * address:  0x021800CC
  * packet:   pkt_ov009_021800CC
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-int func_021800CC(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut)
+int _ReadUCS2CharFromUTF8String(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut)
 {
     char c;
 

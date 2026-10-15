@@ -1,7 +1,7 @@
 /*
  * file:     field_rail_loader.c
  * unit:     yes
- * function: FIELD_RAIL_LOADER_InitSetting, FIELD_RAIL_LOADER_Create, FIELD_RAIL_LOADER_Delete, FIELD_RAIL_LOADER_Load, FIELD_RAIL_LOADER_Unload, FIELD_RAIL_LOADER_GetSetting, func_0219F01C, func_0219F030, func_0219F048, func_0219F04C, func_0219F050, func_0219F054
+ * function: FIELD_RAIL_LOADER_InitSetting, FIELD_RAIL_LOADER_Create, FIELD_RAIL_LOADER_Delete, FIELD_RAIL_LOADER_Load, FIELD_RAIL_LOADER_Unload, FIELD_RAIL_LOADER_GetSetting, FIELD_RAIL_LOADER_CreateScriptEvent, FIELD_RAIL_LOADER_VanishMmdl, FIELD_RAIL_LOADER_EmptyProc0, FIELD_RAIL_LOADER_EmptyProc1, FIELD_RAIL_LOADER_EmptyProc2, FIELD_RAIL_LOADER_EmptyProc3
  * address:  0x0219EF14
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -83,12 +83,12 @@ void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader);
 void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId);
 void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
 FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader);
-int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
-int func_0219F030(void *a, u32 b, u32 c, u32 d);
-void func_0219F048(void);
-void func_0219F04C(void);
-void func_0219F050(void);
-void func_0219F054(void);
+int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
+int FIELD_RAIL_LOADER_VanishMmdl(void *a, u32 b, u32 c, u32 d);
+void FIELD_RAIL_LOADER_EmptyProc0(void);
+void FIELD_RAIL_LOADER_EmptyProc1(void);
+void FIELD_RAIL_LOADER_EmptyProc2(void);
+void FIELD_RAIL_LOADER_EmptyProc3(void);
 extern u32 d_021DDDB8[];     /* function table of the cameras */
 extern u32 d_021DDDA0[];     /* function table of the points */
 extern u32 d_021DDDAC[];     /* function table of the lines */
@@ -153,29 +153,29 @@ FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader)
 
 /* 0219F01C..0219F054 are probably a field model move proc set, not loader
  * code (see misplaced.tsv). */
-int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
+int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 {
 return (int)SCRIPT_SYS_CreateScriptEventSimple(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }
 
-int func_0219F030(void *mmdl, u32 unused1, u32 unused2, u32 unused3)
+int FIELD_RAIL_LOADER_VanishMmdl(void *mmdl, u32 unused1, u32 unused2, u32 unused3)
 {
 FLDMMDL_SetStatusBitVanish((unsigned int *)mmdl, 1);
 return (int)FLDMMDL_SetMoveBit(mmdl, (1 << 15));
 }
 
-void func_0219F048(void)
+void FIELD_RAIL_LOADER_EmptyProc0(void)
 {
 }
 
-void func_0219F04C(void)
+void FIELD_RAIL_LOADER_EmptyProc1(void)
 {
 }
 
-void func_0219F050(void)
+void FIELD_RAIL_LOADER_EmptyProc2(void)
 {
 }
 
-void func_0219F054(void)
+void FIELD_RAIL_LOADER_EmptyProc3(void)
 {
 }

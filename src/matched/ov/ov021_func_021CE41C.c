@@ -15,7 +15,7 @@
  *
  * symbols:
  *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
@@ -40,7 +40,7 @@ typedef struct {
 struct Handle;
 struct WordSet;
 extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void COMM_ENTRY_MENU_PrintMessage(u32 *p, int n);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
@@ -67,7 +67,7 @@ void COMM_ENTRY_MENU_ProcessRequest(u32 *p)
     }
     switch (q->state) {
     case 0:
-        func_0201F02C((struct WordSet *)p[1], 0, (void *)((int)w));
+        WORDSET_SetSlotMyStatus((struct WordSet *)p[1], 0, (void *)((int)w));
         COMM_ENTRY_MENU_PrintMessage(p, 10);
         q->state++;
         break;

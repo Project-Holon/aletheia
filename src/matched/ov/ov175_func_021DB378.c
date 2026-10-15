@@ -1,5 +1,5 @@
 /*
- * function: func_021DB378
+ * function: WIFIBATTLEMATCH_NET_OnRecvValue
  * address:  0x021DB378
  * packet:   pkt_021DB378
  * region:   ov175
@@ -13,7 +13,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *
- * Same guard as func_021DB300 but it moves the word the third argument
+ * Same guard as WIFIBATTLEMATCH_NET_OnRecvFlagA but it moves the word the third argument
  *     points at into the +0x150 slot of the fourth argument and sets +0x14c.
  */
 #include "../include/Obj14340.h"
@@ -25,7 +25,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
-void func_021DB378(u32 a, u32 b, u32 *c, char *d, u32 e)
+void WIFIBATTLEMATCH_NET_OnRecvValue(u32 a, u32 b, u32 *c, char *d, u32 e)
 {
     u32 v = *c;
 

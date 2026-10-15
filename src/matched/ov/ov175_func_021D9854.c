@@ -1,5 +1,5 @@
 /*
- * function: func_021D9854
+ * function: WIFIBATTLEMATCH_NET_DeleteCompCard
  * address:  0x021D9854
  * packet:   pkt_021D9854
  * region:   ov175
@@ -26,7 +26,7 @@ typedef unsigned long u32;
 
 extern void func_021E7710(u32 p);
 
-void func_021D9854(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteCompCard(char *obj)
 {
     u32 p = ((struct Obj14329 *)obj)->f20;
 

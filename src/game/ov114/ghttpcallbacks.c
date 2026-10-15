@@ -14,12 +14,12 @@
  *
  * symbols:
  *   sGhttpSocketError    0x021CE598  data  a4
- *   func_0217D254 0x0217D254  arm
+ *   gsDebugFormat 0x0217D254  arm
  *   ArrayLength  0x02184200 arm ov009
  */
 #include "ghttp_types.h"
 
-extern int func_0217D254(int index, int table, int mask, const char *fmt, int arg);
+extern int gsDebugFormat(int index, int table, int mask, const char *fmt, int arg);
 extern int ArrayLength(void *array);
 void ghiCallCompletedCallback(GHIConnection *connection);
 /*
@@ -41,7 +41,7 @@ extern char sGhttpSocketError[];
 void ghiCallCompletedCallback(GHIConnection *connection)
 {
     if (connection->result != 0)
-        func_0217D254(8, 0, 2, sGhttpSocketError, connection->socketError);
+        gsDebugFormat(8, 0, 2, sGhttpSocketError, connection->socketError);
     if (connection->completedCallback != 0) {
         char *fileData = connection->type == 0 ? connection->getFileBuffer.data : 0;
         int freeFileData = connection->completedCallback(connection->request, connection->result, fileData, connection->fileBytesReceived, connection->callbackParam);

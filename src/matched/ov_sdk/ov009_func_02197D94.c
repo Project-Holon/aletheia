@@ -1,5 +1,5 @@
 /*
- * function: func_02197D94
+ * function: gti2CreateSocket
  * address:  0x02197D94
  * packet:   pkt_ov009_02197D94
  * region:   ov009
@@ -13,11 +13,11 @@
  *
  * symbols:
  *   SocketStartUp  0x0217F25C  arm  ov009
- *   func_021986C4  0x021986C4  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gt2StringToAddress  0x021986C4  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_02184638  0x02184638  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_021846B4  0x021846B4  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
@@ -63,14 +63,14 @@ struct SOCSockAddrIn {
 };
 
 extern void SocketStartUp(void);
-extern int func_021986C4(char *string, unsigned int *ip, unsigned short *port);
-extern void *func_0217EAB0(unsigned long size);
+extern int gt2StringToAddress(char *string, unsigned int *ip, unsigned short *port);
+extern void *gsimalloc(unsigned long size);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern struct HashImplementation *func_02184638(int elemSize, int nBuckets, int nChains,
                                                 int (*hashFn)(void *, int),
                                                 int (*compFn)(void *, void *),
                                                 void (*freeFn)(void *));
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAllocate,
                                                  void (*elemFreeFn)(void *));
 extern void func_021846B4(struct HashImplementation *table);
@@ -83,7 +83,7 @@ extern int func_02197D1C(void *elem1, void *elem2);
 extern int func_02197CFC(void *elem, int numBuckets);
 extern void func_02197D4C(void *elem);
 
-int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBufferSize,
+int gti2CreateSocket(struct GTI2Socket **sock, char *localAddress, int outgoingBufferSize,
                   int incomingBufferSize, void (*callback)(struct GTI2Socket *), int type)
 {
     struct SOCSockAddrIn address;
@@ -100,10 +100,10 @@ int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBuff
     if (!outgoingBufferSize)
         outgoingBufferSize = 0x10000;
 
-    if (!func_021986C4(localAddress, &ip, &port))
+    if (!gt2StringToAddress(localAddress, &ip, &port))
         return 4;
 
-    socketTemp = (struct GTI2Socket *)func_0217EAB0(sizeof(struct GTI2Socket));
+    socketTemp = (struct GTI2Socket *)gsimalloc(sizeof(struct GTI2Socket));
     if (!socketTemp)
         return 1;
 
@@ -115,14 +115,14 @@ int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBuff
 
     socketTemp->connections = func_02184638(4, 32, 2, func_02197CFC, func_02197D1C, 0);
     if (!socketTemp->connections) {
-        func_0217EAE0(socketTemp);
+        gsifree(socketTemp);
         return 1;
     }
 
     socketTemp->closedConnections = func_02184144(4, 4, func_02197D4C);
     if (!socketTemp->closedConnections) {
         func_021846B4(socketTemp->connections);
-        func_0217EAE0(socketTemp);
+        gsifree(socketTemp);
         return 1;
     }
 
@@ -136,7 +136,7 @@ int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBuff
     if (socketTemp->socket == -1) {
         func_021846B4(socketTemp->connections);
         func_021841B0(socketTemp->closedConnections);
-        func_0217EAE0(socketTemp);
+        gsifree(socketTemp);
         return 3;
     }
 
@@ -151,7 +151,7 @@ int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBuff
             closesocket(socketTemp->socket);
             func_021846B4(socketTemp->connections);
             func_021841B0(socketTemp->closedConnections);
-            func_0217EAE0(socketTemp);
+            gsifree(socketTemp);
             return 3;
         }
     }

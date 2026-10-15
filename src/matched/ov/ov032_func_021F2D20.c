@@ -19,8 +19,8 @@
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
- *   func_02062A98  0x02062A98  arm
- *   func_02062A00  0x02062A00  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   NNS_G2dGetUnpackedCharacterData  0x02062A00  arm
  *   DC_FlushAll    0x02086284  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_021F35BC     0x021F35BC  data  ov032  a2
@@ -89,8 +89,8 @@ typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 extern void DC_FlushAll(void);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
@@ -112,18 +112,18 @@ void func_021F2D20(Work *p, void *h)
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
     p->r3c4.res = ARC_TOOL_LoadHandleMember(h, 4, p->heap2);
-    func_02062A98(p->r3c4.res, (void **)(&p->r3c4.hdr));
+    NNS_G2dGetUnpackedPaletteData(p->r3c4.res, (void **)(&p->r3c4.hdr));
     p->r3c4.data = ((struct Obj20461 *)(p->r3c4.hdr))->fC;
     p->r3b8.res = ARC_TOOL_LoadHandleMember(h2, 0, p->heap2);
-    func_02062A98(p->r3b8.res, (void **)(&p->r3b8.hdr));
+    NNS_G2dGetUnpackedPaletteData(p->r3b8.res, (void **)(&p->r3b8.hdr));
     p->r3b8.data = ((struct Obj20462 *)(p->r3b8.hdr))->fC;
     for (i = 0; i < 16; i++) {
         p->e1[i].res = ARC_TOOL_LoadHandleMember(h2, i + 0x31, p->heap2);
-        func_02062A00(p->e1[i].res, &p->e1[i].data);
+        NNS_G2dGetUnpackedCharacterData(p->e1[i].res, &p->e1[i].data);
     }
     for (i = 0; i < 12; i++) {
         p->e2[i].res = ARC_TOOL_LoadHandleMember(h, i + 7, p->heap2);
-        func_02062A00(p->e2[i].res, &p->e2[i].data);
+        NNS_G2dGetUnpackedCharacterData(p->e2[i].res, &p->e2[i].data);
     }
     DC_FlushAll();
     ARC_TOOL_DeleteHandle(h2);

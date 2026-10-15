@@ -1,5 +1,5 @@
 /*
- * function: func_0206296C
+ * function: NNSi_G2dUnpackMultiCellBank
  * address:  0x0206296C
  * packet:   pkt_02062688
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206295C  0x0206295C  arm
+ *   NNSi_G2dFixupMultiCellAnimBankTbl  0x0206295C  arm
  *
  * NNS G2D multi-cell bank (NMCR 'KBCM' block) offset-to-pointer fixup, run
  * once when the bank is unpacked.  It names the on-disk layout exactly:
@@ -30,7 +30,7 @@
  * The 8-byte descriptor stride is what the loop's `lsl #3` proves; a 10- or
  * 12-byte descriptor is not what this game reads.
  *
- * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/func_0206296C.c.txt records
+ * HOW THE 2026-09-21 WALL WAS CLOSED.  docs/notes/NNSi_G2dUnpackMultiCellBank.c.txt records
  * this function as a 120-of-124-byte near miss: the image re-loads the +0x04
  * field it has just stored (`ldr r4,[r0,#4]` at +0x24), and every plain
  * spelling lets -O4,p forward the stored value instead, four bytes short.
@@ -50,8 +50,8 @@
  * bank->nodeBase)`, EXACT at compile 429 of 800.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206296C.c \
- *       --func func_0206296C --addr 0x0206296C --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dUnpackMultiCellBank.c \
+ *       --func NNSi_G2dUnpackMultiCellBank --addr 0x0206296C --cc 1.1p1 --arm
  */
 #include "../include/Obj02615.h"
 
@@ -76,9 +76,9 @@ struct MultiCellBank {
     u8 *animBank;
 };
 
-extern void func_0206295C(void *animBank);
+extern void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
 
-void func_0206296C(volatile struct MultiCellBank *bank)
+void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank *bank)
 {
     u16 i;
     u16 n;
@@ -104,6 +104,6 @@ void func_0206296C(volatile struct MultiCellBank *bank)
     if (anim != 0) {
         anim = anim + (u32)bank;
         bank->animBank = anim;
-        func_0206295C(anim);
+        NNSi_G2dFixupMultiCellAnimBankTbl(anim);
     }
 }

@@ -11,19 +11,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062A4C       0x02062A4C  arm
- *   func_02040B1C       0x02040B1C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx       0x02062A4C  arm
+ *   BG_SYS_LoadTileData       0x02040B1C  arm
  *   ENV_SetResourceSet  0x020307B0  arm
  *
  * The write-into-an-existing-slot counterpart of src/matched/ARC_UTIL_RegisterObjChar.c:
- * the same func_02062A4C lookup and the same "size of zero means the object's
- * own size at +0x10" rule, but the result goes straight into func_02040B1C
+ * the same NNS_G2dGetUnpackedCharacterDataEx lookup and the same "size of zero means the object's
+ * own size at +0x10" rule, but the result goes straight into BG_SYS_LoadTileData
  * instead of coming back as a packed handle, and the caller's handle is
  * released either way. The whole body sits inside the `if`, which is why the
  * failed lookup is a forward branch to the release rather than a shared exit
  * block.
  *
- * `and r0, r6, #0xff` is func_02040B1C's first parameter being `u8`, not a
+ * `and r0, r6, #0xff` is BG_SYS_LoadTileData's first parameter being `u8`, not a
  * mask written in the source.
  *
  * Verified with:
@@ -42,19 +42,19 @@ struct Res {
 };
 
 struct NitroFileHeader;
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void ENV_SetResourceSet(void *p);
 
 u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
 {
     struct Res *res;
 
-    if (func_02062A4C(buf, (void **)(&res)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx(buf, (void **)(&res)) != 0) {
         if (a3 == 0) {
             a3 = res->unk_10;
         }
-        func_02040B1C((u8)a1, (const void *)res->unk_14, a3, a2);
+        BG_SYS_LoadTileData((u8)a1, (const void *)res->unk_14, a3, a2);
     }
 
     ENV_SetResourceSet(buf);

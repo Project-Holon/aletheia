@@ -18,6 +18,7 @@
  * symbols:
  *   TR_AI_Compare  0x0218A0F4  thumb  ov096
  *   VM_GetU32  0x0201134C  thumb
+ *   GF_STANDARD_Rand  0x0203F0A8  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -31,7 +32,7 @@ typedef enum { Z0 } E;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern int TR_AI_Compare(u8 *a, int op, int x, int y, int z);
 
 int TR_AI_CompareRandom(struct Cursor *a, int unused, int c) {
@@ -41,7 +42,7 @@ int TR_AI_CompareRandom(struct Cursor *a, int unused, int c) {
     E z;
     p = (u8 *)VM_GetU32(a);
     r = (int)VM_GetU32(a);
-    v = func_0203F0A8();
+    v = GF_STANDARD_Rand();
     z = Z0;
     return TR_AI_Compare((u8 *)a, c, ((v >> 24) | (z << 8)), (int)p, r);
 }

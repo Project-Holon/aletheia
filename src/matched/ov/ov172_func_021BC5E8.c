@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5E8
+ * function: CTVT_CALL_HandleTouch
  * address:  0x021BC5E8
  * packet:   pkt_ov172_021BC5E8
  * region:   ov172
@@ -14,7 +14,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021BCEF8  0x021BCEF8  thumb  ov172
+ *   CTVT_CALL_UpdatePrompt  0x021BCEF8  thumb  ov172
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   _u32_div_f     0x0209C2B0  arm
@@ -44,7 +44,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void func_021BCEF8(void *ctx, u8 *st);
+extern void CTVT_CALL_UpdatePrompt(void *ctx, u8 *st);
 struct Obj;
 struct Vec2;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -56,7 +56,7 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 extern u32 KEY_GetTrg(void);
 extern const u8 d_021C7040[];
 
-void func_021BC5E8(void *ctx, u8 *list)
+void CTVT_CALL_HandleTouch(void *ctx, u8 *list)
 {
     u32 tx;
     u32 ty;
@@ -131,7 +131,7 @@ void func_021BC5E8(void *ctx, u8 *list)
                     }
                 }
                 if (done == 1)
-                    func_021BCEF8(ctx, list);
+                    CTVT_CALL_UpdatePrompt(ctx, list);
             }
         } else if (tx >= 0xec && tx <= 0x104 && ty >= ((struct Obj00330 *)list)->f6 + 0xc
                    && ty <= ((struct Obj00330 *)list)->f6 + 0x24 && list[0x14] > 5) {

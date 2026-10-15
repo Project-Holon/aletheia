@@ -12,7 +12,7 @@
  * Target of src/pending/FIELDMAP_SeqCreateSubsystems.c (called at +0x0C4 with the id).  The
  * only caller image-wide is inside FIELDMAP_SeqCreateSubsystems's range, so the two ov019
  * callees and the ov019 data argument are carried by `sole-ref` with the
- * region hint; the allocator is an arm9 `matched` (sub_02030734).  Allocates
+ * region hint; the allocator is an arm9 `matched` (GFL_HEAP_Alloc).  Allocates
  * 0xf4 bytes from heap 0x8e, runs two field-init helpers, returns the block.
  *
  * symbols:

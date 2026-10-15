@@ -1,5 +1,5 @@
 /*
- * function: func_021D6530
+ * function: GTSNEGO_DISP_VBlank
  * address: 0x021D6530
  * packet: pkt_ov120_021D6530
  * region: ov120
@@ -19,4 +19,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
 extern void func_02040618(u32,u32,u32);
-void func_021D6530(void *unused,u8 *p){CLACT_VBlankSystem();if(((struct Obj08078 *)p)->f100){func_02040618(4,3,((struct Obj08078 *)p)->f104+72);func_02040618(6,3,((struct Obj08078 *)p)->f104+72);((struct Obj08078 *)p)->f100=0;}}
+void GTSNEGO_DISP_VBlank(void *unused,u8 *p){CLACT_VBlankSystem();if(((struct Obj08078 *)p)->f100){func_02040618(4,3,((struct Obj08078 *)p)->f104+72);func_02040618(6,3,((struct Obj08078 *)p)->f104+72);((struct Obj08078 *)p)->f100=0;}}

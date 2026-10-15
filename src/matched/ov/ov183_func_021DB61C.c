@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DB61C, func_021DB690
+ * function: BR_CODEIN_SidebarStepSlideOut, BR_CODEIN_SidebarClearStep
  * address: 0x021DB61C
  * packet: pkt_ov183_021DB61C
  * region: ov183
@@ -15,7 +15,7 @@
  *   BR_SIDEBAR_StartWobble 0x021FEE4C thumb ov186
  *   BR_PROC_SYS_PushEntry 0x021F9BF4 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DB690 0x021DB690 thumb ov183
+ *   BR_CODEIN_SidebarClearStep 0x021DB690 thumb ov183
  *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
  */
 #include "../include/Obj06597.h"
@@ -31,9 +31,9 @@ extern void BR_SIDEBAR_ResetPositions(char *p);
 extern void BR_SIDEBAR_StartWobble(char *p);
 extern void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021DB690(int *);
+extern void BR_CODEIN_SidebarClearStep(int *);
 extern int BR_UTIL_ClearTaskStep(int *a);
-void func_021DB61C(int *task, int *state, char *p)
+void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, char *p)
 {
     switch(*state) {
     case 0:
@@ -47,11 +47,11 @@ void func_021DB61C(int *task, int *state, char *p)
         BR_SIDEBAR_ResetPositions((char *)(((struct Obj24537 *)(*(char * *)&((struct Obj06597 *)p)->f1C))->f14));
         BR_SIDEBAR_StartWobble((char *)(((struct Obj24538 *)(*(char * *)&((struct Obj06597 *)p)->f1C))->f14));
         BR_PROC_SYS_PushEntry((unsigned int *)(((struct Obj24539 *)(*(char * *)&((struct Obj06597 *)p)->f1C))->f10),1);
-        BR_UTIL_SetTaskStep(task,(int)func_021DB690);
+        BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_SidebarClearStep);
         break;
     }
 }
-void func_021DB690(int *task)
+void BR_CODEIN_SidebarClearStep(int *task)
 {
     BR_UTIL_ClearTaskStep((int *)task);
 }

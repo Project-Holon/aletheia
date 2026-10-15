@@ -1,5 +1,5 @@
 /*
- * function: func_02058204
+ * function: SPL_EMITTER_UpdateNode
  * address:  0x02058204
  * packet:   pkt_02057830
  * region:   arm9
@@ -34,7 +34,7 @@ struct Src {
 
 u32 g_02146A8C;
 
-void func_02058204(struct Obj *o, struct Src *s, int *dst)
+void SPL_EMITTER_UpdateNode(struct Obj *o, struct Src *s, int *dst)
 {
     int r;
 

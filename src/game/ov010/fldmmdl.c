@@ -21,10 +21,10 @@
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
  *   func_020490F4  0x020490F4  arm
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FLDMMDL_ACMD_DeleteDrawSys  0x02197C4C  thumb
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   FLDMMDL_BLACT_Update  0x0219C5FC  thumb
  *   FLDMMDL_BLACT_RegisterLoadedRes  0x0219C624  thumb
  *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb
@@ -79,10 +79,10 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_02030CB0(u32 capacity);
 extern void *func_02030CBC(u32 capacity, void *work);
 extern void *func_020490F4(u32 arcId, u32 heapId);
-extern void func_02030DA4(void *tcbSys);
+extern void TCB_Noop(void *tcbSys);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void FLDMMDL_ACMD_DeleteDrawSys(MmdlSys *sys);
-extern void func_02030D28(void *tcbSys);
+extern void TCB_Main(void *tcbSys);
 extern void FLDMMDL_BLACT_Update(MmdlSys *sys);
 extern void FLDMMDL_BLACT_RegisterLoadedRes(MmdlSys *sys);
 extern int FLDMMDL_BLACT_IsReservePending(MmdlSys *sys);
@@ -399,7 +399,7 @@ void FLDMMDL_SetupSysProc(MmdlSys *sys, int heapId, void *gameData, void *fieldM
 
 void FLDMMDL_ReleaseSysProc(MmdlSys *sys)
 {
-    func_02030DA4(sys->tcbSys);
+    TCB_Noop(sys->tcbSys);
     func_020307B0(sys->tcbSysWork);
     ARC_TOOL_DeleteHandle(sys->resArcHandle);
     FLDMMDL_SysClearStatusBit(sys, MMDLSYS_STABIT_MOVE_INIT);
@@ -414,7 +414,7 @@ void FLDMMDL_DeleteSysProc(MmdlSys *sys)
 
 void FLDMMDL_UpdateSysProc(MmdlSys *sys)
 {
-    func_02030D28(sys->tcbSys);
+    TCB_Main(sys->tcbSys);
     FLDMMDL_BLACT_Update(sys);
 }
 

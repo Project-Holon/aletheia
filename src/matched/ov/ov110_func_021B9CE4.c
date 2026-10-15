@@ -28,7 +28,7 @@
  *   func_02040588 0x02040588 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02061CA4 0x02061CA4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -79,7 +79,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern int func_02061CA4(void *,u32,u32,int);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -128,7 +128,7 @@ void PMS_INPUT_VIEW_TaskInit(void *unused,u8 *p) {
     func_02061CA4((void *)31,190,(u32)(*(u8 * *)&((struct Obj00135 *)p)->f0+0x6a),2);
     func_02049658((void *)((u32)h),18,7,0,0,0,42);
     func_020498F4((void *)((u32)h),24,7,0,0,0,42);
-    func_020413B0(7,0,0,32,32,5);
+    BG_SYS_FillTileMap(7,0,0,32,32,5);
     ((struct Obj22323 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C=BMP_WIN_Create(7,3,5,26,7,5,1);
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj22324 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C),7);
     ((struct Obj22325 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f70=0;

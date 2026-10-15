@@ -1,5 +1,5 @@
 /*
- * function: func_021BEC24
+ * function: DEMO3D_DATA_StopSe
  * address:  0x021BEC24
  * packet:   pkt_ov203_021BEC24
  * region:   ov203
@@ -38,7 +38,7 @@ typedef signed char    s8;
 extern int GFL_USE_GetSeSlot(u32);
 extern void GFL_USE_StopSeSlot(int);
 
-void func_021BEC24(u32 a, u32 b, int *c)
+void DEMO3D_DATA_StopSe(u32 a, u32 b, int *c)
 {
     int ch = c[1];
     if (ch == -1) {

@@ -16,7 +16,7 @@
  *   MYSTATUS_Init  0x020084A0  thumb
  *   func_020084D4  0x020084D4  thumb
  *   func_0200852C  0x0200852C  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj19617.h"
@@ -35,7 +35,7 @@ struct Sub0200852CObj;
 extern void MYSTATUS_Init(struct Sub0200852CObj *);
 extern u32 func_020084D4(u32 value, void *dst);
 extern void func_0200852C(struct Sub0200852CObj *obj, u32 value);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u32 func_020307B0(void *p);
 
 void FIELD_WFBC_SetWordSetParentName(void *a, int b, int c, int d, u16 e)
@@ -49,6 +49,6 @@ void FIELD_WFBC_SetWordSetParentName(void *a, int b, int c, int d, u16 e)
     MYSTATUS_Init((struct Sub0200852CObj *)h);
     func_020084D4(h, q + 0x38);
     func_0200852C((struct Sub0200852CObj *)h, ((struct Obj19617 *)q)->f48);
-    func_0201F02C((struct WordSet *)b, d, (void *)h);
+    WORDSET_SetSlotMyStatus((struct WordSet *)b, d, (void *)h);
     func_020307B0((void *)h);
 }

@@ -21,7 +21,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   gIrcBattleMatchFileName 0x021BB8AC data a1
  *   gIrcBattleMatchRecvBuffer 0x021BB800 data a4
@@ -63,7 +63,7 @@
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   GFL_NET_ERR_InsertFriend 0x0200F5EC thumb
  *   GFL_NET_IsParentAid 0x0203D378 arm
- *   func_0203EFC8 0x0203EFC8 arm
+ *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
@@ -88,16 +88,16 @@
  *   func_02041B6C 0x02041B6C arm
  *   gIrcBattleMatchMsgQuitConfirm 0x021BB65C data a4
  *   func_02049B40 0x02049B40 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   gIrcBattleMatchCommandTable 0x021BB6C0 data a4
  *   GFL_NET_IRC_WIRELESS_GetMacAddress 0x0203D0B8 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_020409B4 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -116,19 +116,19 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02009A34 0x02009A34 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   gIrcBattleMatchMsgPartnerLeft 0x021BB694 data a4
  *   gIrcBattleMatchMsgWaitingMode7Full 0x021BB690 data a4
@@ -145,7 +145,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
  *   func_02049990 0x02049990 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   FADE_Start 0x0204E720 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -161,7 +161,7 @@
  *   GFL_NET_IRC_WIRELESS_SetSessionParam 0x0203D0C4 arm
  *   GFL_NET_IRC_WIRELESS_SetRetryRequest 0x0203D164 arm
  *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -403,7 +403,7 @@ extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int GFL_NET_ERR_InsertFriend(void *a0, void *a1, void *a2, void *a3);
 extern unsigned GFL_NET_IsParentAid(void);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int TOUCHPANEL_GetTrg(void);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern void GFL_NET_SetAutoExit(u8 a0);
@@ -425,15 +425,15 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenu *menu);
 extern void func_02041B6C(u32 bit);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void GFL_NET_COMMAND_AddCommandTable(unsigned,unsigned,unsigned,IrcBattleMatchWork *);
 extern void GFL_NET_IRC_WIRELESS_GetMacAddress(void *,int);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_InitBgLayer(u32 bgId, const BgTemplate *tmpl, u32 type);
-extern void func_02041300(int,int,int,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(int,int,int,int,u8,u8,u8);
 extern void func_020409B4(u32 index);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void CLACT_VBlankSystem(void);
@@ -444,18 +444,18 @@ extern int APP_TASKMENU_SetDisableKey(struct TaskMenu *menu, int disable);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, int slot);
 extern void BMP_WIN_MakeScreen(struct Descriptor *win);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void BG_SYS_Delete(void);
 extern void BMP_WIN_Exit(void);
 extern void CLACT_DeleteActor(struct Obj *);
@@ -464,7 +464,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Node *func_020056A0(void (*task)(void), IrcBattleMatchWork *arg, u32 priority);
 extern struct PrintSys *PRINTSYS_QUE_Create(void *heap);
@@ -479,7 +479,7 @@ extern void GFL_NET_StartSession(NetSessionReq *,u32,IrcBattleMatchWork *);
 extern void GFL_NET_IRC_WIRELESS_SetSessionParam(int (*isCompatible)(int, int));
 extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
 extern void GFL_NET_SetGameKindOverride(int);
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -517,7 +517,7 @@ extern void CLACT_ExitSystem(void);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *queue);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *queue);
 extern void func_020315D4(struct Proc *proc);
-extern void func_020306F0(unsigned int heapId);
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 id);
 void IRCBATTLEMATCH_SetStep(IrcBattleMatchWork *work, IrcBattleMatchStep step);
 
@@ -785,7 +785,7 @@ void IRCBATTLEMATCH_RecvMacAddressHandler(int aid,int size,void *data,IrcBattleM
    i=0;
    macs = (u8 *)work->macAddress;
    for(;i<4;i++) {
-    if(func_0203EFC8(macs+i*6,data,6)==0) {
+    if(GF_STANDARD_CompareBytes(macs+i*6,data,6)==0) {
      work->param->playerSlot[aid]=i;
      return;
     }
@@ -1004,7 +1004,7 @@ void IRCBATTLEMATCH_StepOpenQuitConfirm(IrcBattleMatchWork *work) {
  IRCBATTLEMATCH_PrintMainMessage(&message,work);
  work->lastMessageId=savedMessageId;
  IRCBATTLEMATCH_OpenQuitMenu(work);
- func_0201DD68();
+ GF_FONT_SetDefaultTextColor();
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitQuitChoice);
 }
 
@@ -1065,14 +1065,14 @@ void IRCBATTLEMATCH_OnChangeoverResult(IrcBattleMatchWork *work,int role) {
 }
 
 void IRCBATTLEMATCH_SetupDisplay(IrcBattleMatchWork *work) {
- BG_SYS_SetVramBanks((const struct DispVram *)gIrcBattleMatchVramBanks);func_0203FC28((struct DispConfig *)gIrcBattleMatchDispConfig);
+ BG_SYS_SetVramBanks((const struct DispVram *)gIrcBattleMatchVramBanks);BG_SYS_SetGraphicsMode((struct DispConfig *)gIrcBattleMatchDispConfig);
  BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
- {BgTemplate bg=gIrcBattleMatchBgTemplate0;BG_SYS_InitBgLayer(0,&bg,0);func_02041300(0,0,0,0,32,32,17);func_020409B4(0);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate1;BG_SYS_InitBgLayer(1,&bg,0);func_02041300(1,0,0,0,32,32,17);func_020409B4(1);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate4;BG_SYS_InitBgLayer(4,&bg,0);func_02041300(4,0,0,0,32,32,17);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate5;BG_SYS_InitBgLayer(5,&bg,0);func_02041300(5,0,0,0,32,32,17);func_020409B4(5);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate6;BG_SYS_InitBgLayer(6,&bg,0);BG_SYS_Init(6,0,1,0);func_02041300(6,0,0,0,32,32,17);func_020409B4(6);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&bg,0);func_02041300(7,0,0,0,32,32,17);func_020409B4(7);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate0;BG_SYS_InitBgLayer(0,&bg,0);BG_SYS_SetTileEntry(0,0,0,0,32,32,17);func_020409B4(0);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate1;BG_SYS_InitBgLayer(1,&bg,0);BG_SYS_SetTileEntry(1,0,0,0,32,32,17);func_020409B4(1);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate4;BG_SYS_InitBgLayer(4,&bg,0);BG_SYS_SetTileEntry(4,0,0,0,32,32,17);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate5;BG_SYS_InitBgLayer(5,&bg,0);BG_SYS_SetTileEntry(5,0,0,0,32,32,17);func_020409B4(5);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate6;BG_SYS_InitBgLayer(6,&bg,0);BG_SYS_Init(6,0,1,0);BG_SYS_SetTileEntry(6,0,0,0,32,32,17);func_020409B4(6);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&bg,0);BG_SYS_SetTileEntry(7,0,0,0,32,32,17);func_020409B4(7);}
 }
 
 void IRCBATTLEMATCH_VBlankTask(void) { CLACT_VBlankSystem(); }
@@ -1134,7 +1134,7 @@ void IRCBATTLEMATCH_PrintMainMessage(MessageRef *message,IrcBattleMatchWork *wor
   struct Descriptor *win=BMP_WIN_Create(5,1,1,30,5,13,0);
   work->messageWin=win;
   BMP_WIN_MakeScreen(win);
-  func_0201F73C(work->messageWin,0,(unsigned short)(work->windowPalette),14);
+  BMP_MENUWORK_DrawWindow(work->messageWin,0,(unsigned short)(work->windowPalette),14);
  }
  BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp(work->messageWin)),255);
  work->lastMessageId=message->msgId;
@@ -1148,13 +1148,13 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
   struct Descriptor *win=BMP_WIN_Create(5,1,8,18,4,13,0);
   work->infoWin=win;
   BMP_WIN_MakeScreen(win);
-  func_0201F73C(work->infoWin,0,(unsigned short)(work->windowPalette),14);
+  BMP_MENUWORK_DrawWindow(work->infoWin,0,(unsigned short)(work->windowPalette),14);
  }
  BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp(work->infoWin)),255);
  func_02045CAC(work->msgData,msgId,work->tempStr);
- func_0201EFA4(work->wordSet,0,func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData)),2,1,1);
- func_0201EFA4(work->wordSet,1,32,2,1,1);
- func_0201F250(work->wordSet,work->msgStr,work->tempStr);
+ WORDSET_SetSlotNumber(work->wordSet,0,func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData)),2,1,1);
+ WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,1);
+ WORDSET_CopyTaggedText(work->wordSet,work->msgStr,work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,work->msgStr,work->font);
  BMP_WIN_TransferChars(work->infoWin);
 }
@@ -1168,10 +1168,10 @@ void IRCBATTLEMATCH_PrintRetryMessage(int msgId,IrcBattleMatchWork *work) {
  BMP_Clear(BMP_WIN_GetBmp(work->infoWin),255);
  BMP_WIN_MakeScreen(work->infoWin);
  BMP_WIN_TransferChars(work->infoWin);
- func_0201F73C(work->infoWin,0,(unsigned short)(work->windowPalette),14);
+ BMP_MENUWORK_DrawWindow(work->infoWin,0,(unsigned short)(work->windowPalette),14);
  func_02045CAC(work->msgData,msgId,work->tempStr);
- func_0201EFA4(work->wordSet,0,GFL_NET_IRC_WIRELESS_GetRetryCount(),2,1,1);
- func_0201F250(work->wordSet,work->msgStr,work->tempStr);
+ WORDSET_SetSlotNumber(work->wordSet,0,GFL_NET_IRC_WIRELESS_GetRetryCount(),2,1,1);
+ WORDSET_CopyTaggedText(work->wordSet,work->msgStr,work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,work->msgStr,work->font);
  BMP_WIN_TransferChars(work->infoWin);
 }
@@ -1188,7 +1188,7 @@ void IRCBATTLEMATCH_InitWindowSystem(IrcBattleMatchWork *work)
 {
  BG_SYS_Create(work->heapId);
  BMP_WIN_Init(work->heapId);
- func_0201DD60();
+ GF_FONT_InitTextColor();
 }
 
 void IRCBATTLEMATCH_ExitWindowSystem(IrcBattleMatchWork *work) { BG_SYS_Delete(); BMP_WIN_Exit(); }
@@ -1220,7 +1220,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  void *rawData;
  void *resource;
  int i;
- func_0201DD68();
+ GF_FONT_SetDefaultTextColor();
  work->wordSet=WORDSET_Create(11,200,work->heapId);
  IRCBATTLEMATCH_InitWindowSystem(work);IRCBATTLEMATCH_SetupDisplay(work);
  work->msgStr=STRBUF_Create(200,work->heapId);
@@ -1237,7 +1237,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  func_02049B68(arc,1,4,0,0,work->heapId);
  work->bgScreenId=(int)func_02049740(arc,4,4,0,0,work->heapId);
  func_02049990(arc,9,4,0,(u16)(work->bgScreenId),0,0,work->heapId);ARC_TOOL_DeleteHandle(arc);
- work->windowPalette=(int)func_0201F5DC((void *)5,14,0,work->heapId);
+ work->windowPalette=(int)BMP_MENUWORK_LoadFrameGfx((void *)5,14,0,work->heapId);
  FADE_Start(3,16,0,2);IRCBATTLEMATCH_PrintWaitingMessage(work);
  CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)gIrcBattleMatchVramBanks,work->heapId);
  work->clactUnit=CLACT_CreateUnit(40,0,work->heapId);
@@ -1359,9 +1359,9 @@ void IRCBATTLEMATCH_StepStartSession(IrcBattleMatchWork *work)
 }
 
 void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
- func_0201DD68();
+ GF_FONT_SetDefaultTextColor();
  IRCBATTLEMATCH_FreeMessageWindows(work);
- func_02040DA8(5,1,0);
+ BG_SYS_SetTileUnit(5,1,0);
  {
   unsigned int windowPalette=work->windowPalette;
   unsigned int paletteHigh=windowPalette>>16;
@@ -1478,7 +1478,7 @@ void IRCBATTLEMATCH_StepOpenQuitConfirmDuringWait(IrcBattleMatchWork *work) {
  IRCBATTLEMATCH_PrintMainMessage(&message,work);
  work->lastMessageId=savedMessageId;
  IRCBATTLEMATCH_OpenQuitMenu(work);
- func_0201DD68();
+ GF_FONT_SetDefaultTextColor();
  if(work->buttonMan!=0) BUTTON_MAN_Delete(work->buttonMan);
  work->buttonMan=0;
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitQuitChoiceDuringWait);
@@ -1491,7 +1491,7 @@ void IRCBATTLEMATCH_StepOpenCancelConfirm(IrcBattleMatchWork *work) {
  IRCBATTLEMATCH_PrintMainMessage(&message,work);
  work->lastMessageId=savedMessageId;
  IRCBATTLEMATCH_OpenQuitMenu(work);
- func_0201DD68();
+ GF_FONT_SetDefaultTextColor();
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitCancelChoice);
 }
 
@@ -1532,7 +1532,7 @@ void IRCBATTLEMATCH_StepOpenErrorConfirm(IrcBattleMatchWork *work) {
  IRCBATTLEMATCH_PrintMainMessage(&message,work);
  work->lastMessageId=savedMessageId;
  IRCBATTLEMATCH_OpenQuitMenu(work);
- func_0201DD68();
+ GF_FONT_SetDefaultTextColor();
  if(work->buttonMan!=0) BUTTON_MAN_Delete(work->buttonMan);
  work->buttonMan=0;
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitErrorChoice);
@@ -1753,6 +1753,6 @@ int IRCBATTLEMATCH_ProcExit(struct Proc *proc, int b, int c, IrcBattleMatchWork 
         work->extraTaskArg=0;
     }
     func_020315D4(proc);
-    func_020306F0(31);
+    GFL_HEAP_DeleteChecked(31);
     return 1;
 }

@@ -15,7 +15,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -37,7 +37,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(unsigned int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Delete(void);
@@ -60,8 +60,8 @@ void PDWACC_DISP_Exit(u8 *p)
     func_02030EAC(((struct Obj03802 *)p)->f980);
     CLACT_DeleteUnit(((struct Obj03802 *)p)->f97C);
     CLACT_ExitSystem();
-    func_02040DA8(1,1,0);
-    func_02040DA8(6,1,0);
+    BG_SYS_SetTileUnit(1,1,0);
+    BG_SYS_SetTileUnit(6,1,0);
     func_020403F4(5);
     func_020403F4(4);
     func_02040588(5,0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B28
+ * function: MANUAL_GRAPHIC_DrawClactUnit
  * address: 0x021B9B28
  * packet: pkt_ov225_021B9B28
  * region: ov225
@@ -12,4 +12,4 @@
  */
 typedef unsigned short u16;
 extern void CLACT_DrawSystem(void);
-void func_021B9B28(void *a0) {CLACT_DrawSystem();}
+void MANUAL_GRAPHIC_DrawClactUnit(void *a0) {CLACT_DrawSystem();}

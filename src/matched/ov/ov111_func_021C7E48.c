@@ -1,5 +1,5 @@
 /*
- * function: func_021C7E48
+ * function: VIEWER_ACTOR_HandleInput
  * address:  0x021C7E48
  * packet:   pkt_ov111_021C7E48
  * region:   ov111
@@ -15,8 +15,8 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021C7F2C  0x021C7F2C  thumb
- *   func_021C7CD0  0x021C7CD0  thumb
+ *   VIEWER_ACTOR_SelectActor  0x021C7F2C  thumb
+ *   VIEWER_ACTOR_HandleDrag  0x021C7CD0  thumb
  *   VIEWER_ACTOR_HandleTouchDrag  0x021C842C  thumb
  *   d_021C898C  0x021C898C  data
  *   d_021C8808  0x021C8808  data
@@ -103,13 +103,13 @@ extern int TOUCHPANEL_HitCont(const void *rects);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021C7F2C(Work *p, int sel, int flag);
-extern void func_021C7CD0(Work *p, int a, int b, int x);
+extern void VIEWER_ACTOR_SelectActor(Work *p, int sel, int flag);
+extern void VIEWER_ACTOR_HandleDrag(Work *p, int a, int b, int x);
 extern void VIEWER_ACTOR_HandleTouchDrag(Work *p, int idx);
 extern const unsigned char d_021C898C[];
 extern const unsigned char d_021C8808[];
 
-int func_021C7E48(Work *p)
+int VIEWER_ACTOR_HandleInput(Work *p)
 {
     int x = 0;
     int y = 0;
@@ -136,8 +136,8 @@ int func_021C7E48(Work *p)
     } else if (KEY_GetTrg() & 1) {
         ret = 0x10;
     }
-    func_021C7F2C(p, ret, flag);
-    func_021C7CD0(p, b, c + 1, x);
+    VIEWER_ACTOR_SelectActor(p, ret, flag);
+    VIEWER_ACTOR_HandleDrag(p, b, c + 1, x);
     VIEWER_ACTOR_HandleTouchDrag(p, a);
     return ret;
 }

@@ -13,9 +13,9 @@
  *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
- *   func_0216749C  0x0216749C  thumb ov010
- *   func_021673C4  0x021673C4  thumb ov010
- *   func_021673A8  0x021673A8  thumb ov010
+ *   COMM_PLAYER_GetListPage  0x0216749C  thumb ov010
+ *   COMM_PLAYER_GetState849  0x021673C4  thumb ov010
+ *   COMM_PLAYER_GetState848  0x021673A8  thumb ov010
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  */
 
@@ -36,10 +36,10 @@ u32 GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetSaveControl(struct Big *p);
 void *SYMBOL_SAVE_GetBlock(void *p);
 struct Entry32;
-unsigned short func_0216749C(struct Entry32 *list, struct Entry32 *out, u32 cap, int page, u8 *n);
+unsigned short COMM_PLAYER_GetListPage(struct Entry32 *list, struct Entry32 *out, u32 cap, int page, u8 *n);
 typedef unsigned short u16;
-u8 func_021673C4(u8 *p);
-u8 func_021673A8(u8 *p);
+u8 COMM_PLAYER_GetState849(u8 *p);
+u8 COMM_PLAYER_GetState848(u8 *p);
 u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 void INTRUDE_COMM_BuildSymbolPage(int *p, const u8 *q)
@@ -51,10 +51,10 @@ void INTRUDE_COMM_BuildSymbolPage(int *p, const u8 *q)
 
     b = (Blk *)((u8 *)p + 0x880);
     x = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl((struct Big *)GAME_COMM_GetGameData((void *)p[1])));
-    func_0216749C(x, (struct Entry32 *)b, 0x14, q[0], buf);
+    COMM_PLAYER_GetListPage(x, (struct Entry32 *)b, 0x14, q[0], buf);
     b->a = buf[0];
-    b->b = func_021673C4(x);
-    b->c = func_021673A8(x);
+    b->b = COMM_PLAYER_GetState849(x);
+    b->c = COMM_PLAYER_GetState848(x);
     t = GFL_NET_SYSTEM_GetCurrentAid();
     b->d = t;
     b->e = q[0];

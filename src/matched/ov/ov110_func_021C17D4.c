@@ -12,12 +12,12 @@
  * Thumb tail call through r3 to an ARM9 function.
  *
  * symbols:
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  */
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 void PMS_SELECT_GRAPHIC_TransferSceneBgs(void *a0)
 {
-    func_020419E4();
+    BG_SYS_Update();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6CE0
+ * function: STA_ACT_LIGHT_PlaceActor
  * address: 0x021F6CE0
  * packet: pkt_ov112_021F6CE0
  * region: ov112
@@ -31,7 +31,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-void func_021F6CE0(char *p, char *q) {
+void STA_ACT_LIGHT_PlaceActor(char *p, char *q) {
     u16 n;
     int tmp;
     Point point;

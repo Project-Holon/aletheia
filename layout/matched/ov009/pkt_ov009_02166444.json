@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02166444",
+   "name": "WCM_SendDCFDataEx",
    "address": "0x02166444",
    "kind": "sdk",
    "region": "ov009",

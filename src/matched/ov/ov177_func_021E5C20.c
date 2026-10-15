@@ -19,7 +19,7 @@
  *   func_021E72FC 0x021E72FC thumb ov177
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_021E7464 0x021E7464 thumb ov177
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ extern void func_021E6718(Work *, u32, const Info *, void *, int, void *, void *
 extern void func_021E72FC(u8 *, u32, u32, u16);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_021E7464(char *, char *, u32, void *, u16);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
 Work *func_021E5C20(const Info *info, u32 a1, void *a2, int owner,
                     void *table, int a5, void *a6, void *a7, void *a8, u16 heap)
@@ -76,8 +76,8 @@ Work *func_021E5C20(const Info *info, u32 a1, void *a2, int owner,
     pos.y = 0x44;
     CLACT_AddActorSurfacePos(w->f188, (const struct Vec2 *)(&pos), 1);
     func_021E7464((char *)w, (char *)info, owner, table, heap);
-    func_020413B0(6, 0, 0, 0x20, 6, 1);
-    func_020413B0(6, 0, 6, 0x20, 18, kind + 3);
+    BG_SYS_FillTileMap(6, 0, 0, 0x20, 6, 1);
+    BG_SYS_FillTileMap(6, 0, 6, 0x20, 18, kind + 3);
     func_020409B4(6);
     func_0207D63C((void *)0x04001050, 4, 8, 15, 3);
     return w;

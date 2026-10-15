@@ -1,5 +1,5 @@
 /*
- * function: func_021DD040
+ * function: WIFIBATTLEMATCH_NET_GetRegKindB
  * address:  0x021DD040
  * packet:   pkt_021DD040
  * region:   ov175
@@ -17,7 +17,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021DD040(void)
+u32 WIFIBATTLEMATCH_NET_GetRegKindB(void)
 {
     return 8;
 }

@@ -12,13 +12,13 @@
  * symbols:
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 struct S020314B8;
 struct S020315D4;
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 int NAMEIN_SETUP_ExitHostProc(void *a, int b, int c, void **d) {
-    func_0203133C(*d); func_020315D4(a); func_020306F0(0x76); return 1;
+    func_0203133C(*d); func_020315D4(a); GFL_HEAP_DeleteChecked(0x76); return 1;
 }

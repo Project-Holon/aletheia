@@ -17,7 +17,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -25,7 +25,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
@@ -35,11 +35,11 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -123,7 +123,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_Init(u32, u32, u32, u32);
 
-extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32, u32, u32, u32, u8, u8, u8);
 
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 
@@ -147,7 +147,7 @@ extern u32 func_020307B0(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 
 extern void func_020403F4(u32 i);
 
@@ -169,7 +169,7 @@ extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,u8,u32);
 
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 
 extern void GX_DispOn(void);
 
@@ -177,7 +177,7 @@ extern void BG_SYS_Create(u16 heapId);
 
 extern void BG_SYS_SetVramBanks(const void *c);
 
-extern void func_0203FC28(const void *cfg);
+extern void BG_SYS_SetGraphicsMode(const void *cfg);
 
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 
@@ -346,115 +346,115 @@ extern const struct BgTemplate d_021DA8A8[8];
  */
 PdwaccDispWork *PDWACC_DISP_Init(int heap)
 {
-    PdwaccDispWork *p;
-    p=(PdwaccDispWork *) func_02030734(heap,0xb70,1,d_021DABFC,201);
-    p->heap=heap;
+    PdwaccDispWork *disp;
+    disp=(PdwaccDispWork *) func_02030734(heap,0xb70,1,d_021DABFC,201);
+    disp->heap=heap;
     func_02034AC4((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    func_0204363C(1);
+    BMP_SetDisplaySwap(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
-    BG_SYS_Create(p->heap);
-    CLACT_InitSystem(gGsyncClactConfig,(u32)d_021DABCC,p->heap);
-    p->clactUnit=CLACT_CreateUnit(40,0,p->heap);
+    BG_SYS_Create(disp->heap);
+    CLACT_InitSystem(gGsyncClactConfig,(u32)d_021DABCC,disp->heap);
+    disp->clactUnit=CLACT_CreateUnit(40,0,disp->heap);
     BG_SYS_SetVramBanks(d_021DABCC);
-    func_0203FC28(d_021DABBC);
-    PDWACC_DISP_InitBgLayers(p);
-    PDWACC_DISP_LoadResources(p);
-    p->vblankTask=func_020056A0(PDWACC_DISP_VBlankTask,p,0);
+    BG_SYS_SetGraphicsMode(d_021DABBC);
+    PDWACC_DISP_InitBgLayers(disp);
+    PDWACC_DISP_LoadResources(disp);
+    disp->vblankTask=func_020056A0(PDWACC_DISP_VBlankTask,disp,0);
     BG_SYS_SetSubVisiblePlanes(31);
     BG_SYS_SetMainVisiblePlanes(27);
-    return p;
+    return disp;
 }
 
 void PDWACC_DISP_Draw(PdwaccDispWork *disp) { CLACT_DrawSystem(); }
 
-void PDWACC_DISP_Exit(PdwaccDispWork *p)
+void PDWACC_DISP_Exit(PdwaccDispWork *disp)
 {
-    int i;
-    PDWACC_DISP_DeleteActors(p);
-    if (p->palette.task) {
-        func_02030EAC(p->palette.task);
-        p->palette.task=0;
-        p->palette.enabled=0;
+    int resourceIndex;
+    PDWACC_DISP_DeleteActors(disp);
+    if (disp->palette.task) {
+        func_02030EAC(disp->palette.task);
+        disp->palette.task=0;
+        disp->palette.enabled=0;
     }
-    i=0;
-    do { if (p->clactResources[i]) CLACT_ReleasePalette((unsigned int)p->clactResources[i]); i++; } while(i<3);
-    for(;i<6;i++) if (p->clactResources[i]) CLACT_ReleaseCharacter((unsigned int)p->clactResources[i]);
-    for(;i<9;i++) if (p->clactResources[i]) CLACT_ReleaseCellAnim((unsigned int)p->clactResources[i]);
-    if (p->unusedTask) func_02030EAC(p->unusedTask);
-    func_02030EAC(p->vblankTask);
-    CLACT_DeleteUnit(p->clactUnit);
+    resourceIndex=0;
+    do { if (disp->clactResources[resourceIndex]) CLACT_ReleasePalette((unsigned int)disp->clactResources[resourceIndex]); resourceIndex++; } while(resourceIndex<3);
+    for(;resourceIndex<6;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCharacter((unsigned int)disp->clactResources[resourceIndex]);
+    for(;resourceIndex<9;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCellAnim((unsigned int)disp->clactResources[resourceIndex]);
+    if (disp->unusedTask) func_02030EAC(disp->unusedTask);
+    func_02030EAC(disp->vblankTask);
+    CLACT_DeleteUnit(disp->clactUnit);
     CLACT_ExitSystem();
-    func_02040DA8(1,1,0);
-    func_02040DA8(6,1,0);
+    BG_SYS_SetTileUnit(1,1,0);
+    BG_SYS_SetTileUnit(6,1,0);
     func_020403F4(5);
     func_020403F4(4);
     func_02040588(5,0);
     BG_SYS_Delete();
-    func_020307B0(p);
+    func_020307B0(disp);
     func_02034A5C((int)ov_id);
 }
 
 /*
- * BG-layer init, same shape as func_021D6100 (ov120) with its own template
+ * BG-layer init, same shape as GTSNEGO_DISP_InitBgLayers (ov120) with its own template
  * table at 0x021DA8A8 (index order 1,4,3,7,5,0,6,2) and slight per-layer
  * differences in the enable/fill sequence.
  */
 void PDWACC_DISP_InitBgLayers(PdwaccDispWork *disp)
 {
-    struct BgTemplate b[8];
+    struct BgTemplate bgTemplates[8];
 
-    b[7] = d_021DA8A8[1];
-    BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&b[7]), 0);
+    bgTemplates[7] = d_021DA8A8[1];
+    BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&bgTemplates[7]), 0);
     func_02040588(0, 1);
     func_020409B4(0);
 
-    b[6] = d_021DA8A8[4];
-    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&b[6]), 0);
+    bgTemplates[6] = d_021DA8A8[4];
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&bgTemplates[6]), 0);
     func_02040588(1, 1);
     BG_SYS_Init(1, 0, 1, 0);
-    func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(1, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(1);
 
-    b[5] = d_021DA8A8[3];
-    BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&b[5]), 0);
+    bgTemplates[5] = d_021DA8A8[3];
+    BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&bgTemplates[5]), 0);
     func_02040588(2, 1);
-    func_02041300(2, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(2);
 
-    b[4] = d_021DA8A8[7];
-    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&b[4]), 0);
+    bgTemplates[4] = d_021DA8A8[7];
+    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&bgTemplates[4]), 0);
     func_02040588(3, 1);
     BG_SYS_Init(3, 0, 1, 0);
-    func_02041300(3, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(3, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(3);
 
-    b[3] = d_021DA8A8[5];
-    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&b[3]), 0);
+    bgTemplates[3] = d_021DA8A8[5];
+    BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&bgTemplates[3]), 0);
     func_02040588(4, 1);
     func_020409B4(4);
 
-    b[2] = d_021DA8A8[0];
-    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&b[2]), 0);
+    bgTemplates[2] = d_021DA8A8[0];
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&bgTemplates[2]), 0);
     func_02040588(5, 1);
     BG_SYS_Init(5, 0, 1, 0);
-    func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(5);
 
-    b[1] = d_021DA8A8[6];
-    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)(&b[1]), 0);
+    bgTemplates[1] = d_021DA8A8[6];
+    BG_SYS_InitBgLayer(6, (const struct BgTemplate *)(&bgTemplates[1]), 0);
     func_02040588(6, 1);
     BG_SYS_Init(6, 0, 1, 0);
-    func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(6);
 
-    b[0] = d_021DA8A8[2];
-    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)(&b[0]), 0);
+    bgTemplates[0] = d_021DA8A8[2];
+    BG_SYS_InitBgLayer(7, (const struct BgTemplate *)(&bgTemplates[0]), 0);
     func_02040588(7, 1);
     BG_SYS_Init(7, 0, 1, 0);
-    func_02041300(7, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(7, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(7);
 }
 
@@ -473,78 +473,78 @@ void PDWACC_DISP_VBlankTask(void)
  *   tied the late zero arguments to j. The two palette bases are assigned inside the outer loop (mwcc
  *   hoists them after i = 0), and the source row is written inline in the 02021F64 call.
  */
-void PDWACC_DISP_LoadResources(PdwaccDispWork *p)
+void PDWACC_DISP_LoadResources(PdwaccDispWork *disp)
 {
     struct { u8 pad[0xc]; void *data; } *record;
     u16 *base0;
     u16 *base1;
-    void *h;
-    int done;
-    int k;
-    int j;
-    int i;
-    u16 *cur;
+    void *archiveHandle;
+    int finished;
+    int blendStep;
+    int blendRow;
+    int rowIndex;
+    u16 *srcRow;
     void *allocated;
-    int m;
-    int t;
-    u16 *dst;
+    int colorIndex;
+    int nextRow;
+    u16 *dstRow;
     u16 heap;
-    h = func_020490F4(0x91, p->heap);
-    j = 0;
-    func_02049B68(h, 3, 4, 0, j, p->heap);
-    func_02049658(h, 4, 4, 0, j, j, p->heap);
-    func_020498F4(h, 6, 4, 0, j, j, p->heap);
-    func_02049B68(h, 3, 0, 0, j, p->heap);
-    func_02049658(h, 4, 0, 0, j, j, p->heap);
-    func_020498F4(h, 5, 0, 0, j, j, p->heap);
-    func_02049658(h, 4, 3, 0, j, j, p->heap);
-    func_020498F4(h, 7, 3, 0, j, j, p->heap);
-    heap = p->heap;
-    MI_CpuFill8(&p->palette, 0, sizeof(p->palette));
-    allocated = func_02049F78(h, 2, (u32)&record, heap);
-    MI_CpuCopy8(record->data, p->palette.basePalettes, 0x1e0);
-    MI_CpuCopy8(record->data, p->palette.blendedPalettes, 0x1e0);
+    archiveHandle = func_020490F4(0x91, disp->heap);
+    blendRow = 0;
+    func_02049B68(archiveHandle, 3, 4, 0, blendRow, disp->heap);
+    func_02049658(archiveHandle, 4, 4, 0, blendRow, blendRow, disp->heap);
+    func_020498F4(archiveHandle, 6, 4, 0, blendRow, blendRow, disp->heap);
+    func_02049B68(archiveHandle, 3, 0, 0, blendRow, disp->heap);
+    func_02049658(archiveHandle, 4, 0, 0, blendRow, blendRow, disp->heap);
+    func_020498F4(archiveHandle, 5, 0, 0, blendRow, blendRow, disp->heap);
+    func_02049658(archiveHandle, 4, 3, 0, blendRow, blendRow, disp->heap);
+    func_020498F4(archiveHandle, 7, 3, 0, blendRow, blendRow, disp->heap);
+    heap = disp->heap;
+    MI_CpuFill8(&disp->palette, 0, sizeof(disp->palette));
+    allocated = func_02049F78(archiveHandle, 2, (u32)&record, heap);
+    MI_CpuCopy8(record->data, disp->palette.basePalettes, 0x1e0);
+    MI_CpuCopy8(record->data, disp->palette.blendedPalettes, 0x1e0);
     func_020307B0(allocated);
-    for (i = 0; i < 15; i++) {
-        base1 = (u16 *)p->palette.blendedPalettes;
-        base0 = (u16 *)p->palette.basePalettes;
-        t = i + 1;
-        if (t >= 15) t -= 15;
-        k = 0;
-        done = 0;
-        cur = p->palette.basePalettes[t] - 8;
+    for (rowIndex = 0; rowIndex < 15; rowIndex++) {
+        base1 = (u16 *)disp->palette.blendedPalettes;
+        base0 = (u16 *)disp->palette.basePalettes;
+        nextRow = rowIndex + 1;
+        if (nextRow >= 15) nextRow -= 15;
+        blendStep = 0;
+        finished = 0;
+        srcRow = disp->palette.basePalettes[nextRow] - 8;
         while (1) {
-            dst = base0 + i * 16;
-            for (m = 4; m < 11; m++) {
-                PALANM_BlendColors(dst + m, base1 + j * 16 + m, 1, (u8)(k >> 8), cur[m + 8]);
+            dstRow = base0 + rowIndex * 16;
+            for (colorIndex = 4; colorIndex < 11; colorIndex++) {
+                PALANM_BlendColors(dstRow + colorIndex, base1 + blendRow * 16 + colorIndex, 1, (u8)(blendStep >> 8), srcRow[colorIndex + 8]);
             }
-            j++;
-            if (done == 1) break;
-            k += 0x600;
-            if (k >= 0x1000) {
-                k = 0x1000;
-                done = 1;
+            blendRow++;
+            if (finished == 1) break;
+            blendStep += 0x600;
+            if (blendStep >= 0x1000) {
+                blendStep = 0x1000;
+                finished = 1;
             }
         }
     }
-    DWCi_ScreenDC_FlushRange(p->palette.blendedPalettes, sizeof(p->palette.blendedPalettes));
-    p->palette.enabled = 1;
-    p->palette.task = func_020056A0((void *)PDWACC_DISP_PaletteTask, &p->palette, 0x14);
+    DWCi_ScreenDC_FlushRange(disp->palette.blendedPalettes, sizeof(disp->palette.blendedPalettes));
+    disp->palette.enabled = 1;
+    disp->palette.task = func_020056A0((void *)PDWACC_DISP_PaletteTask, &disp->palette, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
-    p->palette.bgLayer = 0;
-    ARC_TOOL_DeleteHandle(h);
+    disp->palette.bgLayer = 0;
+    ARC_TOOL_DeleteHandle(archiveHandle);
 }
 
-void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *p)
+void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette)
 {
-    if (p->enabled) {
-        p->halfStep^=1;
-        if (!(*(volatile u8 *)&p->halfStep&1)) {
-            GX_LoadBGPltt(&p->blendedPalettes[p->frame][4],40,14);
-            func_0207E468(&p->blendedPalettes[p->frame][4],40,14);
-            ++p->frame;
-            if (p->frame>=60) p->frame=0;
-            func_02040618(p->bgLayer,2,7);
+    if (palette->enabled) {
+        palette->halfStep^=1;
+        if (!(*(volatile u8 *)&palette->halfStep&1)) {
+            GX_LoadBGPltt(&palette->blendedPalettes[palette->frame][4],40,14);
+            func_0207E468(&palette->blendedPalettes[palette->frame][4],40,14);
+            ++palette->frame;
+            if (palette->frame>=60) palette->frame=0;
+            func_02040618(palette->bgLayer,2,7);
         }
     }
 }
@@ -552,113 +552,113 @@ void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *p)
 /*
  * lever: A named unsigned cursor q preserves counter r4 and cursor r5.
  */
-void PDWACC_DISP_DeleteActors(PdwaccDispWork *p) { int i; unsigned int q; for(i=0;i<PDWACC_ACTOR_COUNT;i++) { q=(unsigned int)p+(unsigned)i*4; if(((PdwaccDispWork *)q)->actors[0]) { CLACT_DeleteActor(((PdwaccDispWork *)q)->actors[0]); ((PdwaccDispWork *)q)->actors[0]=0; } } }
+void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(unsigned int)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor(((PdwaccDispWork *)actorCursor)->actors[0]); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }
 
 /*
  * extent: lead with store-and-return follower 021DA030 and tailcall follower 021DA034.
  */
-int PDWACC_STATE_HandleHttpError(PdwaccProc *p, int n)
+int PDWACC_STATE_HandleHttpError(PdwaccProc *proc, int resultCode)
 {
-    switch (n) {
+    switch (resultCode) {
     case 503:
-        p->errorCode=0xfff1;
-        PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintError,0x99);
+        proc->errorCode=0xfff1;
+        PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintError,0x99);
         return 1;
     case 502:
-        p->errorCode=0xfff2;
-        PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintError,0x9d);
+        proc->errorCode=0xfff2;
+        PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintError,0x9d);
         return 1;
     default:
-        if (n>=400) {
-            p->errorCode=0xfff3;
-            PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintError,0xa3);
+        if (resultCode>=400) {
+            proc->errorCode=0xfff3;
+            PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintError,0xa3);
             return 1;
         }
         return 0;
     }
 }
 
-void PDWACC_STATE_SetState(PdwaccProc *p, PdwaccStateFunc state, int line)
+void PDWACC_STATE_SetState(PdwaccProc *proc, PdwaccStateFunc state, int line)
 {
-    p->state=state;
+    proc->state=state;
 }
 
-void PDWACC_STATE_ChangeState(PdwaccProc *p, PdwaccStateFunc state, int line)
+void PDWACC_STATE_ChangeState(PdwaccProc *proc, PdwaccStateFunc state, int line)
 {
-    PDWACC_STATE_SetState(p,state,line);
+    PDWACC_STATE_SetState(proc,state,line);
 }
 
-void PDWACC_STATE_StateWaitFade(PdwaccProc *p)
+void PDWACC_STATE_StateWaitFade(PdwaccProc *proc)
 {
     if (WIPE_SYS_EndCheck() != 0)
-        PDWACC_STATE_ChangeState(p, 0, 0xd5);
+        PDWACC_STATE_ChangeState(proc, 0, 0xd5);
 }
 
-void PDWACC_STATE_StateFadeOutBgm(PdwaccProc *p) { WIPE_SYS_Start(0,0,0,0x7fff,6,1,p->heap); GFL_USE_FadeOutBgm(6); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateWaitFade,0xe7); }
+void PDWACC_STATE_StateFadeOutBgm(PdwaccProc *proc) { WIPE_SYS_Start(0,0,0,0x7fff,6,1,proc->heap); GFL_USE_FadeOutBgm(6); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitFade,0xe7); }
 
-void PDWACC_STATE_StateWaitInputStream(PdwaccProc *p) { if(PDWACC_MESSAGE_UpdateStream(p->message) && KEY_GetTrg()!=0) PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateFadeOutBgm,0xf1); }
+void PDWACC_STATE_StateWaitInputStream(PdwaccProc *proc) { if(PDWACC_MESSAGE_UpdateStream(proc->message) && KEY_GetTrg()!=0) PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateFadeOutBgm,0xf1); }
 
 /*
  * lever: Unsigned result-minus-two range test emits subs/cmp/bhi.
  */
-void PDWACC_STATE_StateSaveMainWait(PdwaccProc *p) { if((unsigned int)(GAME_DATA_SaveMain(p->gameData)-2)<=1) { p->saving=0; PDWACC_MESSAGE_PrintStream(p->message,11); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateWaitInputStream,0xfe); } }
+void PDWACC_STATE_StateSaveMainWait(PdwaccProc *proc) { if((unsigned int)(GAME_DATA_SaveMain(proc->gameData)-2)<=1) { proc->saving=0; PDWACC_MESSAGE_PrintStream(proc->message,11); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitInputStream,0xfe); } }
 
-void PDWACC_STATE_StateSaveStart(PdwaccProc *p) { if(PDWACC_MESSAGE_UpdateStream(p->message)) { p->saving=1; GAME_DATA_SaveStart(p->gameData); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateSaveMainWait,0x109); } }
+void PDWACC_STATE_StateSaveStart(PdwaccProc *proc) { if(PDWACC_MESSAGE_UpdateStream(proc->message)) { proc->saving=1; GAME_DATA_SaveStart(proc->gameData); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateSaveMainWait,0x109); } }
 
-void PDWACC_STATE_StateRestartTimeIcon(PdwaccProc *p) { PDWACC_MESSAGE_PrintStream(p->message,6); PDWACC_MESSAGE_RestartTimeIcon(p->message); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateSaveStart,0x112); }
+void PDWACC_STATE_StateRestartTimeIcon(PdwaccProc *proc) { PDWACC_MESSAGE_PrintStream(proc->message,6); PDWACC_MESSAGE_RestartTimeIcon(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateSaveStart,0x112); }
 
-void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *p) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(p->message); func_020092E0(func_02009448(p->saveControl),1); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
+void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(proc->message); func_020092E0(func_02009448(proc->saveControl),1); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
 
-void PDWACC_STATE_StateWaitInputPrintNumbers(PdwaccProc *p) { if(KEY_GetTrg()) { PDWACC_MESSAGE_PrintNumberWindows(p->message,p->profileId,p->profileId); PDWACC_MESSAGE_PrintInWindow(p->message,9); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateWaitInputClearWindow,0x12a); } }
+void PDWACC_STATE_StateWaitInputPrintNumbers(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,9); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitInputClearWindow,0x12a); } }
 
-void PDWACC_STATE_StatePrintNumbersMessage(PdwaccProc *p) { PDWACC_MESSAGE_PrintNumberWindows(p->message,p->profileId,p->profileId); PDWACC_MESSAGE_PrintInWindow(p->message,8); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateWaitInputPrintNumbers,0x13c); }
+void PDWACC_STATE_StatePrintNumbersMessage(PdwaccProc *proc) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,8); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitInputPrintNumbers,0x13c); }
 
-void PDWACC_STATE_StateWaitInput(PdwaccProc *p) { if(KEY_GetTrg() & 3) PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateFadeOutBgm,0x14b); }
+void PDWACC_STATE_StateWaitInput(PdwaccProc *proc) { if(KEY_GetTrg() & 3) PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateFadeOutBgm,0x14b); }
 
-void PDWACC_STATE_StatePrintError(PdwaccProc *p)
+void PDWACC_STATE_StatePrintError(PdwaccProc *proc)
 {
-    unsigned n;
-    n = p->errorCode + 11;
-    if (p->connection) NHTTP_RAP_DeleteConnection(p->connection);
-    if (p->errorCode == 0xfff1) n = 22;
-    else if (p->errorCode == 0xfff2) n = 23;
-    else if (p->errorCode == 0xfff3) n = 20;
-    else if (p->errorCode >= 10) n = 20;
-    PDWACC_MESSAGE_PrintInWindow(p->message,n);
-    PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateWaitInput,0x167);
+    unsigned messageId;
+    messageId = proc->errorCode + 11;
+    if (proc->connection) NHTTP_RAP_DeleteConnection(proc->connection);
+    if (proc->errorCode == 0xfff1) messageId = 22;
+    else if (proc->errorCode == 0xfff2) messageId = 23;
+    else if (proc->errorCode == 0xfff3) messageId = 20;
+    else if (proc->errorCode >= 10) messageId = 20;
+    PDWACC_MESSAGE_PrintInWindow(proc->message,messageId);
+    PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitInput,0x167);
 }
 
-void PDWACC_STATE_StateWaitStreamThenSendRequest(PdwaccProc *p) { if(PDWACC_MESSAGE_UpdateStream(p->message)) PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateSendRequest,0x172); }
+void PDWACC_STATE_StateWaitStreamThenSendRequest(PdwaccProc *proc) { if(PDWACC_MESSAGE_UpdateStream(proc->message)) PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateSendRequest,0x172); }
 
-void PDWACC_STATE_StateTimeIconMessage(PdwaccProc *p) { PDWACC_MESSAGE_PrintStream(p->message,3); PDWACC_MESSAGE_RestartTimeIcon(p->message); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateWaitStreamThenSendRequest,0x17b); }
+void PDWACC_STATE_StateTimeIconMessage(PdwaccProc *proc) { PDWACC_MESSAGE_PrintStream(proc->message,3); PDWACC_MESSAGE_RestartTimeIcon(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitStreamThenSendRequest,0x17b); }
 
-void PDWACC_STATE_StateConfirmMenuSelect(PdwaccProc *p)
+void PDWACC_STATE_StateConfirmMenuSelect(PdwaccProc *proc)
 {
-    if (APP_TASKMENU_IsFinish(p->yesNoMenu)) {
-        if (!APP_TASKMENU_GetCursorPos(p->yesNoMenu))
-            PDWACC_STATE_ChangeState(p, PDWACC_STATE_StateTimeIconMessage, 0x18d);
+    if (APP_TASKMENU_IsFinish(proc->yesNoMenu)) {
+        if (!APP_TASKMENU_GetCursorPos(proc->yesNoMenu))
+            PDWACC_STATE_ChangeState(proc, PDWACC_STATE_StateTimeIconMessage, 0x18d);
         else
-            PDWACC_STATE_ChangeState(p, PDWACC_STATE_StateFadeOutBgm, 0x190);
-        PDWACC_MESSAGE_ClearStream(p->message);
-        APP_TASKMENU_CloseMenu(p->yesNoMenu);
-        p->yesNoMenu = 0;
+            PDWACC_STATE_ChangeState(proc, PDWACC_STATE_StateFadeOutBgm, 0x190);
+        PDWACC_MESSAGE_ClearStream(proc->message);
+        APP_TASKMENU_CloseMenu(proc->yesNoMenu);
+        proc->yesNoMenu = 0;
     }
 }
 
-void PDWACC_STATE_StateOpenConfirmMenu(PdwaccProc *p) { if(PDWACC_MESSAGE_UpdateStream(p->message)) { p->yesNoMenu=PDWACC_MESSAGE_OpenYesNoMenu(p->message,0); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateConfirmMenuSelect,0x1a6); } }
+void PDWACC_STATE_StateOpenConfirmMenu(PdwaccProc *proc) { if(PDWACC_MESSAGE_UpdateStream(proc->message)) { proc->yesNoMenu=PDWACC_MESSAGE_OpenYesNoMenu(proc->message,0); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateConfirmMenuSelect,0x1a6); } }
 
-void PDWACC_STATE_StatePrintIntroMessage(PdwaccProc *p) { PDWACC_MESSAGE_PrintStream(p->message,2); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateOpenConfirmMenu,0x1b7); }
+void PDWACC_STATE_StatePrintIntroMessage(PdwaccProc *proc) { PDWACC_MESSAGE_PrintStream(proc->message,2); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateOpenConfirmMenu,0x1b7); }
 
-void PDWACC_STATE_StateReceiveResponse(PdwaccProc *p)
+void PDWACC_STATE_StateReceiveResponse(PdwaccProc *proc)
 {
-    int *q;
-    if (GFL_NET_GetRunState() && !PDWACC_STATE_HandleHttpError(p,NHTTP_RAP_GetResultCode(p->connection)) && !NHTTP_RAP_PollConnection(p->connection)) {
-        q = (int *)(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(p->connection));
-        PDWACC_MESSAGE_ClearStream(p->message);
-        if (*q == 2) { PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintNumbersMessage,0x1d4); return; }
-        if (*q == 0) { PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintNumbersMessage,0x1d7); return; }
-        p->errorCode = *q;
-        PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintError,0x1db);
+    int *response;
+    if (GFL_NET_GetRunState() && !PDWACC_STATE_HandleHttpError(proc,NHTTP_RAP_GetResultCode(proc->connection)) && !NHTTP_RAP_PollConnection(proc->connection)) {
+        response = (int *)(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(proc->connection));
+        PDWACC_MESSAGE_ClearStream(proc->message);
+        if (*response == 2) { PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintNumbersMessage,0x1d4); return; }
+        if (*response == 0) { PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintNumbersMessage,0x1d7); return; }
+        proc->errorCode = *response;
+        PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintError,0x1db);
     }
 }
 
@@ -668,102 +668,102 @@ void PDWACC_STATE_StateReceiveResponse(PdwaccProc *p)
  * evidence: 0x021B973C ov114 Thumb leaf now has S23's verified EXACT
  *   pkt_ov114_021B973C shard; no caller retry because ARM9 still blocks it.
  */
-void PDWACC_STATE_StateSendRequest(PdwaccProc *p)
+void PDWACC_STATE_StateSendRequest(PdwaccProc *proc)
 {
-    int a;
-    unsigned b;
+    int workAreaSize;
+    unsigned workArea;
     if (GFL_NET_GetRunState()) {
-        if (NHTTP_RAP_CreateRequest(9,p->connection)) {
-            b = (unsigned int)SAVE_CONTROL_GetWorkArea(p->saveControl,&a);
-            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(p->connection),(void *)b,0x80000);
-            if (!NHTTP_RAP_StartConnection(p->connection)) {
-                PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateReceiveResponse,0x1f6);
+        if (NHTTP_RAP_CreateRequest(9,proc->connection)) {
+            workArea = (unsigned int)SAVE_CONTROL_GetWorkArea(proc->saveControl,&workAreaSize);
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(proc->connection),(void *)workArea,0x80000);
+            if (!NHTTP_RAP_StartConnection(proc->connection)) {
+                PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1f6);
                 return;
             }
         }
     } else if (KEY_GetTrg()) {
-        PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateReceiveResponse,0x1fc);
+        PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1fc);
     }
 }
 
-void PDWACC_STATE_StateWaitFadeClearNumbers(PdwaccProc *p) { if(WIPE_SYS_EndCheck() && KEY_GetTrg()) { PDWACC_MESSAGE_DeleteNumberWindows(p->message); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateFadeOutBgm,0x22c); } }
+void PDWACC_STATE_StateWaitFadeClearNumbers(PdwaccProc *proc) { if(WIPE_SYS_EndCheck() && KEY_GetTrg()) { PDWACC_MESSAGE_DeleteNumberWindows(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateFadeOutBgm,0x22c); } }
 
-void PDWACC_STATE_StatePrintResultMessage(PdwaccProc *p) { PDWACC_MESSAGE_PrintNumberWindows(p->message,p->profileId,p->profileId); PDWACC_MESSAGE_PrintInWindow(p->message,7); PDWACC_STATE_ChangeState(p,PDWACC_STATE_StateWaitFadeClearNumbers,0x23c); }
+void PDWACC_STATE_StatePrintResultMessage(PdwaccProc *proc) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,7); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitFadeClearNumbers,0x23c); }
 
-void PDWACC_STATE_DestroyHttpConnection(PdwaccProc *p) { if(p->connection) { NHTTP_RAP_DeleteConnection(p->connection); NHTTP_RAP_Destroy(p->connection); p->connection=0; } }
+void PDWACC_STATE_DestroyHttpConnection(PdwaccProc *proc) { if(proc->connection) { NHTTP_RAP_DeleteConnection(proc->connection); NHTTP_RAP_Destroy(proc->connection); proc->connection=0; } }
 
 /*
  * interface: 0203159C retains the allocator result in r0; caller consumes that return.
  */
 int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
 {
-    PdwaccProc *p;
+    PdwaccProc *proc;
     func_02034AC4((int)ov114_id);
-    p=(PdwaccProc *) PROCSYS_AllocProcWork(procSys,0x74,param->heap);
-    MI_CpuFill8(p,0,0x74);
-    p->heap=param->heap;
-    p->saveControl=GAME_DATA_GetSaveControl(param->gameData);
-    p->gameData=param->gameData;
-    p->profileId=func_0200853C((const void *)func_02012944(param->gameData));
+    proc=(PdwaccProc *) PROCSYS_AllocProcWork(procSys,0x74,param->heap);
+    MI_CpuFill8(proc,0,0x74);
+    proc->heap=param->heap;
+    proc->saveControl=GAME_DATA_GetSaveControl(param->gameData);
+    proc->gameData=param->gameData;
+    proc->profileId=func_0200853C((const void *)func_02012944(param->gameData));
     if(GFL_NET_GetRunState()) {
-        p->connection=NHTTP_RAP_Create(param->heap,p->profileId,param->connectionArg);
-        DWC_RAP_SetErrorCallback((int)PDWACC_STATE_DestroyHttpConnection,(int)p);
+        proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,param->connectionArg);
+        DWC_RAP_SetErrorCallback((int)PDWACC_STATE_DestroyHttpConnection,(int)proc);
     }
-    p->disp=PDWACC_DISP_Init(p->heap);
-    p->message=PDWACC_MESSAGE_InitSystem(p->heap,87);
-    WIPE_SYS_Start(0,1,1,0,6,1,p->heap);
+    proc->disp=PDWACC_DISP_Init(proc->heap);
+    proc->message=PDWACC_MESSAGE_InitSystem(proc->heap,87);
+    WIPE_SYS_Start(0,1,1,0,6,1,proc->heap);
     GFL_USE_CancelChangeAndPlayBgm(0x483,0xffff);
     switch(param->startMode) {
-    case 0: PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintIntroMessage,0x276); break;
-    case 1: PDWACC_STATE_ChangeState(p,PDWACC_STATE_StatePrintResultMessage,0x279); break;
+    case 0: PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintIntroMessage,0x276); break;
+    case 1: PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintResultMessage,0x279); break;
     }
     param->finished=0;
     return 1;
 }
 
-int PDWACC_STATE_ProcMain(int unused0,int unused1,PdwaccProcParam *param,PdwaccProc *p)
+int PDWACC_STATE_ProcMain(int unused0,int unused1,PdwaccProcParam *param,PdwaccProc *proc)
 {
     PdwaccStateFunc state;
-    int r;
-    state = p->state;
-    r = 1;
+    int result;
+    state = proc->state;
+    result = 1;
     if (state) {
-        if (!func_0200FB24()) state(p);
-        r = 0;
+        if (!func_0200FB24()) state(proc);
+        result = 0;
     }
-    if (p->yesNoMenu) APP_TASKMENU_UpdateMenu(p->yesNoMenu);
-    PDWACC_DISP_Draw(p->disp);
-    PDWACC_MESSAGE_UpdateSystem(p->message);
+    if (proc->yesNoMenu) APP_TASKMENU_UpdateMenu(proc->yesNoMenu);
+    PDWACC_DISP_Draw(proc->disp);
+    PDWACC_MESSAGE_UpdateSystem(proc->message);
     if (WIPE_SYS_EndCheck()) {
         if (func_0200FB24()) {
-            NHTTP_RAP_DeleteConnection(p->connection);
-            if (p->saving) {
-                GAME_DATA_SaveCancel(p->gameData);
-                p->saving = 0;
+            NHTTP_RAP_DeleteConnection(proc->connection);
+            if (proc->saving) {
+                GAME_DATA_SaveCancel(proc->gameData);
+                proc->saving = 0;
             }
             WIPE_SetBrightnessFadeOut(0,0);
             WIPE_SetBrightnessFadeOut(1,0);
-            r = 1;
+            result = 1;
             DWC_RAPCOMMON_HandleNetError(1,0);
             param->finished = 1;
         }
-    } else if (func_0200FB24()) r = 1;
-    return r;
+    } else if (func_0200FB24()) result = 1;
+    return result;
 }
 
-int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *p)
+int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *proc)
 {
-    if (p->yesNoMenu)
-        APP_TASKMENU_CloseMenu(p->yesNoMenu);
-    PDWACC_MESSAGE_ExitSystem(p->message);
-    PDWACC_DISP_Exit(p->disp);
-    if (p->unusedAlloc04)
-        func_020307B0(p->unusedAlloc04);
-    if (p->unusedAlloc24)
-        func_020307B0(p->unusedAlloc24);
-    if (p->connection) {
-        NHTTP_RAP_Destroy(p->connection);
-        p->connection = 0;
+    if (proc->yesNoMenu)
+        APP_TASKMENU_CloseMenu(proc->yesNoMenu);
+    PDWACC_MESSAGE_ExitSystem(proc->message);
+    PDWACC_DISP_Exit(proc->disp);
+    if (proc->unusedAlloc04)
+        func_020307B0(proc->unusedAlloc04);
+    if (proc->unusedAlloc24)
+        func_020307B0(proc->unusedAlloc24);
+    if (proc->connection) {
+        NHTTP_RAP_Destroy(proc->connection);
+        proc->connection = 0;
     }
     if (GFL_NET_GetRunState())
         DWC_RAP_SetErrorCallback(0, 0);

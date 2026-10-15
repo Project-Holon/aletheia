@@ -23,7 +23,7 @@
  *   GFL_NET_HANDLE_GetNetHandle   0x0203996C  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   gGFLNetMain     0x021469E0  data
  *   sNetFileName  0x020A7CA0  data
@@ -32,7 +32,7 @@
  *   str_020A7CE8   0x020A7CE8  data
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   NET_DEVICE_TABLE_Select  0x0200F17C  thumb
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   NET_DEVICE_TABLE_Reset  0x0200F234  thumb
  *   GFL_NET_LOWER_DATA_MainSend 0x0203EA9C  arm
@@ -103,12 +103,12 @@ extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
 extern void OS_GetMacAddress(void *dst);
-extern s32 func_0203EFC8(const u8 *lhs, const u8 *rhs, u32 size);
+extern s32 GF_STANDARD_CompareBytes(const u8 *lhs, const u8 *rhs, u32 size);
 extern void UI_SetKeepAwakeFlagsGlobal(u32 flag);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 extern struct GFLNetModeOps *NET_DEVICE_TABLE_Select(u32 netType);
 extern void NET_DEVICE_TABLE_Reset(u32 netType);
-extern void func_020306F0(u32 heapId);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
 extern void GFL_NET_LOWER_DATA_MainSend(void);
 extern u32  FLASH_ACCESS_GetBusyFlag(void);
@@ -524,11 +524,11 @@ void GFL_NET_EndSession(void)
     case 1:
     case 2:
     case 6:
-        func_020306F0(wifiHeapId);
+        GFL_HEAP_DeleteChecked(wifiHeapId);
         break;
     case 3:
     case 4:
-        func_020306F0(beaconHeapId);
+        GFL_HEAP_DeleteChecked(beaconHeapId);
         break;
     case 0:
     case 5:
@@ -538,7 +538,7 @@ void GFL_NET_EndSession(void)
         return;
     }
 
-    func_020306F0(heapId);
+    GFL_HEAP_DeleteChecked(heapId);
     UI_ClearKeepAwakeFlagsGlobal(4);
 }
 
@@ -2942,13 +2942,13 @@ void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac)
     if (gNetIrcWirelessLink == 0)
         return;
     for (i = 0; i < 4; i++) {
-        if (func_0203EFC8(mac, gNetIrcWirelessLink->macs.mac[i].addr, 6) == 0)
+        if (GF_STANDARD_CompareBytes(mac, gNetIrcWirelessLink->macs.mac[i].addr, 6) == 0)
             return;
     }
     {
         u8 emptyMac[6] = {0, 0, 0, 0, 0, 0};
         for (i = 0; i < 4; i++) {
-            if (func_0203EFC8(emptyMac, gNetIrcWirelessLink->macs.mac[i].addr, 6) == 0) {
+            if (GF_STANDARD_CompareBytes(emptyMac, gNetIrcWirelessLink->macs.mac[i].addr, 6) == 0) {
                 MI_CpuCopy8(mac, gNetIrcWirelessLink->macs.mac[i].addr, 6);
                 gNetIrcWirelessLink->macs.count = i;
                 return;
@@ -3174,7 +3174,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
             if (scanEntry == 0)
                 return;
             for (slot = 0; slot < 4; slot++) {
-                if (func_0203EFC8(ownMac, scanEntry + 4 + slot * 8, 6) == 0) {
+                if (GF_STANDARD_CompareBytes(ownMac, scanEntry + 4 + slot * 8, 6) == 0) {
                     GFL_NET_ConnectMacAddressChild(GFL_NET_GetScanResultMac((u32)scanIndex));
                     GFL_NET_IRC_WIRELESS_SetState(link, 0xC);
                     break;

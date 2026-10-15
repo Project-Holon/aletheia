@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204EA0C",
+   "name": "DOUBLE3DDISP_Exit",
    "address": "0x0204EA0C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204F2CC",
+   "name": "BILLBOARD_GetImagePlttVramOffset",
    "address": "0x0204F2CC",
    "kind": "game",
    "region": "arm9",

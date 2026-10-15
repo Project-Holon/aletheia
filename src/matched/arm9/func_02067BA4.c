@@ -22,10 +22,10 @@
  *
  * symbols:
  *   sRndCoreInstance    0x02148B48  data
- *   func_020637BC 0x020637BC  arm
- *   func_020637B4 0x020637B4  arm
- *   func_0206380C 0x0206380C  arm
- *   func_02063800 0x02063800  arm
+ *   NNSi_G2dIsVramHandleSet 0x020637BC  arm
+ *   NNSi_G2dGetVramHandleValue 0x020637B4  arm
+ *   NNSi_G2dIsVramHandleSetEx 0x0206380C  arm
+ *   NNSi_G2dGetVramHandleEx 0x02063800  arm
  */
 
 typedef unsigned char u8;
@@ -52,10 +52,10 @@ struct Ctx {
 
 extern struct Ctx *sRndCoreInstance;
 
-extern int func_020637BC(const u32 *p, u32 i);
-extern int func_020637B4(int *p, int i);
-extern int func_0206380C(char *p, int i);
-extern int func_02063800(char *p, int i);
+extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
+extern int NNSi_G2dGetVramHandleValue(int *p, int i);
+extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
+extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 
 void NNS_G2dRndCoreBeginRendering(struct Ctx *c)
 {
@@ -83,16 +83,16 @@ void NNS_G2dRndCoreBeginRendering(struct Ctx *c)
         reg[0] = 1;
 
         ta = sRndCoreInstance->ta;
-        p->out14 = func_020637BC(ta, 0) ? func_020637B4(ta, 0) : 0;
+        p->out14 = NNSi_G2dIsVramHandleSet(ta, 0) ? NNSi_G2dGetVramHandleValue(ta, 0) : 0;
 
         tb = sRndCoreInstance->tb;
-        p->out18 = func_0206380C(tb, 0) ? func_02063800(tb, 0) : 0;
+        p->out18 = NNSi_G2dIsVramHandleSetEx(tb, 0) ? NNSi_G2dGetVramHandleEx(tb, 0) : 0;
     } else {
         struct Ctx *t = (struct Ctx *)p->ta;
         int r;
 
-        if (func_020637BC((const u32 *)t, n)) {
-            r = func_020637B4((int *)t, n);
+        if (NNSi_G2dIsVramHandleSet((const u32 *)t, n)) {
+            r = NNSi_G2dGetVramHandleValue((int *)t, n);
             r = (int)((u32)r >> ((int)((t->shcfg & 0x700000) >> 20) + 5));
         } else {
             r = 0;

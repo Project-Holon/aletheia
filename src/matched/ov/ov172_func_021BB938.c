@@ -21,7 +21,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  */
 #include "../include/Obj02881.h"
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 void CTVT_DRAW_ShowMessage(void *p, u8 *q, int id)
 {
     u32 font = COMM_TVT_SYS_GetFont(p);
@@ -62,6 +62,6 @@ void CTVT_DRAW_ShowMessage(void *p, u8 *q, int id)
     STRBUF_Delete((struct U16Vec *)text);
     BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)&((struct Obj02881 *)q)->f50);
     BMP_WIN_MakeScreen((struct Cfg *)(*(u32 *)&((struct Obj02881 *)q)->f50));
-    func_0201F73C((void *)(*(u32 *)&((struct Obj02881 *)q)->f50), 1, 512, 9);
+    BMP_MENUWORK_DrawWindow((void *)(*(u32 *)&((struct Obj02881 *)q)->f50), 1, 512, 9);
     ((struct Obj02881 *)q)->f44 = 1;
 }

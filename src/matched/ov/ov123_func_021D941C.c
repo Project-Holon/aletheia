@@ -24,6 +24,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb  arm9
  */
 #include "../include/Obj00534.h"
 typedef unsigned char u8;
@@ -40,7 +41,7 @@ struct U16Vec;
 struct WordSet;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -63,7 +64,7 @@ void PDWACC_MESSAGE_ExitSystem(u8 *p)
     a=((struct Obj00534 *)p)->f4>>16;
     BG_SYS_DeleteHalf(6,(u16)(((struct Obj00534 *)p)->f4),(u16)a);
     PDWACC_MESSAGE_DeleteButtonManager(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(((struct Obj00534 *)p)->f20);
     GF_FONT_Delete(((struct Obj00534 *)p)->f28);
     STRBUF_Delete(((struct Obj00534 *)p)->f2C);

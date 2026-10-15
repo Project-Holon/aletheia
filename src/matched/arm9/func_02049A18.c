@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062B30  0x02062B30  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   BG_SYS_GetField16  0x0204169C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DecodeTileSource  0x02040AF0  arm
@@ -47,7 +47,7 @@ struct Pal {
     u8  data[1];
 };
 
-extern int func_02062B30(void *file, void **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern u8 BG_SYS_GetField16(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
@@ -60,7 +60,7 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
 {
     struct Pal *pal;
 
-    if (func_02062B30(file, (void **)(&pal)) != 0) {
+    if (NNS_G2dGetUnpackedScreenData(file, (void **)(&pal)) != 0) {
         if (size == 0)
             size = pal->size;
         if (add != 0) {

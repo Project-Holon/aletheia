@@ -1,5 +1,5 @@
 /*
- * function: func_0220BA2C
+ * function: B_BAG_MAIN_BuildPocketLists
  * address: 0x0220BA2C
  * packet: pkt_ov197_0220BA2C
  * region: ov197
@@ -30,7 +30,7 @@ extern u32 func_020307B0(void *p);
 extern const u8 d_0220DB3C[];
 extern const u8 d_0220DB3F[];
 
-void func_0220BA2C(u8 *p)
+void B_BAG_MAIN_BuildPocketLists(u8 *p)
 {
     u8 *tbl;
     u16 *r;

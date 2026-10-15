@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02040B1C
+ * function: BG_SYS_LoadTileData
  * address:  0x02040B1C
  * packet:   pkt_020409E0
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_02042508  0x02042508  arm
+ *   BG_SYS_LoadTileDataEx  0x02042508  arm
  *
  * Forward a tile upload, scaling the destination tile index by the slot's
  * tile size: the byte at +0x1e of the 0x2c-byte slot record is zero for
@@ -21,8 +21,8 @@
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040B1C.c \
- *       --func func_02040B1C --addr 0x02040B1C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_LoadTileData.c \
+ *       --func BG_SYS_LoadTileData --addr 0x02040B1C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -36,13 +36,13 @@ struct Slot {
 
 extern struct Slot *g_02146A44;
 
-extern void func_02042508(u32 index, const u32 *src, u32 mode, u32 size);
+extern void BG_SYS_LoadTileDataEx(u32 index, const u32 *src, u32 mode, u32 size);
 
-void func_02040B1C(int index, const void *src, u32 size, u32 tile)
+void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile)
 {
     if (g_02146A44[index].depth == 0) {
-        func_02042508(index, src, size, tile * 32);
+        BG_SYS_LoadTileDataEx(index, src, size, tile * 32);
     } else {
-        func_02042508(index, src, size, tile * 64);
+        BG_SYS_LoadTileDataEx(index, src, size, tile * 64);
     }
 }

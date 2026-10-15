@@ -18,7 +18,7 @@
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_0217BC44 0x0217BC44 arm ov009
+ *   DWC_CheckProfanityExAsync 0x0217BC44 arm ov009
  *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj04469.h"
@@ -33,7 +33,7 @@ struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
-extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
+extern int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void WIFI_BSUBWAY_StatusSetMessage(u8 *p, void *save, int id)
 {
@@ -52,6 +52,6 @@ void WIFI_BSUBWAY_StatusSetMessage(u8 *p, void *save, int id)
     }
     ((struct Obj04469 *)p)->f208 = p + 0x1f0;
     ((struct Obj04469 *)p)->f210 = 0;
-    func_0217BC44((short unsigned int **)(p + 0x208), 1, 0, 0, (char *)(p + 0x20c), (int *)(p + 0x210), 128);
+    DWC_CheckProfanityExAsync((short unsigned int **)(p + 0x208), 1, 0, 0, (char *)(p + 0x20c), (int *)(p + 0x210), 128);
     STRBUF_Delete(str);
 }

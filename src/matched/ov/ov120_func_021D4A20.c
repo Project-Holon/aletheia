@@ -1,5 +1,5 @@
 /*
- * function: func_021D4A20
+ * function: GTSNEGO_DISP_ScoreMatch
  * address: 0x021D4A20
  * packet: pkt_ov120_021D4A20
  * region: ov120
@@ -27,7 +27,7 @@ struct Sub0200852CObj;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 #define I(k) (*(int *)(p + (k)))
-int func_021D4A20(int a, u8 *p)
+int GTSNEGO_DISP_ScoreMatch(int a, u8 *p)
 {
     int mode;
     int x;

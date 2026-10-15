@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021E7704     0x021E7704  data  a4
+ *   gPlayerNamePos     0x021E7704  data  a4
  *   func_020275E4  0x020275E4  thumb
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Delete  0x020452E8  arm
@@ -19,8 +19,8 @@
  *   func_02045CAC  0x02045CAC  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -36,7 +36,7 @@ typedef struct {
     int b;
 } Pair;
 
-extern const Pair d_021E7704;
+extern const Pair gPlayerNamePos;
 extern u32 func_020275E4(void);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 struct Cfg;
@@ -49,8 +49,8 @@ extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -67,7 +67,7 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
     int m;
     int x;
 
-    t = d_021E7704;
+    t = gPlayerNamePos;
     u.a = ((struct Obj00384 *)p)->f830;
     u.b = ((struct Obj00384 *)p)->f834;
     func_02049B40(func_020275E4(), 0x1F, 0, 0x1A0, 0x20, ((struct Obj00384 *)p)->f5F4);
@@ -100,8 +100,8 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
             }
             GF_FONT_SetTextColor(1, 2, 0);
             func_02045CAC(((struct Obj00384 *)p)->f720, m, ((struct Obj00384 *)p)->f734);
-            func_0201F02C(((struct Obj00384 *)p)->f724, 0, (void *)q);
-            func_0201F250(((struct Obj00384 *)p)->f724, ((struct Obj00384 *)p)->f730, ((struct Obj00384 *)p)->f734);
+            WORDSET_SetSlotMyStatus(((struct Obj00384 *)p)->f724, 0, (void *)q);
+            WORDSET_CopyTaggedText(((struct Obj00384 *)p)->f724, ((struct Obj00384 *)p)->f730, ((struct Obj00384 *)p)->f734);
             x = *(int *)((char *)&t + k) * 8;
             PRINTSYS_Print(BMP_WIN_GetBmp(h2), x, 2, ((struct Obj00384 *)p)->f730, ((struct Obj00384 *)p)->f728);
             if (((struct Obj00384 *)p)->f118C == 3 && *(int *)(p + k + 0x1048) != -1) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02014A10
+ * function: ZONEDATA_GetLightTableMember
  * address:  0x02014A10
  * packet:   pkt_02014628
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u32 sub_0209E054_Map[];
 
-u16 func_02014A10(u32 i)
+u16 ZONEDATA_GetLightTableMember(u32 i)
 {
     return sub_0209E054_Map[i];
 }

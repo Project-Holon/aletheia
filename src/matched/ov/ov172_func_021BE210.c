@@ -11,7 +11,7 @@
  *
  * Places a slot marker: k = idx (2 or 3 for slots 0/1 in mode 1), checks the slot with
  * CTVT_COMM_IsSlotActive and CTVT_COMM_GetSlotConnected, then sets the sprite position from the xv/yv byte tables.
- * idx is a u8 slot index (the sibling func_021BDD6C walks the same slots with a u8 i). The u8
+ * idx is a u8 slot index (the sibling CTVT_CALL_UpdateMemberWindows walks the same slots with a u8 i). The u8
  * parameter is what keeps the third-call idx reload after the byte copies (wD9r lane48).
  *
  * symbols:

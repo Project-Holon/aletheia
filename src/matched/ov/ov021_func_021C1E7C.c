@@ -30,8 +30,8 @@
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
  *   FLD3D_CI_StartScreenCapture  0x021C2764  thumb  ov021
- *   func_0204047C  0x0204047C  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040588  0x02040588  arm
@@ -57,7 +57,7 @@
  *   FIELD_MSGBG_ReloadBg  0x02193068  thumb  ov021
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
  *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   FLD3D_CI_RestoreLayerPriorities  0x021C27CC  thumb  ov021
  *   FLD3D_CI_RestoreVisiblePlanes  0x021C27E8  thumb  ov021
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
@@ -101,8 +101,8 @@ extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern void FLDMMDL_DeleteMmdl(u32 a);
 extern void FIELDMAP_SetUpdateStopped(u8 *p, u32 v);
 extern void FLD3D_CI_StartScreenCapture(u8 *p);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -128,7 +128,7 @@ extern u32 FIELDMAP_GetPlaceName(u8 *p);
 extern void FIELD_MSGBG_ReloadBg(char *p);
 extern void FIELD_PLACE_NAME_RestoreWindow(u8 *p);
 extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
-extern void func_020414AC(int);
+extern void BG_SYS_FreeSlot(int);
 extern void FLD3D_CI_RestoreLayerPriorities(u8 *p);
 extern void FLD3D_CI_RestoreVisiblePlanes(u8 *p);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
@@ -180,10 +180,10 @@ int FLD3D_CI_EventMain(int a, int *st, u8 *ctx)
     case 3:
         if (((struct Obj00576 *)p)->f70 == 0)
             break;
-        func_0204047C(0, 0);
-        func_0204047C(2, 1);
+        BG_SYS_SetVisibleLayer(0, 0);
+        BG_SYS_SetVisibleLayer(2, 1);
         m = d_021DA710;
-        func_0203FC28((struct DispConfig *)(&m));
+        BG_SYS_SetGraphicsMode((struct DispConfig *)(&m));
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x4084;
         func_0207FDCC(8);
         func_0207D63C(0x04000050, 0, 4, 0, 0);
@@ -266,7 +266,7 @@ int FLD3D_CI_EventMain(int a, int *st, u8 *ctx)
         FIELD_PLACE_NAME_RestoreWindow((u8 *)s14);
         FIELD_MSGBG_RequestSysFrame((u8 *)s10);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x1f18;
-        func_020414AC(2);
+        BG_SYS_FreeSlot(2);
         FLD3D_CI_RestoreLayerPriorities(p);
         FLD3D_CI_RestoreVisiblePlanes(p);
         FIELDMAP_SetUpdateStopped(sys, 0);

@@ -1,7 +1,7 @@
 /*
  * file:     mail.c
  * unit:     yes
- * function: sub_020089A8, sub_020089B0, sub_020089C0, sub_020089CC, func_02008A54, func_02008A7C, func_02008ACC, func_02008ADC, sub_02008AEC, func_02008AF0, func_02008B08, func_02008B14, func_02008B20, func_02008B4C, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, func_02008C20, func_02008C28, func_02008C58, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, func_02008CF8, func_02008D1C, func_02008D58, func_02008DAC, func_02008DF0, func_02008DFC, func_02008E30, func_02008E68, func_02008E78, func_02008E88, func_02008EAC, func_02008EF8, MAIL_Create, func_02008F3C, func_02008F48, func_02008F80, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, func_02008FFC, func_02009004, MAIL_FindEmptySlot, func_0200902C, func_0200903C, func_02009050, func_02009074, func_020090A0, func_020090B0, func_020090B4, func_020090D8, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, sub_02009110, sub_02009134
+ * function: TRCARD_SIGN_GetSize, TRCARD_SIGN_Init, TRCARD_SIGN_GetFromSave, TRCARD_SIGN_GetBitmap, func_02008A54, func_02008A7C, func_02008ACC, func_02008ADC, CONSOLE_STAMP_GetSize, CONSOLE_STAMP_Init, func_02008B08, func_02008B14, func_02008B20, func_02008B4C, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, func_02008C20, RECORD_Init, func_02008C58, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, RECORD_GetCeiling, func_02008D1C, func_02008D58, func_02008DAC, func_02008DF0, func_02008DFC, RECORD_FoldPairs, func_02008E68, func_02008E78, func_02008E88, func_02008EAC, func_02008EF8, MAIL_Create, func_02008F3C, func_02008F48, func_02008F80, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, func_02008FFC, func_02009004, MAIL_FindEmptySlot, func_0200902C, func_0200903C, func_02009050, func_02009074, func_020090A0, func_020090B0, CGEAR_SAVE_Init, func_020090D8, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, CGEAR_SAVE_GetPanelValue, CGEAR_SAVE_GetPanelFlag
  * address:  0x020089A8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -238,8 +238,8 @@ extern char MAIL_FileName[];
 extern const u8 CGEAR_SAVE_DefaultPanels[0x24];
 
 /* Forward declarations of functions defined further down. */
-void sub_02008B9C(struct DailyClock *clock);
-void sub_02008C64(struct RecordBlock *record, int enable);
+void DAILY_CLOCK_Init(struct DailyClock *clock);
+void RECORD_Seal(struct RecordBlock *record, int enable);
 int MAIL_FindEmptySlotInRange(struct Mail *box, int count);
 struct Mail *MAIL_GetSlot(struct Mail *box, u32 boxKind, int index);
 
@@ -248,44 +248,44 @@ struct Mail *MAIL_GetSlot(struct Mail *box, u32 boxKind, int index);
  * that return the block size and ends where the next such function returns
  * 0x5C (0x02008AEC).
  *
- *   +0x000  u32[384]  signature bitmap, summed whole by sub_020089D0
+ *   +0x000  u32[384]  signature bitmap, summed whole by TRCARD_SIGN_HasAnySignature
  *   +0x600  u16       signature colour
- *   +0x602  u8        read by sub_020089F4, only ever set to 1
+ *   +0x602  u8        read by TRCARD_SIGN_GetSeenBefore, only ever set to 1
  *   +0x603  u8        signature style
- *   +0x604  8 x 4     badge dates; three bytes written by sub_02008A7C and
- *                     read back as one little endian word by sub_02008A54
+ *   +0x604  8 x 4     badge dates; three bytes written by TRCARD_SIGN_SetBadgeDate and
+ *                     read back as one little endian word by TRCARD_SIGN_GetBadgeDate
  *   +0x624  u64       RTC second count at the last badge (4-aligned)
- *   +0x638  u16[16]   per-badge timer, stamped with 0xF0 by sub_02008A7C
+ *   +0x638  u16[16]   per-badge timer, stamped with 0xF0 by TRCARD_SIGN_SetBadgeDate
  *
- * sub_02008A44 returns the pair at +0x624 as one u64: the compiler loads the
+ * TRCARD_SIGN_GetLastBadgeTime returns the pair at +0x624 as one u64: the compiler loads the
  * low half into a scratch register first, then moves it into place.
- * sub_02008A54 assembles a word out of four bytes; the pool constant is 0x605
+ * TRCARD_SIGN_GetBadgeDate assembles a word out of four bytes; the pool constant is 0x605
  * (the second byte is loaded first, the other offsets derive from it).
- * sub_020089D0 compares its counter with blt, so the loop variable is a signed
+ * TRCARD_SIGN_HasAnySignature compares its counter with blt, so the loop variable is a signed
  * int.  The bound 384 is built as movs r1, #6 / lsls r1, r1, #6.
  */
-u32 sub_020089A8(void)
+u32 TRCARD_SIGN_GetSize(void)
 {
     return sizeof(struct TrainerCardSignature);
 }
 
-void sub_020089B0(struct TrainerCardSignature *card)
+void TRCARD_SIGN_Init(struct TrainerCardSignature *card)
 {
     MI_CpuFill8(card, 0, sizeof(struct TrainerCardSignature));
 }
 
-struct TrainerCardSignature *sub_020089C0(struct SaveControl *control)
+struct TrainerCardSignature *TRCARD_SIGN_GetFromSave(struct SaveControl *control)
 {
     return SAVE_CONTROL_GetBlock(control, SAVE_BLOCK_TRAINER_CARD_SIGNATURE);
 }
 
-u32 *sub_020089CC(struct TrainerCardSignature *card)
+u32 *TRCARD_SIGN_GetBitmap(struct TrainerCardSignature *card)
 {
     return card->signatureBitmap;
 }
 
 /* Is any word of the signature bitmap non zero. */
-int sub_020089D0(const struct TrainerCardSignature *card)
+int TRCARD_SIGN_HasAnySignature(const struct TrainerCardSignature *card)
 {
     u32 sum;
     int i;
@@ -300,44 +300,44 @@ int sub_020089D0(const struct TrainerCardSignature *card)
     return 1;
 }
 
-u8 sub_020089F4(const struct TrainerCardSignature *card)
+u8 TRCARD_SIGN_GetSeenBefore(const struct TrainerCardSignature *card)
 {
     return card->seenBefore;
 }
 
-struct TrainerCardSignature *sub_02008A00(struct TrainerCardSignature *card)
+struct TrainerCardSignature *TRCARD_SIGN_SetSeenBefore(struct TrainerCardSignature *card)
 {
     card->seenBefore = 1;
     return card;
 }
 
-u16 sub_02008A0C(const struct TrainerCardSignature *card)
+u16 TRCARD_SIGN_GetColor(const struct TrainerCardSignature *card)
 {
     return card->signatureColor;
 }
 
-void sub_02008A14(struct TrainerCardSignature *card, u16 color)
+void TRCARD_SIGN_SetColor(struct TrainerCardSignature *card, u16 color)
 {
     card->signatureColor = color;
 }
 
-void sub_02008A1C(struct TrainerCardSignature *card, u8 style)
+void TRCARD_SIGN_SetStyle(struct TrainerCardSignature *card, u8 style)
 {
     card->signatureStyle = style;
 }
 
-u8 sub_02008A28(const struct TrainerCardSignature *card)
+u8 TRCARD_SIGN_GetStyle(const struct TrainerCardSignature *card)
 {
     return card->signatureStyle;
 }
 
-void sub_02008A34(struct TrainerCardSignature *card, u32 lo, u32 hi)
+void TRCARD_SIGN_SetLastBadgeTime(struct TrainerCardSignature *card, u32 lo, u32 hi)
 {
     card->lastBadgeTime.half.lo = lo;
     card->lastBadgeTime.half.hi = hi;
 }
 
-u64 sub_02008A44(const struct TrainerCardSignature *card)
+u64 TRCARD_SIGN_GetLastBadgeTime(const struct TrainerCardSignature *card)
 {
     return card->lastBadgeTime.whole;
 }
@@ -347,7 +347,7 @@ u64 sub_02008A44(const struct TrainerCardSignature *card)
  * the 1, 0, 2, 3 load order and the 0x605 pool constant are what the compiler
  * emits for returning a byte-aligned four-byte struct.
  */
-struct BadgeDate sub_02008A54(struct TrainerCardSignature *card, int badge)
+struct BadgeDate TRCARD_SIGN_GetBadgeDate(struct TrainerCardSignature *card, int badge)
 {
     return card->badgeDate[badge];
 }
@@ -355,7 +355,7 @@ struct BadgeDate sub_02008A54(struct TrainerCardSignature *card, int badge)
 /* Record the date of badge `badge`, mark its timer 0xF0 and store the wall
  * clock as a second count.  The fifth argument arrives on the stack and is
  * loaded as a whole word, so it is int-width and truncated by the strb. */
-void sub_02008A7C(struct TrainerCardSignature *card, u32 badge, u32 year,
+void TRCARD_SIGN_SetBadgeDate(struct TrainerCardSignature *card, u32 badge, u32 year,
                   u32 month, u32 day)
 {
     struct RTCDate date;
@@ -370,15 +370,15 @@ void sub_02008A7C(struct TrainerCardSignature *card, u32 badge, u32 year,
     card->badgeDate[badge].day = day;
     card->badgeTimer[badge] = 0xF0;
 
-    sub_02008A34(card, (u32)second, (u32)(second >> 32));
+    TRCARD_SIGN_SetLastBadgeTime(card, (u32)second, (u32)(second >> 32));
 }
 
-u16 sub_02008ACC(const struct TrainerCardSignature *card, u32 badge)
+u16 TRCARD_SIGN_GetBadgeTimer(const struct TrainerCardSignature *card, u32 badge)
 {
     return card->badgeTimer[badge];
 }
 
-void sub_02008ADC(struct TrainerCardSignature *card, int badge, int timer)
+void TRCARD_SIGN_SetBadgeTimer(struct TrainerCardSignature *card, int badge, int timer)
 {
     card->badgeTimer[badge] = timer;
 }
@@ -395,29 +395,29 @@ void sub_02008ADC(struct TrainerCardSignature *card, int badge, int timer)
  *   +0x48  0x14   untouched here
  *
  * The u64 at +0x24 of the clock is four-aligned: this front end aligns long
- * long to four inside a struct.  sub_02008BE0 tests < and assigns zero in the
+ * long to four inside a struct.  DAILY_CLOCK_Spend tests < and assigns zero in the
  * taken branch; the other spelling inverts the condition and swaps the arms.
  *
- * sub_02008B20 and sub_02008B78 are the only callers of OS_GetOwnerRtcOffset
+ * CONSOLE_STAMP_SetIdentity and CONSOLE_STAMP_IsRtcOffsetCurrent are the only callers of OS_GetOwnerRtcOffset
  * in the ROM; the attestation rule is described in docs/MATCHING.md.
  */
-u32 sub_02008AEC(void)
+u32 CONSOLE_STAMP_GetSize(void)
 {
     return sizeof(struct ConsoleStamp);
 }
 
-void func_02008AF0(struct ConsoleStamp *stamp)
+void CONSOLE_STAMP_Init(struct ConsoleStamp *stamp)
 {
     MIi_CpuClearFast(0, stamp, sizeof(struct ConsoleStamp));
-    sub_02008B9C(&stamp->clock);
+    DAILY_CLOCK_Init(&stamp->clock);
 }
 
-struct ConsoleStamp *sub_02008B08(struct SaveControl *control)
+struct ConsoleStamp *CONSOLE_STAMP_GetFromSave(struct SaveControl *control)
 {
     return SAVE_CONTROL_GetBlock(control, SAVE_BLOCK_CONSOLE_STAMP);
 }
 
-struct DailyClock *sub_02008B14(struct SaveControl *control)
+struct DailyClock *CONSOLE_STAMP_GetDailyClock(struct SaveControl *control)
 {
     struct ConsoleStamp *stamp = SAVE_CONTROL_GetBlock(control, SAVE_BLOCK_CONSOLE_STAMP);
 
@@ -425,7 +425,7 @@ struct DailyClock *sub_02008B14(struct SaveControl *control)
 }
 
 /* Stamp the block with this console's identity. */
-void sub_02008B20(struct ConsoleStamp *stamp)
+void CONSOLE_STAMP_SetIdentity(struct ConsoleStamp *stamp)
 {
     struct OSOwnerInfo info;
 
@@ -437,7 +437,7 @@ void sub_02008B20(struct ConsoleStamp *stamp)
 }
 
 /* Is the stamped MAC address this console's. */
-int sub_02008B4C(const struct ConsoleStamp *stamp)
+int CONSOLE_STAMP_IsThisConsole(const struct ConsoleStamp *stamp)
 {
     u8 mac[6];
     int i;
@@ -452,7 +452,7 @@ int sub_02008B4C(const struct ConsoleStamp *stamp)
 }
 
 /* Is the stamped RTC offset this console's. */
-int sub_02008B78(const struct ConsoleStamp *stamp)
+int CONSOLE_STAMP_IsRtcOffsetCurrent(const struct ConsoleStamp *stamp)
 {
     if (OS_GetOwnerRtcOffset() != stamp->rtcOffset) {
         return 0;
@@ -460,17 +460,17 @@ int sub_02008B78(const struct ConsoleStamp *stamp)
     return 1;
 }
 
-u8 sub_02008B94(const struct ConsoleStamp *stamp)
+u8 CONSOLE_STAMP_GetBirthdayMonth(const struct ConsoleStamp *stamp)
 {
     return stamp->birthdayMonth;
 }
 
-u8 sub_02008B98(const struct ConsoleStamp *stamp)
+u8 CONSOLE_STAMP_GetBirthdayDay(const struct ConsoleStamp *stamp)
 {
     return stamp->birthdayDay;
 }
 
-void sub_02008B9C(struct DailyClock *clock)
+void DAILY_CLOCK_Init(struct DailyClock *clock)
 {
     clock->started = 1;
     sub_0203F49C(&clock->date, &clock->time);
@@ -482,7 +482,7 @@ void sub_02008B9C(struct DailyClock *clock)
 }
 
 /* Is any allowance left. */
-int sub_02008BD0(const struct DailyClock *clock)
+int DAILY_CLOCK_HasAllowance(const struct DailyClock *clock)
 {
     if (clock->remainingMinutes == 0) {
         return 0;
@@ -491,7 +491,7 @@ int sub_02008BD0(const struct DailyClock *clock)
 }
 
 /* Spend `minutes` of the allowance, clamping it to a day first. */
-void sub_02008BE0(struct DailyClock *clock, u32 minutes)
+void DAILY_CLOCK_Spend(struct DailyClock *clock, u32 minutes)
 {
     if (clock->remainingMinutes > DAILY_MINUTES_MAX) {
         clock->remainingMinutes = DAILY_MINUTES_MAX;
@@ -504,7 +504,7 @@ void sub_02008BE0(struct DailyClock *clock, u32 minutes)
 }
 
 /* Refill the allowance and restamp the date. */
-void sub_02008C00(struct DailyClock *clock)
+void DAILY_CLOCK_Refill(struct DailyClock *clock)
 {
     clock->remainingMinutes = DAILY_MINUTES_MAX;
     sub_0203F49C(&clock->date, &clock->time);
@@ -521,14 +521,14 @@ void sub_02008C00(struct DailyClock *clock)
  *   +0x1DE  u16         high half of the key that seals the range
  *
  * The seal key is checksum + (cryptSeed << 16), added not or-ed (the image
- * uses adds).  sub_02008C64 stores the checksum and encodes the range with
- * the key; sub_02008C94 decodes it again.  sub_02008CB4 and sub_02008CD4 read
+ * uses adds).  RECORD_Seal stores the checksum and encodes the range with
+ * the key; RECORD_Unseal decodes it again.  RECORD_GetCounter and RECORD_SetCounter read
  * and write the split index space; both answer 0 for an index of 0xA7 or more.
  * The setter returns what the getter would, through a real call.
  *
  * 0x1E0 has no Thumb immediate, so the size is built as movs 0x1E / lsls 4.
  */
-u32 sub_02008C20(void)
+u32 RECORD_GetSize(void)
 {
     return sizeof(struct RecordBlock);
 }
@@ -540,7 +540,7 @@ u32 sub_02008C20(void)
  * pool address in r1 and the first value in r0 as the original does), then
  * seals the block.
  */
-void func_02008C28(struct RecordBlock *record)
+void RECORD_Init(struct RecordBlock *record)
 {
     u32 first;
     u32 second;
@@ -549,17 +549,17 @@ void func_02008C28(struct RecordBlock *record)
     first = SHARED_VBLANK_COUNT;
     second = SHARED_VBLANK_COUNT;
     record->cryptSeed = first << 8 | second;
-    sub_02008C64(record, 1);
+    RECORD_Seal(record, 1);
 }
 
-struct RecordBlock *sub_02008C58(struct SaveControl *control)
+struct RecordBlock *RECORD_GetFromSave(struct SaveControl *control)
 {
     return SAVE_CONTROL_GetBlock(control, SAVE_BLOCK_RECORD);
 }
 
 /* Store the checksum and encode the counters.  Callers below pass the counter
  * index as `enable`, so nothing happens for counter 0. */
-void sub_02008C64(struct RecordBlock *record, int enable)
+void RECORD_Seal(struct RecordBlock *record, int enable)
 {
     if (enable) {
         record->checksum = sub_0203F2FC((const u8 *)(&record->wordCounters[1]),
@@ -570,7 +570,7 @@ void sub_02008C64(struct RecordBlock *record, int enable)
 }
 
 /* Decode the counters. */
-void sub_02008C94(struct RecordBlock *record, int enable)
+void RECORD_Unseal(struct RecordBlock *record, int enable)
 {
     if (enable) {
         sub_0203F37C(&record->wordCounters[1], 0x1D8,
@@ -578,7 +578,7 @@ void sub_02008C94(struct RecordBlock *record, int enable)
     }
 }
 
-u32 sub_02008CB4(const struct RecordBlock *record, int index)
+u32 RECORD_GetCounter(const struct RecordBlock *record, int index)
 {
     if (index < 0x47) {
         return record->wordCounters[index];
@@ -589,14 +589,14 @@ u32 sub_02008CB4(const struct RecordBlock *record, int index)
     return 0;
 }
 
-u32 sub_02008CD4(struct RecordBlock *record, int index, u32 value)
+u32 RECORD_SetCounter(struct RecordBlock *record, int index, u32 value)
 {
     if (index < 0x47) {
         record->wordCounters[index] = value;
     } else if (index < 0xA7) {
         record->halfCounters[index - 0x47] = value;
     }
-    return sub_02008CB4(record, index);
+    return RECORD_GetCounter(record, index);
 }
 
 /*
@@ -604,7 +604,7 @@ u32 sub_02008CD4(struct RecordBlock *record, int index, u32 value)
  * ceiling table RECORD_CeilingTable (999999999, 999999, 65535, 9999, 999, 6); an index
  * of 0xA7 or more, or a row of 6 or more, has no ceiling and gives 0.
  */
-int func_02008CF8(int index)
+int RECORD_GetCeiling(int index)
 {
     int row = RECORD_CeilingRowTable[index];
 
@@ -615,45 +615,45 @@ int func_02008CF8(int index)
 
 /*
  * Clamped read-modify-write layer over the block.  Each function takes the
- * block and a counter index, looks up the ceiling with func_02008CF8, decodes
- * with sub_02008C94, writes through sub_02008CD4 and re-seals with
- * sub_02008C64.
+ * block and a counter index, looks up the ceiling with RECORD_GetCeiling, decodes
+ * with RECORD_Unseal, writes through RECORD_SetCounter and re-seals with
+ * RECORD_Seal.
  */
 
 /* Set the counter to `value`, at most the ceiling. */
-u32 sub_02008D1C(struct RecordBlock *record, int index, u32 value)
+u32 RECORD_SetCounterClamped(struct RecordBlock *record, int index, u32 value)
 {
-    u32 ceiling = func_02008CF8(index);
+    u32 ceiling = RECORD_GetCeiling(index);
     u32 result;
 
-    sub_02008C94(record, index);
+    RECORD_Unseal(record, index);
     if (value < ceiling) {
-        result = sub_02008CD4(record, index, value);
+        result = RECORD_SetCounter(record, index, value);
     } else {
-        result = sub_02008CD4(record, index, ceiling);
+        result = RECORD_SetCounter(record, index, ceiling);
     }
-    sub_02008C64(record, index);
+    RECORD_Seal(record, index);
     return result;
 }
 
 /* Raise the counter to `minimum` (itself clamped to the ceiling); a counter
  * already above the ceiling is lowered to it. */
-u32 sub_02008D58(struct RecordBlock *record, int index, u32 minimum)
+u32 RECORD_RaiseCounter(struct RecordBlock *record, int index, u32 minimum)
 {
-    u32 ceiling = func_02008CF8(index);
+    u32 ceiling = RECORD_GetCeiling(index);
     u32 result;
 
-    sub_02008C94(record, index);
-    result = sub_02008CB4(record, index);
+    RECORD_Unseal(record, index);
+    result = RECORD_GetCounter(record, index);
     if (minimum > ceiling) {
         minimum = ceiling;
     }
     if (result < minimum) {
-        result = sub_02008CD4(record, index, minimum);
+        result = RECORD_SetCounter(record, index, minimum);
     } else if (result > ceiling) {
-        result = sub_02008CD4(record, index, ceiling);
+        result = RECORD_SetCounter(record, index, ceiling);
     }
-    sub_02008C64(record, index);
+    RECORD_Seal(record, index);
     return result;
 }
 
@@ -661,39 +661,39 @@ u32 sub_02008D58(struct RecordBlock *record, int index, u32 minimum)
  * inline in either operand order the compiler emits adds r2, r7, r0 instead
  * of adds r2, r0, r7
  * (docs/idioms/commutative-operand-order-names-the-temporary.md). */
-u32 sub_02008DAC(struct RecordBlock *record, int index, u32 delta)
+u32 RECORD_AddCounter(struct RecordBlock *record, int index, u32 delta)
 {
-    u32 ceiling = func_02008CF8(index);
+    u32 ceiling = RECORD_GetCeiling(index);
     u32 result;
     u32 current;
 
-    sub_02008C94(record, index);
-    current = sub_02008CB4(record, index);
+    RECORD_Unseal(record, index);
+    current = RECORD_GetCounter(record, index);
     result = current + delta;
     if (result < ceiling) {
-        result = sub_02008CD4(record, index, result);
+        result = RECORD_SetCounter(record, index, result);
     } else {
-        result = sub_02008CD4(record, index, ceiling);
+        result = RECORD_SetCounter(record, index, ceiling);
     }
-    sub_02008C64(record, index);
+    RECORD_Seal(record, index);
     return result;
 }
 
 /* Add one: twelve bytes, no label. */
-u32 sub_02008DF0(struct RecordBlock *record, int index)
+u32 RECORD_AddOne(struct RecordBlock *record, int index)
 {
-    return sub_02008DAC(record, index, 1);
+    return RECORD_AddCounter(record, index, 1);
 }
 
 /* Read the counter, at most the ceiling. */
-u32 sub_02008DFC(struct RecordBlock *record, int index)
+u32 RECORD_GetCounterClamped(struct RecordBlock *record, int index)
 {
-    u32 ceiling = func_02008CF8(index);
+    u32 ceiling = RECORD_GetCeiling(index);
     u32 result;
 
-    sub_02008C94(record, index);
-    result = sub_02008CB4(record, index);
-    sub_02008C64(record, index);
+    RECORD_Unseal(record, index);
+    result = RECORD_GetCounter(record, index);
+    RECORD_Seal(record, index);
     if (result <= ceiling) {
         ceiling = result;
     }
@@ -704,45 +704,45 @@ u32 sub_02008DFC(struct RecordBlock *record, int index)
  * 57 58): raise the target to the source's value, then clear the source.
  * The table is read as halfwords, so no string witness can attest its
  * address. */
-void func_02008E30(struct RecordBlock *record)
+void RECORD_FoldPairs(struct RecordBlock *record)
 {
     u32 i;
 
     for (i = 0; i < 5; i++) {
         u16 source = RECORD_FoldPairTable[i].source;
 
-        sub_02008D58(record, RECORD_FoldPairTable[i].target,
-                     sub_02008DFC(record, source));
-        sub_02008D1C(record, source, 0);
+        RECORD_RaiseCounter(record, RECORD_FoldPairTable[i].target,
+                     RECORD_GetCounterClamped(record, source));
+        RECORD_SetCounterClamped(record, source, 0);
     }
 }
 
 /* Counter 0x7B has a ceiling of 6 and counter 0x7C one of 9999; the writers
  * check their argument against that ceiling first.  Counter 0x7B is the Trial
  * House rank and 0x7C its score (callers: trial_house, trcard_sys). */
-void sub_02008E68(struct RecordBlock *record, u32 rank)
+void RECORD_SetTrialRank(struct RecordBlock *record, u32 rank)
 {
     if (rank < 7) {
-        sub_02008D58(record, 0x7B, rank);
+        RECORD_RaiseCounter(record, 0x7B, rank);
     }
 }
 
-u8 sub_02008E78(struct RecordBlock *record)
+u8 RECORD_GetTrialRank(struct RecordBlock *record)
 {
-    return sub_02008DFC(record, 0x7B);
+    return RECORD_GetCounterClamped(record, 0x7B);
 }
 
-void sub_02008E88(struct RecordBlock *record, u32 score)
+void RECORD_SetTrialScore(struct RecordBlock *record, u32 score)
 {
     if (score < 9999) {
-        sub_02008D58(record, 0x7C, score);
+        RECORD_RaiseCounter(record, 0x7C, score);
     }
 }
 
 /* Twelve bytes, no label. */
-u32 sub_02008EA0(struct RecordBlock *record)
+u32 RECORD_GetTrialScore(struct RecordBlock *record)
 {
-    return sub_02008DFC(record, 0x7C);
+    return RECORD_GetCounterClamped(record, 0x7C);
 }
 
 /*
@@ -916,7 +916,7 @@ struct MailBox *MAIL_GetBox(struct GameData *gameData)
  *
  * MAIL_SetSlot and MAIL_CreateSlotCopy are the only callers of MAIL_Copy in the
  * ROM, so matched in one range they attest each other's call site away; the
- * old split into separate files is the same trick as at sub_02008B20.
+ * old split into separate files is the same trick as at CONSOLE_STAMP_SetIdentity.
  * MAIL_GetSlot ignores its second argument (a box kind): no instruction reads
  * r1, and the callers pass their own second argument straight through.
  */
@@ -1005,58 +1005,58 @@ struct Mail *MAIL_GetSlot(struct Mail *box, u32 boxKind, int index)
  * +0x26..+0x28; the two u16 accessors at +0x24 need none (ldrh reaches +62;
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md).
  */
-u32 sub_020090B0(void)
+u32 CGEAR_SAVE_GetSize(void)
 {
     return sizeof(struct CGearSave);
 }
 
-void func_020090B4(struct CGearSave *save)
+void CGEAR_SAVE_Init(struct CGearSave *save)
 {
-    MI_CpuFill8(save, 0, sub_020090B0());
+    MI_CpuFill8(save, 0, CGEAR_SAVE_GetSize());
     MI_CpuCopy8(CGEAR_SAVE_DefaultPanels, save, 0x24);
 }
 
-void sub_020090D8(struct CGearSave *save, u8 isObtained)
+void CGEAR_SAVE_SetObtained(struct CGearSave *save, u8 isObtained)
 {
     save->isObtained = isObtained;
 }
 
-u8 sub_020090E0(const struct CGearSave *save)
+u8 CGEAR_SAVE_GetObtained(const struct CGearSave *save)
 {
     return save->isObtained;
 }
 
-void sub_020090E8(struct CGearSave *save, u8 powerSetting)
+void CGEAR_SAVE_SetPowerSetting(struct CGearSave *save, u8 powerSetting)
 {
     save->powerSetting = powerSetting;
 }
 
-u8 sub_020090F0(const struct CGearSave *save)
+u8 CGEAR_SAVE_GetPowerSetting(const struct CGearSave *save)
 {
     return save->powerSetting;
 }
 
-void sub_020090F8(struct CGearSave *save, u8 gsyncState)
+void CGEAR_SAVE_SetGsyncState(struct CGearSave *save, u8 gsyncState)
 {
     save->gsyncState = gsyncState;
 }
 
-u8 sub_02009100(const struct CGearSave *save)
+u8 CGEAR_SAVE_GetGsyncState(const struct CGearSave *save)
 {
     return save->gsyncState;
 }
 
-void sub_02009108(struct CGearSave *save, u16 gsyncId)
+void CGEAR_SAVE_SetGsyncId(struct CGearSave *save, u16 gsyncId)
 {
     save->gsyncId = gsyncId;
 }
 
-u16 sub_0200910C(const struct CGearSave *save)
+u16 CGEAR_SAVE_GetGsyncId(const struct CGearSave *save)
 {
     return save->gsyncId;
 }
 
-u32 sub_02009110(const struct CGearSave *save, int row, int col)
+u32 CGEAR_SAVE_GetPanelValue(const struct CGearSave *save, int row, int col)
 {
     if (row >= 9 || row < 0) {
         return 0;
@@ -1067,7 +1067,7 @@ u32 sub_02009110(const struct CGearSave *save, int row, int col)
     return save->panel[row][col] & 0xF;
 }
 
-int sub_02009134(const struct CGearSave *save, int row, int col)
+int CGEAR_SAVE_GetPanelFlag(const struct CGearSave *save, int row, int col)
 {
     if (row >= 9 || row < 0) {
         return 0;

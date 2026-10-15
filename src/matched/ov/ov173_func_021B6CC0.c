@@ -30,7 +30,7 @@
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -58,7 +58,7 @@
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -82,8 +82,8 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_02045B38 0x02045B38 arm
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_02017E88 0x02017E88 thumb
@@ -91,8 +91,8 @@
  *   POKE_SUMMARY_ACTOR_SetMoveIcon 0x021B78CC thumb ov173
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EE84 0x0201EE84 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -114,8 +114,8 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 func_02017E88(void *,u32,u32);
@@ -123,8 +123,8 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Delete(struct U16Vec *vec);
 static inline void flush(void *win)
@@ -152,8 +152,8 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
     flush(*(void **)(p+0x10));
     temp=STRBUF_Create(256,79);
     MSGDATA_ReadString(*(void **)(p+0x44),0x27,temp);
-    func_0201EEF4(*(void **)(p+0x48),0,**(void ***)p);
-    func_0201F250(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
+    WORDSET_SetSlotMonSpecies(*(void **)(p+0x48),0,**(void ***)p);
+    WORDSET_CopyTaggedText(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
     POKE_SUMMARY_MAIN_PrintAligned(p,13,*(u32 *)(p+0x60),0x3c40,0,4);
     flush(*(void **)(p+0x38));
     bank=func_02045B38(0,2,0xcb,79);
@@ -170,22 +170,22 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *p)
             coord=y+16;
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p+0x3c)),8,coord,*(void **)(p+0x50),*(void **)(p+0x60),0x440);
             flush(*(void **)(p+0x3c));
-            func_0201EFA4(*(void **)(p+0x48),0,func_02017E88(mon,0x3a+i,0),2,1,1);
-            func_0201EFA4(*(void **)(p+0x48),1,func_02017E88(mon,0x42+i,0),2,0,1);
-            func_0201F250(*(void **)(p+0x48),*(void **)(p+0x4c),*(void **)(p+0x54));
+            WORDSET_SetSlotNumber(*(void **)(p+0x48),0,func_02017E88(mon,0x3a+i,0),2,1,1);
+            WORDSET_SetSlotNumber(*(void **)(p+0x48),1,func_02017E88(mon,0x42+i,0),2,0,1);
+            WORDSET_CopyTaggedText(*(void **)(p+0x48),*(void **)(p+0x4c),*(void **)(p+0x54));
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p+0x3c)),32,coord,*(void **)(p+0x4c),*(void **)(p+0x60),0x440);
             flush(*(void **)(p+0x3c));
         }
     }
     flush(*(void **)(p+0x3c));
     MSGDATA_ReadString(*(void **)(p+0x44),0x25,temp);
-    func_0201EE84(*(void **)(p+0x48),0,**(void ***)p);
-    func_0201F250(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
+    WORDSET_SetSlotMonName(*(void **)(p+0x48),0,**(void ***)p);
+    WORDSET_CopyTaggedText(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p+0x40)),0,0,*(void **)(p+0x4c),*(void **)(p+0x60),0x440);
     flush(*(void **)(p+0x40));
     MSGDATA_ReadString(*(void **)(p+0x44),0x26,temp);
-    func_0201EFA4(*(void **)(p+0x48),0,func_02017E88(mon,0x9e,0),3,1,1);
-    func_0201F250(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
+    WORDSET_SetSlotNumber(*(void **)(p+0x48),0,func_02017E88(mon,0x9e,0),3,1,1);
+    WORDSET_CopyTaggedText(*(void **)(p+0x48),*(void **)(p+0x4c),temp);
     POKE_SUMMARY_MAIN_PrintAligned(p,15,*(u32 *)(p+0x60),0x440,1,16);
     flush(*(void **)(p+0x40));
     MSGDATA_Delete(bank);

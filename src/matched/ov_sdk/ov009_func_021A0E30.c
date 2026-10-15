@@ -16,7 +16,7 @@
  *   func_02184144  0x02184144  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
  *   SBRefStr  0x0219F8B0  arm  ov009
- *   func_02184234  0x02184234  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
  */
 
 struct KeyInfo { char *name; int type; };
@@ -25,7 +25,7 @@ extern void FreeKeyList(struct SBL *slist);
 extern void *func_02184144(int elemSize, int num, void (*fn)(void *));
 extern int NTSLengthSB(char *buf, int len);
 extern char *SBRefStr(void *slist, char *str);
-extern void func_02184234(void *array, void *elem);
+extern void ArrayAppend(void *array, void *elem);
 int ProcessPushKeyList(struct SBL *slist, char *buf, int len)
 {
 	int i;
@@ -47,7 +47,7 @@ int ProcessPushKeyList(struct SBL *slist, char *buf, int len)
 			return 4;
 		ki.type = (unsigned char)buf[0];
 		ki.name = SBRefStr(slist, buf + 1);
-		func_02184234(slist->keys, &ki);
+		ArrayAppend(slist->keys, &ki);
 		buf += keylen + 1;
 		len -= keylen + 1;
 	}

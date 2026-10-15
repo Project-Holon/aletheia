@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CE8
+ * function: GTSNEGO_MSG_RedrawRow
  * address: 0x021D7CE8
  * packet: pkt_ov120_021D7CE8
  * region: ov120
@@ -28,7 +28,7 @@ struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021D7CE8(char *p,u16 n,int i)
+void GTSNEGO_MSG_RedrawRow(char *p,u16 n,int i)
 {
     void *q=*(void **)(p+0x38+4*i);
     if(q) {

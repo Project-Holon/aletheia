@@ -1,5 +1,5 @@
 /*
- * function: func_02163E10
+ * function: CPSi_sha1_result_prng
  * address:  0x02163E10
  * packet:   pkt_ov009_02163E10
  * region:   ov009
@@ -24,7 +24,7 @@ extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_0216359C(unsigned char *d, unsigned long *s, unsigned int len);
 extern unsigned char g_021A1F28[64];
 
-void func_02163E10(void *ctx, unsigned char *digest)
+void CPSi_sha1_result_prng(void *ctx, unsigned char *digest)
 {
 	func_02163CF0(ctx, g_021A1F28 + 1, 44);
 	func_0216359C(digest, ctx, 20);

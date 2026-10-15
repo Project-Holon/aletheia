@@ -20,16 +20,16 @@
    "functions": [
     "__ieee754_pow"
    ],
+   "addresses": [
+    "0x020979BC"
+   ],
    "evidence": {
     "sole-ref": [
      "self:0x020A62F0",
      "self:0x020A6300",
      "self:0x020A6310"
     ]
-   },
-   "addresses": [
-    "0x020979BC"
-   ]
+   }
   }
  ]
 }

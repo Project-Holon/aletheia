@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203F4FC",
+   "name": "GF_STANDARD_GetTime",
    "address": "0x0203F4FC",
    "kind": "game",
    "region": "arm9",

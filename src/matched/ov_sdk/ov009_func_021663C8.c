@@ -1,5 +1,5 @@
 /*
- * function: func_021663C8
+ * function: WCM_GetApEssid
  * address:  0x021663C8
  * packet:   pkt_ov009_021663C8
  * region:   ov009
@@ -32,7 +32,7 @@ extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-unsigned char *func_021663C8(unsigned short *length)
+unsigned char *WCM_GetApEssid(unsigned short *length)
 {
     unsigned char *essid;
     unsigned short len;

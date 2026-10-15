@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02057F8C",
+   "name": "SPL_EMITTER_InterpTarget",
    "address": "0x02057F8C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020580A8",
+   "name": "SPL_EMITTER_BuildFrame",
    "address": "0x020580A8",
    "kind": "game",
    "region": "arm9",

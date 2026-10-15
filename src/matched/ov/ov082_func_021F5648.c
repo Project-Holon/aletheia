@@ -11,7 +11,7 @@
  * volatile: BG3CNT 0x0400000E read-modify-written by the SDK inline G2_SetBG3ControlText; BLDCNT 0x04000050 store
  * symbols:
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
@@ -36,7 +36,7 @@ typedef struct {
 
 typedef unsigned char  u8;
 extern u32 FIELDMAP_GetPlaceName(u8 *p);
-extern void func_020414AC(int a);
+extern void BG_SYS_FreeSlot(int a);
 extern void FIELD_PLACE_NAME_RestoreWindow(u8 *p);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
@@ -64,7 +64,7 @@ void FLD_FACEUP_Release(int a0, Cfg *p)
 {
     int t = FIELDMAP_GetPlaceName((u8 *)a0);
 
-    func_020414AC(2);
+    BG_SYS_FreeSlot(2);
     G2_SetBG3ControlText(p->d, p->c, p->b, p->a);
     FIELD_PLACE_NAME_RestoreWindow((u8 *)t);
     FIELD_MSGBG_RequestSysFrame((u8 *)FIELDMAP_GetMsgBg((u8 *)a0));

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9B2C
+ * function: WIFIBATTLEMATCH_NET_VerifyCompSignature
  * address:  0x021D9B2C
  * packet:   pkt_ov175_021D9B2C
  * region:   ov175
@@ -39,7 +39,7 @@ extern void NHTTP_RAP_EvilCheckSetElement(int p, int a, u32 b, int n);
 extern int NHTTP_RAP_VerifySignature(void *a, int b, int c, char *d, u16 e);
 extern void NHTTP_RAP_EvilCheckFreeArray(void *buf);
 
-u32 func_021D9B2C(char *obj, void *list, u32 heapId)
+u32 WIFIBATTLEMATCH_NET_VerifyCompSignature(char *obj, void *list, u32 heapId)
 {
     int heap = (heapId & 0x7fff) | 0x8000;
     u32 size = POKE_TOOL_GetPartyParamSize();

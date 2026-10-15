@@ -1,7 +1,7 @@
 /*
  * file:     poke_regulation.c
  * unit:     yes
- * function: func_02019A50, func_02019A7C, func_02019A9C, func_02019ABC, func_02019B04, func_02019B44, func_02019B58, func_02019B64, func_02019B94, func_02019BA4, func_02019C38, func_02019C54, func_02019C7C, func_02019C90, func_02019CA0, func_02019CE0, func_02019CF8, func_02019D00, func_02019D30, func_02019D58, POKE_REGULATION_IsInSpeciesTable, POKE_REGULATION_CheckPokemon, POKE_REGULATION_CheckSelection, func_02019ED4, POKE_REGULATION_CheckPokemonFlags, POKE_REGULATION_CheckParty, POKE_REGULATION_AdjustLevel, POKE_REGULATION_AdjustPartyLevels, POKE_REGULATION_ResetPartyNicknames, POKE_REGULATION_Load, POKE_REGULATION_LoadInto, POKE_REGULATION_BuildPartySizeLine, POKE_REGULATION_BuildLevelLine, POKE_REGULATION_GetBannedSpeciesLine, POKE_REGULATION_GetSpeciesClauseLine, POKE_REGULATION_GetItemClauseLine, POKE_REGULATION_GetBattleModeLine, POKE_REGULATION_CreateText, POKE_REGULATION_DeleteText, POKE_REGULATION_FindValidOrder, POKE_REGULATION_CheckOrder, POKE_REGULATION_NextOrder, POKE_REGULATION_GetDataSize
+ * function: POKE_CRYPTO_XorBlock, POKE_CRYPTO_NextRandom, POKE_CRYPTO_Checksum, POKE_TOOL_IsDefaultName, POKE_TOOL_ApplyNatureModifier, POKE_TOOL_GetNatureModifier, POKE_TOOL_SetDefaultName, POKE_TOOL_SetNameFromSpecies, POKE_TOOL_LoadExpTable, POKE_TOOL_GetExpValue, POKE_TOOL_GetBoxSubstruct, POKE_TOOL_GetPersonalData, POKE_TOOL_GetPersonalGender, POKE_TOOL_GetPersonalParam, POKE_TOOL_SetLevelAndRecalc, POKE_TOOL_CopyPartyPokemon, POKE_TOOL_GetPlateTypeForwarder, POKE_TOOL_GetBoxParamIndex, POKE_TOOL_NormalizeForm, POKE_TOOL_FilterSpecies, POKE_REGULATION_IsInSpeciesTable, POKE_REGULATION_CheckPokemon, POKE_REGULATION_CheckSelection, func_02019ED4, POKE_REGULATION_CheckPokemonFlags, POKE_REGULATION_CheckParty, POKE_REGULATION_AdjustLevel, POKE_REGULATION_AdjustPartyLevels, POKE_REGULATION_ResetPartyNicknames, POKE_REGULATION_Load, POKE_REGULATION_LoadInto, POKE_REGULATION_BuildPartySizeLine, POKE_REGULATION_BuildLevelLine, POKE_REGULATION_GetBannedSpeciesLine, POKE_REGULATION_GetSpeciesClauseLine, POKE_REGULATION_GetItemClauseLine, POKE_REGULATION_GetBattleModeLine, POKE_REGULATION_CreateText, POKE_REGULATION_DeleteText, POKE_REGULATION_FindValidOrder, POKE_REGULATION_CheckOrder, POKE_REGULATION_NextOrder, POKE_REGULATION_GetDataSize
  * address:  0x02019A50
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -36,10 +36,10 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKEPARTY_GetBattleReadyCount   0x0201AA50  thumb
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_0201EFA4   0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber   0x0201EFA4  thumb
  *   STRBUF_Create   0x020457B0  arm
  *   func_02045CAC   0x02045CAC  arm
- *   func_0201F250   0x0201F250  thumb
+ *   WORDSET_CopyTaggedText   0x0201F250  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_02030734 0x02030734  arm
  *   STRBUF_Delete 0x02045808  arm
@@ -131,37 +131,37 @@ extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 extern struct Pokemon *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *format);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *format);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 func_020307B0(void *p);
-void func_02019A50(u16 *data, u32 size, u32 seed);
-u16 func_02019A7C(u32 *state);
-u16 func_02019A9C(const u16 *data, u32 size);
-u32 func_02019ABC(struct BoxPokemon *box);
-u32 func_02019B04(u32 nature, u32 stat, u32 statIndex);
-s8 func_02019B44(u32 nature, u32 statIndex);
-void func_02019B58(struct Pokemon *mon);
-void func_02019B64(struct Pokemon *mon);
-void func_02019B94(u32 species, void *dst);
-u32 func_02019BA4(u32 species, u32 index);
-u32 func_02019BBC(u32 item);
-void *func_02019C38(struct BoxPokemon *box, u32 personality, u32 blockIndex);
-void *func_02019C54(u32 species, u32 form);
-u32 func_02019C7C(const struct PersonalData *data);
-u32 func_02019C90(u16 species, u16 form, u32 field);
-void func_02019CA0(struct Pokemon *mon, u32 level);
-void func_02019CE0(const struct PartyPokemon *src, struct PartyPokemon *dest);
-unsigned int func_02019CF8(unsigned int item);
-u32 func_02019D00(u32 paramId);
-u32 func_02019D30(u16 species, u16 form);
-int func_02019D58(u16 species, int value);
+void POKE_CRYPTO_XorBlock(u16 *data, u32 size, u32 seed);
+u16 POKE_CRYPTO_NextRandom(u32 *state);
+u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size);
+u32 POKE_TOOL_IsDefaultName(struct BoxPokemon *box);
+u32 POKE_TOOL_ApplyNatureModifier(u32 nature, u32 stat, u32 statIndex);
+s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex);
+void POKE_TOOL_SetDefaultName(struct Pokemon *mon);
+void POKE_TOOL_SetNameFromSpecies(struct Pokemon *mon);
+void POKE_TOOL_LoadExpTable(u32 species, void *dst);
+u32 POKE_TOOL_GetExpValue(u32 species, u32 index);
+u32 POKE_TOOL_GetPlateType(u32 item);
+void *POKE_TOOL_GetBoxSubstruct(struct BoxPokemon *box, u32 personality, u32 blockIndex);
+void *POKE_TOOL_GetPersonalData(u32 species, u32 form);
+u32 POKE_TOOL_GetPersonalGender(const struct PersonalData *data);
+u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field);
+void POKE_TOOL_SetLevelAndRecalc(struct Pokemon *mon, u32 level);
+void POKE_TOOL_CopyPartyPokemon(const struct PartyPokemon *src, struct PartyPokemon *dest);
+unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item);
+u32 POKE_TOOL_GetBoxParamIndex(u32 paramId);
+u32 POKE_TOOL_NormalizeForm(u16 species, u16 form);
+int POKE_TOOL_FilterSpecies(u16 species, int value);
 int POKE_REGULATION_IsInSpeciesTable(unsigned short species);
 int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *mon);
 int POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order);
@@ -208,12 +208,12 @@ extern const u8 POKE_REGULATION_InitialOrder[6];
 
 /*
  * The three primitives the whole save record in this region is protected
- * with.  func_02019A7C is one step of the linear congruential generator
+ * with.  POKE_CRYPTO_NextRandom is one step of the linear congruential generator
  * `s = s * 0x41C64E6D + 0x6073` returning the middle halfword of the new
- * state, func_02019A50 XOR masks a byte range with that stream halfword by
- * halfword, and func_02019A9C is the plain halfword sum used as the checksum.
+ * state, POKE_CRYPTO_XorBlock XOR masks a byte range with that stream halfword by
+ * halfword, and POKE_CRYPTO_Checksum is the plain halfword sum used as the checksum.
  *
- * func_02019A50 opens `push {r0, r1, r2, r3}` and closes `pop {r3}` /
+ * POKE_CRYPTO_XorBlock opens `push {r0, r1, r2, r3}` and closes `pop {r3}` /
  * `add sp, #0x10` / `bx r3`, which is what taking the address of a register
  * parameter costs on this front end; see
  * docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md.  The
@@ -221,9 +221,9 @@ extern const u8 POKE_REGULATION_InitialOrder[6];
  * caller's seed is never modified, which is what lets POKE_TOOL_DecodeBoxBlock mask the
  * same area twice with the same seed to undo itself.
  *
- * func_02019A7C carries no label in the generated listing.
+ * POKE_CRYPTO_NextRandom carries no label in the generated listing.
  */
-void func_02019A50(u16 *data, u32 size, u32 seed)
+void POKE_CRYPTO_XorBlock(u16 *data, u32 size, u32 seed)
 {
     u32 i = 0;
     u32 halfwords = size >> 1;
@@ -232,7 +232,7 @@ void func_02019A50(u16 *data, u32 size, u32 seed)
         u32 *state = &seed;
 
         do {
-            data[i] ^= func_02019A7C(state);
+            data[i] ^= POKE_CRYPTO_NextRandom(state);
             i++;
         } while (i < halfwords);
     }
@@ -246,7 +246,7 @@ void func_02019A50(u16 *data, u32 size, u32 seed)
 
 
 
-u16 func_02019A7C(u32 *state)
+u16 POKE_CRYPTO_NextRandom(u32 *state)
 {
     *state = *state * 0x41C64E6D + 0x6073;
     return (u16)(*state >> 16);
@@ -260,7 +260,7 @@ u16 func_02019A7C(u32 *state)
 
 
 
-u16 func_02019A9C(const u16 *data, u32 size)
+u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size)
 {
     u16 sum = 0;
     u32 i = 0;
@@ -304,11 +304,11 @@ u16 func_02019A9C(const u16 *data, u32 size)
  *   python tools/match.py tu --src src/matched/unit_02019ABC.c \
  *       --addr 0x02019ABC --thumb
  */
-u32 func_02019ABC(struct BoxPokemon *box)
+u32 POKE_TOOL_IsDefaultName(struct BoxPokemon *box)
 {
     u32 isDefault = 0;
-    struct BoxPokemonBlockA *blockA = (struct BoxPokemonBlockA *)func_02019C38(box, box->personality, 0);
-    void *blockC = func_02019C38(box, box->personality, 2);
+    struct BoxPokemonBlockA *blockA = (struct BoxPokemonBlockA *)POKE_TOOL_GetBoxSubstruct(box, box->personality, 0);
+    void *blockC = POKE_TOOL_GetBoxSubstruct(box, box->personality, 2);
 
     MSGDATA_ReadUnits(gSpeciesNameBank, blockA->species, gNameBuf, 0x20);
     if (WORDSET_CheckF448(gNameBuf, blockC) == 0) {
@@ -343,7 +343,7 @@ u32 func_02019ABC(struct BoxPokemon *box)
  *   python tools/match.py tu --src src/matched/unit_02019B04.c \
  *       --addr 0x02019B04 --thumb
  */
-u32 func_02019B04(u32 nature, u32 stat, u32 statIndex)
+u32 POKE_TOOL_ApplyNatureModifier(u32 nature, u32 stat, u32 statIndex)
 {
     s8 modifier;
 
@@ -377,9 +377,9 @@ u32 func_02019B04(u32 nature, u32 stat, u32 statIndex)
  *
  * Verified with
  *   python tools/match.py one --src src/matched/sub_02019B44.c \
- *       --func func_02019B44 --addr 0x02019B44
+ *       --func POKE_TOOL_GetNatureModifier --addr 0x02019B44
  */
-s8 func_02019B44(u32 nature, u32 statIndex)
+s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex)
 {
     return func_02019B04_Table[nature][statIndex - 1];
 }
@@ -393,19 +393,19 @@ s8 func_02019B44(u32 nature, u32 statIndex)
 
 
 /*
- *           func_02019BBC
+ *           POKE_TOOL_GetPlateType
  *
- * The first five of the seven functions between func_02019ABC and the cache
+ * The first five of the seven functions between POKE_TOOL_IsDefaultName and the cache
  * helper at 0x02019C54.  The range stops at 0x02019C38 on purpose: the two
- * functions after it, func_02019C38 and func_02019C54, each reach a data
+ * functions after it, POKE_TOOL_GetBoxSubstruct and POKE_TOOL_GetPersonalData, each reach a data
  * object through a pool word that is the object's only reference in the whole
  * image (0x0209E3A4 at 0x02019C50 and 0x02146274 at 0x02019C78), so the
  * `literal` class has no outside witness for either and both cap at MATCH
  * however they are written.  Cutting in front of them leaves these five
  * clean.
  *
- * func_02019B58 reaches func_020185F0, which src/matched/unit_020185F0.c
- * proves is an empty `bx lr`, and then calls func_02019B64 with whatever r0
+ * POKE_TOOL_SetDefaultName reaches func_020185F0, which src/matched/unit_020185F0.c
+ * proves is an empty `bx lr`, and then calls POKE_TOOL_SetNameFromSpecies with whatever r0
  * holds, with no register saved across the first call.  That only compiles
  * from a declaration in which func_020185F0 returns a value, so this unit
  * declares it `void *func_020185F0(void)` and passes the result straight on;
@@ -414,18 +414,18 @@ s8 func_02019B44(u32 nature, u32 statIndex)
  * and the image cannot say which one the original header carried, because an
  * empty function's return value is unobservable.
  *
- * func_02019B94 is docs/idioms/tail-call-is-a-pool-word-and-bx.md: it permutes
+ * POKE_TOOL_LoadExpTable is docs/idioms/tail-call-is-a-pool-word-and-bx.md: it permutes
  * three arguments into an ARM callee at 0x02048F4C and has no prologue at all.
  *
- * func_02019BBC is the plate-to-type table of ids 0xAE and 0xAF of
+ * POKE_TOOL_GetPlateType is the plate-to-type table of ids 0xAE and 0xAF of
  * POKE_TOOL_GetBoxValueRaw: sixteen consecutive item ids from 0x12A map to sixteen type
  * ids and everything else to 0.  The switch value arrives as a pool word
  * rather than a `subs` immediate only because 0x12A does not fit the eight bit
  * form, so it is an ordinary constant and not the linker symbol of
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  *
- * VERSION SENSITIVITY: func_02019BBC's sixteen case labels are item ids and
- * its sixteen results are type ids, and func_02019B64 passes id 5 (species)
+ * VERSION SENSITIVITY: POKE_TOOL_GetPlateType's sixteen case labels are item ids and
+ * its sixteen results are type ids, and POKE_TOOL_SetNameFromSpecies passes id 5 (species)
  * and id 0x74 (the name) of the record.  None of them is a version flag and
  * there is no exclusive-species table here, but the item ids 0x12A..0x139 are
  * content numbering and are the values to re-read first for a White build.
@@ -434,9 +434,9 @@ s8 func_02019B44(u32 nature, u32 statIndex)
  *   python tools/match.py tu --src src/matched/unit_02019B58.c \
  *       --addr 0x02019B58 --thumb
  */
-void func_02019B58(struct Pokemon *mon)
+void POKE_TOOL_SetDefaultName(struct Pokemon *mon)
 {
-    func_02019B64(func_020185F0());
+    POKE_TOOL_SetNameFromSpecies(func_020185F0());
 }
 
 
@@ -447,7 +447,7 @@ void func_02019B58(struct Pokemon *mon)
 
 
 
-void func_02019B64(struct Pokemon *mon)
+void POKE_TOOL_SetNameFromSpecies(struct Pokemon *mon)
 {
     u32 species = func_02017E88(mon, 5, 0);
 
@@ -463,7 +463,7 @@ void func_02019B64(struct Pokemon *mon)
 
 
 
-void func_02019B94(u32 species, void *dst)
+void POKE_TOOL_LoadExpTable(u32 species, void *dst)
 {
     ARC_TOOL_ReadMember(dst, 0x11, species);
 }
@@ -476,9 +476,9 @@ void func_02019B94(u32 species, void *dst)
 
 
 
-u32 func_02019BA4(u32 species, u32 index)
+u32 POKE_TOOL_GetExpValue(u32 species, u32 index)
 {
-    func_02019B94(species, gExpTableBuf);
+    POKE_TOOL_LoadExpTable(species, gExpTableBuf);
     return gExpTableBuf[index];
 }
 
@@ -490,7 +490,7 @@ u32 func_02019BA4(u32 species, u32 index)
 
 
 
-u32 func_02019BBC(u32 item)
+u32 POKE_TOOL_GetPlateType(u32 item)
 {
     switch (item) {
     case 0x12A: return 9;
@@ -549,7 +549,7 @@ u32 func_02019BBC(u32 item)
  * POKE_TOOL_GetBoxValueRaw's runtime helper.  It closes the day anything else in the image
  * names 0x0209E3A4, or the day the table itself is a matched data entry.
  *
- * The neighbour func_02019C54, which is the one-entry memo in front of this
+ * The neighbour POKE_TOOL_GetPersonalData, which is the one-entry memo in front of this
  * function, has no such site and was cut off into
  * src/matched/unit_02019C54.c rather than left capped with it
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md is the same
@@ -564,7 +564,7 @@ u32 func_02019BBC(u32 item)
  *   python tools/match.py tu --src src/pending/sub_02019C38.c \
  *       --addr 0x02019C38 --thumb
  */
-void *func_02019C38(struct BoxPokemon *box, u32 personality, u32 blockIndex)
+void *POKE_TOOL_GetBoxSubstruct(struct BoxPokemon *box, u32 personality, u32 blockIndex)
 {
     return &box->blocks[gBlockOrder[(personality & 0x3E000) >> 13][blockIndex]];
 }
@@ -580,7 +580,7 @@ void *func_02019C38(struct BoxPokemon *box, u32 personality, u32 blockIndex)
 /*
  * A one-entry memo: the (a, b) key pair at 0x02146270 and the 0x10 byte
  * object built for it at 0x02146274, rebuilt through POKE_PERSONAL_LoadData
- * (src/matched/unit_0201ADA4.c) only when the key changes.  func_02019C90 in
+ * (src/matched/unit_0201ADA4.c) only when the key changes.  POKE_TOOL_GetPersonalParam in
  * src/matched/unit_02019C7C.c is its only caller.
  *
  * Two things pin the source.
@@ -596,7 +596,7 @@ void *func_02019C38(struct BoxPokemon *box, u32 personality, u32 blockIndex)
  * Declared as two symbols, 0x02146274 would need a witness of its own and the
  * only word in the image that holds it is the one under test.
  *
- * The neighbour func_02019C38 at the head of this packet is byte-correct but
+ * The neighbour POKE_TOOL_GetBoxSubstruct at the head of this packet is byte-correct but
  * MATCH-capped on its private table and is parked in
  * src/pending/sub_02019C38.c; this range is cut to exclude it.
  *
@@ -604,7 +604,7 @@ void *func_02019C38(struct BoxPokemon *box, u32 personality, u32 blockIndex)
  *   python tools/match.py tu --src src/matched/unit_02019C54.c \
  *       --addr 0x02019C54 --thumb
  */
-void *func_02019C54(u32 species, u32 form)
+void *POKE_TOOL_GetPersonalData(u32 species, u32 form)
 {
     if (species != gPersonalCache.species || form != gPersonalCache.form) {
         gPersonalCache.form = (u16)form;
@@ -623,7 +623,7 @@ void *func_02019C54(u32 species, u32 form)
 
 
 /*
- * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
+ * POKE_TOOL_CopyPartyPokemon carries no label in the generated listing: it saves r3 and r4
  * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
  * arrive as a run of .word between two literal pools.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
@@ -636,7 +636,7 @@ void *func_02019C54(u32 species, u32 form)
  * pool word in the image holds it, so neither the label nor the literal class
  * can attest it and the stub cannot be matched from either side.
  */
-u32 func_02019C7C(const struct PersonalData *data)
+u32 POKE_TOOL_GetPersonalGender(const struct PersonalData *data)
 {
     if (POKE_PERSONAL_GetParam(data, 0x1B) != 0) {
         return 2;
@@ -652,9 +652,9 @@ u32 func_02019C7C(const struct PersonalData *data)
 
 
 
-u32 func_02019C90(u16 species, u16 form, u32 field)
+u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field)
 {
-    return POKE_PERSONAL_GetParam(func_02019C54(species, form), field);
+    return POKE_PERSONAL_GetParam(POKE_TOOL_GetPersonalData(species, form), field);
 }
 
 
@@ -665,7 +665,7 @@ u32 func_02019C90(u16 species, u16 form, u32 field)
 
 
 
-void func_02019CA0(struct Pokemon *mon, u32 level)
+void POKE_TOOL_SetLevelAndRecalc(struct Pokemon *mon, u32 level)
 {
     u32 species = func_02017E1C(mon, 5, 0);
     u32 form = func_02017E1C(mon, 0x6F, 0);
@@ -682,7 +682,7 @@ void func_02019CA0(struct Pokemon *mon, u32 level)
 
 
 
-void func_02019CE0(const struct PartyPokemon *src, struct PartyPokemon *dest)
+void POKE_TOOL_CopyPartyPokemon(const struct PartyPokemon *src, struct PartyPokemon *dest)
 {
     *dest = *src;
 }
@@ -698,12 +698,12 @@ void func_02019CE0(const struct PartyPokemon *src, struct PartyPokemon *dest)
 
 
 /*
- * Plain forwarder to func_02019BBC (ldr r3, =target; bx r3).  Callee of
+ * Plain forwarder to POKE_TOOL_GetPlateType (ldr r3, =target; bx r3).  Callee of
  * ov170 BOX2_MAIN_CanPlaceInBox.
  */
-unsigned int func_02019CF8(unsigned int item)
+unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item)
 {
-    return func_02019BBC(item);
+    return POKE_TOOL_GetPlateType(item);
 }
 
 
@@ -717,7 +717,7 @@ unsigned int func_02019CF8(unsigned int item)
 
 
 /*
- * Neither carries a label in the generated listing.  func_02019D00
+ * Neither carries a label in the generated listing.  POKE_TOOL_GetBoxParamIndex
  * is a dense switch over 0x74..0x77 whose four arms each return a constant,
  * and the `subs r0, #0x74` in front of the `cmp`/`bhi` is the compiler's
  * normalisation of the range rather than anything the source wrote; see
@@ -729,7 +729,7 @@ unsigned int func_02019CF8(unsigned int item)
  * appears in exactly one literal pool in the whole image, the one under test,
  * so the literal class discards its only witness and no cut helps.
  */
-u32 func_02019D00(u32 paramId)
+u32 POKE_TOOL_GetBoxParamIndex(u32 paramId)
 {
     switch (paramId) {
     case 0x74:
@@ -754,10 +754,10 @@ u32 func_02019D00(u32 paramId)
 
 
 
-u32 func_02019D30(u16 species, u16 form)
+u32 POKE_TOOL_NormalizeForm(u16 species, u16 form)
 {
     if (species != 0x28A) {
-        if ((s32)form >= (s32)func_02019C90(species, form, 0x20)) {
+        if ((s32)form >= (s32)POKE_TOOL_GetPersonalParam(species, form, 0x20)) {
             form = 0;
         }
         return form;
@@ -783,7 +783,7 @@ u32 func_02019D30(u16 species, u16 form)
  *           the data address this file reaches now attests as
  *           sole-ref/data.  Promoted from src/pending/ unchanged.
  */
-int func_02019D58(u16 species, int value)
+int POKE_TOOL_FilterSpecies(u16 species, int value)
 {
     u16 i;
 
@@ -1271,7 +1271,7 @@ void POKE_REGULATION_AdjustPartyLevels(const struct Regulation *reg, struct Part
             u32 level = func_02017E1C(mon, 0x9E, 0);
 
             if (POKE_REGULATION_AdjustLevel(reg, level) != level)
-                func_02019CA0(mon, levelValue);
+                POKE_TOOL_SetLevelAndRecalc(mon, levelValue);
         }
     }
 }
@@ -1310,7 +1310,7 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
         struct Pokemon *mon = POKEPARTY_GetMember(party, i);
 
         if (func_02017E1C(mon, 0xA9, 0) != 0)
-            func_02019B58(mon);
+            POKE_TOOL_SetDefaultName(mon);
     }
 }
 
@@ -1363,9 +1363,9 @@ void POKE_REGULATION_LoadInto(int memberId, void *dst)
  * Load one 0x40-byte sprite record whose mode word is chosen from the pair of
  * bytes at a0+2/+3: (1,6) selects 6, equal bytes select 7, a byte above 1
  * with 6 following selects 8 and anything else 9.  Both palette fields are
- * stamped through func_0201EFA4, the record is allocated against a4, its
+ * stamped through WORDSET_SetSlotNumber, the record is allocated against a4, its
  * slots are filled from *a2 through func_02045CAC and the pair is bound by
- * func_0201F250.
+ * WORDSET_CopyTaggedText.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/POKE_REGULATION_BuildPartySizeLine.c \
@@ -1385,11 +1385,11 @@ struct Strbuf *POKE_REGULATION_BuildPartySizeLine(const struct Regulation *reg, 
     } else {
         messageId = 9;
     }
-    func_0201EFA4(wordSet, 0, reg->minPartySize, 1, 0, 1);
-    func_0201EFA4(wordSet, 1, reg->maxPartySize, 1, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, reg->minPartySize, 1, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 1, reg->maxPartySize, 1, 0, 1);
     line = STRBUF_Create(0x40, heapId);
     func_02045CAC(text->bank, messageId, scratch);
-    func_0201F250(wordSet, line, scratch);
+    WORDSET_CopyTaggedText(wordSet, line, scratch);
     return line;
 }
 
@@ -1407,8 +1407,8 @@ struct Strbuf *POKE_REGULATION_BuildPartySizeLine(const struct Regulation *reg, 
  * record's mode from the format byte at a0+5 (0 -> 6, 4 -> 0xb, 1 -> 0xd,
  * 2 -> 0xc, 3 -> 0xe, 5 -> 0xf, anything else 6; an if chain in that order,
  * the image tests it in source order), stamp the byte at a0+4 through
- * func_0201EFA4, allocate the 0x40-byte record against a4, fill it from *a2
- * and bind it with func_0201F250.
+ * WORDSET_SetSlotNumber, allocate the 0x40-byte record against a4, fill it from *a2
+ * and bind it with WORDSET_CopyTaggedText.
  *
  * WHAT CLOSED IT (docs/notes/pkt_0201A3F4.c.txt: 8 bytes out, the byte at
  * a0+4 loaded after the two outgoing stack stores instead of before): the
@@ -1439,10 +1439,10 @@ struct Strbuf *POKE_REGULATION_BuildLevelLine(const struct Regulation *reg, stru
     } else {
         messageId = 6;
     }
-    func_0201EFA4(wordSet, 0, reg->levelValue, 3, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, reg->levelValue, 3, 0, 1);
     line = STRBUF_Create(0x40, heapId);
     func_02045CAC(text->bank, messageId, scratch);
-    func_0201F250(wordSet, line, scratch);
+    WORDSET_CopyTaggedText(wordSet, line, scratch);
     return line;
 }
 

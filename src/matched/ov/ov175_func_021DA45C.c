@@ -1,5 +1,5 @@
 /*
- * function: func_021DA45C
+ * function: WIFIBATTLEMATCH_NET_TakeSessionResult
  * address:  0x021DA45C
  * packet:   pkt_021DA45C
  * region:   ov175
@@ -20,7 +20,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021DA45C(char *obj)
+u32 WIFIBATTLEMATCH_NET_TakeSessionResult(char *obj)
 {
     u32 v = ((struct Obj14333 *)obj)->f140;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6FA0
+ * function: VIEWER_TEXT_SetActorAnim
  * address:  0x021C6FA0
  * packet:   pkt_ov111_021C6FA0
  * region:   ov111
@@ -32,7 +32,7 @@ typedef struct {
     void *anim[1];
 } Work;
 
-void func_021C6FA0(Work *p, int idx, u8 a, u8 b)
+void VIEWER_TEXT_SetActorAnim(Work *p, int idx, u8 a, u8 b)
 {
     CLACT_SetActorAnimSeq(p->anim[idx], a);
     CLACT_RestartActorAnim(p->anim[idx]);

@@ -19,7 +19,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   SCRIPT_WORK_GetTempBuffer  0x02158F7C  thumb  ov010
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
  *   FIELD_MSGBG_ClearInfoSysWin  0x02191164  thumb  ov021
  *   FIELD_MSGBG_InfoSysWinPrintStrNow  0x02191184  thumb  ov021
@@ -43,7 +43,7 @@ extern u32 SCRCMD_WORK_GetMsgData(u8 *p);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern u32 SCRIPT_WORK_GetTempBuffer(u8 *p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern int SCRCMD_WORK_GetMsgWindow(int a0);
 extern void FIELD_MSGBG_ClearInfoSysWin(struct P *p);
 extern void FIELD_MSGBG_InfoSysWinPrintStrNow(struct Q *q, u32 b, int c, u32 d);
@@ -61,7 +61,7 @@ int SCRCMD_MSGWIN_CmdInfoSysWinMsgNow(u32 a, u32 b)
     z = (u32)SCRIPT_WORK_GetWordSet(t);
     w = SCRIPT_WORK_GetTempBuffer(t);
     MSGDATA_ReadString((struct MsgBank *)y, x, (void *)w);
-    func_0201F250((struct WordSet *)z, (void *)s, (void *)w);
+    WORDSET_CopyTaggedText((struct WordSet *)z, (void *)s, (void *)w);
     y = SCRCMD_WORK_GetMsgWindow(b);
     FIELD_MSGBG_ClearInfoSysWin((void *)y);
     FIELD_MSGBG_InfoSysWinPrintStrNow((struct Q *)y, 0, 0, s);

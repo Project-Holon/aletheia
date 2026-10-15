@@ -1,5 +1,5 @@
 /*
- * function: func_021F3304
+ * function: NAMEIN_GRAPHIC_IsGridDrawDone
  * address: 0x021F3304
  * packet: pkt_ov194_021F3304
  * region: ov194
@@ -15,7 +15,7 @@
 #include "../include/Obj05512.h"
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *); extern int PRINTSYS_QUE_IsExistTarget(int,int); extern void BMP_WIN_TransferChars(struct Descriptor *d);
-int func_021F3304(char *p) {
+int NAMEIN_GRAPHIC_IsGridDrawDone(char *p) {
  int q;
  q=((struct Obj05512 *)p)->fF8;
  if(((struct Obj05512 *)p)->fF0) {

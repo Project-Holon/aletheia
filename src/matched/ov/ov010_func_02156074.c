@@ -11,13 +11,13 @@
  *
  * EXACT* only because the unlabelled function at 0x0215611C follows
  * (seed it into layout/function_starts.txt). The u8 local t is what puts the
- * truncation of func_021F5140's result ahead of the w->f38 load.
+ * truncation of MUSICAL_MCSS_GetElemA's result ahead of the w->f38 load.
  *
  * symbols:
  *   BR_UTIL_EffectIdle  0x021FD964  thumb  ov186
- *   func_021F4F14  0x021F4F14  thumb  ov112
- *   func_021F5140  0x021F5140  thumb  ov112
- *   func_021F4F40  0x021F4F40  thumb  ov112
+ *   MUSICAL_MCSS_LoadActorData  0x021F4F14  thumb  ov112
+ *   MUSICAL_MCSS_GetElemA  0x021F5140  thumb  ov112
+ *   MUSICAL_MCSS_FreeActorData  0x021F4F40  thumb  ov112
  *   MUSICAL_PROGRAM_GetCategoryShare  0x02157394  thumb  ov010
  */
 
@@ -55,9 +55,9 @@ typedef struct Work {
 } Work;
 
 extern u32 BR_UTIL_EffectIdle(void *p, u32 i, u32 j);
-extern u32 *func_021F4F14(int heap);
-extern unsigned char func_021F5140(void *p, int i);
-extern void func_021F4F40(void **p);
+extern u32 *MUSICAL_MCSS_LoadActorData(int heap);
+extern unsigned char MUSICAL_MCSS_GetElemA(void *p, int i);
+extern void MUSICAL_MCSS_FreeActorData(void **p);
 extern u16 MUSICAL_PROGRAM_GetCategoryShare(int a0, int a1);
 
 void MUSICAL_EVENT_ScorePerformers(Work *w)
@@ -79,15 +79,15 @@ void MUSICAL_EVENT_ScorePerformers(Work *w)
             }
         }
     }
-    h = func_021F4F14((u32)4);
+    h = MUSICAL_MCSS_LoadActorData((u32)4);
     for (i = 0; i < 4; i++) {
         m = w->party->members[i];
         for (j = 0; j < 9; j++) {
             if (m->used[j] == 1) {
-                t = (u32)func_021F5140(h, (u16)m->recs[j].id);
+                t = (u32)MUSICAL_MCSS_GetElemA(h, (u16)m->recs[j].id);
                 m->total += MUSICAL_PROGRAM_GetCategoryShare((int)w->f38, t);
             }
         }
     }
-    func_021F4F40(h);
+    MUSICAL_MCSS_FreeActorData(h);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     sb_server.c
  * unit:     yes
- * function: func_0219DF30, func_0219DF40, func_0219DF54, func_0219DF64, func_0219DFC0, func_0219DFF8, func_0219E01C, func_0219E084, func_0219E0C0, func_0219E120, func_0219E1B8, SBServerGetPublicInetAddress, func_0219E1F4, SBServerGetPublicQueryPortNBO, func_0219E220, SBServerGetPrivateInetAddress, func_0219E240, SBServerSetNext, SBServerGetNext, func_0219E274, func_0219E2D4, func_0219E33C, func_0219E3CC, func_0219E5B8, func_0219E848, func_0219E89C, func_0219E8C4, func_0219E8D4, SBServerGetPing, func_0219E900, SBServerSetFlags, func_0219E9B4, SBServerSetICMPIP, SBServerSetState, SBServerGetState, func_0219E9D8
+ * function: func_0219DF30, func_0219DF40, func_0219DF54, func_0219DF64, func_0219DFC0, func_0219DFF8, func_0219E01C, func_0219E084, SBServerGetStringValueA, SBServerGetIntValueA, func_0219E1B8, SBServerGetPublicInetAddress, SBServerGetPublicQueryPort, SBServerGetPublicQueryPortNBO, SBServerHasPrivateAddress, SBServerGetPrivateInetAddress, SBServerGetPrivateQueryPort, SBServerSetNext, SBServerGetNext, CheckValidKey, func_0219E2D4, SBServerParseKeyVals, SBServerParseQR2FullKeysSingle, SBServerParseQR2FullKeysSplit, func_0219E848, func_0219E89C, func_0219E8C4, func_0219E8D4, SBServerGetPing, SBAllocServer, SBServerSetFlags, SBServerSetPrivateAddr, SBServerSetICMPIP, SBServerSetState, SBServerGetState, SBIsNullServer
  * address:  0x0219DF30
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -49,7 +49,7 @@
  *   g_021A8120                     0x021A8120  data
  *   _ZZ5mytokPccE6thestr            0x021AEAF8  data
  *   func_0219E2D4  0x0219E2D4  arm  ov009
- *   func_0219D114  0x0219D114  arm  ov009
+ *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   g_021A8160  0x021A8160  data
  *   g_021A8164  0x021A8164  data
@@ -60,14 +60,14 @@
  *   g_021A8178  0x021A8178  data
  *   g_021A81AC  0x021A81AC  data
  *   strnicmp  0x0209ABEC  arm
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   _u32_div_f     0x0209C2B0  arm
  *   __lower_mapC   0x020A60DC  data
  *   SBReleaseStr  0x0219F920  arm
  *   strcasecmp  0x0209ABF8  arm
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_02184638  0x02184638  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   func_0219E8D4  0x0219E8D4  arm  ov009
  *   func_0219E89C  0x0219E89C  arm  ov009
  *   func_0219E8C4  0x0219E8C4  arm  ov009
@@ -106,17 +106,16 @@ extern char *SBServerGetStringValueA(SBServer *server, char *keyname,
                                      char *def);
 extern double atof(char *s);
 extern char *func_0219E2D4(char *instr, char delim);
-extern int func_0219D114(char *keyname);
+extern int qr2_internal_is_master_only_key(char *keyname);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern int NTSLengthSB(char *buf, int len);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 extern void SBReleaseStr(SBServerList *slist, char *str);
 extern int strcasecmp(char *a, char *b);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *func_02184638(int elemSize, int nBuckets, int nChains, int (*hashFn)(void *, int),
                            int (*compFn)(void *, void *), void (*freeFn)(void *));
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern int func_0219E8D4(void *a, void *b);
 extern void func_0219E89C(void *elem);
 extern int func_0219E8C4(void *elem, int numbuckets);
@@ -128,31 +127,31 @@ void SBRefStrHashCleanup(void);
 void SBServerFree(void *elem);
 void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
 void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value);
-char *func_0219E0C0(SBServer *server, char *keyname, char *def);
-int func_0219E120(SBServer *server, char *key, int idefault);
+char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def);
+int SBServerGetIntValueA(SBServer *server, char *key, int idefault);
 double SBServerGetFloatValueA(SBServer *server, char *key, double fdefault);
 unsigned int SBServerGetPublicInetAddress(const SBServer *server);
-unsigned short func_0219E1F4(const unsigned short *p);
+unsigned short SBServerGetPublicQueryPort(const unsigned short *p);
 unsigned short SBServerGetPublicQueryPortNBO(const SBServer *server);
-int func_0219E220(const unsigned char *p);
+int SBServerHasPrivateAddress(const unsigned char *p);
 unsigned int SBServerGetPrivateInetAddress(const SBServer *server);
-unsigned short func_0219E240(const unsigned short *p);
+unsigned short SBServerGetPrivateQueryPort(const unsigned short *p);
 void SBServerSetNext(SBServer *server, SBServer *next);
 SBServer *SBServerGetNext(const SBServer *server);
-int func_0219E274(char *key);
+int CheckValidKey(char *key);
 char *mytok(char *instr, char delim);
-void func_0219E33C(SBServer *server, char *keyvals);
-void func_0219E3CC(SBServer *server, char *data, int len);
-void func_0219E5B8(SBServer *server, char *data, int len);
+void SBServerParseKeyVals(SBServer *server, char *keyvals);
+void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len);
+void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len);
 int KeyValHashKey(void *elem, int numbuckets);
 int SBServerGetPing(const SBServer *server);
-SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
+SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport);
 void SBServerSetFlags(SBServer *server, unsigned char flags);
-void func_0219E9B4(char *p, int v, unsigned short w);
+void SBServerSetPrivateAddr(char *p, int v, unsigned short w);
 void SBServerSetICMPIP(SBServer *server, unsigned int icmpIp);
 void SBServerSetState(SBServer *server, unsigned char state);
 unsigned char SBServerGetState(const SBServer *server);
-int func_0219E9D8(int v);
+int SBIsNullServer(int v);
 extern struct HashImplementation *g_021AEAF8[];
 extern char g_021A8130[];
 extern char g_021A8154[];
@@ -269,7 +268,7 @@ void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value)
  * followed by `return ptr->value;`, with strlen from string.h so the value stays
  * in r4 across the call. The positive-test order duplicated the epilogue.
  */
-char *func_0219E0C0(SBServer *server, char *keyname, char *def)
+char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def)
 {
     SBKeyValuePair *ptr;
     SBKeyValuePair kv;
@@ -294,7 +293,7 @@ static inline int isdigit(unsigned int c) { return (c >= 0x80) ? 0 : (g_020A61DC
 /*
  * sdk:      SBServerGetIntValueA (libdwcgsserverbrowsing.TWL.HYB.a(sb_server.o))
  */
-int func_0219E120(SBServer *server, char *key, int idefault)
+int SBServerGetIntValueA(SBServer *server, char *key, int idefault)
 {
     char *s;
 
@@ -302,7 +301,7 @@ int func_0219E120(SBServer *server, char *key, int idefault)
         return idefault;
     if (strcmp(key, g_021A8158) == 0)
         return SBServerGetPing(server);
-    s = func_0219E0C0((SBServer *)server, key, 0);
+    s = SBServerGetStringValueA((SBServer *)server, key, 0);
     if (s == 0)
         return idefault;
     if (!isdigit(*(unsigned char *)(*s != 0x2d ? s : s + 1)))
@@ -328,7 +327,7 @@ unsigned int SBServerGetPublicInetAddress(const SBServer *server)
     return server->publicip;
 }
 
-unsigned short func_0219E1F4(const unsigned short *p)
+unsigned short SBServerGetPublicQueryPort(const unsigned short *p)
 {
     int v = p[2];
 
@@ -341,7 +340,7 @@ unsigned short SBServerGetPublicQueryPortNBO(const SBServer *server)
     return server->publicport;
 }
 
-int func_0219E220(const unsigned char *p)
+int SBServerHasPrivateAddress(const unsigned char *p)
 {
     return (p[0x15] & 2) == 2;
 }
@@ -352,7 +351,7 @@ unsigned int SBServerGetPrivateInetAddress(const SBServer *server)
     return server->privateip;
 }
 
-unsigned short func_0219E240(const unsigned short *p)
+unsigned short SBServerGetPrivateQueryPort(const unsigned short *p)
 {
     int v = p[6];
 
@@ -391,7 +390,7 @@ SBServer *SBServerGetNext(const SBServer *server)
  * 0x021A8118), which the template class cannot compare, so it is declared as
  * the data label g_021A8120.
  */
-int func_0219E274(char *key)
+int CheckValidKey(char *key)
 {
     char *InvalidKeys[2];
     unsigned int i;
@@ -432,7 +431,7 @@ char *mytok(char *instr, char delim)
 /*
  * sdk:      SBServerParseKeyVals (libdwcgsserverbrowsing.TWL.HYB.a(sb_server.o))
  */
-void func_0219E33C(SBServer *server, char *keyvals)
+void SBServerParseKeyVals(SBServer *server, char *keyvals)
 {
     char *k;
     char *v;
@@ -442,7 +441,7 @@ void func_0219E33C(SBServer *server, char *keyvals)
         v = func_0219E2D4(0, 0x5c);
         if (v == 0)
             v = g_021A8160;
-        if (func_0219E274(k) && !func_0219D114(k))
+        if (CheckValidKey(k) && !qr2_internal_is_master_only_key(k))
             func_0219E01C(server, k, v);
         k = func_0219E2D4(0, 0x5c);
     }
@@ -457,7 +456,7 @@ void func_0219E33C(SBServer *server, char *keyvals)
  * The two-byte nunits copy is memcpy from string.h, which mwccarm inlines as the
  * object's ldrb/strb pair; a prototype in this file would emit a call.
  */
-void func_0219E3CC(SBServer *server, char *data, int len)
+void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len)
 {
     int dlen;
     char *k;
@@ -483,7 +482,7 @@ void func_0219E3CC(SBServer *server, char *data, int len)
         v = data;
         data += dlen;
         len -= dlen;
-        if (!func_0219D114(k))
+        if (!qr2_internal_is_master_only_key(k))
             func_0219E01C(server, k, v);
     }
     data++;
@@ -531,7 +530,7 @@ void func_0219E3CC(SBServer *server, char *data, int len)
 /*
  * sdk:      SBServerParseQR2FullKeysSplit (sb_server.o)
  */
-void func_0219E5B8(SBServer *server, char *data, int len)
+void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len)
 {
     int dlen;
     char *k;
@@ -578,7 +577,7 @@ void func_0219E5B8(SBServer *server, char *data, int len)
         data++;
         len--;
         if (keyType < 0 || keyType > 2) {
-            func_0217D254(4, 0, 2, g_021A8178, keyType);
+            gsDebugFormat(4, 0, 2, g_021A8178, keyType);
             return;
         }
         while (*data != '\0') {
@@ -595,7 +594,7 @@ void func_0219E5B8(SBServer *server, char *data, int len)
                 v = data;
                 data += dlen;
                 len -= dlen;
-                if (!func_0219D114(k))
+                if (!qr2_internal_is_master_only_key(k))
                     func_0219E01C(server, k, v);
             } else {
                 if (len < 1)
@@ -622,7 +621,7 @@ void func_0219E5B8(SBServer *server, char *data, int len)
         }
         if (len > 0) {
             if (*data != '\0') {
-                func_0217D254(4, 0, 2, g_021A81AC);
+                gsDebugFormat(4, 0, 2, g_021A81AC);
                 return;
             }
             data++;
@@ -685,16 +684,16 @@ int SBServerGetPing(const SBServer *server)
 }
 
 
-SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport)
+SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport)
 {
     SBServer *server;
 
-    server = func_0217EAB0(sizeof(SBServer));
+    server = gsimalloc(sizeof(SBServer));
     if (server == 0)
         return 0;
     server->keyvals = func_02184638(8, 8, 4, func_0219E8C4, func_0219E8D4, func_0219E89C);
     if (server->keyvals == 0) {
-        func_0217EAE0(server);
+        gsifree(server);
         return 0;
     }
     server->state = 0;
@@ -715,7 +714,7 @@ void SBServerSetFlags(SBServer *server, unsigned char flags)
     server->flags = flags;
 }
 
-void func_0219E9B4(char *p, int v, unsigned short w)
+void SBServerSetPrivateAddr(char *p, int v, unsigned short w)
 {
     *(int *)(p + 8) = v;
     *(unsigned short *)(p + 0xc) = w;
@@ -749,7 +748,7 @@ unsigned char SBServerGetState(const SBServer *server)
 }
 
 
-int func_0219E9D8(int v)
+int SBIsNullServer(int v)
 {
     return v == (int)g_021AEAF8[2];
 }

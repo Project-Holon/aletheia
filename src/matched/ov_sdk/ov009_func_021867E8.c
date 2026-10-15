@@ -1,5 +1,5 @@
 /*
- * function: func_021867E8
+ * function: gpiReset
  * address:  0x021867E8
  * packet:   pkt_ov009_021867E8
  * region:   ov009
@@ -12,13 +12,13 @@
  * sdk:      gpiReset (libdwcgsgp.TWL.HYB.a gpi.o)
  *
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_0218D840  0x0218D840  arm  ov009
- *   func_0218D7F4  0x0218D7F4  arm  ov009
- *   func_02186788  0x02186788  arm  ov009
- *   func_0218E240  0x0218E240  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
+ *   gpiStatusInfoKeysDestroy  0x0218D840  arm  ov009
+ *   gpiStatusInfoKeysInit  0x0218D7F4  arm  ov009
+ *   gpiDestroy  0x02186788  arm  ov009
+ *   gpiRemoveOperation  0x0218E240  arm  ov009
  *   func_0218FFFC  0x0218FFFC  arm  ov009
- *   func_021867C0  0x021867C0  arm  ov009
+ *   gpiResetProfile  0x021867C0  arm  ov009
  */
 
 typedef struct GPIConnection {
@@ -77,16 +77,16 @@ typedef struct GPIConnection {
 typedef void *GPConnection;
 typedef struct GPIProfile GPIProfile;
 
-extern void func_0217EAE0(void *ptr);
-extern void func_0218D840(GPConnection *connection);
-extern int func_0218D7F4(GPConnection *connection);
-extern void func_02186788(GPConnection *connection);
+extern void gsifree(void *ptr);
+extern void gpiStatusInfoKeysDestroy(GPConnection *connection);
+extern int gpiStatusInfoKeysInit(GPConnection *connection);
+extern void gpiDestroy(GPConnection *connection);
 struct GPIOperation;
-extern void func_0218E240(void **connection, struct GPIOperation *operation);
+extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern int func_0218FFFC(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
-extern int func_021867C0(int unused, struct GPIProfile *profile);
+extern int gpiResetProfile(int unused, struct GPIProfile *profile);
 
-int func_021867E8(GPConnection *connection)
+int gpiReset(GPConnection *connection)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int result;
@@ -99,47 +99,47 @@ int func_021867E8(GPConnection *connection)
     iconnection->len200 = 0;
     iconnection->pos204 = 0;
     iconnection->size1FC = 0;
-    func_0217EAE0(iconnection->buf1F8);
+    gsifree(iconnection->buf1F8);
     iconnection->buf1F8 = 0;
     iconnection->buf1F8 = 0;
     iconnection->len20C = 0;
-    func_0217EAE0(iconnection->buf208);
+    gsifree(iconnection->buf208);
     iconnection->buf208 = 0;
     iconnection->buf208 = 0;
     iconnection->len218 = 0;
     iconnection->pos21C = 0;
     iconnection->size214 = 0;
-    func_0217EAE0(iconnection->buf210);
+    gsifree(iconnection->buf210);
     iconnection->buf210 = 0;
     iconnection->buf210 = 0;
     iconnection->len5EC = 0;
     iconnection->pos5F0 = 0;
     iconnection->size5E8 = 0;
-    func_0217EAE0(iconnection->buf5E4);
+    gsifree(iconnection->buf5E4);
     iconnection->buf5E4 = 0;
     iconnection->buf5E4 = 0;
     iconnection->len5FC = 0;
     iconnection->pos600 = 0;
     iconnection->size5F8 = 0;
-    func_0217EAE0(iconnection->buf5F4);
+    gsifree(iconnection->buf5F4);
     iconnection->buf5F4 = 0;
     iconnection->buf5F4 = 0;
 
-    func_0218D840(connection);
-    result = func_0218D7F4((GPConnection *)&iconnection);
+    gpiStatusInfoKeysDestroy(connection);
+    result = gpiStatusInfoKeysInit((GPConnection *)&iconnection);
     if (result != 0)
     {
-        func_02186788((GPConnection *)&iconnection);
+        gpiDestroy((GPConnection *)&iconnection);
         return result;
     }
 
     iconnection->f234 = 2;
     while (iconnection->operationList != 0)
-        func_0218E240(connection, iconnection->operationList);
+        gpiRemoveOperation(connection, iconnection->operationList);
     iconnection->operationList = 0;
     iconnection->f5D0 = 0;
     iconnection->f5D4 = 0;
-    func_0218FFFC(connection, (int (*)(GPConnection *, GPIProfile *, void *))func_021867C0, 0);
+    func_0218FFFC(connection, (int (*)(GPConnection *, GPIProfile *, void *))gpiResetProfile, 0);
     iconnection->f19C = 0;
     iconnection->f1A0 = 0;
     iconnection->f198 = 0;

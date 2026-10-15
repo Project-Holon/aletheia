@@ -22,8 +22,8 @@
  *   ITEMMENU_PrintMoney  0x021BAFC4  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemNameCounted  0x021B6204  thumb  ov070
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   ITEMMENU_ShowMessageDefault  0x021BADAC  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   ITEMMENU_TaskWaitMessageDismiss  0x021B7C88  thumb  ov070
@@ -69,8 +69,8 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 extern void ITEMMENU_PrintMoney(u8 *p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_RegisterItemNameCounted(u8 *p, int a, unsigned int b, int c, int d);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_ShowMessageDefault(void *p);
 extern void ITEMMENU_SetTask(char *p, int k);
 extern void ITEMMENU_TaskWaitMessageDismiss();
@@ -98,8 +98,8 @@ void ITEMMENU_TaskSellConfirmInput(Obj *o)
         ITEMMENU_PrintMoney((u8 *)o);
         MSGDATA_ReadString(o->f51C, 0x50, (void *)o->f524);
         ITEMMENU_RegisterItemNameCounted((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
-        func_0201EFA4(o->f520, 1, v, 7, 0, 1);
-        func_0201F250(o->f520, o->f528, (void *)o->f524);
+        WORDSET_SetSlotNumber(o->f520, 1, v, 7, 0, 1);
+        WORDSET_CopyTaggedText(o->f520, o->f528, (void *)o->f524);
         ITEMMENU_ShowMessageDefault(o);
         ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskWaitMessageDismiss));
         break;

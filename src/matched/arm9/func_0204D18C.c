@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02066AE0  0x02066AE0  arm
- *   func_020627D8  0x020627D8  arm
- *   func_020637B4  0x020637B4  arm
+ *   NNSi_G2dGetCellTransferStateIndex  0x02066AE0  arm
+ *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
+ *   NNSi_G2dGetVramHandleValue  0x020637B4  arm
  *   NNS_G2dInitCellAnimationVramTransfered  0x020642C8  arm
  *
  * Record builder in clact.c.  Wave 15 (register-tie lane): the last 10
@@ -55,11 +55,11 @@ struct R {
     u32 f14;
 };
 
-extern int func_02066AE0(void);
+extern int NNSi_G2dGetCellTransferStateIndex(void);
 struct AnimBank;
 struct AnimSequence;
-extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
-extern int func_020637B4(int *p, int i);
+extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
+extern int NNSi_G2dGetVramHandleValue(int *p, int i);
 extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, char *c, int d, int e, int f, int g, int h, int i, int j);
 
 void CLACT_InitMultiCellAnimCtl(struct P *p, const struct A *a)
@@ -75,12 +75,12 @@ void CLACT_InitMultiCellAnimCtl(struct P *p, const struct A *a)
         p->f04 = t0;
         p->f08 = t1;
     }
-    p->f64 = func_02066AE0();
+    p->f64 = NNSi_G2dGetCellTransferStateIndex();
     r = (struct R *)a->f1c;
-    h0 = (u32)func_020627D8((struct AnimBank *)p->f08, zero);
-    h1 = func_020637B4((int *)a->f04, 1);
+    h0 = (u32)NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)p->f08, zero);
+    h1 = NNSi_G2dGetVramHandleValue((int *)a->f04, 1);
     two = 2;
-    h2 = func_020637B4((int *)a->f04, two);
+    h2 = NNSi_G2dGetVramHandleValue((int *)a->f04, two);
     NNS_G2dInitCellAnimationVramTransfered((char *)((u8 *)p + 0xc), h0, (char *)p->f04, p->f64,
                   two - 3, h1, h2, r->f14, zero, r->f10);
 }

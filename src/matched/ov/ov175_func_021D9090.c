@@ -1,5 +1,5 @@
 /*
- * function: func_021D9090
+ * function: WIFIBATTLEMATCH_NET_CompStepM
  * address: 0x021D9090
  * packet: pkt_ov175_021D9090
  * region: ov175
@@ -16,11 +16,11 @@
  *   func_021E8844 0x021E8844 thumb ov177
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  *   func_021E8AA8 0x021E8AA8 thumb ov177
- *   func_021D97E4 0x021D97E4 thumb ov175
- *   func_021DD020 0x021DD020 thumb ov175
- *   func_021DC8B4 0x021DC8B4 thumb ov175
- *   func_021DC908 0x021DC908 thumb ov175
- *   func_02167ED8 0x02167ED8 arm ov009
+ *   WIFIBATTLEMATCH_NET_StartTradeIconAnim 0x021D97E4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GetGsProfileId 0x021DD020 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupHttpRap 0x021DC8B4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_HttpRapSend 0x021DC908 thumb ov175
+ *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   RTC_ConvertDateTimeToSecond 0x02089004 arm
  *   RTC_ConvertSecondToDateTime 0x020891E0 arm
@@ -53,12 +53,12 @@ extern void func_021E8AB4(u32,u32);
 extern void func_021E8AB8(u32);
 extern void func_021E8AA8(int a);
 extern int func_021E8844(const int *p);
-extern void func_021D97E4(char *,u32);
-extern u32 func_021DD020(char *);
-extern void func_021DC8B4(char *,void *,unsigned);
-extern int func_021DC908(char *);
+extern void WIFIBATTLEMATCH_NET_StartTradeIconAnim(char *,u32);
+extern u32 WIFIBATTLEMATCH_NET_GetGsProfileId(char *);
+extern void WIFIBATTLEMATCH_NET_SetupHttpRap(char *,void *,unsigned);
+extern int WIFIBATTLEMATCH_NET_HttpRapSend(char *);
 extern int GFL_NET_GetRunState(void);
-extern int func_02167ED8(void *date, void *time);
+extern int DWC_GetDateTime(void *date, void *time);
 extern void func_0200FA84(void);
 typedef signed int     s32;
 extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
@@ -72,7 +72,7 @@ extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 extern void REGULATION_Card_SetValue(struct Reg2 *,unsigned int,int);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void MI_CpuFill8(void *,int,unsigned);
-void func_021D9090(u32 sys,int *state,char *p)
+void WIFIBATTLEMATCH_NET_CompStepM(u32 sys,int *state,char *p)
 {
     char *q=*(char * *)&((struct Obj00728 *)p)->f104;
     struct RTCDate startDate;
@@ -88,7 +88,7 @@ void func_021D9090(u32 sys,int *state,char *p)
     case 0:*state=1;break;
     case 1:reg=*(struct Reg2 * *)&((struct Obj00728 *)p)->f108;
         if(!GFL_NET_GetRunState())func_0200FA84();
-        got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
+        got=DWC_GetDateTime((int *)&nowDate,(int *)&nowTime);
         if(got)RTC_ConvertSecondToDateTime(&nowDate,&nowTime,RTC_ConvertDateTimeToSecond(&nowDate,&nowTime));
         startDate.year=REGULATION_Card_GetValue(reg,4);
         startDate.month=REGULATION_Card_GetValue(reg,5);
@@ -119,16 +119,16 @@ void func_021D9090(u32 sys,int *state,char *p)
     case 7:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
     case 8:BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         if(((struct Obj00728 *)p)->f26C!=0) *state=9;else *state=10;break;
-    case 9:func_021D97E4(p,1);
+    case 9:WIFIBATTLEMATCH_NET_StartTradeIconAnim(p,1);
         func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,81,1);
         *state=14;func_021E8AB4(sys,10);break;
     case 10:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,70,2);
         *state=14;func_021E8AB4(sys,11);break;
     case 11:MI_CpuFill8(&req,0,8);req.b=3;
-        req.id=func_021DD020(*(char * *)&((struct Obj00728 *)p)->f34);
+        req.id=WIFIBATTLEMATCH_NET_GetGsProfileId(*(char * *)&((struct Obj00728 *)p)->f34);
         (*(u8 **)(*(char * *)&((struct Obj00728 *)p)->f104+48))[5]=3;
-        func_021DC8B4(*(char * *)&((struct Obj00728 *)p)->f34,&req,87);*state=12;break;
-    case 12:v=func_021DC908(*(char * *)&((struct Obj00728 *)p)->f34);
+        WIFIBATTLEMATCH_NET_SetupHttpRap(*(char * *)&((struct Obj00728 *)p)->f34,&req,87);*state=12;break;
+    case 12:v=WIFIBATTLEMATCH_NET_HttpRapSend(*(char * *)&((struct Obj00728 *)p)->f34);
         if(v==1) *state=13;
         else if(v==3) {((struct Obj00728 *)p)->f40=3;*state=13;}
         break;

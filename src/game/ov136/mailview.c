@@ -28,7 +28,7 @@
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   func_02045B38 0x02045B38 arm
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   func_02030CB0 0x02030CB0 arm
@@ -72,7 +72,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void PALANM_TransferPalettes(struct PalAnm *p);
 extern void CLACT_VBlankSystem(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
@@ -121,7 +121,7 @@ void MAILVIEW_VBlankTask(void *task, struct MailEditProc *proc)
 {
     if (proc->palAnm) PALANM_TransferPalettes(proc->palAnm);
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
 }
 

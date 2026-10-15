@@ -1,5 +1,5 @@
 /*
- * function: func_021BEBE8
+ * function: ZKNSEARCH_MAIN_InitListTexts5
  * address:  0x021BEBE8
  * packet:   pkt_ov210_021BEBE8
  * region:   ov210
@@ -12,8 +12,8 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_021BE44C 0x021BE44C thumb ov210
- *   func_021BE49C 0x021BE49C thumb ov210
+ *   ZKNSEARCH_MAIN_PrintWindowText 0x021BE44C thumb ov210
+ *   ZKNSEARCH_MAIN_MakeWindowScreen 0x021BE49C thumb ov210
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00222.h"
@@ -23,16 +23,16 @@ struct Descriptor;
 struct CharBuf;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
-extern void func_021BE44C(u8 *, int, unsigned, int, int, unsigned short, unsigned);
-extern void func_021BE49C(u8 *);
+extern void ZKNSEARCH_MAIN_PrintWindowText(u8 *, int, unsigned, int, int, unsigned short, unsigned);
+extern void ZKNSEARCH_MAIN_MakeWindowScreen(u8 *);
 
-void func_021BEBE8(u8 *p)
+void ZKNSEARCH_MAIN_InitListTexts5(u8 *p)
 {
-    func_021BE49C(p + 0x14c);
+    ZKNSEARCH_MAIN_MakeWindowScreen(p + 0x14c);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00222 *)p)->f154), 0);
-    func_021BE44C(p, 1, 7, 0, 4, 0x440, 0);
-    func_021BE49C(p + 0x154);
+    ZKNSEARCH_MAIN_PrintWindowText(p, 1, 7, 0, 4, 0x440, 0);
+    ZKNSEARCH_MAIN_MakeWindowScreen(p + 0x154);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00222 *)p)->f1AC), 0);
-    func_021BE44C(p, 12, 16, 40, 0, 0x3c40, 2);
-    func_021BE49C(p + 0x1ac);
+    ZKNSEARCH_MAIN_PrintWindowText(p, 12, 16, 40, 0, 0x3c40, 2);
+    ZKNSEARCH_MAIN_MakeWindowScreen(p + 0x1ac);
 }

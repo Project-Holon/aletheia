@@ -1,5 +1,5 @@
 /*
- * function: func_021F4DD0
+ * function: NAMEIN_GRAPHIC_FreeHandle
  * address: 0x021F4DD0
  * packet: pkt_ov194_021F4DD0
  * region: ov194
@@ -12,4 +12,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-void func_021F4DD0(void *p) { func_020307B0(p); }
+void NAMEIN_GRAPHIC_FreeHandle(void *p) { func_020307B0(p); }

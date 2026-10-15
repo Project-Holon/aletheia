@@ -16,13 +16,13 @@
  * The two scroll-register accessors for the BG configuration table, both of
  * them leaf functions that save nothing and therefore carry no `func_` label
  * in the listing at all: they print as an anonymous run of `.word`s between
- * the literal pool of sub_02040618 and the next labelled function at
+ * the literal pool of BG_SYS_FillScrollArea and the next labelled function at
  * 0x02040820 (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * They were found by sweeping the address range, not by reading labels.
  *
  * Both index the same 0x2C-byte per-layer record hanging off the single
  * pointer at 0x02146A44, and return the horizontal (+0x14) and vertical
- * (+0x18) scroll values that sub_02040618 flushes to the hardware.  The
+ * (+0x18) scroll values that BG_SYS_FillScrollArea flushes to the hardware.  The
  * `mla r1, r0, r1, r2` is the array subscript: 0x2C is not a shift, so the
  * scale is a real multiply folded into the base add.
  *

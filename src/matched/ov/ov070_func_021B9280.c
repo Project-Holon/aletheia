@@ -42,6 +42,8 @@
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -63,12 +65,12 @@ struct Obj;
 struct Sub0200852CObj;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void ITEMMENU_InitDisplayBanks(void);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -135,12 +137,12 @@ void ITEMMENU_SetupGraphics(u8 *p)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BBBE0);
     CLACT_InitSystem((const struct Cfg *)d_021BBA8C, (u32)d_021BBBE0, *(u16 *)(p + 0x544));
     t = d_021BBAB0;
-    func_0203FC28((struct DispConfig *)(&t));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&t));
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     ITEMMENU_InitDisplayBanks();
     GF_FONT_SetDefaultTextColor();
-    *(u32 *)(p + 0x838) = (u32)func_0201F5DC((void *)3, 13, 0, *(u16 *)(p + 0x544));
+    *(u32 *)(p + 0x838) = (u32)BMP_MENUWORK_LoadFrameGfx((void *)3, 13, 0, *(u16 *)(p + 0x544));
     h = func_020490F4(0x58, *(u16 *)(p + 0x544));
     func_02049B68(h, 8, 4, 0, 0, *(u16 *)(p + 0x544));
     if (func_02008550((const struct Sub0200852CObj *)(*(u32 *)(p + 8))) == 0)

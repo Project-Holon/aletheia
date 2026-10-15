@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02041B94",
+   "name": "BG_SYS_CommitScroll",
    "address": "0x02041B94",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B74
+ * function: SUBWAY_MAP_GRAPHIC_VBlankClactUnit
  * address: 0x021B9B74
  * packet: pkt_ov224_021B9B74
  * region: ov224
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021B9B74(void *a0) { CLACT_VBlankSystem(); }
+void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *a0) { CLACT_VBlankSystem(); }

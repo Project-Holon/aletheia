@@ -1,5 +1,5 @@
 /*
- * function: func_021F2F8C
+ * function: NAMEIN_GRAPHIC_SymbolGetValue
  * address: 0x021F2F8C
  * packet: pkt_ov194_021F2F8C
  * region: ov194
@@ -11,7 +11,7 @@
 
  */
 typedef struct {int x,y;} Pair;
-int func_021F2F8C(Pair *p,Pair *out) {
+int NAMEIN_GRAPHIC_SymbolGetValue(Pair *p,Pair *out) {
  int result;Pair xy;
  result=0;
  switch((unsigned)p->y) {

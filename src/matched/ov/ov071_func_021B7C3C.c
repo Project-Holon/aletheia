@@ -19,7 +19,7 @@
  *   func_020084F4  0x020084F4  thumb
  *   STRBUF_SetStringN  0x02045994  arm
  *   func_02008550  0x02008550  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MONOLITH_TOOL_CreateLabel  0x021B6E1C  thumb  ov071
  *   MONOLITH_TOOL_TITLE_CreateSlotIcons  0x021B7DE0  thumb  ov071
@@ -56,7 +56,7 @@ int MONOLITH_TOOL_TITLE_Init(struct Obj0203159C *a, int *b, C *c)
     extern const void *func_020084F4(const void *p);
     extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
     extern u8 func_02008550(const struct Sub0200852CObj *obj);
-    extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+    extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
     extern void STRBUF_Delete(struct U16Vec *vec);
     extern void MONOLITH_TOOL_CreateLabel(Inner *, void *, int, int, int, int, int, int, int);
     extern void MONOLITH_TOOL_TITLE_CreateSlotIcons(void *, C *);
@@ -75,7 +75,7 @@ int MONOLITH_TOOL_TITLE_Init(struct Obj0203159C *a, int *b, C *c)
         h = (int)MONOLITH_TOOL_GetTitleSpecies((u8 **)c);
         s = STRBUF_Create(8, 0x61);
         STRBUF_SetStringN(s, func_020084F4((const void *)h), 8);
-        func_0201EE0C((struct WordSet *)c->f4->f10, 0, s, func_02008550((const struct Sub0200852CObj *)h), 1, 2);
+        WORDSET_SetSlotTag((struct WordSet *)c->f4->f10, 0, s, func_02008550((const struct Sub0200852CObj *)h), 1, 2);
         STRBUF_Delete(s);
         MONOLITH_TOOL_CreateLabel(c->f4, m, 0, 0x80, 0xc, 0x1e, 2, 0, c->f4->f10);
         MONOLITH_TOOL_TITLE_CreateSlotIcons(m, c);

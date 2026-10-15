@@ -1,5 +1,5 @@
 /*
- * function: func_021C581C
+ * function: VIEWER_MAIN_VBlank
  * address:  0x021C581C
  * packet:   pkt_ov111_021C581C
  * region:   ov111
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5B34  0x021C5B34  thumb  ov111
- *   func_021C4F80  0x021C4F80  thumb  ov111
+ *   VIEWER_MAIN_UpdateBrightness  0x021C5B34  thumb  ov111
+ *   VIEWER_MAIN_InitBrightness  0x021C4F80  thumb  ov111
  *   func_02040618  0x02040618  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *
  * Addresses are Black-image addresses.
@@ -31,25 +31,25 @@ typedef struct {
     u8 shake;
 } Work;
 
-extern void func_021C5B34(Work *p);
-extern void func_021C4F80(Work *p);
+extern void VIEWER_MAIN_UpdateBrightness(Work *p);
+extern void VIEWER_MAIN_InitBrightness(Work *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 
-void func_021C581C(void *task, Work *p)
+void VIEWER_MAIN_VBlank(void *task, Work *p)
 {
     int ofs;
 
-    func_021C5B34(p);
+    VIEWER_MAIN_UpdateBrightness(p);
     ofs = -(p->shake / 2);
     func_02040618(5, 0, ofs);
     func_02040618(5, 3, ofs);
     func_02040618(3, 0, ofs);
     func_02040618(3, 3, ofs);
     if (p->dirty) {
-        func_021C4F80(p);
+        VIEWER_MAIN_InitBrightness(p);
     }
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
 }

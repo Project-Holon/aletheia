@@ -8,22 +8,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BD3B8 0x021BD3B8 thumb ov172
+ *   CTVT_CALL_WorkDelete 0x021BD3B8 thumb ov172
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char  u8;
-extern void func_021BD3B8(u8 *p);
+extern void CTVT_CALL_WorkDelete(u8 *p);
 extern u32 func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int h);
+extern void GFL_HEAP_DeleteChecked(unsigned int h);
 int COMM_TVT_SYS_ProcExit(void *a, void *b, int c, u32 *p)
 {
-    func_021BD3B8((u8 *)p);
+    CTVT_CALL_WorkDelete((u8 *)p);
     if (c == 0) {
         func_020307B0((void *)p[0x7e]);
     }
     func_020315D4(a);
-    func_020306F0(0x6d);
+    GFL_HEAP_DeleteChecked(0x6d);
     return 1;
 }

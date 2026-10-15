@@ -1,5 +1,5 @@
 /*
- * function: func_021686E0
+ * function: DWCi_WStrLen
  * address:  0x021686E0
  * packet:   pkt_02155168
  * region:   ov009
@@ -16,7 +16,7 @@
 
  */
 
-int func_021686E0(unsigned short *p)
+int DWCi_WStrLen(unsigned short *p)
 {
     int i = 0;
 

@@ -31,7 +31,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021BEF74 0x021BEF74 thumb ov204
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021BEF88  0x021BEF88  thumb  ov204
  *   func_021BF898  0x021BF898  thumb  ov204
@@ -46,28 +46,28 @@
  *   d_021BFDAC 0x021BFDAC data a2
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021C09C0 0x021C09C0 data a4
  *   d_021BFE4C 0x021BFE4C data a4
  *   d_021BFE1C 0x021BFE1C data a4
  *   func_02030EAC 0x02030EAC arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BFD80 0x021BFD80 data a4
  *   d_021BFF1C 0x021BFF1C data a4
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   d_021BFEFC 0x021BFEFC data a4
  *   d_021BFEDC 0x021BFEDC data a4
  *   d_021BFE7C 0x021BFE7C data a4
@@ -116,6 +116,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BMP_GetVisiblePlane  0x02043658  arm  arm9
  */
 #include "../../matched/include/Obj00689.h"
 #include "../../matched/include/Obj25331.h"
@@ -200,7 +201,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021BEF74(u8 *p);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(s32 handle);
 extern int func_021BEF88(char *p);
 extern void func_021BF898(char *p);
@@ -214,27 +215,27 @@ extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_02030EAC(struct Node *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(unsigned char);
+extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern u32 func_02043658(void);
+extern u32 BMP_GetVisiblePlane(void);
 extern void BG_SYS_ResetSlot(u32, u32, u32);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -356,7 +357,7 @@ int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
     func_021BDCF0(*(unsigned char * *)&((struct Obj03918 *)p)->f8);
     heap = ((struct Obj03918 *)p)->f0;
     func_020315D4(owner);
-    func_020306F0((unsigned)heap);
+    GFL_HEAP_DeleteChecked((unsigned)heap);
     func_02034A5C((unsigned)ov067_id);
     return 1;
 }
@@ -433,7 +434,7 @@ void *func_021BDC18(int swap, int mode, u16 heap)
     *(volatile u32 *)0x04000000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    func_0204363C(swap);
+    BMP_SetDisplaySwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
@@ -448,7 +449,7 @@ void *func_021BDC18(int swap, int mode, u16 heap)
         func_021BDF34(p+4,(u32)&d_021BFE1C,heap);
         func_021BDFA4(p+8,heap);
     }
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     *(void **)(p+16)=func_020056A0((u32)func_021BDD84,(u32)p,0);
     return p;
 }
@@ -464,7 +465,7 @@ void func_021BDCF0(unsigned char *p)
     func_021BE0D4(p + 8);
     func_021BDF74(p + 4);
     func_021BDDF8(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
@@ -515,12 +516,12 @@ void func_021BDD98(void *p, unsigned heap)
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28(&(*(struct DispConfig *)&d_021BFD80));
+    BG_SYS_SetGraphicsMode(&(*(struct DispConfig *)&d_021BFD80));
     for (i = 0; i < 4; i++) {
         row = d_021BFF1C[i];
         layer = row[0];
         BG_SYS_InitBgLayer((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
-        func_020414AC(layer);
+        BG_SYS_FreeSlot(layer);
         func_02040588(layer, row[10]);
     }
 }
@@ -543,14 +544,14 @@ void func_021BDDF8(u8 *p)
 
 void func_021BDE10(u8 *a0)
 {
-    if (func_02043658() & 4) {
+    if (BMP_GetVisiblePlane() & 4) {
         BG_SYS_ResetSlot(2, 1, 1);
     }
 }
 
 
 
-void func_021BDE28(void *a0) { func_020419E4(); }
+void func_021BDE28(void *a0) { BG_SYS_Update(); }
 
 
 
@@ -560,7 +561,7 @@ void func_021BDE30(void *p,u16 heap)
     MI_CpuFill8(p,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28(&d_021BFD80);
+    BG_SYS_SetGraphicsMode(&d_021BFD80);
     t1=d_021BFEFC;
     BG_SYS_InitBgLayer(1,&t1,0);
     t2=d_021BFEDC;

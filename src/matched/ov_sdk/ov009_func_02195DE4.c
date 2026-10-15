@@ -1,5 +1,5 @@
 /*
- * function: func_02195DE4
+ * function: gt2CloseAllConnectionsHard
  * address:  0x02195DE4
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 extern void gti2CloseAllConnectionsHardMap(void);
 extern void func_0218489C(int a, char *p, int c);
 
-void func_02195DE4(int *p)
+void gt2CloseAllConnectionsHard(int *p)
 {
     func_0218489C(p[3], (char *)gti2CloseAllConnectionsHardMap, 0);
 }

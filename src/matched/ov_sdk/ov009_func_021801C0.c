@@ -1,5 +1,5 @@
 /*
- * function: func_021801C0
+ * function: _UCS2CharToUTF8String
  * address:  0x021801C0
  * packet:   pkt_ov009_021801C0
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-int func_021801C0(unsigned short theUCS2Char, char *theUTF8String)
+int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String)
 {
     if (theUCS2Char <= 0x7f) {
         theUTF8String[0] = (char)theUCS2Char;

@@ -1,5 +1,5 @@
 /*
- * function: func_0215A500
+ * function: EVENT_POKE_STATUS_ResetFlag
  * address: 0x0215A500
  * packet: pkt_ov010_0215A500
  * region: ov010
@@ -13,4 +13,4 @@
  */
 typedef unsigned short u16;
 extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
-void func_0215A500(char *a, unsigned b) { ZONEDATA_ResetEventFlag(a, (u16)(b + 1420)); }
+void EVENT_POKE_STATUS_ResetFlag(char *a, unsigned b) { ZONEDATA_ResetEventFlag(a, (u16)(b + 1420)); }

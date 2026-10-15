@@ -1,5 +1,5 @@
 /*
- * function: func_021BEAB8
+ * function: DEMO3D_DATA_ApplyCapture
  * address: 0x021BEAB8
  * packet: pkt_ov203_021BEAB8
  * region: ov203
@@ -19,7 +19,7 @@ static inline void GX_SetCapture(GXCaptureSize sz, GXCaptureMode mode, GXCapture
 {
     *(volatile unsigned *)0x04000064 = 0x80000000 | (mode << 29) | (b << 25) | (a << 24) | (sz << 20) | (dest << 16) | (evb << 8) | eva;
 }
-void func_021BEAB8(void *task, const int *ctx)
+void DEMO3D_DATA_ApplyCapture(void *task, const int *ctx)
 {
     if (ctx[12]) {
         GX_SetCapture(ctx[4], ctx[5], ctx[6], ctx[7], ctx[8], ctx[9], ctx[10]);

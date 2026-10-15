@@ -1,7 +1,7 @@
 /*
  * file:     event_poke_status.c
  * unit:     yes
- * function: EVENT_POKE_STATUS_CreatePokeSelectEvent, EVENT_POKE_STATUS_CreatePokeSelectMoveEvent, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent, EVENT_POKE_STATUS_PokeSelectEvent, EVENT_POKE_STATUS_CreateMoveSelectEvent, EVENT_POKE_STATUS_MoveSelectEvent, func_0215A438, func_0215A460, func_0215A480, func_0215A490, func_0215A4A0, func_0215A4B4, func_0215A4C8, func_0215A4D8, func_0215A4EC, func_0215A500
+ * function: EVENT_POKE_STATUS_CreatePokeSelectEvent, EVENT_POKE_STATUS_CreatePokeSelectMoveEvent, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent, EVENT_POKE_STATUS_PokeSelectEvent, EVENT_POKE_STATUS_CreateMoveSelectEvent, EVENT_POKE_STATUS_MoveSelectEvent, EVENT_POKE_STATUS_SetTrainerRecord, EVENT_POKE_STATUS_NormalizeTicks, EVENT_POKE_STATUS_AddMs3000, EVENT_POKE_STATUS_AddMs5000, EVENT_POKE_STATUS_IsMs5000, EVENT_POKE_STATUS_IsRecordField2Set, EVENT_POKE_STATUS_GetRecordField2, EVENT_POKE_STATUS_CheckFlag, EVENT_POKE_STATUS_SetFlag, EVENT_POKE_STATUS_ResetFlag
  * address:  0x0215A07C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -34,7 +34,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02014910  0x02014910  thumb
+ *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   ov131_id       0x00000083  data
  *   gPokeStatusProcData     0x021DC800  data  ov131
@@ -100,7 +100,7 @@ extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
-extern void *func_02014910(char *a0, int a1, int a2, int a3);
+extern void *FIELD_STATUS_CreateSubProcListEvent(char *a0, int a1, int a2, int a3);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern int SCRIPT_SYS_GetEventScriptWork(int);
@@ -208,7 +208,7 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
         *seq = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, func_02014910(gameSystem, (int)work->fieldMap, (int)work->listParam, (int)work->statusParam));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (int)work->fieldMap, (int)work->listParam, (int)work->statusParam));
         *seq = 3;
         break;
     case 3:
@@ -306,7 +306,7 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
     return 0;
 }
 
-void func_0215A438(int scrcmdWork, int index, RecordHead24 *src)
+void EVENT_POKE_STATUS_SetTrainerRecord(int scrcmdWork, int index, RecordHead24 *src)
 {
     int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((char *)SCRIPT_SYS_GetEventScriptWork(scrcmdWork), index);
 
@@ -319,30 +319,30 @@ void func_0215A438(int scrcmdWork, int index, RecordHead24 *src)
  *
  * Addresses are Black-image addresses.
  */
-u32 func_0215A460(u32 ticks)
+u32 EVENT_POKE_STATUS_NormalizeTicks(u32 ticks)
 {
     if (ticks < 5000)
         return (u16)(ticks - 3000);
     return (u16)(ticks - 5000);
 }
 
-u16 func_0215A480(unsigned id) { return id + 3000; }
+u16 EVENT_POKE_STATUS_AddMs3000(unsigned id) { return id + 3000; }
 
 /*
- * extent: includes unlabelled range-test func_0215A4A0; function-start seed.
+ * extent: includes unlabelled range-test EVENT_POKE_STATUS_IsMs5000; function-start seed.
  */
-u16 func_0215A490(unsigned id) { return id + 5000; }
+u16 EVENT_POKE_STATUS_AddMs5000(unsigned id) { return id + 5000; }
 
-int func_0215A4A0(unsigned id) { if (id >= 5000) return 1; return 0; }
+int EVENT_POKE_STATUS_IsMs5000(unsigned id) { if (id >= 5000) return 1; return 0; }
 
-int func_0215A4B4(int saveData)
+int EVENT_POKE_STATUS_IsRecordField2Set(int saveData)
 {
     if (TPOKE_DATA_GetRecordField((void *)saveData, 2) == 1)
         return 1;
     return 0;
 }
 
-int func_0215A4C8(int saveData)
+int EVENT_POKE_STATUS_GetRecordField2(int saveData)
 {
     return (u8)TPOKE_DATA_GetRecordField((void *)saveData, 2);
 }
@@ -350,8 +350,8 @@ int func_0215A4C8(int saveData)
 /*
  * interface: original narrows r1 by shift pairs; u16 extern preserves this.
  */
-unsigned func_0215A4D8(void *flagSet, unsigned flagOffset) { return ZONEDATA_CheckEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+unsigned EVENT_POKE_STATUS_CheckFlag(void *flagSet, unsigned flagOffset) { return ZONEDATA_CheckEventFlag(flagSet, (u16)(flagOffset + 1420)); }
 
-void func_0215A4EC(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+void EVENT_POKE_STATUS_SetFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
 
-void func_0215A500(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+void EVENT_POKE_STATUS_ResetFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag(flagSet, (u16)(flagOffset + 1420)); }

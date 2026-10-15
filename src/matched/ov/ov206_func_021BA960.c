@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -26,7 +26,7 @@ struct StrObj;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -38,7 +38,7 @@ void func_021BA960(int heap,int window,void *printer,int font,int input,unsigned
     int text;
     if(expansion) {
         text=(int)STRBUF_Create(128,heap);
-        func_0201F250((struct WordSet *)expansion,(void *)text,(void *)input);
+        WORDSET_CopyTaggedText((struct WordSet *)expansion,(void *)text,(void *)input);
     } else text=input;
     switch(alignment) {
     case 0: x=right; break;

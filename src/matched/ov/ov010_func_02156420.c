@@ -20,10 +20,10 @@
  *   MUSICAL_SAVE_IncrementTopRankCount  0x0200A788  thumb
  *   MUSICAL_SAVE_SetSelectedProgram  0x0200A7C0  thumb
  *   MUSICAL_SAVE_AddFanPoints  0x0200A800  thumb
- *   func_021F4F14  0x021F4F14  thumb  ov112
- *   func_021F5140  0x021F5140  thumb  ov112
+ *   MUSICAL_MCSS_LoadActorData  0x021F4F14  thumb  ov112
+ *   MUSICAL_MCSS_GetElemA  0x021F5140  thumb  ov112
  *   MUSICAL_SAVE_SetEquippedProp  0x0200A7AC  thumb
- *   func_021F4F40  0x021F4F40  thumb  ov112
+ *   MUSICAL_MCSS_FreeActorData  0x021F4F40  thumb  ov112
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   NATSUKI_Calc  0x0201B7A0  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -75,10 +75,10 @@ extern void MUSICAL_SAVE_IncrementShowCount(struct Big *p);
 extern void MUSICAL_SAVE_IncrementTopRankCount(struct Big *p);
 extern void MUSICAL_SAVE_SetSelectedProgram(struct Big *p, u8 value);
 extern void MUSICAL_SAVE_AddFanPoints(struct Big *p, s32 delta);
-extern u32 *func_021F4F14(int heap);
-extern unsigned char func_021F5140(void *p, int i);
+extern u32 *MUSICAL_MCSS_LoadActorData(int heap);
+extern unsigned char MUSICAL_MCSS_GetElemA(void *p, int i);
 extern void MUSICAL_SAVE_SetEquippedProp(struct Big *p, u32 index, u8 value);
-extern void func_021F4F40(void **p);
+extern void MUSICAL_MCSS_FreeActorData(void **p);
 extern u16 *GAME_DATA_GetMyPlayerWork(void *p);
 extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
@@ -105,16 +105,16 @@ void MUSICAL_EVENT_ApplyResults(Work *w)
     {
         u8 cnt[4] = {0, 0, 0, 0};
 
-        h = func_021F4F14((u32)4);
+        h = MUSICAL_MCSS_LoadActorData((u32)4);
         m = w->party->members[w->f4C];
         for (j = 0; j < 9; j++) {
             if (m->recs[j].id != 0xFF)
-                cnt[(u8)(u32)func_021F5140(h, (u16)m->recs[j].id)]++;
+                cnt[(u8)(u32)MUSICAL_MCSS_GetElemA(h, (u16)m->recs[j].id)]++;
         }
         for (j = 0; j < 4; j++)
             MUSICAL_SAVE_SetEquippedProp(w->f40, j, cnt[j]);
     }
-    func_021F4F40(h);
+    MUSICAL_MCSS_FreeActorData(h);
     k = *GAME_DATA_GetMyPlayerWork(w->f04);
     NATSUKI_Calc(w->f18, 6, k, 4);
     p = GAME_DATA_GetTrainerRecord(w->f04);

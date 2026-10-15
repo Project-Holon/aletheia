@@ -40,7 +40,7 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   PMSIV_MENU_Update 0x021BCA84 thumb ov110
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   gPmsInputViewTaskTable 0x021C3B94 data a4
  *   TCBL_GetTaskUserData 0x02030EE8 arm
@@ -58,7 +58,7 @@
  *   func_02040588 0x02040588 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02061CA4 0x02061CA4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -87,7 +87,7 @@
  *   gPmsInputBgTemplate6 0x021C3654 data a4
  *   gPmsInputBgTemplate7 0x021C3634 data a4
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -270,7 +270,7 @@ extern void *func_020056A0(void (*fn)(void *, void *), void *work, int priority)
 extern void CLACT_DrawSystem(void);
 extern void PMSIV_MENU_Update(struct PmsivMenu *menu);
 extern unsigned int PRINTSYS_QUE_Main(struct PrintQue *queue);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 extern struct PmsInputViewTask *TCBL_GetTaskUserData(void *tcb);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
@@ -287,7 +287,7 @@ extern u32 func_02049658(void *handle, u32 fileId, u32 bgId, u32 offset, u32 siz
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *handle, u32 fileId, u32 paletteType, u32 offset, u32 size, u32 flags, u16 heapId);
 extern int func_02061CA4(u32 target, u32 offset, const void *data, int size);
-extern void func_020413B0(u8 bgId, u8 x, u8 y, u8 width, u8 height, u8 paletteBank);
+extern void BG_SYS_FillTileMap(u8 bgId, u8 x, u8 y, u8 width, u8 height, u8 paletteBank);
 extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
@@ -312,7 +312,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintQue *queue);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *queue);
 extern void func_020403F4(u32 i);
 extern void BG_SYS_SetVramBanks(const void *vramBanks);
-extern void func_0203FC28(const void *dispConfig);
+extern void BG_SYS_SetGraphicsMode(const void *dispConfig);
 extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
@@ -505,7 +505,7 @@ void PMS_INPUT_VIEW_MainTask(void *tcb, void *work) {
 void PMS_INPUT_VIEW_VBlankTask(void *tcb, void *work) {
     struct PmsInputView *view = work;
     if(view->paletteChanged) view->paletteChanged=0;
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
 }
 
@@ -587,7 +587,7 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     func_02061CA4(31,190,&task->view->helpBgColor[1],2);
     func_02049658(h,18,7,0,0,0,42);
     func_020498F4(h,24,7,0,0,0,42);
-    func_020413B0(7,0,0,32,32,5);
+    BG_SYS_FillTileMap(7,0,0,32,32,5);
     task->view->helpWin=BMP_WIN_Create(7,3,5,26,7,5,1);
     BMP_Clear(BMP_WIN_GetBmp(task->view->helpWin),7);
     task->view->helpTextPending=0;
@@ -669,7 +669,7 @@ void PMS_INPUT_VIEW_InitDisplay(struct PmsInputViewTask *task) {
     int i;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks(gPmsInputVramBanks);
-    func_0203FC28(gPmsInputDispConfig);
+    BG_SYS_SetGraphicsMode(gPmsInputDispConfig);
     BG_SYS_InitBgLayer(0,gPmsInputBgTemplate0,0);
     BG_SYS_InitBgLayer(1,gPmsInputBgTemplate1,0);
     BG_SYS_InitBgLayer(2,gPmsInputBgTemplate2,0);

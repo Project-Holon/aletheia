@@ -1,5 +1,5 @@
 /*
- * function: func_021F46F4
+ * function: NAMEIN_GRAPHIC_CallbackWaitPrint
  * address: 0x021F46F4
  * packet: pkt_ov194_021F46F4
  * region: ov194
@@ -18,7 +18,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
- *   func_021F462C 0x021F462C thumb ov194
+ *   NAMEIN_GRAPHIC_SetCallback 0x021F462C thumb ov194
  */
 #include "../include/Obj03901.h"
 struct Tcbl;
@@ -33,8 +33,8 @@ typedef unsigned int   u32;
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
-extern void func_021F462C(unsigned char *, unsigned);
-void func_021F46F4(unsigned char *a, int *state, char *p)
+extern void NAMEIN_GRAPHIC_SetCallback(unsigned char *, unsigned);
+void NAMEIN_GRAPHIC_CallbackWaitPrint(unsigned char *a, int *state, char *p)
 {
     char *q = p + 0x254;
     switch (*state) {
@@ -65,7 +65,7 @@ void func_021F46F4(unsigned char *a, int *state, char *p)
         else (((struct Obj03901 *)q)->fE)++;
         break;
     case 2:
-        func_021F462C(a, ((struct Obj03901 *)q)->f8);
+        NAMEIN_GRAPHIC_SetCallback(a, ((struct Obj03901 *)q)->f8);
         break;
     }
 }

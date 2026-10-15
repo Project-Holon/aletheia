@@ -8,27 +8,27 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj10512.h"
 
-extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
+extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(unsigned int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STA_INFO_HidePage(unsigned char *p, void *a1)
 {
-    func_02041300(1, 0, 0, 0, 19, 21, 16);
+    BG_SYS_SetTileEntry(1, 0, 0, 0, 19, 21, 16);
     func_02041B6C(1);
-    func_02041570(4, 0);
+    BG_SYS_ClearLayerEx(4, 0);
     func_02041B6C(4);
     CLACT_SetActorDrawEnable(((struct Obj10512 *)p)->f198, 0);
     CLACT_SetActorDrawEnable(((struct Obj10512 *)p)->f19C, 0);

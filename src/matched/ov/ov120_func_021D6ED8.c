@@ -1,5 +1,5 @@
 /*
- * function: func_021D6ED8
+ * function: GTSNEGO_MSG_DeleteCursorActor
  * address:  0x021D6ED8
  * packet:   pkt_021D6ED8
  * region:   ov120
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021D6ED8(u8 *p)
+void GTSNEGO_MSG_DeleteCursorActor(u8 *p)
 {
     void *q = ((struct Obj00199 *)p)->f138;
     if (q)

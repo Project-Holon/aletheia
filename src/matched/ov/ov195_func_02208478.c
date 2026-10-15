@@ -1,5 +1,5 @@
 /*
- * function: func_02208478
+ * function: SHINKA_DEMO_VIEW_CreateQuad
  * address:  0x02208478
  * packet:   pkt_02208478
  * region:   ov195
@@ -38,7 +38,7 @@ typedef struct Quad {
 extern char d_02208F68[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-Quad *func_02208478(u32 tex, u32 pltt, u16 heap)
+Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap)
 {
     Quad *p = func_02030734(heap, sizeof(Quad), 1, d_02208F68, 0xd31);
 

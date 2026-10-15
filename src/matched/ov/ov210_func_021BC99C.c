@@ -1,5 +1,5 @@
 /*
- * function: func_021BC99C
+ * function: ZKNSEARCH_MAIN_DeleteTextSystem
  * address:  0x021BC99C
  * packet:   pkt_ov210_021BC99C
  * region:   ov210
@@ -35,7 +35,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-u32 func_021BC99C(u8 *p)
+u32 ZKNSEARCH_MAIN_DeleteTextSystem(u8 *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));

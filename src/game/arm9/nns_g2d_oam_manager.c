@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_oam_manager.c
  * unit:     yes
- * function: sub_02063054, sub_02063068, func_02063078, func_02063138, func_02063294, func_02063378, func_0206343C, func_02063640, func_02063784, func_02063790, func_020637AC, func_020637B4, func_020637BC, func_020637D4, func_020637F4, func_02063800, func_0206380C, func_02063828, func_02063A54, func_02063C80, func_02063E54, func_02063F4C
+ * function: NNSi_G2dCpuLoadOamSub, NNSi_G2dCpuLoadOamMain, NNS_G2dInitOamManagerModule, NNSi_G2dReserveOamManagerSpan, NNSi_G2dEntryOamManagerOam, NNS_G2dEntryOamManagerAffine, NNS_G2dApplyOamManagerToHW, NNS_G2dResetOamManagerBuffer, NNSi_G2dGetVramHandle, NNSi_G2dInitVramHandle, NNSi_G2dSetVramHandle, NNSi_G2dGetVramHandleValue, NNSi_G2dIsVramHandleSet, NNSi_G2dInitVramHandleEx, NNSi_G2dSetVramHandleEx, NNSi_G2dGetVramHandleEx, NNSi_G2dIsVramHandleSetEx, NNSi_G2dLoadVramResourceMain, NNSi_G2dLoadVramResourceSub, NNSi_G2dSetupVramResource, NNSi_G2dLoadVramResourceBySel, NNSi_G2dLoadVramResourceList
  * address:  0x02063054
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -199,28 +199,28 @@ extern void func_0207E5D0(u32 a, u32 b, u32 c);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(u32 a, u32 b, u32 c);
 extern void func_0207FADC(void);
-void sub_02063054(void *src, u32 offset);
-void sub_02063068(void *src, u32 offset);
-void func_02063078(void);
-u32 func_02063138(struct Span *s, u16 first, u16 count, u32 which);
-u32 func_02063294(struct Win02063294 *win, GXOamAttr *src, u32 mode);
-u16 func_02063378(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
-void func_0206343C(NNSG2dOamManagerInstance *pMan, u32 bound);
-void func_02063640(NNSG2dOamManagerInstance *pMan);
-int func_02063784(unsigned short *p, int i);
-void func_02063790(u32 *p);
-void func_020637AC(int *p, int i, int v);
-int func_020637B4(int *p, int i);
-int func_020637BC(const u32 *p, u32 i);
-void func_020637D4(u32 *p);
-void func_020637F4(char *p, int i, int v);
-int func_02063800(char *p, int i);
-int func_0206380C(char *p, int i);
-void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out);
-void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
-void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out);
-void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out);
-void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel, Out02063F4C *out);
+void NNSi_G2dCpuLoadOamSub(void *src, u32 offset);
+void NNSi_G2dCpuLoadOamMain(void *src, u32 offset);
+void NNS_G2dInitOamManagerModule(void);
+u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 which);
+u32 NNSi_G2dEntryOamManagerOam(struct Win02063294 *win, GXOamAttr *src, u32 mode);
+u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
+void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound);
+void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan);
+int NNSi_G2dGetVramHandle(unsigned short *p, int i);
+void NNSi_G2dInitVramHandle(u32 *p);
+void NNSi_G2dSetVramHandle(int *p, int i, int v);
+int NNSi_G2dGetVramHandleValue(int *p, int i);
+int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
+void NNSi_G2dInitVramHandleEx(u32 *p);
+void NNSi_G2dSetVramHandleEx(char *p, int i, int v);
+int NNSi_G2dGetVramHandleEx(char *p, int i);
+int NNSi_G2dIsVramHandleSetEx(char *p, int i);
+void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *out);
+void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *out);
+void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out);
+void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out);
+void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 base, int sel, Out02063F4C *out);
 extern OamCache g_02146BC8[3];
 extern u16 g_02146BC4;
 extern OBJLoadFunction *g_020A81E4[5];  /* GetOBJLoadFunction_'s funcTbl */
@@ -229,7 +229,7 @@ extern u32 GXi_DmaId;                  /* GXi_DmaId */
 
 
 /*
- * The sub-engine twin of src/matched/sub_02063068.c, biasing the caller's byte
+ * The sub-engine twin of src/matched/NNSi_G2dCpuLoadOamMain.c, biasing the caller's byte
  * offset by 0x07000400 instead of 0x07000000 and tail-calling the transfer
  * routine at 0x02082A60.
  *
@@ -248,16 +248,16 @@ extern u32 GXi_DmaId;                  /* GXi_DmaId */
  * `-proc arm7tdmi` the same C reproduces the image's four instructions with
  * zero concrete mismatches.  dsi/../1.2/sp2 is worse (it materialises the bias
  * in r2 and needs 24 bytes).  The trailing `*` is the unlabelled follower at
- * 0x02063068 (already matched as src/matched/sub_02063068.c): disasm.py gives
+ * 0x02063068 (already matched as src/matched/NNSi_G2dCpuLoadOamMain.c): disasm.py gives
  * a prologue-less leaf no label, so the listing extent runs from 0x02063054 to
  * 0x02063078.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02063054.c \
- *       --func sub_02063054 --addr 0x02063054 --arm \
+ *   python tools/match.py one --src src/matched/NNSi_G2dCpuLoadOamSub.c \
+ *       --func NNSi_G2dCpuLoadOamSub --addr 0x02063054 --arm \
  *       --flags "-O4,p -proc arm7tdmi"
  */
-void sub_02063054(void *src, u32 offset)
+void NNSi_G2dCpuLoadOamSub(void *src, u32 offset)
 {
     sub_02082A60(src, offset + 0x400 + 0x7000000);
 }
@@ -284,10 +284,10 @@ void sub_02063054(void *src, u32 offset)
  * one-`add` form here has no such freedom and matches exactly.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02063068.c \
- *       --func sub_02063068 --addr 0x02063068 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dCpuLoadOamMain.c \
+ *       --func NNSi_G2dCpuLoadOamMain --addr 0x02063068 --cc 1.1p1 --arm
  */
-void sub_02063068(void *src, u32 offset)
+void NNSi_G2dCpuLoadOamMain(void *src, u32 offset)
 {
     sub_02082A60(src, offset + 0x07000000);
 }
@@ -303,7 +303,7 @@ void sub_02063068(void *src, u32 offset)
  * 0x540-byte bank records of g_02146BC8 -- the OAM mirror at +0x100 (0x400
  * bytes, fill 0xC0) and the two free-slot tables, slotsA at +0x000 (0x100
  * bytes) and slotsB at +0x500 (0x40 bytes), both filled with the 0xFFFF
- * free sentinel that func_02063138 tests for.
+ * free sentinel that NNSi_G2dReserveOamManagerSpan tests for.
  *
  * COMPILER PIN, ../2.0/sp2, the cluster's "kept constants" tell.  The image
  * rematerialises each call's fill value and size into r0/r2 at every one of
@@ -318,10 +318,10 @@ void sub_02063068(void *src, u32 offset)
  * mismatches on the first compile.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02063078.c \
- *       --func func_02063078 --addr 0x02063078 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNS_G2dInitOamManagerModule.c \
+ *       --func NNS_G2dInitOamManagerModule --addr 0x02063078 --cc ../2.0/sp2 --arm
  */
-void func_02063078(void)
+void NNS_G2dInitOamManagerModule(void)
 {
     MIi_CpuClear16(0xC0, g_02146BC8[0].attributeCache.oamBuffer, 0x400);
     MIi_CpuClear16(0xC0, g_02146BC8[1].attributeCache.oamBuffer, 0x400);
@@ -390,10 +390,10 @@ static inline u32 IsFree(u16 *tbl, u16 first, u16 last)
  * ../2.0/sp2 as for the rest of the cluster.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02063138.c
- *       --func func_02063138 --addr 0x02063138 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dReserveOamManagerSpan.c
+ *       --func NNSi_G2dReserveOamManagerSpan --addr 0x02063138 --arm --cc ../2.0/sp2
  */
-u32 func_02063138(struct Span *s, u16 first, u16 count, u32 which)
+u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 which)
 {
     OamCache *bank = &g_02146BC8[which];
     u16 last = first + (count - 1);
@@ -456,10 +456,10 @@ u32 func_02063138(struct Span *s, u16 first, u16 count, u32 which)
  * "kept branches" pin, as for the rest of the cluster.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02063294.c
- *       --func func_02063294 --addr 0x02063294 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dEntryOamManagerOam.c
+ *       --func NNSi_G2dEntryOamManagerOam --addr 0x02063294 --arm --cc ../2.0/sp2
  */
-u32 func_02063294(struct Win02063294 *win, GXOamAttr *src, u32 mode)
+u32 NNSi_G2dEntryOamManagerOam(struct Win02063294 *win, GXOamAttr *src, u32 mode)
 {
     u16 max_oam = win->max_oam;
     u16 cur_oam = *(volatile u16 *)&win->cur_oam;
@@ -610,7 +610,7 @@ static inline void SetAffineParams_(NNSG2dOamType type, const MtxFx22 *mtx, u16 
  * base, destination and index in three registers.  ../2.0/sp2 and sp2p2
  * identical; 1.1p1 is 188 bytes.
  */
-u16 func_02063378(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx)
+u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx)
 {
     if (HasEnoughCapacity_(&pMan->managedAffineArea, 1)) {
         const u16 currentAffineIdx = pMan->managedAffineArea.currentIdx;
@@ -718,14 +718,14 @@ static inline void LoadAffine_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
  * through the per-type loader, and when the affine area is valid
  * LoadAffine_ pushes PA..PD of each GXOamAffine (LoadOneAffine_) the same
  * way.  g_020A81E4 is GetOBJLoadFunction_'s static funcTbl
- * { CpuLoadOAMMain_ = sub_02063068, CpuLoadOAMSub_ = sub_02063054, 0, 0, 0 }.
+ * { CpuLoadOAMMain_ = NNSi_G2dCpuLoadOamMain, CpuLoadOAMSub_ = NNSi_G2dCpuLoadOamSub, 0, 0, 0 }.
  *
  * Closed in wave 13 on the first compile of the library body with its
  * inlines; the wave-10 transcription sat at 99 out on callee-saved
  * allocation, which was the inline boundaries.  ../2.0/sp2 and sp2p2
  * identical; 1.1p1 is 508 bytes.
  */
-void func_0206343C(NNSG2dOamManagerInstance *pMan, u32 bound)
+void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound)
 {
     {
         if (pMan->bFastTransferEnable) {
@@ -834,7 +834,7 @@ static inline void ResetOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
  * residue was the inline boundary.  ../2.0/sp2 and sp2p2 identical; 1.1p1
  * is 320 bytes.
  */
-void func_02063640(NNSG2dOamManagerInstance *pMan)
+void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan)
 {
     {
         if (pMan->bFastTransferEnable) {
@@ -862,7 +862,7 @@ void func_02063640(NNSG2dOamManagerInstance *pMan)
 
 
 
-int func_02063784(unsigned short *p, int i){ return p[i]; }
+int NNSi_G2dGetVramHandle(unsigned short *p, int i){ return p[i]; }
 
 
 
@@ -870,7 +870,7 @@ int func_02063784(unsigned short *p, int i){ return p[i]; }
 
 
 
-void func_02063790(u32 *p)
+void NNSi_G2dInitVramHandle(u32 *p)
 {
     int i;
 
@@ -884,20 +884,20 @@ void func_02063790(u32 *p)
 
 
 
-void func_020637AC(int *p, int i, int v){ p[i] = v; }
+void NNSi_G2dSetVramHandle(int *p, int i, int v){ p[i] = v; }
 
 
 
 
 
-int func_020637B4(int *p, int i){ return p[i]; }
+int NNSi_G2dGetVramHandleValue(int *p, int i){ return p[i]; }
 
 
 
 
 
 /*
- * Slot-occupied test of the func_0206380C accessor family: the word at
+ * Slot-occupied test of the NNSi_G2dIsVramHandleSetEx accessor family: the word at
  * p[i] is not the sentinel -1.  The register-held sentinel tell
  * (docs/FRONTEND-PINS.md): the image materialises `mvn r0, #0` at
  * 0x020637C0 and compares `cmp r1, r0` at 0x020637C4; every dsi 1.x front
@@ -905,7 +905,7 @@ int func_020637B4(int *p, int i){ return p[i]; }
  * measured by earlier lanes).  Under ../2.0/sp2 (also sp2p2, 2.0 base and
  * ../1.2/sp4) the same C is 24 bytes, 0 mismatches.
  */
-int func_020637BC(const u32 *p, u32 i)
+int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i)
 {
     return p[i] != 0xffffffff;
 }
@@ -915,7 +915,7 @@ int func_020637BC(const u32 *p, u32 i)
 
 
 
-void func_020637D4(u32 *p)
+void NNSi_G2dInitVramHandleEx(u32 *p)
 {
     int i;
 
@@ -928,12 +928,12 @@ void func_020637D4(u32 *p)
 
 
 
-void func_020637F4(char *p, int i, int v){ *(int *)(p + i * 4 + 8) = v; }
+void NNSi_G2dSetVramHandleEx(char *p, int i, int v){ *(int *)(p + i * 4 + 8) = v; }
 
 
 
 
-int func_02063800(char *p, int i){ return *(int *)(p + i * 4 + 8); }
+int NNSi_G2dGetVramHandleEx(char *p, int i){ return *(int *)(p + i * 4 + 8); }
 
 
 
@@ -941,11 +941,11 @@ int func_02063800(char *p, int i){ return *(int *)(p + i * 4 + 8); }
 
 
 /*
- * Neighbour of func_02063800 (same accessor family): that one returns the
+ * Neighbour of NNSi_G2dGetVramHandleEx (same accessor family): that one returns the
  * slot's raw word, this one reports whether the slot is occupied, i.e. not
  * the sentinel -1.
  */
-int func_0206380C(char *p, int i){ int v = *(int *)(p + i * 4 + 8); int s = -1; return v != s; }
+int NNSi_G2dIsVramHandleSetEx(char *p, int i){ int v = *(int *)(p + i * 4 + 8); int s = -1; return v != s; }
 
 
 
@@ -966,7 +966,7 @@ int func_0206380C(char *p, int i){ int v = *(int *)(p + i * 4 + 8); int s = -1; 
  * bytes against the original's 556; under ../2.0/sp2 the same C is 556
  * bytes, 0 mismatches.  See docs/FRONTEND-PINS.md.
  */
-void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *out)
 {
     u32 bank = r->f8;
 
@@ -1024,7 +1024,7 @@ void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out)
     out->f18 = 0;
     out->f1c = 1;
     out->f20 = r->f8;
-    func_020637AC((int *)out, mode, dst);
+    NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
 
@@ -1033,7 +1033,7 @@ void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out)
 
 
 
-void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *out)
 {
     u32 bank = r->f8;
 
@@ -1091,7 +1091,7 @@ void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out)
     out->f18 = 0;
     out->f1c = 1;
     out->f20 = r->f8;
-    func_020637AC((int *)out, mode, dst);
+    NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
 
@@ -1103,7 +1103,7 @@ void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out)
 /*
  * Upload one VRAM resource: optionally repoint the 2D/3D VRAM control word,
  * flush the source range, then fill the caller's descriptor.  Sibling of
- * func_02063828/func_02063A54 with the GX upload itself left out (the
+ * NNSi_G2dLoadVramResourceMain/NNSi_G2dLoadVramResourceSub with the GX upload itself left out (the
  * caller has already moved the bytes).  When f8 (the bank
  * control word) is zero the two halfword dimensions are translated from
  * pixel sizes (1,2,4,8,0x10,0x20) to GX size codes 0..5; otherwise they are
@@ -1114,7 +1114,7 @@ void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out)
  * bytes against the original's 468; under ../2.0/sp2 the same C is 468
  * bytes, 0 mismatches.  See docs/FRONTEND-PINS.md.
  */
-void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out)
 {
     u32 bank;
 
@@ -1160,14 +1160,14 @@ void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out)
     out->f18 = 0;
     out->f1c = 1;
     out->f20 = r->f8;
-    func_020637AC((int *)out, mode, dst);
+    NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
 
 
 
 
-void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
+void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
 {
     u32 a = self->fC;
     u32 b = self->f8;
@@ -1202,18 +1202,18 @@ void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
 
     out->f0 = self->f0;
     out->f4 = self->f4;
-    func_020637F4((char *)out, sel, a1);
+    NNSi_G2dSetVramHandleEx((char *)out, sel, a1);
 }
 
 
 
 
 /*
- * The LIST form of src/matched/func_02063E54.c: the same three-arm dispatch on
+ * The LIST form of src/matched/NNSi_G2dLoadVramResourceBySel.c: the same three-arm dispatch on
  * `sel`, the same twelve callees in the same order, the same
- * `out->f0 = self->f0; out->f4 = self->f4; func_020637F4(out, sel, base);`
+ * `out->f0 = self->f0; out->f4 = self->f4; NNSi_G2dSetVramHandleEx(out, sel, base);`
  * tail -- but run once per entry of a (count, u16 *items) list instead of once
- * per call.  Reading it as "func_02063E54 with a loop around it" is what made
+ * per call.  Reading it as "NNSi_G2dLoadVramResourceBySel with a loop around it" is what made
  * the body writable at all; every callee declaration below is lifted unchanged
  * from that already-exact sibling.
  *
@@ -1222,7 +1222,7 @@ void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
  * self->f0 == 3 and 0x200 otherwise (`moveq r8, #0x20` / `movne r8, #0x200`,
  * one predicated pair at 0x02063F68 and 0x02063F80 that the two `mul`s then
  * consume).  self->f0 is also the word copied to out->f0, so it is a format
- * code and not a count -- the same field func_02063E54 copies out untouched.
+ * code and not a count -- the same field NNSi_G2dLoadVramResourceBySel copies out untouched.
  *
  * FOUR THINGS THE BYTES FORCED, in the order they cost time:
  *
@@ -1263,17 +1263,17 @@ void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
  *      selection and the front end drops the redundant predicate.  ../2.0/sp2
  *      keeps both predicates and is byte-exact; ../1.2/sp2 is 360 bytes.
  *      Five of this cluster's seven other matched rows are already 2.0
- *      (func_0206380C, func_02063828, func_02063A54, func_02063C80,
- *      func_02063E54 is 1.1p1) -- see docs/families/cluster_020637F4.h.
+ *      (NNSi_G2dIsVramHandleSetEx, NNSi_G2dLoadVramResourceMain, NNSi_G2dLoadVramResourceSub, NNSi_G2dSetupVramResource,
+ *      NNSi_G2dLoadVramResourceBySel is 1.1p1) -- see docs/families/cluster_020637F4.h.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02063F4C.c \
- *       --func func_02063F4C --addr 0x02063F4C --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G2dLoadVramResourceList.c \
+ *       --func NNSi_G2dLoadVramResourceList --addr 0x02063F4C --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 356 = original 356, 13 of 13 sites resolved
  */
-void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
+void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
                    Out02063F4C *out)
 {
     u32 step;
@@ -1324,5 +1324,5 @@ void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
     }
     out->f0 = self->f0;
     out->f4 = self->f4;
-    func_020637F4((char *)((UnkOut02063E54 *)((char *)out)), sel, base);
+    NNSi_G2dSetVramHandleEx((char *)((UnkOut02063E54 *)((char *)out)), sel, base);
 }

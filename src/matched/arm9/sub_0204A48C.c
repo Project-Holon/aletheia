@@ -23,7 +23,7 @@
  * symbols:
  *   g_ClactSystem     0x02146A74  data
  *   s_clact_c      0x020A7F74  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_InitResources  0x0204D7E0  arm
  *   CLACT_InitOamManagers  0x0204BC94  arm
@@ -85,7 +85,7 @@ struct Sys {
 extern struct Sys *g_ClactSystem;
 extern char s_clact_c[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 struct Caps;
@@ -105,7 +105,7 @@ void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId)
     u16 dims[6];
     int i;
 
-    g_ClactSystem = sub_02030734(heapId, sizeof(struct Sys), 0, s_clact_c, 0x28f);
+    g_ClactSystem = GFL_HEAP_Alloc(heapId, sizeof(struct Sys), 0, s_clact_c, 0x28f);
     MI_CpuFill8(g_ClactSystem, 0, sizeof(struct Sys));
 
     dims[0] = cfg->unk_10;

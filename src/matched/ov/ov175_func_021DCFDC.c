@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFDC
+ * function: WIFIBATTLEMATCH_NET_MapErrorCode
  * address:  0x021DCFDC
  * packet:   pkt_021DCFDC
  * region:   ov175
@@ -17,7 +17,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021DCFDC(u32 v)
+u32 WIFIBATTLEMATCH_NET_MapErrorCode(u32 v)
 {
     switch (v) {
     case 0:

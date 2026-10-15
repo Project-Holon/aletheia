@@ -18,8 +18,8 @@
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
  *   POKETRADE_3D_SetMcssOffsetForSpecies 0x021E33FC thumb ov119
- *   data_021E7B00 0x021E7B00 data a4
- *   data_021E7B0C 0x021E7B0C data a4
+ *   gMcssMonOffset 0x021E7B00 data a4
+ *   gMcssMonConfig 0x021E7B0C data a4
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,8 +34,8 @@ typedef struct {
     char pad854[0x118c - 0x854];
     int mode;
 } Work;
-extern const Vec data_021E7B00;
-extern const Table data_021E7B0C;
+extern const Vec gMcssMonOffset;
+extern const Table gMcssMonConfig;
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 struct Personal;
@@ -49,8 +49,8 @@ extern void MCSS_SetShadowVanishFlag(char *p, int v);
 extern void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon);
 void POKETRADE_3D_AddPokemonMcss(Work *p, int idx, int side, void *mon, int flag)
 {
-    Vec v = data_021E7B00;
-    Table t = data_021E7B0C;
+    Vec v = gMcssMonOffset;
+    Table t = gMcssMonConfig;
     if (flag) {
         u16 species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         u16 form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);

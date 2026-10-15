@@ -13,16 +13,16 @@
  *
  * symbols:
  *   gDwcTransInfo  0x021AB180  data
- *   func_02176B80  0x02176B80  arm  ov009
+ *   DWCi_CleanupReliableQueue  0x02176B80  arm  ov009
  */
 
 extern char gDwcTransInfo[];
-extern void func_02176B80(char *p);
+extern void DWCi_CleanupReliableQueue(char *p);
 
 void DWCi_ShutdownTransport(void)
 {
     *(int *)gDwcTransInfo = 0;
 
-    func_02176B80(gDwcTransInfo);
+    DWCi_CleanupReliableQueue(gDwcTransInfo);
 }
 

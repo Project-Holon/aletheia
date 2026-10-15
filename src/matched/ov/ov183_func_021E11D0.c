@@ -1,5 +1,5 @@
 /*
- * function: func_021E11D0
+ * function: BR_CODEIN_ProfileSetActorAnim
  * address: 0x021E11D0
  * packet: pkt_ov183_021E11D0
  * region: ov183
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj01768.h"
 typedef unsigned short u16;
-void func_021E11D0(char *p,int state)
+void BR_CODEIN_ProfileSetActorAnim(char *p,int state)
 {
     ((struct Obj01768 *)p)->f244=((struct Obj01768 *)p)->f240;
     ((struct Obj01768 *)p)->f240=state;

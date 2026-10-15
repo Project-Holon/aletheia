@@ -1,5 +1,5 @@
 /*
- * function: func_021D5628
+ * function: POKETRADE_DEMO_UP_LoadUnitResources
  * address:  0x021D5628
  * packet:   pkt_ov118_021D5628
  * region:   ov118
@@ -30,7 +30,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021D5628(void *p)
+void POKETRADE_DEMO_UP_LoadUnitResources(void *p)
 {
     void *h = func_020490F4(0x67, ((struct Obj03769 *)p)->f5F4);
     ((struct Obj03769 *)p)->f8A8 = CLACT_RegisterCharacter(h, 2, 0, 0, ((struct Obj03769 *)p)->f5F4);

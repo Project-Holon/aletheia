@@ -22,6 +22,7 @@
  *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb  arm9
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 #include "../include/Obj01413.h"
 typedef unsigned char u8;
@@ -39,7 +40,7 @@ extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
@@ -70,7 +71,7 @@ int MAILSYS_StepIncompleteNotice(u8 *p)
         }
         break;
     case 3:
-        func_0201F7A8(((struct Obj01413 *)p)->f5C, 2);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj01413 *)p)->f5C, 2);
         q = ((struct Obj01413 *)p)->f5C;
         BMP_WIN_ClearScreen(q);
         func_020409B4(BMP_WIN_GetBgLayer(q));

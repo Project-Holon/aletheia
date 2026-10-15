@@ -13,8 +13,8 @@
  *   s_clact_c      0x020A7F74  data
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   MI_UncompressLZ8  0x020834C0  arm
- *   sub_02030734   0x02030734  arm
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *
  * Load an archive member, optionally decompressing it.  Both arms read the
  * member with ARC_TOOL_LoadHandleMember into a scratch block taken from the far end of
@@ -59,9 +59,9 @@ extern char s_clact_c[];
 
 struct ArcFile;
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void MI_UncompressLZ8(const void *src, void *dest);
 
 void *CLACT_LoadArchiveData(void *owner, u32 which, u32 compressed, u32 heapId)
@@ -72,9 +72,9 @@ void *CLACT_LoadArchiveData(void *owner, u32 which, u32 compressed, u32 heapId)
     if (compressed != 0) {
         raw = (struct CompHeader *)ARC_TOOL_LoadHandleMember(owner, which,
                   (u16)((heapId & 0x7fff) | 0x8000));
-        out = sub_02030734(heapId, raw->header >> 8, 0, s_clact_c, 0x1ba5);
+        out = GFL_HEAP_Alloc(heapId, raw->header >> 8, 0, s_clact_c, 0x1ba5);
         MI_UncompressLZ8(raw, out);
-        sub_020307B0(raw);
+        GFL_HEAP_Free(raw);
     } else {
         out = ARC_TOOL_LoadHandleMember(owner, which,
                   (u16)((heapId & 0x7fff) | 0x8000));

@@ -19,7 +19,7 @@
  *   func_020409B4  0x020409B4  arm
  *   FILE_UTIL_Create_0F14  0x02020F14  thumb
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
- *   func_02020F20  0x02020F20  thumb
+ *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
  *   FILE_UTIL_Get_1014  0x02021014  thumb
  *   d_021BBA79     0x021BBA79  data  ov070  a1
  *   ITEMMENU_GetRowColorKind  0x021BA1D0  thumb  ov070
@@ -27,10 +27,10 @@
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
- *   func_0201EF34  0x0201EF34  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
- *   func_02021350  0x02021350  thumb
+ *   FILE_UTIL_GetMachineIndex  0x02021350  thumb
  *   FILE_UTIL_GetId  0x0202130C  thumb
  *   ITEMMENU_IsItemRegistered  0x021B83A0  thumb  ov070
  *   func_020307B0  0x020307B0  arm
@@ -55,7 +55,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void *FILE_UTIL_Create_0F14(u32 a);
 extern void *ITEMMENU_GetSlot(u8 *p, int i);
-extern int func_02020F20(int h, int id, u16 heap);
+extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
 extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
 extern const u8 d_021BBA79[];
 extern int ITEMMENU_GetRowColorKind(int);
@@ -63,10 +63,10 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern u8 func_02021350(u16 id);
+extern u8 FILE_UTIL_GetMachineIndex(u16 id);
 extern u32 FILE_UTIL_GetId(u32 id);
 extern int ITEMMENU_IsItemRegistered(char *p, int value);
 extern u32 func_020307B0(void *p);
@@ -105,7 +105,7 @@ void ITEMMENU_PrintItemList(char *p)
         if (e == 0 || *e == 0) {
             continue;
         }
-        rec = func_02020F20(h, *e, ((struct Obj01514 *)p)->f544);
+        rec = FILE_UTIL_LoadArcMember(h, *e, ((struct Obj01514 *)p)->f544);
         kind = FILE_UTIL_Get_1014((struct Rec *)rec, 0xf);
         if (d_021BBA79[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*e) == 1) {
@@ -126,9 +126,9 @@ void ITEMMENU_PrintItemList(char *p)
         if (r == 0) {
             ITEMMENU_RegisterItemName((u8 *)p, 0, *e);
         } else {
-            func_0201EF34((struct WordSet *)(((struct Obj01514 *)p)->f520), 0, r);
+            WORDSET_SetSlotFromMsgCB((struct WordSet *)(((struct Obj01514 *)p)->f520), 0, r);
         }
-        func_0201F250((struct WordSet *)(((struct Obj01514 *)p)->f520), (void *)(((struct Obj01514 *)p)->f528), (void *)(((struct Obj01514 *)p)->f524));
+        WORDSET_CopyTaggedText((struct WordSet *)(((struct Obj01514 *)p)->f520), (void *)(((struct Obj01514 *)p)->f528), (void *)(((struct Obj01514 *)p)->f524));
         PRINTSYS_PrintColor((void *)(*(u32 *)(p + i * 4 + 0x614)), 0, 0, (void *)(((struct Obj01514 *)p)->f528), (void *)(((struct Obj01514 *)p)->f530), color);
         if (kind == 4) {
             *(u32 *)(p + i * 4 + 0x654) = 4;
@@ -136,7 +136,7 @@ void ITEMMENU_PrintItemList(char *p)
             *(u32 *)(p + i * 4 + 0x654) = 5;
         } else if (kind == 1) {
             *(u32 *)(p + i * 4 + 0x654) = 6;
-        } else if (func_02021350(*e) != 0xff) {
+        } else if (FILE_UTIL_GetMachineIndex(*e) != 0xff) {
             *(u32 *)(p + i * 4 + 0x654) = 8;
         } else if (FILE_UTIL_GetId(*e) != 0xff) {
             *(u32 *)(p + i * 4 + 0x654) = 7;

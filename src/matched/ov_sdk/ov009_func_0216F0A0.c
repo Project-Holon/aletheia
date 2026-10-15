@@ -17,7 +17,7 @@
  *   DWCi_StopMatch                0x0216EB68 arm   ov009
  *   NNCancel                     0x02199FB4 arm   ov009
  *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
- *   func_02195DE4                0x02195DE4 arm   ov009
+ *   gt2CloseAllConnectionsHard                0x02195DE4 arm   ov009
  *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
  *   func_020870D0                0x020870D0 arm
  *   func_02172BB8                0x02172BB8 arm   ov009
@@ -49,7 +49,7 @@ extern int func_02175F3C(void);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern void NNCancel(int cookie);
 extern int DWCi_NodeInfoList_GetCount(void);
-extern void func_02195DE4(int *p);
+extern void gt2CloseAllConnectionsHard(int *p);
 extern void DWCi_SetMatchStatus(int state);
 extern u64 func_020870D0(void);
 extern void func_02172BB8(int level);
@@ -75,7 +75,7 @@ int DWCi_ProcessMatchClosing(int error, int errorCode)
     if (DWCi_NodeInfoList_GetCount() > 1) {
         if (((struct DWCstMatchControl *)func_02175F3C())->f629 == 0) {
             ((struct DWCstMatchControl *)func_02175F3C())->f629 = 2;
-            func_02195DE4((int *)(*((struct DWCstMatchControl *)func_02175F3C())->gt2Socket));
+            gt2CloseAllConnectionsHard((int *)(*((struct DWCstMatchControl *)func_02175F3C())->gt2Socket));
         }
     } else if (((struct DWCstMatchControl *)func_02175F3C())->f15 == 3) {
         DWCi_StopMatch(0x16, -80430);

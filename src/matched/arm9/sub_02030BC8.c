@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030BC8
+ * function: GFL_HEAP_FreeSystemChecked
  *
  * symbols:
  *   GFL_HEAP_FreeSystem  0x020305E4  arm
@@ -19,15 +19,15 @@
  * the ROM.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030BC8.c \
- *       --func sub_02030BC8 --addr 0x02030BC8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_HEAP_FreeSystemChecked.c \
+ *       --func GFL_HEAP_FreeSystemChecked --addr 0x02030BC8 --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
 extern int GFL_HEAP_FreeSystem(u32 idx);
 
-int sub_02030BC8(u32 idx)
+int GFL_HEAP_FreeSystemChecked(u32 idx)
 {
     return GFL_HEAP_FreeSystem(idx);
 }

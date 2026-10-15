@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02063054",
+   "name": "NNSi_G2dCpuLoadOamSub",
    "address": "0x02063054",
    "kind": "game",
    "region": "arm9",

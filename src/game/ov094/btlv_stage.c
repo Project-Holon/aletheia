@@ -13,7 +13,7 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   sub_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   G3D_SYSTEM_CreateResourceArc 0x02046DB8 arm
  *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
@@ -25,7 +25,7 @@
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   func_0207DCF8 0x0207DCF8 arm
- *   sub_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gBtlvStageFileName 0x0220AC40 data
  *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
@@ -39,7 +39,7 @@
 #include "btlv_effvm_types.h"
 #include "btlv_stage_shared_types.h"
 
-extern void *sub_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 
@@ -63,7 +63,7 @@ extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 
 extern void func_0207DCF8(void *);
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *);
 
@@ -107,7 +107,7 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     BtlvStageFiles *table;
     int i, k, m;
     int bytes;
-    stage = sub_02030734(heap, 0xbc, 1, gBtlvStageFileName, 0x63);
+    stage = GFL_HEAP_Alloc(heap, 0xbc, 1, gBtlvStageFileName, 0x63);
     table = ARC_TOOL_LoadMember(0x98, 2, (u16)((heap & 0x7fff) | 0x8000));
     stage->heap = heap;
     if (mode == 3)
@@ -124,21 +124,21 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     stage->render[1] = G3D_SYSTEM_CreateRender(stage->resource, 0, stage->resource);
     if (mode == 3) {
         stage->animCount = 1;
-        stage->animResource = sub_02030734(stage->heap, 4, 0, gBtlvStageFileName, 0x93);
+        stage->animResource = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0x93);
         *stage->animResource = G3D_SYSTEM_CreateResourceArc(11, 0x57);
         for (i = 0; i < 2; i++) {
-            stage->anime[i] = sub_02030734(stage->heap, 4, 0, gBtlvStageFileName, 0x98);
-            stage->animState[i] = sub_02030734(stage->heap, 0x10, 1, gBtlvStageFileName, 0x99);
+            stage->anime[i] = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0x98);
+            stage->animState[i] = GFL_HEAP_Alloc(stage->heap, 0x10, 1, gBtlvStageFileName, 0x99);
             *stage->anime[i] = G3D_SYSTEM_CreateAnime(stage->render[i], *stage->animResource, 0);
             stage->animState[i]->kind = BTLV_ANIM_TIMED;
             stage->object[i] = G3D_SYSTEM_CreateObject(stage->render[i], stage->anime[i], (u16)stage->animCount);
             G3D_SYSTEM_EnableObjectAnime(stage->object[i], (u16)0);
         }
     } else if (stage->animCount != 0) {
-        stage->animResource = sub_02030734(stage->heap, stage->animCount * 4, 0, gBtlvStageFileName, 0xa7);
+        stage->animResource = GFL_HEAP_Alloc(stage->heap, stage->animCount * 4, 0, gBtlvStageFileName, 0xa7);
         for (i = 0; i < 2; i++) {
-            stage->anime[i] = sub_02030734(stage->heap, stage->animCount * 4, 0, gBtlvStageFileName, 0xab);
-            stage->animState[i] = sub_02030734(stage->heap, stage->animCount * 16, 1, gBtlvStageFileName, 0xac);
+            stage->anime[i] = GFL_HEAP_Alloc(stage->heap, stage->animCount * 4, 0, gBtlvStageFileName, 0xab);
+            stage->animState[i] = GFL_HEAP_Alloc(stage->heap, stage->animCount * 16, 1, gBtlvStageFileName, 0xac);
         }
         k = 0;
         for (i = 1; i < 4; i++) {
@@ -160,10 +160,10 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         stage->object[1] = G3D_SYSTEM_CreateObject(stage->render[1], 0, (u16)0);
     }
     bytes = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(stage->resource))->plttInfo.sizePltt * 8;
-    stage->palFade.resources = sub_02030734(stage->heap, 4, 0, gBtlvStageFileName, 0xd6);
-    stage->palFade.palettes = sub_02030734(stage->heap, 4, 0, gBtlvStageFileName, 0xd7);
+    stage->palFade.resources = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd6);
+    stage->palFade.palettes = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd7);
     *stage->palFade.resources = stage->resource;
-    *stage->palFade.palettes = sub_02030734(stage->heap, bytes, 0, gBtlvStageFileName, 0xda);
+    *stage->palFade.palettes = GFL_HEAP_Alloc(stage->heap, bytes, 0, gBtlvStageFileName, 0xda);
     stage->palFade.enabled = 0;
     stage->palFade.count = 1;
     stage->status[0].trans.x = 0;
@@ -185,7 +185,7 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         stage->status[1].trans.z = -0xf000;
     }
     func_0207DCF8(&table[group]);
-    sub_020307B0(table);
+    GFL_HEAP_Free(table);
     return stage;
 }
 

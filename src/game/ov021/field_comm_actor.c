@@ -1,7 +1,7 @@
 /*
  * file:     field_comm_actor.c
  * unit:     yes
- * function: FIELD_COMM_ACTOR_CTRL_Create, FIELD_COMM_ACTOR_CTRL_Delete, FIELD_COMM_ACTOR_CTRL_AddActor, FIELD_COMM_ACTOR_CTRL_DeleteActor, FIELD_COMM_ACTOR_CTRL_SearchGridPos, FIELD_COMM_ACTOR_CTRL_GetMmdl, FIELD_COMM_ACTOR_DeleteActor, FIELD_COMM_ACTOR_AddMmdl, FIELD_COMM_ACTOR_MoveInit, FIELD_COMM_ACTOR_MoveDelete, FIELD_COMM_ACTOR_Move, FIELD_COMM_ACTOR_SetMoveWork, FIELD_COMM_ACTOR_ConvertDir, func_021945A4, func_021945E0
+ * function: FIELD_COMM_ACTOR_CTRL_Create, FIELD_COMM_ACTOR_CTRL_Delete, FIELD_COMM_ACTOR_CTRL_AddActor, FIELD_COMM_ACTOR_CTRL_DeleteActor, FIELD_COMM_ACTOR_CTRL_SearchGridPos, FIELD_COMM_ACTOR_CTRL_GetMmdl, FIELD_COMM_ACTOR_DeleteActor, FIELD_COMM_ACTOR_AddMmdl, FIELD_COMM_ACTOR_MoveInit, FIELD_COMM_ACTOR_MoveDelete, FIELD_COMM_ACTOR_Move, FIELD_COMM_ACTOR_SetMoveWork, FIELD_COMM_ACTOR_ConvertDir, FIELD_COMM_ACTOR_CreateSubscreenChangeEvent, FIELD_COMM_ACTOR_SubscreenChangeMain
  * address:  0x02194284
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -147,8 +147,8 @@ void FIELD_COMM_ACTOR_MoveDelete(Mmdl *mmdl);
 void FIELD_COMM_ACTOR_Move(Mmdl *mmdl);
 void FIELD_COMM_ACTOR_SetMoveWork(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor);
 int FIELD_COMM_ACTOR_ConvertDir(int dir);
-struct GameEvent *func_021945A4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 mode);
-int func_021945E0(struct GameEvent *event, int *seq, void *work);
+struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 mode);
+int FIELD_COMM_ACTOR_SubscreenChangeMain(struct GameEvent *event, int *seq, void *work);
 extern char sFieldCommActorFileName[];
 extern MmdlHeader sCommActorMmdlHeader;
 
@@ -352,12 +352,12 @@ int FIELD_COMM_ACTOR_ConvertDir(int dir)
     return dir;
 }
 
-struct GameEvent *func_021945A4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 mode)
+struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 mode)
 {
     struct GameEvent *event;
     SubscreenChangeEventWork *work;
     FIELDMAP_GetSubscreen(fieldMap);
-    event = func_020122C0(gameSystem, 0, func_021945E0, sizeof(SubscreenChangeEventWork));
+    event = func_020122C0(gameSystem, 0, FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(SubscreenChangeEventWork));
     work->gameSystem = gameSystem;
@@ -367,7 +367,7 @@ struct GameEvent *func_021945A4(struct GameSystem *gameSystem, struct FieldMap *
     return event;
 }
 
-int func_021945E0(struct GameEvent *event, int *seq, void *work)
+int FIELD_COMM_ACTOR_SubscreenChangeMain(struct GameEvent *event, int *seq, void *work)
 {
     SubscreenChangeEventWork *evWork = work;
     MmdlSys *mmdlSys;

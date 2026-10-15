@@ -1,7 +1,7 @@
 /*
  * file:     bmp.c
  * unit:     yes
- * function: BG_SYS_ClearGraphicsMemory, BG_SYS_SetVramBanks, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, BG_SYS_SetMainPlaneVisible, BG_SYS_SetMainVisiblePlanes, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, BG_SYS_SetSubPlaneVisible, BG_SYS_SetSubVisiblePlanes, BG_SYS_ResetSubDisplay, func_0204363C, func_02043658, BG_SYS_GetSubVisiblePlanes, BMP_Create, BMP_CreateFromBuffer, BMP_CreateFromVram, BMP_Delete, BMP_GetPixels, BMP_GetWidth, BMP_GetHeight, BMP_GetByteSize, BMP_CopyPixels, BMP_CreateFromArchive, BMP_InitFromCharData, BMP_GetTileBytes, BMP_Blit, BMP_BlitPaletteOffset, BMP_FillRect, BMP_Clear, BMP_Blit4bpp, BMP_Blit8bpp, BMP_Blit4bppTo8bpp, BMP_Blit4bppToVram, BMP_Blit8bppToVram, BMP_FillRect4bpp, BMP_FillRect8bpp, BMP_FillRect4bppVram, BMP_FillRect8bppVram, BMP_ConvertToLinear, BMP_WIN_Init, BMP_WIN_Exit, BMP_WIN_Create, BMP_WIN_CreateAt, func_02045210, BMP_WIN_Delete, BMP_WIN_TransferChars, BMP_WIN_MakeScreen, BMP_WIN_DrawFrame, BMP_WIN_ClearScreen, BMP_WIN_GetBgLayer, BMP_WIN_GetWidth, BMP_WIN_GetHeight, BMP_WIN_GetDispWidth, BMP_WIN_GetDispHeight, BMP_WIN_GetPosX, BMP_WIN_GetPosY, BMP_WIN_GetCharOffset, BMP_WIN_GetBmp, BMP_WIN_GetPalette, BMP_WIN_SetPosX, BMP_WIN_SetPosY, BMP_WIN_SetDispHeight, BMP_WIN_SetPalette, STRBUF_SetEosChar, STRBUF_Create, STRBUF_Delete, STRBUF_Clear, STRBUF_Copy, STRBUF_Clone, STRBUF_IsEqual, STRBUF_GetLength, STRBUF_Truncate, STRBUF_SetString, STRBUF_SetStringN, STRBUF_SetChars, STRBUF_ToChars, STRBUF_GetChars, STRBUF_GetEosChar, STRBUF_Append, STRBUF_AppendChar
+ * function: BG_SYS_ClearGraphicsMemory, BG_SYS_SetVramBanks, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, BG_SYS_SetMainPlaneVisible, BG_SYS_SetMainVisiblePlanes, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, BG_SYS_SetSubPlaneVisible, BG_SYS_SetSubVisiblePlanes, BG_SYS_ResetSubDisplay, BMP_SetDisplaySwap, BMP_GetVisiblePlane, BG_SYS_GetSubVisiblePlanes, BMP_Create, BMP_CreateFromBuffer, BMP_CreateFromVram, BMP_Delete, BMP_GetPixels, BMP_GetWidth, BMP_GetHeight, BMP_GetByteSize, BMP_CopyPixels, BMP_CreateFromArchive, BMP_InitFromCharData, BMP_GetTileBytes, BMP_Blit, BMP_BlitPaletteOffset, BMP_FillRect, BMP_Clear, BMP_Blit4bpp, BMP_Blit8bpp, BMP_Blit4bppTo8bpp, BMP_Blit4bppToVram, BMP_Blit8bppToVram, BMP_FillRect4bpp, BMP_FillRect8bpp, BMP_FillRect4bppVram, BMP_FillRect8bppVram, BMP_ConvertToLinear
  * address:  0x0204335C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,8 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from bmp.c at 0x02045B38 (__FILE__ anchor boundary, certain cut).
+ * Cut from bmp.c by tools/splitfile.py.
  *
  * symbols:
  *   func_0208068C  0x0208068C  arm
@@ -43,30 +42,14 @@
  *   bmp_File       0x020A7E68  data
  *   func_020307B0  0x020307B0  arm
  *   ARC_UTIL_LoadMember       0x0204A1BC  arm
- *   func_02062A4C       0x02062A4C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx       0x02062A4C  arm
  *   OS_Terminate        0x02088234  arm
  *   MIi_CpuCopy32       0x02082A90  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   sBmpWinHeapRecord     0x02146A50  data
- *   bmpWin_File   0x020A7E70  data
- *   BG_SYS_GetField16  0x0204169C  arm
- *   BG_SYS_CreateRun  0x0203FA08  arm
- *   BG_SYS_CheckFAF0  0x0203FAF0  arm
- *   sub_0203FB44  0x0203FB44  arm
- *   sub_020416B8  0x020416B8  arm
- *   sub_02040B1C  0x02040B1C  arm
- *   BG_SYS_GetType  0x02041680  arm
- *   func_020410D0  0x020410D0  arm
- *   func_02041300  0x02041300  arm
- *   sStrbufStatics  0x020A7E7C  data
- *   MI_CpuCopy8  0x02082D44  arm
  */
+#include "bmp_shared_types.h"
 
-struct Bmp;
 struct CharData;
-struct Strbuf;
-struct BmpWin;
-typedef unsigned int u32;
 
 typedef enum {
     GX_OBJVRAMMODE_CHAR_2D      = 0x00000000,
@@ -93,10 +76,6 @@ struct DispVram {
     GXOBJVRamModeChar sub_mapping;      /* +0x2C */
 };
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
 /*
  * Where a bitmap's pixels live (Bmp.storage).  A VRAM destination cannot be
  * written a byte at a time, so the VRAM workers read-modify-write halfwords.
@@ -106,24 +85,6 @@ enum {
     BMP_STORAGE_BORROWED = 1,   /* caller's buffer, not freed by BMP_Delete */
     BMP_STORAGE_VRAM     = 2    /* caller's buffer in VRAM, halfword writes only */
 };
-
-/* Tile byte sizes (Bmp.tileBytes): one 8x8 tile at 4 and at 8 bits per pixel. */
-#define BMP_TILE_BYTES_4BPP 0x20
-#define BMP_TILE_BYTES_8BPP 0x40
-
-/*
- * A tiled character bitmap.  width and height are in pixels, the pixels are
- * stored as 8x8 tiles of tileBytes bytes each.
- */
-struct Bmp {
-    u8  *pixels;     /* 0x00 */
-    u16  width;      /* 0x04 */
-    u16  height;     /* 0x06 */
-    u16  tileBytes;  /* 0x08 */
-    u16  storage;    /* 0x0a, BMP_STORAGE_* */
-};
-
-typedef signed int     s32;
 
 /* Unpacked character resource (the NNS_G2d character data record). */
 struct CharData {
@@ -138,165 +99,118 @@ struct CharData {
 
 typedef signed short   s16_p07;
 
-#define BMP_WIN_MAGIC 0x7fb2
-
-/*
- * A bitmap window: a rectangle of a BG layer backed by a Bmp.  One object
- * for every view the accessors and the constructors take.
- */
-struct BmpWin {
-    u16 magic : 15;          /* +0x00, BMP_WIN_MAGIC while live */
-    u16 is8bpp : 1;          /*        BG layer uses 8bpp characters */
-    u8  bgLayer;             /* +0x02 */
-    u8  posX;                /* +0x03, in tiles */
-    u8  posY;                /* +0x04 */
-    u8  width;               /* +0x05, in tiles */
-    u8  height;              /* +0x06 */
-    u8  dispWidth;           /* +0x07, on-screen extent, starts equal to width */
-    u8  dispHeight;          /* +0x08, starts equal to height */
-    u8  palette;             /* +0x09 */
-    u16 charOffset;          /* +0x0a, first character number in BG VRAM */
-    struct Bmp *bmp;         /* +0x0c */
-};
-
-/*
- * The data at 0x020A7E7C is one small object, not two independent
- * words: STRBUF_Create loads 0x020A7E80 out of a pool as the allocators
- * fourth argument, and that word is this symbol plus four
- * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
- * Reading it as a separate object splits one symbol into two and loses
- * the relocation: 0x020A7E80 has exactly one pool reference image-wide
- * and so no witness of its own, while the base has thirty-six.
- */
-struct StrbufStatics {
-    u16  eosChar;    /* 0x020A7E7C, the end-of-string code (0xFFFF) */
-    u16  pad;
-    char file[1];    /* 0x020A7E80, the "strbuf.c" file name handed to the allocator */
-};
-
-#define STRBUF_MAGIC 0xB6F8D2ECu
-
-/* A bounded string of u16 characters; chars[] holds capacity entries plus the end code. */
-struct Strbuf {
-    u16 capacity;    /* +0x00 */
-    u16 length;      /* +0x02 */
-    u32 magic;       /* +0x04, STRBUF_MAGIC while live */
-    u16 chars[1];    /* +0x08 */
-};
-
 extern void func_0208068C(u32 banks);
+
 extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
+
 extern void func_02080B98(void);
+
 extern int func_020808F4(void);
+
 extern void GX_DispOn(void);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 func_020307B0(void *p);
+
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
-extern s32 func_02062A4C(void *resource, struct CharData **out);
+
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(void *resource, struct CharData **out);
+
 extern void  OS_Terminate(void);
+
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u8 BG_SYS_GetField16(int channel);
-extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
-extern u32 BG_SYS_CheckFAF0(u32 layer, u32 offset, u32 units);
-extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
-extern u8 sub_020416B8(int channel);
-extern void sub_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern u8 BG_SYS_GetType(int channel);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+
 void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
+
 void BG_SYS_SetVramBanks(const struct DispVram *banks);
+
 void BG_SYS_ClearMainBgPlanes(void);
+
 void BG_SYS_ClearMainObjPlane(void);
+
 void BG_SYS_ClearMainPlanes(void);
+
 void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
+
 void BG_SYS_SetMainVisiblePlanes(u32 planes);
+
 void BG_SYS_ClearSubBgPlanes(void);
+
 void BG_SYS_ClearSubObjPlane(void);
+
 void BG_SYS_ClearSubPlanes(void);
+
 void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+
 void BG_SYS_SetSubVisiblePlanes(u32 planes);
+
 void BG_SYS_ResetSubDisplay(void);
-void func_0204363C(u32 swap);
-u32 func_02043658(void);
+
+void BMP_SetDisplaySwap(u32 swap);
+
+u32 BMP_GetVisiblePlane(void);
+
 u32 BG_SYS_GetSubVisiblePlanes(void);
+
 struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+
 struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+
 struct Bmp *BMP_CreateFromVram(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+
 void BMP_Delete(struct Bmp *bmp);
+
 void *BMP_GetPixels(const struct Bmp *bmp);
+
 u16 BMP_GetWidth(const struct Bmp *bmp);
+
 u16 BMP_GetHeight(const struct Bmp *bmp);
+
 u32 BMP_GetByteSize(const struct Bmp *bmp);
+
 void BMP_CopyPixels(const struct Bmp *src, struct Bmp *dst);
+
 struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
+
 void BMP_InitFromCharData(struct Bmp *bmp, struct CharData *charData, u32 heapId);
+
 u8 BMP_GetTileBytes(struct Bmp *bmp);
+
 void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u16 colorKey);
+
 void BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey, u16 paletteBase);
+
 void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+
 void BMP_Clear(struct Bmp *bmp, u8 value);
+
 void BMP_Blit4bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
+
 void BMP_Blit8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
+
 void BMP_Blit4bppTo8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey, u8 paletteBase);
+
 void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey);
+
 void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey);
+
 void BMP_FillRect4bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value);
+
 void BMP_FillRect8bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
+
 void BMP_FillRect4bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
+
 void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
+
 struct Bmp *BMP_ConvertToLinear(struct Bmp *bmp, u32 keepCopy, u16 heapId);
-void BMP_WIN_Init(u16 heapId);
-void BMP_WIN_Exit(void);
-struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset);
-struct BmpWin *BMP_WIN_Alloc(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset, u8 is8bpp);
-u32 BMP_WIN_Delete(struct BmpWin *win);
-void BMP_WIN_TransferChars(struct BmpWin *win);
-void BMP_WIN_MakeScreen(struct BmpWin *win);
-void BMP_WIN_DrawFrame(struct BmpWin *win, u16 baseTile, u32 palette);
-void BMP_WIN_ClearScreen(struct BmpWin *win);
-u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-u8 BMP_WIN_GetWidth(struct BmpWin *win);
-u8 BMP_WIN_GetHeight(struct BmpWin *win);
-u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
-u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
-u8 BMP_WIN_GetPosX(struct BmpWin *win);
-u8 BMP_WIN_GetPosY(struct BmpWin *win);
-u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
-struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-u8 BMP_WIN_GetPalette(struct BmpWin *win);
-void BMP_WIN_SetPosX(struct BmpWin *win, u8 posX);
-void BMP_WIN_SetPosY(struct BmpWin *win, u8 posY);
-void BMP_WIN_SetDispHeight(struct BmpWin *win, u8 dispHeight);
-void BMP_WIN_SetPalette(struct BmpWin *win, u8 palette);
-void STRBUF_SetEosChar(u16 eosChar);
-struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-void STRBUF_Delete(struct Strbuf *strbuf);
-void STRBUF_Clear(struct Strbuf *strbuf);
-void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
-struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
-int STRBUF_IsEqual(struct Strbuf *lhs, struct Strbuf *rhs);
-u16 STRBUF_GetLength(struct Strbuf *strbuf);
-void STRBUF_Truncate(struct Strbuf *strbuf, u32 newLength);
-void STRBUF_SetString(struct Strbuf *strbuf, const u16 *srcChars);
-void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount);
-void STRBUF_SetChars(struct Strbuf *strbuf, const void *srcChars, u32 charCount);
-void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
-u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-u16 STRBUF_GetEosChar(void);
-void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
-void STRBUF_AppendChar(struct Strbuf *strbuf, u16 ch);
+
 /* [0] = sub engine, [1] = main engine; bit n = BG n, bit 4 = OBJ */
 extern u32 gVisiblePlanes[2];
+
 extern const char bmp_File[];       /* "bmp.c" */
-extern u16 *sBmpWinHeapRecord;      /* 4-byte block, first halfword = the heap id */
-extern const char bmpWin_File[];    /* "bmp_win.c" */
-extern struct StrbufStatics sStrbufStatics;
-
-
 
 /*
  * Blank the graphics state: disable every VRAM bank the caller's mask does
@@ -324,28 +238,46 @@ void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
     MIi_CpuClearFast(0, (void *)0x05000400, 0x400);
 }
 
-
 extern void func_0208091C(void);   /* GX_ResetBankForBGExtPltt */
+
 extern int func_020809A0(void);
+
 extern void func_020809C8(void);   /* GX_ResetBankForSubBGExtPltt */
+
 extern void func_02080908(void);
+
 extern void func_02080940(void);   /* GX_ResetBankForOBJExtPltt */
+
 extern void func_020809B4(void);
+
 extern void func_020809F0(void);   /* GX_ResetBankForSubOBJExtPltt */
+
 extern int func_02080964(void);
+
 extern void func_02080978(void);
+
 extern void func_0207FDCC(GXVRam v);   /* GX_SetBankForBG */
+
 extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
+
 extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
+
 extern void GX_SetBankForSubBGExtPltt(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
+
 extern void func_0207FFD0(GXVRam v);   /* GX_SetBankForOBJ */
+
 extern void GX_SetBankForOBJExtPltt(GXVRam v);   /* GX_SetBankForOBJExtPltt */
+
 extern void GX_SetBankForSubOBJ(GXVRam v);   /* GX_SetBankForSubOBJ */
+
 extern void GX_SetBankForSubOBJExtPltt(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
+
 extern void func_02080294(GXVRam v);   /* GX_SetBankForTex */
+
 extern void GX_SetBankForTexPltt(GXVRam v);   /* GX_SetBankForTexPltt */
 
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
+
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
 
 static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
@@ -397,7 +329,6 @@ void BG_SYS_SetVramBanks(const struct DispVram *banks)
     GXS_SetOBJVRamModeChar(banks->sub_mapping);
 }
 
-
 /*
  * The tail of the packet: two one-line mask-downs of the same 32-bit word
  * at +4 of the object that starts at 0x02146A48, and the wrapper that runs
@@ -416,19 +347,16 @@ void BG_SYS_ClearMainBgPlanes(void)
     gVisiblePlanes[1] &= 0x10;
 }
 
-
 void BG_SYS_ClearMainObjPlane(void)
 {
     gVisiblePlanes[1] &= 0xf;
 }
-
 
 void BG_SYS_ClearMainPlanes(void)
 {
     BG_SYS_ClearMainBgPlanes();
     BG_SYS_ClearMainObjPlane();
 }
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -458,7 +386,6 @@ void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable)
         (*(volatile u32 *)0x04000000 & ~0x1f00) | (gVisiblePlanes[1] << 8);
 }
 
-
 void BG_SYS_SetMainVisiblePlanes(u32 planes)
 {
     gVisiblePlanes[1] = planes;
@@ -466,12 +393,10 @@ void BG_SYS_SetMainVisiblePlanes(u32 planes)
         (*(volatile u32 *)0x04000000 & ~0x1f00) | (planes << 8);
 }
 
-
 void BG_SYS_ClearSubBgPlanes(void)
 {
     gVisiblePlanes[0] &= 0x10;
 }
-
 
 /*
  * Two of the engine-B visible-plane mask writers, 0x02043570-0x02043598.
@@ -501,13 +426,11 @@ void BG_SYS_ClearSubObjPlane(void)
     gVisiblePlanes[0] &= 0xF;
 }
 
-
 void BG_SYS_ClearSubPlanes(void)
 {
     BG_SYS_ClearSubBgPlanes();
     BG_SYS_ClearSubObjPlane();
 }
-
 
 /*
  * The engine-B half of the visible-plane toggle: if the requested state
@@ -536,7 +459,6 @@ void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable)
         (*(volatile u32 *)0x04001000 & ~0x1f00) | (gVisiblePlanes[0] << 8);
 }
 
-
 /*
  * Engine-B "replace the whole visible-plane set": store the software copy
  * and rewrite bits 8..12 of GXS_DISPCNT from it.  Twin of BG_SYS_SetMainVisiblePlanes.
@@ -547,7 +469,6 @@ void BG_SYS_SetSubVisiblePlanes(u32 planes)
     *(volatile u32 *)0x04001000 =
         (*(volatile u32 *)0x04001000 & ~0x1f00) | (planes << 8);
 }
-
 
 /*
  * Three display-control leaves, 0x0204361C-0x02043668.  The two after the
@@ -573,19 +494,16 @@ void BG_SYS_ResetSubDisplay(void)
     *(volatile u32 *)0x04001000 |= 0x10000;
 }
 
-
-void func_0204363C(u32 swap)
+void BMP_SetDisplaySwap(u32 swap)
 {
     *(volatile u16 *)0x04000304 =
         (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
 }
 
-
-u32 func_02043658(void)
+u32 BMP_GetVisiblePlane(void)
 {
     return gVisiblePlanes[1];
 }
-
 
 /*
  * Read back gVisiblePlanes[0], the sub-engine software copy of the visible
@@ -601,8 +519,6 @@ u32 BG_SYS_GetSubVisiblePlanes(void)
 {
     return gVisiblePlanes[0];
 }
-
-
 
 /*
  * TU: bmp.c.  The __FILE__ pointer at 0x020A7E68 reads "bmp.c", lines 97
@@ -636,8 +552,6 @@ struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapI
     return bmp;
 }
 
-
-
 /*
  * TU: bmp.c (__FILE__ 0x020A7E68, line 123).
  *
@@ -664,8 +578,6 @@ struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 widthTiles, u32 heightTiles, 
 
     return bmp;
 }
-
-
 
 /*
  * TU: bmp.c (__FILE__ 0x020A7E68, line 148).
@@ -694,8 +606,6 @@ struct Bmp *BMP_CreateFromVram(void *pixels, u32 widthTiles, u32 heightTiles, u3
     return bmp;
 }
 
-
-
 /*
  * Destructor: release the owned buffer at +0x00 first, but only when the
  * halfword count at +0x0a is zero, then release the object itself.  The
@@ -714,8 +624,6 @@ void BMP_Delete(struct Bmp *bmp)
     func_020307B0(bmp);
 }
 
-
-
 /*
  * TU: bmp.c.  Accessor for the pixel buffer of a bitmap descriptor.
  * Saves no lr, so disasm.py leaves it unlabelled and it prints inside a run
@@ -729,8 +637,6 @@ void *BMP_GetPixels(const struct Bmp *bmp)
 {
     return bmp->pixels;
 }
-
-
 
 /*
  * TU: bmp.c.  Accessor for the pixel width of a bitmap descriptor.
@@ -746,8 +652,6 @@ u16 BMP_GetWidth(const struct Bmp *bmp)
     return bmp->width;
 }
 
-
-
 /*
  * TU: bmp.c.  Accessor for the pixel height of a bitmap descriptor.
  * Saves no lr, so disasm.py leaves it unlabelled and it prints inside a run
@@ -762,8 +666,6 @@ u16 BMP_GetHeight(const struct Bmp *bmp)
     return bmp->height;
 }
 
-
-
 /*
  * TU: bmp.c.  Byte size of a bitmap's pixel buffer: tileBytes * ((width / 8) * height / 8). The first division is an `lsr` because the width comes out of a u16 field and is known non-negative; the second is a signed `asr` triple because it divides an int product.
  * Saves no lr, so disasm.py leaves it unlabelled and it prints inside a run
@@ -777,8 +679,6 @@ u32 BMP_GetByteSize(const struct Bmp *bmp)
 {
     return bmp->tileBytes * ((bmp->width / 8) * bmp->height / 8);
 }
-
-
 
 /*
  * TU: bmp.c.  Copy one bitmap's pixels over another's, clipped to whichever
@@ -803,8 +703,6 @@ void BMP_CopyPixels(const struct Bmp *src, struct Bmp *dst)
 
     MIi_CpuCopy32(src->pixels, dst->pixels, copySize);
 }
-
-
 
 /*
  * bmp.c's "load a bitmap out of an archive" entry point,
@@ -847,7 +745,7 @@ struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 h
 
     bmp = (struct Bmp *)func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 266);
     resource = (void *)ARC_UTIL_LoadMember(arcId, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
-    if (func_02062A4C(resource, &charData) == 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx(resource, &charData) == 0) {
         OS_Terminate();
         return 0;
     }
@@ -855,8 +753,6 @@ struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 h
     func_020307B0(resource);
     return bmp;
 }
-
-
 
 /*
  * bmp.c's bitmap constructor, 0x02043900-0x02043994 including its two pool
@@ -907,9 +803,6 @@ void BMP_InitFromCharData(struct Bmp *bmp, struct CharData *charData, u32 heapId
     MIi_CpuCopy32(charData->rawData, bmp->pixels, charData->size);
 }
 
-
-
-
 /*
  * bmp.c's accessor for the halfword at +8, the field the blit dispatcher at
  * 0x020439A0 compares between source and destination.  The `ldrh` followed
@@ -927,8 +820,6 @@ u8 BMP_GetTileBytes(struct Bmp *bmp)
 {
     return bmp->tileBytes;
 }
-
-
 
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
@@ -985,8 +876,6 @@ void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY,
     }
 }
 
-
-
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
@@ -1018,8 +907,6 @@ void BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY,
 {
     BMP_Blit4bppTo8bpp(src, dst, srcX, srcY, dstX, dstY, w, h, colorKey, paletteBase);
 }
-
-
 
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
@@ -1069,7 +956,6 @@ void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value)
     }
 }
 
-
 /*
  * Clears a tiled character buffer to a constant pixel value.  The tile
  * count is (width/8) * (height/8) and the byte count is that times the
@@ -1087,7 +973,6 @@ void BMP_Clear(struct Bmp *bmp, u8 value)
 
     MI_CpuFill8(bmp->pixels, value, size);
 }
-
 
 static inline s32 ClipBlitRect(struct Bmp *src, const struct Bmp *dst, s32 *srcX, s32 *srcY,
                            s32 *dstX, s32 *dstY, u32 *w, u32 *h)
@@ -1120,7 +1005,6 @@ static inline s32 ClipBlitRect(struct Bmp *src, const struct Bmp *dst, s32 *srcX
     *h = clippedH;
     return 1;
 }
-
 
 /*
  * bmp.c blit worker, 4bpp tiled source onto a 4bpp tiled destination,
@@ -1185,7 +1069,6 @@ void BMP_Blit4bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX
             }
     }
 }
-
 
 /*
  * bmp.c blit worker, 8bpp tiled source onto an 8bpp tiled destination,
@@ -1255,8 +1138,6 @@ void BMP_Blit8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX
             }
     }
 }
-
-
 
 /*
  * bmp.c blit worker, 4bpp tiled source expanded onto an 8bpp tiled
@@ -1332,8 +1213,6 @@ void BMP_Blit4bppTo8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s3
             }
     }
 }
-
-
 
 /*
  * bmp.c blit worker, 4bpp tiled source onto a 4bpp tiled destination that
@@ -1430,8 +1309,6 @@ void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
     }
 }
 
-
-
 /*
  * bmp.c blit worker, 8bpp tiled source onto an 8bpp tiled destination
  * written a HALFWORD at a time: when the destination byte is odd the
@@ -1512,8 +1389,6 @@ void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
     }
 }
 
-
-
 /*
  * bmp.c fill worker, 4bpp tiled (two pixels per byte), reached from the
  * fill dispatcher BMP_FillRect.  Clips right/bottom before the loops and
@@ -1567,8 +1442,6 @@ void BMP_FillRect4bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value)
             }
 }
 
-
-
 /*
  * bmp.c fill worker (8bpp tiled, one byte per pixel), reached from the
  * fill dispatcher BMP_FillRect.  Clips right/bottom against the
@@ -1609,8 +1482,6 @@ void BMP_FillRect8bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
                         + tileRowOffset * tilesWide + ((row * 8) & 0x38)) = value;
             }
 }
-
-
 
 /*
  * bmp.c fill worker, 4bpp tiled plotted through a HALFWORD read-modify-
@@ -1676,8 +1547,6 @@ void BMP_FillRect4bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
             }
 }
 
-
-
 void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
 {
     s32 row;
@@ -1701,8 +1570,6 @@ void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
                         + tileRowOffset * tilesWide + ((row * 8) & 0x38)) = value;
             }
 }
-
-
 
 /*
  * bmp.c de-tile entry point: builds a new descriptor of the same extent
@@ -1747,1066 +1614,4 @@ struct Bmp *BMP_ConvertToLinear(struct Bmp *bmp, u32 keepCopy, u16 heapId)
         linear = 0;
     }
     return linear;
-}
-
-
-
-/*
- * The one-time init of the BG subsystem's heap record.  Four bytes are
- * allocated on the heap the caller names, the pointer is published in the
- * global at 0x02146A50, and the heap id itself is written back into the
- * first halfword of the block.  Every later allocation in this family reads
- * that halfword back out (see src/matched/BMP_WIN_MakeScreen.c, which spells it
- * (*sBmpWinHeapRecord & 0x7fff) | 0x8000), so the block is the subsystem's record
- * of which heap it owns.
- *
- * The allocator's fourth and fifth arguments are the same debug site string
- * and tag pair used everywhere else in this file; here the tag is 0x4f.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_Init.c \
- *       --func BMP_WIN_Init --addr 0x02045088 --cc 1.1p1 --arm
- */
-void BMP_WIN_Init(u16 heapId)
-{
-    u16 *heapRecord = func_02030734(heapId, 4, 0, bmpWin_File, 0x4f);
-
-    sBmpWinHeapRecord = heapRecord;
-    *heapRecord = heapId;
-}
-
-
-
-/*
- * The teardown that pairs with BMP_WIN_Init: free the four-byte heap record
- * published at 0x02146A50 and clear the pointer, doing nothing if it was
- * never allocated.  The idempotent shape (test, free, null out) is why the
- * global is read once into a callee-saved register and stored back through
- * the same register rather than re-loaded from the pool.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_Exit.c \
- *       --func BMP_WIN_Exit --addr 0x020450C8 --cc 1.1p1 --arm
- */
-void BMP_WIN_Exit(void)
-{
-    if (sBmpWinHeapRecord == 0)
-        return;
-
-    func_020307B0(sBmpWinHeapRecord);
-    sBmpWinHeapRecord = 0;
-}
-
-
-
-/*
- * Set up a BG layer whose character data is placed at a VRAM offset chosen
- * by the allocator.  BG_SYS_GetField16 says whether the layer is 8bpp; that
- * decides both the flag handed to BMP_WIN_Alloc and whether a cell costs one
- * or two units, and the unit count is scaled by 32 to bytes before
- * BG_SYS_CreateRun is asked for room.  A returned -1 (not 0) is the allocator's
- * failure answer, and the function reports failure as 0.
- *
- * BMP_WIN_CreateAt, the next function, is the same routine for the case where
- * the caller already knows the offset: it calls BG_SYS_CheckFAF0 to reserve
- * that exact offset instead, passes a count rather than a byte size, and
- * forwards the caller's offset straight through as BMP_WIN_Alloc's seventh
- * argument.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_Create.c \
- *       --func BMP_WIN_Create --addr 0x020450F0 --cc 1.1p1 --arm
- */
-struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir)
-{
-    u8 is8bpp;
-    u32 charCount;
-    s32 offset;
-
-    if (BG_SYS_GetField16(bgLayer) == 0) {
-        is8bpp = 0;
-        charCount = width * height;
-    } else {
-        is8bpp = 1;
-        charCount = width * height * 2;
-    }
-
-    offset = BG_SYS_CreateRun(bgLayer, charCount * 32, allocDir);
-    if (offset == -1)
-        return 0;
-
-    return BMP_WIN_Alloc(bgLayer, posX, posY, width, height, palette, offset, is8bpp);
-}
-
-
-
-/*
- * closed:   blocker BG_SYS_CheckFAF0 is now a manifest entry (matched class)
- *
- * Every concrete byte is right; the file is capped at MATCH by one
- * relocation site, the bl to BG_SYS_CheckFAF0 at +0x44.  Blocking evidence
- * class: none available.  0x0203FAF0 has exactly one witness image wide and
- * it is the call inside this very function (--suggest-split reports "the
- * whole range as one file is NOT viable", best partition 0 pieces), so no
- * cut of this range can attest it.  It unsticks the moment either
- * 0x0203FAF0 itself is taken EXACT (the `matched` class) or a second caller
- * of it turns up in another packet.
- *
- * The fixed-offset twin of BMP_WIN_Create: the caller already knows where the
- * layer's character data goes, so BG_SYS_CheckFAF0 is asked to reserve that
- * offset (answering 0 on failure, not -1), the cell count is passed in units
- * rather than scaled to bytes, and the caller's own offset is what reaches
- * BMP_WIN_Alloc as the seventh argument.
- *
- * The 8bpp test and the doubling of the unit count are identical to
- * BMP_WIN_Create; only the missing `lsl #5` and the different failure
- * convention separate the two.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_CreateAt.c \
- *       --func BMP_WIN_CreateAt --addr 0x02045180 --cc 1.1p1 --arm
- */
-struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset)
-{
-    u8 is8bpp;
-    u32 charCount;
-
-    if (BG_SYS_GetField16(bgLayer) == 0) {
-        is8bpp = 0;
-        charCount = width * height;
-    } else {
-        is8bpp = 1;
-        charCount = width * height * 2;
-    }
-
-    if (BG_SYS_CheckFAF0(bgLayer, charOffset, charCount) == 0)
-        return 0;
-
-    return BMP_WIN_Alloc(bgLayer, posX, posY, width, height, palette, charOffset, is8bpp);
-}
-
-
-
-/*
- * The constructor shared by BMP_WIN_Create and BMP_WIN_CreateAt: build the
- * sixteen-byte descriptor for one BG layer on the subsystem heap recorded by
- * BMP_WIN_Init, fill in its geometry, and attach the tile buffer
- * BMP_Create hands back.
- *
- *   +0x00  u16  two bitfields: a 15-bit tag set to 0x7fb2, and the 8bpp
- *               flag in bit 15
- *   +0x02  u8   layer
- *   +0x03  u8   screen base
- *   +0x04  u8   character base
- *   +0x05  u8   width in tiles       (also at +0x07)
- *   +0x06  u8   height in tiles      (also at +0x08)
- *   +0x09  u8   palette
- *   +0x0a  u16  character offset in VRAM
- *   +0x0c  void *tile buffer
- *
- * The tag is one 15-bit field, not two adjacent fields of 8 and 7 bits:
- * splitting it produces two read-modify-writes (bic #0xff / orr #0xb2 then
- * bic #0x7f00 / orr #0x7f00) instead of the single masked write the original
- * has, where the constant 0x7fb2 needs two `orr`s only because it is not one
- * ARM immediate.  The 8bpp bit is a second read-modify-write because its
- * assignment is separated from the tag by the byte stores.
- *
- * The width parameter is u8, not u32: assigning a u32 to the two u8 width
- * fields makes the compiler materialise `(u8)width` once with `and #0xff`
- * and store that register twice, where the original stores the incoming
- * register directly.  Same for the width argument of BMP_Create.
- *
- * The 0xffff8000 mask is materialised as `sub r0, fp, #0x8000` off the
- * register already holding the allocator's zero third argument, the
- * rematerialisation idiom in
- * docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_Alloc.c \
- *       --func BMP_WIN_Alloc --addr 0x02045210 --cc 1.1p1 --arm
- */
-struct BmpWin *BMP_WIN_Alloc(u32 bgLayer, u32 posX, u32 posY,
-                             u8 width, u8 height, u8 palette, u32 charOffset,
-                             u8 is8bpp)
-{
-    struct BmpWin *win;
-    u32 tileBytes = is8bpp == 0 ? BMP_TILE_BYTES_4BPP : BMP_TILE_BYTES_8BPP;
-
-    win = func_02030734(*sBmpWinHeapRecord, 0x10, 0, bmpWin_File, 0xd5);
-
-    win->magic = BMP_WIN_MAGIC;
-    win->bgLayer = bgLayer;
-    win->posX = posX;
-    win->posY = posY;
-    win->width = width;
-    win->height = height;
-    win->dispWidth = width;
-    win->dispHeight = height;
-    win->palette = palette;
-    win->charOffset = charOffset;
-    win->is8bpp = is8bpp;
-
-    win->bmp = BMP_Create(width, height, tileBytes, *sBmpWinHeapRecord);
-    return win;
-}
-
-
-
-/*
- * The descriptor family's destructor: release the payload through
- * sub_0203FB44, release the heap handle through BMP_Delete, then free
- * the descriptor itself with the generic free at 0x020307B0 (the same
- * free STRBUF_Delete tail-calls).
- *
- * The payload size is (win->width * win->height) * 32, doubled when the top bit
- * of the halfword at +0 is set. That bit is a 1-wide bitfield, not a
- * mask: `ldrh` followed by `lsl #16` / `lsrs #31` is the bitfield extract
- * shape (shift the field to the top, then all the way down by 32 minus
- * its width), and a plain `win->is8bpp` mask test folds to a single
- * `tst`. Declaring the halfword as a 15-bit field plus a 1-bit field is
- * what reproduces it.
- *
- * Both arms of the doubling compute the u8 * u8 product themselves, which
- * is why `smulbb` appears twice under opposite predicates rather than
- * once before the test. Writing the shared multiply above the `if` and
- * only the doubling inside it produces one unconditional `smulbb` and a
- * different register assignment throughout; this is
- * docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md seen from
- * the entry side.
- *
- * The whole conditional is predicated, so there is no branch at all: the
- * `s` suffix on the `lsrs` is the test, and the three following
- * instructions carry `eq`/`ne`. Because there is no branch, the only
- * thing that fixes their order is source order: the `eq` arm is emitted
- * first, so the undoubled case has to be written as the `if` and the
- * doubled case as the `else`, even though `if (bit) double` reads more
- * naturally (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_Delete.c \
- *       --func BMP_WIN_Delete --addr 0x020452E8 --cc 1.1p1 --arm
- */
-u32 BMP_WIN_Delete(struct BmpWin *win)
-{
-    u32 charCount;
-
-    if (win->is8bpp == 0) {
-        charCount = win->width * win->height;
-    } else {
-        charCount = (win->width * win->height) * 2;
-    }
-    sub_0203FB44(win->bgLayer, win->charOffset, charCount * 32);
-    BMP_Delete(win->bmp);
-    return func_020307B0(win);
-}
-
-
-
-/*
- * One of the descriptor family's two teardown/commit paths (the other is
- * BMP_WIN_Delete immediately before it). It sizes the descriptor's payload
- * as
- *
- *   sub_020416B8(win->bgLayer) * (win->width * win->height)
- *
- * and passes that, the heap handle obtained from d->heap via
- * BMP_GetPixels, and win->charOffset on to sub_02040B1C.
- *
- * The u8 * u8 product compiles to `smulbb`, not `mul`: the compiler knows
- * both operands came from `ldrb` and fit in sixteen bits, so it uses the
- * halfword multiply. The second multiply, against a call result of
- * unknown range, has to be a full `mul`.
- *
- * The product is computed before the BMP_GetPixels call and so has to
- * survive it, which is what buys the callee-saved r4 and turns
- * push {r4, lr} into push {r3, r4, r5, lr}: r5 holds the descriptor
- * pointer across all three calls and r3 is the alignment filler.
- *
- * win->bgLayer is loaded twice, once for each call that takes it, rather than
- * kept in a register: re-reading the field is cheaper than spending a
- * third callee-saved register on it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_TransferChars.c \
- *       --func BMP_WIN_TransferChars --addr 0x02045334 --cc 1.1p1 --arm
- */
-void BMP_WIN_TransferChars(struct BmpWin *win)
-{
-    u32 byteCount;
-
-    byteCount = (win->width * win->height) * sub_020416B8(win->bgLayer);
-    sub_02040B1C(win->bgLayer, BMP_GetPixels(win->bmp), byteCount, win->charOffset);
-}
-
-
-
-/*
- * Fill a rectangle of the screen described by the configuration block with
- * a run of consecutive tile numbers.  BG_SYS_GetType says whether the layer
- * is 8bpp (answer 1, one byte per cell) or 16bpp (two bytes per cell, each
- * carrying the palette number from +9 in its top nibble); either way a
- * scratch buffer of w*h cells is allocated from the heap named by the word
- * behind 0x02146A50, filled with an increasing counter seeded from +0xa,
- * handed to func_020410D0 and freed again.
- *
- * The palette nibble is hoisted as `lsl r4, r2, #0x1c` before the branch
- * and consumed as `orr r2, r5, r4, lsr #16` inside the loop: that is one
- * `(x & 0xf) << 12`, split so that only the cheap half stays in the loop,
- * not two separate shifts.
- *
- * The two allocation sites carry different line numbers, 0x133 and 0x13e,
- * and that is load-bearing: give both the same constant and the compiler
- * hoists the single pool load above the branch, which costs one
- * instruction, one pool word and shifts every later pc-relative offset.
- * Eleven source lines apart matches the two arms of one if/else.
- */
-void BMP_WIN_MakeScreen(struct BmpWin *win)
-{
-    u16 charCount = win->width * win->height;
-    u32 paletteBits = (win->palette & 0xf) << 12;
-    u16 tile = win->charOffset;
-    void *cells;
-    s32 index;
-
-    if (BG_SYS_GetType(win->bgLayer) != 1) {
-        u16 *chars = func_02030734((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
-                               charCount * 2, 0, bmpWin_File, 0x133);
-
-        cells = chars;
-        for (index = 0; index < charCount; index++) {
-            chars[index] = tile | paletteBits;
-            tile = tile + 1;
-        }
-    } else {
-        u8 *chars = func_02030734((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
-                              charCount, 0, bmpWin_File, 0x13e);
-
-        cells = chars;
-        for (index = 0; index < charCount; index++) {
-            chars[index] = (u8)tile;
-            tile = tile + 1;
-        }
-    }
-
-    func_020410D0(win->bgLayer, win->posX, win->posY, win->dispWidth,
-                  win->dispHeight, (u32)cells, 0, 0, win->width, win->height);
-    func_020307B0(cells);
-}
-
-
-
-/*
- * The eight-piece frame around a window: base tile + 0..7 drawn at the
- * corners and edges one cell outside the on-screen extent (+7/+8), with the
- * palette nibble in the top of each cell unless the layer is 8bpp
- * (BG_SYS_GetType answers 1).
- *
- * Closed in wave 15 from a 2-byte residue (`mov r6, r2` against `mov r4,
- * r2`, the image gives pal and the palette bits one register).  Two facts,
- * each flat alone: the palette bits are computed IN PLACE in the pal
- * parameter as two compound statements (`pal &= 0xf; pal <<= 12;`), which
- * is what coalesces pal with its shifted value; and base is a u16
- * parameter (tile number), which restores the image's scheduling of the
- * sixth and seventh calls that the in-place form otherwise disturbs.  A
- * single-expression `pal = (pal & 0xf) << 12` or a separate pn local keeps
- * the 2-byte tie.  Found by tools/permuter.py hill (type:p base u32->u16)
- * from the in-place source.
- */
-void BMP_WIN_DrawFrame(struct BmpWin *win, u16 baseTile, u32 palette)
-{
-    if (BG_SYS_GetType(win->bgLayer) != 1) {
-        palette &= 0xf;
-        palette <<= 12;
-    } else {
-        palette = 0;
-    }
-
-    func_02041300(win->bgLayer, (u16)(palette | baseTile), (u8)(win->posX - 1),
-                  (u8)(win->posY - 1), 1, 1, 0x11);
-    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 1)), win->posX,
-                  (u8)(win->posY - 1), win->dispWidth, 1, 0x11);
-    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 2)),
-                  (u8)(win->posX + win->dispWidth), (u8)(win->posY - 1),
-                  1, 1, 0x11);
-    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 3)),
-                  (u8)(win->posX - 1), win->posY, 1, win->dispHeight, 0x11);
-    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 4)),
-                  (u8)(win->posX + win->dispWidth), win->posY,
-                  1, win->dispHeight, 0x11);
-    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 5)),
-                  (u8)(win->posX - 1), (u8)(win->posY + win->dispHeight),
-                  1, 1, 0x11);
-    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 6)), win->posX,
-                  (u8)(win->posY + win->dispHeight), win->dispWidth, 1, 0x11);
-    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 7)),
-                  (u8)(win->posX + win->dispWidth),
-                  (u8)(win->posY + win->dispHeight), 1, 1, 0x11);
-}
-
-
-
-/*
- * A seven-argument forwarder over the descriptor object whose leaf
- * accessor bank is src/matched/unit_02045730.c: it unpacks six u8 fields
- * and a constant zero out of the descriptor and hands them to
- * sub_02041300, which is where the actual work happens.
- *
- *   func_02041300(win->bgLayer, 0, win->posX, win->posY, win->width, win->height, 0)
- *
- * Register arguments are r0..r3, and the remaining three ride the 12-byte
- * stack frame the prologue carves out with `sub sp, sp, #0xc`. The
- * compiler spots that the last two stack slots are adjacent and writes
- * win->width (already in r0) and the zero (already in r1) with a single
- * `stmib sp, {r0, r1}` rather than two stores, which is what makes the
- * second and third stack argument order legible: had the zero been
- * anywhere but last, the store pair would not have fused.
- *
- * The single-register prologue is `stmdb sp!, {lr}` / `ldm sp!, {pc}`
- * rather than push/pop of a pair, because nothing here needs a
- * callee-saved register: every field load feeds its argument slot
- * directly.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_WIN_ClearScreen.c \
- *       --func BMP_WIN_ClearScreen --addr 0x020456F8 --cc 1.1p1 --arm
- */
-void BMP_WIN_ClearScreen(struct BmpWin *win)
-{
-    func_02041300(win->bgLayer, 0, win->posX, win->posY, win->width, win->height, 0);
-}
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           BMP_WIN_GetDispHeight, BMP_WIN_GetPosX, BMP_WIN_GetPosY, BMP_WIN_GetCharOffset,
- *           BMP_WIN_GetBmp, BMP_WIN_GetPalette, BMP_WIN_SetPosX, BMP_WIN_SetPosY,
- *           BMP_WIN_SetDispHeight, BMP_WIN_SetPalette
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (BMP_WIN_TransferChars, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   BMP_WIN_GetBgLayer get
- *   +0x03  u8   BMP_WIN_GetPosX get / BMP_WIN_SetPosX set
- *   +0x04  u8   BMP_WIN_GetPosY get / BMP_WIN_SetPosY set
- *   +0x05  u8   BMP_WIN_GetWidth get
- *   +0x06  u8   BMP_WIN_GetHeight get
- *   +0x07  u8   BMP_WIN_GetDispWidth get
- *   +0x08  u8   BMP_WIN_GetDispHeight get / BMP_WIN_SetDispHeight set
- *   +0x09  u8   BMP_WIN_GetPalette get / BMP_WIN_SetPalette set
- *   +0x0a  u16  BMP_WIN_GetCharOffset get
- *   +0x0c  void *  BMP_WIN_GetBmp get
- *
- * BMP_WIN_GetBmp is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what BMP_WIN_TransferChars feeds to BMP_GetPixels before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only BMP_WIN_GetBgLayer, BMP_WIN_GetWidth, BMP_WIN_GetHeight, BMP_WIN_GetDispWidth,
- * BMP_WIN_GetDispHeight, BMP_WIN_GetPosX, BMP_WIN_GetPosY, BMP_WIN_GetCharOffset, BMP_WIN_GetBmp,
- * BMP_WIN_GetPalette and BMP_WIN_SetPalette carry labels in the listing.
- * BMP_WIN_SetPosX, BMP_WIN_SetPosY and BMP_WIN_SetDispHeight are unlabelled followers:
- * they save no lr, so disasm.py folds them into BMP_WIN_GetPalette's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
-u8 BMP_WIN_GetBgLayer(struct BmpWin *win)
-{
-    return win->bgLayer;
-}
-
-
-u8 BMP_WIN_GetWidth(struct BmpWin *win)
-{
-    return win->width;
-}
-
-
-u8 BMP_WIN_GetHeight(struct BmpWin *win)
-{
-    return win->height;
-}
-
-
-u8 BMP_WIN_GetDispWidth(struct BmpWin *win)
-{
-    return win->dispWidth;
-}
-
-
-u8 BMP_WIN_GetDispHeight(struct BmpWin *win)
-{
-    return win->dispHeight;
-}
-
-
-u8 BMP_WIN_GetPosX(struct BmpWin *win)
-{
-    return win->posX;
-}
-
-
-u8 BMP_WIN_GetPosY(struct BmpWin *win)
-{
-    return win->posY;
-}
-
-
-u16 BMP_WIN_GetCharOffset(struct BmpWin *win)
-{
-    return win->charOffset;
-}
-
-
-struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win)
-{
-    return win->bmp;
-}
-
-
-u8 BMP_WIN_GetPalette(struct BmpWin *win)
-{
-    return win->palette;
-}
-
-
-void BMP_WIN_SetPosX(struct BmpWin *win, u8 posX)
-{
-    win->posX = posX;
-}
-
-
-void BMP_WIN_SetPosY(struct BmpWin *win, u8 posY)
-{
-    win->posY = posY;
-}
-
-
-void BMP_WIN_SetDispHeight(struct BmpWin *win, u8 dispHeight)
-{
-    win->dispHeight = dispHeight;
-}
-
-
-void BMP_WIN_SetPalette(struct BmpWin *win, u8 palette)
-{
-    win->palette = palette;
-}
-
-
-
-/*
- * Setter for the allocator family's global u16 stamp at 0x020A7E7C: the
- * value every object of this family copies into its own +0x8 field when
- * it is constructed (STRBUF_Create) or reset (STRBUF_Clear). Those two
- * functions are its readers, and their literal pools at 0x02045804 and
- * 0x02045834 are the outside witnesses for this file's own pool word,
- * which is why the three are kept in separate files rather than folded
- * into one unit: a single tu over 0x020457A0..0x02045838 would swallow
- * every pool copy of the address and cap at MATCH
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
- *
- * 0x020A7E7C sits immediately before the __FILE__ string at 0x020A7E80
- * that STRBUF_Create passes to the allocator, so it is the last word of
- * data before the packed string area.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_SetEosChar.c \
- *       --func STRBUF_SetEosChar --addr 0x020457A0 --cc 1.1p1 --arm
- */
-void STRBUF_SetEosChar(u16 eosChar)
-{
-    sStrbufStatics.eosChar = eosChar;
-}
-
-
-
-/*
- * The constructor of the u16-array object, and a clean specimen of the
- * debug-allocator calling convention this whole family is built on:
- *
- *   func_02030734(heapId, size, clear, site, tag)
- *
- * The fifth argument is a u16 passed on the stack, which the callee reads
- * back with a halfword load at [sp, #0x18]; here it is 100. It looks like
- * a __LINE__-style debug tag, but that is not established: the fourth
- * argument, which would be the matching __FILE__, is 0x020A7E80, and that
- * address is above the arm9 static image end (0x020A6800, from
- * layout/layout.json), so it is BSS, not a string constant in a packed
- * string area. Whatever the pair means, it is not the literal
- * __FILE__/__LINE__ shape of
- * docs/idioms/file-string-is-an-abs32-into-the-string-area.md, and it is
- * deliberately not written as such here.
- *
- * The allocation size, 2 * capacity + 0xa, is what pins the object
- * layout: a 0xa-byte header followed by capacity u16 entries.
- *
- *   +0x00  u16  capacity
- *   +0x02  u16  used
- *   +0x04  u32  magic, 0xECD2F8B6 while live
- *   +0x08  u16  stamp, copied from g_020A7E7C
- *   +0x0a  u16  entries[capacity]
- *
- * The zero that becomes the allocator's third argument is the same
- * register that later stores `used = 0`, so the two share one `mov
- * r4, #0`; writing the third argument as a named local instead splits
- * them.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_Create.c \
- *       --func STRBUF_Create --addr 0x020457B0 --cc 1.1p1 --arm
- */
-struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId)
-{
-    struct Strbuf *strbuf;
-
-    strbuf = (struct Strbuf *)func_02030734(heapId, capacity * 2 + 0xa, 0,
-                                        sStrbufStatics.file, 100);
-    strbuf->magic = STRBUF_MAGIC;
-    strbuf->capacity = (u16)capacity;
-    strbuf->length = 0;
-    strbuf->chars[0] = sStrbufStatics.eosChar;
-    return strbuf;
-}
-
-
-
-/*
- * The destructor of the u16-array object STRBUF_Create builds: it kills
- * the 0xECD2F8B6 liveness magic at +0x4 and then tail-calls the family's
- * generic free at 0x020307B0, which is the counterpart of the allocation
- * entry at 0x02030734 (it is also what BMP_WIN_Delete finishes with).
- * Clearing the magic before the free is what makes a stale pointer
- * detectable rather than merely dangling.
- *
- * The tail call is the usual shape for this compiler: one section per
- * function means no displacement branch is available, so the target
- * becomes a pool word and a bx
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). The pool word at
- * 0x02045818 is the whole reason the listing extent runs to 0x0204581C.
- *
- * layout/symbols_sdk.json carries the name ENV_SetResourceSet for
- * 0x020307B0. That looks like a signature-matcher false positive rather
- * than a real SDK export (0x020307B0 is game code in arm9_main and its
- * only observed role here is teardown), so the canonical sub_ name is
- * used instead.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_Delete.c \
- *       --func STRBUF_Delete --addr 0x02045808 --cc 1.1p1 --arm
- */
-void STRBUF_Delete(struct Strbuf *strbuf)
-{
-    strbuf->magic = 0;
-    func_020307B0(strbuf);
-}
-
-
-
-/*
- * Resets one of the allocator family's u16-array objects in place: drops
- * the used count back to zero and re-stamps the object from the global at
- * 0x020A7E7C. It is the constructor body of STRBUF_Create minus the
- * allocation, the capacity store and the magic store, so it is the "reuse
- * this buffer" entry of the pair.
- *
- * The object shape, from STRBUF_Create's allocation of 2 * capacity + 0xa
- * bytes:
- *
- *   +0x00  u16  capacity
- *   +0x02  u16  used
- *   +0x04  u32  magic (0xECD2F8B6 when live, 0 once STRBUF_Delete kills it)
- *   +0x08  u16  stamp, copied from g_020A7E7C
- *   +0x0a  u16  entries[capacity]
- *
- * The pool word is attested by the copies in STRBUF_SetEosChar and
- * STRBUF_Create, which is why this function is its own file.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_Clear.c \
- *       --func STRBUF_Clear --addr 0x0204581C --cc 1.1p1 --arm
- */
-void STRBUF_Clear(struct Strbuf *strbuf)
-{
-    strbuf->length = 0;
-    strbuf->chars[0] = sStrbufStatics.eosChar;
-}
-
-
-/*
- * Copies the live part of one u16-array object into another, refusing the
- * copy if the destination cannot hold it. The guard is `capacity <=
- * used`, not `<`, so the destination needs strictly more capacity than
- * the source has entries; the extra slot is the +0x8 stamp, which the
- * copy carries along by starting two bytes before the entry array and
- * moving (used + 1) halfwords.
- *
- * See src/matched/STRBUF_Create.c for the object layout. The trailing
- * `dst->used = src->used` re-reads the field rather than reusing the
- * cached value the guard and the length computation share: the two
- * objects are unrelated pointers, so the MI_CpuCopy8 call may alias
- * src->used and the load cannot be hoisted across it. Writing the tail as
- * an assignment from the cached local instead loses that reload and four
- * bytes with it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_Copy.c \
- *       --func STRBUF_Copy --addr 0x02045838 --cc 1.1p1 --arm
- */
-void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src)
-{
-    u16 length;
-
-    length = src->length;
-    if (dst->capacity <= length) {
-        return;
-    }
-    MI_CpuCopy8(&src->chars[0], &dst->chars[0], (length + 1) * 2);
-    dst->length = src->length;
-}
-
-
-/*
- * Clones a u16-array object: allocate one with exactly enough room
- * (used + 1 slots, the +1 being the stamp slot that STRBUF_Copy's guard
- * insists on), then copy into it.
- *
- * The heap id is never touched in this function's body. STRBUF_Create
- * takes (capacity, heapId) and only r0 is set up here, so r1 arrives
- * untouched from this function's own second parameter: the shape of
- * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md
- * read in reverse, where the "leftover" register really is a passed
- * argument and naming it is what makes the code compile to two
- * instructions instead of three.
- *
- * `used + 1` reaches STRBUF_Create with no narrowing, which is what pins
- * that function's first parameter to a full word rather than the u16 its
- * own body would suggest: see
- * docs/idioms/a-missing-truncation-at-the-call-site-widens-the-parameter.md.
- * With a u16 prototype this function comes out eight bytes long and
- * STRBUF_Create still matches, so the call site is the only evidence for
- * the width.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_Clone.c  *       --func STRBUF_Clone --addr 0x02045874 --cc 1.1p1 --arm
- */
-struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId)
-{
-    struct Strbuf *clone;
-
-    clone = STRBUF_Create(src->length + 1, heapId);
-    STRBUF_Copy(clone, src);
-    return clone;
-}
-
-
-/*
- * Halfword-string equality with the buffer module's terminator stamp: the
- * first element is compared directly, then the loop walks both strings while
- * they agree, succeeding as soon as either side meets the global terminator
- * (0xFFFF) rather than the other buffer.
- *
- * Two shapes are load-bearing:
- *  - `int i = 0;` at its declaration puts the `mov ip, #0` ahead of the
- *    guard's compare; assigning i after the guard lands it after the
- *    terminator pool load instead.
- *  - The guard must NOT be a bare `if (..) return 0;`: mwcc predicates that
- *    into `movne r0, ip; popne {r3, pc}`.  Folding it into one shared exit
- *    (the `if (a->w[0] == b->w[0])` arm holding the loop, a single
- *    `return 0;` after it) makes the guard a real `bne` to that exit, which
- *    is what the image has.  The identical `goto fail` spelling compiles to
- *    the same bytes.
- *
- * The 0x020A7E7C ABS32 sits in this function's own pool (0x020458F4, inside
- * the compared range) and resolves off the `literal` class: the same word is
- * in the pools of the already-matched STRBUF_SetString, STRBUF_SetStringN and
- * STRBUF_SetEosChar.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_IsEqual.c \
- *       --func STRBUF_IsEqual --addr 0x0204589C --cc 1.1p1 --arm
- */
-int STRBUF_IsEqual(struct Strbuf *lhs, struct Strbuf *rhs)
-{
-    int index = 0;
-
-    if (lhs->chars[0] == rhs->chars[0]) {
-        do {
-            if (lhs->chars[index] == sStrbufStatics.eosChar) {
-                return 1;
-            }
-            index++;
-        } while (lhs->chars[index] == rhs->chars[index]);
-    }
-
-    return 0;
-}
-
-
-/*
- * Reads the used-slot count of a u16-array object (see
- * src/matched/STRBUF_Create.c for the layout). A relocation-free leaf; it
- * is the public reader for the field STRBUF_Truncate and STRBUF_Copy write
- * directly.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_GetLength.c  *       --func STRBUF_GetLength --addr 0x020458F8 --cc 1.1p1 --arm
- */
-u16 STRBUF_GetLength(struct Strbuf *strbuf)
-{
-    return strbuf->length;
-}
-
-
-/*
- * Truncates a u16-array object back to `index` slots, writing the stamp
- * into the slot that becomes the new terminator. It is the inverse of
- * whatever appends, and it is a no-op when `index` is not strictly below
- * the current count, so it can only ever shrink.
- *
- * The whole body is predicated on `lo` with no branch at all, which is
- * why the guard has to be an unsigned comparison: `index` is a full u32
- * (nothing masks it before `add r3, r0, r1, lsl #1`) while `used` is a
- * zero-extended u16, so the comparison is unsigned on both sides and a
- * signed `int` index produces `lt` instead.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_Truncate.c  *       --func STRBUF_Truncate --addr 0x02045900 --cc 1.1p1 --arm
- */
-void STRBUF_Truncate(struct Strbuf *strbuf, u32 newLength)
-{
-    if (newLength < strbuf->length) {
-        strbuf->chars[newLength] = sStrbufStatics.eosChar;
-        strbuf->length = newLength;
-    }
-}
-
-
-
-/*
- * strbuf.c's `strcpy`-into-a-bounded-buffer: the terminator is the halfword
- * at 0x020A7E7C (0xFFFF), the buffer's capacity is the halfword at +0 and
- * the count is kept at +2, with the halfword array starting at +8.  The
- * first copy stops on the terminator, the second on a full buffer, and the
- * terminator is always written at the end - which is why the exit block is
- * shared and why the count is re-read there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_SetString.c \
- *       --func STRBUF_SetString --addr 0x02045924 --cc 1.1p1 --arm
- */
-void STRBUF_SetString(struct Strbuf *strbuf, const u16 *srcChars)
-{
-    strbuf->length = 0;
-    while (*srcChars != sStrbufStatics.eosChar) {
-        if (strbuf->length >= strbuf->capacity - 1)
-            break;
-        strbuf->chars[strbuf->length++] = *srcChars;
-        srcChars++;
-    }
-    strbuf->chars[strbuf->length] = sStrbufStatics.eosChar;
-}
-
-
-
-/*
- * strbuf.c's bounded copy of a counted string: refuse anything longer than
- * the buffer, copy until the source's own terminator shows up or the last
- * usable slot is filled, and only when the whole source was copied (the
- * count landed exactly on n-1) append the terminator.  The `n > cap` guard
- * is a predicated `pophi`, and the final conditional store is the ARM
- * `ldreq`/`addeq`/`strheq` triple.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_SetStringN.c \
- *       --func STRBUF_SetStringN --addr 0x02045994 --cc 1.1p1 --arm
- */
-void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount)
-{
-    u32 index;
-
-    if (charCount > strbuf->capacity)
-        return;
-
-    for (index = 0; index < charCount - 1; index++) {
-        strbuf->chars[index] = srcChars[index];
-        if (strbuf->chars[index] == sStrbufStatics.eosChar)
-            break;
-    }
-
-    strbuf->length = index;
-    if (index == charCount - 1)
-        strbuf->chars[charCount - 1] = sStrbufStatics.eosChar;
-}
-
-
-
-/*
- * Append n halfwords to a counted buffer: the count is the halfword at +2,
- * the current length is the halfword at +0, the data starts at +8, and the
- * whole thing is halfword-indexed, which is why the copy size is `n * 2`.
- * A null count and an over-long count are both refused, each as its own
- * predicated early return on the entry compare (`movs` for the first, a
- * `pophi` for the unsigned second).
- *
- * The stored count is one less than n, and it is computed from the incoming
- * value rather than by re-reading the field, so it is a subtraction on r4.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_SetChars.c \
- *       --func STRBUF_SetChars --addr 0x02045A00 --cc 1.1p1 --arm
- */
-void STRBUF_SetChars(struct Strbuf *strbuf, const void *srcChars, u32 charCount)
-{
-    if (charCount == 0)
-        return;
-    if (charCount > strbuf->capacity)
-        return;
-
-    MI_CpuCopy8(srcChars, strbuf->chars, charCount * 2);
-    strbuf->length = charCount - 1;
-}
-
-
-
-/*
- * Copies at most `n` slots out of a u16-array object into a caller's
- * buffer, stopping after the slot that equals the stamp, and forcing a
- * stamp into the last output slot if the loop ran to the limit without
- * finding one. In other words the stamp is this container's terminator
- * value and this is its bounded, always-terminated extraction.
- *
- * Two shape tells worth keeping:
- *
- *  - The stamp is re-read from the global on every iteration
- *    (`ldrh ip, [r3]` inside the loop, from a pool base hoisted out of
- *    it). It is not volatile: the store into the caller's buffer may
- *    alias it, so the load cannot be hoisted. Caching it in a local
- *    before the loop removes the reload and shortens the body.
- *  - The final store is written as a pointer expression, not a subscript.
- *    `add r1, r1, r2, lsl #1` followed by `strh r0, [r1, #-2]` scales,
- *    adds, then subtracts the element size, which is what
- *    `*(out + n - 1)` produces; `out[n - 1]` folds to a single scaled
- *    offset instead
- *    (docs/idioms/pointer-minus-one-scales-before-the-subtraction.md).
- *
- * The loop is the compiler's usual rotation of a counted `for`: a
- * zero-trip guard at the top, the increment and the bound test at the
- * bottom, and the `break` falling straight into the `i == n` test that
- * distinguishes "found the terminator" from "ran out of room". Because
- * `break` leaves the counter un-incremented, that one comparison is the
- * whole post-condition and no separate flag is needed. The entire tail is
- * predicated on `eq`, so it costs no branch.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_ToChars.c \
- *       --func STRBUF_ToChars --addr 0x02045A38 --cc 1.1p1 --arm
- */
-void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars)
-{
-    u32 index;
-    u16 ch;
-
-    for (index = 0; index < maxChars; index++) {
-        ch = strbuf->chars[index];
-        out[index] = ch;
-        if (sStrbufStatics.eosChar == ch) {
-            break;
-        }
-    }
-    if (index == maxChars) {
-        *(out + maxChars - 1) = sStrbufStatics.eosChar;
-    }
-}
-
-
-/*
- * Returns the address of the u16-array object's slot array, which begins
- * at +0x8 with the stamp slot. A single `add r0, r0, #8` and `bx lr`: the
- * function exists only so callers outside this file need not know the
- * header size.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_GetChars.c  *       --func STRBUF_GetChars --addr 0x02045A90 --cc 1.1p1 --arm
- */
-u16 *STRBUF_GetChars(struct Strbuf *strbuf)
-{
-    return strbuf->chars;
-}
-
-
-/*
- * A two-instruction ARM read accessor used all over the ARM9 image (the
- * halfword at 0x020A7E7C, a UI/input mode word).  The literal pool word is
- * attested by sole-ref/data: 0x020A7E7C is a mapped pool-word object with 99
- * referring sites, none of them this 16-byte range.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/STRBUF_GetEosChar.c \
- *       --func STRBUF_GetEosChar --addr 0x02045A98 --cc 1.1p1 --arm --region arm9
- */
-u16 STRBUF_GetEosChar(void)
-{
-    return sStrbufStatics.eosChar;
-}
-
-
-
-/*
- * The two mutators of the u16 vector STRBUF_Create allocates, folded into one
- * translation unit covering 0x02045AA8..0x02045B38 (both functions and the
- * single trailing pool word).  See src/matched/STRBUF_AppendChar.c for the object
- * layout this pair pins down, in particular why the entries begin at +0x8
- * and why one slot past `capacity` is reserved for a terminator.
- *
- * STRBUF_Append concatenates one vector onto another, copying src->used + 1
- * halfwords so that the source's terminator becomes the destination's.
- * STRBUF_AppendChar pushes a single entry and re-plants the terminator behind it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045AA8.c \
- *       --addr 0x02045AA8 --arm
- */
-void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src)
-{
-    u16 count = src->length;
-
-    if (dst->length + count + 1 > dst->capacity)
-        return;
-
-    MI_CpuCopy8(&src->chars[0], &dst->chars[dst->length], (count + 1) * 2);
-    dst->length = dst->length + src->length;
-}
-
-
-void STRBUF_AppendChar(struct Strbuf *strbuf, u16 ch)
-{
-    if (strbuf->length + 1 >= strbuf->capacity)
-        return;
-
-    strbuf->chars[strbuf->length++] = ch;
-    strbuf->chars[strbuf->length] = sStrbufStatics.eosChar;
 }

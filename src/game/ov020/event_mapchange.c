@@ -50,7 +50,7 @@
  *   GAME_DATA_GetSpecialLocation  0x02012894  thumb
  *   GAME_BEACON_SetZone  0x0202735C  thumb
  *   FIELD_CLOCK_Update  0x02168EEC  thumb  ov010
- *   func_02164474  0x02164474  thumb  ov010
+ *   FIELD_MAP_CHANGE_MoveActiveEntries  0x02164474  thumb  ov010
  *   func_0202C860  0x0202C860  thumb
  *   ZONEDATA_GetMapSubType  0x0201405C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
@@ -97,9 +97,9 @@
  *   func_0202E8CC  0x0202E8CC  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   FORMCHANGE_RevertShayminAtNight  0x0216A358  thumb  ov010
- *   func_02164454  0x02164454  thumb  ov010
- *   func_0216445C  0x0216445C  thumb  ov010
- *   func_02164464  0x02164464  thumb  ov010
+ *   FIELD_MAP_CHANGE_ResetGimmickStateCase1  0x02164454  thumb  ov010
+ *   FIELD_MAP_CHANGE_ResetGimmickStateCase3  0x0216445C  thumb  ov010
+ *   FIELD_MAP_CHANGE_ResetGimmickStateCase2  0x02164464  thumb  ov010
  *   INTRUDE_COMM_ClearHoldMode  0x0215874C  thumb  ov010
  *   FIELD_SOUND_SYSTEM_StartWaitSettledTask  0x02029C64  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -145,7 +145,7 @@
  *   GAME_DATA_GetEscapeLocation  0x020128B8  thumb
  *   GAME_DATA_GetSituationWarpId  0x02012914  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
- *   func_02159F94  0x02159F94  thumb  ov010
+ *   MAP_REPLACE_GetWarpFlagId  0x02159F94  thumb  ov010
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
@@ -177,8 +177,8 @@
  *   EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly  0x02162694  thumb  ov010
  *   EVENTDATA_SYSTEM_IsSpecialExitConnect  0x021625E8  thumb  ov010
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
- *   func_02159FA8  0x02159FA8  thumb  ov010
- *   func_0216446C  0x0216446C  thumb  ov010
+ *   MAP_REPLACE_ApplyWarpLocation  0x02159FA8  thumb  ov010
+ *   FIELD_MAP_CHANGE_ResetGimmickStateCase4  0x0216446C  thumb  ov010
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
  *   ISS_SWITCH_SYS_ResetSwitch  0x0202C110  thumb
@@ -194,9 +194,9 @@
  *   GAME_DATA_SetStartLocation  0x02012854  thumb
  *   GAME_DATA_SetWarpId  0x02012900  thumb
  *   func_0202C83C  0x0202C83C  thumb
- *   func_02159FE0  0x02159FE0  thumb  ov010
- *   func_021643E8  0x021643E8  thumb  ov010
- *   func_0215A014  0x0215A014  thumb  ov010
+ *   MAP_REPLACE_FindFlyTargetIndex  0x02159FE0  thumb  ov010
+ *   FIELD_MAP_CHANGE_SetupZone  0x021643E8  thumb  ov010
+ *   MAP_REPLACE_SetArriveFlag  0x0215A014  thumb  ov010
  *   SCRIPT_SYS_RunZoneChangeScript  0x02158AE0  thumb  ov010
  *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
  *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
@@ -401,7 +401,7 @@ void EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(GameSystem *gameSystem);
 void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData);
 extern void GAME_BEACON_SetZone(u32 zoneId, struct GameData *gameData);
 extern void FIELD_CLOCK_Update(struct GameData *gameData);
-extern void func_02164474(struct GameData *gameData, int zoneId);
+extern void FIELD_MAP_CHANGE_MoveActiveEntries(struct GameData *gameData, int zoneId);
 extern void func_0202C860(struct GameData *gameData, int zoneId);
 extern u8 ZONEDATA_GetMapSubType(u32 zoneId);
 extern MmdlSys *GAME_DATA_GetOccupyInfo(GameData *gameData);
@@ -449,9 +449,9 @@ extern u32 func_02188318(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_021883CC(void (*a)(void), void (*b)(void), u32 c);
 extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 extern int FORMCHANGE_RevertShayminAtNight(struct GameData *gameData, void *party, u32 *p, int season);
-extern int func_02164454(struct GameData *gameData, int zoneId);
-extern int func_0216445C(struct GameData *gameData, int zoneId);
-extern int func_02164464(struct GameData *gameData, int zoneId);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase1(struct GameData *gameData, int zoneId);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase3(struct GameData *gameData, int zoneId);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase2(struct GameData *gameData, int zoneId);
 extern void INTRUDE_COMM_ClearHoldMode(struct GameComm *gameComm);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitSettledTask(struct GameSystem *gameSystem);
 extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
@@ -501,7 +501,7 @@ void ZONEDATA_SetDirectRailLocation(Location *location, int zoneId, int dir, u16
 Location *GAME_DATA_GetEscapeLocation(const GameData *gameData);
 void EVENT_MAPCHANGE_CopySpecialLocation(GameData *gameData, Location *out);
 u16 GAME_DATA_GetSituationWarpId(const GameData *gameData);
-u16 func_02159F94(int warpId);
+u16 MAP_REPLACE_GetWarpFlagId(int warpId);
 void ZONEDATA_SetZoneStartLocation(Location *location, int zoneId);
 void *GAME_DATA_GetPlayerPosition(PlayerWork *playerWork);
 u16 GAME_DATA_GetPlayerZoneId(const PlayerWork *playerWork);
@@ -535,8 +535,8 @@ int EVENTDATA_SYSTEM_IsSpecialExitConnect(void *connectData);
 int EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(void *connectData, Location *location, int exitDir);
 void EVENT_MAPCHANGE_UpdateEscapeLocation(GameData *gameData, const Location *destination);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
-void func_02159FA8(int warpId, Location *location);
-int func_0216446C(GameData *gameData, int zoneId);
+void MAP_REPLACE_ApplyWarpLocation(int warpId, Location *location);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase4(GameData *gameData, int zoneId);
 void *GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 void *ISS_SYS_GetSwitchSys(void *issSystem);
 void ISS_SWITCH_SYS_ResetSwitch(void *issSwitchSys);
@@ -552,9 +552,9 @@ void ISS_SYS_ChangeZone(void *issSystem, u16 zoneId);
 void GAME_DATA_SetStartLocation(GameData *gameData, const Location *location);
 void GAME_DATA_SetWarpId(const GameData *gameData, u16 warpId);
 int func_0202C83C(int gameSystem, int zoneId);
-int func_02159FE0(int zoneId);
-void func_021643E8(GameData *gameData, u16 zoneId);
-void func_0215A014(GameData *gameData, int zoneId);
+int MAP_REPLACE_FindFlyTargetIndex(int zoneId);
+void FIELD_MAP_CHANGE_SetupZone(GameData *gameData, u16 zoneId);
+void MAP_REPLACE_SetArriveFlag(GameData *gameData, int zoneId);
 void SCRIPT_SYS_RunZoneChangeScript(GameSystem *gameSystem, void *flags);
 u16 EVENTDATA_SYSTEM_GetNpcCount(EventData *eventData);
 u32 EVENTDATA_SYSTEM_GetNpcHeaders(EventData *eventData);
@@ -862,7 +862,7 @@ int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, ContinueWor
             EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->zoneId);
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
             FIELD_CLOCK_Update(gameData);
-            func_02164474(gameData, work->zoneId);
+            FIELD_MAP_CHANGE_MoveActiveEntries(gameData, work->zoneId);
             func_0202C860(gameData, work->zoneId);
             mapSubType = ZONEDATA_GetMapSubType(work->zoneId);
             mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
@@ -1077,13 +1077,13 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         func_021883CC((void (*)(void))func_02183B60, EVENT_MAPCHANGE_EndMarker, 0);
         switch (work->changeKind) {
         case 1:
-            func_02164454(gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase1(gameData, work->destination.zoneId);
             break;
         case 2:
-            func_02164464(gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase2(gameData, work->destination.zoneId);
             break;
         case 3:
-            func_0216445C(gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase3(gameData, work->destination.zoneId);
             break;
         }
         func_02034A5C((int)ov230_id);
@@ -1795,7 +1795,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(GameSystem *gameSystem)
     MapChangeWork *work = func_020124E8(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
-    ZONEDATA_SetZoneStartLocation(&work->destination, func_02159F94(warpId));
+    ZONEDATA_SetZoneStartLocation(&work->destination, MAP_REPLACE_GetWarpFlagId(warpId));
     work->destination.type = 1;
     work->exitType = 0;
     return event;
@@ -2121,15 +2121,15 @@ void EVENT_MAPCHANGE_InitFieldFromSituationWarp(GameSystem *gameSystem)
         Location arrivalLocation;
     } locations;
 
-    func_02159FA8(GAME_DATA_GetSituationWarpId(gameData), &locations.arrivalLocation);
-    ZONEDATA_SetZoneStartLocation(&locations.startLocation, func_02159F94(GAME_DATA_GetSituationWarpId(gameData)));
+    MAP_REPLACE_ApplyWarpLocation(GAME_DATA_GetSituationWarpId(gameData), &locations.arrivalLocation);
+    ZONEDATA_SetZoneStartLocation(&locations.startLocation, MAP_REPLACE_GetWarpFlagId(GAME_DATA_GetSituationWarpId(gameData)));
     GAME_DATA_SetEscapeLocation(gameData, &locations.startLocation);
     EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
     EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, locations.arrivalLocation.zoneId);
     EVENT_MAPCHANGE_ApplyLocation(gameSystem, &locations.arrivalLocation);
     GAME_BEACON_SetZone(locations.arrivalLocation.zoneId, gameData);
     FIELD_CLOCK_Update(gameData);
-    func_0216446C(gameData, locations.arrivalLocation.zoneId);
+    FIELD_MAP_CHANGE_ResetGimmickStateCase4(gameData, locations.arrivalLocation.zoneId);
 }
 
 /*
@@ -2176,7 +2176,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(GameSystem *gameSyste
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
-    func_02159FA8(GAME_DATA_GetSituationWarpId(work->gameData), &work->location);
+    MAP_REPLACE_ApplyWarpLocation(GAME_DATA_GetSituationWarpId(work->gameData), &work->location);
     return event;
 }
 
@@ -2234,13 +2234,13 @@ void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocatio
     }
     ISS_SYS_ChangeZone(GAMESYSTEM_GetIssSystem(gameSystem), location.zoneId);
     GAME_DATA_SetStartLocation(gameData, &location);
-    warpId = func_02159FE0((s16)location.zoneId);
+    warpId = MAP_REPLACE_FindFlyTargetIndex((s16)location.zoneId);
     if (warpId != 0)
         GAME_DATA_SetWarpId(gameData, warpId);
     EVENT_MAPCHANGE_ApplyZoneTableEntry(gameData, (s16)location.zoneId);
     FIELD_CLOCK_Update(gameData);
-    func_021643E8(gameData, location.zoneId);
-    func_0215A014(gameData, (s16)location.zoneId);
+    FIELD_MAP_CHANGE_SetupZone(gameData, location.zoneId);
+    MAP_REPLACE_SetArriveFlag(gameData, (s16)location.zoneId);
     SCRIPT_SYS_RunZoneChangeScript(gameSystem, (void *)4);
     EVENT_MAPCHANGE_AddEventDataMmdl(gameData, warpLocation);
     EVENT_MAPCHANGE_SetMapEffectMask(gameData, location.zoneId);

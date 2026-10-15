@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FA6CC",
+   "name": "STA_ACT_BUTTON_Update",
    "address": "0x021FA6CC",
    "kind": "game",
    "region": "ov132",

@@ -1,5 +1,5 @@
 /*
- * function: func_0220D8B0
+ * function: B_BAG_MAIN_PlaySe2
  * address:  0x0220D8B0
  * packet:   pkt_0220D8B0
  * region:   ov197
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_0220D8B0(char **a, int b)
+void B_BAG_MAIN_PlaySe2(char **a, int b)
 {
     if (((struct Obj25120 *)(*a))->f40 == 1)
         GFL_USE_PlaySeDefaultVolume(b);

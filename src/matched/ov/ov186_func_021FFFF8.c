@@ -25,7 +25,7 @@
  *     } else { e = (struct MsgEntry *)((u8 *)bank->base + 4) + index; }
  *     if (bank->resident == 0) {
  *       void *buf; size = e->len * 2;
- *       buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),
+ *       buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),
  *                         size, 0, MSGDATA_AllocSite, 0xd6);
  *       if (buf != 0) {
  *         func_0204960C(bank->stream, e->off + (bank->origin

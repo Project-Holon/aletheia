@@ -19,6 +19,8 @@
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GF_FONT_CopyStrbufD6D8  0x0201D6D8  thumb
  *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
+ *   GF_FONT_GetAllocSize  0x0201D6B8  thumb
+ *   GF_FONT_GetQueueLength  0x0201D6C4  thumb
  *
  * Three queries on the printsys.c ring object.  PRINTSYS_QUE_IsFinished reports the ring
  * empty, PRINTSYS_QUE_Clear resets it, and PRINTSYS_QUE_IsExistTarget walks it looking for a record
@@ -95,8 +97,8 @@ struct Rec2;
 struct Ring;
 extern int GFL_NET_GetNegotiationNum(void);
 extern void *GF_FONT_UpdatePrintsy(struct PrintSys *p, void *q);
-extern u32   func_0201D6B8(void *s);
-extern u32 func_0201D6C4(const struct Ring *p);
+extern u32   GF_FONT_GetAllocSize(void *s);
+extern u32 GF_FONT_GetQueueLength(const struct Ring *p);
 extern void  GF_FONT_CopyStrbufD6D8(struct PrintSys *p, void *a, void *b);
 
 extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);

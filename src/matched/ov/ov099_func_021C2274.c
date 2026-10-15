@@ -13,7 +13,7 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   WIFICLUB_SetFriendNameWord 0x021C2370 thumb ov099
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
@@ -30,7 +30,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void WIFICLUB_SetFriendNameWord(char *, int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 void WIFICLUB_PrintSlotName(char *p, void *window, int id, int slot, int i)
@@ -39,7 +39,7 @@ void WIFICLUB_PrintSlotName(char *p, void *window, int id, int slot, int i)
     GF_FONT_SetTextColor(15, 2, 0);
     WIFICLUB_SetFriendNameWord(p, id - 1);
     MSGDATA_ReadString(((struct Obj02157 *)p)->fE0, 33, ((struct Obj02157 *)p)->fF0);
-    func_0201F250(((struct Obj02157 *)p)->f8B0, ((struct Obj02157 *)p)->fF8, ((struct Obj02157 *)p)->fF0);
+    WORDSET_CopyTaggedText(((struct Obj02157 *)p)->f8B0, ((struct Obj02157 *)p)->fF8, ((struct Obj02157 *)p)->fF0);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 2, 8, ((struct Obj02157 *)p)->fF8, ((struct Obj02157 *)p)->fE8);
     BMP_WIN_TransferChars(window);
 }

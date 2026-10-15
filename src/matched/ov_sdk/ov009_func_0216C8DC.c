@@ -126,7 +126,7 @@
  *   func_0205A16C  0x0205A16C  arm
  *   strcpy  0x02094798  arm
  *   DWCi_StopMatch  0x0216EB68  arm  ov009
- *   func_0219D158  0x0219D158  arm  ov009
+ *   qr2_register_keyA  0x0219D158  arm  ov009
  */
 
 typedef unsigned char u8;
@@ -150,7 +150,7 @@ extern int strlen(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern char *strcpy(char *dst, const char *src);
-extern void func_0219D158(int keyid, char *key);
+extern void qr2_register_keyA(int keyid, char *key);
 
 u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
 {
@@ -179,6 +179,6 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
     }
     strcpy(g_021AAA40[index].keyString, keyString);
     g_021AAA40[index].value = valueSrc;
-    func_0219D158(keyID, g_021AAA40[index].keyString);
+    qr2_register_keyA(keyID, g_021AAA40[index].keyString);
     return keyID;
 }

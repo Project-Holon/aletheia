@@ -14,11 +14,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   PMS_SELECT_GRAPHIC_InitSceneBgs 0x021C1738 thumb ov110
  *   PMS_SELECT_GRAPHIC_InitSceneActors 0x021C17DC thumb ov110
  *   PMS_SELECT_GRAPHIC_SceneTask 0x021C1724 thumb ov110
@@ -36,11 +36,11 @@ extern void MI_CpuFill8(void *,int,unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void PMS_SELECT_GRAPHIC_InitSceneBgs(void *,u16);
 extern void PMS_SELECT_GRAPHIC_InitSceneActors(void **p, unsigned arg, unsigned heap);
 extern void PMS_SELECT_GRAPHIC_SceneTask(int a, u8 *p);
@@ -55,9 +55,9 @@ void *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 heap) {
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)gPmsSelectGraphicVramBanks);
-    func_0204363C(arg);
+    BMP_SetDisplaySwap(arg);
     BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     PMS_SELECT_GRAPHIC_InitSceneBgs(p,heap);
     PMS_SELECT_GRAPHIC_InitSceneActors((void **)(p+4),(unsigned)gPmsSelectGraphicVramBanks,heap);
     ((struct Obj22414 *)p)->fC=func_020056A0(PMS_SELECT_GRAPHIC_SceneTask,p,0);

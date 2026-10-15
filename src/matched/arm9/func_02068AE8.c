@@ -1,5 +1,5 @@
 /*
- * function: func_02068AE8
+ * function: NNSi_G2dSurfaceFillRect
  * address:  0x02068AE8
  * packet:   pkt_02068AE8
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020682F8    0x020682F8  arm
+ *   NNSi_G2dCharCanvasFill    0x020682F8  arm
  *
  * Fill a rectangle of a LINEAR tile grid with one pixel value
  * (docs/families/cluster_020682DC.h): expand the pixel to a word, round the
  * rectangle out to whole 8x8 tiles and hand every covered tile to
- * func_020682F8 with its own sub-rectangle, walking the grid with
+ * NNSi_G2dCharCanvasFill with its own sub-rectangle, walking the grid with
  * `p += tilesz` per tile and `row += stride * tilesz` per tile row.
  *
  * Levers (docs/notes/pkt_02068808.c.txt has the earlier passes):
  *   - ../2.0/sp2 pin (1.1p1 is 408 bytes on this source);
- *   - the func_02068C84 loop shape: yo as `(cy < y) ? y - cy : 0`, p = row
+ *   - the NNSi_G2dSurfaceFillRectSwizzled loop shape: yo as `(cy < y) ? y - cy : 0`, p = row
  *     after it, th through a clamped temporary, loop locals declared
  *     `cx, th, xe, p, yo` at function scope (image r4..r8);
  *   - wave 10: the tile size reads the field again,
@@ -44,9 +44,9 @@ struct Surface {
     int   f10;    /* +0x10 stride in tiles */
 };
 
-extern void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
+extern void NNSi_G2dCharCanvasFill(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
 
-void func_02068AE8(struct Surface *s, u32 arg, int x, int y, int w, int h)
+void NNSi_G2dSurfaceFillRect(struct Surface *s, u32 arg, int x, int y, int w, int h)
 {
     int cy;
     int x1;
@@ -91,7 +91,7 @@ void func_02068AE8(struct Surface *s, u32 arg, int x, int y, int w, int h)
             if (tw > 8)
                 tw = 8;
             tw -= xo;
-            func_020682F8((u32 *)p, xo, yo, tw, th, arg, bpp);
+            NNSi_G2dCharCanvasFill((u32 *)p, xo, yo, tw, th, arg, bpp);
             p = p + tilesz;
         }
         row = row + rowadv;

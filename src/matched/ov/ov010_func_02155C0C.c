@@ -39,7 +39,7 @@
  *   STA_NET_SetState6Pair  0x021FD918  thumb  ov132
  *   STA_NET_GetCurrentSlotValue  0x021FD8D4  thumb  ov132
  *   STA_NET_GetSlotValueByIndex  0x021FD8EC  thumb  ov132
- *   func_021FCE28  0x021FCE28  thumb  ov132
+ *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb  ov132
  *   STA_NET_GetSlot1Done  0x021FD83C  thumb  ov132
  *   MUSICAL_SAVE_GetFanPoints  0x0200A81C  thumb
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
@@ -48,8 +48,8 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
- *   func_02030B50  0x02030B50  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DumpReport  0x02030B50  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   MUSICAL_DRESSUP_SYS_ProcTable     0x02172724  data
  *   MUSICAL_STAGE_SYS_ProcTable     0x02172748  data
  *   d_021F8360     0x021F8360  data
@@ -125,7 +125,7 @@ extern int STA_NET_GetField48(int *p);
 extern void STA_NET_SetState6Pair(char *p, u32 a, int b);
 extern u32 STA_NET_GetCurrentSlotValue(char *p);
 extern u8 STA_NET_GetSlotValueByIndex(char *p, int index);
-extern int func_021FCE28(char *p, u32 index);
+extern int MUS_COMM_FUNC_GetSlotValueA(char *p, u32 index);
 extern u32 STA_NET_GetSlot1Done(char *p);
 extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
@@ -134,8 +134,8 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_02030B50(void *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DumpReport(void *p);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 
 int MUSICAL_EVENT_Main(void *evt, void *unused, Seq *s)
 {
@@ -158,7 +158,7 @@ int MUSICAL_EVENT_Main(void *evt, void *unused, Seq *s)
             list = MISC_SAVEDATA_GetBlock44(s->f1c);
             for (i = 0; i < 4; i++) {
                 if (STA_NET_GetCurrentSlotValue(s->link->sess) != STA_NET_GetSlotValueByIndex(s->link->sess, i)) {
-                    void *p = (void *)func_021FCE28(s->link->sess, i);
+                    void *p = (void *)MUS_COMM_FUNC_GetSlotValueA(s->link->sess, i);
                     if (p != 0)
                         MISC_SAVEDATA_InsertRecentValue(list, func_02008530(p));
                 }
@@ -282,8 +282,8 @@ int MUSICAL_EVENT_Main(void *evt, void *unused, Seq *s)
         s->state = 10;
         break;
     case 10:
-        func_02030B50((void *)4);
-        func_020306F0(0x2C);
+        GFL_HEAP_DumpReport((void *)4);
+        GFL_HEAP_DeleteChecked(0x2C);
         return 1;
     case 22:
         if (MUSICAL_EVENT_RunLeaveSequence(evt, s) == 1)

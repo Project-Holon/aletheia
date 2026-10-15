@@ -28,7 +28,7 @@
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
- *   func_0203F328  0x0203F328  arm
+ *   GF_STANDARD_Shuffle  0x0203F328  arm
  *   IRCNET_IsLinkAlive 0x02179D3C thumb ov015
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -220,7 +220,7 @@ typedef struct GiftMon {
 extern int GFL_NET_GetRunState(void);
 extern void MI_CpuCopy8(void *, void *, u32);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
-extern void func_0203F328(u16 *p, u32 size, u32 seed);
+extern void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
 extern int IRCNET_IsLinkAlive(void);
 extern int GFL_NET_Exit(int);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -409,7 +409,7 @@ void DELIVERY_IRC_StepFinish(DeliveryIrcWork *work)
             MI_CpuCopy8(work->recvBuffer, work->param.entries[0].data, work->param.entries[0].size);
             if (work->crc != GF_STANDARD_SetupCalc(work->param.entries[0].data, work->param.entries[0].size))
                 work->result = 2;
-            func_0203F328(work->param.entries[0].data, work->param.entries[0].size, work->cryptKey);
+            GF_STANDARD_Shuffle(work->param.entries[0].data, work->param.entries[0].size, work->cryptKey);
         }
     } else {
         if (work->found == 1)
@@ -507,7 +507,7 @@ void DELIVERY_IRC_StepSendCrc(DeliveryIrcWork *work)
 
 
 /*
- * levers: the RNG result is the third argument to func_0203F328, kept live
+ * levers: the RNG result is the third argument to GF_STANDARD_Shuffle, kept live
  *   in r2 across its preceding store. The bound is read as p->n in the for
  *   condition rather than through n; expanding that one use changes the
  *   hoisted bound/far-word allocation from r7/r6 to the original r6/r7.
@@ -535,7 +535,7 @@ void DELIVERY_IRC_StepSearchEntry(DeliveryIrcWork *work)
         if (work->found == 1) {
             u32 key = func_020056EC(0);
             work->cryptKey = key;
-            func_0203F328(entry->data, entry->size, key);
+            GF_STANDARD_Shuffle(entry->data, entry->size, key);
             work->sendEntry = entry;
         }
         return;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C9D0C
+ * function: WF2DMAP_TOUCH_FindPrevEntry
  * address: 0x021C9D0C
  * packet: pkt_ov128_021C9D0C
  * region: ov128
@@ -21,7 +21,7 @@ struct BigObj;
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
-int func_021C9D0C(u8 *p,int direction)
+int WF2DMAP_TOUCH_FindPrevEntry(u8 *p,int direction)
 {
     int index;
     u32 data;

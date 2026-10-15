@@ -1,5 +1,5 @@
 /*
- * function: func_0220C6E8
+ * function: B_BAG_MAIN_DeleteFingerCursor
  * address:  0x0220C6E8
  * packet:   pkt_0220C6E8
  * region:   ov197
@@ -16,7 +16,7 @@
 
 extern void BTLV_FINGER_CURSOR_Delete(int);
 
-void func_0220C6E8(char *a)
+void B_BAG_MAIN_DeleteFingerCursor(char *a)
 {
     BTLV_FINGER_CURSOR_Delete(((struct Obj25045 *)a)->f14C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2AE0
+ * function: BR_CODEIN_MenuStepInput
  * address: 0x021E2AE0
  * packet: pkt_ov183_021E2AE0
  * region: ov183
@@ -9,40 +9,40 @@
  * status: EXACT
  * lever: Declare scalar locals before Pair; assign the returned Pair as a whole to p+0x4C. Separate word stores produced the wrong stack/copy schedule.
  * symbols:
- *   func_021E2E60 0x021E2E60 thumb ov183
- *   func_021E2E30 0x021E2E30 thumb ov183
- *   func_021E2E48 0x021E2E48 thumb ov183
+ *   BR_CODEIN_CopySoclResource 0x021E2E60 thumb ov183
+ *   BR_CODEIN_CallStoredFnA 0x021E2E30 thumb ov183
+ *   BR_CODEIN_CallStoredFnB 0x021E2E48 thumb ov183
  *   BR_CODEIN_HitTestOptionA 0x021E31E8 thumb ov183
  *   BR_CODEIN_HitTestOptionB 0x021E3228 thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_021E2C2C 0x021E2C2C thumb ov183
- *   func_021E2910 0x021E2910 thumb ov183
+ *   BR_CODEIN_MenuStepSave 0x021E2C2C thumb ov183
+ *   BR_CODEIN_MenuStep 0x021E2910 thumb ov183
  */
 #include "../include/Obj03334.h"
 typedef struct Pair {int a,b;} Pair;
-extern void func_021E2E60(Pair *);
-extern void func_021E2E30(char *,int,int);
-extern void func_021E2E48(char *p, int a, int b);
+extern void BR_CODEIN_CopySoclResource(Pair *);
+extern void BR_CODEIN_CallStoredFnA(char *,int,int);
+extern void BR_CODEIN_CallStoredFnB(char *p, int a, int b);
 extern int BR_CODEIN_HitTestOptionA(char *,int,int),BR_CODEIN_HitTestOptionB(char *,int,int);
 extern void BR_FADE_Start(int,int,int,int);
 typedef unsigned int   u32;
 extern int BR_FADE_GetResult(int *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021E2C2C(int *task, unsigned *state, char *p);
-extern void func_021E2910(int *task, int *state, char *p);
-void func_021E2AE0(int *task,unsigned *state,char *p)
+extern void BR_CODEIN_MenuStepSave(int *task, unsigned *state, char *p);
+extern void BR_CODEIN_MenuStep(int *task, int *state, char *p);
+void BR_CODEIN_MenuStepInput(int *task,unsigned *state,char *p)
 {
     unsigned x,y;
     Pair a;
     switch(*state) {
     case 0:
-        func_021E2E60(&a);
+        BR_CODEIN_CopySoclResource(&a);
         *(Pair *)(p+0x4c)=a;
-        func_021E2E30(p+0x4c,(int)p,*(int *)&((struct Obj03334 *)p)->f3C);
+        BR_CODEIN_CallStoredFnA(p+0x4c,(int)p,*(int *)&((struct Obj03334 *)p)->f3C);
         ++*state; break;
     case 1:
         BR_FADE_Start(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,0);
@@ -63,8 +63,8 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         if(BR_FADE_GetResult(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 6:
-        func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
-        BR_UTIL_SetTaskStep(task,(int)func_021E2C2C); break;
+        BR_CODEIN_CallStoredFnB(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
+        BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_MenuStepSave); break;
     case 7:
         BR_FADE_Start(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
         ++*state; break;
@@ -72,7 +72,7 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         if(BR_FADE_GetResult(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 9:
-        func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
-        BR_UTIL_SetTaskStep(task,(int)func_021E2910); break;
+        BR_CODEIN_CallStoredFnB(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
+        BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_MenuStep); break;
     }
 }

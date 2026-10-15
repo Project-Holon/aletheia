@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021B7DC0  0x021B7DC0  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb  ov021
  *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb  ov021
  *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb  ov021
  * Addresses are Black-image addresses.
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef struct { u16 a, b, c, d; } Q;
 typedef struct { int x, y, z; } V;
 
-void func_021B7DC0(u8 *p, Q *q);
+void FIELD_RAIL_WORK_GetLocation(u8 *p, Q *q);
 void FIELD_RAIL_WORK_SetLocation(u8 *p, Q *q);
 void FIELD_RAIL_WORK_GetSpotPos(u8 *p, V *v);
 
@@ -31,7 +31,7 @@ void FIELD_RAIL_WORK_SetLineLocation(u8 *p, u32 a, u32 b, int c)
 {
     Q q;
 
-    func_021B7DC0(p, &q);
+    FIELD_RAIL_WORK_GetLocation(p, &q);
     q.a = a;
     q.c = 0;
     q.d = b;

@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BEDCC",
-    "func_021BEE04",
-    "func_021BEE14"
+    "DEMO3D_DATA_ApplySeFade",
+    "DEMO3D_DATA_PlayBgm",
+    "DEMO3D_DATA_StopBgm"
+   ],
+   "addresses": [
+    "0x021BEDCC",
+    "0x021BEE04",
+    "0x021BEE14"
    ]
   }
  ]

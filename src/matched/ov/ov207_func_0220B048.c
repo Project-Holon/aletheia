@@ -14,7 +14,7 @@
  *   ZUKAN_NICKNAME_Delete 0x0220B6E4 thumb ov207
  *   func_021BA2CC 0x021BA2CC thumb ov206
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ZUKAN_TOROKU_GRAPHIC_DeleteDisplay 0x0220B3B8 thumb ov207
  *   overlay206 0x000000CE data
@@ -36,7 +36,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(unsigned *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 typedef enum OverlayId { OVERLAY_ZERO=0 } OverlayId;
 extern void func_02034A5C(int);
 extern char overlay206[],overlay67[];
@@ -51,7 +51,7 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,unsigned *p)
     GF_FONT_Delete((void *)p[2]);
     ZUKAN_TOROKU_GRAPHIC_DeleteDisplay((void *)p[1]);
     func_020315D4(a);
-    func_020306F0(106);
+    GFL_HEAP_DeleteChecked(106);
     func_02034A5C((OverlayId)overlay206);
     func_02034A5C((OverlayId)overlay67);
     return 1;

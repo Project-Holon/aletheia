@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215EE98",
+   "name": "SOCL_InetAtoH",
    "address": "0x0215EE98",
    "kind": "sdk",
    "region": "ov009",

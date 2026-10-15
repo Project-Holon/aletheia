@@ -1,5 +1,5 @@
 /*
- * function: func_021E2F54
+ * function: BR_CODEIN_SoclTeardown
  * address: 0x021E2F54
  * packet: pkt_ov183_021E2F54
  * region: ov183
@@ -21,7 +21,7 @@ extern void BR_UTIL_Delete(u8 *p);
 extern void func_020409B4(u32 index);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_UTIL_DeleteTextWin(void *,int);
-void func_021E2F54(char *p,char *q)
+void BR_CODEIN_SoclTeardown(char *p,char *q)
 {
     int i;
     for (i=0;i<2;i++) {

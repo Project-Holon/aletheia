@@ -12,11 +12,11 @@
  * sdk:      qr2_init_socketA (qr2.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   srand  0x020946C8  arm
- *   func_021803BC  0x021803BC  arm  ov009
+ *   gsiSafeStrcpyA  0x021803BC  arm  ov009
  *   func_02094694  0x02094694  arm
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0219B6CC  0x0219B6CC  arm  ov009
@@ -95,12 +95,12 @@ extern char g_021A73D4[];
 extern char g_021A73E8[];
 extern char g_021A7408[];
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void *func_0217EAB0(unsigned long size);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void *gsimalloc(unsigned long size);
 extern unsigned int current_time(void);
 extern void srand(unsigned int seed);
 struct SOCHostEnt;
-extern int func_021803BC(char *dst, const char *src, unsigned int n);
+extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern int func_02094694(void);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern void func_0219B6CC(void);
@@ -123,17 +123,17 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
     int i;
     qr2_implementation_s *cr;
 
-    func_0217D254(3, (char *)4, 0x40, g_021A73A0);
+    gsDebugFormat(3, (char *)4, 0x40, g_021A73A0);
 
     if (qrec == 0) {
         cr = ((qr2_implementation_s *)&g_021A6604);
     } else {
-        *qrec = (qr2_implementation_s *)func_0217EAB0(sizeof(qr2_implementation_s));
+        *qrec = (qr2_implementation_s *)gsimalloc(sizeof(qr2_implementation_s));
         cr = *qrec;
     }
     srand(current_time());
-    func_021803BC(cr->gamename, gamename, sizeof(cr->gamename));
-    func_021803BC(cr->secret_key, secret_key, sizeof(cr->secret_key));
+    gsiSafeStrcpyA(cr->gamename, gamename, sizeof(cr->gamename));
+    gsiSafeStrcpyA(cr->secret_key, secret_key, sizeof(cr->secret_key));
     cr->qport = boundport;
     cr->lastheartbeat = 0;
     cr->lastka = 0;
@@ -176,14 +176,14 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
             OS_SPrintf(hostname, g_021A73B4, gamename);
         ret = func_0219B73C(override ? g_021AE9B8 : hostname, 27900, &cr->hbaddr, 0);
         if (ret == 1)
-            func_0217D254(3, 0, 0x10, g_021A73D4, override ? g_021AE9B8 : hostname, func_0215FA9C(cr->hbaddr.addr));
+            gsDebugFormat(3, 0, 0x10, g_021A73D4, override ? g_021AE9B8 : hostname, func_0215FA9C(cr->hbaddr.addr));
         else
-            func_0217D254(3, 0, 1, g_021A73E8, override ? g_021AE9B8 : hostname);
+            gsDebugFormat(3, 0, 1, g_021A73E8, override ? g_021AE9B8 : hostname);
     } else {
         ret = 1;
     }
     if (!ret) {
-        func_0217D254(3, (char *)4, 1, g_021A7408);
+        gsDebugFormat(3, (char *)4, 1, g_021A7408);
         return 3;
     }
     return 0;

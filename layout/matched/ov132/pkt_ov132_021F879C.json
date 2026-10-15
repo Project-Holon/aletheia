@@ -21,15 +21,15 @@
     "STA_ACTING_Update",
     "STA_ACTING_VBlankCallback"
    ],
+   "addresses": [
+    "0x021F879C",
+    "0x021F8994"
+   ],
    "evidence": {
     "sole-ref": [
      "self:0x021FDE80"
     ]
-   },
-   "addresses": [
-    "0x021F879C",
-    "0x021F8994"
-   ]
+   }
   }
  ]
 }

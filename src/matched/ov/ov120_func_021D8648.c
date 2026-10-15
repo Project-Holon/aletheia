@@ -1,5 +1,5 @@
 /*
- * function: func_021D8648
+ * function: GTSNEGO_MSG_DeleteConfirmWindow
  * address:  0x021D8648
  * packet:   pkt_021D8648
  * region:   ov120
@@ -25,7 +25,7 @@ typedef signed int     s32;
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void func_02041B6C(u32 bit);
 
-void func_021D8648(u8 *p)
+void GTSNEGO_MSG_DeleteConfirmWindow(u8 *p)
 {
     APP_TASKMENU_WIN_Delete(((struct Obj10403 *)p)->fC4);
     func_02041B6C(5);

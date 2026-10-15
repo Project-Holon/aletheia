@@ -1,5 +1,5 @@
 /*
- * function: func_021F42E8
+ * function: NAMEIN_GRAPHIC_UpdateIconTouch
  * address: 0x021F42E8
  * packet: pkt_ov194_021F42E8
  * region: ov194
@@ -10,9 +10,9 @@
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_021F4450 0x021F4450 thumb ov194
- *   func_021F4394 0x021F4394 thumb ov194
- *   func_021F43A0 0x021F43A0 thumb ov194
+ *   NAMEIN_GRAPHIC_IsPointInRect 0x021F4450 thumb ov194
+ *   NAMEIN_GRAPHIC_StartIconAnim 0x021F4394 thumb ov194
+ *   NAMEIN_GRAPHIC_StepIconAnim 0x021F43A0 thumb ov194
  */
 #include "../include/Obj01576.h"
 typedef struct {short x,y;} Vec2;
@@ -20,10 +20,10 @@ struct Actor; struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern unsigned TOUCHPANEL_GetPointTrg(unsigned *,unsigned *);
-extern int func_021F4450(int *,int *);
-extern void func_021F4394(unsigned char *p);
-extern int func_021F43A0(char *);
-void func_021F42E8(char *p) {
+extern int NAMEIN_GRAPHIC_IsPointInRect(int *,int *);
+extern void NAMEIN_GRAPHIC_StartIconAnim(unsigned char *p);
+extern int NAMEIN_GRAPHIC_StepIconAnim(char *);
+void NAMEIN_GRAPHIC_UpdateIconTouch(char *p) {
     int rect[4];
     unsigned x,y;
     Vec2 pos;
@@ -36,14 +36,14 @@ void func_021F42E8(char *p) {
             rect[0]=pos.x-16; rect[1]=pos.y-16;
             rect[2]=pos.x+16; rect[3]=pos.y+16;
             point[0]=x; point[1]=y;
-            if (func_021F4450(rect,point)) {
-                func_021F4394((unsigned char *)p);
+            if (NAMEIN_GRAPHIC_IsPointInRect(rect,point)) {
+                NAMEIN_GRAPHIC_StartIconAnim((unsigned char *)p);
                 ((struct Obj01576 *)p)->f18=1;
             }
         }
         break;
     case 1:
-        if (func_021F43A0(p)) {((struct Obj01576 *)p)->f14=1; ((struct Obj01576 *)p)->f18=0;}
+        if (NAMEIN_GRAPHIC_StepIconAnim(p)) {((struct Obj01576 *)p)->f14=1; ((struct Obj01576 *)p)->f18=0;}
         break;
     }
 }

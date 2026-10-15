@@ -11,7 +11,7 @@
  *   WF2DMAP_OBJDRAW_AllocActor 0x021C58C8 thumb ov127
  *   WF2DMAP_OBJ_GetSlot 0x021C49A4 thumb ov127
  *   WF2DMAP_OBJDRAW_GetDepth 0x021C5878 thumb ov127
- *   func_021C40BC 0x021C40BC thumb ov127
+ *   WIFI_2DCHAR_SpawnActor 0x021C40BC thumb ov127
  *   WF2DMAP_OBJDRAW_UpdateActor 0x021C574C thumb ov127
  */
 #include "../include/Obj00328.h"
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern u8 *WF2DMAP_OBJDRAW_AllocActor(void *);
 extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 extern int WF2DMAP_OBJDRAW_GetDepth(int, int);
-extern void *func_021C40BC(void *, s16 *, int, u32);
+extern void *WIFI_2DCHAR_SpawnActor(void *, s16 *, int, u32);
 extern void WF2DMAP_OBJDRAW_UpdateActor(u8 *p);
 u8 *WF2DMAP_OBJDRAW_AddActor(u8 *p, void *q, int n, u32 heap)
 {
@@ -41,7 +41,7 @@ u8 *WF2DMAP_OBJDRAW_AddActor(u8 *p, void *q, int n, u32 heap)
     pos[1] = WF2DMAP_OBJ_GetSlot(q, 1);
     pos[2] = WF2DMAP_OBJDRAW_GetDepth(pos[1], o[18]);
     pos[3] = p[10];
-    ((struct Obj00328 *)o)->f4 = func_021C40BC(((struct Obj14031 *)p)->f0, pos, WF2DMAP_OBJ_GetSlot(q, 7), heap);
+    ((struct Obj00328 *)o)->f4 = WIFI_2DCHAR_SpawnActor(((struct Obj14031 *)p)->f0, pos, WF2DMAP_OBJ_GetSlot(q, 7), heap);
     WF2DMAP_OBJDRAW_UpdateActor(o);
     return o;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A834C
+ * function: FIELD_GROUND_ANIME_ShouldPlayDoorSe
  * address:  0x021A834C
  * packet:   pkt_ov021_021A834C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A8268  0x021A8268  thumb
+ *   FIELD_GROUND_ANIME_HasBuildModel  0x021A8268  thumb
  */
 
 typedef struct {
@@ -23,12 +23,12 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern int func_021A8268(u32 a);
+extern int FIELD_GROUND_ANIME_HasBuildModel(u32 a);
 
-int func_021A834C(S *s)
+int FIELD_GROUND_ANIME_ShouldPlayDoorSe(S *s)
 {
     R *p = s->f0;
-    if (func_021A8268((u32)s)) {
+    if (FIELD_GROUND_ANIME_HasBuildModel((u32)s)) {
         return 0;
     }
     if (p->f38 != 2) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6E84
+ * function: GTSNEGO_MSG_CreateCursorActor
  * address: 0x021D6E84
  * packet: pkt_ov120_021D6E84
  * region: ov120
@@ -23,7 +23,7 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021D6E84(u8 *p)
+void GTSNEGO_MSG_CreateCursorActor(u8 *p)
 {
     Record r;
     r.x = 128; r.y = 200; r.z = 0; r.a = 1; r.b = 1;

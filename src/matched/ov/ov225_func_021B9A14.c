@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A14
+ * function: MANUAL_GRAPHIC_VBlankScreen
  * address:  0x021B9A14
  * packet:   pkt_ov225_021B9A14
  * region:   ov225
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9AC4  0x021B9AC4  thumb  ov225
- *   func_021B9B30  0x021B9B30  thumb  ov225
+ *   MANUAL_GRAPHIC_VBlankBg  0x021B9AC4  thumb  ov225
+ *   MANUAL_GRAPHIC_VBlankClactUnit  0x021B9B30  thumb  ov225
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021B9AC4(void *);
-extern void func_021B9B30(void *);
+extern void MANUAL_GRAPHIC_VBlankBg(void *);
+extern void MANUAL_GRAPHIC_VBlankClactUnit(void *);
 
-void func_021B9A14(void *unused, char *p)
+void MANUAL_GRAPHIC_VBlankScreen(void *unused, char *p)
 {
-    func_021B9AC4(p);
-    func_021B9B30(p + 4);
+    MANUAL_GRAPHIC_VBlankBg(p);
+    MANUAL_GRAPHIC_VBlankClactUnit(p + 4);
 }

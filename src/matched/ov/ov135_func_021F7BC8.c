@@ -18,7 +18,7 @@
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  */
 #include "../include/Obj01553.h"
 #include "../include/Obj03830.h"
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int WORLDTRADE_INPUT_MenuUpdate(void *);
-extern void func_0201F7A8(void *,u32);
+extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern void *POKE_PERSONAL_Create(u32,int,u32);
 struct Personal;
@@ -45,7 +45,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(u8 *p)
     u8 *target;
     switch(result) {
     case (u32)-2:
-        func_0201F7A8(((struct Obj01553 *)p)->fD40,0);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj01553 *)p)->fD40,0);
         WORLDTRADE_SetStateAndReturn(p,5,5);
         ((struct Obj01553 *)p)->f28=2;
         target=*(u8 * *)&((struct Obj01553 *)p)->fE00;

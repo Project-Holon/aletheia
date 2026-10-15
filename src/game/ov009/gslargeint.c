@@ -36,7 +36,12 @@
  *   func_020913E8  0x020913E8  arm
  *   MSL_C_LIB_ReallocResource  0x020913FC  arm
  */
-#include "../../matched/include/G_GSLintTimer.h"
+typedef struct GslTimer {
+    unsigned int start;
+    unsigned int total;
+    unsigned int entries;
+    unsigned int started;
+} GslTimer;
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
@@ -80,7 +85,7 @@ int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
 int gsLargeIntReverseBytes(char *p);
 void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5);
 unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
-extern struct GSLintTimer gTimers[9];
+extern GslTimer gTimers[9];
 extern char g_021A3728[];
 extern char g_021A3720[];
 extern void *MSL_C_LIB_AllocFromHeap(unsigned long heap);

@@ -1,5 +1,5 @@
 /*
- * function: func_02206108
+ * function: SHINKA_DEMO_VIEW_CreateModels
  * address:  0x02206108
  * packet:   pkt_02206108
  * region:   ov195
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022060C8 0x022060C8 thumb ov195
- *   func_02206274 0x02206274 thumb ov195
+ *   SHINKA_DEMO_VIEW_GetModelOffset 0x022060C8 thumb ov195
+ *   SHINKA_DEMO_VIEW_UpdateModelOffsets 0x02206274 thumb ov195
  *   MCSS_TOOL_AddPokeMcss 0x02017270 thumb
  *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
@@ -55,8 +55,8 @@ typedef struct Owner {
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-extern fx32 func_022060C8(void *res);
-extern void func_02206274(Owner *o);
+extern fx32 SHINKA_DEMO_VIEW_GetModelOffset(void *res);
+extern void SHINKA_DEMO_VIEW_UpdateModelOffsets(Owner *o);
 extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern void MCSS_SetShadowVanishFlag(char *p, int v);
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
@@ -64,7 +64,7 @@ extern void MCSS_SetScale(void *p, u32 *src);
 extern void MCSS_SetVanishFlag(void *obj);
 extern void MCSS_SetAnmStopFlag(void *obj);
 
-void func_02206108(Owner *o)
+void SHINKA_DEMO_VIEW_CreateModels(Owner *o)
 {
     u8 i;
     VecFx32 scale;
@@ -77,9 +77,9 @@ void func_02206108(Owner *o)
     if (o->f08 == 0) {
         for (i = 0; i < 2; i++) {
             if (i == 0)
-                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
+                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res0), 0);
             else
-                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res1, 0, 0, func_022060C8(o->res1), 0);
+                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res1, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res1), 0);
             MCSS_SetShadowVanishFlag(o->obj[i], 1);
             MCSS_TOOL_SetAnimeStopCallback((int)o->obj[i]);
             MCSS_SetScale(o->obj[i], (u32 *)(&scale));
@@ -89,10 +89,10 @@ void func_02206108(Owner *o)
             }
         }
     } else {
-        o->obj[1] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
+        o->obj[1] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res0), 0);
         MCSS_SetShadowVanishFlag(o->obj[1], 1);
         MCSS_TOOL_SetAnimeStopCallback((int)o->obj[1]);
         MCSS_SetScale(o->obj[1], (u32 *)(&scale));
     }
-    func_02206274(o);
+    SHINKA_DEMO_VIEW_UpdateModelOffsets(o);
 }

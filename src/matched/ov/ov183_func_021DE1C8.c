@@ -1,5 +1,5 @@
 /*
- * function: func_021DE1C8
+ * function: BR_CODEIN_ResultCreate
  * address: 0x021DE1C8
  * packet: pkt_ov183_021DE1C8
  * region: ov183
@@ -14,8 +14,8 @@
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
- *   func_021DE3E4 0x021DE3E4 thumb ov183
- *   func_021DE7C0 0x021DE7C0 thumb ov183
+ *   BR_CODEIN_ResultSetupTextWin 0x021DE3E4 thumb ov183
+ *   BR_CODEIN_ResultSetupButtons 0x021DE7C0 thumb ov183
  */
 #include "../include/Obj02519.h"
 #include "../include/Obj06604.h"
@@ -29,9 +29,9 @@ extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 typedef unsigned int   u32;
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
-extern void func_021DE3E4(char *, char *);
-extern void func_021DE7C0(char *, char *);
-int func_021DE1C8(void *a, int b, char *q)
+extern void BR_CODEIN_ResultSetupTextWin(char *, char *);
+extern void BR_CODEIN_ResultSetupButtons(char *, char *);
+int BR_CODEIN_ResultCreate(void *a, int b, char *q)
 {
     char *p = PROCSYS_AllocProcWork(a, 0x70, BR_PROC_SYS_GetSlotId(((struct Obj06604 *)q)->fC));
     MI_CpuFill8(p, 0, 0x70);
@@ -39,7 +39,7 @@ int func_021DE1C8(void *a, int b, char *q)
     ((struct Obj02519 *)p)->f0 = BMP_OAM_CreateSys(((struct Obj02519 *)p)->f6C, ((struct Obj06604 *)q)->f0);
     ((struct Obj02519 *)p)->f4 = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj02519 *)p)->f6C));
     ((struct Obj02519 *)p)->f64 = BR_UTIL_CreateHandles((unsigned int)(((struct Obj06604 *)q)->f0), (char *)(((struct Obj06604 *)q)->f8), 1, ((struct Obj02519 *)p)->f6C);
-    func_021DE3E4(p, q);
-    func_021DE7C0(p, q);
+    BR_CODEIN_ResultSetupTextWin(p, q);
+    BR_CODEIN_ResultSetupButtons(p, q);
     return 1;
 }

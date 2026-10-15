@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   NATSUKI_Apply  0x0201B850  thumb
  *   _NatsukiWalkDeltas     0x0209E465  data  a1
  *
@@ -35,13 +35,13 @@ typedef signed char        s8;
 typedef unsigned int       u32;
 typedef unsigned long long u64;
 
-extern u32  func_0203F0A8(void);
+extern u32  GF_STANDARD_Rand(void);
 extern void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3);
 extern const s8 _NatsukiWalkDeltas[];
 
 void NATSUKI_CalcWalk(void *a0, int a1, int a2)
 {
-    if ((u32)((u64)func_0203F0A8() * 2 >> 32) % 2 == 0) {
+    if ((u32)((u64)GF_STANDARD_Rand() * 2 >> 32) % 2 == 0) {
         NATSUKI_Apply(a0, _NatsukiWalkDeltas, a1, a2);
     }
 }

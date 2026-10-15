@@ -10,16 +10,19 @@
  * isa:      arm
  * status:   EXACT
  * blocker:  02063138 has no witness outside this range
+ *
+ * symbols:
+ *   NNSi_G2dReserveOamManagerSpan  0x02063138  arm
  */
 #include "../include/Obj11428.h"
 
-extern unsigned int func_02063138(void *p, int a, int b, int which);
+extern unsigned int NNSi_G2dReserveOamManagerSpan(void *p, int a, int b, int which);
 void CLACT_InitOamManager(char *p, int a, int b, int which)
 {
     if (b == 0) {
         ((struct Obj11428 *)p)->f1C = 0;
         return;
     }
-    func_02063138(p, a, b, which);
+    NNSi_G2dReserveOamManagerSpan(p, a, b, which);
     ((struct Obj11428 *)p)->f1C = 1;
 }

@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: hardware reads at 021D96EA and 021D96F4
  * symbols:
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -22,7 +22,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021D98C0(u8 *p);
 extern void func_021D9828(void *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -31,7 +31,7 @@ void func_021D96C4(u8 *p)
     func_02030EAC(((struct Obj22873 *)p)->f14);
     func_021D98C0(p+4);
     func_021D9828(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;

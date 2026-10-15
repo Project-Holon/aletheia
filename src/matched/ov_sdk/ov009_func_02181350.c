@@ -13,15 +13,15 @@
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
- *   func_02198620                  0x02198620  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   gt2GetOutgoingBufferSize                  0x02195E48  arm ov009
- *   func_0217EAB0                  0x0217EAB0  arm ov009
+ *   gsimalloc                  0x0217EAB0  arm ov009
  *   memcpy                         0x02092344  arm
  *   func_02195CC0                  0x02195CC0  arm ov009
- *   func_0217EAE0                  0x0217EAE0  arm ov009
+ *   gsifree                  0x0217EAE0  arm ov009
  *   func_02180448                  0x02180448  arm ov009
  *   g_021A3B9C                     0x021A3B9C  data
  *   g_021A3C34                     0x021A3C34  data
@@ -65,15 +65,15 @@ typedef struct GSUdpEngineObject {
 } GSUdpEngineObject;
 
 extern void *gsUdpEngineContext(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 extern void *func_02184208(void *array, int n);
 extern int gt2GetOutgoingBufferSize(const int *p);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *memcpy(void *dst, const void *src, unsigned int n);
 extern int func_02195CC0(void *connection, unsigned char *message, int len, int reliable);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern char g_021A3B9C[];
 extern char g_021A3C34[];
@@ -92,7 +92,7 @@ int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *the
 
     aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 3;
     }
 
@@ -105,22 +105,22 @@ int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *the
     aRemotePeer.mPort = thePort;
     index = func_021843E8(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
     if (index == -1) {
-        func_02198620(theIp, thePort, anAddr);
-        func_0217D254(12, 0, 2, g_021A3C34, anAddr);
+        gt2AddressToString(theIp, thePort, anAddr);
+        gsDebugFormat(12, 0, 2, g_021A3C34, anAddr);
         return 4;
     }
 
     aRemotePeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, index);
     if (aTotalMessageLen > gt2GetOutgoingBufferSize(aRemotePeerFound->mConnection) && theReliable) {
-        func_0217D254(12, 0, 2, g_021A3C68);
+        gsDebugFormat(12, 0, 2, g_021A3C68);
         return 12;
     }
 
-    fullMessage = (unsigned char *)func_0217EAB0(aTotalMessageLen);
+    fullMessage = (unsigned char *)gsimalloc(aTotalMessageLen);
     *(GSUdpHdr *)fullMessage = *(GSUdpHdr *)theHeader;
     memcpy(fullMessage + 16, theMsg, theMsgLen);
     aResult = func_02195CC0(aRemotePeerFound->mConnection, fullMessage, aTotalMessageLen, theReliable);
-    func_0217EAE0(fullMessage);
+    gsifree(fullMessage);
     if (aResult != 0)
         return 8;
     return 0;

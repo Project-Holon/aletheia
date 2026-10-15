@@ -11,13 +11,13 @@
  *
  * symbols:
  *    CLACT_GetAnimObject   0x0204D444  arm
- *   sub_02062F1C   0x02062F1C  arm
+ *   NNSi_G2dGetCellAnimFrameIdx   0x02062F1C  arm
  *
  * Hand the record CLACT_GetAnimObject returns for the sub-object at +0x68
- * straight to sub_02062F1C: a plain forwarding call whose argument is
+ * straight to NNSi_G2dGetCellAnimFrameIdx: a plain forwarding call whose argument is
  * already in r0
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
- * sub_02062F1C is the one call this family makes outside the 0x0204Cxxx
+ * NNSi_G2dGetCellAnimFrameIdx is the one call this family makes outside the 0x0204Cxxx
  * / 0x0204Dxxx layer.
  *
  * Byte-correct, capped at MATCH: 0x02062F1C is called from this one site
@@ -48,9 +48,9 @@ struct Obj {
 };
 
 extern struct Node *CLACT_GetAnimObject(struct Obj *o);
-extern u16 sub_02062F1C(const struct Node *n);
+extern u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
 
 u16 CLACT_GetActorAnimSeqCount(struct Obj *p)
 {
-    return sub_02062F1C(CLACT_GetAnimObject((struct Obj *)(&p->unk_68)));
+    return NNSi_G2dGetCellAnimFrameIdx(CLACT_GetAnimObject((struct Obj *)(&p->unk_68)));
 }

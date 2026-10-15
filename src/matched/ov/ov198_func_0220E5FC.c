@@ -1,5 +1,5 @@
 /*
- * function: func_0220E5FC
+ * function: B_PLIST_DRAW_RegisterIconSet5
  * address: 0x0220E5FC
  * packet: pkt_ov198_0220E5FC
  * region: ov198
@@ -37,7 +37,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_0220E5FC(char *p)
+void B_PLIST_DRAW_RegisterIconSet5(char *p)
 {
     void *owner;
     int first;

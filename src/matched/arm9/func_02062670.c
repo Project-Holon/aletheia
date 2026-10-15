@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02062670
+ * function: NNS_G2dGetUnpackedAnimBankEx
  * address:  0x02062670
  * packet:   pkt_02062474
  * region:   arm9
@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNS_G2dGetUnpackedAnimBank  0x02062634  arm
  */
 
-extern void func_02062634(void);
-void func_02062670(void){ func_02062634(); }
+extern void NNS_G2dGetUnpackedAnimBank(void);
+void NNS_G2dGetUnpackedAnimBankEx(void){ NNS_G2dGetUnpackedAnimBank(); }

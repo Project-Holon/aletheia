@@ -1,0 +1,44 @@
+#ifndef GF_FONT_SHARED_TYPES_H
+#define GF_FONT_SHARED_TYPES_H
+
+struct Strbuf;
+
+struct WordSet;
+
+struct WordTag;
+
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+typedef signed int     s32;
+
+struct Strbuf {
+    u16 capacity;
+    u16 length;
+    u32 magic;
+    u16 chars[1];
+};
+
+struct WordTag {
+    u8 reserved00[3];
+    u8 grammarCase : 7;
+    u8 isSingular : 1;
+    u8 addsMarker;
+};
+
+struct WordSlot {
+    struct WordTag tag;
+    struct Strbuf *text;
+};
+
+struct WordSet {
+    u32 slotCount;
+    u32 heapId;
+    struct WordSlot *slots;
+    struct Strbuf *scratch;
+};
+
+#endif

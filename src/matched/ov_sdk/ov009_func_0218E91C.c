@@ -12,10 +12,10 @@
  * sdk:      gpiPeerSendMessages (libdwcgsgp.TWL.HYB.a(gpipeer.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_02189A7C  0x02189A7C  arm  ov009
- *   func_0218437C  0x0218437C  arm  ov009
+ *   gpiSendBufferToPeer  0x02189A7C  arm  ov009
+ *   ArrayDeleteAt  0x0218437C  arm  ov009
  */
 
 struct GPIMessage {
@@ -36,10 +36,10 @@ struct GPIPeer {
     void *messages;
 };
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
-extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, struct GPIMessage *outputBuffer, int *closed, int clipSentData);
-extern void func_0218437C(int a, int b);
+extern int gpiSendBufferToPeer(void **connection, unsigned int ip, unsigned short port, struct GPIMessage *outputBuffer, int *closed, int clipSentData);
+extern void ArrayDeleteAt(int a, int b);
 
 int gpiPeerSendMessages(void **connection, struct GPIPeer *peer)
 {
@@ -51,16 +51,16 @@ int gpiPeerSendMessages(void **connection, struct GPIPeer *peer)
         return 3;
     if (peer->connecting != 0)
         return 0;
-    while (func_02184200(peer->messages) != 0) {
+    while (ArrayLength(peer->messages) != 0) {
         message = (struct GPIMessage *)func_02184208(peer->messages, 0);
-        result = func_02189A7C(connection, peer->ip, peer->port, message, &connClosed, 0);
+        result = gpiSendBufferToPeer(connection, peer->ip, peer->port, message, &connClosed, 0);
         if (connClosed != 0 || result != 0) {
             peer->state = 0x6a;
             return 0;
         }
         if (message->pos != message->length)
             break;
-        func_0218437C((int)peer->messages, 0);
+        ArrayDeleteAt((int)peer->messages, 0);
     }
     return 0;
 }

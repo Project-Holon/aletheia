@@ -1,5 +1,5 @@
 /*
- * function: func_021FCDEC
+ * function: MUS_COMM_FUNC_SetTimingSync
  * address:  0x021FCDEC
  * packet:   pkt_021FCDEC
  * region:   ov132
@@ -21,7 +21,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 
-void func_021FCDEC(int a, int b)
+void MUS_COMM_FUNC_SetTimingSync(int a, int b)
 {
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x11);
 }

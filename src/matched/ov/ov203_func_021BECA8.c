@@ -1,5 +1,5 @@
 /*
- * function: func_021BECA8
+ * function: DEMO3D_DATA_CreateSeFade
  * address: 0x021BECA8
  * packet: pkt_ov203_021BECA8
  * region: ov203
@@ -13,7 +13,7 @@
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BED94 0x021BED94 thumb
+ *   DEMO3D_DATA_UpdateSeFade 0x021BED94 thumb
  *   func_021BF7AC 0x021BF7AC thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   FX_Div 0x0207C768 arm
@@ -33,16 +33,16 @@ struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *,u32,u32);
-extern void func_021BED94(struct TcblNode *p, char *q);
+extern void DEMO3D_DATA_UpdateSeFade(struct TcblNode *p, char *q);
 extern int func_021BF7AC(char *p, int v);
 extern int GFL_USE_GetSeSlot(u32);
 extern u32 FX_Div(u32,u32);
-void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
+void DEMO3D_DATA_CreateSeFade(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
 {
     struct Work *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
+    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(owner->manager,(void (*)(struct TcblNode *, void *))DEMO3D_DATA_UpdateSeFade,0x1c,0));
     MI_CpuFill8(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;

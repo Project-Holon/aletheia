@@ -1,5 +1,5 @@
 /*
- * function: func_0220E8B4
+ * function: B_PLIST_DRAW_TransferCharacterToggle
  * address: 0x0220E8B4
  * packet: pkt_ov198_0220E8B4
  * region: ov198
@@ -37,7 +37,7 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u8 func_02027604(u8 i);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_0220E8B4(char *p,int first,int index,int which)
+void B_PLIST_DRAW_TransferCharacterToggle(char *p,int first,int index,int which)
 {
     void *owner,*data;
     struct Sub0204A9D0 *out;

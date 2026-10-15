@@ -1,5 +1,5 @@
 /*
- * function: func_021D4584
+ * function: GTSNEGO_DISP_ShowTradeConfirm
  * address: 0x021D4584
  * packet: pkt_ov120_021D4584
  * region: ov120
@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_021D880C 0x021D880C thumb ov120
- *   func_021D74B0 0x021D74B0 thumb ov120
- *   func_021D4244 0x021D4244 thumb ov120
- *   func_021D4544 0x021D4544 thumb ov120
+ *   GTSNEGO_MSG_PrintSummary 0x021D880C thumb ov120
+ *   GTSNEGO_MSG_SetIdleAnim 0x021D74B0 thumb ov120
+ *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
+ *   GTSNEGO_DISP_WaitTradeStart 0x021D4544 thumb ov120
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "../include/Obj04484.h"
@@ -24,11 +24,11 @@ struct Sub0200852CObj;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern void func_021D880C(char *p, void *q, u32 n);
-extern void func_021D74B0(u8 *p, int n);
-extern void func_021D4244(int *p, int v, int a2);
-extern void func_021D4544(int *a);
-void func_021D4584(u8 *p)
+extern void GTSNEGO_MSG_PrintSummary(char *p, void *q, u32 n);
+extern void GTSNEGO_MSG_SetIdleAnim(u8 *p, int n);
+extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
+extern void GTSNEGO_DISP_WaitTradeStart(int *a);
+void GTSNEGO_DISP_ShowTradeConfirm(u8 *p)
 {
     u8 *q = *(u8 * *)&((struct Obj06433 *)p)->f48;
     int value;
@@ -43,8 +43,8 @@ void func_021D4584(u8 *p)
         if (((struct Obj04484 *)q)->f1AC >= 100)
             ((struct Obj04484 *)q)->f1AC = 0;
     }
-    func_021D880C((char *)(((struct Obj06433 *)p)->f40), (void *)value, mode);
-    func_021D74B0((u8 *)(((struct Obj06433 *)p)->f3C), func_02008554((const struct Sub0200852CObj *)value));
+    GTSNEGO_MSG_PrintSummary((char *)(((struct Obj06433 *)p)->f40), (void *)value, mode);
+    GTSNEGO_MSG_SetIdleAnim((u8 *)(((struct Obj06433 *)p)->f3C), func_02008554((const struct Sub0200852CObj *)value));
     ((struct Obj06433 *)p)->f14 = 0xb4;
-    func_021D4244((int *)p, (int)func_021D4544, 0x265);
+    GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_WaitTradeStart, 0x265);
 }

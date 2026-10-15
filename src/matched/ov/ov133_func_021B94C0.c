@@ -12,8 +12,8 @@
  *   func_021BA258 0x021BA258 thumb ov133
  *   func_021BA218 0x021BA218 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
- *   func_021F5450 0x021F5450 thumb ov112
- *   func_021F4ED4 0x021F4ED4 thumb ov112
+ *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
+ *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  */
 #include "../include/Obj00004.h"
 #include "../include/Obj23319.h"
@@ -25,8 +25,8 @@ extern unsigned int func_021BA258(char *p);
 typedef unsigned int   u32;
 extern u32 func_021BA218(u8 *p);
 extern u32 func_021BA208(u8 *p);
-extern u8 *func_021F5450(u8 *, int);
-extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *, int);
+extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
 void func_021B94C0(u8 *p)
 {
     u8 i;
@@ -37,8 +37,8 @@ void func_021B94C0(u8 *p)
     e = func_021BA184(((struct Obj00004 *)p)->f1824);
     while (e) {
         index = func_021BA258((char *)e);
-        q = func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880, index);
-        func_021F4ED4((u32)(((struct Obj00004 *)p)->f1884), func_021BA218(e), ((struct Obj23320 *)q)->f36);
+        q = MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880, index);
+        MUSICAL_MCSS_SetElemField((u32)(((struct Obj00004 *)p)->f1884), func_021BA218(e), ((struct Obj23320 *)q)->f36);
         e = (u8 *)func_021BA208(e);
     }
 }

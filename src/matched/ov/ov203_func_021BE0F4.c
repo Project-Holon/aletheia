@@ -14,7 +14,7 @@
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
- *   func_021BDD40 0x021BDD40 thumb ov203
+ *   DEMO3D_SetupGx 0x021BDD40 thumb ov203
  *   d_021BFB48 0x021BFB48 data a4
  */
 typedef unsigned char u8;
@@ -26,11 +26,11 @@ extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize
                           u16 fifoSize, s16 heap, void (*setup)(void));
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void func_021BDD40(void);
+extern void DEMO3D_SetupGx(void);
 extern const struct LightSet d_021BFB48;
 void func_021BE0F4(char *p, u8 heap)
 {
-    G3D_SYSTEM_Init(0, 2, 0, 4, 0, heap, func_021BDD40);
+    G3D_SYSTEM_Init(0, 2, 0, 4, 0, heap, DEMO3D_SetupGx);
     *(struct LightSlot **)(p + 4) = G3D_LIGHT_CreateSlots(&d_021BFB48, heap);
     G3D_LIGHT_ApplySlots(*(struct LightSlot **)(p + 4));
 }

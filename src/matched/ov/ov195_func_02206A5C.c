@@ -1,5 +1,5 @@
 /*
- * function: func_02206A5C
+ * function: SHINKA_DEMO_VIEW_InitGrid
  * address:  0x02206A5C
  * packet:   pkt_ov195_02206A5C
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * 2026-10-05 (wave P2 lane Q1b, pengy share): EXACT* (974 B compiled, the
  * listing extent is 976 B with the trailing pad). Written bottom-up from the
- * matched twin func_02206E2C (same Grid/Ent, 18 x 18 entries of 0x80 bytes).
+ * matched twin SHINKA_DEMO_VIEW_SetupGridCells (same Grid/Ent, 18 x 18 entries of 0x80 bytes).
  * What closed the dx/dy/dz block: fx64 (long long) locals lx, ly, lz assigned
  * in the loop body (lz, then lx, then ly) and multiplied directly; LICM hoists
  * their sign words above the first _ll_mul and spills them, which gives the
@@ -21,7 +21,7 @@
  * inline FX_Mul with long long parameters (966 B, no change).
  *
  * symbols:
- *   func_02206E2C 0x02206E2C thumb ov195
+ *   SHINKA_DEMO_VIEW_SetupGridCells 0x02206E2C thumb ov195
  *   _fdiv 0x0209CE10 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -57,7 +57,7 @@ extern const SC FX_SinCosTable_[];
 extern int FX_Sqrt(int);
 struct Grid;
 extern u32 func_0207C768(u32 a, u32 b);
-extern void func_02206E2C(struct Grid *p, u16 heap);
+extern void SHINKA_DEMO_VIEW_SetupGridCells(struct Grid *p, u16 heap);
 
 typedef struct Vec3 {
     s32 x, y, z;
@@ -88,7 +88,7 @@ typedef struct Grid {
     u8 count;
 } Grid;
 
-void func_02206A5C(Grid *p, u16 heap)
+void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap)
 {
     u8 i;
     u8 q;
@@ -103,7 +103,7 @@ void func_02206A5C(Grid *p, u16 heap)
     Ent *row;
     long long lx, ly, lz;
 
-    func_02206E2C(p, heap);
+    SHINKA_DEMO_VIEW_SetupGridCells(p, heap);
     p->f28 = 0;
     for (i = 0; i < 16; i++)
         p->h2c[i] = 0x7FFF;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFF68
+ * function: ZKNSEARCH_MAIN_PollMenuInput
  * address:  0x021BFF68
  * packet:   pkt_ov210_021BFF68
  * region:   ov210
@@ -15,7 +15,7 @@
  *   func_020355D8 0x020355D8 arm
  *   func_020355C4 0x020355C4 arm
  *   CURSOR_MOVE_SetState 0x020260F4 thumb
- *   func_021C003C 0x021C003C thumb ov210
+ *   ZKNSEARCH_MAIN_MoveCursor 0x021C003C thumb ov210
  * Addresses are Black-image addresses.
  */
 
@@ -28,9 +28,9 @@ typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
 extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
-extern void func_021C003C(int p, unsigned b);
+extern void ZKNSEARCH_MAIN_MoveCursor(int p, unsigned b);
 
-u32 func_021BFF68(int p)
+u32 ZKNSEARCH_MAIN_PollMenuInput(int p)
 {
     int *q = (int *)p;
     int r = CURSOR_MOVE_PollRepeatInput((struct Sound *)q[0xac]);
@@ -55,7 +55,7 @@ u32 func_021BFF68(int p)
         if (func_020355C4() == 1)
             CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
-        func_021C003C(p, 5);
+        ZKNSEARCH_MAIN_MoveCursor(p, 5);
         return 5;
     }
     k = KEY_GetTrg();
@@ -63,7 +63,7 @@ u32 func_021BFF68(int p)
         if (func_020355C4() == 1)
             CURSOR_MOVE_SetState((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
-        func_021C003C(p, 6);
+        ZKNSEARCH_MAIN_MoveCursor(p, 6);
         return 6;
     }
     if (KEY_GetTrg() != 0 && func_020355C4() == 1) {

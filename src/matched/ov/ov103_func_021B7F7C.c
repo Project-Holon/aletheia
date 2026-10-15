@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
@@ -18,7 +18,7 @@
  */
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *, int, u32);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 struct GfFont;
 struct MsgBank;
 struct WordSet;
@@ -29,7 +29,7 @@ extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 void IRC_COMPATIBLE_TOUCH_TEST_InitText(u32 *p, int skip, u32 heap)
 {
     MI_CpuFill8(p, 0, 16);
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     if (skip == 0)
         p[0] = (u32)GF_FONT_Create(23, 0, 0, 0, heap);
     p[2] = PRINTSYS_QUE_Create((void *)heap);

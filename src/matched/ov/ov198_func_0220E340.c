@@ -1,5 +1,5 @@
 /*
- * function: func_0220E340
+ * function: B_PLIST_DRAW_RegisterRowCharacters
  * address:  0x0220E340
  * packet:   pkt_ov198_0220E340
  * region:   ov198
@@ -14,7 +14,7 @@
  *   `icons + i * 4` style). Either part alone stays at 9 bytes (named arr in both arms, or the integer
  *   address with one join store). EXACT in --lang c99 and --lang c.
  * symbols:
- *   func_0220E340  0x0220E340  thumb  ov198
+ *   B_PLIST_DRAW_RegisterRowCharacters  0x0220E340  thumb  ov198
  *   func_020490F4  0x020490F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
@@ -43,7 +43,7 @@ extern int func_0201BCEC(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_0220E340(u8 *p)
+void B_PLIST_DRAW_RegisterRowCharacters(u8 *p)
 {
     void *arc;
     u16 i;

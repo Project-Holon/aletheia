@@ -1,5 +1,5 @@
 /*
- * function: func_021D6CCC
+ * function: GTSNEGO_MSG_FillTileRow
  * address: 0x021D6CCC
  * packet: pkt_ov120_021D6CCC
  * region: ov120
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02042FB0(u32 idx, u32 x, u32 y, u16 value);
-void func_021D6CCC(u8 *p, int n)
+void GTSNEGO_MSG_FillTileRow(u8 *p, int n)
 {
     u8 *q = *(u8 * *)&((struct Obj08079 *)p)->f11C + 0xc;
     int base = (u16)((struct Obj08079 *)p)->f0;

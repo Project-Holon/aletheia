@@ -1,0 +1,383 @@
+/*
+ * file:     sta_act_button.c
+ * unit:     yes
+ * function: STA_ACT_BUTTON_Create, STA_ACT_BUTTON_Delete, STA_ACT_BUTTON_Update, STA_ACT_BUTTON_CreateActors, STA_ACT_BUTTON_LoadCharacter, STA_ACT_BUTTON_SetVisible
+ * address:  0x021FA5B0
+ * region:   ov132
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Cut from sta_acting.c, script_command.c by tools/splitfile.py.
+ *
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_020490F4 0x020490F4 arm
+ *   STA_ACT_BUTTON_Create 0x021FA5B0 thumb ov132
+ *   STA_ACT_BUTTON_Delete 0x021FA64C thumb ov132
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   func_020307B0 0x020307B0 arm
+ *   STA_ACT_BUTTON_Update 0x021FA6CC thumb ov132
+ *   STA_ACT_BUTTON_SetVisible  0x021FAAB8  thumb
+ *   d_021FDCD8 0x021FDCD8 data a4
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   d_021FDC20 0x021FDC20 data a1
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
+ *   func_0207D658 0x0207D658 arm
+ *   STA_ACTING_RequestAction 0x021F9730 thumb ov132
+ *   STA_ACTING_GetCurrentAction 0x021F9768 thumb ov132
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   func_020355D8 0x020355D8 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
+ *   STA_ACTING_GetActorCount 0x021F9E0C thumb ov132
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
+ *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   ARC_UTIL_LoadMember 0x0204A1BC arm
+ *   NNS_G3dGetTex 0x0206E964 arm
+ *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   func_0207E5D0 0x0207E5D0 arm
+ *   func_0207E804 0x0207E804 arm
+ */
+#include "ov132_types.h"
+#include "sta_acting_shared_types.h"
+#include "sta_act_effect_shared_types.h"
+
+extern void ARC_TOOL_DeleteHandle(void *);
+
+struct Bank;
+
+struct Actor;
+
+struct Vec2;
+
+typedef short s16_021FA6CC;
+
+typedef enum { FLAG_ZERO, FLAG_ONE } Flag;
+
+typedef struct {u8 bytes[12];} Key;
+
+typedef struct {s16_021FA6CC x,y;} Pos;
+
+typedef short s16_021FA7E0;
+
+typedef struct {s16_021FA7E0 x,y,index;u8 a,b;} Params;
+
+extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
+
+extern u32 func_020307B0(void *p);
+
+extern void CLACT_DeleteActor(struct Obj_021F9E40 *p);
+
+extern void CLACT_ReleasePalette(u32 i);
+
+extern void CLACT_ReleaseCharacter(u32 i);
+
+extern void CLACT_ReleaseCellAnim(u32 i);
+
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+
+extern int TOUCHPANEL_HitTrg(const void *);
+
+extern void func_0207D658(unsigned long,int,int);
+
+extern void STA_ACTING_RequestAction(char *p, int value);
+
+extern void CLACT_RestartActorAnim(struct Actor *a);
+
+extern void CLACT_SetActorDrawEnable(struct Obj_021F9E40 *,unsigned int);
+
+extern void CLACT_AddActorSurfacePos(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
+
+extern void func_020355D8(u8);
+
+extern int STA_ACTING_GetCurrentAction(char *p);
+
+extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
+
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+
+extern u32 STA_ACTING_GetActorCount(u8 *p);
+
+extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *,int);
+
+extern int MUSICAL_MCSS_NoOp6(int *);
+
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+
+extern void *func_020490F4(u32 id, u32 heap);
+
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+
+extern void CLACT_SetActorAutoAnim(struct Obj_021F9E40 *,u32);
+
+extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void *,u32,u32,u32,u16),CLACT_RegisterCellAnim(void *,u32,u32,u32),CLACT_RegisterPalette(void *,u32,u32,u32,u16);
+
+extern struct Obj_021F9E40 *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+
+extern int ARC_UTIL_LoadMember(int,int,int,int);
+
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+
+extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
+
+extern void DWCi_ScreenDC_FlushRange(void *,u32);
+
+extern void func_0207E5D0(const void *,u32,u32);
+
+extern void func_0207E804(const void *,void *,u32);
+
+char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b);
+
+void STA_ACT_BUTTON_Delete(char *p);
+
+void STA_ACT_BUTTON_Update(char *p);
+
+void STA_ACT_BUTTON_CreateActors(char *p);
+
+void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type);
+
+void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag);
+
+extern const char d_021FDCD8[];
+
+extern const Key d_021FDC20;
+
+static inline void inside(int wnd, int effect)
+{
+    unsigned tmp = (*(volatile u16 *)0x04001048 & ~63) | (unsigned)wnd;
+    if (effect) tmp |= 32;
+    *(volatile u16 *)0x04001048 = tmp;
+}
+
+static inline void outside(int wnd, int effect)
+{
+    unsigned tmp = (*(volatile u16 *)0x0400104a & ~63) | (unsigned)wnd;
+    if (effect) tmp |= 32;
+    *(volatile u16 *)0x0400104a = tmp;
+}
+
+/*
+ * volatile: hardware register reads and writes at 021FA5FA..021FA634.
+ */
+char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b)
+{
+    char *p = func_02030734(heap, 0x60, 0, d_021FDCD8, 87);
+    ((struct TaskObj *)p)->f0 = heap;
+    ((struct TaskObj *)p)->f4 = a;
+    *(char * *)&((struct TaskObj *)p)->f8 = b;
+    ((struct TaskObj *)p)->fC.s = 0;
+    ((struct TaskObj *)p)->f10 = 0;
+    ((struct TaskObj *)p)->f14 = 2;
+    ((struct TaskObj *)p)->f48 = ((struct ActingRecord *)b)->f3E;
+    ((struct TaskObj *)p)->f4A = ((struct ActingRecord *)(*(char * *)&((struct TaskObj *)p)->f8))->f44;
+    ((struct TaskObj *)p)->f40 = 0;
+    ((struct TaskObj *)p)->f44 = 0;
+    STA_ACT_BUTTON_CreateActors(p);
+    *(volatile unsigned *)0x04001000 = (*(volatile unsigned *)0x04001000 & ~0xe000) | 0x2000;
+    inside(31, 1);
+    outside(31, 0);
+    *(volatile u16 *)0x04001040 = 255;
+    *(volatile u16 *)0x04001044 = 0x80c0;
+    return p;
+}
+
+/*
+ * volatile: hardware control read at 021FA652 and store 021FA658.
+ */
+void STA_ACT_BUTTON_Delete(char *p)
+{
+    *(volatile unsigned *)0x04001000 &= ~0xe000;
+    if (((struct TaskObj *)p)->f48 != 255) CLACT_DeleteActor(((struct TaskObj *)p)->f4C);
+    if (((struct TaskObj *)p)->f4A != 255) CLACT_DeleteActor(((struct TaskObj *)p)->f50);
+    CLACT_DeleteActor(((struct TaskObj *)p)->f5C);
+    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->f1C.p));
+    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->f28.p));
+    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->f34.p));
+    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->f20.p));
+    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->f2C.p));
+    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->f38.p));
+    CLACT_ReleasePalette((u32)(((struct TaskObj *)p)->f24.p));
+    CLACT_ReleaseCharacter((u32)(((struct TaskObj *)p)->f30.p));
+    CLACT_ReleaseCellAnim((u32)(((struct TaskObj *)p)->f3C.p));
+    CLACT_DeleteUnit(((struct TaskObj *)p)->f18);
+    func_020307B0(p);
+}
+
+/*
+ * checks: 1 fresh 9730/9768 show and 25EA4/23F60/B3DC/B9A0/B98C bodies confirm arities; 2 fresh A5B0/A64C/A7E0 no full twin; 3 u8/const-char pointer unchanged; 4 struct-field, chained-assignment and enum-zero idioms; 5 fresh directory/neighbours.
+ * spelling: enum-typed one/zero locals retain separate constant webs; literals and enum-typed stores alone left six differing bytes. Prior permuter300 was not repeated.
+ */
+void STA_ACT_BUTTON_Update(char *p)
+{
+    Key key;
+    Pos pos;
+    int hit;
+    Flag one,zero;
+    if(((struct TaskObj *)p)->fC.s==1) {
+        key=d_021FDC20;
+        hit=TOUCHPANEL_HitTrg(&key);
+        func_0207D658(0x04001050,16,0);
+        if(hit!=-1 && *(u16 *)(p+0x48+hit*2)!=255 && *(int *)(p+0x40+hit*4)==0) {
+            if(hit==0) STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,7);
+            else STA_ACTING_RequestAction(((struct TaskObj *)p)->f4,8);
+            func_0207D658(0x04001050,16,-8);
+            one=FLAG_ONE;
+            zero=FLAG_ZERO;
+            *(u32 *)(p+0x40+hit*4)=one;
+            *(u32 *)&((struct TaskObj *)p)->f10=one;
+            *(u32 *)&((struct TaskObj *)p)->fC=zero;
+            ((struct TaskObj *)p)->f14=hit;
+            pos.x=hit==0?32:224;
+            pos.y=128;
+            CLACT_RestartActorAnim(((struct TaskObj *)p)->f5C);
+            CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,1);
+            CLACT_AddActorSurfacePos(((struct TaskObj *)p)->f5C,(const struct Vec2 *)(&pos),1);
+            func_020355D8(1);
+        }
+    }
+    if(((struct TaskObj *)p)->f14!=2) {
+        if(STA_ACTING_GetCurrentAction(((struct TaskObj *)p)->f4)==0) {
+            if(((struct TaskObj *)p)->f10==0) {
+                ((struct TaskObj *)p)->fC.s=1;
+                CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct TaskObj *)p)->f14*4),0);
+                CLACT_SetActorDrawEnable(*(void **)(p+0x54+((struct TaskObj *)p)->f14*4),0);
+                ((struct TaskObj *)p)->f14=2;
+            }
+        } else {
+            if(((struct TaskObj *)p)->f10==1) ((struct TaskObj *)p)->f10=0;
+        }
+    }
+    if(CLACT_GetActorDrawEnable(((struct TaskObj *)p)->f5C)==1) {
+        if(CLACT_IsActorAnimActive(((struct TaskObj *)p)->f5C)==0) CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,0);
+    }
+}
+
+/*
+ * extent: 021FA99A zero halfword is alignment padding before labelled 021FA99C.
+ * ABI: B294 forwards an address-valued u32 payload and returns the actor in r0; ABF0 tail-forwards AC18's index despite void declaration.
+ */
+void STA_ACT_BUTTON_CreateActors(char *p)
+{
+    Params configs[2];
+    u8 *table;
+    void *narc;
+    u8 i=0;
+    int format;
+    table=(u8 *)STA_ACTING_GetActorCount((u8 *)(*(char * *)&((struct TaskObj *)p)->f4));
+    ((struct TaskObj *)p)->f18=CLACT_CreateUnit(5,0,((struct TaskObj *)p)->f0);
+    CLACT_SetUnitDefaultRenderer(((struct TaskObj *)p)->f18);
+    narc=func_020490F4(47,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f1C=CLACT_RegisterPaletteEx(narc,0,1,0,0,2,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f28=CLACT_RegisterCharacter(narc,6,0,1,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f34=CLACT_RegisterCellAnim(narc,18,21,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f20=CLACT_RegisterPaletteEx(narc,1,1,64,0,1,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f2C=CLACT_RegisterCharacter(narc,7,0,1,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f38=CLACT_RegisterCellAnim(narc,19,22,((struct TaskObj *)p)->f0);
+    ARC_TOOL_DeleteHandle(narc);
+    narc=func_020490F4(46,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f24=CLACT_RegisterPalette(narc,0,1,96,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f30=CLACT_RegisterCharacter(narc,26,0,1,((struct TaskObj *)p)->f0);
+    *(int *)&((struct TaskObj *)p)->f3C=CLACT_RegisterCellAnim(narc,18,22,((struct TaskObj *)p)->f0);
+    ARC_TOOL_DeleteHandle(narc);
+    for(i=0;i<2;i++) {
+        if(*(u16 *)(p+i*2+0x48)!=255) {
+            format=MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table,*(u16 *)(p+i*2+0x48)));
+            if(i==0) configs[1].x=32;
+            else configs[1].x=224;
+            configs[1].y=160;
+            configs[1].index=i;
+            configs[1].a=10;
+            configs[1].b=0;
+            *(void **)(p+i*4+0x4c)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f28.u,((struct TaskObj *)p)->f1C.u,((struct TaskObj *)p)->f34.u,&configs[1],1,((struct TaskObj *)p)->f0);
+            configs[1].index=0;
+            *(void **)(p+i*4+0x54)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f2C.u,((struct TaskObj *)p)->f20.u,((struct TaskObj *)p)->f38.u,&configs[1],1,((struct TaskObj *)p)->f0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x4c),0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x54),0);
+            STA_ACT_BUTTON_LoadCharacter((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
+        }
+    }
+    configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
+    ((struct TaskObj *)p)->f5C=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f30.u,((struct TaskObj *)p)->f24.u,((struct TaskObj *)p)->f3C.u,&configs[0],1,((struct TaskObj *)p)->f0);
+    CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,0);
+    CLACT_SetActorAutoAnim(((struct TaskObj *)p)->f5C,1);
+}
+
+/*
+ * note 2026-10-05: copies a tile sheet into VRAM in 4-byte pieces (block x line x column).
+ * CLACT_GetCharacterVramAddress returns a pointer (the matched ov119 021E6E7C and ov131 021DBCF4 use it so),
+ * which removed the old prototype blocker. Levers: locals declared in the order of the
+ * frame slots (dst, block, height, line, y, x, src), u16 slot (puts its entry spill first),
+ * u8 height, case 50 reads x = y, and y = 0 written after the blob call (literal 0 in it).
+ */
+void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
+{
+    int blob;
+    u32 charSize,palSize;
+    u8 *dst;
+    u8 block;
+    u8 height;
+    u8 line;
+    u32 y;
+    u32 x;
+    u8 *src;
+    u8 *tex;
+    u32 palOffset;
+    u8 col;
+    blob=ARC_UTIL_LoadMember(45,resource,0,*(u16 *)p);
+    y=0;
+    tex=NNS_G3dGetTex((unsigned char *)blob);
+    src=tex+*(u32 *)(tex+20);
+    charSize=*(u16 *)(tex+12)*8;
+    palOffset=*(u32 *)(tex+0x38);
+    palSize=*(u16 *)(tex+0x30)*8;
+    dst=(u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(p+0x28),1);
+    dst+=(slot<<11);
+    DWCi_ScreenDC_FlushRange(tex+palOffset,palSize);
+    func_0207E5D0(tex+palOffset,slot*32,palSize);
+    DWCi_ScreenDC_FlushRange(src,charSize);
+    switch(type) {
+    case 34: x=2; y=2; type=4; height=4; break;
+    case 35: x=2; type=4; height=8; break;
+    case 50: x=y; y=2; type=8; height=4; break;
+    default: x=2; y=2; type=4; height=4; break;
+    }
+    for(block=0;block<height;block++) {
+        for(line=0;line<8;line++) {
+            for(col=0;col<type;col++) {
+                func_0207E804(src+(col*4+(block*32*type+line*type*4)),dst+(line*4+((col+x)*32+((block+y)*256))),4);
+            }
+        }
+    }
+    func_020307B0((void *)blob);
+}
+
+void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag)
+{
+    if (((struct TaskObj *)p)->f48 != 255) {
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f4C, flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f54, flag);
+    }
+    if (((struct TaskObj *)p)->f4A != 255) {
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f50, flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f58, flag);
+    }
+    ((struct TaskObj *)p)->fC.u = flag;
+}

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020629E8  0x020629E8  arm
+ *   NNS_G2dGetMultiCellDataByIdx  0x020629E8  arm
  *
  * Returns the largest per-multi-cell "cell animation slot count" (the u16 at
  * +0x02 of the 8-byte multi-cell descriptor) across a whole multi-cell bank.
@@ -37,7 +37,7 @@ struct MultiCellBank {
     u16 numMultiCell;
 };
 
-extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
+extern struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx);
 
 u16 NNS_G2dGetMCBankNumCellAnimRequired(struct MultiCellBank *bank)
 {
@@ -45,7 +45,7 @@ u16 NNS_G2dGetMCBankNumCellAnimRequired(struct MultiCellBank *bank)
     u16 i = 0;
 
     for (i = 0; i < bank->numMultiCell; i++) {
-        u16 n = func_020629E8(bank, i)->numCellAnims;
+        u16 n = NNS_G2dGetMultiCellDataByIdx(bank, i)->numCellAnims;
 
         if (n > max) {
             max = n;

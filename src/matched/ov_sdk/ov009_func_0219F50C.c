@@ -14,7 +14,7 @@
  * symbols:
  *   strlen  0x0209477C  arm
  *   strcmp  0x020948E0  arm
- *   func_021843C8  0x021843C8  arm  ov009
+ *   ArraySort  0x021843C8  arm  ov009
  *   IntKeyCompare  0x0219F288  arm  ov009
  *   FloatKeyCompare  0x0219F2F8  arm  ov009
  *   StrCaseKeyCompare  0x0219F40C  arm  ov009
@@ -41,7 +41,7 @@ typedef struct {
 
 extern unsigned long strlen(const char *s);
 extern int strcmp(const char *a, const char *b);
-extern void func_021843C8(int *p, int b);
+extern void ArraySort(int *p, int b);
 extern int IntKeyCompare(void *entry1, void *entry2);
 extern int FloatKeyCompare(void *entry1, void *entry2);
 extern int StrCaseKeyCompare(void *entry1, void *entry2);
@@ -77,5 +77,5 @@ void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
     slist->currsortinfo = sortinfo;
     slist->sortascending = ascending;
     gSBSortContext.slist = slist;
-    func_021843C8(slist->servers, (int)comparator);
+    ArraySort(slist->servers, (int)comparator);
 }

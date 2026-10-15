@@ -13,17 +13,17 @@
  * symbols:
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_0201D5C4 0x0201D5C4 thumb
+ *   GF_FONT_GetTagChar 0x0201D5C4 thumb
  *   GF_FONT_CheckD5CC 0x0201D5CC thumb
- *   func_0201D670 0x0201D670 thumb
- *   func_0201D5F4 0x0201D5F4 thumb
- *   func_0201D658 0x0201D658 thumb
- *   func_0201D688 0x0201D688 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EF8C 0x0201EF8C thumb
- *   func_0201EF34 0x0201EF34 thumb
+ *   GF_FONT_GetTagParam 0x0201D670 thumb
+ *   GF_FONT_GetTagGroup 0x0201D5F4 thumb
+ *   GF_FONT_GetTagKind 0x0201D658 thumb
+ *   GF_FONT_SkipTag 0x0201D688 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   func_0201F020 0x0201F020 thumb
+ *   WORDSET_SetSlotFromMsgC7 0x0201F020 thumb
  *   BTL_MSG_SetPokeName 0x021EED00 thumb ov093
  *   BTL_MSG_SetPokeSpecies 0x021EED24 thumb ov093
  *   BTL_MSG_SetPokeNickname 0x021EED48 thumb ov093
@@ -42,17 +42,17 @@ extern u16 STRBUF_GetEosChar(void);
 struct U16Vec;
 struct WordSet;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u32 func_0201D5C4(void);
+extern u32 GF_FONT_GetTagChar(void);
 extern u32 GF_FONT_CheckD5CC(const u16 *p);
-extern u32 func_0201D670(const u16 *p, u32 i);
-extern u32 func_0201D5F4(const u16 *p);
-extern u32 func_0201D658(const u16 *p);
-extern u16 *func_0201D688(u16 *p);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern u32 GF_FONT_GetTagParam(const u16 *p, u32 i);
+extern u32 GF_FONT_GetTagGroup(const u16 *p);
+extern u32 GF_FONT_GetTagKind(const u16 *p);
+extern u16 *GF_FONT_SkipTag(u16 *p);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F020(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgC7(struct WordSet *p, u32 i, u32 v);
 extern void BTL_MSG_SetPokeName(u8 a, u32 b);
 extern void BTL_MSG_SetPokeSpecies(u8 a, u32 b);
 extern void BTL_MSG_SetPokeNickname(u8 a, u8 b);
@@ -71,20 +71,20 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
     u8 group;
     u8 kind;
     end = STRBUF_GetEosChar();
-    tag = func_0201D5C4();
+    tag = GF_FONT_GetTagChar();
     for (i = 0; i < 8; i++)
         removed[i] = 0;
     p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
             if (GF_FONT_CheckD5CC(p)) {
-                slot = func_0201D670(p, 0);
-                if ((u8)func_0201D5F4(p) == 1 && func_0201D658(p) == 14) {
+                slot = GF_FONT_GetTagParam(p, 0);
+                if ((u8)GF_FONT_GetTagGroup(p) == 1 && GF_FONT_GetTagKind(p) == 14) {
                     for (i = slot + 1; i < 8; i++)
                         removed[i]++;
                 }
             }
-            p = func_0201D688(p);
+            p = GF_FONT_SkipTag(p);
         } else
             p++;
     }
@@ -92,16 +92,16 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
     while (*p != end) {
         if (*p == tag) {
             if (GF_FONT_CheckD5CC(p)) {
-                slot = func_0201D670(p, 0);
+                slot = GF_FONT_GetTagParam(p, 0);
                 index = slot;
-                group = func_0201D5F4(p);
+                group = GF_FONT_GetTagGroup(p);
                 if (slot >= removed[slot])
                     index = slot - removed[slot];
                 if (group == 2) {
-                    kind = func_0201D658(p) + 1;
-                    func_0201EFA4(w, slot, values[index], kind, 0, 1);
+                    kind = GF_FONT_GetTagKind(p) + 1;
+                    WORDSET_SetSlotNumber(w, slot, values[index], kind, 0, 1);
                 } else {
-                    switch (func_0201D658(p)) {
+                    switch (GF_FONT_GetTagKind(p)) {
                     case 14:
                         BTL_MSG_SetClientValue(w, slot, values[index]);
                         break;
@@ -121,24 +121,24 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
                         BTL_MSG_SetPokeNickname(values[index], slot);
                         break;
                     case 3:
-                        func_0201F020(w, slot, values[index]);
+                        WORDSET_SetSlotFromMsgC7(w, slot, values[index]);
                         break;
                     case 6:
-                        func_0201EF8C(w, slot, values[index]);
+                        WORDSET_SetSlotFromMsgB6(w, slot, values[index]);
                         break;
                     case 7:
-                        func_0201EF34(w, slot, values[index]);
+                        WORDSET_SetSlotFromMsgCB(w, slot, values[index]);
                         break;
                     case 9:
                         WORDSET_Callback_EF40(w, slot, values[index]);
                         break;
                     case 15:
-                        func_0201F020(w, slot, values[index]);
+                        WORDSET_SetSlotFromMsgC7(w, slot, values[index]);
                         break;
                     }
                 }
             }
-            p = func_0201D688(p);
+            p = GF_FONT_SkipTag(p);
         } else
             p++;
     }

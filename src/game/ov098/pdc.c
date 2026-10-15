@@ -21,7 +21,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   PDC_MAIN_Create 0x021B61E8 thumb ov098
  *   PDC_MAIN_Update 0x021B6308 thumb ov098
@@ -35,7 +35,7 @@ extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MIi_CpuClearFast(int value, void *dst, u32 size);
 extern void func_020315D4(struct Proc *proc);
-extern void func_020306F0(unsigned int heapId);
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern void func_02034A5C(int overlayId);
 
 extern struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId);
@@ -126,7 +126,7 @@ int PDC_ProcExit(struct Proc *proc, int seq, int unused, struct PdcProc *work)
 {
     PDC_MAIN_Delete(work->sys);
     func_020315D4(proc);
-    func_020306F0(0x85);
+    GFL_HEAP_DeleteChecked(0x85);
     func_02034A5C((int)ov094_id);
     return 1;
 }

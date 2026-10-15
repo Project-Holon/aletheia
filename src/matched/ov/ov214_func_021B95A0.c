@@ -32,8 +32,8 @@
  * func_021BA074 0x021BA074 thumb ov214
  * func_021BA2F4 0x021BA2F4 thumb ov214
  * func_021BA3C4 0x021BA3C4 thumb ov214
- * func_0204047C 0x0204047C arm
- * func_02040EBC 0x02040EBC arm
+ * BG_SYS_SetVisibleLayer 0x0204047C arm
+ * BG_SYS_LoadPlttEntry 0x02040EBC arm
  * FADE_Start 0x0204E720 arm
  * func_021B9EB8 0x021B9EB8 thumb ov214
  * func_021B9EF0 0x021B9EF0 thumb ov214
@@ -58,8 +58,8 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,u32,u32);
 struct C;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_02040EBC(u32,u32);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern char *BTL_REC_SEL_GRAPHIC_Create(u32,u32);
 struct BigObj;
@@ -110,9 +110,9 @@ int func_021B95A0(void *manager,char *state,char * const obj)
     *(void* *)&((struct Obj00182 *)p)->f58=func_02045B38(0,2,19,((struct Obj00182 *)p)->f0);
     func_021BABF4((int)obj,p);func_021BAD08(obj,p);func_021BAD14((void **)obj,p);
     func_021B9F24(obj,(struct C *)p);func_021BA074((int)obj,p);func_021BA2F4((int)obj,p);func_021BA3C4((int)obj,p);
-    func_0204047C(2,2);k=K;func_0204047C(k,1);func_0204047C(1,0);
+    BG_SYS_SetVisibleLayer(2,2);k=K;BG_SYS_SetVisibleLayer(k,1);BG_SYS_SetVisibleLayer(1,0);
     func_02040588(2,1);func_02040588(3,1);func_02040588(1,1);
-    func_02040EBC(0,0);func_02040EBC(4,0);FADE_Start(3,16,16,0);
+    BG_SYS_LoadPlttEntry(0,0);BG_SYS_LoadPlttEntry(4,0);FADE_Start(3,16,16,0);
     if(((struct Obj00182 *)p)->f50){
         if(((struct Obj06705 *)obj)->fC){
           if(((struct Obj06705 *)obj)->f4){

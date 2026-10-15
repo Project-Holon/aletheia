@@ -40,7 +40,7 @@
  *   BMP_WIN_GetPosY  0x02045760  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_WIN_GetHeight  0x02045740  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_02030734  0x02030734  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
  *   func_020307B0   0x020307B0  arm arm9
@@ -49,7 +49,7 @@
  *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
  *   gBtlAdapterSlots  0x021F6388  data  a4
  *   gBtlAdapterMode  0x021F6384  data  a4
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
  *   BTL_NET_ExpectReplies   0x021D4C58  thumb
  *   BTL_NET_SendServerCmd  0x021D4B58  thumb  ov093
@@ -70,9 +70,9 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
- *   func_0201EEF4  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
- *   func_0201EE84  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonName  0x0201EE84  thumb
  *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
  *   WORDSET_Set  0x0201F0F8  thumb
  *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
@@ -82,29 +82,29 @@
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
  *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F134  0x0201F134  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb
  *   d_021F63C8     0x021F63C8  data  a4
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   sBtlMsgSidePairIds     0x021F39A0  data  a2
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_0201D5C4  0x0201D5C4  thumb
+ *   GF_FONT_GetTagChar  0x0201D5C4  thumb
  *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
- *   func_0201D670  0x0201D670  thumb
- *   func_0201D5F4  0x0201D5F4  thumb
- *   func_0201D658  0x0201D658  thumb
- *   func_0201D688  0x0201D688  thumb
+ *   GF_FONT_GetTagParam  0x0201D670  thumb
+ *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
+ *   GF_FONT_GetTagKind  0x0201D658  thumb
+ *   GF_FONT_SkipTag  0x0201D688  thumb
  *   STRBUF_GetChars  0x02045A90  arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EF8C 0x0201EF8C thumb
- *   func_0201EF34 0x0201EF34 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   func_0201F020 0x0201F020 thumb
+ *   WORDSET_SetSlotFromMsgC7 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093

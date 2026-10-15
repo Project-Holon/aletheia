@@ -19,7 +19,7 @@
  *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
  *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  */
 typedef unsigned int u32;
@@ -33,7 +33,7 @@ extern void BTLV_EFFECT_PauseVm(void);
 extern void BTLV_EFFECT_StartEffect(u32);
 extern int BTLV_EFFECT_IsBusy(void);
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 #define WORD(k) (*(int *)(gBtlvEff + (k)))
 
 void BTLV_EFFECT_UpdateIntroInput(void)
@@ -61,13 +61,13 @@ void BTLV_EFFECT_UpdateIntroInput(void)
         if (BTLV_EFFECT_IsBusy() == 0) {
             if (WORD(0x238) == 3 && BTL_MAIN_CheckSetupStatusFlag(*(void **)(gBtlvEff + 0x1e4), 0x400)) {
                 do {
-                    n = (u32)(((u64)func_0203F0A8() * 2) >> 32);
+                    n = (u32)(((u64)GF_STANDARD_Rand() * 2) >> 32);
                 } while (WORD(0x248) == n);
                 WORD(0x248) = n;
                 value = gBtlvIntroPickTableA[WORD(0x248)];
             } else {
                 do {
-                    n = (u32)(((u64)func_0203F0A8() * 6) >> 32);
+                    n = (u32)(((u64)GF_STANDARD_Rand() * 6) >> 32);
                 } while (WORD(0x248) == n);
                 WORD(0x248) = n;
                 value = gBtlvIntroPickTableB[WORD(0x248)];

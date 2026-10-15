@@ -1,7 +1,7 @@
 /*
  * file:     socl_close.c
  * unit:     yes
- * function: func_0215E794, func_0215E7C8, func_0215E84C, func_0215E980, func_0215EA1C, func_0215EB14, func_0215EBB4
+ * function: SOCL_IsClosed, func_0215E7C8, SOCL_Close, SOCLi_CloseCallBack, SOCLi_CleanupSocket, SOCLi_FreeCommandPipe, SOCLi_TrashSocket
  * address:  0x0215E794
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
- *   func_0215F404  0x0215F404  arm  ov009
+ *   SOCL_SocketIsInTrash  0x0215F404  arm  ov009
  *   OS_DisableInterrupts   0x02087988 arm
  *   SOCL_SocketIsInTrash   0x0215f404 arm
  *   OS_RestoreInterrupts   0x0208799c arm
@@ -28,11 +28,11 @@
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   CPS_SocRelease  0x0215AB5C  arm  ov009
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
- *   func_0215F31C  0x0215F31C  arm  ov009
- *   func_0215F304  0x0215F304  arm  ov009
- *   func_0215EB14  0x0215EB14  arm  ov009
+ *   SOCLi_SocketUnregister  0x0215F31C  arm  ov009
+ *   SOCLi_SocketRegisterTrash  0x0215F304  arm  ov009
+ *   SOCLi_FreeCommandPipe  0x0215EB14  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
- *   func_0215F3B8  0x0215F3B8  arm  ov009
+ *   SOCLi_SocketUnregisterTrash  0x0215F3B8  arm  ov009
  *   gSoclConfig     0x021A1CD8  data
  *   OS_DisableScheduler  0x02085B30  arm
  *   func_02085E50  0x02085E50  arm
@@ -40,12 +40,12 @@
  *   SOCLi_FreeCommandPacket  0x0215CE7C  arm  ov009
  *   OS_EnableScheduler  0x02085B60  arm
  *   OS_RescheduleThread  0x020858BC  arm
- *   func_0215EA1C  0x0215EA1C  arm  ov009
+ *   SOCLi_CleanupSocket  0x0215EA1C  arm  ov009
  *   g_021AA4B8  0x021AA4B8  data
  */
 
-#include "../../matched/include/G_SOCLResource.h"
-#include "../../matched/include/G_021A1CD8.h"
+#include "ov009_globals.h"
+#include "socl_command_types.h"
 
 typedef struct UdpData UdpData;
 struct UdpData {
@@ -86,9 +86,8 @@ typedef struct {
 } Cmd;
 
 extern int func_0215F3D0(void *s);
-extern int func_0215F404(int b);
+extern int SOCL_SocketIsInTrash(int b);
 extern unsigned long OS_DisableInterrupts(void);
-extern int SOCL_SocketIsInTrash(Socket * socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int SOCL_SocketIsInvalid(Socket * socket);
 extern int SOCLi_SendCommandPacket(int a0, char *a1);
@@ -99,43 +98,43 @@ extern void CPS_TcpShutdown(void);
 extern void CPS_TcpClose(void);
 extern void CPS_SocRelease(void);
 extern void CPS_SocUnRegister(void);
-extern void func_0215F31C(int a);
-extern void func_0215F304(int a);
-/* * sdk: SOCL_IsClosed (libsoc.TWL.HYB.a(socl_close.o)) */ int func_0215E794(int s);
+extern void SOCLi_SocketUnregister(int a);
+extern void SOCLi_SocketRegisterTrash(int a);
+/* * sdk: SOCL_IsClosed (libsoc.TWL.HYB.a(socl_close.o)) */ int SOCL_IsClosed(int s);
 int SOCL_IsReleased(int s);
-/* * sdk: SOCL_Close (libsoc.TWL.HYB.a(socl_close.o)) */ int func_0215E84C(int s);
-int func_0215E980(void *arg);
-extern struct SOCLResource g_021AA4AC;
-extern struct G_021A1CD8 *gSoclConfig;
+/* * sdk: SOCL_Close (libsoc.TWL.HYB.a(socl_close.o)) */ int SOCL_Close(int s);
+int SOCLi_CloseCallBack(void *arg);
+extern SoclResource g_021AA4AC;
+extern SoclConfig *gSoclConfig;
 extern Socket *g_021AA4B8;
 typedef struct {
 	unsigned long pad0[2];
 	void *reply;
 } Command;
-extern void func_0215EB14(unsigned char *pipe);
+extern void SOCLi_FreeCommandPipe(unsigned char *pipe);
 extern void OS_WakeupThread(void *queue);
-extern void func_0215F3B8(int a);
+extern void SOCLi_SocketUnregisterTrash(int a);
 extern unsigned long OS_DisableScheduler(void);
 extern int func_02085E50(void *mq, void **msg, long flags);
 extern int func_02085DBC(void *mq, void *msg, long flags);
 extern void SOCLi_FreeCommandPacket(void *ptr);
 extern unsigned long OS_EnableScheduler(void);
 extern void OS_RescheduleThread(void);
-void func_0215EA1C(Socket *socket);
-void func_0215EBB4(void);
+void SOCLi_CleanupSocket(Socket *socket);
+void SOCLi_TrashSocket(void);
 
 
 
 /*
  * sdk:      SOCL_IsClosed (libsoc.TWL.HYB.a(socl_close.o))
  */
-int func_0215E794(int s)
+int SOCL_IsClosed(int s)
 {
 	void *socket;
 
 	if (s >= 0) {
 		socket = (void *)s;
-		if (func_0215F3D0(socket) != 0 && func_0215F404((int)socket) == 0)
+		if (func_0215F3D0(socket) != 0 && SOCL_SocketIsInTrash((int)socket) == 0)
 			return 1;
 	}
 	return 0;
@@ -152,7 +151,7 @@ int SOCL_IsReleased(int s)
         return 0;
     enable = OS_DisableInterrupts();
     socket = (Socket *)s;
-    if (SOCL_SocketIsInTrash(socket)) {
+    if (SOCL_SocketIsInTrash((int)socket)) {
         OS_RestoreInterrupts(enable);
         return 0;
     }
@@ -173,7 +172,7 @@ int SOCL_IsReleased(int s)
 /*
  * sdk:      SOCL_Close (libsoc.TWL.HYB.a(socl_close.o))
  */
-int func_0215E84C(int s)
+int SOCL_Close(int s)
 {
 	Socket *socket = (Socket *)s;
 	struct SOCLCommand *command;
@@ -183,7 +182,7 @@ int func_0215E84C(int s)
 	if (s <= 0)
 		return -0x1c;
 	enable = OS_DisableInterrupts();
-	if (func_0215F404((int)socket) != 0) {
+	if (SOCL_SocketIsInTrash((int)socket) != 0) {
 		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
@@ -213,13 +212,13 @@ int func_0215E84C(int s)
 		if (socket->flag_mode != 0 && socket->flag_mode != 4)
 			mode = 0;
 		if (mode == 0) {
-			g_021AA4AC.b--;
+			g_021AA4AC.datagramCount--;
 		} else {
 			SOCLi_SendCommandPacket((int)socket->send_pipe, 0);
-			g_021AA4AC.a--;
+			g_021AA4AC.streamCount--;
 		}
 	}
-	command = func_0215CE3C(func_0215E980, socket, 1);
+	command = func_0215CE3C(SOCLi_CloseCallBack, socket, 1);
 	command->field8 = result;
 	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
 	return result;
@@ -239,7 +238,7 @@ static inline int IsStream(Socket *socket)
 /*
  * sdk:      SOCLi_CloseCallBack (libsoc.TWL.HYB.a(socl_close.o))
  */
-int func_0215E980(void *arg)
+int SOCLi_CloseCallBack(void *arg)
 {
 	unsigned long enable;
 	Socket *socket;
@@ -255,8 +254,8 @@ int func_0215E980(void *arg)
 	socket->state &= ~6;
 	SOCLi_SendCommandPacket((int)(socket->flag_mode == 2 ? socket->send_pipe : (unsigned char *)socket->recv_pipe), 0);
 	enable = OS_DisableInterrupts();
-	func_0215F31C((int)socket);
-	func_0215F304((int)socket);
+	SOCLi_SocketUnregister((int)socket);
+	SOCLi_SocketRegisterTrash((int)socket);
 	OS_RestoreInterrupts(enable);
 	socket->state |= 0x20;
 	return 0;
@@ -266,7 +265,7 @@ int func_0215E980(void *arg)
 /*
  * sdk:      SOCLi_CleanupSocket (libsoc.TWL.HYB.a(socl_close.o))
  */
-void func_0215EA1C(Socket *socket)
+void SOCLi_CleanupSocket(Socket *socket)
 {
 	UdpData *udpdata_next;
 	UdpData *udpdata;
@@ -277,8 +276,8 @@ void func_0215EA1C(Socket *socket)
 	}
 	socket->state = 0;
 	if (IsStream(socket)) {
-		func_0215EB14(socket->send_pipe);
-		func_0215EB14((unsigned char *)socket->recv_pipe);
+		SOCLi_FreeCommandPipe(socket->send_pipe);
+		SOCLi_FreeCommandPipe((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 1) {
 		udpdata = socket->recv_pipe->udpdata.head;
 		while (udpdata) {
@@ -290,13 +289,13 @@ void func_0215EA1C(Socket *socket)
 		socket->recv_pipe->udpdata.a = 0;
 		socket->recv_pipe->udpdata.head = 0;
 		OS_WakeupThread(socket->recv_pipe->udpdata.queue);
-		func_0215EB14((unsigned char *)socket->recv_pipe);
+		SOCLi_FreeCommandPipe((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 2) {
-		func_0215EB14(socket->send_pipe);
+		SOCLi_FreeCommandPipe(socket->send_pipe);
 	}
 	enable = OS_DisableInterrupts();
-	func_0215F31C((int)socket);
-	func_0215F3B8((int)socket);
+	SOCLi_SocketUnregister((int)socket);
+	SOCLi_SocketUnregisterTrash((int)socket);
 	gSoclConfig->free(socket);
 	OS_RestoreInterrupts(enable);
 }
@@ -305,7 +304,7 @@ void func_0215EA1C(Socket *socket)
 /*
  * sdk:      SOCLi_FreeCommandPipe (libsoc.TWL.HYB.a(socl_close.o))
  */
-void func_0215EB14(unsigned char *pipe)
+void SOCLi_FreeCommandPipe(unsigned char *pipe)
 {
 	unsigned long enable;
 	Command *command;
@@ -333,12 +332,12 @@ void func_0215EB14(unsigned char *pipe)
 /*
  * sdk:      SOCLi_TrashSocket (libsoc.TWL.HYB.a(socl_close.o))
  */
-void func_0215EBB4(void)
+void SOCLi_TrashSocket(void)
 {
 	unsigned long enable;
 
 	enable = OS_DisableInterrupts();
 	while (g_021AA4B8 != 0)
-		func_0215EA1C(g_021AA4B8);
+		SOCLi_CleanupSocket(g_021AA4B8);
 	OS_RestoreInterrupts(enable);
 }

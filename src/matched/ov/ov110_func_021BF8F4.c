@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_InitRun 0x02040B94 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
@@ -36,7 +36,7 @@ extern void PMSIV_WORDWIN_CreateActors(u8 *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 void PMSIV_WORDWIN_Setup(u8 *p) {
     BG_SYS_InitRun(2,32,0,42);
-    func_02041300(2,0,0,0,32,32,13);
+    BG_SYS_SetTileEntry(2,0,0,0,32,32,13);
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01145 *)p)->fC),0);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj01145 *)p)->fC));
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01145 *)p)->fC);

@@ -15,7 +15,7 @@
  * symbols:
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PMS_DRAW_IsActive  0x0202DCC4  thumb
  *   PMS_DRAW_Clear  0x0202DC9C  thumb
@@ -68,7 +68,7 @@ struct Strbuf;
 struct U16Vec;
 extern u32 BG_SYS_GetBuf(int channel);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *p, u32 i);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
@@ -104,7 +104,7 @@ void UNION_SUBDISP_DrawChatLine(struct Obj *p, const u8 *e, u8 k)
     off = (k * 0xE0) << 1;
     c = paletteFlag(e);
     MI_CpuCopy8(pal, (u8 *)pal + off, 0x1C0);
-    func_020413B0(6, 0, k * 7, 0x20, 7, c);
+    BG_SYS_FillTileMap(6, 0, k * 7, 0x20, 7, c);
     func_02041B6C(6);
     t = sUnionSubdispChatTextOffset;
     if (p->b[k] == 0) {

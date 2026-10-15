@@ -1,5 +1,5 @@
 /*
- * function: func_02166804
+ * function: WCMi_ShelterRssi
  * address:  0x02166804
  * packet:   pkt_ov009_02166804
  * region:   ov009
@@ -28,7 +28,7 @@ extern unsigned char g_021AA814;
 extern unsigned char g_021AA815[16];
 extern int WCMi_GetSystemWork(void);
 
-void func_02166804(unsigned char rssi)
+void WCMi_ShelterRssi(unsigned char rssi)
 {
     WCMWork *w;
     int raw;

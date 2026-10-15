@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CBC
+ * function: TH_AWARD_SetupWindows
  * address: 0x021B9CBC
  * packet: pkt_ov220_021B9CBC
  * region: ov220
@@ -35,14 +35,14 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_021BA068 0x021BA068 thumb ov220
- *   func_021BA01C 0x021BA01C thumb ov220
+ *   TH_AWARD_GetLevelIndex 0x021BA068 thumb ov220
+ *   TH_AWARD_UploadWindows 0x021BA01C thumb ov220
  *   d_021BA354 0x021BA354 data ov220 a1
  *   d_021BA314 0x021BA314 data a1
  *   d_021BA3A8 0x021BA3A8 data a2
@@ -84,15 +84,15 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
-extern u8 func_021BA068(u32);
-extern void func_021BA01C(struct Obj *o);
-void func_021B9CBC(struct Obj *p)
+extern u8 TH_AWARD_GetLevelIndex(u32);
+extern void TH_AWARD_UploadWindows(struct Obj *o);
+void TH_AWARD_SetupWindows(struct Obj *p)
 {
     u8 i;
     u8 *b;
@@ -152,8 +152,8 @@ void func_021B9CBC(struct Obj *p)
     t = func_02045EC0(p->bank, 0x2a);
     z = STRBUF_Create(5, (u16)p->heap);
     off = 0;
-    func_0201EFA4(g, 0, (u16)m, 4, 0, 1);
-    func_0201F250(g, z, t);
+    WORDSET_SetSlotNumber(g, 0, (u16)m, 4, 0, 1);
+    WORDSET_CopyTaggedText(g, z, t);
     q = func_02045EC0(p->bank, 0x29);
     w1 = (u16)func_0201D304(z, (u32)p->str, 0);
     h = (u16)func_0201D304(q, (u32)p->str, 0);
@@ -167,7 +167,7 @@ void func_021B9CBC(struct Obj *p)
     STRBUF_Delete(z);
     STRBUF_Delete(t);
     WORDSET_DeleteStrbufED04(g);
-    y = func_02045EC0(p->bank, d_021BA3A8[func_021BA068(*(u16 *)(b + 2))].msg);
+    y = func_02045EC0(p->bank, d_021BA3A8[TH_AWARD_GetLevelIndex(*(u16 *)(b + 2))].msg);
     w1 = (u16)func_0201D304(y, (u32)p->str, 0);
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[3]));
     off = ((int)(h - w1)) / 2;
@@ -179,5 +179,5 @@ void func_021B9CBC(struct Obj *p)
         BMP_WIN_MakeScreen(d);
         func_02041B6C(BMP_WIN_GetBgLayer(d));
     }
-    func_021BA01C(p);
+    TH_AWARD_UploadWindows(p);
 }

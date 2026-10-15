@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_02030C44
+ * function: TCB_AllocTask
  * address:  0x02030C44
  * packet:   pkt_02030BD4
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030C44  0x02030C44  arm
+ *   TCB_AllocTask  0x02030C44  arm
  *
  * Allocate a timer node.  Free nodes live in a stack of pointers at
  * c->freeList with c->top the live index: this function hands back the entry
@@ -66,7 +66,7 @@ struct Ctx {
     struct Node  *slots[1];   /* +0x38 */
 };
 
-struct Node *sub_02030C44(struct Ctx *c)
+struct Node *TCB_AllocTask(struct Ctx *c)
 {
     struct Node *n;
     u32 top;

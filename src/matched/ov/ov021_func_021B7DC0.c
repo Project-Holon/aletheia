@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DC0
+ * function: FIELD_RAIL_WORK_GetLocation
  * address:  0x021B7DC0
  * packet:   pkt_ov021_021B7DC0
  * region:   ov021
@@ -42,7 +42,7 @@ struct Cam {
     void *f78;
 };
 
-void func_021B7DC0(struct Cam *c, Rect4 * __restrict out)
+void FIELD_RAIL_WORK_GetLocation(struct Cam *c, Rect4 * __restrict out)
 {
     *out = c->f5C;
 }

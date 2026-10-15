@@ -1,5 +1,5 @@
 /*
- * function: func_021D69F4
+ * function: GTSNEGO_DISP_SetCursorState
  * address: 0x021D69F4
  * packet: pkt_ov120_021D69F4
  * region: ov120
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021D8B70 0x021D8B70 data a1
+ *   gGtsnegoEntryTable 0x021D8B70 data a1
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct Entry { u8 code, x, y, other; } Entry;
 typedef struct Vec { s16 x, y; } Vec;
-extern const Entry d_021D8B70[];
+extern const Entry gGtsnegoEntryTable[];
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -28,7 +28,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
-void func_021D69F4(u8 *p, void *q, u32 n)
+void GTSNEGO_DISP_SetCursorState(u8 *p, void *q, u32 n)
 {
     Vec v;
     switch (n) {
@@ -44,9 +44,9 @@ void func_021D69F4(u8 *p, void *q, u32 n)
         break;
     case 0: case 1: default: break;
     }
-    v.x = d_021D8B70[n].x;
-    v.y = d_021D8B70[n].y;
+    v.x = gGtsnegoEntryTable[n].x;
+    v.y = gGtsnegoEntryTable[n].y;
     CLACT_AddActorSurfacePos(((struct Obj06437 *)p)->f134, (const struct Vec2 *)(&v), 1);
-    CLACT_SetActorAnimSeq(((struct Obj06437 *)p)->f134, d_021D8B70[n].code);
+    CLACT_SetActorAnimSeq(((struct Obj06437 *)p)->f134, gGtsnegoEntryTable[n].code);
     CLACT_SetActorDrawEnable(((struct Obj06437 *)p)->f134, 1);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     save_screen.c
  * unit:     yes
- * function: func_021B95A0, func_021B95F4, func_021B9864, func_021B9874, func_021B9928, func_021B9970, func_021B99D8, func_021B99E4, func_021B9A68, func_021B9A94, func_021B9AD8, func_021B9B04, func_021B9B20, func_021B9B78, func_021B9BAC, func_021B9BE4, func_021B9D48, func_021B9D58, func_021B9DAC, SAVE_SCREEN_PrintText
+ * function: SAVE_SCREEN_Init, SAVE_SCREEN_Main, SAVE_SCREEN_Exit, SAVE_SCREEN_Setup, SAVE_SCREEN_Delete, SAVE_SCREEN_SetupBackground, SAVE_SCREEN_DeleteBackground, SAVE_SCREEN_PrintEntry, SAVE_SCREEN_SnapshotParty, SAVE_SCREEN_SetTrainerDate, SAVE_SCREEN_SetTrainerFlag, SAVE_SCREEN_SaveFieldClock, SAVE_SCREEN_AppendPartyRecord, SAVE_SCREEN_PartSaveMain, SAVE_SCREEN_NoticeInit, SAVE_SCREEN_NoticeMain, SAVE_SCREEN_NoticeExit, SAVE_SCREEN_SetupNoticeBackground, SAVE_SCREEN_DeleteNoticeBackground, SAVE_SCREEN_PrintText
  * address:  0x021B95A0
  * region:   ov205
  * compiler: dsi/1.1p1
@@ -41,8 +41,8 @@
  *   TCBL_Main 0x020310C4 arm
  *   TIME_ICON_Update 0x0202F0B0 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
- *   func_0204363C 0x0204363C arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   func_0208068C 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02080B98 0x02080B98 arm
@@ -50,13 +50,13 @@
  *   func_02049B40 0x02049B40 arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   TCBL_Create 0x0203101C arm
  *   STRBUF_Create 0x020457B0 arm
  *   TCBL_DeleteAllTasks 0x0203115C arm
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -65,9 +65,9 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   BMP_WIN_Init 0x02045088 arm
  *   d_021B9E90 0x021B9E90 data a4
  *   d_021B9E60 0x021B9E60 data a4
@@ -75,11 +75,11 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   RTC_GetDate 0x02088864 arm
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
@@ -109,22 +109,47 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_02041B6C 0x02041B6C arm
  */
-#include "../../matched/include/Obj04611.h"
-#include "../../matched/include/Obj00419.h"
-#include "../../matched/include/Obj25393.h"
-#include "../../matched/include/Obj03359.h"
-#include "../../matched/include/Obj01777.h"
-#include "../../matched/include/Obj14630.h"
-#include "../../matched/include/Obj14631.h"
-#include "../../matched/include/Obj14632.h"
-#include "../../matched/include/Obj14633.h"
-#include "../../matched/include/Obj08386.h"
-#include "../../matched/include/Obj10884.h"
-#include "../../matched/include/Obj10885.h"
-#include "../../matched/include/Obj14634.h"
-#include "../../matched/include/Obj01293.h"
 
-struct Obj0203159C;
+typedef struct SaveScreenWork {
+    unsigned short heapId;
+    unsigned short arcId;
+    void *ctx;
+    void *anim;
+    void *textBuf;
+    void *font;
+    void *msgBank;
+    void *wordset;
+    void *bmpWin;
+    void *printStream;
+    void *tcbl;
+    unsigned char printBlk[8];
+    void *timeIcon;
+    unsigned int saveResult;
+    unsigned int partSaveFlag;
+    unsigned int saveDoneFlag;
+    unsigned int hasSave;
+    unsigned int resumeState;
+    int counter;
+} SaveScreenWork;
+
+typedef struct SaveScreenNoticeWork {
+    unsigned short heapId;
+    unsigned char pad2[2];
+    unsigned int mode;
+    void *textSrc;
+    void *msgBank;
+    void *wordset;
+    void *bmpWin;
+    void *font;
+} SaveScreenNoticeWork;
+
+typedef struct SaveScreenContext {
+    unsigned char pad0[4];
+    unsigned int mode;
+    void *textSrc;
+} SaveScreenContext;
+
+struct ProcOwner;
 struct Big;
 struct Ctx;
 struct Sub020071E4Ctrl;
@@ -167,7 +192,7 @@ typedef enum { ST0=0,ST13=13 } State;
 typedef signed short   s16;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, u32 size, u32 heap);
 extern void func_02082A7C(unsigned,void *,unsigned);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
@@ -193,8 +218,8 @@ extern s32 func_02028484(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
 extern void TIME_ICON_Update(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
-extern void func_0204363C(u32);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
+extern void BMP_SetDisplaySwap(u32);
 extern void func_0208068C(u32);
 extern void MIi_CpuClearFast(u32,u32,u32);
 extern void func_02080B98(void);
@@ -202,13 +227,13 @@ extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern struct WordSet *GF_FONT_Create_EC64(u32);
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern struct Tcbl *TCBL_Create(u32,u16,u32,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0201F7A8(void *,unsigned);
+extern void BMP_MENUWORK_DrawWindowBorder(void *,unsigned);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -217,18 +242,18 @@ extern void func_020403F4(unsigned);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02040EBC(unsigned,unsigned);
+extern void BG_SYS_LoadPlttEntry(unsigned,unsigned);
 extern void BMP_WIN_Init(u16);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,void *,unsigned,void *,unsigned,u16,u16);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void RTC_GetDate(void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *);
 extern void *GAME_DATA_GetSaveBlock42(void **);
@@ -254,50 +279,50 @@ extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void func_02041B6C(u32);
-int func_021B95A0(void *owner,int unused,void **args);
-int func_021B95F4(void *unused,State *state,const char *context,char *p);
-int func_021B9864(void *p);
-void func_021B9874(char *p, const char *a1);
-void func_021B9928(char *p);
-void func_021B9970(u16 heap);
-void func_021B99D8(void);
-void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind);
-void func_021B9A68(char *p);
-void func_021B9A94(char *p);
-void func_021B9AD8(char *p);
-void func_021B9B04(char *p);
-void func_021B9B20(char *p);
-void func_021B9B78(char *p);
-int func_021B9BAC(struct Obj0203159C *obj,u32 unused,char *ctx);
-int func_021B9BE4(void *input,u32 *state,u32 unused,char *p);
-int func_021B9D48(void *p);
-void func_021B9D58(u16 heap);
-void func_021B9DAC(void);
-void SAVE_SCREEN_PrintText(char *p,u32 index,s16 x,s16 y);
+int SAVE_SCREEN_Init(void *owner,int unused,void **args);
+int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveScreenWork *p);
+int SAVE_SCREEN_Exit(void *p);
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1);
+void SAVE_SCREEN_Delete(SaveScreenWork *p);
+void SAVE_SCREEN_SetupBackground(u16 heap);
+void SAVE_SCREEN_DeleteBackground(void);
+void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 kind);
+void SAVE_SCREEN_SnapshotParty(SaveScreenWork *p);
+void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p);
+void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p);
+void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p);
+void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p);
+void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p);
+int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx);
+int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWork *p);
+int SAVE_SCREEN_NoticeExit(void *p);
+void SAVE_SCREEN_SetupNoticeBackground(u16 heap);
+void SAVE_SCREEN_DeleteNoticeBackground(void);
+void SAVE_SCREEN_PrintText(SaveScreenNoticeWork *p,u32 index,s16 x,s16 y);
 extern const Init init;
 extern const unsigned d_021B9E90[],d_021B9E60[],d_021B9E70[];
 extern const unsigned d_021B9EFC[],d_021B9ECC[],d_021B9EDC[];
 
 
-int func_021B95A0(void *owner,int unused,void **args)
+int SAVE_SCREEN_Init(void *owner,int unused,void **args)
 {
     void *context;
-    char *p;
+    SaveScreenWork *p;
     context=*args;
     GFL_HEAP_CreateChildHeap(1,84,1<<18);
-    p=PROCSYS_AllocProcWork(owner,76,84);
+    p=(SaveScreenWork *) PROCSYS_AllocProcWork(owner,76,84);
     func_02082A7C(0,p,76);
-    ((struct Obj04611 *)p)->f0=84;
-    ((struct Obj04611 *)p)->f2=36;
-    ((struct Obj04611 *)p)->f4=ICA_ANIME_GetField1C(context);
-    ((struct Obj04611 *)p)->f8=func_02012944(((struct Obj04611 *)p)->f4);
-    if(func_020071F0(GAME_DATA_GetSaveControl(((struct Obj04611 *)p)->f4))!=0)
-        ((struct Obj04611 *)p)->f40=1;
+    p->heapId=84;
+    p->arcId=36;
+    p->ctx=ICA_ANIME_GetField1C(context);
+    p->anim=func_02012944(p->ctx);
+    if(func_020071F0(GAME_DATA_GetSaveControl(p->ctx))!=0)
+        p->hasSave=1;
     return 1;
 }
 
 
-int func_021B95F4(void *unused,State *state,const char *context,char *p)
+int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveScreenWork *p)
 {
     Init local;
     void *obj;
@@ -305,7 +330,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     local=init;
     KEY_GetTrg();
     switch(*state){
-    case 0:func_021B9874(p,context);(*state)++;break;
+    case 0:SAVE_SCREEN_Setup(p,context);(*state)++;break;
     case 1:
     {
         enum { Z0,Z1 } zero;
@@ -318,138 +343,138 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     }
     case 2:if(!FADE_IsActive())*state=3;break;
     case 3:
-        if(((struct Obj00419 *)p)->f40!=0){ (*state)++; break; }
+        if(p->hasSave!=0){ (*state)++; break; }
         {
-            GFL_USE_PlaySeDefaultVolume(0x54c);func_021B99E4(p,3,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
-            ((struct Obj00419 *)p)->f44=4;*state=13;GAME_DATA_SaveStart(*(int *)&((struct Obj00419 *)p)->f4);
+            GFL_USE_PlaySeDefaultVolume(0x54c);SAVE_SCREEN_PrintEntry(p,3,0,0);
+            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            p->resumeState=4;*state=13;GAME_DATA_SaveStart(*(int *)&p->ctx);
         }
         break;
     case 4:
-        if(((struct Obj00419 *)p)->f40==0){
-            if(((struct Obj25393 *)context)->f4==0){func_021B9A68(p);func_021B9A94(p);}
-            else {func_021B9B04(p);func_021B9AD8(p);func_021B9B20(p);}
+        if(p->hasSave==0){
+            if(context->mode==0){SAVE_SCREEN_SnapshotParty(p);SAVE_SCREEN_SetTrainerDate(p);}
+            else {SAVE_SCREEN_SaveFieldClock(p);SAVE_SCREEN_SetTrainerFlag(p);SAVE_SCREEN_AppendPartyRecord(p);}
         }
-        ((struct Obj00419 *)p)->f30=TIME_ICON_CreateNode(*(u32 *)&((struct Obj00419 *)p)->f24,((struct Obj00419 *)p)->f1C,15,16,((struct Obj00419 *)p)->f0);
+        p->timeIcon=TIME_ICON_CreateNode(*(u32 *)&p->tcbl,p->bmpWin,15,16,p->heapId);
         (*state)++;break;
     case 5:
-        if(((struct Obj00419 *)p)->f40==0 && ((struct Obj00419 *)p)->f38!=0){
-            func_021B9B78(p);
-            if(((struct Obj00419 *)p)->f3C!=0)(*state)++;
+        if(p->hasSave==0 && p->partSaveFlag!=0){
+            SAVE_SCREEN_PartSaveMain(p);
+            if(p->saveDoneFlag!=0)(*state)++;
         }else (*state)++;
         break;
     case 6:
-        if(((struct Obj00419 *)p)->f40==0){
-            switch(GAME_DATA_SaveMain(((struct Obj00419 *)p)->f4)){
+        if(p->hasSave==0){
+            switch(GAME_DATA_SaveMain(p->ctx)){
             case 0:case 1:break;
-            case 2:((struct Obj00419 *)p)->f34=1;(*state)++;break;
-            case 3:((struct Obj00419 *)p)->f34=0;(*state)++;break;
+            case 2:p->saveResult=1;(*state)++;break;
+            case 3:p->saveResult=0;(*state)++;break;
             }
         }else (*state)++;
         break;
     case 7:
-        TIME_ICON_Delete(((struct Obj00419 *)p)->f30);
-        if(((struct Obj00419 *)p)->f40==0 && ((struct Obj00419 *)p)->f34!=0){
-            func_021B99E4(p,4,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
-            ((struct Obj00419 *)p)->f44=8;*state=13;GFL_USE_PlaySeDefaultVolume(0x558);
+        TIME_ICON_Delete(p->timeIcon);
+        if(p->hasSave==0 && p->saveResult!=0){
+            SAVE_SCREEN_PrintEntry(p,4,0,0);
+            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            p->resumeState=8;*state=13;GFL_USE_PlaySeDefaultVolume(0x558);
         }else{
-            func_021B99E4(p,5,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
-            ((struct Obj00419 *)p)->f44=8;*state=13;
+            SAVE_SCREEN_PrintEntry(p,5,0,0);
+            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            p->resumeState=8;*state=13;
         }
         break;
     case 8:
-        if(((struct Obj00419 *)p)->f48>120)(*state)++;
-        (((struct Obj00419 *)p)->f48)++;break;
+        if(p->counter>120)(*state)++;
+        (p->counter)++;break;
     case 9:
         if(GPOWER_GetSpecialPowerId()==21){ FADE_Start(3,0,16,0); }
         else { FADE_Start(12,0,16,0); }
         (*state)++;break;
     case 10:
-        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(((struct Obj00419 *)p)->f1C),15);(*state)++;}
+        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),15);(*state)++;}
         break;
-    case 11:func_021B9928(p);(*state)++;break;
+    case 11:SAVE_SCREEN_Delete(p);(*state)++;break;
     case 12:return 1;
     case 13:
-        if(func_02028484((struct Blk *)(p+40),((struct Obj00419 *)p)->f20))*state=((struct Obj00419 *)p)->f44;
+        if(func_02028484((struct Blk *)((char *)p+40),p->printStream))*state=p->resumeState;
         break;
     }
-    if(((struct Obj00419 *)p)->f24)TCBL_Main(((struct Obj00419 *)p)->f24);
-    if(((struct Obj00419 *)p)->f30)TIME_ICON_Update(((struct Obj00419 *)p)->f30);
+    if(p->tcbl)TCBL_Main(p->tcbl);
+    if(p->timeIcon)TIME_ICON_Update(p->timeIcon);
     return 0;
 }
 
 
 
-int func_021B9864(void *p)
+int SAVE_SCREEN_Exit(void *p)
 {
     func_020315D4(p);
-    func_020306F0(0x54);
+    GFL_HEAP_DeleteChecked(0x54);
     return 1;
 }
 
 
-void func_021B9874(char *p, const char *a1) { func_0204363C(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();func_021B9970(*(u16 *)p);*(struct GfFont **)(p+0x10)=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)(p+0x14)=func_02045B38(0,2,*(u16 *)(p+2),*(u16 *)p);*(struct WordSet **)(p+0x18)=GF_FONT_Create_EC64(*(u16 *)p);func_0201F5BC(0,1,12,0,*(u16 *)p);*(u32 *)(p+0x1c)=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)(p+0x24)=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)(p+12)=STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=func_02045B38(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=GF_FONT_Create_EC64(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
 
 
-void func_021B9928(char *p)
+void SAVE_SCREEN_Delete(SaveScreenWork *p)
 {
-    TCBL_DeleteAllTasks(((struct Obj03359 *)p)->f24);
-    TCBL_Destroy(((struct Obj03359 *)p)->f24);
-    ((struct Obj03359 *)p)->f24=0;
-    func_0201F7A8(((struct Obj03359 *)p)->f1C,0);
-    BMP_WIN_Delete(((struct Obj03359 *)p)->f1C);
-    STRBUF_Delete(((struct Obj03359 *)p)->fC);
-    WORDSET_DeleteStrbufED04(((struct Obj03359 *)p)->f18);
-    MSGDATA_Delete(((struct Obj03359 *)p)->f14);
+    TCBL_DeleteAllTasks(p->tcbl);
+    TCBL_Destroy(p->tcbl);
+    p->tcbl=0;
+    BMP_MENUWORK_DrawWindowBorder(p->bmpWin,0);
+    BMP_WIN_Delete(p->bmpWin);
+    STRBUF_Delete(p->textBuf);
+    WORDSET_DeleteStrbufED04(p->wordset);
+    MSGDATA_Delete(p->msgBank);
     func_020403F4(0);
-    GF_FONT_Delete(((struct Obj03359 *)p)->f10);
-    func_021B99D8();
+    GF_FONT_Delete(p->font);
+    SAVE_SCREEN_DeleteBackground();
 }
 
 
-void func_021B9970(u16 heap)
+void SAVE_SCREEN_SetupBackground(u16 heap)
 {
     unsigned zero;
     BG_SYS_Create(heap);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B9E90);
-    func_0203FC28((void *)d_021B9E60);
+    BG_SYS_SetGraphicsMode((void *)d_021B9E60);
     zero=0;
     BG_SYS_InitBgLayer(0,(const struct BgTemplate *)d_021B9E70,0);
     func_02049B40(23,7,0,416,32,heap);
-    if(GPOWER_GetSpecialPowerId()==20) func_02040EBC(zero,65535);
-    else func_02040EBC(zero,zero);
+    if(GPOWER_GetSpecialPowerId()==20) BG_SYS_LoadPlttEntry(zero,65535);
+    else BG_SYS_LoadPlttEntry(zero,zero);
     BMP_WIN_Init(heap);
 }
 
 
-void func_021B99D8(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
+void SAVE_SCREEN_DeleteBackground(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
 
 
-void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind)
+void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 kind)
 {
-    void *buffer;
-    buffer=STRBUF_Create(1024,((struct Obj01777 *)p)->f0);
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01777 *)p)->f1C),15);
-    func_02045CAC(((struct Obj01777 *)p)->f14,entry,buffer);
-    func_0201F02C(((struct Obj01777 *)p)->f18,0,((struct Obj01777 *)p)->f8);
-    func_0201F250(((struct Obj01777 *)p)->f18,((struct Obj01777 *)p)->fC,buffer);
-    ((struct Obj01777 *)p)->f20=PRINTSYS_PrintStream(((struct Obj01777 *)p)->f1C,index,kind,((struct Obj01777 *)p)->fC,((struct Obj01777 *)p)->f10,MSG_SPEED_GetWait(),((struct Obj01777 *)p)->f24,0,((struct Obj01777 *)p)->f0,3855);
+    struct U16Vec *buffer;
+    buffer=STRBUF_Create(1024,p->heapId);
+    BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),15);
+    func_02045CAC(p->msgBank,entry,buffer);
+    WORDSET_SetSlotMyStatus(p->wordset,0,p->anim);
+    WORDSET_CopyTaggedText(p->wordset,p->textBuf,buffer);
+    p->printStream=PRINTSYS_PrintStream(p->bmpWin,index,kind,p->textBuf,p->font,MSG_SPEED_GetWait(),p->tcbl,0,p->heapId,3855);
     STRBUF_Delete(buffer);
-    func_0201F73C(((struct Obj01777 *)p)->f1C,2,1,12);
+    BMP_MENUWORK_DrawWindow(p->bmpWin,2,1,12);
 }
 
 
-void func_021B9A68(char *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty(*(struct BigObj * *)&((struct Obj14630 *)p)->f4);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&((struct Obj14630 *)p)->f4);MISC_SAVEDATA_SnapshotParty(rec,party,(struct Date *)date,4); }
+void SAVE_SCREEN_SnapshotParty(SaveScreenWork *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty(*(struct BigObj * *)&p->ctx);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&p->ctx);MISC_SAVEDATA_SnapshotParty(rec,party,(struct Date *)date,4); }
 
 
-void func_021B9A94(char *p)
+void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
 {
     void *counter,*date;
     unsigned year,month,day;
-    counter=GAME_DATA_GetTrainerRecord(((struct Obj14631 *)p)->f4);
-    date=(void *)GAME_DATA_GetPlayTime((int)(((struct Obj14631 *)p)->f4));
+    counter=GAME_DATA_GetTrainerRecord(p->ctx);
+    date=(void *)GAME_DATA_GetPlayTime((int)(p->ctx));
     year=func_0200864C(date);
     month=func_02008650(date);
     day=func_02008654(date);
@@ -457,36 +482,36 @@ void func_021B9A94(char *p)
 }
 
 
-void func_021B9AD8(char *p) { void *save,*obj;save=GAME_DATA_GetSaveControl(*(struct Big * *)&((struct Obj14632 *)p)->f4);obj=GAME_DATA_GetTrainerRecord(*(int * *)&((struct Obj14632 *)p)->f4);if(func_020071F0(save)==0)func_02008DAC(obj,71,1); }
+void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);obj=GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx);if(func_020071F0(save)==0)func_02008DAC(obj,71,1); }
 
 
-void func_021B9B04(char *p) { if(func_02008DFC(GAME_DATA_GetTrainerRecord(*(int * *)&((struct Obj14633 *)p)->f4),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&((struct Obj14633 *)p)->f4); }
+void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p) { if(func_02008DFC(GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&p->ctx); }
 
 
-void func_021B9B20(char *p)
+void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
 {
     unsigned date[4];
     void *save,*object,*record;
     RTC_GetDate((struct RTCDate *)date);
-    object=GAME_DATA_GetMyParty(((struct Obj08386 *)p)->f4);
-    save=GAME_DATA_GetSaveControl(((struct Obj08386 *)p)->f4);
+    object=GAME_DATA_GetMyParty(p->ctx);
+    save=GAME_DATA_GetSaveControl(p->ctx);
     SAVE_CONTROL_LoadExtraSave(save,8,4);
     record=func_020073D8(save,8,0);
     if(func_020071F0(save)==0) {
         MISC_SAVEDATA_AppendPartyRecord(record,object,date,4);
-        GAME_DATA_PartSaveStart(((struct Obj08386 *)p)->f4,8);
-        ((struct Obj08386 *)p)->f38=1;
+        GAME_DATA_PartSaveStart(p->ctx,8);
+        p->partSaveFlag=1;
     }
 }
 
 
-void func_021B9B78(char *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&((struct Obj10884 *)p)->f4);if(func_020071F0(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&((struct Obj10884 *)p)->f4,8);if(n-2<=1) { func_020072A4(save,8);((struct Obj10884 *)p)->f3C=1; } } }
+void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);if(func_020071F0(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&p->ctx,8);if(n-2<=1) { func_020072A4(save,8);p->saveDoneFlag=1; } } }
 
 
-int func_021B9BAC(struct Obj0203159C *obj,u32 unused,char *ctx) { char *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=PROCSYS_AllocProcWork(obj,28,84);func_02082A7C(0,p,28);((struct Obj10885 *)p)->f0=84;((struct Obj10885 *)p)->f4=((struct Obj14634 *)ctx)->f4;((struct Obj10885 *)p)->f8=((struct Obj14634 *)ctx)->f8;return 1; }
+int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork(obj,28,84);func_02082A7C(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
 
 
-int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
+int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWork *p)
 {
     u32 keys;
     void *obj;
@@ -494,16 +519,16 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
     switch(*state){
     case 0:
         func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();
-        func_021B9D58(((struct Obj01293 *)p)->f0);
-        ((struct Obj01293 *)p)->f18=GF_FONT_Create(23,0,0,0,((struct Obj01293 *)p)->f0);
-        ((struct Obj01293 *)p)->fC=func_02045B38(0,2,37,((struct Obj01293 *)p)->f0);
-        ((struct Obj01293 *)p)->f10=GF_FONT_Create_EC64(((struct Obj01293 *)p)->f0);
-        ((struct Obj01293 *)p)->f14=(void *)BMP_WIN_Create(0,2,7,27,15,13,1);
-        if(((struct Obj01293 *)p)->f4==0)SAVE_SCREEN_PrintText(p,3,6,0);
+        SAVE_SCREEN_SetupNoticeBackground(p->heapId);
+        p->font=GF_FONT_Create(23,0,0,0,p->heapId);
+        p->msgBank=func_02045B38(0,2,37,p->heapId);
+        p->wordset=GF_FONT_Create_EC64(p->heapId);
+        p->bmpWin=(void *)BMP_WIN_Create(0,2,7,27,15,13,1);
+        if(p->mode==0)SAVE_SCREEN_PrintText(p,3,6,0);
         else SAVE_SCREEN_PrintText(p,2,6,0);
-        obj=((struct Obj01293 *)p)->f14;
+        obj=p->bmpWin;
         BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
-        GFL_NET_RestartWithDefaultTimeout(1,((struct Obj01293 *)p)->f0);BG_SYS_SetMainPlaneVisible(16,1);
+        GFL_NET_RestartWithDefaultTimeout(1,p->heapId);BG_SYS_SetMainPlaneVisible(16,1);
         (*state)++;break;
     case 1:
         FADE_Start(3,16,0,0);*(u16 *)0x04000050=0;
@@ -515,54 +540,54 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         if((keys&1)||(keys&2)){FADE_Start(3,0,16,0);(*state)++;}
         break;
     case 4:
-        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(((struct Obj01293 *)p)->f14),0);(*state)++;}
+        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),0);(*state)++;}
         break;
     case 5:
-        func_0201F7A8(((struct Obj01293 *)p)->f14,0);BMP_WIN_Delete(((struct Obj01293 *)p)->f14);
-        WORDSET_DeleteStrbufED04(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
-        func_020403F4(0);GF_FONT_Delete(((struct Obj01293 *)p)->f18);func_021B9DAC();return 1;
+        BMP_MENUWORK_DrawWindowBorder(p->bmpWin,0);BMP_WIN_Delete(p->bmpWin);
+        WORDSET_DeleteStrbufED04(p->wordset);MSGDATA_Delete(p->msgBank);
+        func_020403F4(0);GF_FONT_Delete(p->font);SAVE_SCREEN_DeleteNoticeBackground();return 1;
     }
     return 0;
 }
 
 
 
-int func_021B9D48(void *p)
+int SAVE_SCREEN_NoticeExit(void *p)
 {
     func_020315D4(p);
-    func_020306F0(0x54);
+    GFL_HEAP_DeleteChecked(0x54);
     return 1;
 }
 
 
-void func_021B9D58(u16 heap)
+void SAVE_SCREEN_SetupNoticeBackground(u16 heap)
 {
     BG_SYS_Create(heap);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B9EFC);
-    func_0203FC28((void *)d_021B9ECC);
+    BG_SYS_SetGraphicsMode((void *)d_021B9ECC);
     BG_SYS_InitBgLayer(0,(const struct BgTemplate *)d_021B9EDC,0);
     func_02049B40(23,7,0,416,32,heap);
-    func_02040EBC(0,0);
+    BG_SYS_LoadPlttEntry(0,0);
     BMP_WIN_Init(heap);
 }
 
 
-void func_021B9DAC(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
+void SAVE_SCREEN_DeleteNoticeBackground(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
 
-void SAVE_SCREEN_PrintText(char *p,u32 index,s16 x,s16 y)
+void SAVE_SCREEN_PrintText(SaveScreenNoticeWork *p,u32 index,s16 x,s16 y)
 {
-    struct U16Vec *a,*b;
-    a=STRBUF_Create(0x400,*(u16 *)p);
-    b=STRBUF_Create(0x400,*(u16 *)p);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+20)),0);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+20)),15);
-    MSGDATA_ReadString(*(struct MsgBank **)(p+12),index,a);
-    func_0201F02C(*(struct WordSet **)(p+16),1,*(void **)(p+8));
-    func_0201F250(*(struct WordSet **)(p+16),b,a);
+    struct U16Vec *msgBuf,*drawBuf;
+    msgBuf=STRBUF_Create(0x400,*(u16 *)p);
+    drawBuf=STRBUF_Create(0x400,*(u16 *)p);
+    BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),0);
+    BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),15);
+    MSGDATA_ReadString(p->msgBank,index,msgBuf);
+    WORDSET_SetSlotMyStatus(p->wordset,1,p->textSrc);
+    WORDSET_CopyTaggedText(p->wordset,drawBuf,msgBuf);
     GF_FONT_SetTextColor(1,2,15);
-    PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(p+20)),x,y,b,*(void **)(p+24));
-    STRBUF_Delete(a);
-    STRBUF_Delete(b);
-    BMP_WIN_TransferChars(*(struct Descriptor **)(p+20));
-    func_02041B6C(BMP_WIN_GetBgLayer(*(struct Descriptor **)(p+20)));
+    PRINTSYS_Print(BMP_WIN_GetBmp(p->bmpWin),x,y,drawBuf,p->font);
+    STRBUF_Delete(msgBuf);
+    STRBUF_Delete(drawBuf);
+    BMP_WIN_TransferChars(p->bmpWin);
+    func_02041B6C(BMP_WIN_GetBgLayer(p->bmpWin));
 }

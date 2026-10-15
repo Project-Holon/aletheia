@@ -14,7 +14,7 @@
  *   WEATHER_STORM_StartCalm  0x021EF614  thumb  ov026
  *   WEATHER_STORM_UpdateGust  0x021EF664  thumb  ov026
  *   WEATHER_STORM_ScrollLayers  0x021EF830  thumb  ov026
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
  *   WEATHER_TASK_FadeLight  0x021A2108  thumb  ov021
  *   WEATHER_TASK_PlaySe  0x021A25BC  thumb  ov021
@@ -36,7 +36,7 @@ extern void WEATHER_TASK_ChangeFog(u8 *p, int a, int b, int c, int d);
 extern int WEATHER_TASK_StepSpawner(unsigned char *o, int arg);
 extern int WEATHER_TASK_IsFogIdle(unsigned int a);
 typedef unsigned int   u32;
-extern u16 func_02014A10(u32 i);
+extern u16 ZONEDATA_GetLightTableMember(u32 i);
 extern void WEATHER_STORM_StartCalm(int, u16 *, int, int);
 extern void WEATHER_STORM_UpdateGust(int, s16 *, int, int);
 extern void WEATHER_STORM_ScrollLayers(int, s16 *);
@@ -50,7 +50,7 @@ int WEATHER_STORM_BeginParticles(int a, int b, int c)
     p = (s16 *)WEATHER_TASK_GetWorkBuffer((int *)a);
     switch (p[0]) {
     case 0:
-        WEATHER_TASK_FadeLight(a, 0x3E, func_02014A10(7));
+        WEATHER_TASK_FadeLight(a, 0x3E, ZONEDATA_GetLightTableMember(7));
         p[1] = 0x5A;
         p[0] = p[0] + 1;
         break;

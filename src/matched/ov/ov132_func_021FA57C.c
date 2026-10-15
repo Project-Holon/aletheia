@@ -1,5 +1,5 @@
 /*
- * function: func_021FA57C
+ * function: STA_ACT_AUDIENCE_SetBgScroll
  * address: 0x021FA57C
  * packet: pkt_ov132_021FA57C
  * region: ov132
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02040618(unsigned, unsigned, unsigned);
-void func_021FA57C(void *unused, int x)
+void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x)
 {
     u16 v = ((x << 7) / 256) + 64;
     func_02040618(4, 0, v);

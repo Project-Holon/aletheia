@@ -1,5 +1,5 @@
 /*
- * function: func_0218B760
+ * function: gpiDisconnect
  * address:  0x0218B760
  * packet:   pkt_ov009_0218B760
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      gpiDisconnect (gpiconnect.o)
  *
  * symbols:
- *   func_0218946C  0x0218946C  arm   ov009
- *   func_0218949C  0x0218949C  arm   ov009
- *   func_0218998C  0x0218998C  arm   ov009
+ *   gpiAppendStringToBuffer  0x0218946C  arm   ov009
+ *   gpiAppendIntToBuffer  0x0218949C  arm   ov009
+ *   gpiSendFromBuffer  0x0218998C  arm   ov009
  *   func_0217EB9C  0x0217EB9C  arm   ov009
  *   closesocket  0x0217EB2C  arm   ov009
  *   gsUdpEngineIsInitialized  0x02180E48  arm   ov009
@@ -22,11 +22,11 @@
  *   func_02181828  0x02181828  arm   ov009
  *   func_02181874  0x02181874  arm   ov009
  *   func_02181530  0x02181530  arm   ov009
- *   func_0217EAE0  0x0217EAE0  arm   ov009
- *   func_0218E240  0x0218E240  arm   ov009
+ *   gsifree  0x0217EAE0  arm   ov009
+ *   gpiRemoveOperation  0x0218E240  arm   ov009
  *   func_0218EEC0  0x0218EEC0  arm   ov009
  *   func_0218FFFC  0x0218FFFC  arm   ov009
- *   func_0218B618  0x0218B618  arm   ov009
+ *   gpiDisconnectCleanupProfile  0x0218B618  arm   ov009
  *   g_021A4A80     0x021A4A80  data
  *   g_021A495C     0x021A495C  data
  *   g_021A4A94     0x021A4A94  data
@@ -66,9 +66,9 @@ typedef struct GPIConnection {
     GPIBuffer updateuiBuffer;
 } GPIConnection;
 
-extern int func_0218946C(int *connection, int *buffer, const char *string);
-extern int func_0218949C(int *connection, int *buffer, int value);
-extern int func_0218998C(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
+extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
+extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
+extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
 extern int func_0217EB9C(int sock, int how);
 extern int closesocket(int sock);
 extern int gsUdpEngineIsInitialized(void);
@@ -76,17 +76,17 @@ extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
 extern int func_02181828(void);
 extern int func_02181874(void);
 extern int func_02181530(void);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 struct GPIOperation;
-extern void func_0218E240(void **connection, struct GPIOperation *operation);
+extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern void func_0218EEC0(void **connection, GPIPeer *peer);
 extern int func_0218FFFC(void **connection, int (*func)(void **, void *, void *), void *data);
-extern int func_0218B618(void **connection, void *profile);
+extern int gpiDisconnectCleanupProfile(void **connection, void *profile);
 extern char g_021A4A80[];
 extern char g_021A495C[];
 extern char g_021A4A94[];
 
-void func_0218B760(void **connection, int tellServer)
+void gpiDisconnect(void **connection, int tellServer)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     GPIPeer *peer;
@@ -98,11 +98,11 @@ void func_0218B760(void **connection, int tellServer)
 
     if (iconnection->connectState != 0) {
         if (tellServer && iconnection->connectState == 3) {
-            func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4A80);
-            func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->sessKey);
-            func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A495C);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4A80);
+            gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->sessKey);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A495C);
         }
-        func_0218998C(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
+        gpiSendFromBuffer(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
         if (iconnection->cmSocket != -1) {
             func_0217EB9C(iconnection->cmSocket, 2);
             closesocket(iconnection->cmSocket);
@@ -119,19 +119,19 @@ void func_0218B760(void **connection, int tellServer)
             func_02181530();
     }
 
-    func_0217EAE0(iconnection->socketBuffer.buffer);
+    gsifree(iconnection->socketBuffer.buffer);
     iconnection->socketBuffer.buffer = 0;
-    func_0217EAE0(iconnection->inputBuffer);
+    gsifree(iconnection->inputBuffer);
     iconnection->inputBuffer = 0;
-    func_0217EAE0(iconnection->outputBuffer.buffer);
+    gsifree(iconnection->outputBuffer.buffer);
     iconnection->outputBuffer.buffer = 0;
-    func_0217EAE0(iconnection->updateproBuffer.buffer);
+    gsifree(iconnection->updateproBuffer.buffer);
     iconnection->updateproBuffer.buffer = 0;
-    func_0217EAE0(iconnection->updateuiBuffer.buffer);
+    gsifree(iconnection->updateuiBuffer.buffer);
     iconnection->updateuiBuffer.buffer = 0;
 
     while (iconnection->operationList)
-        func_0218E240(connection, iconnection->operationList);
+        gpiRemoveOperation(connection, iconnection->operationList);
     iconnection->operationList = 0;
 
     for (peer = iconnection->peerList; peer; ) {
@@ -141,6 +141,6 @@ void func_0218B760(void **connection, int tellServer)
     }
     iconnection->peerList = 0;
 
-    while (!func_0218FFFC(connection, (int (*)(void **, void *, void *))func_0218B618, 0)) {
+    while (!func_0218FFFC(connection, (int (*)(void **, void *, void *))gpiDisconnectCleanupProfile, 0)) {
     }
 }

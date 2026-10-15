@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  * MI_CpuFill8 0x02082BCC arm
- * func_0201DD60 0x0201DD60 thumb
+ * GF_FONT_InitTextColor 0x0201DD60 thumb
  * GF_FONT_Create 0x0201D7EC thumb
  * PRINTSYS_QUE_Create 0x0201C440 thumb
  * func_02045B38 0x02045B38 arm
@@ -20,14 +20,14 @@ struct GfFont;
 struct MsgBank;
 struct WordSet;
 extern void MI_CpuFill8(void *, int, unsigned);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 void IRC_RESULT_InitTextSystem(u32 *p, int flag, int heap) {
  MI_CpuFill8(p, 0, 0x10);
- func_0201DD60();
+ GF_FONT_InitTextColor();
  if (flag == 0) {
   p[0] = (u32)GF_FONT_Create(0x17, 0, 0, 0, heap);
  }

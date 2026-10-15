@@ -1,5 +1,5 @@
 /*
- * function: func_021C7658
+ * function: VIEWER_ACTOR_DeleteObjects
  * address:  0x021C7658
  * packet:   pkt_ov111_021C7658
  * region:   ov111
@@ -99,7 +99,7 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 
-void func_021C7658(Work *p)
+void VIEWER_ACTOR_DeleteObjects(Work *p)
 {
     CLACT_ReleaseCharacter((u32)p->fEC);
     CLACT_ReleasePalette((u32)p->fE8);

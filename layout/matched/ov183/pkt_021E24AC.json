@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E24AC",
+   "name": "BR_CODEIN_SaveDeleteTextWin",
    "address": "0x021E24AC",
    "kind": "game",
    "region": "ov183",

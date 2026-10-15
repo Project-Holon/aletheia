@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F4990, func_021F4AA4
+ * function: MUSICAL_MCSS_UpdateObject, MUSICAL_MCSS_NoOp3
  * address: 0x021F4990
  * packet: pkt_ov112_021F4990
  * region: ov112
@@ -12,8 +12,8 @@
  * function_starts: 0x021F4AA4
  * lever: bitfield dirty clear retains the hoisted mask; named offset.x keeps trig load order.
  * symbols:
- *   func_021F4F60 0x021F4F60 thumb ov112
- *   func_021F4AC8 0x021F4AC8 thumb ov112
+ *   MUSICAL_MCSS_GetOffset 0x021F4F60 thumb ov112
+ *   MUSICAL_MCSS_SetupObject 0x021F4AC8 thumb ov112
  *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   BILLBOARD_SetElemScale 0x0204F684 arm
  *   BILLBOARD_SetElemRotZ 0x0204F7C4 arm
@@ -33,13 +33,13 @@ typedef struct { int x,y; } Offset;
 typedef struct { u8 x,y; s16 b,a; } Scale;
 struct Trip { u32 a,b,c; };
 struct Manager0204F684;
-extern void func_021F4F60(u8 *,Offset *);
-extern void func_021F4AC8(u8 *p, u8 *a, u8 *b);
+extern void MUSICAL_MCSS_GetOffset(u8 *,Offset *);
+extern void MUSICAL_MCSS_SetupObject(u8 *p, u8 *a, u8 *b);
 extern void BILLBOARD_SetElemPos(u8 *,int,struct Trip *);
 extern void BILLBOARD_SetElemScale(struct Manager0204F684 *,int,const s16 *,const s16 *);
 extern void BILLBOARD_SetElemRotZ(u8 *,int,u16 *);
 extern s16 FX_SinCosTable_[];
-void func_021F4990(Object *p)
+void MUSICAL_MCSS_UpdateObject(Object *p)
 {
     int i;
     Entry *e;
@@ -51,7 +51,7 @@ void func_021F4990(Object *p)
         e=&p->entries[i];
         if(e->flags.bits.active==1 && e->flags.bits.dirty==1) {
             if(e->flags.bits.rotate==1) {
-                func_021F4F60(e->data,&offset);
+                MUSICAL_MCSS_GetOffset(e->data,&offset);
                 if(e->a<0) offset.x *= -1;
                 ox=offset.x;
                 s=FX_SinCosTable_[(e->angle>>4)*2];
@@ -63,7 +63,7 @@ void func_021F4990(Object *p)
             v.b=(0xC0000-(e->y-y))/16;
             v.c=e->z;
             BILLBOARD_SetElemPos(p->board,e->index,&v);
-            func_021F4AC8((u8 *)e,&scale.y,&scale.x);
+            MUSICAL_MCSS_SetupObject((u8 *)e,&scale.y,&scale.x);
             scale.a=e->a*scale.y;
             scale.b=e->b*scale.x;
             BILLBOARD_SetElemScale((struct Manager0204F684 *)p->board,e->index,&scale.a,&scale.b);
@@ -72,6 +72,6 @@ void func_021F4990(Object *p)
         }
     }
 }
-void func_021F4AA4(void *a0)
+void MUSICAL_MCSS_NoOp3(void *a0)
 {
 }

@@ -12,7 +12,7 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
  *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb
@@ -58,7 +58,7 @@ struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 struct S0201235C;
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 int EVENT_COMM_COMMON_IsKeyTrg(void);
@@ -78,7 +78,7 @@ int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(void *a, int *state, Ov018Ou
     v = INTRUDE_COMM_GetWorkIfRunning((int)sys);
     switch (*state) {
     case 0:
-        func_0201F02C(c->obj.f00, 0, &c->f78);
+        WORDSET_SetSlotMyStatus(c->obj.f00, 0, &c->f78);
         EVENT_COMM_COMMON_PrintMsg(&c->obj, d_02183932[c->f42]);
         (*state)++;
         break;

@@ -13,7 +13,7 @@
  *   func_020307B0 0x020307B0 arm
  *   COMM_TVT_SYS_IsNetIdle 0x021BE100 thumb ov172
  *   CTVT_CAMERA_Delete 0x021B63B8 thumb ov172
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj04550.h"
 extern int FX_Inv(int);
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern int COMM_TVT_SYS_IsNetIdle(void);
 extern void CTVT_CAMERA_Delete(char *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 void CTVT_CAMVIEW_Delete(int unused, char *q)
 {
     int matrix[4];
@@ -39,7 +39,7 @@ void CTVT_CAMVIEW_Delete(int unused, char *q)
         func_020307B0(((struct Obj04550 *)q)->fA8);
         func_020307B0(((struct Obj04550 *)q)->fAC);
         CTVT_CAMERA_Delete(((struct Obj04550 *)q)->fA4);
-        func_020306F0(110);
+        GFL_HEAP_DeleteChecked(110);
     }
     func_020307B0(q);
 }

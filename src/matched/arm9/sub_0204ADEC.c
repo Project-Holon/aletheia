@@ -12,15 +12,15 @@
  *
  * symbols:
  *   g_ClactSystem     0x02146A74  data
- *   func_0206380C  0x0206380C  arm
- *   func_02063800  0x02063800  arm
+ *   NNSi_G2dIsVramHandleSetEx  0x0206380C  arm
+ *   NNSi_G2dGetVramHandleEx  0x02063800  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   func_0207E5D0  0x0207E5D0  arm
  *
  * Flush both halves of one slot of the 0x18-byte-stride table at +0x110 of
  * the singleton behind 0x02146A74 into the destination the caller supplies.
- * Each half is guarded by func_0206380C, fetched with func_02063800 and
+ * Each half is guarded by NNSi_G2dIsVramHandleSetEx, fetched with NNSi_G2dGetVramHandleEx and
  * written through GX_LoadOBJPltt (selector 1) or func_0207E5D0 (selector 2),
  * with DWCi_ScreenDC_FlushRange invalidating the destination first.
  *
@@ -56,8 +56,8 @@ struct Dest {
 
 extern struct Mgr *g_ClactSystem;
 
-extern int func_0206380C(char *p, int i);
-extern int func_02063800(char *p, int i);
+extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
+extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 extern void DWCi_ScreenDC_FlushRange(void *dest, u32 size);
 extern void GX_LoadOBJPltt(void *dest, void *src, u32 size);
 extern void func_0207E5D0(void *dest, void *src, u32 size);
@@ -70,15 +70,15 @@ void CLACT_TransferPalette(u32 idx, struct Dest *dest, u32 count, u32 size)
         size = dest->unk_08;
     }
 
-    if (func_0206380C((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 1) != 0) {
-        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 1);
+    if (NNSi_G2dIsVramHandleSetEx((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 1) != 0) {
+        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 1);
 
         DWCi_ScreenDC_FlushRange(dest->unk_0c, size);
         GX_LoadOBJPltt(dest->unk_0c, src, size);
     }
 
-    if (func_0206380C((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 2) != 0) {
-        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 2);
+    if (NNSi_G2dIsVramHandleSetEx((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 2) != 0) {
+        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 2);
 
         DWCi_ScreenDC_FlushRange(dest->unk_0c, size);
         func_0207E5D0(dest->unk_0c, src, size);

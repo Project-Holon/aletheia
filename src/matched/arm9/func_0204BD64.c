@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
- * (the call to func_0206343C) has no witness of any class.  0x0206343C has
+ * (the call to NNS_G2dApplyOamManagerToHW) has no witness of any class.  0x0206343C has
  * exactly one branch reference image wide and it is that call, so no cut frees
  * it; the only unblock is a `matched` entry at 0x0206343C, a 508-byte function
  * in pkt_02063078, claimed by lane-C and far outside this lane.
@@ -20,7 +20,7 @@
  * an early return predicated onto the compare (`popeq`).
  *
  * symbols:
- *   func_0206343C  0x0206343C  arm
+ *   NNS_G2dApplyOamManagerToHW  0x0206343C  arm
  */
 
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ struct Sub {
 };
 
 struct NNSG2dOamManagerInstance;
-extern void func_0206343C(struct NNSG2dOamManagerInstance *pMan, u32 bound);
+extern void NNS_G2dApplyOamManagerToHW(struct NNSG2dOamManagerInstance *pMan, u32 bound);
 
 void CLACT_ApplyOamManager(struct Sub *s)
 {
@@ -40,5 +40,5 @@ void CLACT_ApplyOamManager(struct Sub *s)
         return;
     }
 
-    func_0206343C((struct NNSG2dOamManagerInstance *)s, s->bound);
+    NNS_G2dApplyOamManagerToHW((struct NNSG2dOamManagerInstance *)s, s->bound);
 }

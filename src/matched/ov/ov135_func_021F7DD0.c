@@ -13,12 +13,13 @@
  *   WORLDTRADE_DEPOSIT_GetLevelBracket 0x021F882C thumb ov135
  *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
  *   WORLDTRADE_DEPOSIT_DrawRequestWindow 0x021F81C8 thumb ov135
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 #include "../include/Obj01942.h"
 #include "../include/Obj23389.h"
 typedef unsigned char u8;
 extern int WORLDTRADE_INPUT_MenuUpdate(void *p);
-extern void func_0201F7A8(void *p, unsigned kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *p, unsigned kind);
 extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
 extern void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int i, int kind);
 extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int x, int y, int which);
@@ -29,7 +30,7 @@ int WORLDTRADE_DEPOSIT_StateLevelMenuInput(u8 *p)
     unsigned result = WORLDTRADE_INPUT_MenuUpdate(((struct Obj01942 *)p)->fDE4);
     switch (result) {
     case 12: case (unsigned)-2:
-        func_0201F7A8(((struct Obj01942 *)p)->fD40, 0);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj01942 *)p)->fD40, 0);
         if (WORLDTRADE_DEPOSIT_CheckGenderEvent(p + 0xB50, ((struct Obj23389 *)(*(u8 * *)&((struct Obj01942 *)p)->fE00))->f20)) {
             ((struct Obj01942 *)p)->f28 = 0;
         } else {

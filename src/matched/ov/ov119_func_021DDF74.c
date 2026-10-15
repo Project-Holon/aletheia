@@ -21,8 +21,8 @@
  *   POKETRADE_NEGO_CloseCancelMenu  0x021DD294  thumb  ov119
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   POKETRADE_SAVE_OpenMessageWindowTop  0x021E1024  thumb  ov119
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_PROC_ClearNetAutoExit  0x021D89CC  thumb  ov119
@@ -51,8 +51,8 @@ extern int POKETRADE_NEGO_CheckCancelTouch(char *p);
 extern void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void *POKETRADE_PROC_GetSideMon(void *p, int idx);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void POKETRADE_SAVE_OpenMessageWindowTop(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_PROC_ClearNetAutoExit(char *p);
@@ -77,10 +77,10 @@ void POKETRADE_NEGO_StepResolveConfirm(char *p)
     if (c == 11 && (unsigned char)(p + b)[0x11E0] == 11) {
         MSGDATA_ReadString(((struct Obj01251 *)p)->f720, 0x92, ((struct Obj01251 *)p)->f73C);
         do {
-            func_0201EEF4(((struct Obj01251 *)p)->f724, i, POKETRADE_PROC_GetSideMon(p, i));
+            WORDSET_SetSlotMonSpecies(((struct Obj01251 *)p)->f724, i, POKETRADE_PROC_GetSideMon(p, i));
             i++;
         } while (i < 2);
-        func_0201F250(((struct Obj01251 *)p)->f724, ((struct Obj01251 *)p)->f738, ((struct Obj01251 *)p)->f73C);
+        WORDSET_CopyTaggedText(((struct Obj01251 *)p)->f724, ((struct Obj01251 *)p)->f738, ((struct Obj01251 *)p)->f73C);
         POKETRADE_SAVE_OpenMessageWindowTop(p);
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepOpenConfirmMenu);
         return;

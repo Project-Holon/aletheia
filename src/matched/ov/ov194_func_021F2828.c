@@ -1,5 +1,5 @@
 /*
- * function: func_021F2828
+ * function: NAMEIN_GRAPHIC_FindCellByValue
  * address: 0x021F2828
  * packet: pkt_ov194_021F2828
  * region: ov194
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj14501.h"
 typedef struct {int x,y;} Pair;
-int func_021F2828(const char *p,int target,Pair *out) {
+int NAMEIN_GRAPHIC_FindCellByValue(const char *p,int target,Pair *out) {
  Pair xy;
  for(xy.y=0;xy.y<=*(const unsigned short *)&((struct Obj14501 *)p)->f22;xy.y++)
  for(xy.x=0;xy.x<=*(const unsigned short *)&((struct Obj14501 *)p)->f20;xy.x++)

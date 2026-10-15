@@ -1,5 +1,5 @@
 /*
- * function: func_021C40B4
+ * function: WIFI_2DCHAR_ReleaseBmp
  * address: 0x021C40B4
  * packet: pkt_ov127_021C40B4
  * region: ov127
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C4514 0x021C4514 thumb ov127
+ *   WIFI_2DCHAR_ReleaseBmpHandles 0x021C4514 thumb ov127
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-void func_021C4514(char *p);
-void func_021C40B4(u8 *p)
+void WIFI_2DCHAR_ReleaseBmpHandles(char *p);
+void WIFI_2DCHAR_ReleaseBmp(u8 *p)
 {
-    func_021C4514((char *)p);
+    WIFI_2DCHAR_ReleaseBmpHandles((char *)p);
 }

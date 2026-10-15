@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_0220D9A8,func_0220D9BC,func_0220D9C8,func_0220D9D4
+ * function: B_BAG_MAIN_ShowCursorAt,B_BAG_MAIN_HideCursor,B_BAG_MAIN_HideCursor2,B_BAG_MAIN_LayoutCursorOnly
  * address: 0x0220D9A8
  * packet: pkt_ov197_0220D9A8
  * region: ov197
@@ -10,12 +10,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0220D98C 0x0220D98C thumb ov197
- *   func_0220D974 0x0220D974 thumb ov197
+ *   B_BAG_MAIN_LayoutCursor 0x0220D98C thumb ov197
+ *   B_BAG_MAIN_SetCursorVisible 0x0220D974 thumb ov197
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-extern void func_0220D98C(u8 *,u32);extern void func_0220D974(char *,int);
-void func_0220D9A8(u8 *p,u32 i){func_0220D98C(p,i);func_0220D974((char *)p,1);}
-void func_0220D9BC(char *p){func_0220D974(p,0);}
-void func_0220D9C8(char *p){func_0220D974(p,0);}
-void func_0220D9D4(u8 *p,u32 i){func_0220D98C(p,i);}
+extern void B_BAG_MAIN_LayoutCursor(u8 *,u32);extern void B_BAG_MAIN_SetCursorVisible(char *,int);
+void B_BAG_MAIN_ShowCursorAt(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);B_BAG_MAIN_SetCursorVisible((char *)p,1);}
+void B_BAG_MAIN_HideCursor(char *p){B_BAG_MAIN_SetCursorVisible(p,0);}
+void B_BAG_MAIN_HideCursor2(char *p){B_BAG_MAIN_SetCursorVisible(p,0);}
+void B_BAG_MAIN_LayoutCursorOnly(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);}

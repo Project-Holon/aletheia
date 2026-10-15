@@ -27,7 +27,7 @@
  *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   gCommEntryMsgTable  0x021DB498  data   ov021
  * Addresses are Black-image addresses.
@@ -54,7 +54,7 @@ struct WordSet;
 extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u32 func_0200FB24(void);
 extern u8 gCommEntryMsgTable[];
 
@@ -151,7 +151,7 @@ int COMM_ENTRY_MENU_MainMode3(u8 *p)
         break;
     case 9:
         GFL_NET_Exit(0);
-        func_0201F02C((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));
+        WORDSET_SetSlotMyStatus((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));
         COMM_ENTRY_MENU_PrintMessage(p, 0x1f);
         p[0x51E] = 10;
         break;

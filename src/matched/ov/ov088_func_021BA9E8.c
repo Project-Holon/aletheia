@@ -15,7 +15,7 @@
  *
  * symbols:
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -52,7 +52,7 @@ typedef unsigned short u16;
 extern void BG_SYS_Create(u16 heapId);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -70,7 +70,7 @@ void STARTMENU_SetupBackgrounds(void)
 
     BG_SYS_Create(0xb);
     a = d_021BD678;
-    func_0203FC28((struct DispConfig *)(&a));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&a));
     b0 = d_021BD724;
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&b0), 0);
     b1 = d_021BD764;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219359C
+ * function: gpiReadKeyAndValue
  * address:  0x0219359C
  * packet:   pkt_0219091C
  * region:   ov009
@@ -14,23 +14,23 @@
  * with `start` taken before the leading backslash is consumed.  The four
  * malformed cases each inline their own CallbackFatalError tail (gpiSetError
  * with result 1 and the "Parse Error." string pinned at 0x021A57B8, then
- * func_02189D78 with callback type 3 and return 3); they are not a shared
+ * gpiCallErrorCallback with callback type 3 and return 3); they are not a shared
  * block.  The earlier DIFF was a register rotation caused by spelling the two
  * copies out of one pointer with separate key/value cursor locals; using the
  * public running-pointer form reproduces the original allocation (start in
  * lr, buffer/cursor in r1, c in r5 then r3, i in r6 then r5, value in ip).
  *
  * symbols:
- *   func_02193710  0x02193710  arm  ov009
- *   func_02189D78  0x02189D78  arm  ov009
+ *   gpiSetError  0x02193710  arm  ov009
+ *   gpiCallErrorCallback  0x02189D78  arm  ov009
  *   g_021A57B8     0x021A57B8  data
  */
 
-extern void func_02193710(int *connection, int result, int errorString);
-extern int func_02189D78(int *connection, int a1, int a2);
+extern void gpiSetError(int *connection, int result, int errorString);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern char g_021A57B8[];
 
-int func_0219359C(int *connection, const char *buffer, int *index, char *key, char *value)
+int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *key, char *value)
 {
     int c;
     int i;
@@ -40,20 +40,20 @@ int func_0219359C(int *connection, const char *buffer, int *index, char *key, ch
     start = (char *)buffer;
 
     if (*buffer++ != '\\') {
-        func_02193710(connection, 1, (int)g_021A57B8);
-        func_02189D78(connection, 3, 1);
+        gpiSetError(connection, 1, (int)g_021A57B8);
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
 
     for (i = 0; (c = *buffer++) != '\\'; i++) {
         if (c == 0) {
-            func_02193710(connection, 1, (int)g_021A57B8);
-            func_02189D78(connection, 3, 1);
+            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         if (i == 0x1ff) {
-            func_02193710(connection, 1, (int)g_021A57B8);
-            func_02189D78(connection, 3, 1);
+            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         *key++ = (char)c;
@@ -62,8 +62,8 @@ int func_0219359C(int *connection, const char *buffer, int *index, char *key, ch
 
     for (i = 0; ((c = *buffer++) != '\\') && (c != 0); i++) {
         if (i == 0x1ff) {
-            func_02193710(connection, 1, (int)g_021A57B8);
-            func_02189D78(connection, 3, 1);
+            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         *value++ = (char)c;

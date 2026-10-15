@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C9730",
+   "name": "WF2DMAP_TOUCH_DeleteEditWidgets",
    "address": "0x021C9730",
    "kind": "game",
    "region": "ov128",

@@ -14,7 +14,7 @@
  * symbols:
  *   func_02195E80  0x02195E80  arm  ov009
  *   gti2ConnectionCommunicationError  0x02195F5C  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   gti2SNDiff  0x02195EB4  arm  ov009
  *   gti2ResendMessage  0x02197C5C  arm  ov009
@@ -32,7 +32,7 @@ typedef struct Conn {
 
 extern unsigned short func_02195E80(unsigned char *buffer, int pos);
 extern int gti2ConnectionCommunicationError(Conn *c);
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int gti2SNDiff(unsigned short SN1, unsigned short SN2);
 extern int gti2ResendMessage(Conn *c, Msg *message);
@@ -55,7 +55,7 @@ int gti2HandleNack(Conn *connection, unsigned char *message, int len)
 			return 1;
 		return 0;
 	}
-	num = func_02184200(connection->outgoing);
+	num = ArrayLength(connection->outgoing);
 	for (i = 0; i < num; i++) {
 		messageInfo = func_02184208(connection->outgoing, i);
 		if (gti2SNDiff(messageInfo->SN, SNMin) < 0)

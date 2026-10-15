@@ -1,5 +1,5 @@
 /*
- * function: func_021BEEC4
+ * function: ZKNSEARCH_MAIN_RegisterActorRes
  * address:  0x021BEEC4
  * packet:   pkt_ov210_021BEEC4
  * region:   ov210
@@ -42,7 +42,7 @@ struct Res021BEEC4 {
     int c[4];
 };
 
-void func_021BEEC4(struct Res021BEEC4 *p)
+void ZKNSEARCH_MAIN_RegisterActorRes(struct Res021BEEC4 *p)
 {
     u32 i;
     void *arc;

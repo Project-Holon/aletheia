@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_rail.c
  * unit:     yes
- * function: FLDMMDL_RAIL_SetLocation, FLDMMDL_RAIL_GetNextLocation, FLDMMDL_RAIL_GetNowLocation, FLDMMDL_RAIL_GetRailWork, FLDMMDL_RAIL_UpdateRailWork, FLDMMDL_RAIL_SetMoveRequest, FLDMMDL_RAIL_GetHitBitsLocation, FLDMMDL_RAIL_GetHitBitsDirNoAttr, FLDMMDL_RAIL_GetHitBitsDir, FLDMMDL_RAIL_CheckHitMmdl, FLDMMDL_RAIL_SearchMmdlByLocation, FLDMMDL_RAIL_GetFrontLocation, FLDMMDL_RAIL_GetLocationByDir, FLDMMDL_RAIL_SetGridPosByDir, FLDMMDL_RAIL_GetDrawOffset, FLDMMDL_RAIL_GetDrawOffsetByDir, FLDMMDL_RAIL_StayInit, FLDMMDL_RAIL_StayMove, FLDMMDL_RAIL_StayDelete, func_0219E854, FLDMMDL_RAIL_DirToRailKey, FLDMMDL_RAIL_RailKeyToDir, FLDMMDL_RAIL_InitMoveWork, FLDMMDL_RAIL_CheckOutsideHomeArea, FLDMMDL_RAIL_GetTableLength, FLDMMDL_RAIL_GetRandomTableEntry, FLDMMDL_RAIL_GetRandomDirOfKind, FLDMMDL_RAIL_GetDirListOfKind, FLDMMDL_RAIL_InitRailWork, FLDMMDL_RAIL_StoreNowLocation, FLDMMDL_RAIL_ReleaseRailWork, FLDMMDL_RAIL_AcquireRailWork, FLDMMDL_RAIL_StoreLocation, FLDMMDL_RAIL_ApplyStoredLocation, FLDMMDL_RAIL_LookAroundInit, FLDMMDL_RAIL_LookAroundMoveBody, FLDMMDL_RAIL_LookAroundDeleteBody, FLDMMDL_RAIL_WanderInit, FLDMMDL_RAIL_WanderMoveBody, FLDMMDL_RAIL_WanderDeleteBody, FLDMMDL_RAIL_ShuttleInitBody, FLDMMDL_RAIL_ShuttleMoveBody, FLDMMDL_RAIL_ShuttleDeleteBody
+ * function: FLDMMDL_RAIL_SetLocation, FLDMMDL_RAIL_GetNextLocation, FLDMMDL_RAIL_GetNowLocation, FLDMMDL_RAIL_GetRailWork, FLDMMDL_RAIL_UpdateRailWork, FLDMMDL_RAIL_SetMoveRequest, FLDMMDL_RAIL_GetHitBitsLocation, FLDMMDL_RAIL_GetHitBitsDirNoAttr, FLDMMDL_RAIL_GetHitBitsDir, FLDMMDL_RAIL_CheckHitMmdl, FLDMMDL_RAIL_SearchMmdlByLocation, FLDMMDL_RAIL_GetFrontLocation, FLDMMDL_RAIL_GetLocationByDir, FLDMMDL_RAIL_SetGridPosByDir, FLDMMDL_RAIL_GetDrawOffset, FLDMMDL_RAIL_GetDrawOffsetByDir, FLDMMDL_RAIL_StayInit, FLDMMDL_RAIL_StayMove, FLDMMDL_RAIL_StayDelete, FLDMMDL_RAIL_AcquireRailWorkBody, FLDMMDL_RAIL_DirToRailKey, FLDMMDL_RAIL_RailKeyToDir, FLDMMDL_RAIL_InitMoveWork, FLDMMDL_RAIL_CheckOutsideHomeArea, FLDMMDL_RAIL_GetTableLength, FLDMMDL_RAIL_GetRandomTableEntry, FLDMMDL_RAIL_GetRandomDirOfKind, FLDMMDL_RAIL_GetDirListOfKind, FLDMMDL_RAIL_InitRailWork, FLDMMDL_RAIL_StoreNowLocation, FLDMMDL_RAIL_ReleaseRailWork, FLDMMDL_RAIL_AcquireRailWork, FLDMMDL_RAIL_StoreLocation, FLDMMDL_RAIL_ApplyStoredLocation, FLDMMDL_RAIL_LookAroundInit, FLDMMDL_RAIL_LookAroundMoveBody, FLDMMDL_RAIL_LookAroundDeleteBody, FLDMMDL_RAIL_WanderInit, FLDMMDL_RAIL_WanderMoveBody, FLDMMDL_RAIL_WanderDeleteBody, FLDMMDL_RAIL_ShuttleInitBody, FLDMMDL_RAIL_ShuttleMoveBody, FLDMMDL_RAIL_ShuttleDeleteBody
  * address:  0x0219E2C0
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
  *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb  ov021
- *   func_021B7DC0  0x021B7DC0  thumb
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb
  *   FIELD_RAIL_WORK_QueryStep  0x021B7E60  thumb
  *   FIELD_RAIL_WORK_GetLastKey  0x021B8038  thumb
  *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb
@@ -179,7 +179,7 @@ extern void FIELD_RAIL_WORK_SetLocation(RailWork *railWork, RailLocation *loc);
 extern RailManager *FIELD_NOGRID_MAPPER_GetRailMan(FieldSys *fieldSys);
 extern u8 FIELD_RAIL_WORK_GetLastKey(RailWork *railWork);
 extern int FIELD_RAIL_WORK_QueryStep(RailWork *railWork, u32 key, RailLocation *outLoc, VecFx32 *outPos);
-extern u32 func_021B7DC0(RailWork *railWork, RailLocation *outLoc);
+extern u32 FIELD_RAIL_WORK_GetLocation(RailWork *railWork, RailLocation *outLoc);
 extern void FIELD_RAIL_WORK_UpdateStep(RailWork *railWork);
 extern void FIELD_RAIL_WORK_StartStep(RailWork *railWork, u32 dir, u32 key);
 extern int FIELD_RAIL_WORK_IsLocationValid(RailWork *railWork, RailLocation *loc);
@@ -244,27 +244,27 @@ void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *outOffset);
 RailMoveWork *FLDMMDL_RAIL_StayInit(Mmdl *mmdl);
 void FLDMMDL_RAIL_StayMove(Mmdl *mmdl, u32 unused1, u32 unused2, u32 unused3);
 int FLDMMDL_RAIL_StayDelete(Mmdl *mmdl, u32 unused1, u32 unused2, u32 unused3);
-void func_0219E854(Mmdl *mmdl);
-void func_0219E864(Mmdl *mmdl);
-void func_0219E870(Mmdl *mmdl);
-void func_0219E87C(Mmdl *mmdl);
-void func_0219E888(Mmdl *mmdl);
-void func_0219E894(Mmdl *mmdl);
-void func_0219E8A0(Mmdl *mmdl);
-void func_0219E8AC(Mmdl *mmdl);
-void func_0219E8B8(Mmdl *mmdl);
-void func_0219E8C4(Mmdl *mmdl);
-void func_0219E8D0(Mmdl *mmdl);
-void func_0219E8DC(Mmdl *mmdl);
-int func_0219E8E8(Mmdl *mmdl);
-int func_0219E8F0(Mmdl *mmdl);
-void func_0219E8F8(Mmdl *mmdl);
-void func_0219E904(Mmdl *mmdl);
-int func_0219E910(Mmdl *mmdl);
-int func_0219E918(Mmdl *mmdl);
-void func_0219E920(Mmdl *mmdl);
-int func_0219E928(Mmdl *mmdl);
-int func_0219E930(Mmdl *mmdl);
+void FLDMMDL_RAIL_AcquireRailWorkBody(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind0(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind1(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind2(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind3(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind4(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind5(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind6(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind7(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind8(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind9(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundInitKind10(Mmdl *mmdl);
+int FLDMMDL_RAIL_LookAroundMove(Mmdl *mmdl);
+int FLDMMDL_RAIL_LookAroundDelete(Mmdl *mmdl);
+void FLDMMDL_RAIL_WanderInitKind0(Mmdl *mmdl);
+void FLDMMDL_RAIL_WanderInitKind9(Mmdl *mmdl);
+int FLDMMDL_RAIL_WanderMove(Mmdl *mmdl);
+int FLDMMDL_RAIL_WanderDelete(Mmdl *mmdl);
+void FLDMMDL_RAIL_ShuttleInit(Mmdl *mmdl);
+int FLDMMDL_RAIL_ShuttleMove(Mmdl *mmdl);
+int FLDMMDL_RAIL_ShuttleDelete(Mmdl *mmdl);
 u32 FLDMMDL_RAIL_DirToRailKey(int dir);
 u32 FLDMMDL_RAIL_RailKeyToDir(int key);
 RailMoveWork *FLDMMDL_RAIL_InitMoveWork(Mmdl *mmdl, u32 size);
@@ -316,13 +316,13 @@ void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLoc)
     if (FIELD_RAIL_WORK_IsMoving(work->railWork))
         FIELD_RAIL_WORK_QueryStep(work->railWork, FIELD_RAIL_WORK_GetLastKey(work->railWork), outLoc, 0);
     else
-        func_021B7DC0(work->railWork, outLoc);
+        FIELD_RAIL_WORK_GetLocation(work->railWork, outLoc);
 }
 
 /* Read the place the model is at now. */
 int FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *outLoc)
 {
-    return func_021B7DC0(((RailMoveWork *)FLDMMDL_GetMoveProcWork(mmdl))->railWork, outLoc);
+    return FIELD_RAIL_WORK_GetLocation(((RailMoveWork *)FLDMMDL_GetMoveProcWork(mmdl))->railWork, outLoc);
 }
 
 RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl)
@@ -397,7 +397,7 @@ int FLDMMDL_RAIL_GetHitBitsDir(Mmdl *mmdl, u32 dir, u32 *outAttr)
 
     railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl)));
     work = FLDMMDL_GetMoveProcWork(mmdl);
-    func_021B7DC0(work->railWork, &nowLoc);
+    FIELD_RAIL_WORK_GetLocation(work->railWork, &nowLoc);
     curDir = FLDMMDL_GetDirDisp(mmdl);
     if (curDir == dir) {
         found = FIELD_RAIL_WORK_QueryStep(work->railWork, FLDMMDL_RAIL_DirToRailKey(dir), &nextLoc, 0);
@@ -605,35 +605,35 @@ int FLDMMDL_RAIL_StayDelete(Mmdl *mmdl, u32 unused1, u32 unused2, u32 unused3)
  * the move and delete procs of the look around, the two wander inits, the
  * move and delete procs of the wander, and the shuttle init, move, delete.
  */
-void func_0219E854(Mmdl *mmdl)
+void FLDMMDL_RAIL_AcquireRailWorkBody(Mmdl *mmdl)
 {
     FLDMMDL_RAIL_AcquireRailWork(FLDMMDL_GetMoveProcWork(mmdl), mmdl);
 }
 
-void func_0219E864(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 0); }
-void func_0219E870(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 1); }
-void func_0219E87C(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 2); }
-void func_0219E888(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 3); }
-void func_0219E894(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 4); }
-void func_0219E8A0(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 5); }
-void func_0219E8AC(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 6); }
-void func_0219E8B8(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 7); }
-void func_0219E8C4(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 8); }
-void func_0219E8D0(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 9); }
-void func_0219E8DC(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 10); }
+void FLDMMDL_RAIL_LookAroundInitKind0(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 0); }
+void FLDMMDL_RAIL_LookAroundInitKind1(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 1); }
+void FLDMMDL_RAIL_LookAroundInitKind2(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 2); }
+void FLDMMDL_RAIL_LookAroundInitKind3(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 3); }
+void FLDMMDL_RAIL_LookAroundInitKind4(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 4); }
+void FLDMMDL_RAIL_LookAroundInitKind5(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 5); }
+void FLDMMDL_RAIL_LookAroundInitKind6(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 6); }
+void FLDMMDL_RAIL_LookAroundInitKind7(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 7); }
+void FLDMMDL_RAIL_LookAroundInitKind8(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 8); }
+void FLDMMDL_RAIL_LookAroundInitKind9(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 9); }
+void FLDMMDL_RAIL_LookAroundInitKind10(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 10); }
 
-int func_0219E8E8(Mmdl *mmdl) { return FLDMMDL_RAIL_LookAroundMoveBody(mmdl); }
-int func_0219E8F0(Mmdl *mmdl) { return FLDMMDL_RAIL_LookAroundDeleteBody(mmdl); }
+int FLDMMDL_RAIL_LookAroundMove(Mmdl *mmdl) { return FLDMMDL_RAIL_LookAroundMoveBody(mmdl); }
+int FLDMMDL_RAIL_LookAroundDelete(Mmdl *mmdl) { return FLDMMDL_RAIL_LookAroundDeleteBody(mmdl); }
 
-void func_0219E8F8(Mmdl *mmdl) { FLDMMDL_RAIL_WanderInit(mmdl, 0); }
-void func_0219E904(Mmdl *mmdl) { FLDMMDL_RAIL_WanderInit(mmdl, 9); }
+void FLDMMDL_RAIL_WanderInitKind0(Mmdl *mmdl) { FLDMMDL_RAIL_WanderInit(mmdl, 0); }
+void FLDMMDL_RAIL_WanderInitKind9(Mmdl *mmdl) { FLDMMDL_RAIL_WanderInit(mmdl, 9); }
 
-int func_0219E910(Mmdl *mmdl) { return FLDMMDL_RAIL_WanderMoveBody(mmdl); }
-int func_0219E918(Mmdl *mmdl) { return FLDMMDL_RAIL_WanderDeleteBody(mmdl); }
+int FLDMMDL_RAIL_WanderMove(Mmdl *mmdl) { return FLDMMDL_RAIL_WanderMoveBody(mmdl); }
+int FLDMMDL_RAIL_WanderDelete(Mmdl *mmdl) { return FLDMMDL_RAIL_WanderDeleteBody(mmdl); }
 
-void func_0219E920(Mmdl *mmdl) { FLDMMDL_RAIL_ShuttleInitBody(mmdl); }
-int func_0219E928(Mmdl *mmdl) { return FLDMMDL_RAIL_ShuttleMoveBody(mmdl); }
-int func_0219E930(Mmdl *mmdl) { return FLDMMDL_RAIL_ShuttleDeleteBody(mmdl); }
+void FLDMMDL_RAIL_ShuttleInit(Mmdl *mmdl) { FLDMMDL_RAIL_ShuttleInitBody(mmdl); }
+int FLDMMDL_RAIL_ShuttleMove(Mmdl *mmdl) { return FLDMMDL_RAIL_ShuttleMoveBody(mmdl); }
+int FLDMMDL_RAIL_ShuttleDelete(Mmdl *mmdl) { return FLDMMDL_RAIL_ShuttleDeleteBody(mmdl); }
 
 /* Model direction to rail key. */
 u32 FLDMMDL_RAIL_DirToRailKey(int dir)
@@ -746,7 +746,7 @@ int FLDMMDL_RAIL_InitRailWork(RailMoveWork *work, Mmdl *mmdl)
 void FLDMMDL_RAIL_StoreNowLocation(RailMoveWork *work, Mmdl *mmdl)
 {
     RailLocation nowLoc;
-    func_021B7DC0(work->railWork, &nowLoc);
+    FIELD_RAIL_WORK_GetLocation(work->railWork, &nowLoc);
     FLDMMDL_RAIL_StoreLocation(work, &nowLoc);
 }
 

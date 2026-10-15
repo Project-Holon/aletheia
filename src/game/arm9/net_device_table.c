@@ -1,7 +1,7 @@
 /*
  * file:     net_device_table.c
  * unit:     yes
- * function: func_0200EE48, func_0200EE50, NET_DEVICE_TABLE_BuildFromProducer, NET_DEVICE_TABLE_Setup, func_0200EED8, NET_DEVICE_TABLE_InitEntry, func_0200F0CC, func_0200F104, func_0200F128, func_0200F168, func_0200F16C, NET_DEVICE_TABLE_Select, NET_DEVICE_TABLE_Reset
+ * function: NET_DEVICE_TABLE_GetSize, NET_DEVICE_TABLE_Clear, NET_DEVICE_TABLE_BuildFromProducer, NET_DEVICE_TABLE_Setup, NET_DEVICE_TABLE_CopyRecord, NET_DEVICE_TABLE_InitEntry, NET_DEVICE_TABLE_GetNextUsed, NET_DEVICE_TABLE_GetFreeSlot, NET_DEVICE_TABLE_RemapId, NET_DEVICE_TABLE_GetZero, NET_DEVICE_TABLE_SetHeader, NET_DEVICE_TABLE_Select, NET_DEVICE_TABLE_Reset
  * address:  0x0200EE48
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -40,15 +40,8 @@
  *   ov_id_0E       0x0000000E  data
  *   ov_id_0F       0x0000000F  data
  */
-#include "../../matched/include/Obj00607.h"
-#include "../../matched/include/Obj00606.h"
-#include "../../matched/include/Obj00648.h"
-#include "../../matched/include/Obj11712.h"
-#include "../../matched/include/Obj16720.h"
-#include "../../matched/include/Obj16721.h"
-#include "../../matched/include/Obj00192.h"
+#include "../ov010/fldmmdl_types.h"
 
-struct Record;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -61,99 +54,55 @@ typedef signed char    s8;
 
 typedef signed int     s32;
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
+/*
+ * The 0x50-byte packed field model: the network form of one Mmdl, built by
+ * NET_DEVICE_TABLE_CopyRecord and read back by NET_DEVICE_TABLE_InitEntry.
+ * Every field carries the Mmdl field of the same name, narrowed where the
+ * packed form is smaller.  64 of them (0x1400 bytes) make up a device table
+ * block (NET_DEVICE_TABLE_GetSize).
+ */
+typedef struct NetDeviceRecord {
+    u32 statusBit;               /* 0x00: Mmdl.statusBit */
+    u8  sizeWidth;               /* 0x04: Mmdl.sizeWidth */
+    u8  sizeDepth;               /* 0x05: Mmdl.sizeDepth */
+    u8  pad06[2];
+    u8  objId;                   /* 0x08: Mmdl.objId, narrowed */
+    u8  moveCode;                /* 0x09: Mmdl.moveCode, narrowed */
+    s8  moveLimitX;              /* 0x0A: Mmdl.moveLimitX, narrowed */
+    s8  moveLimitZ;              /* 0x0B: Mmdl.moveLimitZ, narrowed */
+    s8  dirHeader;               /* 0x0C: Mmdl.dirHeader, narrowed */
+    s8  dirDisp;                 /* 0x0D: Mmdl.dirDisp, narrowed */
+    s8  dirMove;                 /* 0x0E: Mmdl.dirMove, narrowed */
+    u8  pad0F;
+    u16 zoneId;                  /* 0x10: Mmdl.zoneId */
+    u16 objCode;                 /* 0x12: Mmdl.objCode */
+    u16 eventType;               /* 0x14: Mmdl.eventType */
+    u16 eventFlag;               /* 0x16: Mmdl.eventFlag */
+    u16 eventId;                 /* 0x18: Mmdl.eventId */
+    u16 param0;                  /* 0x1A: Mmdl.param0 */
+    u16 param1;                  /* 0x1C: Mmdl.param1 */
+    u16 param2;                  /* 0x1E: Mmdl.param2 */
+    s16 gridInitX;               /* 0x20: Mmdl.gridInitX */
+    s16 gridInitY;               /* 0x22: Mmdl.gridInitY */
+    s16 gridInitZ;               /* 0x24: Mmdl.gridInitZ */
+    s16 gridNowX;                /* 0x26: Mmdl.gridNowX */
+    s16 gridNowY;                /* 0x28: Mmdl.gridNowY */
+    s16 gridNowZ;                /* 0x2A: Mmdl.gridNowZ */
+    u32 posY;                    /* 0x2C: Mmdl.pos.y */
+    u8  moveProcWork[0x10];      /* 0x30: Mmdl.moveProcWork */
+    u8  moveSubProcWork[0x10];   /* 0x40: Mmdl.moveSubProcWork */
+} NetDeviceRecord;
 
-typedef struct {
-    u32 flags;
-    u32 flags4;
-    u16 f8;
-    u16 fa;
-    u16 fc;
-    u16 fe;
-    u16 f10;
-    u16 f12;
-    u16 f14;
-    s16 f16;
-    s16 f18;
-    s16 f1a;
-    u8 pad1c[4];
-    s16 f20;
-    s16 f22;
-    s16 f24;
-    u8 pad26[6];
-    s16 f2c;
-    s16 f2e;
-    s16 f30;
-    s16 f32;
-    s16 f34;
-    s16 f36;
-    s16 f38;
-    s16 f3a;
-    s16 f3c;
-    s16 f3e;
-    s16 f40;
-    u8 pad42[2];
-    VecFx32 f44;
-    u8 pad50[0x7c - 0x50];
-    u8 f7c;
-    u8 f7d;
-    s8 f7e;
-    s8 f7f;
-    s8 f80;
-    u8 pad81[7];
-    void *f88;
-    u8 pad8c[0x94 - 0x8c];
-    u8 f94[0x10];
-    u8 fa4[0x10];
-    u8 padb4[0xe4 - 0xb4];
-    u8 fe4[0x1c];
-} DstStruct;
-
-typedef struct {
-    u32 f0;
-    u8 f4;
-    u8 f5;
-    u8 pad6[2];
-    u8 f8;
-    u8 f9;
-    s8 fa;
-    s8 fb;
-    s8 fc;
-    s8 fd;
-    s8 fe;
-    u8 padf;
-    u16 f10;
-    u16 f12;
-    u16 f14;
-    u16 f16;
-    u16 f18;
-    u16 f1a;
-    u16 f1c;
-    u16 f1e;
-    s16 f20;
-    s16 f22;
-    s16 f24;
-    s16 f26;
-    s16 f28;
-    s16 f2a;
-    s32 f2c;
-    u8 f30[0x10];
-    u8 f40[0x10];
-} SrcStruct;
-
-struct Sub0200F16CHdr {
+/* Three-word header NET_DEVICE_TABLE_SetHeader stamps. */
+typedef struct NetDeviceHeader {
     u32 tag;
     u32 size;
     u32 count;
-};
+} NetDeviceHeader;
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
+extern void FLDMMDL_LoadObjCodeParam(const MmdlSys *sys, u32 objCode, MmdlObjCodeParam *out);
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
 extern void *GFL_NET_DEVWIFI_GetDeviceTable(void);
@@ -161,15 +110,15 @@ extern void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
 extern void *IRCNET_GetHandlerTable(void);
 u32 NET_DEVICE_TABLE_GetSize(void);
 void NET_DEVICE_TABLE_Clear(void *dest);
-void NET_DEVICE_TABLE_BuildFromProducer(u32 a0, u8 *a1);
-void NET_DEVICE_TABLE_Setup(void *ctx, void *list);
-void NET_DEVICE_TABLE_CopyRecord(const void *item, void *record);
-void NET_DEVICE_TABLE_InitEntry(DstStruct *dst, const SrcStruct *src, void *arg2);
+void NET_DEVICE_TABLE_BuildFromProducer(MmdlSys *producer, u8 *records);
+void NET_DEVICE_TABLE_Setup(MmdlSys *sys, const u8 *records);
+void NET_DEVICE_TABLE_CopyRecord(const Mmdl *mmdl, NetDeviceRecord *record);
+void NET_DEVICE_TABLE_InitEntry(Mmdl *mmdl, const NetDeviceRecord *record, MmdlSys *sys);
 u32 NET_DEVICE_TABLE_GetNextUsed(const void *obj, void *out, u32 *idxptr);
 void *NET_DEVICE_TABLE_GetFreeSlot(void *ctx);
 u32 NET_DEVICE_TABLE_RemapId(u32 x);
 u32 NET_DEVICE_TABLE_GetZero(void);
-void NET_DEVICE_TABLE_SetHeader(struct Sub0200F16CHdr *hdr);
+void NET_DEVICE_TABLE_SetHeader(NetDeviceHeader *hdr);
 int NET_DEVICE_TABLE_Select(u32 sel);
 void NET_DEVICE_TABLE_Reset(u32 sel);
 extern u8 ov_id_0A[];
@@ -179,6 +128,7 @@ extern u8 ov_id_0D[];
 extern u8 ov_id_72[];
 extern u8 ov_id_0E[];
 extern u8 ov_id_0F[];
+
 
 
 
@@ -205,17 +155,17 @@ void NET_DEVICE_TABLE_Clear(void *dest)
  * enumerator call is rotated (first test above the loop body) so this is a
  * plain `while`, not a do/while.
  */
-void NET_DEVICE_TABLE_BuildFromProducer(u32 a0, u8 *a1)
+void NET_DEVICE_TABLE_BuildFromProducer(MmdlSys *producer, u8 *records)
 {
     u32 hint = 0;
     void *item;
 
-    NET_DEVICE_TABLE_Clear(a1);
+    NET_DEVICE_TABLE_Clear(records);
 
-    while (NET_DEVICE_TABLE_GetNextUsed((const void *)a0, &item, &hint) == 1) {
-        if ((((struct Obj00607 *)item)->f4 & 0x100000) == 0) {
-            NET_DEVICE_TABLE_CopyRecord(item, a1);
-            a1 += 0x50;
+    while (NET_DEVICE_TABLE_GetNextUsed((const void *)producer, &item, &hint) == 1) {
+        if ((((const Mmdl *)item)->moveBit & MMDL_MOVEBIT_ATTR_EFFECT_OFF) == 0) {
+            NET_DEVICE_TABLE_CopyRecord((const Mmdl *)item, (NetDeviceRecord *)records);
+            records += 0x50;
         }
     }
 }
@@ -244,18 +194,18 @@ void NET_DEVICE_TABLE_BuildFromProducer(u32 a0, u8 *a1)
  * NET_DEVICE_TABLE_InitEntry is matched, so no EXACT entry covers either address.  It closes
  * when one of the two is matched, or when the image acquires a second caller.
  */
-void NET_DEVICE_TABLE_Setup(void *ctx, void *list)
+void NET_DEVICE_TABLE_Setup(MmdlSys *sys, const u8 *records)
 {
-    u8 *rec = (u8 *)list;
+    const u8 *rec = records;
     u32 i;
 
     for (i = 0; i < 0x40; i++, rec += 0x50) {
-        if (((struct Obj00606 *)rec)->f0 & 1) {
-            NET_DEVICE_TABLE_InitEntry((DstStruct *)NET_DEVICE_TABLE_GetFreeSlot(ctx), (const SrcStruct *)rec, ctx);
+        if (((const NetDeviceRecord *)rec)->statusBit & MMDL_STABIT_USE) {
+            NET_DEVICE_TABLE_InitEntry((Mmdl *)NET_DEVICE_TABLE_GetFreeSlot(sys), (const NetDeviceRecord *)rec, sys);
         }
     }
 
-    *(unsigned short *)((u8 *)ctx + 6) = (unsigned short)i;
+    sys->mmdlCount = (short)i;
 }
 
 
@@ -273,109 +223,105 @@ void NET_DEVICE_TABLE_Setup(void *ctx, void *list)
  *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_CopyRecord.c \
  *       --func NET_DEVICE_TABLE_CopyRecord --addr 0x0200EED8 --cc 1.1p1
  */
-void NET_DEVICE_TABLE_CopyRecord(const void *item, void *record)
+void NET_DEVICE_TABLE_CopyRecord(const Mmdl *mmdl, NetDeviceRecord *record)
 {
-    const u8 *src = (const u8 *)item;
-    u8 *dest = (u8 *)record;
+    record->statusBit = *(const u32 *)&mmdl->statusBit;
+    record->sizeWidth = mmdl->sizeWidth;
+    record->sizeDepth = mmdl->sizeDepth;
+    record->objId = (u8)mmdl->objId;
+    record->zoneId = mmdl->zoneId;
+    record->objCode = mmdl->objCode;
+    record->moveCode = (u8)mmdl->moveCode;
+    record->eventType = mmdl->eventType;
+    record->eventFlag = mmdl->eventFlag;
+    record->eventId = mmdl->eventId;
+    record->dirHeader = (u8)mmdl->dirHeader;
+    record->dirDisp = (u8)mmdl->dirDisp;
+    record->dirMove = (u8)mmdl->dirMove;
+    record->param0 = mmdl->param0;
+    record->param1 = mmdl->param1;
+    record->param2 = mmdl->param2;
+    record->moveLimitX = (u8)mmdl->moveLimitX;
+    record->moveLimitZ = (u8)mmdl->moveLimitZ;
+    record->gridInitX = (u16)mmdl->gridInitX;
+    record->gridInitY = (u16)mmdl->gridInitY;
+    record->gridInitZ = (u16)mmdl->gridInitZ;
+    record->gridNowX = (u16)mmdl->gridNowX;
+    record->gridNowY = (u16)mmdl->gridNowY;
+    record->gridNowZ = (u16)mmdl->gridNowZ;
+    record->posY = *(const u32 *)&mmdl->pos.y;
 
-    ((struct Obj00648 *)dest)->f0 = *(const u32 *)&((struct Obj00607 *)src)->f0;
-    dest[4] = src[0x7c];
-    dest[5] = src[0x7d];
-    dest[8] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f8;
-    ((struct Obj00648 *)dest)->f10 = *(const u16 *)&((struct Obj00607 *)src)->fA;
-    ((struct Obj00648 *)dest)->f12 = *(const u16 *)&((struct Obj00607 *)src)->fC;
-    dest[9] = (u8)*(const u16 *)&((struct Obj00607 *)src)->fE;
-    ((struct Obj00648 *)dest)->f14 = *(const u16 *)&((struct Obj00607 *)src)->f10;
-    ((struct Obj00648 *)dest)->f16 = *(const u16 *)&((struct Obj00607 *)src)->f12;
-    ((struct Obj00648 *)dest)->f18 = *(const u16 *)&((struct Obj00607 *)src)->f14;
-    dest[0xc] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f16;
-    dest[0xd] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f18;
-    dest[0xe] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f1A;
-    ((struct Obj00648 *)dest)->f1A = *(const u16 *)&((struct Obj00607 *)src)->f20;
-    ((struct Obj00648 *)dest)->f1C = *(const u16 *)&((struct Obj00607 *)src)->f22;
-    ((struct Obj00648 *)dest)->f1E = *(const u16 *)&((struct Obj00607 *)src)->f24;
-    dest[0xa] = (u8)*(const s16 *)&((struct Obj00607 *)src)->f2C;
-    dest[0xb] = (u8)*(const s16 *)&((struct Obj00607 *)src)->f2E;
-    ((struct Obj00648 *)dest)->f20 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f30;
-    ((struct Obj00648 *)dest)->f22 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f32;
-    ((struct Obj00648 *)dest)->f24 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f34;
-    ((struct Obj00648 *)dest)->f26 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f3C;
-    ((struct Obj00648 *)dest)->f28 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f3E;
-    ((struct Obj00648 *)dest)->f2A = (u16)*(const s16 *)&((struct Obj00607 *)src)->f40;
-    ((struct Obj00648 *)dest)->f2C = *(const u32 *)&((struct Obj00607 *)src)->f48;
-
-    MI_CpuCopy8(src + 0x94, dest + 0x30, 0x10);
-    MI_CpuCopy8(src + 0xa4, dest + 0x40, 0x10);
+    MI_CpuCopy8(mmdl->moveProcWork, record->moveProcWork, 0x10);
+    MI_CpuCopy8(mmdl->moveSubProcWork, record->moveSubProcWork, 0x10);
 }
 
 
 
 
-void NET_DEVICE_TABLE_InitEntry(DstStruct *dst, const SrcStruct *src, void *arg2) {
-    MI_CpuFill8(dst, 0, 0x100);
+void NET_DEVICE_TABLE_InitEntry(Mmdl *mmdl, const NetDeviceRecord *record, MmdlSys *sys) {
+    MI_CpuFill8(mmdl, 0, 0x100);
 
-    dst->flags = src->f0;
-    dst->f7c = src->f4;
-    dst->f7d = src->f5;
+    mmdl->statusBit = record->statusBit;
+    mmdl->sizeWidth = record->sizeWidth;
+    mmdl->sizeDepth = record->sizeDepth;
 
-    dst->f8 = src->f8;
-    dst->fa = src->f10;
-    dst->fc = src->f12;
-    dst->fe = src->f9;
-    dst->f10 = src->f14;
-    dst->f12 = src->f16;
-    dst->f14 = src->f18;
+    mmdl->objId = record->objId;
+    mmdl->zoneId = record->zoneId;
+    mmdl->objCode = record->objCode;
+    mmdl->moveCode = record->moveCode;
+    mmdl->eventType = record->eventType;
+    mmdl->eventFlag = record->eventFlag;
+    mmdl->eventId = record->eventId;
 
-    dst->f16 = src->fc;
-    dst->f18 = src->fd;
-    dst->f1a = src->fe;
+    mmdl->dirHeader = record->dirHeader;
+    mmdl->dirDisp = record->dirDisp;
+    mmdl->dirMove = record->dirMove;
 
-    dst->f20 = src->f1a;
-    dst->f22 = src->f1c;
-    dst->f24 = src->f1e;
+    mmdl->param0 = record->param0;
+    mmdl->param1 = record->param1;
+    mmdl->param2 = record->param2;
 
-    dst->f2c = src->fa;
-    dst->f2e = src->fb;
+    mmdl->moveLimitX = record->moveLimitX;
+    mmdl->moveLimitZ = record->moveLimitZ;
 
-    dst->f30 = src->f20;
-    dst->f32 = src->f22;
-    dst->f34 = src->f24;
+    mmdl->gridInitX = record->gridInitX;
+    mmdl->gridInitY = record->gridInitY;
+    mmdl->gridInitZ = record->gridInitZ;
 
-    dst->f3c = src->f26;
-    dst->f3e = src->f28;
-    dst->f40 = src->f2a;
+    mmdl->gridNowX = record->gridNowX;
+    mmdl->gridNowY = record->gridNowY;
+    mmdl->gridNowZ = record->gridNowZ;
 
-    MI_CpuCopy8(&src->f30, &dst->f94, 0x10);
-    MI_CpuCopy8(&src->f40, &dst->fa4, 0x10);
+    MI_CpuCopy8(record->moveProcWork, mmdl->moveProcWork, 0x10);
+    MI_CpuCopy8(record->moveSubProcWork, mmdl->moveSubProcWork, 0x10);
 
-    dst->f88 = arg2;
+    mmdl->mmdlSys = sys;
     {
-        VecFx32 vec = { 0 };
-        dst->f36 = dst->f3c;
-        vec.x = (dst->f3c << 16) + 0x8000;
-        dst->f38 = dst->f3e;
-        vec.y = src->f2c;
-        dst->f3a = dst->f40;
-        vec.z = (dst->f40 << 16) + 0x8000;
-        dst->f44 = vec;
+        MmdlVec vec = { 0 };
+        mmdl->gridOldX = mmdl->gridNowX;
+        vec.x = (mmdl->gridNowX << 16) + 0x8000;
+        mmdl->gridOldY = mmdl->gridNowY;
+        vec.y = record->posY;
+        mmdl->gridOldZ = mmdl->gridNowZ;
+        vec.z = (mmdl->gridNowZ << 16) + 0x8000;
+        mmdl->pos = vec;
     }
 
-    dst->flags &= ~1;
-    FLDMMDL_LoadObjCodeParam(arg2, dst->fc, (struct Record *)&dst->fe4);
-    dst->flags |= 1;
+    mmdl->statusBit &= ~MMDL_STABIT_USE;
+    FLDMMDL_LoadObjCodeParam(sys, mmdl->objCode, &mmdl->objCodeParam);
+    mmdl->statusBit |= MMDL_STABIT_USE;
 
     {
-        s8 *sub = (s8 *)dst + 0xe4;
-        u8 *d = (u8 *)dst;
-        d[0x7e] = sub[0xd];
-        d[0x7f] = sub[0xe];
-        d[0x80] = sub[0xf];
+        s8 *sub = (s8 *)mmdl + 0xe4;
+        mmdl->offsetX = sub[0xd];
+        mmdl->offsetY = sub[0xe];
+        mmdl->offsetZ = sub[0xf];
     }
 
-    dst->flags |= 1;
-    dst->flags4 |= 0x800;
-    if (dst->flags & 2) {
-        dst->flags4 |= 1;
+    mmdl->statusBit |= MMDL_STABIT_USE;
+    mmdl->moveBit |= MMDL_MOVEBIT_ATTR_GET_ERROR;
+    if (mmdl->statusBit & MMDL_STABIT_MOVE_INIT) {
+        mmdl->moveBit |= MMDL_MOVEBIT_MOVE_PUSH;
     }
 }
 
@@ -398,16 +344,16 @@ void NET_DEVICE_TABLE_InitEntry(DstStruct *dst, const SrcStruct *src, void *arg2
  */
 u32 NET_DEVICE_TABLE_GetNextUsed(const void *obj, void *out, u32 *idxptr)
 {
-    u32 count = *(const u16 *)&((struct Obj11712 *)obj)->f4;
+    u32 count = *(const u16 *)&((const MmdlSys *)obj)->mmdlMax;
     u32 idx = *idxptr;
     u8 *rec;
 
     if (idx < count) {
-        rec = *(u8 * *)&((struct Obj11712 *)obj)->f18 + idx * 0x100;
+        rec = (u8 *)((const MmdlSys *)obj)->mmdlBuf + idx * 0x100;
         do {
             *idxptr = *idxptr + 1;
-            if (((struct Obj16721 *)rec)->f0 & 1) {
-                ((struct Obj16720 *)out)->f0 = rec;
+            if (((const Mmdl *)rec)->statusBit & MMDL_STABIT_USE) {
+                *(void **)out = rec;
                 return 1;
             }
             rec += 0x100;
@@ -442,13 +388,13 @@ u32 NET_DEVICE_TABLE_GetNextUsed(const void *obj, void *out, u32 *idxptr)
  */
 void *NET_DEVICE_TABLE_GetFreeSlot(void *ctx)
 {
-    u16 count = *(u16 *)&((struct Obj00192 *)ctx)->f4;
+    u16 count = *(u16 *)&((const MmdlSys *)ctx)->mmdlMax;
     int i = 0;
 
-    ctx = ((struct Obj00192 *)ctx)->f18;
+    ctx = ((const MmdlSys *)ctx)->mmdlBuf;
 
     for (;;) {
-        if ((((struct Obj00192 *)ctx)->f0 & 1) == 0) {
+        if ((((const Mmdl *)ctx)->statusBit & MMDL_STABIT_USE) == 0) {
             break;
         }
         i++;
@@ -513,7 +459,7 @@ u32 NET_DEVICE_TABLE_GetZero(void)
 
 
 
-void NET_DEVICE_TABLE_SetHeader(struct Sub0200F16CHdr *hdr)
+void NET_DEVICE_TABLE_SetHeader(NetDeviceHeader *hdr)
 {
     hdr->tag = 2;
     hdr->size = 4;

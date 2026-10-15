@@ -1,5 +1,5 @@
 /*
- * function: func_021BC82C
+ * function: ZKNSEARCH_MAIN_RequestPaletteFade
  * address: 0x021BC82C
  * packet: pkt_ov210_021BC82C
  * region: ov210
@@ -19,7 +19,7 @@ struct PalAnmObj;
 typedef unsigned int   u32;
 extern u32 func_020056BC(void);
 extern int PALANM_RequestFade(struct PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
-void func_021BC82C(char *p,u8 b,u8 c)
+void ZKNSEARCH_MAIN_RequestPaletteFade(char *p,u8 b,u8 c)
 {
     PALANM_RequestFade(*(struct PalAnmObj * *)&((struct Obj01779 *)p)->fC,1,0xbfff,-14,b,c,0,(void *)func_020056BC());
     PALANM_RequestFade(*(struct PalAnmObj * *)&((struct Obj01779 *)p)->fC,2,0x7fef,-14,b,c,0,(void *)func_020056BC());

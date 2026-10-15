@@ -15,7 +15,7 @@
  * copy), and the list terminator cleared through m->head.
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   FIELD_G3D_MAP_Reset  0x0216990C  thumb  ov010
  *   d_02172A40     0x02172A40  data
@@ -72,7 +72,7 @@ typedef struct Mgr {
     u32 fD8;            /* 0xD8 */
 } Mgr;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void FIELD_G3D_MAP_Reset(u8 *p);
 extern const char d_02172A40[];
@@ -84,20 +84,20 @@ Mgr *FIELD_G3D_MAP_Create(const Cfg *cfg, u32 heap)
     Mgr *m;
     u32 sz;
 
-    m = sub_02030734(heap, sizeof(Mgr), 1, d_02172A40, 0x6E);
+    m = GFL_HEAP_Alloc(heap, sizeof(Mgr), 1, d_02172A40, 0x6E);
     sz = G3D_SYSTEM_GetResourceSize();
     m->nA = cfg->nA;
     m->nB = cfg->nB;
     m->fA8 = cfg->f18;
     m->fAC = cfg->f1c;
     if (m->nA != 0)
-        m->listA = sub_02030734(heap, cfg->nA * 20, 1, d_02172A40, 0x77);
+        m->listA = GFL_HEAP_Alloc(heap, cfg->nA * 20, 1, d_02172A40, 0x77);
     if (m->nB != 0)
-        m->listB = sub_02030734(heap, cfg->nB * 20, 1, d_02172A40, 0x7A);
+        m->listB = GFL_HEAP_Alloc(heap, cfg->nB * 20, 1, d_02172A40, 0x7A);
     FIELD_G3D_MAP_Reset((u8 *)m);
     m->f28 = cfg->f08;
     m->size = cfg->size;
-    m->buf = sub_02030734(heap, cfg->size, 1, d_02172A40, 0x86);
+    m->buf = GFL_HEAP_Alloc(heap, cfg->size, 1, d_02172A40, 0x86);
     if (cfg->f10 == 0)
         m->f24 = 0x800;
     else
@@ -106,8 +106,8 @@ Mgr *FIELD_G3D_MAP_Create(const Cfg *cfg, u32 heap)
     m->head = &m->node;
     m->head->f04 = 0;
     m->f10 = 0;
-    m->f84 = sub_02030734(heap, sz, 1, d_02172A40, 0x97);
-    m->f88 = sub_02030734(heap, sz, 1, d_02172A40, 0x9A);
+    m->f84 = GFL_HEAP_Alloc(heap, sz, 1, d_02172A40, 0x97);
+    m->f88 = GFL_HEAP_Alloc(heap, sz, 1, d_02172A40, 0x9A);
     m->f94 = 0;
     if (cfg->texSize != 0) {
         m->texSize = cfg->texSize;

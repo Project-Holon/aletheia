@@ -1,5 +1,5 @@
 /*
- * function: func_021A8140
+ * function: FIELD_GROUND_ANIME_GetGridEntryPos
  * address:  0x021A8140
  * packet:   pkt_ov021_021A8140
  * region:   ov021
@@ -38,7 +38,7 @@ extern void VEC_MultAdd(int a, V *b, V *c, V *d);
 extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern void FLDMMDL_MOVE_GetMapHeight(void *p, V *in, int *out);
 
-void func_021A8140(void *a, V *out)
+void FIELD_GROUND_ANIME_GetGridEntryPos(void *a, V *out)
 {
     void *ctx;
     int k;

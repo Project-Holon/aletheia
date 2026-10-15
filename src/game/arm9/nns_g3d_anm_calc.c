@@ -1,7 +1,7 @@
 /*
  * file:     nns_g3d_anm_calc.c
  * unit:     yes
- * function: NNSi_G3dAnmObjInitNsBca, NNSi_G3dAnmCalcNsBca, NNSi_G3dGetNodeTransFromMdl, NNSi_G3dGetNodeScaleFromMdl, NNSi_G3dGetNodeRotFromMdl, NNSi_G3dAnmCalcJntAnmNode, NNSi_G3dAnmGetTransData, NNSi_G3dAnmGetTransDataEx, NNSi_G3dAnmGetScaleData, NNSi_G3dAnmGetScaleDataEx, NNSi_G3dAnmGetRotData, NNSi_G3dAnmGetRotDataEx, NNSi_G3dAnmDecodeRotKey, NNSi_G3dAnmGetMatColorData, NNSi_G3dAnmGetMatAlphaData, NNSi_G3dAnmObjInitNsBma, NNSi_G3dAnmCalcNsBma, NNSi_G3dAnmGetTexSRTScalarData, NNSi_G3dAnmGetTexSRTRotData, NNSi_G3dAnmGetTexSRTData, NNSi_G3dAnmObjInitNsBta, NNSi_G3dAnmCalcNsBta, NNSi_G3dAnmObjInitNsBtp, NNSi_G3dAnmSetTexParam, NNSi_G3dAnmSetPlttParam, NNSi_G3dAnmCalcNsBtp, NNSi_G3dAnmObjInitNsBva, NNSi_G3dAnmCalcNsBva, NNSi_G3dSendJointSRTBasic, NNSi_G3dGetJointScaleBasic, NNSi_G3dSendJointSRTMaya, NNSi_G3dGetJointScaleMaya, func_02070F2C, func_02071034, NNSi_G3dTexMtxScaleTrans, NNSi_G3dTexMtxTrans, func_020711C8, func_020712A8, func_02071360, NNSi_G3dTexMtxIdentity, NNSi_G3dSendTexMtx4x4, NNSi_G3dSendJointSRTSi3d, NNSi_G3dGetJointScaleSi3d, NNSi_G3dSendTexMtx4x3
+ * function: NNSi_G3dAnmObjInitNsBca, NNSi_G3dAnmCalcNsBca, NNSi_G3dGetNodeTransFromMdl, NNSi_G3dGetNodeScaleFromMdl, NNSi_G3dGetNodeRotFromMdl, NNSi_G3dAnmCalcJntAnmNode, NNSi_G3dAnmGetTransData, NNSi_G3dAnmGetTransDataEx, NNSi_G3dAnmGetScaleData, NNSi_G3dAnmGetScaleDataEx, NNSi_G3dAnmGetRotData, NNSi_G3dAnmGetRotDataEx, NNSi_G3dAnmDecodeRotKey, NNSi_G3dAnmGetMatColorData, NNSi_G3dAnmGetMatAlphaData, NNSi_G3dAnmObjInitNsBma, NNSi_G3dAnmCalcNsBma, NNSi_G3dAnmGetTexSRTScalarData, NNSi_G3dAnmGetTexSRTRotData, NNSi_G3dAnmGetTexSRTData, NNSi_G3dAnmObjInitNsBta, NNSi_G3dAnmCalcNsBta, NNSi_G3dAnmObjInitNsBtp, NNSi_G3dAnmSetTexParam, NNSi_G3dAnmSetPlttParam, NNSi_G3dAnmCalcNsBtp, NNSi_G3dAnmObjInitNsBva, NNSi_G3dAnmCalcNsBva, NNSi_G3dSendJointSRTBasic, NNSi_G3dGetJointScaleBasic, NNSi_G3dSendJointSRTMaya, NNSi_G3dGetJointScaleMaya, NNSi_G3dTexMtxScaleRotTrans4x4, NNSi_G3dTexMtxRotTrans4x4, NNSi_G3dTexMtxScaleTrans, NNSi_G3dTexMtxTrans, NNSi_G3dTexMtxScaleRot4x4, NNSi_G3dTexMtxRot4x4, NNSi_G3dTexMtxScale4x4, NNSi_G3dTexMtxIdentity, NNSi_G3dSendTexMtx4x4, NNSi_G3dSendJointSRTSi3d, NNSi_G3dGetJointScaleSi3d, NNSi_G3dSendTexMtx4x3
  * address:  0x0206EB00
  * region:   arm9
  * compiler: dsi/../2.0/sp2p2
@@ -111,13 +111,13 @@ void NNSi_G3dSendJointSRTBasic(NNSG3dJntAnmResult *pResult);
 void NNSi_G3dGetJointScaleBasic(NNSG3dJntAnmResult *pResult, const fx32 *pScale, const NNSG3dSbcNodeDesc *pCmd, u32 flag);
 void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *pResult);
 void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *pResult, const fx32 *pScale, const NNSG3dSbcNodeDesc *pCmd, u32 flag);
-void func_02070F2C(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
-void func_02071034(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
+void NNSi_G3dTexMtxScaleRotTrans4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
+void NNSi_G3dTexMtxRotTrans4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
 void NNSi_G3dTexMtxScaleTrans(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
 void NNSi_G3dTexMtxTrans(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
-void func_020711C8(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
-void func_020712A8(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
-void func_02071360(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
+void NNSi_G3dTexMtxScaleRot4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
+void NNSi_G3dTexMtxRot4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
+void NNSi_G3dTexMtxScale4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult);
 void NNSi_G3dTexMtxIdentity(MtxFx44 *pMtx);
 void NNSi_G3dSendTexMtx4x4(NNSG3dMatAnmResult *pResult);
 void NNSi_G3dSendJointSRTSi3d(NNSG3dJntAnmResult *pResult);
@@ -2201,7 +2201,7 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *pResult, const fx32 *pScale, 
  * the opposite order; 1.1p1 refuses to separate a load from its first use and
  * swaps the loads (264 bytes, 8 concrete bytes out).
  */
-void func_02070F2C(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
+void NNSi_G3dTexMtxScaleRotTrans4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
 {
     s32 width, height;
     s32 cosR, scaleS, sinR, scaleT;
@@ -2252,7 +2252,7 @@ void func_02070F2C(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
  *     the `+`, because the accumulator of a commutative chain is its second
  *     operand; the other order swaps every register in the block.
  */
-void func_02071034(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
+void NNSi_G3dTexMtxRotTrans4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
 {
     s32 width = pResult->origWidth << 12;
     s32 height = pResult->origHeight << 12;
@@ -2346,7 +2346,7 @@ void NNSi_G3dTexMtxTrans(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
  * sinR before cosR and colours the first product r7, where the image loads
  * cosR first and colours it r6 (12 bytes out under 1.1p1).
  */
-void func_020711C8(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
+void NNSi_G3dTexMtxScaleRot4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
 {
     s32 width, height;
     s32 cosR, scaleS, sinR, scaleT;
@@ -2395,7 +2395,7 @@ void func_020711C8(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
  * bytes); a three-statement spelling keeps the size but swaps the registers.
  * Pinned to ../2.0/sp2.
  */
-void func_020712A8(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
+void NNSi_G3dTexMtxRot4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
 {
     fx32 width = pResult->origWidth << 12;
     fx32 height = pResult->origHeight << 12;
@@ -2420,7 +2420,7 @@ void func_020712A8(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
  * twice, `0x1000 - scaleT + 0x1000 - scaleT`, keeps the negate and the
  * separate add.  Not pinned: EXACT under both front ends.
  */
-void func_02071360(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
+void NNSi_G3dTexMtxScale4x4(MtxFx44 *pMtx, const NNSG3dMatAnmResult *pResult)
 {
     pMtx->_00 = pResult->scaleS;
     pMtx->_11 = pResult->scaleT;

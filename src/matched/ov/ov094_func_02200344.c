@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   BTLV_EFFECT_RegisterTask  0x021F896C  thumb  ov094
  *   BTLV_MCSS_RotationTaskMain  0x02201408  thumb  ov094
@@ -37,7 +37,7 @@ typedef struct {
 } Obj;
 
 extern const char gBtlvMcssSourceFileName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
 extern void BTLV_MCSS_RotationTaskMain(void *h);
@@ -45,7 +45,7 @@ extern void BTLV_MCSS_RotationTaskEnd(void *h);
 
 void BTLV_MCSS_StartRotation(Work *w, int a, int b, int flag)
 {
-    Obj *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
+    Obj *o = GFL_HEAP_Alloc((u16)((w->heap & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
 
     o->w = w;
     o->a = 0;

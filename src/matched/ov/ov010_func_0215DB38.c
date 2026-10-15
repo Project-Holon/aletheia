@@ -17,7 +17,7 @@
  * Byte-correct (first draft plus ov100_id for the pooled 0x64). Evidence
  * gaps, not C: 0x021FDA6C (ov132) has no func_ label; ov100_id is passed to
  * FIELD_STATUS_CreateSubProcCallbackEvent (r2), which is not in the overlay_id consumer list;
- * d_021BB6A4 is another overlay's proc data (same gap as func_02155478).
+ * d_021BB6A4 is another overlay's proc data (same gap as IRC_BATTLE_ENTRY_Main).
  * The empty `case 100: break;` is what leaves the lone `cmp r6, #0x64`.
  *
  * 2026-10-05 (wave D9): EXACT. d_021BB6A4 (ov100 process data) resolves with the ov100 token on its symbols line.
@@ -53,7 +53,7 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02030734  0x02030734  arm
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
- *   func_021FCDEC  0x021FCDEC  thumb  ov132
+ *   MUS_COMM_FUNC_SetTimingSync  0x021FCDEC  thumb  ov132
  *   STA_SLOT_GetRecordTable  0x021FDA6C  thumb  ov132
  *   d_02172914     0x02172914  data  a1
  *   d_021BB6A4     0x021BB6A4  data  ov100
@@ -117,7 +117,7 @@ extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, i
 extern u32 func_0200FB24(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 COMM_ENTRY_MENU_Create(void *a, void *sys, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_021FCDEC(int a, int b);
+extern void MUS_COMM_FUNC_SetTimingSync(int a, int b);
 extern unsigned char *STA_SLOT_GetRecordTable(void *h);
 
 int SCRCMD_MUSICAL_LinkControl(void *c, void *vm)
@@ -178,7 +178,7 @@ int SCRCMD_MUSICAL_LinkControl(void *c, void *vm)
         if (l->sess == 0 || busy != 0)
             break;
         l->f34 = arg;
-        func_021FCDEC((int)l->sess, (u8)l->f34);
+        MUS_COMM_FUNC_SetTimingSync((int)l->sess, (u8)l->f34);
         VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitSetMemberCount);
         return 1;
     case 15:

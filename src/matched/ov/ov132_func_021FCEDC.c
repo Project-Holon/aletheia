@@ -1,5 +1,5 @@
 /*
- * function: func_021FCEDC
+ * function: MUS_COMM_FUNC_HandlePacket
  * address: 0x021FCEDC
  * packet: pkt_ov132_021FCEDC
  * region: ov132
@@ -25,7 +25,7 @@ typedef struct
   u8 tag;
   u32 data;
 } Packet;
-void func_021FCEDC(unsigned long slot, int unused, const Packet *q, char *p)
+void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q, char *p)
 {
   u8 i;
   u8 t;

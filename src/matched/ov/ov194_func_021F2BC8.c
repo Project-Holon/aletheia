@@ -1,5 +1,5 @@
 /*
- * function: func_021F2BC8
+ * function: NAMEIN_GRAPHIC_SymbolMove
  * address: 0x021F2BC8
  * packet: pkt_ov194_021F2BC8
  * region: ov194
@@ -9,7 +9,7 @@
  * status: EXACT
  * extent: 920 bytes through return at 021F2F5E; no calls or followers.
  */
-void func_021F2BC8(int *p,int *delta,unsigned char *s) {
+void NAMEIN_GRAPHIC_SymbolMove(int *p,int *delta,unsigned char *s) {
  int x,y;
  switch((unsigned)p[1]) {
  case 0:

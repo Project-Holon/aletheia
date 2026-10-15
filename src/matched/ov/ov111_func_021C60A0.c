@@ -1,5 +1,5 @@
 /*
- * function: func_021C60A0
+ * function: VIEWER_TEXT_Exit
  * address:  0x021C60A0
  * packet:   pkt_ov111_021C60A0
  * region:   ov111
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 
-void func_021C60A0(Work *p)
+void VIEWER_TEXT_Exit(Work *p)
 {
     u16 i;
 

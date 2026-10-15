@@ -1,5 +1,5 @@
 /*
- * function: func_021FAAB8
+ * function: STA_ACT_BUTTON_SetVisible
  * address: 0x021FAAB8
  * packet: pkt_ov132_021FAAB8
  * region: ov132
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021FAAB8(char *p, unsigned flag)
+void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag)
 {
     if (((struct Obj04515 *)p)->f48 != 255) {
         CLACT_SetActorDrawEnable(((struct Obj04515 *)p)->f4C, flag);

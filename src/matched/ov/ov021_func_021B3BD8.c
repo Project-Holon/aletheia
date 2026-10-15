@@ -16,9 +16,9 @@
  *   func_02049658 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  */
 #include "../include/Obj06037.h"
 
@@ -30,9 +30,9 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
 void SCRCMD_PROC_FLD_InitShopGraphics(char *p)
 {
@@ -44,7 +44,7 @@ void SCRCMD_PROC_FLD_InitShopGraphics(char *p)
     func_02049658(q, 0, 2, 100, 0, 0, ((struct Obj06037 *)p)->f4);
     ARC_UTIL_UploadBgPaletteAddFromHandle(q, 2, 2, 0, 100, 0, 0, ((struct Obj06037 *)p)->f4);
     ARC_TOOL_DeleteHandle(q);
-    func_0201F5BC(1, 228, 9, 0, ((struct Obj06037 *)p)->f4);
+    BMP_MENUWORK_LoadCharAndPltt(1, 228, 9, 0, ((struct Obj06037 *)p)->f4);
     BG_SYS_ClearSlot(1);
-    func_0204047C(2, 1);
+    BG_SYS_SetVisibleLayer(2, 1);
 }

@@ -14,12 +14,12 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -44,6 +44,7 @@
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   WORDSET_Create  0x0201EC74  thumb  arm9
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  */
 #include "../include/Obj00073.h"
 #include "../include/Obj13967.h"
@@ -59,16 +60,16 @@ extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void GX_DispOn(void);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 struct Cfg;
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -105,15 +106,15 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     ((struct Obj00073 *)p)->fC = 31;
     ((struct Obj00073 *)p)->f350 = ((struct Obj13967 *)args)->f4;
     ((struct Obj00073 *)p)->f354 = ((struct Obj13967 *)args)->f0;
-    func_0204363C(1);
+    BMP_SetDisplaySwap(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
     BG_SYS_Create(((struct Obj00073 *)p)->fC);
     BMP_WIN_Init(((struct Obj00073 *)p)->fC);
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     BG_SYS_SetVramBanks((const struct DispVram *)data_021D58B0);
     display = data_021D5770;
-    func_0203FC28((struct DispConfig *)(&display));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&display));
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct Cfg *)data_021D5740, (u32)data_021D58B0, ((struct Obj00073 *)p)->fC);

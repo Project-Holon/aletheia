@@ -13,7 +13,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   BMP_WIN_Create  0x020450F0  arm
@@ -59,7 +59,7 @@ struct Descriptor;
 struct MsgBank;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -88,7 +88,7 @@ void IRCBATTLEMENU_CreateButtonWindows(int n, u32 *msg, Obj *a, Desc *d, int *xs
     for (i = 0; i < 4; i++) {
         if (a->w[i] != 0) {
             BMP_WIN_ClearScreen((struct Descriptor *)a->w[i]);
-            func_0201F7A8((void *)a->w[i], 2);
+            BMP_MENUWORK_DrawWindowBorder((void *)a->w[i], 2);
             BMP_WIN_Delete((struct Descriptor *)a->w[i]);
         }
         a->w[i] = 0;

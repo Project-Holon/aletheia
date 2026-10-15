@@ -14,9 +14,9 @@
  * symbols:
  *   gsiCoreGetManager                  0x0217CA20  arm ov009
  *   gsiEnterCriticalSection                  0x0217F108  arm ov009
- *   func_0217F0D8                  0x0217F0D8  arm ov009
+ *   gsiInterlockedDecrement                  0x0217F0D8  arm ov009
  *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
- *   func_02184200                  0x02184200  arm ov009
+ *   ArrayLength                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   gsiCoreCancelTask                  0x0217CECC  arm ov009
  */
@@ -34,9 +34,9 @@ typedef struct GSCoreMgr {
 
 extern void *gsiCoreGetManager(void);
 extern void gsiEnterCriticalSection(void *cs);
-extern unsigned int func_0217F0D8(unsigned int *value);
+extern unsigned int gsiInterlockedDecrement(unsigned int *value);
 extern void gsiLeaveCriticalSection(void *cs);
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void gsiCoreCancelTask(struct GSTask *theTask);
 
@@ -49,12 +49,12 @@ void gsCoreShutdown(void)
     if (aCore->active == 0)
         return;
     gsiEnterCriticalSection(&aCore->cs);
-    if (func_0217F0D8(&aCore->refs) != 0) {
+    if (gsiInterlockedDecrement(&aCore->refs) != 0) {
         gsiLeaveCriticalSection(&aCore->cs);
         return;
     }
     aCore->shutdown = 1;
-    len = func_02184200(aCore->tasks);
+    len = ArrayLength(aCore->tasks);
     for (i = 0; i < len; i++)
         gsiCoreCancelTask(*(GSTask **)func_02184208(aCore->tasks, i));
     gsiLeaveCriticalSection(&aCore->cs);

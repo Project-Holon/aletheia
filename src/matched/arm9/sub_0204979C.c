@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062A4C  0x02062A4C  arm
- *   func_02040B58  0x02040B58  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
+ *   BG_SYS_CreateTileRun  0x02040B58  arm
  *
  * Registers a loaded graphics buffer and answers a packed handle: the slot
  * index in the low halfword and the size the caller asked for (or the
@@ -31,7 +31,7 @@
  * and only this order leaves the low half in r0 and folds the high half in as
  * `orr r0, r0, r1, lsl #16`.
  *
- * func_02062A4C fills a caller-owned pointer through its second argument, so
+ * NNS_G2dGetUnpackedCharacterDataEx fills a caller-owned pointer through its second argument, so
  * the local is read back twice, once inside the `a2 == 0` arm and once for
  * the unconditional `+0x14` field. That is why the pair of `ldr` from `[sp]`
  * straddles the predicated `ldreq`: the conditional read cannot be shared
@@ -54,15 +54,15 @@ struct Res {
 };
 
 struct NitroFileHeader;
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern u32 func_02040B58(u32 index, const void *src, u32 size);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+extern u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
 
 u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2)
 {
     struct Res *res;
     s32 slot;
 
-    if (func_02062A4C(buf, (void **)(&res)) == 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx(buf, (void **)(&res)) == 0) {
         goto fail;
     }
 
@@ -70,7 +70,7 @@ u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2)
         a2 = res->unk_10;
     }
 
-    slot = func_02040B58(a1, (const void *)res->unk_14, a2);
+    slot = BG_SYS_CreateTileRun(a1, (const void *)res->unk_14, a2);
     if (slot == -1) {
         goto fail;
     }

@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * PIN: ../2.0/sp2, the same pin its packet-mate src/matched/func_02070F2C.c
+ * PIN: ../2.0/sp2, the same pin its packet-mate src/matched/NNSi_G3dTexMtxScaleRotTrans4x4.c
  * carries, here on the "kept branches" tell combined with the re-read tell.
  * The image keeps `beq 0x02070EF4` (`03 00 00 0a`) at 0x02070EE0 over the
  * THREE-instruction guard body at 0x02070EE4..0x02070EEC

@@ -1,5 +1,5 @@
 /*
- * function: func_0215F0F0
+ * function: SOCLi_IsIPv4ValidDNSAddr
  * address:  0x0215F0F0
  * packet:   pkt_ov009_0215F0F0
  * region:   ov009
@@ -19,7 +19,7 @@
 #define IS_A(m, d, a) ((((unsigned int)(a) ^ (d)) & (m)) != 0 || ((d) & ~(m)) != 0)
 #define IS_B(m, d, a) (((((a) ^ (d)) & (m)) != 0 || (~(m) ^ ((d) & ~(m))) != 0) ? 1 : 0)
 
-int func_0215F0F0(unsigned long netmask, unsigned long dns, unsigned long addr)
+int SOCLi_IsIPv4ValidDNSAddr(unsigned long netmask, unsigned long dns, unsigned long addr)
 {
 	int ret = 0;
 	int notloop = 0;

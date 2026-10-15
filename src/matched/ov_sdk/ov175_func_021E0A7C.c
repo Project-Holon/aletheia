@@ -32,7 +32,7 @@
  *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
  *   gsXmlCloseWriter  0x02181DE8  arm  ov009
  *   gsXmlFreeWriter  0x02181D84  arm  ov009
- *   func_0217FD7C  0x0217FD7C  arm  ov009
+ *   gsiExecuteSoap  0x0217FD7C  arm  ov009
  *   sciWsSetReportIntentionCallback  0x021E0C68  arm  ov175
  *
  * The DWARF prototype places theUserData at fb+60 after theCallback at fb+52; the
@@ -91,7 +91,7 @@ extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag,
 extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int gsXmlCloseWriter(void *stream);
 extern void gsXmlFreeWriter(void **p);
-extern void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap,
+extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap,
                            void (*theCallbackFunc)(int, void *, void *, void *), void *theUserData);
 extern void sciWsSetReportIntentionCallback(int theHttpResult, int unused, void *theResponseData, void *theUserData);
 
@@ -124,6 +124,6 @@ int sciWsSetReportIntention(SCWebServices *theWebServices, unsigned int theGameI
     theWebServices->mSetReportIntentionCallback = theCallback;
     theWebServices->mSetReportIntentionUserData = theUserData;
     theWebServices->mSetReportIntentionPending = 1;
-    func_0217FD7C(gScStatsServiceUrl, sSciSoapActionSetReportIntention, aRequest, (void (*)(int, void *, void *, void *))sciWsSetReportIntentionCallback, theWebServices);
+    gsiExecuteSoap(gScStatsServiceUrl, sSciSoapActionSetReportIntention, aRequest, (void (*)(int, void *, void *, void *))sciWsSetReportIntentionCallback, theWebServices);
     return 0;
 }

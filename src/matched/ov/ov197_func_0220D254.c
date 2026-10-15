@@ -1,5 +1,5 @@
 /*
- * function: func_0220D254
+ * function: B_BAG_MAIN_StateShowPocket2
  * address: 0x0220D254
  * packet: pkt_ov197_0220D254
  * region: ov197
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj14550.h"
 extern void B_BAG_MAIN_DrawPage(char *,int);
-int func_0220D254(char *p){B_BAG_MAIN_DrawPage(p,2);((struct Obj14550 *)p)->f532=2;((struct Obj14550 *)p)->f531=6;return 10;}
+int B_BAG_MAIN_StateShowPocket2(char *p){B_BAG_MAIN_DrawPage(p,2);((struct Obj14550 *)p)->f532=2;((struct Obj14550 *)p)->f531=6;return 10;}

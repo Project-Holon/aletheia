@@ -224,6 +224,16 @@ clusters, the remaining ov009 files, and the ov137, ov170, ov172, ov186 and
 ov119 continuations. The applied names fit the table above, so no new convention
 was needed.
 
+Wave 8 applied it to the ten naming continuations (ov210-215, ov181-199,
+ov203-207, ov216-222, ov223-231, ov111-118, ov115-121, ov127-134, ov132-198,
+ov175-195), the ARM9 graphics, logic and wifi clusters, the remaining ov009
+files named from the SDK symbol table, and the ov137, ov170, ov172, ov186,
+ov119, ov209 and ov217 continuations. The applied names fit the table above, so
+no new convention was needed. The same wave split 61 aggregated files into their
+originals; each piece keeps the module prefix of the original it belongs to
+(`ARC_TOOL_`, `ARC_UTIL_`, `MCSS_`, `WIFILOGIN_`, `STA_ACT_`), and a shared
+`_types.h` header carries the types the pieces of one original share.
+
 File names (rule used by the file-rename pass): the original file name when the
 `__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
 snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).

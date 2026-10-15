@@ -12,11 +12,11 @@
  *   SHINKA_DEMO_DeleteScene 0x02204D5C thumb ov195
  *   SHINKA_DEMO_Noop 0x02204DDC thumb ov195
  *   PROCSYS_Delete 0x0203133C arm
- *   sub_02030EAC 0x02030EAC arm
- *   sub_020307B0 0x020307B0 arm
+ *   TCB_DeleteTask 0x02030EAC arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj08345.h"
 struct S020314B8;
@@ -26,21 +26,21 @@ struct U16Vec;
 extern void SHINKA_DEMO_DeleteScene(int, int *);
 extern void SHINKA_DEMO_Noop(int, int *);
 extern void PROCSYS_Delete(struct S020314B8 *);
-extern void sub_02030EAC(struct Node *);
+extern void TCB_DeleteTask(struct Node *);
 typedef unsigned int   u32;
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(struct U16Vec *);
 extern void PROCSYS_FreeProcWork(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int SHINKA_DEMO_Destroy(struct S020315D4 *a, int unused, int b, int *p)
 {
     SHINKA_DEMO_DeleteScene(b, p);
     PROCSYS_Delete(*(struct S020314B8 * *)&((struct Obj08345 *)p)->f11C);
-    sub_02030EAC(*(struct Node * *)&((struct Obj08345 *)p)->f38);
+    TCB_DeleteTask(*(struct Node * *)&((struct Obj08345 *)p)->f38);
     SHINKA_DEMO_Noop(b, p);
-    sub_020307B0(((struct Obj08345 *)p)->f100);
+    GFL_HEAP_Free(((struct Obj08345 *)p)->f100);
     STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08345 *)p)->f14);
     PROCSYS_FreeProcWork(a);
-    func_020306F0(0x94);
+    GFL_HEAP_DeleteChecked(0x94);
     return 1;
 }

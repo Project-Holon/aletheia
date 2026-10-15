@@ -1,5 +1,5 @@
 /*
- * function: func_021559E4
+ * function: IRC_BATTLE_ENTRY_Create
  * address:  0x021559E4
  * packet:   pkt_ov010_021559E4
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02155478  0x02155478  thumb  ov010
+ *   IRC_BATTLE_ENTRY_Main  0x02155478  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -33,7 +33,7 @@ typedef struct Task {
 } Task;
 
 struct Ctx;
-extern int func_02155478(void *proc, int *seq, struct Ctx *ctx);
+extern int IRC_BATTLE_ENTRY_Main(void *proc, int *seq, struct Ctx *ctx);
 struct Big;
 struct Ctx;
 struct Desc;
@@ -46,15 +46,15 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Party *POKEPARTY_Create(u32 heap);
 
-void *func_021559E4(void *a, int b, void *c, int d)
+void *IRC_BATTLE_ENTRY_Create(void *a, int b, void *c, int d)
 {
     Task *t;
     int i;
 
     if (d != 0)
-        c = func_020122C0(a, 0, func_02155478, 0xE8);
+        c = func_020122C0(a, 0, IRC_BATTLE_ENTRY_Main, 0xE8);
     else
-        GAME_EVENT_Change(c, (int)func_02155478, 0xE8);
+        GAME_EVENT_Change(c, (int)IRC_BATTLE_ENTRY_Main, 0xE8);
     t = func_020124E8(c);
     ((struct Obj05876 *)t)->f4C = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(a));
     t->f04 = GAMESYSTEM_GetGameData(a);

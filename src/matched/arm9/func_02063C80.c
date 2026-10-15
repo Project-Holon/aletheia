@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02063C80
+ * function: NNSi_G2dSetupVramResource
  * address:  0x02063C80
  * packet:   pkt_0206380C
  * region:   arm9
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   DC_FlushRange   0x020862F0  arm
- *   func_020637AC   0x020637AC  arm
+ *   NNSi_G2dSetVramHandle   0x020637AC  arm
  *
  * Upload one VRAM resource: optionally repoint the 2D/3D VRAM control word,
  * flush the source range, then fill the caller's descriptor.  Sibling of
- * func_02063828/func_02063A54 with the GX upload itself left out (the
+ * NNSi_G2dLoadVramResourceMain/NNSi_G2dLoadVramResourceSub with the GX upload itself left out (the
  * caller has already moved the bytes).  When f8 (the bank
  * control word) is zero the two halfword dimensions are translated from
  * pixel sizes (1,2,4,8,0x10,0x20) to GX size codes 0..5; otherwise they are
@@ -52,9 +52,9 @@ struct Out {
 };
 
 extern void DC_FlushRange(void *p, u32 n);
-extern void func_020637AC(int *p, int i, int v);
+extern void NNSi_G2dSetVramHandle(int *p, int i, int v);
 
-void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out)
 {
     u32 bank;
 
@@ -100,5 +100,5 @@ void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out)
     out->f18 = 0;
     out->f1c = 1;
     out->f20 = r->f8;
-    func_020637AC((int *)out, mode, dst);
+    NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3D54
+ * function: NAMEIN_GRAPHIC_DeleteMsgBox
  * address:  0x021F3D54
  * packet:   pkt_021F3D54
  * region:   ov194
@@ -28,7 +28,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MI_CpuFill8(u8 *, u32, u32);
 
-void func_021F3D54(u8 *p)
+void NAMEIN_GRAPHIC_DeleteMsgBox(u8 *p)
 {
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj14504 *)p)->f14));
     STRBUF_Delete((struct U16Vec *)(((struct Obj14504 *)p)->f1C));

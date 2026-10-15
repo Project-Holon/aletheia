@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02210420",
+   "name": "B_PLIST_MAIN_Delete",
    "address": "0x02210420",
    "kind": "game",
    "region": "ov198",

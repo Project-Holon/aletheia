@@ -11,7 +11,7 @@
  *
  * symbols:
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   UNION_CHARA_CheckMemberUnique  0x0217B158  thumb  ov019
  *   UNION_CHARA_AddSlot  0x0217AFE4  thumb  ov019
  *   UNION_CHARA_SetNextAction  0x0217AE38  thumb  ov019
@@ -43,7 +43,7 @@ typedef struct {
 
 extern void OS_GetMacAddress(void *);
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, unsigned int n);
 struct ent;
 extern int UNION_CHARA_CheckMemberUnique(char *base, struct ent *excl, u8 *mac);
 extern u8 *UNION_CHARA_AddSlot(int, Obj *, Ent8 *, int, int, int *);
@@ -65,7 +65,7 @@ void UNION_CHARA_AddBeaconMembers(int a, int b, int c, int d, Obj *e)
     OS_GetMacAddress(buf);
     for (i = 0; i < 5; i++) {
         if (e->slot[i] == 0 && e->tab[i].f1 == 1
-            && func_0203EFC8(buf, (const u8 *)(&e->tab[i]), 6) != 0
+            && GF_STANDARD_CompareBytes(buf, (const u8 *)(&e->tab[i]), 6) != 0
             && UNION_CHARA_CheckMemberUnique((char *)a, (struct ent *)e, (u8 *)(&e->tab[i])) != 0) {
             e->slot[i] = UNION_CHARA_AddSlot(a, e, &e->tab[i], i, 0, &out);
             e->slot[i][8] = 1;

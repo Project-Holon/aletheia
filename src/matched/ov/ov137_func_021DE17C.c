@@ -10,7 +10,7 @@
  * symbols:
  *   GURU2_RECEIPT_GetUnionApp 0x021DCF50 thumb ov137
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   UNION_APP_GetMemberCount 0x021841A4 thumb ov022
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  */
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
 extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern int UNION_APP_GetMemberCount(unsigned char *p);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 void GURU2_RECEIPT_SetStateFromChild(char *p, int command, int player) {
@@ -36,13 +36,13 @@ void GURU2_RECEIPT_SetStateFromChild(char *p, int command, int player) {
         case 1:
             target = UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), player);
             if (target != 0)
-                func_0201F02C(((struct Obj02868 *)p)->f3C, 0, target);
+                WORDSET_SetSlotMyStatus(((struct Obj02868 *)p)->f3C, 0, target);
             ((struct Obj02868 *)p)->f118 = command;
             ((struct Obj23729 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = UNION_APP_GetMemberCount(GURU2_RECEIPT_GetUnionApp((u8 *)p));
             ((struct Obj23730 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 = 0;
             return;
         case 19:
-            func_0201F02C(((struct Obj02868 *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), player));
+            WORDSET_SetSlotMyStatus(((struct Obj02868 *)p)->f3C, 0, UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p), player));
             if (player != GFL_NET_SYSTEM_GetCurrentAid()) {
                 if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
                     ((struct Obj23731 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 &= player ^ 0xffff;

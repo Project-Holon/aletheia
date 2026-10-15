@@ -35,17 +35,17 @@
  * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
  * symbols:
- *   func_0203F37C  0x0203F37C  arm
- *   func_0203F328  0x0203F328  arm
+ *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
+ *   GF_STANDARD_Shuffle  0x0203F328  arm
  *   pBattleRec  0x0214616C  data
  */
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_0203F37C(void *p, u32 size, u32 seed);
+extern void GF_STANDARD_ShuffleEx(void *p, u32 size, u32 seed);
 typedef unsigned short u16;
-extern void func_0203F328(u16 *p, u32 size, u32 seed);
+extern void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
 
 struct ObjC4 {
     u8 unk00[0x80];
@@ -57,12 +57,12 @@ extern struct ObjC4 *pBattleRec;
 
 void BATTLE_REC_Decode(void *a, u32 b, u32 c)
 {
-    func_0203F37C(a, b, c);
+    GF_STANDARD_ShuffleEx(a, b, c);
 }
 
 void BATTLE_REC_Encode(void *a, u32 b, u32 c)
 {
-    func_0203F328(a, b, c);
+    GF_STANDARD_Shuffle(a, b, c);
 }
 
 struct ObjC4 *BATTLE_REC_GetWork(void)

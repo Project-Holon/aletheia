@@ -1,5 +1,5 @@
 /*
- * function: func_021C47EC
+ * function: VIEWER_MAIN_Draw
  * address:  0x021C47EC
  * packet:   pkt_ov111_021C47EC
  * region:   ov111
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C479C  0x021C479C  thumb  ov111
- *   func_021C60CC  0x021C60CC  thumb  ov111
+ *   VIEWER_MAIN_ResetBgSlot  0x021C479C  thumb  ov111
+ *   VIEWER_TEXT_Draw  0x021C60CC  thumb  ov111
  *   PMS_DRAW_Main  0x0202DBC4  thumb
- *   func_021C6874  0x021C6874  thumb  ov111
- *   func_021C58E0  0x021C58E0  thumb  ov111
- *   func_021C636C  0x021C636C  thumb  ov111
- *   func_021C5ACC  0x021C5ACC  thumb  ov111
- *   func_021C4B74  0x021C4B74  thumb  ov111
- *   func_021C631C  0x021C631C  thumb  ov111
+ *   VIEWER_TEXT_DrawPage  0x021C6874  thumb  ov111
+ *   VIEWER_MAIN_UploadBg  0x021C58E0  thumb  ov111
+ *   VIEWER_TEXT_DrawWindow  0x021C636C  thumb  ov111
+ *   VIEWER_MAIN_UploadBgBuf  0x021C5ACC  thumb  ov111
+ *   VIEWER_MAIN_UpdateRows  0x021C4B74  thumb  ov111
+ *   VIEWER_TEXT_FlushWindow  0x021C631C  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -44,28 +44,28 @@ typedef struct {
     s16 scroll;
 } Work;
 
-extern void func_021C479C(Work *p);
-extern void func_021C60CC(Work *p, void **bg, Info *info);
+extern void VIEWER_MAIN_ResetBgSlot(Work *p);
+extern void VIEWER_TEXT_Draw(Work *p, void **bg, Info *info);
 extern void PMS_DRAW_Main(u8 *p);
-extern void func_021C6874(Work *p, int scroll, int flush, int idx);
-extern void func_021C58E0(Work *p);
-extern void func_021C636C(Work *p, void **bg, Info *info);
-extern void func_021C5ACC(u32 bg, const void *src, int mode);
-extern void func_021C4B74(Work *p, int flag);
-extern void func_021C631C(Work *p, void **bg);
+extern void VIEWER_TEXT_DrawPage(Work *p, int scroll, int flush, int idx);
+extern void VIEWER_MAIN_UploadBg(Work *p);
+extern void VIEWER_TEXT_DrawWindow(Work *p, void **bg, Info *info);
+extern void VIEWER_MAIN_UploadBgBuf(u32 bg, const void *src, int mode);
+extern void VIEWER_MAIN_UpdateRows(Work *p, int flag);
+extern void VIEWER_TEXT_FlushWindow(Work *p, void **bg);
 
-void func_021C47EC(Work *p)
+void VIEWER_MAIN_Draw(Work *p)
 {
-    func_021C479C(p);
-    func_021C60CC(p, p->bg, p->info);
+    VIEWER_MAIN_ResetBgSlot(p);
+    VIEWER_TEXT_Draw(p, p->bg, p->info);
     PMS_DRAW_Main(p->f32B0);
     if (p->f3034 == 0) {
-        func_021C6874(p, p->scroll, 0, 0);
-        func_021C58E0(p);
+        VIEWER_TEXT_DrawPage(p, p->scroll, 0, 0);
+        VIEWER_MAIN_UploadBg(p);
     } else {
-        func_021C636C(p, p->bg, p->info);
-        func_021C5ACC(7, p->pix, p->phase);
+        VIEWER_TEXT_DrawWindow(p, p->bg, p->info);
+        VIEWER_MAIN_UploadBgBuf(7, p->pix, p->phase);
     }
-    func_021C4B74(p, p->f3034);
-    func_021C631C(p, p->bg);
+    VIEWER_MAIN_UpdateRows(p, p->f3034);
+    VIEWER_TEXT_FlushWindow(p, p->bg);
 }

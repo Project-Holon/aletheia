@@ -14,7 +14,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
@@ -28,7 +28,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 GPOWER_GetSpecialPowerId(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(unsigned char *);
 extern void func_020409B4(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -39,7 +39,7 @@ void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
     func_02049658(q, 3, 1, 0, 0, 0, *p);
     func_020498F4(q, 5, 1, 0, 0, 0, *p);
     if (GPOWER_GetSpecialPowerId() == 0x14)
-        func_020413B0(1, 0, 0, 0x20, 0x18, 1);
+        BG_SYS_FillTileMap(1, 0, 0, 0x20, 0x18, 1);
     ARC_TOOL_DeleteHandle(q);
     func_020409B4(1);
     func_02040588(1, 1);

@@ -25,11 +25,11 @@
  *   func_0217EB9C 0x0217EB9C  arm
  *   closesocket 0x0217EB2C  arm
  *   ClosePendingCallbacks 0x02194614  arm
- *   func_0217EAE0 0x0217EAE0  arm
+ *   gsifree 0x0217EAE0  arm
  *   gGstatsSocket   0x021A57C8  data
  *   gGstatsConn   0x021ADFE0  data
  *   PersistCanReceiveOnSocket  0x02193fe8  arm   ov009
- *   func_0217EAC8  0x0217eac8  arm   ov009
+ *   gsirealloc  0x0217eac8  arm   ov009
  *   func_0217EC4C  0x0217ec4c  arm   ov009
  *   ProcessInBuffer  0x02194494  arm   ov009
  *   memmove  0x02092364  arm
@@ -41,7 +41,7 @@
  *   gGstatsEmptyString  0x021A5890  data
  *   @13818       0x021A1A64  data
  *   func_0217EF50 0x0217EF50 arm
- *   func_02184200 0x02184200  arm
+ *   ArrayLength 0x02184200  arm
  *   func_02184208 0x02184208  arm
  *   value_for_key_safe 0x02193FD0  arm
  *   atoi 0x020964E0  arm
@@ -63,7 +63,7 @@
  *   gGstatsKeySecSetpdr   0x021A5900  data
  *   xcode_buf 0x02193EB8  arm
  *   gGstatsNullKey   0x021A57F0  data
- *   func_0218437C 0x0218437C  arm
+ *   ArrayDeleteAt 0x0218437C  arm
  *   func_021841B0 0x021841B0  arm
  *   @14079       0x021A1A54  data
  *   gGstatsCryptKey   0x021A5800  data
@@ -113,19 +113,19 @@ typedef struct {
 
 extern int func_0217EB9C(int sock, int how);
 extern int closesocket(int sock);
-extern void func_0217EAE0(void *ptr);
-extern void *func_0217EAC8(void *ptr, unsigned long size);
+extern void gsifree(void *ptr);
+extern void *gsirealloc(void *ptr, unsigned long size);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217EF50(int sock);
 extern void *memmove(void *dest, const void *src, unsigned int n);
 extern u8 *strcat(u8 *dest, const u8 *src);
 extern char *strstr(const char *s, const char *sub);
 extern int strlen(const u8 *s);
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern int *func_02184208(void *array, int n);
 extern int atoi(u32 a0);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern void func_0218437C(int a, int b);
+extern void ArrayDeleteAt(int a, int b);
 extern void func_021841B0(void *array);
 extern void *func_021937D0(void *set, char *name, int type, void *initialvalue);
 extern void OS_SPrintf(char *buf, const char *fmt, char *b, int n);
@@ -333,7 +333,7 @@ void ClosePendingCallbacks(void)
 
     if (gGstatsConn.requests == 0)
         return;
-    for (i = func_02184200(gGstatsConn.requests) - 1; i >= 0; i--) {
+    for (i = ArrayLength(gGstatsConn.requests) - 1; i >= 0; i--) {
         char connerror[16] = {0x13, 0x1d, 0x01, 0x04, 0, 0, 0, 0x28, 0x1f, 0x06, 0x45, 0x34, 0x3f, 0x01, 0x1b, 0};
         gGstatsSocket.key = gGstatsCryptKey;
         xcode_buf(connerror, 15);
@@ -350,7 +350,7 @@ void CallReqCallback(int reqindex, int success, long modified, char *data, int l
 {
     serverreq_t *req;
 
-    if (reqindex < 0 || reqindex >= func_02184200(gGstatsConn.requests))
+    if (reqindex < 0 || reqindex >= ArrayLength(gGstatsConn.requests))
         return;
     req = (serverreq_t *)func_02184208(gGstatsConn.requests, reqindex);
     if (req->callback != 0) {
@@ -369,7 +369,7 @@ void CallReqCallback(int reqindex, int success, long modified, char *data, int l
             break;
         }
     }
-    func_0218437C((int)(gGstatsConn.requests), reqindex);
+    ArrayDeleteAt((int)(gGstatsConn.requests), reqindex);
 }
 
 /*
@@ -512,7 +512,7 @@ int FindRequest(int reqtype, int localid, int profileid)
 
     if (gGstatsConn.requests == 0)
         return -1;
-    for (i = 0; i < func_02184200(gGstatsConn.requests); i++) {
+    for (i = 0; i < ArrayLength(gGstatsConn.requests); i++) {
         req = func_02184208(gGstatsConn.requests, i);
         if (req[0] == reqtype && req[1] == localid && req[2] == profileid)
             return i;
@@ -624,7 +624,7 @@ int PersistThink(void)
                 len = len * 2;
                 gGstatsConn.inSize = len;
             }
-            gGstatsConn.inBuff = (char *)func_0217EAC8(gGstatsConn.inBuff, len + 1);
+            gGstatsConn.inBuff = (char *)gsirealloc(gGstatsConn.inBuff, len + 1);
             if (gGstatsConn.inBuff == 0)
                 return 0;
         }
@@ -669,7 +669,7 @@ void CloseStatsConnection(void)
     gGstatsSocket.sock = -1;
     ClosePendingCallbacks();
     if (gGstatsConn.inBuff != 0) {
-        func_0217EAE0((void *)gGstatsConn.inBuff);
+        gsifree((void *)gGstatsConn.inBuff);
         gGstatsConn.inBuff = 0;
         gGstatsConn.inSize = 0;
         gGstatsConn.inLen = 0;

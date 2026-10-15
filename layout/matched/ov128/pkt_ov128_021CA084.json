@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA084",
+   "name": "WF2DMAP_TOUCH_GetConfirmInput",
    "address": "0x021CA084",
    "kind": "game",
    "region": "ov128",

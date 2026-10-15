@@ -21,9 +21,9 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   GAME_COMM_PopInfoMessage  0x02026608  thumb
  *   INTRUDE_COMM_IsWarnedWithoutRequest  0x021585BC  thumb  ov010
@@ -134,9 +134,9 @@ void *BMP_WIN_GetBmp(struct Descriptor *a0);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void BMP_WIN_TransferChars(struct Descriptor *a0);
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0201F250(struct WordSet *ws, void *dst, void *src);
+void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 int GAME_COMM_PopInfoMessage(u8 *p, u8 *out);
 int INTRUDE_COMM_IsWarnedWithoutRequest(int a0);
@@ -192,11 +192,11 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
                 msg = 0x2A;
             }
             for (i = 0; i < p[off - 0x15]; i++) {
-                func_0201EE0C((struct WordSet *)w->f24, i, *(void **)(p + i * 4 + off - 0x12),
+                WORDSET_SetSlotTag((struct WordSet *)w->f24, i, *(void **)(p + i * 4 + off - 0x12),
                               p[i + off - 2], 1, p[i + off]);
             }
             MSGDATA_ReadString((struct MsgBank *)w->f2C, msg, w->f38);
-            func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
+            WORDSET_CopyTaggedText((struct WordSet *)w->f24, w->f3C, w->f38);
         } else {
             MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x33, w->f3C);
         }
@@ -235,8 +235,8 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
             msg = 0x28;
         }
         MSGDATA_ReadString((struct MsgBank *)w->f2C, msg, w->f38);
-        func_0201F02C((struct WordSet *)w->f24, 0, t);
-        func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
+        WORDSET_SetSlotMyStatus((struct WordSet *)w->f24, 0, t);
+        WORDSET_CopyTaggedText((struct WordSet *)w->f24, w->f3C, w->f38);
         w->f169 = 4;
         done = 1;
     } else if (w->fDC != 0 && w->fE4 != 0 && (w->fDC == 3 || prev != w->fDC)) {
@@ -252,7 +252,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
                 && INTRUDE_SUBDISP_IsZoneMatch(q, mm->id, mm->id2) == 1) {
                 if (ep[0] == 1) {
                     MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x2F, w->f38);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
+                    WORDSET_CopyTaggedText((struct WordSet *)w->f24, w->f3C, w->f38);
                     done = 1;
                 } else {
                     int dx = ep[1] - v.x;
@@ -271,7 +271,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
                         }
                     }
                     MSGDATA_ReadString((struct MsgBank *)w->f2C, msg, w->f38);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
+                    WORDSET_CopyTaggedText((struct WordSet *)w->f24, w->f3C, w->f38);
                     done = 1;
                 }
             } else {
@@ -279,7 +279,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
                 m2 = INTRUDE_FIELD_FindZonePos(q);
                 if (m1 != 0 && m2 != 0 && m1->x == m2->x && m1->y == m2->y) {
                     MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x2F, w->f38);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
+                    WORDSET_CopyTaggedText((struct WordSet *)w->f24, w->f3C, w->f38);
                     done = 1;
                 }
             }
@@ -299,7 +299,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
                 } else {
                     MSGDATA_ReadString(w->f30, w->fE4->c, w->f38);
                     INTRUDE_COMM_SetWordSetRequest(w->fE4, w->fE4->f18, w->f24, (void *)0x70);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
+                    WORDSET_CopyTaggedText((struct WordSet *)w->f24, w->f3C, w->f38);
                 }
                 w->f10E ^= 1;
                 break;
@@ -322,10 +322,10 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
             done = 1;
             for (i = 0; i < 2; i++) {
                 if (b.ptr[i] != 0) {
-                    func_0201EE0C((struct WordSet *)w->f24, b.slot[i], (void *)b.ptr[i], b.par[i], 1, 2);
+                    WORDSET_SetSlotTag((struct WordSet *)w->f24, b.slot[i], (void *)b.ptr[i], b.par[i], 1, 2);
                 }
             }
-            func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
+            WORDSET_CopyTaggedText((struct WordSet *)w->f24, w->f3C, w->f38);
             done = 1;
         }
     }

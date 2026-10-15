@@ -11,11 +11,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020090D8, sub_020090E0, sub_020090E8, sub_020090F0,
- *           sub_020090F8, sub_02009100, sub_02009108, sub_0200910C
+ * function: CGEAR_SAVE_SetObtained, CGEAR_SAVE_GetObtained, CGEAR_SAVE_SetPowerSetting, CGEAR_SAVE_GetPowerSetting,
+ *           CGEAR_SAVE_SetGsyncState, CGEAR_SAVE_GetGsyncState, CGEAR_SAVE_SetGsyncId, CGEAR_SAVE_GetGsyncId
  *
  * The eight scalar accessors of the 0x2C-byte object whose size function is
- * src/matched/sub_020090B0.c.  Seven of the eight carry no label in the
+ * src/matched/CGEAR_SAVE_GetSize.c.  Seven of the eight carry no label in the
  * generated listing: they have no register-saving prologue, so disasm.py's
  * sweep never fires and the listing emits them as data words.
  *
@@ -60,42 +60,42 @@ struct Sub020090B0Obj {
     u8  unk29[3];
 };
 
-void sub_020090D8(struct Sub020090B0Obj *obj, u8 value)
+void CGEAR_SAVE_SetObtained(struct Sub020090B0Obj *obj, u8 value)
 {
     obj->unk27 = value;
 }
 
-u8 sub_020090E0(const struct Sub020090B0Obj *obj)
+u8 CGEAR_SAVE_GetObtained(const struct Sub020090B0Obj *obj)
 {
     return obj->unk27;
 }
 
-void sub_020090E8(struct Sub020090B0Obj *obj, u8 value)
+void CGEAR_SAVE_SetPowerSetting(struct Sub020090B0Obj *obj, u8 value)
 {
     obj->unk28 = value;
 }
 
-u8 sub_020090F0(const struct Sub020090B0Obj *obj)
+u8 CGEAR_SAVE_GetPowerSetting(const struct Sub020090B0Obj *obj)
 {
     return obj->unk28;
 }
 
-void sub_020090F8(struct Sub020090B0Obj *obj, u8 value)
+void CGEAR_SAVE_SetGsyncState(struct Sub020090B0Obj *obj, u8 value)
 {
     obj->unk26 = value;
 }
 
-u8 sub_02009100(const struct Sub020090B0Obj *obj)
+u8 CGEAR_SAVE_GetGsyncState(const struct Sub020090B0Obj *obj)
 {
     return obj->unk26;
 }
 
-void sub_02009108(struct Sub020090B0Obj *obj, u16 value)
+void CGEAR_SAVE_SetGsyncId(struct Sub020090B0Obj *obj, u16 value)
 {
     obj->unk24 = value;
 }
 
-u16 sub_0200910C(const struct Sub020090B0Obj *obj)
+u16 CGEAR_SAVE_GetGsyncId(const struct Sub020090B0Obj *obj)
 {
     return obj->unk24;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E10F4
+ * function: BR_CODEIN_ProfileCreateOamObjects
  * address: 0x021E10F4
  * packet: pkt_ov183_021E10F4
  * region: ov183
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E10DC 0x021E10DC thumb ov183
- *   func_021E111C 0x021E111C thumb ov183
+ *   BR_CODEIN_ProfileDeleteBgHandle 0x021E10DC thumb ov183
+ *   BR_CODEIN_ProfilePrintOamObject 0x021E111C thumb ov183
  */
-extern void func_021E10DC(char *);
-extern void func_021E111C(const void *,int,int,int,int);
-void func_021E10F4(char *p){ func_021E10DC(p);func_021E111C(p,0,32,8,0);func_021E111C(p,1,32,8,0); }
+extern void BR_CODEIN_ProfileDeleteBgHandle(char *);
+extern void BR_CODEIN_ProfilePrintOamObject(const void *,int,int,int,int);
+void BR_CODEIN_ProfileCreateOamObjects(char *p){ BR_CODEIN_ProfileDeleteBgHandle(p);BR_CODEIN_ProfilePrintOamObject(p,0,32,8,0);BR_CODEIN_ProfilePrintOamObject(p,1,32,8,0); }

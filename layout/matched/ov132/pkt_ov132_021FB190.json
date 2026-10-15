@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB190",
+   "name": "SCRIPT_COMMAND_TaskCameraTarget",
    "address": "0x021FB190",
    "kind": "game",
    "region": "ov132",

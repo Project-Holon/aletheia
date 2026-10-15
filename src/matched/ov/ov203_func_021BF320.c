@@ -18,11 +18,11 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   sub_020409B4 0x020409B4 arm
- *   func_0201F79C 0x0201F79C thumb
+ *   BG_SYS_PushTile 0x020409B4 arm
+ *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
  *   sub_02045C04 0x02045C04 arm
- *   func_0204047C 0x0204047C arm
- *   sub_02040588 0x02040588 arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -45,11 +45,11 @@ extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void sub_020409B4(u32);
-extern void func_0201F79C(void *,u32,u32,u32);
+extern void BG_SYS_PushTile(u32);
+extern void BMP_MENUWORK_DrawWindowEx(void *,u32,u32,u32);
 extern u32 sub_02045C04(struct Rec *rec);
-extern void func_0204047C(int,u16);
-extern void sub_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 void func_021BF320(struct TcblNode *task, struct Context *ctx)
 {
     struct Config *cfg = ctx->cfg;
@@ -68,12 +68,12 @@ void func_021BF320(struct TcblNode *task, struct Context *ctx)
         desc = ctx->desc;
         BMP_WIN_TransferChars(desc);
         BMP_WIN_MakeScreen(desc);
-        sub_020409B4(BMP_WIN_GetBgLayer(desc));
-        func_0201F79C(ctx->desc,1,ctx->base,0);
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(desc));
+        BMP_MENUWORK_DrawWindowEx(ctx->desc,1,ctx->base,0);
         sub_02045C04((struct Rec *)bank);
-        func_0204047C(1,0);
-        func_0204047C(0,1);
-        sub_02040588(1,1);
+        BG_SYS_SetVisibleLayer(1,0);
+        BG_SYS_SetVisibleLayer(0,1);
+        BG_SYS_SetPlaneVisible(1,1);
         ctx->state++;
         break;
     }

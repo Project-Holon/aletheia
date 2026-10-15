@@ -1,5 +1,5 @@
 /*
- * function: func_021C9EF4
+ * function: WF2DMAP_TOUCH_SetTileRecordField
  * address: 0x021C9EF4
  * packet: pkt_ov128_021C9EF4
  * region: ov128
@@ -10,4 +10,4 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021C9EF4(u32 p,int unused,u32 index,u32 value,u32 unused5,u16 heap) { *(u32 *)(p+44+index*4)=value; }
+void WF2DMAP_TOUCH_SetTileRecordField(u32 p,int unused,u32 index,u32 value,u32 unused5,u16 heap) { *(u32 *)(p+44+index*4)=value; }

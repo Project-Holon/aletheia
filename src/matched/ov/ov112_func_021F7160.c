@@ -1,5 +1,5 @@
 /*
- * function: func_021F7160
+ * function: STA_ACT_LIGHT_UpdateBillboard
  * address: 0x021F7160
  * packet: pkt_ov112_021F7160
  * region: ov112
@@ -10,10 +10,10 @@
  * status: EXACT*
  * extent: two zero alignment bytes follow code.
  * symbols:
- *   func_021F7204 0x021F7204 thumb ov112
+ *   STA_ACT_LIGHT_CalcSpriteXform 0x021F7204 thumb ov112
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021F7204(u8 *,u8 *);
-void func_021F7160(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) func_021F7204(p,p+20+i*264); }
+extern void STA_ACT_LIGHT_CalcSpriteXform(u8 *,u8 *);
+void STA_ACT_LIGHT_UpdateBillboard(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) STA_ACT_LIGHT_CalcSpriteXform(p,p+20+i*264); }

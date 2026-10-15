@@ -1,5 +1,5 @@
 /*
- * function: func_021F611C
+ * function: MUSICAL_MCSS_LoadMC
  * address: 0x021F611C
  * packet: pkt_ov112_021F611C
  * region: ov112
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021F63B8 0x021F63B8 thumb ov112
+ *   MUSICAL_MCSS_LoadCellBank 0x021F63B8 thumb ov112
  *   d_021F83D4 0x021F83D4 data a4
  */
 #include "../include/Obj10306.h"
@@ -17,10 +17,10 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_02030734(u32,u32,int,const char *,u16);
 typedef unsigned char  u8;
-extern void func_021F63B8(u8 *a, int index, u32 *res, u32 mode);
+extern void MUSICAL_MCSS_LoadCellBank(u8 *a, int index, u32 *res, u32 mode);
 extern const char d_021F83D4[];
 #define SLOT (*(char ***)(a+4))[i]
-char *func_021F611C(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g)
+char *MUSICAL_MCSS_LoadMC(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g)
 {
     int i;
     for(i=0;i<((struct Obj10306 *)a)->f0;i++) {
@@ -36,7 +36,7 @@ char *func_021F611C(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g)
             *(u32 *)(SLOT+216)=4096;
             *(u32 *)(SLOT+220)=4096;
             *(u32 *)(SLOT+248)=f;
-            func_021F63B8((u8 *)a,i,(u32 *)e,g);
+            MUSICAL_MCSS_LoadCellBank((u8 *)a,i,(u32 *)e,g);
             break;
         }
     }

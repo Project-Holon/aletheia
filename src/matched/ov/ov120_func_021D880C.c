@@ -1,5 +1,5 @@
 /*
- * function: func_021D880C
+ * function: GTSNEGO_MSG_PrintSummary
  * address: 0x021D880C
  * packet: pkt_ov120_021D880C
  * region: ov120
@@ -9,25 +9,25 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8784 0x021D8784 thumb ov120
- *   func_021D8684 0x021D8684 thumb ov120
- *   func_021D7F5C 0x021D7F5C thumb ov120
- *   func_021D7FD0 0x021D7FD0 thumb ov120
- *   func_021D7A74 0x021D7A74 thumb ov120
+ *   GTSNEGO_MSG_PrintSingle 0x021D8784 thumb ov120
+ *   GTSNEGO_MSG_PrintPair 0x021D8684 thumb ov120
+ *   GTSNEGO_MSG_PrintTooltip 0x021D7F5C thumb ov120
+ *   GTSNEGO_MSG_PrintEntry 0x021D7FD0 thumb ov120
+ *   GTSNEGO_MSG_PrintWindowB 0x021D7A74 thumb ov120
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D8784(char *p, void *n);
-extern void func_021D8684(char *,int,u32);
-extern void func_021D7F5C(char *,u16);
-extern void func_021D7FD0(char *,void *);
-extern void func_021D7A74(u8 *p, int n);
-void func_021D880C(char *p,void *q,u32 n)
+extern void GTSNEGO_MSG_PrintSingle(char *p, void *n);
+extern void GTSNEGO_MSG_PrintPair(char *,int,u32);
+extern void GTSNEGO_MSG_PrintTooltip(char *,u16);
+extern void GTSNEGO_MSG_PrintEntry(char *,void *);
+extern void GTSNEGO_MSG_PrintWindowB(u8 *p, int n);
+void GTSNEGO_MSG_PrintSummary(char *p,void *q,u32 n)
 {
-    func_021D8784(p,(void *)q);
-    func_021D8684(p,36,n);
-    func_021D7F5C(p,41);
-    func_021D7FD0(p,q);
-    func_021D7A74((u8 *)p,17);
+    GTSNEGO_MSG_PrintSingle(p,(void *)q);
+    GTSNEGO_MSG_PrintPair(p,36,n);
+    GTSNEGO_MSG_PrintTooltip(p,41);
+    GTSNEGO_MSG_PrintEntry(p,q);
+    GTSNEGO_MSG_PrintWindowB((u8 *)p,17);
 }

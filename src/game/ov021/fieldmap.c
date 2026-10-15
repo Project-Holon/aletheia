@@ -26,7 +26,7 @@
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   sFieldMapHeapBuffer     0x021DE700  data
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_02030734  0x02030734  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
@@ -59,7 +59,7 @@
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02035660  0x02035660  arm
- *   func_0216447C  0x0216447C  thumb  ov010
+ *   FIELD_MAP_CHANGE_Empty  0x0216447C  thumb  ov010
  *   FIELD_MSGBG_Create  0x021901EC  thumb  ov021
  *   FIELD_PLACE_NAME_Create  0x021BC388  thumb  ov021
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
@@ -102,7 +102,7 @@
  *   ZONEDATA_GetLightId  0x02013F2C  thumb
  *   FIELD_ZONEFOG_SetUp  0x021A0338  thumb  ov021
  *   ZONEDATA_GetAreaLightType  0x020140DC  thumb
- *   func_0203F4FC  0x0203F4FC  arm
+ *   GF_STANDARD_GetTime  0x0203F4FC  arm
  *   FIELD_LIGHT_Create  0x021A03D0  thumb  ov021
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   WEATHER_Create  0x021A19E8  thumb  ov021
@@ -157,7 +157,7 @@
  *   FIELD_SUBSCREEN_Main  0x021A0D68  thumb  ov021
  *   FIELD_GIMMICK_RunMapCallback  0x021BE258  thumb  ov021
  *   EVENT_COMM_COMMON_CmdCallMissionInfoEvent  0x0217F914  thumb  ov018
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   FIELD_TASK_MANAGER_Update  0x021C6D90  thumb  ov021
  *   GAME_DATA_GetEventState  0x02012ED0  thumb
  *   PLEASURE_BOAT_AckEvent  0x021C8660  thumb  ov021
@@ -196,7 +196,7 @@
  *   FIELD_MSGBG_Delete  0x021902BC  thumb  ov021
  *   SODATEYA_Delete  0x021C31FC  thumb  ov021
  *   FIELDSKILL_MAPEFF_Delete  0x021C7F9C  thumb  ov021
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   func_02030EAC  0x02030EAC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
@@ -217,11 +217,11 @@
  *   sCtrlMoveKindTable  0x021D35A8  data
  *   FIELDMAP_CTRL_HYBRID_GetMode  0x021A6DC0  thumb
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_02040E78  0x02040E78  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   sClearPalette     0x021D3620  data
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BUTTON_MAN_RotScaleMtx22  0x02051E74  arm
  *   func_0207D59C  0x0207D59C  arm
  *   BG_SYS_SetLowBit  0x0204044C  arm
@@ -240,7 +240,7 @@
  *   BILLBOARD_ACT_Create  0x0204FE94  arm
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
  *   BILLBOARD_SetField25  0x0204EDBC  arm
- *   func_0204EDC4  0x0204EDC4  arm
+ *   BILLBOARD_SetImagePosition  0x0204EDC4  arm
  *   BILLBOARD_SetField10  0x0204ED70  arm
  *   BILLBOARD_SetField24  0x0204EDB0  arm
  *   FIELD_G3DOBJ_Create  0x021C63AC  thumb  ov021
@@ -314,10 +314,10 @@
  *   FLDMMDL_SysDeleteZoneChangeMmdl  0x0216DF1C  thumb  ov010
  *   EVENTDATA_SYSTEM_Clear  0x021623DC  thumb  ov010
  *   EVENTDATA_SYSTEM_LoadEventData  0x0216242C  thumb  ov010
- *   func_021643AC  0x021643AC  thumb  ov010
+ *   FIELD_MAP_CHANGE_ApplyZoneHeader  0x021643AC  thumb  ov010
  *   FIELD_PLACE_NAME_OnZoneChange  0x021BC550  thumb  ov021
  *   GAME_BEACON_SetZone  0x0202735C  thumb
- *   func_0215A014  0x0215A014  thumb  ov010
+ *   MAP_REPLACE_SetArriveFlag  0x0215A014  thumb  ov010
  *   SCRIPT_SYS_RunZoneChangeScript  0x02158AE0  thumb  ov010
  *   INTRUDE_COMM_ClearHoldMode  0x0215874C  thumb  ov010
  *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
@@ -365,7 +365,7 @@
  *   NNS_G3dGlbFlush    0x0206A854  arm
  *   FIELD_EFFECT_Draw    0x021ABE0C  thumb  ov021
  *   FIELD_G3DOBJ_DrawAll    0x021C64E0  thumb  ov021
- *   func_02050790    0x02050790  arm
+ *   LIST_PopFront    0x02050790  arm
  *   UNION_EFF_Draw    0x0217F928  thumb  ov019
  *   FIELD_SUBPROC_MGR_RunDraw    0x021BB954  thumb  ov021
  *   WEATHER_Draw    0x021A1B38  thumb  ov021
@@ -449,7 +449,7 @@ struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void func_020315D4(struct GfProc *proc);
-void func_020306F0(unsigned int heap);
+void GFL_HEAP_DeleteChecked(unsigned int heap);
 void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 u32 ZONEDATA_GetAreaId(u32 id);
@@ -477,7 +477,7 @@ extern u32 ZONEDATA_IsZone1A6(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int func_02034AC4(int id);
 extern void func_02035660(u32 a);
-extern void func_0216447C(struct GameData *gameData, u16 zoneId);
+extern void FIELD_MAP_CHANGE_Empty(struct GameData *gameData, u16 zoneId);
 extern struct FieldMsgBg *FIELD_MSGBG_Create(u16 heapId, struct G3dCamera *g3dCamera);
 extern struct FieldPlaceName *FIELD_PLACE_NAME_Create(struct GameSystem *gameSystem, int heapId, struct FieldMsgBg *msgBg);
 extern struct FieldStatus *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
@@ -518,7 +518,7 @@ extern u32 func_02013EEC(u32 id);
 extern int ZONEDATA_GetLightId(unsigned short id);
 extern void FIELD_ZONEFOG_SetUp(struct FieldZoneFog *zoneFog, u32 id, u32 c, u8 d);
 extern u8 ZONEDATA_GetAreaLightType(struct AreaData *areaData);
-extern u32 func_0203F4FC(void);
+extern u32 GF_STANDARD_GetTime(void);
 extern struct FieldLight *FIELD_LIGHT_Create(u32 a, u32 b, u32 c, struct FieldFog *fog, struct G3dLightSlots *g3dLight, u16 heapId);
 extern u32 GAME_DATA_GetBgmInfo(const struct GameData *p);
 extern struct WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, int a4, int a5, int heapId);
@@ -573,7 +573,7 @@ extern void INTRUDE_FIELD_Update(FieldMap *fieldMap, struct GameSystem *gameSyst
 extern void FIELD_SUBSCREEN_Main(struct FieldSubscreen *subscreen);
 extern void FIELD_GIMMICK_RunMapCallback(FieldMap *fieldMap);
 extern void EVENT_COMM_COMMON_CmdCallMissionInfoEvent(struct UnionEff *unionEff);
-extern void func_02030D28(struct TcblSys *c);
+extern void TCB_Main(struct TcblSys *c);
 extern void FIELD_TASK_MANAGER_Update(struct FieldTaskManager *taskManager);
 extern u32 *GAME_DATA_GetEventState(struct GameData *gameData);
 extern void PLEASURE_BOAT_AckEvent(u32 a);
@@ -612,7 +612,7 @@ extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *infoWindow);
 extern void FIELD_MSGBG_Delete(struct FieldMsgBg *msgBg);
 extern void SODATEYA_Delete(struct Sodateya *sodateya);
 extern void FIELDSKILL_MAPEFF_Delete(struct FieldSkillMapEff *mapEff);
-extern void func_02030DA4(struct TcblSys *tcblSys);
+extern void TCB_Noop(struct TcblSys *tcblSys);
 extern void func_02030EAC(struct GFL_TCB *tcb);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
@@ -629,10 +629,10 @@ extern u32 func_02008DF0(void *record, int i);
 extern u8 func_0202C794(void *a0, u32 a1);
 extern u32 FIELDMAP_CTRL_HYBRID_GetMode(u8 *p);
 extern void BG_SYS_Create(u16 heap);
-extern void func_02040E78(u32 a, void *b, u32 c, u32 d);
+extern void BG_SYS_LoadPltt(u32 a, void *b, u32 c, u32 d);
 extern u32 BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
-extern void func_0203FC28(const struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(const struct DispConfig *cfg);
 extern const struct DispConfig sBgModeSetup;
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(u32 a, void *buf, u32 b, u32 c, u32 d, u32 e);
@@ -650,7 +650,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern struct BbActSys *BILLBOARD_ACT_Create(u16 a0, u16 a1, void (*transCallback)(int, int, void *, int), int heapId);
 extern void *BILLBOARD_ACT_GetBoard(struct BbActSys *bbdAct);
 extern void BILLBOARD_SetField25(u8 *dst, u8 val);
-extern void func_0204EDC4(u8 *dst, int a, int b);
+extern void BILLBOARD_SetImagePosition(u8 *dst, int a, int b);
 extern void BILLBOARD_SetField10(void *board, const VecFx32 *scale);
 extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
 extern struct FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u16 heapId, int a, int b);
@@ -714,10 +714,10 @@ extern void EFFECT_ENCOUNT_Reset(struct FieldEncount *encount);
 extern void FLDMMDL_SysDeleteZoneChangeMmdl(struct MmdlSys *mmdlSys);
 extern void EVENTDATA_SYSTEM_Clear(char *p);
 extern void EVENTDATA_SYSTEM_LoadEventData(void *a0, u16 a1, u8 a2);
-extern void func_021643AC(void *a, void *b);
+extern void FIELD_MAP_CHANGE_ApplyZoneHeader(void *a, void *b);
 extern void FIELD_PLACE_NAME_OnZoneChange(void *p, int v);
 extern void GAME_BEACON_SetZone(u32 a0, struct GameData *gameData);
-extern void func_0215A014(void *a, int b);
+extern void MAP_REPLACE_SetArriveFlag(void *a, int b);
 extern void SCRIPT_SYS_RunZoneChangeScript(void *a0, void *a1);
 extern void INTRUDE_COMM_ClearHoldMode(void *a);
 u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
@@ -764,7 +764,7 @@ extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern u32 NNS_G3dGlbFlush(void);
 extern void FIELD_EFFECT_Draw(struct FieldEffectCont *effect);
 extern void FIELD_G3DOBJ_DrawAll(struct FieldG3dObjCtrl *g3dObjCtrl);
-extern void func_02050790(struct BbActSys *bbdAct, struct G3dCamera *g3dCamera, struct G3dLightSlots *g3dLight);
+extern void LIST_PopFront(struct BbActSys *bbdAct, struct G3dCamera *g3dCamera, struct G3dLightSlots *g3dLight);
 extern void UNION_EFF_Draw(struct UnionEff *unionEff);
 extern void FIELD_SUBPROC_MGR_RunDraw(struct FieldmapFunc *mapFunc);
 extern void WEATHER_Draw(struct WeatherSys *weather);
@@ -987,13 +987,13 @@ int FIELDMAP_ProcExit(struct GfProc *proc, int *seq, struct GameSystem *gameSyst
     FIELDMAP_Delete(work->fieldMap);
     ICA_ANIME_SetField20(gameSystem, 0);
     func_020315D4(proc);
-    func_020306F0(0x96);
-    func_020306F0(0x92);
-    func_020306F0(0x93);
-    func_020306F0(0x89);
-    func_020306F0(0x50);
-    func_020306F0(0x70);
-    func_020306F0(0x15);
+    GFL_HEAP_DeleteChecked(0x96);
+    GFL_HEAP_DeleteChecked(0x92);
+    GFL_HEAP_DeleteChecked(0x93);
+    GFL_HEAP_DeleteChecked(0x89);
+    GFL_HEAP_DeleteChecked(0x50);
+    GFL_HEAP_DeleteChecked(0x70);
+    GFL_HEAP_DeleteChecked(0x15);
     return 1;
 }
 
@@ -1052,7 +1052,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
     switch (fieldMap->subSeq) {
     case 0: {
         struct FieldMsgBg *msgBg;
-        func_0216447C(gameData, fieldMap->zoneId);
+        FIELD_MAP_CHANGE_Empty(gameData, fieldMap->zoneId);
         msgBg = FIELD_MSGBG_Create(fieldMap->heapId, fieldMap->g3dCamera);
         fieldMap->infoWindow = 0;
         fieldMap->msgBg = msgBg;
@@ -1124,7 +1124,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         value = func_02013EEC(fieldMap->zoneId);
         FIELD_ZONEFOG_SetUp(fieldMap->zoneFog, value, ZONEDATA_GetLightId(fieldMap->zoneId), 1);
         value = ZONEDATA_GetAreaLightType(fieldMap->areaData);
-        season = func_0203F4FC();
+        season = GF_STANDARD_GetTime();
         fieldMap->light = FIELD_LIGHT_Create(value, season, COMM_PLAYER_SUPPORT_GetInfoCode(gameSystem), fieldMap->fog, fieldMap->g3dLight, fieldMap->heapId);
         value = GAME_DATA_GetBgmInfo(fieldMap->gameData);
         fieldMap->weather = WEATHER_Create(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, value, COMM_PLAYER_SUPPORT_GetInfoCode(gameSystem), 0x92);
@@ -1240,7 +1240,7 @@ int FIELDMAP_SeqUpdate(struct GameSystem *gameSystem, FieldMap *fieldMap)
     FIELD_SUBPROC_MGR_RunUpdate(fieldMap->mapFunc);
     if (fieldMap->msgBg != 0)
         FIELD_MSGBG_Main(fieldMap->msgBg);
-    func_02030D28(fieldMap->tcblSys);
+    TCB_Main(fieldMap->tcblSys);
     FIELD_TASK_MANAGER_Update(fieldMap->taskManager);
     if (fieldMap->targetPos != 0)
         fieldMap->nowPos = *fieldMap->targetPos;
@@ -1332,7 +1332,7 @@ int FIELDMAP_SeqDeleteSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
 
 int FIELDMAP_SeqExitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    func_02030DA4(fieldMap->tcblSys);
+    TCB_Noop(fieldMap->tcblSys);
     func_020307B0(fieldMap->tcblWork);
     FLD_VREQ_Delete(fieldMap->vreq);
     fieldMap->vreq = 0;
@@ -1600,8 +1600,8 @@ struct AreaData *FIELDMAP_GetAreaData(FieldMap *fieldMap)
 void FIELDMAP_InitBgSystem(FieldMap *fieldMap)
 {
     BG_SYS_Create(fieldMap->heapId);
-    func_02040E78(0, sClearPalette, 0x20, 0);
-    func_02040E78(4, sClearPalette, 0x20, 0);
+    BG_SYS_LoadPltt(0, sClearPalette, 0x20, 0);
+    BG_SYS_LoadPltt(4, sClearPalette, 0x20, 0);
     BG_SYS_SetLcdSwap(1);
     BG_SYS_ResetSubDisplay();
     REG_DISPCNT &= ~0xE000;
@@ -1609,7 +1609,7 @@ void FIELDMAP_InitBgSystem(FieldMap *fieldMap)
 
 void FIELDMAP_SetBgMode(void)
 {
-    func_0203FC28(&sBgModeSetup);
+    BG_SYS_SetGraphicsMode(&sBgModeSetup);
 }
 
 void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap)
@@ -1669,7 +1669,7 @@ void FIELDMAP_CreateG3dResources(FieldMap *fieldMap)
     fieldMap->mmdlBbdAct = BILLBOARD_ACT_Create(0x40, 0x80, FIELDMAP_BbdActTransCallback, fieldMap->heapId);
     board = BILLBOARD_ACT_GetBoard(fieldMap->mmdlBbdAct);
     BILLBOARD_SetField25(board, 2);
-    func_0204EDC4(board, 0, -0xA00);
+    BILLBOARD_SetImagePosition(board, 0, -0xA00);
     fieldMap->effectBbdAct = BILLBOARD_ACT_Create(0x3A, 0x50, FIELDMAP_BbdActTransCallback, fieldMap->heapId);
     fieldMap->groundBbdAct = BILLBOARD_ACT_Create(0x1E, 0x28, FIELDMAP_BbdActTransCallback, fieldMap->heapId);
     board = BILLBOARD_ACT_GetBoard(fieldMap->groundBbdAct);
@@ -1700,7 +1700,7 @@ void FIELDMAP_UpdateG3d(FieldMap *fieldMap)
     FIELD_ZONEFOG_Main(fieldMap->zoneFog, fieldMap->heapId);
     WEATHER_Update(fieldMap->weather, 0x92);
     FIELD_FOG_Main(fieldMap->fog);
-    FIELD_LIGHT_Main(fieldMap->light, func_0203F4FC());
+    FIELD_LIGHT_Main(fieldMap->light, GF_STANDARD_GetTime());
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     mapperBusy = FIELD_G3D_MAPPER_UpdateStep(fieldMap->g3dMapper);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
@@ -1890,7 +1890,7 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
     EVENTDATA_SYSTEM_Clear(eventData);
     EVENTDATA_SYSTEM_LoadEventData(eventData, zoneId, GAME_DATA_GetSeason(gameData));
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_021643AC(gameData, fieldMap);
+    FIELD_MAP_CHANGE_ApplyZoneHeader(gameData, fieldMap);
     FIELDMAP_ChangeZoneSound(fieldMap, zoneId);
     FIELDMAP_ChangeZoneFog(fieldMap, zoneId);
     FIELDMAP_ChangeZoneWeather(fieldMap, zoneId);
@@ -1901,7 +1901,7 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
         FIELD_PLACE_NAME_OnZoneChange(fieldMap->placeName, zoneId);
     location->zoneId = (s16)zoneId;
     GAME_BEACON_SetZone((u16)zoneId, gameData);
-    func_0215A014(gameData, zoneId);
+    MAP_REPLACE_SetArriveFlag(gameData, zoneId);
     SCRIPT_SYS_RunZoneChangeScript(fieldMap->gameSystem, (void *)4);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     FIELDMAP_AddZoneNpcs(gameData, mmdlSys, eventData, zoneId);
@@ -2111,8 +2111,8 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
     FIELD_EFFECT_Draw(fieldMap->effect);
     FIELD_G3DOBJ_DrawAll(fieldMap->g3dObjCtrl);
-    func_02050790(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
-    func_02050790(fieldMap->groundBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    LIST_PopFront(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    LIST_PopFront(fieldMap->groundBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     if (fieldMap->unionEff != 0)
         UNION_EFF_Draw(fieldMap->unionEff);
     proj = savedProj;
@@ -2120,7 +2120,7 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     MIi_CpuCopyFast(&proj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
     NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
-    func_02050790(fieldMap->effectBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    LIST_PopFront(fieldMap->effectBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     MIi_CpuCopyFast(&savedProj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
     NNS_G3dGlbFlush();

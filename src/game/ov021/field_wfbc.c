@@ -34,7 +34,7 @@
  *   MYSTATUS_Init  0x020084A0  thumb
  *   func_020084D4  0x020084D4  thumb
  *   func_0200852C  0x0200852C  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag  0x02186764  thumb
  *   FIELD_WFBC_DATA_LOCAL_HasArrivalFlag  0x02186770  thumb
  *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
@@ -92,7 +92,7 @@ extern struct MyStatus *MYSTATUS_Create(int heapId);
 extern void MYSTATUS_Init(struct MyStatus *myStatus);
 extern u32 func_020084D4(struct MyStatus *myStatus, const u16 *name);
 extern void func_0200852C(struct MyStatus *myStatus, u32 id);
-extern void func_0201F02C(struct WordSet *wordSet, u32 bufIndex, struct MyStatus *myStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 bufIndex, struct MyStatus *myStatus);
 extern void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(WfbcPerson *person);
 extern int FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(WfbcPerson *person);
 extern struct WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int type, int heapId);
@@ -321,7 +321,7 @@ void FIELD_WFBC_SetWordSetParentName(FieldWfbc *wfbc, struct WordSet *wordSet, i
     MYSTATUS_Init(myStatus);
     func_020084D4(myStatus, people->person.parentName);
     func_0200852C(myStatus, people->person.parentId);
-    func_0201F02C(wordSet, bufIndex, myStatus);
+    WORDSET_SetSlotMyStatus(wordSet, bufIndex, myStatus);
     func_020307B0(myStatus);
 }
 

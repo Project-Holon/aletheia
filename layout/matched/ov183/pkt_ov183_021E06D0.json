@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E06D0",
-    "func_021E0754",
-    "func_021E075C",
-    "func_021E0764"
+    "BR_CODEIN_ProfileCreate",
+    "BR_CODEIN_ProfileUpdate",
+    "BR_CODEIN_ProfileGetState",
+    "BR_CODEIN_ProfileGetValue"
+   ],
+   "addresses": [
+    "0x021E06D0",
+    "0x021E0754",
+    "0x021E075C",
+    "0x021E0764"
    ],
    "evidence": {
     "sole-ref": [

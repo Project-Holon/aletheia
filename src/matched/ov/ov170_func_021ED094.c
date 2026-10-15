@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02020F08 0x02020F08 thumb
+ *   FILE_UTIL_GetItemCount 0x02020F08 thumb
  *   FILE_UTIL_Get 0x02020E60 thumb
  *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
  *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
@@ -23,7 +23,7 @@
 #include "../include/Obj14276.h"
 
 
-extern unsigned func_02020F08(void);
+extern unsigned FILE_UTIL_GetItemCount(void);
 extern unsigned FILE_UTIL_Get(unsigned item, unsigned which);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -42,10 +42,10 @@ void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item)
     void *a;
     void *b;
     void *q;
-    q = ARC_UTIL_LoadScreenDataFromArchive(func_02020F08(), FILE_UTIL_Get(item, 1), 0, (u32)(&a), 0x4C);
+    q = ARC_UTIL_LoadScreenDataFromArchive(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 1), 0, (u32)(&a), 0x4C);
     CLACT_TransferCharacter(CLACT_GetActorCharacterIndex(((struct Obj14276 *)w)->f9E9C), a);
     func_020307B0(q);
-    q = ARC_UTIL_LoadPaletteBlockFromArchive(func_02020F08(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
+    q = ARC_UTIL_LoadPaletteBlockFromArchive(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
     CLACT_TransferPalette((void *)CLACT_GetActorPaletteIndex(((struct Obj14276 *)w)->f9E9C), b, 1);
     func_020307B0(q);
 }

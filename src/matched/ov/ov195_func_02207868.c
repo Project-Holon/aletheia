@@ -1,5 +1,5 @@
 /*
- * function: func_02207868
+ * function: SHINKA_DEMO_VIEW_InitGridFromPokemon
  * address: 0x02207868
  * packet: pkt_ov195_02207868
  * region: ov195
@@ -25,7 +25,7 @@
  *   MTX_RotY43_ 0x0207B640 thumb
  *   MTX_MultVec43 0x0207BC08 arm
  *   FX_InvSqrt 0x0207C7E8 arm
- *   func_02208410 0x02208410 thumb ov195
+ *   SHINKA_DEMO_VIEW_IsGridState3 0x02208410 thumb ov195
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  */
@@ -39,7 +39,7 @@ typedef struct {fx32 a[12];} Matrix;
 extern void MTX_RotY43_(Matrix *,fx32,fx32);
 extern void MTX_MultVec43(const Vec *,const Matrix *,Vec *);
 extern fx32 FX_InvSqrt(fx32);
-extern int func_02208410(char *,u16);
+extern int SHINKA_DEMO_VIEW_IsGridState3(char *,u16);
 extern const s16 FX_SinCosTable_[];
 #define G(n) (*(u32 *)(p+(n)))
 #define Q(n) (*(int *)(q+(n)))
@@ -48,7 +48,7 @@ extern const s16 FX_SinCosTable_[];
 static inline int mul(int a,int b){return (int)(((long long)a*b+2048)>>12);}
 static inline int sub(int a,int b){return (int)((u32)a-(u32)b);}
 static inline int add(int a,int b){return (int)((u32)a+(u32)b);}
-void func_02207868(char *p,u16 heap)
+void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
 {
     int first,second,done;
     int angle,dx,dy,dz,horiz,vert,inv,vx,vy,vz,smallH,smallV;
@@ -122,7 +122,7 @@ void func_02207868(char *p,u16 heap)
             source2.x=Q(0x50);source2.y=0;source2.z=0;
             MTX_MultVec43(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
         }
-        if(func_02208410(p,heap)&&G(0x70)>=30){
+        if(SHINKA_DEMO_VIEW_IsGridState3(p,heap)&&G(0x70)>=30){
             j=H(0x5a);i=H(0x5c);
             if(i>=0&&j>=0){
                 *(u8 *)(p+i*0x900+0x88+j*0x80)=0;

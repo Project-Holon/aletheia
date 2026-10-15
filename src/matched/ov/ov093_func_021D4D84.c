@@ -16,10 +16,10 @@
  * the whole earlier DIFF. With a u32 return every spelling of the body
  * keeps the constant chain (push r3-r7).
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   BTL_POKEPARAM_ReloadFromMon  0x021D4EFC  thumb  ov093
  *   BTL_POKEPARAM_LoadMoves  0x021D4F84  thumb  ov093
@@ -79,10 +79,10 @@ typedef struct S {
     u8 f1f6;
     u8 pad1f7;
 } S;
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_02017E1C(void *, u32, u32);
-extern u32 func_02019C90(u16, u16, u32);
+extern u32 POKE_TOOL_GetPersonalParam(u16, u16, u32);
 extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern void BTL_POKEPARAM_ReloadFromMon(S *, void *, u32, u32);
 extern int BTL_POKEPARAM_LoadMoves(u8 *p, void *h, int reset);
@@ -97,7 +97,7 @@ S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c)
     S *p;
     u32 n;
 
-    p = sub_02030734(c, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
+    p = GFL_HEAP_Alloc(c, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
     p->f19 = b;
     p->f0c = func_02017E1C(a, 5, 0);
     p->f00 = a;
@@ -113,7 +113,7 @@ S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c)
     p->lo = func_02017E1C(a, 0x6f, 0);
     p->f16 = func_02017E1C(a, 0xa, 0);
     p->f18 = func_02017E1C(a, 0x9e, 0);
-    p->f1a = func_02019C90(p->f0c, p->lo, 1);
+    p->f1a = POKE_TOOL_GetPersonalParam(p->f0c, p->lo, 1);
     BTL_POKEPARAM_ReloadFromMon(p, a, 1, 1);
     p->f140 = BTL_POKEPARAM_LoadMoves((u8 *)p, a, 1);
     p->f143 = 0;

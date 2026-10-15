@@ -9,18 +9,18 @@
  * status: EXACT*
  * extent: two trailing bytes of zero alignment padding.
  * symbols:
- *   func_022065C8 0x022065C8 thumb ov195
- *   func_0220623C 0x0220623C thumb ov195
- *   func_022060BC 0x022060BC thumb ov195
+ *   SHINKA_DEMO_VIEW_DeleteWork 0x022065C8 thumb ov195
+ *   SHINKA_DEMO_VIEW_DeleteModels 0x0220623C thumb ov195
+ *   SHINKA_DEMO_VIEW_ExitMcss 0x022060BC thumb ov195
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj02911.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct Owner Owner;
-extern void func_022065C8(char *);
-extern void func_0220623C(struct Owner *o);
-extern void func_022060BC(char *);
+extern void SHINKA_DEMO_VIEW_DeleteWork(char *);
+extern void SHINKA_DEMO_VIEW_DeleteModels(struct Owner *o);
+extern void SHINKA_DEMO_VIEW_ExitMcss(char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void SHINKA_DEMO_VIEW_Destroy(char *p){func_022065C8(p);func_0220623C((Owner *)p);func_022060BC(p);if(((struct Obj02911 *)p)->f10)func_020307B0(((struct Obj02911 *)p)->f10);func_020307B0(p);}
+void SHINKA_DEMO_VIEW_Destroy(char *p){SHINKA_DEMO_VIEW_DeleteWork(p);SHINKA_DEMO_VIEW_DeleteModels((Owner *)p);SHINKA_DEMO_VIEW_ExitMcss(p);if(((struct Obj02911 *)p)->f10)func_020307B0(((struct Obj02911 *)p)->f10);func_020307B0(p);}

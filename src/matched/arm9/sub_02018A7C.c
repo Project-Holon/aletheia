@@ -38,10 +38,10 @@
  *   write 0xA2..0xA6           attack, defence, speed, sp. attack, sp. defence
  *   write 0xA0  current HP, and only when the result is non zero
  *
- * func_02019C54(species, form) returns the species' base-stat record and the
+ * POKE_TOOL_GetPersonalData(species, form) returns the species' base-stat record and the
  * first six bytes of it are the six base stats, indexed here in the same order
  * the ids are: HP, attack, defence, speed, sp. attack, sp. defence.  The
- * nature multiplier func_02019B04 (src/matched/unit_02019B04.c) is indexed
+ * nature multiplier POKE_TOOL_ApplyNatureModifier (src/matched/unit_02019B04.c) is indexed
  * differently, 1, 2, 5, 3, 4 for that same sequence, so its table is in
  * attack, defence, sp. attack, sp. defence, speed order.  That permutation is
  * in the game and not in this reconstruction; the two orderings are visible
@@ -64,7 +64,7 @@
  * THE THREE THINGS THAT COST THE MOST TIME
  * ---------------------------------------------------------------------------
  * **The nature multiplier's first argument is a named local.**  Written
- * inline, `func_02019B04(POKE_TOOL_GetNature(p), (u16)stat, k)`, the first three
+ * inline, `POKE_TOOL_ApplyNatureModifier(POKE_TOOL_GetNature(p), (u16)stat, k)`, the first three
  * stats are byte for byte right and the last two are not: the compiler hoists
  * the `bl POKE_TOOL_GetNature` in front of the arithmetic, which costs the `adds r5,
  * r0, #5` its fold and adds three instructions per stat, twelve bytes and 203
@@ -106,7 +106,7 @@
  * offset, a stat index or a formula constant (2, 4, 100, 5, 10), and the stat
  * formulas themselves are content in the sense that they decide the game's
  * numbers: if a White build ever diverges here, it diverges on 292 or on the
- * base-stat table func_02019C54 hands back, not on this code.
+ * base-stat table POKE_TOOL_GetPersonalData hands back, not on this code.
  *
  * Verified with
  *   python tools/match.py one --src src/matched/POKE_TOOL_CalcParam.c \
@@ -117,6 +117,8 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_GetNature  0x02018598  thumb
+ *   POKE_TOOL_ApplyNatureModifier  0x02019B04  thumb
+ *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -126,8 +128,8 @@ typedef signed int     s32;
 extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u8 POKE_TOOL_GetNature(void *p);
-extern u32  func_02019B04(u32 a, u32 b, u32 n);
-extern void *func_02019C54(u32 a, u32 b);
+extern u32  POKE_TOOL_ApplyNatureModifier(u32 a, u32 b, u32 n);
+extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 
 void POKE_TOOL_CalcParam(void *p)
 {
@@ -171,7 +173,7 @@ void POKE_TOOL_CalcParam(void *p)
     ev5 = POKE_TOOL_GetPartyValue(p, 0x12, 0);
     form = POKE_TOOL_GetPartyValue(p, 0x6F, 0);
     species = POKE_TOOL_GetPartyValue(p, 0x05, 0);
-    base = func_02019C54((u16)species, (u16)form);
+    base = POKE_TOOL_GetPersonalData((u16)species, (u16)form);
 
     if (species == 292) {
         newMax = 1;
@@ -183,23 +185,23 @@ void POKE_TOOL_CalcParam(void *p)
 
     stat = (base[1] * 2 + iv1 + ev1 / 4) * level / 100 + 5;
     nature = POKE_TOOL_GetNature(p);
-    POKE_TOOL_SetPartyValue(p, 0xA2, func_02019B04(nature, (u16)stat, 1));
+    POKE_TOOL_SetPartyValue(p, 0xA2, POKE_TOOL_ApplyNatureModifier(nature, (u16)stat, 1));
 
     stat = (base[2] * 2 + iv2 + ev2 / 4) * level / 100 + 5;
     nature = POKE_TOOL_GetNature(p);
-    POKE_TOOL_SetPartyValue(p, 0xA3, func_02019B04(nature, (u16)stat, 2));
+    POKE_TOOL_SetPartyValue(p, 0xA3, POKE_TOOL_ApplyNatureModifier(nature, (u16)stat, 2));
 
     stat = (base[3] * 2 + iv3 + ev3 / 4) * level / 100 + 5;
     nature = POKE_TOOL_GetNature(p);
-    POKE_TOOL_SetPartyValue(p, 0xA4, func_02019B04(nature, (u16)stat, 5));
+    POKE_TOOL_SetPartyValue(p, 0xA4, POKE_TOOL_ApplyNatureModifier(nature, (u16)stat, 5));
 
     stat = (base[4] * 2 + iv4 + ev4 / 4) * level / 100 + 5;
     nature = POKE_TOOL_GetNature(p);
-    POKE_TOOL_SetPartyValue(p, 0xA5, func_02019B04(nature, (u16)stat, 3));
+    POKE_TOOL_SetPartyValue(p, 0xA5, POKE_TOOL_ApplyNatureModifier(nature, (u16)stat, 3));
 
     stat = (base[5] * 2 + iv5 + ev5 / 4) * level / 100 + 5;
     nature = POKE_TOOL_GetNature(p);
-    POKE_TOOL_SetPartyValue(p, 0xA6, func_02019B04(nature, (u16)stat, 4));
+    POKE_TOOL_SetPartyValue(p, 0xA6, POKE_TOOL_ApplyNatureModifier(nature, (u16)stat, 4));
 
     if (cur != 0 || oldMax == 0) {
         if (species == 292) {

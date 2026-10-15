@@ -12,7 +12,7 @@
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
@@ -29,7 +29,7 @@ struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -39,7 +39,7 @@ void POKELIST_PrintExpandedTextSub(u8 *p, u32 win, void *set, u32 idx, s16 x, s1
 {
     void *buf = STRBUF_Create(16, ((struct Obj02771 *)p)->f0);
     void *text = func_02045EC0((struct MsgBank *)(((struct Obj02771 *)p)->f134), idx);
-    func_0201F250(set, buf, text);
+    WORDSET_CopyTaggedText(set, buf, text);
     PRINTSYS_PrintQueColor((void *)(((struct Obj02771 *)p)->f140), (u32)BMP_WIN_GetBmp((struct Descriptor *)win), x, y, (u32)buf,
                   ((struct Obj02771 *)p)->f13C, color);
     STRBUF_Delete(text);

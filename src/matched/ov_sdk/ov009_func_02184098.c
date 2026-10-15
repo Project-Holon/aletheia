@@ -1,5 +1,5 @@
 /*
- * function: func_02184098
+ * function: gsiTimeNitro
  * address:  0x02184098
  * packet:   pkt_ov009_02184098
  * region:   ov009
@@ -18,7 +18,7 @@
 
 extern unsigned long long func_020870D0(void);
 
-long func_02184098(long *timer)
+long gsiTimeNitro(long *timer)
 {
     long t = (long)((func_020870D0() * 64) / 0x01FF6210ULL);
     if (timer != 0)

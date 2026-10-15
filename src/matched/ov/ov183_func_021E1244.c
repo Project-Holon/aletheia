@@ -1,5 +1,5 @@
 /*
- * function: func_021E1244
+ * function: BR_CODEIN_ProfileUpdateActor
  * address: 0x021E1244
  * packet: pkt_ov183_021E1244
  * region: ov183
@@ -16,7 +16,7 @@
  * copy loop (reproduced as in the listing, probably an off-by-one in the original); no hidden callee arguments.
  * symbols:
  *   d_021E3868 0x021E3868 data a4
- *   func_021E11D0 0x021E11D0 thumb ov183
+ *   BR_CODEIN_ProfileSetActorAnim 0x021E11D0 thumb ov183
  */
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -34,8 +34,8 @@ typedef struct
   int count;
 } State;
 extern const Table d_021E3868;
-extern void func_021E11D0(char *, int);
-void func_021E1244(State *p)
+extern void BR_CODEIN_ProfileSetActorAnim(char *, int);
+void BR_CODEIN_ProfileUpdateActor(State *p)
 {
   int i;
   int sum;
@@ -59,7 +59,7 @@ void func_021E1244(State *p)
   *((u16 *) (((char *) p) + 0x224)) = truncated;
   sum = (*((int *) (((char *) p) + 0x330))) + ((int) sum);
   *((u16 *) (((char *) p) + 0x226)) = sum;
-  func_021E11D0((char *) p, 1);
+  BR_CODEIN_ProfileSetActorAnim((char *) p, 1);
   for (i = 0; i < 3; i++)
     *((int *) (((char *) p) + 0x23C)) += *((int *) ((((u32) p) + (i * 4)) + 0x328));
 

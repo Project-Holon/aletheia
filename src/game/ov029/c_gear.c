@@ -42,7 +42,7 @@
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_021F31A8     0x021F31A8  data  ov029  a1
  *   MI_CpuFill8 0x02082BCC arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   d_021F323C     0x021F323C  data  a1
  *   d_021F32B3 0x021F32B3 data a1
@@ -87,8 +87,8 @@
  *   d_021F33CC     0x021F33CC  data  a4
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_0204047C  0x0204047C  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   d_021F338C     0x021F338C  data  ov029  a4
  *   d_021F33AC     0x021F33AC  data  a4
  *   d_021F336C     0x021F336C  data  ov029  a4
@@ -142,14 +142,14 @@
  *   func_02009210  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
  *   MUSICAL_DIST_SAVE_IsFooterSet  0x0200C6F0  thumb
- *   func_02040B1C  0x02040B1C  arm
- *   func_02040E78  0x02040E78  arm
- *   func_02040AE0  0x02040AE0  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
+ *   BG_SYS_DecodeTile  0x02040AE0  arm
  *   func_0200734C  0x0200734C  thumb
  *   d_021F3554     0x021F3554  data  a4
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_0201214C  0x0201214C  thumb
+ *   ICA_ANIME_IsConfigFlagSet  0x0201214C  thumb
  *   func_020490F4  0x020490F4  arm
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
@@ -167,7 +167,7 @@
  *   GFL_NET_RestartNoTimeout  0x0203D8AC  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   func_02030EAC  0x02030EAC  arm
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   func_02028A70  0x02028A70  thumb
@@ -185,10 +185,10 @@
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   EVENT_GSYNC_Entry  0x02154668  thumb  ov000
  *   abs_id_0       0x00000000  data
- *   func_021559E4  0x021559E4  thumb  ov010
+ *   IRC_BATTLE_ENTRY_Create  0x021559E4  thumb  ov010
  *   SCRCMD_NETWORK_CreateWifiProcEvent  0x0215FBF4  thumb  ov010
  *   EVENT_RESEARCH_RADAR_CreateTopTask  0x02167044  thumb  ov010
- *   func_021945A4  0x021945A4  thumb  ov021
+ *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent  0x021945A4  thumb  ov021
  *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   abs_id_124     0x0000007C  data
  *   d_021D4D40     0x021D4D40  data  ov124  a4
@@ -261,7 +261,7 @@ extern u32 WIH_DWC_PollStatus(void *key);
 extern int INTRUDE_COMM_GetRequestState(void *eventWork);
 extern void PALANM_CopyToSlot(struct PalAnm *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void MI_CpuFill8(void *, int, int);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(unsigned int index);
 extern unsigned int WIPE_SYS_EndCheck(void);
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);
@@ -290,8 +290,8 @@ extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_0207D63C(u32, int, int, int, int);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
@@ -337,13 +337,13 @@ extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern struct HexMap *func_02009210(void *saveSys);
 extern u16 func_0200910C(const struct HexMap *obj);
 extern u32 MUSICAL_DIST_SAVE_IsFooterSet(const u8 *bgData);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
-extern void func_02040AE0(u32 index, const void *src, u32 mode);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadPltt(u32 a, void *src, u32 size, u32 ofs);
+extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void func_0200734C(struct SaveCtrl *sv, u32 id);
-extern void func_02030D28(struct FadeCtx *ctx);
+extern void TCB_Main(struct FadeCtx *ctx);
 extern void PALANM_TransferPalettes(struct PalAnm *p);
-extern u32 func_0201214C(const struct GameSystem *p);
+extern u32 ICA_ANIME_IsConfigFlagSet(const struct GameSystem *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02030CB0(u32 n);
 extern struct FadeCtx *func_02030CBC(u32 capacity, void *mem);
@@ -365,7 +365,7 @@ extern void C_GEAR_DeleteFadeFx(CGearFadeFx *fx);
 extern void GFL_NET_RestartNoTimeout(void);
 extern void PALANM_FreeSlotBuffers(struct PalAnm *slots, u32 idx);
 extern u32 PALANM_Delete(struct PalAnm *palAnm);
-extern void func_02030DA4(struct FadeCtx *ctx);
+extern void TCB_Noop(struct FadeCtx *ctx);
 extern void func_02030EAC(struct VBlankTask *task);
 extern struct SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
 extern void func_02028A70(struct SoundSys *sys);
@@ -535,10 +535,10 @@ extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct Gam
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
 extern struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *arg);
-extern struct GameEvent *func_021559E4(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
+extern struct GameEvent *IRC_BATTLE_ENTRY_Create(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
 extern struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
 extern struct GameEvent *EVENT_RESEARCH_RADAR_CreateTopTask(struct GameSystem *gameSystem, void *fieldMap);
-extern struct GameEvent *func_021945A4(struct GameSystem *gameSystem, void *fieldMap, u32 a);
+extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, void *fieldMap, u32 a);
 extern struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, void *fieldMap, u32 overlayId, const void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
 extern struct GameEvent *FIELD_SUBSCREEN_CreateAnimTask(struct GameSystem *gameSystem);
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
@@ -1436,7 +1436,7 @@ void C_GEAR_SetTileFlashStep(CGearTile *tile, int step)
     } else if (tileX + 4 > 0x20) {
         width = 0x20 - tileX;
     }
-    func_020413B0(4, tileX, tileY, width, 4, palette);
+    BG_SYS_FillTileMap(4, tileX, tileY, width, 4, palette);
     func_020409B4(4);
 }
 
@@ -2149,24 +2149,24 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
         struct BgTemplate t = d_021F338C;
         BG_SYS_InitBgLayer(6, &t, 0);
         func_02040588(6, 1);
-        func_0204047C(6, 3);
-        func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(6, 3);
+        BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(6);
     }
     {
         struct BgTemplate t = d_021F33AC;
         BG_SYS_InitBgLayer(5, &t, 0);
         func_02040588(5, 1);
-        func_0204047C(5, 1);
-        func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(5, 1);
+        BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(5);
     }
     {
         struct BgTemplate t = d_021F336C;
         BG_SYS_InitBgLayer(4, &t, 0);
         func_02040588(4, 1);
-        func_0204047C(4, 2);
-        func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(4, 2);
+        BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(4);
     }
     C_GEAR_SetupSubScreenBlend(work);
@@ -3012,10 +3012,10 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
         if (crc == savedCrc && MUSICAL_DIST_SAVE_IsFooterSet(buf) != 0) {
             result = 1;
             for (i = 0; i < 15; i++) {
-                func_02040B1C(6, buf + i * 0x220, 0x220, charBase + (i + 5) * 0x20);
+                BG_SYS_LoadTileData(6, buf + i * 0x220, 0x220, charBase + (i + 5) * 0x20);
             }
-            func_02040E78(6, buf + 0x1FE0, 0x20, 0x140);
-            func_02040AE0(5, buf + 0x2000, 0x600);
+            BG_SYS_LoadPltt(6, buf + 0x1FE0, 0x20, 0x140);
+            BG_SYS_DecodeTile(5, buf + 0x2000, 0x600);
             pal = (u16 *)BG_SYS_GetBuf(5);
             for (i = 0; i < 0x600 / 2; i++) {
                 pal[i] += (u16)charBase;
@@ -3039,11 +3039,11 @@ void C_GEAR_OnCommDisconnect(CGearWork *work)
 {
     C_GEAR_StopFade(work);
     if (work->fadeCtx != 0)
-        func_02030D28(work->fadeCtx);
+        TCB_Main(work->fadeCtx);
     C_GEAR_StartFlashFade(work);
     C_GEAR_DrawEmptyBoard(work);
     if (work->fadeCtx != 0)
-        func_02030D28(work->fadeCtx);
+        TCB_Main(work->fadeCtx);
     work->commEvent = 1;
 }
 
@@ -3116,7 +3116,7 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
     work->parentWork = parentWork;
     work->gameSystem = gameSystem;
     work->powerOn = 1;
-    work->commEnabled = func_0201214C(gameSystem);
+    work->commEnabled = ICA_ANIME_IsConfigFlagSet(gameSystem);
     work->agbSlotPresent = 1;
     work->command = 0;
     work->lastCommand = 0;
@@ -3159,7 +3159,7 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
         C_GEAR_StepOpen(work);
     }
     if (work->fadeCtx != 0)
-        func_02030D28(work->fadeCtx);
+        TCB_Main(work->fadeCtx);
     eventWork = ICA_ANIME_GetField24(gameSystem);
     if (eventWork != 0 && INTRUDE_COMM_GetVisitProgress(eventWork) == 2)
         INTRUDE_COMM_SetCompleted(eventWork);
@@ -3186,7 +3186,7 @@ void C_GEAR_Cleanup(CGearWork *work)
     PALANM_FreeSlotBuffers(work->palAnm, 3);
     PALANM_FreeSlotBuffers(work->palAnm, 1);
     PALANM_Delete(work->palAnm);
-    func_02030DA4(work->fadeCtx);
+    TCB_Noop(work->fadeCtx);
     func_020307B0(work->fadeMem);
     func_02030EAC(work->palTransferTask);
     if (work->lastCommand != 5) {
@@ -3300,7 +3300,7 @@ void C_GEAR_Update(CGearWork *work, u8 powerOn)
     if (work->stepFunc != 0)
         work->stepFunc(work);
     if (work->fadeCtx != 0)
-        func_02030D28(work->fadeCtx);
+        TCB_Main(work->fadeCtx);
 }
 
 
@@ -3738,7 +3738,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         next = GAME_EVENT_CreateOverlayEvent(work->gameSystem, (u32)abs_id_0, EVENT_GSYNC_Entry, fieldMap);
         break;
     case 1:
-        next = func_021559E4(work->gameSystem, fieldMap, 0, 1);
+        next = IRC_BATTLE_ENTRY_Create(work->gameSystem, fieldMap, 0, 1);
         break;
     case 5:
         next = SCRCMD_NETWORK_CreateWifiProcEvent(work->gameSystem, fieldMap, 0, 1);
@@ -3747,7 +3747,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         next = EVENT_RESEARCH_RADAR_CreateTopTask(work->gameSystem, fieldMap);
         break;
     case 7:
-        next = func_021945A4(work->gameSystem, fieldMap, 4);
+        next = FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->gameSystem, fieldMap, 4);
         break;
     case 12:
         args = func_02030734(4, 8, 1, d_021F3554, 0x14B7);

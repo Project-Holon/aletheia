@@ -19,7 +19,7 @@
  *   WIFICLUB_IsSlotPanelOpen 0x021C1A44 thumb ov099
  *   WIFICLUB_CloseSlotPanel 0x021C1AC0 thumb ov099
  *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_020490F4 0x020490F4 arm
  *   WIFICLUB_InitPlanesAndText 0x021BE53C thumb ov099
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -43,7 +43,7 @@ extern void CLACT_FlushOamIfPending(void);
 extern int WIFICLUB_IsSlotPanelOpen(char *);
 extern void WIFICLUB_CloseSlotPanel(char *);
 extern int WIFICLUB_DeleteWindow(void *);
-extern void func_020414AC(u32);
+extern void BG_SYS_FreeSlot(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void WIFICLUB_InitPlanesAndText(char *p, int v);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -68,7 +68,7 @@ int WIFICLUB_StateRestartMatch(char *p, int v)
         }
         if (WIFICLUB_IsSlotPanelOpen(p) == 1) WIFICLUB_CloseSlotPanel(p);
         ((struct Obj02802 *)p)->f198 = (void *)WIFICLUB_DeleteWindow(((struct Obj02802 *)p)->f198);
-        func_020414AC(3);
+        BG_SYS_FreeSlot(3);
         h = func_020490F4(0x21, 0x21);
         WIFICLUB_InitPlanesAndText(p, (int)h);
         ARC_TOOL_DeleteHandle(h);

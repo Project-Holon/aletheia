@@ -1,5 +1,5 @@
 /*
- * function: func_021DDFA0
+ * function: BR_CODEIN_ListHitButton
  * address: 0x021DDFA0
  * packet: pkt_ov183_021DDFA0
  * region: ov183
@@ -18,7 +18,7 @@ typedef struct Rect { u32 x0, y0, x1, y1; } Rect;
 extern const Rect d_021E3440[];
 extern void BR_UTIL_StartEffect(int, int, int *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int func_021DDFA0(char *p, int x, int y)
+int BR_CODEIN_ListHitButton(char *p, int x, int y)
 {
     int skip = ((struct Obj00731 *)p)->f78;
     int i;

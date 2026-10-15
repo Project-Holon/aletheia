@@ -1,5 +1,5 @@
 /*
- * function: func_0215F334
+ * function: SOCLi_SocketUnregisterList
  * address:  0x0215F334
  * packet:   pkt_ov009_0215F334
  * region:   ov009
@@ -26,7 +26,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern Sock **func_0215F36C(Sock **next, Sock *socket);
 
-void func_0215F334(Sock **next, Sock *socket)
+void SOCLi_SocketUnregisterList(Sock **next, Sock *socket)
 {
 	unsigned long enable;
 

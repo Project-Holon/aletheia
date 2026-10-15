@@ -23,12 +23,12 @@
  *   POKETRADE_SAVE_BackupZukan  0x021E01A0  thumb
  *   POKETRADE_SAVE_BackupBlock1F  0x021E0200  thumb
  *   POKETRADE_SAVE_ConsumePerapVoice  0x021E0410  thumb
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   MAIL_GetBoxSize   0x02008FFC  thumb
  *   MAIL_GetBox   0x02008FEC  thumb
- *   sub_02008C20   0x02008C20  thumb
+ *   RECORD_GetSize   0x02008C20  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   PLAYTIME_GetStamp   0x020086F0  thumb
@@ -59,7 +59,7 @@
  *   WIFI_HISTORY_SetCountryRegionState   0x020094D8  thumb
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   func_0202F190  0x0202F190  thumb
- *   sub_02008DF0   0x02008DF0  thumb
+ *   RECORD_AddOne   0x02008DF0  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   TRADE_HISTORY_IncrementTradeCount   0x02009EB0  thumb
@@ -70,9 +70,9 @@
  *   sub_0201283C   0x0201283C  thumb
  *   WIFILIST_AddFriendBattleRecord   0x02009BB8  thumb
  *   WIFILIST_FindFriendByStatus   0x02009D1C  thumb
- *   d_021E8108     0x021E8108  data  ov119
- *   d_021E811C     0x021E811C  data  ov119
- *   d_021E8130     0x021E8130  data  ov119
+ *   gSaveBufferAllocTag     0x021E8108  data  ov119
+ *   gMailBufferAllocTag     0x021E811C  data  ov119
+ *   gSaveControlAllocTag     0x021E8130  data  ov119
  *
  * Addresses are Black-image addresses.
  */
@@ -100,12 +100,12 @@ extern void *POKETRADE_SAVE_BackupSaveControl(void *sys, u16 heapId);
 extern void *POKETRADE_SAVE_BackupZukan(void *src, u16 heapId);
 extern void *POKETRADE_SAVE_BackupBlock1F(void *sys, u16 heapId);
 extern int POKETRADE_SAVE_ConsumePerapVoice(char *p, void *party, int idx);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 extern u32 MAIL_GetBoxSize(void);
 extern struct Sub02008F80Obj *MAIL_GetBox(void *sys);
-extern u32 sub_02008C20(void);
+extern u32 RECORD_GetSize(void);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 struct BigObj;
 struct Sub020075B0Entry;
@@ -139,7 +139,7 @@ extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, 
 extern void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value);
 extern void POKE_TOOL_HealFull(void *mon);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void TRADE_HISTORY_IncrementTradeCount(struct Sub02009D9CObj *obj);
@@ -150,9 +150,9 @@ extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0
 extern u32 sub_0201283C(const struct BigObj *p);
 extern void WIFILIST_AddFriendBattleRecord(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern int WIFILIST_FindFriendByStatus(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
-extern const char d_021E8108[];
-extern const char d_021E811C[];
-extern const char d_021E8130[];
+extern const char gSaveBufferAllocTag[];
+extern const char gMailBufferAllocTag[];
+extern const char gSaveControlAllocTag[];
 
 typedef struct {
     u8   pad0[0x1C];
@@ -175,7 +175,7 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 
 static inline void *copy_a(void *sys, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, MAIL_GetBoxSize(), 0, d_021E811C, 0x163);
+    void *buf = GFL_HEAP_Alloc(heapId, MAIL_GetBoxSize(), 0, gMailBufferAllocTag, 0x163);
 
     GFL_STD_MemCopy(MAIL_GetBox(sys), buf, MAIL_GetBoxSize());
     return buf;
@@ -183,9 +183,9 @@ static inline void *copy_a(void *sys, u16 heapId)
 
 static inline void *copy_b(void *sys, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, sub_02008C20(), 0, d_021E8108, 0x182);
+    void *buf = GFL_HEAP_Alloc(heapId, RECORD_GetSize(), 0, gSaveBufferAllocTag, 0x182);
 
-    GFL_STD_MemCopy(GAME_DATA_GetTrainerRecord(sys), buf, sub_02008C20());
+    GFL_STD_MemCopy(GAME_DATA_GetTrainerRecord(sys), buf, RECORD_GetSize());
     return buf;
 }
 
@@ -209,7 +209,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
             POKEPARTY_Copy(I(p, 0x838), I(p, 0x620));
             W(p, 0x62C) = POKETRADE_SAVE_ConsumePerapVoice(p, I(p, 0x838), T(p)->slot);
         } else {
-            I(p, 0x624) = sub_02030734(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, d_021E8130, 0x271);
+            I(p, 0x624) = GFL_HEAP_Alloc(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, gSaveControlAllocTag, 0x271);
             GFL_STD_MemCopy(BOX_SAVEDATA_GetBoxPokemon(I(p, 0x828), T(p)->box), I(p, 0x624), BOX_SAVEDATA_GetBoxPageSize());
         }
     } else {
@@ -273,13 +273,13 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     switch (W(p, 0x118C)) {
     case 2:
     case 3:
-        sub_02008DF0(obj, 0x10);
+        RECORD_AddOne(obj, 0x10);
         break;
     case 1:
-        sub_02008DF0(obj, 0xC);
+        RECORD_AddOne(obj, 0xC);
         break;
     case 0:
-        sub_02008DF0(obj, 0x24);
+        RECORD_AddOne(obj, 0x24);
         break;
     }
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);

@@ -16,7 +16,7 @@
  *   func_02163C9C  0x02163C9C  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_02163CF0  0x02163CF0  arm  ov009
- *   func_02163E10  0x02163E10  arm  ov009
+ *   CPSi_sha1_result_prng  0x02163E10  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA648  0x021AA648  data
  *   gCpsSslRandCtx  0x021A82E4  data
@@ -41,7 +41,7 @@ extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
 extern void func_02163C9C(CPSSha1Ctx *ctx);
 extern unsigned long OS_DisableInterrupts(void);
 extern void func_02163CF0(CPSSha1Ctx *ctx, void *data0, int datalen);
-extern void func_02163E10(void *ctx, unsigned char *digest);
+extern void CPSi_sha1_result_prng(void *ctx, unsigned char *digest);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 extern unsigned char g_021AA648;
@@ -70,7 +70,7 @@ static void func_02162128(unsigned char *d, int len)
             func_02163C9C(&ctx);
             enabled = OS_DisableInterrupts();
             func_02163CF0(&ctx, g_021AA650, 20);
-            func_02163E10(&ctx, x);
+            CPSi_sha1_result_prng(&ctx, x);
             carry = 1;
             for (j = 19; j >= 0; j--) {
                 tmp = g_021AA650[j] + x[j] + carry;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA94
+ * function: CTVT_CALL_Init
  * address:  0x021BBA94
  * packet:   pkt_ov172_021BBA94
  * region:   ov172
@@ -22,7 +22,7 @@
  *   COMM_TVT_SYS_GetClactUnit  0x021BE024  thumb  ov172
  *   COMM_TVT_SYS_GetLaunchParams  0x021BE004  thumb  ov172
  *   COMM_TVT_SYS_GetHostBusy  0x021BE0EC  thumb  ov172
- *   func_021BD134  0x021BD134  thumb  ov172
+ *   CTVT_CALL_PrintTimeMessage  0x021BD134  thumb  ov172
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_020409B4  0x020409B4  arm
@@ -55,7 +55,7 @@ extern u32  COMM_TVT_SYS_GetResId(void *c, int i);
 extern u32  COMM_TVT_SYS_GetClactUnit(void *c);
 extern u32 COMM_TVT_SYS_GetLaunchParams(void *p);
 extern u32 COMM_TVT_SYS_GetHostBusy(void *c);
-extern void func_021BD134(void *ctx, char *st, u32 msgId);
+extern void CTVT_CALL_PrintTimeMessage(void *ctx, char *st, u32 msgId);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 a);
@@ -70,7 +70,7 @@ extern u8 d_021C7234[];
 
 #define MK(c, p, a1, a2, a3, sp) CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(c), COMM_TVT_SYS_GetResId(c, a1), COMM_TVT_SYS_GetResId(c, a2), COMM_TVT_SYS_GetResId(c, a3), &d, sp, v)
 
-void func_021BBA94(void *a0, u8 *p)
+void CTVT_CALL_Init(void *a0, u8 *p)
 {
     struct Desc d;
     u16 v;
@@ -187,7 +187,7 @@ void func_021BBA94(void *a0, u8 *p)
     BG_SYS_ResetSlot(6, 3, 0);
     if ((u32)(*(u32 *)(o + 4) - 2) <= 1 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)*(u32 *)(p + 0x400), 0xf);
-        func_021BD134(a0, (char *)p, 0x18);
+        CTVT_CALL_PrintTimeMessage(a0, (char *)p, 0x18);
         *(u32 *)(p + 0x38) = 1;
         *(u32 *)(p + 0x18) = 3;
     }

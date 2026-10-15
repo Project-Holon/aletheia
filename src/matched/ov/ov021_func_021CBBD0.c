@@ -1,5 +1,5 @@
 /*
- * function: func_021CBBD0
+ * function: BSUBWAY_SCR_GetNpcEntryInfo
  * address:  0x021CBBD0
  * packet:   pkt_ov021_021CBBD0
  * region:   ov021
@@ -29,7 +29,7 @@ typedef struct {
 
 extern const Entry data_021DAEBC[];
 
-void func_021CBBD0(u8 *p, u32 idx, u16 *a, u16 *b, u16 *c)
+void BSUBWAY_SCR_GetNpcEntryInfo(u8 *p, u32 idx, u16 *a, u16 *b, u16 *c)
 {
     const Entry *e = &data_021DAEBC[idx];
 

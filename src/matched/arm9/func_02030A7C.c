@@ -1,5 +1,5 @@
 /*
- * function: func_02030A7C
+ * function: GFL_HEAP_WalkBlocksCallback
  * address:  0x02030A7C
  * packet:   pkt_02030A7C
  * region:   arm9
@@ -24,7 +24,7 @@
  *   GFL_HEAP_GetBlockName   0x020304C0  arm
  *   NNSi_FndGetMBlockSize   0x02060F90  arm
  *   func_020308B8   0x020308B8  arm
- *   func_0203F004   0x0203F004  arm
+ *   GF_STANDARD_GetStringLength   0x0203F004  arm
  *   MI_CpuCopy8     0x02082D44  arm
  *
  * Fills in the allocator's bookkeeping object at 0x02146970 (u16 tag, two
@@ -63,8 +63,8 @@
  * pool one of them, and nothing else in the image references them.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02030A7C.c \
- *       --func func_02030A7C --addr 0x02030A7C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_HEAP_WalkBlocksCallback.c \
+ *       --func GFL_HEAP_WalkBlocksCallback --addr 0x02030A7C --cc 1.1p1 --arm
  */
 #include "../include/Obj15863.h"
 
@@ -88,10 +88,10 @@ extern const char str_system_name[];
 extern void *GFL_HEAP_GetBlockName(void *p);
 extern int NNSi_FndGetMBlockSize(char *p);
 extern int func_020308B8(u8 *dst, const char *src);
-extern u32 func_0203F004(const u8 *s);
+extern u32 GF_STANDARD_GetStringLength(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
-void func_02030A7C(void *heap)
+void GFL_HEAP_WalkBlocksCallback(void *heap)
 {
     u8 buf[0x14];
     u8 *p = (u8 *)heap + 0x1c;
@@ -109,10 +109,10 @@ void func_02030A7C(void *heap)
         MI_CpuCopy8(str_system_name, buf, 0xd);
         v = 0;
     }
-    n = func_0203F004(buf);
+    n = GF_STANDARD_GetStringLength(buf);
     MI_CpuCopy8(buf, g_0214697C, n + 1);
     g_02146970.unk_00 = v;
-    k = 0x12 - func_0203F004(buf);
+    k = 0x12 - GF_STANDARD_GetStringLength(buf);
     i = 0;
     if (k > 0) {
         do {

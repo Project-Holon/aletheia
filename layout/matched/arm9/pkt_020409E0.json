@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02040AE0",
+   "name": "BG_SYS_DecodeTile",
    "address": "0x02040AE0",
    "kind": "sdk",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02040B1C",
+   "name": "BG_SYS_LoadTileData",
    "address": "0x02040B1C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02040B58",
+   "name": "BG_SYS_CreateTileRun",
    "address": "0x02040B58",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02040EE0",
+   "name": "BG_SYS_GetTileMapEntry",
    "address": "0x02040EE0",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020413B0",
+   "name": "BG_SYS_FillTileMap",
    "address": "0x020413B0",
    "kind": "game",
    "region": "arm9",

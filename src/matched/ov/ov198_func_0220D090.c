@@ -1,5 +1,5 @@
 /*
- * function: func_0220D090
+ * function: B_PLIST_DRAW_PrintSlotValueA
  * address:  0x0220D090
  * packet:   pkt_0220D090
  * region:   ov198
@@ -15,8 +15,8 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  */
@@ -38,12 +38,12 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void STRBUF_Delete(struct U16Vec *vec);
 struct StrObj;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 
-void func_0220D090(char *p, int a1, int a2)
+void B_PLIST_DRAW_PrintSlotValueA(char *p, int a1, int a2)
 {
     u32 handle;
     void *t;
@@ -71,8 +71,8 @@ void func_0220D090(char *p, int a1, int a2)
 
         t2 = func_02045EC0(((struct Obj02533 *)p)->f1EA0, 0x3e);
         h = (u32)STRBUF_Create(8, *(u16 *)(((struct Obj02533 *)p)->f0 + 0x10));
-        func_0201EFA4(((struct Obj02533 *)p)->f1EA4, 0, a2, 3, 0, 1);
-        func_0201F250(((struct Obj02533 *)p)->f1EA4, (void *)h, t2);
+        WORDSET_SetSlotNumber(((struct Obj02533 *)p)->f1EA4, 0, a2, 3, 0, 1);
+        WORDSET_CopyTaggedText(((struct Obj02533 *)p)->f1EA4, (void *)h, t2);
         w0 = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj02533 *)p)->f0 + 0xc), 0);
         w2 = (BMP_WIN_GetWidth((void *)handle) << 3) - w0;
         f = ((struct Obj02533 *)p)->f1EAC;

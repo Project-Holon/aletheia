@@ -1,5 +1,5 @@
 /*
- * function: func_021C51B4
+ * function: VIEWER_MAIN_SetRowState
  * address:  0x021C51B4
  * packet:   pkt_ov111_021C51B4
  * region:   ov111
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -54,13 +54,13 @@ typedef struct {
     u8 b32F6;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 
-void func_021C51B4(Work *p, int flag, int v)
+void VIEWER_MAIN_SetRowState(Work *p, int flag, int v)
 {
     if (flag == 0) {
-        func_021C6FA0(&p->anim, 2, 10, v);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 10, v);
     } else {
-        func_021C6FA0(&p->anim, 2, 12, v);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 12, v);
     }
 }

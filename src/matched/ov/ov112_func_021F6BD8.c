@@ -1,5 +1,5 @@
 /*
- * function: func_021F6BD8
+ * function: STA_ACT_LIGHT_CreateUnit
  * address: 0x021F6BD8
  * packet: pkt_ov112_021F6BD8
  * region: ov112
@@ -33,7 +33,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern const char d_021F8408[];
 typedef struct { u16 heap,pad; void *a; u32 entries[4][8]; u32 other[8]; void *bank; u32 x,y,z; } Object;
-Object *func_021F6BD8(u16 heap,void *a)
+Object *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
 {
     u8 i;
     Object *p;

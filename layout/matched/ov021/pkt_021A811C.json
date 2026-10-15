@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A811C",
+   "name": "FIELD_GROUND_ANIME_GetEntryPosByMapKind",
    "address": "0x021A811C",
    "kind": "sdk",
    "region": "ov021",

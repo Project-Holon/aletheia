@@ -19,7 +19,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   gEntranceOutEventTable     0x021D9BC8  data  ov021  a4
- *   func_021A7B20  0x021A7B20  thumb  ov021
+ *   FIELD_GROUND_ANIME_CreateA  0x021A7B20  thumb  ov021
  *   EVENT_FIELD_PROCLINK_StartObjAnim  0x021618E0  thumb  ov010
  *   EVENT_APPEAR_CreateDescendingSpin  0x021BF644  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
@@ -45,7 +45,7 @@ extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, Entra
 extern void *func_020124E8(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 extern struct BgmInfo *GAME_DATA_GetBgmInfo(const GameData *gameData);
-extern GameEvent *func_021A7B20(EntranceParam *param);
+extern GameEvent *FIELD_GROUND_ANIME_CreateA(EntranceParam *param);
 extern GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, FieldMap *fieldMap);
 extern GameEvent *EVENT_APPEAR_CreateDescendingSpin(int unused, GameSystem *gameSystem, FieldMap *fieldMap);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait, int initScreen, u8 fromSeason, u8 toSeason);
@@ -130,7 +130,7 @@ u32 EVENT_ENTRANCE_OUT_RunGroundAnime(GameEvent *event, int *seq, EntranceOutWor
 
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, func_021A7B20(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateA(param));
         (*seq)++;
         break;
     case 1:
@@ -197,7 +197,7 @@ u32 EVENT_ENTRANCE_OUT_RunCamera(GameEvent *event, int *seq, EntranceOutWork *wo
     FIELDMAP_GetCamera(param->fieldMap);
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, func_021A7B20(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateA(param));
         (*seq)++;
         break;
     case 1:

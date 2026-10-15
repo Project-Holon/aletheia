@@ -41,7 +41,7 @@
    }
   },
   {
-   "name": "func_02167380",
+   "name": "COMM_PLAYER_GetRecordField3",
    "address": "0x02167380",
    "kind": "game",
    "region": "ov010",

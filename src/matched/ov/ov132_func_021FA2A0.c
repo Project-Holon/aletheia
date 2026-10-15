@@ -1,5 +1,5 @@
 /*
- * function: func_021FA2A0
+ * function: STA_ACT_AUDIENCE_UpdateRecord
  * address: 0x021FA2A0
  * packet: pkt_ov132_021FA2A0
  * region: ov132
@@ -14,9 +14,9 @@
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
- *   func_021F8044 0x021F8044 thumb ov112
- *   func_021F6F04 0x021F6F04 thumb ov112
- *   func_021FA3A8 0x021FA3A8 thumb ov132
+ *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
+ *   STA_ACT_AUDIENCE_DrawRecord 0x021FA3A8 thumb ov132
  *   func_02005728 0x02005728 thumb
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
@@ -36,11 +36,11 @@ extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *STA_ACTING_GetCharSystem(void *);
 extern void *STA_ACTING_GetCharSlot(void *,u8);
-extern void func_021F8044(void *unused, u32 *p, u32 *q);
-extern void func_021F6F04(void *,void *,Vec *);
-extern void func_021FA3A8(char *,u8 *,unsigned);
+extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_GetElemPos(void *,void *,Vec *);
+extern void STA_ACT_AUDIENCE_DrawRecord(char *,u8 *,unsigned);
 extern unsigned func_02005728(unsigned);
-void func_021FA2A0(char *p,u8 *rec)
+void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
 {
     Vec v;
     void *a,*b;
@@ -50,25 +50,25 @@ void func_021FA2A0(char *p,u8 *rec)
     if(rec[1]==0) {
         if(rec[0]==255 && ((struct Obj04514 *)p)->f1FC==255) {
             ((struct Obj00995 *)rec)->f4=65535;
-            if(rec[6]<2) func_021FA3A8(p,rec,3);
-            else if(rec[6]<4) func_021FA3A8(p,rec,2);
-            else if(rec[6]<6) func_021FA3A8(p,rec,1);
-            else func_021FA3A8(p,rec,0);
+            if(rec[6]<2) STA_ACT_AUDIENCE_DrawRecord(p,rec,3);
+            else if(rec[6]<4) STA_ACT_AUDIENCE_DrawRecord(p,rec,2);
+            else if(rec[6]<6) STA_ACT_AUDIENCE_DrawRecord(p,rec,1);
+            else STA_ACT_AUDIENCE_DrawRecord(p,rec,0);
         } else {
             STA_ACTING_GetCameraTarget(((struct Obj04514 *)p)->f1E8);
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
                 a=STA_ACTING_GetActorSystem(((struct Obj04514 *)p)->f1E8);
-                func_021F8044(a,STA_ACTING_GetActor(((struct Obj04514 *)p)->f1E8,rec[0]),(u32 *)(&v));
+                STA_ACT_LIGHT_ElemOpA(a,STA_ACTING_GetActor(((struct Obj04514 *)p)->f1E8,rec[0]),(u32 *)(&v));
             } else {
                 b=STA_ACTING_GetCharSystem(((struct Obj04514 *)p)->f1E8);
-                func_021F6F04(b,STA_ACTING_GetCharSlot(((struct Obj04514 *)p)->f1E8,((struct Obj04514 *)p)->f1FC),&v);
+                STA_ACT_LIGHT_GetElemPos(b,STA_ACTING_GetCharSlot(((struct Obj04514 *)p)->f1E8,((struct Obj04514 *)p)->f1FC),&v);
             }
             delta=(float)v.x/4096.f-(float)(u32)x;
-            if(delta < -64) func_021FA3A8(p,rec,0);
-            else if(delta >64) func_021FA3A8(p,rec,3);
-            else if(delta<0) func_021FA3A8(p,rec,1);
-            else func_021FA3A8(p,rec,2);
+            if(delta < -64) STA_ACT_AUDIENCE_DrawRecord(p,rec,0);
+            else if(delta >64) STA_ACT_AUDIENCE_DrawRecord(p,rec,3);
+            else if(delta<0) STA_ACT_AUDIENCE_DrawRecord(p,rec,1);
+            else STA_ACT_AUDIENCE_DrawRecord(p,rec,2);
         }
         rec[1]=func_02005728(60)+1;
     }

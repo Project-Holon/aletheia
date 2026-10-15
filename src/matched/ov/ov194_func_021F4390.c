@@ -1,5 +1,5 @@
 /*
- * function: func_021F4390
+ * function: NAMEIN_GRAPHIC_IsIconAnimDone
  * address: 0x021F4390
  * packet: pkt_ov194_021F4390
  * region: ov194
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24910.h"
-unsigned func_021F4390(unsigned char *p){return ((struct Obj24910 *)p)->f14;}
+unsigned NAMEIN_GRAPHIC_IsIconAnimDone(unsigned char *p){return ((struct Obj24910 *)p)->f14;}

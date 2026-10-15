@@ -1,5 +1,5 @@
 /*
- * function: func_0217C448
+ * function: DWCi_Svl_ParseHttp
  * address:  0x0217C448
  * packet:   pkt_ov009_0217C448
  * region:   ov009
@@ -62,7 +62,7 @@ extern char g_021A2894[];
 extern char g_021A289C[];
 extern char g_021A28AC[];
 
-int func_0217C448(void)
+int DWCi_Svl_ParseHttp(void)
 {
     char *strp;
     int httpretcode;

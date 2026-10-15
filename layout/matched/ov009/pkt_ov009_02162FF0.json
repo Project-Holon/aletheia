@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02162FF0",
+   "name": "CPSi_md5_block",
    "address": "0x02162FF0",
    "kind": "sdk",
    "region": "ov009",

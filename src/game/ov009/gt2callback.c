@@ -1,7 +1,7 @@
 /*
  * file:     gt2callback.c
  * unit:     yes
- * function: func_02194EC4, func_02194F2C, func_0219500C, func_021950B4, func_02195158, func_021951E8, func_02195278, func_02195340, func_02195408, func_021954F4
+ * function: func_02194EC4, gti2ConnectAttemptCallback, gti2ConnectedCallback, gti2ReceivedCallback, func_02195158, gti2PingCallback, gti2SendFilterCallback, gti2ReceiveFilterCallback, gti2DumpCallback, gti2UnrecognizedMessageCallback
  * address:  0x02194EC4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -70,15 +70,15 @@ extern void gti2CloseSocket(GTI2Socket *socket);
 extern void func_02197FDC(GTI2Socket *sock);
 extern FilterCb *func_02184208(void *array, int n);
 int gti2SocketErrorCallback(GTI2Socket *socket);
-int func_02194F2C(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
-int func_0219500C(GTI2Connection *c, int result, unsigned char *msg, int len);
-int func_021950B4(GTI2Connection *c, unsigned char *msg, int len, int reliable);
+int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
+int gti2ConnectedCallback(GTI2Connection *c, int result, unsigned char *msg, int len);
+int gti2ReceivedCallback(GTI2Connection *c, unsigned char *msg, int len, int reliable);
 int gti2ClosedCallback(GTI2Connection *connection, int reason);
-int func_021951E8(GTI2Connection *c, int latency);
-int func_02195278(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
-int func_02195340(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
-int func_02195408(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send);
-int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5);
+int gti2PingCallback(GTI2Connection *c, int latency);
+int gti2SendFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
+int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
+int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send);
+int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5);
 
 
 
@@ -112,7 +112,7 @@ int gti2SocketErrorCallback(GTI2Socket *socket)
 /*
  * sdk:      gti2ConnectAttemptCallback (libdwcgsgt2.TWL.HYB.a(gt2callback.o))
  */
-int func_02194F2C(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len)
+int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len)
 {
 	if (!sock || !c)
 		return 1;
@@ -142,7 +142,7 @@ int func_02194F2C(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned
 /*
  * sdk:      gti2ConnectedCallback (libdwcgsgt2.TWL.HYB.a(gt2callback.o))
  */
-int func_0219500C(GTI2Connection *c, int result, unsigned char *msg, int len)
+int gti2ConnectedCallback(GTI2Connection *c, int result, unsigned char *msg, int len)
 {
 	if (!c)
 		return 1;
@@ -173,7 +173,7 @@ int func_0219500C(GTI2Connection *c, int result, unsigned char *msg, int len)
 /*
  * sdk:      gti2ReceivedCallback (libdwcgsgt2.TWL.HYB.a(gt2callback.o))
  */
-int func_021950B4(GTI2Connection *c, unsigned char *msg, int len, int reliable)
+int gti2ReceivedCallback(GTI2Connection *c, unsigned char *msg, int len, int reliable)
 {
 	if (!c)
 		return 1;
@@ -226,7 +226,7 @@ int gti2ClosedCallback(GTI2Connection *connection, int reason)
 /*
  * sdk:      gti2PingCallback (libdwcgsgt2.TWL.HYB.a(gt2callback.o))
  */
-int func_021951E8(GTI2Connection *c, int latency)
+int gti2PingCallback(GTI2Connection *c, int latency)
 {
 	if (!c)
 		return 1;
@@ -249,7 +249,7 @@ int func_021951E8(GTI2Connection *c, int latency)
 /*
  * sdk:      gti2SendFilterCallback (libdwcgsgt2.TWL.HYB.a(gt2callback.o))
  */
-int func_02195278(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable)
+int gti2SendFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable)
 {
 	FilterCb *callback;
 
@@ -280,7 +280,7 @@ int func_02195278(GTI2Connection *c, int filterID, unsigned char *msg, int len, 
 /*
  * sdk:      gti2ReceiveFilterCallback (libdwcgsgt2.TWL.HYB.a(gt2callback.o))
  */
-int func_02195340(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable)
+int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable)
 {
 	FilterCb *callback;
 
@@ -311,7 +311,7 @@ int func_02195340(GTI2Connection *c, int filterID, unsigned char *msg, int len, 
 /*
  * sdk:      gti2DumpCallback (libdwcgsgt2.TWL.HYB.a(gt2callback.o))
  */
-int func_02195408(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send)
+int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send)
 {
 	DumpCb callback;
 
@@ -350,7 +350,7 @@ int func_02195408(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned
  * through the pointer, drop the counter and report whether the object still
  * has work outstanding.
  */
-int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5)
+int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5)
 {
     int r;
 

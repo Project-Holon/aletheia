@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A9C
+ * function: WIFIBATTLEMATCH_NET_CopyCompSave
  * address:  0x021D9A9C
  * packet:   pkt_ov175_021D9A9C
  * region:   ov175
@@ -15,7 +15,7 @@
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
- *   func_021DC194  0x021DC194  thumb  ov175
+ *   WIFIBATTLEMATCH_NET_GetNetId  0x021DC194  thumb  ov175
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_GetGsProfileId  0x02009CC0  thumb
  *   REGULATION_Card_GetValue  0x0200B078  thumb
@@ -51,13 +51,13 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *func_0200E6E8(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern u32 func_021DC194(char *obj);
+extern u32 WIFIBATTLEMATCH_NET_GetNetId(char *obj);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int WIFILIST_GetGsProfileId(void *a0);
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern u16 REGULATION_Card_CalcCrc(struct Reg2 *p);
 
-void func_021D9A9C(char *dst, char *obj)
+void WIFIBATTLEMATCH_NET_CopyCompSave(char *dst, char *obj)
 {
     u32 st = (u32)GAME_DATA_GetSaveControl((struct Big *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav));
     u32 h;
@@ -70,7 +70,7 @@ void func_021D9A9C(char *dst, char *obj)
         ((struct Obj01067 *)dst)->f2C = s->blk[3];
         ((struct Obj01067 *)dst)->f34 = s->blk[4];
     }
-    ((struct Obj01067 *)dst)->f4C = func_021DC194((char *)(*(u32 *)&((struct Obj00013 *)obj)->f34));
+    ((struct Obj01067 *)dst)->f4C = WIFIBATTLEMATCH_NET_GetNetId((char *)(*(u32 *)&((struct Obj00013 *)obj)->f34));
     ((struct Obj01067 *)dst)->f48 = WIFILIST_GetGsProfileId((void *)GAME_DATA_GetWifiList((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
     h = ((struct Obj00013 *)obj)->f108;
     ((struct Obj01067 *)dst)->f40 = REGULATION_Card_GetValue((struct Reg2 *)h, 2);

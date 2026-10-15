@@ -1,5 +1,5 @@
 /*
- * function: func_021DB36C
+ * function: BR_CODEIN_SidebarDestroy
  * address: 0x021DB36C
  * packet: pkt_ov183_021DB36C
  * region: ov183
@@ -24,4 +24,4 @@ extern void BR_UTIL_DeleteTask(void *p);
 struct PrintSys;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *);
-int func_021DB36C(struct S020315D4 *task,int b,int c,char *p) { BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f14); BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f18); PRINTSYS_QUE_Delete(((struct Obj08308 *)p)->fC); BR_UTIL_DeleteTask((void *)(((struct Obj08308 *)p)->f0)); func_020315D4(task); return 1; }
+int BR_CODEIN_SidebarDestroy(struct S020315D4 *task,int b,int c,char *p) { BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f14); BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f18); PRINTSYS_QUE_Delete(((struct Obj08308 *)p)->fC); BR_UTIL_DeleteTask((void *)(((struct Obj08308 *)p)->f0)); func_020315D4(task); return 1; }

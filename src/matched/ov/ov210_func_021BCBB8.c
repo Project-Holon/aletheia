@@ -1,5 +1,5 @@
 /*
- * function: func_021BCBB8
+ * function: ZKNSEARCH_MAIN_LoadResultGraphics
  * address: 0x021BCBB8
  * packet: pkt_ov210_021BCBB8
  * region: ov210
@@ -26,7 +26,7 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BCBB8(char *p)
+void ZKNSEARCH_MAIN_LoadResultGraphics(char *p)
 {
     void *out;
     void *h;

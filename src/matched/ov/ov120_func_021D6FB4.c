@@ -1,5 +1,5 @@
 /*
- * function: func_021D6FB4
+ * function: GTSNEGO_MSG_DeleteIconActors
  * address: 0x021D6FB4
  * packet: pkt_ov120_021D6FB4
  * region: ov120
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021D6FB4(u8 *p)
+void GTSNEGO_MSG_DeleteIconActors(u8 *p)
 {
     int i;
     u32 element;

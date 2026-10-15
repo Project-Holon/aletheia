@@ -15,7 +15,7 @@
  *   g_021F6EF4  0x021F6EF4  data
  *   g_021F6F20  0x021F6F20  data
  *   func_021F628C  0x021F628C  arm  ov107
- *   func_021F62A0  0x021F62A0  thumb  ov107
+ *   func_021F62A0  0x021F62A0  arm  ov107
  *   WM_SetGameInfo  0x02090CD4  arm
  *   func_021F3FA4  0x021F3FA4  arm  ov107
  */

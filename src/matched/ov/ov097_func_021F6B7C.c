@@ -22,8 +22,8 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
@@ -46,8 +46,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u8 POKE_TOOL_GetGender(void *);
@@ -80,8 +80,8 @@ void VS_MULTI_LIST_PrintName(int p, int i)
     s = func_02045EC0(((struct Obj05257 *)p)->f14, 0);
     mons = p + 0xf8;
     mi = i * 4;
-    func_0201EEF4(((struct Obj05257 *)p)->f18, 0, *(void **)(mons + mi));
-    func_0201F250(((struct Obj05257 *)p)->f18, t, s);
+    WORDSET_SetSlotMonSpecies(((struct Obj05257 *)p)->f18, 0, *(void **)(mons + mi));
+    WORDSET_CopyTaggedText(((struct Obj05257 *)p)->f18, t, s);
     dirty = p + 0x24;
     print_text(p, windows, dirty, i, t, 0x20, 7, 0x3dc0);
     STRBUF_Delete(s);

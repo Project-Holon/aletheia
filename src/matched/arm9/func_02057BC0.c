@@ -1,5 +1,5 @@
 /*
- * function: func_02057BC0
+ * function: SPL_EMITTER_UpdateRecord
  * address:  0x02057BC0
  * packet:   pkt_02057BC0
  * region:   arm9
@@ -67,7 +67,7 @@ u32 g_02146A8C;
 
 extern int _s32_div_f(int num, int den);
 
-void func_02057BC0(struct O *o, struct S *s, int t)
+void SPL_EMITTER_UpdateRecord(struct O *o, struct S *s, int t)
 {
     struct Rec *p;
     int a;

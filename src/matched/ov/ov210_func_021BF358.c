@@ -1,5 +1,5 @@
 /*
- * function: func_021BF358
+ * function: ZKNSEARCH_MAIN_DeleteActorAt
  * address:  0x021BF358
  * packet:   pkt_ov210_021BF358
  * region:   ov210
@@ -17,7 +17,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021BF358(int p, int i)
+void ZKNSEARCH_MAIN_DeleteActorAt(int p, int i)
 {
     int o = i * 4;
     int *q = (int *)(p + 0x28);

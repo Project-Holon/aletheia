@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201F020",
-    "func_0201F02C",
-    "func_0201F048"
+    "WORDSET_SetSlotFromMsgC7",
+    "WORDSET_SetSlotMyStatus",
+    "WORDSET_SetSlotFromMsgE7"
+   ],
+   "addresses": [
+    "0x0201F020",
+    "0x0201F02C",
+    "0x0201F048"
    ]
   },
   {
@@ -48,19 +53,19 @@
    "status": "EXACT",
    "functions": [
     "WORDSET_Set",
-    "func_0201F104",
+    "WORDSET_SetSlotPokeData",
     "WORDSET_Callback_F124",
-    "func_0201F134",
-    "func_0201F140",
-    "func_0201F14C",
-    "func_0201F158",
-    "func_0201F164",
-    "func_0201F184",
-    "func_0201F198",
-    "func_0201F1B0",
-    "func_0201F1C8",
+    "WORDSET_SetSlotFromMsgBE",
+    "WORDSET_SetSlotFromMsgB4",
+    "WORDSET_SetSlotFromMsg37",
+    "WORDSET_SetSlotFromMsg59",
+    "WORDSET_SetSlotBoxName",
+    "WORDSET_SetSlotFromMsgA0",
+    "WORDSET_SetSlotFromMsg2B",
+    "WORDSET_SetSlotFromMsg00",
+    "WORDSET_SetSlotFromMsg38",
     "WORDSET_DrawF1E0",
-    "func_0201F230"
+    "WORDSET_SetSlotMonth"
    ],
    "addresses": [
     "0x0201F0F8",
@@ -91,8 +96,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201F31C",
-    "func_0201F344"
+    "WORDSET_ClearAllSlots",
+    "WORDSET_LoadSpeciesNameBank"
+   ],
+   "addresses": [
+    "0x0201F31C",
+    "0x0201F344"
    ]
   },
   {
@@ -107,7 +116,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201F41C",
+    "WORDSET_CopyString",
     "WORDSET_CheckF448"
    ],
    "addresses": [
@@ -145,7 +154,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201F4A0"
+    "WORDSET_ParsePackedLimits"
+   ],
+   "addresses": [
+    "0x0201F4A0"
    ],
    "evidence": {
     "sole-ref": [
@@ -165,8 +177,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201F554",
-    "func_0201F57C"
+    "BMP_MENUWORK_LoadChar",
+    "BMP_MENUWORK_LoadPltt"
+   ],
+   "addresses": [
+    "0x0201F554",
+    "0x0201F57C"
    ]
   }
  ]

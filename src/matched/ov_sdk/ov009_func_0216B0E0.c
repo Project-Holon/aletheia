@@ -14,12 +14,12 @@
  * symbols:
  *   DWCi_IsError  0x02059F38  arm
  *   MIi_CpuClear16 0x02082A48  arm
- *   func_021686E0  0x021686E0  arm  ov009
+ *   DWCi_WStrLen  0x021686E0  arm  ov009
  *   MIi_CpuCopy16  0x02082A60  arm
  *   DWC_GetInetStatus  0x0205CA20  arm
  *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  *   DWCi_SetState  0x0216BC84  arm  ov009
- *   func_0217C750  0x0217C750  arm  ov009
+ *   GSIStartAvailableCheckA  0x0217C750  arm  ov009
  *   g_021AA878     0x021AA878  data
  */
 
@@ -44,12 +44,12 @@ extern struct DwcGlobal g_021AA878;
 
 extern int DWCi_IsError(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern int func_021686E0(unsigned short *p);
+extern int DWCi_WStrLen(unsigned short *p);
 extern void MIi_CpuCopy16(void *srcp, void *destp, u32 size);
 extern int DWC_GetInetStatus(void);
 extern void DWCi_StopLogin(int error, int errorCode);
 extern void DWCi_SetState(int state);
-extern void func_0217C750(char *gamename);
+extern void GSIStartAvailableCheckA(char *gamename);
 
 int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param)
 {
@@ -65,7 +65,7 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
         len = 0;
     } else {
         MIi_CpuClear16(0, ((Ctl *)g_021AA878.st)->ingamesn, 0x34);
-        len = (u32)func_021686E0(ingamesn) > 25 ? 25 : (u32)func_021686E0(ingamesn);
+        len = (u32)DWCi_WStrLen(ingamesn) > 25 ? 25 : (u32)DWCi_WStrLen(ingamesn);
         MIi_CpuCopy16(ingamesn, ((Ctl *)g_021AA878.st)->ingamesn, len * 2);
     }
     ((Ctl *)g_021AA878.st)->ingamesn[len] = 0;
@@ -74,6 +74,6 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
         return 0;
     }
     DWCi_SetState(1);
-    func_0217C750(((Ctl *)g_021AA878.st)->gamename);
+    GSIStartAvailableCheckA(((Ctl *)g_021AA878.st)->gamename);
     return 1;
 }

@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -28,7 +28,7 @@ struct Descriptor;
 struct MsgBank;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Cfg;
@@ -43,7 +43,7 @@ void GURU2_MAIN_PrintMessage(u8 *p,int message)
     s=p+3296;
     window=((struct Obj03843 *)s)->f10;
     BMP_Clear(BMP_WIN_GetBmp(window),15);
-    func_0201F73C(window,2,1,14);
+    BMP_MENUWORK_DrawWindow(window,2,1,14);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
     MSGDATA_ReadString(((struct Obj03843 *)s)->f8,message,((struct Obj03843 *)s)->f5C);
     owner=((struct Obj03843 *)s)->f58;

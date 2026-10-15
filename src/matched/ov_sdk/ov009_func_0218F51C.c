@@ -37,7 +37,7 @@
  *   func_02189750  0x02189750  arm  ov009
  *   func_0218964C  0x0218964C  arm  ov009
  *   gpiSendOrBufferChar  0x02189644  arm  ov009
- *   func_02184098  0x02184098  arm  ov009
+ *   gsiTimeNitro  0x02184098  arm  ov009
  *   g_021A4FEC  0x021A4FEC  data
  *   g_021A4FF0  0x021A4FF0  data
  */
@@ -53,7 +53,7 @@ extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, struct GPIPeer *peer, char *string);
 extern int func_0218964C(void **connection, struct GPIPeer *peer, char *string, int stringLen);
 extern int gpiSendOrBufferChar();
-extern long func_02184098(long *timer);
+extern long gsiTimeNitro(long *timer);
 extern char g_021A4FEC[];   /* "" -- the default when message is 0 */
 extern char g_021A4FF0[];   /* "\len\%d\msg\\\n" -- OS_SPrintf's format */
 
@@ -78,6 +78,6 @@ int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *
     result = gpiSendOrBufferChar(connection, peer, 0);
     if (result != 0)
         return result;
-    peer->timeout = func_02184098(0) + 10000;
+    peer->timeout = gsiTimeNitro(0) + 10000;
     return 0;
 }

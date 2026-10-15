@@ -1,5 +1,5 @@
 /*
- * function: func_021BE49C
+ * function: ZKNSEARCH_MAIN_MakeWindowScreen
  * address:  0x021BE49C
  * packet:   pkt_021BE49C
  * region:   ov210
@@ -27,7 +27,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 
-void func_021BE49C(u8 *p)
+void ZKNSEARCH_MAIN_MakeWindowScreen(u8 *p)
 {
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj14680 *)p)->f0));
     func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj14680 *)p)->f0)));

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F80B0, func_021F80C8
+ * function: STA_ACT_LIGHT_CallElemB, STA_ACT_LIGHT_CallElemC
  * address: 0x021F80B0
  * packet: pkt_ov112_021F80B0
  * region: ov112
@@ -12,22 +12,22 @@
  * Struct parameter fixes the zero/load/store scheduling. The extent's
  * 021F80C8 tail stub is included; 021F53CC has its own verified shard.
  * symbols:
- *   func_021F53B4 0x021F53B4 thumb ov112
- *   func_021F5424 0x021F5424 thumb ov112
- *   func_021F53CC 0x021F53CC thumb ov112
+ *   MUSICAL_MCSS_GetRenderFieldB 0x021F53B4 thumb ov112
+ *   MUSICAL_MCSS_GetRenderSize 0x021F5424 thumb ov112
+ *   MUSICAL_MCSS_SetRenderAnim 0x021F53CC thumb ov112
  */
 typedef unsigned char u8;
 typedef struct { u8 pad0[0x4c]; int zero; u8 pad50[8]; int target; } Obj;
-extern void func_021F53B4(int);
-extern void func_021F5424(int, int);
-extern void func_021F53CC(int, unsigned int);
-void func_021F80B0(int a, Obj *b)
+extern void MUSICAL_MCSS_GetRenderFieldB(int);
+extern void MUSICAL_MCSS_GetRenderSize(int, int);
+extern void MUSICAL_MCSS_SetRenderAnim(int, unsigned int);
+void STA_ACT_LIGHT_CallElemB(int a, Obj *b)
 {
-    func_021F53B4(b->target);
+    MUSICAL_MCSS_GetRenderFieldB(b->target);
     b->zero = 0;
-    func_021F5424(b->target, 0);
+    MUSICAL_MCSS_GetRenderSize(b->target, 0);
 }
-void func_021F80C8(int a, Obj *b, unsigned int c)
+void STA_ACT_LIGHT_CallElemC(int a, Obj *b, unsigned int c)
 {
-    func_021F53CC(b->target, c);
+    MUSICAL_MCSS_SetRenderAnim(b->target, c);
 }

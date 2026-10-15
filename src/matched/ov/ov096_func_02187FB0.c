@@ -15,7 +15,7 @@
  *   TR_AI_ThinkMulti 0x02188284 thumb ov096
  *   TR_AI_GetPoke 0x0218A2FC thumb ov096
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  */
 #include "../include/Obj00067.h"
@@ -28,7 +28,7 @@ extern int TR_AI_ThinkSingle(u8 *, u8 *);
 extern int TR_AI_ThinkMulti(u8 *, u8 *);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern int BTL_POKEPARAM_IsFainted(void *m);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 int TR_AI_Think(u8 *a)
 {
     u8 *p;
@@ -51,7 +51,7 @@ int TR_AI_Think(u8 *a)
                 candidates[n++] = p[0x95];
         }
     }
-    r = func_0203F0A8();
+    r = GF_STANDARD_Rand();
     if (n != 0)
         r = (r * n) >> 32;
     p[0x95] = candidates[r];

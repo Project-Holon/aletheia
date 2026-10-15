@@ -12,7 +12,7 @@
  * sdk:      SOC_Startup (libsoc.TWL.HYB.a(soc.o))
  *
  * symbols:
- *   func_0215CA8C  0x0215CA8C  arm  ov009
+ *   SOCL_Startup  0x0215CA8C  arm  ov009
  *   g_021AA4BC     0x021AA4BC  data
  *   func_0215F8A4  0x0215F8A4  arm  ov009
  *   func_0215F8D0  0x0215F8D0  arm  ov009
@@ -71,7 +71,7 @@ typedef struct SOCStatics {
     SOCLConfig soclConfig;
 } SOCStatics;
 
-extern int func_0215CA8C(void *socl_config);
+extern int SOCL_Startup(void *socl_config);
 extern void *func_0215F8A4(u32 size);
 extern void func_0215F8D0(void *ptr);
 extern SOCStatics g_021AA4BC;
@@ -92,5 +92,5 @@ int SOC_Startup(const SOCConfig *config)
     g_021AA4BC.soclConfig.cmd_packet_max = 0x40;
     g_021AA4BC.soclConfig.mtu = config->mtu;
     g_021AA4BC.soclConfig.rwin = config->rwin;
-    return func_0215CA8C(&g_021AA50C);
+    return SOCL_Startup(&g_021AA50C);
 }

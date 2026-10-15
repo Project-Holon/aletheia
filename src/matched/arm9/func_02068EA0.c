@@ -1,5 +1,5 @@
 /*
- * function: func_02068EA0
+ * function: NNSi_G2dCharCanvasDrawChar
  * address:  0x02068EA0
  * packet:   pkt_02068808
  * region:   arm9
@@ -31,11 +31,11 @@
  *
  * symbols:
  *   NNS_G2dFontGetGlyphIndex    0x02067F9C  arm
- *   func_02067FE4    0x02067FE4  arm
+ *   NNS_G2dFontGetCharWidthsFromIndex    0x02067FE4  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02068EA0.c \
- *       --func func_02068EA0 --addr 0x02068EA0 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dCharCanvasDrawChar.c \
+ *       --func NNSi_G2dCharCanvasDrawChar --addr 0x02068EA0 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char u8;
@@ -47,14 +47,14 @@ struct Obj;
 extern u32 NNS_G2dFontGetGlyphIndex(struct Obj **a0, u32 key);
 struct NNSG2dCharWidths;
 struct NNSG2dFont;
-extern const struct NNSG2dCharWidths *func_02067FE4(const struct NNSG2dFont *pFont, u32 idx);
+extern const struct NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(const struct NNSG2dFont *pFont, u32 idx);
 
 struct Hdr { u16 f0; u16 stride; u8 pad[3]; u8 kind; };
 struct Fnt { struct Hdr *hdr; };
 struct Fnt2 { u16 f0; u16 dflt; u8 p[4]; struct Hdr *hdr; };
 struct Ctx { u8 pad[0x14]; void **vt; };
 
-s8 func_02068EA0(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 code)
+s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 code)
 {
     s8 *out[2];
     u32 idx;
@@ -64,7 +64,7 @@ s8 func_02068EA0(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 
     idx = NNS_G2dFontGetGlyphIndex((struct Obj **)font, code);
     if (idx == 0xffff)
         idx = (*font)->dflt;
-    out[0] = (s8 *)func_02067FE4((const struct NNSG2dFont *)font, idx);
+    out[0] = (s8 *)NNS_G2dFontGetCharWidthsFromIndex((const struct NNSG2dFont *)font, idx);
     out[1] = (s8 *)((char *)(*font)->hdr + 8 + idx * (*font)->hdr->stride);
     g = out[0];
     k = (*font)->hdr->kind;

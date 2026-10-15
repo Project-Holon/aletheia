@@ -1,5 +1,5 @@
 /*
- * function: func_0215A4B4
+ * function: EVENT_POKE_STATUS_IsRecordField2Set
  * address:  0x0215A4B4
  * packet:   pkt_0215A4B4
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 
-int func_0215A4B4(int a0)
+int EVENT_POKE_STATUS_IsRecordField2Set(int a0)
 {
     int a1;
 

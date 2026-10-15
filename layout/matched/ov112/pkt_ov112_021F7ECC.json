@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F7ECC",
-    "func_021F7FA8"
+    "STA_ACT_LIGHT_AnimF",
+    "STA_ACT_LIGHT_AnimG"
+   ],
+   "addresses": [
+    "0x021F7ECC",
+    "0x021F7FA8"
    ]
   }
  ]

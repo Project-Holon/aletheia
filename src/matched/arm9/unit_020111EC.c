@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734       0x02030734  arm
+ *   GFL_HEAP_Alloc       0x02030734  arm
  *   MI_CpuFill8        0x02082BCC  arm
  *   _VmFileName 0x020A7268  data
  *
@@ -95,7 +95,7 @@ typedef struct ScriptVm {
     void *data;
 } ScriptVm;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern const char _VmFileName[];
@@ -119,7 +119,7 @@ ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params)
     ScriptVm *vm;
 
     size = params->ring_cap * 4 + sizeof(ScriptVm) + params->stack_cap * 4;
-    vm = (ScriptVm *)sub_02030734(heapId, size, 0, _VmFileName, 96);
+    vm = (ScriptVm *)GFL_HEAP_Alloc(heapId, size, 0, _VmFileName, 96);
     MI_CpuFill8(vm, 0, size);
     vm->params = *params;
     vm->ring = (u32 *)(vm + 1);

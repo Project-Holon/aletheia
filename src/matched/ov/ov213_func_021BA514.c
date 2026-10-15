@@ -1,5 +1,5 @@
 /*
- * function: func_021BA514
+ * function: COMM_BTL_DEMO_MAIN_UpdateNetKind
  * address: 0x021BA514
  * packet: pkt_ov213_021BA514
  * region: ov213
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
- *   func_021BA4BC 0x021BA4BC thumb ov213
+ *   COMM_BTL_DEMO_MAIN_SetActorAnimKind 0x021BA4BC thumb ov213
  * prototype: caller loads r0 net object before D5D4; retained visible input despite callee's void parameter list.
  */
 #include "../include/Obj03939.h"
@@ -20,15 +20,15 @@
 #include "../include/Obj25708.h"
 typedef unsigned int   u32;
 extern u32 GFL_NET_GetGameKind(void);
-extern void func_021BA4BC(void *,int,int);
-void func_021BA514(char *p)
+extern void COMM_BTL_DEMO_MAIN_SetActorAnimKind(void *,int,int);
+void COMM_BTL_DEMO_MAIN_UpdateNetKind(char *p)
 {
     if(((struct Obj25704 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54) {
         switch((int)GFL_NET_GetGameKind()) {
-        case 37:case 12:case 31:func_021BA4BC(((struct Obj25706 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,37,((struct Obj03939 *)p)->f49CC);break;
-        case 10:func_021BA4BC(((struct Obj25707 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,17,((struct Obj03939 *)p)->f49CC);break;
+        case 37:case 12:case 31:COMM_BTL_DEMO_MAIN_SetActorAnimKind(((struct Obj25706 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,37,((struct Obj03939 *)p)->f49CC);break;
+        case 10:COMM_BTL_DEMO_MAIN_SetActorAnimKind(((struct Obj25707 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,17,((struct Obj03939 *)p)->f49CC);break;
         case 20:case 21:case 23:case 24:case 25:case 26:
-            func_021BA4BC(((struct Obj25708 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,13,((struct Obj03939 *)p)->f49CC);break;
+            COMM_BTL_DEMO_MAIN_SetActorAnimKind(((struct Obj25708 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,13,((struct Obj03939 *)p)->f49CC);break;
         }
     }
 }

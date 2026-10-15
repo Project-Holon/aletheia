@@ -14,7 +14,7 @@
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_ResetTextColor 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
@@ -33,7 +33,7 @@ extern void GF_FONT_ResetTextColor(void);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u16, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
@@ -54,7 +54,7 @@ void BTLV_CORE_InitDisplay(u16 heap)
     BLDCNT = 0;
     SBLDCNT = 0;
     POWCNT = (u16)(POWCNT | 0x8000);
-    func_0203FC28((struct DispConfig *)gBtlvCoreDispConfig);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)gBtlvCoreDispConfig);
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, 0);
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 8);

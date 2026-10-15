@@ -14,7 +14,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   COMM_ENTRY_MENU_Main  0x021CD688  thumb  ov021
- *   func_021FC804  0x021FC804  thumb  ov132
+ *   MUS_COMM_FUNC_SetHostFlag  0x021FC804  thumb  ov132
  *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb  ov021
  */
 
@@ -34,7 +34,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameData(void *p);
 extern int GAME_DATA_GetExternalWork(char *base);
 extern u32 COMM_ENTRY_MENU_Main(u8 *p);
-extern void func_021FC804(char *p);
+extern void MUS_COMM_FUNC_SetHostFlag(char *p);
 extern u32 COMM_ENTRY_MENU_Delete(u32 *p);
 
 int SCRCMD_MUSICAL_WaitEntryMenuChild(void *a, void *b)
@@ -49,7 +49,7 @@ int SCRCMD_MUSICAL_WaitEntryMenuChild(void *a, void *b)
     switch (COMM_ENTRY_MENU_Main(w->f8)) {
     case 1:
         *w->f30 = 3;
-        func_021FC804(w->f4);
+        MUS_COMM_FUNC_SetHostFlag(w->f4);
         r = 1;
         break;
     case 2:

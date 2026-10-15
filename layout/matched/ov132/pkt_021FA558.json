@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FA558",
+   "name": "STA_ACT_AUDIENCE_SetSlotValue",
    "address": "0x021FA558",
    "kind": "game",
    "region": "ov132",

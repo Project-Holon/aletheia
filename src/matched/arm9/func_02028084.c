@@ -15,7 +15,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   BMP_WIN_Create   0x020450F0  arm
  *   APP_TASKMENU_DrawWinFrame  0x020282D8  thumb
- *   sub_0201D304   0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine   0x0201D304  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor   0x0201C724  thumb
  *   g_020A74E0     0x020A74E0  data
@@ -82,7 +82,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  MI_CpuFill8(void *p, u8 v, u32 n);
 extern u32   BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void  APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *c, u32 d);
-extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void  PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -105,7 +105,7 @@ struct Obj *APP_TASKMENU_WIN_CreateCore(struct Cfg *cfg, struct Src *src, u16 a2
     o->f00 = bg;
     APP_TASKMENU_DrawWinFrame(bg, cfg, cellSrc);
     if (a7 == 1) {
-        w = (u8)(((a4 << 3) - sub_0201D304((void *)src->f00, cfg->f10, 0)
+        w = (u8)(((a4 << 3) - GF_FONT_MeasureWidestLine((void *)src->f00, cfg->f10, 0)
                   - 0x10) >> 1);
     }
     PRINTSYS_PrintQueColor((void *)cfg->f14, (u32)BMP_WIN_GetBmp((void *)o->f00),

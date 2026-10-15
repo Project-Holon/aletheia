@@ -12,8 +12,8 @@
  * symbols:
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_0204047C  0x0204047C  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   gNoGearBgTemplateMain     0x021F014C  data  ov030  a4
  *   gNoGearBgTemplateMid     0x021F016C  data  ov030  a4
@@ -43,8 +43,8 @@ struct BgTemplate {
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 
 extern struct BgTemplate gNoGearBgTemplateMain;
@@ -62,24 +62,24 @@ void NO_GEAR_SetupBackgrounds(void)
         struct BgTemplate t = gNoGearBgTemplateMain;
         BG_SYS_InitBgLayer(6, &t, 0);
         func_02040588((u8)6, 1);
-        func_0204047C(6, 3);
-        func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(6, 3);
+        BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(6);
     }
     {
         struct BgTemplate t = gNoGearBgTemplateMid;
         BG_SYS_InitBgLayer(5, &t, 0);
         func_02040588((u8)5, 1);
-        func_0204047C(5, 1);
-        func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(5, 1);
+        BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(5);
     }
     {
         struct BgTemplate t = gNoGearBgTemplateBack;
         BG_SYS_InitBgLayer(4, &t, 0);
         func_02040588((u8)4, 1);
-        func_0204047C(4, 2);
-        func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(4, 2);
+        BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(4);
     }
 }

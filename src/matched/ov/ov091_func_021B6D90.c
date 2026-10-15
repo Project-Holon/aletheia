@@ -34,7 +34,7 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040618  0x02040618  arm
  *   CLACT_InitSystem  0x0204A48C  arm
@@ -89,7 +89,7 @@ extern void WIPE_ResetWndMask(int a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_0207D63C(u32 r, int a, int b, int c, int d);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -142,7 +142,7 @@ void POKELIST_SetupDisplay(u8 *p)
     BG_SYS_SetVramBanks((const struct DispVram *)(&a));
     BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((struct DispConfig *)d_021BEAEC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BEAEC);
     POKELIST_LoadBgPlane(d_021BEBDC, 3, 0);
     POKELIST_LoadBgPlane(d_021BEBBC, 2, 0);
     POKELIST_LoadBgPlane(d_021BEB9C, 1, 0);

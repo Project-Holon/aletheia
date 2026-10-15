@@ -18,6 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "../include/Obj05361.h"
 typedef unsigned char u8;
@@ -32,7 +33,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(unsigned int,unsigned int,unsigned int);
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -45,7 +46,7 @@ void GSYNC_MESSAGE_PrintInWindow(char *p,int a,int b)
     BMP_Clear(BMP_WIN_GetBmp(q),15);
     GF_FONT_SetTextColor(1,2,15);
     PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,((struct Obj05361 *)p)->f2C,((struct Obj05361 *)p)->f28);
-    func_0201F73C(q,1,(u16)(((struct Obj05361 *)p)->f4),12);
+    BMP_MENUWORK_DrawWindow(q,1,(u16)(((struct Obj05361 *)p)->f4),12);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
     func_02041B6C(6);

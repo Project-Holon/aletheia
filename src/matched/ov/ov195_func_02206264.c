@@ -1,5 +1,5 @@
 /*
- * function: func_02206264
+ * function: SHINKA_DEMO_VIEW_OtherSlot
  * address:  0x02206264
  * packet:   pkt_02206264
  * region:   ov195
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-u8 func_02206264(u8 i)
+u8 SHINKA_DEMO_VIEW_OtherSlot(u8 i)
 {
     u8 r;
 

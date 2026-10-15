@@ -1,5 +1,5 @@
 /*
- * function: func_021F6F64
+ * function: STA_ACT_LIGHT_StepModelAnim
  * address: 0x021F6F64
  * packet: pkt_ov112_021F6F64
  * region: ov112
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
-void func_021F6F64(u8 *p) { u8 i; if(((struct Obj13837 *)p)->f1C) { for(i=0;i<3;i++) G3D_SYSTEM_LoopObjectAnimeFrame(((struct Obj13837 *)p)->f3C,i,4096); } }
+void STA_ACT_LIGHT_StepModelAnim(u8 *p) { u8 i; if(((struct Obj13837 *)p)->f1C) { for(i=0;i<3;i++) G3D_SYSTEM_LoopObjectAnimeFrame(((struct Obj13837 *)p)->f3C,i,4096); } }

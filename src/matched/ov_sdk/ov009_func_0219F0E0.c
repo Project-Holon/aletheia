@@ -15,9 +15,9 @@
  * src/matched/arm9/d2f.c, so its call sites are attested.
  *
  * symbols:
- *   func_0219E120  0x0219E120  arm  ov009
+ *   SBServerGetIntValueA  0x0219E120  arm  ov009
  *   func_0219E1B8  0x0219E1B8  arm  ov009
- *   func_0219E0C0  0x0219E0C0  arm  ov009
+ *   SBServerGetStringValueA  0x0219E0C0  arm  ov009
  *   strcmp  0x020948E0  arm
  *   strcmp_nocase  0x0209ABF8  arm
  *   _dsub  0x0209AF34  arm
@@ -42,10 +42,10 @@ typedef struct {
 } SBServerList;
 typedef struct SBServer SBServer;
 
-extern int func_0219E120(struct SBServer *server, char *key, int idefault);
+extern int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault);
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
 struct _SBServer;
-extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);
+extern char *SBServerGetStringValueA(struct _SBServer *server, char *keyname, char *def);
 extern int strcmp(const char *a, const char *b);
 extern int strcmp_nocase(const char *a, const char *b);
 extern struct G_021AEB04 gSBSortContext;
@@ -60,7 +60,7 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
     prevsortkey = ((SBServerList *)gSBSortContext.slist)->prevsortinfo.sortkey;
     switch (((SBServerList *)gSBSortContext.slist)->prevsortinfo.sorttype) {
     case 0:
-        diff = func_0219E120(server1, prevsortkey, 0) - func_0219E120(server2, prevsortkey, 0);
+        diff = SBServerGetIntValueA(server1, prevsortkey, 0) - SBServerGetIntValueA(server2, prevsortkey, 0);
         break;
     case 1:
         f = func_0219E1B8(server1, prevsortkey, 0) - func_0219E1B8(server2, prevsortkey, 0);
@@ -72,10 +72,10 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
             return -1;
         return 0;
     case 2:
-        diff = strcmp(func_0219E0C0((struct _SBServer *)server1, prevsortkey, gSBEmptyString), func_0219E0C0((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
+        diff = strcmp(SBServerGetStringValueA((struct _SBServer *)server1, prevsortkey, gSBEmptyString), SBServerGetStringValueA((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
         break;
     case 3:
-        diff = strcmp_nocase(func_0219E0C0((struct _SBServer *)server1, prevsortkey, gSBEmptyString), func_0219E0C0((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
+        diff = strcmp_nocase(SBServerGetStringValueA((struct _SBServer *)server1, prevsortkey, gSBEmptyString), SBServerGetStringValueA((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
         break;
     default:
         return 0;

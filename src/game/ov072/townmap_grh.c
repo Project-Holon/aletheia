@@ -59,13 +59,13 @@
  *   sTownMapGrhBgTable 0x021BBC28 data a4
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   func_0204363C  0x0204363C  arm
+ *   BMP_SetDisplaySwap  0x0204363C  arm
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
- *   func_0201DD60  0x0201DD60  thumb
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   func_02049B68  0x02049B68  arm
@@ -74,12 +74,12 @@
  *   func_02049B40  0x02049B40  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   sTownMapGrhDispConfig     0x021BBBCC  data  a4
- *   func_02040DA8  0x02040DA8  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
@@ -147,13 +147,13 @@ extern void VEC_Subtract(const TownMapVec *a, const TownMapVec *b, TownMapVec *o
 extern int VEC_Mag(const TownMapVec *v);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
-extern void func_0204363C(u32 a);
+extern void BMP_SetDisplaySwap(u32 a);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void BG_SYS_Create(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
-extern void func_0203FC28(struct DispConfig *config);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *templ, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B68(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heap);
@@ -161,12 +161,12 @@ extern u32 func_02049658(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap)
 extern void func_020498F4(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void func_02040DA8(u32 a, u32 b, u32 c);
-extern void func_020414AC(u8 a);
+extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeSlot(u8 a);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const TownMapClactInit *init, const struct DispVram *banks, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
@@ -432,10 +432,10 @@ void TOWNMAP_GRH_ResetDisplay(void)
     REG_DB_DISPCNT &= ~DISPCNT_WINDOW_BITS;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&sTownMapGrhVramBanks);
-    func_0204363C(0);
+    BMP_SetDisplaySwap(0);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
 }
 
 void TOWNMAP_GRH_UpdateTask(void *task, void *gfx)
@@ -455,7 +455,7 @@ void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId)
     MI_CpuFill8(&gfx->bgReady, 0, sizeof(gfx->bgReady));
     BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
-    func_0203FC28(&sTownMapGrhDispConfig);
+    BG_SYS_SetGraphicsMode(&sTownMapGrhDispConfig);
     for (; i < TOWNMAP_GRH_BG_COUNT; i++) {
         bgId = sTownMapGrhBgTable[i].bgId;
         BG_SYS_InitBgLayer((u8)bgId, (const struct BgTemplate *)&sTownMapGrhBgTable[i].templ, (u8)sTownMapGrhBgTable[i].mode);
@@ -482,10 +482,10 @@ void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx)
     int i;
     u32 bgId;
 
-    func_02040DA8(1, 1, 0);
+    BG_SYS_SetTileUnit(1, 1, 0);
     for (i = 0; i < TOWNMAP_GRH_BG_COUNT; i++) {
         bgId = sTownMapGrhBgTable[i].bgId;
-        func_020414AC(bgId);
+        BG_SYS_FreeSlot(bgId);
         func_020403F4((u8)bgId);
     }
     BMP_WIN_Exit();
@@ -495,7 +495,7 @@ void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx)
 
 void TOWNMAP_GRH_TransferBgData(TownMapGfx *gfx)
 {
-    func_020419E4();
+    BG_SYS_Update();
 }
 
 void TOWNMAP_GRH_InitSprites(TownMapSprites *sprites, const struct DispVram *banks, u16 heapId)

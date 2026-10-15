@@ -1,5 +1,5 @@
 /*
- * function: func_02208C10
+ * function: SHINKA_DEMO_EFFECT_AnimSetState1
  * address:  0x02208C10
  * packet:   pkt_02208C10
  * region:   ov195
@@ -22,7 +22,7 @@ typedef struct Anim {
     int state;
 } Anim;
 
-void func_02208C10(Anim *p)
+void SHINKA_DEMO_EFFECT_AnimSetState1(Anim *p)
 {
     p->state = 1;
 }

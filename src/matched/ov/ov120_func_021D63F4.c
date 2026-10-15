@@ -1,5 +1,5 @@
 /*
- * function: func_021D63F4
+ * function: GTSNEGO_DISP_SetTradePalette
  * address: 0x021D63F4
  * packet: pkt_ov120_021D63F4
  * region: ov120
@@ -11,7 +11,7 @@
  * lever: one-word aggregate locals preserve the early address setup and merge.
  * symbols:
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_021D6328 0x021D6328 thumb ov120
+ *   GTSNEGO_DISP_BlendPalette 0x021D6328 thumb ov120
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
@@ -32,11 +32,11 @@ typedef struct Word { int a; } Word;
 extern const Word d_021D8920,d_021D891C,d_021D8918;
 extern const Pair d_021D895C,d_021D896C,d_021D894C,d_021D8954,d_021D8944,d_021D8964;
 extern void MI_CpuCopy8(const void *,void *,unsigned int);
-extern void func_021D6328(u8 *,int,int *,int *,int);
+extern void GTSNEGO_DISP_BlendPalette(u8 *,int,int *,int *,int);
 extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207E5D0(void *,int,int);
 extern void func_0207E468(void *,int,int);
-void func_021D63F4(u8 *p,int flag,int mode)
+void GTSNEGO_DISP_SetTradePalette(u8 *p,int flag,int mode)
 {
     if(flag) {
         MI_CpuCopy8((void *)0x05000600,((struct Obj05350 *)p)->f124,0x200);
@@ -45,19 +45,19 @@ void func_021D63F4(u8 *p,int flag,int mode)
         case 2: {
             Word a={0};
             Word b=d_021D8920;
-            func_021D6328(p,3,&a.a,&b.a,1);
+            GTSNEGO_DISP_BlendPalette(p,3,&a.a,&b.a,1);
             break;
         }
         case 0: {
             Word a=d_021D891C;
             Word b=d_021D8918;
-            func_021D6328(p,3,&a.a,&b.a,1);
+            GTSNEGO_DISP_BlendPalette(p,3,&a.a,&b.a,1);
             break;
         }
         case 1: {
             Pair a=d_021D895C;
             Pair b=d_021D896C;
-            func_021D6328(p,3,&a.a,&b.a,2);
+            GTSNEGO_DISP_BlendPalette(p,3,&a.a,&b.a,2);
             break;
         }
         }
@@ -65,13 +65,13 @@ void func_021D63F4(u8 *p,int flag,int mode)
         case 0: case 2: {
             Pair a=d_021D894C;
             Pair b=d_021D8954;
-            func_021D6328(p,1,&a.a,&b.a,2);
+            GTSNEGO_DISP_BlendPalette(p,1,&a.a,&b.a,2);
             break;
         }
         case 1: {
             Pair a=d_021D8944;
             Pair b=d_021D8964;
-            func_021D6328(p,1,&a.a,&b.a,2);
+            GTSNEGO_DISP_BlendPalette(p,1,&a.a,&b.a,2);
             break;
         }
         }

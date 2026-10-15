@@ -1,5 +1,5 @@
 /*
- * function: func_021C8078
+ * function: VIEWER_ACTOR_ToggleFavorite
  * address:  0x021C8078
  * packet:   pkt_ov111_021C8078
  * region:   ov111
@@ -86,7 +86,7 @@ extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_021C8078(Work *p)
+void VIEWER_ACTOR_ToggleFavorite(Work *p)
 {
     int v = GAME_DATA_CheckSaveFlag((int)p->f108->f4, 0x17) ^ 1;
 

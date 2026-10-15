@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  * lever: the linker region symbol cast to unsigned keeps base and 0x3FF8 as separate pooled values; literal 02FE3FF8 was 24 bytes, 14 mismatches.
  */
-extern void func_020419E4(void);extern unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
-void ZUKAN_SEARCH_SCREEN_VBlank(void){func_020419E4();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
+extern void BG_SYS_Update(void);extern unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
+void ZUKAN_SEARCH_SCREEN_VBlank(void){BG_SYS_Update();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}

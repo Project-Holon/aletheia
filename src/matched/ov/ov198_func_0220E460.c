@@ -1,5 +1,5 @@
 /*
- * function: func_0220E460
+ * function: B_PLIST_DRAW_RegisterIconSet2
  * address: 0x0220E460
  * packet: pkt_ov198_0220E460
  * region: ov198
@@ -33,7 +33,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern unsigned func_020275F8(unsigned);
 extern unsigned func_02027610(unsigned);
-void func_0220E460(char *p)
+void B_PLIST_DRAW_RegisterIconSet2(char *p)
 {
     void *owner;
     unsigned i;

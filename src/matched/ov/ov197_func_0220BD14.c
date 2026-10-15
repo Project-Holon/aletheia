@@ -1,5 +1,5 @@
 /*
- * function: func_0220BD14
+ * function: B_BAG_MAIN_DeleteFrames
  * address:  0x0220BD14
  * packet:   pkt_0220BD14
  * region:   ov197
@@ -17,7 +17,7 @@
 struct WinMgr;
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
-void func_0220BD14(char *a)
+void B_BAG_MAIN_DeleteFrames(char *a)
 {
     BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj25014 *)a)->f520);
 }

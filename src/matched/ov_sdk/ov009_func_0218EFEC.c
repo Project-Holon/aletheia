@@ -14,8 +14,8 @@
  * symbols:
  *   func_021814EC  0x021814EC  arm  ov009
  *   func_0218EE48  0x0218EE48  arm  ov009
- *   func_02184098  0x02184098  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsiTimeNitro  0x02184098  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   gpiRemovePeer  0x0218EF04  arm  ov009
  *   g_021A4F70  0x021A4F70  data
  */
@@ -41,8 +41,8 @@ struct GPIConnection {
 
 extern int func_021814EC(void);
 extern int func_0218EE48(void **connection, struct GPIPeer *peer);
-extern long func_02184098(long *timer);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern long gsiTimeNitro(long *timer);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gpiRemovePeer(void **connection, struct GPIPeer *peer);
 extern char g_021A4F70[];
 
@@ -58,12 +58,12 @@ int gpiProcessPeers(void **connection)
     while (peer != 0) {
         nextPeer = peer->pnext;
         if (peer->state == 0x6a) {
-            func_0217D254(1, (char *)4, 8, g_021A4F70, peer->profile);
+            gsDebugFormat(1, (char *)4, 8, g_021A4F70, peer->profile);
             gpiRemovePeer(connection, peer);
         } else {
             result = func_0218EE48(connection, peer);
-            if (peer->state == 0x6a || result != 0 || func_02184098(0) > peer->timeout) {
-                func_0217D254(1, (char *)4, 8, g_021A4F70, peer->profile);
+            if (peer->state == 0x6a || result != 0 || gsiTimeNitro(0) > peer->timeout) {
+                gsDebugFormat(1, (char *)4, 8, g_021A4F70, peer->profile);
                 gpiRemovePeer(connection, peer);
             }
         }

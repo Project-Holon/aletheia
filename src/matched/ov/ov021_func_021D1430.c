@@ -15,7 +15,7 @@
  *   BMP_Blit  0x020439A0  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
- *   func_02040B1C  0x02040B1C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01509.h"
@@ -32,7 +32,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 void FIELD_SAVEANIME_DrawFrame(u8 *p, u32 n)
 {
@@ -44,5 +44,5 @@ void FIELD_SAVEANIME_DrawFrame(u8 *p, u32 n)
     BMP_Blit((struct Bmp *)(((struct Obj01509 *)p)->f10), (struct Bmp *)b, 0, n << 5, ((struct Obj01509 *)p)->f8, ((struct Obj01509 *)p)->fA, 0x20, 0x20, 0xFFFF);
     x = (u32)BMP_GetPixels((const struct Bmp *)b);
     y = BMP_GetByteSize((const struct Bmp *)b);
-    func_02040B1C(3, (const void *)x, y, a);
+    BG_SYS_LoadTileData(3, (const void *)x, y, a);
 }

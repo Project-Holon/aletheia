@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220D358",
+   "name": "B_BAG_MAIN_StateWaitKey",
    "address": "0x0220D358",
    "kind": "game",
    "region": "ov197",

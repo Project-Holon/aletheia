@@ -1,5 +1,5 @@
 /*
- * function: sub_02030EAC
+ * function: TCB_DeleteTask
  * address:  0x02030EAC
  * packet:   pkt_02030CBC
  * region:   arm9
@@ -37,8 +37,8 @@
  * src/matched/unit_02030C68.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030EAC.c \
- *       --func sub_02030EAC --addr 0x02030EAC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCB_DeleteTask.c \
+ *       --func TCB_DeleteTask --addr 0x02030EAC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -61,7 +61,7 @@ struct Ctx02030C68;
 struct Frame02030C68;
 extern u32 sub_02030C68(struct Ctx02030C68 *ctx, struct Frame02030C68 *frame);
 
-void sub_02030EAC(struct Node *n)
+void TCB_DeleteTask(struct Node *n)
 {
     struct Owner *o = n->owner;
 

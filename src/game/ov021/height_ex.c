@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   sub_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   gFileHeightEx  0x021DE3A0  data  ov021  a1
  */
 #include "height_ex_types.h"
@@ -23,7 +23,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void *sub_02030734(u32 heapId, u32 size, int align, const char *file, unsigned short line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, unsigned short line);
 extern u32 func_020307B0(void *block);
 
 int HEIGHT_EX_IsPointInArea(int x, int z, const HeightExArea *area, int areaIndex);
@@ -62,8 +62,8 @@ HeightExTable *HEIGHT_EX_CreateTable(u32 count, u32 heapId)
     HeightExTable *table;
 
     i = 0;
-    table = (HeightExTable *)sub_02030734(heapId, 8, 0, (const char *)gFileHeightEx, 0x5a);
-    table->areas = (HeightExArea *)sub_02030734(heapId, count * sizeof(HeightExArea), 0, (const char *)gFileHeightEx, 0x5b);
+    table = (HeightExTable *)GFL_HEAP_Alloc(heapId, 8, 0, (const char *)gFileHeightEx, 0x5a);
+    table->areas = (HeightExArea *)GFL_HEAP_Alloc(heapId, count * sizeof(HeightExArea), 0, (const char *)gFileHeightEx, 0x5b);
     table->count = count;
     for (i = 0; i < count; i++) {
         table->areas[i].active = 0;

@@ -14,8 +14,8 @@
  * address-taken local (plain or __restrict r keeps source order).
  *
  * symbols:
- *   func_0203EFC8  0x0203EFC8  arm
- *   func_021B7DC0  0x021B7DC0  thumb
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb
  *   FIELD_RAIL_WORK_IsLocationValid  0x021B7DE0  thumb
  *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb
  *   FIELD_RAIL_WORK_StartStep  0x021B80E0  thumb
@@ -52,8 +52,8 @@ extern void FIELD_RAIL_WORK_SetLocation(void *p, const Rect4 *r);
 extern void FIELD_RAIL_WORK_StartStep(void *p, int a, u8 key);
 struct Sub;
 extern void FIELD_RAIL_WORK_UpdateStep(struct Sub *o);
-extern void func_021B7DC0(void *p, Rect4 *out);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern void FIELD_RAIL_WORK_GetLocation(void *p, Rect4 *out);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern u8 FIELD_RAIL_WORK_IsLocationValid(void *p, Rect4 *r);
 
 u8 FIELD_RAIL_TryStepLocation(struct Mgr *m, const Rect4 *r, u8 key, Rect4 *out)
@@ -63,8 +63,8 @@ u8 FIELD_RAIL_TryStepLocation(struct Mgr *m, const Rect4 *r, u8 key, Rect4 *out)
     FIELD_RAIL_WORK_SetLocation(m->f1C, r);
     FIELD_RAIL_WORK_StartStep(m->f1C, 4, key);
     FIELD_RAIL_WORK_UpdateStep(m->f1C);
-    func_021B7DC0(m->f1C, out);
-    if (func_0203EFC8((const u8 *)(&old), (const u8 *)out, 8) == 0)
+    FIELD_RAIL_WORK_GetLocation(m->f1C, out);
+    if (GF_STANDARD_CompareBytes((const u8 *)(&old), (const u8 *)out, 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(m->f1C, out);
 }

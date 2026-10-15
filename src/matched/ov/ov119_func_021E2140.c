@@ -9,24 +9,24 @@
  * status: EXACT
  * symbols:
  *   POKETRADE_SAVE_CreateTypeIcons 0x021E2070 thumb ov119
- *   d_021E7954 0x021E7954 data a4
- *   d_021E7964 0x021E7964 data a4
+ *   gTypeIconSetA 0x021E7954 data a4
+ *   gTypeIconSetB 0x021E7964 data a4
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef struct { int a,b,c,d; } Quad;
-extern const Quad d_021E7954,d_021E7964;
+extern const Quad gTypeIconSetA,gTypeIconSetB;
 extern void POKETRADE_SAVE_CreateTypeIcons(void *,int,Quad *);
 void POKETRADE_SAVE_ToggleTypeIconSet(char *p,int a)
 {
     if(((struct Obj00001 *)p)->f1098) {
         Quad t;
-        t=d_021E7954;
+        t=gTypeIconSetA;
         POKETRADE_SAVE_CreateTypeIcons(p,a,&t);
         ((struct Obj00001 *)p)->f1098=0;
     } else {
         Quad t;
-        t=d_021E7964;
+        t=gTypeIconSetB;
         POKETRADE_SAVE_CreateTypeIcons(p,a,&t);
         ((struct Obj00001 *)p)->f1098=1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F545C
+ * function: MUSICAL_MCSS_GetRenderFlags
  * address:  0x021F545C
  * packet:   pkt_ov112_021F545C
  * region:   ov112
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 *func_021F545C(u8 *p) { return p + 0x20c; }
+u8 *MUSICAL_MCSS_GetRenderFlags(u8 *p) { return p + 0x20c; }

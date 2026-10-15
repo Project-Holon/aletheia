@@ -1,5 +1,5 @@
 /*
- * function: func_021E1C00
+ * function: BR_CODEIN_ProfileClear
  * address:  0x021E1C00
  * packet:   pkt_021E1C00
  * region:   ov183
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E1C00(char *p)
+void BR_CODEIN_ProfileClear(char *p)
 {
     ((struct Obj00478 *)p)->f318 = 0;
     ((struct Obj00478 *)p)->f31C = 0;

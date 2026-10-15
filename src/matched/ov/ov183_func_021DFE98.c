@@ -1,5 +1,5 @@
 /*
- * function: func_021DFE98
+ * function: BR_CODEIN_CodeSetupMenu
  * address: 0x021DFE98
  * packet: pkt_ov183_021DFE98
  * region: ov183
@@ -44,7 +44,7 @@ extern void *BR_UTIL_CreateListMenu(Config *,u32);
 extern void MI_CpuFill8(void *,u32,u32);
 extern int BR_RES_GetSprite(int,int,Triple *);
 extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
-int func_021DFE98(char *p,char *q)
+int BR_CODEIN_CodeSetupMenu(char *p,char *q)
 {
     int first,second,i;
     Config cfg;

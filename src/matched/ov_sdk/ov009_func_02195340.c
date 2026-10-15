@@ -1,5 +1,5 @@
 /*
- * function: func_02195340
+ * function: gti2ReceiveFilterCallback
  * address:  0x02195340
  * packet:   pkt_ov009_02195340
  * region:   ov009
@@ -37,7 +37,7 @@ typedef int (*FilterCb)(Conn *, int, unsigned char *, int, int);
 extern FilterCb *func_02184208(void *array, int n);
 extern void func_02197FDC(Sock *sock);
 
-int func_02195340(Conn *c, int filterID, unsigned char *msg, int len, int reliable)
+int gti2ReceiveFilterCallback(Conn *c, int filterID, unsigned char *msg, int len, int reliable)
 {
 	FilterCb *callback;
 

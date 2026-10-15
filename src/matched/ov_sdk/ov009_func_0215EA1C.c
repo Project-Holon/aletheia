@@ -1,5 +1,5 @@
 /*
- * function: func_0215EA1C
+ * function: SOCLi_CleanupSocket
  * address:  0x0215EA1C
  * packet:   pkt_ov009_0215EA1C
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      SOCLi_CleanupSocket (libsoc.TWL.HYB.a(socl_close.o))
  *
  * symbols:
- *   func_0215EB14  0x0215EB14  arm  ov009
+ *   SOCLi_FreeCommandPipe  0x0215EB14  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215F31C  0x0215F31C  arm  ov009
- *   func_0215F3B8  0x0215F3B8  arm  ov009
+ *   SOCLi_SocketUnregister  0x0215F31C  arm  ov009
+ *   SOCLi_SocketUnregisterTrash  0x0215F3B8  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gSoclConfig     0x021A1CD8  data
  */
@@ -51,11 +51,11 @@ typedef struct {
 	signed char flag_mode;
 } Socket;
 
-extern void func_0215EB14(unsigned char *pipe);
+extern void SOCLi_FreeCommandPipe(unsigned char *pipe);
 extern void OS_WakeupThread(void *queue);
 extern unsigned long OS_DisableInterrupts(void);
-extern void func_0215F31C(int a);
-extern void func_0215F3B8(int a);
+extern void SOCLi_SocketUnregister(int a);
+extern void SOCLi_SocketUnregisterTrash(int a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct G_021A1CD8 *gSoclConfig;
 
@@ -68,7 +68,7 @@ static inline int IsStream(Socket *socket)
 	return r;
 }
 
-void func_0215EA1C(Socket *socket)
+void SOCLi_CleanupSocket(Socket *socket)
 {
 	UdpData *udpdata_next;
 	UdpData *udpdata;
@@ -79,8 +79,8 @@ void func_0215EA1C(Socket *socket)
 	}
 	socket->state = 0;
 	if (IsStream(socket)) {
-		func_0215EB14(socket->send_pipe);
-		func_0215EB14((unsigned char *)socket->recv_pipe);
+		SOCLi_FreeCommandPipe(socket->send_pipe);
+		SOCLi_FreeCommandPipe((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 1) {
 		udpdata = socket->recv_pipe->udpdata.head;
 		while (udpdata) {
@@ -92,13 +92,13 @@ void func_0215EA1C(Socket *socket)
 		socket->recv_pipe->udpdata.a = 0;
 		socket->recv_pipe->udpdata.head = 0;
 		OS_WakeupThread(socket->recv_pipe->udpdata.queue);
-		func_0215EB14((unsigned char *)socket->recv_pipe);
+		SOCLi_FreeCommandPipe((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 2) {
-		func_0215EB14(socket->send_pipe);
+		SOCLi_FreeCommandPipe(socket->send_pipe);
 	}
 	enable = OS_DisableInterrupts();
-	func_0215F31C((int)socket);
-	func_0215F3B8((int)socket);
+	SOCLi_SocketUnregister((int)socket);
+	SOCLi_SocketUnregisterTrash((int)socket);
 	gSoclConfig->free(socket);
 	OS_RestoreInterrupts(enable);
 }

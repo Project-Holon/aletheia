@@ -1,5 +1,5 @@
 /*
- * function: func_0220D884
+ * function: B_BAG_MAIN_CheckCancel
  * address:  0x0220D884
  * packet:   pkt_0220D884
  * region:   ov197
@@ -20,7 +20,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_0220D884(char **p)
+int B_BAG_MAIN_CheckCancel(char **p)
 {
     if (((struct Obj25114 *)(*p))->f20 == 1) {
         ((struct Obj25115 *)(*p))->f16 = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220C618",
+   "name": "B_BAG_MAIN_DisplaySelected",
    "address": "0x0220C618",
    "kind": "game",
    "region": "ov197",

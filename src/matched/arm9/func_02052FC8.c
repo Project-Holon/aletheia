@@ -1,5 +1,5 @@
 /*
- * function: func_02052FC8
+ * function: SPL_EMITTER_UpdateSubC
  * address:  0x02052FC8
  * packet:   pkt_020526A8
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02053044  0x02053044  arm
- *   func_0205312C  0x0205312C  arm
+ *   SPL_EMITTER_UpdateSubX  0x02053044  arm
+ *   SPL_EMITTER_UpdateSubB  0x0205312C  arm
  *
  * Blocking class: label.  Both callees, 0x02053044 and 0x0205312C, are
  * reached only from the two call sites inside this function, so neither has a
@@ -31,8 +31,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02052FC8.c \
- *       --func func_02052FC8 --addr 0x02052FC8 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubC.c \
+ *       --func SPL_EMITTER_UpdateSubC --addr 0x02052FC8 --arm --cc ../1.2/sp2
  */
 
 typedef unsigned char u8;
@@ -51,21 +51,21 @@ typedef struct {
 } B02052FC8;
 
 struct Obj;
-extern void func_02053044(struct Obj *o);
-extern void func_0205312C(struct Obj *o);
+extern void SPL_EMITTER_UpdateSubX(struct Obj *o);
+extern void SPL_EMITTER_UpdateSubB(struct Obj *o);
 
-void func_02052FC8(S02052FC8 *o)
+void SPL_EMITTER_UpdateSubC(S02052FC8 *o)
 {
     B02052FC8 *v = (B02052FC8 *)((u32 **)o->f40[8])[0];
 
     if (v->b21) {
-        func_02053044((struct Obj *)o);
+        SPL_EMITTER_UpdateSubX((struct Obj *)o);
         if (v->b22)
             return;
-        func_0205312C((struct Obj *)o);
+        SPL_EMITTER_UpdateSubB((struct Obj *)o);
         return;
     }
     if (v->b22 == 0)
-        func_0205312C((struct Obj *)o);
-    func_02053044((struct Obj *)o);
+        SPL_EMITTER_UpdateSubB((struct Obj *)o);
+    SPL_EMITTER_UpdateSubX((struct Obj *)o);
 }

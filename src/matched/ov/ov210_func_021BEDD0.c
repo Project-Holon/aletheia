@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDD0
+ * function: ZKNSEARCH_MAIN_GetActorAnimSeq
  * address:  0x021BEDD0
  * packet:   pkt_ov210_021BEDD0
  * region:   ov210
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 
-int func_021BEDD0(int p, int i)
+int ZKNSEARCH_MAIN_GetActorAnimSeq(int p, int i)
 {
     return CLACT_GetActorAnimSeq((struct Obj *)(((int *)(p + i * 4))[0xa]));
 }

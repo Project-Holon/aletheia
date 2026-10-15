@@ -22,6 +22,7 @@
  *   BMP_WIN_Init  0x02045088  arm  arm9
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm  arm9
  */
 
 typedef signed char s8;
@@ -52,7 +53,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void WORLDTRADE_SetupGraphics(u8 *p);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void WORLDTRADE_SetupWindowPlanes(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void WORLDTRADE_VBlankTask(void *unused, Work *p);
@@ -71,7 +72,7 @@ void WORLDTRADE_ClearAndShowPlanes(Work *p)
     {
         struct DispConfig c = tbl_02202BB8;
 
-        func_0203FC28(&c);
+        BG_SYS_SetGraphicsMode(&c);
     }
     WORLDTRADE_SetupWindowPlanes();
     *(vu16 *)0x04000050 = 0;

@@ -1,7 +1,7 @@
 /*
  * file:     soc.c
  * unit:     yes
- * function: func_0215F428, func_0215F454, func_0215F480, func_0215F4DC, func_0215F500, func_0215F590, func_0215F5B4, SOC_Shutdown, SOC_Close, SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, SOC_U32to4U8, SOC_Poll
+ * function: func_0215F428, func_0215F454, func_0215F480, func_0215F4DC, SOC_RecvFrom, func_0215F590, func_0215F5B4, SOC_Shutdown, SOC_Close, SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, SOC_U32to4U8, SOC_Poll
  * address:  0x0215F428
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   SOCL_Connect     0x0215d4ac arm
  *   SOCL_ReadFrom   0x0215d6c8 arm
  *   SOCL_WriteTo   0x0215e024 arm
- *   func_0215EDD0  0x0215EDD0  arm  ov009
+ *   SOCL_Resolve  0x0215EDD0  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   STD_CopyLString  0x0208CB10  arm
  *   g_021AA544     0x021AA544  data
@@ -29,22 +29,21 @@
  *   g_021AA4D4     0x021AA4D4  data
  *   g_021AA4DC     0x021AA4DC  data
  *   SOCL_GetHostID   0x0215ef48 arm
- *   func_0215EEE0  0x0215EEE0  arm  ov009
- *   func_0215CA8C  0x0215CA8C  arm  ov009
+ *   SOCL_SetResolver  0x0215EEE0  arm  ov009
+ *   SOCL_Startup  0x0215CA8C  arm  ov009
  *   func_0215F8A4  0x0215F8A4  arm  ov009
  *   func_0215F8D0  0x0215F8D0  arm  ov009
  *   g_021AA50C     0x021AA50C  data
- *   func_0215EBF0  0x0215EBF0  arm  ov009
+ *   SOCL_Cleanup  0x0215EBF0  arm  ov009
  *   _ZZ12SOC_InetNtoA9SOCInAddrE6buffer   0x021aa4ec data
- *   func_0215EE98  0x0215EE98  arm  ov009
+ *   SOCL_InetAtoH  0x0215EE98  arm  ov009
  *   MI_CpuCopy8      0x02082d44 arm
  *   OS_SNPrintf      0x02084f80 arm
  *   g_021A1D2C       0x021a1d2c data
- *   func_0215EFB0  0x0215EFB0  arm  ov009
+ *   SOCL_GetStatus  0x0215EFB0  arm  ov009
  *   OS_Sleep  0x02085A38  arm
+ *   SOCL_Close  0x0215E84C  arm
  */
-#include "../../matched/include/G_SOCLAlloc.h"
-
 #define SWAP16(x) ((unsigned short)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 struct SOCLSocketParam {
@@ -141,29 +140,29 @@ extern int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_
 extern int SOCL_ReadFrom(int s, void *buffer, int buffer_len,
                          unsigned short *remote_port, unsigned long *remote_ip,
                          int flags);
-extern int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip, int flags);
+extern int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip, int flags);
 extern int SOCL_WriteTo(int s, void *buffer, int buffer_len,
                         unsigned short remote_port, unsigned long remote_ip,
                         int flags);
 extern int func_0215E6B8(int s);
-extern int func_0215E84C(int s);
-extern unsigned long func_0215EDD0(char *hostname);
+extern int SOCL_Close(int s);
+extern unsigned long SOCL_Resolve(char *hostname);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern unsigned long SOCL_GetHostID(void);
-extern int func_0215EEE0(unsigned long dns1, unsigned long dns2);
-extern int func_0215CA8C(void *socl_config);
-extern unsigned long func_0215EE98(char *hostname);
+extern int SOCL_SetResolver(unsigned long dns1, unsigned long dns2);
+extern int SOCL_Startup(void *socl_config);
+extern unsigned long SOCL_InetAtoH(char *hostname);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-extern int func_0215EFB0(int s);
+extern int SOCL_GetStatus(int s);
 extern void OS_Sleep(unsigned long msec);
-extern int func_0215EBF0(void);
+extern int SOCL_Cleanup(void);
 int SOC_Socket(int unused, int type);
 int SOC_Bind(int s, void *sockAddr);
 int SOC_Connect(int s, void * sockAddr);
 int SOC_Recv(int s, void *buf, int len, int flags);
-int func_0215F500(int a0, int a1, int a2, int a3, u8 *out);
+int SOC_RecvFrom(int a0, int a1, int a2, int a3, u8 *out);
 int SOC_Send(int s, void *buf, int len, int flags);
 int SOC_SendTo(int s, void * buf, int len, int flags, void * sockTo);
 int SOC_Shutdown(int s, int how);
@@ -239,17 +238,17 @@ int SOC_Recv(int s, void *buf, int len, int flags)
 
 
 /*
- * Ask func_0215D6C8 for a two-word header into locals; on success and with a
+ * Ask SOCL_ReadFrom for a two-word header into locals; on success and with a
  * non-null destination object, write the byte-swapped halfword to +2 and the
  * byte-swapped word to +4.  Returns the callee's result.
  */
-int func_0215F500(int a0, int a1, int a2, int a3, u8 *out)
+int SOC_RecvFrom(int a0, int a1, int a2, int a3, u8 *out)
 {
     u16 h;
     u32 w;
     int r;
 
-    r = func_0215D6C8(a0, (void *)a1, a2, &h, (long unsigned int *)(&w), a3);
+    r = SOCL_ReadFrom(a0, (void *)a1, a2, &h, (long unsigned int *)(&w), a3);
     if (r < 0)
         return r;
     if (out == 0)
@@ -315,7 +314,7 @@ int SOC_Shutdown(int s, int how)
  */
 int SOC_Close(int s)
 {
-    return func_0215E84C(s);
+    return SOCL_Close(s);
 }
 
 
@@ -328,7 +327,7 @@ HostEnt *SOC_GetHostByName(const char *name)
 {
 	unsigned long ipAddr;
 
-	ipAddr = func_0215EDD0((char *)name);
+	ipAddr = SOCL_Resolve((char *)name);
 	if (ipAddr == 0) {
 		return 0;
 	}
@@ -392,7 +391,7 @@ long SOC_GetHostID(void)
  */
 int SOC_SetResolver(unsigned long *dns1, unsigned long *dns2)
 {
-	return func_0215EEE0(SWAP32(*dns1), SWAP32(*dns2));
+	return SOCL_SetResolver(SWAP32(*dns1), SWAP32(*dns2));
 }
 
 
@@ -475,7 +474,7 @@ int SOC_Startup(const SOCConfig *config)
     g_021AA4BC.soclConfig.cmd_packet_max = 0x40;
     g_021AA4BC.soclConfig.mtu = config->mtu;
     g_021AA4BC.soclConfig.rwin = config->rwin;
-    return func_0215CA8C(&g_021AA50C);
+    return SOCL_Startup(&g_021AA50C);
 }
 
 
@@ -485,7 +484,7 @@ int SOC_Startup(const SOCConfig *config)
  */
 int SOC_Cleanup(void)
 {
-    return func_0215EBF0();
+    return SOCL_Cleanup();
 }
 
 
@@ -506,7 +505,7 @@ int SOC_InetAtoN(char *cp, unsigned long *inp)
 {
 	unsigned long ipAddr;
 
-	ipAddr = func_0215EE98(cp);
+	ipAddr = SOCL_InetAtoH(cp);
 	if (ipAddr == 0) {
 		return 0;
 	}
@@ -573,7 +572,7 @@ int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout)
 		fp = fds;
 		for (i = 0; i < nfds; i++, fp++) {
 			status_mask = fp->events | 0xe0;
-			status = status_mask & func_0215EFB0(fp->fd);
+			status = status_mask & SOCL_GetStatus(fp->fd);
 			fp->revents = (short)status;
 			if (status) {
 				num_good++;

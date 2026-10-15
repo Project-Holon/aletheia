@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02030BBC",
+   "name": "GFL_HEAP_AllocSystemChecked",
    "address": "0x02030BBC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030BC8",
+   "name": "GFL_HEAP_FreeSystemChecked",
    "address": "0x02030BC8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030CB0",
+   "name": "TCB_GetTaskOffset",
    "address": "0x02030CB0",
    "kind": "game",
    "region": "arm9",

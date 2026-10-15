@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C78C4",
+   "name": "VIEWER_ACTOR_InitBgWindow",
    "address": "0x021C78C4",
    "kind": "game",
    "region": "ov111",

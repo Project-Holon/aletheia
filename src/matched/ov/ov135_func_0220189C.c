@@ -19,7 +19,7 @@
  *   WORLDTRADE_GetIsDeposited  0x0200AD8C  thumb
  *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORLDTRADE_GetReturnBox  0x0200ADE0  thumb
  *   WORLDTRADE_ADAPTER_RegisterReceivedMon  0x022022B8  thumb
  *   WORLDTRADE_SetIsDeposited  0x0200AD94  thumb
@@ -76,7 +76,7 @@ struct WordSet;
 extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
 extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern u16 WORLDTRADE_GetReturnBox(struct RegB *p);
 extern void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hatch);
 extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
@@ -125,7 +125,7 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
             if (WORLDTRADE_GetIsDeposited(p->ctx->sys) != 0) {
                 mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
                 WORLDTRADE_CopyPokemon(p->ctx->sys, mon);
-                func_0201EEF4(p->words, 0, mon);
+                WORDSET_SetSlotMonSpecies(p->words, 0, mon);
                 p->mode = 2;
                 p->state = 0x26;
                 WORLDTRADE_ADAPTER_RegisterReceivedMon(p, mon, WORLDTRADE_GetReturnBox(p->ctx->sys), 0);
@@ -140,7 +140,7 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
             if (WORLDTRADE_GetIsDeposited(p->ctx->sys) != 0) {
                 mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
                 WORLDTRADE_CopyPokemon(p->ctx->sys, mon);
-                func_0201EEF4(p->words, 0, mon);
+                WORDSET_SetSlotMonSpecies(p->words, 0, mon);
                 p->mode = 3;
                 p->state = 0x26;
                 WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);

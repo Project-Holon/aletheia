@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E06D0, func_021E0754, func_021E075C, func_021E0764
+ * function: BR_CODEIN_ProfileCreate, BR_CODEIN_ProfileUpdate, BR_CODEIN_ProfileGetState, BR_CODEIN_ProfileGetValue
  * address: 0x021E06D0
  * packet: pkt_ov183_021E06D0
  * region: ov183
@@ -14,11 +14,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   func_020490F4 0x020490F4 arm
- *   func_021E1244 0x021E1244 thumb ov183
- *   func_021E1910 0x021E1910 thumb ov183
+ *   BR_CODEIN_ProfileUpdateActor 0x021E1244 thumb ov183
+ *   BR_CODEIN_ProfileCreateButtons 0x021E1910 thumb ov183
  *   func_020056A0 0x020056A0 thumb
- *   func_021E083C 0x021E083C thumb ov183
- *   func_021E16E4 0x021E16E4 thumb ov183
+ *   BR_CODEIN_ProfileNoop 0x021E083C thumb ov183
+ *   BR_CODEIN_ProfileUpdateActorAnim 0x021E16E4 thumb ov183
  *   d_021E3968 0x021E3968 data ov183
  */
 #include "../include/Obj03331.h"
@@ -33,13 +33,13 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *, int, u32);
 extern unsigned BR_RES_GetFont(char *p);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_021E1244(char *);
-extern void func_021E1910(char *);
+extern void BR_CODEIN_ProfileUpdateActor(char *);
+extern void BR_CODEIN_ProfileCreateButtons(char *);
 extern void *func_020056A0(void (*)(void), void *, int);
-extern void func_021E083C(void);
-extern int func_021E16E4(char *p);
+extern void BR_CODEIN_ProfileNoop(void);
+extern int BR_CODEIN_ProfileUpdateActorAnim(char *p);
 extern char d_021E3968[];
-char *func_021E06D0(const struct Source *src, u16 heap)
+char *BR_CODEIN_ProfileCreate(const struct Source *src, u16 heap)
 {
     char *p;
     p = func_02030734(heap, 0x368, 0, d_021E3968, 56);
@@ -49,20 +49,20 @@ char *func_021E06D0(const struct Source *src, u16 heap)
     ((struct Obj03331 *)p)->f25C = src->words[7];
     ((struct Obj03331 *)p)->f310 = BR_RES_GetFont((char *)src->words[8]);
     ((struct Obj03331 *)p)->f258 = func_020490F4(59, ((struct Obj03331 *)p)->f34C);
-    func_021E1244(p);
-    func_021E1910(p);
-    ((struct Obj03331 *)p)->f314 = func_020056A0(func_021E083C, p, 16);
+    BR_CODEIN_ProfileUpdateActor(p);
+    BR_CODEIN_ProfileCreateButtons(p);
+    ((struct Obj03331 *)p)->f314 = func_020056A0(BR_CODEIN_ProfileNoop, p, 16);
     return p;
 }
-void func_021E0754(char *p)
+void BR_CODEIN_ProfileUpdate(char *p)
 {
-    func_021E16E4(p);
+    BR_CODEIN_ProfileUpdateActorAnim(p);
 }
-int func_021E075C(char *p)
+int BR_CODEIN_ProfileGetState(char *p)
 {
     return ((struct Obj24624 *)p)->f350;
 }
-u64 func_021E0764(char *p)
+u64 BR_CODEIN_ProfileGetValue(char *p)
 {
     return ((struct Obj24625 *)p)->f360;
 }

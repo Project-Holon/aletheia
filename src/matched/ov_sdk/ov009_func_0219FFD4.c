@@ -22,7 +22,7 @@
  *   BufferAddInt  0x0219FD64  arm  ov009
  *   func_0217EC90  0x0217EC90  arm  ov009
  *   SBServerListDisconnect  0x021A02E0  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   gSBEmptyString  0x021A8230  data
  */
 
@@ -73,7 +73,7 @@ extern void BufferAddData(char **buffer, char *data, int dlen, int *len);
 extern void BufferAddInt(char **buffer, int ival, int *len);
 extern int func_0217EC90(int sock, char *buf, int len, int flags);
 extern void SBServerListDisconnect(SBServerList *slist);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern char gSBEmptyString[];
 
 SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers)
@@ -124,7 +124,7 @@ SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *
     slist->state = 3;
     slist->pstate = 0;
     if (slist->inbuffer == 0) {
-        slist->inbuffer = func_0217EAB0(0x1000);
+        slist->inbuffer = gsimalloc(0x1000);
         if (slist->inbuffer == 0)
             return sbe_allocerror;
         slist->inbufferlen = 0;

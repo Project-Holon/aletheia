@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF2C
+ * function: CTVT_CALL_Update
  * address:  0x021BBF2C
  * packet:   pkt_ov172_021BBF2C
  * region:   ov172
@@ -39,12 +39,12 @@
  *   CTVT_COMM_GetMyStatusPtr  0x021B8B7C  thumb  ov172
  *   CTVT_COMM_ResetSlotTimer  0x021B8C14  thumb  ov172
  *   CTVT_COMM_IsSlotTimerDone  0x021B8C20  thumb  ov172
- *   func_021BC5E8  0x021BC5E8  thumb  ov172
- *   func_021BC7FC  0x021BC7FC  thumb  ov172
- *   func_021BCE2C  0x021BCE2C  thumb  ov172
- *   func_021BD038  0x021BD038  thumb  ov172
- *   func_021BD0C4  0x021BD0C4  thumb  ov172
- *   func_021BD134  0x021BD134  thumb  ov172
+ *   CTVT_CALL_HandleTouch  0x021BC5E8  thumb  ov172
+ *   CTVT_CALL_RefreshPeers  0x021BC7FC  thumb  ov172
+ *   CTVT_CALL_PlaceCursor  0x021BCE2C  thumb  ov172
+ *   CTVT_CALL_UpdateTimeWindow  0x021BD038  thumb  ov172
+ *   CTVT_CALL_PrintMessage  0x021BD0C4  thumb  ov172
+ *   CTVT_CALL_PrintTimeMessage  0x021BD134  thumb  ov172
  *   GFL_USE_StopAllSe  0x02006210  thumb  arm9
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -65,6 +65,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -98,12 +99,12 @@ extern void CTVT_COMM_SetConnectMac(int unused, char *p, const u8 *src);
 extern u8 *CTVT_COMM_GetMyStatusPtr(void *c, u8 *x);
 extern void CTVT_COMM_ResetSlotTimer(void *c, u8 *x);
 extern u32 CTVT_COMM_IsSlotTimerDone(void *c, u8 *x);
-extern void func_021BC5E8(void *ctx, u8 *list);
-extern void func_021BC7FC(void *ctx, u8 *list);
-extern void func_021BCE2C(void *c, char *p, char *r, u8 i);
-extern void func_021BD038(void *c, char *p);
-extern void func_021BD0C4(void *c, char *p, int msg);
-extern void func_021BD134(void *c, char *p, u32 msg);
+extern void CTVT_CALL_HandleTouch(void *ctx, u8 *list);
+extern void CTVT_CALL_RefreshPeers(void *ctx, u8 *list);
+extern void CTVT_CALL_PlaceCursor(void *c, char *p, char *r, u8 i);
+extern void CTVT_CALL_UpdateTimeWindow(void *c, char *p);
+extern void CTVT_CALL_PrintMessage(void *c, char *p, int msg);
+extern void CTVT_CALL_PrintTimeMessage(void *c, char *p, u32 msg);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -115,7 +116,7 @@ extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void GFL_USE_PlaySeInSlot(void *arg, int i);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
@@ -135,7 +136,7 @@ extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 #define H(o) (*(u16 *)(p + (o)))
 #define OBJ (*(struct Obj **)(p + 0x400))
 
-int func_021BBF2C(void *a0, char *p)
+int CTVT_CALL_Update(void *a0, char *p)
 {
     u32 t;
     u16 v;
@@ -189,8 +190,8 @@ int func_021BBF2C(void *a0, char *p)
         }
         break;
     case 5:
-        func_021BC5E8(a0, (u8 *)p);
-        func_021BD038(a0, p);
+        CTVT_CALL_HandleTouch(a0, (u8 *)p);
+        CTVT_CALL_UpdateTimeWindow(a0, p);
         break;
     case 6:
         if (W(0x18) == 0 || W(0x18) == 5) {
@@ -207,7 +208,7 @@ int func_021BBF2C(void *a0, char *p)
             t = COMM_TVT_SYS_GetComm(a0);
             CTVT_COMM_SetRequestedMode((int)a0, (char *)t, 4);
             CTVT_COMM_SetConnectMac((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
-            func_021BD134(a0, p, 0x18);
+            CTVT_CALL_PrintTimeMessage(a0, p, 0x18);
             W(0x38) = 1;
             W(8) = 7;
             H(0x34) = 0;
@@ -217,7 +218,7 @@ int func_021BBF2C(void *a0, char *p)
         } else {
             t2 = COMM_TVT_SYS_GetComm(a0);
             W(8) = 9;
-            func_021BD134(a0, p, 0x14);
+            CTVT_CALL_PrintTimeMessage(a0, p, 0x14);
             W(0x38) = 1;
             H(0x36) = 0;
             CTVT_COMM_SetRequestedMode((int)a0, (char *)t2, 3);
@@ -261,14 +262,14 @@ int func_021BBF2C(void *a0, char *p)
         if (W(8) == 9) {
             if (CTVT_COMM_IsSlotTimerDone(a0, (u8 *)COMM_TVT_SYS_GetComm(a0)) == 1) {
                 CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
-                func_021BD134(a0, p, 0x27);
+                CTVT_CALL_PrintTimeMessage(a0, p, 0x27);
                 W(8) = 10;
             }
         } else if (W(8) == 7 || W(8) == 8) {
             H(0x34)++;
             if (H(0x34) >= 0x4b0) {
                 CTVT_COMM_SetRequestedMode((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
-                func_021BD134(a0, p, 0x28);
+                CTVT_CALL_PrintTimeMessage(a0, p, 0x28);
                 W(8) = 10;
             }
         }
@@ -284,7 +285,7 @@ int func_021BBF2C(void *a0, char *p)
                     B(i) = 0xff;
                 W(8) = 5;
                 B(3) = 0xff;
-                func_0201F7A8((void *)W(0x30), 1);
+                BMP_MENUWORK_DrawWindowBorder((void *)W(0x30), 1);
                 d = (struct Descriptor *)W(0x30);
                 BMP_WIN_ClearScreen(d);
                 func_020409B4(BMP_WIN_GetBgLayer(d));
@@ -297,7 +298,7 @@ int func_021BBF2C(void *a0, char *p)
     case 11:
         BMP_WIN_Delete((struct Descriptor *)W(0x2c));
         W(0x2c) = BMP_WIN_Create(4, 2, 5, 0x1c, 0xe, 0xa, 1);
-        func_021BD0C4(a0, p, 0x29);
+        CTVT_CALL_PrintMessage(a0, p, 0x29);
         W(8) = 12;
         break;
     case 12:
@@ -308,7 +309,7 @@ int func_021BBF2C(void *a0, char *p)
         }
         if (TOUCHPANEL_GetTrg() == 1 || COMM_TVT_SYS_GetEndRequested(a0) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x54c);
-            func_0201F7A8((void *)W(0x2c), 1);
+            BMP_MENUWORK_DrawWindowBorder((void *)W(0x2c), 1);
             d = (struct Descriptor *)W(0x2c);
             BMP_WIN_ClearScreen(d);
             func_020409B4(BMP_WIN_GetBgLayer(d));
@@ -318,7 +319,7 @@ int func_021BBF2C(void *a0, char *p)
             if (st[1] == 2 || st[1] == 3) {
                 CLACT_SetActorAnimSeq(OBJ, 0xf);
                 if (COMM_TVT_SYS_GetMemberCount(a0) < 2)
-                    func_021BD134(a0, p, 0x18);
+                    CTVT_CALL_PrintTimeMessage(a0, p, 0x18);
                 W(0x38) = 1;
                 W(0x18) = 3;
                 W(8) = 8;
@@ -336,7 +337,7 @@ int func_021BBF2C(void *a0, char *p)
         break;
     }
     if (st[1] != 3 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
-        func_021BC7FC(a0, (u8 *)p);
+        CTVT_CALL_RefreshPeers(a0, (u8 *)p);
         for (i = 0; i < 15; i++) {
             r = p + i * 0x1c;
             if (*(u32 *)(r + 0x44) == 1) {
@@ -353,7 +354,7 @@ int func_021BBF2C(void *a0, char *p)
         if (W(0xc) == 1) {
             u8 cnt = 0;
             for (i = 0; i < 15; i++)
-                func_021BCE2C(a0, p, p + 0x40 + i * 0x1c, i);
+                CTVT_CALL_PlaceCursor(a0, p, p + 0x40 + i * 0x1c, i);
             BG_SYS_ResetSlot(6, 3, H(4));
             for (i = 0; i < 3; i++) {
                 if (B(i) != 0xff)

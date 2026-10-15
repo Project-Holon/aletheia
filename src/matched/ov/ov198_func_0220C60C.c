@@ -1,5 +1,5 @@
 /*
- * function: func_0220C60C
+ * function: B_PLIST_DRAW_PrintHeader
  * address: 0x0220C60C
  * packet: pkt_ov198_0220C60C
  * region: ov198
@@ -30,7 +30,7 @@ extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Flags { u8 pad[0x2177]; u8 low:4; u8 high:4; };
-void func_0220C60C(char *p, int id)
+void B_PLIST_DRAW_PrintHeader(char *p, int id)
 {
     void *t;
     void *f;

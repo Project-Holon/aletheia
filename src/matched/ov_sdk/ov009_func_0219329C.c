@@ -1,5 +1,5 @@
 /*
- * function: func_0219329C
+ * function: gpiCheckForError
  * address:  0x0219329C
  * packet:   pkt_0219329C
  * region:   ov009
@@ -19,7 +19,7 @@
  *
  * Layout note that closed the old DIFF: the `\fatal\` branch's third
  * argument is written as a *double* boolean -- `int b = strstr(...)
- * != 0;` then `func_02189D78(connection, 4, b != 0);`.  `_Bool` is not a
+ * != 0;` then `gpiCallErrorCallback(connection, 4, b != 0);`.  `_Bool` is not a
  * keyword in this C99 front end (CCERR), and folding the two tests into one
  * loses four instructions (12 bytes).
  *
@@ -27,14 +27,14 @@
  * from "\err\" via gpiValueForKey into a 0x10 stack buffer and atoi it into
  * iconnection+0x5b8; read the message from "\err\msg\" straight into the
  * connection's error string at +0 (and clear byte 0 if absent); on a fatal
- * request check for "\fatal\" and raise callback type 4 through func_02189D78.
+ * request check for "\fatal\" and raise callback type 4 through gpiCallErrorCallback.
  *
  * symbols:
  *   strncmp  0x020949F4  arm
- *   func_02193418  0x02193418  arm  ov009
+ *   gpiValueForKey  0x02193418  arm  ov009
  *   atoi  0x020964E0  arm
  *   strstr  0x02094B20  arm
- *   func_02189D78  0x02189D78  arm  ov009
+ *   gpiCallErrorCallback  0x02189D78  arm  ov009
  *   g_021A5718     0x021A5718  data
  *   g_021A5720     0x021A5720  data
  *   g_021A5728     0x021A5728  data
@@ -42,31 +42,31 @@
  */
 
 extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
-extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
+extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
 extern int atoi(u32 a0);
 typedef unsigned char  u8;
 extern u8 *strstr(const u8 *s1, const u8 *s2);
-extern int func_02189D78(int *connection, int a1, int a2);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern char g_021A5718[];
 extern char g_021A5720[];
 extern char g_021A5728[];
 extern char g_021A5734[];
 
-int func_0219329C(int *connection, const char *input, int fatal)
+int gpiCheckForError(int *connection, const char *input, int fatal)
 {
     char value[0x10];
     int *ic = (int *)*connection;
 
     if (strncmp((const unsigned char *)input, (const unsigned char *)g_021A5718, 7) != 0)
         goto fail;
-    if (func_02193418(input, g_021A5720, value, 0x10))
+    if (gpiValueForKey(input, g_021A5720, value, 0x10))
         ic[0x5b8 / 4] = atoi((u32)value);
-    if (!func_02193418(input, g_021A5728, (char *)ic, 0x100))
+    if (!gpiValueForKey(input, g_021A5728, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
         int b = strstr((const u8 *)input, (const u8 *)g_021A5734) != 0;
-        func_02189D78(connection, 4, b != 0);
+        gpiCallErrorCallback(connection, 4, b != 0);
     }
     return 1;
 fail:

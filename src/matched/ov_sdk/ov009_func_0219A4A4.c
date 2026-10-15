@@ -13,7 +13,7 @@
  *
  * symbols:
  *   CheckNatifyStatus  0x02199BE4  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   NegotiateThink  0x0219A054  arm  ov009
  *   gNatnegGlobals  0x021AE698  data
@@ -32,7 +32,7 @@ extern NegotiateGlobals gNatnegGlobals;
 extern struct NatSocks gNatSocks;
 extern int CheckNatifyStatus(int sock);
 struct _NATNegotiator;
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void NegotiateThink(struct _NATNegotiator *neg);
 
@@ -44,6 +44,6 @@ void NNThink(void *p)
         gNatnegGlobals.natifyActive = CheckNatifyStatus(gNatSocks.mappingSock) && CheckNatifyStatus(gNatSocks.ertSock);
     if (!gNatnegGlobals.list)
         return;
-    for (i = func_02184200(gNatnegGlobals.list) - 1; i >= 0; i--)
+    for (i = ArrayLength(gNatnegGlobals.list) - 1; i >= 0; i--)
         NegotiateThink(func_02184208(gNatnegGlobals.list, i));
 }

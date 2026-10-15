@@ -1,5 +1,5 @@
 /*
- * function: func_021C636C
+ * function: VIEWER_TEXT_DrawWindow
  * address:  0x021C636C
  * packet:   pkt_ov111_021C636C
  * region:   ov111
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6874  0x021C6874  thumb  ov111
+ *   VIEWER_TEXT_DrawPage  0x021C6874  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef struct {
     s16 scroll;
 } Work;
 
-extern void func_021C6874(Work *p, int scroll, int flush, int idx);
+extern void VIEWER_TEXT_DrawPage(Work *p, int scroll, int flush, int idx);
 
-void func_021C636C(Work *p, void *bg, void *info)
+void VIEWER_TEXT_DrawWindow(Work *p, void *bg, void *info)
 {
-    func_021C6874(p, p->scroll, 0, 0);
+    VIEWER_TEXT_DrawPage(p, p->scroll, 0, 0);
 }

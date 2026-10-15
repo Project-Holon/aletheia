@@ -12,7 +12,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   TH_AWARD_GRAPHIC_DeleteClact 0x021BA2E4 thumb ov220
  *   TH_AWARD_GRAPHIC_CleanupBg 0x021BA260 thumb ov220
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -21,7 +21,7 @@ struct Node;
 extern void func_02030EAC(struct Node *);
 extern void TH_AWARD_GRAPHIC_DeleteClact(char *);
 extern void TH_AWARD_GRAPHIC_CleanupBg(void *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -30,7 +30,7 @@ void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
     func_02030EAC(*(struct Node * *)&((struct Obj26062 *)p)->fC);
     TH_AWARD_GRAPHIC_DeleteClact((char *)p+4);
     TH_AWARD_GRAPHIC_CleanupBg(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;

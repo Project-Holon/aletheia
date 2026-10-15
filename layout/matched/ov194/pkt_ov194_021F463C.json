@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F463C",
+   "name": "NAMEIN_GRAPHIC_CallbackWaitDraw",
    "address": "0x021F463C",
    "kind": "game",
    "region": "ov194",

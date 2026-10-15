@@ -624,7 +624,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BBA6C",
+   "name": "CTVT_CALL_Create",
    "address": "0x021BBA6C",
    "kind": "game",
    "region": "ov172",
@@ -636,7 +636,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BBA88",
+   "name": "CTVT_CALL_Free",
    "address": "0x021BBA88",
    "kind": "game",
    "region": "ov172",

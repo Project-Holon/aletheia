@@ -1,5 +1,5 @@
 /*
- * function: func_021FB7A4
+ * function: SCRIPT_COMMAND_CmdLoadRankAnim
  * address: 0x021FB7A4
  * packet: pkt_ov132_021FB7A4
  * region: ov132
@@ -21,4 +21,4 @@ struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *);
 extern void STA_ACTING_LoadRankAnim(unsigned char *,unsigned char,unsigned char);
 extern void STA_ACTING_ScheduleActions(char *,int,unsigned char);
-int func_021FB7A4(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char * *)&((struct Obj10553 *)p)->f0;index=VM_GetU32(*(struct Cursor * *)&((struct Obj10553 *)p)->f4);n=VM_GetU32(*(struct Cursor * *)&((struct Obj10553 *)p)->f4);STA_ACTING_LoadRankAnim(*(unsigned char * *)&((struct Obj14111 *)obj)->f34,n,index);STA_ACTING_ScheduleActions(*(char * *)&((struct Obj14111 *)obj)->f34,1,index);return 0; }
+int SCRIPT_COMMAND_CmdLoadRankAnim(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char * *)&((struct Obj10553 *)p)->f0;index=VM_GetU32(*(struct Cursor * *)&((struct Obj10553 *)p)->f4);n=VM_GetU32(*(struct Cursor * *)&((struct Obj10553 *)p)->f4);STA_ACTING_LoadRankAnim(*(unsigned char * *)&((struct Obj14111 *)obj)->f34,n,index);STA_ACTING_ScheduleActions(*(char * *)&((struct Obj14111 *)obj)->f34,1,index);return 0; }

@@ -32,11 +32,11 @@
  *   sGhttpCancellingThreadAndFreeingMemory                  0x021CE620  data
  *   ghiFreeBuffer           0x021BFCB4  arm  ov114
  *   ghiPostCleanupState     0x021C2BB0  arm  ov114
- *   func_0217D254  0x0217d254  arm   ov009
+ *   gsDebugFormat  0x0217d254  arm   ov009
  *   gsiCancelResolvingHostname  0x0217f1c0  arm   ov009
  *   func_0217EB9C  0x0217eb9c  arm   ov009
  *   func_0217EB40  0x0217eb40  arm   ov009
- *   func_0217EAE0  0x0217eae0  arm   ov009
+ *   gsifree  0x0217eae0  arm   ov009
  *   ghiResetBuffer  0x021c00fc  arm   ov114
  *   strncmp  0x020949f4  arm
  *   sGhttpRedirectingConnection     0x021ce648  data  ov114
@@ -64,16 +64,15 @@ extern void ghiUnlock(void);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
 extern int ghiInitBuffer(GHIConnection *connection, GHIBuffer *buffer, int initialSize, int sizeIncrement);
 extern int ghiFreeConnection(GHIConnection *connection);
-extern void gsDebugFormat(int cat, int type, unsigned int level, char *tokenStr);
 extern void gsiCancelResolvingHostname(void *host);
 extern int shutdown(int sock, int how);
 extern int closesocketsure(int sock, int *notInCloseSocket);
 extern void ghiFreeBuffer(GHIBuffer *buffer);
 extern void ghiPostCleanupState(GHIConnection *connection);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0217EB9C(int, int);
 extern int func_0217EB40(int, int *);
-extern void func_0217EAE0(void *);
+extern void gsifree(void *);
 extern void ghiResetBuffer(GHIBuffer *);
 extern int strcspn(const char *s1, const char *s2);
 extern char *goastrdup(char *src);
@@ -232,7 +231,7 @@ int ghiCloseConnection(GHIConnection *connection)
     ghiLock();
     if (connection->handle != 0)
     {
-        gsDebugFormat(8, 3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
+        gsDebugFormat(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
         gsiCancelResolvingHostname(connection->handle);
         connection->handle = 0;
     }
@@ -358,23 +357,23 @@ void ghiEnumConnections(int (*callback)(GHIConnection *))
  */
 void ghiRedirectConnection(GHIConnection *connection)
 {
-    func_0217D254(8, (char *)3, 0x10, sGhttpRedirectingConnection);
+    gsDebugFormat(8, (char *)3, 0x10, sGhttpRedirectingConnection);
     if (connection->handle != 0) {
-        func_0217D254(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
+        gsDebugFormat(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
         gsiCancelResolvingHostname(connection->handle);
         connection->handle = 0;
     }
     func_0217EB9C(connection->socket, 2);
     if (func_0217EB40(connection->socket, &connection->handleStatus) == 0)
         return;
-    func_0217EAE0(connection->URL);
+    gsifree(connection->URL);
     connection->URL = connection->redirectURL;
     connection->redirectURL = 0;
-    func_0217EAE0(connection->serverAddress);
+    gsifree(connection->serverAddress);
     connection->serverAddress = 0;
     connection->serverIP = 0;
     connection->serverPort = 0;
-    func_0217EAE0(connection->requestPath);
+    gsifree(connection->requestPath);
     connection->requestPath = 0;
     connection->state = 0;
     connection->socket = -1;

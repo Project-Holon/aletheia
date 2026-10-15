@@ -17,7 +17,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_021B99A0 0x021B99A0 thumb ov225
+ *   MANUAL_GRAPHIC_DeleteScreen 0x021B99A0 thumb ov225
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj01787.h"
@@ -31,7 +31,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern unsigned int GF_FONT_Delete(void *ptr);
-extern void func_021B99A0(char *);
+extern void MANUAL_GRAPHIC_DeleteScreen(char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021B9DEC(char *p)
@@ -42,5 +42,5 @@ void func_021B9DEC(char *p)
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);
-    GF_FONT_Delete(((struct Obj01787 *)p)->fC);func_021B99A0(*(char * *)&((struct Obj01787 *)p)->f8);func_020307B0(p);
+    GF_FONT_Delete(((struct Obj01787 *)p)->fC);MANUAL_GRAPHIC_DeleteScreen(*(char * *)&((struct Obj01787 *)p)->f8);func_020307B0(p);
 }

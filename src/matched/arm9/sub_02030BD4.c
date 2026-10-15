@@ -1,5 +1,5 @@
 /*
- * function: sub_02030BD4
+ * function: TCB_BuildFreeStack
  * address:  0x02030BD4
  * packet:   pkt_02030BD4
  * region:   arm9
@@ -26,7 +26,7 @@
  * docs/idioms/a-unit-attests-only-its-own-start-address.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030BD4.c  *       --func sub_02030BD4 --addr 0x02030BD4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCB_BuildFreeStack.c  *       --func TCB_BuildFreeStack --addr 0x02030BD4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -55,7 +55,7 @@ struct Ctx {
     struct Node  *slots[1];   /* +0x38 */
 };
 
-void sub_02030BD4(struct Ctx *c)
+void TCB_BuildFreeStack(struct Ctx *c)
 {
     struct Node *n;
     u32 i;

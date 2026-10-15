@@ -10,9 +10,10 @@
  * status:   EXACT
  * symbols:
  *   g_pParticleMan      0x02146A88  data
+ *   SPL_EMITTER_AllocResourceEx  0x020525A0  arm
  *
  * Promoted by parks lane 2: the callee 0x020525A0 was filed first as an
- * EXACT entry (src/matched/func_020525A0.c, shard pkt_0205250C) and this
+ * EXACT entry (src/matched/SPL_EMITTER_AllocResourceEx.c, shard pkt_0205250C) and this
  * file's call site now resolves through the `matched` class.  No change to
  * the C was needed.
  *
@@ -26,7 +27,7 @@
 #include "../include/Obj08873.h"
 #include "../include/G_02146A88.h"
 
-extern int func_020525A0(char *p, int b, void (*fn)(void *));
+extern int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
 extern struct G_02146A88 *g_pParticleMan;
 int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c)
 {
@@ -34,7 +35,7 @@ int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c)
     if (*(int *)((char *)((struct Obj08873 *)p)->f0 + 8) >= 0x18)
         return -1;
     ((int *)g_pParticleMan)[0x10] = c;
-    r = func_020525A0((void *)p[0], a, (void (*)(void *))b);
+    r = SPL_EMITTER_AllocResourceEx((void *)p[0], a, (void (*)(void *))b);
     ((int *)g_pParticleMan)[0x10] = 0;
     p[2] = r;
     return r;

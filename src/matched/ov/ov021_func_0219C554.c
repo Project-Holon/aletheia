@@ -13,7 +13,7 @@
  *     u32 BILLBOARD_ACT_GetBoard(u32 *p) { return p[1]; }
  * symbols:
  *   FLDMMDL_SysGetHeapId  0x0216D4F8  thumb  ov010
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   FLDMMDL_SysSetBlActCont  0x0216D51C  thumb  ov010
  *   FLDMMDL_BLACT_CreateResTable  0x0219CAD8  thumb  ov021
  *   FLDMMDL_BLACT_CreateReserve  0x0219CBE0  thumb  ov021
@@ -35,7 +35,7 @@ typedef struct { u32 a, b, c; } T12;
 extern int sBlactFileName;
 extern T12 sBlactBoardScale;
 extern u32 FLDMMDL_SysGetHeapId(u8 *p);
-extern void *sub_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void FLDMMDL_SysSetBlActCont(u8 *p, u32 v);
 extern void FLDMMDL_BLACT_CreateResTable(void *, u32);
 extern void FLDMMDL_BLACT_CreateReserve(u8 *o);
@@ -47,7 +47,7 @@ extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
 
 void FLDMMDL_BLACT_Init(u32 a, u32 b, u32 c)
 {
-    u8 *p = sub_02030734(FLDMMDL_SysGetHeapId((u8 *)a), 0x24, 1, (const char *)&sBlactFileName, 360);
+    u8 *p = GFL_HEAP_Alloc(FLDMMDL_SysGetHeapId((u8 *)a), 0x24, 1, (const char *)&sBlactFileName, 360);
     u32 h;
     T12 t;
     u8 z;

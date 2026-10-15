@@ -134,7 +134,7 @@
  *   COLOSSEUM_AllPartiesReceived  0x02175214  thumb  ov012
  *   COLOSSEUM_SetupBattleInfo  0x02175280  thumb  ov012
  *   COLOSSEUM_ClearBattleInfo  0x0217534C  thumb  ov012
- *   func_02157450  0x02157450  thumb
+ *   IRC_BATTLE_TASK_Create  0x02157450  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009D1C  0x02009D1C  thumb
  *   func_02009BB8  0x02009BB8  thumb
@@ -1086,7 +1086,7 @@ extern int COLOSSEUM_AllPartiesReceived(ColosseumWork *colosseum);
 
 extern void COLOSSEUM_SetupBattleInfo(ColosseumWork *colosseum, struct GameSystem *gameSystem, u8 *battleInfo, int heapId);
 
-extern struct GameEvent *func_02157450(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u8 activity, BattleSelectParam *param);
+extern struct GameEvent *IRC_BATTLE_TASK_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u8 activity, BattleSelectParam *param);
 
 extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
 
@@ -1463,7 +1463,7 @@ int UNION_MAIN_StepPlayEffectAtFixedSpot(struct GameSystem *gameSystem, UnionRoo
 /*
  * Levers that closed the match: case 16 and default share one `return 1`
  * placed before case 17 so the tails cross-jump onto case 15 and case 17;
- * func_02157450 takes fieldMap (not unionRoom) in r1; the byte argument goes
+ * IRC_BATTLE_TASK_Create takes fieldMap (not unionRoom) in r1; the byte argument goes
  * through `u8 *activity` declared at function top (as in
  * UNION_MAIN_StepStartBattleSelect), which loads the base before the pool
  * offset.
@@ -1597,7 +1597,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
         else
             selectParam->messageId = 0x48C;
         COLOSSEUM_SetupBattleInfo(colosseum, gameSystem, selectParam->battleInfo, 0x41);
-        *outEvent = func_02157450(gameSystem, fieldMap, activity[0], selectParam);
+        *outEvent = IRC_BATTLE_TASK_Create(gameSystem, fieldMap, activity[0], selectParam);
         (*step)++;
         break;
     case 13:
@@ -1653,7 +1653,7 @@ u32 UNION_MAIN_StepStartBattleSelect(struct GameSystem *gameSystem, UnionRoomWor
 {
     u8 *activity = &unionRoom->mySituation.status;
     if (*step == 0) {
-        *outEvent = func_02157450(gameSystem, fieldMap, activity[0], selectParam);
+        *outEvent = IRC_BATTLE_TASK_Create(gameSystem, fieldMap, activity[0], selectParam);
     } else {
         return 1;
     }

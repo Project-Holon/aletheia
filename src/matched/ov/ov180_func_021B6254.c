@@ -13,10 +13,10 @@
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_0207D59C 0x0207D59C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_02041FB0 0x02041FB0 arm
+ *   BG_SYS_SetAffine 0x02041FB0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   gHallOfFameBgSetup 0x021B80E8 data ov180 a4
  */
 typedef unsigned char u8;
@@ -31,8 +31,8 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
-extern void func_02041FB0(u32,u32,u16);
-extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
+extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_LoadPlttEntry(u32,u32);
 void HALL_OF_FAME_InitBackgrounds(void)
 {
     Template t=gHallOfFameBgSetup;
@@ -43,8 +43,8 @@ void HALL_OF_FAME_InitBackgrounds(void)
     func_0207D59C((void *)0x04001030,&m,0,0,0,0);
     BG_SYS_ResetSlot(3,0,160);BG_SYS_ResetSlot(3,3,112);
     BG_SYS_ResetSlot(7,0,160);BG_SYS_ResetSlot(7,3,-152);
-    func_02041FB0(3,9,160);func_02041FB0(3,12,160);
-    func_02041FB0(7,9,160);func_02041FB0(7,12,160);
+    BG_SYS_SetAffine(3,9,160);BG_SYS_SetAffine(3,12,160);
+    BG_SYS_SetAffine(7,9,160);BG_SYS_SetAffine(7,12,160);
     BG_SYS_SetMainPlaneVisible(8,1);BG_SYS_SetSubPlaneVisible(8,1);
-    func_02040EBC(0,0);func_02040EBC(4,0);
+    BG_SYS_LoadPlttEntry(0,0);BG_SYS_LoadPlttEntry(4,0);
 }

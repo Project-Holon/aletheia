@@ -17,7 +17,7 @@
  *
  * symbols:
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_Init  0x02040C14  arm
@@ -62,7 +62,7 @@ extern const BgTemplate d_021BBAE0;
 extern const BgTemplate d_021BBB00;
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(int bg);
+extern void BG_SYS_FreeSlot(int bg);
 extern void func_020409B4(u32 layer);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
@@ -82,26 +82,26 @@ void ITEMMENU_InitDisplayBanks(void)
 
     t0 = d_021BBB40;
     BG_SYS_InitBgLayer(0, &t0, 0);
-    func_020414AC(0);
+    BG_SYS_FreeSlot(0);
     func_020409B4(0);
     func_02040588(0, 0);
 
     t1 = d_021BBB60;
     BG_SYS_InitBgLayer(1, &t1, 0);
-    func_020414AC(1);
+    BG_SYS_FreeSlot(1);
     func_020409B4(1);
     func_02040588(1, 0);
 
     t2 = d_021BBB80;
     BG_SYS_InitBgLayer(2, &t2, 0);
-    func_020414AC(2);
+    BG_SYS_FreeSlot(2);
     func_020409B4(2);
     func_02040588(2, 0);
 
     t3 = d_021BBB20;
     BG_SYS_InitBgLayer(3, &t3, 0);
     BG_SYS_Init(3, 0, 1, 0);
-    func_020414AC(3);
+    BG_SYS_FreeSlot(3);
     func_020409B4(3);
     func_02040588(3, 0);
 

@@ -23,7 +23,7 @@
  *   MUSICAL_SHOT_SYS_VBlank 0x021F3A4C thumb ov112
  *   MUSICAL_SHOT_SYS_InitGraphics 0x021F3A54 thumb ov112
  *   MUSICAL_SHOT_SYS_CreateScene 0x021F3AF0 thumb ov112
- *   func_021F4284 0x021F4284 thumb ov112
+ *   MUSICAL_MCSS_Create 0x021F4284 thumb ov112
  *   WIPE_SYS_Start 0x0202208C thumb
  *   ov132_id 0x84 data
  *   d_021F836C 0x021F836C data a4
@@ -52,7 +52,7 @@ extern void *func_020056A0(u32,u32,u32);
 extern void MUSICAL_SHOT_SYS_VBlank(void);
 extern void MUSICAL_SHOT_SYS_InitGraphics(u8 *);
 extern u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap);
-extern void *func_021F4284(u8 *,u32,u32,u32,u16);
+extern void *MUSICAL_MCSS_Create(u8 *,u32,u32,u32,u16);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern char ov132_id[];
 extern const char d_021F836C[];
@@ -106,6 +106,6 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
  p->task=func_020056A0((u32)MUSICAL_SHOT_SYS_VBlank,(u32)p,64);
  MUSICAL_SHOT_SYS_InitGraphics((u8 *)p);
  p->scene=MUSICAL_SHOT_SYS_CreateScene(p->save->config,p->heap);
- p->actors=func_021F4284(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
+ p->actors=MUSICAL_MCSS_Create(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
  WIPE_SYS_Start(0,1,1,0,6,1,p->heap);return 1;
 }

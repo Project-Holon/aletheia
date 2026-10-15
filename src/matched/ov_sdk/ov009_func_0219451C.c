@@ -12,9 +12,9 @@
  * sdk:      CallReqCallback (gstats.o)
  *
  * symbols:
- *   func_02184200 0x02184200  arm
+ *   ArrayLength 0x02184200  arm
  *   func_02184208 0x02184208  arm
- *   func_0218437C 0x0218437C  arm
+ *   ArrayDeleteAt 0x0218437C  arm
  *   gGstatsConn   0x021ADFE0  data
  */
 
@@ -30,16 +30,16 @@ typedef struct {
     void *callback;
 } serverreq_t;
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern serverreq_t *func_02184208(void *array, int n);
-extern void func_0218437C(int a, int b);
+extern void ArrayDeleteAt(int a, int b);
 extern struct StatsConn gGstatsConn;
 
 void CallReqCallback(int reqindex, int success, long modified, char *data, int length)
 {
     serverreq_t *req;
 
-    if (reqindex < 0 || reqindex >= func_02184200((void *)((int *)&gGstatsConn)[5]))
+    if (reqindex < 0 || reqindex >= ArrayLength((void *)((int *)&gGstatsConn)[5]))
         return;
     req = func_02184208((void *)((int *)&gGstatsConn)[5], reqindex);
     if (req->callback != 0) {
@@ -58,5 +58,5 @@ void CallReqCallback(int reqindex, int success, long modified, char *data, int l
             break;
         }
     }
-    func_0218437C((int)((void *)((int *)&gGstatsConn)[5]), reqindex);
+    ArrayDeleteAt((int)((void *)((int *)&gGstatsConn)[5]), reqindex);
 }

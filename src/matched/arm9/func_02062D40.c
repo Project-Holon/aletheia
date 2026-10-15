@@ -1,5 +1,5 @@
 /*
- * function: func_02062D40
+ * function: NNSi_G2dGetCellAnimationCurrentSequence
  * address:  0x02062D40
  * packet:   pkt_0206296C
  * region:   arm9
@@ -16,7 +16,7 @@
  * own sequence index selected.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062D40.c  *       --func func_02062D40 --addr 0x02062D40 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dGetCellAnimationCurrentSequence.c  *       --func NNSi_G2dGetCellAnimationCurrentSequence --addr 0x02062D40 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ struct CellAnim {
     void **sequence;
 };
 
-void *func_02062D40(struct CellAnim *anim)
+void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim)
 {
     return *anim->sequence;
 }

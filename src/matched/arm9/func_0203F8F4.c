@@ -13,7 +13,7 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02033C00  0x02033C00  arm
  *
@@ -52,7 +52,7 @@ struct BgSys {
 extern struct BgSys *g_02146A44;
 extern char g_020A7E5C[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
 struct AreaMan;
@@ -62,7 +62,7 @@ void BG_SYS_Create(u16 heapId)
 {
     s32 i;
 
-    g_02146A44 = sub_02030734(heapId, 0x1d0, 0, g_020A7E5C, 134);
+    g_02146A44 = GFL_HEAP_Alloc(heapId, 0x1d0, 0, g_020A7E5C, 134);
     MI_CpuFill8(g_02146A44, 0, 0x1d0);
     g_02146A44->heapId = heapId;
     g_02146A44->unk_04 = 0;

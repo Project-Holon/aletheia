@@ -1,5 +1,5 @@
 /*
- * function: func_02068150
+ * function: NNS_G2dFontGetTextRect
  * address:  0x02068150
  * packet:   pkt_02067FE4
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02068030    0x02068030  arm
+ *   NNS_G2dFontGetStringWidth    0x02068030  arm
  *
  * NNS_G2dFontGetTextRect (NitroSystem g2d_Font.c), struct return through the
- * hidden r0 pointer: widest line via func_02068030 (threading its pPos back
+ * hidden r0 pointer: widest line via NNS_G2dFontGetStringWidth (threading its pPos back
  * in as the next line), height = (lines - 1) * (vSpace + linefeed) - vSpace
  * with the counter starting at ONE (`mov r4, #1` / `sub r2, r4, #1`); a
  * counter from zero is 140 bytes against 148.
@@ -63,15 +63,15 @@ typedef struct NNSG2dFont {
 
 typedef struct NNSG2dTextRect { int width; int height; } NNSG2dTextRect;
 
-extern int func_02068030(const NNSG2dFont *pFont, int hSpace, const void *str, const void **pPos);
+extern int NNS_G2dFontGetStringWidth(const NNSG2dFont *pFont, int hSpace, const void *str, const void **pPos);
 
-NNSG2dTextRect func_02068150(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt)
+NNSG2dTextRect NNS_G2dFontGetTextRect(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt)
 {
     NNSG2dTextRect rect = { 0, 0 };
     int numLine = 1;
 
     while (txt != 0) {
-        const int width = func_02068030(pFont, hSpace, txt, &txt);
+        const int width = NNS_G2dFontGetStringWidth(pFont, hSpace, txt, &txt);
         if (width > rect.width)
             rect.width = width;
         numLine++;

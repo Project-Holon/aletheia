@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1AC
+ * function: CTVT_CALL_WorkInit
  * address: 0x021BD1AC
  * packet: pkt_ov172_021BD1AC
  * region: ov172
@@ -11,17 +11,17 @@
  * note 2026-10-05 wD5 lane12: the loop argument and the two byte stores are the literal 0 (the
  *   original copies r5=0 into r6 before the loop label; it is not the last index).
  * symbols:
- *   func_021BD5D8 0x021BD5D8 thumb ov172
- *   func_021BD844 0x021BD844 thumb ov172
- *   func_021BDBC4 0x021BDBC4 thumb ov172
+ *   CTVT_CALL_InitDisplay 0x021BD5D8 thumb ov172
+ *   CTVT_CALL_InitGraphics 0x021BD844 thumb ov172
+ *   CTVT_CALL_InitText 0x021BDBC4 thumb ov172
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
  *   CTVT_COMM_Create 0x021B7BA8 thumb ov172
  *   CTVT_TALK_Create 0x021B8C3C thumb ov172
  *   CTVT_DRAW_Create 0x021BA280 thumb ov172
- *   func_021BBA6C 0x021BBA6C thumb ov172
+ *   CTVT_CALL_Create 0x021BBA6C thumb ov172
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
- *   func_021BD5AC 0x021BD5AC thumb ov172
+ *   CTVT_CALL_VBlank 0x021BD5AC thumb ov172
  *   func_020056A0 0x020056A0 thumb
  *   func_0202EB14 0x0202EB14 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -43,17 +43,17 @@ struct CharBuf;
 struct Descriptor;
 struct R;
 struct SoundSys;
-extern void func_021BD5D8(u8 *p);
-extern void func_021BD844(u8 *p);
-extern void func_021BDBC4(u8 *p);
+extern void CTVT_CALL_InitDisplay(u8 *p);
+extern void CTVT_CALL_InitGraphics(u8 *p);
+extern void CTVT_CALL_InitText(u8 *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
 extern char *CTVT_COMM_Create(void *p, u16 heap);
 extern char *CTVT_TALK_Create(char *unused, u16 heap);
 extern u32 CTVT_DRAW_Create(char *, u16);
-extern void *func_021BBA6C(int unused, void *p);
+extern void *CTVT_CALL_Create(int unused, void *p);
 extern u32 DRAW_SYSTEM_CreateCanvas(Params *);
-extern void func_021BD5AC(int, char *);
+extern void CTVT_CALL_VBlank(int, char *);
 extern u32 func_020056A0(void (*)(int, char *), char *, int);
 extern int func_0202EB14(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
@@ -68,7 +68,7 @@ extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 #define W(o) (*(u32 *)(self + (o)))
 #define B(o) (*(u8 *)(self + (o)))
 #define H(o) (*(u16 *)(self + (o)))
-void func_021BD1AC(char *self)
+void CTVT_CALL_WorkInit(char *self)
 {
     int z = 0;
     int one = 1;
@@ -78,15 +78,15 @@ void func_021BD1AC(char *self)
     B(0x18) = one;
     B(0x19) = z;
     W(0x1c) = z;
-    func_021BD5D8((u8 *)self);
-    func_021BD844((u8 *)self);
-    func_021BDBC4((u8 *)self);
+    CTVT_CALL_InitDisplay((u8 *)self);
+    CTVT_CALL_InitGraphics((u8 *)self);
+    CTVT_CALL_InitText((u8 *)self);
     W(0x1d4) = (u32)APP_TASKMENU_RES_Create(4, 7, W(0x1c8), W(0x1d0), H(0));
     W(0x1e0) = (u32)CTVT_CAMVIEW_Create(self, H(0));
     W(0x1e4) = (u32)CTVT_COMM_Create(self, H(0));
     W(0x1e8) = (u32)CTVT_TALK_Create(self, H(0));
     W(0x1ec) = CTVT_DRAW_Create(self, H(0));
-    W(0x1f0) = (u32)func_021BBA6C((int)self, (void *)H(0));
+    W(0x1f0) = (u32)CTVT_CALL_Create((int)self, (void *)H(0));
     st.heap = H(0);
     st.kind = 2;
     st.count = 0x64;
@@ -95,7 +95,7 @@ void func_021BD1AC(char *self)
     st.c = z;
     st.d = 0xc0;
     W(0x1f4) = DRAW_SYSTEM_CreateCanvas(&st);
-    W(4) = func_020056A0(func_021BD5AC, self, 8);
+    W(4) = func_020056A0(CTVT_CALL_VBlank, self, 8);
     W(8) = z;
     H(0x38) = z;
     H(0x3a) = z;

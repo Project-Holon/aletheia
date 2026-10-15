@@ -1,5 +1,5 @@
 /*
- * function: func_0219327C
+ * function: strzcpy
  * address:  0x0219327C
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 
-void func_0219327C(char *p, int b, int n)
+void strzcpy(char *p, int b, int n)
 {
     strncpy((u8 *)p, (const u8 *)b, n);
     *(char *)(p + n - 1) = 0;

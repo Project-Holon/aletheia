@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   gHallOfFameDisplayConfig 0x021B80D8 data a4
- *   func_0203FC28 0x0203FC28 arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct DispConfig {u32 a,b,c,d;};
 extern const struct DispConfig gHallOfFameDisplayConfig;
-extern void func_0203FC28(struct DispConfig *);
-extern void func_02040EBC(u32,u32);
-void HALL_OF_FAME_SetupDisplay(void) {struct DispConfig cfg; cfg=gHallOfFameDisplayConfig; func_0203FC28(&cfg); func_02040EBC(0,0); func_02040EBC(4,0);}
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
+extern void BG_SYS_LoadPlttEntry(u32,u32);
+void HALL_OF_FAME_SetupDisplay(void) {struct DispConfig cfg; cfg=gHallOfFameDisplayConfig; BG_SYS_SetGraphicsMode(&cfg); BG_SYS_LoadPlttEntry(0,0); BG_SYS_LoadPlttEntry(4,0);}

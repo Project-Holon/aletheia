@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   ISS_CITY_UNIT_Delete  0x0202AF28  thumb
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  */
 
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ struct Obj {
 };
 
 extern void ISS_CITY_UNIT_Delete(void *item);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void ISS_CITY_SYS_FreeUnits(struct Obj *obj)
 {
@@ -33,6 +33,6 @@ void ISS_CITY_SYS_FreeUnits(struct Obj *obj)
     for (i = 0; i < count; i++) {
         ISS_CITY_UNIT_Delete(obj->arr[i]);
     }
-    sub_020307B0(obj->arr);
+    GFL_HEAP_Free(obj->arr);
     obj->arr = 0;
 }

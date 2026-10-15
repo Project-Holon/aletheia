@@ -1,5 +1,5 @@
 /*
- * function: func_0220C68C
+ * function: B_BAG_MAIN_CreateToolActors
  * address: 0x0220C68C
  * packet: pkt_ov197_0220C68C
  * region: ov197
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj00315.h"
 extern void B_APP_TOOL_CreateActors(char *,int,int,int,int),B_APP_TOOL_SetActorsVisible(char *,void *);
-void func_0220C68C(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct Obj00315 *)p)->f148,*(int *)&((struct Obj00315 *)p)->f420,((struct Obj00315 *)p)->f564,((struct Obj00315 *)p)->f588,((struct Obj00315 *)p)->f594);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00315 *)p)->f148,0);}
+void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct Obj00315 *)p)->f148,*(int *)&((struct Obj00315 *)p)->f420,((struct Obj00315 *)p)->f564,((struct Obj00315 *)p)->f588,((struct Obj00315 *)p)->f594);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00315 *)p)->f148,0);}

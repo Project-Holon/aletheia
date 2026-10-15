@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  */
 #include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 void POKETRADE_2D_ExitSubBgs(int p)
 {
     if (((struct Obj00001 *)p)->f11EB == 1) {
-        func_02040DA8(4, 1, 0);
-        func_02040DA8(6, 1, 0);
+        BG_SYS_SetTileUnit(4, 1, 0);
+        BG_SYS_SetTileUnit(6, 1, 0);
         func_020403F4(4);
         func_020403F4(5);
         func_020403F4(6);

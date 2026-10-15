@@ -1,5 +1,5 @@
 /*
- * function: func_02163EB8
+ * function: CPSi_rc4_crypt
  * address:  0x02163EB8
  * packet:   pkt_ov009_02163EB8
  * region:   ov009
@@ -21,7 +21,7 @@ typedef struct {
 	unsigned char m[256];
 } CPSRc4Ctx;
 
-void func_02163EB8(CPSRc4Ctx *ctx, unsigned char *data, int len)
+void CPSi_rc4_crypt(CPSRc4Ctx *ctx, unsigned char *data, int len)
 {
 	int i;
 	unsigned char x;

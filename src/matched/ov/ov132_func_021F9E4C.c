@@ -1,5 +1,5 @@
 /*
- * function: func_021F9E4C
+ * function: STA_ACT_EFFECT_Noop
  * address: 0x021F9E4C
  * packet: pkt_ov132_021F9E4C
  * region: ov132
@@ -11,4 +11,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F9E4C(u8 *a0) { }
+void STA_ACT_EFFECT_Noop(u8 *a0) { }

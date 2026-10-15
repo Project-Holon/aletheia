@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F68
+ * function: NAMEIN_GRAPHIC_GetPairCount
  * address: 0x021F4F68
  * packet: pkt_ov194_021F4F68
  * region: ov194
@@ -11,4 +11,4 @@
 
  */
 typedef unsigned short u16;
-int func_021F4F68(const u16 *p) {return *p;}
+int NAMEIN_GRAPHIC_GetPairCount(const u16 *p) {return *p;}

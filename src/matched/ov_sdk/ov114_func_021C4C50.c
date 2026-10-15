@@ -15,7 +15,7 @@
  *   strchr  0x02094A28  arm
  *   ghiAppendToChunkHeaderBuffer  0x021C4C00  arm  ov114
  *   ghiParseChunkSize  0x021C4BD8  arm  ov114
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   ghiDeliverIncomingFileData  0x021C4B18  arm  ov114
  *   sGhttpReadingFooter     0x021CF24C  data
  *   sGhttpReadingByteChunk     0x021CF25C  data
@@ -40,7 +40,7 @@ typedef struct GHIConnection {
 extern char *strchr(const char *s, int c);
 extern void ghiAppendToChunkHeaderBuffer(GHIConnection *connection, char *data, int len);
 extern int ghiParseChunkSize(GHIConnection *connection);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int ghiDeliverIncomingFileData(GHIConnection *connection, char *data, int len);
 extern char sGhttpReadingFooter[];
 extern char sGhttpReadingByteChunk[];
@@ -77,12 +77,12 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
                     if (connection->chunkBytesLeft == 0)
                     {
                         connection->chunkReadingState = 3;
-                        func_0217D254(8, 0, 0x20, sGhttpReadingFooter);
+                        gsDebugFormat(8, 0, 0x20, sGhttpReadingFooter);
                     }
                     else
                     {
                         connection->chunkReadingState = 1;
-                        func_0217D254(8, 0, 0x20, sGhttpReadingByteChunk, connection->chunkBytesLeft);
+                        gsDebugFormat(8, 0, 0x20, sGhttpReadingByteChunk, connection->chunkBytesLeft);
                     }
                 }
                 else
@@ -96,7 +96,7 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
                 toWrite = connection->chunkBytesLeft;
                 if (toWrite >= len)
                     toWrite = len;
-                func_0217D254(8, 0, 0x20, sGhttpReadBytesOfChunk, toWrite);
+                gsDebugFormat(8, 0, 0x20, sGhttpReadBytesOfChunk, toWrite);
                 if (!ghiDeliverIncomingFileData(connection, data, toWrite))
                     return 0;
                 data += toWrite;
@@ -117,12 +117,12 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
                 connection->chunkHeaderLen = 0;
                 connection->chunkBytesLeft = 0;
                 connection->chunkReadingState = 0;
-                func_0217D254(8, 0, 0x20, sGhttpReadChunkFooter);
+                gsDebugFormat(8, 0, 0x20, sGhttpReadChunkFooter);
             }
             else if (connection->chunkReadingState == 3)
             {
                 connection->completed = 1;
-                func_0217D254(8, 0, 0x20, sGhttpFinishedReadingChunks);
+                gsDebugFormat(8, 0, 0x20, sGhttpFinishedReadingChunks);
                 return 1;
             }
             else

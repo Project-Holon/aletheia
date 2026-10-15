@@ -1,5 +1,5 @@
 /*
- * function: func_021DC194
+ * function: WIFIBATTLEMATCH_NET_GetNetId
  * address:  0x021DC194
  * packet:   pkt_021DC194
  * region:   ov175
@@ -20,7 +20,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021DC194(char *obj)
+u32 WIFIBATTLEMATCH_NET_GetNetId(char *obj)
 {
     return *(u32 *)(((struct Obj24391 *)obj)->f1464);
 }

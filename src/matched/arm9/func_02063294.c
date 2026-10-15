@@ -1,5 +1,5 @@
 /*
- * function: func_02063294
+ * function: NNSi_G2dEntryOamManagerOam
  * address:  0x02063294
  * packet:   pkt_02063000
  * region:   arm9
@@ -32,8 +32,8 @@
  * "kept branches" pin, as for the rest of the cluster.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02063294.c
- *       --func func_02063294 --addr 0x02063294 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dEntryOamManagerOam.c
+ *       --func NNSi_G2dEntryOamManagerOam --addr 0x02063294 --arm --cc ../2.0/sp2
  *
  * symbols:
  *   g_02146BC8  0x02146BC8  data
@@ -64,7 +64,7 @@ typedef struct {
 struct Win02063294 { u32 bank; u16 min_oam; u16 max_oam; u16 cur_oam; };
 extern u8 g_02146BC8[];
 
-u32 func_02063294(struct Win02063294 *win, GXOamAttr *src, u32 mode)
+u32 NNSi_G2dEntryOamManagerOam(struct Win02063294 *win, GXOamAttr *src, u32 mode)
 {
     u16 max_oam = win->max_oam;
     u16 cur_oam = *(volatile u16 *)&win->cur_oam;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C42FC
+ * function: WIFI_2DCHAR_RegisterCellAnims
  * address: 0x021C42FC
  * packet: pkt_ov127_021C42FC
  * region: ov127
@@ -19,4 +19,4 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int     s32;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-void func_021C42FC(char *p, int unused, u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((u32)p+(u32)i*20+0x188)=CLACT_RegisterCellAnim(((struct Obj23022 *)p)->f2F8,(i-16)*2,(i-16)*2+1,(u16)heap); } }
+void WIFI_2DCHAR_RegisterCellAnims(char *p, int unused, u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((u32)p+(u32)i*20+0x188)=CLACT_RegisterCellAnim(((struct Obj23022 *)p)->f2F8,(i-16)*2,(i-16)*2+1,(u16)heap); } }

@@ -14,8 +14,8 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02040588 0x02040588 arm
- *   func_0204047C 0x0204047C arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   func_0207D63C 0x0207D63C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -26,7 +26,7 @@
  *   SHINKA_DEMO_LoadSprites 0x02205010 thumb ov195
  *   SHINKA_DEMO_CreateActors 0x02205070 thumb ov195
  *   SHINKA_DEMO_VIEW_Create 0x02205C74 thumb ov195
- *   func_0220871C 0x0220871C thumb ov195
+ *   SHINKA_DEMO_EFFECT_Create 0x0220871C thumb ov195
  */
 
 typedef unsigned char u8;
@@ -67,8 +67,8 @@ struct Anim;
 struct Owner;
 extern int func_02034AC4(s32 handle);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_02040EBC(u32 a0, u32 a1);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void func_0207D63C(int, int, int, int, int);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -80,7 +80,7 @@ extern void SHINKA_DEMO_CreateConfirmMenu(int a, char *b);
 extern void SHINKA_DEMO_LoadSprites(int a, char *b);
 extern void SHINKA_DEMO_CreateActors(int a, char *b);
 extern struct Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c);
-extern struct Anim *func_0220871C(u16 heap, u32 x);
+extern struct Anim *SHINKA_DEMO_EFFECT_Create(u16 heap, u32 x);
 
 void SHINKA_DEMO_SetupScene(App *a, Scene *s)
 {
@@ -103,15 +103,15 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
     s->f60 = 0;
     if (s->f28 == 0)
         SHINKA_DEMO_CreateActors((int)a, (char *)s);
-    func_0204047C(0, 2);
-    func_0204047C(2, 1);
-    func_0204047C(1, 0);
-    func_0204047C(4, 2);
+    BG_SYS_SetVisibleLayer(0, 2);
+    BG_SYS_SetVisibleLayer(2, 1);
+    BG_SYS_SetVisibleLayer(1, 0);
+    BG_SYS_SetVisibleLayer(4, 2);
     func_02040588(0, 1);
     func_02040588(2, 1);
     func_02040588(4, 1);
-    func_02040EBC(0, 0);
-    func_02040EBC(4, 0);
+    BG_SYS_LoadPlttEntry(0, 0);
+    BG_SYS_LoadPlttEntry(4, 0);
     if (s->f28 == 0) {
         b = a->f0b;
         if (b == 8 || (u8)(b + 0xef) <= 1)
@@ -122,8 +122,8 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
     else
         s->f104 = SHINKA_DEMO_VIEW_Create(s->heap, 1, s->f10, a->f08);
     if (s->f28 == 0)
-        s->f108 = func_0220871C(s->heap, 0);
+        s->f108 = SHINKA_DEMO_EFFECT_Create(s->heap, 0);
     else
-        s->f108 = func_0220871C(s->heap, 1);
+        s->f108 = SHINKA_DEMO_EFFECT_Create(s->heap, 1);
     func_0207D63C(0x04000050, 1, 0x3e, 0, 0);
 }

@@ -15,7 +15,7 @@
  *   ghiAppendDataToBuffer                    0x021bfcec arm  ov114
  *   strlen                    0x0209477c arm
  *   ghiResizeBuffer                    0x021bfb90 arm  ov114
- *   func_0217D254                    0x0217d254 arm  ov009
+ *   gsDebugFormat                    0x0217d254 arm  ov009
  *   sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode                       0x021ce54c data ov114
  */
 
@@ -55,7 +55,7 @@ typedef unsigned char  u8;
 extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
 extern int strlen(const u8 *s);
 extern int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern char sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode[];
 
 int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
@@ -98,7 +98,7 @@ int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
             pos += fragmentLen;
             buffer->len = buffer->size - bufSpace;
         } else {
-            func_0217D254(8, (char *)4, 2, sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode, result);
+            gsDebugFormat(8, (char *)4, 2, sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode, result);
             return 0;
         }
     } while (pos < dataLen);

@@ -1,5 +1,5 @@
 /*
- * function: func_0220BC70
+ * function: B_PLIST_DRAW_CreateStateWindows
  * address: 0x0220BC70
  * packet: pkt_ov198_0220BC70
  * region: ov198
@@ -12,8 +12,8 @@
  * with state-byte2180 stores0/4/6. C88 stores its bounded state at2177+9.
  * Domain and decoded-call audit: Wave30 S26/BC70-domain-review.md.
  * symbols:
- *   func_0220BD84 0x0220BD84 thumb ov198
- *   func_0220BD34 0x0220BD34 thumb ov198
+ *   B_PLIST_DRAW_DeleteAuxWindow 0x0220BD84 thumb ov198
+ *   B_PLIST_DRAW_ToggleAuxWindow 0x0220BD34 thumb ov198
  *   BMP_WIN_Create 0x020450F0 arm
  *   d_02211BDA 0x02211BDA data a1
  *   d_02211B80 0x02211B80 data a1
@@ -28,15 +28,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Item { u8 a,b,c,d,e,f; } Item;
 extern Item d_02211BDA[],d_02211B80[],d_02211CB0[],d_02211BFE[],d_02211C24[],d_02211B98[],d_02211BB6[],d_02211C68[];
-extern void func_0220BD84(u8 *);
-extern void func_0220BD34(u8 *);
+extern void B_PLIST_DRAW_DeleteAuxWindow(u8 *);
+extern void B_PLIST_DRAW_ToggleAuxWindow(u8 *);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-void func_0220BC70(u8 *p,u32 state)
+void B_PLIST_DRAW_CreateStateWindows(u8 *p,u32 state)
 {
     Item *s;
     u32 i;
-    func_0220BD84(p);
-    func_0220BD34(p);
+    B_PLIST_DRAW_DeleteAuxWindow(p);
+    B_PLIST_DRAW_ToggleAuxWindow(p);
     switch(state) {
     case 0: case 8: s=d_02211BDA; p[0x2174]=6; break;
     case 1: s=d_02211B80; p[0x2174]=4; break;

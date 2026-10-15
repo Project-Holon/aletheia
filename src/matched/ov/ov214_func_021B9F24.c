@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02040E78 0x02040E78 arm
+ *   BG_SYS_LoadPltt 0x02040E78 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02041B6C 0x02041B6C arm
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern const char d_021BB658[];
 extern void *func_02030734(u32,u32,int,const char*,u16);
-extern void func_02040E78(u32,void*,u32,u32);
+extern void BG_SYS_LoadPltt(u32,void*,u32,u32);
 extern u32 func_020307B0(void *p);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 struct CharBuf;
@@ -38,7 +38,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void *func_0201F5DC(void*,u32,u32,u32);
+extern void *BMP_MENUWORK_LoadFrameGfx(void*,u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void func_02041B6C(u32);
@@ -52,7 +52,7 @@ void func_021B9F24(void *unused, struct C *p)
 {
     struct Palette *pal = func_02030734(p->heap,6,1,d_021BB658,0x5e9);
     init_palette(pal);
-    func_02040E78(2,pal,6,0x13a);
+    BG_SYS_LoadPltt(2,pal,6,0x13a);
     func_020307B0(pal);
     func_02049B40(0x17,5,0,0x180,0x20,p->heap);
     p->win0=(void *)BMP_WIN_Create(1,0,0,1,1,9,0);
@@ -61,7 +61,7 @@ void func_021B9F24(void *unused, struct C *p)
     p->win1=(void *)BMP_WIN_Create(1,1,0x13,0x1e,4,0xc,0);
     BMP_Clear(BMP_WIN_GetBmp(p->win1),0xf);
     BMP_WIN_TransferChars(p->win1);
-    p->font=func_0201F5DC((void*)1,0xa,0,p->heap);
+    p->font=BMP_MENUWORK_LoadFrameGfx((void*)1,0xa,0,p->heap);
     p->task=TCBL_Create(p->heap,p->heap,1,0);
     GF_FONT_SetTextColor(1,2,0xf);
     func_02041B6C(1);

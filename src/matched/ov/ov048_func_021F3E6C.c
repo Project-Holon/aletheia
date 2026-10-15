@@ -12,8 +12,8 @@
  *   GIMMICK_OBJ_ELBOARD_AddDateMessage  0x021F3E6C  thumb  ov048
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   RTC_GetDate  0x02088864  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F230  0x0201F230  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMonth  0x0201F230  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
@@ -32,8 +32,8 @@ extern struct T gElboardLayout;
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 struct RTCDate;
 extern int RTC_GetDate(struct RTCDate *date);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int a, int b, int *c);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -44,9 +44,9 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(int *p)
 
     w = GF_FONT_Create_EC64(*(u16 *)p);
     RTC_GetDate((struct RTCDate *)(&L.d));
-    func_0201EFA4(w, 2, L.d.a, 2, 2, 1);
-    func_0201F230(w, 0, L.d.b);
-    func_0201EFA4(w, 1, L.d.c, 2, 0, 1);
+    WORDSET_SetSlotNumber(w, 2, L.d.a, 2, 2, 1);
+    WORDSET_SetSlotMonth(w, 0, L.d.b);
+    WORDSET_SetSlotNumber(w, 1, L.d.c, 2, 0, 1);
     L.r.h = gElboardLayout.h;
     L.r.f4 = gElboardLayout.f2c;
     L.r.f8 = gElboardLayout.f48;

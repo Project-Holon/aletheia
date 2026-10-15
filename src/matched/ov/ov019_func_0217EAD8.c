@@ -20,7 +20,7 @@
  *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
  *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
  *   func_0200855C  0x0200855C  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   KEY_GetTrg  0x020362DC  arm
  */
 #include "../include/Obj05956.h"
@@ -46,7 +46,7 @@ void UNION_MAIN_RequestScene(u8 *p, int a, int b);
 int UNION_MAIN_IsScenePending(u8 *w);
 void *TRCARD_SYS_CreateEditWork(int a, u8 *e, int b);
 u8 func_0200855C(const struct Sub0200852CObj *obj);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_ColosseumTrainerCardMain(u8 *w, void *obj, u8 *a2, u8 *state)
@@ -85,7 +85,7 @@ int UNION_ONESELF_ColosseumTrainerCardMain(u8 *w, void *obj, u8 *a2, u8 *state)
             msg = 0x15d;
         }
         UNION_MSG_SetupTalkWindow(w, a2);
-        func_0201F02C((struct WordSet *)(((struct Obj05956 *)w)->f2804), 0, p + 0x18 + p[0x16c] * 0x2c);
+        WORDSET_SetSlotMyStatus((struct WordSet *)(((struct Obj05956 *)w)->f2804), 0, p + 0x18 + p[0x16c] * 0x2c);
         UNION_MSG_PrintTalkMsg((char *)w, msg);
         (*state)++;
         break;

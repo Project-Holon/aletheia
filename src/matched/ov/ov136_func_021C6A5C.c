@@ -12,7 +12,7 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   MB_SEQ_DeleteMenuEntries 0x021C5AA8 thumb ov136
  *   MB_SEQ_DeleteMessageResources 0x021C5954 thumb ov136
  *   MB_SEQ_DeleteTouchSelect 0x021C76A8 thumb ov136
@@ -41,7 +41,7 @@ extern void MB_SEQ_FreeMails(u8 *p);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern u32 func_020307B0(void *p);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 u32 MB_SEQ_StateExit(u8 *p)
 {
     if (((struct Obj04536 *)p)->f2C != 0) {
@@ -63,6 +63,6 @@ u32 MB_SEQ_StateExit(u8 *p)
     BG_SYS_SetSubVisiblePlanes(0);
     func_020307B0(((struct Obj04536 *)p)->f8);
     ((struct Obj04536 *)p)->f8 = 0;
-    func_020306F0(102);
+    GFL_HEAP_DeleteChecked(102);
     return ((struct Obj04536 *)p)->f28;
 }

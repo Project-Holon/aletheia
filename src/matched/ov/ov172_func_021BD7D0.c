@@ -1,5 +1,5 @@
 /*
- * function: func_021BD7D0
+ * function: CTVT_CALL_ExitDisplay
  * address:  0x021BD7D0
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -32,7 +32,7 @@ extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 
-void func_021BD7D0(void *a0)
+void CTVT_CALL_ExitDisplay(void *a0)
 {
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj24105 *)a0)->f1AC)));

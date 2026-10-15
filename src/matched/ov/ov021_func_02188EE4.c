@@ -13,7 +13,7 @@
  *   BILLBOARD_ACT_Create  0x0204FE94  arm
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
  *   BILLBOARD_SetField25  0x0204EDBC  arm
- *   func_0204EDC4  0x0204EDC4  arm
+ *   BILLBOARD_SetImagePosition  0x0204EDC4  arm
  *   BILLBOARD_SetField10  0x0204ED70  arm
  *   BILLBOARD_SetField24  0x0204EDB0  arm
  *   FIELDMAP_SetupBbdColor  0x021891C0  thumb  ov021
@@ -56,7 +56,7 @@ struct LightSlot;
 extern void *BILLBOARD_ACT_Create(u16 a0, u16 a1, u32 a2, int heap);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
 extern void BILLBOARD_SetField25(u8 *dst, u8 val);
-extern void func_0204EDC4(u8 *dst, int a, int b);
+extern void BILLBOARD_SetImagePosition(u8 *dst, int a, int b);
 struct Blk3;
 extern void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
 extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
@@ -78,7 +78,7 @@ void FIELDMAP_CreateG3dResources(u8 *p)
     ((struct Obj01344 *)p)->fB0 = (u32)BILLBOARD_ACT_Create(0x40, 0x80, (u32)FIELDMAP_BbdActTransCallback, ((struct Obj01344 *)p)->f0);
     h = (u8 *)BILLBOARD_ACT_GetBoard((u32 *)(((struct Obj01344 *)p)->fB0));
     BILLBOARD_SetField25(h, 2);
-    func_0204EDC4(h, 0, -0xA00);
+    BILLBOARD_SetImagePosition(h, 0, -0xA00);
     ((struct Obj01344 *)p)->fB4 = (u32)BILLBOARD_ACT_Create(0x3A, 0x50, (u32)FIELDMAP_BbdActTransCallback, ((struct Obj01344 *)p)->f0);
     ((struct Obj01344 *)p)->fB8 = (u32)BILLBOARD_ACT_Create(0x1E, 0x28, (u32)FIELDMAP_BbdActTransCallback, ((struct Obj01344 *)p)->f0);
     h = (u8 *)BILLBOARD_ACT_GetBoard((u32 *)(((struct Obj01344 *)p)->fB8));

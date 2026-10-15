@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203EF5C",
+   "name": "GF_STANDARD_Init",
    "address": "0x0203EF5C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203EFC8",
+   "name": "GF_STANDARD_CompareBytes",
    "address": "0x0203EFC8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F004",
+   "name": "GF_STANDARD_GetStringLength",
    "address": "0x0203F004",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F034",
+   "name": "GF_STANDARD_RandSeed",
    "address": "0x0203F034",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F2FC",
+   "name": "GF_STANDARD_Checksum",
    "address": "0x0203F2FC",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F328",
+   "name": "GF_STANDARD_Shuffle",
    "address": "0x0203F328",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F388",
+   "name": "GF_STANDARD_RandLcg",
    "address": "0x0203F388",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F3F0",
+   "name": "GF_STANDARD_Setup",
    "address": "0x0203F3F0",
    "kind": "game",
    "region": "arm9",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203FC28",
+   "name": "BG_SYS_SetGraphicsMode",
    "address": "0x0203FC28",
    "kind": "game",
    "region": "arm9",

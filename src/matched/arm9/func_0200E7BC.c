@@ -11,7 +11,7 @@
  * symbols:
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   MSGDATA_ReadUnits   0x02045F5C  arm
- *   func_0201F41C   0x0201F41C  thumb
+ *   WORDSET_CopyString   0x0201F41C  thumb
  *   gSpeciesNameBank      0x020A7370  data
  *
  * Fill slot idx of the 0x20-byte-stride record array that unit_0200E730's
@@ -54,7 +54,7 @@ struct Rec0200E7BC {
 extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 buf);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern void *gSpeciesNameBank;
 
 void MISC_SAVEDATA_FillMonEntry(struct Rec0200E7BC *o, int idx, void *mon)
@@ -72,7 +72,7 @@ void MISC_SAVEDATA_FillMonEntry(struct Rec0200E7BC *o, int idx, void *mon)
         u16 buf[12];
 
         MSGDATA_ReadUnits(gSpeciesNameBank, POKE_TOOL_GetPartyValue(mon, 5, 0), buf, 0xb);
-        func_0201F41C(buf, o[idx].name, 0xb);
+        WORDSET_CopyString(buf, o[idx].name, 0xb);
     }
     o[idx].bits.flag = 1;
 }

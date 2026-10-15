@@ -1,5 +1,5 @@
 /*
- * function: func_02157664
+ * function: IRC_BATTLE_TASK_Empty2
  * address: 0x02157664
  * packet: pkt_ov010_02157664
  * region: ov010
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/ov010/musical_dressup_sys_p08.c and filed here.
  */
 
-void func_02157664(void);
+void IRC_BATTLE_TASK_Empty2(void);
 
-void func_02157664(void)
+void IRC_BATTLE_TASK_Empty2(void)
 {
 }

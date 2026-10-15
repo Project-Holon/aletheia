@@ -17,9 +17,9 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  */
 
@@ -63,9 +63,9 @@ u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void BMP_WIN_TransferChars(struct Descriptor *a0);
 struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-void func_0201F250(struct WordSet *ws, void *dst, void *src);
+void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 typedef unsigned short u16;
 void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -102,10 +102,10 @@ void INTRUDE_SUBDISP_PrintTitle(Obj *p)
         return;
     }
     if (mode >= 3 && mode <= 6) {
-        func_0201F02C((struct WordSet *)p->f24, 0, GAME_DATA_GetPlayerStatus((struct Sub24 *)h, p->fD8));
+        WORDSET_SetSlotMyStatus((struct WordSet *)p->f24, 0, GAME_DATA_GetPlayerStatus((struct Sub24 *)h, p->fD8));
     }
     MSGDATA_ReadString((struct MsgBank *)p->f2C, anim, (void *)p->f38);
-    func_0201F250((struct WordSet *)p->f24, (void *)p->f40, (void *)p->f38);
+    WORDSET_CopyTaggedText((struct WordSet *)p->f24, (void *)p->f40, (void *)p->f38);
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)p->f44)), 0);
     v = p->f28;
     PRINTSYS_PrintQueColor((void *)v, (int)BMP_WIN_GetBmp((struct Descriptor *)p->f44), 0, 0, p->f40, p->f1C, 0x3C40);

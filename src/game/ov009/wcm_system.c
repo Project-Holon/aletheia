@@ -20,7 +20,7 @@
  *   OS_IsRunOnTwl        0x02085D3C arm
  *   WCM_GetWorkSize        0x02164F38 arm ov009
  *   WcmInitOption        0x021658F8 arm ov009
- *   func_02166304        0x02166304 arm ov009
+ *   WCMi_InitCpsif        0x02166304 arm ov009
  *   OS_IsTickAvailable        0x02087058 arm
  *   OS_InitTick        0x02086FE8 arm
  *   OS_IsAlarmAvailable        0x02087244 arm
@@ -83,7 +83,7 @@ extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned char WCMi_GetDefaultDeviceId(void);
 extern int OS_IsRunOnTwl(void);
 extern void WcmInitOption(void);
-extern void func_02166304(void);
+extern void WCMi_InitCpsif(void);
 extern long OS_IsTickAvailable(void);
 extern void OS_InitTick(void);
 extern long OS_IsAlarmAvailable(void);
@@ -237,7 +237,7 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
     wcmw->resetting = 0;
     wcmw->deviceId = deviceId;
     WcmInitOption();
-    func_02166304();
+    WCMi_InitCpsif();
     if (OS_IsTickAvailable() == 0) {
         OS_InitTick();
     }

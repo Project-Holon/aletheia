@@ -10,7 +10,7 @@
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 typedef unsigned int   u32;
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -42,7 +42,7 @@ void func_0218414C(char *p, int heap)
     unsigned bg;
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_02184878);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_02184878);
     ((struct Obj23821 *)p)->f10 = GF_FONT_Create(23, 0, 0, 0, (u16)heap);
     for (i = 0; i < 5; i++) {
         bg = d_02184964[i * 0x24 + 0x20];

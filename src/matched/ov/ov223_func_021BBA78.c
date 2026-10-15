@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   func_021B9854 0x021B9854 thumb ov223
  *   func_021BAB78 0x021BAB78 thumb ov223
  *   func_021BAC0C 0x021BAC0C thumb ov223
@@ -16,7 +16,7 @@
  *   func_0207D63C 0x0207D63C arm
  */
 #include "../include/Obj06729.h"
-extern void func_02040EBC(unsigned, unsigned);
+extern void BG_SYS_LoadPlttEntry(unsigned, unsigned);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern void func_021B9854(u8 *p);
@@ -26,8 +26,8 @@ extern void func_021BB2A4(char *p);
 extern void func_0207D63C(void *, unsigned, unsigned, unsigned, unsigned);
 int func_021BBA78(char *p)
 {
-    func_02040EBC(0, 0x2F3B);
-    func_02040EBC(4, 0x2F3B);
+    BG_SYS_LoadPlttEntry(0, 0x2F3B);
+    BG_SYS_LoadPlttEntry(4, 0x2F3B);
     func_021B9854((u8 *)p);
     func_021BAB78((u16 *)p);
     func_021BAC0C((unsigned short *)p);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFE84
+ * function: ZKNSEARCH_MAIN_PlaceProgressActor
  * address:  0x021BFE84
  * packet:   pkt_ov210_021BFE84
  * region:   ov210
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BEDF0 0x021BEDF0 thumb ov210
- *   func_021BEE38 0x021BEE38 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorVisible 0x021BEDF0 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorSurfacePos 0x021BEE38 thumb ov210
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
+extern void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
+extern void ZKNSEARCH_MAIN_SetActorSurfacePos(char *p, int idx, int a, short b, unsigned short c);
 
-void func_021BFE84(int p, int n)
+void ZKNSEARCH_MAIN_PlaceProgressActor(int p, int n)
 {
-    func_021BEDF0(p, 8, 1);
-    func_021BEE38((char *)p, 8, (short)(n * 2 + 8), 0xa8, (int)0);
+    ZKNSEARCH_MAIN_SetActorVisible(p, 8, 1);
+    ZKNSEARCH_MAIN_SetActorSurfacePos((char *)p, 8, (short)(n * 2 + 8), 0xa8, (int)0);
 }

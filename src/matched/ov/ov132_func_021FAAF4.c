@@ -1,5 +1,5 @@
 /*
- * function: func_021FAAF4
+ * function: STA_ACT_SCRIPT_Create
  * address: 0x021FAAF4
  * packet: pkt_ov132_021FAAF4
  * region: ov132
@@ -24,7 +24,7 @@ extern u32 func_02030CB0(u32);
 struct Ctx;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void NNS_FndInitList(int p0, int p1);
-void *func_021FAAF4(u32 heap, void *owner)
+void *STA_ACT_SCRIPT_Create(u32 heap, void *owner)
 {
     u8 i;
     char *p;

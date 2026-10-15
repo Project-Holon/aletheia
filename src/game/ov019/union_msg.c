@@ -22,7 +22,7 @@
  *   func_02008550  0x02008550  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_020084F4  0x020084F4  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   d_0218031C 0x0218031C data a2
  *   d_0218034C  0x0218034C  data a2
  *   d_02180330  0x02180330  data a2
@@ -65,10 +65,10 @@
  *   func_02008570  0x02008570  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetString  0x02045924  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201F048  0x0201F048  thumb
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
  *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   d_021807F8     0x021807F8  data  a1
  *   PMS_WORD_GetSaveData  0x02024988  thumb
@@ -85,7 +85,7 @@
  *   FIELD_MSGBG_DeletePlainWin  0x021915B4  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_PlainWinPrintStream  0x021916A8  thumb  ov021
  *   FIELD_MSGBG_PlainWinMain 0x021916E0 thumb ov021
  *   FIELD_MSGBG_CreateYesNoMenu 0x02190BE4 thumb ov021
@@ -169,16 +169,16 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 const void *func_020084F4(const void *p);
-void func_0201F02C(void *p, u32 i, void *a);
+void WORDSET_SetSlotMyStatus(void *p, u32 i, void *a);
 extern u32 func_020056EC(u32 v);
 extern u8 func_0200856C(const void *obj);
 extern u8 func_02008570(const void *obj);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetString(void *o, const void *src);
-extern void func_0201EE0C(void *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(void *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(void *vec);
 extern void *func_02045EC0(void *bank, u32 index);
-extern void func_0201F048(void *p, u32 i, u32 n);
+extern void WORDSET_SetSlotFromMsgE7(void *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(void *p, u32 i, u32 a, u32 n);
 extern void *PMS_WORD_GetSaveData(int a0);
 extern void PMS_WORD_SetFlag(void *p, int bit);
@@ -192,7 +192,7 @@ extern void FIELD_MSGBG_OpenPlainWin(void *p);
 extern int FIELD_MSGBG_DeletePlainWin(void *a);
 extern u32 FIELD_MSGBG_DeleteMsgData(void *a0);
 extern void MSGDATA_ReadString(void *bank, u32 index, void *dest);
-extern void func_0201F250(void *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
 extern void FIELD_MSGBG_PlainWinPrintStream(void *r, u32 b, u16 c, u32 d);
 extern u32 FIELD_MSGBG_PlainWinMain(void *p);
 extern u32 *FIELD_MSGBG_CreateYesNoMenu(void *a, u32 b);
@@ -641,9 +641,9 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
     }
     nameStr = STRBUF_Create(0x20, UNION_HEAP_ID);
     STRBUF_SetString(nameStr, nameChars);
-    func_0201EE0C(unisys->msgWork.wordSet, 0, nameStr, sex, 1, language);
+    WORDSET_SetSlotTag(unisys->msgWork.wordSet, 0, nameStr, sex, 1, language);
     STRBUF_Delete(nameStr);
-    func_0201F02C(unisys->msgWork.wordSet, 1, (void *)myStatus);
+    WORDSET_SetSlotMyStatus(unisys->msgWork.wordSet, 1, (void *)myStatus);
 
     switch (language) {
     case 1: greetingMsgId = 0xe7; break;
@@ -656,11 +656,11 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
     default: greetingMsgId = 0xed; break;
     }
     greetingStr = func_02045EC0(unisys->msgWork.msgData, greetingMsgId);
-    func_0201EE0C(unisys->msgWork.wordSet, 2, greetingStr, sex, 1, language);
+    WORDSET_SetSlotTag(unisys->msgWork.wordSet, 2, greetingStr, sex, 1, language);
     STRBUF_Delete(greetingStr);
 
     if (situation->connect.talkParam != 0 && situation->connect.talkParam->nation != 0) {
-        func_0201F048(unisys->msgWork.wordSet, 3, situation->connect.talkParam->nation);
+        WORDSET_SetSlotFromMsgE7(unisys->msgWork.wordSet, 3, situation->connect.talkParam->nation);
         if (situation->connect.talkParam->area != 0)
             WORDSET_DeleteMsgdataF094(unisys->msgWork.wordSet, 4, situation->connect.talkParam->nation, situation->connect.talkParam->area);
     }
@@ -767,7 +767,7 @@ void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 msgId)
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     MSGDATA_ReadString(unisys->msgWork.msgData, msgId, unisys->msgWork.strTemp);
-    func_0201F250(unisys->msgWork.wordSet, unisys->msgWork.strExpand, unisys->msgWork.strTemp);
+    WORDSET_CopyTaggedText(unisys->msgWork.wordSet, unisys->msgWork.strExpand, unisys->msgWork.strTemp);
     FIELD_MSGBG_PlainWinPrintStream(unisys->msgWork.talkWin, 0, 0, (u32)unisys->msgWork.strExpand);
     unisys->msgTalkPrinting = 1;
 }

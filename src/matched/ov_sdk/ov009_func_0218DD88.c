@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD88
+ * function: gpiFailedOpCallback
  * address:  0x0218DD88
  * packet:   pkt_ov009_0218DD88
  * region:   ov009
@@ -13,22 +13,22 @@
  *
  * Dispatches a completed GSI GP operation: allocates the response struct for
  * the operation type, zeroes it, copies operation->result into it and calls
- * func_02189DFC to hand it to the application callback.
+ * gpiAddCallback to hand it to the application callback.
  *
  * The 60-byte residue in cases 1/4/5/6 was the load of `operation->result`
  * trading places with the tail of the inline zeroing store run. Declaring the
- * `operation` parameter (and the matching parameter of func_02189DFC)
+ * `operation` parameter (and the matching parameter of gpiAddCallback)
  * `const GPIOperation *` lets the scheduler hoist the load through the
  * otherwise-aliasing stores. Same idiom as
  * docs/idioms/a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer.md.
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0218DD88.c  *     --func func_0218DD88 --addr 0x0218DD88 --region ov009 --arm --lang c99 --diff
+ *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0218DD88.c  *     --func gpiFailedOpCallback --addr 0x0218DD88 --region ov009 --arm --lang c99 --diff
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
- *   func_02189DFC  0x02189DFC  arm  ov009
+ *   gpiAddCallback  0x02189DFC  arm  ov009
  *   g_021A4DF8     0x021A4DF8  data
  */
 typedef struct GPICallback {
@@ -92,12 +92,12 @@ typedef struct GPRegisterCdKeyResponseArg {
 
 extern char g_021A4DF8[];
 
-extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(void **connection, char *errorString);
+extern void *gsimalloc(unsigned long size);
+extern void gpiSetErrorString(void **connection, char *errorString);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned long n);
-extern int func_02189DFC(void **connection, GPICallback callback, void *arg, const GPIOperation *operation, int type);
+extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, const GPIOperation *operation, int type);
 
-int func_0218DD88(void **connection, const GPIOperation *operation)
+int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
 {
     GPICallback callback;
     GPIConnection *iconnection;
@@ -108,9 +108,9 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
         switch (operation->type) {
         case 0: {
             GPConnectResponseArg *arg;
-            arg = (GPConnectResponseArg *)func_0217EAB0(sizeof(GPConnectResponseArg));
+            arg = (GPConnectResponseArg *)gsimalloc(sizeof(GPConnectResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4DF8);
+                gpiSetErrorString(connection, g_021A4DF8);
                 return 1;
             }
             MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPConnectResponseArg));
@@ -120,7 +120,7 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
                 iconnection->profileid = 0;
             }
             {
-                int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -129,15 +129,15 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
 
         case 1: {
             GPNewProfileResponseArg *arg;
-            arg = (GPNewProfileResponseArg *)func_0217EAB0(sizeof(GPNewProfileResponseArg));
+            arg = (GPNewProfileResponseArg *)gsimalloc(sizeof(GPNewProfileResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4DF8);
+                gpiSetErrorString(connection, g_021A4DF8);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPNewProfileResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -146,15 +146,15 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
 
         case 5: {
             GPDeleteProfileResponseArg *arg;
-            arg = (GPDeleteProfileResponseArg *)func_0217EAB0(sizeof(GPDeleteProfileResponseArg));
+            arg = (GPDeleteProfileResponseArg *)gsimalloc(sizeof(GPDeleteProfileResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4DF8);
+                gpiSetErrorString(connection, g_021A4DF8);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPDeleteProfileResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -163,15 +163,15 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
 
         case 2: {
             GPGetInfoResponseArg *arg;
-            arg = (GPGetInfoResponseArg *)func_0217EAB0(sizeof(GPGetInfoResponseArg));
+            arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4DF8);
+                gpiSetErrorString(connection, g_021A4DF8);
                 return 1;
             }
             MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPGetInfoResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -180,16 +180,16 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
 
         case 3: {
             GPProfileSearchResponseArg *arg;
-            arg = (GPProfileSearchResponseArg *)func_0217EAB0(sizeof(GPProfileSearchResponseArg));
+            arg = (GPProfileSearchResponseArg *)gsimalloc(sizeof(GPProfileSearchResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4DF8);
+                gpiSetErrorString(connection, g_021A4DF8);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPProfileSearchResponseArg));
             arg->result = operation->result;
             arg->matches = 0;
             {
-                int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -198,15 +198,15 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
 
         case 4: {
             GPRegisterUniqueNickResponseArg *arg;
-            arg = (GPRegisterUniqueNickResponseArg *)func_0217EAB0(sizeof(GPRegisterUniqueNickResponseArg));
+            arg = (GPRegisterUniqueNickResponseArg *)gsimalloc(sizeof(GPRegisterUniqueNickResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4DF8);
+                gpiSetErrorString(connection, g_021A4DF8);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPRegisterUniqueNickResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -215,15 +215,15 @@ int func_0218DD88(void **connection, const GPIOperation *operation)
 
         case 6: {
             GPRegisterCdKeyResponseArg *arg;
-            arg = (GPRegisterCdKeyResponseArg *)func_0217EAB0(sizeof(GPRegisterCdKeyResponseArg));
+            arg = (GPRegisterCdKeyResponseArg *)gsimalloc(sizeof(GPRegisterCdKeyResponseArg));
             if (arg == 0) {
-                func_02193734(connection, g_021A4DF8);
+                gpiSetErrorString(connection, g_021A4DF8);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPRegisterCdKeyResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }

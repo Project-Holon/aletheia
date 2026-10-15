@@ -1,5 +1,5 @@
 /*
- * function: func_021DA054
+ * function: WIFIBATTLEMATCH_NET_IsGdbIdle
  * address: 0x021DA054
  * packet: pkt_ov175_021DA054
  * region: ov175
@@ -8,37 +8,37 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DB3A4 0x021DB3A4 thumb ov175
- *   func_021DB478 0x021DB478 thumb ov175
- *   func_021DBFA4 0x021DBFA4 thumb ov175
- *   func_021DBFB4 0x021DBFB4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GdbRequest 0x021DB3A4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GdbGetMyRecords 0x021DB478 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GdbClearRecord 0x021DBFA4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GdbCreateRecord 0x021DBFB4 thumb ov175
  */
 #include "../include/Obj00629.h"
-extern void func_021DB3A4(char *, unsigned long, int, unsigned long);
-extern int func_021DB478(char *);
-extern void func_021DBFA4(char *);
-extern int func_021DBFB4(char *);
-int func_021DA054(char *ctx)
+extern void WIFIBATTLEMATCH_NET_GdbRequest(char *, unsigned long, int, unsigned long);
+extern int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *);
+extern void WIFIBATTLEMATCH_NET_GdbClearRecord(char *);
+extern int WIFIBATTLEMATCH_NET_GdbCreateRecord(char *);
+int WIFIBATTLEMATCH_NET_IsGdbIdle(char *ctx)
 {
     int result;
     switch (((struct Obj00629 *)ctx)->f128) {
     case 0:
-        func_021DB3A4(ctx, -1, 2, *(unsigned long *)&((struct Obj00629 *)ctx)->f1464);
+        WIFIBATTLEMATCH_NET_GdbRequest(ctx, -1, 2, *(unsigned long *)&((struct Obj00629 *)ctx)->f1464);
         ((struct Obj00629 *)ctx)->f128 = 1;
         break;
     case 1:
-        result = func_021DB478(ctx);
+        result = WIFIBATTLEMATCH_NET_GdbGetMyRecords(ctx);
         if (result == 1) {
             if (**(int * *)&((struct Obj00629 *)ctx)->f1464 != 0) ((struct Obj00629 *)ctx)->f128 = 4;
             else ((struct Obj00629 *)ctx)->f128 = 2;
         } else if (result == 2) return 2;
         break;
     case 2:
-        func_021DBFA4(ctx);
+        WIFIBATTLEMATCH_NET_GdbClearRecord(ctx);
         ((struct Obj00629 *)ctx)->f128 = 3;
         break;
     case 3:
-        result = func_021DBFB4(ctx);
+        result = WIFIBATTLEMATCH_NET_GdbCreateRecord(ctx);
         if (result == 1) ((struct Obj00629 *)ctx)->f128 = 4;
         else if (result == 2) return 2;
         break;

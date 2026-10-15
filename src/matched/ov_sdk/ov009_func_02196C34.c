@@ -14,7 +14,7 @@
  * symbols:
  *   func_020923F0  0x020923F0  arm
  *   current_time  0x0217F264  arm  ov009
- *   func_021951E8  0x021951E8  arm  ov009
+ *   gti2PingCallback  0x021951E8  arm  ov009
  *   gGti2TimeKey  0x021A5940  data
  */
 
@@ -26,7 +26,7 @@ typedef struct Conn {
 typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern unsigned int current_time(void);
-extern int func_021951E8(Conn *c, int latency);
+extern int gti2PingCallback(Conn *c, int latency);
 extern unsigned char gGti2TimeKey[];
 
 int gti2HandlePong(Conn *c, unsigned char *message, int len)
@@ -45,7 +45,7 @@ int gti2HandlePong(Conn *c, unsigned char *message, int len)
 	d[1] = message[5];
 	d[2] = message[6];
 	d[3] = message[7];
-	if (!func_021951E8(c, current_time() - startTime))
+	if (!gti2PingCallback(c, current_time() - startTime))
 		return 0;
 	return 1;
 }

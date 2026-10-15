@@ -11,6 +11,9 @@
  *
  *
  * Releases the +0x00 handle, clears it, then tears the record down.
+ *
+ * symbols:
+ *   gsifree  0x0217EAE0  arm  ov009
  */
 
 typedef unsigned char u8;
@@ -18,12 +21,12 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021841B0(u32);
-extern void func_0217EAE0(u8 *);
+extern void gsifree(u8 *);
 
 void ghiFreePost(u8 *p)
 {
     if (*(u32 *)p != 0)
         func_021841B0(*(u32 *)p);
     *(u32 *)p = 0;
-    func_0217EAE0(p);
+    gsifree(p);
 }

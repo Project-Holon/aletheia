@@ -22,7 +22,7 @@
  *   BTL_SERVER_FLOW_PushFrame 0x021C859C thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021BCEEC 0x021BCEEC thumb ov093
+ *   ZKNSEARCH_MAIN_GetListIndexA 0x021BCEEC thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
  *   BTL_POKEPARAM_GetCounter 0x021D69AC thumb ov093
@@ -59,7 +59,7 @@ typedef struct { u8 *a; Action b; u32 c; u8 d, processed; u16 pad; } E;
 extern void BTL_SERVER_FLOW_PushFrame(u8 *);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021BCEEC(void *, u8);
+extern int ZKNSEARCH_MAIN_GetListIndexA(void *, u8);
 struct Unk021D62A8;
 struct UtilWork;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
@@ -98,7 +98,7 @@ u32 BTL_SERVER_FLOW_ProcAction(u8 *p, E *e)
         e->processed = 1;
         if (((struct Obj00309 *)p)->f14 == 5 && b.full.type != 4) goto end;
         if (BTL_POKEPARAM_IsFainted(a) != 0) goto end;
-        if (b.full.type != 6 && func_021BCEEC(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a)) == 0) goto end;
+        if (b.full.type != 6 && ZKNSEARCH_MAIN_GetListIndexA(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a)) == 0) goto end;
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 0x21) != 0) {
             if (b.full.type != 4 || BTL_MAIN_GetCompetitorKind((unsigned int **)(*(u8 * *)&((struct Obj00309 *)p)->f4)) != 2) {
                 if (BTL_POKEPARAM_GetCounter(a, 3) != 0) BTL_SERVER_FLOW_SetPokeCounter(p, a, 3, 0);

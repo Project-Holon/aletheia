@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E138C",
-    "func_021E13D4"
+    "BR_CODEIN_ProfileCreateActors4",
+    "BR_CODEIN_ProfileReturnTrue"
+   ],
+   "addresses": [
+    "0x021E138C",
+    "0x021E13D4"
    ]
   }
  ]

@@ -14,7 +14,7 @@
  *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
  *   func_02030734  0x02030734  arm
  *   NNS_G2dInitMCAnimation  0x02064754  arm
- *   func_020627D8  0x020627D8  arm
+ *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
  *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
  *
  * Record constructor in clact.c.  Wave 15 (register-tie lane): EXACT* (the
@@ -64,7 +64,7 @@ extern void NNS_G2dInitMCAnimation(char *o, char *buf, void *set, int a3, void *
 struct AnimBank;
 struct AnimSequence;
 struct Obj0206469C;
-extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
+extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
 extern void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank);
 
 void CLACT_InitVramAnimCtl(struct P *p, const struct A *a1, u32 heap)
@@ -76,6 +76,6 @@ void CLACT_InitVramAnimCtl(struct P *p, const struct A *a1, u32 heap)
 
     p->f78 = (u32)func_02030734(heap, NNS_G2dGetMCWorkAreaSize(a1->f14, 1), 0, s_clact_c, 0x171d);
     NNS_G2dInitMCAnimation((char *)((u8 *)p + 0xc), (char *)p->f78, (void *)p->f08, p->f04, (void *)p->f70, 1);
-    NNS_G2dSetAnimSequenceToMCAnimation((struct Obj0206469C *)((u8 *)p + 0xc), func_020627D8((struct AnimBank *)p->f74, 0));
+    NNS_G2dSetAnimSequenceToMCAnimation((struct Obj0206469C *)((u8 *)p + 0xc), NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)p->f74, 0));
 }
 

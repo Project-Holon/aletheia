@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02008CF8",
+   "name": "RECORD_GetCeiling",
    "address": "0x02008CF8",
    "kind": "game",
    "region": "arm9",
@@ -36,8 +36,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008D1C",
-    "sub_02008D58"
+    "RECORD_SetCounterClamped",
+    "RECORD_RaiseCounter"
+   ],
+   "addresses": [
+    "0x02008D1C",
+    "0x02008D58"
    ]
   },
   {
@@ -52,9 +56,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008DAC",
-    "sub_02008DF0",
-    "sub_02008DFC"
+    "RECORD_AddCounter",
+    "RECORD_AddOne",
+    "RECORD_GetCounterClamped"
+   ],
+   "addresses": [
+    "0x02008DAC",
+    "0x02008DF0",
+    "0x02008DFC"
    ]
   },
   {
@@ -69,10 +78,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008E68",
-    "sub_02008E78",
-    "sub_02008E88",
-    "sub_02008EA0"
+    "RECORD_SetTrialRank",
+    "RECORD_GetTrialRank",
+    "RECORD_SetTrialScore",
+    "RECORD_GetTrialScore"
+   ],
+   "addresses": [
+    "0x02008E68",
+    "0x02008E78",
+    "0x02008E88",
+    "0x02008EA0"
    ]
   },
   {

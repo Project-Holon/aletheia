@@ -22,7 +22,7 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
@@ -85,7 +85,7 @@ void INTRUDE_COMM_ClearRequestResult(u8 *);
 void *FIELDMAP_GetMmdlSys(u8 *p);
 void FLDMMDL_SysPauseMove(void *);
 struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int FLDMMDL_CheckPossibleAcmd(int a0);
 void FLDMMDL_SetAcmd(void *, int);
@@ -131,7 +131,7 @@ int EVENT_COMM_COMMON_TalkedEventMain(void *a, int *state, Outer *c)
     case 0:
         INTRUDE_COMM_ClearRequestResult(v);
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(c->f0C));
-        func_0201F02C(c->obj.f00, 0, GAME_DATA_GetPlayerStatus(w, v[0x154]));
+        WORDSET_SetSlotMyStatus(c->obj.f00, 0, GAME_DATA_GetPlayerStatus(w, v[0x154]));
         EVENT_COMM_COMMON_PrintMsg(&c->obj, 1);
         (*state)++;
         break;

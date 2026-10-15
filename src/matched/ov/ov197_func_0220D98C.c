@@ -1,5 +1,5 @@
 /*
- * function: func_0220D98C
+ * function: B_BAG_MAIN_LayoutCursor
  * address:  0x0220D98C
  * packet:   pkt_0220D98C
  * region:   ov197
@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
 extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
 
-void func_0220D98C(u8 *p, u32 idx)
+void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx)
 {
     void *t = CURSOR_MOVE_GetEntry(*(void ** *)&((struct Obj06649 *)p)->f144, idx);
 

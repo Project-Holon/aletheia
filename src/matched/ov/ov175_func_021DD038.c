@@ -1,5 +1,5 @@
 /*
- * function: func_021DD038
+ * function: WIFIBATTLEMATCH_NET_GetRegNameB
  * address:  0x021DD038
  * packet:   pkt_021DD038
  * region:   ov175
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern char d_021E3250[];
 
-char *func_021DD038(void)
+char *WIFIBATTLEMATCH_NET_GetRegNameB(void)
 {
     return d_021E3250;
 }

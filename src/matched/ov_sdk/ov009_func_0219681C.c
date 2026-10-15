@@ -12,10 +12,10 @@
  * sdk:      gti2RemoveHoldMessage (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  *
  * symbols:
- *   func_0218437C  0x0218437C  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayDeleteAt  0x0218437C  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_02194E80  0x02194E80  arm  ov009
+ *   gti2BufferShorten  0x02194E80  arm  ov009
  */
 
 typedef struct Hold {
@@ -29,10 +29,10 @@ typedef struct Conn {
 	void *holds;
 } Conn;
 
-extern void func_0218437C(int a, int b);
-extern int func_02184200(const int *p);
+extern void ArrayDeleteAt(int a, int b);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
-extern void func_02194E80(void *buffer, int start, int shortenBy);
+extern void gti2BufferShorten(void *buffer, int start, int shortenBy);
 
 void gti2RemoveHoldMessage(Conn *c, Hold *message, int index)
 {
@@ -46,8 +46,8 @@ void gti2RemoveHoldMessage(Conn *c, Hold *message, int index)
 	moveAfter = message->start;
 	shortenBy = message->len;
 	moveEnd = 0;
-	func_0218437C((int)c->holds, index);
-	num = func_02184200(c->holds);
+	ArrayDeleteAt((int)c->holds, index);
+	num = ArrayLength(c->holds);
 	for (i = 0; i < num; i++) {
 		m = (Hold *)func_02184208(c->holds, i);
 		if (m->start > moveAfter) {
@@ -56,5 +56,5 @@ void gti2RemoveHoldMessage(Conn *c, Hold *message, int index)
 				moveEnd = m->start + m->len;
 		}
 	}
-	func_02194E80(c->buffer, moveAfter, shortenBy);
+	gti2BufferShorten(c->buffer, moveAfter, shortenBy);
 }

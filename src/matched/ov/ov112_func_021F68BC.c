@@ -1,5 +1,5 @@
 /*
- * function: func_021F68BC
+ * function: MUSICAL_MCSS_LoadDistSave
  * address: 0x021F68BC
  * packet: pkt_ov112_021F68BC
  * region: ov112
@@ -39,7 +39,7 @@ extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p);
-void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
+void MUSICAL_MCSS_LoadDistSave(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
 {
     void *x;
     void *arc;

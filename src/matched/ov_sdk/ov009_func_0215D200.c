@@ -1,5 +1,5 @@
 /*
- * function: func_0215D200
+ * function: SOCLi_GetSizeSocket
  * address:  0x0215D200
  * packet:   pkt_ov009_0215D200
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215F0C8  0x0215F0C8  arm  ov009
- *   func_0215D280  0x0215D280  arm  ov009
+ *   SOCLi_GetSizeCommandPipe  0x0215D280  arm  ov009
  */
 
 typedef struct {
@@ -31,9 +31,9 @@ typedef struct {
 } Param;
 
 extern unsigned long func_0215F0C8(unsigned long size);
-extern unsigned long func_0215D280(void *param);
+extern unsigned long SOCLi_GetSizeCommandPipe(void *param);
 
-unsigned long func_0215D200(Param *param)
+unsigned long SOCLi_GetSizeSocket(Param *param)
 {
 	unsigned long size;
 
@@ -42,14 +42,14 @@ unsigned long func_0215D200(Param *param)
 		size += 0x114;
 		size += func_0215F0C8(param->send);
 		size += func_0215F0C8(param->sendbuf);
-		size += func_0215D280(param->pipe1);
+		size += SOCLi_GetSizeCommandPipe(param->pipe1);
 	}
 	if (param->recv) {
 		size += 0x110;
 		size += func_0215F0C8(param->recv);
 		size += func_0215F0C8(param->rbuf1);
 		size += func_0215F0C8(param->rbuf2);
-		size += func_0215D280(param->pipe2);
+		size += SOCLi_GetSizeCommandPipe(param->pipe2);
 	}
 	return size;
 }

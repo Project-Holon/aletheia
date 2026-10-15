@@ -1,5 +1,5 @@
 /*
- * function: func_0206343C
+ * function: NNS_G2dApplyOamManagerToHW
  * address:  0x0206343C
  * packet:   pkt_02063000
  * region:   arm9
@@ -23,7 +23,7 @@
  * through the per-type loader, and when the affine area is valid
  * LoadAffine_ pushes PA..PD of each GXOamAffine (LoadOneAffine_) the same
  * way.  g_020A81E4 is GetOBJLoadFunction_'s static funcTbl
- * { CpuLoadOAMMain_ = sub_02063068, CpuLoadOAMSub_ = sub_02063054, 0, 0, 0 }.
+ * { CpuLoadOAMMain_ = NNSi_G2dCpuLoadOamMain, CpuLoadOAMSub_ = NNSi_G2dCpuLoadOamSub, 0, 0, 0 }.
  *
  * Closed in wave 13 on the first compile of the library body with its
  * inlines; the wave-10 transcription sat at 99 out on callee-saved
@@ -208,7 +208,7 @@ static inline void LoadAffine_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
     }
 }
 
-void func_0206343C(NNSG2dOamManagerInstance *pMan, u32 bound)
+void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound)
 {
     {
         if (pMan->bFastTransferEnable) {

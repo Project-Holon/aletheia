@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   MIi_CpuClear16 0x02082A48  arm
@@ -36,7 +36,7 @@ typedef struct {
 } Out;
 
 extern const char gBtlNetSourceName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u16 STRBUF_GetEosChar(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
@@ -47,7 +47,7 @@ extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 
 Out *BTL_NET_BuildPlayerInfoPacket(In *a, u32 heap)
 {
-    Out *o = sub_02030734(heap, 0x6c, 1, gBtlNetSourceName, 0x349);
+    Out *o = GFL_HEAP_Alloc(heap, 0x6c, 1, gBtlNetSourceName, 0x349);
 
     MI_CpuCopy8(a, o, 0x28);
     MIi_CpuClear16(STRBUF_GetEosChar(), o->f28, 0x40);

@@ -1,5 +1,5 @@
 /*
- * function: func_02062B10
+ * function: NNSi_G2dFixupPaletteCompressInfo
  * address:  0x02062B10
  * packet:   pkt_0206296C
  * region:   arm9
@@ -14,7 +14,7 @@
  * self-relative offset that becomes an absolute pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062B10.c  *       --func func_02062B10 --addr 0x02062B10 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupPaletteCompressInfo.c  *       --func NNSi_G2dFixupPaletteCompressInfo --addr 0x02062B10 --cc 1.1p1
  */
 #include "../include/Obj11520.h"
 
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 
-void func_02062B10(u8 *block)
+void NNSi_G2dFixupPaletteCompressInfo(u8 *block)
 {
     ((struct Obj11520 *)block)->f4 = ((struct Obj11520 *)block)->f4 + (u32)block;
 }

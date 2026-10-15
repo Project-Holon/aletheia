@@ -77,7 +77,7 @@
  *   func_0200E7AC  0x0200E7AC  thumb
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   STRBUF_SetString  0x02045924  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
@@ -148,18 +148,18 @@
  *   MYSTERY_GIFT_CreateMon  0x02157E9C  thumb  ov010
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_Callback_EEC4  0x0201EEC4  thumb
- *   func_0201EED4  0x0201EED4  thumb
+ *   WORDSET_SetSlotMonNameEx  0x0201EED4  thumb
  *   func_02007E50  0x02007E50  thumb
  *   WORDSET_Callback_EF40  0x0201EF40  thumb
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_SetObtainedFlag  0x0200BF18  thumb
- *   func_0201F184  0x0201F184  thumb
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   sScrcmdTableFileIds     0x021D99D0  data   ov021  a1
  *   func_02007F68  0x02007F68  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   BEACON_AddPoints  0x0200C278  thumb
  *   sDailyGifts     0x021D99E8  data  a2
@@ -299,7 +299,7 @@ extern u32 func_0200E740(const void *obj, u32 idx);
 extern void *func_0200E7AC(void *obj, u32 idx);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern u32 GAME_DATA_GetBoxManager(const struct GameData *p);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuCopy8(void *src, void *dst, u32 n);
@@ -366,17 +366,17 @@ extern u16 EVENTDATA_SYSTEM_GetNpcCount(struct EventDataSystem *eventData);
 extern struct PokemonParam *MYSTERY_GIFT_CreateMon(const MysteryGiftCard *card, u32 heapId, struct GameData *gameData);
 extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *mon);
 extern void ZUKAN_SAVE_RegisterCaught(struct ZukanWork *zukan, struct PokemonParam *mon);
-extern void func_0201F02C(struct WordSet *wordSet, u32 bufferId, struct MyStatus *myStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 bufferId, struct MyStatus *myStatus);
 extern void WORDSET_Callback_EEC4(struct WordSet *wordSet, u32 bufferId, u32 value);
-extern void func_0201EED4(struct WordSet *wordSet, u32 bufferId, struct PokemonParam *mon);
+extern void WORDSET_SetSlotMonNameEx(struct WordSet *wordSet, u32 bufferId, struct PokemonParam *mon);
 extern void func_02007E50(struct MyItem *bag, u32 itemId, int count, u32 heapId);
 extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 bufferId, u32 value);
 extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
 extern void INTRUDE_SetObtainedFlag(struct IntrudeSave *intrude, s32 flagId);
-extern void func_0201F184(struct WordSet *wordSet, u32 bufferId, s32 value);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 bufferId, s32 value);
 extern int ARC_UTIL_LoadMemberWithSize(int arcId, int memberId, int unused, u32 heapId, u32 *sizeOut);
 extern int func_02007F68(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 bufferId, u32 number, u32 digits, u32 dispType, u32 code);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufferId, u32 number, u32 digits, u32 dispType, u32 code);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u32 BEACON_AddPoints(struct MiscSave *miscSave, u32 amount);
 Mmdl *SCRCMD_POKEMON_FLD_FindDeliveryMmdl(struct FieldMap *fieldMap);
@@ -1166,7 +1166,7 @@ int SCRCMD_POKEMON_FLD_RegisterStoredName(struct ScriptVm *vm, struct ScrcmdWork
         emptyName[0] = STRBUF_GetEosChar();
         STRBUF_SetString(tempBuffer, emptyName);
     }
-    func_0201EE0C(wordSet, wordSetIndex, tempBuffer, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, wordSetIndex, tempBuffer, 0, 1, 2);
     return 0;
 }
 
@@ -1363,7 +1363,7 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(struct ScriptVm *vm, struct ScrcmdW
     wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(work));
     text = STRBUF_Create(8, 0x8001);
     STRBUF_SetString(text, (const u16 *)entryText);
-    func_0201EE0C((struct WordSet *)wordSet, wordSetIndex, text, flags, 1, 2);
+    WORDSET_SetSlotTag((struct WordSet *)wordSet, wordSetIndex, text, flags, 1, 2);
     STRBUF_Delete(text);
     return 0;
 }
@@ -1738,14 +1738,14 @@ int SCRCMD_POKEMON_FLD_PrepareGiftMonMessage(struct WordSet *wordSet, MysteryGif
     myStatus = GAME_DATA_GetMyStatus(SCRCMD_WORK_GetGameData(work));
     mon = SCRCMD_POKEMON_FLD_CreateGiftMon(work, card);
     messageId = MYSTERY_GIFT_MSG_MON_RECEIVED;
-    func_0201F02C(wordSet, 0, myStatus);
+    WORDSET_SetSlotMyStatus(wordSet, 0, myStatus);
     if (mon == 0) {
         WORDSET_Callback_EEC4(wordSet, 1, 0);
     } else {
         if (POKE_TOOL_GetPartyValue(mon, MYSTERY_GIFT_MON_PARAM_IS_EGG, 0) == 1)
             messageId = MYSTERY_GIFT_MSG_EGG_RECEIVED;
         else
-            func_0201EED4(wordSet, 1, mon);
+            WORDSET_SetSlotMonNameEx(wordSet, 1, mon);
         func_020307B0(mon);
     }
     return messageId;
@@ -1795,7 +1795,7 @@ int SCRCMD_POKEMON_FLD_PrepareGiftItemMessage(struct WordSet *wordSet, MysteryGi
 
     myStatus = GAME_DATA_GetMyStatus(SCRCMD_WORK_GetGameData(work));
     itemId = card->param;
-    func_0201F02C(wordSet, 0, myStatus);
+    WORDSET_SetSlotMyStatus(wordSet, 0, myStatus);
     WORDSET_Callback_EF40(wordSet, 1, itemId);
     return MYSTERY_GIFT_MSG_ITEM_RECEIVED;
 }
@@ -1836,8 +1836,8 @@ int SCRCMD_POKEMON_FLD_PrepareGiftFlagMessage(struct WordSet *wordSet, MysteryGi
     INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     myStatus = GAME_DATA_GetMyStatus(gameData);
     flagId = card->param;
-    func_0201F02C(wordSet, 0, myStatus);
-    func_0201F184(wordSet, 1, flagId);
+    WORDSET_SetSlotMyStatus(wordSet, 0, myStatus);
+    WORDSET_SetSlotFromMsgA0(wordSet, 1, flagId);
     return MYSTERY_GIFT_MSG_FLAG_RECEIVED;
 }
 
@@ -1943,7 +1943,7 @@ int SCRCMD_POKEMON_FLD_RegisterTableValueNumber(struct ScriptVm *vm, ScrcmdWork 
     count >>= 3;
     for (i = 0; i < count; i++) {
         if (key == table[i].key) {
-            func_0201EFA4(wordSet, bufferId, table[i].value, digits, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, bufferId, table[i].value, digits, 0, 1);
             break;
         }
     }

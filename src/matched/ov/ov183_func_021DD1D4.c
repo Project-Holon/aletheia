@@ -1,5 +1,5 @@
 /*
- * function: func_021DD1D4
+ * function: BR_CODEIN_RecordTeardownTextWin
  * address: 0x021DD1D4
  * packet: pkt_ov183_021DD1D4
  * region: ov183
@@ -22,7 +22,7 @@ extern void BR_UTIL_Delete(u8 *p);
 extern void func_020409B4(unsigned int);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_UTIL_DeleteTextWin(void *, int);
-void func_021DD1D4(char *p, char *q)
+void BR_CODEIN_RecordTeardownTextWin(char *p, char *q)
 {
     int i;
     char *slot;

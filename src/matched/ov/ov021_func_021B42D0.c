@@ -15,9 +15,9 @@
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F73C 0x0201F73C thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -45,9 +45,9 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -64,12 +64,12 @@ void SCRCMD_PROC_FLD_PrintQuantityWindow(char *w, u32 a, u32 b)
     t3 = (u32)STRBUF_Create(0x14, ((struct Obj01502 *)w)->f4);
     s = (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01502 *)w)->f174);
     BMP_Clear((struct CharBuf *)s, 0xF);
-    func_0201F73C((void *)(((struct Obj01502 *)w)->f174), 2, 0xE4, 9);
-    func_0201EFA4((struct WordSet *)(((struct Obj01502 *)w)->f190), 0, a, 2, 0, 1);
-    func_0201F250((struct WordSet *)(((struct Obj01502 *)w)->f190), (void *)t3, (void *)t1);
+    BMP_MENUWORK_DrawWindow((void *)(((struct Obj01502 *)w)->f174), 2, 0xE4, 9);
+    WORDSET_SetSlotNumber((struct WordSet *)(((struct Obj01502 *)w)->f190), 0, a, 2, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)(((struct Obj01502 *)w)->f190), (void *)t3, (void *)t1);
     PRINTSYS_PrintColor((void *)s, 0, 0, (void *)t3, (void *)(((struct Obj01502 *)w)->f8), 0x44F);
-    func_0201EFA4((struct WordSet *)(((struct Obj01502 *)w)->f190), 0, a * b, 7, 1, 1);
-    func_0201F250((struct WordSet *)(((struct Obj01502 *)w)->f190), (void *)t3, (void *)t2);
+    WORDSET_SetSlotNumber((struct WordSet *)(((struct Obj01502 *)w)->f190), 0, a * b, 7, 1, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)(((struct Obj01502 *)w)->f190), (void *)t3, (void *)t2);
     if (((struct Obj01502 *)w)->f163 == 0) {
         PRINTSYS_PrintColor((void *)s, 0x23, 0, (void *)t3, (void *)(((struct Obj01502 *)w)->f8), 0x44F);
     } else {

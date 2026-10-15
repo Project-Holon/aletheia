@@ -20,7 +20,7 @@
  *   FLD_BTL_INST_TOOL_ReadMonData  0x02168800  thumb  ov010
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   _s32_div_f     0x0209C0A4  arm
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   MSGDATA_CreateFromArchive   0x02045B38  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -69,7 +69,7 @@ struct MsgBank;
 struct MsgData;
 struct Rec;
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -127,14 +127,14 @@ u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 member, u32 otId, u32 p
     }
     out->ppUps = 0;
     out->lang = 0;
-    ability = func_02019C90(out->species, 0, 0x1B);
+    ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1B);
     if (ability != 0) {
         if (out->pid & 1)
             out->ability = ability;
         else
-            out->ability = func_02019C90(out->species, 0, 0x1A);
+            out->ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1A);
     } else {
-        out->ability = func_02019C90(out->species, 0, 0x1A);
+        out->ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1A);
     }
     out->friendship = friendship;
     bank = MSGDATA_CreateFromArchive(0, 2, 0x46, heap);

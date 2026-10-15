@@ -32,8 +32,8 @@
  *   _FileName                0x020A7BA8  data
  *   _AssertNetStateNull      0x020A7BB4  data
  *   RTC_GetDateTime            0x020889C0  arm
- *   func_0203F034            0x0203F034  arm
- *   func_0203F0A8            0x0203F0A8  arm
+ *   GF_STANDARD_RandSeed            0x0203F034  arm
+ *   GF_STANDARD_Rand            0x0203F0A8  arm
  *   _VBlankCount             0x02FFFC3C  data
  *   UI_SetKeepAwakeFlagsGlobal            0x02034F84  arm
  *   _AssertMacAlign          0x020A7BC8  data
@@ -155,9 +155,9 @@ extern void OS_GetMacAddress(u8 *);
 
 extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
 
-extern void func_0203F034(u32 seed);
+extern void GF_STANDARD_RandSeed(u32 seed);
 
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 
 extern void GFL_NET_STATE_Idle(void);
 
@@ -533,7 +533,7 @@ void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 
  * `label` class has no outside witness.  It graduates for free, with no
  * change to this C, as soon as src/matched/ holds a GFL_NET_STATE_InitRandom entry:
  * the `matched` class then witnesses the site.  GFL_NET_STATE_InitRandom itself is
- * chain-capped on 0x0203F0A8 (see docs/notes/func_0203F0A8.c.txt), which is
+ * chain-capped on 0x0203F0A8 (see docs/notes/GF_STANDARD_Rand.c.txt), which is
  * why the pair is parked rather than finished here.
  */
 void GFL_NET_STATE_InitWork(u32 heapId)
@@ -618,7 +618,7 @@ static inline void MATH_InitRand64(MATHRandContext64 *context, u64 seed)
  *   python tools/match.py one --src src/matched/GFL_NET_STATE_InitRandom.c  *       --func GFL_NET_STATE_InitRandom --addr 0x0203AE20 --cc 1.1p1 --arm
  *
  * net_state.c RNG seeder.  Mixes the MAC with the RTC date/time and the
- * system word 0x02FFFC3C, seeds func_0203F034, draws two words into one
+ * system word 0x02FFFC3C, seeds GF_STANDARD_RandSeed, draws two words into one
  * u64 seed, and initialises a NitroSDK MATHRandContext64 with the SDK's
  * own MATH_InitRand64 inline (x = seed, mul 0x5D588B656C078965, add
  * 0x269EC3).  Wave 14 closed the 8-byte tail tie of
@@ -636,10 +636,10 @@ void GFL_NET_STATE_InitRandom(MATHRandContext64 *context)
   seed = ((date.year + ((date.day * (date.month << 8)) << 16)) + (time.hour << 16)) + ((time.minute + time.second) << 24);
   seed = seed + (mac[5] + ((mac[3] << 16) + (mac[4] << 8)));
   seed = seed + _VBlankCount;
-  func_0203F034(seed);
+  GF_STANDARD_RandSeed(seed);
   {
-    u32 randHigh = func_0203F0A8();
-    MATH_InitRand64(context, (((u64) randHigh) << 32) + func_0203F0A8());
+    u32 randHigh = GF_STANDARD_Rand();
+    MATH_InitRand64(context, (((u64) randHigh) << 32) + GF_STANDARD_Rand());
   }
 }
 

@@ -22,13 +22,13 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   func_02030734  0x02030734  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   gFieldPlaceNameRendererParam     0x021D9B78  data  a4
  *   CLACT_DeleteRenderer  0x0204B084  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
@@ -46,16 +46,16 @@
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F158  0x0201F158  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_GetLength  0x020458F8  arm
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
- *   func_020414C4  0x020414C4  arm
+ *   BG_SYS_InitSlot  0x020414C4  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   gFieldPlaceNameFileName     0x021DE354  data  a4
  *   MI_CpuFill8  0x02082BCC  arm
@@ -93,6 +93,8 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   BG_SYS_CreateRun  0x0203FA08  arm  arm9
  *   BG_SYS_DeleteHalf  0x0203FB44  arm  arm9
+ *   BG_SYS_LoadPltt  0x02040E78  arm  arm9
+ *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -138,14 +140,14 @@ extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
 extern unsigned char BMP_WIN_GetBgLayer(BmpWin *bmpWin);
 extern void func_020409B4(unsigned int bgLayer);
-extern void func_0204047C(int bgId, unsigned short priority);
+extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
 extern void func_02040588(unsigned char bgId, unsigned char enable);
 extern void func_0207D63C(int regAddr, int plane1, int plane2, int evA, int evB);
-extern void func_020414AC(int bgId);
+extern void BG_SYS_FreeSlot(int bgId);
 extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(ArcFile *arc, u32 member, void *dst);
-extern s32 func_02062A98(NitroFileHeader *file, void **out);
-extern void func_02040E78(u32 bgId, void *src, u32 size, u32 offset);
+extern s32 NNS_G2dGetUnpackedPaletteData(NitroFileHeader *file, void **out);
+extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 BG_SYS_CreateRun(u32 bgId, u32 size, u32 top);
 extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
@@ -172,16 +174,16 @@ extern int GAME_DATA_GetIntrudeIdByte(GameData *gameData);
 extern int GAME_DATA_GetMyStatusByNetId(GameData *gameData, int netId);
 extern Strbuf *func_02045EC0(MsgData *msgData, u32 index);
 extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dst);
-extern void func_0201F02C(WordSet *wordSet, u32 index, void *myStatus);
-extern void func_0201F158(WordSet *wordSet, u32 index, u32 value);
-extern void func_0201F250(WordSet *wordSet, Strbuf *dst, Strbuf *src);
+extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, void *myStatus);
+extern void WORDSET_SetSlotFromMsg59(WordSet *wordSet, u32 index, u32 value);
+extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dst, Strbuf *src);
 extern void STRBUF_Delete(Strbuf *strbuf);
 extern u16 STRBUF_GetLength(Strbuf *strbuf);
 extern void *GAME_DATA_GetMoveModelSys(const GameData *gameData);
 extern u8 GAME_DATA_GetOwnNetId(const GameData *gameData);
 extern unsigned int FIELD_STATUS_GetMapMode(void *fieldStatus);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
-extern void func_020414C4(u32 bgId);
+extern void BG_SYS_InitSlot(u32 bgId);
 extern void BG_SYS_ClearSlot(u32 bgId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
@@ -468,7 +470,7 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
     func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
-    func_0204047C(FIELD_PLACE_NAME_BG_LAYER, 1);
+    BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
     func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
     func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
 }
@@ -476,7 +478,7 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
 /* Releases the BG window resources. */
 void FIELD_PLACE_NAME_ReleaseWindow(FieldPlaceName *placeName)
 {
-    func_020414AC(FIELD_PLACE_NAME_BG_LAYER);
+    BG_SYS_FreeSlot(FIELD_PLACE_NAME_BG_LAYER);
     FIELD_PLACE_NAME_FreeBgChars(placeName);
     FIELD_PLACE_NAME_DeleteBmpWin(placeName);
 }
@@ -499,7 +501,7 @@ void FIELD_PLACE_NAME_LoadPaletteFile(FieldPlaceName *placeName)
     file = (NitroFileHeader *)func_02030734(heapId, ARC_TOOL_GetHandleMemberSize(arcHandle, 1), 0, (const char *)gFieldPlaceNameFileName, 0x2c8);
     placeName->paletteFile = file;
     ARC_TOOL_ReadHandleMember(arcHandle, 1, file);
-    func_02062A98(placeName->paletteFile, (void **)&placeName->paletteBlock);
+    NNS_G2dGetUnpackedPaletteData(placeName->paletteFile, (void **)&placeName->paletteBlock);
 }
 
 void FIELD_PLACE_NAME_FreePaletteFile(FieldPlaceName *placeName)
@@ -514,7 +516,7 @@ void FIELD_PLACE_NAME_FreePaletteFile(FieldPlaceName *placeName)
 /* Transfers the plate palette to the BG layer. */
 void FIELD_PLACE_NAME_TransferPalette(FieldPlaceName *placeName)
 {
-    func_02040E78(FIELD_PLACE_NAME_BG_LAYER, placeName->paletteBlock->colors, 0x20, 0);
+    BG_SYS_LoadPltt(FIELD_PLACE_NAME_BG_LAYER, placeName->paletteBlock->colors, 0x20, 0);
 }
 
 void FIELD_PLACE_NAME_AllocBgChars(FieldPlaceName *placeName)
@@ -813,9 +815,9 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
         myStatus = GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
         template = func_02045EC0(placeName->msgData, 3);
         func_02045CAC(placeName->msgData, placeNameId, placeName->message);
-        func_0201F02C(placeName->wordSet, 0, (void *)myStatus);
-        func_0201F158(placeName->wordSet, 1, placeNameId);
-        func_0201F250(placeName->wordSet, placeName->message, template);
+        WORDSET_SetSlotMyStatus(placeName->wordSet, 0, (void *)myStatus);
+        WORDSET_SetSlotFromMsg59(placeName->wordSet, 1, placeNameId);
+        WORDSET_CopyTaggedText(placeName->wordSet, placeName->message, template);
         STRBUF_Delete(template);
     } else {
         func_02045CAC(placeName->msgData, placeNameId, placeName->message);
@@ -920,7 +922,7 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         FIELD_PLACE_NAME_IncrementStep(placeName);
         break;
     case 1:
-        func_020414C4(FIELD_PLACE_NAME_BG_LAYER);
+        BG_SYS_InitSlot(FIELD_PLACE_NAME_BG_LAYER);
         BG_SYS_ClearSlot(FIELD_PLACE_NAME_BG_LAYER);
         FIELD_PLACE_NAME_TransferPalette(placeName);
         FIELD_PLACE_NAME_IncrementStep(placeName);
@@ -931,7 +933,7 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         BMP_WIN_TransferChars(bmpWin);
         BMP_WIN_MakeScreen(bmpWin);
         func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
-        func_0204047C(FIELD_PLACE_NAME_BG_LAYER, 1);
+        BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
         func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
         func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
         FIELD_PLACE_NAME_ResetSpawnCounts(placeName);

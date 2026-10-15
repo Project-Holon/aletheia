@@ -22,7 +22,7 @@
  * of range and 2 for an id that maps to no live heap, exactly the codes
  * sub_02030098 uses, and returns 0; success writes 0 and returns 1. The
  * callers treat the return as a pointer-ish truth value (see
- * src/pending/sub_0203084C.c), but the code here materialises a plain 1.
+ * src/pending/GFL_HEAP_GetHeapHeadChecked.c), but the code here materialises a plain 1.
  *
  * Shape notes:
  *

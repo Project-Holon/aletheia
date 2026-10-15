@@ -12,30 +12,30 @@
  * note: 021F6E74 retains the explicitly loaded pointer despite own void prototype.
  * symbols:
  *   STA_ACTING_UpdateCamera 0x021F8EA8 thumb ov132
- *   func_021FA6CC 0x021FA6CC thumb ov132
+ *   STA_ACT_BUTTON_Update 0x021FA6CC thumb ov132
  *   STA_ACTING_ProcessRecords 0x021F9794 thumb ov132
- *   func_021FABD8 0x021FABD8 thumb ov132
- *   func_021F9ECC 0x021F9ECC thumb ov132
+ *   STA_ACT_SCRIPT_Update 0x021FABD8 thumb ov132
+ *   STA_ACT_EFFECT_Update 0x021F9ECC thumb ov132
  *   STA_ACTING_UpdateText 0x021F9374 thumb ov132
  *   STA_ACTING_UpdateSelection 0x021F94F8 thumb ov132
- *   func_021FA064 0x021FA064 thumb ov132
+ *   STA_ACT_AUDIENCE_Update 0x021FA064 thumb ov132
  *   STA_ACTING_FadePalette 0x021F91CC thumb ov132
- *   func_021F9ED4 0x021F9ED4 thumb ov132
- *   func_021F9E4C 0x021F9E4C thumb ov132
+ *   STA_ACT_EFFECT_Draw 0x021F9ED4 thumb ov132
+ *   STA_ACT_EFFECT_Noop 0x021F9E4C thumb ov132
  *   STA_ACTING_LoadCharAnims 0x021F90E0 thumb ov132
- *   func_021FAD7C 0x021FAD7C thumb ov132
- *   func_021FCDEC 0x021FCDEC thumb ov132
- *   func_021FCE00 0x021FCE00 thumb ov132
- *   func_021F6F64 0x021F6F64 thumb ov112
- *   func_021F7160 0x021F7160 thumb ov112
+ *   STA_ACT_SCRIPT_CountScripts 0x021FAD7C thumb ov132
+ *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
+ *   MUS_COMM_FUNC_CheckTimingSync 0x021FCE00 thumb ov132
+ *   STA_ACT_LIGHT_StepModelAnim 0x021F6F64 thumb ov112
+ *   STA_ACT_LIGHT_UpdateBillboard 0x021F7160 thumb ov112
  *   STA_ACT_OBJ_Update 0x021F6A58 thumb ov112
- *   func_021F51E8 0x021F51E8 thumb ov112
- *   func_021F6CB0 0x021F6CB0 thumb ov112
- *   func_021F6E74 0x021F6E74 thumb ov112
- *   func_021F75A0 0x021F75A0 thumb ov112
- *   func_021F51F4 0x021F51F4 thumb ov112
- *   func_021F718C 0x021F718C thumb ov112
- *   func_021F6F8C 0x021F6F8C thumb ov112
+ *   MUSICAL_MCSS_TickAnim 0x021F51E8 thumb ov112
+ *   STA_ACT_LIGHT_UpdateElemActors 0x021F6CB0 thumb ov112
+ *   STA_ACT_LIGHT_NoOp 0x021F6E74 thumb ov112
+ *   STA_ACT_LIGHT_UpdateElem 0x021F75A0 thumb ov112
+ *   MUSICAL_MCSS_DrawRenderObj 0x021F51F4 thumb ov112
+ *   STA_ACT_LIGHT_UpdateSprite 0x021F718C thumb ov112
+ *   STA_ACT_LIGHT_DrawModel 0x021F6F8C thumb ov112
  *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
@@ -59,34 +59,34 @@ extern u32 d_02FFFC3C,d_021FDE80;
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void),func_0200FB24(void);
 extern int GFL_USE_IsAnySeBusy(void);
-extern void func_021FCDEC(int,int);
+extern void MUS_COMM_FUNC_SetTimingSync(int,int);
 struct Board;
 struct Camera;
 struct Lights;
-extern int func_021FCE00(char *p, int id);
-extern u8 func_021FAD7C(char *);
+extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
+extern u8 STA_ACT_SCRIPT_CountScripts(char *);
 extern void STA_ACTING_UpdateCamera(u8 *);
-extern void func_021FA6CC(char *p);
+extern void STA_ACT_BUTTON_Update(char *p);
 extern void STA_ACTING_ProcessRecords(char *p);
-extern void func_021FABD8(char *p);
-extern int func_021F9ECC(u8 *a0);
+extern void STA_ACT_SCRIPT_Update(char *p);
+extern int STA_ACT_EFFECT_Update(u8 *a0);
 extern void STA_ACTING_UpdateText(u8 *);
 extern void STA_ACTING_UpdateSelection(char *p);
-extern void func_021FA064(char *p);
+extern void STA_ACT_AUDIENCE_Update(char *p);
 extern void STA_ACTING_FadePalette(u8 *);
-extern int func_021F9ED4(u8 *a0);
-extern void func_021F9E4C(u8 *);
+extern int STA_ACT_EFFECT_Draw(u8 *a0);
+extern void STA_ACT_EFFECT_Noop(u8 *);
 extern void STA_ACTING_LoadCharAnims(u8 *);
-extern void func_021F6F64(u8 *);
-extern void func_021F7160(u8 *);
+extern void STA_ACT_LIGHT_StepModelAnim(u8 *);
+extern void STA_ACT_LIGHT_UpdateBillboard(u8 *);
 extern void STA_ACT_OBJ_Update(char *p);
-extern void func_021F51E8(u8 *);
-extern void func_021F6CB0(char *p);
-extern void func_021F6E74(u8 *);
-extern void func_021F75A0(u8 *);
-extern void func_021F51F4(void **p);
-extern void func_021F718C(char *p);
-extern void func_021F6F8C(u8 *);
+extern void MUSICAL_MCSS_TickAnim(u8 *);
+extern void STA_ACT_LIGHT_UpdateElemActors(char *p);
+extern void STA_ACT_LIGHT_NoOp(u8 *);
+extern void STA_ACT_LIGHT_UpdateElem(u8 *);
+extern void MUSICAL_MCSS_DrawRenderObj(void **p);
+extern void STA_ACT_LIGHT_UpdateSprite(char *p);
+extern void STA_ACT_LIGHT_DrawModel(u8 *);
 extern void G3D_SYSTEM_DrawStart(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void),CLACT_DrawSystem(void),CLACT_VBlankSystem(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 int STA_ACTING_Update(u8 *p)
@@ -104,7 +104,7 @@ int STA_ACTING_Update(u8 *p)
         if(WIPE_SYS_EndCheck()==1) {
             if(**(u32 * *)&((struct Obj00191 *)p)->f30!=0) {
                 ((struct Obj00191 *)p)->f1C=7;
-                func_021FCDEC(**(int * *)&((struct Obj00191 *)p)->f30,200);
+                MUS_COMM_FUNC_SetTimingSync(**(int * *)&((struct Obj00191 *)p)->f30,200);
             } else ((struct Obj00191 *)p)->f1C=4;
         }
         break;
@@ -128,40 +128,40 @@ int STA_ACTING_Update(u8 *p)
         }
         break;
     case 6:
-        if(func_021FAD7C(*(char * *)&((struct Obj00191 *)p)->fB0)==0) {
+        if(STA_ACT_SCRIPT_CountScripts(*(char * *)&((struct Obj00191 *)p)->fB0)==0) {
             ((struct Obj00191 *)p)->fB4=0;
             if(((struct Obj00191 *)p)->f164==0) ((struct Obj00191 *)p)->f1C=2;
             else ((struct Obj00191 *)p)->f1C=255;
         }
         break;
     case 7:
-        if(func_021FCE00(*(void **)*(u8 * *)&((struct Obj00191 *)p)->f30,200)==1)
+        if(MUS_COMM_FUNC_CheckTimingSync(*(void **)*(u8 * *)&((struct Obj00191 *)p)->f30,200)==1)
             ((struct Obj00191 *)p)->f1C=4;
         break;
     }
     STA_ACTING_UpdateCamera(p);
-    func_021FA6CC((char *)(*(u8 * *)&((struct Obj00191 *)p)->fA4));
+    STA_ACT_BUTTON_Update((char *)(*(u8 * *)&((struct Obj00191 *)p)->fA4));
     STA_ACTING_ProcessRecords((char *)p);
-    if(d_021FDE80==0) func_021FABD8((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB0));
-    func_021F6F64(*(u8 * *)&((struct Obj00191 *)p)->f3C);
-    func_021F7160(*(u8 * *)&((struct Obj00191 *)p)->f40);
+    if(d_021FDE80==0) STA_ACT_SCRIPT_Update((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB0));
+    STA_ACT_LIGHT_StepModelAnim(*(u8 * *)&((struct Obj00191 *)p)->f3C);
+    STA_ACT_LIGHT_UpdateBillboard(*(u8 * *)&((struct Obj00191 *)p)->f40);
     STA_ACT_OBJ_Update((char *)(*(u8 * *)&((struct Obj00191 *)p)->f54));
-    func_021F9ECC(*(u8 * *)&((struct Obj00191 *)p)->f6C);
+    STA_ACT_EFFECT_Update(*(u8 * *)&((struct Obj00191 *)p)->f6C);
     STA_ACTING_UpdateText(p);
-    func_021F51E8(*(u8 * *)&((struct Obj00191 *)p)->f34);
-    func_021F6CB0((char *)(*(u8 * *)&((struct Obj00191 *)p)->f90));
+    MUSICAL_MCSS_TickAnim(*(u8 * *)&((struct Obj00191 *)p)->f34);
+    STA_ACT_LIGHT_UpdateElemActors((char *)(*(u8 * *)&((struct Obj00191 *)p)->f90));
     STA_ACTING_UpdateSelection((char *)p);
-    func_021FA064((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB8));
+    STA_ACT_AUDIENCE_Update((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB8));
     STA_ACTING_FadePalette(p);
     G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
-    func_021F6E74(*(u8 * *)&((struct Obj00191 *)p)->f90);
-    func_021F75A0(*(u8 * *)&((struct Obj00191 *)p)->f40);
-    func_021F51F4((void **)(*(u8 * *)&((struct Obj00191 *)p)->f34));
-    func_021F718C((char *)(*(u8 * *)&((struct Obj00191 *)p)->f40));
-    func_021F6F8C(*(u8 * *)&((struct Obj00191 *)p)->f3C);
+    STA_ACT_LIGHT_NoOp(*(u8 * *)&((struct Obj00191 *)p)->f90);
+    STA_ACT_LIGHT_UpdateElem(*(u8 * *)&((struct Obj00191 *)p)->f40);
+    MUSICAL_MCSS_DrawRenderObj((void **)(*(u8 * *)&((struct Obj00191 *)p)->f34));
+    STA_ACT_LIGHT_UpdateSprite((char *)(*(u8 * *)&((struct Obj00191 *)p)->f40));
+    STA_ACT_LIGHT_DrawModel(*(u8 * *)&((struct Obj00191 *)p)->f3C);
     BILLBOARD_Draw(((struct Obj00191 *)p)->fAC,((struct Obj00191 *)p)->fA8,0);
-    func_021F9ED4(*(u8 * *)&((struct Obj00191 *)p)->f6C);
-    func_021F9E4C(p);
+    STA_ACT_EFFECT_Draw(*(u8 * *)&((struct Obj00191 *)p)->f6C);
+    STA_ACT_EFFECT_Noop(p);
     G3D_SYSTEM_DrawEnd(); CLACT_DrawSystem();
     if(**(u32 * *)&((struct Obj00191 *)p)->f30!=0 && ((struct Obj00191 *)p)->f1C!=0 &&
        ((struct Obj00191 *)p)->f1C!=1 && ((struct Obj00191 *)p)->f1C!=2 &&

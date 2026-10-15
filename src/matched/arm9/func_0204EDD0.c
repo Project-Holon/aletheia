@@ -1,5 +1,5 @@
 /*
- * function: func_0204EDD0
+ * function: BILLBOARD_GetImageSizeFromFlags
  * address:  0x0204EDD0
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed int     s32;
 
-void func_0204EDD0(s32 flags, u16 *a, u16 *b)
+void BILLBOARD_GetImageSizeFromFlags(s32 flags, u16 *a, u16 *b)
 {
     if (a != 0) {
         *a = (u16)(1 << (((flags & 0x70) >> 4) + 3));

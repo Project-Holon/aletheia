@@ -1,5 +1,5 @@
 /*
- * function: func_021D6810
+ * function: GTSNEGO_DISP_Noop
  * address: 0x021D6810
  * packet: pkt_ov120_021D6810
  * region: ov120
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021D6810(u8 *a0, int a1){}
+void GTSNEGO_DISP_Noop(u8 *a0, int a1){}

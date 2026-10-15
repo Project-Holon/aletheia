@@ -12,7 +12,7 @@
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -28,7 +28,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TIME_ICON_Delete(unsigned char *p);
 extern int APP_KEYCURSOR_Delete(int p);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0201F7A8(void *p, unsigned kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *p, unsigned kind);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -47,7 +47,7 @@ void func_021E8628(char *p)
     if (((struct Obj01960 *)p)->f34 != 0)
         APP_KEYCURSOR_Delete(((struct Obj01960 *)p)->f34);
     TCBL_Destroy(((struct Obj01960 *)p)->fC);
-    func_0201F7A8(((struct Obj01960 *)p)->f14, 0);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj01960 *)p)->f14, 0);
     BMP_WIN_Delete(((struct Obj01960 *)p)->f14);
     STRBUF_Delete(((struct Obj01960 *)p)->f18);
     PRINTSYS_QUE_Delete(((struct Obj01960 *)p)->f28);

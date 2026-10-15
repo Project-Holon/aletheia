@@ -95,12 +95,12 @@
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   COMM_TVT_SYS_OpenConfirmMenu 0x021BE11C thumb ov172
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
  *   BMP_GetPixels  0x020437D4  arm
  *   d_021C6F6E     0x021C6F6E  data
@@ -362,7 +362,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 extern u32 COMM_TVT_SYS_OpenConfirmMenu(u8 *p);
 
@@ -372,7 +372,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern u32 COMM_TVT_SYS_GetEndRequested(void *p);
 
@@ -1171,7 +1171,7 @@ void CTVT_TALK_ShowMessage(void *p, char *q, int id)
     STRBUF_Delete((struct U16Vec *)text);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj05446 *)q)->f7C);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj05446 *)q)->f7C));
-    func_0201F73C((void *)(((struct Obj05446 *)q)->f7C), 1, 320, 9);
+    BMP_MENUWORK_DrawWindow((void *)(((struct Obj05446 *)q)->f7C), 1, 320, 9);
     ((struct Obj05446 *)q)->f28 = 1;
 }
 
@@ -1222,7 +1222,7 @@ void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
         }
     } else {
         q[0] = 5;
-        func_0201F7A8((void *)q[0x1F], 1);
+        BMP_MENUWORK_DrawWindowBorder((void *)q[0x1F], 1);
         BMP_WIN_ClearScreen((struct Descriptor *)q[0x1F]);
         BMP_WIN_MakeScreen((struct Cfg *)q[0xB]);
         func_020409B4(4);

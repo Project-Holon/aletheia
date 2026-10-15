@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE58
+ * function: ZKNSEARCH_MAIN_UpdateScrollMove
  * address: 0x021BCE58
  * packet: pkt_ov210_021BCE58
  * region: ov210
@@ -10,8 +10,8 @@
  * symbols:
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
- *   func_021BEE58 0x021BEE58 thumb ov210
- *   func_021BEE38 0x021BEE38 thumb ov210
+ *   ZKNSEARCH_MAIN_GetActorSurfacePos 0x021BEE58 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorSurfacePos 0x021BEE38 thumb ov210
  * BEE38 parameters widened: original call uses signed full-width loads.
  */
 #include "../include/Obj00085.h"
@@ -21,9 +21,9 @@ struct WinMgr;
 typedef unsigned int   u32;
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
-extern void func_021BEE58(char *, int, short *, short *, unsigned short);
-extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
-int func_021BCE58(char *p)
+extern void ZKNSEARCH_MAIN_GetActorSurfacePos(char *, int, short *, short *, unsigned short);
+extern void ZKNSEARCH_MAIN_SetActorSurfacePos(char *p, int idx, int a, short b, unsigned short c);
+int ZKNSEARCH_MAIN_UpdateScrollMove(char *p)
 {
     unsigned int i;
     short x, y;
@@ -33,9 +33,9 @@ int func_021BCE58(char *p)
     BG_SYS_ResetSlot(4, 4, ((struct Obj00085 *)p)->f2CA);
     BG_SYS_ResetSlot(7, 4, ((struct Obj00085 *)p)->f2CA);
     for (i = 2; i <= 4; i++) {
-        func_021BEE58(p, i, &x, &y, 0);
+        ZKNSEARCH_MAIN_GetActorSurfacePos(p, i, &x, &y, 0);
         y += ((struct Obj00085 *)p)->f2CA;
-        func_021BEE38(p, i, x, y, 0);
+        ZKNSEARCH_MAIN_SetActorSurfacePos(p, i, x, y, 0);
     }
     magnitude = ((struct Obj00085 *)p)->f2CA;
     if (magnitude < 0) magnitude = -magnitude;

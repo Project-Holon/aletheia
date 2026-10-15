@@ -53,7 +53,7 @@
  *   DWC_AddMatchKeyString  0x0216CA04  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   sprintf  0x02094530  arm
- *   func_0203F004  0x0203F004  arm
+ *   GF_STANDARD_GetStringLength  0x0203F004  arm
  *   GFL_NET_GetUserArg  0x0203D650  arm
  *   DWC_ConnectToAnybodyAsync  0x0216B284  arm
  *   DWC_SetUserSendCallback  0x02177138  arm
@@ -106,7 +106,7 @@
  *   NNSi_FndSetAllocModeBit  0x02060F18  arm
  *   NNSi_FndSetGroupId  0x02060F40  arm
  *   func_02060C94  0x02060C94  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   NNS_FndAllocFromExpHeapEx  0x02060CA0  arm
@@ -173,7 +173,7 @@ int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param);
 u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc);
 void MI_CpuFill8(void *dst, int value, int size);
 u32 sprintf(char *dst, u32 format, ...);
-u32 func_0203F004(const u8 *str);
+u32 GF_STANDARD_GetStringLength(const u8 *str);
 u32 GFL_NET_GetUserArg(void);
 int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 int DWC_SetUserSendCallback(int callback, int param);
@@ -221,7 +221,7 @@ extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
 extern u32 NNSi_FndSetAllocModeBit(char *p, u32 v);
 extern u16 NNSi_FndSetGroupId(char *p, u16 v);
 extern void func_02060C94(void *heap);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 h);
 extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, int align);
@@ -1676,7 +1676,7 @@ int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, i
         func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
     MI_CpuFill8(_pRapWork->matchFilter, 0, 0x80);
     sprintf(_pRapWork->matchFilter, (u32)_sMatchFilterFormat, _sMatchKey, matchValue);
-    if ((int)func_0203F004((const u8 *)_pRapWork->matchFilter) >= 0x80)
+    if ((int)GF_STANDARD_GetStringLength((const u8 *)_pRapWork->matchFilter) >= 0x80)
         func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
     if (useFilter)
         DWC_AddMatchKeyString(1, _pRapWork->matchFilter, _pRapWork->matchFilter);
@@ -3632,7 +3632,7 @@ void DWC_RAPCOMMON_ReleaseSubHeap(void)
         _pRapHeap->subHeap = 0;
         _pRapHeap->subMem = 0;
         if (_pRapHeap->tag != 0) {
-            func_020306F0(_pRapHeap->tag);
+            GFL_HEAP_DeleteChecked(_pRapHeap->tag);
             _pRapHeap->tag = 0;
         }
     }
@@ -3646,7 +3646,7 @@ void DWC_RAPCOMMON_ReleaseSubHeap(void)
 /*
  * Setter after the function ending at pool 0x02156F4C, which stores to the
  * same halfword: writes its argument to +0x20 of the object _pRapHeap
- * points to. Called from the ov175 root func_021D7E18 (0x021D85E0).
+ * points to. Called from the ov175 root WIFIBATTLEMATCH_NET_CompStepF (0x021D85E0).
  */
 void DWC_RAPCOMMON_SetHeapTag(int tag)
 {

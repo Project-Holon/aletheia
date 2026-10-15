@@ -16,7 +16,7 @@
  *   func_0217AF04  0x0217AF04  thumb  ov176
  *   func_02034A5C  0x02034A5C  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   ov177_id       0x000000B1  data
  *   ov67_id        0x00000043  data
  */
@@ -29,7 +29,7 @@ extern void func_0217AF04(int *);
 extern void func_02034A5C(int);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern char ov177_id[];
 extern char ov67_id[];
 
@@ -42,6 +42,6 @@ int func_0217AE88(int a, int b, int c, int *p)
     func_02034A5C((int)ov177_id);
     func_02034A5C((int)ov67_id);
     func_020315D4((struct S020315D4 *)a);
-    func_020306F0(0x4e);
+    GFL_HEAP_DeleteChecked(0x4e);
     return 1;
 }

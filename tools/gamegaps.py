@@ -361,9 +361,23 @@ def shard_names(region):
         except Exception:
             continue
         for f in d.get("functions", []):
-            if isinstance(f, dict) and f.get("name") and f.get("address"):
+            if not isinstance(f, dict):
+                continue
+            if f.get("name") and f.get("address"):
                 try:
                     out.setdefault(f["name"], int(str(f["address"]), 16))
+                except ValueError:
+                    pass
+            # a merged unit shard keeps its top level name (unit_XXXXXXXX) and lists the
+            # member functions with their addresses; those are the names src/game defines
+            # after a rename, so map them too
+            mem = f.get("functions") or []
+            addrs = f.get("addresses") or []
+            for nm, ad in zip(mem, addrs):
+                if not isinstance(nm, str) or not isinstance(ad, str):
+                    continue
+                try:
+                    out.setdefault(nm, int(ad, 16))
                 except ValueError:
                     pass
     return out

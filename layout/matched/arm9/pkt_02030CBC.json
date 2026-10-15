@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02030CBC",
+   "name": "TCB_Init",
    "address": "0x02030CBC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030CF4",
+   "name": "TCB_Reset",
    "address": "0x02030CF4",
    "kind": "game",
    "region": "arm9",
@@ -42,12 +42,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02030DA8",
-    "sub_02030DC8"
+    "TCB_AddTask",
+    "TCB_InsertTask"
+   ],
+   "addresses": [
+    "0x02030DA8",
+    "0x02030DC8"
    ]
   },
   {
-   "name": "sub_02030EAC",
+   "name": "TCB_DeleteTask",
    "address": "0x02030EAC",
    "kind": "game",
    "region": "arm9",

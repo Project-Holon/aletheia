@@ -1,5 +1,5 @@
 /*
- * function: func_021DC610
+ * function: WIFIBATTLEMATCH_NET_DownloadError
  * address:  0x021DC610
  * packet:   pkt_021DC610
  * region:   ov175
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 g_021E2EF8[];
 
-int func_021DC610(unsigned int a)
+int WIFIBATTLEMATCH_NET_DownloadError(unsigned int a)
 {
     switch (a) {
     case 0:

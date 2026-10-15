@@ -1,5 +1,5 @@
 /*
- * function: func_022102BC
+ * function: B_PLIST_MAIN_WaitPrintStream
  * address:  0x022102BC
  * packet:   pkt_022102BC
  * region:   ov198
@@ -13,7 +13,7 @@
  *   KEY_GetCont  0x0203630C  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_02211984  0x02211984  thumb  ov198
+ *   B_PLIST_MAIN_PlaySe2  0x02211984  thumb  ov198
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
@@ -39,9 +39,9 @@ extern void PRINTSYS_PrintStreamReleasePause(void *p);
 extern int TOUCHPANEL_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
-extern void func_02211984(u8 **p, u32 b);
+extern void B_PLIST_MAIN_PlaySe2(u8 **p, u32 b);
 
-int func_022102BC(struct S *a)
+int B_PLIST_MAIN_WaitPrintStream(struct S *a)
 {
     switch (PRINTSYS_PrintStreamGetState((void *)a->f1eb0)) {
     case 0:
@@ -53,7 +53,7 @@ int func_022102BC(struct S *a)
         if (a->f1eb4 != 0)
             break;
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
-            func_02211984((u8 **)a, 0x547);
+            B_PLIST_MAIN_PlaySe2((u8 **)a, 0x547);
             PRINTSYS_PrintStreamReleasePause((void *)a->f1eb0);
             a->f1eb4 = 1;
         }

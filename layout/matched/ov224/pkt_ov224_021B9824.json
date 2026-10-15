@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9824",
+   "name": "SUBWAY_MAP_GRAPHIC_LoadCommonAssets",
    "address": "0x021B9824",
    "kind": "game",
    "region": "ov224",

@@ -1,5 +1,5 @@
 /*
- * function: func_022110E0
+ * function: B_PLIST_MAIN_SetSelectionEntry
  * address:  0x022110E0
  * packet:   pkt_022110E0
  * region:   ov198
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_022110D4  0x022110D4  thumb  ov198
+ *   B_PLIST_MAIN_GetOrderIndex  0x022110D4  thumb  ov198
  * Addresses are Black-image addresses.
  */
 
@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_022110D4(u8 *p, int i);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *p, int i);
 
-void func_022110E0(u8 **p, u32 b, u32 c)
+void B_PLIST_MAIN_SetSelectionEntry(u8 **p, u32 b, u32 c)
 {
-    u8 v = func_022110D4((u8 *)p, c);
+    u8 v = B_PLIST_MAIN_GetOrderIndex((u8 *)p, c);
 
     *(u8 *)(*p + b + 0x48) = v;
 }

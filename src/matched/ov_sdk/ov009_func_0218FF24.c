@@ -1,5 +1,5 @@
 /*
- * function: func_0218FF24
+ * function: gpiRemoveProfile
  * address:  0x0218FF24
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern void func_021847BC(int v);
 
-void func_0218FF24(const int *p, void *profile)
+void gpiRemoveProfile(const int *p, void *profile)
 {
     func_021847BC(*(const int *)(*p + 0x5c8));
 }

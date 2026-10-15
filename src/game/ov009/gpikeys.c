@@ -1,7 +1,7 @@
 /*
  * file:     gpikeys.c
  * unit:     yes
- * function: func_0218D7CC, func_0218D7F4, func_0218D840, func_0218D864, func_0218D878, func_0218D900, func_0218D9A8, func_0218DA40
+ * function: gpiStatusInfoKeyFree, gpiStatusInfoKeysInit, gpiStatusInfoKeysDestroy, func_0218D864, gpiStatusInfoAddKey, gpiStatusInfoSetKey, gpiStatusInfoCheckKey, gpiSaveKeysToBuffer
  * address:  0x0218D7CC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   g_021A4D80  0x021A4D80  data
  *   func_021841B0  0x021841B0  arm  ov009
  *   strcmp                0x020948E0  arm
@@ -26,11 +26,11 @@
  *   func_0218D864  0x0218D864  arm  ov009
  *   func_021843E8  0x021843E8  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_02184200  0x02184200  arm   ov009
+ *   ArrayLength  0x02184200  arm   ov009
  *   OS_SPrintf  0x02084F40  arm
  *   strlen  0x0209477C  arm
- *   func_0217EAB0  0x0217EAB0  arm   ov009
- *   func_0217D254  0x0217D254  arm   ov009
+ *   gsimalloc  0x0217EAB0  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
  *   strcat  0x020948B0  arm
  *   B64Encode  0x0217FA90  arm   ov009
  *   g_021A4DB8     0x021A4DB8  data
@@ -50,9 +50,9 @@ typedef struct GPIConnection {
 
 typedef unsigned char  u8;
 
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
-extern void func_02193734(int *p, int b);
+extern void gpiSetErrorString(int *p, int b);
 extern void func_021841B0(void *array);
 extern int strcmp(const char *s1, const char *s2);
 extern char *goastrdup(char *src);
@@ -60,36 +60,36 @@ extern void func_021842D0(void *array, void *newElem, int (*comparator)(void *, 
 extern int func_0218D864(void *elem1, void *elem2);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *func_02184208(void *array, int n);
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int strlen(const u8 *s);
-extern void *func_0217EAB0(unsigned long size);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void *gsimalloc(unsigned long size);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern u8 *strcat(u8 *dest, const u8 *src);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 /*
  * sdk: gpiStatusInfoKeyFree (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-void func_0218D7CC(void *element);
+void gpiStatusInfoKeyFree(void *element);
 /*
  * sdk: gpiStatusInfoKeysInit (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-int func_0218D7F4(void **connection);
+int gpiStatusInfoKeysInit(void **connection);
 /*
  * sdk: gpiStatusInfoKeysDestroy (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-void func_0218D840(void **connection);
+void gpiStatusInfoKeysDestroy(void **connection);
 int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2);
 /*
  * sdk: gpiStatusInfoAddKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-int func_0218D878(void **connection, void *keys, char *theKeyName, char *theKeyValue);
+int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *theKeyValue);
 /*
  * sdk: gpiStatusInfoSetKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-int func_0218D900(void **connection, void *keys, char *keyName, char *newKeyValue);
-int func_0218D9A8(void **connection, void *keys, char *keyName, char **keyValue);
-int func_0218DA40(void **connection, char **buffer);
+int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newKeyValue);
+int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **keyValue);
+int gpiSaveKeysToBuffer(void **connection, char **buffer);
 extern char g_021A4D80[];
 extern char g_021A4D90[];
 extern char g_021A4DA4[];
@@ -105,13 +105,13 @@ extern char g_021A4DF4[];
 /*
  * sdk:      gpiStatusInfoKeyFree (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-void func_0218D7CC(void *element)
+void gpiStatusInfoKeyFree(void *element)
 {
     struct GPIKey *aKey = (struct GPIKey *)element;
 
-    func_0217EAE0(aKey->keyName);
+    gsifree(aKey->keyName);
     aKey->keyName = 0;
-    func_0217EAE0(aKey->keyValue);
+    gsifree(aKey->keyValue);
     aKey->keyValue = 0;
 }
 
@@ -122,15 +122,15 @@ void func_0218D7CC(void *element)
 /*
  * sdk:      gpiStatusInfoKeysInit (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-int func_0218D7F4(void **connection)
+int gpiStatusInfoKeysInit(void **connection)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
     int result = 1;
 
-    iconnection->extendedInfoKeys = func_02184144(8, result, func_0218D7CC);
+    iconnection->extendedInfoKeys = func_02184144(8, result, gpiStatusInfoKeyFree);
     if (iconnection->extendedInfoKeys != 0)
         return 0;
-    func_02193734((int *)connection, (int)g_021A4D80);
+    gpiSetErrorString((int *)connection, (int)g_021A4D80);
     return result;
 }
 
@@ -141,7 +141,7 @@ int func_0218D7F4(void **connection)
 /*
  * sdk:      gpiStatusInfoKeysDestroy (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-void func_0218D840(void **connection)
+void gpiStatusInfoKeysDestroy(void **connection)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
 
@@ -167,16 +167,16 @@ int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2)
 /*
  * sdk:      gpiStatusInfoAddKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-int func_0218D878(void **connection, void *keys, char *theKeyName, char *theKeyValue)
+int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *theKeyValue)
 {
     struct GPIKey aKey;
 
     if (theKeyName == 0) {
-        func_02193734((int *)connection, (int)g_021A4D90);
+        gpiSetErrorString((int *)connection, (int)g_021A4D90);
         return 2;
     }
     if (theKeyValue == 0) {
-        func_02193734((int *)connection, (int)g_021A4DA4);
+        gpiSetErrorString((int *)connection, (int)g_021A4DA4);
         return 2;
     }
     aKey.keyName = goastrdup(theKeyName);
@@ -192,24 +192,24 @@ int func_0218D878(void **connection, void *keys, char *theKeyName, char *theKeyV
 /*
  * sdk:      gpiStatusInfoSetKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-int func_0218D900(void **connection, void *keys, char *keyName, char *newKeyValue)
+int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newKeyValue)
 {
     struct GPIKey aKey;
     struct GPIKey *aKeyFound;
     int anIndex;
 
     if (keyName == 0) {
-        func_02193734((int *)connection, (int)g_021A4D90);
+        gpiSetErrorString((int *)connection, (int)g_021A4D90);
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
     anIndex = func_021843E8(keys, &aKey, func_0218D864, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
-        func_0217EAE0(aKeyFound->keyValue);
+        gsifree(aKeyFound->keyValue);
         aKeyFound->keyValue = goastrdup(newKeyValue);
     }
-    func_0217EAE0(aKey.keyName);
+    gsifree(aKey.keyName);
     aKey.keyName = 0;
     return 0;
 }
@@ -219,14 +219,14 @@ int func_0218D900(void **connection, void *keys, char *keyName, char *newKeyValu
 /*
  * sdk:      gpiStatusInfoCheckKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
-int func_0218D9A8(void **connection, void *keys, char *keyName, char **keyValue)
+int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **keyValue)
 {
     struct GPIKey aKey;
     struct GPIKey *aKeyFound;
     int anIndex;
 
     if (keyName == 0) {
-        func_02193734((int *)connection, (int)g_021A4D90);
+        gpiSetErrorString((int *)connection, (int)g_021A4D90);
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
@@ -235,7 +235,7 @@ int func_0218D9A8(void **connection, void *keys, char *keyName, char **keyValue)
         aKeyFound = (struct GPIKey *)func_02184208(keys, anIndex);
         *keyValue = aKeyFound->keyValue;
     }
-    func_0217EAE0(aKey.keyName);
+    gsifree(aKey.keyName);
     aKey.keyName = 0;
     return 0;
 }
@@ -270,7 +270,7 @@ static inline void B64ENC(char *s, char *out)
  * The Base64 length and encode helpers are static inline so that the key
  * string is loaded once per use, as the object loads it (a macro reloads it).
  */
-int func_0218DA40(void **connection, char **buffer)
+int gpiSaveKeysToBuffer(void **connection, char **buffer)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     char *tempPoint;
@@ -282,7 +282,7 @@ int func_0218DA40(void **connection, char **buffer)
     int aLength;
     char keysHeader[64];
 
-    aLength = func_02184200(iconnection->extendedInfoKeys);
+    aLength = ArrayLength(iconnection->extendedInfoKeys);
     OS_SPrintf(keysHeader, g_021A4DB8, aLength);
 
     for (i = 0; i < aLength; i++) {
@@ -292,10 +292,10 @@ int func_0218DA40(void **connection, char **buffer)
         sizeKeys += base64KeyNameLen + 2 + base64KeyValLen;
     }
 
-    *buffer = (char *)func_0217EAB0((unsigned long)strlen((const u8 *)keysHeader) + sizeKeys + 1);
+    *buffer = (char *)gsimalloc((unsigned long)strlen((const u8 *)keysHeader) + sizeKeys + 1);
     if (*buffer == 0) {
-        func_0217D254(1, (char *)2, 1, g_021A4DC4);
-        func_02193734((int *)connection, (int)g_021A4D80);
+        gsDebugFormat(1, (char *)2, 1, g_021A4DC4);
+        gpiSetErrorString((int *)connection, (int)g_021A4D80);
         return 1;
     }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6D98
+ * function: VIEWER_TEXT_NoOp
  * address:  0x021C6D98
  * packet:   pkt_ov111_021C6D98
  * region:   ov111
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021C6D98(void) { }
+void VIEWER_TEXT_NoOp(void) { }

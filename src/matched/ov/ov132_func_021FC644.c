@@ -1,5 +1,5 @@
 /*
- * function: func_021FC644
+ * function: MUS_COMM_FUNC_Create
  * address: 0x021FC644
  * packet: pkt_ov132_021FC644
  * region: ov132
@@ -22,7 +22,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Comm;
 extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
 extern const char d_021FDE5C[];
-void func_021FC644(int a, void *b, void *c, int d)
+void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d)
 {
     char *p;
     p = func_02030734(4, 0x1ac, 1, d_021FDE5C, 0x14c);

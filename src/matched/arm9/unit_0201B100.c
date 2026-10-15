@@ -74,6 +74,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201B100.c \
@@ -90,7 +91,7 @@ extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32   func_0203F0A8(void);
+extern u32   GF_STANDARD_Rand(void);
 
 void POKERUS_DecreaseDays(void *party, s32 amount)
 {
@@ -132,7 +133,7 @@ void POKERUS_SpreadParty(void *party)
     s32 n;
 
     n = POKEPARTY_GetCount(party);
-    if ((u32)((u64)func_0203F0A8() * 3 >> 32) != 0) {
+    if ((u32)((u64)GF_STANDARD_Rand() * 3 >> 32) != 0) {
         return;
     }
     for (i = 0; i < n; i++) {

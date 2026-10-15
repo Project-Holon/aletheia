@@ -1,5 +1,5 @@
 /*
- * function: func_0220609C
+ * function: SHINKA_DEMO_VIEW_InitMcss
  * address:  0x0220609C
  * packet:   pkt_0220609C
  * region:   ov195
@@ -27,7 +27,7 @@ extern void *MCSS_Init(u32 id, void *heap);
 extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
 extern void MCSS_SetOrthoMode(void *obj);
 
-void func_0220609C(char *a)
+void SHINKA_DEMO_VIEW_InitMcss(char *a)
 {
     ((struct Obj08349 *)a)->f4C = (u32)MCSS_Init(2, (void *)(((struct Obj08349 *)a)->f0));
     MCSS_SetTextureTransAdrs((void *)(((struct Obj08349 *)a)->f4C), 0x30000);

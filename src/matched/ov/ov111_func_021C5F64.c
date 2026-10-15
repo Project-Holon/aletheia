@@ -1,5 +1,5 @@
 /*
- * function: func_021C5F64
+ * function: VIEWER_MAIN_DrawBrushStroke
  * address:  0x021C5F64
  * packet:   pkt_ov111_021C5F64
  * region:   ov111
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5DB8  0x021C5DB8  thumb  ov111
- *   func_021C5F50  0x021C5F50  thumb  ov111
- *   func_02040B1C  0x02040B1C  arm
+ *   VIEWER_MAIN_BlitBrush  0x021C5DB8  thumb  ov111
+ *   VIEWER_MAIN_CopyTouchPos  0x021C5F50  thumb  ov111
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   d_021C86A8     0x021C86A8  data  a1
  *
  * Addresses are Black-image addresses.
@@ -28,12 +28,12 @@ typedef struct {
     u8 active;
 } TouchPos;
 
-extern int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side);
-extern void func_021C5F50(TouchPos *src, TouchPos *dst);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern int VIEWER_MAIN_BlitBrush(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side);
+extern void VIEWER_MAIN_CopyTouchPos(TouchPos *src, TouchPos *dst);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern const u8 d_021C86A8[2][2][16];
 
-int func_021C5F64(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void *src, u8 clip, u8 side)
+int VIEWER_MAIN_DrawBrushStroke(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void *src, u8 clip, u8 side)
 {
     int drew = 0;
     int n = 0;
@@ -50,13 +50,13 @@ int func_021C5F64(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void 
             px = prev->x - 0x20 - ofs;
             py = prev->y - 0x5A;
         }
-        n = func_021C5DB8(pix, d_021C86A8[clip][cur->size], cur->x - 0x20 - ofs, cur->y - 0x5A, &px, &py, 0, prev->active, clip, side);
+        n = VIEWER_MAIN_BlitBrush(pix, d_021C86A8[clip][cur->size], cur->x - 0x20 - ofs, cur->y - 0x5A, &px, &py, 0, prev->active, clip, side);
         drew = 1;
     }
     if (drew && flush) {
-        func_02040B1C(7, src, 0x3000, 1);
+        BG_SYS_LoadTileData(7, src, 0x3000, 1);
     }
-    func_021C5F50(cur, prev);
+    VIEWER_MAIN_CopyTouchPos(cur, prev);
     cur->active = 0;
     return n;
 }

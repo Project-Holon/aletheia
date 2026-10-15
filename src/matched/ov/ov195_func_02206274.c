@@ -1,5 +1,5 @@
 /*
- * function: func_02206274
+ * function: SHINKA_DEMO_VIEW_UpdateModelOffsets
  * address:  0x02206274
  * packet:   pkt_02206274
  * region:   ov195
@@ -54,7 +54,7 @@ extern s16 MCSS_GetOfsY(void *p);
 extern s16 MCSS_GetOfsX(void *p);
 extern void MCSS_SetOfsPosition(void *p, u32 *src);
 
-void func_02206274(Owner *o)
+void SHINKA_DEMO_VIEW_UpdateModelOffsets(Owner *o)
 {
     u8 i;
     float w, h, d;

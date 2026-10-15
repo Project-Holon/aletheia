@@ -1,5 +1,5 @@
 /*
- * function: func_02208570
+ * function: SHINKA_DEMO_VIEW_DrawQuad
  * address:  0x02208570
  * packet:   pkt_ov195_02208570
  * region:   ov195
@@ -90,7 +90,7 @@ typedef struct Quad {
     u8 f4e;
 } Quad;
 
-void func_02208570(Quad *p, u16 heap)
+void SHINKA_DEMO_VIEW_DrawQuad(Quad *p, u16 heap)
 {
     int z;
 

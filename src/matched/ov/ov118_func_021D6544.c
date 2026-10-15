@@ -1,5 +1,5 @@
 /*
- * function: func_021D6544
+ * function: POKETRADE_DEMO_DOWN_CompareSideMon
  * address:  0x021D6544
  * packet:   pkt_ov118_021D6544
  * region:   ov118
@@ -36,7 +36,7 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 
-void func_021D6544(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
+void POKETRADE_DEMO_DOWN_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
 {
     int which;
     void *mon;

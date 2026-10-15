@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C41BC",
+   "name": "WIFI_2DCHAR_DeleteActor",
    "address": "0x021C41BC",
    "kind": "game",
    "region": "ov127",

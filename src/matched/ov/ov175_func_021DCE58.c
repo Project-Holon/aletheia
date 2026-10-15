@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE58
+ * function: WIFIBATTLEMATCH_NET_SetResultD
  * address:  0x021DCE58
  * packet:   pkt_021DCE58
  * region:   ov175
@@ -20,7 +20,7 @@
 
 typedef unsigned long u32;
 
-void func_021DCE58(char *ctx, u32 v, u32 a2)
+void WIFIBATTLEMATCH_NET_SetResultD(char *ctx, u32 v, u32 a2)
 {
     ((struct Obj14354 *)ctx)->f14 = v;
     ((struct Obj14354 *)ctx)->f1C = 4;

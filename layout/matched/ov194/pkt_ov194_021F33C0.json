@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F33C0",
+   "name": "NAMEIN_GRAPHIC_AnimateGrid",
    "address": "0x021F33C0",
    "kind": "game",
    "region": "ov194",

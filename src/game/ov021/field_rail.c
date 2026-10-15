@@ -1,7 +1,7 @@
 /*
  * file:     field_rail.c
  * unit:     yes
- * function: FIELD_RAIL_Create, FIELD_RAIL_Delete, FIELD_RAIL_SetSetting, FIELD_RAIL_ClearSetting, FIELD_RAIL_ActivateFreeWork, FIELD_RAIL_ReleaseWork, FIELD_RAIL_SetFocusWork, FIELD_RAIL_ClearFocusWork, FIELD_RAIL_GetFocusPos, FIELD_RAIL_Update, FIELD_RAIL_UpdateCamera, FIELD_RAIL_FindSegmentLocation, FIELD_RAIL_SetLineEnable, FIELD_RAIL_GetUnitScale, FIELD_RAIL_MakeLineLocation, FIELD_RAIL_StepLocation, FIELD_RAIL_TryStepLocation, FIELD_RAIL_GetLocationPos, FIELD_RAIL_GetLocationWidthGrid, FIELD_RAIL_UpdateCameraAtLocation, func_021B7DC0, FIELD_RAIL_WORK_IsLocationValid, FIELD_RAIL_WORK_QueryStep, FIELD_RAIL_WORK_GetPrevPos, FIELD_RAIL_WORK_SetLocation, FIELD_RAIL_WORK_GetPos, FIELD_RAIL_WORK_GetLastKey, FIELD_RAIL_WORK_IsMoving, FIELD_RAIL_WORK_HasStepped, FIELD_RAIL_WORK_GetStepVector, FIELD_RAIL_WORK_GetLineKey, FIELD_RAIL_WORK_StartStep, FIELD_RAIL_WORK_UpdateStep, FIELD_RAIL_GetFieldCamera, FIELD_RAIL_GetFocusWork, FIELD_RAIL_GetPoint, FIELD_RAIL_GetLine, FIELD_RAIL_GetLinePos, FIELD_RAIL_GetUnitScaleRaw, FIELD_RAIL_GetProbeWork, FIELD_RAIL_ClampLocation, FIELD_RAIL_WORK_GetMode, FIELD_RAIL_WORK_GetSpot, FIELD_RAIL_WORK_GetLineOffset, FIELD_RAIL_WORK_GetLineEndOffset, FIELD_RAIL_WORK_GetWidthOffsetRaw, FIELD_RAIL_WORK_GetWidthLimit, FIELD_RAIL_WORK_GetUnitScale, FIELD_RAIL_WORK_GetCamera, FIELD_RAIL_WORK_GetCentrePos, FIELD_RAIL_WORK_GetPosAtLineOffset, FIELD_RAIL_WORK_GetStartPoint, FIELD_RAIL_WORK_GetEndPoint, FIELD_RAIL_WORK_GetLinePos, FIELD_RAIL_WORK_GetPointCamera, FIELD_RAIL_RoundToGrid, FIELD_RAIL_IsPosNear, FIELD_RAIL_WORK_GetLocationParts, FIELD_RAIL_WORK_SetLineLocation, FIELD_RAIL_POINT_FindLine, FIELD_RAIL_WORK_TryEnterLine, FIELD_RAIL_WORK_EnterLine, FIELD_RAIL_LINE_StartsAtPoint, FIELD_RAIL_LINE_EndsAtPoint, FIELD_RAIL_GetNeighbourLimits, FIELD_RAIL_SETTING_Clear, FIELD_RAIL_SETTING_Copy, FIELD_RAIL_SETTING_GetPoint, FIELD_RAIL_SETTING_GetLine, FIELD_RAIL_SETTING_GetCamera, FIELD_RAIL_SETTING_GetLinePos, FIELD_RAIL_SETTING_GetCameraFunc, FIELD_RAIL_SETTING_GetLinePosFunc, FIELD_RAIL_SETTING_GetLineFunc, FIELD_RAIL_WORK_Advance, FIELD_RAIL_WORK_Init, FIELD_RAIL_WORK_Reset, FIELD_RAIL_WORK_IsInUse, FIELD_RAIL_WORK_IsActive, FIELD_RAIL_WORK_GetSpotCamera, FIELD_RAIL_WORK_GetSpotPos, func_021B9238, FIELD_RAIL_LINE_GetLength, FIELD_RAIL_LINE_GetWidthAt, FIELD_RAIL_WORK_ClampWidth, FIELD_RAIL_ProbeStep, FIELD_RAIL_KEY_Opposite, FIELD_RAIL_KEY_TurnRight, FIELD_RAIL_KEY_TurnLeft, FIELD_RAIL_CLOSED_Clear, FIELD_RAIL_CLOSED_Add, FIELD_RAIL_CLOSED_Remove, FIELD_RAIL_CLOSED_Contains, FIELD_RAIL_CLOSED_ContainsLine, FIELD_RAIL_GetOpenLine, FIELD_RAIL_WORK_MoveClamped, FIELD_RAIL_IsLocationInLine, FIELD_RAIL_POINT_GetLineKey, FIELD_RAIL_LINE_IsConsistent, FIELD_RAIL_POINT_IsConsistent, FIELD_RAIL_DebugPrintPos, FIELD_RAIL_POINT_DebugPrint, FIELD_RAIL_WORK_DebugCheck, FIELD_RAIL_SETTING_GetPointIndex, FIELD_RAIL_SETTING_GetLineIndex, FIELD_RAIL_IntersectSegmentPlane, FIELD_RAIL_SlerpDir, FIELD_RAIL_SlerpVec, FIELD_RAIL_LINEPOS_Straight, FIELD_RAIL_LINEPOS_ArcFlat, FIELD_RAIL_LINEPOS_Arc, FIELD_RAIL_LINEFUNC_Straight, FIELD_RAIL_LINEFUNC_Arc, FIELD_RAIL_CAMERA_EyeOffsetFromFocus, FIELD_RAIL_CAMERA_FixedAngle, FIELD_RAIL_CAMERA_FixedAngleAtCentre, FIELD_RAIL_CAMERA_BlendAngles, FIELD_RAIL_CAMERA_BlendAnglesAtFocus, FIELD_RAIL_CAMERA_BlendAnglesAtCentre, FIELD_RAIL_CAMERA_FixedEyeTarget, FIELD_RAIL_CAMERA_BlendEyeTarget, FIELD_RAIL_CAMERA_BlendOrbit, FIELD_RAIL_CAMERA_Orbit, FIELD_RAIL_CAMERA_SetOrbit, FIELD_RAIL_CAMERA_OrbitMovingPoint, FIELD_RAIL_CAMERA_YawFromPoint, FIELD_RAIL_CAMERA_FollowHeading, FIELD_RAIL_CAMERA_FollowHeadingSlope, FIELD_RAIL_CAMERA_FollowHeadingAtCentre, FIELD_RAIL_CAMERA_ApplyLineStart, FIELD_RAIL_CAMERA_ApplyLineEnd, FIELD_RAIL_CAMERA_FixedAngleShift, FIELD_RAIL_CAMERA_FixedAngleShiftAtFocus, FIELD_RAIL_CAMERA_BlendAnglesShift, FIELD_RAIL_ProjectOnSegment, FIELD_RAIL_CAMERA_ApplyPoint
+ * function: FIELD_RAIL_Create, FIELD_RAIL_Delete, FIELD_RAIL_SetSetting, FIELD_RAIL_ClearSetting, FIELD_RAIL_ActivateFreeWork, FIELD_RAIL_ReleaseWork, FIELD_RAIL_SetFocusWork, FIELD_RAIL_ClearFocusWork, FIELD_RAIL_GetFocusPos, FIELD_RAIL_Update, FIELD_RAIL_UpdateCamera, FIELD_RAIL_FindSegmentLocation, FIELD_RAIL_SetLineEnable, FIELD_RAIL_GetUnitScale, FIELD_RAIL_MakeLineLocation, FIELD_RAIL_StepLocation, FIELD_RAIL_TryStepLocation, FIELD_RAIL_GetLocationPos, FIELD_RAIL_GetLocationWidthGrid, FIELD_RAIL_UpdateCameraAtLocation, FIELD_RAIL_WORK_GetLocation, FIELD_RAIL_WORK_IsLocationValid, FIELD_RAIL_WORK_QueryStep, FIELD_RAIL_WORK_GetPrevPos, FIELD_RAIL_WORK_SetLocation, FIELD_RAIL_WORK_GetPos, FIELD_RAIL_WORK_GetLastKey, FIELD_RAIL_WORK_IsMoving, FIELD_RAIL_WORK_HasStepped, FIELD_RAIL_WORK_GetStepVector, FIELD_RAIL_WORK_GetLineKey, FIELD_RAIL_WORK_StartStep, FIELD_RAIL_WORK_UpdateStep, FIELD_RAIL_GetFieldCamera, FIELD_RAIL_GetFocusWork, FIELD_RAIL_GetPoint, FIELD_RAIL_GetLine, FIELD_RAIL_GetLinePos, FIELD_RAIL_GetUnitScaleRaw, FIELD_RAIL_GetProbeWork, FIELD_RAIL_ClampLocation, FIELD_RAIL_WORK_GetMode, FIELD_RAIL_WORK_GetSpot, FIELD_RAIL_WORK_GetLineOffset, FIELD_RAIL_WORK_GetLineEndOffset, FIELD_RAIL_WORK_GetWidthOffsetRaw, FIELD_RAIL_WORK_GetWidthLimit, FIELD_RAIL_WORK_GetUnitScale, FIELD_RAIL_WORK_GetCamera, FIELD_RAIL_WORK_GetCentrePos, FIELD_RAIL_WORK_GetPosAtLineOffset, FIELD_RAIL_WORK_GetStartPoint, FIELD_RAIL_WORK_GetEndPoint, FIELD_RAIL_WORK_GetLinePos, FIELD_RAIL_WORK_GetPointCamera, FIELD_RAIL_RoundToGrid, FIELD_RAIL_IsPosNear, FIELD_RAIL_WORK_GetLocationParts, FIELD_RAIL_WORK_SetLineLocation, FIELD_RAIL_POINT_FindLine, FIELD_RAIL_WORK_TryEnterLine, FIELD_RAIL_WORK_EnterLine, FIELD_RAIL_LINE_StartsAtPoint, FIELD_RAIL_LINE_EndsAtPoint, FIELD_RAIL_GetNeighbourLimits, FIELD_RAIL_SETTING_Clear, FIELD_RAIL_SETTING_Copy, FIELD_RAIL_SETTING_GetPoint, FIELD_RAIL_SETTING_GetLine, FIELD_RAIL_SETTING_GetCamera, FIELD_RAIL_SETTING_GetLinePos, FIELD_RAIL_SETTING_GetCameraFunc, FIELD_RAIL_SETTING_GetLinePosFunc, FIELD_RAIL_SETTING_GetLineFunc, FIELD_RAIL_WORK_Advance, FIELD_RAIL_WORK_Init, FIELD_RAIL_WORK_Reset, FIELD_RAIL_WORK_IsInUse, FIELD_RAIL_WORK_IsActive, FIELD_RAIL_WORK_GetSpotCamera, FIELD_RAIL_WORK_GetSpotPos, FIELD_RAIL_WORK_GetLocationFromSpot, FIELD_RAIL_LINE_GetLength, FIELD_RAIL_LINE_GetWidthAt, FIELD_RAIL_WORK_ClampWidth, FIELD_RAIL_ProbeStep, FIELD_RAIL_KEY_Opposite, FIELD_RAIL_KEY_TurnRight, FIELD_RAIL_KEY_TurnLeft, FIELD_RAIL_CLOSED_Clear, FIELD_RAIL_CLOSED_Add, FIELD_RAIL_CLOSED_Remove, FIELD_RAIL_CLOSED_Contains, FIELD_RAIL_CLOSED_ContainsLine, FIELD_RAIL_GetOpenLine, FIELD_RAIL_WORK_MoveClamped, FIELD_RAIL_IsLocationInLine, FIELD_RAIL_POINT_GetLineKey, FIELD_RAIL_LINE_IsConsistent, FIELD_RAIL_POINT_IsConsistent, FIELD_RAIL_DebugPrintPos, FIELD_RAIL_POINT_DebugPrint, FIELD_RAIL_WORK_DebugCheck, FIELD_RAIL_SETTING_GetPointIndex, FIELD_RAIL_SETTING_GetLineIndex, FIELD_RAIL_IntersectSegmentPlane, FIELD_RAIL_SlerpDir, FIELD_RAIL_SlerpVec, FIELD_RAIL_LINEPOS_Straight, FIELD_RAIL_LINEPOS_ArcFlat, FIELD_RAIL_LINEPOS_Arc, FIELD_RAIL_LINEFUNC_Straight, FIELD_RAIL_LINEFUNC_Arc, FIELD_RAIL_CAMERA_EyeOffsetFromFocus, FIELD_RAIL_CAMERA_FixedAngle, FIELD_RAIL_CAMERA_FixedAngleAtCentre, FIELD_RAIL_CAMERA_BlendAngles, FIELD_RAIL_CAMERA_BlendAnglesAtFocus, FIELD_RAIL_CAMERA_BlendAnglesAtCentre, FIELD_RAIL_CAMERA_FixedEyeTarget, FIELD_RAIL_CAMERA_BlendEyeTarget, FIELD_RAIL_CAMERA_BlendOrbit, FIELD_RAIL_CAMERA_Orbit, FIELD_RAIL_CAMERA_SetOrbit, FIELD_RAIL_CAMERA_OrbitMovingPoint, FIELD_RAIL_CAMERA_YawFromPoint, FIELD_RAIL_CAMERA_FollowHeading, FIELD_RAIL_CAMERA_FollowHeadingSlope, FIELD_RAIL_CAMERA_FollowHeadingAtCentre, FIELD_RAIL_CAMERA_ApplyLineStart, FIELD_RAIL_CAMERA_ApplyLineEnd, FIELD_RAIL_CAMERA_FixedAngleShift, FIELD_RAIL_CAMERA_FixedAngleShiftAtFocus, FIELD_RAIL_CAMERA_BlendAnglesShift, FIELD_RAIL_ProjectOnSegment, FIELD_RAIL_CAMERA_ApplyPoint
  * address:  0x021B7884
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -33,13 +33,13 @@
  *   FIELD_RAIL_CLOSED_Contains  0x021B94C0  thumb ov021
  *   FIELD_RAIL_CLOSED_Add  0x021B9478  thumb ov021
  *   FIELD_RAIL_CLOSED_Remove  0x021B949C  thumb ov021
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   FIELD_RAIL_LINE_GetLength  0x021B9278  thumb ov021
  *   FIELD_RAIL_LINE_GetWidthAt  0x021B9280  thumb ov021
  *   MI_CpuCopy8  0x02082D44  arm
  *   FIELD_RAIL_WORK_Reset  0x021B919C  thumb  ov021
  *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb  ov021
- *   func_021B9238  0x021B9238  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLocationFromSpot  0x021B9238  thumb  ov021
  *   FIELD_RAIL_ProbeStep  0x021B9368  thumb  ov021
  *   VEC_Subtract   0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
@@ -218,7 +218,7 @@
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *mem);
-extern s32 func_0203EFC8(const void *a, const void *b, u32 size);
+extern s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 size);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
@@ -232,7 +232,7 @@ extern u16 FIELD_RAIL_WORK_IsInUse(RailWork *work);
 extern int FIELD_RAIL_WORK_IsActive(RailWork *work);
 extern RailCamera *FIELD_RAIL_WORK_GetSpotCamera(RailWork *work);
 extern void FIELD_RAIL_WORK_GetSpotPos(RailWork *work, VecFx32 *outPos);
-extern void func_021B9238(const RailWork *work, RailLocation *outLocation);
+extern void FIELD_RAIL_WORK_GetLocationFromSpot(const RailWork *work, RailLocation *outLocation);
 extern int FIELD_RAIL_LINE_GetLength(const RailLine *line, int unitScale, const FieldRailSetting *setting);
 extern int FIELD_RAIL_LINE_GetWidthAt(const RailLine *line, u32 offset, u32 length, const FieldRailSetting *setting);
 extern int FIELD_RAIL_ProbeStep(RailManager *manager, RailLocation *location, u32 key, int steps, VecFx32 *outPos);
@@ -273,7 +273,7 @@ int FIELD_RAIL_TryStepLocation(RailManager *manager, const RailLocation *locatio
 void FIELD_RAIL_GetLocationPos(RailManager *manager, RailLocation *location, VecFx32 *outPos);
 int FIELD_RAIL_GetLocationWidthGrid(RailManager *manager, RailLocation *location);
 void FIELD_RAIL_UpdateCameraAtLocation(RailManager *manager, RailLocation *location);
-void func_021B7DC0(RailWork *work, RailLocation * __restrict outLocation);
+void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation * __restrict outLocation);
 int FIELD_RAIL_WORK_IsLocationValid(RailWork *work, RailLocation *location);
 u8 FIELD_RAIL_WORK_QueryStep(RailWork *work, u8 key, RailLocation *outLocation, VecFx32 *outPos);
 void FIELD_RAIL_WORK_GetPrevPos(RailWork *work, VecFx32 *outPos);
@@ -629,7 +629,7 @@ int FIELD_RAIL_StepLocation(RailManager *manager, RailLocation *location, u16 ke
     FIELD_RAIL_WORK_StartStep(manager->probeWork, 4, key);
     FIELD_RAIL_WORK_UpdateStep(manager->probeWork);
     FIELD_RAIL_WORK_GetPos(manager->probeWork, outPos);
-    if (func_0203EFC8(location, &manager->probeWork->location, 8) == 0)
+    if (GF_STANDARD_CompareBytes(location, &manager->probeWork->location, 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(manager->probeWork, &manager->probeWork->location);
 }
@@ -640,8 +640,8 @@ int FIELD_RAIL_TryStepLocation(RailManager *manager, const RailLocation *locatio
     FIELD_RAIL_WORK_SetLocation(manager->probeWork, location);
     FIELD_RAIL_WORK_StartStep(manager->probeWork, 4, key);
     FIELD_RAIL_WORK_UpdateStep(manager->probeWork);
-    func_021B7DC0(manager->probeWork, outLocation);
-    if (func_0203EFC8(&startLocation, outLocation, 8) == 0)
+    FIELD_RAIL_WORK_GetLocation(manager->probeWork, outLocation);
+    if (GF_STANDARD_CompareBytes(&startLocation, outLocation, 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(manager->probeWork, outLocation);
 }
@@ -694,7 +694,7 @@ void FIELD_RAIL_UpdateCameraAtLocation(RailManager *manager, RailLocation *locat
  * halfword loads ahead of their stores (see docs/idioms/a-restrict-table-parameter-
  * hoists-a-load-above-a-store-only-at-a-different-offset.md).
  */
-void func_021B7DC0(RailWork *work, RailLocation * __restrict outLocation)
+void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation * __restrict outLocation)
 {
     *outLocation = work->location;
 }
@@ -859,7 +859,7 @@ void FIELD_RAIL_WORK_GetStepVector(RailWork *work, s16 *outStep)
         work->widthOffset = savedWidthOffset;
         work->lineOffset = lineOffset;
     } else {
-        func_021B9238(work, &nextLocation);
+        FIELD_RAIL_WORK_GetLocationFromSpot(work, &nextLocation);
         nextLocation.widthGrid = 0;
         FIELD_RAIL_ProbeStep(work->manager, &nextLocation, work->spot->line.key, endOffset - lineEnd, &nextPos);
     }
@@ -930,7 +930,7 @@ void FIELD_RAIL_WORK_UpdateStep(RailWork *work)
     work->moving = 0;
     work->queryValid = 0;
     work->prevLocation = work->location;
-    func_021B9238(work, &work->location);
+    FIELD_RAIL_WORK_GetLocationFromSpot(work, &work->location);
     work->prevPos = work->pos;
     remainder = work->lineOffset % 16;
     if (remainder == 0)
@@ -1138,7 +1138,7 @@ void FIELD_RAIL_WORK_SetLineLocation(RailWork *work, u32 railIndex, u32 lineGrid
 {
     RailLocation location;
 
-    func_021B7DC0(work, &location);
+    FIELD_RAIL_WORK_GetLocation(work, &location);
     location.railIndex = railIndex;
     location.widthGrid = 0;
     location.lineGrid = lineGrid;
@@ -1768,7 +1768,7 @@ void FIELD_RAIL_WORK_GetSpotPos(RailWork *work, VecFx32 *outPos)
     }
 }
 
-void func_021B9238(const RailWork *work, RailLocation *outLocation)
+void FIELD_RAIL_WORK_GetLocationFromSpot(const RailWork *work, RailLocation *outLocation)
 {
     int railIndex;
     u32 mode;
@@ -1855,7 +1855,7 @@ int FIELD_RAIL_ProbeStep(RailManager *manager, RailLocation *location, u32 key, 
             FIELD_RAIL_WORK_GetPos(manager->probeWork, outPos);
         FIELD_RAIL_WORK_UpdateStep(manager->probeWork);
     }
-    if (func_0203EFC8(location, &manager->probeWork->location, 8) == 0)
+    if (GF_STANDARD_CompareBytes(location, &manager->probeWork->location, 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(manager->probeWork, &manager->probeWork->location);
 }
@@ -2430,7 +2430,7 @@ int FIELD_RAIL_LINEFUNC_Straight(int lineIndex, RailManager *manager, const VecF
         outLocation->lineGrid = FIELD_RAIL_RoundToGrid(diff);
         FIELD_RAIL_ClampLocation(manager, outLocation, &checkLocation);
         FIELD_RAIL_GetLocationPos(manager, &checkLocation, outPos);
-        if (func_0203EFC8(outLocation, &checkLocation, 8) == 0) {
+        if (GF_STANDARD_CompareBytes(outLocation, &checkLocation, 8) == 0) {
             return 1;
         }
         return 0;
@@ -2533,7 +2533,7 @@ int FIELD_RAIL_LINEFUNC_Arc(int lineIndex, RailManager *manager, const VecFx32 *
                 }
                 FIELD_RAIL_ClampLocation(manager, outLocation, &checkLocation);
                 FIELD_RAIL_GetLocationPos(manager, outLocation, outPos);
-                if (func_0203EFC8(outLocation, &checkLocation, 8) == 0) {
+                if (GF_STANDARD_CompareBytes(outLocation, &checkLocation, 8) == 0) {
                     return 1;
                 }
                 return 0;

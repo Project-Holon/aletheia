@@ -11,12 +11,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   g_020A0058    0x020A0058 data
  *
  * bgwinfrm.c.  Marks a window record dirty, rejects it when it lies wholly
  * outside its clip box (xmin..xmax, ymin..ymax), clips the origin and the
- * size against the box, then blits it through func_02041300 and runs the
+ * size against the box, then blits it through BG_SYS_SetTileEntry and runs the
  * manager's mode callback.  Same struct Win as src/matched/BGWINFRM_StartMove.c.
  *
  * What closed it (wave 19): four spelling choices, all required.
@@ -30,7 +30,7 @@
  *  - Declarations with oh first and sy last.  mwcc numbers spill slots from
  *    the last declared local upward, so sx, h, y, sy must keep that relative
  *    order (slots 0x20, 0x1c, 0x18, 0x14).
- * The callee prototype is the one func_02041300's own body declares.
+ * The callee prototype is the one BG_SYS_SetTileEntry's own body declares.
  */
 
 typedef unsigned char  u8;
@@ -63,7 +63,7 @@ struct WinMgr {
     u16 unk06_15:1;
 };
 
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void (*g_020A0058[])(u32);
 
 void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx)
@@ -116,6 +116,6 @@ void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx)
         oh = oh - (s8)(y1 - win->ymax);
     }
 
-    func_02041300(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10);
+    BG_SYS_SetTileEntry(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10);
     g_020A0058[mgr->mode](win->bg);
 }

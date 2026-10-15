@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF8C
+ * function: ZKNSEARCH_MAIN_InitSearchScreen
  * address:  0x021BCF8C
  * packet:   pkt_ov210_021BCF8C
  * region:   ov210
@@ -18,22 +18,22 @@
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ZUKAN_SAVE_GetViewMode  0x0200CA70  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_021BC3D4  0x021BC3D4  thumb  ov210
- *   func_021BC3F0  0x021BC3F0  thumb  ov210
- *   func_021BC5DC  0x021BC5DC  thumb  ov210
- *   func_021BC940  0x021BC940  thumb  ov210
- *   func_021BE368  0x021BE368  thumb  ov210
- *   func_021BED2C  0x021BED2C  thumb  ov210
- *   func_021BC9D0  0x021BC9D0  thumb  ov210
- *   func_021BCA20  0x021BCA20  thumb  ov210
- *   func_021BCDA4  0x021BCDA4  thumb  ov210
- *   func_021BC790  0x021BC790  thumb  ov210
- *   func_021BC82C  0x021BC82C  thumb  ov210
- *   func_021BCBB8  0x021BCBB8  thumb  ov210
- *   func_021BC8EC  0x021BC8EC  thumb  ov210
- *   func_021BC294  0x021BC294  thumb  ov210
- *   func_021BC318  0x021BC318  thumb  ov210
- *   func_021BCF0C  0x021BCF0C  thumb  ov210
+ *   ZKNSEARCH_SYS_SetVramBanks  0x021BC3D4  thumb  ov210
+ *   ZKNSEARCH_MAIN_InitBackgrounds  0x021BC3F0  thumb  ov210
+ *   ZKNSEARCH_MAIN_LoadCommonGraphics  0x021BC5DC  thumb  ov210
+ *   ZKNSEARCH_MAIN_InitTextSystem  0x021BC940  thumb  ov210
+ *   ZKNSEARCH_MAIN_InitBmpWindows  0x021BE368  thumb  ov210
+ *   ZKNSEARCH_MAIN_InitActorSystem  0x021BED2C  thumb  ov210
+ *   ZKNSEARCH_MAIN_InitBlinkPalette  0x021BC9D0  thumb  ov210
+ *   ZKNSEARCH_MAIN_InitScrollWindow  0x021BCA20  thumb  ov210
+ *   ZKNSEARCH_MAIN_EnterResultLayout  0x021BCDA4  thumb  ov210
+ *   ZKNSEARCH_MAIN_InitPaletteAnim  0x021BC790  thumb  ov210
+ *   ZKNSEARCH_MAIN_RequestPaletteFade  0x021BC82C  thumb  ov210
+ *   ZKNSEARCH_MAIN_LoadResultGraphics  0x021BCBB8  thumb  ov210
+ *   ZKNSEARCH_MAIN_ConfigureWindow  0x021BC8EC  thumb  ov210
+ *   ZKNSEARCH_SYS_RegisterVBlank  0x021BC294  thumb  ov210
+ *   ZKNSEARCH_SYS_RegisterHBlank  0x021BC318  thumb  ov210
+ *   ZKNSEARCH_MAIN_NormalizeRecordByte  0x021BCF0C  thumb  ov210
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj05546.h"
@@ -60,24 +60,24 @@ struct Blk37;
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void func_021BC3D4(void);
-extern void func_021BC3F0(void);
-extern void func_021BC5DC(void);
-extern void func_021BC940(char *p);
-extern void func_021BE368(u8 *p);
-extern void func_021BED2C(int p);
-extern void func_021BC9D0(int p);
-extern void func_021BCA20(char *p);
-extern void func_021BCDA4(char *p);
-extern void func_021BC790(char *p);
-extern void func_021BC82C(char *p, u8 b, u8 c);
-extern void func_021BCBB8(char *p);
-extern void func_021BC8EC(void);
-extern void func_021BC294(u8 *p);
-extern void func_021BC318(u8 *p);
-extern void func_021BCF0C(u8 *p);
+extern void ZKNSEARCH_SYS_SetVramBanks(void);
+extern void ZKNSEARCH_MAIN_InitBackgrounds(void);
+extern void ZKNSEARCH_MAIN_LoadCommonGraphics(void);
+extern void ZKNSEARCH_MAIN_InitTextSystem(char *p);
+extern void ZKNSEARCH_MAIN_InitBmpWindows(u8 *p);
+extern void ZKNSEARCH_MAIN_InitActorSystem(int p);
+extern void ZKNSEARCH_MAIN_InitBlinkPalette(int p);
+extern void ZKNSEARCH_MAIN_InitScrollWindow(char *p);
+extern void ZKNSEARCH_MAIN_EnterResultLayout(char *p);
+extern void ZKNSEARCH_MAIN_InitPaletteAnim(char *p);
+extern void ZKNSEARCH_MAIN_RequestPaletteFade(char *p, u8 b, u8 c);
+extern void ZKNSEARCH_MAIN_LoadResultGraphics(char *p);
+extern void ZKNSEARCH_MAIN_ConfigureWindow(void);
+extern void ZKNSEARCH_SYS_RegisterVBlank(u8 *p);
+extern void ZKNSEARCH_SYS_RegisterHBlank(u8 *p);
+extern void ZKNSEARCH_MAIN_NormalizeRecordByte(u8 *p);
 
-u32 func_021BCF8C(u8 *p)
+u32 ZKNSEARCH_MAIN_InitSearchScreen(u8 *p)
 {
     u32 z;
     u32 ra = 0x04000050;
@@ -99,23 +99,23 @@ u32 func_021BCF8C(u8 *p)
     } else {
         ((struct Obj25601 *)(*(u8 * *)&((struct Obj25600 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f8))->f0 = 1;
     }
-    func_021BC3D4();
-    func_021BC3F0();
-    func_021BC5DC();
-    func_021BC940((char *)p);
-    func_021BE368(p);
-    func_021BED2C((int)p);
-    func_021BC9D0((int)p);
+    ZKNSEARCH_SYS_SetVramBanks();
+    ZKNSEARCH_MAIN_InitBackgrounds();
+    ZKNSEARCH_MAIN_LoadCommonGraphics();
+    ZKNSEARCH_MAIN_InitTextSystem((char *)p);
+    ZKNSEARCH_MAIN_InitBmpWindows(p);
+    ZKNSEARCH_MAIN_InitActorSystem((int)p);
+    ZKNSEARCH_MAIN_InitBlinkPalette((int)p);
     GFL_NET_RestartWithDefaultTimeout(1, 0x7b);
-    func_021BCA20((char *)p);
-    func_021BCDA4((char *)p);
-    func_021BC790((char *)p);
-    func_021BC82C((char *)p, 16, 16);
-    func_021BCBB8((char *)p);
-    func_021BC8EC();
-    func_021BC294(p);
-    func_021BC318(p);
+    ZKNSEARCH_MAIN_InitScrollWindow((char *)p);
+    ZKNSEARCH_MAIN_EnterResultLayout((char *)p);
+    ZKNSEARCH_MAIN_InitPaletteAnim((char *)p);
+    ZKNSEARCH_MAIN_RequestPaletteFade((char *)p, 16, 16);
+    ZKNSEARCH_MAIN_LoadResultGraphics((char *)p);
+    ZKNSEARCH_MAIN_ConfigureWindow();
+    ZKNSEARCH_SYS_RegisterVBlank(p);
+    ZKNSEARCH_SYS_RegisterHBlank(p);
     p[0x2b9] = 0xff;
-    func_021BCF0C(p);
+    ZKNSEARCH_MAIN_NormalizeRecordByte(p);
     return 3;
 }

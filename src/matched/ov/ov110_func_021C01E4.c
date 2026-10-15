@@ -12,7 +12,7 @@
  *   func_0203133C 0x0203133C arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x43 data
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
@@ -32,7 +32,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int handle);
 extern char ov067_id[];
 int PMS_SELECT_GRAPHIC_ProcExit(void *p, int a, int b, char *q) {
@@ -43,7 +43,7 @@ int PMS_SELECT_GRAPHIC_ProcExit(void *p, int a, int b, char *q) {
     MSGDATA_Delete(((struct Obj06394 *)q)->f60);
     GF_FONT_Delete(((struct Obj06394 *)q)->f58);
     func_020315D4(p);
-    func_020306F0(0x51);
+    GFL_HEAP_DeleteChecked(0x51);
     func_02034A5C((int)ov067_id);
     return 1;
 }

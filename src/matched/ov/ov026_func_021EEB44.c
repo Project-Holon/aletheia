@@ -12,7 +12,7 @@
  * symbols:
  *   WEATHER_THUNDERSTORM_BeginParticles  0x021EEB44  thumb  ov026
  *   WEATHER_THUNDERSTORM_ScrollLayers  0x021EEF0C  thumb  ov026
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
  *   WEATHER_TASK_FadeLight  0x021A2108  thumb  ov021
  *   WEATHER_TASK_SetLightColor  0x021A2154  thumb  ov021
@@ -42,7 +42,7 @@ extern int WEATHER_TASK_StepSpawner(unsigned char *o, int arg);
 extern int WEATHER_TASK_IsFogIdle(unsigned int a);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 func_02014A10(u32 i);
+extern u16 ZONEDATA_GetLightTableMember(u32 i);
 extern void WEATHER_THUNDERSTORM_ScrollLayers(int a, int *b);
 
 int WEATHER_THUNDERSTORM_BeginParticles(u8 *a, int b, int c)
@@ -54,7 +54,7 @@ int WEATHER_THUNDERSTORM_BeginParticles(u8 *a, int b, int c)
     p = (s16 *)WEATHER_TASK_GetWorkBuffer((int *)a);
     switch (p[0]) {
     case 0:
-        WEATHER_TASK_FadeLight((unsigned int)a, 0x3E, func_02014A10(6));
+        WEATHER_TASK_FadeLight((unsigned int)a, 0x3E, ZONEDATA_GetLightTableMember(6));
         p[0] = p[0] + 1;
         p[1] = 0x5A;
         break;

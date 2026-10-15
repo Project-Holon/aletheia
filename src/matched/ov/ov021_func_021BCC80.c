@@ -12,7 +12,7 @@
  *   FIELD_PLACE_NAME_GetStep  0x021BD0C0  thumb  ov021
  *   FIELD_PLACE_NAME_LoadMessage  0x021BCAB0  thumb  ov021
  *   FIELD_PLACE_NAME_IncrementStep  0x021BD0D0  thumb  ov021
- *   func_020414C4  0x020414C4  arm
+ *   BG_SYS_InitSlot  0x020414C4  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FIELD_PLACE_NAME_TransferPalette  0x021BC6D0  thumb  ov021
  *   FIELD_PLACE_NAME_ClearWindow  0x021BC720  thumb  ov021
@@ -20,7 +20,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
  *   FIELD_PLACE_NAME_ResetSpawnCounts  0x021BC838  thumb  ov021
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 extern u8 FIELD_PLACE_NAME_GetStep(u8 *p);
 extern void FIELD_PLACE_NAME_LoadMessage(int *p);
 extern void FIELD_PLACE_NAME_IncrementStep(char *p);
-extern void func_020414C4(u32 idx);
+extern void BG_SYS_InitSlot(u32 idx);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void FIELD_PLACE_NAME_TransferPalette(char *p);
 extern void FIELD_PLACE_NAME_ClearWindow(char *p);
@@ -46,7 +46,7 @@ struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
 extern void func_020409B4(unsigned int index);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(int, int, int, int, int);
 extern void FIELD_PLACE_NAME_ResetSpawnCounts(char *p);
@@ -64,7 +64,7 @@ void FIELD_PLACE_NAME_StatePrepare(char *p)
         FIELD_PLACE_NAME_IncrementStep(p);
         break;
     case 1:
-        func_020414C4(3);
+        BG_SYS_InitSlot(3);
         BG_SYS_ClearSlot(3);
         FIELD_PLACE_NAME_TransferPalette(p);
         FIELD_PLACE_NAME_IncrementStep(p);
@@ -75,7 +75,7 @@ void FIELD_PLACE_NAME_StatePrepare(char *p)
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
         func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
-        func_0204047C(3, 1);
+        BG_SYS_SetVisibleLayer(3, 1);
         func_02040588(3, 0);
         func_0207D63C(0x04000050, 8, 0x11, 0x10, 4);
         FIELD_PLACE_NAME_ResetSpawnCounts(p);

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FAAB8 0x021FAAB8 thumb ov132
+ *   STA_ACT_BUTTON_SetVisible 0x021FAAB8 thumb ov132
  */
 #include "../include/Obj23211.h"
-extern void func_021FAAB8(char *p, unsigned flag);
-void STA_ACTING_HideAnim(char *p){func_021FAAB8(((struct Obj23211 *)p)->fA4,0);}
+extern void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag);
+void STA_ACTING_HideAnim(char *p){STA_ACT_BUTTON_SetVisible(((struct Obj23211 *)p)->fA4,0);}

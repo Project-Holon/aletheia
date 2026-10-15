@@ -1,5 +1,5 @@
 /*
- * function: func_021C628C
+ * function: VIEWER_TEXT_DrawList
  * address:  0x021C628C
  * packet:   pkt_ov111_021C628C
  * region:   ov111
@@ -62,7 +62,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 
-void func_021C628C(Work *p, int k, int flush)
+void VIEWER_TEXT_DrawList(Work *p, int k, int flush)
 {
     void *str;
     u32 w;

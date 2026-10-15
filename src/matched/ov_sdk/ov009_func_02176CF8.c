@@ -1,5 +1,5 @@
 /*
- * function: func_02176CF8
+ * function: DWCi_InsertReliableQueue
  * address:  0x02176CF8
  * packet:   pkt_ov009_02176CF8
  * region:   ov009
@@ -29,7 +29,7 @@
  * compiler CSEs them into r6 and the function is 8 bytes short.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02176CF8.c  *       --func func_02176CF8 --addr 0x02176CF8 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02176CF8.c  *       --func DWCi_InsertReliableQueue --addr 0x02176CF8 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 
 typedef struct SendQueue {
@@ -50,7 +50,7 @@ extern void MIi_CpuCopy32(void *src, void *dst, int size);
 extern QueueInfo g_021AB178;
 extern SendQueue *g_021AB178_head;
 
-int func_02176CF8(void *connection, unsigned char *buffer, int size)
+int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
 {
     SendQueue *it;
     SendQueue **target = &g_021AB178_head;

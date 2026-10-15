@@ -1,5 +1,5 @@
 /*
- * function: func_02185B10
+ * function: gpProfileSearchA
  * address:  0x02185B10
  * packet:   pkt_ov009_02185B10
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      gpProfileSearchA (gp.o)
  *
  * symbols:
- *   func_02193734  0x02193734  arm   ov009
- *   func_021906E0  0x021906E0  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   gpiProfileSearch  0x021906E0  arm   ov009
  *   g_021A4010     0x021A4010  data  ov009
  */
 
@@ -31,11 +31,11 @@ typedef struct GPProfileSearchResponseArg {
 
 typedef void (*GPCallback)(void **, void *, void *);
 
-extern void func_02193734(int *p, int b);
-extern int func_021906E0(int *connection, char *nick, char *uniquenick, char *email, char *firstname, char *lastname, int icquin, int skip, int blocking, int callback, int param);
+extern void gpiSetErrorString(int *p, int b);
+extern int gpiProfileSearch(int *connection, char *nick, char *uniquenick, char *email, char *firstname, char *lastname, int icquin, int skip, int blocking, int callback, int param);
 extern char g_021A4010[];
 
-int func_02185B10(void **connection, char *nick, char *uniquenick, char *email,
+int gpProfileSearchA(void **connection, char *nick, char *uniquenick, char *email,
                   char *firstname, char *lastname, int icquin, int blocking,
                   GPCallback callback, void *param)
 {
@@ -44,7 +44,7 @@ int func_02185B10(void **connection, char *nick, char *uniquenick, char *email,
     if (connection == 0 || (iconnection = (GPIConnection *)*connection) == 0)
         return 2;
     if (callback == 0) {
-        func_02193734((int *)connection, (int)g_021A4010);
+        gpiSetErrorString((int *)connection, (int)g_021A4010);
         return 2;
     }
     if (iconnection->f108 != 0) {
@@ -53,6 +53,6 @@ int func_02185B10(void **connection, char *nick, char *uniquenick, char *email,
         callback(connection, &arg, param);
         return 0;
     }
-    return func_021906E0((int *)connection, nick, uniquenick, email, firstname, lastname, icquin, 0,
+    return gpiProfileSearch((int *)connection, nick, uniquenick, email, firstname, lastname, icquin, 0,
                          blocking, (int)callback, (int)param);
 }

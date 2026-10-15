@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   POKE_TOOL_SetupBoxParamEx  0x0201761C  thumb
- *   func_02019A50  0x02019A50  thumb
+ *   POKE_CRYPTO_XorBlock  0x02019A50  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   MAIL_Create  0x02008F08  thumb
  *   func_020307B0  0x020307B0  arm
@@ -39,7 +39,7 @@ struct Mon {
 struct Sav;
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02019A50(u16 *p, u32 size, u32 seed);
+extern void POKE_CRYPTO_XorBlock(u16 *p, u32 size, u32 seed);
 extern void  POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern void *MAIL_Create(int a0);
 extern u32 func_020307B0(void *p);
@@ -51,8 +51,8 @@ void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, u64 id, 
 
     POKE_TOOL_ClearPartyParam((struct Sav *)p);
     POKE_TOOL_SetupBoxParamEx(p, species, level, id, pow, rnd);
-    func_02019A50((u16 *)p->unk88, 0x54, 0);
-    func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
+    POKE_CRYPTO_XorBlock((u16 *)p->unk88, 0x54, 0);
+    POKE_CRYPTO_XorBlock((u16 *)p->unk88, 0x54, p->unk00);
     POKE_TOOL_SetPartyValue(p, 0x9e, level);
     mail = MAIL_Create(0x8000);
     POKE_TOOL_SetPartyValue(p, 0xa7, (u32)mail);

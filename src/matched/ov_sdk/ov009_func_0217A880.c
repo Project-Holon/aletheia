@@ -1,5 +1,5 @@
 /*
- * function: func_0217A880
+ * function: DWC_Netcheck_Create
  * address:  0x0217A880
  * packet:   pkt_ov009_0217A880
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   OS_InitMutex   0x02086004  arm
- *   func_0217AAF4  0x0217AAF4  arm  ov009
+ *   DWCi_Netcheck_StartThread  0x0217AAF4  arm  ov009
  *   g_021ACE5C     0x021ACE5C  data
  */
 
@@ -34,9 +34,9 @@ typedef struct {
 extern struct G g_021ACE5C;
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void OS_InitMutex(void *mutex);
-extern void func_0217AAF4(void);
+extern void DWCi_Netcheck_StartThread(void);
 
-int func_0217A880(Param *param)
+int DWC_Netcheck_Create(Param *param)
 {
     void *(*alloc)(unsigned long, long) = param->alloc;
 
@@ -59,6 +59,6 @@ int func_0217A880(Param *param)
     }
     g_021ACE5C.flag = 0;
     OS_InitMutex(g_021ACE5C.nc + 0x11dc);
-    func_0217AAF4();
+    DWCi_Netcheck_StartThread();
     return 0;
 }

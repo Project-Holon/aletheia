@@ -12,7 +12,7 @@
  * sdk:      FindNegotiatorForCookie (natneg.o)
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   gNatnegGlobals  0x021AE698  data
  */
@@ -23,7 +23,7 @@ typedef struct _NATNegotiator {
 } NATNegotiator;
 
 extern void *gNatnegGlobals;
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 
 NATNegotiator *FindNegotiatorForCookie(int cookie)
@@ -33,7 +33,7 @@ NATNegotiator *FindNegotiatorForCookie(int cookie)
 
     if (!gNatnegGlobals)
         return 0;
-    for (i = 0; i < func_02184200(gNatnegGlobals); i++) {
+    for (i = 0; i < ArrayLength(gNatnegGlobals); i++) {
         neg = (NATNegotiator *)func_02184208(gNatnegGlobals, i);
         if (neg->cookie == cookie)
             return neg;

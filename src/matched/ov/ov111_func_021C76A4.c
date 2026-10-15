@@ -1,5 +1,5 @@
 /*
- * function: func_021C76A4
+ * function: VIEWER_ACTOR_Init3D
  * address:  0x021C76A4
  * packet:   pkt_ov111_021C76A4
  * region:   ov111
@@ -119,7 +119,7 @@ extern const void *const d_021C8810;
 extern const Camera d_021C896C;
 extern const s16 FX_SinCosTable_[];
 
-void func_021C76A4(Work *p)
+void VIEWER_ACTOR_Init3D(Work *p)
 {
     Camera cam;
     void *light;

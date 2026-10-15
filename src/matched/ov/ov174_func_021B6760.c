@@ -12,8 +12,8 @@
  * symbols:
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_0201F5BC  0x0201F5BC  thumb
- *   func_0201F548  0x0201F548  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
+ *   BMP_MENUWORK_GetPlttFileId  0x0201F548  thumb
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   func_02049B40  0x02049B40  arm
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
@@ -32,8 +32,8 @@ struct MsgBank;
 struct Tcbl;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern u8 func_0201F548(int i);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
@@ -47,8 +47,8 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
     ((struct Obj00918 *)p)->f60 = (u32)GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj00918 *)p)->f0);
     ((struct Obj00918 *)p)->f68 = (u32)func_02045B38(0, 2, 0xc6, ((struct Obj00918 *)p)->f0);
     ((struct Obj00918 *)p)->f6C = (u32)func_02045B38(0, 2, (u16)(*(u16 *)(((struct Obj00918 *)p)->f30) + 0xbf), ((struct Obj00918 *)p)->f0);
-    func_0201F5BC(0, 1, 0xd, 0, ((struct Obj00918 *)p)->f0);
-    ARC_UTIL_UploadPaletteFromArchive(5, func_0201F548(0), 0, 0x20, 0x1a0, 0x20, ((struct Obj00918 *)p)->f0);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xd, 0, ((struct Obj00918 *)p)->f0);
+    ARC_UTIL_UploadPaletteFromArchive(5, BMP_MENUWORK_GetPlttFileId(0), 0, 0x20, 0x1a0, 0x20, ((struct Obj00918 *)p)->f0);
     func_02049B40(0x17, 7, 0, 0x180, 0x20, ((struct Obj00918 *)p)->f0);
     GF_FONT_SetDefaultTextColor();
     ((struct Obj00918 *)p)->f58 = (u32)TCBL_Create(((struct Obj00918 *)p)->f0, ((struct Obj00918 *)p)->f0, 3, 0x100);

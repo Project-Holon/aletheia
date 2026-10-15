@@ -1,5 +1,5 @@
 /*
- * function: func_02069818
+ * function: NNSi_G2dAlignTextVertical
  * address:  0x02069818
  * packet:   pkt_020694D8
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020680DC    0x020680DC  arm
- *   func_0206958C    0x0206958C  arm
+ *   NNS_G2dFontGetTextHeight    0x020680DC  arm
+ *   NNSi_G2dDrawTextRotated    0x0206958C  arm
  *
  * The two trailing `signed char` parameters are ONE 2-byte struct passed by
  * value, not two separate char arguments. Spelled as two arguments the ABI
  * gives each its own word slot and the image's `ldrsb r2, [sp, #0x39]` /
  * `strb ip, [sp, #0xd]` become +0x3C and +0x10; the struct form packs them
  * adjacently and is what makes the file byte-correct. The same pair is
- * forwarded verbatim to func_0206958C, which therefore takes it the same
+ * forwarded verbatim to NNSi_G2dDrawTextRotated, which therefore takes it the same
  * way.
  *
  * VERDICT: MATCH. Byte-correct -- 224 bytes, ZERO concrete mismatches, the
@@ -44,7 +44,7 @@
  *
  * The horizontal/vertical alignment pre-pass for the text renderer.
  * Depending on two bits of the flags word (the third stack argument) it
- * measures the string with func_020680DC and shifts the pen:
+ * measures the string with NNS_G2dFontGetTextHeight and shifts the pen:
  *   bit 8  (0x100): right/bottom align -- back the pen off by the full
  *                   measured extent, `(limit - measured)`;
  *   bit 7  (0x080): centre align -- back it off by half, with the
@@ -53,7 +53,7 @@
  *                   instructions at 0x02069888..0x020698A4.
  * The pen delta is applied as `pen += extent * (-dy)` and
  * `pen += extent * dx` through the two `mla`s, then everything is
- * forwarded verbatim to func_0206958C.
+ * forwarded verbatim to NNSi_G2dDrawTextRotated.
  */
 
 typedef signed int s32;
@@ -73,26 +73,26 @@ typedef struct {
 } Step;
 
 struct NNSG2dFont;
-extern int func_020680DC(const struct NNSG2dFont *pFont, int vSpace, const void *txt);
-extern void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
+extern int NNS_G2dFontGetTextHeight(const struct NNSG2dFont *pFont, int vSpace, const void *txt);
+extern void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
                           u32 a4, u32 a5, u32 a6, Step st);
 
-void func_02069818(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
                    u32 a4, u32 a5, u32 flags, u32 s, Step st)
 {
     s32 n;
     s32 d;
 
     if (flags & 0x100) {
-        n = func_020680DC(ctx->f04, (int)ctx->f0C, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->f04, (int)ctx->f0C, (const void *)s);
         d = (s32)a4 - n;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     } else if (flags & 0x80) {
-        n = func_020680DC(ctx->f04, (int)ctx->f0C, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->f04, (int)ctx->f0C, (const void *)s);
         d = ((s32)a4 + 1) / 2 - (n + 1) / 2;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     }
-    func_0206958C(ctx, x, y, w, a5, flags, s, st);
+    NNSi_G2dDrawTextRotated(ctx, x, y, w, a5, flags, s, st);
 }

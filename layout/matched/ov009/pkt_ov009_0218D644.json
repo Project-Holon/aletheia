@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218D644",
+   "name": "gpiSetInfoCache",
    "address": "0x0218D644",
    "kind": "sdk",
    "region": "ov009",

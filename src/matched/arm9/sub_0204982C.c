@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062A00       0x02062A00  arm
+ *   NNS_G2dGetUnpackedCharacterData       0x02062A00  arm
  *   DC_FlushRange       0x020862F0  arm
  *   ARC_UTIL_gScreenLoadFns          0x020A135C  data
  *   ENV_SetResourceSet  0x020307B0  arm
@@ -25,7 +25,7 @@
  * definition at 0x020A135C. The other three relocations resolve.
  *
  * This is the DMA-flush variant of src/matched/ARC_UTIL_UploadBgChar.c: the same
- * func_02062A00 lookup (the sibling of func_02062A4C), the same "a size of
+ * NNS_G2dGetUnpackedCharacterData lookup (the sibling of NNS_G2dGetUnpackedCharacterDataEx), the same "a size of
  * zero means the object's own size at +0x10" rule, then a `DC_FlushRange`
  * over the object's buffer and a dispatch through the five-entry function
  * table at 0x020A135C indexed by the second argument.
@@ -50,7 +50,7 @@ struct Res {
 };
 
 struct NitroFileHeader;
-extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 extern void DC_FlushRange(u32 addr, u32 size);
 extern void (*ARC_UTIL_gScreenLoadFns[])(u32 addr, u32 a1, u32 size);
 extern void ENV_SetResourceSet(void *p);
@@ -59,7 +59,7 @@ u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size)
 {
     struct Res *res;
 
-    if (func_02062A00(buf, (void **)(&res)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterData(buf, (void **)(&res)) != 0) {
         if (size == 0) {
             size = res->unk_10;
         }

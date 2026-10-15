@@ -12,11 +12,11 @@
  * sdk:      gsXmlCreateStreamWriter (gsxml.o)
  *
  * symbols:
- *   func_0217EAB0                    0x0217eab0 arm  ov009
- *   func_0217D254                    0x0217d254 arm  ov009
+ *   gsimalloc                    0x0217eab0 arm  ov009
+ *   gsDebugFormat                    0x0217d254 arm  ov009
  *   strlen                    0x0209477c arm
  *   gsiXmlUtilWriteString                    0x0218325c arm  ov009
- *   func_0217EAE0                    0x0217eae0 arm  ov009
+ *   gsifree                    0x0217eae0 arm  ov009
  *   gsiXmlUtilWriteChar                    0x02183210 arm  ov009
  *   gGsXmlOomWriterFormat                       0x021a3de4 data
  *   gGsXmlNamespacePrefix                       0x021a3e20 data
@@ -32,12 +32,12 @@ typedef struct GSIXmlStreamWriter {
     int openElements;           /* +0x0c */
 } GSIXmlStreamWriter;
 
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 typedef unsigned char  u8;
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int strlen(const u8 *s);
 extern int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
 extern char gGsXmlOomWriterFormat[];
 extern char gGsXmlNamespacePrefix[];
@@ -52,9 +52,9 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     int namespaceLen = 0;
     int i;
 
-    newStream = func_0217EAB0(sizeof(GSIXmlStreamWriter));
+    newStream = gsimalloc(sizeof(GSIXmlStreamWriter));
     if (newStream == 0) {
-        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
+        gsDebugFormat(0xc, (char *)2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
         return 0;
     }
 
@@ -69,9 +69,9 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     while (initialCapacity < namespaceLen)
         initialCapacity += 1024;
 
-    newStream->buffer = func_0217EAB0(initialCapacity);
+    newStream->buffer = gsimalloc(initialCapacity);
     if (newStream->buffer == 0) {
-        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, initialCapacity);
+        gsDebugFormat(0xc, (char *)2, 1, gGsXmlOomWriterFormat, initialCapacity);
         return 0;
     }
     newStream->capacity = initialCapacity;
@@ -80,16 +80,16 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     newStream->openElements = 0;
 
     if (!gsiXmlUtilWriteString(newStream, gGsXmlSoapEnvelopeStart)) {
-        func_0217EAE0(newStream->buffer);
-        func_0217EAE0(newStream);
+        gsifree(newStream->buffer);
+        gsifree(newStream);
         return 0;
     }
     for (i = 0; i < 4; i++) {
         if (!gsiXmlUtilWriteChar(newStream, ' ') ||
             !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
             !gsiXmlUtilWriteString(newStream, gGsXmlSoapDefaultNamespaces[i])) {
-            func_0217EAE0(newStream->buffer);
-            func_0217EAE0(newStream);
+            gsifree(newStream->buffer);
+            gsifree(newStream);
             return 0;
         }
     }
@@ -97,15 +97,15 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
         if (!gsiXmlUtilWriteChar(newStream, ' ') ||
             !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
             !gsiXmlUtilWriteString(newStream, namespaces[i])) {
-            func_0217EAE0(newStream->buffer);
-            func_0217EAE0(newStream);
+            gsifree(newStream->buffer);
+            gsifree(newStream);
             return 0;
         }
     }
     if (!gsiXmlUtilWriteChar(newStream, '>') ||
         !gsiXmlUtilWriteString(newStream, gGsXmlSoapBodyStart)) {
-        func_0217EAE0(newStream->buffer);
-        func_0217EAE0(newStream);
+        gsifree(newStream->buffer);
+        gsifree(newStream);
         return 0;
     }
     return newStream;

@@ -1,5 +1,5 @@
 /*
- * function: func_02208A38
+ * function: SHINKA_DEMO_EFFECT_SetParticleTimer
  * address: 0x02208A38
  * packet: pkt_ov195_02208A38
  * region: ov195
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_02208A38(char *p,u32 v) { ((struct Obj14537 *)p)->f4814=0; ((struct Obj14537 *)p)->f4818=v; }
+void SHINKA_DEMO_EFFECT_SetParticleTimer(char *p,u32 v) { ((struct Obj14537 *)p)->f4814=0; ((struct Obj14537 *)p)->f4818=v; }

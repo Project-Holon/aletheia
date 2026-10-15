@@ -19,7 +19,7 @@
  *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
  *   FIELD_EFFECT_Draw    0x021ABE0C  thumb  ov021
  *   FIELD_G3DOBJ_DrawAll    0x021C64E0  thumb  ov021
- *   func_02050790    0x02050790  arm
+ *   LIST_PopFront    0x02050790  arm
  *   UNION_EFF_Draw    0x0217F928  thumb  ov019
  *   FIELD_SUBPROC_MGR_RunDraw    0x021BB954  thumb  ov021
  *   WEATHER_Draw    0x021A1B38  thumb  ov021
@@ -57,7 +57,7 @@ extern void NNS_G3dGeFlushBuffer(void);
 extern void FIELD_EFFECT_Draw(u32 a);
 extern void FIELD_G3DOBJ_DrawAll(u32 a);
 struct tagLISTCB;
-extern void func_02050790(struct tagLISTCB *list, int b, int c);
+extern void LIST_PopFront(struct tagLISTCB *list, int b, int c);
 extern void UNION_EFF_Draw(char *p);
 extern void FIELD_SUBPROC_MGR_RunDraw(u8 *p);
 extern void WEATHER_Draw(u32 *p);
@@ -86,8 +86,8 @@ void FIELDMAP_Draw3dNormal(u8 *p)
     NNS_G3dGeFlushBuffer();
     FIELD_EFFECT_Draw(((struct Obj00704 *)p)->f94);
     FIELD_G3DOBJ_DrawAll(((struct Obj00704 *)p)->f130);
-    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB0), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
-    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB8), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    LIST_PopFront((struct tagLISTCB *)(((struct Obj00704 *)p)->fB0), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    LIST_PopFront((struct tagLISTCB *)(((struct Obj00704 *)p)->fB8), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
     if (((struct Obj00704 *)p)->f98 != 0)
         UNION_EFF_Draw((char *)(((struct Obj00704 *)p)->f98));
 
@@ -97,7 +97,7 @@ void FIELDMAP_Draw3dNormal(u8 *p)
     SCREENTEX_CameraState.flag &= ~0x50;
     NNS_G3dGlbFlush();
     NNS_G3dGeFlushBuffer();
-    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB4), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    LIST_PopFront((struct tagLISTCB *)(((struct Obj00704 *)p)->fB4), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
 
     MIi_CpuCopyFast(&saved, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8804
+ * function: WF2DMAP_SCENE_InitBg
  * address: 0x021D8804
  * packet: pkt_ov129_021D8804
  * region: ov129
@@ -37,7 +37,7 @@ extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_SetLcdSwap(u32);
-void func_021D8804(void)
+void WF2DMAP_SCENE_InitBg(void)
 {
     MainTemplates main;
     SubTemplates sub;

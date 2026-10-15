@@ -1,5 +1,5 @@
 /*
- * function: func_020637D4
+ * function: NNSi_G2dInitVramHandleEx
  * address:  0x020637D4
  * packet:   pkt_020637BC
  * region:   arm9
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_020637D4(u32 *p)
+void NNSi_G2dInitVramHandleEx(u32 *p)
 {
     int i;
 

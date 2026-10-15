@@ -8,9 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02019D00, func_02019D30
+ * function: POKE_TOOL_GetBoxParamIndex, POKE_TOOL_NormalizeForm
  *
- * Neither carries a label in the generated listing.  func_02019D00
+ * Neither carries a label in the generated listing.  POKE_TOOL_GetBoxParamIndex
  * is a dense switch over 0x74..0x77 whose four arms each return a constant,
  * and the `subs r0, #0x74` in front of the `cmp`/`bhi` is the compiler's
  * normalisation of the range rather than anything the source wrote; see
@@ -23,15 +23,15 @@
  * so the literal class discards its only witness and no cut helps.
  *
  * symbols:
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  */
 
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_02019C90(u32 a, u32 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u32 a, u32 b, u32 k);
 
-u32 func_02019D00(u32 id)
+u32 POKE_TOOL_GetBoxParamIndex(u32 id)
 {
     switch (id) {
     case 0x74:
@@ -46,10 +46,10 @@ u32 func_02019D00(u32 id)
     return 0;
 }
 
-u32 func_02019D30(u32 a, u32 n)
+u32 POKE_TOOL_NormalizeForm(u32 a, u32 n)
 {
     if (a != 0x28A) {
-        if ((s32)n >= (s32)func_02019C90(a, n, 0x20)) {
+        if ((s32)n >= (s32)POKE_TOOL_GetPersonalParam(a, n, 0x20)) {
             n = 0;
         }
         return n;

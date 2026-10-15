@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F6C
+ * function: NAMEIN_GRAPHIC_GetPairEntry
  * address:  0x021F4F6C
  * packet:   pkt_021F4F6C
  * region:   ov194
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-unsigned short func_021F4F6C(char *base, int i, int j)
+unsigned short NAMEIN_GRAPHIC_GetPairEntry(char *base, int i, int j)
 {
     return *(unsigned short *)(base + i * 6 + 2 + j * 2);
 }

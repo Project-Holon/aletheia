@@ -21,7 +21,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   PDWACC_DISP_InitBgLayers 0x021D9AE8 thumb ov123
  *   PDWACC_DISP_LoadResources 0x021D9D3C thumb ov123
  *   PDWACC_DISP_VBlankTask 0x021D9D34 thumb ov123
@@ -53,7 +53,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void PDWACC_DISP_InitBgLayers(void *);
 extern void PDWACC_DISP_LoadResources(char *p);
 extern void PDWACC_DISP_VBlankTask(void);
@@ -73,7 +73,7 @@ char *PDWACC_DISP_Init(int heap)
     CLACT_InitSystem((const struct Cfg *)gGsyncClactConfig,(u32)d_021DABCC,((struct Obj05370 *)p)->f9E4);
     ((struct Obj05370 *)p)->f97C=CLACT_CreateUnit(40,0,((struct Obj05370 *)p)->f9E4);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DABCC);
-    func_0203FC28((struct DispConfig *)d_021DABBC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021DABBC);
     PDWACC_DISP_InitBgLayers(p);
     PDWACC_DISP_LoadResources(p);
     ((struct Obj05370 *)p)->f980=func_020056A0(PDWACC_DISP_VBlankTask,p,0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4F70
+ * function: GTSNEGO_DISP_GetEntry
  * address: 0x021D4F70
  * packet: pkt_ov120_021D4F70
  * region: ov120
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *GAME_DATA_GetSaveBlock1F(void **); extern int func_02009E8C(void *); extern void *func_02009E54(void *,int);
-void *func_021D4F70(void **p,int i) { int n; n=func_02009E8C(GAME_DATA_GetSaveBlock1F(p)); if (i>=n || i<0) return 0; return func_02009E54(GAME_DATA_GetSaveBlock1F(p),i); }
+void *GTSNEGO_DISP_GetEntry(void **p,int i) { int n; n=func_02009E8C(GAME_DATA_GetSaveBlock1F(p)); if (i>=n || i<0) return 0; return func_02009E54(GAME_DATA_GetSaveBlock1F(p),i); }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220DA6C",
+   "name": "B_PLIST_DRAW_DrawRowCenteredName",
    "address": "0x0220DA6C",
    "kind": "game",
    "region": "ov198",

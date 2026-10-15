@@ -12,7 +12,7 @@
  * symbols:
  *   g_02146A44   0x02146A44  data
  *   BG_SYS_DeleteBlock 0x02043094  arm
- *   sub_020307B0 0x020307B0  arm
+ *   GFL_HEAP_Free 0x020307B0  arm
  *
  * Release the payload of one entry of the 0x2c-byte table hanging off the
  * singleton pointer at 0x02146A44: if the pointer at +8 is set,
@@ -51,7 +51,7 @@ struct Entry {
 extern struct Entry *g_02146A44;
 
 extern void BG_SYS_DeleteBlock(u32 index, u32 zero, u32 cookie);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void BG_SYS_Delete_03F4(u32 i)
 {
@@ -59,6 +59,6 @@ void BG_SYS_Delete_03F4(u32 i)
         return;
     }
     BG_SYS_DeleteBlock(i, 0, g_02146A44[i].unk_0c);
-    sub_020307B0(g_02146A44[i].unk_08);
+    GFL_HEAP_Free(g_02146A44[i].unk_08);
     g_02146A44[i].unk_08 = 0;
 }

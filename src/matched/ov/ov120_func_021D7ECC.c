@@ -1,5 +1,5 @@
 /*
- * function: func_021D7ECC
+ * function: GTSNEGO_MSG_CreateTooltip
  * address: 0x021D7ECC
  * packet: pkt_ov120_021D7ECC
  * region: ov120
@@ -25,7 +25,7 @@ struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void *func_021D7ECC(char *p,u16 n)
+void *GTSNEGO_MSG_CreateTooltip(char *p,u16 n)
 {
     int width;
     void *result;

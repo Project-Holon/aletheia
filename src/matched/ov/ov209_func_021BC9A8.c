@@ -22,7 +22,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Clone 0x02045874 arm
  *   STRBUF_Delete 0x02045808 arm
- *   data_021BE7AC 0x021BE7AC data a4
+ *   gZukanListFrameListParams 0x021BE7AC data a4
  *   data_020A7370 0x020A7370 data a4
  */
 #include "../include/Obj00123.h"
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 struct Template {u8 head[20];u16 count,pad16;u8 index,pad19;u16 start;u32 p1c,p20;void *p24;};
 struct Inputs {u32 p0;void *save;u16 pad8,count;u16 *ids;};
 struct Context {struct Inputs *in;u8 pad4[0xc2c-4];void *list;u32 padc30;u32 visible;};
-extern const struct Template data_021BE7AC;
+extern const struct Template gZukanListFrameListParams;
 extern void *data_020A7370;
 extern void *func_020490F4(u32 id, u32 heap);
 struct Blk37;
@@ -58,7 +58,7 @@ void ZUKAN_LIST_CreateFrameList(struct Context *p)
     u32 species,i;
     arc=func_020490F4(159,0x806b);
     species=ZUKAN_SAVE_GetLastViewedSpecies((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save);
-    tmpl=data_021BE7AC;
+    tmpl=gZukanListFrameListParams;
     tmpl.count=649;tmpl.p24=p;
     for(i=0;i<(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count;i++){
         if(species==(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]){

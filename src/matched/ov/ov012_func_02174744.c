@@ -16,7 +16,7 @@
  * (manifest --verify --shard pkt_ov012_0217534C) this file should verify EXACT;
  * move it to src/matched/ov then. Levers that closed it: case 16 and default
  * share one `return 1` placed before case 17 so the tails cross-jump onto
- * case 15 and case 17; func_02157450 takes a2 (not self) in r1; the byte
+ * case 15 and case 17; IRC_BATTLE_TASK_Create takes a2 (not self) in r1; the byte
  * argument goes through `u8 *q = self + 0x2830` declared at function top
  * (as in ov012_func_02174AD8), which loads the base before the pool offset.
  *
@@ -54,7 +54,7 @@
  *   COLOSSEUM_AllPartiesReceived  0x02175214  thumb  ov012
  *   COLOSSEUM_SetupBattleInfo  0x02175280  thumb  ov012
  *   COLOSSEUM_ClearBattleInfo  0x0217534C  thumb  ov012
- *   func_02157450  0x02157450  thumb
+ *   IRC_BATTLE_TASK_Create  0x02157450  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_02009D1C  0x02009D1C  thumb
@@ -168,7 +168,7 @@ extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a0, unsigned i
 extern u32 COLOSSEUM_SendParty(u32 p);
 extern int COLOSSEUM_AllPartiesReceived(u8 *p);
 extern void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d);
-extern u32   func_02157450(u32 ctx, u32 a2, u8 v, Out *o);
+extern u32   IRC_BATTLE_TASK_Create(u32 ctx, u32 a2, u8 v, Out *o);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int   GFL_NET_GetNegotiationNum(void);
 extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
@@ -307,7 +307,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
         else
             o->f10 = 0x48C;
         COLOSSEUM_SetupBattleInfo((u8 *)t, (void *)a0, o->f18, 0x41);
-        *res = func_02157450(a0, a2, q[0], o);
+        *res = IRC_BATTLE_TASK_Create(a0, a2, q[0], o);
         (*state)++;
         break;
     case 13:

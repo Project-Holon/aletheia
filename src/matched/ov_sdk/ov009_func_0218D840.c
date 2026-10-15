@@ -1,5 +1,5 @@
 /*
- * function: func_0218D840
+ * function: gpiStatusInfoKeysDestroy
  * address:  0x0218D840
  * packet:   pkt_ov009_0218D840
  * region:   ov009
@@ -22,7 +22,7 @@ struct GPIConnection {
 
 extern void func_021841B0(void *array);
 
-void func_0218D840(void **connection)
+void gpiStatusInfoKeysDestroy(void **connection)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
 

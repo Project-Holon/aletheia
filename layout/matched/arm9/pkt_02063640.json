@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02063784",
+   "name": "NNSi_G2dGetVramHandle",
    "address": "0x02063784",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020637AC",
+   "name": "NNSi_G2dSetVramHandle",
    "address": "0x020637AC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020637B4",
+   "name": "NNSi_G2dGetVramHandleValue",
    "address": "0x020637B4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020637F4",
+   "name": "NNSi_G2dSetVramHandleEx",
    "address": "0x020637F4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02063800",
+   "name": "NNSi_G2dGetVramHandleEx",
    "address": "0x02063800",
    "kind": "game",
    "region": "arm9",

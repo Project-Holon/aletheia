@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   SDK_AUTOLOAD_DTCM_START 0x02fe0000 data
  */
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern unsigned int SDK_AUTOLOAD_DTCM_START;
 
 void STARTMENU_SaveEraseVblankTask(void)
 {
-    func_020419E4();
+    BG_SYS_Update();
     *(volatile unsigned int *)((char *)&SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
 }

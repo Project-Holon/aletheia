@@ -11,6 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb  arm9
  *
 
  *
@@ -25,13 +26,13 @@ typedef signed short s16;
 struct Mon;
 struct WordSet;
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern u32 func_020307B0(void *p);
 
 void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c)
 {
     void *blk = POKE_TOOL_CreateFromBoxParam((void *)c, 0x48);
 
-    func_0201EEF4((void *)a, b, blk);
+    WORDSET_SetSlotMonSpecies((void *)a, b, blk);
     func_020307B0(blk);
 }

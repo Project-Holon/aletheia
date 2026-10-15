@@ -18,7 +18,7 @@
  *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov114_id 0x00000072 data
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
@@ -40,7 +40,7 @@ extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern void NHTTP_RAP_Destroy(u8 *p);
 extern void DWC_RAP_SetErrorCallback(int,int);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int handle);
 extern char ov114_id[];
 int GSYNC_STATE_ProcExit(void *a, int b, int c, char *p)
@@ -65,7 +65,7 @@ int GSYNC_STATE_ProcExit(void *a, int b, int c, char *p)
         DWC_RAP_SetErrorCallback(0,0);
     }
     func_020315D4(a);
-    func_020306F0(98);
+    GFL_HEAP_DeleteChecked(98);
     func_02034A5C((int)ov114_id);
     return 1;
 }

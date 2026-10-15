@@ -14,6 +14,7 @@
  *   WORLDTRADE_LIST_PrintLabel 0x021FD760 thumb ov135
  *   WORLDTRADE_LIST_PrintHeader 0x021FD790 thumb ov135
  *   WORLDTRADE_LIST_DrawSelectedRecord 0x021FD5F0 thumb ov135
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 #include "../include/Obj00045.h"
 typedef unsigned int u32;
@@ -25,7 +26,7 @@ extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern void WORLDTRADE_LIST_PrintLabel(void *, void *, u32, void *, u16);
 extern void WORLDTRADE_LIST_PrintHeader(void *, void *, u32, void *);
 extern void WORLDTRADE_LIST_DrawSelectedRecord(void *);
-extern void func_0201F7A8(void *, u32);
+extern void BMP_MENUWORK_DrawWindowBorder(void *, u32);
 int WORLDTRADE_LIST_StateConfirmYesNoInput(unsigned char *p)
 {
     unsigned r = WORLDTRADE_UpdateTaskMenuYesNo((char *)p);
@@ -38,7 +39,7 @@ int WORLDTRADE_LIST_StateConfirmYesNoInput(unsigned char *p)
         WORLDTRADE_LIST_DrawSelectedRecord(p);
     } else if (r == 2) {
         WORLDTRADE_CloseTaskMenu((char *)p);
-        func_0201F7A8(((struct Obj00045 *)p)->fD40, 0);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj00045 *)p)->fD40, 0);
         *(int *)&((struct Obj00045 *)p)->f28 = 1;
         WORLDTRADE_LIST_PrintHeader(((struct Obj00045 *)p)->fB6C, p + 0xd50, 0x5e, p + 0xfa0);
         WORLDTRADE_LIST_PrintHeader(((struct Obj00045 *)p)->fB6C, p + 0xd54, 0x73, p + 0xfa0);

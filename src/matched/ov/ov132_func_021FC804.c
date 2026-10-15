@@ -1,5 +1,5 @@
 /*
- * function: func_021FC804
+ * function: MUS_COMM_FUNC_SetHostFlag
  * address: 0x021FC804
  * packet: pkt_ov132_021FC804
  * region: ov132
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 GFL_NET_IsParentAid(void);
-void func_021FC804(char *p) { if(GFL_NET_IsParentAid()==1) ((struct Obj14125 *)p)->f48=1; else ((struct Obj14125 *)p)->f48=2; }
+void MUS_COMM_FUNC_SetHostFlag(char *p) { if(GFL_NET_IsParentAid()==1) ((struct Obj14125 *)p)->f48=1; else ((struct Obj14125 *)p)->f48=2; }

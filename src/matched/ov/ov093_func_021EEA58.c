@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   gBtlAdapterSlots     0x021F6388  data  ov093  a4
  *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
  *   gBtlAdapterMode     0x021F6384  data  ov093  a4
@@ -27,7 +27,7 @@ typedef struct {
     u8 f;
 } Obj;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern Obj *gBtlAdapterSlots[];
 extern const char gBtlAdapterFileName[];
 extern int gBtlAdapterMode;
@@ -38,7 +38,7 @@ Obj *BTL_ADAPTER_Create(u32 a, int idx, u32 v, u32 heap)
 
     o = 0;
     if (gBtlAdapterSlots[idx] == 0) {
-        o = sub_02030734(heap, 0xbd0, 1, gBtlAdapterFileName, 0x7e);
+        o = GFL_HEAP_Alloc(heap, 0xbd0, 1, gBtlAdapterFileName, 0x7e);
         o->f00 = a;
         o->idx = idx;
         o->hi = (u8)v;

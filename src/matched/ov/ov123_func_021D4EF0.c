@@ -15,7 +15,7 @@
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
@@ -35,7 +35,7 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, void *, void *, int, u16, int);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -54,7 +54,7 @@ void GSYNC_MENU_PrintMessage(char *p, int n, int flag)
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(obj), 0, 0, ((struct Obj02473 *)p)->f38, ((struct Obj02473 *)p)->f30);
     }
-    func_0201F73C(obj, 1, (u16)(((struct Obj02473 *)p)->f3C), 12);
+    BMP_MENUWORK_DrawWindow(obj, 1, (u16)(((struct Obj02473 *)p)->f3C), 12);
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
     func_02041B6C(5);

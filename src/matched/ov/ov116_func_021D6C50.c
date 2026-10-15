@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two zero alignment bytes follow the epilogue.
  * symbols:
- *   func_0217BC90 0x0217BC90 arm ov009
+ *   DWC_CheckProfanityProcess 0x0217BC90 arm ov009
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -18,7 +18,7 @@
 #include "../include/Obj13862.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_0217BC90(void);
+extern int DWC_CheckProfanityProcess(void);
 typedef unsigned int   u32;
 struct MsgBank;
 struct Rec;
@@ -31,7 +31,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 int WIFI_BSUBWAY_StatusCheckMessage(u8 *p,unsigned heap) {
     int flag,ready;
     void *bank,*str;
-    flag = func_0217BC90()==2;
+    flag = DWC_CheckProfanityProcess()==2;
     if(flag) ready = ((struct Obj13862 *)p)->f210>0;
     if(flag==0) return 0;
     if(flag==1 && ready==1) {

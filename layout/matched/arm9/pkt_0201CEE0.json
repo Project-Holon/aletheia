@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0201D26C",
+   "name": "GF_FONT_MeasureTextWidth",
    "address": "0x0201D26C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0201D304",
+   "name": "GF_FONT_MeasureWidestLine",
    "address": "0x0201D304",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0201D42C",
+   "name": "GF_FONT_CountLines",
    "address": "0x0201D42C",
    "kind": "game",
    "region": "arm9",
@@ -150,7 +150,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201D528"
+    "GF_FONT_MeasureText"
+   ],
+   "addresses": [
+    "0x0201D528"
    ]
   },
   {
@@ -165,13 +168,13 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201D5C4",
+    "GF_FONT_GetTagChar",
     "GF_FONT_CheckD5CC",
-    "func_0201D5F4",
-    "func_0201D60C",
-    "func_0201D658",
-    "func_0201D670",
-    "func_0201D688"
+    "GF_FONT_GetTagGroup",
+    "GF_FONT_AppendTag",
+    "GF_FONT_GetTagKind",
+    "GF_FONT_GetTagParam",
+    "GF_FONT_SkipTag"
    ],
    "addresses": [
     "0x0201D5C4",

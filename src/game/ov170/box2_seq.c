@@ -140,7 +140,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   KEY_GetRepeatSpeed 0x02036370 arm
  *   KEY_SetRepeatSpeed 0x02036270 arm
  *   BOX2_MAIN_ResetGraphics 0x021DC9C4 thumb ov170
@@ -166,7 +166,7 @@
  *   BOX2_MAIN_DeleteTextSystem  0x021DCE80  thumb  ov170
  *   BOX2_MAIN_DeletePalAnm  0x021DCDD8  thumb  ov170
  *   BOX2_MAIN_DeleteBgSys  0x021DCB48  thumb  ov170
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
  *   PALANM_GetFadeRequestBits   0x02021ED8  thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -294,14 +294,14 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_Clear 0x02043B5C arm
- *   func_0201EEA4 0x0201EEA4 thumb
- *   func_0201EF14 0x0201EF14 thumb
+ *   WORDSET_SetSlotMonNameAlt 0x0201EEA4 thumb
+ *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EF98 0x0201EF98 thumb
- *   func_0201EF8C 0x0201EF8C thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotFromMsg18 0x0201EF98 thumb
+ *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   BMP_WIN_GetPosX 0x02045758 arm
  *   BMP_WIN_GetPosY 0x02045760 arm
@@ -317,8 +317,8 @@
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   BGWINFRM_ChangePalette 0x0202CE50 thumb
- *   func_0201F73C 0x0201F73C thumb
- *   func_0201F7A8  0x0201F7A8  thumb  ov170
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  ov170
  *   BOX2_UI_HideSlots678 0x021EE0FC thumb
  *   BOX2_UI_CreateBmpOam 0x021EE120 thumb ov170
  *   BOX2_UI_DeleteBmpOam  0x021EE200  thumb  ov170
@@ -380,7 +380,7 @@
  *   func_020275EC 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
- *   func_02020F08 0x02020F08 thumb
+ *   FILE_UTIL_GetItemCount 0x02020F08 thumb
  *   func_02049E34 0x02049E34 arm
  *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
@@ -931,7 +931,7 @@ extern void BG_SYS_SetMainVisiblePlanes(unsigned);
 
 extern void BG_SYS_SetSubVisiblePlanes(unsigned);
 
-extern void func_0204363C(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
@@ -983,7 +983,7 @@ extern void BOX2_MAIN_DeleteBgSys(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *a);
 
-extern void func_020306F0(unsigned int a);
+extern void GFL_HEAP_DeleteChecked(unsigned int a);
 
 extern void func_02034A5C(int a);
 
@@ -1213,21 +1213,21 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void func_0201EEA4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNameAlt(struct WordSet *p, u32 i, void *mon);
 
-extern void func_0201EF14(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *p, u32 i, void *mon);
 
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern void func_0201EF98(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg18(struct WordSet *p, u32 i, u32 v);
 
-extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 
@@ -1261,9 +1261,9 @@ extern void BMP_OAM_UploadChars(struct Obj *o);
 
 extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
-extern void func_0201F7A8(void *, int);
+extern void BMP_MENUWORK_DrawWindowBorder(void *, int);
 
 extern void BOX2_UI_HideSlots678(BoxTask *p);
 
@@ -1411,7 +1411,7 @@ extern u8 func_020275EC(int i);
 
 extern unsigned FILE_UTIL_Get(unsigned,unsigned);
 
-extern unsigned func_02020F08(void);
+extern unsigned FILE_UTIL_GetItemCount(void);
 
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
@@ -2685,12 +2685,12 @@ int BOX2_SEQ_UpdatePrintQueue(BoxTask *p, int *state)
 
 /*
  *   src/matched/arm9/unit_0204361C.c contains its body but omits it from
- *   the function list. Its header should list BG_SYS_ResetSubDisplay,func_0204363C,
- *   func_02043658 and its shard must be regenerated by the owner.
+ *   the function list. Its header should list BG_SYS_ResetSubDisplay,BMP_SetDisplaySwap,
+ *   BMP_GetVisiblePlane and its shard must be regenerated by the owner.
  *   Verified standalone EXACT, dsi/1.1p1 -O4,p ARM c99, 28 bytes:
  *   typedef unsigned short u16;
  *   typedef unsigned int u32;
- *   void func_0204363C(u32 swap) {
+ *   void BMP_SetDisplaySwap(u32 swap) {
  *       *(volatile u16 *)0x04000304 =
  *           (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
  *   }
@@ -2706,7 +2706,7 @@ int BOX2_SEQ_CreateBox2Main(u8 *p)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
-    func_0204363C(0);
+    BMP_SetDisplaySwap(0);
     GFL_HEAP_CreateChildHeap(1,0x4C,0x80000);
     ((char *)((BoxTask *)(p))->work)=func_02030734(0x4C,0xA19C,1,str_021F140C,0x2B5);
     *(void **)(((char *)((BoxTask *)(p))->work)+0x1B0)=func_020490F4(7,0x4C);
@@ -2750,7 +2750,7 @@ int BOX2_SEQ_DeleteBox2Main(BoxTask *p)
     KEY_SetRepeatSpeed(*(u32 *)(*(u32 *)&p->work + 0x4c), *(u32 *)(*(u32 *)&p->work + 0x50));
     ARC_TOOL_DeleteHandle((void *)*(u32 *)(*(u32 *)&p->work + 0x1b0));
     func_020307B0((void *)p->work);
-    func_020306F0(0x4c);
+    GFL_HEAP_DeleteChecked(0x4c);
     *(u32 *)&p->work = 0;
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
@@ -8948,7 +8948,7 @@ void BOX2_SEQ_PrintTextWinEx(char *w, int i, void *bank, u32 idx, int x, int y, 
     u32 print;
     void *s;
     s = func_02045EC0(bank, idx);
-    func_0201F250(((struct Obj00414 *)w)->f84, (void *)(*(u32 *)&((struct Obj00414 *)w)->f88), s);
+    WORDSET_CopyTaggedText(((struct Obj00414 *)w)->f84, (void *)(*(u32 *)&((struct Obj00414 *)w)->f88), s);
     print = ((struct Obj00414 *)w)->f8C;
     PRINTSYS_PrintQueColor((void *)print, (u32)BMP_WIN_GetBmp(*(void **)(w + i * 8 + 0x94)), (short)x, (short)y, *(u32 *)&((struct Obj00414 *)w)->f88, font, color);
     *(unsigned char *)(w + i * 8 + 0x98) = 1;
@@ -8992,7 +8992,7 @@ void BOX2_SEQ_FillTextWinEntry(unsigned char *w,Entry_021EADB4 *e,unsigned i) {
  windows=(void **)(w+0x94);
  BMP_Clear(BMP_WIN_GetBmp(windows[i*2]),0);
  if(!e->flag) {
-  func_0201EEA4(((struct Obj00414 *)w)->f84,0,(void *)e->value);
+  WORDSET_SetSlotMonNameAlt(((struct Obj00414 *)w)->f84,0,(void *)e->value);
   BOX2_SEQ_PrintTextWinEx((char *)w,i,((struct Obj00414 *)w)->f80,0,0,0,((struct Obj00414 *)w)->f78,0x440);
  } else { BOX2_SEQ_SetDirtyBit((unsigned char *)w,i); return; }
  BOX2_SEQ_MakeScreen(windows+i*2);
@@ -9001,7 +9001,7 @@ void BOX2_SEQ_FillTextWinEntry(unsigned char *w,Entry_021EADB4 *e,unsigned i) {
 void BOX2_SEQ_FillTextWin(char *p, void **q, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
-    func_0201EF14(((BoxWork *)p)->font, 0, *q);
+    WORDSET_SetSlotMonSpeciesAlt(((BoxWork *)p)->font, 0, *q);
     BOX2_SEQ_PrintTextWinEx(p, i, ((BoxWork *)p)->fontRes, 1, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     BOX2_SEQ_MakeScreen((void **)(p + 0x94 + i * 8));
 }
@@ -9013,7 +9013,7 @@ void BOX2_SEQ_DrawCellEntry(char *p, Entry_021EAE74 *e, unsigned i)
     if (!e->flag) {
         BOX2_SEQ_PrintTextWinEx(p, i, ((BoxWork *)p)->fontRes, 107, 0, 0, ((BoxWork *)p)->heapId, 0x440);
         n = func_0201D304(((BoxWork *)p)->msgData, ((BoxWork *)p)->heapId, 0);
-        func_0201EFA4(((BoxWork *)p)->font, 0, e->low, 3, 0, 1);
+        WORDSET_SetSlotNumber(((BoxWork *)p)->font, 0, e->low, 3, 0, 1);
         BOX2_SEQ_PrintTextWinEx(p, i, ((BoxWork *)p)->fontRes, 103, n, 0, ((BoxWork *)p)->heapId, 0x440);
     } else {
         BOX2_SEQ_SetDirtyBit((unsigned char *)p, i); return;
@@ -9054,7 +9054,7 @@ void BOX2_SEQ_DrawTileEntry(char *p,const Entry_021EAFBC *e,u32 i)
         if (n != 999) {
             BOX2_SEQ_PrintTextWinEx(((char *)((BoxTask *)(p))->work),i,*(void **)(((char *)((BoxTask *)(p))->work)+128),108,0,0,*(u32 *)(((char *)((BoxTask *)(p))->work)+120),1088);
             text=func_0201D304(*(void **)(((char *)((BoxTask *)(p))->work)+136),*(u32 *)(((char *)((BoxTask *)(p))->work)+120),0);
-            func_0201EFA4(*(void **)(((char *)((BoxTask *)(p))->work)+132),0,n,3,2,1);
+            WORDSET_SetSlotNumber(*(void **)(((char *)((BoxTask *)(p))->work)+132),0,n,3,2,1);
             BOX2_SEQ_PrintTextWinEx(((char *)((BoxTask *)(p))->work),i,*(void **)(((char *)((BoxTask *)(p))->work)+128),104,text,0,*(u32 *)(((char *)((BoxTask *)(p))->work)+120),1088);
         } else { BOX2_SEQ_SetDirtyBit((unsigned char *)((char *)((BoxTask *)(p))->work),i); return; }
     } else { BOX2_SEQ_SetDirtyBit((unsigned char *)((char *)((BoxTask *)(p))->work),i); return; }
@@ -9065,7 +9065,7 @@ void BOX2_SEQ_DrawMoveEntry(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!((Entry_021EB098 *)e)->flag) {
-        func_0201EF98(((BoxWork *)p)->font, 0, e[15]);
+        WORDSET_SetSlotFromMsg18(((BoxWork *)p)->font, 0, e[15]);
         BOX2_SEQ_PrintTextWinEx(p, i, ((BoxWork *)p)->fontRes, 98, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     } else {
         BOX2_SEQ_PrintTextWin((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 106, 0, 0, ((BoxWork *)p)->heapId, 0x440);
@@ -9077,7 +9077,7 @@ void BOX2_SEQ_DrawSwapEntry(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!((Entry_021EB114 *)e)->flag) {
-        func_0201EF8C(((BoxWork *)p)->font, 0, e[14]);
+        WORDSET_SetSlotFromMsgB6(((BoxWork *)p)->font, 0, e[14]);
         BOX2_SEQ_PrintTextWinEx(p, i, ((BoxWork *)p)->fontRes, 97, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     } else {
         BOX2_SEQ_PrintTextWin((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 106, 0, 0, ((BoxWork *)p)->heapId, 0x440);
@@ -9339,8 +9339,8 @@ void BOX2_SEQ_DrawMonName(char **p, unsigned a, int i)
 {
     void *s = func_02045EC0(((struct Obj23975 *)(p[11]))->f80, 0x1E);
     unsigned n = func_020078C4((void *)(((unsigned *)p[0])[1]), a);
-    func_0201EFA4(((struct Obj23977 *)(p[11]))->f84, 0, n, 2, 0, 1);
-    func_0201F250(((struct Obj23978 *)(p[11]))->f84, ((struct Obj23979 *)(p[11]))->f88, s);
+    WORDSET_SetSlotNumber(((struct Obj23977 *)(p[11]))->f84, 0, n, 2, 0, 1);
+    WORDSET_CopyTaggedText(((struct Obj23978 *)(p[11]))->f84, ((struct Obj23979 *)(p[11]))->f88, s);
     BMP_Clear(*(void **)(p[11] + i * 8 + 8), 0);
     if (n == 0x1E)
         PRINTSYS_PrintColor(*(void **)(p[11] + i * 8 + 8), 0, 0, ((struct Obj23980 *)(p[11]))->f88, ((struct Obj23981 *)(p[11]))->f7C, 0x1480);
@@ -9390,7 +9390,7 @@ void BOX2_SEQ_DrawFrameList(BoxTask *p, const void *e, unsigned n)
 void BOX2_SEQ_ClearMessageWindow(BoxTask *p, void *win)
 {
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)win), 0xF);
-    func_0201F73C(win, 2, (unsigned short)*(int *)(((char *)((BoxTask *)(p))->work) + 0x178), 10);
+    BMP_MENUWORK_DrawWindow(win, 2, (unsigned short)*(int *)(((char *)((BoxTask *)(p))->work) + 0x178), 10);
 }
 
 /*
@@ -9398,7 +9398,7 @@ void BOX2_SEQ_ClearMessageWindow(BoxTask *p, void *win)
  */
 void BOX2_SEQ_ShowWindowObject(char *p, int i)
 {
-    func_0201F7A8(*(void **)(p + i * 8 + 0x94), 1);
+    BMP_MENUWORK_DrawWindowBorder(*(void **)(p + i * 8 + 0x94), 1);
 }
 
 /*
@@ -9406,7 +9406,7 @@ void BOX2_SEQ_ShowWindowObject(char *p, int i)
  */
 void BOX2_SEQ_HideWindowObject(char *p, int i)
 {
-    func_0201F7A8(*(void **)(p + i * 8 + 0x94), 0);
+    BMP_MENUWORK_DrawWindowBorder(*(void **)(p + i * 8 + 0x94), 0);
 }
 
 /*
@@ -9506,14 +9506,14 @@ void BOX2_SEQ_PrintMonName(BoxTask *p, unsigned kind, int i)
     switch (kind) {
     case 0: msg = 2; break;
     case 1: msg = 3;
-        func_0201EF14(((struct Obj23992 *)(*(char * *)&p->work))->f84, 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
+        WORDSET_SetSlotMonSpeciesAlt(((struct Obj23992 *)(*(char * *)&p->work))->f84, 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
         break;
     case 2: msg = 4;
-        func_0201EF14(((struct Obj23993 *)(*(char * *)&p->work))->f84, 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
+        WORDSET_SetSlotMonSpeciesAlt(((struct Obj23993 *)(*(char * *)&p->work))->f84, 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
         break;
     case 3: msg = 0x1c; break;
     case 4: msg = 0x1d;
-        func_0201EF14(((struct Obj23994 *)(*(char * *)&p->work))->f84, 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
+        WORDSET_SetSlotMonSpeciesAlt(((struct Obj23994 *)(*(char * *)&p->work))->f84, 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
         break;
     case 5: msg = 0x1e; break;
     case 6: msg = 6; break;
@@ -9537,7 +9537,7 @@ void BOX2_SEQ_PrintPrompt(BoxTask *p, int sel, int kind, int i)
         break;
     case 1:
         msg = 0;
-        func_0201EF14(*(void **)(((char *)((BoxTask *)(p))->work) + 0x84), 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
+        WORDSET_SetSlotMonSpeciesAlt(*(void **)(((char *)((BoxTask *)(p))->work) + 0x84), 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p->curBox, p->cursorSlot));
         break;
     case 2:
         msg = 5;
@@ -9626,7 +9626,7 @@ void BOX2_SEQ_PrintMenuRow(char *p, int row, int b)
     BOX2_SEQ_PrintMessageMsg((BoxTask *)p, row, b);
 }
 
-void BOX2_SEQ_PrintBoxMonName(unsigned char *p){void *m=(void *)BOX2_MAIN_GetMonAt((void ***)p,p[20],p[22]);func_0201EF14((struct WordSet *)(((struct Obj23995 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f84), 0, m);BOX2_SEQ_PrintMessageMsg((BoxTask *)p,50,27);}
+void BOX2_SEQ_PrintBoxMonName(unsigned char *p){void *m=(void *)BOX2_MAIN_GetMonAt((void ***)p,p[20],p[22]);WORDSET_SetSlotMonSpeciesAlt((struct WordSet *)(((struct Obj23995 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f84), 0, m);BOX2_SEQ_PrintMessageMsg((BoxTask *)p,50,27);}
 
 /*
  * Index 0x35 when the flag is clear, 0x36 when set.
@@ -10434,10 +10434,10 @@ void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item)
     void *a;
     void *b;
     void *q;
-    q = func_02049E34(func_02020F08(), FILE_UTIL_Get(item, 1), 0, (u32)(&a), 0x4C);
+    q = func_02049E34(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 1), 0, (u32)(&a), 0x4C);
     CLACT_TransferCharacter(CLACT_GetActorCharacterIndex(((struct Obj14276 *)w)->f9E9C), a);
     func_020307B0((void *)q);
-    q = func_02049F34(func_02020F08(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
+    q = func_02049F34(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
     CLACT_TransferPalette((void *)CLACT_GetActorPaletteIndex(((struct Obj14276 *)w)->f9E9C), b, 1);
     func_020307B0((void *)q);
 }

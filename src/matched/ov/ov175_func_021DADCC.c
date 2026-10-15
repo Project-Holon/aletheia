@@ -1,5 +1,5 @@
 /*
- * function: func_021DADCC
+ * function: WIFIBATTLEMATCH_NET_OnReportResultB
  * address:  0x021DADCC
  * packet:   pkt_021DADCC
  * region:   ov175
@@ -23,7 +23,7 @@ typedef unsigned long u32;
 extern void *DWC_ScGetConnectionId(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-void func_021DADCC(int result, char *obj)
+void WIFIBATTLEMATCH_NET_OnReportResultB(int result, char *obj)
 {
     char *p = *(char * *)&((struct Obj10685 *)obj)->f1464 + 4;
 

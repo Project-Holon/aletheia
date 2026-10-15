@@ -1,5 +1,5 @@
 /*
- * function: func_021F299C
+ * function: NAMEIN_GRAPHIC_SymbolGetBox
  * address: 0x021F299C
  * packet: pkt_ov194_021F299C
  * region: ov194
@@ -9,18 +9,18 @@
  * status: EXACT
  * lever: case 0 follows case 9; repeated stores in each case-8 arm preserve backward tail sharing.
  * symbols:
- *   func_021F2F8C 0x021F2F8C thumb ov194
+ *   NAMEIN_GRAPHIC_SymbolGetValue 0x021F2F8C thumb ov194
  *   d_021F5544 0x021F5544 data a4
  *   d_021F5550 0x021F5550 data a4
  */
 typedef struct {int x,y;} Pair;
 typedef struct {int x,y,z,w;} Box;
-extern int func_021F2F8C(Pair *,Pair *);
+extern int NAMEIN_GRAPHIC_SymbolGetValue(Pair *,Pair *);
 extern const int d_021F5544[],d_021F5550[];
-int func_021F299C(Pair *p,Box *out)
+int NAMEIN_GRAPHIC_SymbolGetBox(Pair *p,Box *out)
 {
  Pair xy;
- switch((unsigned)func_021F2F8C(p,&xy)) {
+ switch((unsigned)NAMEIN_GRAPHIC_SymbolGetValue(p,&xy)) {
  case 1:out->x=d_021F5544[xy.y]+xy.x*2;out->y=d_021F5550[xy.y];out->z=out->x+2;out->w=out->y+3;break;
  case 2:case 3:case 4:case 5:out->x=(p->x+1)*3;out->y=20;out->z=out->x+3;out->w=out->y+3;break;
  case 6:out->x=25;out->y=8;out->z=out->x+4;out->w=out->y+3;break;

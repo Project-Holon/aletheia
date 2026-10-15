@@ -1,5 +1,5 @@
 /*
- * function: func_021D6B5C
+ * function: GTSNEGO_MSG_DeleteActors
  * address: 0x021D6B5C
  * packet: pkt_ov120_021D6B5C
  * region: ov120
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021D6B5C(u8 *p){int i;for(i=0;i<12;i++){if(*(void **)(p+i*4+0xc4)){CLACT_DeleteActor(*(void **)(p+i*4+0xc4));*(int *)(p+i*4+0xc4)=0;}}}
+void GTSNEGO_MSG_DeleteActors(u8 *p){int i;for(i=0;i<12;i++){if(*(void **)(p+i*4+0xc4)){CLACT_DeleteActor(*(void **)(p+i*4+0xc4));*(int *)(p+i*4+0xc4)=0;}}}

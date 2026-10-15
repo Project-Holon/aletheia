@@ -1,5 +1,5 @@
 /*
- * function: func_021C82C0
+ * function: VIEWER_ACTOR_LoadTexture
  * address:  0x021C82C0
  * packet:   pkt_ov111_021C82C0
  * region:   ov111
@@ -135,7 +135,7 @@ static inline const u16 *TexGetPltt(const Tex *t, u32 idx)
     return 0;
 }
 
-void func_021C82C0(Work *p, int idx, int k)
+void VIEWER_ACTOR_LoadTexture(Work *p, int idx, int k)
 {
     u8 *dst;
     Tex *tex;

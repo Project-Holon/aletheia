@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02042ED8
+ * function: BG_SYS_BlitTileMapEx
  * address:  0x02042ED8
  * packet:   pkt_02042B24
  * region:   arm9
@@ -13,11 +13,11 @@
  * symbols:
  *   func_020422D4  0x020422D4  arm
  *
- * The text-screen fill of the three blitters func_02041300 dispatches to.
- * Like func_02042E34 it takes the slot's sub-object (slot + 8), so the
+ * The text-screen fill of the three blitters BG_SYS_SetTileEntry dispatches to.
+ * Like BG_SYS_BlitPixelsEx it takes the slot's sub-object (slot + 8), so the
  * buffer pointer is at +0x00 and the screen-size code at +0x15, but the
  * buffer is a linear u16 screen here: the row base is `width * y`, not the
- * tiled func_02040EE0 mapping.
+ * tiled BG_SYS_GetTileMapEntry mapping.
  *
  * The seventh argument is the write mode and decides what lands in the
  * entry: 0x11 writes the value as it stands, 0x10 keeps the existing palette
@@ -39,11 +39,11 @@
  * `[r3, sl]`.
  *
  * The mode arrives on the stack as a full word (`ldr`, not `ldrb`), so it is
- * `u32` here even though func_02041300 hands it a value that fits in a byte.
+ * `u32` here even though BG_SYS_SetTileEntry hands it a value that fits in a byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02042ED8.c \
- *       --func func_02042ED8 --addr 0x02042ED8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_BlitTileMapEx.c \
+ *       --func BG_SYS_BlitTileMapEx --addr 0x02042ED8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -58,7 +58,7 @@ struct Screen {
 
 extern void func_020422D4(u32 mode, u8 *a, u8 *b);
 
-void func_02042ED8(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+void BG_SYS_BlitTileMapEx(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u32 mode)
 {
     u8   width;

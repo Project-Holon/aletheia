@@ -1,5 +1,5 @@
 /*
- * function: func_02184234
+ * function: ArrayAppend
  * address:  0x02184234
  * packet:   pkt_02155168
  * region:   ov009
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_02184234(void *p, void *a)
+void ArrayAppend(void *p, void *a)
 {
     void func_0218424C(void *, void *, void *);
     if (p) func_0218424C(p, a, *(void **)p);

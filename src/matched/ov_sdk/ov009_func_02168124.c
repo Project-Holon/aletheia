@@ -1,5 +1,5 @@
 /*
- * function: func_02168124
+ * function: DWC_NASLoginProcess
  * address:  0x02168124
  * packet:   pkt_ov009_02168124
  * region:   ov009
@@ -48,7 +48,7 @@ extern void func_0205A1B0(int name, void *ptr, unsigned long size);
 extern void func_02059F54(int error, int errorCode);
 extern NalCnt *g_021AA830;
 
-int func_02168124(void)
+int DWC_NASLoginProcess(void)
 {
     AuthResult result;
 

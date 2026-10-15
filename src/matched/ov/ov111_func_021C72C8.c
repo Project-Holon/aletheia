@@ -1,5 +1,5 @@
 /*
- * function: func_021C72C8
+ * function: VIEWER_TEXT_ExitBg
  * address:  0x021C72C8
  * packet:   pkt_ov111_021C72C8
  * region:   ov111
@@ -45,7 +45,7 @@ extern void func_020403F4(u32 i);
 extern void BG_SYS_Delete(void);
 extern const u32 d_021C885C[];
 
-void func_021C72C8(void)
+void VIEWER_TEXT_ExitBg(void)
 {
     u32 i;
 

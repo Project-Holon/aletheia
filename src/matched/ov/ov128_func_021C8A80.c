@@ -15,8 +15,8 @@
  * 021C8904 forwards that value to this eighth argument at 021C896A.
  * symbols:
  *   func_021C8B90 0x021C8B90 thumb ov128
- *   func_021C40BC 0x021C40BC thumb ov127
- *   func_021C42A8 0x021C42A8 thumb ov127
+ *   WIFI_2DCHAR_SpawnActor 0x021C40BC thumb ov127
+ *   WIFI_2DCHAR_SetActorAnim 0x021C42A8 thumb ov127
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetString 0x02045924 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -35,9 +35,9 @@ extern int func_02009864(void *, int, int);
 struct Sub020097BCEnt;
 struct Sub020097BCObj;
 extern void func_021C8B90(char *p, char *q, int unused, int i, u16 h);
-extern void *func_021C40BC(void *, s16 *, int, u32);
+extern void *WIFI_2DCHAR_SpawnActor(void *, s16 *, int, u32);
 struct obj;
-extern void func_021C42A8(struct obj *p, int idx, int a);
+extern void WIFI_2DCHAR_SetActorAnim(struct obj *p, int idx, int a);
 struct Strbuf;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -62,8 +62,8 @@ void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx
         local.pos[1] = (((struct Obj05381 *)p)->f2 + d_021CA6C8[i].y) * 8 + 10;
         local.pos[2] = 8;
         local.pos[3] = 1;
-        *(void **)(p + 12 + (int)((u32)i * 4u)) = func_021C40BC(a, local.pos, result8, heap);
-        func_021C42A8(*(void **)(p + 12 + (int)((u32)i * 4u)), 0, 1);
+        *(void **)(p + 12 + (int)((u32)i * 4u)) = WIFI_2DCHAR_SpawnActor(a, local.pos, result8, heap);
+        WIFI_2DCHAR_SetActorAnim(*(void **)(p + 12 + (int)((u32)i * 4u)), 0, 1);
     }
     str = STRBUF_Create(128, heap);
     STRBUF_SetString(str, (const u16 *)func_020099D4(base, idx));

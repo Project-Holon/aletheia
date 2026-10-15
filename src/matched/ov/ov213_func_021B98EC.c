@@ -1,5 +1,5 @@
 /*
- * function: func_021B98EC
+ * function: COMM_BTL_DEMO_MAIN_Tick
  * address: 0x021B98EC
  * packet: pkt_ov213_021B98EC
  * region: ov213
@@ -48,7 +48,7 @@ extern int soundFor(int,int);
 extern void sound(int);
 extern int animate(char *,int,const struct Record *);
 extern void fade(u32,int,int,int);
-int func_021B98EC(u8 *task,char *p)
+int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p)
 {
     u32 state;
     struct Record a,b,c,d;

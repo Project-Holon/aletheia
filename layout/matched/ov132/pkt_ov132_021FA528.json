@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FA528",
+   "name": "STA_ACT_AUDIENCE_RandomizeRecords",
    "address": "0x021FA528",
    "kind": "game",
    "region": "ov132",

@@ -11,13 +11,13 @@
  *
  * symbols:
  *   B_BAG_MAIN_DrawLabels 0x0220B248 thumb
- *   func_0220B774 0x0220B774 thumb
- *   func_0220B880 0x0220B880 thumb
+ *   B_BAG_MAIN_DrawItemsPage 0x0220B774 thumb
+ *   B_BAG_MAIN_DrawOtherPage 0x0220B880 thumb
  */
 
 extern void B_BAG_MAIN_DrawLabels(char *);
-extern void func_0220B774(char *);
-extern void func_0220B880(char *);
+extern void B_BAG_MAIN_DrawItemsPage(char *);
+extern void B_BAG_MAIN_DrawOtherPage(char *);
 
 void B_BAG_MAIN_DrawPage(char *a, int which)
 {
@@ -27,10 +27,10 @@ void B_BAG_MAIN_DrawPage(char *a, int which)
         B_BAG_MAIN_DrawLabels(a);
         break;
     case 1:
-        func_0220B774(a);
+        B_BAG_MAIN_DrawItemsPage(a);
         break;
     case 2:
-        func_0220B880(a);
+        B_BAG_MAIN_DrawOtherPage(a);
         break;
     }
 }

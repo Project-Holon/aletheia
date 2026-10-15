@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02067FE4",
+   "name": "NNS_G2dFontGetCharWidthsFromIndex",
    "address": "0x02067FE4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02068030",
+   "name": "NNS_G2dFontGetStringWidth",
    "address": "0x02068030",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020680DC",
+   "name": "NNS_G2dFontGetTextHeight",
    "address": "0x020680DC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02068150",
+   "name": "NNS_G2dFontGetTextRect",
    "address": "0x02068150",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020681E4",
+   "name": "NNSi_G2dCalcRectMask",
    "address": "0x020681E4",
    "kind": "game",
    "region": "arm9",

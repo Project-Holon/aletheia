@@ -1,5 +1,5 @@
 /*
- * function: func_021E050C
+ * function: BR_CODEIN_CodeCreate2
  * address: 0x021E050C
  * packet: pkt_ov183_021E050C
  * region: ov183
@@ -17,8 +17,8 @@
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
- *   func_021E07A4 0x021E07A4 thumb ov183
- *   func_021E06D0 0x021E06D0 thumb ov183
+ *   BR_CODEIN_ProfileCreateObject 0x021E07A4 thumb ov183
+ *   BR_CODEIN_ProfileCreate 0x021E06D0 thumb ov183
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
@@ -38,13 +38,13 @@ extern void MI_CpuFill8(void *, int, unsigned int);
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern void BR_RES_LoadSprite(char *, unsigned int, unsigned int);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
-extern struct Object *func_021E07A4(int heap, int n, void *a, void *b, void *c, int *entries);
+extern struct Object *BR_CODEIN_ProfileCreateObject(int heap, int n, void *a, void *b, void *c, int *entries);
 struct Source;
-extern char *func_021E06D0(const struct Source *src, u16 heap);
+extern char *BR_CODEIN_ProfileCreate(const struct Source *src, u16 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void *BR_UTIL_CreateTextWin(int, void *, u16);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
-int func_021E050C(void *task, int unused, char *q)
+int BR_CODEIN_CodeCreate2(void *task, int unused, char *q)
 {
     struct Data *p;
     int entries[3];
@@ -61,8 +61,8 @@ int func_021E050C(void *task, int unused, char *q)
     entries[0] = 2;
     entries[1] = 5;
     entries[2] = 5;
-    p->a = func_021E07A4(p->heap, 12, ((struct Obj01767 *)q)->f4, (void *)(*(int *)&((struct Obj01767 *)q)->f8), p->e, entries);
-    p->b = func_021E06D0(p->a, p->heap);
+    p->a = BR_CODEIN_ProfileCreateObject(p->heap, 12, ((struct Obj01767 *)q)->f4, (void *)(*(int *)&((struct Obj01767 *)q)->f8), p->e, entries);
+    p->b = BR_CODEIN_ProfileCreate(p->a, p->heap);
     p->d = (void *)PRINTSYS_QUE_Create((void *)p->heap);
     p->c = BR_UTIL_CreateTextWin(*(int *)&((struct Obj01767 *)q)->f8, p->d, p->heap);
     BR_UTIL_SetWindowText(p->c, (char *)(*(int *)&((struct Obj01767 *)q)->f8), (void *)104);

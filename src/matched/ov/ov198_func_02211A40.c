@@ -1,5 +1,5 @@
 /*
- * function: func_02211A40
+ * function: B_PLIST_MAIN_ShowCursor
  * address:  0x02211A40
  * packet:   pkt_02211A40
  * region:   ov198
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02211A24   0x02211A24  thumb  ov198
- *   func_02211A10   0x02211A10  thumb  ov198
+ *   B_PLIST_MAIN_LayoutCursorActors   0x02211A24  thumb  ov198
+ *   B_PLIST_MAIN_SetActorsVisible   0x02211A10  thumb  ov198
  */
 
 typedef unsigned char u8;
 
-extern void func_02211A24(u8 *, unsigned);
+extern void B_PLIST_MAIN_LayoutCursorActors(u8 *, unsigned);
 typedef unsigned int   u32;
-extern u32 func_02211A10(u8 *p, u32 v);
+extern u32 B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v);
 
-void func_02211A40(u8 *p, unsigned idx)
+void B_PLIST_MAIN_ShowCursor(u8 *p, unsigned idx)
 {
-    func_02211A24(p, idx);
-    func_02211A10(p, 1);
+    B_PLIST_MAIN_LayoutCursorActors(p, idx);
+    B_PLIST_MAIN_SetActorsVisible(p, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F7098
+ * function: STA_ACT_LIGHT_SetModelFrame
  * address:  0x021F7098
  * packet:   pkt_ov112_021F7098
  * region:   ov112
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021F7098(u8 *p, u16 v) { ((struct Obj22556 *)p)->f8 = v; }
+void STA_ACT_LIGHT_SetModelFrame(u8 *p, u16 v) { ((struct Obj22556 *)p)->f8 = v; }

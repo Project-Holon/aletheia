@@ -11,7 +11,7 @@
  *
  * symbols:
  *   STRBUF_Delete  0x02045808  arm
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef unsigned int  u32;
 
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 struct Item {
     u32 unk0;
@@ -36,5 +36,5 @@ void CURSOR_MOVE_DeleteVecSet(void *obj)
         STRBUF_Delete(items[i].vec1);
         STRBUF_Delete(items[i].vec2);
     }
-    sub_020307B0(obj);
+    GFL_HEAP_Free(obj);
 }

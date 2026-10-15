@@ -16,7 +16,7 @@
  *   strcpy  0x02094798  arm
  *   strlen  0x0209477C  arm
  *   func_0215FA9C  0x0215FA9C  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   SendPacket  0x021992A8  arm  ov009
  *   GetLocalPort  0x02199360  arm  ov009
  *   current_time  0x0217F264  arm  ov009
@@ -98,7 +98,7 @@ extern unsigned int GetLocalIP(void);
 extern char *strcpy(char *dst, const char *src);
 extern unsigned long strlen(const char *s);
 extern char *func_0215FA9C(unsigned int in);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
 extern unsigned short GetLocalPort(int sock);
 extern unsigned int current_time(void);
@@ -141,13 +141,13 @@ void SendInitPackets(NATNegotiator *neg)
 
     if (p->usegameport && !neg->initAckRecv[0]) {
         p->porttype = 0;
-        func_0217D254(7, 0, 8, gNatNegInitGpFmt, func_0215FA9C(gNatNegServer1IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitGpFmt, func_0215FA9C(gNatNegServer1IP), 27901);
         SendPacket(neg->gameSock, gNatnegGlobals.matchup1ip, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[1]) {
         p->porttype = 1;
-        func_0217D254(7, 0, 8, gNatNegInitNn1Fmt, neg->cookie, func_0215FA9C(gNatNegServer1IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn1Fmt, neg->cookie, func_0215FA9C(gNatNegServer1IP), 27901);
         SendPacket(neg->negotiateSock, gNatnegGlobals.matchup1ip, 27901, p, packetlen);
     }
 
@@ -157,13 +157,13 @@ void SendInitPackets(NATNegotiator *neg)
 
     if (!neg->initAckRecv[2]) {
         p->porttype = 2;
-        func_0217D254(7, 0, 8, gNatNegInitNn2Fmt, neg->cookie, func_0215FA9C(gNatNegServer2IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn2Fmt, neg->cookie, func_0215FA9C(gNatNegServer2IP), 27901);
         SendPacket(neg->negotiateSock, gNatnegGlobals.matchup2ip, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[3]) {
         p->porttype = 3;
-        func_0217D254(7, 0, 8, gNatNegInitNn3Fmt, neg->cookie, func_0215FA9C(gNatNegServer3IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn3Fmt, neg->cookie, func_0215FA9C(gNatNegServer3IP), 27901);
         SendPacket(neg->negotiateSock, gNatnegGlobals.matchup3ip, 27901, p, packetlen);
     }
 

@@ -17,9 +17,9 @@
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -34,7 +34,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -45,7 +45,7 @@
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_Init 0x02045088 arm
  *   func_02030734 0x02030734 arm
  *   TCBL_Create 0x0203101C arm
@@ -68,12 +68,15 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   GF_FONT_AppendTag  0x0201D60C  thumb  arm9
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  */
 #include "pdwacc_message_types.h"
 
 typedef unsigned long long u64;
 
-typedef struct { u16 a[32]; } Table_021D8A9C;
+/* 32-entry lookup from a 5-bit account code to its character glyph. */
+typedef struct { u16 chars[32]; } AccountCodeCharTable;
 
 extern void TIME_ICON_Delete(u8 *);
 
@@ -83,11 +86,11 @@ extern u32 BMP_WIN_Delete(void *d);
 
 extern int func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 
 extern void BMP_WIN_ClearScreen(void *d);
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 
@@ -117,7 +120,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern u32 func_020307B0(void *p);
 
-extern void *func_0201F5DC(void *, u32, u32, u32);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
 
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
@@ -139,11 +142,11 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int textSpeed, void *tcbl, int, u16 heapId, int);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 extern void BMP_WIN_Init(u16);
 
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 
@@ -181,11 +184,11 @@ extern void STRBUF_Clear(struct U16Vec *vec);
 
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
-extern void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr);
+extern void GF_FONT_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
 
 extern const char d_021DABA8[];
 
-extern const Table_021D8A9C d_021DA868;
+extern const AccountCodeCharTable d_021DA868;
 
 extern const u16 d_021DA864;
 
@@ -218,7 +221,7 @@ PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
     work = func_02030734(heap, 0xb4, 1, d_021DABA8, 0x9b);
     work->heap = heap;
     BMP_WIN_Init(work->heap);
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     work->tcbl = TCBL_Create(work->heap, work->heap, 2, 0);
     work->printQue = PRINTSYS_QUE_Create(work->heap);
     work->msgBuf = STRBUF_Create(400, work->heap);
@@ -227,9 +230,9 @@ PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
     work->msgData = func_02045B38(0, 2, (u16)bank, work->heap);
     work->wordSet = GF_FONT_Create_EC64(work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heap);
-    work->bg1Frame = (u32)func_0201F5DC((void *)1, 12, 0, work->heap);
-    work->bg5Frame = (u32)func_0201F5DC((void *)5, 12, 0, work->heap);
-    work->bg6Frame = (u32)func_0201F5DC((void *)6, 12, 0, work->heap);
+    work->bg1Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)1, 12, 0, work->heap);
+    work->bg5Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heap);
+    work->bg6Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)6, 12, 0, work->heap);
     func_02049B40(23, 5, 4, 352, 32, work->heap);
     func_02049B40(23, 5, 0, 352, 32, work->heap);
     return work;
@@ -244,14 +247,14 @@ void PDWACC_MESSAGE_UpdateSystem(PdwaccMessageWork *work)
 void PDWACC_MESSAGE_ExitSystem(PdwaccMessageWork *work)
 {
     u32 frameHi;
-    int i;
+    int windowIndex;
     BG_SYS_DeleteHalf(1, (u16)(work->bg1Frame), (u16)(work->bg1Frame >> 16));
     frameHi = work->bg5Frame >> 16;
     BG_SYS_DeleteHalf(5, (u16)(work->bg5Frame), (u16)frameHi);
     frameHi = work->bg6Frame >> 16;
     BG_SYS_DeleteHalf(6, (u16)(work->bg6Frame), (u16)frameHi);
     PDWACC_MESSAGE_DeleteButtonManager(work);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
     STRBUF_Delete(work->msgBuf);
@@ -269,7 +272,7 @@ void PDWACC_MESSAGE_ExitSystem(PdwaccMessageWork *work)
     if (work->labelWin) BMP_WIN_Delete(work->labelWin);
     if (work->mainWin) BMP_WIN_Delete(work->mainWin);
     if (work->subWin) BMP_WIN_Delete(work->subWin);
-    for (i = 0; i < 12; i++) if (work->windows[i]) BMP_WIN_Delete(work->windows[i]);
+    for (windowIndex = 0; windowIndex < 12; windowIndex++) if (work->windows[windowIndex]) BMP_WIN_Delete(work->windows[windowIndex]);
     TCBL_Destroy(work->tcbl);
     BMP_WIN_Exit();
     func_020307B0(work);
@@ -285,7 +288,7 @@ void PDWACC_MESSAGE_PrintStream(PdwaccMessageWork *work, int msgId)
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     work->printStream = PRINTSYS_PrintStream(win, 0, 0, work->msgBuf, work->font, MSG_SPEED_GetWait(), work->tcbl, 2, work->heap, 15);
-    func_0201F73C(win, 1, (u16)(work->bg5Frame), 12);
+    BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
     func_02041B6C(5);
@@ -328,7 +331,7 @@ void PDWACC_MESSAGE_ClearStream(PdwaccMessageWork *work)
         work->timeIcon = 0;
     }
     if (work->mainWin) {
-        func_0201F7A8(work->mainWin, 2);
+        BMP_MENUWORK_DrawWindowBorder(work->mainWin, 2);
         BMP_WIN_ClearScreen(work->mainWin);
         func_02041B6C(5);
         BMP_WIN_Delete(work->mainWin);
@@ -373,7 +376,7 @@ void PDWACC_MESSAGE_PrintInWindow(PdwaccMessageWork *work, int msgId)
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
-    func_0201F73C(win, 1, (u16)(work->bg6Frame), 12);
+    BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg6Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
     func_02041B6C(6);
@@ -381,7 +384,7 @@ void PDWACC_MESSAGE_PrintInWindow(PdwaccMessageWork *work, int msgId)
 
 void PDWACC_MESSAGE_ClearWindow(PdwaccMessageWork *work)
 {
-    func_0201F7A8(work->subWin, 2);
+    BMP_MENUWORK_DrawWindowBorder(work->subWin, 2);
     BMP_WIN_ClearScreen(work->subWin);
     func_02041B6C(6);
 }
@@ -389,24 +392,24 @@ void PDWACC_MESSAGE_ClearWindow(PdwaccMessageWork *work)
 /* Writes the 10 character account code of value into buf: 5 bits per character from the value and its checksum. */
 void PDWACC_MESSAGE_FormatNumber(int value, void *buf)
 {
-    Table_021D8A9C table;
+    AccountCodeCharTable table;
     int copy;
     u32 checksum;
     u16 arg;
     u64 bits;
-    int i;
+    int charIndex;
     table = d_021DA868;
     copy = value;
     checksum = GF_STANDARD_SetupCalc((const u8 *)(&copy), 4);
     arg = d_021DA864;
     bits = (u64)(long long)copy + ((u64)checksum << 32);
     STRBUF_Clear(buf);
-    for (i = 0; i < 10; i++) {
+    for (charIndex = 0; charIndex < 10; charIndex++) {
         u16 index;
         index = (u16)(bits & 31);
         bits >>= 5;
-        STRBUF_AppendChar(buf, table.a[index]);
-        func_0201D60C(buf, 189, 4, 1, &arg);
+        STRBUF_AppendChar(buf, table.chars[index]);
+        GF_FONT_AppendTag(buf, 189, 4, 1, &arg);
     }
 }
 
@@ -420,7 +423,7 @@ void PDWACC_MESSAGE_PrintNumberWindows(PdwaccMessageWork *work, int value, int u
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
-    func_0201F73C(win, 1, (u16)(work->bg1Frame), 12);
+    BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg1Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
     if (!work->labelWin) work->labelWin = BMP_WIN_Create(1, 3, 3, 22, 2, 11, 1);
@@ -436,9 +439,9 @@ void PDWACC_MESSAGE_PrintNumberWindows(PdwaccMessageWork *work, int value, int u
 void PDWACC_MESSAGE_DeleteNumberWindows(PdwaccMessageWork *work)
 {
     if (work->codeWin) {
-        func_0201F7A8(work->codeWin, 2);
+        BMP_MENUWORK_DrawWindowBorder(work->codeWin, 2);
         BMP_WIN_ClearScreen(work->codeWin);
-        func_0201F7A8(work->labelWin, 2);
+        BMP_MENUWORK_DrawWindowBorder(work->labelWin, 2);
         BMP_WIN_ClearScreen(work->labelWin);
         BMP_WIN_Delete(work->codeWin);
         BMP_WIN_Delete(work->labelWin);

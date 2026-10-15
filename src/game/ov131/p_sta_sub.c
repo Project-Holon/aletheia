@@ -85,11 +85,11 @@
  *   MCSS_SetShadowOffset 0x02015D94 thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STATUS_GetPokeParaSource 0x021D60A4 thumb ov131
  *   MCSS_SetShadowAlpha  0x02015FD4  thumb  arm9
@@ -243,7 +243,7 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MCSS_ResetVanishFlag(void *mcss);
 extern void MCSS_SetVanishFlag(void *mcss);
@@ -271,10 +271,10 @@ extern u32 POKERUS_IsBoxInfected(struct BoxPokemon *mon);
 extern void POKEPARTY_SetSlotFlag(void *party, u32 pos, u32 showFront);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *mon);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
 extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 index, u32 itemId);
 extern void MCSS_ResetAnmStopFlag(void *mcss);
 extern void MCSS_SetPosition(void *mcss, const VecFx32 *src);
@@ -622,9 +622,9 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     buf = STRBUF_Create(32, wk->heapId);
     name = STRBUF_Create(32, wk->heapId);
     func_02017E88(mon, 115, name);
-    func_0201EE0C(wordSet, 0, name, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 0, name, 0, 1, 2);
     text = func_02045EC0(wk->msgData, 0);
-    func_0201F250(wordSet, buf, text);
+    WORDSET_CopyTaggedText(wordSet, buf, text);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 25, 1, buf, wk->font, 1088);
     STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     if (wk->isEgg == 0 && func_02017E88(mon, 173, 0) == 1) {
@@ -642,9 +642,9 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     if (wk->isEgg == 0) {
         struct Strbuf *levelText;
         wordSet = GF_FONT_Create_EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
-        func_0201EFA4(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
         levelText = func_02045EC0(wk->msgData, 3);
-        func_0201F250(wordSet, buf, levelText);
+        WORDSET_CopyTaggedText(wordSet, buf, levelText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 9, 17, buf, wk->font, 1088);
         STRBUF_Delete(levelText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     }
@@ -656,7 +656,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
         wordSet = GF_FONT_Create_EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         WORDSET_Callback_EF40(wordSet, 0, func_02017E88(mon, 6, 0));
         itemText = func_02045EC0(wk->msgData, 5);
-        func_0201F250(wordSet, buf, itemText);
+        WORDSET_CopyTaggedText(wordSet, buf, itemText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 6, 17, buf, wk->font, 1088);
         STRBUF_Delete(itemText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
     }

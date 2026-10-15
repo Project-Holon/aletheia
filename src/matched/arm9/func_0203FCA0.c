@@ -11,8 +11,10 @@
  * symbols:
  *   g_020A7E5C    0x020A7E5C  data
  *   g_02146A44    0x02146A44  data
- *   sub_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   MIi_CpuClear16  0x02082A48  arm
+ *   BG_SYS_ResolveScroll  0x02042218  arm
+ *   BG_SYS_RotScale  0x020423D4  arm
  *
  * bg_sys.c: initialise one BG layer from its template.  Program BGxCNT of
  * layer bgId (0..3 main, 4..7 sub) through the TwlSDK gx_bgcnt.h inline
@@ -92,11 +94,11 @@ struct BgSys {
 extern char g_020A7E5C[];
 extern struct BgSys *g_02146A44;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
-extern int func_02042218(int a0, int a1);
-extern void func_020423D4(u32 bgId);
+extern int BG_SYS_ResolveScroll(int a0, int a1);
+extern void BG_SYS_RotScale(u32 bgId);
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
 extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 
@@ -272,7 +274,7 @@ static inline void G2S_BG3Mosaic(BOOL enable)
 }
 void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 {
-    u32 ss = func_02042218(tmpl->unk_10, type);
+    u32 ss = BG_SYS_ResolveScroll(tmpl->unk_10, type);
 
     switch (bgId) {
     case 0:
@@ -368,7 +370,7 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
     g_02146A44->bgs[bgId].unk_28 = 0;
 
     if (tmpl->bufSize != 0) {
-        g_02146A44->bgs[bgId].buf = sub_02030734(g_02146A44->heapId,
+        g_02146A44->bgs[bgId].buf = GFL_HEAP_Alloc(g_02146A44->heapId,
                                                  tmpl->bufSize, 0,
                                                  g_020A7E5C, 0x231);
         MIi_CpuClear16(0, g_02146A44->bgs[bgId].buf, tmpl->bufSize);
@@ -392,7 +394,7 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 
     func_02040618(bgId, 0, tmpl->unk_00);
     func_02040618(bgId, 3, tmpl->unk_04);
-    func_020423D4(bgId);
+    BG_SYS_RotScale(bgId);
 
     g_02146A44->unk_170[bgId] = tmpl->unk_13 << 14;
     g_02146A44->unk_190[bgId] = tmpl->unk_12 << 11;

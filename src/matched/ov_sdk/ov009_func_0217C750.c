@@ -1,5 +1,5 @@
 /*
- * function: func_0217C750
+ * function: GSIStartAvailableCheckA
  * address:  0x0217C750
  * packet:   pkt_ov009_0217C750
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      GSIStartAvailableCheckA (gsavailable.o)
  *
  * symbols:
- *   func_021803BC                  0x021803BC  arm ov009
+ *   gsiSafeStrcpyA                  0x021803BC  arm ov009
  *   SocketStartUp                  0x0217F25C  arm ov009
  *   OS_SPrintf                  0x02084F40  arm
  *   func_0217C690                  0x0217C690  arm ov009
@@ -39,7 +39,7 @@ struct gsAC {
     int pad50;
     int sent;
 };
-extern int func_021803BC(char *dst, const char *src, unsigned int n);
+extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern void SocketStartUp(void);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);
@@ -55,14 +55,14 @@ extern char g_021A36E8[];
 extern struct SOCSockAddrIn g_021ACF80;
 extern char g_021ACF8D[];
 
-void func_0217C750(char *gamename)
+void GSIStartAvailableCheckA(char *gamename)
 {
     int len;
     int override;
     char *host;
     char hostname[64];
 
-    func_021803BC(gGsAvailabilityGameName, gamename, 64);
+    gsiSafeStrcpyA(gGsAvailabilityGameName, gamename, 64);
     g_021ACF7C.sock = -1;
     SocketStartUp();
     override = g_021ACF3C[0];

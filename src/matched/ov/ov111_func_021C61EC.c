@@ -1,5 +1,5 @@
 /*
- * function: func_021C61EC
+ * function: VIEWER_TEXT_DrawTable
  * address:  0x021C61EC
  * packet:   pkt_ov111_021C61EC
  * region:   ov111
@@ -75,7 +75,7 @@ extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern u32 CURSOR_MOVE_GetTableKind(u32 x);
 
-void func_021C61EC(Work *p, int k, int flush)
+void VIEWER_TEXT_DrawTable(Work *p, int k, int flush)
 {
     void *bank;
     void *str;

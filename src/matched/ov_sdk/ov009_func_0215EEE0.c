@@ -1,5 +1,5 @@
 /*
- * function: func_0215EEE0
+ * function: SOCL_SetResolver
  * address:  0x0215EEE0
  * packet:   pkt_ov009_0215EEE0
  * region:   ov009
@@ -21,7 +21,7 @@ extern unsigned long g_021A8278;
 extern unsigned long g_021A82DC[2];
 extern unsigned long func_0215EF48(void);
 
-int func_0215EEE0(unsigned long dns1, unsigned long dns2)
+int SOCL_SetResolver(unsigned long dns1, unsigned long dns2)
 {
     if (func_0215EF48() == 0)
         return -0x27;

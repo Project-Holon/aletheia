@@ -1,5 +1,5 @@
 /*
- * function: func_0217C144
+ * function: DWC_Svl_GetTokenAsync
  * address:  0x0217C144
  * packet:   pkt_ov009_0217C144
  * region:   ov009
@@ -18,8 +18,8 @@
  *   strcmp  0x020948E0  arm
  *   DWC_Http_Create  0x0217956C  arm  ov009
  *   func_02059F54  0x02059F54  arm
- *   func_02178F4C  0x02178F4C  arm  ov009
- *   func_02179218  0x02179218  arm  ov009
+ *   DWC_Auth_GetCalInfoFromNVRAM  0x02178F4C  arm  ov009
+ *   DWC_Auth_SetCalInfoToHttp  0x02179218  arm  ov009
  *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
  *   DWC_Http_FinishHeader  0x0217967C  arm  ov009
@@ -105,8 +105,8 @@ extern void OS_Terminate(void);
 extern int strcmp(const char *s1, const char *s2) __attribute__((pure));
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 extern void func_02059F54(int error, int errorCode);
-extern int func_02178F4C(void *cal);
-extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
+extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
+extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern void DWC_Http_Destroy(char *http);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int DWC_Http_FinishHeader(char *http);
@@ -121,7 +121,7 @@ extern char g_021A2868[];
 extern char g_021A2870[];
 extern OSThreadInfo gMslRefToken;
 
-int func_0217C144(char *svc, DWCSvlResult *result)
+int DWC_Svl_GetTokenAsync(char *svc, DWCSvlResult *result)
 {
     DWCHttpParam httpparam;
     DWCCalInfo calinfo;
@@ -148,7 +148,7 @@ int func_0217C144(char *svc, DWCSvlResult *result)
         return 0;
     }
 
-    if (!func_02178F4C(&calinfo) || !func_02179218(&g_021ACEF4->http, &calinfo, 0)) {
+    if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(&g_021ACEF4->http, &calinfo, 0)) {
         DWC_Http_Destroy((char *)(&g_021ACEF4->http));
         func_02059F54(9, -24100);
         return 0;

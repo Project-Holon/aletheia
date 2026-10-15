@@ -28,7 +28,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitRenderer 0x0204B258 arm
@@ -54,7 +54,7 @@ typedef struct { short x,y; u16 a,b,c,d; int e,f; } Rect;
 struct Bank;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Obj;
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
@@ -91,7 +91,7 @@ u8 *PLIST_PLATE_Create(u8 *p, int k, void *mon)
     if (k != 0) zero = 1;
     selector = k != 0;
     t = x + 0x10;
-    func_020410D0(2,(u8)t,y,0x10,6,(u32)(*(u8 **)(p+0x15c)+0xc),
+    BG_SYS_DrawTileEx(2,(u8)t,y,0x10,6,(u32)(*(u8 **)(p+0x15c)+0xc),
                  gPlistPlatePaletteA[selector*2],gPlistPlatePaletteB[zero*2],0x20,0x20);
     W(0xc) = POKE_TOOL_GetPartyValue((void *)W(0),0x4c,0);
     r.a = 0;

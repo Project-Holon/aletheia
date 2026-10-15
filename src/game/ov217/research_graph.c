@@ -14,13 +14,13 @@
  *
  * symbols:
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02062B30 0x02062B30 arm
- *   func_02041090 0x02041090 arm
+ *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_020409B4 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
@@ -51,7 +51,7 @@
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
  *   func_0207D63C 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
@@ -73,7 +73,7 @@
  *   SYMBOL_SAVE_GetBitBlock 0x0200E394 thumb
  *   MISC_SAVEDATA_GetStatusByte 0x0200E44C thumb
  *   BMP_OAM_SetPalette  0x02025A54  thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
@@ -173,9 +173,9 @@
  *   BgTextLabel_PrintText 0x021C0F78 thumb ov217
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   d_021C3850 0x021C3850 data a2
  *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
  *   d_021C3A34 0x021C3A34 data a4
@@ -233,7 +233,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   FADE_IsActive  0x0204E804  arm  arm9
  *   BG_SYS_SetLowBit 0x0204044C arm
- *   sub_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021C366C 0x021C366C data a4
  *   d_021C36D8 0x021C36D8 data ov217
  *   d_021C36F8 0x021C36F8 data ov217
@@ -261,117 +261,96 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 #include "../../matched/include/G_E.h"
-#include "../../matched/include/Obj25933.h"
-#include "../../matched/include/Obj25949.h"
 #include "../../matched/include/G_Bg.h"
-#include "../../matched/include/Obj25959.h"
-#include "../../matched/include/Obj14748.h"
-#include "../../matched/include/Obj14749.h"
-#include "../../matched/include/Obj14750.h"
-#include "../../matched/include/Obj08438.h"
-#include "../../matched/include/Obj10960.h"
-#include "../../matched/include/Obj06713.h"
-#include "../../matched/include/Obj08439.h"
-#include "../../matched/include/Obj25960.h"
-#include "../../matched/include/Obj14752.h"
-#include "../../matched/include/Obj25962.h"
-#include "../../matched/include/Obj25964.h"
-#include "../../matched/include/Obj14753.h"
-#include "../../matched/include/Obj14754.h"
-#include "../../matched/include/Obj10961.h"
-#include "../../matched/include/Obj25966.h"
-#include "../../matched/include/Obj25967.h"
-#include "../../matched/include/Obj25969.h"
-#include "../../matched/include/Obj03953.h"
-#include "../../matched/include/Obj10962.h"
-#include "../../matched/include/Obj25970.h"
-#include "../../matched/include/Obj25973.h"
-#include "../../matched/include/Obj25974.h"
-#include "../../matched/include/Obj25975.h"
 #include "research_shared_types.h"
 
-struct W;
+struct MessageView;
 
 struct WordSet;
 
 struct PlayTime;
 
 struct ResearchObjB {
-    union { void * f0; u32 f0u; };
-    u16 f4;
+    union { void * owner; u32 ownerU; };
+    u16 heapId;
     u8 pad6[0x2];
-    u32 f8;
-    void * fC;
+    u32 font;
+    void * msgBankA;
     u8 pad10[0x4];
-    void * f14;
-    void * f18;
-    u32 f1C;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2C;
-    u32 f30;
-    union { u32 f34; int f34s; };
-    u8 f38;
+    void * msgBankB;
+    void * wordSet;
+    u32 commandQueue;
+    u32 state;
+    u32 subState;
+    u32 stateTimer;
+    u32 count;
+    u32 elapsedTimer;
+    union { u32 cursorIndex; int cursorIndexSigned; };
+    u8 titleGroup;
     u8 pad39[0x27F];
-    u8 f2B8;
-    u8 f2B9;
+    u8 groupIndex;
+    u8 entryIndex;
     u8 pad2BA[0x2];
-    void * f2BC;
-    void * f2C0;
-    void * f2C4;
-    void * f2C8;
-    u32 f2CC;
-    void * f2D0;
-    u8 pad2D4[0x28];
-    u8 f2FC;
-    u8 f2FD;
+    void * leftCircleA;
+    void * leftCircleB;
+    void * rightCircleA;
+    void * rightCircleB;
+    u32 graphKind;
+    void * arrow;
+    void * percentages[10];
+    u8 percentageCount;
+    u8 percentageVisible;
     u8 pad2FE[0x4A];
-    int f348;
-    u32 f34C;
-    u32 f350;
-    u32 f354;
-    u32 f358;
-    u32 f35C;
-    u32 f360;
-    u32 f364;
-    u8 pad368[0x34];
-    u32 f39C;
-    void * f3A0;
-    u8 pad3A4[0x8];
-    u32 f3AC;
-    u8 pad3B0[0x8];
-    void * f3B8;
-    union { void * f3BC; u32 f3BCu; };
-    u8 pad3C0[0x4];
-    void * f3C4;
-    u32 f3C8;
-    int f3CC;
-    u32 f3D0;
-    u32 f3D4;
-    u32 f3D8;
-    u32 f3DC;
-    u32 f3E0;
-    u32 f3E4;
+    int titleLabel;
+    u32 groupLabel;
+    u32 kindLabel;
+    u32 sliceLabel;
+    u32 timeLabel;
+    u32 teamLabel;
+    u32 emptyLabel;
+    u32 detailLabel;
+    u32 clactUnits[7];
+    u32 units[4];
+    void * markerActorA;
+    void * markerActorB;
+    u32 triangleActor;
+    void * markerActor;
+    u32 oamSys;
+    void * oamObjectA;
+    void * oamObjectB;
+    void * bmps[2];
+    void * palAnm;
+    union { void * fadeParam; u32 fadeParamU; };
+    u32 vblankNode;
+    void * drawSystem;
+    u32 entryShown;
+    int touchSelected;
+    u32 detailMode;
+    u32 timerExpired;
+    u32 updatedFlag;
+    u32 stateChanged;
+    u32 visible;
+    u32 active;
 };
 
-struct Item { u8 id,pad[3]; u32 value; u8 x,y,z,a,b,c,pad2[2]; };
+struct GraphSliceInput { u8 id,pad[3]; u32 value; u8 x,y,z,quantX,quantY,quantZ,pad2[2]; };
 
-struct Input { u16 id; u8 x,y,z,pad; u16 a; u32 b; };
+struct GraphEntryView { u16 id; u8 x,y,z,pad; u16 valueA; u32 valueB; };
 
-struct Row { u8 x,y,w,h; int fields[8]; };
+struct CursorLayoutRow { u8 x,y,w,h; int offsets[8]; };
 
-typedef struct S { u32 a; u16 b; u8 pad[14]; } S;
+typedef struct PaletteAnimeStart { u32 mode; u16 color; u8 pad[14]; } PaletteAnimeStart;
 
-typedef struct W { u32 w0; u16 h; u16 pad; u32 w8; u32 obj[3]; } W;
+typedef struct MessageView { u32 owner; u16 heapId; u16 pad; u32 font; u32 messages[3]; } MessageView;
 
-struct Entry { u8 a, b, c, d; };
+struct CursorRect { u8 x, y, w, h; };
 
-struct Params_021BFE8C { u32 handles[3]; u16 a, b, c, d, e; };
+struct ArrowCreateArgs { u32 charId; u32 paletteId; u32 cellId; u16 space; u16 animSeq[4]; };
 
-struct Params_021BFF00 { u32 handles[3]; u16 a, b, c; };
+struct PercentageCreateArgs { u32 charIndex; u32 paletteIndex; u32 cellAnimIndex; u16 priority; u16 digitAnimSeq; u16 signAnimSeq; };
 
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
@@ -383,15 +362,15 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
 extern u32 func_020307B0(void *p);
 
-extern int func_02062B30(void *, void **);
+extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
-extern void func_02041090(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 
 extern int func_020409B4(int);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_020413B0(int index, int x0, int y0, int w, int h, int pal);
+extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
 
 extern u32 RESEARCH_COMMON_GetHeapId(void *);
 
@@ -467,7 +446,7 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 extern u32 BG_SYS_ClearSlot();
 
-extern void func_02040DA8(u32, u32, u32);
+extern void BG_SYS_SetTileUnit(u32, u32, u32);
 
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 
@@ -527,7 +506,7 @@ extern u32 PALETTE_ANIME_IsRunning();
 
 extern u32 PALANM_TransferPalettes(struct S02021D50 *p);
 
-extern u32 func_020419E4();
+extern u32 BG_SYS_Update();
 
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 
@@ -707,11 +686,11 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void CLACT_SetActorAnimLoopCount(struct Actor *,unsigned);
 
@@ -1047,7 +1026,7 @@ void RESEARCH_GRAPH_DeleteFont(u8 *a0);
 
 void RESEARCH_GRAPH_ClearMessages(void *p);
 
-void RESEARCH_GRAPH_CreateMessages(W *p);
+void RESEARCH_GRAPH_CreateMessages(MessageView *p);
 
 void RESEARCH_GRAPH_DeleteMessages(int *p);
 
@@ -1093,7 +1072,7 @@ extern u8 d_021C369A[];
 
 extern const u16 d_021C3850[];
 
-extern S d_021C3A34[];
+extern PaletteAnimeStart d_021C3A34[];
 
 extern const u8 d_021C363C[];
 
@@ -1113,7 +1092,7 @@ extern u8 d_021C3900[];
 
 extern u8 d_021C3994[];
 
-extern const struct Entry d_021C3758[];
+extern const struct CursorRect d_021C3758[];
 
 extern const u16 d_021C365C[];
 
@@ -1137,7 +1116,7 @@ u32 RESEARCH_GRAPH_Destroy(void *a0)
 
 void RESEARCH_GRAPH_Update(unsigned char *p)
 {
-    switch (((struct ResearchObjB *)p)->f20) {
+    switch (((struct ResearchObjB *)p)->state) {
     case 0: RESEARCH_GRAPH_Init(p); break;
     case 1: RESEARCH_GRAPH_UpdateIntro((u32)p); break;
     case 2: RESEARCH_GRAPH_HandleInput(p); break;
@@ -1155,10 +1134,10 @@ void RESEARCH_GRAPH_Update(unsigned char *p)
     }
     RESEARCH_GRAPH_CheckQuestionnaireUpdated((char *)p);
     RESEARCH_GRAPH_TickTimer(p);
-    if (((struct ResearchObjB *)p)->f3C4 != 0) {
-        CLACT_DrawSystem(((struct ResearchObjB *)p)->f3C4);
+    if (((struct ResearchObjB *)p)->drawSystem != 0) {
+        CLACT_DrawSystem(((struct ResearchObjB *)p)->drawSystem);
         RESEARCH_GRAPH_UpdateCircles((char *)p);
-        ARROW_Update(((struct ResearchObjB *)p)->f2D0);
+        ARROW_Update(((struct ResearchObjB *)p)->arrow);
         RESEARCH_GRAPH_UpdatePaletteAnime(p);
         RESEARCH_GRAPH_UpdateSlotPalettes((int *)p);
         RESEARCH_GRAPH_DrawCircles((char *)p);
@@ -1171,7 +1150,7 @@ void RESEARCH_GRAPH_Update(unsigned char *p)
 
 u32 RESEARCH_GRAPH_GetVisible(void *p)
 {
-    return ((struct ResearchObjB *)p)->f3E0;
+    return ((struct ResearchObjB *)p)->visible;
 }
 
 /*
@@ -1181,7 +1160,7 @@ u32 RESEARCH_GRAPH_GetVisible(void *p)
  */
 u32 RESEARCH_GRAPH_GetActive(void *p)
 {
-    return ((struct ResearchObjB *)p)->f3E4;
+    return ((struct ResearchObjB *)p)->active;
 }
 
 void RESEARCH_GRAPH_Init(unsigned char *p)
@@ -1189,7 +1168,7 @@ void RESEARCH_GRAPH_Init(unsigned char *p)
     int r;
     RESEARCH_GRAPH_CreateCommandQueue((u32)p);
     RESEARCH_GRAPH_CreateFont((u32)p);
-    RESEARCH_GRAPH_CreateMessages((struct W *)p);
+    RESEARCH_GRAPH_CreateMessages((struct MessageView *)p);
     RESEARCH_GRAPH_CreateWordSet((u32)p);
     RESEARCH_GRAPH_InitTouchRects(p);
     RESEARCH_GRAPH_LayoutTouchRects(p);
@@ -1233,7 +1212,7 @@ void RESEARCH_GRAPH_Init(unsigned char *p)
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)p, 0);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)p, 7);
     RESEARCH_GRAPH_SyncArrow(p);
-    *(int *)&((struct ResearchObjB *)p)->f3C4 = 1;
+    *(int *)&((struct ResearchObjB *)p)->drawSystem = 1;
     RESEARCH_GRAPH_FadeIn();
     r = RESEARCH_GRAPH_GetTransitionKind(p);
     RESEARCH_GRAPH_PushCommand(p, 1);
@@ -1269,8 +1248,8 @@ void RESEARCH_GRAPH_HandleInput(u8 *p)
     KEY_GetCont();
     keys = KEY_GetTrg();
     hit = TOUCHPANEL_HitTrg(p + 0x2FE);
-    sub = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjB *)p)->f0));
-    if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && ((struct ResearchObjB *)p)->f3D8 != 0 && *(int *)&((struct ResearchObjB *)p)->f3D4 != 0) {
+    sub = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjB *)p)->owner));
+    if (*(int *)&((struct ResearchObjB *)p)->entryShown != 0 && ((struct ResearchObjB *)p)->updatedFlag != 0 && *(int *)&((struct ResearchObjB *)p)->timerExpired != 0) {
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 8);
         RESEARCH_GRAPH_PushCommand(p, 6);
@@ -1296,8 +1275,8 @@ void RESEARCH_GRAPH_HandleInput(u8 *p)
         RESEARCH_GRAPH_PushCommand(p, 3);
         return;
     }
-    if (hit == 6 && *(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
-        ((struct ResearchObjB *)p)->f3CC = 1;
+    if (hit == 6 && *(int *)&((struct ResearchObjB *)p)->entryShown == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+        ((struct ResearchObjB *)p)->touchSelected = 1;
         RESEARCH_GRAPH_SetHighlightSelected((u32)p);
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 4);
@@ -1306,8 +1285,8 @@ void RESEARCH_GRAPH_HandleInput(u8 *p)
         RESEARCH_GRAPH_PushCommand(p, 5);
         RESEARCH_GRAPH_PushCommand(p, 2);
     } else if (hit == 7) {
-        if (*(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
-            ((struct ResearchObjB *)p)->f3CC = 1;
+        if (*(int *)&((struct ResearchObjB *)p)->entryShown == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+            ((struct ResearchObjB *)p)->touchSelected = 1;
             RESEARCH_GRAPH_SetHighlightSelected((u32)p);
             RESEARCH_GRAPH_SetStateChanged(p);
             RESEARCH_GRAPH_PushCommand(p, 4);
@@ -1319,8 +1298,8 @@ void RESEARCH_GRAPH_HandleInput(u8 *p)
             GFL_USE_PlaySeDefaultVolume(0x557);
         }
     } else if (hit == 2) {
-        if (*(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
-            ((struct ResearchObjB *)p)->f3CC = 1;
+        if (*(int *)&((struct ResearchObjB *)p)->entryShown == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+            ((struct ResearchObjB *)p)->touchSelected = 1;
             RESEARCH_GRAPH_SetHighlightSelected((u32)p);
             RESEARCH_GRAPH_SetStateChanged(p);
             RESEARCH_GRAPH_PushCommand(p, 4);
@@ -1331,13 +1310,13 @@ void RESEARCH_GRAPH_HandleInput(u8 *p)
         } else {
             RESEARCH_GRAPH_SelectDirect((u32)p, 0);
         }
-    } else if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 3) {
+    } else if (*(int *)&((struct ResearchObjB *)p)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 3) {
         RESEARCH_GRAPH_SelectDirect((u32)p, 1);
         RESEARCH_GRAPH_DrawIndexCursor((char *)p);
         RESEARCH_GRAPH_SyncArrow(p);
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 3);
-    } else if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 4) {
+    } else if (*(int *)&((struct ResearchObjB *)p)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 4) {
         RESEARCH_GRAPH_SelectDirect((u32)p, 2);
         RESEARCH_GRAPH_DrawIndexCursor((char *)p);
         RESEARCH_GRAPH_SyncArrow(p);
@@ -1354,7 +1333,7 @@ void RESEARCH_GRAPH_HandleInput(u8 *p)
         RESEARCH_GRAPH_SyncArrow(p);
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 3);
-        switch (*(int *)&((struct ResearchObjB *)p)->f34) {
+        switch (*(int *)&((struct ResearchObjB *)p)->cursorIndex) {
         case 0: RESEARCH_GRAPH_MoveGroupForward((char *)p); break;
         case 1: RESEARCH_GRAPH_MoveEntryBackward((u32)p); break;
         case 3: RESEARCH_GRAPH_ToggleEntry((char *)p); break;
@@ -1364,7 +1343,7 @@ void RESEARCH_GRAPH_HandleInput(u8 *p)
         RESEARCH_GRAPH_SyncArrow(p);
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 3);
-        switch (*(int *)&((struct ResearchObjB *)p)->f34) {
+        switch (*(int *)&((struct ResearchObjB *)p)->cursorIndex) {
         case 0: RESEARCH_GRAPH_MoveGroupBackward((char *)p); break;
         case 1: RESEARCH_GRAPH_MoveEntryForward((u32)p); break;
         case 3: RESEARCH_GRAPH_ToggleEntry((char *)p); break;
@@ -1389,8 +1368,8 @@ void RESEARCH_GRAPH_HandleInputAlt(u8 *p)
     KEY_GetCont();
     keys = KEY_GetTrg();
     hit = TOUCHPANEL_HitTrg(p + 0x2FE);
-    sub = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjB *)p)->f0));
-    if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && ((struct ResearchObjB *)p)->f3D8 != 0 && *(int *)&((struct ResearchObjB *)p)->f3D4 != 0) {
+    sub = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjB *)p)->owner));
+    if (*(int *)&((struct ResearchObjB *)p)->entryShown != 0 && ((struct ResearchObjB *)p)->updatedFlag != 0 && *(int *)&((struct ResearchObjB *)p)->timerExpired != 0) {
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 9);
         RESEARCH_GRAPH_PushCommand(p, 6);
@@ -1413,8 +1392,8 @@ void RESEARCH_GRAPH_HandleInputAlt(u8 *p)
         RESEARCH_GRAPH_SelectPrev(p);
     } else if (keys & 0x80) {
         RESEARCH_GRAPH_SelectNext(p);
-    } else if (hit == 6 && *(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
-        ((struct ResearchObjB *)p)->f3CC = 1;
+    } else if (hit == 6 && *(int *)&((struct ResearchObjB *)p)->entryShown == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+        ((struct ResearchObjB *)p)->touchSelected = 1;
         RESEARCH_GRAPH_SetHighlightSelected((u32)p);
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 4);
@@ -1423,8 +1402,8 @@ void RESEARCH_GRAPH_HandleInputAlt(u8 *p)
         RESEARCH_GRAPH_PushCommand(p, 5);
         RESEARCH_GRAPH_PushCommand(p, 2);
     } else if (hit == 7) {
-        if (*(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
-            ((struct ResearchObjB *)p)->f3CC = 1;
+        if (*(int *)&((struct ResearchObjB *)p)->entryShown == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+            ((struct ResearchObjB *)p)->touchSelected = 1;
             RESEARCH_GRAPH_SetHighlightSelected((u32)p);
             RESEARCH_GRAPH_SetStateChanged(p);
             RESEARCH_GRAPH_PushCommand(p, 4);
@@ -1436,8 +1415,8 @@ void RESEARCH_GRAPH_HandleInputAlt(u8 *p)
             GFL_USE_PlaySeDefaultVolume(0x557);
         }
     } else if (hit == 2) {
-        if (*(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
-            ((struct ResearchObjB *)p)->f3CC = 1;
+        if (*(int *)&((struct ResearchObjB *)p)->entryShown == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+            ((struct ResearchObjB *)p)->touchSelected = 1;
             RESEARCH_GRAPH_SetHighlightSelected((u32)p);
             RESEARCH_GRAPH_SetStateChanged(p);
             RESEARCH_GRAPH_PushCommand(p, 4);
@@ -1448,27 +1427,27 @@ void RESEARCH_GRAPH_HandleInputAlt(u8 *p)
         } else {
             RESEARCH_GRAPH_SelectDirect((u32)p, 0);
         }
-    } else if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 3) {
+    } else if (*(int *)&((struct ResearchObjB *)p)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 3) {
         RESEARCH_GRAPH_SelectDirect((u32)p, 1);
-    } else if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 4) {
+    } else if (*(int *)&((struct ResearchObjB *)p)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0 && hit == 4) {
         RESEARCH_GRAPH_SelectDirect((u32)p, 2);
     } else if (hit == 5) {
         RESEARCH_GRAPH_SelectDirect((u32)p, 3);
     } else if ((keys & 0x20) || hit == 0) {
-        switch (*(int *)&((struct ResearchObjB *)p)->f34) {
+        switch (*(int *)&((struct ResearchObjB *)p)->cursorIndex) {
         case 0: RESEARCH_GRAPH_MoveGroupForward((char *)p); break;
         case 1: RESEARCH_GRAPH_MoveEntryBackward((u32)p); break;
         case 3: RESEARCH_GRAPH_ToggleEntry((char *)p); break;
         }
     } else if ((keys & 0x10) || hit == 1) {
-        switch (*(int *)&((struct ResearchObjB *)p)->f34) {
+        switch (*(int *)&((struct ResearchObjB *)p)->cursorIndex) {
         case 0: RESEARCH_GRAPH_MoveGroupBackward((char *)p); break;
         case 1: RESEARCH_GRAPH_MoveEntryForward((u32)p); break;
         case 3: RESEARCH_GRAPH_ToggleEntry((char *)p); break;
         }
-    } else if ((keys & 1) && *(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0
-               && (*(int *)&((struct ResearchObjB *)p)->f34 == 0 || *(int *)&((struct ResearchObjB *)p)->f34 == 4)) {
-        ((struct ResearchObjB *)p)->f3CC = 0;
+    } else if ((keys & 1) && *(int *)&((struct ResearchObjB *)p)->entryShown == 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0
+               && (*(int *)&((struct ResearchObjB *)p)->cursorIndex == 0 || *(int *)&((struct ResearchObjB *)p)->cursorIndex == 4)) {
+        ((struct ResearchObjB *)p)->touchSelected = 0;
         RESEARCH_GRAPH_SetHighlightSelected((u32)p);
         RESEARCH_GRAPH_SetStateChanged(p);
         RESEARCH_GRAPH_PushCommand(p, 4);
@@ -1502,14 +1481,14 @@ void RESEARCH_GRAPH_EnterDrawSlow(u8 *p)
         break;
     case 1:
         if (GFL_USE_IsAnySeBusy() == 0) {
-            if (((struct ResearchObjB *)p)->f28 >= 0x78)
+            if (((struct ResearchObjB *)p)->stateTimer >= 0x78)
                 RESEARCH_GRAPH_IncSubState(p);
             else
                 GFL_USE_PlaySeDefaultVolume(0x76B);
         }
         break;
     case 2:
-        *(int *)&((struct ResearchObjB *)p)->f3C8 = 1;
+        *(int *)&((struct ResearchObjB *)p)->entryShown = 1;
         RESEARCH_GRAPH_SetIndex(p, 1);
         RESEARCH_GRAPH_LayoutActors((char *)p);
         RESEARCH_GRAPH_LayoutTouchRects(p);
@@ -1522,7 +1501,7 @@ void RESEARCH_GRAPH_EnterDrawSlow(u8 *p)
         RESEARCH_GRAPH_PrintTeamLabel((char *)p);
         RESEARCH_GRAPH_LayoutArrow((char *)p);
         RESEARCH_GRAPH_SetTriangleActorVisible((char *)p);
-        if (((struct ResearchObjB *)p)->f3CC == 0)
+        if (((struct ResearchObjB *)p)->touchSelected == 0)
             RESEARCH_GRAPH_DrawIndexCursor((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x76C);
         RESEARCH_GRAPH_SetStateChanged(p);
@@ -1538,7 +1517,7 @@ void RESEARCH_GRAPH_StepAnimation(u8 *p)
         RESEARCH_GRAPH_IncSubState(p);
         break;
     case 1:
-        if (((struct ResearchObjB *)p)->f28 % 10u == 0) {
+        if (((struct ResearchObjB *)p)->stateTimer % 10u == 0) {
             u8 index = p[765];
             p[765] = index + 1;
             RESEARCH_GRAPH_ShowPercent(p, index);
@@ -1590,7 +1569,7 @@ void RESEARCH_GRAPH_EnterDrawMedium(char *p)
 {
     switch (RESEARCH_GRAPH_GetSubState(p)) {
     case 0:
-        ((struct ResearchObjB *)p)->f3D0 = 1;
+        ((struct ResearchObjB *)p)->detailMode = 1;
         RESEARCH_GRAPH_ClearUpdatedFlag(p);
         RESEARCH_GRAPH_ResetTimer(p);
         RESEARCH_GRAPH_BuildGraphTable(p);
@@ -1610,7 +1589,7 @@ void RESEARCH_GRAPH_EnterDrawMedium(char *p)
         break;
     case 1:
         if (GFL_USE_IsAnySeBusy() == 0) {
-            if (((struct ResearchObjB *)p)->f28 >= 0x3c) {
+            if (((struct ResearchObjB *)p)->stateTimer >= 0x3c) {
                 RESEARCH_GRAPH_IncSubState(p);
                 return;
             }
@@ -1618,7 +1597,7 @@ void RESEARCH_GRAPH_EnterDrawMedium(char *p)
         }
         break;
     case 2:
-        ((struct ResearchObjB *)p)->f3D0 = 0;
+        ((struct ResearchObjB *)p)->detailMode = 0;
         RESEARCH_GRAPH_SwapCenterPairs(p);
         CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(p), 0);
         RESEARCH_GRAPH_LoadBackground(p);
@@ -1640,7 +1619,7 @@ void RESEARCH_GRAPH_EnterDrawMediumAlt(char *p)
 {
     switch (RESEARCH_GRAPH_GetSubState(p)) {
     case 0:
-        ((struct ResearchObjB *)p)->f3D0 = 1;
+        ((struct ResearchObjB *)p)->detailMode = 1;
         RESEARCH_GRAPH_ClearUpdatedFlag(p);
         RESEARCH_GRAPH_ResetTimer(p);
         RESEARCH_GRAPH_BuildGraphTable(p);
@@ -1661,7 +1640,7 @@ void RESEARCH_GRAPH_EnterDrawMediumAlt(char *p)
         break;
     case 1:
         if (GFL_USE_IsAnySeBusy() == 0) {
-            if (((struct ResearchObjB *)p)->f28 >= 0x3c) {
+            if (((struct ResearchObjB *)p)->stateTimer >= 0x3c) {
                 RESEARCH_GRAPH_IncSubState(p);
                 return;
             }
@@ -1669,7 +1648,7 @@ void RESEARCH_GRAPH_EnterDrawMediumAlt(char *p)
         }
         break;
     case 2:
-        ((struct ResearchObjB *)p)->f3D0 = 0;
+        ((struct ResearchObjB *)p)->detailMode = 0;
         RESEARCH_GRAPH_SwapCenterPairs(p);
         CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(p), 0);
         RESEARCH_GRAPH_LoadBackground(p);
@@ -1716,7 +1695,7 @@ void RESEARCH_GRAPH_ExitFade(u32 a0)
  */
 void RESEARCH_GRAPH_AdvanceWhileActive(u32 a0)
 {
-    if (RESEARCH_GRAPH_GetCount((void *)a0) < ((struct ResearchObjB *)a0)->f28) {
+    if (RESEARCH_GRAPH_GetCount((void *)a0) < ((struct ResearchObjB *)a0)->stateTimer) {
     RESEARCH_GRAPH_SetStateChanged((void *)a0);
     }
 }
@@ -1725,8 +1704,8 @@ void RESEARCH_GRAPH_Cleanup(u8 *a0)
 {
     RESEARCH_GRAPH_RestorePaletteAnime((int *)a0);
     RESEARCH_GRAPH_DestroyPaletteAnime((int *)a0);
-    RESEARCH_COMMON_StopPaletteAnime(*(u32 *)&((struct ResearchObjB *)a0)->f0);
-    RESEARCH_COMMON_RestorePaletteAnime(*(u32 *)&((struct ResearchObjB *)a0)->f0);
+    RESEARCH_COMMON_StopPaletteAnime(*(u32 *)&((struct ResearchObjB *)a0)->owner);
+    RESEARCH_COMMON_RestorePaletteAnime(*(u32 *)&((struct ResearchObjB *)a0)->owner);
     RESEARCH_GRAPH_UnregisterVBlank((u8 *)a0);
     RESEARCH_GRAPH_DestroyPercentages((int *)a0);
     RESEARCH_GRAPH_DestroyArrow(a0);
@@ -1752,13 +1731,13 @@ void RESEARCH_GRAPH_Cleanup(u8 *a0)
     RESEARCH_GRAPH_PushCommand((u8 *)a0, 13);
     RESEARCH_GRAPH_SetStateChanged((void *)a0);
     RESEARCH_GRAPH_ClearNotifyFlag((unsigned char *)a0);
-    *(u32 *)&((struct ResearchObjB *)a0)->f3C4 = 0;
-    ((struct ResearchObjB *)a0)->f3E0 = 1;
+    *(u32 *)&((struct ResearchObjB *)a0)->drawSystem = 0;
+    ((struct ResearchObjB *)a0)->visible = 1;
 }
 
 void RESEARCH_GRAPH_SetStateChanged(void *p)
 {
-    ((struct ResearchObjB *)p)->f3DC = 1;
+    ((struct ResearchObjB *)p)->stateChanged = 1;
 }
 
 /*
@@ -1768,17 +1747,17 @@ void RESEARCH_GRAPH_SetStateChanged(void *p)
  */
 void RESEARCH_GRAPH_SetEntryHandled(u8 *a0, u32 a1)
 {
-    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct ResearchObjB *)a0)->f0, a1);
+    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct ResearchObjB *)a0)->owner, a1);
 }
 
 void RESEARCH_GRAPH_SetActive(void *p, u32 v)
 {
-    ((struct ResearchObjB *)p)->f3E4 = v;
+    ((struct ResearchObjB *)p)->active = v;
 }
 
 u32 RESEARCH_GRAPH_GetCount(void *p)
 {
-    return ((struct ResearchObjB *)p)->f2C;
+    return ((struct ResearchObjB *)p)->count;
 }
 
 /*
@@ -1789,7 +1768,7 @@ u32 RESEARCH_GRAPH_GetCount(void *p)
  */
 u32 RESEARCH_GRAPH_GetTransitionKind(u8 *a0)
 {
-    u32 v = ((struct ResearchObjB *)a0)->f0u;
+    u32 v = ((struct ResearchObjB *)a0)->ownerU;
     u32 a = RESEARCH_COMMON_GetPreviousScreen((void *)v);
     u32 b = RESEARCH_COMMON_GetEntryHandled((void *)v);
     if (a != 0 && b == 0) {
@@ -1816,14 +1795,14 @@ void RESEARCH_GRAPH_IncTimer(void *p)
  */
 void RESEARCH_GRAPH_PushCommand(u8 *a0, u32 a1)
 {
-    RingQueue_Push((u32)(((struct ResearchObjB *)a0)->f1C), a1);
+    RingQueue_Push((u32)(((struct ResearchObjB *)a0)->commandQueue), a1);
 }
 
 void RESEARCH_GRAPH_ProcessCommand(u32 a0)
 {
-    if (((struct ResearchObjB *)a0)->f3DC != 0) {
-    if (RingQueue_IsEmpty(((struct ResearchObjB *)a0)->f1C) == 0) {
-    RESEARCH_GRAPH_StartSubState((void *)a0, RingQueue_Pop((struct Ring *)(((struct ResearchObjB *)a0)->f1C)));
+    if (((struct ResearchObjB *)a0)->stateChanged != 0) {
+    if (RingQueue_IsEmpty(((struct ResearchObjB *)a0)->commandQueue) == 0) {
+    RESEARCH_GRAPH_StartSubState((void *)a0, RingQueue_Pop((struct Ring *)(((struct ResearchObjB *)a0)->commandQueue)));
     }
     }
 }
@@ -1835,15 +1814,15 @@ void RESEARCH_GRAPH_ProcessCommand(u32 a0)
  */
 void RESEARCH_GRAPH_StartSubState(void *p, u32 v)
 {
-    ((struct ResearchObjB *)p)->f20 = v;
-    ((struct ResearchObjB *)p)->f24 = 0;
-    ((struct ResearchObjB *)p)->f28 = 0;
-    ((struct ResearchObjB *)p)->f3DC = 0;
+    ((struct ResearchObjB *)p)->state = v;
+    ((struct ResearchObjB *)p)->subState = 0;
+    ((struct ResearchObjB *)p)->stateTimer = 0;
+    ((struct ResearchObjB *)p)->stateChanged = 0;
 }
 
 u32 RESEARCH_GRAPH_GetSubState(void *p)
 {
-    return ((struct ResearchObjB *)p)->f24;
+    return ((struct ResearchObjB *)p)->subState;
 }
 
 /*
@@ -1863,13 +1842,13 @@ void RESEARCH_GRAPH_SelectPrev(u8 *p)
     RESEARCH_GRAPH_DrawIndexCursorDim(p);
     RESEARCH_GRAPH_CycleIndex((char *)p,-1);
     do {
-        u32 index=((struct ResearchObjB *)p)->f34;
+        u32 index=((struct ResearchObjB *)p)->cursorIndex;
         if (index-1<=1) {
-            if (((struct ResearchObjB *)p)->f3C8==0 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
+            if (((struct ResearchObjB *)p)->entryShown==0 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
                 RESEARCH_GRAPH_CycleIndex((char *)p,-1);
             } else repeat=0;
         } else if (index==4) {
-            if (((struct ResearchObjB *)p)->f3C8==1 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
+            if (((struct ResearchObjB *)p)->entryShown==1 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
                 RESEARCH_GRAPH_CycleIndex((char *)p,-1);
             } else repeat=0;
         } else repeat=0;
@@ -1878,7 +1857,7 @@ void RESEARCH_GRAPH_SelectPrev(u8 *p)
     RESEARCH_GRAPH_LayoutActors((char *)p);
     RESEARCH_GRAPH_LayoutMarkerActor((char *)p);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)p,1);
-    if (((struct ResearchObjB *)p)->f34==4) RESEARCH_GRAPH_SetHighlightC((u32)p);
+    if (((struct ResearchObjB *)p)->cursorIndex==4) RESEARCH_GRAPH_SetHighlightC((u32)p);
     GFL_USE_PlaySeDefaultVolume(1352);
     RESEARCH_GRAPH_LayoutTouchRects(p);
 }
@@ -1889,13 +1868,13 @@ void RESEARCH_GRAPH_SelectNext(u8 *p)
     RESEARCH_GRAPH_DrawIndexCursorDim(p);
     RESEARCH_GRAPH_CycleIndex((char *)p,1);
     do {
-        u32 index=((struct ResearchObjB *)p)->f34;
+        u32 index=((struct ResearchObjB *)p)->cursorIndex;
         if (index-1<=1) {
-            if (((struct ResearchObjB *)p)->f3C8==0 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
+            if (((struct ResearchObjB *)p)->entryShown==0 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
                 RESEARCH_GRAPH_CycleIndex((char *)p,1);
             } else repeat=0;
         } else if (index==4) {
-            if (((struct ResearchObjB *)p)->f3C8==1 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
+            if (((struct ResearchObjB *)p)->entryShown==1 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
                 RESEARCH_GRAPH_CycleIndex((char *)p,1);
             } else repeat=0;
         } else repeat=0;
@@ -1904,7 +1883,7 @@ void RESEARCH_GRAPH_SelectNext(u8 *p)
     RESEARCH_GRAPH_LayoutActors((char *)p);
     RESEARCH_GRAPH_LayoutMarkerActor((char *)p);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)p,1);
-    if (((struct ResearchObjB *)p)->f34==4) RESEARCH_GRAPH_SetHighlightC((u32)p);
+    if (((struct ResearchObjB *)p)->cursorIndex==4) RESEARCH_GRAPH_SetHighlightC((u32)p);
     GFL_USE_PlaySeDefaultVolume(1352);
     RESEARCH_GRAPH_LayoutTouchRects(p);
 }
@@ -1919,7 +1898,7 @@ u32 RESEARCH_GRAPH_SelectDirect(u32 a0, u32 a1)
 void RESEARCH_GRAPH_ApplySelection(u8 *a0, u32 a1)
 {
     if ((u32)(a1 - 1) <= 1) {
-    if (((struct ResearchObjB *)a0)->f3C8 == 0) {
+    if (((struct ResearchObjB *)a0)->entryShown == 0) {
     return;
     }
     if (RESEARCH_GRAPH_GetGroupValue(a0) == 0) {
@@ -1942,7 +1921,7 @@ void RESEARCH_GRAPH_ApplySelection(u8 *a0, u32 a1)
  */
 void RESEARCH_GRAPH_MoveGroupBackward(char *p)
 {
-    if (((struct ResearchObjB *)p)->f3C8 != 0) {
+    if (((struct ResearchObjB *)p)->entryShown != 0) {
         if (RESEARCH_GRAPH_GetGroupValue(p) != 0) {
             CircleGraph_QueueErase(RESEARCH_GRAPH_GetLeftCircle(p));
         }
@@ -1950,7 +1929,7 @@ void RESEARCH_GRAPH_MoveGroupBackward(char *p)
     RESEARCH_GRAPH_BuildGraphTable(p);
     RESEARCH_GRAPH_ClearUpdatedFlag(p);
     RESEARCH_GRAPH_CycleGroup(p, 1);
-    ((struct ResearchObjB *)p)->f3C8 = 0;
+    ((struct ResearchObjB *)p)->entryShown = 0;
     RESEARCH_GRAPH_LoadBackground(p);
     RESEARCH_GRAPH_DrawIndexCursor(p);
     RESEARCH_GRAPH_PrintGroupLabel(p);
@@ -1972,7 +1951,7 @@ void RESEARCH_GRAPH_MoveGroupBackward(char *p)
  */
 void RESEARCH_GRAPH_MoveGroupForward(char *p)
 {
-    if (((struct ResearchObjB *)p)->f3C8 != 0) {
+    if (((struct ResearchObjB *)p)->entryShown != 0) {
         if (RESEARCH_GRAPH_GetGroupValue(p) != 0) {
             CircleGraph_QueueErase(RESEARCH_GRAPH_GetLeftCircle(p));
         }
@@ -1980,7 +1959,7 @@ void RESEARCH_GRAPH_MoveGroupForward(char *p)
     RESEARCH_GRAPH_BuildGraphTable(p);
     RESEARCH_GRAPH_ClearUpdatedFlag(p);
     RESEARCH_GRAPH_CycleGroup(p, -1);
-    ((struct ResearchObjB *)p)->f3C8 = 0;
+    ((struct ResearchObjB *)p)->entryShown = 0;
     RESEARCH_GRAPH_LoadBackground(p);
     RESEARCH_GRAPH_DrawIndexCursor(p);
     RESEARCH_GRAPH_PrintGroupLabel(p);
@@ -2032,11 +2011,11 @@ void RESEARCH_GRAPH_ToggleEntry(char *p)
     if (RESEARCH_GRAPH_AreCirclesIdle((u32)p) == 0) {
         return;
     }
-    if (((struct ResearchObjB *)p)->f3C8 != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+    if (((struct ResearchObjB *)p)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
         CircleGraph_QueueErase(RESEARCH_GRAPH_GetLeftCircle(p));
         flag = 1;
     }
-    switch (((struct ResearchObjB *)p)->f2CC) {
+    switch (((struct ResearchObjB *)p)->graphKind) {
     case 0:
         k = 1;
         break;
@@ -2056,11 +2035,11 @@ void RESEARCH_GRAPH_ToggleEntry(char *p)
     RESEARCH_GRAPH_SyncArrow((u8 *)p);
     RESEARCH_GRAPH_LayoutArrow(p);
     RESEARCH_GRAPH_HideAllPercentages(p);
-    if (((struct ResearchObjB *)p)->f3C8 != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+    if (((struct ResearchObjB *)p)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
         RESEARCH_GRAPH_UpdatePercentages(p);
         RESEARCH_GRAPH_ShowPercentages(p);
     }
-    if (((struct ResearchObjB *)p)->f3C8 != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
+    if (((struct ResearchObjB *)p)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(p) != 0) {
         if (flag != 0) {
             CircleGraph_HoldUpdate(RESEARCH_GRAPH_GetLeftCircle(p), 0x14);
         }
@@ -2082,7 +2061,7 @@ void RESEARCH_GRAPH_FadeOut(void)
 
 void RESEARCH_GRAPH_CycleIndex(char *p, int a)
 {
-    ((struct ResearchObjB *)p)->f34s = (((struct ResearchObjB *)p)->f34s + a + 5) % 5;
+    ((struct ResearchObjB *)p)->cursorIndexSigned = (((struct ResearchObjB *)p)->cursorIndexSigned + a + 5) % 5;
 }
 
 /*
@@ -2092,23 +2071,23 @@ void RESEARCH_GRAPH_CycleIndex(char *p, int a)
  */
 void RESEARCH_GRAPH_SetIndex(void *p, u32 v)
 {
-    ((struct ResearchObjB *)p)->f34 = v;
+    ((struct ResearchObjB *)p)->cursorIndex = v;
 }
 
 int RESEARCH_GRAPH_DrawIndexCursor(char *p)
 {
-    switch (((struct ResearchObjB *)p)->f34s) {
+    switch (((struct ResearchObjB *)p)->cursorIndexSigned) {
     case 0:
     case 2:
     case 3:
-        func_020413B0(2, d_021C3AC8[*(int *)(p + 0x34)].a,
+        BG_SYS_FillTileMap(2, d_021C3AC8[*(int *)(p + 0x34)].a,
                       d_021C3AC8[*(int *)(p + 0x34)].b,
                       d_021C3AC8[*(int *)(p + 0x34)].c,
                       d_021C3AC8[*(int *)(p + 0x34)].d, 0xa);
         break;
     case 1:
-        func_020413B0(2, 0xd, 4, 0x13, 4, 0xa);
-        func_020413B0(2, 0x10, 8, 0x10, 3, 0xa);
+        BG_SYS_FillTileMap(2, 0xd, 4, 0x13, 4, 0xa);
+        BG_SYS_FillTileMap(2, 0x10, 8, 0x10, 3, 0xa);
         break;
     case 4:
         RESEARCH_GRAPH_SetHighlightA((u32)p);
@@ -2119,18 +2098,18 @@ int RESEARCH_GRAPH_DrawIndexCursor(char *p)
 
 void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
 {
-    switch (((struct ResearchObjB *)p)->f34) {
+    switch (((struct ResearchObjB *)p)->cursorIndex) {
     case 0:
     case 2:
     case 3:
-        func_020413B0(2, d_021C3AC8[*(u32 *)(p + 52)].a,
+        BG_SYS_FillTileMap(2, d_021C3AC8[*(u32 *)(p + 52)].a,
             d_021C3AC8[*(u32 *)(p + 52)].b,
             d_021C3AC8[*(u32 *)(p + 52)].c,
             d_021C3AC8[*(u32 *)(p + 52)].d, 6);
         break;
     case 1:
-        func_020413B0(2,13,4,19,4,6);
-        func_020413B0(2,16,8,16,3,6);
+        BG_SYS_FillTileMap(2,13,4,19,4,6);
+        BG_SYS_FillTileMap(2,16,8,16,3,6);
         break;
     case 4:
         RESEARCH_GRAPH_SetHighlightB((u32)p);
@@ -2141,7 +2120,7 @@ void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
 
 void RESEARCH_GRAPH_CycleGroup(char *p, int a)
 {
-    ((struct ResearchObjB *)p)->f2B8 = (u8)((((struct ResearchObjB *)p)->f2B8 + a + 3) % 3);
+    ((struct ResearchObjB *)p)->groupIndex = (u8)((((struct ResearchObjB *)p)->groupIndex + a + 3) % 3);
 }
 
 void RESEARCH_GRAPH_SetEntryFromSlice(char *p)
@@ -2150,7 +2129,7 @@ void RESEARCH_GRAPH_SetEntryFromSlice(char *p)
 
     u32 k = RESEARCH_GRAPH_GetGroupKey(p);
     int v = CircleGraph_GetSliceKey(o, 0);
-    ((struct ResearchObjB *)p)->f2B9 = GRAPHTABLE_FindEntry((const u8 *)(p + 0x38), (u8)k, (u8)v);
+    ((struct ResearchObjB *)p)->entryIndex = GRAPHTABLE_FindEntry((const u8 *)(p + 0x38), (u8)k, (u8)v);
 }
 
 /*
@@ -2176,12 +2155,12 @@ void RESEARCH_GRAPH_StepEntry(u8 *p, int step)
 
 void RESEARCH_GRAPH_ClearEntryIndex(u8 *a0)
 {
-    ((struct ResearchObjB *)a0)->f2B9 = 0;
+    ((struct ResearchObjB *)a0)->entryIndex = 0;
 }
 
 void RESEARCH_GRAPH_SyncArrow(u8 *p)
 {
-    if (((struct ResearchObjB *)p)->f3C8 == 1 || ((struct ResearchObjB *)p)->f3D0 == 1 || RESEARCH_GRAPH_GetGroupValue(p) == 0) {
+    if (((struct ResearchObjB *)p)->entryShown == 1 || ((struct ResearchObjB *)p)->detailMode == 1 || RESEARCH_GRAPH_GetGroupValue(p) == 0) {
         if (RESEARCH_GRAPH_IsSlotPaletteAnimeRunning(p, 5) == 0) RESEARCH_GRAPH_SetNormalB((u32)p);
     } else {
         if (RESEARCH_GRAPH_IsSlotPaletteAnimeRunning(p, 5) == 1) RESEARCH_GRAPH_SetNormalA((u32)p);
@@ -2190,7 +2169,7 @@ void RESEARCH_GRAPH_SyncArrow(u8 *p)
 
 void RESEARCH_GRAPH_SetHighlightSelected(u32 a0)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->oamObjectB), 0);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)a0, 5);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)a0, 6);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)a0, 2);
@@ -2198,32 +2177,32 @@ void RESEARCH_GRAPH_SetHighlightSelected(u32 a0)
 
 void RESEARCH_GRAPH_SetHighlightA(u32 a0)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->oamObjectB), 0);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)a0, 3);
 }
 
 void RESEARCH_GRAPH_SetHighlightB(u32 a0)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->oamObjectB), 1);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)a0, 3);
 }
 
 void RESEARCH_GRAPH_SetHighlightC(u32 a0)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->oamObjectB), 0);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)a0, 4);
 }
 
 void RESEARCH_GRAPH_SetNormalA(u32 a0)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->oamObjectB), 1);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)a0, 5);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)a0, 6);
 }
 
 void RESEARCH_GRAPH_SetNormalB(u32 a0)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->oamObjectB), 1);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)a0, 5);
 }
 
@@ -2249,11 +2228,11 @@ void RESEARCH_GRAPH_SwapCenterPairs(void *p)
 
 void RESEARCH_GRAPH_QuantizePosition(u32 a0)
 {
-    u32 v1 = func_0209C0A4(((struct Item *)a0)->y + 62, 3);
-    u32 v2 = func_0209C0A4(((struct Item *)a0)->z + 62, 3);
-    ((struct Item *)a0)->a = func_0209C0A4(((struct Item *)a0)->x + 62, 3);
-    ((struct Item *)a0)->b = v1;
-    ((struct Item *)a0)->c = v2;
+    u32 v1 = func_0209C0A4(((struct GraphSliceInput *)a0)->y + 62, 3);
+    u32 v2 = func_0209C0A4(((struct GraphSliceInput *)a0)->z + 62, 3);
+    ((struct GraphSliceInput *)a0)->quantX = func_0209C0A4(((struct GraphSliceInput *)a0)->x + 62, 3);
+    ((struct GraphSliceInput *)a0)->quantY = v1;
+    ((struct GraphSliceInput *)a0)->quantZ = v2;
 }
 
 void RESEARCH_GRAPH_SetCenterDepth(void *p)
@@ -2264,40 +2243,40 @@ void RESEARCH_GRAPH_SetCenterDepth(void *p)
 
 void RESEARCH_GRAPH_SetSlicesFromGraphA(u8 *p,int mode)
 {
-    struct Item items[17];
-    struct Input *base;
+    struct GraphSliceInput items[17];
+    struct GraphEntryView *base;
     u32 object;
     int count;
     int i;
     object=*(u32 *)(p+700+mode*4);
     count=RESEARCH_GRAPH_GetGroupCount(p);
-    base=(struct Input *)(p+60+p[696]*212);
+    base=(struct GraphEntryView *)(p+60+p[696]*212);
     for(i=0;i<count;i++) {
-        struct Input *q=(struct Input *)((u8 *)base+8+i*12);
-        struct Item *t=&items[i];
+        struct GraphEntryView *q=(struct GraphEntryView *)((u8 *)base+8+i*12);
+        struct GraphSliceInput *t=&items[i];
         t->id=q->id; t->x=q->x; t->y=q->y; t->z=q->z;
         RESEARCH_GRAPH_QuantizePosition((u32)t);
-        switch(mode) { case 0: t->value=q->a; break; case 1: t->value=q->b; break; }
+        switch(mode) { case 0: t->value=q->valueA; break; case 1: t->value=q->valueB; break; }
     }
     CircleGraph_SetSlices((u8 *)object,(u8 *)items,count);
 }
 
 void RESEARCH_GRAPH_SetSlicesFromGraphB(u8 *p, u32 mode)
 {
-    struct Item items[17];
-    struct Input *base;
+    struct GraphSliceInput items[17];
+    struct GraphEntryView *base;
     u32 object;
     int count;
     int i;
     object=*(u32 *)(p+708+mode*4);
     count=RESEARCH_GRAPH_GetGroupCount(p);
-    base=(struct Input *)(p+60+p[696]*212);
+    base=(struct GraphEntryView *)(p+60+p[696]*212);
     for(i=0;i<count;i++) {
-        struct Input *q=(struct Input *)((u8 *)base+8+i*12);
-        struct Item *t=&items[i];
+        struct GraphEntryView *q=(struct GraphEntryView *)((u8 *)base+8+i*12);
+        struct GraphSliceInput *t=&items[i];
         t->id=q->id; t->x=q->x; t->y=q->y; t->z=q->z;
         RESEARCH_GRAPH_QuantizePosition((u32)t);
-        switch(mode) { case 0: t->value=q->a; break; case 1: t->value=q->b; break; }
+        switch(mode) { case 0: t->value=q->valueA; break; case 1: t->value=q->valueB; break; }
     }
     CircleGraph_SetSlices((u8 *)object,(u8 *)items,count);
 }
@@ -2324,11 +2303,11 @@ void RESEARCH_GRAPH_DrawSliceColor(char *p)
 {
     unsigned r,g,b;
     void *color;
-    if (((struct ResearchObjB *)p)->f3C8==0 || ((struct ResearchObjB *)p)->f3D0==1 || RESEARCH_GRAPH_GetGroupValue(p)==0) return;
+    if (((struct ResearchObjB *)p)->entryShown==0 || ((struct ResearchObjB *)p)->detailMode==1 || RESEARCH_GRAPH_GetGroupValue(p)==0) return;
     color=p+56;
-    r=GRAPHTABLE_GetEntryRed(color,((struct ResearchObjB *)p)->f2B8,((struct ResearchObjB *)p)->f2B9);
-    g=GRAPHTABLE_GetEntryGreen(color,((struct ResearchObjB *)p)->f2B8,((struct ResearchObjB *)p)->f2B9);
-    b=GRAPHTABLE_GetEntryBlue(color,((struct ResearchObjB *)p)->f2B8,((struct ResearchObjB *)p)->f2B9);
+    r=GRAPHTABLE_GetEntryRed(color,((struct ResearchObjB *)p)->groupIndex,((struct ResearchObjB *)p)->entryIndex);
+    g=GRAPHTABLE_GetEntryGreen(color,((struct ResearchObjB *)p)->groupIndex,((struct ResearchObjB *)p)->entryIndex);
+    b=GRAPHTABLE_GetEntryBlue(color,((struct ResearchObjB *)p)->groupIndex,((struct ResearchObjB *)p)->entryIndex);
     *(volatile unsigned *)0x040004a4=0x001f00c0;
     *(volatile unsigned *)0x04000500=1;
     *(volatile unsigned *)0x04000480=(u16)(r | (g<<5) | (b<<10));
@@ -2352,20 +2331,20 @@ void RESEARCH_GRAPH_LayoutArrow(char *p)
     u8 *object;
     unsigned index;
     s32 x,y;
-    ARROW_Reset(*(unsigned *)&((struct ResearchObjB *)p)->f2D0);
-    if (((struct ResearchObjB *)p)->f3D0==1) return;
-    if (((struct ResearchObjB *)p)->f3C8==0) return;
+    ARROW_Reset(*(unsigned *)&((struct ResearchObjB *)p)->arrow);
+    if (((struct ResearchObjB *)p)->detailMode==1) return;
+    if (((struct ResearchObjB *)p)->entryShown==0) return;
     if (RESEARCH_GRAPH_GetGroupValue(p)==0) return;
     object=RESEARCH_GRAPH_GetLeftCircle(p);
     index=RESEARCH_GRAPH_GetEntryKey(p);
     if (CircleGraph_GetPercentByKey(object,index)==0) return;
-    if (((struct ResearchObjB *)p)->f3C8!=0) {
+    if (((struct ResearchObjB *)p)->entryShown!=0) {
         object=RESEARCH_GRAPH_GetLeftCircle(p);
         index=RESEARCH_GRAPH_GetEntryKey(p);
         CircleGraph_GetLabelPositionByKey(object,index,&x,&y);
 
-        ARROW_Layout(*(unsigned *)&((struct ResearchObjB *)p)->f2D0,104,34,x,y);
-        ARROW_Start(*(unsigned *)&((struct ResearchObjB *)p)->f2D0);
+        ARROW_Layout(*(unsigned *)&((struct ResearchObjB *)p)->arrow,104,34,x,y);
+        ARROW_Start(*(unsigned *)&((struct ResearchObjB *)p)->arrow);
     }
 }
 
@@ -2396,7 +2375,7 @@ void RESEARCH_GRAPH_UpdatePercentages(char *p)
             i++;
         }
     }
-    ((struct ResearchObjB *)p)->f2FC=i;
+    ((struct ResearchObjB *)p)->percentageCount=i;
 }
 
 void RESEARCH_GRAPH_HideAllPercentages(char *p)
@@ -2406,7 +2385,7 @@ void RESEARCH_GRAPH_HideAllPercentages(char *p)
     for (i = 0; i < 10; i++) {
         PERCENTAGE_SetVisible(*(u32 *)(p + i * 4 + 0x2d4), z);
     }
-    ((struct ResearchObjB *)p)->f2FD = z;
+    ((struct ResearchObjB *)p)->percentageVisible = z;
 }
 
 /*
@@ -2423,7 +2402,7 @@ void RESEARCH_GRAPH_ShowPercentages(char *p)
 {
     int i;
     int n;
-    n = ((struct ResearchObjB *)p)->f2FC;
+    n = ((struct ResearchObjB *)p)->percentageCount;
     for (i = 0; i < n; i++) {
         RESEARCH_GRAPH_ShowPercent((u8 *)p, (u8)i);
     }
@@ -2434,18 +2413,18 @@ void RESEARCH_GRAPH_ShowPercentages(char *p)
  */
 void RESEARCH_GRAPH_LayoutTouchRects(u8 *p)
 {
-    const struct Row *row;
+    const struct CursorLayoutRow *row;
     u8 *q;
-    row=(const struct Row *)&d_021C3AC8[((struct ResearchObjB *)p)->f34];
+    row=(const struct CursorLayoutRow *)&d_021C3AC8[((struct ResearchObjB *)p)->cursorIndex];
     q=p+0x2fe;
-    q[2]=RESEARCH_GRAPH_ClampByte(row->fields[0]+row->fields[4]-16);
-    p[0x2fe]=RESEARCH_GRAPH_ClampByte(row->fields[1]+row->fields[5]-16);
+    q[2]=RESEARCH_GRAPH_ClampByte(row->offsets[0]+row->offsets[4]-16);
+    p[0x2fe]=RESEARCH_GRAPH_ClampByte(row->offsets[1]+row->offsets[5]-16);
     q[3]=RESEARCH_GRAPH_ClampByte(q[2]+32);
     q[1]=RESEARCH_GRAPH_ClampByte(p[0x2fe]+32);
-    row=(const struct Row *)&d_021C3AC8[((struct ResearchObjB *)p)->f34];
+    row=(const struct CursorLayoutRow *)&d_021C3AC8[((struct ResearchObjB *)p)->cursorIndex];
     q=p+0x302;
-    q[2]=RESEARCH_GRAPH_ClampByte(row->fields[0]+row->fields[6]-16);
-    p[0x302]=RESEARCH_GRAPH_ClampByte(row->fields[1]+row->fields[7]-16);
+    q[2]=RESEARCH_GRAPH_ClampByte(row->offsets[0]+row->offsets[6]-16);
+    p[0x302]=RESEARCH_GRAPH_ClampByte(row->offsets[1]+row->offsets[7]-16);
     q[3]=RESEARCH_GRAPH_ClampByte(q[2]+32);
     q[1]=RESEARCH_GRAPH_ClampByte(p[0x302]+32);
 }
@@ -2455,16 +2434,16 @@ void RESEARCH_GRAPH_LoadBackground(char *p)
     struct ArcFile *arc;
     void *file,*out;
     unsigned id;
-    arc=func_020490F4(192,((struct ResearchObjB *)p)->f4);
-    if (((struct ResearchObjB *)p)->f3D0!=0) id=8;
+    arc=func_020490F4(192,((struct ResearchObjB *)p)->heapId);
+    if (((struct ResearchObjB *)p)->detailMode!=0) id=8;
     else if (RESEARCH_GRAPH_GetGroupValue(p)==0) id=6;
     else {
         id=6;
-        if (((struct ResearchObjB *)p)->f3C8!=0) id=7;
+        if (((struct ResearchObjB *)p)->entryShown!=0) id=7;
     }
-    file=ARC_TOOL_LoadHandleMember(arc,id,((struct ResearchObjB *)p)->f4);
-    func_02062B30(file,&out);
-    func_02041090(2,(unsigned)out+12,0,0,32,32);
+    file=ARC_TOOL_LoadHandleMember(arc,id,((struct ResearchObjB *)p)->heapId);
+    NNS_G2dGetUnpackedScreenData(file,&out);
+    BG_SYS_DrawTile(2,(unsigned)out+12,0,0,32,32);
     func_020409B4(2);
     func_020307B0(file);
     ARC_TOOL_DeleteHandle(arc);
@@ -2478,30 +2457,30 @@ void RESEARCH_GRAPH_LoadBackground(char *p)
  */
 void RESEARCH_GRAPH_PrintTitle(char *p)
 {
-    BgTextLabel_PrintMessage(((struct ResearchObjB *)p)->f348, d_021C3628[((struct ResearchObjB *)p)->f38]);
+    BgTextLabel_PrintMessage(((struct ResearchObjB *)p)->titleLabel, d_021C3628[((struct ResearchObjB *)p)->titleGroup]);
 }
 
 void RESEARCH_GRAPH_PrintGroupLabel(char *p)
 {
     u32 i = RESEARCH_GRAPH_GetGroupKey(p);
-    BgTextLabel_PrintMessage(((struct ResearchObjB *)p)->f34C, d_021C36B8[i]);
+    BgTextLabel_PrintMessage(((struct ResearchObjB *)p)->groupLabel, d_021C36B8[i]);
 }
 
 void RESEARCH_GRAPH_PrintKindLabel(char *p)
 {
-    u32 o = ((struct ResearchObjB *)p)->f350;
+    u32 o = ((struct ResearchObjB *)p)->kindLabel;
     u32 i = RESEARCH_GRAPH_GetGroupKey(p);
     BgTextLabel_PrintMessage(o, d_021C369A[i]);
 }
 
 void RESEARCH_GRAPH_PrintSliceLabel(char *p)
 {
-    u32 t = ((struct ResearchObjB *)p)->f354;
+    u32 t = ((struct ResearchObjB *)p)->sliceLabel;
     u8 *o = RESEARCH_GRAPH_GetLeftCircle(p);
     u32 k;
     u32 a, b, c;
     void *x, *y, *z;
-    if (((struct ResearchObjB *)p)->f3C8 == 0 || ((struct ResearchObjB *)p)->f3D0 == 1) {
+    if (((struct ResearchObjB *)p)->entryShown == 0 || ((struct ResearchObjB *)p)->detailMode == 1) {
         BgTextLabel_SetVisible((u8 *)t, 0);
         return;
     }
@@ -2514,14 +2493,14 @@ void RESEARCH_GRAPH_PrintSliceLabel(char *p)
 
     b = RESEARCH_GRAPH_GetEntryValue(p);
     c = CircleGraph_GetPercentByKey(o, (u8)k);
-    x = func_02045EC0(((struct ResearchObjB *)p)->fC, 0xd);
-    y = func_02045EC0(((struct ResearchObjB *)p)->f14, k);
-    z = STRBUF_Create(0x80, ((struct ResearchObjB *)p)->f4);
-    func_0201EFA4(((struct ResearchObjB *)p)->f18, 0, a + 1, 2, 1, 1);
-    func_0201EE0C(((struct ResearchObjB *)p)->f18, 1, y, 0, 1, 2);
-    func_0201EFA4(((struct ResearchObjB *)p)->f18, 2, b, 5, 1, 1);
-    func_0201EFA4(((struct ResearchObjB *)p)->f18, 3, c, 3, 1, 1);
-    func_0201F250(((struct ResearchObjB *)p)->f18, z, x);
+    x = func_02045EC0(((struct ResearchObjB *)p)->msgBankA, 0xd);
+    y = func_02045EC0(((struct ResearchObjB *)p)->msgBankB, k);
+    z = STRBUF_Create(0x80, ((struct ResearchObjB *)p)->heapId);
+    WORDSET_SetSlotNumber(((struct ResearchObjB *)p)->wordSet, 0, a + 1, 2, 1, 1);
+    WORDSET_SetSlotTag(((struct ResearchObjB *)p)->wordSet, 1, y, 0, 1, 2);
+    WORDSET_SetSlotNumber(((struct ResearchObjB *)p)->wordSet, 2, b, 5, 1, 1);
+    WORDSET_SetSlotNumber(((struct ResearchObjB *)p)->wordSet, 3, c, 3, 1, 1);
+    WORDSET_CopyTaggedText(((struct ResearchObjB *)p)->wordSet, z, x);
     BgTextLabel_PrintText((u8 *)t, z);
     BgTextLabel_SetVisible((u8 *)t, 1);
     STRBUF_Delete(x);
@@ -2536,18 +2515,18 @@ void RESEARCH_GRAPH_PrintTimeLabel(char *p)
 {
     unsigned index;
     struct U16Vec *a,*b,*buf;
-    if (((struct ResearchObjB *)p)->f3C8==0 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->f358),0);
+    if (((struct ResearchObjB *)p)->entryShown==0 || RESEARCH_GRAPH_GetGroupValue(p)==0) {
+        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->timeLabel),0);
         return;
     }
     index=RESEARCH_GRAPH_GetEntryIdBySave((unsigned char *)p);
-    a=func_02045EC0(*(struct MsgBank * *)&((struct ResearchObjB *)p)->fC,14);
-    b=func_02045EC0(*(struct MsgBank * *)&((struct ResearchObjB *)p)->f14,index);
-    buf=STRBUF_Create(128,((struct ResearchObjB *)p)->f4);
-    func_0201EE0C(*(struct WordSet * *)&((struct ResearchObjB *)p)->f18,0,b,0,1,2);
-    func_0201F250(*(struct WordSet * *)&((struct ResearchObjB *)p)->f18,buf,a);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->f358),1);
-    BgTextLabel_PrintText((u8 *)(((struct ResearchObjB *)p)->f358),buf);
+    a=func_02045EC0(*(struct MsgBank * *)&((struct ResearchObjB *)p)->msgBankA,14);
+    b=func_02045EC0(*(struct MsgBank * *)&((struct ResearchObjB *)p)->msgBankB,index);
+    buf=STRBUF_Create(128,((struct ResearchObjB *)p)->heapId);
+    WORDSET_SetSlotTag(*(struct WordSet * *)&((struct ResearchObjB *)p)->wordSet,0,b,0,1,2);
+    WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct ResearchObjB *)p)->wordSet,buf,a);
+    BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->timeLabel),1);
+    BgTextLabel_PrintText((u8 *)(((struct ResearchObjB *)p)->timeLabel),buf);
     STRBUF_Delete(a);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);
@@ -2559,8 +2538,8 @@ void RESEARCH_GRAPH_PrintTeamLabel(char *p)
     u32 x;
     void *a, *b;
     void *c;
-    if (((struct ResearchObjB *)p)->f3C8 != 0) {
-        switch (((struct ResearchObjB *)p)->f2CC) {
+    if (((struct ResearchObjB *)p)->entryShown != 0) {
+        switch (((struct ResearchObjB *)p)->graphKind) {
         case 0:
             k = 0xf;
             break;
@@ -2569,7 +2548,7 @@ void RESEARCH_GRAPH_PrintTeamLabel(char *p)
             break;
         }
     } else {
-        switch (((struct ResearchObjB *)p)->f2CC) {
+        switch (((struct ResearchObjB *)p)->graphKind) {
         case 0:
             k = 0x10;
             break;
@@ -2579,12 +2558,12 @@ void RESEARCH_GRAPH_PrintTeamLabel(char *p)
         }
     }
     x = RESEARCH_GRAPH_GetGroupValue(p);
-    c = ((struct ResearchObjB *)p)->f18;
-    a = func_02045EC0(((struct ResearchObjB *)p)->fC, k);
-    b = STRBUF_Create(0x80, ((struct ResearchObjB *)p)->f4);
-    func_0201EFA4(c, 0, x, 6, 1, 1);
-    func_0201F250(c, b, a);
-    BgTextLabel_PrintText((u8 *)(((struct ResearchObjB *)p)->f35C), b);
+    c = ((struct ResearchObjB *)p)->wordSet;
+    a = func_02045EC0(((struct ResearchObjB *)p)->msgBankA, k);
+    b = STRBUF_Create(0x80, ((struct ResearchObjB *)p)->heapId);
+    WORDSET_SetSlotNumber(c, 0, x, 6, 1, 1);
+    WORDSET_CopyTaggedText(c, b, a);
+    BgTextLabel_PrintText((u8 *)(((struct ResearchObjB *)p)->teamLabel), b);
     STRBUF_Delete(a);
     STRBUF_Delete(b);
 }
@@ -2592,39 +2571,39 @@ void RESEARCH_GRAPH_PrintTeamLabel(char *p)
 void RESEARCH_GRAPH_SetTeamLabelVisible(char *p)
 {
     if (RESEARCH_GRAPH_GetGroupValue(p) == 0) {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->f360), 1);
+        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->emptyLabel), 1);
     } else {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->f360), 0);
+        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->emptyLabel), 0);
     }
 }
 
 void RESEARCH_GRAPH_SetDetailLabelVisible(char *p)
 {
-    if (((struct ResearchObjB *)p)->f3D0 != 0) {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->f364), 1);
+    if (((struct ResearchObjB *)p)->detailMode != 0) {
+        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->detailLabel), 1);
     } else {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->f364), 0);
+        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)p)->detailLabel), 0);
     }
 }
 
 void RESEARCH_GRAPH_LayoutActors(char *p)
 {
-    const struct Row *row;
+    const struct CursorLayoutRow *row;
     struct Obj *a,*b;
     struct Vec2 pos;
-    row=(const struct Row *)&d_021C3AC8[((struct ResearchObjB *)p)->f34];
+    row=(const struct CursorLayoutRow *)&d_021C3AC8[((struct ResearchObjB *)p)->cursorIndex];
     a=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(p,0);
     b=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(p,1);
-    if (((struct ResearchObjB *)p)->f3D0==1 || ((struct ResearchObjB *)p)->f34==2 || ((struct ResearchObjB *)p)->f34==4) {
+    if (((struct ResearchObjB *)p)->detailMode==1 || ((struct ResearchObjB *)p)->cursorIndex==2 || ((struct ResearchObjB *)p)->cursorIndex==4) {
         CLACT_SetActorDrawEnable(a,0);
         CLACT_SetActorDrawEnable(b,0);
         return;
     }
-    pos.x=row->fields[0]+row->fields[4];
-    pos.y=row->fields[1]+row->fields[5];
+    pos.x=row->offsets[0]+row->offsets[4];
+    pos.y=row->offsets[1]+row->offsets[5];
     CLACT_AddActorSurfacePos(a,&pos,0);
-    pos.x=row->fields[0]+row->fields[6];
-    pos.y=row->fields[1]+row->fields[7];
+    pos.x=row->offsets[0]+row->offsets[6];
+    pos.y=row->offsets[1]+row->offsets[7];
     CLACT_AddActorSurfacePos(b,&pos,0);
     CLACT_SetActorDrawEnable(a,1);
     CLACT_SetActorDrawEnable(b,1);
@@ -2634,10 +2613,10 @@ void RESEARCH_GRAPH_LayoutActors(char *p)
 
 void RESEARCH_GRAPH_SetTriangleActorVisible(char *p)
 {
-    if (((struct ResearchObjB *)p)->f3C8 == 0 || RESEARCH_GRAPH_GetGroupValue(p) == 0) {
-        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)p)->f39C, 0);
+    if (((struct ResearchObjB *)p)->entryShown == 0 || RESEARCH_GRAPH_GetGroupValue(p) == 0) {
+        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)p)->triangleActor, 0);
     } else {
-        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)p)->f39C, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)p)->triangleActor, 1);
     }
 }
 
@@ -2648,10 +2627,10 @@ void RESEARCH_GRAPH_LayoutMarkerActor(char *p)
     s32 x,y;
     struct Vec2 pos;
     const u16 *table;
-    obj=*(struct Obj * *)&((struct ResearchObjB *)p)->f3A0;
+    obj=*(struct Obj * *)&((struct ResearchObjB *)p)->markerActor;
     table=d_021C3850;
-    if (((struct ResearchObjB *)p)->f3C8==0) { CLACT_SetActorDrawEnable(obj,0); return; }
-    if (((struct ResearchObjB *)p)->f34!=2) { CLACT_SetActorDrawEnable(obj,0); return; }
+    if (((struct ResearchObjB *)p)->entryShown==0) { CLACT_SetActorDrawEnable(obj,0); return; }
+    if (((struct ResearchObjB *)p)->cursorIndex!=2) { CLACT_SetActorDrawEnable(obj,0); return; }
     index=RESEARCH_GRAPH_GetEntryIdBySave((u8 *)p);
     if (CircleGraph_GetPercentByKey(RESEARCH_GRAPH_GetLeftCircle(p),index)==0) { CLACT_SetActorDrawEnable(obj,0); return; }
     if (index==0) { CLACT_SetActorDrawEnable(obj,0); return; }
@@ -2697,7 +2676,7 @@ void RESEARCH_GRAPH_SetOamEnabled(u8 *p, u32 i, u32 j)
 
 void RESEARCH_GRAPH_StartSlotPaletteAnime(char *p, int i)
 {
-    PALETTE_ANIME_Start((u8 *)(*(u32 *)(p + i * 4 + 0x324)), d_021C3A34[i].a, d_021C3A34[i].b);
+    PALETTE_ANIME_Start((u8 *)(*(u32 *)(p + i * 4 + 0x324)), d_021C3A34[i].mode, d_021C3A34[i].color);
 }
 
 /*
@@ -2734,19 +2713,19 @@ void RESEARCH_GRAPH_UpdateSlotPalettes(int *p)
  */
 void RESEARCH_GRAPH_UpdatePaletteAnime(u8 *a0)
 {
-    RESEARCH_COMMON_UpdatePaletteAnime((u32)(((struct ResearchObjB *)a0)->f0u));
+    RESEARCH_COMMON_UpdatePaletteAnime((u32)(((struct ResearchObjB *)a0)->ownerU));
 }
 
 void RESEARCH_GRAPH_RequestFadeIn(char *p)
 {
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,1,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->f3BC);
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,4,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->f3BC);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->palAnm,1,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->fadeParam);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->palAnm,4,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->fadeParam);
 }
 
 void RESEARCH_GRAPH_RequestFadeOut(char *p)
 {
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,1,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->f3BC);
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,4,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->f3BC);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->palAnm,1,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->fadeParam);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->palAnm,4,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->fadeParam);
 }
 
 /*
@@ -2759,7 +2738,7 @@ void RESEARCH_GRAPH_RequestFadeOut(char *p)
  */
 u32 RESEARCH_GRAPH_IsFadeDone(u8 *a0)
 {
-    if (PALANM_GetFadeRequestBits((const char *)(((struct ResearchObjB *)a0)->f3B8)) == 0) {
+    if (PALANM_GetFadeRequestBits((const char *)(((struct ResearchObjB *)a0)->palAnm)) == 0) {
     return 1;
     }
     return 0;
@@ -2767,9 +2746,9 @@ u32 RESEARCH_GRAPH_IsFadeDone(u8 *a0)
 
 u32 RESEARCH_GRAPH_TransferPalettes(u32 a0, u32 a1)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
-    return PALANM_TransferPalettes((struct S02021D50 *)((struct ResearchObjB *)a1)->f3B8);
+    return PALANM_TransferPalettes((struct S02021D50 *)((struct ResearchObjB *)a1)->palAnm);
 }
 
 void RESEARCH_GRAPH_CheckQuestionnaireUpdated(char *p)
@@ -2777,7 +2756,7 @@ void RESEARCH_GRAPH_CheckQuestionnaireUpdated(char *p)
     if (GAME_BEACON_PopQuestionnaireUpdated() == 1) {
         u16 a = RESEARCH_GRAPH_GetGroupTotalA(p);
         if (a != (u16)(u32)RESEARCH_GRAPH_GetSaveBits((u32)p)) {
-            ((struct ResearchObjB *)p)->f3D8 = 1;
+            ((struct ResearchObjB *)p)->updatedFlag = 1;
         }
     }
 }
@@ -2789,27 +2768,27 @@ void RESEARCH_GRAPH_CheckQuestionnaireUpdated(char *p)
  */
 void RESEARCH_GRAPH_ClearUpdatedFlag(void *p)
 {
-    ((struct ResearchObjB *)p)->f3D8 = 0;
+    ((struct ResearchObjB *)p)->updatedFlag = 0;
 }
 
 void RESEARCH_GRAPH_TickTimer(void *p)
 {
-    if (((struct ResearchObjB *)p)->f30 < 0xf0) {
-        ((struct ResearchObjB *)p)->f30 += 1;
+    if (((struct ResearchObjB *)p)->elapsedTimer < 0xf0) {
+        ((struct ResearchObjB *)p)->elapsedTimer += 1;
     } else {
-        ((struct ResearchObjB *)p)->f3D4 = 1;
+        ((struct ResearchObjB *)p)->timerExpired = 1;
     }
 }
 
 void RESEARCH_GRAPH_ResetTimer(void *p)
 {
-    ((struct ResearchObjB *)p)->f30 = 0;
-    ((struct ResearchObjB *)p)->f3D4 = 0;
+    ((struct ResearchObjB *)p)->elapsedTimer = 0;
+    ((struct ResearchObjB *)p)->timerExpired = 0;
 }
 
 u32 RESEARCH_GRAPH_GetContext(u8 *a0)
 {
-    return RESEARCH_COMMON_GetContext((u32 *)(((struct Obj25933 *)a0)->f0));
+    return RESEARCH_COMMON_GetContext((u32 *)(((struct ResearchObjB *)a0)->owner));
 }
 
 /*
@@ -2819,12 +2798,12 @@ u32 RESEARCH_GRAPH_GetContext(u8 *a0)
  */
 u32 RESEARCH_GRAPH_GetAppResource(u8 *a0)
 {
-    return RESEARCH_COMMON_GetAppResource((void *)(((struct ResearchObjB *)a0)->f0u));
+    return RESEARCH_COMMON_GetAppResource((void *)(((struct ResearchObjB *)a0)->ownerU));
 }
 
 void RESEARCH_GRAPH_SetHeapId(void *p, u32 v)
 {
-    ((struct ResearchObjB *)p)->f4 = v;
+    ((struct ResearchObjB *)p)->heapId = v;
 }
 
 /*
@@ -2834,12 +2813,12 @@ void RESEARCH_GRAPH_SetHeapId(void *p, u32 v)
  */
 u32 RESEARCH_GRAPH_GetOwner(void *p)
 {
-    return ((struct ResearchObjB *)p)->f0u;
+    return ((struct ResearchObjB *)p)->ownerU;
 }
 
 void RESEARCH_GRAPH_SetOwner(void *p, u32 v)
 {
-    ((struct ResearchObjB *)p)->f0u = v;
+    ((struct ResearchObjB *)p)->ownerU = v;
 }
 
 u32 RESEARCH_GRAPH_GetInputFlag(void *p)
@@ -2854,26 +2833,26 @@ u32 RESEARCH_GRAPH_GetInputFlag(void *p)
  */
 void RESEARCH_GRAPH_SetGraphKind(void *p, u32 v)
 {
-    ((struct ResearchObjB *)p)->f2CC = v;
+    ((struct ResearchObjB *)p)->graphKind = v;
 }
 
 u8 *RESEARCH_GRAPH_GetLeftCircle(void *p)
 {
-    u32 i = ((struct ResearchObjB *)p)->f2CC;
+    u32 i = ((struct ResearchObjB *)p)->graphKind;
     return *(u8 **)((char *)p + i * 4 + 0x2bc);
 
 }
 
 u8 *RESEARCH_GRAPH_GetRightCircle(void *p)
 {
-    u32 i = ((struct ResearchObjB *)p)->f2CC;
+    u32 i = ((struct ResearchObjB *)p)->graphKind;
     return *(u8 **)((char *)p + i * 4 + 0x2c4);
 
 }
 
 u32 RESEARCH_GRAPH_AreCirclesIdle(u32 a0)
 {
-    if (CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->f2BC) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->f2C0) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->f2C4) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->f2C8) != 0) {
+    if (CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->leftCircleA) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->leftCircleB) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->rightCircleA) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)a0)->rightCircleB) != 0) {
     return 0;
     }
     return 1;
@@ -2881,13 +2860,13 @@ u32 RESEARCH_GRAPH_AreCirclesIdle(u32 a0)
 
 u32 RESEARCH_GRAPH_GetGroupKey(void *p)
 {
-    u32 i = ((struct ResearchObjB *)p)->f2B8;
+    u32 i = ((struct ResearchObjB *)p)->groupIndex;
     return *(u8 *)((char *)p + i * 0xd4 + 0x3c);
 }
 
 u32 RESEARCH_GRAPH_GetGroupCount(void *p)
 {
-    u32 i = ((struct ResearchObjB *)p)->f2B8;
+    u32 i = ((struct ResearchObjB *)p)->groupIndex;
     return *(u8 *)((char *)p + i * 0xd4 + 0x3d);
 }
 
@@ -2906,7 +2885,7 @@ u32 RESEARCH_GRAPH_GetEntryKey(void *p)
 u32 RESEARCH_GRAPH_GetGroupValue(void *p)
 {
     u32 r = 0;
-    switch (((struct ResearchObjB *)p)->f2CC) {
+    switch (((struct ResearchObjB *)p)->graphKind) {
     case 0:
         r = RESEARCH_GRAPH_GetGroupTotalA(p);
         break;
@@ -2924,19 +2903,19 @@ u32 RESEARCH_GRAPH_GetGroupValue(void *p)
  */
 u32 RESEARCH_GRAPH_GetGroupTotalA(void *p)
 {
-    u32 i = ((struct ResearchObjB *)p)->f2B8;
+    u32 i = ((struct ResearchObjB *)p)->groupIndex;
     return *(u16 *)((char *)p + i * 0xd4 + 0x3e);
 }
 
 u32 RESEARCH_GRAPH_GetGroupTotalB(void *p)
 {
-    u32 i = ((struct ResearchObjB *)p)->f2B8;
+    u32 i = ((struct ResearchObjB *)p)->groupIndex;
     return *(u32 *)((char *)p + i * 0xd4 + 0x40);
 }
 
 u32 RESEARCH_GRAPH_GetEntryValue(char *p)
 {
-    switch (((struct ResearchObjB *)p)->f2CC) {
+    switch (((struct ResearchObjB *)p)->graphKind) {
     case 0:
         return RESEARCH_GRAPH_GetEntryValueA(p);
     case 1:
@@ -3063,27 +3042,27 @@ u32 RESEARCH_GRAPH_Alloc(u32 a0)
 void RESEARCH_GRAPH_InitFields(char *p)
 {
     int i;
-    ((struct ResearchObjB *)p)->f20 = 0;
-    ((struct ResearchObjB *)p)->f24 = 0;
-    ((struct ResearchObjB *)p)->f3DC = 0;
-    ((struct ResearchObjB *)p)->f2C = 0xf;
-    ((struct ResearchObjB *)p)->f28 = 0;
-    ((struct ResearchObjB *)p)->f30 = 0;
-    ((struct ResearchObjB *)p)->f34 = 0;
-    ((struct ResearchObjB *)p)->f3C4 = 0;
-    ((struct ResearchObjB *)p)->f3C8 = 0;
-    ((struct ResearchObjB *)p)->f3CC = 0;
-    ((struct ResearchObjB *)p)->f3D0 = 0;
-    ((struct ResearchObjB *)p)->f3D4 = 0;
-    ((struct ResearchObjB *)p)->f3D8 = 0;
-    ((struct ResearchObjB *)p)->f2B8 = 0;
-    ((struct ResearchObjB *)p)->f2B9 = 0;
-    ((struct ResearchObjB *)p)->f2CC = 0;
-    ((struct ResearchObjB *)p)->f3BCu = func_020056BC();
-    ((struct ResearchObjB *)p)->f2FC = 0;
-    ((struct ResearchObjB *)p)->f2FD = 0;
-    ((struct ResearchObjB *)p)->f3E4 = 0;
-    ((struct ResearchObjB *)p)->f3E0 = 0;
+    ((struct ResearchObjB *)p)->state = 0;
+    ((struct ResearchObjB *)p)->subState = 0;
+    ((struct ResearchObjB *)p)->stateChanged = 0;
+    ((struct ResearchObjB *)p)->count = 0xf;
+    ((struct ResearchObjB *)p)->stateTimer = 0;
+    ((struct ResearchObjB *)p)->elapsedTimer = 0;
+    ((struct ResearchObjB *)p)->cursorIndex = 0;
+    ((struct ResearchObjB *)p)->drawSystem = 0;
+    ((struct ResearchObjB *)p)->entryShown = 0;
+    ((struct ResearchObjB *)p)->touchSelected = 0;
+    ((struct ResearchObjB *)p)->detailMode = 0;
+    ((struct ResearchObjB *)p)->timerExpired = 0;
+    ((struct ResearchObjB *)p)->updatedFlag = 0;
+    ((struct ResearchObjB *)p)->groupIndex = 0;
+    ((struct ResearchObjB *)p)->entryIndex = 0;
+    ((struct ResearchObjB *)p)->graphKind = 0;
+    ((struct ResearchObjB *)p)->fadeParamU = func_020056BC();
+    ((struct ResearchObjB *)p)->percentageCount = 0;
+    ((struct ResearchObjB *)p)->percentageVisible = 0;
+    ((struct ResearchObjB *)p)->active = 0;
+    ((struct ResearchObjB *)p)->visible = 0;
     for (i = 0; i < 7; i++) {
         *(u32 *)(p + i * 4 + 0x368) = 0;
     }
@@ -3115,17 +3094,17 @@ u32 RESEARCH_GRAPH_Free(void *a0)
  */
 void RESEARCH_GRAPH_ClearCommandQueue(void *p)
 {
-    ((struct ResearchObjB *)p)->f1C = 0;
+    ((struct ResearchObjB *)p)->commandQueue = 0;
 }
 
 void RESEARCH_GRAPH_CreateCommandQueue(u32 a0)
 {
-    ((struct ResearchObjB *)a0)->f1C = RingQueue_Create(10, ((struct ResearchObjB *)a0)->f4);
+    ((struct ResearchObjB *)a0)->commandQueue = RingQueue_Create(10, ((struct ResearchObjB *)a0)->heapId);
 }
 
 void RESEARCH_GRAPH_DestroyCommandQueue(u8 *a0)
 {
-    RingQueue_Destroy((void *)((u32)(((struct Obj25949 *)a0)->f1C)));
+    RingQueue_Destroy((void *)((u32)(((struct ResearchObjB *)a0)->commandQueue)));
 }
 
 /*
@@ -3135,13 +3114,13 @@ void RESEARCH_GRAPH_DestroyCommandQueue(u8 *a0)
  */
 void RESEARCH_GRAPH_ClearFont(void *p)
 {
-    ((struct ResearchObjB *)p)->f8 = 0;
+    ((struct ResearchObjB *)p)->font = 0;
 }
 
 void RESEARCH_GRAPH_CreateFont(u32 a0)
 {
     u8 s[4];
-    ((struct ResearchObjB *)a0)->f8 = (u32)GF_FONT_Create(23, 0, 0, 0, (u32)(((struct ResearchObjB *)a0)->f4));
+    ((struct ResearchObjB *)a0)->font = (u32)GF_FONT_Create(23, 0, 0, 0, (u32)(((struct ResearchObjB *)a0)->heapId));
 }
 
 /*
@@ -3151,7 +3130,7 @@ void RESEARCH_GRAPH_CreateFont(u32 a0)
  */
 void RESEARCH_GRAPH_DeleteFont(u8 *a0)
 {
-    GF_FONT_Delete((void *)((u32)(((struct ResearchObjB *)a0)->f8)));
+    GF_FONT_Delete((void *)((u32)(((struct ResearchObjB *)a0)->font)));
 }
 
 /*
@@ -3166,11 +3145,11 @@ void RESEARCH_GRAPH_ClearMessages(void *p)
         *(u32 *)((char *)p + i * 4 + 0xc) = 0;
 }
 
-void RESEARCH_GRAPH_CreateMessages(W *p)
+void RESEARCH_GRAPH_CreateMessages(MessageView *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        p->obj[i] = (u32)func_02045B38(0, 2, (u16)d_021C3650[i], (u16)p->h);
+        p->messages[i] = (u32)func_02045B38(0, 2, (u16)d_021C3650[i], (u16)p->heapId);
     }
 }
 
@@ -3183,17 +3162,17 @@ void RESEARCH_GRAPH_DeleteMessages(int *p)
 
 void RESEARCH_GRAPH_ClearWordSet(void *p)
 {
-    ((struct ResearchObjB *)p)->f18 = 0;
+    ((struct ResearchObjB *)p)->wordSet = 0;
 }
 
 void RESEARCH_GRAPH_CreateWordSet(u32 a0)
 {
-    ((struct ResearchObjB *)a0)->f18 = (void *)GF_FONT_Create_EC64(((struct ResearchObjB *)a0)->f4);
+    ((struct ResearchObjB *)a0)->wordSet = (void *)GF_FONT_Create_EC64(((struct ResearchObjB *)a0)->heapId);
 }
 
 void RESEARCH_GRAPH_DeleteWordSet(u8 *a0)
 {
-    WORDSET_DeleteStrbufED04((struct WordSet *)((u32)(((struct ResearchObjB *)a0)->f18)));
+    WORDSET_DeleteStrbufED04((struct WordSet *)((u32)(((struct ResearchObjB *)a0)->wordSet)));
 }
 
 /*
@@ -3214,8 +3193,8 @@ void RESEARCH_GRAPH_CreateCircles(char *p)
 {
     int i;
     for (i = 0; i < 2; i++) {
-        *(u32 *)(p + i * 4 + 0x2bc) = CircleGraph_Create(((struct ResearchObjB *)p)->f4);
-        *(u32 *)(p + i * 4 + 0x2c4) = CircleGraph_Create(((struct ResearchObjB *)p)->f4);
+        *(u32 *)(p + i * 4 + 0x2bc) = CircleGraph_Create(((struct ResearchObjB *)p)->heapId);
+        *(u32 *)(p + i * 4 + 0x2c4) = CircleGraph_Create(((struct ResearchObjB *)p)->heapId);
     }
 }
 
@@ -3329,10 +3308,10 @@ void RESEARCH_GRAPH_InitTouchRects(u8 *p)
 {
     int i;
     for (i = 0; i < 9; i++) {
-        p[i * 4 + 0x300] = d_021C3758[i].a;
-        p[i * 4 + 0x301] = d_021C3758[i].b;
-        p[i * 4 + 0x2fe] = d_021C3758[i].c;
-        p[i * 4 + 0x2ff] = d_021C3758[i].d;
+        p[i * 4 + 0x300] = d_021C3758[i].x;
+        p[i * 4 + 0x301] = d_021C3758[i].y;
+        p[i * 4 + 0x2fe] = d_021C3758[i].w;
+        p[i * 4 + 0x2ff] = d_021C3758[i].h;
     }
 }
 
@@ -3343,21 +3322,21 @@ void RESEARCH_GRAPH_InitTouchRects(u8 *p)
  */
 void RESEARCH_GRAPH_ClearArrow(void *p)
 {
-    ((struct ResearchObjB *)p)->f2D0 = 0;
+    ((struct ResearchObjB *)p)->arrow = 0;
 }
 
 void RESEARCH_GRAPH_CreateArrow(char *p)
 {
-    struct Params_021BFE8C args;
-    args.handles[0] = RESEARCH_GRAPH_GetClactUnit(p, 0);
-    args.handles[1] = RESEARCH_GRAPH_GetClactUnit(p, 1);
-    args.handles[2] = RESEARCH_GRAPH_GetClactUnit(p, 2);
-    args.a = 0;
-    args.b = 0;
-    args.c = 1;
-    args.d = 2;
-    args.e = 3;
-    ((struct ResearchObjB *)p)->f2D0 = (void *)ARROW_Create(((struct ResearchObjB *)p)->f4, (u32)&args);
+    struct ArrowCreateArgs args;
+    args.charId = RESEARCH_GRAPH_GetClactUnit(p, 0);
+    args.paletteId = RESEARCH_GRAPH_GetClactUnit(p, 1);
+    args.cellId = RESEARCH_GRAPH_GetClactUnit(p, 2);
+    args.space = 0;
+    args.animSeq[0] = 0;
+    args.animSeq[1] = 1;
+    args.animSeq[2] = 2;
+    args.animSeq[3] = 3;
+    ((struct ResearchObjB *)p)->arrow = (void *)ARROW_Create(((struct ResearchObjB *)p)->heapId, (u32)&args);
 }
 
 /*
@@ -3367,7 +3346,7 @@ void RESEARCH_GRAPH_CreateArrow(char *p)
  */
 void RESEARCH_GRAPH_DestroyArrow(u8 *a0)
 {
-    ARROW_Destroy((void *)(((struct ResearchObjB *)a0)->f2D0));
+    ARROW_Destroy((void *)(((struct ResearchObjB *)a0)->arrow));
 }
 
 /*
@@ -3387,16 +3366,16 @@ void RESEARCH_GRAPH_ClearPercentages(void *p)
  */
 void RESEARCH_GRAPH_CreatePercentages(char *p)
 {
-    struct Params_021BFF00 args;
+    struct PercentageCreateArgs args;
     int i;
-    args.handles[0] = RESEARCH_GRAPH_GetClactUnit(p, 0);
-    args.handles[1] = RESEARCH_GRAPH_GetClactUnit(p, 1);
-    args.handles[2] = RESEARCH_GRAPH_GetClactUnit(p, 2);
-    args.a = 0;
-    args.b = 12;
-    args.c = 13;
+    args.charIndex = RESEARCH_GRAPH_GetClactUnit(p, 0);
+    args.paletteIndex = RESEARCH_GRAPH_GetClactUnit(p, 1);
+    args.cellAnimIndex = RESEARCH_GRAPH_GetClactUnit(p, 2);
+    args.priority = 0;
+    args.digitAnimSeq = 12;
+    args.signAnimSeq = 13;
     for (i = 0; i < 10; i++) {
-        *(u32 *)(p + i * 4 + 0x2d4) = PERCENTAGE_Create(((struct ResearchObjB *)p)->f4, (u32)&args, RESEARCH_GRAPH_GetSharedHandle(p, 3));
+        *(u32 *)(p + i * 4 + 0x2d4) = PERCENTAGE_Create(((struct ResearchObjB *)p)->heapId, (u32)&args, RESEARCH_GRAPH_GetSharedHandle(p, 3));
         PERCENTAGE_SetVisible(*(u32 *)(p + i * 4 + 0x2d4), 0);
     }
 }
@@ -3426,25 +3405,25 @@ void RESEARCH_GRAPH_InitScreen(void)
     func_0207DCF8(d_021C365C);
 }
 
-struct DispConfig { u32 a,b,c,d; };
+struct DispConfig { u32 graphicsMode, bgMode, vramMode, layerMode; };
 
-struct BgTemplate { u32 a,b,c,d; unsigned char e,f,g,h; u32 i; unsigned char j,k,l,m; u32 n; };
+struct BgTemplate { u32 dispcnt, bgMode, bufSize, layerMode; unsigned char screenSize, colorMode, screenBase, charBase; u32 vramOffset; unsigned char bgControl, priority, reservedA, reservedB; u32 mosaic; };
 
-struct Config { u8 a,b,c,d,e,f,g,h,i,j,k; u32 extra; };
+struct Config { u8 bgLayer, winX, winY, winWidth, winHeight, textX, textY, palette, red, green, blue; u32 centered; };
 
-struct Entry_021BFFC8 { u8 a,b,c,d,e,f,g,h,i,j,k; u32 index, mode, extra; };
+struct GraphLabelEntry { u8 bgLayer, winX, winY, winWidth, winHeight, textX, textY, palette, red, green, blue; u32 messageIndex, messageMode, centered; };
 
-struct Entry_021C03D0 { s16 x,y,z; u8 a,b; u32 c,d,e,f; u16 g,pad; };
+struct ActorEntry { s16 x,y,z; u8 a,b; u32 sharedHandle, unitA, unitB, unitC; u16 space, pad; };
 
 struct EntryUnit { int x,y,z,bank,index,px,py; u8 r,g,b,pad2; u32 arc,member,enabled; };
 
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
 extern void BG_SYS_SetLowBit(u32);
 
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
-extern void sub_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void func_0207D63C(u32 *, u32, u32, int, int);
 
@@ -3460,13 +3439,13 @@ extern struct DispConfig d_021C366C;
 
 extern const struct BgTemplate d_021C36D8,d_021C36F8,d_021C3718,d_021C3738;
 
-extern const struct Entry_021BFFC8 d_021C3B7C[];
+extern const struct GraphLabelEntry d_021C3B7C[];
 
 extern const u16 d_021C3620[];
 
 extern const u8 d_021C3618[];
 
-extern const struct Entry_021C03D0 d_021C37FC[];
+extern const struct ActorEntry d_021C37FC[];
 
 extern const struct EntryUnit d_021C37A4[];
 
@@ -3475,23 +3454,23 @@ extern const struct EntryUnit d_021C37A4[];
  */
 void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p)
 {
-    func_0203FC28(&d_021C366C);
+    BG_SYS_SetGraphicsMode(&d_021C366C);
     BG_SYS_SetLowBit(2);
     BG_SYS_InitBgLayer(6, &d_021C36D8, 0);
     BG_SYS_InitBgLayer(7, &d_021C3738, 0);
     BG_SYS_InitBgLayer(2, &d_021C36F8, 0);
     BG_SYS_InitBgLayer(3, &d_021C3718, 0);
-    sub_02040588(4, 1);
-    sub_02040588(5, 1);
-    sub_02040588(6, 1);
-    sub_02040588(7, 1);
-    sub_02040588(0, 1);
-    sub_02040588(1, 1);
-    sub_02040588(2, 1);
-    sub_02040588(3, 1);
+    BG_SYS_SetPlaneVisible(4, 1);
+    BG_SYS_SetPlaneVisible(5, 1);
+    BG_SYS_SetPlaneVisible(6, 1);
+    BG_SYS_SetPlaneVisible(7, 1);
+    BG_SYS_SetPlaneVisible(0, 1);
+    BG_SYS_SetPlaneVisible(1, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
     func_0207D63C((u32 *)0x04001050, 2, 1, 7, 15);
     func_0207D63C((u32 *)0x04000050, 4, 2, 16, 5);
-    BMP_WIN_Init(((struct Obj25959 *)p)->f4);
+    BMP_WIN_Init(((struct ResearchObjB *)p)->heapId);
 }
 
 /*
@@ -3514,10 +3493,10 @@ void RESEARCH_GRAPH_LoadBackground6(char *p)
     void *out;
     void *h;
     void *blob;
-    h = func_020490F4(192, ((struct Obj14748 *)p)->f4);
-    blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 13, ((struct Obj14748 *)p)->f4);
-    func_02062B30(blob, &out);
-    func_02041090(6, (u32)((char *)out + 12), 0, 0, 32, 24);
+    h = func_020490F4(192, ((struct ResearchObjB *)p)->heapId);
+    blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 13, ((struct ResearchObjB *)p)->heapId);
+    NNS_G2dGetUnpackedScreenData(blob, &out);
+    BG_SYS_DrawTile(6, (u32)((char *)out + 12), 0, 0, 32, 24);
     func_020409B4(6);
     func_020307B0((void *)((u32)blob));
     ARC_TOOL_DeleteHandle(h);
@@ -3539,13 +3518,13 @@ u32 RESEARCH_GRAPH_UpdateBackground7()
 }
 
 /*
- * Tail-call veneer: forwards arg(s) 7, 1, 0 to func_02040DA8.
+ * Tail-call veneer: forwards arg(s) 7, 1, 0 to BG_SYS_SetTileUnit.
  *
  * Addresses are Black-image addresses.
  */
 void RESEARCH_GRAPH_ShowBackground7()
 {
-    func_02040DA8(7, 1, 0);
+    BG_SYS_SetTileUnit(7, 1, 0);
 }
 
 /*
@@ -3556,10 +3535,10 @@ void RESEARCH_GRAPH_LoadBackground2(char *p)
     void *out;
     void *h;
     void *blob;
-    h = func_020490F4(192, ((struct Obj14749 *)p)->f4);
-    blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 7, ((struct Obj14749 *)p)->f4);
-    func_02062B30(blob, &out);
-    func_02041090(2, (u32)((char *)out + 12), 0, 0, 32, 32);
+    h = func_020490F4(192, ((struct ResearchObjB *)p)->heapId);
+    blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 7, ((struct ResearchObjB *)p)->heapId);
+    NNS_G2dGetUnpackedScreenData(blob, &out);
+    BG_SYS_DrawTile(2, (u32)((char *)out + 12), 0, 0, 32, 32);
     func_020409B4(2);
     func_020307B0((void *)((u32)blob));
     ARC_TOOL_DeleteHandle(h);
@@ -3576,13 +3555,13 @@ u32 RESEARCH_GRAPH_UpdateBackground3()
 }
 
 /*
- * Tail-call veneer: forwards arg(s) 3, 1, 0 to func_02040DA8.
+ * Tail-call veneer: forwards arg(s) 3, 1, 0 to BG_SYS_SetTileUnit.
  *
  * Addresses are Black-image addresses.
  */
 void RESEARCH_GRAPH_ShowBackground3(u32 a0, u32 a1, u32 a2)
 {
-    func_02040DA8(3, 1, 0);
+    BG_SYS_SetTileUnit(3, 1, 0);
 }
 
 /*
@@ -3607,21 +3586,21 @@ void RESEARCH_GRAPH_CreateLabels(char *p)
     int i;
     for (i = 0; i < 9; i++) {
         u32 handle;
-        args.a = d_021C3B7C[i].a;
-        args.b = d_021C3B7C[i].b;
-        args.c = d_021C3B7C[i].c;
-        args.d = d_021C3B7C[i].d;
-        args.e = d_021C3B7C[i].e;
-        args.f = d_021C3B7C[i].f;
-        args.g = d_021C3B7C[i].g;
-        args.h = d_021C3B7C[i].h;
-        args.i = d_021C3B7C[i].i;
-        args.j = d_021C3B7C[i].j;
-        args.k = d_021C3B7C[i].k;
-        args.extra = d_021C3B7C[i].extra;
-        *(u32 *)(p + i * 4 + 0x344) = (u32)BgTextLabel_Create(&args, ((struct Obj14750 *)p)->f8, *(u32 *)(p + d_021C3B7C[i].index * 4 + 12), ((struct Obj14750 *)p)->f4);
+        args.bgLayer = d_021C3B7C[i].bgLayer;
+        args.winX = d_021C3B7C[i].winX;
+        args.winY = d_021C3B7C[i].winY;
+        args.winWidth = d_021C3B7C[i].winWidth;
+        args.winHeight = d_021C3B7C[i].winHeight;
+        args.textX = d_021C3B7C[i].textX;
+        args.textY = d_021C3B7C[i].textY;
+        args.palette = d_021C3B7C[i].palette;
+        args.red = d_021C3B7C[i].red;
+        args.green = d_021C3B7C[i].green;
+        args.blue = d_021C3B7C[i].blue;
+        args.centered = d_021C3B7C[i].centered;
+        *(u32 *)(p + i * 4 + 0x344) = (u32)BgTextLabel_Create(&args, ((struct ResearchObjB *)p)->font, *(u32 *)(p + d_021C3B7C[i].messageIndex * 4 + 12), ((struct ResearchObjB *)p)->heapId);
         handle = *(u32 *)(p + i * 4 + 0x344);
-        BgTextLabel_PrintMessage(handle, d_021C3B7C[i].mode);
+        BgTextLabel_PrintMessage(handle, d_021C3B7C[i].messageMode);
     }
 }
 
@@ -3639,27 +3618,27 @@ void RESEARCH_GRAPH_DestroyLabels(int *p)
 
 void RESEARCH_GRAPH_RegisterEntryResources(char *p)
 {
-    u16 heap = ((struct Obj08438 *)p)->f4;
+    u16 heap = ((struct ResearchObjB *)p)->heapId;
     void *h = func_020490F4(192, heap);
     int a = CLACT_RegisterCharacter((void *)((u32)h), 15, 0, 1, heap);
     int b = CLACT_RegisterPalette((void *)h, 16, 1, 0, heap);
     int c = CLACT_RegisterCellAnim((void *)((u32)h), 14, 17, heap);
-    ((struct Obj08438 *)p)->f378 = a;
-    ((struct Obj08438 *)p)->f37C = b;
-    ((struct Obj08438 *)p)->f380 = c;
+    ((struct ResearchObjB *)p)->clactUnits[4] = a;
+    ((struct ResearchObjB *)p)->clactUnits[5] = b;
+    ((struct ResearchObjB *)p)->clactUnits[6] = c;
     ARC_TOOL_DeleteHandle(h);
 }
 
 u32 RESEARCH_GRAPH_ReleaseEntryResources(u32 a0)
 {
-    CLACT_ReleaseCharacter(((struct Obj10960 *)(((u8*)a0)))->f378);
-    CLACT_ReleasePalette(((struct Obj10960 *)(((u8*)a0)))->f37C);
-    return CLACT_ReleaseCellAnim(((struct Obj10960 *)(((u8*)a0)))->f380);
+    CLACT_ReleaseCharacter(((struct ResearchObjB *)(((u8*)a0)))->clactUnits[4]);
+    CLACT_ReleasePalette(((struct ResearchObjB *)(((u8*)a0)))->clactUnits[5]);
+    return CLACT_ReleaseCellAnim(((struct ResearchObjB *)(((u8*)a0)))->clactUnits[6]);
 }
 
 void RESEARCH_GRAPH_RegisterCursorResources(char *p)
 {
-    u16 heap = ((struct Obj06713 *)p)->f4;
+    u16 heap = ((struct ResearchObjB *)p)->heapId;
     void *h = func_020490F4(192, heap);
     int a = CLACT_RegisterCharacter((void *)((u32)h), 15, 0, 0, heap);
     int b = CLACT_RegisterPaletteEx((void *)((u32)h), 16, 0, 192, 0, 3, heap);
@@ -3669,18 +3648,18 @@ void RESEARCH_GRAPH_RegisterCursorResources(char *p)
     h = func_020490F4(83, heap);
     d = CLACT_RegisterPaletteEx((void *)((u32)h), 31, 0, 128, 0, 2, heap);
     ARC_TOOL_DeleteHandle(h);
-    ((struct Obj06713 *)p)->f368 = a;
-    ((struct Obj06713 *)p)->f36C = b;
-    ((struct Obj06713 *)p)->f374 = d;
-    ((struct Obj06713 *)p)->f370 = c;
+    ((struct ResearchObjB *)p)->clactUnits[0] = a;
+    ((struct ResearchObjB *)p)->clactUnits[1] = b;
+    ((struct ResearchObjB *)p)->clactUnits[3] = d;
+    ((struct ResearchObjB *)p)->clactUnits[2] = c;
 }
 
 u32 RESEARCH_GRAPH_ReleaseCursorResources(u32 a0)
 {
-    CLACT_ReleaseCharacter(((struct Obj08439 *)(((u8*)a0)))->f368);
-    CLACT_ReleasePalette(((struct Obj08439 *)(((u8*)a0)))->f36C);
-    CLACT_ReleasePalette(((struct Obj08439 *)(((u8*)a0)))->f374);
-    return CLACT_ReleaseCellAnim(((struct Obj08439 *)(((u8*)a0)))->f370);
+    CLACT_ReleaseCharacter(((struct ResearchObjB *)(((u8*)a0)))->clactUnits[0]);
+    CLACT_ReleasePalette(((struct ResearchObjB *)(((u8*)a0)))->clactUnits[1]);
+    CLACT_ReleasePalette(((struct ResearchObjB *)(((u8*)a0)))->clactUnits[3]);
+    return CLACT_ReleaseCellAnim(((struct ResearchObjB *)(((u8*)a0)))->clactUnits[2]);
 }
 
 void RESEARCH_GRAPH_ClearUnits(void *p)
@@ -3694,7 +3673,7 @@ void RESEARCH_GRAPH_CreateUnits(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++)
-        *(int *)(p + i * 4 + 0x384) = (int)CLACT_CreateUnit(d_021C3620[i], d_021C3618[i], ((struct Obj25960 *)p)->f4);
+        *(int *)(p + i * 4 + 0x384) = (int)CLACT_CreateUnit(d_021C3620[i], d_021C3618[i], ((struct ResearchObjB *)p)->heapId);
 }
 
 void RESEARCH_GRAPH_DeleteUnits(int *p)
@@ -3722,20 +3701,20 @@ void RESEARCH_GRAPH_ClearActors(void *p)
 void RESEARCH_GRAPH_CreateActors(u8 *p)
 {
     struct Arg arg;
-    const struct Entry_021C03D0 *q;
+    const struct ActorEntry *q;
     u8 *dest;
     int i;
     u32 a,b,c,d;
     for(i=0;i<4;i++) {
         q=&d_021C37FC[i];
         arg.x=q->x; arg.y=q->y; arg.z=q->z; arg.a=q->a; arg.b=q->b;
-        a=RESEARCH_GRAPH_GetSharedHandle(p,q->c);
-        b=RESEARCH_GRAPH_GetClactUnit(p,q->d);
-        c=RESEARCH_GRAPH_GetClactUnit(p,q->e);
-        d=RESEARCH_GRAPH_GetClactUnit(p,q->f);
+        a=RESEARCH_GRAPH_GetSharedHandle(p,q->sharedHandle);
+        b=RESEARCH_GRAPH_GetClactUnit(p,q->unitA);
+        c=RESEARCH_GRAPH_GetClactUnit(p,q->unitB);
+        d=RESEARCH_GRAPH_GetClactUnit(p,q->unitC);
         dest=p+i*4;
-        *(u32 *)&((struct Obj14752 *)dest)->f394=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct Obj25962 *)p)->f4);
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj14752 *)dest)->f394,0);
+        *(u32 *)&((struct ResearchObjB *)dest)->markerActorA=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->space,((struct ResearchObjB *)p)->heapId);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ResearchObjB *)dest)->markerActorA,0);
     }
 }
 
@@ -3762,7 +3741,7 @@ void RESEARCH_GRAPH_CreateBmps(u8 *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        *(int *)(p + i * 4 + 0x3B0) = (int)BMP_Create(d_021C37A4[i].x, d_021C37A4[i].y, d_021C37A4[i].z, ((struct Obj25964 *)p)->f4);
+        *(int *)(p + i * 4 + 0x3B0) = (int)BMP_Create(d_021C37A4[i].x, d_021C37A4[i].y, d_021C37A4[i].z, ((struct ResearchObjB *)p)->heapId);
 }
 
 void RESEARCH_GRAPH_DrawBmps(u8 *p)
@@ -3776,50 +3755,44 @@ void RESEARCH_GRAPH_DrawBmps(u8 *p)
     for(i=0;i<2;i++) {
         q=&d_021C37A4[i];
         if(q->enabled) {
-            bmp=BMP_CreateFromArchive(q->arc,q->member,0,((struct Obj14753 *)p)->f4);
+            bmp=BMP_CreateFromArchive(q->arc,q->member,0,((struct ResearchObjB *)p)->heapId);
             dest=p+i*4;
-            BMP_Blit(bmp,*(struct Bmp * *)&((struct Obj14754 *)dest)->f3B0,0,0,0,0,q->x<<3,q->y<<3,q->b);
+            BMP_Blit(bmp,*(struct Bmp * *)&((struct ResearchObjB *)dest)->bmps[0],0,0,0,0,q->x<<3,q->y<<3,q->b);
             color=((q->r&31)<<10)|((q->g&31)<<5)|(q->b&31);
             text=func_02045EC0(*(struct MsgBank **)(p+12+q->bank*4),q->index);
-            PRINTSYS_PrintColor(((struct Obj14754 *)dest)->f3B0,q->px,q->py,text,((struct Obj14753 *)p)->f8,color);
+            PRINTSYS_PrintColor(((struct ResearchObjB *)dest)->bmps[0],q->px,q->py,text,(void *)((struct ResearchObjB *)p)->font,color);
             func_020307B0(text);
             BMP_Delete((struct Obj020437AC *)bmp);
         }
     }
 }
 
-#define E ((const struct Entry_021C05B0 *)gb)
+#define E ((const struct EntryUnit *)gb)
 
 struct Comm;
 
-struct Entry_021C05B0 {
-    int x, y, pad, bank, index, px, py;
-    u8 r, g, b, pad2;
-    u32 arc, member, enabled;
-};
-
 struct RowQueue {
-    int w[20];
+    int cells[20];
 };
 
 struct Tab {
-    struct RowQueue r[3];
+    struct RowQueue rows[3];
 };
 
-struct ParamQueue { void *bmp; s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
+struct OamObjectParam { void *bmp; s16 x,y; u32 animResId, palette; u8 drawPriority, bgPriority; u16 space; u32 engine; };
 
-struct Entry_021C06F0 { s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
+struct OamObjectRow { s16 x,y; u32 clactUnitIndex, palette; u8 drawPriority, bgPriority; u16 space; u32 engine; };
 
-struct Ent {
-    u32 a;
-    u32 b;
-    u8 c;
+struct PaletteAnimeBind {
+    u32 palette;
+    u32 original;
+    u8 colorCount;
     u8 pad[11];
 };
 
 extern int BMP_OAM_CreateSys(u16 heap, int a);
 
-extern struct Grid *BMP_OAM_Create(struct Sys *,const struct ParamQueue *);
+extern struct Grid *BMP_OAM_Create(struct Sys *,const struct OamObjectParam *);
 
 extern u32 ICA_ANIME_GetField24(const struct Ctx *);
 
@@ -3831,11 +3804,11 @@ extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
 
 extern const struct Tab d_021C3C54;
 
-extern const struct Entry_021C05B0 d_021C37D0;
+extern const struct EntryUnit d_021C37D0;
 
-extern const struct Entry_021C06F0 d_021C377C[];
+extern const struct OamObjectRow d_021C377C[];
 
-extern const struct Ent d_021C3A28[];
+extern const struct PaletteAnimeBind d_021C3A28[];
 
 void RESEARCH_GRAPH_DrawBadge(u8 *p)
 {
@@ -3850,7 +3823,7 @@ void RESEARCH_GRAPH_DrawBadge(u8 *p)
     for (i = 0; i < 3; i++) {
         int y = i * 8;
         for (j = 0; j < 20; j++) {
-            BMP_Blit(bmp, *(struct Bmp **)(p + 0x3B4), (tab.r[i].w[j] % 3) * 8, (tab.r[i].w[j] / 3) * 8, j * 8, y, 8, 8, 0);
+            BMP_Blit(bmp, *(struct Bmp **)(p + 0x3B4), (tab.rows[i].cells[j] % 3) * 8, (tab.rows[i].cells[j] / 3) * 8, j * 8, y, 8, 8, 0);
         }
     }
     BMP_Delete((struct Obj020437AC *)bmp);
@@ -3869,12 +3842,12 @@ void RESEARCH_GRAPH_DeleteBmps(int *p)
 
 void RESEARCH_GRAPH_CreateOamSys(u8 *p)
 {
-    ((struct Obj10961 *)p)->f3A4 = BMP_OAM_CreateSys(((struct Obj10961 *)p)->f4, ((struct Obj10961 *)p)->f38C);
+    ((struct ResearchObjB *)p)->oamSys = BMP_OAM_CreateSys(((struct ResearchObjB *)p)->heapId, ((struct ResearchObjB *)p)->units[2]);
 }
 
 void RESEARCH_GRAPH_DeleteOamSys(u8 *a0)
 {
-    BMP_OAM_DeleteSys((void *)((u32)(((struct Obj25966 *)a0)->f3A4)));
+    BMP_OAM_DeleteSys((void *)((u32)(((struct ResearchObjB *)a0)->oamSys)));
 }
 
 /*
@@ -3888,9 +3861,9 @@ void RESEARCH_GRAPH_DeleteOamSys(u8 *a0)
 void RESEARCH_GRAPH_CreateOamObjects(u8 *p)
 {
     int sysOff,outOff,callOff,uploadOff;
-    struct ParamQueue param;
+    struct OamObjectParam param;
     int i;
-    const struct Entry_021C06F0 *q;
+    const struct OamObjectRow *q;
     u8 *dest;
     sysOff=0x3A4;
     outOff=0x3A8;
@@ -3898,13 +3871,13 @@ void RESEARCH_GRAPH_CreateOamObjects(u8 *p)
     uploadOff=0x3A8;
     for(i=0;i<2;i++) {
         dest=p+i*4;
-        param.bmp=((struct Obj25967 *)dest)->f3B0;
+        param.bmp=((struct ResearchObjB *)dest)->bmps[0];
         q=&d_021C377C[i];
         param.x=q->x; param.y=q->y;
-        param.f8=RESEARCH_GRAPH_GetClactUnit(p,q->f8);
-        param.fc=q->fc;
-        param.f10=q->f10; param.f11=q->f11;
-        param.f12=q->f12; param.f14=q->f14;
+        param.animResId=RESEARCH_GRAPH_GetClactUnit(p,q->clactUnitIndex);
+        param.palette=q->palette;
+        param.drawPriority=q->drawPriority; param.bgPriority=q->bgPriority;
+        param.space=q->space; param.engine=q->engine;
         *(struct Grid **)(dest+outOff)=BMP_OAM_Create(*(struct Sys **)(p+sysOff),&param);
         BMP_OAM_SetEnabled(*(u8 **)(dest+callOff),0);
         BMP_OAM_UploadChars(*(struct Obj **)(dest+uploadOff));
@@ -3928,16 +3901,16 @@ void RESEARCH_GRAPH_DeleteOamObjects(int *p)
  */
 void RESEARCH_GRAPH_ClearPalAnm(void *p)
 {
-    ((struct Obj25969 *)p)->f3B8 = 0;
+    ((struct ResearchObjB *)p)->palAnm = 0;
 }
 
 void RESEARCH_GRAPH_CreatePalAnm(u8 *p)
 {
-    ((struct Obj03953 *)p)->f3B8 = PALANM_Create(((struct Obj03953 *)p)->f4);
-    PALANM_AllocSlotBuffers(((struct Obj03953 *)p)->f3B8, 0, 512, ((struct Obj03953 *)p)->f4);
-    PALANM_AllocSlotBuffers(((struct Obj03953 *)p)->f3B8, 2, 512, ((struct Obj03953 *)p)->f4);
-    PALANM_CopyHwPaletteToSlot(((struct Obj03953 *)p)->f3B8, 0, 0, 512);
-    PALANM_CopyHwPaletteToSlot(((struct Obj03953 *)p)->f3B8, 2, 0, 512);
+    ((struct ResearchObjB *)p)->palAnm = PALANM_Create(((struct ResearchObjB *)p)->heapId);
+    PALANM_AllocSlotBuffers(((struct ResearchObjB *)p)->palAnm, 0, 512, ((struct ResearchObjB *)p)->heapId);
+    PALANM_AllocSlotBuffers(((struct ResearchObjB *)p)->palAnm, 2, 512, ((struct ResearchObjB *)p)->heapId);
+    PALANM_CopyHwPaletteToSlot(((struct ResearchObjB *)p)->palAnm, 0, 0, 512);
+    PALANM_CopyHwPaletteToSlot(((struct ResearchObjB *)p)->palAnm, 2, 0, 512);
 }
 
 /*
@@ -3951,9 +3924,9 @@ void RESEARCH_GRAPH_CreatePalAnm(u8 *p)
  */
 u32 RESEARCH_GRAPH_DeletePalAnm(u32 a0)
 {
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 0);
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 2);
-    return PALANM_Delete((void *)(((struct Obj10962 *)(((u8*)a0)))->f3B8));
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct ResearchObjB *)(((u8*)a0)))->palAnm), 0);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct ResearchObjB *)(((u8*)a0)))->palAnm), 2);
+    return PALANM_Delete((void *)(((struct ResearchObjB *)(((u8*)a0)))->palAnm));
 }
 
 void RESEARCH_GRAPH_ClearPaletteAnime(void *p)
@@ -3967,7 +3940,7 @@ void RESEARCH_GRAPH_CreatePaletteAnime(u8 *p)
 {
     int i;
     for (i = 0; i < 8; i++)
-        *(int *)(p + i * 4 + 0x324) = PALETTE_ANIME_Create(((struct Obj25970 *)p)->f4);
+        *(int *)(p + i * 4 + 0x324) = PALETTE_ANIME_Create(((struct ResearchObjB *)p)->heapId);
 }
 
 void RESEARCH_GRAPH_DestroyPaletteAnime(int *p)
@@ -3981,7 +3954,7 @@ void RESEARCH_GRAPH_BindPaletteAnime(u8 *p)
 {
     int i;
     for (i = 0; i < 8; i++)
-        PALETTE_ANIME_Bind((void *)(*(int *)(p + i * 4 + 0x324)), d_021C3A28[i].a, d_021C3A28[i].b, d_021C3A28[i].c);
+        PALETTE_ANIME_Bind((void *)(*(int *)(p + i * 4 + 0x324)), d_021C3A28[i].palette, d_021C3A28[i].original, d_021C3A28[i].colorCount);
 }
 
 void RESEARCH_GRAPH_RestorePaletteAnime(int *p)
@@ -3998,12 +3971,12 @@ void RESEARCH_GRAPH_RestorePaletteAnime(int *p)
  */
 void RESEARCH_GRAPH_RestartNetwork(u32 a0)
 {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj25973 *)(((u8*)a0 + 0)))->f4);
+    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchObjB *)(((u8*)a0 + 0)))->heapId);
 }
 
 void RESEARCH_GRAPH_RegisterVBlank(char *p)
 {
-    ((struct Obj25974 *)p)->f3C0 = func_020056A0((void (*)(void))RESEARCH_GRAPH_TransferPalettes, p, 0);
+    ((struct ResearchObjB *)p)->vblankNode = func_020056A0((void (*)(void))RESEARCH_GRAPH_TransferPalettes, p, 0);
 }
 
 /*
@@ -4013,7 +3986,7 @@ void RESEARCH_GRAPH_RegisterVBlank(char *p)
  */
 void RESEARCH_GRAPH_UnregisterVBlank(u8 *a0)
 {
-    func_02030EAC((struct Node *)((u32)(((struct Obj25975 *)a0)->f3C0)));
+    func_02030EAC((struct Node *)((u32)(((struct ResearchObjB *)a0)->vblankNode)));
 }
 
 u32 RESEARCH_GRAPH_ClampByte(s32 v)

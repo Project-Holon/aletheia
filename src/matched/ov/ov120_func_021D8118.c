@@ -1,5 +1,5 @@
 /*
- * function: func_021D8118
+ * function: GTSNEGO_MSG_PrintListEntry
  * address: 0x021D8118
  * packet: pkt_ov120_021D8118
  * region: ov120
@@ -21,6 +21,10 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,18 +41,18 @@ struct WordSet;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-int func_021D8118(char *p, void *r, int n)
+int GTSNEGO_MSG_PrintListEntry(char *p, void *r, int n)
 {
     void **t=(void **)(p+0x6c);
     void *q;
@@ -57,11 +61,11 @@ int func_021D8118(char *p, void *r, int n)
     BMP_Clear(BMP_WIN_GetBmp(q),0);
     STRBUF_Clear(*(void **)(p+0x20));
     STRBUF_Clear(*(void **)(p+0x18));
-    func_0201F02C(*(void **)(p+0x10),0,r);
-    func_0201EFA4(*(void **)(p+0x10),1,func_02008534(r),5,2,1);
-    func_0201F048(*(void **)(p+0x10),2,func_0200856C(r));
+    WORDSET_SetSlotMyStatus(*(void **)(p+0x10),0,r);
+    WORDSET_SetSlotNumber(*(void **)(p+0x10),1,func_02008534(r),5,2,1);
+    WORDSET_SetSlotFromMsgE7(*(void **)(p+0x10),2,func_0200856C(r));
     MSGDATA_ReadString(*(void **)(p+0xc),28,*(void **)(p+0x20));
-    func_0201F250(*(void **)(p+0x10),*(void **)(p+0x18),*(void **)(p+0x20));
+    WORDSET_CopyTaggedText(*(void **)(p+0x10),*(void **)(p+0x18),*(void **)(p+0x20));
     GF_FONT_SetTextColor(15,2,0);
     PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,*(void **)(p+0x18),*(void **)(p+0x14));
     BMP_WIN_TransferChars(q);

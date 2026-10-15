@@ -18,6 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "../include/Obj01737.h"
 typedef unsigned char u8;
@@ -33,7 +34,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(unsigned int,unsigned int,unsigned int);
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -47,7 +48,7 @@ void PDWACC_MESSAGE_PrintNumberWindows(char *p, int n, int a2)
     BMP_Clear(BMP_WIN_GetBmp(q),15);
     GF_FONT_SetTextColor(1,2,15);
     PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,((struct Obj01737 *)p)->f2C,((struct Obj01737 *)p)->f28);
-    func_0201F73C(q,1,(u16)(((struct Obj01737 *)p)->f0),12);
+    BMP_MENUWORK_DrawWindow(q,1,(u16)(((struct Obj01737 *)p)->f0),12);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
     if (!((struct Obj01737 *)p)->f44) ((struct Obj01737 *)p)->f44=(void *)BMP_WIN_Create((int)1,(int)3,(u8)3,(int)22,2,11,1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE234
+ * function: BR_CODEIN_ResultDestroy
  * address: 0x021DE234
  * packet: pkt_ov183_021DE234
  * region: ov183
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE780 0x021DE780 thumb ov183
- *   func_021DE8FC 0x021DE8FC thumb ov183
+ *   BR_CODEIN_ResultTeardown 0x021DE780 thumb ov183
+ *   BR_CODEIN_ResultDeleteButtons 0x021DE8FC thumb ov183
  *   func_020409B4 0x020409B4 arm
  *   BR_UTIL_DeleteHandles 0x021FD820 thumb ov186
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -17,8 +17,8 @@
  *   func_020315D4 0x020315D4 arm
  */
 #include "../include/Obj10738.h"
-extern void func_021DE780(char *, char *);
-extern void func_021DE8FC(char *, char *);
+extern void BR_CODEIN_ResultTeardown(char *, char *);
+extern void BR_CODEIN_ResultDeleteButtons(char *, char *);
 typedef unsigned int   u32;
 struct PrintSys;
 struct S020315D4;
@@ -27,10 +27,10 @@ extern void BR_UTIL_DeleteHandles(char *r5);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BMP_OAM_DeleteSys(void *);
 extern void func_020315D4(struct S020315D4 *p);
-int func_021DE234(void *a, int b, char *q, char *p)
+int BR_CODEIN_ResultDestroy(void *a, int b, char *q, char *p)
 {
-    func_021DE780(p, q);
-    func_021DE8FC(p, q);
+    BR_CODEIN_ResultTeardown(p, q);
+    BR_CODEIN_ResultDeleteButtons(p, q);
     func_020409B4(4);
     func_020409B4(1);
     BR_UTIL_DeleteHandles(((struct Obj10738 *)p)->f64);

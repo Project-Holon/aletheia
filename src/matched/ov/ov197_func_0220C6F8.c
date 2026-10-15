@@ -1,5 +1,5 @@
 /*
- * function: func_0220C6F8
+ * function: B_BAG_MAIN_StartFingerCursor
  * address:  0x0220C6F8
  * packet:   pkt_0220C6F8
  * region:   ov197
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void BTLV_FINGER_CURSOR_Start(u32, u32, u32, u32, u32, u32);
 
-void func_0220C6F8(u8 *p, u32 a, u32 b)
+void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b)
 {
     BTLV_FINGER_CURSOR_Start(((struct Obj25046 *)p)->f14C, a, b, 2, 6, 0x14);
 }

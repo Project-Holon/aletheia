@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_02049B40 0x02049B40 arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void MB_SEQ_LoadMiscGraphics(void *a0)
 {
-    func_0201F5BC(0,994,13,0,102);
+    BMP_MENUWORK_LoadCharAndPltt(0,994,13,0,102);
     func_02049B40(23,5,0,448,32,102);
     func_02049B40(23,5,4,480,32,102);
     func_02049B40(23,5,0,480,32,102);

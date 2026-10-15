@@ -10,23 +10,26 @@
  * status:   EXACT
  *
  * Promoted by parks lane 2: the callee 0x02052634 was filed first as an
- * EXACT entry (src/matched/func_02052634.c, shard pkt_0205250C) and this
+ * EXACT entry (src/matched/SPL_EMITTER_AllocResource.c, shard pkt_0205250C) and this
  * file's call site now resolves through the `matched` class.  No change to
  * the C was needed.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/PARTICLE_StartEffect.c \
  *       --func PARTICLE_StartEffect --addr 0x020515B4 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   SPL_EMITTER_AllocResource  0x02052634  arm
  */
 #include "../include/Obj11458.h"
 
 typedef unsigned int u32;
 
-extern int func_02052634(char *p, int b, int c);
+extern int SPL_EMITTER_AllocResource(char *p, int b, int c);
 
 int PARTICLE_StartEffect(void *p, int b, int c)
 {
-    int r = func_02052634((char *)(((struct Obj11458 *)p)->f0), b, c);
+    int r = SPL_EMITTER_AllocResource((char *)(((struct Obj11458 *)p)->f0), b, c);
     ((struct Obj11458 *)p)->f8 = r;
     return r;
 }

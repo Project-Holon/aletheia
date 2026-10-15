@@ -1,5 +1,5 @@
 /*
- * function: func_021BECAC
+ * function: ZKNSEARCH_MAIN_TransferRowChars
  * address:  0x021BECAC
  * packet:   pkt_ov210_021BECAC
  * region:   ov210
@@ -17,7 +17,7 @@
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *v);
 
-void func_021BECAC(int a, unsigned *p)
+void ZKNSEARCH_MAIN_TransferRowChars(int a, unsigned *p)
 {
     BMP_WIN_TransferChars((struct Descriptor *)*p);
 }

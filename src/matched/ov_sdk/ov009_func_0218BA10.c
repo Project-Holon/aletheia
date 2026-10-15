@@ -1,5 +1,5 @@
 /*
- * function: func_0218BA10
+ * function: gpiIsValidDate
  * address:  0x0218BA10
  * packet:   pkt_0218BA10
  * region:   ov009
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0218BA10(int day, int month, int year)
+int gpiIsValidDate(int day, int month, int year)
 {
     if (day == 0 && month == 0 && year == 0)
         return 1;

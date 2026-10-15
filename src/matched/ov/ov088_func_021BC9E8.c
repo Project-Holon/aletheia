@@ -22,7 +22,7 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
@@ -77,7 +77,7 @@ struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
@@ -111,7 +111,7 @@ int STARTMENU_LogoScreenMain(int a0, int a1, int *mode, St *st)
         GXS_SetVisibleWnd(0);
         BG_SYS_SetVramBanks((const struct DispVram *)d_021BD944);
         BG_SYS_Create(0x16);
-        func_0203FC28((struct DispConfig *)d_021BD8F4);
+        BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BD8F4);
         BG_SYS_InitBgLayer(1, (const struct BgTemplate *)d_021BD904, 0);
         BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021BD924, 0);
         if (*mode == 1) {

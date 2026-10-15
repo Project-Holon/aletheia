@@ -15,7 +15,7 @@
  * symbols:
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02019CA0  0x02019CA0  thumb
+ *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -85,7 +85,7 @@ typedef struct { u8 v[4]; } PositionRemap4;
 
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern void func_02019CA0(void *pokemon, u32 level);
+extern void POKE_TOOL_SetLevelAndRecalc(void *pokemon, u32 level);
 extern void *BATTLE_BOX_GetFromSave(void *saveControl);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
@@ -121,7 +121,7 @@ void MUSICAL_EVENT_SetPartyLevel50(void *party)
     int i;
 
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++)
-        func_02019CA0(POKEPARTY_GetMember(party, i), 50);
+        POKE_TOOL_SetLevelAndRecalc(POKEPARTY_GetMember(party, i), 50);
 }
 
 

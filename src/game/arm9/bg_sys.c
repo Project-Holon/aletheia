@@ -1,8 +1,8 @@
 /*
  * file:     bg_sys.c
  * unit:     yes
- * function: func_0203EF5C, func_0203EFC8, func_0203F004, GF_STANDARD_CompareString, func_0203F034, func_0203F0A8, GF_STANDARD_SetupCalc, func_0203F258, func_0203F2FC, func_0203F328, func_0203F37C, func_0203F388, GF_STANDARD_Reset, func_0203F3F0, GF_STANDARD_Task, GF_STANDARD_GetRtc, GF_STANDARD_CopyCachedRtc, GF_STANDARD_SetField00, GF_STANDARD_SetField00_F4E4, func_0203F4FC, GF_STANDARD_SetupRtc, GF_STANDARD_SetupRtc_F540, GF_STANDARD_Get_F5FC, func_0203F63C, GF_STANDARD_Get_F684, func_0203F6D8, func_0203F734, func_0203F768, GF_STANDARD_SetupCalc_F7C4, BG_SYS_Create, BG_SYS_Delete, BG_SYS_CreateRun, BG_SYS_CheckFAF0, BG_SYS_DeleteHalf, func_0203FC28, func_0203FC6C, BG_SYS_InitBgLayer, BG_SYS_Delete_03F4, BG_SYS_SetLowBit, func_0204047C, sub_02040588, sub_02040618, BG_SYS_GetScrollX, BG_SYS_GetScrollY, sub_02040820, sub_02040860, BG_SYS_SetupMemory, sub_020409B4, BG_SYS_PushTileSource, func_02040AE0, BG_SYS_DecodeTileSource, func_02040B1C, func_02040B58, BG_SYS_InitRun, BG_SYS_Init, func_02040DA8, func_02040E78, func_02040EBC, func_02040EE0, func_02040F84, func_02041090, func_020410D0, func_020411E8, func_02041300, func_020413B0, func_020414AC, func_020414C4, BG_SYS_ClearSlot, func_0204152C, func_02041570, BG_SYS_GetGraphics, BG_SYS_GetBuf, BG_SYS_GetScrollX_1648, BG_SYS_GetScrollY_1664, BG_SYS_GetType, BG_SYS_GetField16, BG_SYS_GetField17, BG_SYS_Get, func_020419E4, func_02041A1C, BG_SYS_SetFlagField06, func_02041B94, BG_SYS_ResetSlot, func_02041F28, func_02041F6C, func_02041FB0, BG_SYS_Check1FF4, func_02042218, sub_020422D4, sub_02042360, func_020423D4, func_0204241C, func_02042508, func_020425B4, func_020426A0, func_020428E8, func_02042B24, func_02042D2C, func_02042E34, func_02042ED8, sub_02042FB0, sub_02042FF8, BG_SYS_DeleteBlock, func_02043130, sub_02043228, BG_SYS_Apply, BG_SYS_ApplyCenterOp
- * address:  0x0203EF5C
+ * function: BG_SYS_Create, BG_SYS_Delete, BG_SYS_CreateRun, BG_SYS_CheckFAF0, BG_SYS_DeleteHalf, BG_SYS_SetGraphicsMode, BG_SYS_ApplyGraphicsMode, BG_SYS_InitBgLayer, BG_SYS_Delete_03F4, BG_SYS_SetLowBit, BG_SYS_SetVisibleLayer, BG_SYS_SetPlaneVisible, BG_SYS_FillScrollArea, BG_SYS_GetScrollX, BG_SYS_GetScrollY, BG_SYS_SetScroll, BG_SYS_SetScrollRegs, BG_SYS_SetupMemory, BG_SYS_PushTile, BG_SYS_PushTileSource, BG_SYS_DecodeTile, BG_SYS_DecodeTileSource, BG_SYS_LoadTileData, BG_SYS_CreateTileRun, BG_SYS_InitRun, BG_SYS_Init, BG_SYS_SetTileUnit, BG_SYS_LoadPltt, BG_SYS_LoadPlttEntry, BG_SYS_GetTileMapEntry, BG_SYS_DrawTileRegion, BG_SYS_DrawTile, BG_SYS_DrawTileEx, BG_SYS_DrawTileSub, BG_SYS_SetTileEntry, BG_SYS_FillTileMap, BG_SYS_FreeSlot, BG_SYS_InitSlot, BG_SYS_ClearSlot, BG_SYS_ClearLayer, BG_SYS_ClearLayerEx, BG_SYS_GetGraphics, BG_SYS_GetBuf, BG_SYS_GetScrollX_1648, BG_SYS_GetScrollY_1664, BG_SYS_GetType, BG_SYS_GetField16, BG_SYS_GetField17, BG_SYS_Get, BG_SYS_Update, BG_SYS_CommitLayers, BG_SYS_SetFlagField06, BG_SYS_CommitScroll, BG_SYS_ResetSlot, BG_SYS_SetScrollX, BG_SYS_SetScrollY, BG_SYS_SetAffine, BG_SYS_Check1FF4, BG_SYS_ResolveScroll, BG_SYS_GetModeValue, BG_SYS_SetScrollField, BG_SYS_RotScale, BG_SYS_LoadTileLayer, BG_SYS_LoadTileDataEx, BG_SYS_LoadTileLayerEx, BG_SYS_BlitTiles, BG_SYS_BlitPixels, BG_SYS_BlitTilesEx, BG_SYS_BlitTileMap, BG_SYS_BlitPixelsEx, BG_SYS_BlitTileMapEx, BG_SYS_SetupTileScreen, BG_SYS_SetupLayer, BG_SYS_DeleteBlock, BG_SYS_AllocTileBuf, BG_SYS_SetAffineField, BG_SYS_Apply, BG_SYS_ApplyCenterOp
+ * address:  0x0203F8F4
  * region:   arm9
  * compiler: dsi/1.2
  * flags:    -O4,p
@@ -10,37 +10,17 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * The companion of BG_SYS_Apply: the same set / add / subtract triple, but
- * on the two affine center coordinates at +0x24 and +0x28, opcodes 9..14.
- * The table is rebased with a leading `sub r1, r1, #9`, so no empty low
- * arms are needed here.
+ * Cut from bg_sys.c by tools/splitfile.py.
  *
  * symbols:
- *   g_021469F8     0x021469F8  data
- *   g_020A7E4C     0x020A7E4C  data
- *   sub_02030734   0x02030734  arm
- *   MATHi_CRC16InitTable  0x020819B8  arm
- *   MATH_CalcCRC16CCITT  0x02081B8C  arm
- *   sub_02088168   0x02088168  arm
- *   sub_020813D8   0x020813D8  arm
- *   sub_0208142C   0x0208142C  arm
- *   sub_020814C0   0x020814C0  arm
- *   sub_02082D44   0x02082D44  arm
- *   g_021469FC     0x021469FC  data
- *   g_02146A0C     0x02146A0C  data
- *   g_02146A1C     0x02146A1C  data
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
- *   tbl_020A08B6   0x020A08B6  data a2
- *   FX_SinCosTable_   0x020A1B38  data
  *   func_020403F4  0x020403F4  arm
  *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02033CC0  0x02033CC0  arm
  *   func_02033F64  0x02033F64  arm
- *   _u32_div_f     0x0209C2B0  arm
  *   func_020341F0  0x020341F0  arm
  *   sub_020416B8   0x020416B8  arm
  *   AREAMAN_Free  0x0203422C  arm
@@ -50,25 +30,21 @@
  *   BG_SYS_ClearSubBgPlanes  0x02043558  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
- *   sub_020307B0   0x020307B0  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02042360  0x02042360  arm
  *   GFL_NET_SetIrcParams  0x0203D814  arm
- *   g_BgConfig     0x02146A44  data
  *   func_02040860  0x02040860  arm
  *   func_0207D59C  0x0207D59C  arm
  *   MI_UncompressLZ8  0x020834C0  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   MIi_CpuCopy16  0x02082A60  arm
- *   gUnk_02146A44  0x02146A44  data
  *   func_02040968  0x02040968  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_020422D4  0x020422D4  arm
  *   MIi_CpuClear16 0x02082A48  arm
  *   func_020409B4  0x020409B4  arm
- *   ptr_02146A44   0x02146A44  data
  *   func_02041B6C  0x02041B6C  arm
  *   G2_GetBG0CharPtr  0x0207E1F8  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
@@ -104,100 +80,39 @@
  *   func_02043130_File 0x020A7E5C  data
  *   GX_LoadBGPltt  0x0207E3D0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   RTC_Init  0x02088788  arm
- *   RTC_ConvertDateToDay  0x02088F58  arm
- *   RTC_ConvertDateTimeToSecond  0x02089004  arm
- *   RTC_GetDateTimeAsync  0x02088944  arm
  */
-#include "../../matched/include/Obj16002.h"
 #include "../../matched/include/Obj16005.h"
+#include "gf_standard_shared_types.h"
 
 #define REG_DISPCNT (*(volatile u32 *)0x04000000)
+
 #define REG16(a) (*(volatile u16 *)(a))
+
 #define REG_BG0CNT_A  0x04000008
+
 #define REG_BG1CNT_A  0x0400000A
+
 #define REG_BG2CNT_A  0x0400000C
+
 #define REG_BG3CNT_A  0x0400000E
+
 #define REG_BG0CNT_B  0x04001008
+
 #define REG_BG1CNT_B  0x0400100A
+
 #define REG_BG2CNT_B  0x0400100C
+
 #define REG_BG3CNT_B  0x0400100E
+
 #define W(a) (*(volatile u32 *)(a))
+
 #define R(a) (*(struct BgCnt *)(a))
+
 #define SLOT(i) (g_02146A44->bgs[i])
-struct MATHCRC16Table;
-struct RTCDate;
-struct RTCTime;
+
 struct AreaMan;
+
 struct Mtx22;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
-
-struct Mt {
-    u32 mt[624];
-    s32 mti;
-    u32 mag01[2];
-    u8  unk_9cc[0x200];
-};
-
-typedef short              s16_0203F1FC;
-
-typedef long long          s64;
-
-typedef unsigned long long u64;
-
-typedef s32 fx32;
-
-struct VecFx32 { fx32 x; fx32 y; fx32 z; };
-
-struct Lcg64 {
-    u64 x;
-    u64 mul;
-    u64 add;
-};
-
-struct Block {
-    u32 unk_00;
-    u32 unk_04;
-    s32 unk_08;
-    u8  pad_0c[0x3c];
-};
-
-struct RtcDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
-
-struct RtcTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-};
-
-struct RtcRequest {
-    u32            unk_00;
-    u32            unk_04;
-    s32            unk_08;
-    u32            result;
-    struct RtcDate date;
-    struct RtcTime time;
-    struct RtcDate stagedDate;
-    struct RtcTime stagedTime;
-};
-
-struct RtcDate_0203F540 {
-    s32 year;
-    u32 month;
-    s32 day;
-    s32 week;
-};
 
 struct DispConfig {
     u32 unk_00;
@@ -283,10 +198,6 @@ struct BgConfigLayer {
 
 struct BgCnt { u16 prio : 2; u16 rest : 14; };
 
-typedef unsigned int u8_unused;
-
-typedef signed short       s16;
-
 /* One background layer record (0x2C bytes).  Only the affine members past
  * the scroll and type fields are touched here. */
 struct Bg_020432E4 {
@@ -299,1076 +210,300 @@ struct Bg_020432E4 {
     u32 centerY;     /* +0x28 */
 };
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
-extern int STD_CompareString(const char *s1, const char *s2);
-extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
-extern void sub_02088168(u32 *buffer);
-extern void sub_020813D8(void *p);
-extern void sub_0208142C(void *ctx, void *buf, u32 n);
-extern void sub_020814C0(void *ctx, void *out);
-extern void sub_02082D44(void *in, void *out, u32 n);
-extern void RTC_Init(void);
+
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern u32  RTC_GetDateTimeAsync(struct RtcDate *date, struct RtcTime *time,
-                          void (*done)(u32, struct RtcRequest *),
-                          struct RtcRequest *arg);
-extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
-extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
-extern int _s32_div_f(int n, int d);
-extern void VEC_Subtract(const struct VecFx32 *a, const struct VecFx32 *b,
-                         struct VecFx32 *out);
-extern void VEC_Normalize(const struct VecFx32 *a, struct VecFx32 *out);
-extern fx32 VEC_DotProduct(const struct VecFx32 *a, const struct VecFx32 *b);
+
 extern u32 func_020307B0(void *p);
+
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
+
 extern u32 AREAMAN_Delete(void *a);
+
 extern s32 func_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
+
 extern u32 func_02033F64(u32 arena, u32 a, u32 b, u32 c);
+
 extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
+
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
+
 extern u32 GX_SetGraphicsMode(u32 a, u32 b, u32 c);
+
 extern u32 func_0207D518(u32 a);
+
 extern void BG_SYS_ClearMainBgPlanes(void);
+
 extern void BG_SYS_ClearSubBgPlanes(void);
+
 extern void BG_SYS_ClearMainPlanes(u32 handle);
+
 extern void BG_SYS_ClearSubPlanes(u32 handle);
+
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
+
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+
 extern void func_02040618(u32 bgId, u32 which, u32 value);
+
 extern void func_02042360(struct Bg_0203EF5C *p, u32 op, u32 value);
+
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
+
 extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
+
 extern void GFL_NET_SetIrcParams(u32 x, u32 y);
+
 extern void func_02040860(u32 layer, struct Mtx22 *a, u32 b, u32 c);
+
 extern void func_0207D59C(void *reg, struct Mtx22 *a, u32 b, u32 c, u32 x, u32 y);
+
 extern void MI_UncompressLZ8(void *dest, const void *src, u32 size);
+
 extern void MIi_CpuCopy32(void *dest, const void *src, u32 size);
+
 extern void MIi_CpuCopy16(void *dest, const void *src, u32 size);
+
 extern void func_02040968(const void *src, void *dst, u32 mode);
+
 extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
+
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
+
 extern void GX_LoadBGPltt(void *, u32, u32);
+
 extern void func_0207E468(void *, u32, u32);
+
 extern void func_020422D4(u32 mode, u8 *a, u8 *b);
 
 extern void func_020409B4(u32 index);
+
 extern void func_02041B6C(u32 bit);
+
 extern void *G2_GetBG0CharPtr(void);
+
 extern void *G2_GetBG1CharPtr(void);
+
 extern void *G2_GetBG2CharPtr(void);
+
 extern void *G2_GetBG3CharPtr(void);
+
 extern u32 func_0207E22C(void);
+
 extern u32 func_0207E280(void);
+
 extern void *G2S_GetBG2CharPtr(void);
+
 extern void *G2S_GetBG3CharPtr(void);
+
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
+
 extern void func_02043228(struct Bg_0203EF5C *p, u32 op, u16 value);
+
 extern void func_02043264(struct Bg_0203EF5C *p, u32 op, u32 value);
+
 extern void func_020432E4(struct Bg_0203EF5C *p, u32 op, u32 value);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
+
 extern void DC_FlushRange(void *p, u32 size);
+
 extern void func_0207E888(const void *src, u32 offset, u32 size);
+
 extern void func_0207EA00(const void *src, u32 offset, u32 size);
+
 extern void GX_LoadBG2Scr(const void *src, u32 offset, u32 size);
+
 extern void func_0207ECF0(const void *src, u32 offset, u32 size);
+
 extern void func_0207E944(const void *src, u32 offset, u32 size);
+
 extern void func_0207EABC(const void *src, u32 offset, u32 size);
+
 extern void func_0207EC34(const void *src, u32 offset, u32 size);
+
 extern void func_0207EDAC(const void *src, u32 offset, u32 size);
+
 extern void GX_LoadBG0Char(const void *src, u32 offset, u32 size);
+
 extern void func_0207EF90(const void *src, u32 offset, u32 size);
+
 extern void func_0207F024(const void *src, u32 offset, u32 size);
+
 extern void GX_LoadBG2Char(const void *src, u32 offset, u32 size);
+
 extern void func_0207EEFC(const void *src, u32 offset, u32 size);
+
 extern void func_0207F14C(const void *src, u32 offset, u32 size);
+
 extern void func_0207F1E0(const void *src, u32 offset, u32 size);
+
 extern void func_0207F274(const void *src, u32 offset, u32 size);
-void func_0203EF5C(u32 heapId);
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-u32 func_0203F004(const u8 *s);
-int GF_STANDARD_CompareString(const char *s1, const char *s2);
-void func_0203F034(u32 seed);
-u32 func_0203F0A8(void);
-u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
-void func_0203F258(struct Lcg64 *out);
-u32 func_0203F2FC(const u8 *p, u32 len);
-void func_0203F328(u16 *p, u32 size, u32 seed);
-void func_0203F37C(void *p, unsigned int size, unsigned int seed);
-u16 func_0203F388(u32 *seed);
-void GF_STANDARD_Reset(void);
-void func_0203F3F0(void);
-void GF_STANDARD_Task(u32 result, struct RtcRequest *req);
-void GF_STANDARD_GetRtc(struct RtcRequest *req);
-void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
-void GF_STANDARD_SetField00(struct RtcTime *time);
-void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
-u32 func_0203F4FC(void);
-void GF_STANDARD_SetupRtc(void);
-s32 GF_STANDARD_SetupRtc_F540(struct RtcDate_0203F540 *d);
-int GF_STANDARD_Get_F5FC(u32 x);
-s16_0203F1FC func_0203F63C(u32 x);
-short GF_STANDARD_Get_F684(unsigned short x);
-s16_0203F1FC func_0203F6D8(s32 x);
-u16 func_0203F734(int x);
-int func_0203F768(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
-s32 GF_STANDARD_SetupCalc_F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy);
+
 void BG_SYS_Create(u16 heapId);
+
 void BG_SYS_Delete(void);
+
 u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
+
 u32 BG_SYS_CheckFAF0(u32 a, u32 b, u32 c);
+
 void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-void func_0203FC28(struct DispConfig *cfg);
-void func_0203FC6C(const struct DispConfig *req, u32 which);
+
+void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
+
+void BG_SYS_ApplyGraphicsMode(const struct DispConfig *req, u32 which);
+
 void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+
 void BG_SYS_Delete_03F4(u32 i);
+
 void BG_SYS_SetLowBit(u32 mode);
-void func_0204047C(int idx, unsigned short val);
-void sub_02040588(unsigned char which, unsigned char enable);
-void sub_02040618(u32 layer, u32 a, u32 b);
+
+void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+
+void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+
+void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+
 u32 BG_SYS_GetScrollX(u32 layer);
+
 u32 BG_SYS_GetScrollY(u32 layer);
-void sub_02040820(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e);
-void sub_02040860(u32 layer, struct Mtx22 *a, u32 b, u32 c);
+
+void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e);
+
+void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c);
+
 void BG_SYS_SetupMemory(void *dest, const void *src, u32 size);
-void sub_020409B4(u32 index);
+
+void BG_SYS_PushTile(u32 index);
+
 void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
-void func_02040AE0(u32 index, const void *src, u32 mode);
+
+void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
+
 void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
-void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-u32 func_02040B58(u32 index, const void *src, u32 size);
+
+void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
+
+u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
+
 void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
+
 void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-void func_02040DA8(u32 idx, u32 count, u32 tile);
-void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
-void func_02040EBC(u32 a0, u32 a1);
-u16 func_02040EE0(u8 x, u8 y, u8 code);
-u16 func_02040F84(u8 x, u8 y, u8 w, u8 h);
-void func_02041090(u32 index, const void *src, u8 dx, u8 dy, u8 cw, u8 ch);
-void func_020410D0(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-void func_020411E8(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-void func_02041300(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-void func_020414AC(u8 idx);
-void func_020414C4(u8 idx);
+
+void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+
+void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
+
+void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
+
+u16 BG_SYS_GetTileMapEntry(u8 x, u8 y, u8 code);
+
+u16 BG_SYS_DrawTileRegion(u8 x, u8 y, u8 w, u8 h);
+
+void BG_SYS_DrawTile(u32 index, const void *src, u8 dx, u8 dy, u8 cw, u8 ch);
+
+void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx, u8 sy, u8 sw, u8 sh);
+
+void BG_SYS_DrawTileSub(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx, u8 sy, u8 sw, u8 sh);
+
+void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+
+void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+
+void BG_SYS_FreeSlot(u8 idx);
+
+void BG_SYS_InitSlot(u8 idx);
+
 void BG_SYS_ClearSlot(u32 i);
-void func_0204152C(int channel, u16 val);
-void func_02041570(int channel, u16 val);
+
+void BG_SYS_ClearLayer(int channel, u16 val);
+
+void BG_SYS_ClearLayerEx(int channel, u16 val);
+
 u32 BG_SYS_GetGraphics(u32 channel);
+
 u32 BG_SYS_GetBuf(int channel);
+
 u32 BG_SYS_GetScrollX_1648(u8 channel);
+
 u32 BG_SYS_GetScrollY_1664(u8 channel);
+
 u8 BG_SYS_GetType(int channel);
+
 u8 BG_SYS_GetField16(int channel);
+
 u8 BG_SYS_GetField17(int channel);
+
 u8 BG_SYS_Get(u32 layer);
-void func_020419E4(void);
-void func_02041A1C(void);
+
+void BG_SYS_Update(void);
+
+void BG_SYS_CommitLayers(void);
+
 void BG_SYS_SetFlagField06(u32 bit);
-void func_02041B94(void);
+
+void BG_SYS_CommitScroll(void);
+
 void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-void func_02041F28(u32 which, u32 op, u16 value);
-void func_02041F6C(u32 which, u32 op, u32 value);
-void func_02041FB0(u32 which, u32 op, u16 value);
+
+void BG_SYS_SetScrollX(u32 which, u32 op, u16 value);
+
+void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
+
+void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
+
 u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags);
-int func_02042218(int a0, int a1);
-void sub_020422D4(u32 mode, u8 *a, u8 *b);
-void sub_02042360(struct Bg_0203EF5C *p, u32 op, u32 value);
-void func_020423D4(u32 layer);
-void func_0204241C(u32 layer, const void *src, u32 offset, u32 size);
-void func_02042508(u32 index, const u32 *src, u32 mode, u32 size);
-void func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
-void func_020426A0(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
-void func_020428E8(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
-void func_02042B24(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
-void func_02042D2C(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-void func_02042E34(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h);
-void func_02042ED8(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u32 mode);
-void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value);
-void sub_02042FF8(u32 idx, u32 offset, u32 size);
+
+int BG_SYS_ResolveScroll(int a0, int a1);
+
+void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
+
+void BG_SYS_SetScrollField(struct Bg_0203EF5C *p, u32 op, u32 value);
+
+void BG_SYS_RotScale(u32 layer);
+
+void BG_SYS_LoadTileLayer(u32 layer, const void *src, u32 offset, u32 size);
+
+void BG_SYS_LoadTileDataEx(u32 index, const u32 *src, u32 mode, u32 size);
+
+void BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size);
+
+void BG_SYS_BlitTiles(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+
+void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+
+void BG_SYS_BlitTilesEx(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+
+void BG_SYS_BlitTileMap(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+
+void BG_SYS_BlitPixelsEx(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h);
+
+void BG_SYS_BlitTileMapEx(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u32 mode);
+
+void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
+
+void BG_SYS_SetupLayer(u32 idx, u32 offset, u32 size);
+
 void BG_SYS_DeleteBlock(u32 idx, u32 offset, u32 size);
-void func_02043130(u16 flags, u8 *buf, u32 page);
-void sub_02043228(struct Bg_0203EF5C *p, u32 op, u16 value);
+
+void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page);
+
+void BG_SYS_SetAffineField(struct Bg_0203EF5C *p, u32 op, u16 value);
+
 void BG_SYS_Apply(struct Bg_0203EF5C *p, u32 op, u32 value);
+
 void BG_SYS_ApplyCenterOp(struct Bg_020432E4 *bg, u32 opcode, u32 operand);
-extern struct Mt *g_021469F8;
-extern char g_020A7E4C[];
-extern u16 tbl_020A08B6[];
-extern s16_0203F1FC FX_SinCosTable_[];
-extern struct Block g_021469FC;
-extern struct RtcDate g_02146A0C;
-extern struct RtcTime g_02146A1C;
+
 extern struct BgSys *g_02146A44;
+
 extern char g_020A7E5C[];
+
 extern u8 func_02043130_File[];
-
-
-
-
-
-/*
- * TU: gf_standard.c.  The allocation site string at 0x020A7E4C reads
- * "gf_standard.c" and this is its only reference in the image, so the
- * Mersenne Twister block (0x0203EF5C onwards) is that translation unit;
- * bg_sys.c starts further down at 0x0203F8F4, whose site string is the
- * "bg_sys.c" at 0x020A7E5C.
- *
- * Constructor for the random-number state: 0xbcc bytes holding mt[624], the
- * generator index (set to 625, "exhausted"), a spare word and the constant
- * 0x9908b0df, then a 0x200-byte buffer at +0x9cc that MATHi_CRC16InitTable
- * initialises.  The allocation tag 49 stays live in r5 afterwards and both
- * later constants are derived from it with a single `add`, which is why
- * neither 625 nor 4129 costs a pool word.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203EF5C.c \
- *       --func func_0203EF5C --addr 0x0203EF5C --cc 1.1p1 --arm
- */
-void func_0203EF5C(u32 heapId)
-{
-    g_021469F8 = sub_02030734(heapId, 0xbcc, 0, g_020A7E4C, 49);
-    g_021469F8->mti = 625;
-    g_021469F8->mag01[0] = 0;
-    g_021469F8->mag01[1] = 0x9908b0df;
-    MATHi_CRC16InitTable((struct MATHCRC16Table *)g_021469F8->unk_9cc, 4129);
-}
-
-
-
-
-
-/*
- * memcmp over unsigned bytes.  The count is tested and decremented in one
- * expression (`n-- != 0`), which is what puts the `sub r2, r2, #1` between
- * the `cmp` and the branch at the head and again in the loop's tail.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203EFC8.c \
- *       --func func_0203EFC8 --addr 0x0203EFC8 --cc 1.1p1 --arm
- */
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n)
-{
-    while (n-- != 0) {
-        if (*a != *b) {
-            return *a - *b;
-        }
-        a++;
-        b++;
-    }
-    return 0;
-}
-
-
-
-
-
-/*
- * Byte-counting strlen over an unsigned char string.  The loop is written
- * as an unconditional one with the test and the return inside it, which is
- * why the original has a plain `b` back to the head and a dead `bx lr`
- * after it for the path that falls off the end.
- *
- * EXACT*, not EXACT: the inferred extent runs to 0x0203F034 because the
- * follower at 0x0203F028 has no label.  It is a twelve-byte ARM long-branch
- * veneer (ldr ip, [pc]; bx ip; .word 0x0208CD94), not a byte difference,
- * and wants seeding into layout/function_starts.txt.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F004.c \
- *       --func func_0203F004 --addr 0x0203F004 --cc 1.1p1 --arm
- */
-u32 func_0203F004(const u8 *s)
-{
-    u32 n = 0;
-
-    while (1) {
-        if (*s == 0) {
-            return n;
-        }
-        s++;
-        n++;
-    }
-}
-
-
-
-
-
-int GF_STANDARD_CompareString(const char *s1, const char *s2)
-{
-    return STD_CompareString(s1, s2);
-}
-
-
-
-
-
-/*
- * Mersenne Twister (MT19937) seeding: 624 words at offset 0 of the block
- * behind 0x021469F8, with the generator index at +0x9c0.  Every step
- * re-reads both the global pointer and the index out of memory, so the
- * index is a real field and not a local; the multiply-accumulate is one
- * `mla` because the index is the addend.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F034.c \
- *       --func func_0203F034 --addr 0x0203F034 --cc 1.1p1 --arm
- */
-void func_0203F034(u32 seed)
-{
-    g_021469F8->mt[0] = seed;
-    for (g_021469F8->mti = 1; g_021469F8->mti < 624;
-         g_021469F8->mti++) {
-        u32 prev = g_021469F8->mt[g_021469F8->mti - 1];
-
-        g_021469F8->mt[g_021469F8->mti] =
-            (prev ^ (prev >> 30)) * 0x6c078965 + g_021469F8->mti;
-    }
-}
-
-
-
-
-u32 func_0203F0A8(void)
-{
-    u32 y;
-
-    if (g_021469F8->mti >= 624) {
-        int kk;
-
-        if (g_021469F8->mti == 625) {
-            func_0203F034(5489);
-        }
-
-        for (kk = 0; kk < 227; kk++) {
-            y = (g_021469F8->mt[kk] & 0x80000000)
-                | (g_021469F8->mt[kk + 1] & 0x7fffffff);
-            g_021469F8->mt[kk] = g_021469F8->mt[kk + 397] ^ (y >> 1)
-                ^ g_021469F8->mag01[y & 1];
-        }
-
-        for (; kk < 623; kk++) {
-            y = (g_021469F8->mt[kk] & 0x80000000)
-                | (g_021469F8->mt[kk + 1] & 0x7fffffff);
-            g_021469F8->mt[kk] = g_021469F8->mt[kk - 227] ^ (y >> 1)
-                ^ g_021469F8->mag01[y & 1];
-        }
-
-        y = (g_021469F8->mt[623] & 0x80000000)
-            | (g_021469F8->mt[0] & 0x7fffffff);
-        g_021469F8->mt[623] = g_021469F8->mt[396] ^ (y >> 1)
-            ^ g_021469F8->mag01[y & 1];
-
-        g_021469F8->mti = 0;
-    }
-
-    y = g_021469F8->mt[g_021469F8->mti++];
-
-    y ^= (y >> 11);
-    y ^= (y << 7) & 0x9d2c5680;
-    y ^= (y << 15) & 0xefc60000;
-    y ^= (y >> 18);
-
-    return y;
-}
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.
- *
- * Push bytes into the 0x200-byte buffer at +0x9cc of the random-number
- * block.  A length below two is padded out to two by duplicating the first
- * byte through a two-byte stack buffer.  0x9cc is out of reach of a single
- * ARM immediate, so the base is always two `add`s (+0x1cc then +0x800).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetupCalc.c \
- *       --func GF_STANDARD_SetupCalc --addr 0x0203F1FC --cc 1.1p1 --arm
- */
-u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len)
-{
-    if (len < 2) {
-        u8 pair[2];
-
-        pair[0] = src[0];
-        pair[1] = src[0];
-        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, pair, 2);
-    } else {
-        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
-    }
-}
-
-
-
-
-
-
-
-/*
- * gf_standard.c: seed a 64-bit LCG from a hash of fresh entropy
- * (docs/families/gf_standard.h).  The output record is THREE u64s, not six
- * u32s: { x, mul = 0x5D588B656C078965, add = 0x269EC3 }, the standard
- * 64-bit LCG constants.  Written as four u32 stores the constants are
- * coloured r1/r0 instead of r0/r1 (the 8-byte residue of
- * docs/notes/pkt_0203F258.c.txt); written as two u64 stores the compiler
- * pairs each low/high half and it is byte-exact.  Reached only as a
- * function pointer (pool word 0x020056CC).
- */
-void func_0203F258(struct Lcg64 *out)
-{
-    u8 a[8];
-    u8 c[0x20];
-    u8 b[0x14];
-    u8 d[0x60];
-
-    sub_02088168((u32 *)c);
-    sub_020813D8(d);
-    sub_0208142C(d, b, 0x14);
-    sub_0208142C(d, c, 0x20);
-    sub_020814C0(d, b);
-    sub_02082D44(b, a, 8);
-    out->x = ((struct Obj16002 *)a)->f0;
-    out->mul = 0x5D588B656C078965ULL;
-    out->add = 0x269EC3;
-}
-
-
-
-
-
-
-
-/*
- * Additive byte checksum.  The accumulator is declared before the index, so
- * it takes r3 and the index is rematerialised from it with `mov ip, r3`
- * rather than a second `mov #0`.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F2FC.c \
- *       --func func_0203F2FC --addr 0x0203F2FC --cc 1.1p1 --arm
- */
-u32 func_0203F2FC(const u8 *p, u32 len)
-{
-    u32 sum = 0;
-    u32 i;
-
-    for (i = 0; i < len; i++) {
-        sum += p[i];
-    }
-    return sum;
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.
- *
- * XOR a halfword buffer against the LCG stream seeded by the third
- * argument.  The function really starts at 0x0203F328, not at the
- * 0x0203F32C that disasm.py labels: the first word is `push {r0,r1,r2,r3}`,
- * the home area that taking `&seed` forces, and the matching `add sp, sp,
- * #0x10` is what makes the epilogue pop lr and then `bx lr` instead of
- * popping pc.  `seed` lives at sp+0x20 once both pushes are done.
- *
- * EXACT*, not EXACT: disasm.py labels 0x0203F32C, so the inferred extent
- * for 0x0203F328 is the single `push {r0,r1,r2,r3}` word; the real function
- * is 0x0203F328-0x0203F37C.  0x0203F328 wants seeding into
- * layout/function_starts.txt and 0x0203F32C wants removing from it.
- *
- * func_0203F388 has exactly one caller image-wide, this one, so its only
- * route to a witness is its own manifest entry in this same shard; the
- * first `manifest --verify` after adding both files leaves this one at
- * MATCH* and the second promotes it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F328.c \
- *       --func func_0203F328 --addr 0x0203F328 --cc 1.1p1 --arm
- */
-void func_0203F328(u16 *p, u32 size, u32 seed)
-{
-    u32 i;
-    u32 n = size >> 1;
-
-    for (i = 0; i < n; i++) {
-        p[i] ^= func_0203F388(&seed);
-    }
-}
-
-
-
-
-
-
-void func_0203F37C(void *p, unsigned int size, unsigned int seed){ func_0203F328(p, size, seed); }
-
-
-
-
-
-
-
-/*
- * The standard 32-bit LCG (multiplier 0x41c64e6d, increment 0x6073) over a
- * caller-supplied seed word, returning the top halfword.  0x6073 is not an
- * ARM rotated immediate, so the increment is two `add`s; the `lsl`/`lsr`
- * pair after the first `lsr` is the u16 return type's truncation.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F388.c \
- *       --func func_0203F388 --addr 0x0203F388 --cc 1.1p1 --arm
- */
-u16 func_0203F388(u32 *seed)
-{
-    u32 v = *seed * 0x41c64e6d + 0x6073;
-
-    *seed = v;
-    return (u16)(v >> 16);
-}
-
-
-
-
-
-
-
-/*
- * Reset of the 0x48-byte block at 0x021469FC: zero it wholesale, then write
- * its first three words explicitly (the redundant stores are in the source;
- * the memset has already cleared them) and hand it to GF_STANDARD_GetRtc.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_Reset.c \
- *       --func GF_STANDARD_Reset --addr 0x0203F3B4 --cc 1.1p1 --arm
- */
-void GF_STANDARD_Reset(void)
-{
-    RTC_Init();
-    MI_CpuFill8(&g_021469FC, 0, 0x48);
-    g_021469FC.unk_00 = 0;
-    g_021469FC.unk_04 = 0;
-    g_021469FC.unk_08 = 0;
-    GF_STANDARD_GetRtc((struct RtcRequest *)(&g_021469FC));
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.
- *
- * Per-frame tick on the block at 0x021469FC: while +0x04 is clear, count
- * frames in +0x08 and every eleventh one reset the counter and run
- * GF_STANDARD_GetRtc.  The `ble` says +0x08 is signed.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F3F0.c \
- *       --func func_0203F3F0 --addr 0x0203F3F0 --cc 1.1p1 --arm
- */
-void func_0203F3F0(void)
-{
-    if (g_021469FC.unk_04 != 0) {
-        return;
-    }
-    g_021469FC.unk_08++;
-    if (g_021469FC.unk_08 <= 10) {
-        return;
-    }
-    g_021469FC.unk_08 = 0;
-    GF_STANDARD_GetRtc((struct RtcRequest *)(&g_021469FC));
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.
- *
- * Completion callback for the asynchronous RTC read started by
- * GF_STANDARD_GetRtc: publish the result code, mark the block busy, promote the
- * staging date and time at +0x2c/+0x3c into the live copies at +0x10/+0x20,
- * then clear the busy flag.  Both promotions are whole-structure
- * assignments, so each is one inlined ldm/stm pair.
- *
- * Its address reaches the image only as the pool word at 0x0203F498 inside
- * GF_STANDARD_GetRtc, never as a branch target, so this file's manifest entry is
- * the only thing that can attest that relocation.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_Task.c \
- *       --func GF_STANDARD_Task --addr 0x0203F42C --cc 1.1p1 --arm
- */
-void GF_STANDARD_Task(u32 result, struct RtcRequest *req)
-{
-    req->result = result;
-    req->unk_00 = 1;
-    req->date = req->stagedDate;
-    req->time = req->stagedTime;
-    req->unk_04 = 0;
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.
- *
- * Start an asynchronous RTC read into the staging date and time at
- * +0x2c/+0x3c, with GF_STANDARD_Task as the completion callback and the block
- * itself as its argument.  The busy flag at +0x04 is raised before the call
- * and the request's return code is parked in +0x0c.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_GetRtc.c \
- *       --func GF_STANDARD_GetRtc --addr 0x0203F46C --cc 1.1p1 --arm
- */
-void GF_STANDARD_GetRtc(struct RtcRequest *req)
-{
-    req->unk_04 = 1;
-    req->result = RTC_GetDateTimeAsync(&req->stagedDate, &req->stagedTime,
-                                GF_STANDARD_Task, req);
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.
- *
- * Copy the cached RTC date and time out to the caller.  Both are whole
- * structure assignments, four words and three words, so each becomes one
- * inlined ldm/stm pair and the two out pointers have to be parked in lr and
- * ip because the copies want r0-r3.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_CopyCachedRtc.c \
- *       --func GF_STANDARD_CopyCachedRtc --addr 0x0203F49C --cc 1.1p1 --arm
- */
-void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time)
-{
-    *date = g_02146A0C;
-    *time = g_02146A1C;
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.  Copy the cached RTC time out; three words, so one
- * ldm/stm pair and no frame at all.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetField00.c \
- *       --func GF_STANDARD_SetField00 --addr 0x0203F4CC --cc 1.1p1 --arm
- */
-void GF_STANDARD_SetField00(struct RtcTime *time)
-{
-    *time = g_02146A1C;
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.  Copy the cached RTC date out; four words, one ldm/stm
- * pair, no frame.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetField00_F4E4.c \
- *       --func GF_STANDARD_SetField00_F4E4 --addr 0x0203F4E4 --cc 1.1p1 --arm
- */
-void GF_STANDARD_SetField00_F4E4(struct RtcDate *date)
-{
-    *date = g_02146A0C;
-}
-
-
-
-
-
-
-
-/*
- * Seconds since midnight out of the three-word global at 0x02146A1C: the
- * minutes and hours are the first two members of the source's struct and
- * come out of one `ldm`.  The sum is spelled minutes-before-hours -
- * `m * 60 + h * 3600` - and that order is what makes the hours term the
- * `mul` and the minutes term the `mla`, with the seconds member added last.
- * Subtracting only the ordering from the swapped spelling costs the `ldm`
- * and the paired multiply and adds a pool word.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F4FC.c \
- *       --func func_0203F4FC --addr 0x0203F4FC --cc 1.1p1 --arm
- */
-u32 func_0203F4FC(void)
-{
-    u32 *p = (u32 *)(0x2146A1C);
-
-    return p[1] * 60 + p[0] * 3600 + p[2];
-}
-
-
-
-
-
-
-
-/*
- * TU: gf_standard.c.
- *
- * Refresh the cached RTC date and time: a tail call, so the callee's
- * address is a third pool word and the transfer is `bx ip`, and another
- * unlabelled leaf because nothing is pushed.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetupRtc.c \
- *       --func GF_STANDARD_SetupRtc --addr 0x0203F524 --cc 1.1p1 --arm
- */
-void GF_STANDARD_SetupRtc(void)
-{
-    RTC_ConvertDateTimeToSecond((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
-}
-
-
-
-
-
-
-
-/*
- * Blocking class: NONE AVAILABLE.  Every concrete byte of the body and of
- * the pool reproduces (MATCH*, 0 concrete bytes out).  The one unresolved
- * site is the ABS32 at +0xB4 naming the cumulative-days table at
- * 0x020A08B6, and it cannot be attested by any of the eight classes:
- *
- *   - `literal` / `label`: the pool word at 0x0203F5F4 is the ONLY reference
- *     to 0x020A08B6 anywhere in the image (layout/data_objects.txt line 475
- *     lists three referrers, but all three are the same 0x0203F5F4 word seen
- *     through three alternative unit cuts of the same listing), and it lies
- *     inside the compared range.  --suggest-split confirms: "witnesses image
- *     wide: 1, of them inside this range: 1", best partition 0 pieces.
- *   - every `sole-ref` sub-kind: 0x020A08B6 is HALFWORD aligned.
- *     `in_data_section()` in tools/match.py works at word granularity and
- *     returns False for it (it returns True for 0x020A08B4 and 0x020A08B8),
- *     so guard (a) of sole-ref/data and sole-ref/self both refuse before
- *     the ROM-word check is ever reached.  Rebasing the declaration to the
- *     4-aligned 0x020A08B4 and indexing [month + 1] is not a way out: it
- *     would put a different word in the pool and break the byte match, and
- *     guard (b) of sole-ref/self correctly refuses the claim because the
- *     ROM word at the site names 0x020A08B6, not 0x020A08B4.
- *
- * This promotes to EXACT with no change to the C the moment anything else
- * in the image is found to reference 0x020A08B6, or once a halfword-aligned
- * data start is recognised by the layout.
- *
- * WHAT IT IS.  Day-of-year from an RtcDate: the cumulative days before the
- * month out of the halfword table, plus the day, plus one if the month is
- * March or later and the year is a leap year.  It then copies the date to a
- * stack temp with month and day forced to 1 and runs RTC_ConvertDateToDay over
- * that temp and over the caller's date (the normalise/weekday pass), and
- * returns the day-of-year.
- *
- * Two typing details are load-bearing:
- *
- *   - `month` is UNSIGNED.  The guard at +0x28 is `blo`, not `blt`; with a
- *     signed `month` the whole function is otherwise identical and exactly
- *     one byte differs.
- *   - `year` is SIGNED.  All three divisions (by 4, 100 and 400) are the
- *     signed shapes: the `lsr ip, r0, #0x1f` sign words, the
- *     `rsb/adds ... ror #30` pair for %4, and the 0x51EB851F magic reused at
- *     `asr #5` for /100 and `asr #7` for /400.
- *
- * The leap test is ONE expression, `(y%4==0 && y%100!=0) || y%400==0`; note
- * the %4 failure path branches INTO the %400 test rather than around it,
- * which is the shared-exit tail-merge the disjunction gives.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/GF_STANDARD_SetupRtc_F540.c \
- *       --func GF_STANDARD_SetupRtc_F540 --addr 0x0203F540 --cc 1.1p1 --arm
- */
-s32 GF_STANDARD_SetupRtc_F540(struct RtcDate_0203F540 *d)
-{
-    struct RtcDate_0203F540 t;
-    s32 n = d->day + tbl_020A08B6[d->month];
-
-    if (d->month >= 3) {
-        if ((d->year % 4 == 0 && d->year % 100 != 0)
-            || d->year % 400 == 0) {
-            n++;
-        }
-    }
-
-    t = *d;
-    t.month = 1;
-    t.day = 1;
-    RTC_ConvertDateToDay((struct RTCDate *)(&t));
-    RTC_ConvertDateToDay((struct RTCDate *)d);
-    return n;
-}
-
-
-
-
-
-
-
-/*
- * Fixed-point sine lookup without the mod: angles of 360 or more return 0; otherwise the same table index as GF_STANDARD_Get_F684 (4096-entry table at 0x020A1B38, even halfword).
- */
-int GF_STANDARD_Get_F5FC(u32 x)
-{
-    if (x >= 360) {
-        return 0;
-    }
-    return FX_SinCosTable_[2 * ((((s32)x * 0xFFFF) / 360) >> 4)];
-}
-
-
-
-
-
-
-
-/*
- * Twin of GF_STANDARD_Get_F5FC at table index 2 * i + 1 (cosine entry); angles of 360 or more return 0.
- */
-s16_0203F1FC func_0203F63C(u32 x)
-{
-    if (x >= 360) {
-        return 0;
-    }
-    return FX_SinCosTable_[2 * ((((s32)x * 0xFFFF) / 360) >> 4) + 1];
-}
-
-
-
-
-
-
-
-/*
- * Fixed-point sine lookup: 4096-entry table at 0x020A1B38 (a flat signed
- * halfword array of interleaved pairs), indexed by (x mod 360) scaled to
- * 0xFFFF with the quotient taken against 360 again and shifted right by 4.
- * func_0203F6D8 is the identical twin at index `2 * i + 1`.
- *
- * Two details are load-bearing and cost real time:
- *
- *   - the argument is `int`, not `unsigned`.  The original opens with
- *     `lsr r1, r0, #0x1f` (the sign word) and closes the magic multiply with
- *     `add lr, r1, lr, asr #8` - the signed division shape.  The unsigned
- *     spelling compiles to `umull` against a different magic (0x6C16C16D)
- *     and is a whole-function diff.
- *   - the trailing scale is the shift `>> 4`, not a division by 16.  `/ 16`
- *     compiles to an exactness-corrected sequence (`asr r0, r2, #3` plus
- *     `add r0, r2, r0, lsr #28`), four instructions longer than the
- *     original's single `asr r1, r2, #4`.
- *
- * The 0xB60BB7 word in the pool is the compiler's own magic for /360 in the
- * `+x, asr #8` form - it is not a source-level constant and cannot be
- * matched by writing the constant out.  The table pointer resolves as
- * `literal` (x113).
- *
- * Addresses are Black-image addresses.
- */
-short GF_STANDARD_Get_F684(unsigned short x)
-{
-    return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
-}
-
-
-
-
-
-
-
-/*
- * The odd-halfword twin of GF_STANDARD_Get_F684: same signed `x % 360`, same
- * fixed-point multiply by 0xFFFF against the same 360, same `>> 4`, but the
- * table index is `2 * i + 1` instead of `2 * i`.  That difference shows up as
- * `lsl r0, r0, #1 / add r1, r0, #1 / lsl r1, r1, #1` before the `ldrsh`,
- * which is the shape of an index into a flat signed-halfword array, not of a
- * struct field access.
- *
- * EXACT*: every byte compares equal; the extent runs long only because the
- * follower is unlabelled (the listing's 144-byte extent covers this body,
- * the shared pool and the next function).  The table pointer resolves as
- * `literal` (x113).
- *
- * Addresses are Black-image addresses.
- */
-s16_0203F1FC func_0203F6D8(s32 x)
-{
-    return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
-}
-
-
-
-
-
-
-
-/*
- * Unlabelled ARM leaf (no lr save) that scales x by 0xFFFF and divides by
- * 360: floor(x * 65535 / 360) for x < 360, else 0.  The unsigned guard
- * gives `movhs`, and mwcc emits the signed /360 magic (0xB60B60B7) because
- * the guard proves the product positive.  It is the witness that unblocks
- * the thumb caller BEACON_DETAIL_CalcDistance.
- */
-u16 func_0203F734(int x)
-{
-    if ((u32)x >= 0x168)
-        return 0;
-    return (u16)(x * 0xFFFF / 0x168);
-}
-
-
-
-
-
-
-
-/*
- * Blocked at MATCH on the `label`/`matched` classes: every concrete byte of
- * the body reproduces, but the PC24 at +0x18 to GF_STANDARD_SetupCalc_F7C4 has one
- * branch reference image-wide, this call, so the site has no witness outside
- * 0203F768..0203F7C4.  Filing 0x0203F7C4 as an EXACT manifest entry promotes
- * this file with no change to the C.
- *
- * The six-argument forwarder: the two stacked arguments are copied down into
- * the outgoing frame and the seventh is the divisor, a 20.12 fixed-point
- * product of itself with 0x323d rounded up by 0x800 and shifted down twice.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0203F768.c \
- *       --func func_0203F768 --addr 0x0203F768 --cc 1.1p1 --arm
- */
-int func_0203F768(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
-{
-    int v = GF_STANDARD_SetupCalc_F7C4(a0, a1, a2, a3, a4, a5);
-    int d = (int)(((s64)(a6 << 13) * 0x323d + 0x800) >> 12);
-
-    return (v << 16) / (d >> 12);
-}
-
-
-
-
-
-
-
-static inline fx32 mulfx(fx32 p, fx32 q)
-{
-    return (fx32)(((s64)p * q + 0x800) >> 12);
-}
-
-
-
-
-
-
-
-static inline fx32 cross2(const struct VecFx32 *p, const struct VecFx32 *q)
-{
-    fx32 px = p->x;
-    fx32 py = p->y;
-
-    return mulfx(px, q->y) - mulfx(q->x, py);
-}
-
-
-
-
-
-
-/*
- * gf_standard.c: signed distance from point C to the line through A and B,
- * six plain-integer coordinates shifted into 20.12 on entry
- * (docs/families/gf_standard.h).  Closed from the 304-byte / 55-out source
- * of docs/notes/GF_STANDARD_SetupCalc_F7C4.c.txt by one change: the value tested for the
- * sign is the SUM OF ALL THREE COMPONENTS of f = (0, 0, cross_z),
- *     cross = f.x + f.y + f.z;
- * not `f.z + a.z`.  The image's `add r2, r7, #0` is f.x + f.y (the zero
- * forwarded from the two stores), started early in the gap between the two
- * FX_Mul-style products, which is what interleaves the second product's
- * loads with the first one's normalisation.  The two `static inline`
- * helpers from the note are still load-bearing.
- */
-s32 GF_STANDARD_SetupCalc_F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
-{
-    struct VecFx32 a;
-    struct VecFx32 b;
-    struct VecFx32 d;
-    struct VecFx32 f;
-    struct VecFx32 c;
-    fx32 cross;
-    fx32 dist;
-    s32  sign;
-
-    a.x = ax << 12;  a.y = ay << 12;  a.z = 0;
-    b.x = bx << 12;  b.y = by << 12;  b.z = 0;
-    c.x = cx << 12;  c.y = cy << 12;  c.z = 0;
-
-    VEC_Subtract(&a, &c, &a);
-    VEC_Subtract(&b, &c, &b);
-
-    f.x = 0;
-    d.x = a.y;
-    f.y = 0;
-    d.y = a.x;
-    d.z = 0;
-
-    f.z = cross2(&a, &b);
-    cross = f.x + f.y + f.z;
-
-    VEC_Normalize(&d, &d);
-    VEC_Subtract(&b, &a, &f);
-    dist = VEC_DotProduct(&d, &f) >> 12;
-    if (dist < 0) {
-        dist = -dist;
-    }
-    if (cross <= 0) {
-        sign = -1;
-        dist = dist * sign;
-    }
-    return dist;
-}
-
-
-
-
-
-
 
 /*
  * TU: bg_sys.c.
@@ -1388,7 +523,7 @@ void BG_SYS_Create(u16 heapId)
 {
     s32 i;
 
-    g_02146A44 = sub_02030734(heapId, 0x1d0, 0, g_020A7E5C, 134);
+    g_02146A44 = GFL_HEAP_Alloc(heapId, 0x1d0, 0, g_020A7E5C, 134);
     MI_CpuFill8(g_02146A44, 0, 0x1d0);
     g_02146A44->heapId = heapId;
     g_02146A44->unk_04 = 0;
@@ -1402,12 +537,6 @@ void BG_SYS_Create(u16 heapId)
         g_02146A44->unk_1b0[i] = 0;
     }
 }
-
-
-
-
-
-
 
 /*
  * TU: bg_sys.c.
@@ -1435,12 +564,6 @@ void BG_SYS_Delete(void)
     func_020307B0(g_02146A44);
     g_02146A44 = 0;
 }
-
-
-
-
-
-
 
 /*
  * Allocate a run of tiles for a layer in its arena, bottom-up (top == 0,
@@ -1473,12 +596,6 @@ u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
     return (r * t - g_02146A44->unk_170[layer]) / t;
 }
 
-
-
-
-
-
-
 u32 BG_SYS_CheckFAF0(u32 a, u32 b, u32 c)
 {
     u32 d = BG_SYS_GetField17(a & 0xff);
@@ -1488,16 +605,10 @@ u32 BG_SYS_CheckFAF0(u32 a, u32 b, u32 c)
                   d + b, c);
 }
 
-
-
-
-
-
-
 /*
  * TU: bg_sys.c.
  *
- * Release half of the pair whose reserve half is sub_02042FF8: same arena
+ * Release half of the pair whose reserve half is BG_SYS_SetupLayer: same arena
  * selection by layer index (0-3 at +0x168, 4-7 at +0x16c, anything else a
  * no-op) and the same round-up of a byte length to arena units, but the unit
  * here is the layer's own tile stride from sub_020416B8 rather than the
@@ -1538,12 +649,6 @@ void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size)
     }
 }
 
-
-
-
-
-
-
 /*
  * TU: bg_sys.c (the initialiser at 0x0203FCA0 is the next function up).
  *
@@ -1553,10 +658,10 @@ void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size)
  * they are two statements in the source and not one masked store.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203FC28.c \
- *       --func func_0203FC28 --addr 0x0203FC28 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetGraphicsMode.c \
+ *       --func BG_SYS_SetGraphicsMode --addr 0x0203FC28 --cc 1.1p1 --arm
  */
-void func_0203FC28(struct DispConfig *cfg)
+void BG_SYS_SetGraphicsMode(struct DispConfig *cfg)
 {
     GX_SetGraphicsMode(cfg->unk_00, cfg->unk_04, cfg->unk_0c);
     func_0207D518(cfg->unk_08);
@@ -1565,12 +670,6 @@ void func_0203FC28(struct DispConfig *cfg)
     BG_SYS_ClearMainBgPlanes();
     BG_SYS_ClearSubBgPlanes();
 }
-
-
-
-
-
-
 
 /*
  * bg_sys.c, the two-way forwarder that sits immediately above
@@ -1584,7 +683,7 @@ void func_0203FC28(struct DispConfig *cfg)
  * field reads as separate arguments to the same call is what folds them
  * into the load-multiple.
  */
-void func_0203FC6C(const struct DispConfig *req, u32 which)
+void BG_SYS_ApplyGraphicsMode(const struct DispConfig *req, u32 which)
 {
     if (which == 0) {
         BG_SYS_ClearMainPlanes(GX_SetGraphicsMode(req->unk_00, req->unk_04, req->unk_0c));
@@ -1593,27 +692,15 @@ void func_0203FC6C(const struct DispConfig *req, u32 which)
     }
 }
 
-
-
-
-
 static inline void G2_SetBG0Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG0CNT_A) = (u16)((REG16(REG_BG0CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
 }
 
-
-
-
-
 static inline void G2_SetBG0Priority(int priority)
 {
     REG16(REG_BG0CNT_A) = (u16)((REG16(REG_BG0CNT_A) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2_BG0Mosaic(BOOL enable)
 {
@@ -1624,27 +711,15 @@ static inline void G2_BG0Mosaic(BOOL enable)
     }
 }
 
-
-
-
-
 static inline void G2_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG1CNT_A) = (u16)((REG16(REG_BG1CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
 }
 
-
-
-
-
 static inline void G2_SetBG1Priority(int priority)
 {
     REG16(REG_BG1CNT_A) = (u16)((REG16(REG_BG1CNT_A) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2_BG1Mosaic(BOOL enable)
 {
@@ -1655,45 +730,25 @@ static inline void G2_BG1Mosaic(BOOL enable)
     }
 }
 
-
-
-
-
 static inline void G2_SetBG2ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_A) = (u16)((REG16(REG_BG2CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
-
-
-
-
 
 static inline void G2_SetBG2ControlAffine(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_A) = (u16)((REG16(REG_BG2CNT_A) & 0x43) | (screenSize << 14) | (screenBase << 8) | (charBase << 2) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2_SetBG2ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_A) = (u16)((REG16(REG_BG2CNT_A) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2_SetBG2Priority(int priority)
 {
     REG16(REG_BG2CNT_A) = (u16)((REG16(REG_BG2CNT_A) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2_BG2Mosaic(BOOL enable)
 {
@@ -1704,45 +759,25 @@ static inline void G2_BG2Mosaic(BOOL enable)
     }
 }
 
-
-
-
-
 static inline void G2_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_A) = (u16)((REG16(REG_BG3CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
-
-
-
-
 
 static inline void G2_SetBG3ControlAffine(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_A) = (u16)((REG16(REG_BG3CNT_A) & 0x43) | (screenSize << 14) | (screenBase << 8) | (charBase << 2) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2_SetBG3ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_A) = (u16)((REG16(REG_BG3CNT_A) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2_SetBG3Priority(int priority)
 {
     REG16(REG_BG3CNT_A) = (u16)((REG16(REG_BG3CNT_A) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2_BG3Mosaic(BOOL enable)
 {
@@ -1753,27 +788,15 @@ static inline void G2_BG3Mosaic(BOOL enable)
     }
 }
 
-
-
-
-
 static inline void G2S_SetBG0Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG0CNT_B) = (u16)((REG16(REG_BG0CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
 }
 
-
-
-
-
 static inline void G2S_SetBG0Priority(int priority)
 {
     REG16(REG_BG0CNT_B) = (u16)((REG16(REG_BG0CNT_B) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2S_BG0Mosaic(BOOL enable)
 {
@@ -1784,27 +807,15 @@ static inline void G2S_BG0Mosaic(BOOL enable)
     }
 }
 
-
-
-
-
 static inline void G2S_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG1CNT_B) = (u16)((REG16(REG_BG1CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
 }
 
-
-
-
-
 static inline void G2S_SetBG1Priority(int priority)
 {
     REG16(REG_BG1CNT_B) = (u16)((REG16(REG_BG1CNT_B) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2S_BG1Mosaic(BOOL enable)
 {
@@ -1815,45 +826,25 @@ static inline void G2S_BG1Mosaic(BOOL enable)
     }
 }
 
-
-
-
-
 static inline void G2S_SetBG2ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_B) = (u16)((REG16(REG_BG2CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
-
-
-
-
 
 static inline void G2S_SetBG2ControlAffine(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_B) = (u16)((REG16(REG_BG2CNT_B) & 0x43) | (screenSize << 14) | (screenBase << 8) | (charBase << 2) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2S_SetBG2ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_B) = (u16)((REG16(REG_BG2CNT_B) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2S_SetBG2Priority(int priority)
 {
     REG16(REG_BG2CNT_B) = (u16)((REG16(REG_BG2CNT_B) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2S_BG2Mosaic(BOOL enable)
 {
@@ -1864,45 +855,25 @@ static inline void G2S_BG2Mosaic(BOOL enable)
     }
 }
 
-
-
-
-
 static inline void G2S_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_B) = (u16)((REG16(REG_BG3CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
-
-
-
-
 
 static inline void G2S_SetBG3ControlAffine(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_B) = (u16)((REG16(REG_BG3CNT_B) & 0x43) | (screenSize << 14) | (screenBase << 8) | (charBase << 2) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2S_SetBG3ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_B) = (u16)((REG16(REG_BG3CNT_B) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
 }
 
-
-
-
-
 static inline void G2S_SetBG3Priority(int priority)
 {
     REG16(REG_BG3CNT_B) = (u16)((REG16(REG_BG3CNT_B) & ~3) | (priority << 0));
 }
-
-
-
-
 
 static inline void G2S_BG3Mosaic(BOOL enable)
 {
@@ -1912,10 +883,6 @@ static inline void G2S_BG3Mosaic(BOOL enable)
         REG16(REG_BG3CNT_B) &= ~0x40;
     }
 }
-
-
-
-
 
 /*
  * bg_sys.c: initialise one BG layer from its template.  Program BGxCNT of
@@ -1933,7 +900,7 @@ static inline void G2S_BG3Mosaic(BOOL enable)
  */
 void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 {
-    u32 ss = func_02042218(tmpl->unk_10, type);
+    u32 ss = BG_SYS_ResolveScroll(tmpl->unk_10, type);
 
     switch (bgId) {
     case 0:
@@ -2029,7 +996,7 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
     g_02146A44->bgs[bgId].unk_28 = 0;
 
     if (tmpl->bufSize != 0) {
-        g_02146A44->bgs[bgId].buf = sub_02030734(g_02146A44->heapId,
+        g_02146A44->bgs[bgId].buf = GFL_HEAP_Alloc(g_02146A44->heapId,
                                                  tmpl->bufSize, 0,
                                                  g_020A7E5C, 0x231);
         MIi_CpuClear16(0, g_02146A44->bgs[bgId].buf, tmpl->bufSize);
@@ -2053,7 +1020,7 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 
     func_02040618(bgId, 0, tmpl->unk_00);
     func_02040618(bgId, 3, tmpl->unk_04);
-    func_020423D4(bgId);
+    BG_SYS_RotScale(bgId);
 
     g_02146A44->unk_170[bgId] = tmpl->unk_13 << 14;
     g_02146A44->unk_190[bgId] = tmpl->unk_12 << 11;
@@ -2061,13 +1028,6 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 
     func_02042FF8(bgId, 0, tmpl->bufSize);
 }
-
-
-
-
-
-
-
 
 /*
  * Release the payload of one entry of the 0x2c-byte table hanging off the
@@ -2103,12 +1063,6 @@ void BG_SYS_Delete_03F4(u32 i)
     g_02146A44->bgs[i].buf = 0;
 }
 
-
-
-
-
-
-
 /*
  * Set the two low bits of DISPCNT (0x04000008) to the incoming mode, after
  * asking BG_SYS_SetMainPlaneVisible for the display to be brought up in mode 1.  The
@@ -2126,12 +1080,6 @@ void BG_SYS_SetLowBit(u32 mode)
         (*(volatile u16 *)0x04000008 & ~3) | mode;
 }
 
-
-
-
-
-
-
 /*
  * Unlabelled ARM leaf: a two-to-four entry register write-back.  idx 0..7
  * selects one of eight volatile 16-bit MMIO registers (two banks of four,
@@ -2142,7 +1090,7 @@ void BG_SYS_SetLowBit(u32 mode)
  * The constants are absolute hardware addresses, so they are plain pool words
  * with no relocation.
  */
-void func_0204047C(int idx, unsigned short val)
+void BG_SYS_SetVisibleLayer(int idx, unsigned short val)
 {
     volatile unsigned short *p;
 
@@ -2182,12 +1130,6 @@ void func_0204047C(int idx, unsigned short val)
     }
 }
 
-
-
-
-
-
-
 /*
  * Eight-way dispatch turning a small selector into a one-hot plane mask for
  * one of the two 2D engines: selectors 0..3 go to the engine-A visible-plane
@@ -2199,7 +1141,7 @@ void func_0204047C(int idx, unsigned short val)
  * run of eight branches, with the out-of-range case falling straight into
  * the epilogue.
  */
-void sub_02040588(unsigned char which, unsigned char enable)
+void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable)
 {
     switch (which) {
     case 0:
@@ -2229,21 +1171,15 @@ void sub_02040588(unsigned char which, unsigned char enable)
     }
 }
 
-
-
-
-
-
-
 /*
  * The per-layer scroll register flush.  Closed in wave 11 by two facts:
  * GFL_NET_SetIrcParams takes the layer's scroll pair (x, y) as its two arguments
  * (the case-1 arm keeps r0/r1 live across the register write for the call,
- * as in func_02041B94), and scrollX is read before scrollY.  The star is the
+ * as in BG_SYS_CommitScroll), and scrollX is read before scrollY.  The star is the
  * unlabelled follower BG_SYS_GetScrollX (already EXACT in unit_020407E8.c); the
  * true extent is 464 bytes, ending at 0x020407E8.
  */
-void sub_02040618(u32 layer, u32 a, u32 b)
+void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b)
 {
     u32 mask = 0x1ff;
     u32 hmask = mask << 16;
@@ -2266,14 +1202,14 @@ void sub_02040618(u32 layer, u32 a, u32 b)
         if (g_02146A44->bgs[2].type == 0) {
             W(0x04000018) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(2);
+            BG_SYS_RotScale(2);
         }
         break;
     case 3:
         if (g_02146A44->bgs[3].type == 0) {
             W(0x0400001c) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(3);
+            BG_SYS_RotScale(3);
         }
         break;
     case 4:
@@ -2286,36 +1222,30 @@ void sub_02040618(u32 layer, u32 a, u32 b)
         if (g_02146A44->bgs[6].type == 0) {
             W(0x04001018) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(6);
+            BG_SYS_RotScale(6);
         }
         break;
     case 7:
         if (g_02146A44->bgs[7].type == 0) {
             W(0x0400101c) = (x & mask) | (hmask & (y << 16));
         } else {
-            func_020423D4(7);
+            BG_SYS_RotScale(7);
         }
         break;
     }
 }
 
-
-
-
-
-
-
 /*
  * The two scroll-register accessors for the BG configuration table, both of
  * them leaf functions that save nothing and therefore carry no `func_` label
  * in the listing at all: they print as an anonymous run of `.word`s between
- * the literal pool of sub_02040618 and the next labelled function at
+ * the literal pool of BG_SYS_FillScrollArea and the next labelled function at
  * 0x02040820 (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * They were found by sweeping the address range, not by reading labels.
  *
  * Both index the same 0x2C-byte per-layer record hanging off the single
  * pointer at 0x02146A44, and return the horizontal (+0x14) and vertical
- * (+0x18) scroll values that sub_02040618 flushes to the hardware.  The
+ * (+0x18) scroll values that BG_SYS_FillScrollArea flushes to the hardware.  The
  * `mla r1, r0, r1, r2` is the array subscript: 0x2C is not a shift, so the
  * scale is a real multiply folded into the base add.
  *
@@ -2331,33 +1261,16 @@ u32 BG_SYS_GetScrollX(u32 layer)
     return g_02146A44->bgs[layer].scrollX;
 }
 
-
-
-
-
-
 u32 BG_SYS_GetScrollY(u32 layer)
 {
     return g_02146A44->bgs[layer].scrollY;
 }
 
-
-
-
-
-
-
-void sub_02040820(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
+void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
 {
     func_02042360(&g_02146A44->bgs[layer], a, b);
     func_02040860(layer, c, d, e);
 }
-
-
-
-
-
-
 
 /*
  * The affine half of the BG scroll module: push a layer's transform, plus
@@ -2372,7 +1285,7 @@ void sub_02040820(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
  * (docs/idioms/empty-switch-arms-are-what-make-the-table.md).  Written as
  * four cases the compiler would emit a comparison chain instead.
  *
- * Unlike sub_02040618, the subscript here stays the variable `layer` in
+ * Unlike BG_SYS_FillScrollArea, the subscript here stays the variable `layer` in
  * every arm rather than the arm's own case constant.  That is what the
  * `mla lr, r0, ip, lr` inside each arm says: the multiply is still live,
  * so the index cannot have been a literal.  The four arms therefore differ
@@ -2384,10 +1297,10 @@ void sub_02040820(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
  * the scroll pair goes on the stack as arguments 5 and 6.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02040860.c \
- *       --func sub_02040860 --addr 0x02040860 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetScrollRegs.c \
+ *       --func BG_SYS_SetScrollRegs --addr 0x02040860 --cc 1.1p1 --arm
  */
-void sub_02040860(u32 layer, struct Mtx22 *a, u32 b, u32 c)
+void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c)
 {
     switch (layer) {
     case 0:
@@ -2417,12 +1330,6 @@ void sub_02040860(u32 layer, struct Mtx22 *a, u32 b, u32 c)
     }
 }
 
-
-
-
-
-
-
 void BG_SYS_SetupMemory(void *dest, const void *src, u32 size)
 {
     if (size == 0) {
@@ -2438,12 +1345,6 @@ void BG_SYS_SetupMemory(void *dest, const void *src, u32 size)
     MIi_CpuCopy16(dest, src, size);
 }
 
-
-
-
-
-
-
 /*
  * Indexes the 0x2c-byte entry array reached through the pointer at
  * 0x02146A44 and tail-calls the worker at 0x020409E0 with three fields of
@@ -2451,18 +1352,12 @@ void BG_SYS_SetupMemory(void *dest, const void *src, u32 size)
  * and `bx ip`; ip rather than r3 is used so all four argument registers
  * survive.
  */
-void sub_020409B4(u32 index)
+void BG_SYS_PushTile(u32 index)
 {
     
 
     BG_SYS_PushTileSource(index, g_02146A44->bgs[index].buf, g_02146A44->bgs[index].bufSize, g_02146A44->bgs[index].unk_08);
 }
-
-
-
-
-
-
 
 /*
  * Push a tile source into slot `index` of the 0x2c-byte table behind
@@ -2479,28 +1374,22 @@ void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset)
 
         if (tiles != 0) {
             func_02040968(src, tiles, mode);
-            func_0204241C(index, tiles, g_02146A44->bgs[index].unk_08 * 2,
+            BG_SYS_LoadTileLayer(index, tiles, g_02146A44->bgs[index].unk_08 * 2,
                           g_02146A44->bgs[index].bufSize);
         } else {
             u32   size = *(const u32 *)&((struct Obj16005 *)src)->f0 >> 8;
-            void *buf = sub_02030734(
+            void *buf = GFL_HEAP_Alloc(
                 (u16)((g_02146A44->heapId & 0x7fff) | 0x8000), size, 0,
                 g_020A7E5C, 1252);
 
             func_02040968(src, buf, mode);
-            func_0204241C(index, buf, offset * 2, size);
+            BG_SYS_LoadTileLayer(index, buf, offset * 2, size);
             func_020307B0(buf);
         }
     } else {
-        func_0204241C(index, src, offset * 2, mode);
+        BG_SYS_LoadTileLayer(index, src, offset * 2, mode);
     }
 }
-
-
-
-
-
-
 
 /*
  * A four-instruction forwarder that binds the tile offset of BG_SYS_DecodeTileSource
@@ -2518,19 +1407,13 @@ void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset)
  * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040AE0.c \
- *       --func func_02040AE0 --addr 0x02040AE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DecodeTile.c \
+ *       --func BG_SYS_DecodeTile --addr 0x02040AE0 --cc 1.1p1 --arm
  */
-void func_02040AE0(u32 index, const void *src, u32 mode)
+void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode)
 {
     BG_SYS_DecodeTileSource(index, src, mode, 0);
 }
-
-
-
-
-
-
 
 /*
  * Decode a tile source straight into slot `index`'s tile buffer at a tile
@@ -2547,12 +1430,6 @@ void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset)
     func_02040968(src, (u16 *)g_02146A44->bgs[index].buf + offset, mode);
 }
 
-
-
-
-
-
-
 /*
  * Forward a tile upload, scaling the destination tile index by the slot's
  * tile size: the byte at +0x1e of the 0x2c-byte slot record is zero for
@@ -2561,51 +1438,39 @@ void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset)
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040B1C.c \
- *       --func func_02040B1C --addr 0x02040B1C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_LoadTileData.c \
+ *       --func BG_SYS_LoadTileData --addr 0x02040B1C --cc 1.1p1 --arm
  */
-void func_02040B1C(int index, const void *src, u32 size, u32 tile)
+void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile)
 {
     if (g_02146A44->bgs[index].unk_16 == 0) {
-        func_02042508(index, src, size, tile * 32);
+        BG_SYS_LoadTileDataEx(index, src, size, tile * 32);
     } else {
-        func_02042508(index, src, size, tile * 64);
+        BG_SYS_LoadTileDataEx(index, src, size, tile * 64);
     }
 }
-
-
-
-
-
-
 
 /*
  * Reserve a run of tiles for slot `index`, then upload into it and hand the
  * caller the tile index it got.  The reservation is in tiles and the upload
  * offset in bytes, hence the fixed 32-byte (4bpp) scale; unlike
- * func_02040B1C this one does not consult the slot's depth byte.
+ * BG_SYS_LoadTileData this one does not consult the slot's depth byte.
  *
  * The `and r0, r7, #0xff` is the truncation at the second call, not a cast
- * in this function's own arithmetic: func_02042508 takes the slot index as
+ * in this function's own arithmetic: BG_SYS_LoadTileDataEx takes the slot index as
  * u8 while this function takes it as u32.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040B58.c \
- *       --func func_02040B58 --addr 0x02040B58 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_CreateTileRun.c \
+ *       --func BG_SYS_CreateTileRun --addr 0x02040B58 --cc 1.1p1 --arm
  */
-u32 func_02040B58(u32 index, const void *src, u32 size)
+u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size)
 {
     u32 tile = BG_SYS_CreateRun(index, size, 0);
 
-    func_02042508((u8)index, src, size, tile * 32);
+    BG_SYS_LoadTileDataEx((u8)index, src, size, tile * 32);
     return tile;
 }
-
-
-
-
-
-
 
 /*
  * TU: bg_sys.c.
@@ -2622,19 +1487,13 @@ u32 func_02040B58(u32 index, const void *src, u32 size)
  */
 void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId)
 {
-    void *buf = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 0,
+    void *buf = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), size, 0,
                              g_020A7E5C, 1362);
 
     MI_CpuFill8(buf, 0, size);
-    func_020425B4(layer, buf, offset, size);
+    BG_SYS_LoadTileLayerEx(layer, buf, offset, size);
     func_020307B0(buf);
 }
-
-
-
-
-
-
 
 /*
  * TU: bg_sys.c.
@@ -2706,7 +1565,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     }
 
     size = count * g_02146A44->bgs[layer].unk_17;
-    buf  = sub_02030734((u16)((g_02146A44->heapId & 0x7fff) | 0x8000),
+    buf  = GFL_HEAP_Alloc((u16)((g_02146A44->heapId & 0x7fff) | 0x8000),
                         size, 0, g_020A7E5C, 1421);
 
     if (g_02146A44->bgs[layer].unk_17 == 0x20) {
@@ -2718,16 +1577,10 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     }
 
     MIi_CpuClearFast(value, buf, size);
-    func_020425B4((u8)layer, buf, index * g_02146A44->bgs[layer].unk_17,
+    BG_SYS_LoadTileLayerEx((u8)layer, buf, index * g_02146A44->bgs[layer].unk_17,
                   size);
     func_020307B0(buf);
 }
-
-
-
-
-
-
 
 /*
  * bg_sys.c.  Release a run of tiles from one layer's arena.  The layer index
@@ -2739,15 +1592,15 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
  *
  * The declaration that closes this function is the depth byte's OFFSET: it is
  * +0x1F, not +0x1E.  Both bytes are live and independently read in this
- * family (func_02040B1C reads the +0x1E flag off the same 0x2C-stride
+ * family (BG_SYS_LoadTileData reads the +0x1E flag off the same 0x2C-stride
  * record); putting depth at +0x1E moves a live ldrb and loses the function.
  * See docs/families/bg_sys.h.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02040DA8.c \\
- *       --func func_02040DA8 --addr 0x02040DA8 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/BG_SYS_SetTileUnit.c \\
+ *       --func BG_SYS_SetTileUnit --addr 0x02040DA8 --cc 1.1p1 --arm
  */
-void func_02040DA8(u32 idx, u32 count, u32 tile)
+void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
 {
     u32 unit;
 
@@ -2775,13 +1628,7 @@ void func_02040DA8(u32 idx, u32 count, u32 tile)
     }
 }
 
-
-
-
-
-
-
-void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4)
+void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4)
 {
     DWCi_ScreenDC_FlushRange(r6, r5);
     if (r7 < 4) {
@@ -2791,26 +1638,14 @@ void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4)
     }
 }
 
-
-
-
-
-
-
-void func_02040EBC(u32 a0, u32 a1)
+void BG_SYS_LoadPlttEntry(u32 a0, u32 a1)
 {
-    func_02040E78(a0, &a1, 2, 0);
+    BG_SYS_LoadPltt(a0, &a1, 2, 0);
 }
-
-
-
-
-
-
 
 /*
  * The (x, y) to linear screen-entry index helper the whole BG layer uses
- * (src/matched/sub_02042FB0.c and src/matched/func_020413B0.c are two of
+ * (src/matched/BG_SYS_SetupTileScreen.c and src/matched/BG_SYS_FillTileMap.c are two of
  * its callers).  The third argument is the slot's screen-size code at +0x1d
  * of the 0x2c-byte slot record, and the six arms spell the DS BG screen
  * layouts out exactly:
@@ -2834,10 +1669,10 @@ void func_02040EBC(u32 a0, u32 a1)
  * dispatch to `bx lr` with x still in r0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040EE0.c \
- *       --func func_02040EE0 --addr 0x02040EE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_GetTileMapEntry.c \
+ *       --func BG_SYS_GetTileMapEntry --addr 0x02040EE0 --cc 1.1p1 --arm
  */
-u16 func_02040EE0(u8 x, u8 y, u8 code)
+u16 BG_SYS_GetTileMapEntry(u8 x, u8 y, u8 code)
 {
     u16 map;
     u16 off;
@@ -2860,14 +1695,8 @@ u16 func_02040EE0(u8 x, u8 y, u8 code)
     }
 }
 
-
-
-
-
-
-
 /*
- * The arbitrary-size cousin of src/matched/func_02040EE0.c: linear screen
+ * The arbitrary-size cousin of src/matched/BG_SYS_GetTileMapEntry.c: linear screen
  * entry index for (x, y) in a map that is `w` by `h` tiles, laid out as up to
  * four 32-wide/32-tall blocks.  The block is selected by `(x >> 5)` and
  * `(y >> 5)` folded into a single u8 selector, and the switch has cases 0..3
@@ -2897,10 +1726,10 @@ u16 func_02040EE0(u8 x, u8 y, u8 code)
  *    `mov ip, r6`), not the other way round.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040F84.c \
- *       --func func_02040F84 --addr 0x02040F84 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DrawTileRegion.c \
+ *       --func BG_SYS_DrawTileRegion --addr 0x02040F84 --cc 1.1p1 --arm
  */
-u16 func_02040F84(u8 x, u8 y, u8 w, u8 h)
+u16 BG_SYS_DrawTileRegion(u8 x, u8 y, u8 w, u8 h)
 {
     u16 base;
     s16_02040820 w2 = w - 32;
@@ -2955,40 +1784,28 @@ u16 func_02040F84(u8 x, u8 y, u8 w, u8 h)
     return base;
 }
 
-
-
-
-
-
-
 /*
- * The short public entry point in front of src/matched/func_020410D0.c: it
+ * The short public entry point in front of src/matched/BG_SYS_DrawTileEx.c: it
  * drops the caller's second argument out of the register block, shifts the
  * third and fourth down into r1/r2, and rebuilds the ten-argument call with
  * the two u8 tail arguments duplicated and a pair of zeroes in between.
  *
  * Reading the callee's argument list back, this is the "no clip rectangle"
- * form: arguments 7 and 8 of func_020410D0 are the clip origin and are passed
+ * form: arguments 7 and 8 of BG_SYS_DrawTileEx are the clip origin and are passed
  * as zero, while arguments 9 and 10 repeat the size pair given here, so the
  * clip box is the whole destination.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02041090.c \
- *       --func func_02041090 --addr 0x02041090 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DrawTile.c \
+ *       --func BG_SYS_DrawTile --addr 0x02041090 --cc 1.1p1 --arm
  */
-void func_02041090(u32 index, const void *src, u8 dx, u8 dy, u8 cw, u8 ch)
+void BG_SYS_DrawTile(u32 index, const void *src, u8 dx, u8 dy, u8 cw, u8 ch)
 {
-    func_020410D0(index, dx, dy, cw, ch, src, 0, 0, cw, ch);
+    BG_SYS_DrawTileEx(index, dx, dy, cw, ch, src, 0, 0, cw, ch);
 }
 
-
-
-
-
-
-
 /*
- * The ten-argument sibling of src/pending/func_02041300.c: fan out on the
+ * The ten-argument sibling of src/pending/BG_SYS_SetTileEntry.c: fan out on the
  * bit-depth byte at +0x1c of the 0x2c-byte slot behind 0x02146A44 and forward
  * the whole argument list, plus a trailing zero, to one of three blitters.
  * All three arms are byte-identical in their argument marshalling; only the
@@ -2996,38 +1813,32 @@ void func_02041090(u32 index, const void *src, u8 dx, u8 dy, u8 cw, u8 ch)
  *
  * The slot's sub-object pointer is spelled as byte arithmetic with the
  * constant added first and written out in every arm, for the reason recorded
- * in src/pending/func_02041300.c: `&g_02146A44[index].unk_08` contracts into
+ * in src/pending/BG_SYS_SetTileEntry.c: `&g_02146A44[index].unk_08` contracts into
  * a single `mla` and loses twelve bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020410D0.c \
- *       --func func_020410D0 --addr 0x020410D0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DrawTileEx.c \
+ *       --func BG_SYS_DrawTileEx --addr 0x020410D0 --cc 1.1p1 --arm
  */
-void func_020410D0(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx,
+void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx,
                    u8 sy, u8 sw, u8 sh)
 {
     u8 kind = g_02146A44->bgs[index].type;
 
     if (kind == 0) {
-        func_020426A0(&g_02146A44->bgs[index],
+        BG_SYS_BlitTiles(&g_02146A44->bgs[index],
                       dx, dy, cw, ch, src, sx, sy, sw, sh, 0);
     } else if (kind == 1) {
-        func_020428E8(&g_02146A44->bgs[index],
+        BG_SYS_BlitPixels(&g_02146A44->bgs[index],
                       dx, dy, cw, ch, src, sx, sy, sw, sh, 0);
     } else {
-        func_02042B24(&g_02146A44->bgs[index],
+        BG_SYS_BlitTilesEx(&g_02146A44->bgs[index],
                       dx, dy, cw, ch, src, sx, sy, sw, sh, 0);
     }
 }
 
-
-
-
-
-
-
 /*
- * The twin of src/matched/func_020410D0.c, differing only in the trailing
+ * The twin of src/matched/BG_SYS_DrawTileEx.c, differing only in the trailing
  * constant it appends to the blitter's argument list: 1 here, 0 there.  Fan
  * out on the bit-depth byte at +0x1c of the 0x2c-byte slot behind 0x02146A44
  * and forward the whole argument list to one of three blitters.  All three
@@ -3037,58 +1848,46 @@ void func_020410D0(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx
  *
  * The slot's sub-object pointer is spelled as byte arithmetic with the
  * constant added first and written out in every arm, for the reason recorded
- * in src/pending/func_02041300.c: `&g_02146A44[index].unk_08` contracts into
+ * in src/pending/BG_SYS_SetTileEntry.c: `&g_02146A44[index].unk_08` contracts into
  * a single `mla` and loses twelve bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020411E8.c \
- *       --func func_020411E8 --addr 0x020411E8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DrawTileSub.c \
+ *       --func BG_SYS_DrawTileSub --addr 0x020411E8 --cc 1.1p1 --arm
  */
-void func_020411E8(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx,
+void BG_SYS_DrawTileSub(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx,
                    u8 sy, u8 sw, u8 sh)
 {
     u8 kind = g_02146A44->bgs[index].type;
 
     if (kind == 0) {
-        func_020426A0(&g_02146A44->bgs[index],
+        BG_SYS_BlitTiles(&g_02146A44->bgs[index],
                       dx, dy, cw, ch, src, sx, sy, sw, sh, 1);
     } else if (kind == 1) {
-        func_020428E8(&g_02146A44->bgs[index],
+        BG_SYS_BlitPixels(&g_02146A44->bgs[index],
                       dx, dy, cw, ch, src, sx, sy, sw, sh, 1);
     } else {
-        func_02042B24(&g_02146A44->bgs[index],
+        BG_SYS_BlitTilesEx(&g_02146A44->bgs[index],
                       dx, dy, cw, ch, src, sx, sy, sw, sh, 1);
     }
 }
 
-
-
-
-
-
-
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  */
-void func_02041300(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode)
+void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode)
 {
     u32 offset = layer * 0x2C;
     struct BgConfigLayer *bg = (struct BgConfigLayer *)((u8 *)g_02146A44 + offset);
 
     if (bg->mode == 0) {
-        func_02042D2C((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
+        BG_SYS_BlitTileMap((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
     } else if (bg->mode == 1) {
-        func_02042E34((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), (u8)value, x0, y0, w, h);
+        BG_SYS_BlitPixelsEx((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), (u8)value, x0, y0, w, h);
     } else {
-        func_02042ED8((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
+        BG_SYS_BlitTileMapEx((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
     }
 }
-
-
-
-
-
-
 
 /*
  * Recolour a rectangle of the screen buffer of table slot `index`: for every
@@ -3101,8 +1900,8 @@ void func_02041300(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode)
  * (docs/idioms/local-declaration-order-is-stack-order.md), so `width` at
  * sp+9 has to be declared before `height` at sp+8.  The box is clipped
  * against those two: running off the right edge breaks the row, running off
- * the bottom returns outright.  func_02040EE0 is the same (x, y, size_code)
- * to linear-index helper src/matched/sub_02042FB0.c uses.
+ * the bottom returns outright.  BG_SYS_GetTileMapEntry is the same (x, y, size_code)
+ * to linear-index helper src/matched/BG_SYS_SetupTileScreen.c uses.
  *
  * Two loop-shape notes, each worth twelve bytes:
  *
@@ -3122,10 +1921,10 @@ void func_02041300(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode)
  * the range.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020413B0.c \
- *       --func func_020413B0 --addr 0x020413B0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_FillTileMap.c \
+ *       --func BG_SYS_FillTileMap --addr 0x020413B0 --cc 1.1p1 --arm
  */
-void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
+void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
 {
     u8   width;
     u8   height;
@@ -3152,34 +1951,22 @@ void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
             if (x >= width) {
                 break;
             }
-            i = func_02040EE0(x, y0, g_02146A44->bgs[index].unk_15);
+            i = BG_SYS_GetTileMapEntry(x, y0, g_02146A44->bgs[index].unk_15);
             screen[i] = (u16)((screen[i] & 0xfff) | (pal << 12));
         }
     }
 }
 
-
-
-
-
-void func_020414AC(u8 idx)
+void BG_SYS_FreeSlot(u8 idx)
 {
-    func_020414C4(idx);
+    BG_SYS_InitSlot(idx);
     BG_SYS_ClearSlot(idx);
 }
 
-
-
-
-
-void func_020414C4(u8 idx)
+void BG_SYS_InitSlot(u8 idx)
 {
     BG_SYS_InitRun(idx, (u32)g_02146A44->unk_1b0[idx], 0, g_02146A44->heapId);
 }
-
-
-
-
 
 /*
  * Clear slot `i` of the 0x2c-byte slot table behind 0x02146A44: if the
@@ -3201,10 +1988,6 @@ void BG_SYS_ClearSlot(u32 i)
     func_020409B4(i);
 }
 
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -3214,7 +1997,7 @@ void BG_SYS_ClearSlot(u32 i)
  *   python tools/match.py tu --src src/matched/unit_0204152C.c \
  *       --addr 0x0204152C --arm
  */
-void func_0204152C(int channel, u16 val)
+void BG_SYS_ClearLayer(int channel, u16 val)
 {
 
     if (g_02146A44->bgs[channel].buf == 0) {
@@ -3224,11 +2007,7 @@ void func_0204152C(int channel, u16 val)
     func_020409B4(channel);
 }
 
-
-
-
-
-void func_02041570(int channel, u16 val)
+void BG_SYS_ClearLayerEx(int channel, u16 val)
 {
 
     if (g_02146A44->bgs[channel].buf == 0) {
@@ -3237,10 +2016,6 @@ void func_02041570(int channel, u16 val)
     MIi_CpuClear16(val, g_02146A44->bgs[channel].buf, g_02146A44->bgs[channel].bufSize);
     func_02041B6C(channel);
 }
-
-
-
-
 
 u32 BG_SYS_GetGraphics(u32 channel)
 {
@@ -3256,10 +2031,6 @@ u32 BG_SYS_GetGraphics(u32 channel)
     default: return 0;
     }
 }
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -3277,54 +2048,30 @@ u32 BG_SYS_GetBuf(int channel)
     return (u32)g_02146A44->bgs[channel].buf;
 }
 
-
-
-
-
 u32 BG_SYS_GetScrollX_1648(u8 channel)
 {
     return g_02146A44->bgs[channel].scrollX;
 }
-
-
-
-
 
 u32 BG_SYS_GetScrollY_1664(u8 channel)
 {
     return g_02146A44->bgs[channel].scrollY;
 }
 
-
-
-
-
 u8 BG_SYS_GetType(int channel)
 {
     return g_02146A44->bgs[channel].type;
 }
-
-
-
-
 
 u8 BG_SYS_GetField16(int channel)
 {
     return g_02146A44->bgs[channel].unk_16;
 }
 
-
-
-
-
 u8 BG_SYS_GetField17(int channel)
 {
     return g_02146A44->bgs[channel].unk_17;
 }
-
-
-
-
 
 /*
  * The BG priority getter: returns the 2-bit priority field of the layer's
@@ -3452,26 +2199,18 @@ u8 BG_SYS_Get(u32 layer)
     return 0;
 }
 
-
-
-
-
-void func_020419E4(void)
+void BG_SYS_Update(void)
 {
     if (g_02146A44 == 0) {
         return;
     }
 
-    func_02041B94();
-    func_02041A1C();
+    BG_SYS_CommitScroll();
+    BG_SYS_CommitLayers();
 
     g_02146A44->unk_04 = 0;
     g_02146A44->unk_06 = 0;
 }
-
-
-
-
 
 /*
  * Flush the eight tile slots of the 0x2c-byte table behind 0x02146A44 whose
@@ -3481,40 +2220,36 @@ void func_020419E4(void)
  * may write it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02041A1C.c \
- *       --func func_02041A1C --addr 0x02041A1C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_CommitLayers.c \
+ *       --func BG_SYS_CommitLayers --addr 0x02041A1C --cc 1.1p1 --arm
  */
-void func_02041A1C(void)
+void BG_SYS_CommitLayers(void)
 {
     if (g_02146A44->unk_06 & 0x01)
-        func_0204241C(0, g_02146A44->bgs[0].buf, g_02146A44->bgs[0].unk_08 * 2,
+        BG_SYS_LoadTileLayer(0, g_02146A44->bgs[0].buf, g_02146A44->bgs[0].unk_08 * 2,
                       g_02146A44->bgs[0].bufSize);
     if (g_02146A44->unk_06 & 0x02)
-        func_0204241C(1, g_02146A44->bgs[1].buf, g_02146A44->bgs[1].unk_08 * 2,
+        BG_SYS_LoadTileLayer(1, g_02146A44->bgs[1].buf, g_02146A44->bgs[1].unk_08 * 2,
                       g_02146A44->bgs[1].bufSize);
     if (g_02146A44->unk_06 & 0x04)
-        func_0204241C(2, g_02146A44->bgs[2].buf, g_02146A44->bgs[2].unk_08 * 2,
+        BG_SYS_LoadTileLayer(2, g_02146A44->bgs[2].buf, g_02146A44->bgs[2].unk_08 * 2,
                       g_02146A44->bgs[2].bufSize);
     if (g_02146A44->unk_06 & 0x08)
-        func_0204241C(3, g_02146A44->bgs[3].buf, g_02146A44->bgs[3].unk_08 * 2,
+        BG_SYS_LoadTileLayer(3, g_02146A44->bgs[3].buf, g_02146A44->bgs[3].unk_08 * 2,
                       g_02146A44->bgs[3].bufSize);
     if (g_02146A44->unk_06 & 0x10)
-        func_0204241C(4, g_02146A44->bgs[4].buf, g_02146A44->bgs[4].unk_08 * 2,
+        BG_SYS_LoadTileLayer(4, g_02146A44->bgs[4].buf, g_02146A44->bgs[4].unk_08 * 2,
                       g_02146A44->bgs[4].bufSize);
     if (g_02146A44->unk_06 & 0x20)
-        func_0204241C(5, g_02146A44->bgs[5].buf, g_02146A44->bgs[5].unk_08 * 2,
+        BG_SYS_LoadTileLayer(5, g_02146A44->bgs[5].buf, g_02146A44->bgs[5].unk_08 * 2,
                       g_02146A44->bgs[5].bufSize);
     if (g_02146A44->unk_06 & 0x40)
-        func_0204241C(6, g_02146A44->bgs[6].buf, g_02146A44->bgs[6].unk_08 * 2,
+        BG_SYS_LoadTileLayer(6, g_02146A44->bgs[6].buf, g_02146A44->bgs[6].unk_08 * 2,
                       g_02146A44->bgs[6].bufSize);
     if (g_02146A44->unk_06 & 0x80)
-        func_0204241C(7, g_02146A44->bgs[7].buf, g_02146A44->bgs[7].unk_08 * 2,
+        BG_SYS_LoadTileLayer(7, g_02146A44->bgs[7].buf, g_02146A44->bgs[7].unk_08 * 2,
                       g_02146A44->bgs[7].bufSize);
 }
-
-
-
-
 
 /*
  * Sets one bit of the 16-bit request mask at +6 of the singleton reached
@@ -3525,10 +2260,6 @@ void BG_SYS_SetFlagField06(u32 bit)
 {
     g_02146A44->unk_06 |= 1 << bit;
 }
-
-
-
-
 
 /*
  * The per-frame scroll/affine flush for the whole BG system: eight
@@ -3577,10 +2308,10 @@ void BG_SYS_SetFlagField06(u32 bit)
  * with no reason to exist and loses them.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02041B94.c \
- *       --func func_02041B94 --addr 0x02041B94 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/BG_SYS_CommitScroll.c \
+ *       --func BG_SYS_CommitScroll --addr 0x02041B94 --arm --cc 1.1p1
  */
-void func_02041B94(void)
+void BG_SYS_CommitScroll(void)
 {
     u32 m  = 0x1ff;
     u32 hm = m << 16;
@@ -3661,10 +2392,6 @@ void func_02041B94(void)
     }
 }
 
-
-
-
-
 /*
  * Reset slot `index` of the module's 0x2C-byte slot array and mark it live
  * in the halfword bitmask at +4.  The slot address is one `mla`: the base
@@ -3690,10 +2417,6 @@ void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
     g_02146A44->unk_04 |= (u16)(1 << index);
 }
 
-
-
-
-
 /*
  * Three consecutive "bring one video slot up" entry points, 68 bytes each
  * and no padding between them, differing only in the helper they call:
@@ -3701,7 +2424,7 @@ void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
  * sets that slot's own bit in the halfword at +4 of the same context.
  *
  * Each helper is the three-argument set/add/sub family matched as
- * src/matched/sub_02043228.c and its siblings, so `op` and `value` pass
+ * src/matched/BG_SYS_SetAffineField.c and its siblings, so `op` and `value` pass
  * straight through in r1/r2 and the call site prepares only r0.  That is
  * what pins the register the context value lands in: written as a
  * one-argument call every instruction of the body is still right but the
@@ -3720,35 +2443,23 @@ void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
  *   python tools/match.py tu --src src/matched/unit_02041F28.c \
  *       --addr 0x02041F28 --arm
  */
-void func_02041F28(u32 which, u32 op, u16 value)
+void BG_SYS_SetScrollX(u32 which, u32 op, u16 value)
 {
     func_02043228(&g_02146A44->bgs[which], op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-
-
-
-
-void func_02041F6C(u32 which, u32 op, u32 value)
+void BG_SYS_SetScrollY(u32 which, u32 op, u32 value)
 {
     func_02043264(&g_02146A44->bgs[which], op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-
-
-
-
-void func_02041FB0(u32 which, u32 op, u16 value)
+void BG_SYS_SetAffine(u32 which, u32 op, u16 value)
 {
     func_020432E4(&g_02146A44->bgs[which], op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
-
-
-
-
 
 /*
  * bg_sys.c: does the pixel under (x, y) on a layer match the caller's
@@ -3763,7 +2474,7 @@ void func_02041FB0(u32 which, u32 op, u16 value)
  * source kept x/y and px/py in separate registers: 42); the nibble loop
  * counter i is also function-scope (15 -> 9); and i must be declared
  * before tbl, tbl before buf (9 -> 0).  All other facts (u16 first
- * parameter of func_02043130, shared fail exit, mode != 1 arm first) are
+ * parameter of BG_SYS_AllocTileBuf, shared fail exit, mode != 1 arm first) are
  * from docs/notes/pkt_02041FF4.c.txt.
  */
 u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
@@ -3778,7 +2489,7 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
   u8 v;
   if (g_02146A44->bgs[layer].buf == 0)
     return 0;
-  key = func_02040EE0((u8) (x >> 3), (u8) (y >> 3), g_02146A44->bgs[layer].unk_15);
+  key = BG_SYS_GetTileMapEntry((u8) (x >> 3), (u8) (y >> 3), g_02146A44->bgs[layer].unk_15);
   chr = (u8 *)BG_SYS_GetGraphics(layer);
   px = x & 7;
   py = y & 7;
@@ -3794,7 +2505,7 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
       buf[(i * 2) + 1] = src[i] >> 4;
     }
 
-    func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->heapId);
+    BG_SYS_AllocTileBuf((tbl[key] >> 10) & 3, buf, g_02146A44->heapId);
     v = buf[px + (py << 3)];
     func_020307B0(buf);
     if (((*flags) & (1 << v)) == 0)
@@ -3806,7 +2517,7 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
     tbl = g_02146A44->bgs[layer].buf;
     buf = func_02030734((u16)((g_02146A44->heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa8f);
     MI_CpuCopy8(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
-    func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->heapId);
+    BG_SYS_AllocTileBuf((tbl[key] >> 10) & 3, buf, g_02146A44->heapId);
     v = buf[px + (py << 3)];
     func_020307B0(buf);
   }
@@ -3826,10 +2537,6 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
 
 }
 
-
-
-
-
 /*
  * Two-dimensional table: the first argument picks a row, the second a column,
  * and each cell is a two- or three-bit index.  Rows 0 and 1 both fall through
@@ -3839,10 +2546,10 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
  * last arm if-converted too.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02042218.c \
- *       --func func_02042218 --addr 0x02042218 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ResolveScroll.c \
+ *       --func BG_SYS_ResolveScroll --addr 0x02042218 --cc 1.1p1 --arm
  */
-int func_02042218(int a0, int a1)
+int BG_SYS_ResolveScroll(int a0, int a1)
 {
     switch (a1) {
     case 0:
@@ -3879,10 +2586,6 @@ int func_02042218(int a0, int a1)
     return 0;
 }
 
-
-
-
-
 /*
  * The two register values a layer's window mode implies: six modes, each
  * writing one byte into each of the two output pointers, and nothing at all
@@ -3892,10 +2595,10 @@ int func_02042218(int a0, int a1)
  * order they are given.  The arms are byte stores, so the values are `u8`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020422D4.c \
- *       --func sub_020422D4 --addr 0x020422D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_GetModeValue.c \
+ *       --func BG_SYS_GetModeValue --addr 0x020422D4 --cc 1.1p1 --arm
  */
-void sub_020422D4(u32 mode, u8 *a, u8 *b)
+void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b)
 {
     switch (mode) {
     case 0:
@@ -3925,23 +2628,19 @@ void sub_020422D4(u32 mode, u8 *a, u8 *b)
     }
 }
 
-
-
-
-
 /*
  * The 32-bit member of the set / add / subtract family whose 16-bit
- * counterpart is src/matched/sub_02043228.c: opcodes 0..2 on the word at
+ * counterpart is src/matched/BG_SYS_SetAffineField.c: opcodes 0..2 on the word at
  * +0xc of the record in r0, opcodes 3..5 on the word at +0x10, and nothing
  * at all above 5.  Each arm loads, combines and stores the field spelled
  * out as two statements of one expression, which is what keeps a single
  * `ldr` per arm.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02042360.c \
- *       --func sub_02042360 --addr 0x02042360 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_SetScrollField.c \
+ *       --func BG_SYS_SetScrollField --addr 0x02042360 --cc 1.1p1 --arm
  */
-void sub_02042360(struct Bg_0203EF5C *p, u32 op, u32 value)
+void BG_SYS_SetScrollField(struct Bg_0203EF5C *p, u32 op, u32 value)
 {
     switch (op) {
     case 0:
@@ -3965,13 +2664,9 @@ void sub_02042360(struct Bg_0203EF5C *p, u32 op, u32 value)
     }
 }
 
-
-
-
-
 /*
  * One layer's affine setup: fill a scratch parameter block on the stack,
- * then push it into the layer through sub_02040860 with a zero transform.
+ * then push it into the layer through BG_SYS_SetScrollRegs with a zero transform.
  * The block is 0x10 bytes at sp+4 and the first call's fifth argument is
  * the word at sp+0, which is why the frame is `sub sp, sp, #0x14`: four
  * bytes of outgoing argument plus sixteen of local.
@@ -3981,20 +2676,16 @@ void sub_02042360(struct Bg_0203EF5C *p, u32 op, u32 value)
  * shared the same way and survives into the second call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020423D4.c \
- *       --func func_020423D4 --addr 0x020423D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_RotScale.c \
+ *       --func BG_SYS_RotScale --addr 0x020423D4 --cc 1.1p1 --arm
  */
-void func_020423D4(u32 layer)
+void BG_SYS_RotScale(u32 layer)
 {
     struct Mtx22 p;
 
     BUTTON_MAN_RotScaleMtx22(&p, 0, (const void *)0x1000, (const void *)0x1000, 0);
-    sub_02040860(layer, &p, 0, 0);
+    BG_SYS_SetScrollRegs(layer, &p, 0, 0);
 }
-
-
-
-
 
 /*
  * One screen-base upload for the layer in r0: flush the source range and
@@ -4010,10 +2701,10 @@ void func_020423D4(u32 layer)
  * size, the arms get source, offset and size.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204241C.c \
- *       --func func_0204241C --addr 0x0204241C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_LoadTileLayer.c \
+ *       --func BG_SYS_LoadTileLayer --addr 0x0204241C --cc 1.1p1 --arm
  */
-void func_0204241C(u32 layer, const void *src, u32 offset, u32 size)
+void BG_SYS_LoadTileLayer(u32 layer, const void *src, u32 offset, u32 size)
 {
     DC_FlushRange((void *)src, size);
 
@@ -4045,20 +2736,16 @@ void func_0204241C(u32 layer, const void *src, u32 offset, u32 size)
     }
 }
 
-
-
-
-
 /*
  * bg_sys.c.  Upload tile data to a layer, decompressing first when the
  * caller asks for mode 0.  The mode parameter does double duty: it is the
  * conversion selector on the mode-0 path and, on the direct path, it is
- * passed straight through to func_020425B4 as that call's own fourth
+ * passed straight through to BG_SYS_LoadTileLayerEx as that call's own fourth
  * argument, which is why "movs r6, r2" tests it and keeps it live.
  *
  * Three declarations carry this function, all of them from the family
  * header (docs/families/bg_sys.h):
- *   - the allocator's signature, sub_02030734(heapId, size, clear, site,
+ *   - the allocator's signature, GFL_HEAP_Alloc(heapId, size, clear, site,
  *     tag), with the u16 heap id first and the __FILE__ anchor fourth;
  *   - the scratch heap id spelling (g_02146A44->heapId & 0x7fff) | 0x8000,
  *     the same masked form BG_SYS_InitRun and BG_SYS_Init use;
@@ -4068,42 +2755,38 @@ void func_0204241C(u32 layer, const void *src, u32 offset, u32 size)
  * 0x020A7E5C.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02042508.c \
- *       --func func_02042508 --addr 0x02042508 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/BG_SYS_LoadTileDataEx.c \
+ *       --func BG_SYS_LoadTileDataEx --addr 0x02042508 --cc 1.1p1 --arm
  */
-void func_02042508(u32 index, const u32 *src, u32 mode, u32 size)
+void BG_SYS_LoadTileDataEx(u32 index, const u32 *src, u32 mode, u32 size)
 {
     if (mode == 0) {
         u32   n = *src >> 8;
         void *buf;
 
-        buf = sub_02030734((u16)((g_02146A44->heapId & 0x7fff) | 0x8000),
+        buf = GFL_HEAP_Alloc((u16)((g_02146A44->heapId & 0x7fff) | 0x8000),
                            n, 0, g_020A7E5C, 2963);
         func_02040968(src, buf, mode);
-        func_020425B4(index, buf, size, n);
+        BG_SYS_LoadTileLayerEx(index, buf, size, n);
         func_020307B0(buf);
     } else {
-        func_020425B4(index, src, size, mode);
+        BG_SYS_LoadTileLayerEx(index, src, size, mode);
     }
 }
 
-
-
-
-
 /*
- * The character-base twin of func_0204241C, byte for byte the same shape
+ * The character-base twin of BG_SYS_LoadTileLayer, byte for byte the same shape
  * over the next eight entries of the same SDK object (0x0207EE68 first,
  * 0x94 bytes each): flush, then dispatch on the layer index 0..7 with the
  * source, offset and size passed through in r1/r2/r3.  The sub-engine
  * callees are the second group of four, which is why the case order is not
- * the address order; see the symbol note in func_0204241C.c.
+ * the address order; see the symbol note in BG_SYS_LoadTileLayer.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020425B4.c \
- *       --func func_020425B4 --addr 0x020425B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_LoadTileLayerEx.c \
+ *       --func BG_SYS_LoadTileLayerEx --addr 0x020425B4 --cc 1.1p1 --arm
  */
-void func_020425B4(u32 layer, const void *src, u32 offset, u32 size)
+void BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size)
 {
     DC_FlushRange((void *)src, size);
 
@@ -4135,19 +2818,16 @@ void func_020425B4(u32 layer, const void *src, u32 offset, u32 size)
     }
 }
 
-
-
-
 /*
- * The u16 tile-to-tile copier, sibling of func_020428E8 (u8 cells) and
- * func_02042B24 (linear destination).  mode 0 clips each row and cell
+ * The u16 tile-to-tile copier, sibling of BG_SYS_BlitPixels (u8 cells) and
+ * BG_SYS_BlitTilesEx (linear destination).  mode 0 clips each row and cell
  * with u8-wrapped coordinates and skips; any other mode clips with int
  * sums, stops at the first miss and indexes the source through
- * func_02040F84.  Written in wave 11 straight from the two siblings'
+ * BG_SYS_DrawTileRegion.  Written in wave 11 straight from the two siblings'
  * settled declarations (u8 ch/sw/sh stack parameters, u8 w/h for
- * func_02040F84, `u8 w, h;` and `u8 y, x;`); EXACT at the first compile.
+ * BG_SYS_DrawTileRegion, `u8 w, h;` and `u8 y, x;`); EXACT at the first compile.
  */
-void func_020426A0(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void BG_SYS_BlitTiles(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u16 *dst;
@@ -4165,7 +2845,7 @@ void func_020426A0(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             if ((u8)(dy + y) < h && (u8)(sy + y) < sh) {
                 for (x = 0; x < cw; x++) {
                     if ((u8)(dx + x) < w && (u8)(sx + x) < sw)
-                        dst[func_02040EE0(dx + x, dy + y, s->unk_15)] =
+                        dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
                             src[sx + x + sw * (sy + y)];
                 }
             }
@@ -4177,32 +2857,29 @@ void func_020426A0(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[func_02040EE0(dx + x, dy + y, s->unk_15)] =
-                    src[func_02040F84(sx + x, sy + y, sw, sh)];
+                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
+                    src[BG_SYS_DrawTileRegion(sx + x, sy + y, sw, sh)];
             }
         }
     }
 }
 
-
-
-
 /*
  * Tile-to-tile copier: copies a cw x ch block of a source tilemap
  * (row stride sw, height sh, origin sx/sy) into the screen's tilemap at
  * dx/dy, clipped to the screen size func_020422D4 reports.  mode 0 reads
- * the source linearly, any other mode through func_02040F84's index.
+ * the source linearly, any other mode through BG_SYS_DrawTileRegion's index.
  *
  * Closed in wave 11.  Three declarations carry it: ch, sw and sh are u8
  * stack parameters even though the image loads each with a full `ldr`
  * (a u8 stack argument still occupies and is read as a word; the narrow
  * type is what moves the prologue's parameter homes, as with
- * func_02042D2C's seventh parameter), func_02040F84 is called with u8
+ * BG_SYS_BlitTileMap's seventh parameter), BG_SYS_DrawTileRegion is called with u8
  * w/h, and the two out-bytes are declared `u8 w, h;` so w lands at
- * sp+0x29 and h at sp+0x28.  The callers (func_020410D0, func_020411E8)
+ * sp+0x29 and h at sp+0x28.  The callers (BG_SYS_DrawTileEx, BG_SYS_DrawTileSub)
  * already declare the fifth parameter (ch) as u8.
  */
-void func_020428E8(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void BG_SYS_BlitPixels(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u8 *dst;
@@ -4222,7 +2899,7 @@ void func_020428E8(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[func_02040EE0(dx + x, dy + y, s->unk_15)] =
+                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
                     src[sw * (sy + y) + sx + x];
             }
         }
@@ -4233,28 +2910,25 @@ void func_020428E8(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[func_02040EE0(dx + x, dy + y, s->unk_15)] =
-                    src[func_02040F84(sx + x, sy + y, sw, sh)];
+                dst[BG_SYS_GetTileMapEntry(dx + x, dy + y, s->unk_15)] =
+                    src[BG_SYS_DrawTileRegion(sx + x, sy + y, sw, sh)];
             }
         }
     }
 }
 
-
-
-
 /*
- * The halfword sibling of func_020428E8: copies a cw x ch block of u16
+ * The halfword sibling of BG_SYS_BlitPixels: copies a cw x ch block of u16
  * source cells into a linear w-wide screen buffer at dx/dy.  mode 0 clips
  * each row and cell with u8-wrapped coordinates and skips (the source row
  * index itself is the unwrapped sy + y); any other mode clips with plain
  * int sums, stops at the first miss, and indexes the source through
- * func_02040F84.  Closed in wave 11 with the same declarations as
- * func_020428E8 (ch, sw, sh are u8 stack parameters; func_02040F84 takes
+ * BG_SYS_DrawTileRegion.  Closed in wave 11 with the same declarations as
+ * BG_SYS_BlitPixels (ch, sw, sh are u8 stack parameters; BG_SYS_DrawTileRegion takes
  * u8 w/h; `u8 w, h;` puts w at sp+0x1d) and the loop counters declared
  * `u8 y, x;`.
  */
-void func_02042B24(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void BG_SYS_BlitTilesEx(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u16 *dst;
@@ -4283,21 +2957,18 @@ void func_02042B24(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[dx + x + w * (dy + y)] = src[func_02040F84((u8)(sx + x), (u8)(sy + y), sw, (u8)sh)];
+                dst[dx + x + w * (dy + y)] = src[BG_SYS_DrawTileRegion((u8)(sx + x), (u8)(sy + y), sw, (u8)sh)];
             }
         }
     }
 }
 
-
-
-
 /*
- * The third of the three tilemap blitters func_02041300 dispatches to on the
+ * The third of the three tilemap blitters BG_SYS_SetTileEntry dispatches to on the
  * bit-depth byte at +0x1c of the 0x2c-byte slot.  Its two siblings are
- * src/matched/func_02042E34.c (8bpp pixel fill, tiled addressing, u8 buffer)
- * and src/matched/func_02042ED8.c (text fill, linear addressing, u16 buffer);
- * this one is func_02042ED8's three write modes over func_02042E34's tiled
+ * src/matched/BG_SYS_BlitPixelsEx.c (8bpp pixel fill, tiled addressing, u8 buffer)
+ * and src/matched/BG_SYS_BlitTileMapEx.c (text fill, linear addressing, u16 buffer);
+ * this one is BG_SYS_BlitTileMapEx's three write modes over BG_SYS_BlitPixelsEx's tiled
  * addressing, into a u16 buffer.  Like both of those it is handed the slot's
  * sub-object (slot + 8), so the buffer pointer is at +0x00 and the
  * screen-size code at +0x15, i.e. slot +0x08 and slot +0x1d.
@@ -4307,11 +2978,11 @@ void func_02042B24(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
  *     0x10     entry = value + (entry & 0xf000)      keep the palette nibble
  *     other    entry = (u16)(value + (mode << 12))   fold the mode in
  * The third form is loop-invariant and is materialised once in the preheader.
- * func_02040EE0 is called once per cell, before the dispatch, so its result
+ * BG_SYS_GetTileMapEntry is called once per cell, before the dispatch, so its result
  * has to be bound to a local; writing the call out in each arm emits it three
  * times.
  *
- * WHAT CLOSED IT (wave 2 of this family).  docs/notes/func_02042D2C.c.txt
+ * WHAT CLOSED IT (wave 2 of this family).  docs/notes/BG_SYS_BlitTileMap.c.txt
  * recorded an 11-byte plateau at +0x10..+0x18, three mutually independent
  * prologue instructions issued in a different order:
  *     +0010  orig mov sb, r1          got ldr r7, [sp, #0x38]
@@ -4336,14 +3007,14 @@ void func_02042B24(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
  * function up: value as u32 costs 157 bytes, x0 as u32 170, y0 as u32 190,
  * the helper result as u16 107.
  *
- * This unblocks src/pending/func_02041300.c (fan-in 224), which needed all
+ * This unblocks src/pending/BG_SYS_SetTileEntry.c (fan-in 224), which needed all
  * three blitters as `matched` witnesses and now has them.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02042D2C.c \
- *       --func func_02042D2C --addr 0x02042D2C --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/BG_SYS_BlitTileMap.c \
+ *       --func BG_SYS_BlitTileMap --addr 0x02042D2C --arm --cc 1.1p1
  */
-void func_02042D2C(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+void BG_SYS_BlitTileMap(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u8 mode)
 {
     u8   width;
@@ -4371,7 +3042,7 @@ void func_02042D2C(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                 break;
             }
 
-            i = func_02040EE0(x, y, s->unk_15);
+            i = BG_SYS_GetTileMapEntry(x, y, s->unk_15);
 
             if (mode == 0x11) {
                 entries[i] = value;
@@ -4384,18 +3055,15 @@ void func_02042D2C(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
     }
 }
 
-
-
-
 /*
- * The 8bpp-screen fill of the three blitters func_02041300 dispatches to on
+ * The 8bpp-screen fill of the three blitters BG_SYS_SetTileEntry dispatches to on
  * the bit-depth byte at +0x1c of the 0x2c-byte slot.  It takes the slot's
  * sub-object (slot + 8) rather than the slot index, so the buffer pointer is
  * at +0x00 and the screen-size code at +0x15, which are slot +0x08 and
- * +0x1d, the same two fields src/matched/func_020413B0.c reaches through the
+ * +0x1d, the same two fields src/matched/BG_SYS_FillTileMap.c reaches through the
  * table.
  *
- * Same clip-and-scan shape as func_020413B0, and the same two loop-shape
+ * Same clip-and-scan shape as BG_SYS_FillTileMap, and the same two loop-shape
  * rules apply here: the y bound is only the `for` condition (the compiler's
  * loop-rotation entry test is the guard), and the x bound stays the
  * expression `x < x0 + w` so that it is hoisted into the outer preheader,
@@ -4407,10 +3075,10 @@ void func_02042D2C(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
  * store through the buffer pointer may alias it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02042E34.c \
- *       --func func_02042E34 --addr 0x02042E34 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_BlitPixelsEx.c \
+ *       --func BG_SYS_BlitPixelsEx --addr 0x02042E34 --cc 1.1p1 --arm
  */
-void func_02042E34(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
+void BG_SYS_BlitPixelsEx(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
 {
     u8  width;
     u8  height;
@@ -4435,20 +3103,17 @@ void func_02042E34(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
             if (x >= width) {
                 break;
             }
-            pixels[func_02040EE0(x, y0, s->unk_15)] = value;
+            pixels[BG_SYS_GetTileMapEntry(x, y0, s->unk_15)] = value;
         }
     }
 }
 
-
-
-
 /*
- * The text-screen fill of the three blitters func_02041300 dispatches to.
- * Like func_02042E34 it takes the slot's sub-object (slot + 8), so the
+ * The text-screen fill of the three blitters BG_SYS_SetTileEntry dispatches to.
+ * Like BG_SYS_BlitPixelsEx it takes the slot's sub-object (slot + 8), so the
  * buffer pointer is at +0x00 and the screen-size code at +0x15, but the
  * buffer is a linear u16 screen here: the row base is `width * y`, not the
- * tiled func_02040EE0 mapping.
+ * tiled BG_SYS_GetTileMapEntry mapping.
  *
  * The seventh argument is the write mode and decides what lands in the
  * entry: 0x11 writes the value as it stands, 0x10 keeps the existing palette
@@ -4470,13 +3135,13 @@ void func_02042E34(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
  * `[r3, sl]`.
  *
  * The mode arrives on the stack as a full word (`ldr`, not `ldrb`), so it is
- * `u32` here even though func_02041300 hands it a value that fits in a byte.
+ * `u32` here even though BG_SYS_SetTileEntry hands it a value that fits in a byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02042ED8.c \
- *       --func func_02042ED8 --addr 0x02042ED8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_BlitTileMapEx.c \
+ *       --func BG_SYS_BlitTileMapEx --addr 0x02042ED8 --cc 1.1p1 --arm
  */
-void func_02042ED8(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+void BG_SYS_BlitTileMapEx(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u32 mode)
 {
     u8   width;
@@ -4513,20 +3178,17 @@ void func_02042ED8(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
     }
 }
 
-
-
-
 /*
  * Poke one tile entry into the screen buffer of table slot `idx`.  The
  * table is the 0x2c-byte-per-slot array hanging off the singleton pointer
  * at 0x02146A44 (the same one BG_SYS_Delete_03F4 tears down): +8 is the screen
- * buffer and +0x1d the screen-size code that tells func_02040EE0 how to
+ * buffer and +0x1d the screen-size code that tells BG_SYS_GetTileMapEntry how to
  * fold (x, y) into a linear index.  A slot with no buffer is skipped.
  *
  * The three `and rN, rM, #0xff` are the truncations at the call, not casts
- * in this function's own arithmetic; func_02040EE0 takes three u8.
+ * in this function's own arithmetic; BG_SYS_GetTileMapEntry takes three u8.
  */
-void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
+void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value)
 {
 
     u16 *screen = (u16 *)g_02146A44->bgs[idx].buf;
@@ -4536,11 +3198,8 @@ void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
         return;
     }
 
-    screen[(u32)func_02040EE0((u8)x, (u8)y, (u8)code)] = value;
+    screen[(u32)BG_SYS_GetTileMapEntry((u8)x, (u8)y, (u8)code)] = value;
 }
-
-
-
 
 /*
  * The reserve half of the pair whose release half is BG_SYS_DeleteBlock: same
@@ -4553,7 +3212,7 @@ void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
  * `(size & 0x1f) ? 1 : 0`; see BG_SYS_DeleteBlock.c for why the relational form
  * reschedules.
  */
-void sub_02042FF8(u32 idx, u32 offset, u32 size)
+void BG_SYS_SetupLayer(u32 idx, u32 offset, u32 size)
 {
     switch (idx) {
     case 0:
@@ -4578,9 +3237,6 @@ void sub_02042FF8(u32 idx, u32 offset, u32 size)
         break;
     }
 }
-
-
-
 
 /*
  * Release one block back to whichever of the two arenas the slot index
@@ -4624,9 +3280,6 @@ void BG_SYS_DeleteBlock(u32 idx, u32 offset, u32 size)
     }
 }
 
-
-
-
 /*
  * Reorder an 8x8 tile in place, using one 0x40-byte scratch tile from the
  * heap the caller names in `page` (its low 15 bits, with bit 15 set).
@@ -4650,10 +3303,10 @@ void BG_SYS_DeleteBlock(u32 idx, u32 offset, u32 size)
  *    shape; the helper at 0x02082D44 is the project's 8-bit copy.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02043130.c \
- *       --func func_02043130 --addr 0x02043130 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_AllocTileBuf.c \
+ *       --func BG_SYS_AllocTileBuf --addr 0x02043130 --cc 1.1p1 --arm
  */
-void func_02043130(u16 flags, u8 *buf, u32 page)
+void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page)
 {
     u8 *tmp;
     u16 heap;
@@ -4689,9 +3342,6 @@ void func_02043130(u16 flags, u8 *buf, u32 page)
     func_020307B0(tmp);
 }
 
-
-
-
 /*
  * The 16-bit member of the set / add / subtract family that BG_SYS_Apply
  * and BG_SYS_ApplyCenterOp cover for the 32-bit registers: opcodes 0..2 on the
@@ -4700,7 +3350,7 @@ void func_02043130(u16 flags, u8 *buf, u32 page)
  * `ldrheq`/`subeq`/`strheq` in the fall-through block and only the first
  * two get out-of-line bodies.
  */
-void sub_02043228(struct Bg_0203EF5C *p, u32 op, u16 value)
+void BG_SYS_SetAffineField(struct Bg_0203EF5C *p, u32 op, u16 value)
 {
     switch (op) {
     case 0:
@@ -4714,9 +3364,6 @@ void sub_02043228(struct Bg_0203EF5C *p, u32 op, u16 value)
         break;
     }
 }
-
-
-
 
 /*
  * Apply one of three operations (set / add / subtract) to one of two
@@ -4759,7 +3406,6 @@ void BG_SYS_Apply(struct Bg_0203EF5C *p, u32 op, u32 value)
     }
 }
 
-
 /* Opcode numbers; 0..8 belong to the rotation and scale versions. */
 enum {
     BG_CENTER_X_SET = 9,
@@ -4769,7 +3415,6 @@ enum {
     BG_CENTER_Y_ADD = 13,
     BG_CENTER_Y_SUB = 14
 };
-
 
 void BG_SYS_ApplyCenterOp(struct Bg_020432E4 *bg, u32 opcode, u32 operand)
 {

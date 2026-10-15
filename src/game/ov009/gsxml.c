@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0217EAB0                    0x0217eab0 arm  ov009
- *   func_0217D254                    0x0217d254 arm  ov009
+ *   gsimalloc                    0x0217eab0 arm  ov009
+ *   gsDebugFormat                    0x0217d254 arm  ov009
  *   strlen                    0x0209477c arm
  *   gsiXmlUtilWriteString                    0x0218325c arm  ov009
- *   func_0217EAE0                    0x0217eae0 arm  ov009
+ *   gsifree                    0x0217eae0 arm  ov009
  *   gsiXmlUtilWriteChar                    0x02183210 arm  ov009
  *   gGsXmlOomWriterFormat                       0x021a3de4 data
  *   gGsXmlNamespacePrefix                       0x021a3e20 data
@@ -167,14 +167,13 @@ typedef struct gsLargeInt_s {
     unsigned int mData[64];
 } gsLargeInt;
 
-extern void *func_0217EAB0(unsigned long size);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void *gsimalloc(unsigned long size);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
 extern void *gsimalloc(unsigned long size);
 extern void gsifree(void *ptr);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ArrayFree(void *array);
 extern int gsXmlMoveToStart(void *stream);
@@ -306,9 +305,9 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     int namespaceLen = 0;
     int i;
 
-    newStream = func_0217EAB0(sizeof(GSIXmlStreamWriter));
+    newStream = gsimalloc(sizeof(GSIXmlStreamWriter));
     if (newStream == 0) {
-        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
+        gsDebugFormat(0xc, (char *)2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
         return 0;
     }
 
@@ -323,9 +322,9 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     while (initialCapacity < namespaceLen)
         initialCapacity += 1024;
 
-    newStream->buffer = func_0217EAB0(initialCapacity);
+    newStream->buffer = gsimalloc(initialCapacity);
     if (newStream->buffer == 0) {
-        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, initialCapacity);
+        gsDebugFormat(0xc, (char *)2, 1, gGsXmlOomWriterFormat, initialCapacity);
         return 0;
     }
     newStream->capacity = initialCapacity;
@@ -334,16 +333,16 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
     newStream->closed = 0;
 
     if (!gsiXmlUtilWriteString(newStream, gGsXmlSoapEnvelopeStart)) {
-        func_0217EAE0(newStream->buffer);
-        func_0217EAE0(newStream);
+        gsifree(newStream->buffer);
+        gsifree(newStream);
         return 0;
     }
     for (i = 0; i < 4; i++) {
         if (!gsiXmlUtilWriteChar(newStream, ' ') ||
             !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
             !gsiXmlUtilWriteString(newStream, gGsXmlSoapDefaultNamespaces[i])) {
-            func_0217EAE0(newStream->buffer);
-            func_0217EAE0(newStream);
+            gsifree(newStream->buffer);
+            gsifree(newStream);
             return 0;
         }
     }
@@ -351,15 +350,15 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
         if (!gsiXmlUtilWriteChar(newStream, ' ') ||
             !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
             !gsiXmlUtilWriteString(newStream, namespaces[i])) {
-            func_0217EAE0(newStream->buffer);
-            func_0217EAE0(newStream);
+            gsifree(newStream->buffer);
+            gsifree(newStream);
             return 0;
         }
     }
     if (!gsiXmlUtilWriteChar(newStream, '>') ||
         !gsiXmlUtilWriteString(newStream, gGsXmlSoapBodyStart)) {
-        func_0217EAE0(newStream->buffer);
-        func_0217EAE0(newStream);
+        gsifree(newStream->buffer);
+        gsifree(newStream);
         return 0;
     }
     return newStream;
@@ -389,20 +388,20 @@ void *gsXmlCreateStreamReader(void)
     newStream = (GSIXmlStreamReader *)gsimalloc(sizeof(GSIXmlStreamReader));
     if (newStream == 0)
     {
-        gsDebugFormat(12, 2, 1, gGsXmlOomStreamFormat, sizeof(GSIXmlStreamReader));
+        gsDebugFormat(12, (char *)2, 1, gGsXmlOomStreamFormat, sizeof(GSIXmlStreamReader));
         return 0;
     }
     newStream->elements = ArrayNew(24, 32, gsiXmlUtilElementFree);
     if (newStream->elements == 0)
     {
-        gsDebugFormat(12, 2, 1, gGsXmlOomElementArrayFormat);
+        gsDebugFormat(12, (char *)2, 1, gGsXmlOomElementArrayFormat);
         gsifree(newStream);
         return 0;
     }
     newStream->attributes = ArrayNew(24, 16, gsiXmlUtilAttributeFree);
     if (newStream->attributes == 0)
     {
-        gsDebugFormat(12, 2, 1, gGsXmlOomElementArrayFormat);
+        gsDebugFormat(12, (char *)2, 1, gGsXmlOomElementArrayFormat);
         ArrayFree(newStream->elements);
         gsifree(newStream);
         return 0;
@@ -435,8 +434,8 @@ int gsXmlParseBuffer(void *stream, char *data, int len)
  */
 void gsXmlFreeWriter(void **writerRef)
 {
-    func_0217EAE0(*writerRef);
-    func_0217EAE0(writerRef);
+    gsifree(*writerRef);
+    gsifree(writerRef);
 }
 
 

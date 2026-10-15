@@ -1,5 +1,5 @@
 /*
- * function: func_021FAF54
+ * function: STA_ACT_SCRIPT_SetPendingFlag
  * address:  0x021FAF54
  * packet:   pkt_021FAF54
  * region:   ov132
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 
-int func_021FAF54(int a, char *b)
+int STA_ACT_SCRIPT_SetPendingFlag(int a, char *b)
 {
     VM_GetU32(((struct Obj10543 *)b)->f4);
     if (((struct Obj10543 *)b)->f16 & 2)

@@ -31,7 +31,7 @@
  *   func_0207DCF8 0x0207DCF8 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
  *   func_021B6E4C 0x021B6E4C thumb ov133
  *   func_02040588 0x02040588 arm
@@ -82,7 +82,7 @@ extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec *,Vec *,Vec *,
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(void *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetLowBit(u32);
 extern void func_021B6E4C(const void *t, unsigned int id);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -125,7 +125,7 @@ void func_021B69AC(u8 *p)
     *(volatile u16 *)0x04000060 &= 0xcfdf;
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((struct DispConfig *)d_021BA428); BG_SYS_SetLowBit(1);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BA428); BG_SYS_SetLowBit(1);
     func_021B6E4C(d_021BA438,1); func_021B6E4C(d_021BA458,2);
     func_021B6E4C(d_021BA478,3); func_021B6E4C(d_021BA4F8,7);
     func_021B6E4C(d_021BA498,4); func_021B6E4C(d_021BA4B8,5); func_021B6E4C(d_021BA4D8,6);

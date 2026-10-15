@@ -13,7 +13,7 @@
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera 0x021BA130 thumb ov221
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact 0x021BA094 thumb ov221
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg 0x021BA010 thumb ov221
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -26,7 +26,7 @@ extern void func_02030EAC(struct Node *n);
 extern int CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int*);
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char*);
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void*);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void*,int,u32);
 extern u32 func_020307B0(void *p);
 /* volatile accesses: display cleanup, original 021B9F46..021B9F60. */
@@ -36,7 +36,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char*p)
  CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera((int*)(p+8));
  CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(p+4);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(p);
- func_0201DD68();
+ GF_FONT_SetDefaultTextColor();
  *(volatile u16*)0x04000050=0;
  *(volatile u16*)0x04001050=0;
  *(volatile u32*)0x04000000 &= ~0xe000u;

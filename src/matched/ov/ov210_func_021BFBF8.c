@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBF8
+ * function: ZKNSEARCH_MAIN_MoveColumnActors
  * address:  0x021BFBF8
  * packet:   pkt_ov210_021BFBF8
  * region:   ov210
@@ -10,45 +10,45 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEE04 0x021BEE04 thumb ov210
- *   func_021BEE58 0x021BEE58 thumb ov210
- *   func_021BEE38 0x021BEE38 thumb ov210
- *   func_021BEDF0 0x021BEDF0 thumb ov210
+ *   ZKNSEARCH_MAIN_GetActorVisible 0x021BEE04 thumb ov210
+ *   ZKNSEARCH_MAIN_GetActorSurfacePos 0x021BEE58 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorSurfacePos 0x021BEE38 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorVisible 0x021BEDF0 thumb ov210
  * Addresses are Black-image addresses.
  */
 
-extern int func_021BEE04(int p, int i);
-extern void func_021BEE58(char *p, int idx, short *outA, short *outB, unsigned short in);
-extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
-extern void func_021BEDF0(int p, int i, int v);
+extern int ZKNSEARCH_MAIN_GetActorVisible(int p, int i);
+extern void ZKNSEARCH_MAIN_GetActorSurfacePos(char *p, int idx, short *outA, short *outB, unsigned short in);
+extern void ZKNSEARCH_MAIN_SetActorSurfacePos(char *p, int idx, int a, short b, unsigned short c);
+extern void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
 
-void func_021BFBF8(int p, int v)
+void ZKNSEARCH_MAIN_MoveColumnActors(int p, int v)
 {
     unsigned i;
     short pos[2];
 
     for (i = 9; i <= 10; i++) {
-        if (func_021BEE04(p, i) != 0) {
+        if (ZKNSEARCH_MAIN_GetActorVisible(p, i) != 0) {
             int t;
 
-            func_021BEE58((char *)p, i, &pos[1], &pos[0], 0);
-            func_021BEE38((char *)p, i, (short)pos[1], (short)(pos[0] + v), (int)0);
+            ZKNSEARCH_MAIN_GetActorSurfacePos((char *)p, i, &pos[1], &pos[0], 0);
+            ZKNSEARCH_MAIN_SetActorSurfacePos((char *)p, i, (short)pos[1], (short)(pos[0] + v), (int)0);
             t = pos[0] + v;
             if (t <= -12 || t >= 0xcc)
-                func_021BEDF0(p, i, 0);
+                ZKNSEARCH_MAIN_SetActorVisible(p, i, 0);
         }
     }
     for (i = 11; i <= 12; i++) {
-        if (func_021BEE04(p, i) != 0) {
+        if (ZKNSEARCH_MAIN_GetActorVisible(p, i) != 0) {
             int t;
 
-            func_021BEE58((char *)p, i, &pos[1], &pos[0], 1);
-            func_021BEE38((char *)p, i, (short)pos[1], (short)(pos[0] + v), (int)1);
-            func_021BEE38((char *)p, i + 2, (short)pos[1], (short)(pos[0] + v), (int)1);
+            ZKNSEARCH_MAIN_GetActorSurfacePos((char *)p, i, &pos[1], &pos[0], 1);
+            ZKNSEARCH_MAIN_SetActorSurfacePos((char *)p, i, (short)pos[1], (short)(pos[0] + v), (int)1);
+            ZKNSEARCH_MAIN_SetActorSurfacePos((char *)p, i + 2, (short)pos[1], (short)(pos[0] + v), (int)1);
             t = pos[0] + v;
             if (t <= -12 || t >= 0xcc) {
-                func_021BEDF0(p, i, 0);
-                func_021BEDF0(p, i + 2, 0);
+                ZKNSEARCH_MAIN_SetActorVisible(p, i, 0);
+                ZKNSEARCH_MAIN_SetActorVisible(p, i + 2, 0);
             }
         }
     }

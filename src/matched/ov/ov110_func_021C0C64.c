@@ -19,7 +19,7 @@
  * Caller-only tu --suggest-split: MATCH208, no viable partition.
  * symbols:
  *   PMS_DRAW_IsPrintEnd 0x0202DC98 thumb
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   PMSI_PARAM_GetSentenceType 0x0202452C thumb
  *   PMS_SELECT_GRAPHIC_ColorTitleBg 0x021C09E8 thumb ov110
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 struct Obj0202DC98;
 struct Obj0202DCC4;
 extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
-extern void func_02041570(int,u16);
+extern void BG_SYS_ClearLayerEx(int,u16);
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern int PMSI_PARAM_GetSentenceType(const u16 *p);
 extern void PMS_SELECT_GRAPHIC_ColorTitleBg(char *p, int pal);
@@ -46,7 +46,7 @@ void PMS_SELECT_GRAPHIC_DrawRows(u8 *p,int flag)
 {
     int i;
     if(flag && !PMS_DRAW_IsPrintEnd(*(void **)(p+0x8c))) return;
-    func_02041570(2,0);
+    BG_SYS_ClearLayerEx(2,0);
     if(p[0x96]) {
         PMS_SELECT_GRAPHIC_ColorTitleBg((char *)(p+0x24),PMSI_PARAM_GetSentenceType(PMS_WORD_GetSaveEntry(*(void **)(p+0x20),(u8)(p[0x96]-1))));
     }

@@ -15,7 +15,7 @@
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   DPW_TR_Main 0x021C7C1C arm ov114
  *   PROCSYS_Main 0x02031330 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   WORLDTRADE_ADAPTER_UpdatePrinter 0x02202770 thumb ov135
  *   WORLDTRADE_SetupWindowPlanes 0x021F49A8 thumb ov135
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
@@ -37,7 +37,7 @@ extern int WORLDTRADE_GetWifiLinkLevel(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void DPW_TR_Main(void);
 extern u32 PROCSYS_Main(void *);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *);
 extern void WORLDTRADE_SetupWindowPlanes(void);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -53,7 +53,7 @@ int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, u8 *p)
     }
     DPW_TR_Main();
     ((struct Obj02853 *)p)->f12F4 = PROCSYS_Main(((struct Obj02853 *)p)->f12F0);
-    func_02030D28(((struct Obj02853 *)p)->fF94);
+    TCB_Main(((struct Obj02853 *)p)->fF94);
     WORLDTRADE_ADAPTER_UpdatePrinter(p + 0xfa0);
     switch (*state) {
     case 0:

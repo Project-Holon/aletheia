@@ -1,5 +1,5 @@
 /*
- * function: func_021F4794
+ * function: MUSICAL_MCSS_PrintStream
  * address: 0x021F4794
  * packet: pkt_ov112_021F4794
  * region: ov112
@@ -15,6 +15,7 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "../include/Obj01395.h"
 typedef unsigned char u8;
@@ -32,8 +33,8 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
-extern void func_0201F73C(void *,int,int,int);
-void func_021F4794(u8 *p,u32 index)
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
+void MUSICAL_MCSS_PrintStream(u8 *p,u32 index)
 {
     u32 t;
     if (((struct Obj01395 *)p)->f24) {
@@ -48,5 +49,5 @@ void func_021F4794(u8 *p,u32 index)
     ((struct Obj01395 *)p)->f2C=func_02045EC0((struct MsgBank *)(((struct Obj01395 *)p)->f28),index);
     t=MSG_SPEED_GetWait();
     *(u32 *)&((struct Obj01395 *)p)->f24=PRINTSYS_PrintStream(*(u32 *)&((struct Obj01395 *)p)->f1C,0,0,*(u32 *)&((struct Obj01395 *)p)->f2C,((struct Obj01395 *)p)->f20,t,((struct Obj01395 *)p)->f18,2,((struct Obj01395 *)p)->f0,0);
-    func_0201F73C(((struct Obj01395 *)p)->f1C,1,1,11);
+    BMP_MENUWORK_DrawWindow(((struct Obj01395 *)p)->f1C,1,1,11);
 }

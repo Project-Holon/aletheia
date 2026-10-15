@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02019A50 0x02019A50 thumb
- *   func_02019C38 0x02019C38 thumb
+ *   POKE_CRYPTO_XorBlock 0x02019A50 thumb
+ *   POKE_TOOL_GetBoxSubstruct 0x02019C38 thumb
  */
 #include "../include/Obj00685.h"
 #include "../include/Obj01968.h"
@@ -26,21 +26,21 @@ typedef struct { u32 a:5,b:5,c:5,d:5,e:5,f:5,g:1,h:1; } Packed;
 typedef struct { u8 a:1,b:2,c:5; } Byte;
 struct Mon { u32 seed; Flags flags; u16 check; u8 block[0x80]; };
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_02019A50(u16 *,u32,u32);
-extern void *func_02019C38(struct Mon *,u32,u32);
+extern void POKE_CRYPTO_XorBlock(u16 *,u32,u32);
+extern void *POKE_TOOL_GetBoxSubstruct(struct Mon *,u32,u32);
 void BATTLE_REC_TOOL_PackMon(struct Mon *p,char *q)
 {
     char *a,*b,*c,*d;
     int i;
     MI_CpuFill8(q,0,0x70);
     if (!p->flags.a) {
-        func_02019A50((u16 *)((char *)p+0x88),0x54,p->seed);
-        func_02019A50((u16 *)p->block,0x80,p->check);
+        POKE_CRYPTO_XorBlock((u16 *)((char *)p+0x88),0x54,p->seed);
+        POKE_CRYPTO_XorBlock((u16 *)p->block,0x80,p->check);
     }
-    a=func_02019C38(p,p->seed,0);
-    b=func_02019C38(p,p->seed,1);
-    c=func_02019C38(p,p->seed,2);
-    d=func_02019C38(p,p->seed,3);
+    a=POKE_TOOL_GetBoxSubstruct(p,p->seed,0);
+    b=POKE_TOOL_GetBoxSubstruct(p,p->seed,1);
+    c=POKE_TOOL_GetBoxSubstruct(p,p->seed,2);
+    d=POKE_TOOL_GetBoxSubstruct(p,p->seed,3);
     ((struct Obj00685 *)q)->f0=p->seed;
     ((Flags *)(q+4))->a=0;
     ((Flags *)(q+4))->b=0;
@@ -89,7 +89,7 @@ void BATTLE_REC_TOOL_PackMon(struct Mon *p,char *q)
     ((struct Obj00685 *)q)->f6C=((struct Obj02905 *)p)->f98;
     ((struct Obj00685 *)q)->f6E=((struct Obj02905 *)p)->f9A;
     if (!p->flags.a) {
-        func_02019A50((u16 *)((char *)p+0x88),0x54,p->seed);
-        func_02019A50((u16 *)p->block,0x80,p->check);
+        POKE_CRYPTO_XorBlock((u16 *)((char *)p+0x88),0x54,p->seed);
+        POKE_CRYPTO_XorBlock((u16 *)p->block,0x80,p->check);
     }
 }

@@ -12,10 +12,10 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   IRC_RANKING_GfxInit 0x021B7D14 thumb ov106
  *   IRC_RANKING_ClactInit 0x021B7F88 thumb ov106
  *   IRC_RANKING_DisplayVBlankTask 0x021B80BC thumb ov106
@@ -28,10 +28,10 @@ extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void IRC_RANKING_GfxInit(u32 *, void *, u32);
 extern void IRC_RANKING_ClactInit(void **, int, int);
 extern void IRC_RANKING_DisplayVBlankTask(void *, u8 *);
@@ -45,10 +45,10 @@ void IRC_RANKING_DisplayInit(u8 *p, void *a, u32 b) {
  *(volatile unsigned *)0x04001000 &= ~0xe000;
  BG_SYS_ClearGraphicsMemory(0);
  BG_SYS_SetVramBanks((const struct DispVram *)gIrcRankingVramConfig);
- func_0204363C(1);
+ BMP_SetDisplaySwap(1);
  BG_SYS_ResetSubDisplay();
  BG_SYS_ClearMainPlanes();
- func_0201DD60();
+ GF_FONT_InitTextColor();
  IRC_RANKING_GfxInit((u32 *)p,a,b);
  IRC_RANKING_ClactInit((void **)(p+0x10),(int)gIrcRankingVramConfig,b);
  *(void **)(p+0x24)=func_020056A0(IRC_RANKING_DisplayVBlankTask,p,0);

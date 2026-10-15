@@ -14,8 +14,8 @@
  *   No temporary array, narrowed pointer/index or uninitialized read added.
  * symbols:
  *   STRBUF_SetStringN 0x02045994 arm
- *   func_0201D670 0x0201D670 thumb
- *   func_0201D688 0x0201D688 thumb
+ *   GF_FONT_GetTagParam 0x0201D670 thumb
+ *   GF_FONT_SkipTag 0x0201D688 thumb
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,8 +27,8 @@ typedef struct Cursor {
     u16 f0c;
 } Cursor;
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
-extern u32 func_0201D670(const u16 *,u32);
-extern u16 *func_0201D688(u16 *);
+extern u32 GF_FONT_GetTagParam(const u16 *,u32);
+extern u16 *GF_FONT_SkipTag(u16 *);
 int PMSIV_EDIT_ParserNext(Cursor *p,struct Strbuf *out)
 {
     u16 *start;
@@ -47,8 +47,8 @@ int PMSIV_EDIT_ParserNext(Cursor *p,struct Strbuf *out)
         STRBUF_SetStringN(out,start,(p->f04-start)+1);
         return 0;
     case 1:
-        p->f0c=func_0201D670(start,0);
-        p->f04=func_0201D688(p->f04);
+        p->f0c=GF_FONT_GetTagParam(start,0);
+        p->f04=GF_FONT_SkipTag(p->f04);
         result=1;
         break;
     case 2:

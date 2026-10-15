@@ -18,9 +18,9 @@
  *   EGG_DEMO_MAIN_InitActors 0x021F5DAC thumb ov215
  *   EGG_DEMO_MENU_Create 0x021F6060 thumb ov215
  *   EGG_DEMO_MENU_InitDialog 0x021F6280 thumb ov215
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_0207D63C 0x0207D63C arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   EGG_DEMO_VIEW_Create 0x021F6720 thumb ov215
  */
 #include "../include/Obj03372.h"
@@ -39,9 +39,9 @@ extern void EGG_DEMO_MAIN_LoadGraphics(int,char *);
 extern void EGG_DEMO_MAIN_InitActors(int,struct Context *);
 extern void EGG_DEMO_MENU_Create(int,char *);
 extern void EGG_DEMO_MENU_InitDialog(int,u8 *);
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void func_0207D63C(u32 *,u32,u32,int,int);
-extern void func_02040EBC(u32,u32);
+extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern char *EGG_DEMO_VIEW_Create(u32,void *);
 void EGG_DEMO_MAIN_Init(int a,char *p)
 {
@@ -55,15 +55,15 @@ void EGG_DEMO_MAIN_Init(int a,char *p)
     EGG_DEMO_MAIN_InitActors(a,(struct Context *)p);
     EGG_DEMO_MENU_Create(a,p);
     EGG_DEMO_MENU_InitDialog(a,(u8 *)p);
-    func_0204047C(0,2);
-    func_0204047C(2,1);
-    func_0204047C(1,0);
-    func_0204047C(4,0);
+    BG_SYS_SetVisibleLayer(0,2);
+    BG_SYS_SetVisibleLayer(2,1);
+    BG_SYS_SetVisibleLayer(1,0);
+    BG_SYS_SetVisibleLayer(4,0);
     func_02040588(0,1);
     func_02040588(2,1);
     func_02040588(4,1);
     func_0207D63C((u32 *)0x04000050,1,47,0,0);
-    func_02040EBC(0,0x4210);
-    func_02040EBC(4,0);
+    BG_SYS_LoadPlttEntry(0,0x4210);
+    BG_SYS_LoadPlttEntry(4,0);
     *(char * *)&((struct Obj03372 *)p)->f80=EGG_DEMO_VIEW_Create(((struct Obj03372 *)p)->f0,((struct Obj25737 *)((u32)a))->f4);
 }

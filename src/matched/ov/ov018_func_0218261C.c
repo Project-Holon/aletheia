@@ -20,9 +20,9 @@
  *   BEACON_SubPoints  0x0200C29C  thumb
  *   func_02007E3C  0x02007E3C  thumb
  *   func_02007E50  0x02007E50  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_Callback_EF40  0x0201EF40  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
  *   INTRUDE_COMM_PickEntryForKind  0x021763D8  thumb  ov011
@@ -76,9 +76,9 @@ extern u32 BEACON_GetPoints(struct Blk34 *p);
 extern u32 BEACON_SubPoints(struct Blk34 *p, u32 v);
 extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern int INTRUDE_COMM_SendReply(int a, int b, int c, int d);
 extern void INTRUDE_COMM_PickEntryForKind(u8 *p, u32 key);
@@ -118,10 +118,10 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(void *a, int *state, Outer *c)
     }
     switch (*state) {
     case 0:
-        func_0201F02C(c->p10, 0, c->f78);
+        WORDSET_SetSlotMyStatus(c->p10, 0, c->f78);
         WORDSET_Callback_EF40(c->p10, 1, h[0]);
-        func_0201EFA4(c->p10, 2, h[1], 5, 0, 1);
-        func_0201F02C(c->p10, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(sub)));
+        WORDSET_SetSlotNumber(c->p10, 2, h[1], 5, 0, 1);
+        WORDSET_SetSlotMyStatus(c->p10, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(sub)));
         EVENT_COMM_COMMON_PrintMsg((u8 *)c + 0x10, d_021839A4[0][c->b42]);
         (*state)++;
         break;

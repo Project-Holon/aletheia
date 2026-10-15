@@ -17,7 +17,7 @@
  *   ZUKAN_LIST_PrintTouchbarLabel 0x021BD440 thumb ov209
  *   ZUKAN_LIST_PrintTouchbarLabelClone 0x021BD488 thumb ov209
  *   ZUKAN_LIST_MakeWindowScreens 0x021BD4DC thumb ov209
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  */
 #include "../include/Obj00123.h"
 #include "../include/Obj25561.h"
@@ -39,7 +39,7 @@ extern void ZUKAN_LIST_ClearWindow(u8 *p, u32 idx);
 extern void ZUKAN_LIST_PrintTouchbarLabel(char *, unsigned, unsigned, unsigned, unsigned, u16, unsigned);
 extern void ZUKAN_LIST_PrintTouchbarLabelClone(char *, unsigned, unsigned, unsigned, unsigned, u16, unsigned);
 extern void ZUKAN_LIST_MakeWindowScreens(void **p);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void ZUKAN_LIST_DrawHeaderCounts(char *p)
 {
     unsigned a, b;
@@ -53,10 +53,10 @@ void ZUKAN_LIST_DrawHeaderCounts(char *p)
     ZUKAN_LIST_ClearWindow((u8 *)p, 1);
     ZUKAN_LIST_ClearWindow((u8 *)p, 2);
     ZUKAN_LIST_PrintTouchbarLabel(p, 1, 2, 0x48, 4, 0x31a0, 1);
-    func_0201EFA4(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, a, 3, 0, 1);
+    WORDSET_SetSlotNumber(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, a, 3, 0, 1);
     ZUKAN_LIST_PrintTouchbarLabelClone(p, 1, 5, 0x68, 4, 0x31a0, 1);
     ZUKAN_LIST_PrintTouchbarLabel(p, 2, 3, 0x58, 4, 0x31a0, 1);
-    func_0201EFA4(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, b, 3, 0, 1);
+    WORDSET_SetSlotNumber(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, b, 3, 0, 1);
     ZUKAN_LIST_PrintTouchbarLabelClone(p, 2, 5, 0x78, 4, 0x31a0, 1);
     ZUKAN_LIST_MakeWindowScreens((void **)(p + 0x28));
     ZUKAN_LIST_MakeWindowScreens((void **)(p + 0x30));

@@ -1,5 +1,5 @@
 /*
- * function: func_021F23E4
+ * function: NAMEIN_GRAPHIC_IsFieldFull
  * address:  0x021F23E4
  * packet:   pkt_021F23E4
  * region:   ov194
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021F23E4(char *p)
+int NAMEIN_GRAPHIC_IsFieldFull(char *p)
 {
     return ((struct Obj14496 *)p)->f1E == ((struct Obj14496 *)p)->f22;
 }

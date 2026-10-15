@@ -1,5 +1,5 @@
 /*
- * function: func_021F3EB0
+ * function: NAMEIN_GRAPHIC_InitTcbl
  * address:  0x021F3EB0
  * packet:   pkt_021F3EB0
  * region:   ov194
@@ -18,7 +18,7 @@
 extern void MI_CpuFill8(void *, int, int);
 extern void *TCBL_Create(int, int, int, int);
 
-void func_021F3EB0(char *p, int v)
+void NAMEIN_GRAPHIC_InitTcbl(char *p, int v)
 {
     MI_CpuFill8(p, 0, 0x10);
     ((struct Obj24909 *)p)->f4 = TCBL_Create(v, v, 1, 0);

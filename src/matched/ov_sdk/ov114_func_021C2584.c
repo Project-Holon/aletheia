@@ -12,7 +12,7 @@
  * sdk:      ghiPostAddXml (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  *
  * symbols:
- *   func_02184234  0x02184234  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
  */
 
 struct PostData {
@@ -30,7 +30,7 @@ struct Post {
 	int f14;
 };
 
-extern void func_02184234(void *array, void *newElem);
+extern void ArrayAppend(void *array, void *newElem);
 
 int ghiPostAddXml(struct Post *_post, void *xml)
 {
@@ -40,7 +40,7 @@ int ghiPostAddXml(struct Post *_post, void *xml)
 	post = _post;
 	data.type = 3;
 	data.xml = xml;
-	func_02184234(post->array, &data);
+	ArrayAppend(post->array, &data);
 	post->f10 = 1;
 	if (post->f0c == 1)
 		post->f14 = 1;

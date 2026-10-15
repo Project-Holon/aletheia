@@ -38,22 +38,22 @@
  *   d_021DC824 0x021DC824 data a1
  *   func_02049EF4 0x02049EF4 arm
  *   d_021DC288 0x021DC288 data a1
- *   func_020410D0 0x020410D0 arm
- *   func_02040AE0 0x02040AE0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
+ *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_020275EC 0x020275EC thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   func_02041300 0x02041300 arm
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201EE0C 0x0201EE0C thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   func_02018584 0x02018584 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   gSpeciesNameBank 0x020A7370 data
@@ -61,7 +61,7 @@
  *   d_021DC264 0x021DC264 data
  *   func_0202F688 0x0202F688 thumb
  *   func_0202F6D8 0x0202F6D8 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
  *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
@@ -138,7 +138,7 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
@@ -148,21 +148,21 @@ extern void func_02041B6C(u32);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern void *func_02049EF4(void *arc, unsigned int fileId, unsigned int a, void **dataOut, unsigned short heapId);
-extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
-extern void func_02040AE0(u32 index, const void *src, u32 mode);
+extern void BG_SYS_DrawTileEx(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
+extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void CLACT_GetCharacterProxy(u32 res, StaSpriteRes *out);
 extern void CLACT_SetActorImageProxy(struct Actor *actor, const StaSpriteRes *src);
 extern u8 func_020275EC(int i);
 extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 v, u32 flag);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 which);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 enable);
-extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u32 func_02018584(u16,u16,u16);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern int func_0202F498(void *mon, int index);
@@ -263,12 +263,12 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
     struct BmpWin *win;
     u32 type1,type2;
     mon=P_STATUS_GetPokePara(wk);
-    if(wk->isEgg==0) func_020410D0(2,0,0,32,24,(u32)((u8 *)work->bgScrnData+12),0,0,32,32);
-    else func_020410D0(2,0,0,32,24,(u32)((u8 *)work->eggScrnData+12),0,0,32,32);
+    if(wk->isEgg==0) BG_SYS_DrawTileEx(2,0,0,32,24,(u32)((u8 *)work->bgScrnData+12),0,0,32,32);
+    else BG_SYS_DrawTileEx(2,0,0,32,24,(u32)((u8 *)work->eggScrnData+12),0,0,32,32);
     func_02041B6C(2);
-    func_02040AE0(6,(u8 *)work->palData+12,((StaGraphicsFile *)((u8 *)work->palData))->dataSize);
+    BG_SYS_DecodeTile(6,(u8 *)work->palData+12,((StaGraphicsFile *)((u8 *)work->palData))->dataSize);
     func_02041B6C(6);
-    func_020410D0(5,0,0,32,3,(u32)((u8 *)work->barScrnData+12),0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(u32)((u8 *)work->barScrnData+12),0,0,32,32);
     func_02041B6C(5);
     for(i=0;i<10;i++) {
         win=work->win[i];
@@ -319,9 +319,9 @@ void P_STA_INFO_DeleteWindows(PStatusWork *wk, PStaInfoWork *work) {
 
 void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *work)
 {
-    func_02041300(1, 0, 0, 0, 19, 21, 16);
+    BG_SYS_SetTileEntry(1, 0, 0, 0, 19, 21, 16);
     func_02041B6C(1);
-    func_02041570(4, 0);
+    BG_SYS_ClearLayerEx(4, 0);
     func_02041B6C(4);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0], 0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[1], 0);
@@ -361,7 +361,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         if(dexNo==999) {
             P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,0x16,0x41,1,color);
         } else {
-            func_0201EFA4(dexWordSet,0,dexNo,3,2,1);
+            WORDSET_SetSlotNumber(dexWordSet,0,dexNo,3,2,1);
             P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,9,0x41,1,color);
         }
         WORDSET_DeleteStrbufED04(dexWordSet);
@@ -380,14 +380,14 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         if(tmpValue==0) color=0x14c0;
         else if(tmpValue==1) color=0xc80;
         func_02017E88(mon,0x8d,otName);
-        func_0201EE0C(otWordSet,0,otName,0,1,2);
+        WORDSET_SetSlotTag(otWordSet,0,otName,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],otWordSet,14,0x41,1,color);
         WORDSET_DeleteStrbufED04(otWordSet);
         STRBUF_Delete(otName);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,1,1,0x3c40);
         idWordSet=GF_FONT_Create_EC64(wk->heapId);
         idNo=func_02017E88(mon,7,0);
-        func_0201EFA4(idWordSet,0,idNo,5,2,1);
+        WORDSET_SetSlotNumber(idWordSet,0,idNo,5,2,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],idWordSet,16,0x41,1,0x440);
         WORDSET_DeleteStrbufED04(idWordSet);
         level=func_02017E88(mon,0x9e,0);
@@ -402,13 +402,13 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         if(level==100) expToNext=0;
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_EXP_LABEL],17,1,1,0x3c40);
         expWordSet=GF_FONT_Create_EC64(wk->heapId);
-        func_0201EFA4(expWordSet,0,exp,7,0,1);
+        WORDSET_SetSlotNumber(expWordSet,0,exp,7,0,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_EXP_VALUE],expWordSet,18,1,1,0x440);
         WORDSET_DeleteStrbufED04(expWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_LABEL],19,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],20,1,1,0x440);
         toNextWordSet=GF_FONT_Create_EC64(wk->heapId);
-        func_0201EFA4(toNextWordSet,0,expToNext,6,0,1);
+        WORDSET_SetSlotNumber(toNextWordSet,0,expToNext,6,0,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],toNextWordSet,21,0x21,1,0x440);
         WORDSET_DeleteStrbufED04(toNextWordSet);
         if(level!=100) {
@@ -568,18 +568,18 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     }
     eggPlaceStr = P_STA_INFO_GetPlaceName(wk, work, eggPlace);
     metPlaceStr = P_STA_INFO_GetPlaceName(wk, work, metPlace);
-    func_0201EFA4(wordSet, 0, metYear, 2, 2, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, metYear, 2, 2, 1);
     bestStat = 0;
-    func_0201EFA4(wordSet, 1, metMonth, 2, bestStat, 1);
-    func_0201EFA4(wordSet, 2, metDay, 2, bestStat, 1);
-    func_0201EFA4(wordSet, 3, metLevel, 3, bestStat, 1);
-    func_0201EE0C(wordSet, 4, metPlaceStr, 0, 1, 2);
-    func_0201EFA4(wordSet, 5, eggYear, 2, 2, 1);
-    func_0201EFA4(wordSet, 6, eggMonth, 2, bestStat, 1);
-    func_0201EFA4(wordSet, 7, eggDay, 2, bestStat, 1);
-    func_0201EE0C(wordSet, 8, eggPlaceStr, bestStat, 1, 2);
+    WORDSET_SetSlotNumber(wordSet, 1, metMonth, 2, bestStat, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, metDay, 2, bestStat, 1);
+    WORDSET_SetSlotNumber(wordSet, 3, metLevel, 3, bestStat, 1);
+    WORDSET_SetSlotTag(wordSet, 4, metPlaceStr, 0, 1, 2);
+    WORDSET_SetSlotNumber(wordSet, 5, eggYear, 2, 2, 1);
+    WORDSET_SetSlotNumber(wordSet, 6, eggMonth, 2, bestStat, 1);
+    WORDSET_SetSlotNumber(wordSet, 7, eggDay, 2, bestStat, 1);
+    WORDSET_SetSlotTag(wordSet, 8, eggPlaceStr, bestStat, 1, 2);
     msgStr = func_02045EC0(work->msgInfo, msgId);
-    func_0201F250(wordSet, infoStr, msgStr);
+    WORDSET_CopyTaggedText(wordSet, infoStr, msgStr);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), infoStr, wk->font, 0x440);
     WORDSET_DeleteStrbufED04(wordSet);
     textY += GF_FONT_CountLine(infoStr) << 4;

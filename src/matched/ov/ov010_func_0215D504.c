@@ -48,7 +48,7 @@
  *   MUSICAL_SAVE_GetScriptSetting  0x0200A7C8  thumb
  *   MUSICAL_SAVE_SetScriptSetting  0x0200A7D4  thumb
  *   MUSICAL_SAVE_GetHasDistData  0x0200A7E0  thumb
- *   func_021F6744  0x021F6744  thumb  ov112
+ *   MUSICAL_MCSS_GetMonValue  0x021F6744  thumb  ov112
  */
 
 typedef unsigned char u8;
@@ -103,7 +103,7 @@ extern u8 MUSICAL_SAVE_GetSelectedProgram(struct Big *p);
 extern u8 MUSICAL_SAVE_GetScriptSetting(struct Big *p);
 extern void MUSICAL_SAVE_SetScriptSetting(struct Big *p, u8 value);
 extern u8 MUSICAL_SAVE_GetHasDistData(struct Big *p);
-extern int func_021F6744(void *p);
+extern int MUSICAL_MCSS_GetMonValue(void *p);
 
 int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
 {
@@ -249,14 +249,14 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
         n = POKEPARTY_GetCount(list);
 
         for (i = 0; i < n; i++) {
-            if ((u32)func_021F6744(POKEPARTY_GetMember(list, (int)i)) == 1)
+            if ((u32)MUSICAL_MCSS_GetMonValue(POKEPARTY_GetMember(list, (int)i)) == 1)
                 count++;
         }
         *dst = count;
         break;
     }
     case 12:
-        if ((u32)func_021F6744(POKEPARTY_GetMember(GAME_DATA_GetMyParty(h), (int)arg)) == 1)
+        if ((u32)MUSICAL_MCSS_GetMonValue(POKEPARTY_GetMember(GAME_DATA_GetMyParty(h), (int)arg)) == 1)
             *dst = 1;
         else
             *dst = 0;

@@ -15,7 +15,7 @@
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
- *   func_021A7E3C  0x021A7E3C  thumb  ov021
+ *   FIELD_GROUND_ANIME_CreateB  0x021A7E3C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  * Addresses are Black-image addresses.
  */
@@ -32,7 +32,7 @@ extern int FIELD_CAMERA_HasDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
-extern void *func_021A7E3C(struct Args *a);
+extern void *FIELD_GROUND_ANIME_CreateB(struct Args *a);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 u32 EVENT_ENTRANCE_IN_RunCamera(u32 a, int *st, u32 *ctx)
@@ -60,7 +60,7 @@ u32 EVENT_ENTRANCE_IN_RunCamera(u32 a, int *st, u32 *ctx)
         *st = 2;
         return 0x21;
     case 2:
-        GAME_EVENT_CallEvent((struct Evt *)a, func_021A7E3C((struct Args *)((u32)p)));
+        GAME_EVENT_CallEvent((struct Evt *)a, FIELD_GROUND_ANIME_CreateB((struct Args *)((u32)p)));
         *st = 3;
         return 0x21;
     case 3:

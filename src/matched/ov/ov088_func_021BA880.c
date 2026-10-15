@@ -16,7 +16,7 @@
  * symbols:
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   func_02040EBC  0x02040EBC  arm
+ *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   STARTMENU_BeginFadeOut  0x021BC054  thumb  ov088
  *   STARTMENU_HideMessageWindow  0x021BBF98  thumb  ov088
  *   STARTMENU_BeginFadeIn  0x021BC080  thumb  ov088
@@ -40,7 +40,7 @@ extern const MsgEnt gStartMenuUnlockNotices[8];
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_02040EBC(u32 a0, u32 a1);
+extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern int STARTMENU_BeginFadeOut(char *p, int v);
 extern void STARTMENU_HideMessageWindow(char *p);
 extern int STARTMENU_BeginFadeIn(char *p, int v);
@@ -56,8 +56,8 @@ int STARTMENU_StateUnlockNotices(char *p)
     case 0:
         BG_SYS_SetMainPlaneVisible(0x1e, 0);
         BG_SYS_SetSubPlaneVisible(0x17, 0);
-        func_02040EBC(0, 0x7d8c);
-        func_02040EBC(4, 0x7d8c);
+        BG_SYS_LoadPlttEntry(0, 0x7d8c);
+        BG_SYS_LoadPlttEntry(4, 0x7d8c);
         ((struct Obj02127 *)p)->f12A = ((struct Obj02127 *)p)->f12A + 1;
         return STARTMENU_BeginFadeOut(p, 10);
     case 1:

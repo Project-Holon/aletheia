@@ -1,5 +1,5 @@
 /*
- * function: func_021889A0
+ * function: gpiSendBuddyMessage
  * address:  0x021889A0
  * packet:   pkt_ov009_021889A0
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   gpiGetPeerByProfile  0x0218F0B8  arm   ov009
  *   func_0218FD9C  0x0218FD9C  arm   ov009
- *   func_021888C0  0x021888C0  arm   ov009
+ *   gpiSendServerBuddyMessage  0x021888C0  arm   ov009
  *   gpiAddPeer  0x0218F150  arm   ov009
  *   func_0218F1E0  0x0218F1E0  arm   ov009
  *   gpiPeerStartConnect  0x0218F248  arm   ov009
@@ -44,14 +44,14 @@ typedef struct GPIProfile {
 
 extern char *gpiGetPeerByProfile(void **p, int v);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
-extern GPResult func_021888C0(void **connection, int profileid, int type, char *message);
+extern GPResult gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message);
 extern GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate);
 extern GPResult func_0218F1E0(void **connection, GPIPeer *peer);
 extern GPResult gpiPeerStartConnect(void **connection, GPIPeer *peer);
 extern void func_0218F884(GPIPeer *peer, GPIPeerOp *operation);
 extern GPResult gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message);
 
-GPResult func_021889A0(void **connection, int profileid, int type, char *message, int sendOption, GPIPeerOp *peerOp)
+GPResult gpiSendBuddyMessage(void **connection, int profileid, int type, char *message, int sendOption, GPIPeerOp *peerOp)
 {
     GPResult result;
     GPIProfile *profile;
@@ -62,7 +62,7 @@ GPResult func_021889A0(void **connection, int profileid, int type, char *message
         if (!func_0218FD9C(connection, profileid, &profile) || profile->buddyStatus == 0 || profile->buddyStatus->f20 == 0) {
             if (sendOption == 0xb00)
                 return GP_NETWORK_ERROR;
-            return func_021888C0(connection, profileid, type, message);
+            return gpiSendServerBuddyMessage(connection, profileid, type, message);
         }
         peer = gpiAddPeer(connection, profileid, 1);
         if (peer == 0)
@@ -83,7 +83,7 @@ GPResult func_021889A0(void **connection, int profileid, int type, char *message
             if (sendOption == 0xb00)
                 return GP_NETWORK_ERROR;
             if (type < 100)
-                return func_021888C0(connection, profileid, type, message);
+                return gpiSendServerBuddyMessage(connection, profileid, type, message);
         }
     }
     if (peerOp != 0)

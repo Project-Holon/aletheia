@@ -11,11 +11,14 @@
  *
  * notes:    defined in src/game/ov009/unit_0215F650.c without a verification
  *           entry.
+ *
+ * symbols:
+ *   SOCL_Cleanup  0x0215EBF0  arm
  */
 
-extern int func_0215EBF0(void);
+extern int SOCL_Cleanup(void);
 
 int SOC_Cleanup(void)
 {
-    return func_0215EBF0();
+    return SOCL_Cleanup();
 }

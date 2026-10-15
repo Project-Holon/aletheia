@@ -45,7 +45,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   GPOWER_UseHpRestore  0x0201104C  thumb
  *   GPOWER_UsePpRestore  0x020110CC  thumb
  *   FIELD_MSGBG_CreateInfoSysWin 0x02190FA0 thumb ov021
@@ -56,9 +56,9 @@
  *   FIELD_MSGBG_ClearInfoMsgWin 0x02190854 thumb ov021
  *   FIELD_MSGBG_DeleteInfoMsgWin 0x0219082C thumb ov021
  *   KEY_GetTrg 0x020362DC arm
- *   func_0201F184  0x0201F184  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_InfoMsgWinPrintStr  0x02190844  thumb  ov021
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
@@ -118,7 +118,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32   POKEPARTY_FindFirstBattleReady(struct PokeParty *party);
 extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
-extern void func_0201EEF4(struct WordSet *wordSet, u32 index, struct Pokemon *pokemon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, struct Pokemon *pokemon);
 extern u32   GPOWER_UseHpRestore(struct PokeParty *party);
 extern u32   GPOWER_UsePpRestore(struct PokeParty *party);
 extern struct InfoSysWin *FIELD_MSGBG_CreateInfoSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId);
@@ -129,9 +129,9 @@ extern struct InfoMsgWin *FIELD_MSGBG_CreateInfoMsgWin(struct FieldMsgBg *msgBg,
 extern void FIELD_MSGBG_ClearInfoMsgWin(struct InfoMsgWin *win);
 extern int FIELD_MSGBG_DeleteInfoMsgWin(struct InfoMsgWin *win);
 extern u32 KEY_GetTrg(void);
-extern void func_0201F184(struct WordSet *wordSet, u32 index, s32 value);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padding, u32 d);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 index, s32 value);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padding, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct InfoMsgWin *win, int x, int y, struct Strbuf *str);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct GPowerSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
@@ -276,7 +276,7 @@ void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wo
     u8 firstReady;
 
     firstReady = POKEPARTY_FindFirstBattleReady(party);
-    func_0201EEF4(wordSet, 1, POKEPARTY_GetMember(party, firstReady));
+    WORDSET_SetSlotMonSpecies(wordSet, 1, POKEPARTY_GetMember(party, firstReady));
     switch (powerType) {
     case 5:
         GPOWER_UseHpRestore(party);
@@ -325,10 +325,10 @@ int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *wor
 
 void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row)
 {
-    func_0201F184(work->wordSet, 0, powerId);
-    func_0201EFA4(work->wordSet, 1, minutes / 60, 2, 1, 1);
-    func_0201EFA4(work->wordSet, 2, minutes % 60, 2, 2, 1);
-    func_0201F250(work->wordSet, work->lineStr, templateStr);
+    WORDSET_SetSlotFromMsgA0(work->wordSet, 0, powerId);
+    WORDSET_SetSlotNumber(work->wordSet, 1, minutes / 60, 2, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 2, minutes % 60, 2, 2, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->lineStr, templateStr);
     FIELD_MSGBG_InfoMsgWinPrintStr(work->infoMsgWin, 8, (u16)(row << 4), work->lineStr);
 }
 

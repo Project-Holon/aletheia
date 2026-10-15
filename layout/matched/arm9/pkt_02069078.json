@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02069078",
+   "name": "NNS_G2dMapScrToCharText",
    "address": "0x02069078",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069128",
+   "name": "NNSi_G2dFillScrCharArea",
    "address": "0x02069128",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069184",
+   "name": "NNSi_G2dCalcCharAreaSize",
    "address": "0x02069184",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020691E0",
+   "name": "NNSi_G2dMakeCharObjArea",
    "address": "0x020691E0",
    "kind": "game",
    "region": "arm9",

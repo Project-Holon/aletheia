@@ -17,7 +17,7 @@
  *   FIELD_GIMMICK_GATE_ReadSaveBlockValues  0x021F3B64  thumb  ov048
  *   WORDSET_Callback  0x0201EE60  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
@@ -37,7 +37,7 @@ extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const u16 *p, u32 *out, int *
 extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(u16 *p, u32 *out, int *cnt);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern struct T gElboardLayout;
@@ -67,7 +67,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
     }
     for (i = 0; i < cnt; i++)
         WORDSET_Callback(h, i, buf[i]);
-    func_0201F02C(h, 6, GAME_DATA_GetMyStatus((void *)p[2]));
+    WORDSET_SetSlotMyStatus(h, 6, GAME_DATA_GetMyStatus((void *)p[2]));
     s.a = *(u16 *)(((u8 *)&gElboardLayout) + 0xa);
     s.b = *(int *)(((u8 *)&gElboardLayout) + 0x38);
     s.c = *(int *)(((u8 *)&gElboardLayout) + 0x54);

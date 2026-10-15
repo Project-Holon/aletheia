@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_ResetOamManagers  0x0204BD18  arm
  *   CLACT_ApplyOamManagers  0x0204BCF4  arm
- *   func_02063078  0x02063078  arm
+ *   NNS_G2dInitOamManagerModule  0x02063078  arm
  *
  * Release both of a cell actor's 0x20-byte OAM sub-records and then flush the
  * hardware tables.  The pair-wise loops live in CLACT_ResetOamManagers and
@@ -41,11 +41,11 @@ struct Obj {
 
 extern void CLACT_ResetOamManagers(struct Obj *o);
 extern void CLACT_ApplyOamManagers(struct Obj *o);
-extern void func_02063078(void);
+extern void NNS_G2dInitOamManagerModule(void);
 
 void CLACT_ExitOamManagers(struct Obj *o)
 {
     CLACT_ResetOamManagers(o);
     CLACT_ApplyOamManagers(o);
-    func_02063078();
+    NNS_G2dInitOamManagerModule();
 }

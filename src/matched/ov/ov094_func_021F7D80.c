@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   gBtlvEff     0x0220AF20  data   ov094
  *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
@@ -45,7 +45,7 @@ typedef struct {
 extern Work *gBtlvEff;
 extern const char gBtlvEffectFileName[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern void BTLV_MCSS_RefreshSpriteFromParty(void *h, int b, void *a);
 extern void BTLV_MCSS_MakeAddWorkFromPoke(void *h, void *a, int *buf, int b);
@@ -58,7 +58,7 @@ void BTLV_EFFECT_StartHitTask(void *a, int b)
 {
     Job *o;
 
-    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0x2f9);
+    o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0x2f9);
     o->f4 = 0;
     o->f0 = b;
     BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->h190, b, a);

@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=func_021C425C; bx r3.
+ * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_GetActorDrawEnable; bx r3.
  * Blocker of ov099 func_021BA2D4.
  *
  * symbols:
- *   func_021C425C  0x021C425C  thumb  ov127
+ *   WIFI_2DCHAR_GetActorDrawEnable  0x021C425C  thumb  ov127
  */
 #include "../include/Obj23049.h"
 
-extern int func_021C425C(char *p);
+extern int WIFI_2DCHAR_GetActorDrawEnable(char *p);
 
 int WF2DMAP_OBJDRAW_GetActorValue(char *p)
 {
-    return func_021C425C(((struct Obj23049 *)p)->f4);
+    return WIFI_2DCHAR_GetActorDrawEnable(((struct Obj23049 *)p)->f4);
 }

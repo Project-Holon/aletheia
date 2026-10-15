@@ -1,5 +1,5 @@
 /*
- * function: func_0217C848
+ * function: HandlePacket
  * address:  0x0217C848
  * packet:   pkt_ov009_0217C848
  * region:   ov009
@@ -25,7 +25,7 @@ extern unsigned short g_021ACF7C[];
 extern unsigned char g_021ACF84[];
 extern char g_021A370C[];
 
-int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices)
+int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices)
 {
     int bitfield;
     if (len < 7)

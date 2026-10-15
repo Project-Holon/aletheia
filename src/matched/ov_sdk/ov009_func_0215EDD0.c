@@ -1,5 +1,5 @@
 /*
- * function: func_0215EDD0
+ * function: SOCL_Resolve
  * address:  0x0215EDD0
  * packet:   pkt_ov009_0215EDD0
  * region:   ov009
@@ -37,7 +37,7 @@ extern void CPS_SocRegister(int v);
 extern unsigned long CPS_Resolve(char *name);
 extern void CPS_SocUnRegister(void);
 
-unsigned long func_0215EDD0(char *hostname)
+unsigned long SOCL_Resolve(char *hostname)
 {
     unsigned char *buffers;
     CpsSoc soc;

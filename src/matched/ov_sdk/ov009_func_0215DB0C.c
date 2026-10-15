@@ -17,7 +17,7 @@
  *   func_02082EA4  0x02082EA4  arm
  *   CPS_SocConsume  0x0215B064  arm  ov009
  *   func_0215D92C  0x0215D92C  arm  ov009
- *   func_0215DD88  0x0215DD88  arm  ov009
+ *   SOCLi_ConsumeCPSBuffer  0x0215DD88  arm  ov009
  */
 
 struct SOCLiSocketRecvCommandPipe {
@@ -56,7 +56,7 @@ extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 extern void CPS_SocConsume(unsigned long len);
 extern int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip);
-extern int func_0215DD88(struct SOCLSocket *socket);
+extern int SOCLi_ConsumeCPSBuffer(struct SOCLSocket *socket);
 
 static inline int isStream(signed char m)
 {
@@ -117,6 +117,6 @@ static int func_0215DB0C(void *arg)
     if (result <= 0)
         return result;
     if (recv_pipe->consumed >= recv_pipe->consumed_min)
-        func_0215DD88(socket);
+        SOCLi_ConsumeCPSBuffer(socket);
     return result;
 }

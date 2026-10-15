@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B99E8",
+   "name": "SUBWAY_MAP_GRAPHIC_DeleteScreen",
    "address": "0x021B99E8",
    "kind": "game",
    "region": "ov224",

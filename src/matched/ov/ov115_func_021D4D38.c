@@ -16,7 +16,7 @@
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_021D4FA4 0x021D4FA4 thumb ov115
  *   func_021D5214 0x021D5214 thumb ov115
  *   func_021D57D0 0x021D57D0 thumb ov115
@@ -44,7 +44,7 @@ extern void BG_SYS_Create(u16);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_021D4FA4(void *,u32);
 extern void func_021D5214(void *,u32);
 extern void func_021D57D0(u8 *p);
@@ -65,7 +65,7 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     GX_DispOn();
     BG_SYS_Create(((struct Obj00198 *)p)->fC);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021D65E4);
-    func_0203FC28((struct DispConfig *)d_021D65D4);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021D65D4);
     switch (((struct Obj00198 *)p)->f8) {
     case 1:
         func_021D4FA4(p,0);

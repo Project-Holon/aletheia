@@ -1,5 +1,5 @@
 /*
- * function: func_022063AC
+ * function: SHINKA_DEMO_VIEW_SetModelPosX
  * address:  0x022063AC
  * packet:   pkt_022063AC
  * region:   ov195
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 
-void func_022063AC(char *a, u32 v)
+void SHINKA_DEMO_VIEW_SetModelPosX(char *a, u32 v)
 {
     u32 buf[3];
     u8 i;

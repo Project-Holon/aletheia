@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02168064  0x02168064  arm
+ *   DWC_NASLoginAsync  0x02168064  arm
 
  *
- * Call func_02168064 and report success.
+ * Call DWC_NASLoginAsync and report success.
  */
 
-extern void func_02168064(void);
+extern void DWC_NASLoginAsync(void);
 
 int WORLDTRADE_ENTER_StateStartServerCheck(void *a0)
 {
-    func_02168064();
+    DWC_NASLoginAsync();
     return 1;
 }

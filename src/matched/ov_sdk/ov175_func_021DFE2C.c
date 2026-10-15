@@ -12,13 +12,13 @@
  * sdk:      sciCreateReport (libdwcgssc.TWL.HYB.a scireport.o)
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   memset  0x020923B0  arm
  */
 
-extern void *func_0217EAB0(unsigned long size);
-extern void func_0217EAE0(void *p);
+extern void *gsimalloc(unsigned long size);
+extern void gsifree(void *p);
 extern void *memset(void *p, int c, unsigned long n);
 
 typedef struct {
@@ -69,13 +69,13 @@ int sciCreateReport(int unused, unsigned int theHeaderVersion, unsigned int theP
     unsigned int theRosterSize;
 
     theRosterSize = (thePlayerCount << 4) + (thePlayerCount << 2);
-    theNewReport = (SCIReport *)func_0217EAB0(sizeof(SCIReport));
+    theNewReport = (SCIReport *)gsimalloc(sizeof(SCIReport));
     if (!theNewReport)
         return 5;
     memset(theNewReport, 0, sizeof(SCIReport));
-    theReportData = (unsigned char *)func_0217EAB0(0x10000);
+    theReportData = (unsigned char *)gsimalloc(0x10000);
     if (!theReportData) {
-        func_0217EAE0(theNewReport);
+        gsifree(theNewReport);
         return 5;
     }
     memset(theReportData, 0, 0x10000);

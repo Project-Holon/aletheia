@@ -25,7 +25,7 @@
  *   g_02147B88_head 0x02147B88  data  a4
  *   g_02147D18     0x02147D18  data  a4
  *   g_020A81F8     0x020A81F8  data  a4
- *   func_02063784  0x02063784  arm
+ *   NNSi_G2dGetVramHandle  0x02063784  arm
  *   g_02148718     0x02148718  data  a4
  *   g_02147C18     0x02147C18  data  a4
  *   g_02148318     0x02148318  data  a4
@@ -268,7 +268,7 @@ struct RendererBssHead {
 
 typedef long long fx64;
 
-extern int func_02063784(unsigned short *p, int i);
+extern int NNSi_G2dGetVramHandle(unsigned short *p, int i);
 extern void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 extern void NNS_G2dSetRndCoreCurrentMtx2D(u32 a, u32 b);
 extern void NNS_G2dSetRndCoreCurrentMtx3D(struct Src02067AC0 *src);
@@ -378,7 +378,7 @@ void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2)
 
     map = (void *)func_02066740((int *)g_02147B88.pCurrentInstance_);
     if (map != 0)
-        c->oam.cParam = func_02063784(map, (u16)((c->oam.attr2 & 0xF000) >> 12));
+        c->oam.cParam = NNSi_G2dGetVramHandle(map, (u16)((c->oam.attr2 & 0xF000) >> 12));
 
     if (g_02147B88.pCurrentInstance_->overwriteEnableFlag != 0) {
         if (((volatile NNSG2dRendererInstance *)g_02147B88.pCurrentInstance_)->overwriteEnableFlag & 1)

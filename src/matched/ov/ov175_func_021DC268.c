@@ -1,5 +1,5 @@
 /*
- * function: func_021DC268
+ * function: WIFIBATTLEMATCH_NET_SendRegFlag
  * address:  0x021DC268
  * packet:   pkt_021DC268
  * region:   ov175
@@ -26,7 +26,7 @@ struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern u32 GFL_NET_SendData(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-int func_021DC268(char *obj, u32 data)
+int WIFIBATTLEMATCH_NET_SendRegFlag(char *obj, u32 data)
 {
     u32 busy = GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     int flag = 1;

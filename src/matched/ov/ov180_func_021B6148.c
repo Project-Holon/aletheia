@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 
 int HALL_OF_FAME_ProcExit(void *p)
 {
     func_020315D4(p);
-    func_020306F0(0x8d);
+    GFL_HEAP_DeleteChecked(0x8d);
     return 1;
 }

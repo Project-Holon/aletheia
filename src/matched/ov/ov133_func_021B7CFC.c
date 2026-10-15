@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203F768 0x0203F768 arm
+ *   GF_STANDARD_CalcAngle 0x0203F768 arm
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
  *   func_021BA20C 0x021BA20C thumb ov133
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_0203F768(int,int,int,int,int,int,int);
+extern int GF_STANDARD_CalcAngle(int,int,int,int,int,int,int);
 extern void *func_021BA184(char *p);
 extern u32 func_021BA208(u8 *p);
 extern u32 func_021BA20C(u8 *p);
@@ -36,7 +36,7 @@ void func_021B7CFC(u8 *p, int unused_x, int unused_y)
     u8 *e,*data;
     y0=(((struct Obj00220 *)p)->f28*72)/48;
     y1=(((struct Obj00220 *)p)->f20*72)/48;
-    angle=func_0203F768(((struct Obj00220 *)p)->f24,y0,((struct Obj00220 *)p)->f1C,y1,128,80,72);
+    angle=GF_STANDARD_CalcAngle(((struct Obj00220 *)p)->f24,y0,((struct Obj00220 *)p)->f1C,y1,128,80,72);
     ((struct Obj00220 *)p)->f1830+=(u16)(angle<0?-angle:angle);
     if(((struct Obj00220 *)p)->f14==1 || ((struct Obj00220 *)p)->f1830>=0x71c){
         e=func_021BA184(((struct Obj00220 *)p)->f181C);hit=0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C9F8C",
+   "name": "WF2DMAP_TOUCH_SetBgScroll",
    "address": "0x021C9F8C",
    "kind": "game",
    "region": "ov128",

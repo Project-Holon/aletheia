@@ -1,5 +1,5 @@
 /*
- * function: func_021D646C
+ * function: WIFIBATTLEMATCH_NET_GetSetBsubwayStat
  * address: 0x021D646C
  * packet: pkt_ov175_021D646C
  * region: ov175
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32, u32, u32);
 extern void BSUBWAY_SAVEDATA_SetStat(u32, u32, u32, u32);
-int func_021D646C(u32 save, u32 kind, u32 obj)
+int WIFIBATTLEMATCH_NET_GetSetBsubwayStat(u32 save, u32 kind, u32 obj)
 {
     int *q;
     u32 a;

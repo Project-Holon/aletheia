@@ -1,5 +1,5 @@
 /*
- * function: func_021CA4C8
+ * function: WF2DMAP_TOUCH_ReleaseActor
  * address:  0x021CA4C8
  * packet:   pkt_021CA4C8
  * region:   ov128
@@ -23,7 +23,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021CA4C8(int *p)
+void WF2DMAP_TOUCH_ReleaseActor(int *p)
 {
     CLACT_ReleaseCharacter(p[95]);
     CLACT_ReleasePalette(p[96]);

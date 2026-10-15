@@ -1,5 +1,5 @@
 /*
- * function: func_0220DA6C
+ * function: B_PLIST_DRAW_DrawRowCenteredName
  * address:  0x0220DA6C
  * packet:   pkt_ov198_0220DA6C
  * region:   ov198
@@ -15,11 +15,11 @@
  *   in r5 across the arms and frees the msg2 arms for cross-jumping. (3) a short (not u8) half takes its
  *   declaration slot 0x18 above the window temps; a u8 half takes the lowest slot. Before: DIFF 153.
  * symbols:
- *   func_022110D4  0x022110D4  thumb  ov198
+ *   B_PLIST_MAIN_GetOrderIndex  0x022110D4  thumb  ov198
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201D304  0x0201D304  thumb
  *   BMP_WIN_GetWidth  0x02045738  arm
@@ -43,11 +43,11 @@ struct U16Vec;
 struct WordSet;
 struct MsgBank;
 
-extern int func_022110D4(u8 *, int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 struct StrObj;
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -68,7 +68,7 @@ static inline void put(u8 *p, void *win, void *sel, short x, u32 y, void *h, u16
     *(u8 *)(p + 0x1F74) = 1;
 }
 
-void func_0220DA6C(u8 *p, int idx)
+void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx)
 {
     void *msg;
     u32 off;
@@ -84,15 +84,15 @@ void func_0220DA6C(u8 *p, int idx)
     int n;
 
     o = *(void **)(p + 0x1F70);
-    n = func_022110D4(p, idx);
+    n = B_PLIST_MAIN_GetOrderIndex(p, idx);
     base = p + 4;
     off = n * 0x4c;
     rec = (struct R *)(base + off);
     vec = STRBUF_Create(12, *(u16 *)(*(u8 **)p + 0x10));
     msg = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), d_02211B68[idx]);
-    func_0201EEF4(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
+    WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
     msg2 = 0;
-    func_0201F250(*(struct WordSet **)(p + 0x1EA4), vec, msg);
+    WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1EA4), vec, msg);
     STRBUF_Delete(msg);
     if (!rec->a1 && !rec->b2) {
         if (rec->b0 == 0) {

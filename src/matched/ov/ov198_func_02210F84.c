@@ -1,5 +1,5 @@
 /*
- * function: func_02210F84
+ * function: B_PLIST_MAIN_IsIndexValid
  * address:  0x02210F84
  * packet:   pkt_02210F84
  * region:   ov198
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_02210F84(char **p, unsigned int v)
+int B_PLIST_MAIN_IsIndexValid(char **p, unsigned int v)
 {
     return v < ((struct Obj25275 *)(*p))->f22;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220F060
+ * function: B_PLIST_MAIN_SyncMoveActors
  * address: 0x0220F060
  * packet: pkt_ov198_0220F060
  * region: ov198
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_022110D4 0x022110D4 thumb ov198
- *   func_0220E82C 0x0220E82C thumb ov198
- *   func_0220E7CC 0x0220E7CC thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
+ *   B_PLIST_DRAW_TransferCharacter 0x0220E82C thumb ov198
+ *   B_PLIST_DRAW_PlaceActor 0x0220E7CC thumb ov198
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   d_02211DA0 0x02211DA0 data a4
  */
@@ -24,12 +24,12 @@ typedef struct
   u8 bit : 1;
   u8 high : 1;
 } Flag;
-extern int func_022110D4(u8 *, int);
-extern void func_0220E82C(char *p, void *obj, int index, int which);
-extern void func_0220E7CC(u8 *, u32);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
+extern void B_PLIST_DRAW_TransferCharacter(char *p, void *obj, int index, int which);
+extern void B_PLIST_DRAW_PlaceActor(u8 *, u32);
 extern u32 WAZA_TOOL_GetParam(u16, u32);
 extern u32 d_02211DA0[];
-void func_0220F060(u8 *p)
+void B_PLIST_MAIN_SyncMoveActors(u8 *p)
 {
   u8 *rec;
   u8 *objects;
@@ -42,7 +42,7 @@ void func_0220F060(u8 *p)
   u8 *tmp;
   Flag *tmp1;
   tmp1 = (Flag *) (p + 0x2175);
-  rec = (p + 4) + (func_022110D4(p, (*((u8 **) p))[32]) * 76);
+  rec = (p + 4) + (B_PLIST_MAIN_GetOrderIndex(p, (*((u8 **) p))[32]) * 76);
   if (tmp1->bit == 0)
   {
     base = 29;
@@ -61,9 +61,9 @@ void func_0220F060(u8 *p)
     {
       offset = i * 4;
       b = objects + offset;
-      func_0220E82C((char *)p, *((void **) (b + 0x1ebc)), slot + i, entry[48]);
+      B_PLIST_DRAW_TransferCharacter((char *)p, *((void **) (b + 0x1ebc)), slot + i, entry[48]);
       tmp = (u8 *) d_02211DA0;
-      func_0220E7CC(*((u8 **) (b + 0x1ebc)), (u32) (tmp + offset));
+      B_PLIST_DRAW_PlaceActor(*((u8 **) (b + 0x1ebc)), (u32) (tmp + offset));
     }
   }
 
@@ -71,8 +71,8 @@ void func_0220F060(u8 *p)
   {
     offset = (base + i) * 4;
     b = p + 0x1ebc;
-    func_0220E82C((char *)p, *((void **) (b + offset)), slot + i, WAZA_TOOL_GetParam(*((u16 *) ((*((u8 **) p)) + 38)), 0));
-    func_0220E7CC(*((u8 **) (b + offset)), (u32) (d_02211DA0 + i));
+    B_PLIST_DRAW_TransferCharacter((char *)p, *((void **) (b + offset)), slot + i, WAZA_TOOL_GetParam(*((u16 *) ((*((u8 **) p)) + 38)), 0));
+    B_PLIST_DRAW_PlaceActor(*((u8 **) (b + offset)), (u32) (d_02211DA0 + i));
   }
   ((Flag *) (p + 0x2175))->bit ^= 1;
 }

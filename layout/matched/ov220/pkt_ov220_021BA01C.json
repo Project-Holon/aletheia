@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA01C",
+   "name": "TH_AWARD_UploadWindows",
    "address": "0x021BA01C",
    "kind": "game",
    "region": "ov220",

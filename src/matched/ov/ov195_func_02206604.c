@@ -1,5 +1,5 @@
 /*
- * function: func_02206604
+ * function: SHINKA_DEMO_VIEW_Update
  * address:  0x02206604
  * packet:   pkt_02206604
  * region:   ov195
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022076A0 0x022076A0 thumb ov195
- *   func_02208410 0x02208410 thumb ov195
- *   func_02208430 0x02208430 thumb ov195
+ *   SHINKA_DEMO_VIEW_DrawGridRotated 0x022076A0 thumb ov195
+ *   SHINKA_DEMO_VIEW_IsGridState3 0x02208410 thumb ov195
+ *   SHINKA_DEMO_VIEW_UpdateGridFade 0x02208430 thumb ov195
  */
 
 typedef unsigned char u8;
@@ -38,12 +38,12 @@ typedef struct Owner {
     Work *work;
 } Owner;
 
-extern void func_022076A0(Owner *o);
-extern int func_02208410(char *p, u16 heap);
+extern void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o);
+extern int SHINKA_DEMO_VIEW_IsGridState3(char *p, u16 heap);
 struct Fade;
-extern void func_02208430(struct Fade *p, int x);
+extern void SHINKA_DEMO_VIEW_UpdateGridFade(struct Fade *p, int x);
 
-void func_02206604(Owner *o)
+void SHINKA_DEMO_VIEW_Update(Owner *o)
 {
     Work *w = o->work;
     u16 heap = o->heap;
@@ -54,7 +54,7 @@ void func_02206604(Owner *o)
     case 0:
         break;
     case 1:
-        func_022076A0(o);
+        SHINKA_DEMO_VIEW_DrawGridRotated(o);
         break;
     case 2:
     case 3:
@@ -63,9 +63,9 @@ void func_02206604(Owner *o)
     for (i = 0; i < 2; i++) {
         g = w->grid[i];
         if (g != 0) {
-            if (o->f40 != 0 && func_02208410((char *)g, heap))
+            if (o->f40 != 0 && SHINKA_DEMO_VIEW_IsGridState3((char *)g, heap))
                 g->state = 4;
-            func_02208430((struct Fade *)g, heap);
+            SHINKA_DEMO_VIEW_UpdateGridFade((struct Fade *)g, heap);
         }
     }
 }

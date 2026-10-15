@@ -1,5 +1,5 @@
 /*
- * function: func_021FB1E4
+ * function: SCRIPT_COMMAND_CmdHideAnim
  * address:  0x021FB1E4
  * packet:   pkt_021FB1E4
  * region:   ov132
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void STA_ACTING_HideAnim(char *p);
 
-int func_021FB1E4(void *a, void **pp)
+int SCRIPT_COMMAND_CmdHideAnim(void *a, void **pp)
 {
     STA_ACTING_HideAnim(((struct Obj23253 *)((u8 *)*pp))->f34);
     return 0;

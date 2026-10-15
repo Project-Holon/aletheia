@@ -11,7 +11,7 @@
  *
  * symbols:
  *   sGhttpSocketError    0x021CE598  data  a4
- *   func_0217D254 0x0217D254  arm
+ *   gsDebugFormat 0x0217D254  arm
  */
 
 typedef struct Ctx {
@@ -35,12 +35,12 @@ typedef struct Ctx {
 } Ctx;
 
 extern int sGhttpSocketError[];
-extern int func_0217D254(int, int, int, void *, int);
+extern int gsDebugFormat(int, int, int, void *, int);
 
 void ghiCallCompletedCallback(Ctx *ctx)
 {
     if (ctx->f40 != 0)
-        func_0217D254(8, 0, 2, sGhttpSocketError, ctx->f54);
+        gsDebugFormat(8, 0, 2, sGhttpSocketError, ctx->f54);
     if (ctx->f48 != 0) {
         int r5 = ctx->fC == 0 ? ctx->fEC : 0;
         int res = ((int (*)(void *, int, int, int, int))ctx->f48)

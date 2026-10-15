@@ -63,8 +63,8 @@
  *   g_021A23D0     0x021A23D0  data ov009
  *   g_021A23DC     0x021A23DC  data ov009
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
- *   func_02178F78  0x02178F78  arm  ov009
- *   func_02179218  0x02179218  arm  ov009
+ *   DWC_Auth_GetCalInfoFromWiFiInfo  0x02178F78  arm  ov009
+ *   DWC_Auth_SetCalInfoToHttp  0x02179218  arm  ov009
  *   wcslen  0x02096578  arm
  *   g_021A23E8  0x021A23E8  data  ov009
  *   g_021A23F4  0x021A23F4  data  ov009
@@ -159,8 +159,8 @@ extern s32 strtol(u32 a0, u32 *a1, u32 a2);
 extern int strlen(const u8 *s);
 extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_len);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_02178F78(DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
-extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
+extern int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
+extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int wcslen(const u16 *s);
 void DWC_Auth_SetCustomNas(int v);
 char *DWC_Auth_GetCustomNas(void);
@@ -627,9 +627,9 @@ int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ing
             return 8;
     }
 
-    if (!func_02178F78(&calinfo, &gDwcWiFiInfo))
+    if (!DWC_Auth_GetCalInfoFromWiFiInfo(&calinfo, &gDwcWiFiInfo))
         return 5;
-    if (!func_02179218(http, &calinfo, g_021ACE70))
+    if (!DWC_Auth_SetCalInfoToHttp(http, &calinfo, g_021ACE70))
         return 8;
 
     if (gDwcAuthGlobal.useWfc == 1)

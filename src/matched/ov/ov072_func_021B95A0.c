@@ -26,7 +26,7 @@
  *   TOWNMAP_GRH_InitTextBox  0x021BB3E8  thumb  ov072
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   TOWNMAP_GRH_PrintTextBoxMessage  0x021BB448  thumb  ov072
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   TOWNMAP_GRH_GetHandle  0x021BB778  thumb  ov072
  *   TOWNMAP_BackButtonInit  0x021B9E38  thumb  ov072
  *   TOWNMAP_GRH_GetActor  0x021BB784  thumb  ov072
@@ -89,7 +89,7 @@ extern u8 TOWNMAP_GRH_GetBgId(int unused, u32 i);
 extern void TOWNMAP_GRH_InitTextBox(void *p, int a, int b, int c, u8 s0, u8 s1, u8 s2, u8 s3, u16 s4);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void TOWNMAP_GRH_PrintTextBoxMessage(u32 *p, u32 a, int x, int y);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern unsigned int TOWNMAP_GRH_GetHandle(char *p, int n);
 extern void TOWNMAP_BackButtonInit(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap);
 extern unsigned int TOWNMAP_GRH_GetActor(char *p, int n);
@@ -139,7 +139,7 @@ int TOWNMAP_Create(void *a, void *b, Arg *c)
         TOWNMAP_GRH_InitTextBox(o + 0xc4, TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f12C, 0, 0x15, 0x18, 3, 0x44);
         GF_FONT_SetTextColor(0xf, 1, 0);
         TOWNMAP_GRH_PrintTextBoxMessage((u32 *)(o + 0xc4), 0, 0x10, 0);
-        func_0201DD68();
+        GF_FONT_SetDefaultTextColor();
     }
     TOWNMAP_BackButtonInit((u32 *)(o + 0x14), (*(Arg * *)&((struct Obj00433 *)o)->f130)->f0, TOWNMAP_GRH_GetHandle((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 0), 0xf, 8, v, 0x44);
     TOWNMAP_GRH_InitLabel((u32 *)(o + 0xd4), TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f128, TOWNMAP_GRH_GetActor((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), 0x44);

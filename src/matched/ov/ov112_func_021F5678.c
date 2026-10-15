@@ -1,5 +1,5 @@
 /*
- * function: func_021F5678
+ * function: MUSICAL_MCSS_TickMCAnim
  * address: 0x021F5678
  * packet: pkt_ov112_021F5678
  * region: ov112
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 extern u32 d_02FFFC3C;
 extern void NNS_G2dTickMCAnimation(char *, int);
 typedef struct { u32 low:1; u32 paused:1; u32 rest:30; } Flags;
-void func_021F5678(char *p)
+void MUSICAL_MCSS_TickMCAnim(char *p)
 {
     int i;
     u32 now;

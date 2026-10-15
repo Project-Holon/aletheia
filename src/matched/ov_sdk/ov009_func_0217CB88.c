@@ -17,10 +17,10 @@
  *   gsiCoreCancelTask  0x0217CECC  arm  ov009
  *   gsiCoreTaskDispatchCallback  0x0217CB5C  arm  ov009
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_02184324  0x02184324  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  */
 
@@ -58,10 +58,10 @@ extern unsigned int current_time(void);
 extern void gsiCoreCancelTask(GSTask *theTask);
 extern void gsiCoreTaskDispatchCallback(GSTask *theTask, int theResult);
 extern void gsiEnterCriticalSection(void *mutex);
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void func_02184324(void *array, int n);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern void gsiLeaveCriticalSection(void *mutex);
 
 int gsCoreTaskThink(GSTask *theTask)
@@ -93,11 +93,11 @@ int gsCoreTaskThink(GSTask *theTask)
             removeTask = theTask->mCleanupFunc(theTask->mTaskData);
         if (removeTask) {
             gsiEnterCriticalSection(aCore->mQueueCrit);
-            len = func_02184200(aCore->mTaskArray);
+            len = ArrayLength(aCore->mTaskArray);
             for (i = 0; i < len; i++) {
                 if (*(GSTask **)func_02184208(aCore->mTaskArray, i) == theTask) {
                     func_02184324(aCore->mTaskArray, i);
-                    func_0217EAE0(theTask);
+                    gsifree(theTask);
                     break;
                 }
             }

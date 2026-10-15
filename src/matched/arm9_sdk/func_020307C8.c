@@ -1,5 +1,5 @@
 /*
- * function: func_020307C8
+ * function: GFL_HEAP_InitAllocatorChecked
  * address:  0x020307C8
  * packet:   pkt_020307C8
  * region:   arm9
@@ -19,7 +19,7 @@ typedef int s32;
 extern u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size);
 extern void OS_Terminate(void);
 
-void func_020307C8(void *p, u32 heapId, s32 size)
+void GFL_HEAP_InitAllocatorChecked(void *p, u32 heapId, s32 size)
 {
     if (GFL_HEAP_InitAllocator(p, heapId, size) == 0) {
         OS_Terminate();

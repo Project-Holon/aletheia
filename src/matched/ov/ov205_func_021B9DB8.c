@@ -15,8 +15,8 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -37,8 +37,8 @@ extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
-extern void func_0201F02C(struct WordSet *,u32,void *);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void STRBUF_Delete(struct U16Vec *);
@@ -53,8 +53,8 @@ void SAVE_SCREEN_PrintText(char *p,u32 index,s16 x,s16 y)
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+20)),0);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+20)),15);
     MSGDATA_ReadString(*(struct MsgBank **)(p+12),index,a);
-    func_0201F02C(*(struct WordSet **)(p+16),1,*(void **)(p+8));
-    func_0201F250(*(struct WordSet **)(p+16),b,a);
+    WORDSET_SetSlotMyStatus(*(struct WordSet **)(p+16),1,*(void **)(p+8));
+    WORDSET_CopyTaggedText(*(struct WordSet **)(p+16),b,a);
     GF_FONT_SetTextColor(1,2,15);
     PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(p+20)),x,y,b,*(void **)(p+24));
     STRBUF_Delete(a);

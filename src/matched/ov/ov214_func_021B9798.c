@@ -21,7 +21,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BTL_REC_SEL_GRAPHIC_Delete 0x021BB220 thumb ov214
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
@@ -46,7 +46,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void BTL_REC_SEL_GRAPHIC_Delete(char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int handle);
 int func_021B9798(void *owner,int unused,int state,char *p)
 {
@@ -69,7 +69,7 @@ int func_021B9798(void *owner,int unused,int state,char *p)
     GF_FONT_Delete(((struct Obj00636 *)p)->f8);
     BTL_REC_SEL_GRAPHIC_Delete(*(char * *)&((struct Obj00636 *)p)->f4);
     func_020315D4(owner);
-    func_020306F0(117);
+    GFL_HEAP_DeleteChecked(117);
     func_02034A5C((int)ov067_id);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02190650
+ * function: gpiStartSearch
  * address:  0x02190650
  * packet:   pkt_02156B70
  * region:   ov009
@@ -13,14 +13,17 @@
  * with a local out-parameter, and stop at the first stage that reports an
  * error.  The third stage is skipped when the produced object's +8 word is
  * zero.  Returns 0 when every stage passes.
+ *
+ * symbols:
+ *   gpiStartProfileSearch  0x021903B0  arm
  */
 
 extern int func_0218E114(void *a, int b, int c, void **pp, int d, int e, int f);
 struct GPIOperation_s;
-extern int func_021903B0(void **connection, struct GPIOperation_s *operation);
+extern int gpiStartProfileSearch(void **connection, struct GPIOperation_s *operation);
 extern int func_02186E9C(void *a, int x);
 
-int func_02190650(void *a, int a1, int a2, int a3, int a4)
+int gpiStartSearch(void *a, int a1, int a2, int a3, int a4)
 {
     char *q;
     void *v;
@@ -32,7 +35,7 @@ int func_02190650(void *a, int a1, int a2, int a3, int a4)
     r = func_0218E114(a, 3, a1, &v, a2, a3, a4);
     if (r != 0)
         return r;
-    r = func_021903B0(a, v);
+    r = gpiStartProfileSearch(a, v);
     if (r != 0)
         return r;
 

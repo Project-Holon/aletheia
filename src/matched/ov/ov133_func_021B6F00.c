@@ -13,17 +13,17 @@
  *   MUSICAL_SAVE_IsPropOwned 0x0200A644 thumb
  *   MUSICAL_SAVE_IsPropNew 0x0200A680 thumb
  *   MUSICAL_SAVE_GetOutfits 0x0200A628 thumb
- *   func_021F48C0 0x021F48C0 thumb ov112
- *   func_021F4F10 0x021F4F10 thumb ov112
- *   func_021F4B3C 0x021F4B3C thumb ov112
- *   func_021F4B4C 0x021F4B4C thumb ov112
- *   func_021F4F54 0x021F4F54 thumb ov112
- *   func_021F4F70 0x021F4F70 thumb ov112
- *   func_021F4EE8 0x021F4EE8 thumb ov112
- *   func_021F4C1C 0x021F4C1C thumb ov112
- *   func_021F4E6C 0x021F4E6C thumb ov112
- *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_021F4DE0 0x021F4DE0 thumb ov112
+ *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
+ *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_CreateResourceArc 0x021F4B3C thumb ov112
+ *   MUSICAL_MCSS_FreeResourceArc 0x021F4B4C thumb ov112
+ *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
+ *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_SetElemFlag 0x021F4EE8 thumb ov112
+ *   MUSICAL_MCSS_AddImageNoVram 0x021F4C1C thumb ov112
+ *   MUSICAL_MCSS_SetElemVisible 0x021F4E6C thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_TransferVram 0x021F4DE0 thumb ov112
  *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
  *   G3D_SYSTEM_GetTexVramKey 0x02047388 arm
  *   G3D_SYSTEM_GetPlttVramKey 0x020473B8 arm
@@ -33,7 +33,7 @@
  *   NNS_G3dPlttSetPlttKey 0x0206A124 arm
  *   NNS_G3dPlttLoad 0x0206A12C arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
- *   func_0204EDD0 0x0204EDD0 arm
+ *   BILLBOARD_GetImageSizeFromFlags 0x0204EDD0 arm
  *   BILLBOARD_AddImageFromVramKeys 0x0204F044 arm
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   BILLBOARD_AddElem 0x0204F428 arm
@@ -65,17 +65,17 @@ struct Object;
 struct Tagged;
 struct Vec3;
 extern u8 *MUSICAL_SAVE_GetOutfits(struct Big *p);
-extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
-extern u32 func_021F4F10(u8 *p);
-extern void *func_021F4B3C(int type);
-extern void func_021F4B4C(struct Tagged *a0);
-extern u8 *func_021F4F54(u8 *, int);
-extern int func_021F4F70(int *);
-extern void func_021F4EE8(u8 *, u8 *, int);
-extern u8 *func_021F4C1C(u8 *, int, u32, Vec *);
-extern void func_021F4E6C(u8 *, u8 *, u32);
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4DE0(char *p, char *e, void *a2);
+extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
+extern u32 MUSICAL_MCSS_NoOp5(u8 *p);
+extern void *MUSICAL_MCSS_CreateResourceArc(int type);
+extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0);
+extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
+extern int MUSICAL_MCSS_NoOp6(int *);
+extern void MUSICAL_MCSS_SetElemFlag(u8 *, u8 *, int);
+extern u8 *MUSICAL_MCSS_AddImageNoVram(u8 *, int, u32, Vec *);
+extern void MUSICAL_MCSS_SetElemVisible(u8 *, u8 *, u32);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
+extern void MUSICAL_MCSS_TransferVram(char *p, char *e, void *a2);
 extern int G3D_SYSTEM_TransVramTexture(int *self);
 extern u32 G3D_SYSTEM_GetTexVramKey(struct Layer *layer);
 extern u32 G3D_SYSTEM_GetPlttVramKey(struct Layer *layer);
@@ -85,7 +85,7 @@ extern void *G3D_SYSTEM_GetResourceTex(void *);
 extern void NNS_G3dPlttSetPlttKey(int *p, int v);
 extern void NNS_G3dPlttLoad(void *, u32);
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
-extern void func_0204EDD0(int, u16 *, u16 *);
+extern void BILLBOARD_GetImageSizeFromFlags(int, u16 *, u16 *);
 extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
 extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
@@ -142,18 +142,18 @@ void func_021B6F00(u8 *p)
         *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = 1;
     }
 
-    *(u8 **)(p + 0x1884) = (u8 *)func_021F48C0((u32)(*(void **)(p + 0x188c)), 0x98, *(u16 *)p);
-    table = (u8 *)func_021F4F10(*(u8 **)(p + 0x1884));
+    *(u8 **)(p + 0x1884) = (u8 *)MUSICAL_MCSS_CreateActorPool((u32)(*(void **)(p + 0x188c)), 0x98, *(u16 *)p);
+    table = (u8 *)MUSICAL_MCSS_NoOp5(*(u8 **)(p + 0x1884));
 
     for (i = 0; i < *(u16 *)(p + 0xa8); i++) {
-        h = func_021F4B3C(*(u16 *)(p + i * 0x14 + 0xac));
+        h = MUSICAL_MCSS_CreateResourceArc(*(u16 *)(p + i * 0x14 + 0xac));
         G3D_SYSTEM_TransVramTexture(h);
         w = G3D_SYSTEM_GetTexVramKey(h);
         hgt = G3D_SYSTEM_GetPlttVramKey(h);
         sz = ((hgt & 0xFFFF0000) >> 16) << 3;
         vram = d_020A8148(sz, 0, 0);
-        flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + i * 0x14 + 0xac)));
-        func_0204EDD0(flags, &sizes[1], &sizes[0]);
+        flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + i * 0x14 + 0xac)));
+        BILLBOARD_GetImageSizeFromFlags(flags, &sizes[1], &sizes[0]);
         *(u32 *)(p + i * 0x14 + 0xb0) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
         pal = (u16 *)G3D_SYSTEM_GetPlttDataAddr((int)h);
         n = sz >> 1;
@@ -170,7 +170,7 @@ void func_021B6F00(u8 *p)
         DWCi_ScreenDC_FlushRange(buf, *(u32 *)(buf + 8));
         NNS_G3dPlttLoad(res, 1);
         *(u32 *)(p + i * 0x14 + 0xb4) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
-        func_021F4B4C(h);
+        MUSICAL_MCSS_FreeResourceArc(h);
     }
 
     func_021B9028(p, 8, 0);
@@ -183,23 +183,23 @@ void func_021B6F00(u8 *p)
         Vec v = {0, 0, 0};
         e = func_021BA19C(*(u16 *)p, *(void **)(p + 0x1884), p + 0xac + i * 0x14, (int *)(&v));
         func_021BA100(*(void **)(p + 0x181c), e);
-        func_021F4EE8(*(u8 **)(p + 0x1884), (u8 *)func_021BA218(e), 0);
+        MUSICAL_MCSS_SetElemFlag(*(u8 **)(p + 0x1884), (u8 *)func_021BA218(e), 0);
     }
 
     {
     Vec v2 = {0, 0, 0};
     *(u16 *)(p + 0x50) = 0;
-    flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
-    func_0204EDD0(flags, &dims[1], &dims[0]);
-    h = func_021F4B3C(*(u16 *)(p + 0x50));
+    flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + 0x50)));
+    BILLBOARD_GetImageSizeFromFlags(flags, &dims[1], &dims[0]);
+    h = MUSICAL_MCSS_CreateResourceArc(*(u16 *)(p + 0x50));
     G3D_SYSTEM_TransVramTexture(h);
     w = G3D_SYSTEM_GetTexVramKey(h);
     *(u32 *)(p + 0x54) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, G3D_SYSTEM_GetPlttVramKey(h), 0, flags, dims[1], dims[0]);
-    *(u8 **)(p + 0x4c) = func_021F4C1C(*(u8 **)(p + 0x1884), *(u16 *)(p + 0x50), *(u32 *)(p + 0x54), &v2);
-    func_021F4E6C(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0);
-    func_021F4EB4((u32)(*(u8 **)(p + 0x1884)), (u32)(*(u8 **)(p + 0x4c)), 0x1000, 0x1000);
-    func_021F4DE0((char *)(*(u8 **)(p + 0x1884)), (char *)(*(u8 **)(p + 0x4c)), h);
-    func_021F4B4C(h);
+    *(u8 **)(p + 0x4c) = MUSICAL_MCSS_AddImageNoVram(*(u8 **)(p + 0x1884), *(u16 *)(p + 0x50), *(u32 *)(p + 0x54), &v2);
+    MUSICAL_MCSS_SetElemVisible(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0);
+    MUSICAL_MCSS_SetElemRotZ((u32)(*(u8 **)(p + 0x1884)), (u32)(*(u8 **)(p + 0x4c)), 0x1000, 0x1000);
+    MUSICAL_MCSS_TransferVram((char *)(*(u8 **)(p + 0x1884)), (char *)(*(u8 **)(p + 0x4c)), h);
+    MUSICAL_MCSS_FreeResourceArc(h);
     }
 
     *(u32 *)(p + 0x58) = BILLBOARD_AddImageFromArchive(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);

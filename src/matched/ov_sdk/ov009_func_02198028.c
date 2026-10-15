@@ -1,5 +1,5 @@
 /*
- * function: func_02198028
+ * function: gti2CreateConnectionObject
  * address:  0x02198028
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Tail call with a constant 0xa0 argument.
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm
+ *   gsimalloc  0x0217EAB0  arm
  */
 
-extern void func_0217EAB0(int v);
+extern void gsimalloc(int v);
 
-void func_02198028(void)
+void gti2CreateConnectionObject(void)
 {
-    func_0217EAB0(0xa0);
+    gsimalloc(0xa0);
 }
 

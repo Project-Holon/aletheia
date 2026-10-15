@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0220D98C  0x0220D98C  thumb  ov197
- *   func_0220D974  0x0220D974  thumb  ov197
+ *   B_BAG_MAIN_LayoutCursor  0x0220D98C  thumb  ov197
+ *   B_BAG_MAIN_SetCursorVisible  0x0220D974  thumb  ov197
  *   CURSOR_MOVE_SetCurrent  0x020260E4  thumb
  */
 #include "../include/Obj06649.h"
@@ -19,8 +19,8 @@ typedef unsigned char  u8;
 struct Sound;
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 typedef unsigned int   u32;
-extern void func_0220D98C(u8 *p, u32 idx);
-extern void func_0220D974(char *p, int b);
+extern void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx);
+extern void B_BAG_MAIN_SetCursorVisible(char *p, int b);
 
 void B_BAG_MAIN_HandleSelection(char *p, int b)
 {
@@ -28,6 +28,6 @@ void B_BAG_MAIN_HandleSelection(char *p, int b)
         CURSOR_MOVE_SetCurrent((struct Sound *)(*(int *)&((struct Obj06649 *)p)->f144), 0);
         b = 0;
     }
-    func_0220D98C((u8 *)p, b);
-    func_0220D974(p, 1);
+    B_BAG_MAIN_LayoutCursor((u8 *)p, b);
+    B_BAG_MAIN_SetCursorVisible(p, 1);
 }

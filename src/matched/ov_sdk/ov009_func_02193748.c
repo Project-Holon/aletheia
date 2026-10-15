@@ -1,5 +1,5 @@
 /*
- * function: func_02193748
+ * function: gpiEncodeString
  * address:  0x02193748
  * packet:   pkt_0219091C
  * region:   ov009
@@ -26,7 +26,7 @@ extern void Util_RandSeed(unsigned int v);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 
-void func_02193748(const char *plaintext, char *encoded)
+void gpiEncodeString(const char *plaintext, char *encoded)
 {
     char temp[0x20];
     unsigned int i;

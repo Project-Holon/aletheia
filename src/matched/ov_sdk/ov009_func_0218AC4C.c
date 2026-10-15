@@ -1,5 +1,5 @@
 /*
- * function: func_0218AC4C
+ * function: gpiSendNewuser
  * address:  0x0218AC4C
  * packet:   pkt_ov009_0218AC4C
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      gpiSendNewuser (gpiconnect.o)
  *
  * symbols:
- *   func_02193748  0x02193748  arm   ov009
- *   func_0218946C  0x0218946C  arm   ov009
- *   func_0218949C  0x0218949C  arm   ov009
+ *   gpiEncodeString  0x02193748  arm   ov009
+ *   gpiAppendStringToBuffer  0x0218946C  arm   ov009
+ *   gpiAppendIntToBuffer  0x0218949C  arm   ov009
  *   strlen  0x0209477C  arm
  *   Util_RandSeed  0x0217F790  arm   ov009
  *   Util_RandInt  0x0217F7AC  arm   ov009
@@ -63,10 +63,10 @@ typedef struct GPIConnection {
     int namespaceID;
 } GPIConnection;
 
-extern void func_02193748(const char *plaintext, char *encoded);
+extern void gpiEncodeString(const char *plaintext, char *encoded);
 typedef unsigned char  u8;
-extern int func_0218946C(int *connection, int *buffer, const char *string);
-extern int func_0218949C(int *connection, int *buffer, int value);
+extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
+extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 extern int strlen(const u8 *s);
 extern void Util_RandSeed(unsigned long seed);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
@@ -85,7 +85,7 @@ extern char g_021A48E8[];
 extern char g_021A4954[];
 extern char g_021A495C[];
 
-int func_0218AC4C(void **connection, GPIConnectData *data)
+int gpiSendNewuser(void **connection, GPIConnectData *data)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     unsigned long i;
@@ -95,23 +95,23 @@ int func_0218AC4C(void **connection, GPIConnectData *data)
     unsigned long cdkeylen;
     char aRand;
 
-    func_02193748(iconnection->password, passwordenc);
+    gpiEncodeString(iconnection->password, passwordenc);
 
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4964);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4970);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->email);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4978);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->nick);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4980);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), passwordenc);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4914);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->productID);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4920);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), gGsAvailabilityGameName);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A492C);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->namespaceID);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48B4);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->uniquenick);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4964);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4970);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->email);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4978);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->nick);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4980);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), passwordenc);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4914);
+    gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->productID);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4920);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGsAvailabilityGameName);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A492C);
+    gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->namespaceID);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48B4);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->uniquenick);
 
     if (data->cdkey[0] != '\0') {
         cdkeylen = strlen((const u8 *)data->cdkey);
@@ -122,13 +122,13 @@ int func_0218AC4C(void **connection, GPIConnectData *data)
         }
         cdkeyxor[i] = '\0';
         B64Encode(cdkeyxor, cdkeyenc, (int)cdkeylen, 1);
-        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4990);
-        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), cdkeyenc);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4990);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), cdkeyenc);
     }
 
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48E8);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->partnerID);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4954);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A495C);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48E8);
+    gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->partnerID);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4954);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A495C);
     return 0;
 }

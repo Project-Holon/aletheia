@@ -1,5 +1,5 @@
 /*
- * function: func_021F9F74
+ * function: STA_ACT_EFFECT_StartEffect
  * address: 0x021F9F74
  * packet: pkt_ov132_021F9F74
  * region: ov132
@@ -24,7 +24,7 @@ static inline void set(Vec *p, int x, int y, int z)
     p->y = y;
     p->z = z;
 }
-void func_021F9F74(char *p, unsigned i, Vec *v)
+void STA_ACT_EFFECT_StartEffect(char *p, unsigned i, Vec *v)
 {
     int a = PARTICLE_StartEffect(((struct Obj14090 *)p)->f4804, i, (int)v);
     if (a == 0 || i < 4) {

@@ -36,9 +36,9 @@
  *   func_02030734  0x02030734  arm
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_02019CE0  0x02019CE0  thumb
+ *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_02019CA0  0x02019CA0  thumb
+ *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
  *   STRBUF_SetString  0x02045924  arm
@@ -114,9 +114,9 @@ extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void func_02019CA0(void *p, u32 v);
+extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
@@ -184,9 +184,9 @@ Bs *FLD_BTL_INST_TOOL_CreateBtlSetup(void *sys, void *partyA, u32 mode0, Rec *re
     POKE_TOOL_ClearPartyParam(mon);
     for (; i < n; i++) {
         e = POKEPARTY_GetMember(partyA, i);
-        func_02019CE0(e, mon);
+        POKE_TOOL_CopyPartyPokemon(e, mon);
         if (POKE_TOOL_GetPartyValue(e, 0x9E, 0) != 0x32)
-            func_02019CA0(mon, 0x32);
+            POKE_TOOL_SetLevelAndRecalc(mon, 0x32);
         POKEPARTY_Add(party, mon);
     }
     func_020307B0(mon);

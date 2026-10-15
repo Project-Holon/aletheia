@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   gPlistPlateSourceName     0x021BED18  data  ov091  a1
  *   gPlistPlateTileX     0x021BEC74  data  ov091  a1
@@ -33,7 +33,7 @@ typedef struct {
 } S44;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32 id);
 extern const char gPlistPlateSourceName[];
 extern const u8 gPlistPlateTileX[];
@@ -44,7 +44,7 @@ S44 *PLIST_PLATE_CreateEmpty(u8 *a, int k)
     S44 *p = func_02030734(((struct Obj13247 *)a)->f0, 0x44, 0, gPlistPlateSourceName, 0xea);
     u8 *q = *(u8 * *)&((struct Obj13247 *)a)->f15C + 0xc;
 
-    func_020410D0(2, (u8)(gPlistPlateTileX[k * 2] + 0x10), gPlistPlateTileY[k * 2], 0x10, 6,
+    BG_SYS_DrawTileEx(2, (u8)(gPlistPlateTileX[k * 2] + 0x10), gPlistPlateTileY[k * 2], 0x10, 6,
                   (u32)q, 0, 0x13, 0x20, 0x20);
     p->b4 = k;
     p->w0 = 0;

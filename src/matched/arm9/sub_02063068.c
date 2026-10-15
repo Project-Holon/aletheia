@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02063068
+ * function: NNSi_G2dCpuLoadOamMain
  * address:  0x02063068
  * packet:   pkt_0206296C
  * region:   arm9
@@ -32,15 +32,15 @@
  * one-`add` form here has no such freedom and matches exactly.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02063068.c \
- *       --func sub_02063068 --addr 0x02063068 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dCpuLoadOamMain.c \
+ *       --func NNSi_G2dCpuLoadOamMain --addr 0x02063068 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern void sub_02082A60(void *src, u32 dest);
 
-void sub_02063068(void *src, u32 offset)
+void NNSi_G2dCpuLoadOamMain(void *src, u32 offset)
 {
     sub_02082A60(src, offset + 0x07000000);
 }

@@ -50,13 +50,13 @@
  *   func_02030734 0x02030734 arm
  *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
  *   MSGDATA_AllocString   0x02045EC0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   unit_02045730  0x02045730  arm
- *   sub_020409B4   0x020409B4  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BG_SYS_PushTile   0x020409B4  arm
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   MIi_CpuCopyFast  0x02082B0C  arm
  *   func_02017E88  0x02017E88  thumb
@@ -65,7 +65,7 @@
  *   WORLDTRADE_INPUT_MenuCreate 0x021F9890 thumb ov135
  *   g_02203BBC  0x02203BBC  data  ov135
  *   WORLDTRADE_INPUT_MenuDelete 0x021F99D0 thumb ov135
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   g_02202F64  0x02202F64  data  ov135
  *   g_02202F84  0x02202F84  data  ov135
  *   g_02202F44  0x02202F44  data  ov135
@@ -85,7 +85,7 @@
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb
  *   tbl_02202EB0   0x02202EB0  data
  *   WORLDTRADE_ADAPTER_CreateString  0x02202670  thumb
@@ -116,11 +116,11 @@
  *   func_020084F4 0x020084F4 thumb
  *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
  *   WORLDTRADE_DEPOSIT_DrawRequestWindowAlt 0x021F8290 thumb ov135
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  *   WORLDTRADE_UpdateTaskMenuYesNo 0x021F4D14 thumb ov135
  *   WORLDTRADE_CloseTaskMenu 0x021F4CE4 thumb ov135
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORLDTRADE_DEPOSIT_PrintBankString  0x021F7FD4  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabel  0x021F8104  thumb
  *   WORLDTRADE_DEPOSIT_PrintConditionLabel  0x021F8178  thumb
@@ -135,6 +135,7 @@
  *   WORLDTRADE_BOX_ClampSlot 0x021F6B34 thumb ov135
  *   func_020173EC 0x020173EC thumb
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
+ *   WORDSET_CopyString  0x0201F41C  thumb  arm9
  */
 #include "worldtrade_types.h"
 
@@ -198,13 +199,13 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 
 extern void BG_SYS_Delete_03F4(u32 i);
 
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -248,7 +249,7 @@ extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u
 
 extern u32 BMP_MENUWORK_Delete(void *p);
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 
@@ -258,7 +259,7 @@ extern u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 
 
@@ -266,9 +267,9 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 extern u8 unit_02045730(u32 a);
 
-extern void sub_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 
 extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
@@ -311,7 +312,7 @@ extern void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
 
 extern u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u32 z, void *str, u32 x, u32 y, u32 z2, u16 color, void *g);
 
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 extern u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 
@@ -325,7 +326,7 @@ extern void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k);
 
 extern const void *func_020084F4(const void *p);
 
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 
@@ -555,13 +556,13 @@ void WORLDTRADE_DEPOSIT_PrintMessage(Work *p, u32 b, u32 c, u32 d, u32 e)
     u32 v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&p->bank), b);
     u32 h;
 
-    func_0201F250((struct WordSet *)(*(u32 *)&p->words), (void *)((*(unsigned int *)&p->str)), (void *)v);
+    WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&p->words), (void *)((*(unsigned int *)&p->str)), (void *)v);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->frame)), 0xf);
     h = p->frame;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    sub_020409B4(unit_02045730(h));
-    func_0201F73C((void *)(p->frame), 0, 1, 0xe);
+    BG_SYS_PushTile(unit_02045730(h));
+    BMP_MENUWORK_DrawWindow((void *)(p->frame), 0, 1, 0xe);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(p->frame), 0, (void *)((*(unsigned int *)&p->str)), 0, 0, (u8 *)p + 0xfa0);
     STRBUF_Delete((struct U16Vec *)v);
 }
@@ -587,7 +588,7 @@ void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
         struct BgTemplate_021F4580 t = g_02202F44;
         BG_SYS_InitBgLayer(2, &t, 0);
     }
-    func_02041300(2, 0, 0, 0, 0x20, 0x18, 0);
+    BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x18, 0);
     func_020409B4(2);
     func_02040588(2, 1);
     {
@@ -616,8 +617,8 @@ void WORLDTRADE_DEPOSIT_LoadBgGraphics(Work *p)
     void *h = func_020490F4(0x60, 0x48);
     func_02049B40(0x60, 0, 0, 0, 0x40, 0x48);
     func_02049B40(0x17, 5, 0, 0x1A0, 0x20, 0x48);
-    func_0201F5BC(0, 1, 14, 0, 0x48);
-    func_0201F5BC(0, 31, 11, 0, 0x48);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 14, 0, 0x48);
+    BMP_MENUWORK_LoadCharAndPltt(0, 31, 11, 0, 0x48);
     func_02049624((void *)0x60, (void *)9, (void *)1, 0, 0, 1, 0x48);
     func_0204989C(0x60, 20, 1, 0, 0x600, 1, 0x48);
     func_02049658(h, 12, 2, 0, 0, 1, 0x48);
@@ -736,7 +737,7 @@ int WORLDTRADE_DEPOSIT_StateCategoryMenuInput(Work *p)
         BMP_MENULIST_Delete(p->fDF4, &((DepositState *)p->st)->menuScroll, &((DepositState *)p->st)->menuRow);
         BMP_MENUWORK_Delete(p->de8);
         WORLDTRADE_ADAPTER_ClearWindowScreen((u32)(p->side_p2[0]), 0);
-        func_0201F7A8(p->d40, 0);
+        BMP_MENUWORK_DrawWindowBorder(p->d40, 0);
         BMP_WIN_Delete(p->side_p2[0]);
         BMP_WIN_Delete(p->win3);
         WORLDTRADE_SetStateAndReturn(p, 5, 5);
@@ -787,7 +788,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(Work *p)
     DepositState *target;
     switch(result) {
     case (u32)-2:
-        func_0201F7A8(p->d40,0);
+        BMP_MENUWORK_DrawWindowBorder(p->d40,0);
         WORLDTRADE_SetStateAndReturn(p,5,5);
         p->state=2;
         target=(DepositState *)p->st;
@@ -842,7 +843,7 @@ int WORLDTRADE_DEPOSIT_StateGenderMenuInput(Work *p)
     unsigned result = WORLDTRADE_INPUT_MenuUpdate(p->menu);
     switch (result) {
     case (unsigned)-2:
-        func_0201F7A8(p->d40, 0);
+        BMP_MENUWORK_DrawWindowBorder(p->d40, 0);
         p->state = 0;
         break;
     case 0: case 1: case 2:
@@ -877,7 +878,7 @@ int WORLDTRADE_DEPOSIT_StateLevelMenuInput(Work *p)
     unsigned result = WORLDTRADE_INPUT_MenuUpdate(p->menu);
     switch (result) {
     case 12: case (unsigned)-2:
-        func_0201F7A8(p->d40, 0);
+        BMP_MENUWORK_DrawWindowBorder(p->d40, 0);
         if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)p + 0xB50, ((DepositState *)p->st)->genderEvent)) {
             p->state = 0;
         } else {
@@ -1126,7 +1127,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     gender = POKE_TOOL_CalcBoxLevel(mon);
     has = func_02017E88(mon, 0xAD, 0);
     title = func_02045EC0(bank, 0x6E);
-    func_0201EFA4(ws, 3, gender, 3, 0, 1);
+    WORDSET_SetSlotNumber(ws, 3, gender, 3, 0, 1);
     place = (void *)WORLDTRADE_ADAPTER_CreateString((u32)ws, (u32)bank, 0x72, 0x48);
     if (form != 3) {
         func_02045CAC(bank, tbl_02202EB0[form], tmp);
@@ -1206,7 +1207,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p)
         }
         WORLDTRADE_ADAPTER_CopyBoxMon(p->mon, (u32)dst);
     }
-    func_0201F41C(func_020084F4(p->ctx->f1C), (u16 *)dst->name, 8);
+    WORDSET_CopyString(func_020084F4(p->ctx->f1C), (u16 *)dst->name, 8);
     dst->trainerId = func_02008530(p->ctx->f1C);
     dst->lang = func_0200856C(p->ctx->f1C);
     dst->ver = func_02008570(p->ctx->f1C);
@@ -1266,7 +1267,7 @@ void *WORLDTRADE_DEPOSIT_CreateSpeciesMenuList(Work *p, void **menu, void *win, 
     src.count = count;
     src.w[0] = (u32)*menu;
     src.w[3] = (u32)win;
-    func_0201F73C(win, 0, 31, 11);
+    BMP_MENUWORK_DrawWindow(win, 0, 31, 11);
     return BMP_MENULIST_Create((struct Src *)(&src), p->a[kind], p->b[kind], 0x48);
 }
 

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02066AE0
+ * function: NNSi_G2dGetCellTransferStateIndex
  * address:  0x02066AE0
  * packet:   pkt_02066AE0
  * region:   arm9
@@ -42,8 +42,8 @@
  *     load.  Storing through `c` drops both instructions.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02066AE0.c \
- *       --func func_02066AE0 --addr 0x02066AE0 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dGetCellTransferStateIndex.c \
+ *       --func NNSi_G2dGetCellTransferStateIndex --addr 0x02066AE0 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char u8;
@@ -63,7 +63,7 @@ struct Bank02066AE0 {
 
 extern struct Bank02066AE0 sCellTransferStateManager;
 
-int func_02066AE0(void)
+int NNSi_G2dGetCellTransferStateIndex(void)
 {
     u32 i = 0;
 

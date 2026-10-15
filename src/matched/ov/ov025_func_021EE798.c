@@ -17,7 +17,7 @@
  *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  *   WEATHER_TASK_GetCameraScroll  0x021A244C  thumb  ov021
  *   WEATHER_TASK_ShiftParticles  0x021A2564  thumb  ov021
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  */
 
 typedef signed int     s32;
@@ -31,7 +31,7 @@ extern void WEATHER_TASK_GetCameraScroll(u8 *o, s32 *outX, s32 *outY);
 extern void WEATHER_TASK_ShiftParticles(int, int, int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 func_02014A10(u32 i);
+extern u16 ZONEDATA_GetLightTableMember(u32 i);
 
 int WEATHER_SNOW_BeginParticles(int a, int b, int c)
 {
@@ -46,7 +46,7 @@ int WEATHER_SNOW_BeginParticles(int a, int b, int c)
         *p = *p - 1;
         if (*p == 0) {
             WEATHER_TASK_ChangeFog((u8 *)a, 8, 0x7F5F, 0x5A, b);
-            WEATHER_TASK_FadeLight(a, 0x3E, func_02014A10(1));
+            WEATHER_TASK_FadeLight(a, 0x3E, ZONEDATA_GetLightTableMember(1));
         }
     } else if (WEATHER_TASK_IsFogIdle(a) != 0 && t != 0) {
         return 1;

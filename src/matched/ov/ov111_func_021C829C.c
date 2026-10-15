@@ -1,5 +1,5 @@
 /*
- * function: func_021C829C
+ * function: VIEWER_ACTOR_LoadPalette
  * address:  0x021C829C
  * packet:   pkt_ov111_021C829C
  * region:   ov111
@@ -27,7 +27,7 @@ typedef struct {
 
 extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
 
-void func_021C829C(Work *p, int idx, int k)
+void VIEWER_ACTOR_LoadPalette(Work *p, int idx, int k)
 {
     if (k > 2) {
         k = 2;

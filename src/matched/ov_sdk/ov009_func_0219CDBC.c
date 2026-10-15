@@ -15,7 +15,7 @@
  *   qr_add_packet_header  0x0219BA84  arm  ov009
  *   sendto  0x0217ECA4  arm  ov009
  *   current_time  0x0217F264  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A7A9C  0x021A7A9C  data
  */
 
@@ -39,7 +39,7 @@ extern void qr_add_packet_header(struct qr2_buffer_s *buf, char ptype, char *req
 struct SOCSockAddr;
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern unsigned int current_time(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 
 void send_keepalive(qr2_implementation_s *qrec)
 {
@@ -49,5 +49,5 @@ void send_keepalive(qr2_implementation_s *qrec)
     qr_add_packet_header(&buf, 8, qrec->instance_key);
     sendto(qrec->hbsock, buf.buffer, buf.len, 0, (struct SOCSockAddr *)qrec->hbaddr, 8);
     qrec->lastheartbeat = current_time();
-    func_0217D254(3, 0, 0x10, g_021A7A9C, buf);
+    gsDebugFormat(3, 0, 0x10, g_021A7A9C, buf);
 }

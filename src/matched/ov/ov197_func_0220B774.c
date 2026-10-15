@@ -1,5 +1,5 @@
 /*
- * function: func_0220B774
+ * function: B_BAG_MAIN_DrawItemsPage
  * address:  0x0220B774
  * packet:   pkt_0220B774
  * region:   ov197
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0220B520 0x0220B520 thumb
- *   func_0220B6C4 0x0220B6C4 thumb
- *   func_0220B584 0x0220B584 thumb
+ *   B_BAG_MAIN_DrawPocket 0x0220B520 thumb
+ *   B_BAG_MAIN_DrawInfoBox 0x0220B6C4 thumb
+ *   B_BAG_MAIN_DrawHeader 0x0220B584 thumb
  */
 
-extern void func_0220B520(char *p);
-extern void func_0220B6C4(char *p);
-extern void func_0220B584(char *p);
+extern void B_BAG_MAIN_DrawPocket(char *p);
+extern void B_BAG_MAIN_DrawInfoBox(char *p);
+extern void B_BAG_MAIN_DrawHeader(char *p);
 
-void func_0220B774(char *a)
+void B_BAG_MAIN_DrawItemsPage(char *a)
 {
-    func_0220B520(a);
-    func_0220B6C4(a);
-    func_0220B584(a);
+    B_BAG_MAIN_DrawPocket(a);
+    B_BAG_MAIN_DrawInfoBox(a);
+    B_BAG_MAIN_DrawHeader(a);
 }

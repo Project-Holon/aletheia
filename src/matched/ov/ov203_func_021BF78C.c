@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE9B8 0x021BE9B8 thumb
+ *   DEMO3D_DATA_CreateCapture 0x021BE9B8 thumb
  */
 #include "../include/Obj14597.h"
 
-extern void *func_021BE9B8(void *p, unsigned a, unsigned b);
+extern void *DEMO3D_DATA_CreateCapture(void *p, unsigned a, unsigned b);
 
 void func_021BF78C(char *a, int unused, int *p)
 {
-    ((struct Obj14597 *)a)->f2C = (int)func_021BE9B8((void *)(((struct Obj14597 *)a)->f20), p[0], p[1]);
+    ((struct Obj14597 *)a)->f2C = (int)DEMO3D_DATA_CreateCapture((void *)(((struct Obj14597 *)a)->f20), p[0], p[1]);
 }

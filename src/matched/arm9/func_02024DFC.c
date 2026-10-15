@@ -29,7 +29,7 @@
  *   d_0209F870          0x0209F870  data a2
  *   INFOWIN_WriteScreen       0x02025154  thumb
  *   INFOWIN_LoadCharacters       0x020251D8  thumb
- *   func_020410D0       0x020410D0  arm
+ *   BG_SYS_DrawTileEx       0x020410D0  arm
  *   func_020409B4       0x020409B4  arm
  *   func_02035630       0x02035630  arm
  *   OS_IsRunOnTwl       0x02085D3C  arm
@@ -83,7 +83,7 @@ extern const u16 d_0209F830[];
 
 extern void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
 extern int  INFOWIN_LoadCharacters(int a0, const void *a1, int a2);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020409B4(u32 a0);
 extern u8 func_02035630(void);
 extern int  OS_IsRunOnTwl(void);
@@ -116,7 +116,7 @@ void INFOWIN_DrawTask(void)
         buf.clk[7] = gInfoWin->f00 + ((gInfoWin->f07 << 12) + k);
         buf.clk[8] = buf.clk[3] + 0x10;
         buf.clk[9] = buf.clk[4] + 0x10;
-        func_020410D0(gInfoWin->f06, 1, 0, 5, 2, (u32)buf.clk, 0, 0, 5, 2);
+        BG_SYS_DrawTileEx(gInfoWin->f06, 1, 0, 5, 2, (u32)buf.clk, 0, 0, 5, 2);
         done = 1;
         gInfoWin->f04 = gInfoWin->f04 - 1;
     }
@@ -185,7 +185,7 @@ void INFOWIN_DrawTask(void)
         buf.scr[2] = buf.scr[0] + 0x10;
         buf.scr[1] = buf.scr[0] + 0x400;
         buf.scr[3] = buf.scr[2] + 0x400;
-        func_020410D0(gInfoWin->f06, 0x1C, 0, 2, 2, (u32)buf.scr, 0, 0, 2, 2);
+        BG_SYS_DrawTileEx(gInfoWin->f06, 0x1C, 0, 2, 2, (u32)buf.scr, 0, 0, 2, 2);
         INFOWIN_LoadCharacters(13, d_0209F830, 1);
         done = 1;
         gInfoWin->f04 = gInfoWin->f04 - 0x20;

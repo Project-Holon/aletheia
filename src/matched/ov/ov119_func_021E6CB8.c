@@ -16,7 +16,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   d_021E7E64 0x021E7E64 data a2
+ *   gOfferWindowPos 0x021E7E64 data a2
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 typedef struct { short x,y,z; u8 a,b; } Create;
 typedef struct { short x,y; } Pt;
 typedef struct { Pt pos[8]; } Table;
-extern const Table d_021E7E64;
+extern const Table gOfferWindowPos;
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 struct Bmp;
@@ -39,7 +39,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void ARC_TOOL_DeleteHandle(void *);
 void POKETRADE_2D_CreateOfferWindows(char *p)
 {
-    Table t = d_021E7E64;
+    Table t = gOfferWindowPos;
     void *h = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
     Create c;
     int i;

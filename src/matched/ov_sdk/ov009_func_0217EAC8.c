@@ -1,5 +1,5 @@
 /*
- * function: func_0217EAC8
+ * function: gsirealloc
  * address:  0x0217EAC8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021A3730[];
 
-void func_0217EAC8(int a, int b)
+void gsirealloc(int a, int b)
 {
     (*(void (**)(int, int))(g_021A3730 + 8))(a, b);
 }

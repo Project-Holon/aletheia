@@ -1,5 +1,5 @@
 /*
- * function: func_021C41C4
+ * function: VIEWER_MAIN_LoadResources
  * address:  0x021C41C4
  * packet:   pkt_ov111_021C41C4
  * region:   ov111
@@ -51,7 +51,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
-void func_021C41C4(Work *p)
+void VIEWER_MAIN_LoadResources(Work *p)
 {
     int i;
 

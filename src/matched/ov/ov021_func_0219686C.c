@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02155A94  0x02155A94  thumb  ov010
+ *   IRC_BATTLE_ENTRY_GetSaveControl  0x02155A94  thumb  ov010
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetButtonMode  0x02008428  thumb
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 struct Sub02008700Obj;
-extern u32 func_02155A94(u8 *p);
+extern u32 IRC_BATTLE_ENTRY_GetSaveControl(u8 *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int CONFIG_GetButtonMode(unsigned short *p);
 extern void IRCBATTLEMENU_SetSeq(void *p, void *fn, u32 n);
@@ -38,7 +38,7 @@ void IRCBATTLEMENU_HookTopMenuPressed(u8 *p)
         IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqStartFadeOut, 0x38C);
         return;
     }
-    if (CONFIG_GetButtonMode((unsigned short *)func_0200873C((void *)func_02155A94((u8 *)(((struct Obj09492 *)p)->f2E4)))) == 1) {
+    if (CONFIG_GetButtonMode((unsigned short *)func_0200873C((void *)IRC_BATTLE_ENTRY_GetSaveControl((u8 *)(((struct Obj09492 *)p)->f2E4)))) == 1) {
         IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqSaveQuestion, 0x38F);
         return;
     }

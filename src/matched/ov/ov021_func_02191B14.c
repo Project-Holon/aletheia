@@ -17,7 +17,7 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   FIELD_MSGBG_ClearBgWinFrame  0x02191FA0  thumb  ov021
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020409B4  0x020409B4  arm
@@ -43,7 +43,7 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void FIELD_MSGBG_ClearBgWinFrame(u32 layer, u32 x, u32 y, u32 w, u32 h, u32 tile, u32 mode);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
+extern void BG_SYS_SetTileEntry(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
 extern void BMP_WIN_TransferChars(struct Descriptor *w);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_020409B4(u32 layer);
@@ -71,7 +71,7 @@ void FIELD_MSGBG_DeleteBgWin(u32 *a)
     y = BMP_WIN_GetPosY((struct Descriptor *)a[1]);
     w = BMP_WIN_GetWidth((struct Descriptor *)a[1]);
     h = BMP_WIN_GetHeight((struct Descriptor *)a[1]);
-    func_02041300((u8)((u16 *)a[0])[1], 0, x, y, w, h, 0x11);
+    BG_SYS_SetTileEntry((u8)((u16 *)a[0])[1], 0, x, y, w, h, 0x11);
     BMP_WIN_TransferChars((struct Descriptor *)a[1]);
     BMP_WIN_Delete((struct Descriptor *)a[1]);
     func_020409B4((u8)((u16 *)a[0])[1]);

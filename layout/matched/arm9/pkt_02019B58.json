@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02019B58",
-    "func_02019B64",
-    "func_02019B94",
-    "func_02019BA4",
-    "func_02019BBC"
+    "POKE_TOOL_SetDefaultName",
+    "POKE_TOOL_SetNameFromSpecies",
+    "POKE_TOOL_LoadExpTable",
+    "POKE_TOOL_GetExpValue",
+    "POKE_TOOL_GetPlateType"
+   ],
+   "addresses": [
+    "0x02019B58",
+    "0x02019B64",
+    "0x02019B94",
+    "0x02019BA4",
+    "0x02019BBC"
    ]
   }
  ]

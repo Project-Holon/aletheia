@@ -1,5 +1,5 @@
 /*
- * function: func_021C00FC
+ * function: ZKNSEARCH_MAIN_WaitConfirmInput
  * address: 0x021C00FC
  * packet: pkt_ov210_021C00FC
  * region: ov210
@@ -19,7 +19,7 @@ extern int TOUCHPANEL_GetTrg(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern u32 KEY_GetTrg(void);
-int func_021C00FC(unsigned char *ctx)
+int ZKNSEARCH_MAIN_WaitConfirmInput(unsigned char *ctx)
 {
     if (ctx[0x2bb] == 90) {
         ctx[0x2bb] = 0;

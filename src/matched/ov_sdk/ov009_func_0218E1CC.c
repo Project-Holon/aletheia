@@ -1,5 +1,5 @@
 /*
- * function: func_0218E1CC
+ * function: gpiDestroyOperation
  * address:  0x0218E1CC
  * packet:   pkt_ov009_0218E1CC
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   func_0217EB9C  0x0217EB9C  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  */
 
 struct GPIConnection {
@@ -37,9 +37,9 @@ struct GPISearchData {
 
 extern int func_0217EB9C(int sock, int how);
 extern int closesocket(int sock);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 
-void func_0218E1CC(void **connection, struct GPIOperation *operation)
+void gpiDestroyOperation(void **connection, struct GPIOperation *operation)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
 
@@ -49,12 +49,12 @@ void func_0218E1CC(void **connection, struct GPIOperation *operation)
         iconnection->numSearches--;
         func_0217EB9C(data->sock, 2);
         closesocket(data->sock);
-        func_0217EAE0(data->b);
+        gsifree(data->b);
         data->b = 0;
-        func_0217EAE0(data->a);
+        gsifree(data->a);
         data->a = 0;
     }
-    func_0217EAE0(operation->data);
+    gsifree(operation->data);
     operation->data = 0;
-    func_0217EAE0(operation);
+    gsifree(operation);
 }

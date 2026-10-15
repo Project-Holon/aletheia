@@ -1,5 +1,5 @@
 /*
- * function: func_021D65F0
+ * function: WIFIBATTLEMATCH_NET_CopyBoxRecord
  * address: 0x021D65F0
  * packet: pkt_ov175_021D65F0
  * region: ov175
@@ -12,7 +12,7 @@
  */
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *,int,u32);
-void func_021D65F0(u32 *p,u32 *q)
+void WIFIBATTLEMATCH_NET_CopyBoxRecord(u32 *p,u32 *q)
 {
     u32 *ctx,*s;
     MI_CpuFill8(p,0,16);

@@ -1,5 +1,5 @@
 /*
- * function: func_0218FCD8
+ * function: gpiProfileListAdd
  * address:  0x0218FCD8
  * packet:   pkt_ov009_0218FCD8
  * region:   ov009
@@ -37,7 +37,7 @@ struct GPIConnection {
 extern int func_0218FD9C(void **connection, int profileid, struct GPIProfile **pProfile);
 extern void func_0218474C(void *table, void *newElem);
 
-struct GPIProfile *func_0218FCD8(void **connection, int id)
+struct GPIProfile *gpiProfileListAdd(void **connection, int id)
 {
     struct GPIConnection *profileList = (struct GPIConnection *)*connection;
     struct GPIProfile *pProfile;

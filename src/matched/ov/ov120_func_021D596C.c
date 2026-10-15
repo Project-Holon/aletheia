@@ -1,5 +1,5 @@
 /*
- * function: func_021D596C
+ * function: GTSNEGO_DISP_CheckPartySelect
  * address:  0x021D596C
  * packet:   pkt_021D596C
  * region:   ov120
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D6AC0  0x021D6AC0  thumb
+ *   GTSNEGO_MSG_IsCursorAnimDone  0x021D6AC0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021D6AC0(u8 *p);
+extern int GTSNEGO_MSG_IsCursorAnimDone(u8 *p);
 
-int func_021D596C(u8 *p, int x)
+int GTSNEGO_DISP_CheckPartySelect(u8 *p, int x)
 {
-    if (func_021D6AC0(((struct Obj22832 *)p)->f3C) == 0)
+    if (GTSNEGO_MSG_IsCursorAnimDone(((struct Obj22832 *)p)->f3C) == 0)
         x = 9;
     return x;
 }

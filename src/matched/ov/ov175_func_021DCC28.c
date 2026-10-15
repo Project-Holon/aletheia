@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC28
+ * function: WIFIBATTLEMATCH_NET_HttpRapPost
  * address: 0x021DCC28
  * packet: pkt_ov175_021DCC28
  * region: ov175
@@ -29,7 +29,7 @@
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
- *   func_021DCE58 0x021DCE58 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetResultD 0x021DCE58 thumb ov175
  *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
  *   NHTTP_RAP_RecordList_GetCount 0x021B99F0 thumb ov114
  *   NHTTP_RAP_RecordList_GetValue 0x021B99F4 thumb ov114
@@ -46,7 +46,7 @@ extern int NHTTP_RAP_PollConnection(u8 *);
 extern void GFL_NET_ERR_RaiseFatal(u32);
 extern void NHTTP_RAP_FreePostData(u8 *);
 extern void NHTTP_RAP_DeleteConnection(u8 *);
-extern void func_021DCE58(char *,unsigned long,u32);
+extern void WIFIBATTLEMATCH_NET_SetResultD(char *,unsigned long,u32);
 extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
 extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
 extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
@@ -70,7 +70,7 @@ static inline void release(char *p)
         *(u32 *)(p+0x12c)=0;
     }
 }
-int func_021DCC28(char *p,u8 *out)
+int WIFIBATTLEMATCH_NET_HttpRapPost(char *p,u8 *out)
 {
     int result;
     int status;
@@ -95,7 +95,7 @@ int func_021DCC28(char *p,u8 *out)
             case 200: (*(u32 *)(p+0x12c))++;break;
             }
         } else if(status!=15) {
-            func_021DCE58(p+0x18,status,0x17a4);
+            WIFIBATTLEMATCH_NET_SetResultD(p+0x18,status,0x17a4);
             NHTTP_RAP_FreePostData(*(u8 **)(p+0x121c));
             clear(p);
             return 2;

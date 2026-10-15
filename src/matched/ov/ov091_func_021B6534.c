@@ -13,7 +13,7 @@
  *   POKELIST_ExitWork  0x021B6818  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern int POKELIST_ExitWork(u8 *p);
 extern u32 func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 
 int POKELIST_Exit(int a0, int a1, int a2, P *p)
 {
@@ -60,6 +60,6 @@ int POKELIST_Exit(int a0, int a1, int a2, P *p)
         func_020307B0(p->q);
     }
     func_020315D4((struct S020315D4 *)a0);
-    func_020306F0(0x17);
+    GFL_HEAP_DeleteChecked(0x17);
     return 1;
 }

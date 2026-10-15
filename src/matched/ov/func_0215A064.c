@@ -1,5 +1,5 @@
 /*
- * function: func_0215A064
+ * function: MAP_REPLACE_WarpIdToIndex
  * address:  0x0215A064
  * packet:   pkt_0215A064
  * region:   ov010
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159F84  0x02159F84  thumb  ov010
- *   func_02159F80  0x02159F80  thumb  ov010
+ *   MAP_REPLACE_IsValidWarpId  0x02159F84  thumb  ov010
+ *   MAP_REPLACE_GetDefaultWarpId  0x02159F80  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159F84(int a0);
-extern int func_02159F80();
+extern int MAP_REPLACE_IsValidWarpId(int a0);
+extern int MAP_REPLACE_GetDefaultWarpId();
 
-int func_0215A064(int a0)
+int MAP_REPLACE_WarpIdToIndex(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_02159F84(a0);
+    a0 = MAP_REPLACE_IsValidWarpId(a0);
 loc_0215A06C:
     if (a0 != 0) goto loc_0215A076;
 loc_0215A070:
-    a0 = func_02159F80();
+    a0 = MAP_REPLACE_GetDefaultWarpId();
 loc_0215A074:
 t4 = a0 + 0;
 loc_0215A076:

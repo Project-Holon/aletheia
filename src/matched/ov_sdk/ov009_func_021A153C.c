@@ -15,7 +15,7 @@
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC4C  0x0217EC4C  arm  ov009
  *   ErrorDisconnect  0x0219FAAC  arm  ov009
- *   func_0219D478  0x0219D478  arm  ov009
+ *   GOADecrypt  0x0219D478  arm  ov009
  *   ProcessMainListData  0x021A0A24  arm  ov009
  *   ProcessAdHocData  0x021A13D0  arm  ov009
  *
@@ -50,7 +50,7 @@ extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern void ErrorDisconnect(struct SBL *slist);
 struct GOACryptState;
 struct _SBServerList;
-extern void func_0219D478(struct GOACryptState *state, unsigned char *bp, int len);
+extern void GOADecrypt(struct GOACryptState *state, unsigned char *bp, int len);
 extern int ProcessMainListData(struct _SBServerList *slist);
 extern int ProcessAdHocData(struct SBL *slist);
 int ProcessIncomingData(struct SBL *slist)
@@ -69,7 +69,7 @@ int ProcessIncomingData(struct SBL *slist)
 	}
 	slist->inlen += len;
 	if (slist->state == 2 || slist->crypt > 0)
-		func_0219D478((struct GOACryptState *)slist->cs, (unsigned char *)(slist->inbuf + oldlen), slist->inlen - oldlen);
+		GOADecrypt((struct GOACryptState *)slist->cs, (unsigned char *)(slist->inbuf + oldlen), slist->inlen - oldlen);
 	if (slist->state == 3)
 		err = ProcessMainListData((struct _SBServerList *)slist);
 	if (err != 0)

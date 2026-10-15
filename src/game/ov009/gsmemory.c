@@ -1,7 +1,7 @@
 /*
  * file:     gsmemory.c
  * unit:     yes
- * function: func_0217EA7C, func_0217EA9C, func_0217EAB0, func_0217EAC8, func_0217EAE0
+ * function: _gsi_memalign, func_0217EA9C, gsimalloc, gsirealloc, gsifree
  * address:  0x0217EA7C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -19,11 +19,11 @@
  *   g_021A3730  0x021A3730  data
  */
 extern void *MSL_C_LIB_Calloc(unsigned long n, unsigned long size);
-void *func_0217EA7C(unsigned long boundary, unsigned long size);
+void *_gsi_memalign(unsigned long boundary, unsigned long size);
 void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long));
-void func_0217EAB0(int a);
-void func_0217EAC8(int a, int b);
-void func_0217EAE0(void *p);
+void gsimalloc(int a);
+void gsirealloc(int a, int b);
+void gsifree(void *p);
 extern void *d_021A3730[4];
 extern char g_021A3730[];
 
@@ -31,7 +31,7 @@ extern char g_021A3730[];
 /*
  * sdk:      _gsi_memalign (gsmemory.o)
  */
-void *func_0217EA7C(unsigned long boundary, unsigned long size)
+void *_gsi_memalign(unsigned long boundary, unsigned long size)
 {
     void *ptr = MSL_C_LIB_Calloc(size / boundary, boundary);
     return ptr;
@@ -50,7 +50,7 @@ void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void
 /*
  * Calls the first word of the table at 0x021A3730 on the argument.
  */
-void func_0217EAB0(int a)
+void gsimalloc(int a)
 {
     (*(void (**)(int))g_021A3730)(a);
 }
@@ -59,7 +59,7 @@ void func_0217EAB0(int a)
 /*
  * Calls the second word of the table at 0x021A3730 on the two arguments.
  */
-void func_0217EAC8(int a, int b)
+void gsirealloc(int a, int b)
 {
     (*(void (**)(int, int))(g_021A3730 + 8))(a, b);
 }
@@ -68,7 +68,7 @@ void func_0217EAC8(int a, int b)
 /*
  * Calls the second word of the table at 0x021A3730 on the argument.
  */
-void func_0217EAE0(void *p)
+void gsifree(void *p)
 {
     if (p == 0) {
         return;

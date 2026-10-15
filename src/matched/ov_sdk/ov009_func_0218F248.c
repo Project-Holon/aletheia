@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_0218FD9C  0x0218fd9c  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
  *   gsUdpEngineGetPeerState  0x02181010  arm   ov009
  *   gsUdpEngineStartTalkingToPeer  0x021810cc  arm   ov009
- *   func_02193710  0x02193710  arm   ov009
- *   func_02189D78  0x02189d78  arm   ov009
+ *   gpiSetError  0x02193710  arm   ov009
+ *   gpiCallErrorCallback  0x02189d78  arm   ov009
  *   g_021A4E7C     0x021a4e7c  data
  *   g_021A4F8C     0x021a4f8c  data
  */
@@ -43,11 +43,11 @@ typedef struct {
     char initMsg[1];
 } GPIConnection;
 extern int func_0218FD9C(void *connection, int profileid, GPIProfile **pProfile);
-extern void func_02193734(int *p, int b);
+extern void gpiSetErrorString(int *p, int b);
 extern int gsUdpEngineGetPeerState(unsigned int ip, unsigned short port, int *state);
 extern int gsUdpEngineStartTalkingToPeer(unsigned int ip, unsigned short port, char *msg, int timeOut);
-extern void func_02193710(int *connection, int result, int errorString);
-extern int func_02189D78(int *connection, int a1, int a2);
+extern void gpiSetError(int *connection, int result, int errorString);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern char g_021A4E7C[];
 extern char g_021A4F8C[];
 
@@ -61,7 +61,7 @@ int gpiPeerStartConnect(void **connection, GPIPeer *peer)
 
     iconnection = (GPIConnection *)*connection;
     if (!func_0218FD9C(connection, peer->profile, &profile)) {
-        func_02193734((int *)connection, (int)g_021A4E7C);
+        gpiSetErrorString((int *)connection, (int)g_021A4E7C);
         return 3;
     }
     if (profile->buddyStatusInfo) {
@@ -70,9 +70,9 @@ int gpiPeerStartConnect(void **connection, GPIPeer *peer)
             anError = gsUdpEngineStartTalkingToPeer(profile->buddyStatusInfo->ip, profile->buddyStatusInfo->port,
                                     iconnection->initMsg, 10000);
             if (anError != 5) {
-                func_02193710((int *)connection, 5, (int)g_021A4F8C);
+                gpiSetError((int *)connection, 5, (int)g_021A4F8C);
                 result = 3;
-                func_02189D78((int *)connection, result, 0);
+                gpiCallErrorCallback((int *)connection, result, 0);
                 return result;
             }
         }

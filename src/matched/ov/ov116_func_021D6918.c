@@ -14,7 +14,7 @@
  *   WIFI_BSUBWAY_StatusDelete 0x021D6B70 thumb ov116
  *   WIFI_BSUBWAY_GRAPHIC_DeleteWindow 0x021D7C58 thumb ov116
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
@@ -29,7 +29,7 @@ extern void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *);
 extern void WIFI_BSUBWAY_StatusDelete(unsigned char *a);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_02034A5C(int handle);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *);
@@ -42,7 +42,7 @@ int WIFI_BSUBWAY_Delete(void *p, int a, int b, u8 *q) {
     WIFI_BSUBWAY_StatusDelete(q + 0x1610);
     WIFI_BSUBWAY_GRAPHIC_DeleteWindow(q + 4);
     func_020315D4(p);
-    func_020306F0(125);
+    GFL_HEAP_DeleteChecked(125);
     func_02034A5C((int)ov_id);
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF620
+ * function: BR_CODEIN_SearchUpdateActor
  * address: 0x021DF620
  * packet: pkt_ov183_021DF620
  * region: ov183
@@ -19,7 +19,7 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020490F4 0x020490F4 arm
- *   func_021DF838 0x021DF838 thumb ov183
+ *   BR_CODEIN_SearchBuildHeader 0x021DF838 thumb ov183
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
@@ -46,14 +46,14 @@ struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_021DF838(int,char *);
+extern void BR_CODEIN_SearchBuildHeader(int,char *);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *,u32,u32,u32,u16);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021DF620(struct State *p,int first,short step,u16 heap)
+void BR_CODEIN_SearchUpdateActor(struct State *p,int first,short step,u16 heap)
 {
     int i,j;
     char *src,*dst;
@@ -91,7 +91,7 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
     if(step==-1) { --p->cursor; if(p->cursor<0) p->cursor=4; }
     for(j=0;j<6;j++) {
         if(step==1) i=4; else if(step==-1) i=0;
-        func_021DF838((int)((u32)p->source+(i+first)*0xc4),(char *)&entries);
+        BR_CODEIN_SearchBuildHeader((int)((u32)p->source+(i+first)*0xc4),(char *)&entries);
         if(entries.species[j]) {
             handle=ARC_UTIL_LoadScreenDataFromHandle(archive,POKE_TOOL_CalcGraphicIndex(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
             CLACT_TransferCharacter(p->indices[p->cursor][j],(struct Sub0204A9D0 *)data);

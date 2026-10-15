@@ -1,5 +1,5 @@
 /*
- * function: func_02195408
+ * function: gti2DumpCallback
  * address:  0x02195408
  * packet:   pkt_ov009_02195408
  * region:   ov009
@@ -36,7 +36,7 @@ struct Sock {
 
 extern void func_02197FDC(Sock *sock);
 
-int func_02195408(Sock *sock, Conn *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send)
+int gti2DumpCallback(Sock *sock, Conn *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send)
 {
 	DumpCb callback;
 

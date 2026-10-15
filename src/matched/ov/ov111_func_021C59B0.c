@@ -1,5 +1,5 @@
 /*
- * function: func_021C59B0
+ * function: VIEWER_MAIN_CopyBg6
  * address:  0x021C59B0
  * packet:   pkt_ov111_021C59B0
  * region:   ov111
@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-void func_021C59B0(const u8 *src, u8 *dst)
+void VIEWER_MAIN_CopyBg6(const u8 *src, u8 *dst)
 {
     int i, j;
     int v;

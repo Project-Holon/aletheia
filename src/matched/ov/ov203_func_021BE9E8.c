@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9E8
+ * function: DEMO3D_DATA_DeleteCapture
  * address:  0x021BE9E8
  * packet:   pkt_021BE9E8
  * region:   ov203
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BEA48 0x021BEA48 thumb
+ *   DEMO3D_DATA_DeleteTask 0x021BEA48 thumb
  */
 
-extern void func_021BEA48(int *s, unsigned a, unsigned b, unsigned c);
+extern void DEMO3D_DATA_DeleteTask(int *s, unsigned a, unsigned b, unsigned c);
 
-void func_021BE9E8(int a)
+void DEMO3D_DATA_DeleteCapture(int a)
 {
-    func_021BEA48((int *)a, 1, 0, 1);
+    DEMO3D_DATA_DeleteTask((int *)a, 1, 0, 1);
 }

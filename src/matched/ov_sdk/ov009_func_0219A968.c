@@ -12,7 +12,7 @@
  * sdk:      ProcessPreinitAckPacket (natneg.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   SendInitPackets  0x0219972C  arm  ov009
  *   gNatNegPreinitAckFmt  0x021A6450  data
@@ -37,13 +37,13 @@ typedef struct _NatNegPacket {
 } NatNegPacket;
 
 extern char gNatNegPreinitAckFmt[];
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned int current_time(void);
 extern void SendInitPackets(NATNegotiator *neg);
 
 void ProcessPreinitAckPacket(NATNegotiator *neg, NatNegPacket *p)
 {
-    func_0217D254(7, 0, 8, gNatNegPreinitAckFmt, p->porttype);
+    gsDebugFormat(7, 0, 8, gNatNegPreinitAckFmt, p->porttype);
     if (neg->initAckSent != 1) {
         neg->initAckSent = 1;
         neg->callback(1, neg->userdata);

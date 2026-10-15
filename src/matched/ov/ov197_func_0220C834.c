@@ -1,5 +1,5 @@
 /*
- * function: func_0220C834
+ * function: B_BAG_MAIN_Create
  * address: 0x0220C834
  * packet: pkt_ov197_0220C834
  * region: ov197
@@ -15,11 +15,11 @@
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
- *   func_0220C914 0x0220C914 thumb ov197
+ *   B_BAG_MAIN_Main 0x0220C914 thumb ov197
  *   func_0200829C 0x0200829C thumb
  *   func_020082B0 0x020082B0 thumb
  *   func_020082B4 0x020082B4 thumb
- *   func_0220B9A4 0x0220B9A4 thumb ov197
+ *   B_BAG_MAIN_CheckKeyItem 0x0220B9A4 thumb ov197
  */
 
 
@@ -33,13 +33,13 @@ typedef signed short   s16;
 struct MyItemSave;
 extern int BTLV_EFFECT_GetPalanm(void);
 extern void *func_02030DA8(void *, u32, void *, u32);
-extern void func_0220C914(void *task, char *p);
+extern void B_BAG_MAIN_Main(void *task, char *p);
 extern void func_0200829C(const struct MyItemSave *p, int i, s16 *a, s16 *b);
 extern u16 func_020082B0(const struct MyItemSave *p);
 extern u16 func_020082B4(const struct MyItemSave *p);
-extern int func_0220B9A4(char *p);
+extern int B_BAG_MAIN_CheckKeyItem(char *p);
 
-void func_0220C834(u8 *arg)
+void B_BAG_MAIN_Create(u8 *arg)
 {
     u8 *p;
     u8 *q;
@@ -48,7 +48,7 @@ void func_0220C834(u8 *arg)
     int v;
     int sz = 0x5A4;
     p = func_02030734(*(u16 *)(arg + 0xc), sz, 1, d_0220E0E0, 0xB1);
-    q = func_02030DA8(BTLV_EFFECT_GetOwner(), (u32)func_0220C914, p, 0x64);
+    q = func_02030DA8(BTLV_EFFECT_GetOwner(), (u32)B_BAG_MAIN_Main, p, 0x64);
     *(u8 **)p = arg;
     *(void **)(p + 8) = (void *)BTLV_EFFECT_GetPalanm();
     z = 0;
@@ -73,7 +73,7 @@ void func_0220C834(u8 *arg)
         }
         *(u16 *)(p + 0x540) = func_020082B0((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
         p[0x542] = func_020082B4((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
-        func_0220B9A4((char *)p);
+        B_BAG_MAIN_CheckKeyItem((char *)p);
     } else {
         for (i = 0; i < 4; i++) {
             *(u16 *)(*(u8 **)p + i * 2 + 0x30) = 0;

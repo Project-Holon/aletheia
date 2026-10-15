@@ -28,7 +28,7 @@
  *   WIH_Initialize  0x021790E4  thumb  ov014
  *   WIH_SetGgid  0x02178E1C  thumb  ov014
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8 0x02082BCC arm
  *   DWCi_MOV_WH_SetReceiver  0x0217933C  thumb  ov014
@@ -82,7 +82,7 @@ extern u16 WM_GetNextTgid(void);
 extern int WIH_Initialize(u32 heap, int a, int b);
 extern void WIH_SetGgid(u32 v);
 u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 size);
+s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 size);
 void MI_CpuCopy8(const void *src, void *dst, int size);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void DWCi_MOV_WH_SetReceiver(void *cb);
@@ -398,7 +398,7 @@ int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
     if (NET_WHPIPE_IsBeaconAcceptable(entry) == 0)
         return 0;
     for (i = 0; i < WHPIPE_ENTRY_MAX; i++) {
-        if (work->entryAge[i] != 0 && func_0203EFC8(work->entry[i].bssid, entry->bssid, 6) == 0) {
+        if (work->entryAge[i] != 0 && GF_STANDARD_CompareBytes(work->entry[i].bssid, entry->bssid, 6) == 0) {
             work->entryAge[i] = WHPIPE_ENTRY_LIFETIME;
             MI_CpuCopy8(entry, &work->entry[i], 0xC0);
             return 1;

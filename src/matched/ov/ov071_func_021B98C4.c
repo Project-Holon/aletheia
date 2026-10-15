@@ -14,7 +14,7 @@
  *   func_02034714  0x02034714  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
@@ -35,7 +35,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
@@ -51,7 +51,7 @@ void MONOLITH_TOOL_LIST_HideMessage(char *a)
     ((struct Obj00044 *)a)->f294 = 0;
     STRBUF_Delete(((struct Obj00044 *)a)->f290);
     ((struct Obj00044 *)a)->f290 = 0;
-    func_0201F7A8(((struct Obj00044 *)a)->f280, 0);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj00044 *)a)->f280, 0);
     BMP_Clear(r6, 0xff);
     BMP_WIN_TransferChars(((struct Obj00044 *)a)->f280);
     GF_FONT_SetTextColor(0xf, 2, 0);

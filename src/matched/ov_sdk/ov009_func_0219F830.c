@@ -12,7 +12,7 @@
  * sdk:      SBServerListClear (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   AddServerToDeadlist  0x0219F738  arm  ov009
  *   func_0218452C  0x0218452C  arm  ov009
@@ -20,7 +20,7 @@
  */
 
 struct SBL { char pad0[4]; void *servers; };
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *a, int n);
 struct SBServer;
 struct SBServerList;
@@ -31,7 +31,7 @@ void SBServerListClear(struct SBL *slist)
 {
 	int i;
 	int nservers;
-	nservers = func_02184200(slist->servers);
+	nservers = ArrayLength(slist->servers);
 	for (i = 0; i < nservers; i++)
 		AddServerToDeadlist((struct SBServerList *)slist, *(void **)func_02184208(slist->servers, i));
 	func_0218452C(slist->servers);

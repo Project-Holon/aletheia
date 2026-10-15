@@ -15,7 +15,7 @@
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
  *   BTL_FIELD_Delete 0x021EF980 thumb ov093
  *   BTL_NET_FreeRelayPacket 0x021D4D5C thumb ov093
@@ -63,7 +63,7 @@ extern void GFL_USE_SetPlayersAudible(int, u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BTLV_CORE_UnloadDsiOverlay(void);
 static inline int poll(u8 *p, u32 offset)
 {
@@ -132,9 +132,9 @@ int BTL_MAIN_ProcExit(int handle, u32 *state, int unused, u8 *p)
         PM_VOICE_ResetMasterVolume();
         if (((Flags *)p)->flag7) { RINGTONE_SYS_RegisterSleepCallbacks(); ((Flags *)p)->flag7 = 0; }
         func_020315D4((struct S020315D4 *)handle);
-        func_020306F0(19);
-        func_020306F0(20);
-        func_020306F0(18);
+        GFL_HEAP_DeleteChecked(19);
+        GFL_HEAP_DeleteChecked(20);
+        GFL_HEAP_DeleteChecked(18);
         BTLV_CORE_UnloadDsiOverlay();
         return 1;
     }

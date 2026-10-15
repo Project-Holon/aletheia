@@ -16,10 +16,10 @@
  *   POKETRADE_3D_DrawCubeFace 0x021E3910 thumb ov119
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_sdiv 0x0209C00C arm
- *   d_021E815C 0x021E815C data ov119 a4
- *   d_021E79AC 0x021E79AC data ov119 a4
- *   d_021E8150 0x021E8150 data ov119 a4
- *   d_021E8144 0x021E8144 data ov119 a4
+ *   gLookAtEye 0x021E815C data ov119 a4
+ *   gLookAtTarget 0x021E79AC data ov119 a4
+ *   gLookAtUp 0x021E8150 data ov119 a4
+ *   gAnimeFrameCfg 0x021E8144 data ov119 a4
  */
 #include "../include/Obj22794.h"
 typedef unsigned char u8;
@@ -33,8 +33,8 @@ extern void G3X_Reset(void);
 extern void G3i_LookAt_(const VecFx32 *,const VecFx32 *,const VecFx32 *,int,MtxFx43 *);
 extern u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *);
 extern void POKETRADE_3D_DrawCubeFace(int,int,u16,int);
-extern const VecFx32 d_021E815C,d_021E79AC,d_021E8150;
-extern u32 d_021E8144[];
+extern const VecFx32 gLookAtEye,gLookAtTarget,gLookAtUp;
+extern u32 gAnimeFrameCfg[];
 static inline fx32 fraction(int x,int y) { return (fx32)(((long long)x*65536)/y); }
 void POKETRADE_3D_DrawRotatingCube(const u8 *p)
 {
@@ -43,7 +43,7 @@ void POKETRADE_3D_DrawRotatingCube(const u8 *p)
     unsigned delta;
     u16 angle;
     G3X_Reset();
-    G3i_LookAt_(&d_021E815C,&d_021E79AC,&d_021E8150,1,0);
+    G3i_LookAt_(&gLookAtEye,&gLookAtTarget,&gLookAtUp,1,0);
     *(volatile u32 *)0x040004c8=0x2d8b6127;
     *(volatile u32 *)0x040004cc=0x7fff;
     stage=POKETRADE_PROC_GetStoredBoxIndex((u8 *)p);
@@ -65,6 +65,6 @@ void POKETRADE_3D_DrawRotatingCube(const u8 *p)
     x=fraction(x,total);
     for(i=0;i<count;i++) {
         angle=0x10000-x;
-        POKETRADE_3D_DrawCubeFace(d_021E8144[2],i,(u16)((i<<16)/count),angle);
+        POKETRADE_3D_DrawCubeFace(gAnimeFrameCfg[2],i,(u16)((i<<16)/count),angle);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBDAC",
+   "name": "WIFIBATTLEMATCH_NET_GdbUpdateRecord",
    "address": "0x021DBDAC",
    "kind": "game",
    "region": "ov175",

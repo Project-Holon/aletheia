@@ -173,10 +173,10 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Clone 0x02045874 arm
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201F250 0x0201F250 thumb
- *   func_0201F230 0x0201F230 thumb
- *   func_0201F048 0x0201F048 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
+ *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -248,10 +248,10 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -298,8 +298,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             text=STRBUF_Create(0x80,(u16)heap);
             name=GDS_PROFILE_CreateNameStr(prof,heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201EE0C(words,0,name,func_0200D6EC(prof),1,2);
-            func_0201F250(words,text,msg);
+            WORDSET_SetSlotTag(words,0,name,func_0200D6EC(prof),1,2);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(name);
             STRBUF_Delete(msg);
             break;
@@ -311,8 +311,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             v=func_0200D810(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201F230(words,0,v);
-            func_0201F250(words,text,msg);
+            WORDSET_SetSlotMonth(words,0,v);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             break;
             }
@@ -323,8 +323,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             v=func_0200D74C(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201F048(words,0,v);
-            func_0201F250(words,text,msg);
+            WORDSET_SetSlotFromMsgE7(words,0,v);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;
@@ -338,7 +338,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_DeleteMsgdataF094(words,0,v,w);
-            func_0201F250(words,text,msg);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;

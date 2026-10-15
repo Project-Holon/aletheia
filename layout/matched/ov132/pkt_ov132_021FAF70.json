@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FAF70",
+   "name": "SCRIPT_COMMAND_CmdCameraTo224",
    "address": "0x021FAF70",
    "kind": "game",
    "region": "ov132",

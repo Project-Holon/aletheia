@@ -1,5 +1,5 @@
 /*
- * function: func_021D63C8
+ * function: WIFIBATTLEMATCH_NET_SetupBoxAndWait
  * address:  0x021D63C8
  * packet:   pkt_021D63C8
  * region:   ov175
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D62A4  0x021D62A4  thumb
- *   func_021D63B0  0x021D63B0  thumb
+ *   WIFIBATTLEMATCH_NET_SetupBoxRecord  0x021D62A4  thumb
+ *   WIFIBATTLEMATCH_NET_IsBoxReady  0x021D63B0  thumb
  *
- * Runs func_021D62A4 once (the object's start-op) and then spins on
- *     func_021D63B0 until it reports the object ready.
+ * Runs WIFIBATTLEMATCH_NET_SetupBoxRecord once (the object's start-op) and then spins on
+ *     WIFIBATTLEMATCH_NET_IsBoxReady until it reports the object ready.
  */
 
 typedef unsigned long u32;
 
-extern void func_021D62A4(u32 *p, u32 mode);
-extern u32 func_021D63B0(char *obj);
+extern void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *p, u32 mode);
+extern u32 WIFIBATTLEMATCH_NET_IsBoxReady(char *obj);
 
-void func_021D63C8(char *obj, u32 arg)
+void WIFIBATTLEMATCH_NET_SetupBoxAndWait(char *obj, u32 arg)
 {
-    func_021D62A4((u32 *)obj, arg);
-    while (func_021D63B0(obj) == 0)
+    WIFIBATTLEMATCH_NET_SetupBoxRecord((u32 *)obj, arg);
+    while (WIFIBATTLEMATCH_NET_IsBoxReady(obj) == 0)
         ;
 }
 

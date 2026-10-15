@@ -1,5 +1,5 @@
 /*
- * function: func_021F77EC
+ * function: STA_ACT_LIGHT_SetupElem
  * address:  0x021F77EC
  * packet:   pkt_ov112_021F77EC
  * region:   ov112
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_021F77EC(u32 unused, u8 *p, u32 v)
+void STA_ACT_LIGHT_SetupElem(u32 unused, u8 *p, u32 v)
 {
     if (v == 0xe8) { ((struct Obj02169 *)p)->f24 = 0xfb3; return; }
     if (v == 0x184 || v == 0x1fc) { ((struct Obj02169 *)p)->f24 = 0xfc0; return; }

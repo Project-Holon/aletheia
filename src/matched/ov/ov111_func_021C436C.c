@@ -1,5 +1,5 @@
 /*
- * function: func_021C436C
+ * function: VIEWER_MAIN_SetupBgSlot
  * address:  0x021C436C
  * packet:   pkt_ov111_021C436C
  * region:   ov111
@@ -38,7 +38,7 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern const u32 d_021C8E20[][2];
 
-void func_021C436C(Work *p, int k, int alt)
+void VIEWER_MAIN_SetupBgSlot(Work *p, int k, int alt)
 {
     int j = 1;
     u32 file;

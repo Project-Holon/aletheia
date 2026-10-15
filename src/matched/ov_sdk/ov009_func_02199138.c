@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_02184144  0x02184144  arm  ov009
- *   func_02184234  0x02184234  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   gNatnegGlobals  0x021AE698  data
  */
@@ -25,8 +25,8 @@ typedef struct _NATNegotiator {
 
 extern void *gNatnegGlobals;
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void func_02184234(void *array, void *newElem);
-extern int func_02184200(const int *p);
+extern void ArrayAppend(void *array, void *newElem);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 
 NATNegotiator *AddNegotiator(void)
@@ -35,6 +35,6 @@ NATNegotiator *AddNegotiator(void)
 
     if (!gNatnegGlobals)
         gNatnegGlobals = func_02184144(sizeof(NATNegotiator), 4, 0);
-    func_02184234(gNatnegGlobals, &_neg);
-    return (NATNegotiator *)func_02184208(gNatnegGlobals, func_02184200(gNatnegGlobals) - 1);
+    ArrayAppend(gNatnegGlobals, &_neg);
+    return (NATNegotiator *)func_02184208(gNatnegGlobals, ArrayLength(gNatnegGlobals) - 1);
 }

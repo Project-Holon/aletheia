@@ -22,7 +22,7 @@
  *   MYITEM_SAVEDATA_CopyPocket   0x02007CC8  thumb
  *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
  *   FILE_UTIL_Create_0F14  0x02020F14  thumb
- *   func_02020F20  0x02020F20  thumb
+ *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
  *   FILE_UTIL_Get_1014  0x02021014  thumb
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -60,7 +60,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
 extern int ITEMMENU_GetItemCount(u8 *p);
 extern void *FILE_UTIL_Create_0F14(u32 a);
-extern int func_02020F20(int h, int id, u16 heap);
+extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
 struct Rec;
 extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
@@ -85,7 +85,7 @@ void ITEMMENU_SortPocket(Obj *o)
     n = ITEMMENU_GetItemCount((u8 *)o);
     h = (int)FILE_UTIL_Create_0F14(o->heap);
     for (i = 0; i < n; i++) {
-        rec = func_02020F20(h, items[i].id, o->heap);
+        rec = FILE_UTIL_LoadArcMember(h, items[i].id, o->heap);
         e = &ents[i];
         x = FILE_UTIL_Get_1014((struct Rec *)rec, 0xF);
         e->key = (x << 28) + (FILE_UTIL_Get_1014((struct Rec *)rec, 0x11) << 16) + items[i].id;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9ACC
+ * function: MANUAL_GRAPHIC_CreateClactUnit
  * address:  0x021B9ACC
  * packet:   pkt_021B9ACC
  * region:   ov225
@@ -31,7 +31,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021B9ACC(unsigned char *p, int a, int b)
+void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BBE00, a, b);

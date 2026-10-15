@@ -12,11 +12,11 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
- *   func_02040EE0  0x02040EE0  arm
+ *   BG_SYS_GetTileMapEntry  0x02040EE0  arm
  *   BG_SYS_GetGraphics  0x020415B4  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02043130  0x02043130  arm
+ *   BG_SYS_AllocTileBuf  0x02043130  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *
  * bg_sys.c: does the pixel under (x, y) on a layer match the caller's
@@ -31,7 +31,7 @@
  * source kept x/y and px/py in separate registers: 42); the nibble loop
  * counter i is also function-scope (15 -> 9); and i must be declared
  * before tbl, tbl before buf (9 -> 0).  All other facts (u16 first
- * parameter of func_02043130, shared fail exit, mode != 1 arm first) are
+ * parameter of BG_SYS_AllocTileBuf, shared fail exit, mode != 1 arm first) are
  * from docs/notes/pkt_02041FF4.c.txt.
  */
 typedef unsigned char u8;
@@ -61,11 +61,11 @@ struct BgSys
 };
 extern struct BgSys *g_02146A44;
 extern char g_020A7E5C[];
-extern u16 func_02040EE0(int x, int y, u32 code);
+extern u16 BG_SYS_GetTileMapEntry(int x, int y, u32 code);
 extern u32 BG_SYS_GetGraphics(u32 channel);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02043130(u16 flags, u8 *buf, u32 page);
+extern void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
 {
@@ -79,7 +79,7 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
   u8 v;
   if (g_02146A44->slots[layer].tiles == 0)
     return 0;
-  key = func_02040EE0((u8) (x >> 3), (u8) (y >> 3), g_02146A44->slots[layer].unk_1d);
+  key = BG_SYS_GetTileMapEntry((u8) (x >> 3), (u8) (y >> 3), g_02146A44->slots[layer].unk_1d);
   chr = (u8 *)BG_SYS_GetGraphics(layer);
   px = x & 7;
   py = y & 7;
@@ -95,7 +95,7 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
       buf[(i * 2) + 1] = src[i] >> 4;
     }
 
-    func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
+    BG_SYS_AllocTileBuf((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
     v = buf[px + (py << 3)];
     func_020307B0(buf);
     if (((*flags) & (1 << v)) == 0)
@@ -107,7 +107,7 @@ u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
     tbl = g_02146A44->slots[layer].tiles;
     buf = func_02030734((u16)((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa8f);
     MI_CpuCopy8(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
-    func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
+    BG_SYS_AllocTileBuf((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
     v = buf[px + (py << 3)];
     func_020307B0(buf);
   }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A94
+ * function: SAVE_SCREEN_SetTrainerDate
  * address: 0x021B9A94
  * packet: pkt_ov205_021B9A94
  * region: ov205
@@ -27,7 +27,7 @@ extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u8 func_02008654(const struct PlayTime *p);
 extern u32 func_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value);
-void func_021B9A94(char *p)
+void SAVE_SCREEN_SetTrainerDate(char *p)
 {
     void *counter,*date;
     unsigned year,month,day;

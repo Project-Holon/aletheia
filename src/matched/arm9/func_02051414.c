@@ -20,7 +20,7 @@
  *   G3D_SYSTEM_SetLookAt   0x02046B40  arm
  *   G3D_SYSTEM_ApplyLookAt   0x020479D8  arm
  *   G3D_CAMERA_Reset   0x02048AD0  arm
- *   func_020526A8   0x020526A8  arm
+ *   SPL_EMITTER_FreeNodeHeap   0x020526A8  arm
  *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
  *   NNS_G3dGeFlushBuffer   0x0206DB80  arm
@@ -32,7 +32,7 @@
  * 0x24 bytes), copy the model vector 0x020A159C into a local, build an
  * identity 3x3, zero a vector for NNS_G3dGlbBaseTrans, copy the 3x3 to the
  * 0x02148C08 scratch, clear bits 0xa4 of word 63 of 0x02148B4C and hand the
- * model vector to NNS_G3dGlbBaseScale; then the shared call func_020526A8 and, when
+ * model vector to NNS_G3dGlbBaseScale; then the shared call SPL_EMITTER_FreeNodeHeap and, when
  * the block is still there, the teardown.
  *
  * WHAT CLOSED IT (docs/notes/pkt_02051414.c.txt had it at 152 bytes out,
@@ -45,7 +45,7 @@
  * the same locals in the if-block without initialisers all stay at 152 out.
  *
  * sDefaultViewVec resolves through sole-ref/self (its only pool word is inside
- * this function; the ROM word equals the relocation), func_020526A8 through
+ * this function; the ROM word equals the relocation), SPL_EMITTER_FreeNodeHeap through
  * sole-ref/code.
  */
 #include "../include/Obj06994.h"
@@ -82,7 +82,7 @@ extern void G3D_SYSTEM_ApplyLookAt(void);
 struct Head;
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_020526A8(struct Head *h, u32 a);
+extern void SPL_EMITTER_FreeNodeHeap(struct Head *h, u32 a);
 extern void NNS_G3dGlbBaseTrans(void *p);
 extern void NNS_G3dGlbBaseScale(VecFx32 *p);
 extern void NNS_G3dGeFlushBuffer(void);
@@ -111,7 +111,7 @@ void PARTICLE_DrawSystem(u8 *a0)
         G3D_SYSTEM_ApplyLookAt();
         NNS_G3dGeFlushBuffer();
     }
-    func_020526A8((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_renderStateDrawParams);
+    SPL_EMITTER_FreeNodeHeap((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_renderStateDrawParams);
     if (((struct Obj06994 *)a0)->f20 == 0)
         return;
     G3D_SYSTEM_SetProjection((const u32 *)(&b));

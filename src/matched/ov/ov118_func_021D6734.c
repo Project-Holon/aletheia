@@ -1,5 +1,5 @@
 /*
- * function: func_021D6734
+ * function: POKETRADE_DEMO_DOWN_PassThrough
  * address:  0x021D6734
  * packet:   pkt_ov118_021D6734
  * region:   ov118
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D6734(void) { }
+void POKETRADE_DEMO_DOWN_PassThrough(void) { }

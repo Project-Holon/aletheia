@@ -1,5 +1,5 @@
 /*
- * function: func_02067FE4
+ * function: NNS_G2dFontGetCharWidthsFromIndex
  * address:  0x02067FE4
  * packet:   pkt_02067FE4
  * region:   arm9
@@ -56,7 +56,7 @@ typedef struct NNSG2dFont {
     u16 (*cbCharSpliter)(const void **ppChar);  /* +4, called through blx */
 } NNSG2dFont;
 
-const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u32 idx)
+const NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(const NNSG2dFont *pFont, u32 idx)
 {
     const NNSG2dFontWidth *pWidth = pFont->pRes->pWidth;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02008C28
+ * function: RECORD_Init
  * address:  0x02008C28
  * packet:   pkt_02008C28
  * region:   arm9
@@ -15,7 +15,7 @@
  *
  * The block constructor: MIi_CpuClear32 wipes 0x1E0 bytes, then the checksum
  * high half (+0x1DE) is seeded from the word at 0x02FFFC3C in the shared
- * region, then sub_02008C64 commits.  This is the block whose layout
+ * region, then RECORD_Seal commits.  This is the block whose layout
  * src/matched/unit_02008C58.c describes; that file called it a "NEAR MISS, 48
  * bytes, 3 concrete bytes wrong" and blamed the register numbering of the three
  * loads.  The three bytes are in fact the operand order of the combine, and the
@@ -25,8 +25,8 @@
  * commoned up, so the 0x02FFFC3C cast constant is `volatile`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02008C28.c \
- *       --func func_02008C28 --addr 0x02008C28 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/RECORD_Init.c \
+ *       --func RECORD_Init --addr 0x02008C28 --cc 1.1p1 --thumb
  */
 #include "../include/Obj02635.h"
 
@@ -40,7 +40,7 @@ extern void func_02008C64(struct Sub02008C20Obj *obj, int commit);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 
-void func_02008C28(void *obj)
+void RECORD_Init(void *obj)
 {
     u32 a;
     u32 b;

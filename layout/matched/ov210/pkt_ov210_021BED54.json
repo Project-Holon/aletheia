@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BED54",
+   "name": "ZKNSEARCH_MAIN_DeleteActorSystem",
    "address": "0x021BED54",
    "kind": "game",
    "region": "ov210",

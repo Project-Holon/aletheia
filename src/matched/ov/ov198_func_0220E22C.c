@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_0220E22C
+ * function: B_PLIST_DRAW_UpdateToolWindows
  * address: 0x0220E22C
  * packet: pkt_ov198_0220E22C
  * region: ov198
@@ -15,4 +15,4 @@
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Entry;extern void B_APP_TOOL_Update(struct Entry *,int,u32);
-void func_0220E22C(u8 *p){enum{K=0x1f60}k=K;u32 j;B_APP_TOOL_Update((struct Entry *)(p+k),*(int *)(p+(k-0xb4)),2);j=k+0x10;k-=0xb4;B_APP_TOOL_Update((struct Entry *)(p+j),*(int *)(p+k),p[0x2174]);}
+void B_PLIST_DRAW_UpdateToolWindows(u8 *p){enum{K=0x1f60}k=K;u32 j;B_APP_TOOL_Update((struct Entry *)(p+k),*(int *)(p+(k-0xb4)),2);j=k+0x10;k-=0xb4;B_APP_TOOL_Update((struct Entry *)(p+j),*(int *)(p+k),p[0x2174]);}

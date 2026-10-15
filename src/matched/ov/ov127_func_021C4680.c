@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C4680, func_021C4698, func_021C46AC, func_021C46C0, func_021C46D4, func_021C46E8, func_021C46FC, func_021C470C
+ * function: WIFI_2DCHAR_AdvanceAnimSeq, WIFI_2DCHAR_SetAnimSeqPlus9, WIFI_2DCHAR_SetAnimSeqPlus5B, WIFI_2DCHAR_SetAnimSeqPlus5C, WIFI_2DCHAR_SetAnimSeqPlus5D, WIFI_2DCHAR_SetAnimSeqPlus5E, WIFI_2DCHAR_AddAnimFrame, WIFI_2DCHAR_AddAnimFrame2
  * address: 0x021C4680
  * packet: pkt_ov127_021C4680
  * region: ov127
@@ -26,35 +26,35 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
-void func_021C4680(u8 *p, u32 i)
+void WIFI_2DCHAR_AdvanceAnimSeq(u8 *p, u32 i)
 {
     CLACT_ChangeActorAnimSeq(((struct Obj10468 *)p)->f4, ((struct Obj10468 *)p)->f10 + 5);
     ((struct Obj10468 *)p)->f10 = i;
 }
-void func_021C4698(u8 *p, u32 i)
+void WIFI_2DCHAR_SetAnimSeqPlus9(u8 *p, u32 i)
 {
     ((struct Obj14024 *)p)->f10 = i;
     CLACT_ChangeActorAnimSeq(((struct Obj14024 *)p)->f4, i + 9);
 }
-void func_021C46AC(u8 *p, u32 i)
+void WIFI_2DCHAR_SetAnimSeqPlus5B(u8 *p, u32 i)
 {
     ((struct Obj14025 *)p)->f10 = i;
     CLACT_ChangeActorAnimSeq(((struct Obj14025 *)p)->f4, i + 5);
 }
-void func_021C46C0(u8 *p, u32 i)
+void WIFI_2DCHAR_SetAnimSeqPlus5C(u8 *p, u32 i)
 {
     ((struct Obj14026 *)p)->f10 = i;
     CLACT_ChangeActorAnimSeq(((struct Obj14026 *)p)->f4, i + 5);
 }
-void func_021C46D4(u8 *p, u32 i)
+void WIFI_2DCHAR_SetAnimSeqPlus5D(u8 *p, u32 i)
 {
     ((struct Obj14027 *)p)->f10 = i;
     CLACT_ChangeActorAnimSeq(((struct Obj14027 *)p)->f4, i + 5);
 }
-void func_021C46E8(u8 *p, u32 i)
+void WIFI_2DCHAR_SetAnimSeqPlus5E(u8 *p, u32 i)
 {
     ((struct Obj14028 *)p)->f10 = i;
     CLACT_ChangeActorAnimSeq(((struct Obj14028 *)p)->f4, i + 5);
 }
-void func_021C46FC(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23025 *)p)->f4, 8192); }
-void func_021C470C(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23026 *)p)->f4, 8192); }
+void WIFI_2DCHAR_AddAnimFrame(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23025 *)p)->f4, 8192); }
+void WIFI_2DCHAR_AddAnimFrame2(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23026 *)p)->f4, 8192); }

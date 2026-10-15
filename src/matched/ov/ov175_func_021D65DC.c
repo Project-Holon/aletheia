@@ -1,5 +1,5 @@
 /*
- * function: func_021D65DC
+ * function: WIFIBATTLEMATCH_NET_IsSpriteAnimDone
  * address:  0x021D65DC
  * packet:   pkt_021D65DC
  * region:   ov175
@@ -16,7 +16,7 @@
  *   func_021E5EF8   0x021E5EF8  thumb
  *   func_021E5F24   0x021E5F24  thumb
  *
- * Query brother of func_021D65C8: returns the +0x28 block's handler
+ * Query brother of WIFIBATTLEMATCH_NET_DeleteSprite: returns the +0x28 block's handler
  *     result through 0x021E8A00, or -1 when the field is empty.
  */
 #include "../include/Obj24230.h"
@@ -25,7 +25,7 @@ typedef unsigned long u32;
 
 extern int func_021E8A00(u32 p);
 
-int func_021D65DC(char *obj)
+int WIFIBATTLEMATCH_NET_IsSpriteAnimDone(char *obj)
 {
     u32 p = ((struct Obj24230 *)obj)->f28;
 

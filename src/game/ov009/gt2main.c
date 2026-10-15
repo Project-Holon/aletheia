@@ -1,7 +1,7 @@
 /*
  * file:     gt2main.c
  * unit:     yes
- * function: func_02195AB4, func_02195AD8, func_02195AF0, gt2Listen, gt2Accept, gt2Reject, func_02195B44, func_02195CC0, func_02195DC4, func_02195DD4, func_02195DE4, func_02195E00, gt2GetRemoteIP, gt2GetRemotePort, gt2GetLocalIP, gt2GetLocalPort, gt2GetOutgoingBufferSize, func_02195E50, gt2GetSocketSOCKET, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
+ * function: gt2CreateSocket, gt2CloseSocket, func_02195AF0, gt2Listen, gt2Accept, gt2Reject, gt2Connect, func_02195CC0, gt2CloseConnectionHard, func_02195DD4, gt2CloseAllConnectionsHard, gt2GetConnectionState, gt2GetRemoteIP, gt2GetRemotePort, gt2GetLocalIP, gt2GetLocalPort, gt2GetOutgoingBufferSize, gt2GetOutgoingBufferFreeSpace, gt2GetSocketSOCKET, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
  * address:  0x02195AB4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * Difference of the two words at +0x54 and +0x58.
  *
  * symbols:
- *   func_02197D94  0x02197D94  arm  ov009
+ *   gti2CreateSocket  0x02197D94  arm  ov009
  *   func_02197FDC  0x02197FDC  arm  ov009
  *   gti2ReceiveMessages              0x0219725c arm
  *   gti2SocketConnectionsThink       0x02198570 arm
@@ -43,7 +43,7 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern int func_02197D94(void **sock, char *addr, int outSize, int inSize, void *callback, int type);
+extern int gti2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback, int type);
 extern void func_02197FDC(void *p);
 extern int gti2ReceiveMessages(struct GTI2Socket *socket);
 extern int gti2SocketConnectionsThink(struct GTI2Socket *socket);
@@ -64,23 +64,23 @@ extern int gti2Send(void *connection, unsigned char *message, int len, int relia
 extern void func_02195980(int a, int b);
 extern void DWC_IsSendableReliable(void *p);
 extern void func_0218489C(int a, char *p, int c);
-int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback);
-void func_02195AD8(void *p);
+int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
+void gt2CloseSocket(void *p);
 void gt2Think(struct GTI2Socket *socket);
 void gt2Listen(GTI2Socket *socket, void *connectAttemptCallback);
 int gt2Accept(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
 void gt2Reject(void);
-int func_02195B44(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
+int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
 int gt2Send(void *connection, unsigned char *message, int len, int reliable);
-void func_02195DC4(int a);
-void func_02195DE4(int *p);
-int func_02195E00(const int *p);
+void gt2CloseConnectionHard(int a);
+void gt2CloseAllConnectionsHard(int *p);
+int gt2GetConnectionState(const int *p);
 unsigned int gt2GetRemoteIP(const GTI2Connection *connection);
 unsigned short gt2GetRemotePort(const GTI2Connection *connection);
 unsigned int gt2GetLocalIP(const GTI2Socket *socket);
 unsigned short gt2GetLocalPort(const GTI2Socket *socket);
 int gt2GetOutgoingBufferSize(const GTI2Connection *connection);
-int func_02195E50(const int *p);
+int gt2GetOutgoingBufferFreeSpace(const int *p);
 int gt2GetSocketSOCKET(const GTI2Socket *socket);
 void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback);
 void gt2SetConnectionData(GTI2Connection *connection, void *data);
@@ -91,9 +91,9 @@ void *gt2GetConnectionData(const GTI2Connection *connection);
 /*
  * sdk:      gt2CreateSocket (libdwcgsgt2.TWL.HYB.a(gt2main.o))
  */
-int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback)
+int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback)
 {
-	return func_02197D94(sock, addr, outSize, inSize, callback, 0);
+	return gti2CreateSocket(sock, addr, outSize, inSize, callback, 0);
 }
 
 
@@ -101,9 +101,9 @@ int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callba
 /*
  * Calls the two helpers on the argument.
  */
-void func_02195AD8(void *p)
+void gt2CloseSocket(void *p)
 {
-    func_02195DE4(p);
+    gt2CloseAllConnectionsHard(p);
     func_02197FDC(p);
 }
 
@@ -161,7 +161,7 @@ static void gti2CloseAllConnectionsHardMap(void **elem);
 /*
  * sdk:      gt2Connect (libdwcgsgt2.TWL.HYB.a(gt2main.o))
  */
-int func_02195B44(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking)
+int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking)
 {
     GTI2Connection *connectionTemp;
     int result;
@@ -236,7 +236,7 @@ int gt2Send(void *connection, unsigned char *message, int len, int reliable)
 /*
  * Tail call that supplies the second argument 1.
  */
-void func_02195DC4(int a)
+void gt2CloseConnectionHard(int a)
 {
     func_02195980(a, 1);
 }
@@ -254,7 +254,7 @@ static void gti2CloseAllConnectionsHardMap(void **elem)
  * address of the ARM function gti2CloseAllConnectionsHardMap (0x02195DD4, EXACT in
  * ov009_func_02195DD4.c), not data: seeded as a function 2026-09-28.
  */
-void func_02195DE4(int *p)
+void gt2CloseAllConnectionsHard(int *p)
 {
     func_0218489C(p[3], (char *)gti2CloseAllConnectionsHardMap, 0);
 }
@@ -263,7 +263,7 @@ void func_02195DE4(int *p)
 /*
  * Maps the word at +0xc onto 0..3.
  */
-int func_02195E00(const int *p)
+int gt2GetConnectionState(const int *p)
 {
     int v = p[3];
 
@@ -319,7 +319,7 @@ int gt2GetOutgoingBufferSize(const GTI2Connection *connection)
     return connection->outgoingBuffer.size;
 }
 
-int func_02195E50(const int *p)
+int gt2GetOutgoingBufferFreeSpace(const int *p)
 {
     return p[0x15] - p[0x16];
 }

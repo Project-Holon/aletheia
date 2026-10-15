@@ -14,10 +14,10 @@
  * Split from trial_house.c at 0x021CEDA0 (lane L136, __FILE__ anchor enceff.c at 021CF45C/021CF52C (d_021DE5FC); 021CEDA0..021D0114 are its helpers and the ov010 script command handlers that use them).
  *
  * symbols:
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   d_021DE5FC     0x021DE5FC  data  ov021  a4
  *   func_02030734  0x02030734  arm
@@ -90,13 +90,13 @@
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
  *   CURSOR_MOVE_GetTableValue  0x02025C74  thumb
- *   func_02025B64  0x02025B64  thumb
- *   func_0201F048  0x0201F048  thumb
+ *   BMP_OAM_GetRecordValue  0x02025B64  thumb
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
  *   func_02008570  0x02008570  thumb
  *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   WORDSET_Callback  0x0201EE60  thumb
  *   func_02009628  0x02009628  thumb
- *   func_0201F198  0x0201F198  thumb
+ *   WORDSET_SetSlotFromMsg2B  0x0201F198  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   WIFI_HISTORY_GetDisplayCount  0x02009590  thumb
  *   WIFI_HISTORY_GetFirstFreeEntry  0x020095C8  thumb
@@ -288,7 +288,7 @@ extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 length);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
 extern struct WifiHistory *func_02009470(struct SaveControl *saveControl);
 extern struct HistoryEntry *func_0200973C(struct WifiHistory *history, int index);
 extern u32 func_02009634(const struct WifiHistory *history, u32 index, u32 field);
@@ -300,13 +300,13 @@ extern void WIFI_HISTORY_SetRatingLevel(struct WifiHistory *history, int value);
 extern void WIFI_HISTORY_SetGreetingSet(struct WifiHistory *history, int value);
 extern int func_0200E878(PartnerCandidates *candidates);
 extern u32 CURSOR_MOVE_GetTableValue(u32 outfit);
-extern u8 func_02025B64(u32 language);
-extern void func_0201F048(struct WordSet *wordSet, u32 index, u32 number);
+extern u8 BMP_OAM_GetRecordValue(u32 language);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *wordSet, u32 index, u32 number);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *wordSet, u32 index, u32 a, u32 number);
-extern void func_0201F02C(struct WordSet *wordSet, u32 index, const void *myStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, const void *myStatus);
 extern void WORDSET_Callback(struct WordSet *wordSet, u32 index, u16 value);
-extern void func_0201F198(struct WordSet *wordSet, u32 index, u32 value);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotFromMsg2B(struct WordSet *wordSet, u32 index, u32 value);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 a, u32 b, u32 c, u32 d);
 
 extern char d_021DE5FC[];
 extern char abs_id_4b[];
@@ -864,7 +864,7 @@ int INTRUDE_OfferEventMain(struct GameEvent *event, u32 seq, const IntrudeOfferS
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     name = STRBUF_Create(8, 0x15);
     STRBUF_SetStringN(name, (const u16 *)&copy, 8);
-    func_0201EE0C(wordSet, 3, name, 1, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 3, name, 1, 1, 2);
     STRBUF_Delete(name);
     return 0;
 }
@@ -958,7 +958,7 @@ int SCRCMD_GetPartnerGreetingMessage(struct WordSet *wordSet, struct GameSystem 
     outfitVariant = func_02008550(entry);
     tier = func_02009634(history, historyIndex, 4);
     trainerId = func_02008530(entry);
-    if (func_02025B64(GAME_DATA_GetSaveSyncBlock(gameData)->language)) {
+    if (BMP_OAM_GetRecordValue(GAME_DATA_GetSaveSyncBlock(gameData)->language)) {
         isSpecialLanguage = 1;
     }
     return SCRCMD_CalcPartnerGreetingIndex(outfitVariant, trainerId, tier, variant, isSpecialLanguage);
@@ -997,22 +997,22 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
     history = func_02009470(GAME_DATA_GetSaveControl(gameData));
     language = GAME_DATA_GetSaveSyncBlock(gameData)->language;
     entry = func_0200973C(history, historyIndex);
-    func_0201F048(wordSet, 0, language);
-    if (func_02025B64(language)) {
+    WORDSET_SetSlotFromMsgE7(wordSet, 0, language);
+    if (BMP_OAM_GetRecordValue(language)) {
         WORDSET_DeleteMsgdataF094(wordSet, 1, language, func_02008570(entry));
     }
-    func_0201F02C(wordSet, 3, GAME_DATA_GetMyStatus(gameData));
+    WORDSET_SetSlotMyStatus(wordSet, 3, GAME_DATA_GetMyStatus(gameData));
     WORDSET_Callback(wordSet, 5, func_02009634(history, historyIndex, 0));
-    func_0201F198(wordSet, 6, func_02009628(history));
-    func_0201F02C(wordSet, 7, entry);
+    WORDSET_SetSlotFromMsg2B(wordSet, 6, func_02009628(history));
+    WORDSET_SetSlotMyStatus(wordSet, 7, entry);
     value = func_02009634(history, historyIndex, 3);
     if (value == 0) {
         value = 1;
     }
-    func_0201EFA4(wordSet, 8, value, 3, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 8, value, 3, 0, 1);
     WORDSET_Callback(wordSet, 9, func_02009634(history, historyIndex, 1));
     language = func_02009634(history, historyIndex, 2);
-    func_0201F198(wordSet, 10, language);
+    WORDSET_SetSlotFromMsg2B(wordSet, 10, language);
 }
 
 /* Script command: stores the number of countries in the Wi-Fi history, looked up with the argument. */

@@ -12,7 +12,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -42,7 +42,7 @@ extern void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void WIFI_BSUBWAY_GRAPHIC_Delete(void *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
 void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p) {
     if(((struct Obj01721 *)p)->f0!=0) {
@@ -61,7 +61,7 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p) {
         }
         BMP_WIN_Delete(((struct Obj01721 *)p)->f97C);
         WIFI_BSUBWAY_GRAPHIC_Delete(((struct Obj01721 *)p)->f8);
-        func_0201DD68();
+        GF_FONT_SetDefaultTextColor();
         MI_CpuFill8(p,0,0x9ac);
     }
 }

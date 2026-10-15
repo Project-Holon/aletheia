@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF38
+ * function: ZKNSEARCH_MAIN_DenormalizeRecordByte
  * address:  0x021BCF38
  * packet:   pkt_021BCF38
  * region:   ov210
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u8 d_021C0720[];
 
-void func_021BCF38(u8 *p)
+void ZKNSEARCH_MAIN_DenormalizeRecordByte(u8 *p)
 {
     u8 *r0 = *(u8 * *)&((struct Obj25593 *)p)->f0;
     u8 *r2 = *(u8 * *)&((struct Obj25594 *)r0)->f8;

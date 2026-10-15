@@ -11,7 +11,7 @@
  * symbols:
  *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_0220099C 0x0220099C data a4
  */
@@ -21,7 +21,7 @@ extern const Record d_0220099C[];
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 typedef unsigned int   u32;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(unsigned char);
+extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char which, unsigned char enable);
 void BR_GRAPHIC_End3d(void)
 {
@@ -32,7 +32,7 @@ void BR_GRAPHIC_End3d(void)
     GX_SetGraphicsMode(1,0,0);
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
-        if(id<4){BG_SYS_InitBgLayer((unsigned char)id,&r->template,(unsigned char)r->type);func_020414AC(id);}
+        if(id<4){BG_SYS_InitBgLayer((unsigned char)id,&r->template,(unsigned char)r->type);BG_SYS_FreeSlot(id);}
         func_02040588((unsigned char)id,(unsigned char)r->enable);
     }
 }

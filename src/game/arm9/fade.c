@@ -57,7 +57,7 @@ extern Fade *g_02146A7C;
  * The heap id is the u16 parameter (the `lsl #16`/`lsr #16` pair at the top of
  * the function is the zero-extension of a `unsigned short` argument), and it
  * is forwarded to the allocator as its first argument, so the allocator takes
- * (heap, size, align, file, line) exactly as func_0204E8C0's does.  The
+ * (heap, size, align, file, line) exactly as DOUBLE3DDISP_Init's does.  The
  * allocator's result stays in r0 across the store to the global, so the clear
  * call's first argument is that same value, not a fresh load of the global.
  */

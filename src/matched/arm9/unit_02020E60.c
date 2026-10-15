@@ -27,7 +27,7 @@
  * FILE_UTIL_Get_1014 <- FILE_UTIL_Get_0FE4 <- FILE_UTIL_CreateArcTool0F34: three separate functions
  * here name the item archive id 0x18 as a plain immediate
  * (FILE_UTIL_Create_0F14's handle open, FILE_UTIL_CreateArcTool0F34's one-shot member read) and
- * two name the item graphics archive 0x19 (func_02020F08 answers it as a
+ * two name the item graphics archive 0x19 (FILE_UTIL_GetItemCount answers it as a
  * constant, FILE_UTIL_CreateArcTool0F34 reads members of it).  Archive ids are the
  * decimal spelling of the a/X/Y/Z path, so 0x18 = 24 = a/0/2/4 and
  * 0x19 = 25 = a/0/2/5.
@@ -116,17 +116,17 @@ u32 FILE_UTIL_Get(u32 item, u32 which)
     return 0;
 }
 
-u32 func_02020F08(void)
+u32 FILE_UTIL_GetItemCount(void)
 {
     return 0x19;
 }
 
-u32 func_02020F0C(void)
+u32 FILE_UTIL_GetBankCount(void)
 {
     return 1;
 }
 
-u32 func_02020F10(void)
+u32 FILE_UTIL_GetBaseIndex(void)
 {
     return 0;
 }
@@ -136,7 +136,7 @@ void *FILE_UTIL_Create_0F14(u32 heap)
     return func_020490F4(0x18, heap);
 }
 
-u32 func_02020F20(void *handle, u32 item, u32 arg)
+u32 FILE_UTIL_LoadArcMember(void *handle, u32 item, u32 arg)
 {
     if (item > 626) {
         item = 0;

@@ -29,7 +29,7 @@
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -57,7 +57,7 @@
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,

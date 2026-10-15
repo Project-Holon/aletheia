@@ -31,7 +31,7 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   func_02017E1C   0x02017E1C  thumb
  *   MSGDATA_ReadUnits   0x02045F5C  arm
- *   func_0201F41C   0x0201F41C  thumb
+ *   WORDSET_CopyString   0x0201F41C  thumb
  *   gSpeciesNameBank      0x020A7370  data
  *   MIi_CpuCopy32 0x02082A90  arm
  *   OS_GetMacAddress 0x02087C6C  arm
@@ -39,7 +39,7 @@
  *   MI_CpuCopy8   0x02082D44  arm
  *   func_0200E918  0x0200E918  thumb
  *   func_0200E938  0x0200E938  thumb
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -196,13 +196,13 @@ extern void PMSI_PARAM_SetDefaultSentence(void *slot, u32 idx);
 extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u32  func_02017E1C(void *mon, u32 id, u32 buf);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern void  MIi_CpuCopy32(void *dest, const void *src, u32 size);
 extern void  OS_GetMacAddress(void *obj);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u8 func_0200E918(const u8 *base, u32 idx);
 extern void func_0200E938(u8 *obj, u32 id, void *dest);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void func_0200E904(void *p);
 extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
@@ -1050,7 +1050,7 @@ void MISC_SAVEDATA_FillMonEntry(struct BoxMonSlot *slots, int index, void *mon)
         u16 buf[12];
 
         MSGDATA_ReadUnits(gSpeciesNameBank, func_02017E1C(mon, 5, 0), buf, 0xb);
-        func_0201F41C(buf, slots[index].name, 0xb);
+        WORDSET_CopyString(buf, slots[index].name, 0xb);
     }
     slots[index].bits.flag = 1;
 }
@@ -1386,7 +1386,7 @@ void MISC_SAVEDATA_SetKeyField(u8 *obj, u32 id, u32 extra, u8 value)
 /*
  * Linear search over up to 10 stored 6-byte keys: func_0200E918(base, 0)
  * gives the stored count (capped at 10), func_0200E938 copies the i'th key
- * into a stack buffer, and func_0203EFC8 (DWC's own key comparator)
+ * into a stack buffer, and GF_STANDARD_CompareBytes (DWC's own key comparator)
  * compares it against the caller's key. Returns 1 on the first match, 0
  * if none of the stored keys match.
  *
@@ -1412,7 +1412,7 @@ u32 MISC_SAVEDATA_FindKey(void *keys, void *key)
 
     for (i = 0; i < count; i++) {
         func_0200E938(keys, i, buf);
-        if (func_0203EFC8(key, buf, 6) == 0) {
+        if (GF_STANDARD_CompareBytes(key, buf, 6) == 0) {
             return 1;
         }
     }

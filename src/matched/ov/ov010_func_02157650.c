@@ -1,5 +1,5 @@
 /*
- * function: func_02157650
+ * function: IRC_BATTLE_TASK_SetFormationOnce
  * address:  0x02157650
  * packet:   pkt_ov010_02157650
  * region:   ov010
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf after func_02157450's pool: store v into *p only while
+ * Unlabelled leaf after IRC_BATTLE_TASK_Create's pool: store v into *p only while
  * *p still holds the unset sentinel 0x29, so the first call wins.
  */
 
-void func_02157650(int *p, int v)
+void IRC_BATTLE_TASK_SetFormationOnce(int *p, int v)
 {
     if (*p == 0x29)
         *p = v;

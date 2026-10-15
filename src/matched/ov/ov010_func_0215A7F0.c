@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_MENUWORK_CountItems  0x0201F91C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   FIELD_MSGBG_AddMenuItemStr  0x02190A64  thumb  ov021
  */
@@ -35,7 +35,7 @@ struct U16Vec;
 extern unsigned int BMP_MENUWORK_CountItems(struct Slot *s);
 extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, void *dest);
 struct WordSet;
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, unsigned int heapId);
 typedef unsigned int   u32;
 extern int FIELD_MSGBG_AddMenuItemStr(u32 a, u32 b, u32 c, u32 d);
@@ -50,10 +50,10 @@ void SCRCMD_WORK_AddMenuItem(unsigned short *p, int a, int b, int c, struct U16V
             return;
         }
         MSGDATA_ReadString((struct MsgBank *)q->i, b, s1);
-        func_0201F250((struct WordSet *)q->g, (void *)s0, (void *)s1);
+        WORDSET_CopyTaggedText((struct WordSet *)q->g, (void *)s0, (void *)s1);
         q->k[i] = (int)STRBUF_Clone(s0, *p);
     }
     MSGDATA_ReadString((struct MsgBank *)q->i, a, s1);
-    func_0201F250((struct WordSet *)q->g, (void *)s0, (void *)s1);
+    WORDSET_CopyTaggedText((struct WordSet *)q->g, (void *)s0, (void *)s1);
     FIELD_MSGBG_AddMenuItemStr(q->j, (u32)s0, c, *p);
 }

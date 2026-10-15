@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
  */
 #include "../include/Obj00029.h"
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern int func_0201F5BC();
+extern int BMP_MENUWORK_LoadCharAndPltt();
 extern int func_02049B40();
 
 void REPORT_EVENT_CreateMessageWindow(int a0)
@@ -58,7 +58,7 @@ a1 = 1;
 a3 = 0;
     o4 = a0;
 a0 = 6;
-    a0 = func_0201F5BC(a0, a1, a2, a3, o4);
+    a0 = BMP_MENUWORK_LoadCharAndPltt(a0, a1, a2, a3, o4);
 loc_02169E80:
 a0 = 0x20;
     o4 = a0;

@@ -1,5 +1,5 @@
 /*
- * function: func_020425B4
+ * function: BG_SYS_LoadTileLayerEx
  * address:  0x020425B4
  * packet:   pkt_02041F28
  * region:   arm9
@@ -20,16 +20,16 @@
  *   func_0207F1E0   0x0207F1E0  arm
  *   func_0207F274   0x0207F274  arm
  *
- * The character-base twin of func_0204241C, byte for byte the same shape
+ * The character-base twin of BG_SYS_LoadTileLayer, byte for byte the same shape
  * over the next eight entries of the same SDK object (0x0207EE68 first,
  * 0x94 bytes each): flush, then dispatch on the layer index 0..7 with the
  * source, offset and size passed through in r1/r2/r3.  The sub-engine
  * callees are the second group of four, which is why the case order is not
- * the address order; see the symbol note in func_0204241C.c.
+ * the address order; see the symbol note in BG_SYS_LoadTileLayer.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020425B4.c \
- *       --func func_020425B4 --addr 0x020425B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_LoadTileLayerEx.c \
+ *       --func BG_SYS_LoadTileLayerEx --addr 0x020425B4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -44,7 +44,7 @@ extern void func_0207F14C(const void *src, u32 offset, u32 size);
 extern void func_0207F1E0(const void *src, u32 offset, u32 size);
 extern void func_0207F274(const void *src, u32 offset, u32 size);
 
-void func_020425B4(u32 layer, const void *src, u32 offset, u32 size)
+void BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size)
 {
     DC_FlushRange((void *)src, size);
 

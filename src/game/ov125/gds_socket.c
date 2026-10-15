@@ -45,7 +45,7 @@
  *   gGdsSslConnection 0x021DA258 data a4
  *   func_0215F428 0x0215F428 arm ov009
  *   CPS_Resolve 0x0215C910 arm ov009
- *   func_0215FC80 0x0215FC80 arm ov009
+ *   SOCL_EnableSsl 0x0215FC80 arm ov009
  *   SOC_Shutdown 0x0215F638 arm ov009
  *   SOC_Close 0x0215F644 arm ov009
  *   gGdsHostTail 0x021DA040 data a4
@@ -61,8 +61,8 @@
  *   OS_WakeupThreadDirect 0x02085868 arm
  *   OS_DestroyThread 0x020855BC arm
  *   OS_Sleep  0x02085A38  arm
- *   func_02167FA8 0x02167FA8 arm ov009
- *   func_02168040 0x02168040 arm ov009
+ *   DWC_SVLGetTokenAsync 0x02167FA8 arm ov009
+ *   DWC_SVLProcess 0x02168040 arm ov009
  *   DWC_GetLastErrorEx 0x02059E38 arm
  *   sGdsSvlService 0x021D8D30 data a4
  *   GDS_SOCKET_Start  0x021D7770  arm

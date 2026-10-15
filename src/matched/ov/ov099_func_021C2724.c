@@ -20,7 +20,7 @@
  *   WIFICLUB_FreeRegulation 0x021BCBB0 thumb ov099
  *   WIFICLUB_DeleteTextBuffers 0x021BB224 thumb ov099
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj03736.h"
 #include "../include/Obj06360.h"
@@ -41,7 +41,7 @@ extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void WIFICLUB_FreeRegulation(void *);
 extern void WIFICLUB_DeleteTextBuffers(char *);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 int WIFICLUB_ProcExit(void *task, int unused, char *output, char *p)
 {
     if (!WIFICLUB_UpdateBgmFade(p)) return 0;
@@ -61,6 +61,6 @@ int WIFICLUB_ProcExit(void *task, int unused, char *output, char *p)
     WIFICLUB_FreeRegulation(((struct Obj03736 *)p)->fCC);
     WIFICLUB_DeleteTextBuffers(p);
     func_020315D4(task);
-    func_020306F0(33);
+    GFL_HEAP_DeleteChecked(33);
     return 1;
 }

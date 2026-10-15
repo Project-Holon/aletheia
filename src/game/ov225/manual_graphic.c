@@ -1,7 +1,7 @@
 /*
  * file:     manual_graphic.c
  * unit:     yes
- * function: func_021B95A0, func_021B9660, func_021B96BC, func_021B98FC, func_021B9900, func_021B99A0, func_021B99F4, func_021B9A08, func_021B9A14, func_021B9A28, func_021B9A88, func_021B9AC0, func_021B9AC4, func_021B9ACC, func_021B9B0C, func_021B9B28, func_021B9B30, func_021B9B38
+ * function: MANUAL_GRAPHIC_Init, MANUAL_GRAPHIC_Exit, MANUAL_GRAPHIC_Main, MANUAL_GRAPHIC_TaskNoop, MANUAL_GRAPHIC_CreateScreen, MANUAL_GRAPHIC_DeleteScreen, MANUAL_GRAPHIC_DrawScreen, MANUAL_GRAPHIC_GetClactUnit, MANUAL_GRAPHIC_VBlankScreen, MANUAL_GRAPHIC_CreateBg, MANUAL_GRAPHIC_DeleteBg, MANUAL_GRAPHIC_DrawBg, MANUAL_GRAPHIC_VBlankBg, MANUAL_GRAPHIC_CreateClactUnit, MANUAL_GRAPHIC_DeleteClactUnit, MANUAL_GRAPHIC_DrawClactUnit, MANUAL_GRAPHIC_VBlankClactUnit, MANUAL_GRAPHIC_GetUnitHandle
  * address:  0x021B95A0
  * region:   ov225
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020056A0 0x020056A0 thumb
@@ -29,7 +29,7 @@
  *   func_021B9DEC 0x021B9DEC thumb ov225
  *   func_02030EAC 0x02030EAC arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   FADE_IsActive 0x0204E804 arm
  *   func_021BB31C 0x021BB31C thumb ov225
  *   func_021BB6E0 0x021BB6E0 thumb ov225
@@ -50,23 +50,23 @@
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   file 0x021BBFE0 data ov225 a1
  *   vram 0x021BBE1C data ov225
  *   func_020307B0 0x020307B0 arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   config 0x021BBDF0 data ov225
- *   table 0x021BBE4C data ov225
+ *   gManualGraphicMainBgLayerTable 0x021BBE4C data ov225
  *   d_021BBE4C 0x021BBE4C data a4
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -79,24 +79,8 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
-#include "../../matched/include/Obj04649.h"
-#include "../../matched/include/Obj00100.h"
-#include "../../matched/include/Obj26116.h"
-#include "../../matched/include/Obj26117.h"
-#include "../../matched/include/Obj26118.h"
-#include "../../matched/include/Obj26119.h"
-#include "../../matched/include/Obj26120.h"
-#include "../../matched/include/Obj26122.h"
-#include "../../matched/include/Obj26124.h"
-#include "../../matched/include/Obj26125.h"
-#include "../../matched/include/Obj26126.h"
-#include "../../matched/include/Obj26127.h"
-#include "../../matched/include/Obj26128.h"
-#include "../../matched/include/Obj26129.h"
-#include "../../matched/include/Obj26130.h"
-#include "../../matched/include/Obj14801.h"
-#include "../../matched/include/Obj26131.h"
 
 struct Obj0203159C;
 struct Node;
@@ -118,15 +102,36 @@ typedef unsigned int u32;
 
 struct Args { void *data; u32 flag; };
 
-struct Work {
-    u16 heap; u16 pad2; struct Args *args; void *data; void *task;
-    u32 state; u8 record14[8]; void *record1c; u16 record20; u16 record22;
-    u8 pad24[12]; void *record30; u16 record34; u16 record36; u16 record38;
-    u8 pad3a[14]; u8 record48; u8 pad49; u16 record4a; u16 record4c; u16 record4e;
-    u8 rest[40];
+struct ManualWork {
+    u16 heap; u16 pad2;
+    struct Args *args;
+    void *data;
+    void *task;
+    u32 state;
+    u8 listBuf[4];
+    u32 choice;
+    void *menu;
+    u16 listOriginX; u16 listOriginY;
+    u32 hasDetail;
+    u16 detailEntry; u16 pad2A;
+    void *list;
+    u32 ownerState;
+    u16 detailId; u16 detailCount; u16 detailSelected; u16 pad3A;
+    u32 subFlag;
+    u16 entryId; u16 pad42;
+    void *detailList;
+    u8 entryCount; u8 pad49;
+    u16 selectedId;
+    struct { u16 item; u16 count; } entries[9];
+    u32 closeFlag;
+    void *optionList;
 };
 
-typedef enum {ZERO=0,ONE=1} Flag;
+struct ManualData { u8 pad0[0x2C]; void *list; };
+
+struct ManualClactUnit { int unit; };
+
+struct ManualScreen { u32 bgState; struct ManualClactUnit clactUnit; u32 reserved08; void *task; };
 
 struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 
@@ -134,7 +139,7 @@ extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *func_021B9D18(void *,u16);
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void *func_020056A0(void (*)(void *,char *),void *,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
@@ -146,7 +151,7 @@ extern void func_021BBAE8(char *p);
 extern void func_021B9DEC(char *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern int func_021BB31C(char *);
 extern char *func_021BB6E0(char *,char *);
@@ -167,23 +172,23 @@ extern void func_021B9E60(char *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern u32 func_020307B0(void *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8, u8);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -193,159 +198,158 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-int func_021B95A0(void *proc, void *unused, struct Args *args);
-int func_021B9660(void *proc, void *a, void *b, char *work);
-int func_021B96BC(void *a,u32 *state,void *unused,char *p);
-void func_021B98FC(void *unused, char *work);
-void *func_021B9900(u32 swap, u32 heap);
-void func_021B99A0(char *p);
-void func_021B99F4(char *p);
-u32 func_021B9A08(const u8 *p);
-void func_021B9A14(void *unused, char *p);
-void func_021B9A28(void *p, u32 heap);
-void func_021B9A88(void *p);
-void func_021B9AC0(void *a0);
-void func_021B9AC4(void *a0);
-void func_021B9ACC(unsigned char *p, int a, int b);
-void func_021B9B0C(char *p);
-void func_021B9B28(void *a0);
-void func_021B9B30(void *a0);
-u32 func_021B9B38(const u32 *p);
+int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args);
+int MANUAL_GRAPHIC_Exit(void *proc, void *a, void *b, char *work);
+int MANUAL_GRAPHIC_Main(void *a,u32 *state,void *unused,char *p);
+void MANUAL_GRAPHIC_TaskNoop(void *unused, char *work);
+void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap);
+void MANUAL_GRAPHIC_DeleteScreen(char *p);
+void MANUAL_GRAPHIC_DrawScreen(char *p);
+u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
+void MANUAL_GRAPHIC_VBlankScreen(void *unused, char *p);
+void MANUAL_GRAPHIC_CreateBg(void *p, u32 heap);
+void MANUAL_GRAPHIC_DeleteBg(void *p);
+void MANUAL_GRAPHIC_DrawBg(void *a0);
+void MANUAL_GRAPHIC_VBlankBg(void *a0);
+void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b);
+void MANUAL_GRAPHIC_DeleteClactUnit(char *p);
+void MANUAL_GRAPHIC_DrawClactUnit(void *a0);
+void MANUAL_GRAPHIC_VBlankClactUnit(void *a0);
+u32 MANUAL_GRAPHIC_GetUnitHandle(const u32 *p);
 extern char file[], vram[];
 extern u32 config[];
-extern struct Record table[];
-extern const u8 d_021BBE4C[];
+extern struct Record gManualGraphicMainBgLayerTable[];
 
-int func_021B95A0(void *proc, void *unused, struct Args *args)
+int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args)
 {
-    struct Work *p;
+    struct ManualWork *work;
     GFL_HEAP_CreateChildHeap(1,0x90,0x50000);
-    p = PROCSYS_AllocProcWork(proc,0x78,0x90);
-    MI_CpuFill8(p,0,0x78);
-    p->heap = 0x90;
-    p->args = args;
+    work = PROCSYS_AllocProcWork(proc,0x78,0x90);
+    MI_CpuFill8(work,0,0x78);
+    work->heap = 0x90;
+    work->args = args;
     args->flag = 1;
-    p->data = func_021B9D18(p->args->data,p->heap);
-    func_0204047C(4,3);
-    func_0204047C(5,2);
-    func_0204047C(6,1);
-    func_0204047C(7,0);
-    p->task = func_020056A0(func_021B98FC,p,1);
+    work->data = func_021B9D18(work->args->data,work->heap);
+    BG_SYS_SetVisibleLayer(4,3);
+    BG_SYS_SetVisibleLayer(5,2);
+    BG_SYS_SetVisibleLayer(6,1);
+    BG_SYS_SetVisibleLayer(7,0);
+    work->task = func_020056A0(MANUAL_GRAPHIC_TaskNoop,work,1);
     FADE_Start(3,16,0,0);
-    GFL_NET_RestartWithDefaultTimeout(0,p->heap);
-    p->record14[0] = 0;
-    p->record20 = 0;
-    p->record22 = 0;
-    p->record30 = 0;
-    p->record34 = 0;
-    p->record36 = 0;
-    p->record38 = 0;
-    p->record48 = 1;
-    p->record4a = 0;
-    p->record4c = 0xffff;
-    p->record4e = 0;
-    p->state = 0;
-    p->record1c = func_021BB2B4((char *)p->record14,p->data);
+    GFL_NET_RestartWithDefaultTimeout(0,work->heap);
+    work->listBuf[0] = 0;
+    work->listOriginX = 0;
+    work->listOriginY = 0;
+    work->ownerState = 0;
+    work->detailId = 0;
+    work->detailCount = 0;
+    work->detailSelected = 0;
+    work->entryCount = 1;
+    work->selectedId = 0;
+    work->entries[0].item = 0xffff;
+    work->entries[0].count = 0;
+    work->state = 0;
+    work->menu = func_021BB2B4((char *)work->listBuf,work->data);
     return 1;
 }
 
-int func_021B9660(void *proc, void *a, void *b, char *work)
+int MANUAL_GRAPHIC_Exit(void *proc, void *unusedA, void *unusedB, char *work)
 {
-    switch (((struct Obj04649 *)work)->f10) {
-    case 0: func_021BB308(((struct Obj04649 *)work)->f1C); break;
-    case 1: func_021BB7F4(((struct Obj04649 *)work)->f2C); break;
-    case 2: func_021BBA14(((struct Obj04649 *)work)->f44); break;
-    case 3: func_021BBAE8(((struct Obj04649 *)work)->f74); break;
+    switch (((struct ManualWork *)work)->state) {
+    case 0: func_021BB308(((struct ManualWork *)work)->menu); break;
+    case 1: func_021BB7F4(((struct ManualWork *)work)->list); break;
+    case 2: func_021BBA14(((struct ManualWork *)work)->detailList); break;
+    case 3: func_021BBAE8(((struct ManualWork *)work)->optionList); break;
     }
-    func_02030EAC(((struct Obj04649 *)work)->fC);
-    func_021B9DEC(((struct Obj04649 *)work)->f8);
+    func_02030EAC(((struct ManualWork *)work)->task);
+    func_021B9DEC(((struct ManualWork *)work)->data);
     func_020315D4(proc);
-    func_020306F0(0x90);
+    GFL_HEAP_DeleteChecked(0x90);
     return 1;
 }
 
-int func_021B96BC(void *a,u32 *state,void *unused,char *p)
+int MANUAL_GRAPHIC_Main(void *unusedA,u32 *state,void *unused,char *work)
 {
  int done;
  u32 count;
- u16 id,i,item,selected;
+ u16 id,entryIndex,item,selected;
  switch(*state) {
  case 0: *state=1; break;
  case 1: if(!FADE_IsActive()) *state=2; break;
  case 2:
   done=0;
-  switch(((struct Obj00100 *)p)->f10) {
+  switch(((struct ManualWork *)work)->state) {
   case 0:
-   if(!func_021BB31C(*(char * *)&((struct Obj00100 *)p)->f1C)) goto innerDone;
+   if(!func_021BB31C(*(char * *)&((struct ManualWork *)work)->menu)) goto innerDone;
    {
-    if(((struct Obj00100 *)p)->f18<=1) {
-     if(((struct Obj00100 *)p)->f18==0) ((struct Obj26116 *)(*(char * *)&((struct Obj00100 *)p)->f4))->f4=0;
-     else if(((struct Obj00100 *)p)->f18==1) ((struct Obj26117 *)(*(char * *)&((struct Obj00100 *)p)->f4))->f4=1;
+    if(((struct ManualWork *)work)->choice<=1) {
+     if(((struct ManualWork *)work)->choice==0) ((struct Args *)(*(char * *)&((struct ManualWork *)work)->args))->flag=0;
+     else if(((struct ManualWork *)work)->choice==1) ((struct Args *)(*(char * *)&((struct ManualWork *)work)->args))->flag=1;
      done=1;
     } else {
-     func_021BB308(*(char * *)&((struct Obj00100 *)p)->f1C);
-     if(((struct Obj00100 *)p)->f18==2) {
-      ((struct Obj00100 *)p)->f10=1;
-      ((struct Obj00100 *)p)->f20=0; ((struct Obj00100 *)p)->f22=0;
-      *(char * *)&((struct Obj00100 *)p)->f2C=func_021BB6E0(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8);
-     } else if(((struct Obj00100 *)p)->f18==3) {
-      ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=1;
-      ((struct Obj00100 *)p)->f34=done;
-      ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
-      *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
+     func_021BB308(*(char * *)&((struct ManualWork *)work)->menu);
+     if(((struct ManualWork *)work)->choice==2) {
+      ((struct ManualWork *)work)->state=1;
+      ((struct ManualWork *)work)->listOriginX=0; ((struct ManualWork *)work)->listOriginY=0;
+      *(char * *)&((struct ManualWork *)work)->list=func_021BB6E0(work+0x20,*(char * *)&((struct ManualWork *)work)->data);
+     } else if(((struct ManualWork *)work)->choice==3) {
+      ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=1;
+      ((struct ManualWork *)work)->detailId=done;
+      ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
+      *(char * *)&((struct ManualWork *)work)->detailList=(char *)func_021BB854((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
      }
     }
    }
    break;
   case 1:
-   if(!func_021BB844(*(char * *)&((struct Obj00100 *)p)->f2C)) {
+   if(!func_021BB844(*(char * *)&((struct ManualWork *)work)->list)) {
    default:
 innerDone:
     break;
    } else {
-    func_021BB7F4(*(char * *)&((struct Obj00100 *)p)->f2C);
-    if(((struct Obj00100 *)p)->f24==0) {
-     ((struct Obj00100 *)p)->f10=done;
-     *(char * *)&((struct Obj00100 *)p)->f1C=func_021BB2B4(p+0x14,*(char * *)&((struct Obj00100 *)p)->f8);
+    func_021BB7F4(*(char * *)&((struct ManualWork *)work)->list);
+    if(((struct ManualWork *)work)->hasDetail==0) {
+     ((struct ManualWork *)work)->state=done;
+     *(char * *)&((struct ManualWork *)work)->menu=func_021BB2B4(work+0x14,*(char * *)&((struct ManualWork *)work)->data);
     } else {
-     ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=0;
-     ((struct Obj00100 *)p)->f34=((struct Obj00100 *)p)->f28;
-     ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
-     *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
+     ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=0;
+     ((struct ManualWork *)work)->detailId=((struct ManualWork *)work)->detailEntry;
+     ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)func_021BB854((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;
   case 2:
-   if(func_021BBA64(*(char * *)&((struct Obj00100 *)p)->f44)) {
-    func_021BBA14(*(char * *)&((struct Obj00100 *)p)->f44);
-    if(((struct Obj00100 *)p)->f3C==0) {
-     if(((struct Obj00100 *)p)->f30==0) { ((struct Obj00100 *)p)->f10=1; *(char * *)&((struct Obj00100 *)p)->f2C=func_021BB6E0(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8); }
-     else if(((struct Obj00100 *)p)->f30==1) { ((struct Obj00100 *)p)->f10=done; *(char * *)&((struct Obj00100 *)p)->f1C=func_021BB2B4(p+0x14,*(char * *)&((struct Obj00100 *)p)->f8); }
+   if(func_021BBA64(*(char * *)&((struct ManualWork *)work)->detailList)) {
+    func_021BBA14(*(char * *)&((struct ManualWork *)work)->detailList);
+    if(((struct ManualWork *)work)->subFlag==0) {
+     if(((struct ManualWork *)work)->ownerState==0) { ((struct ManualWork *)work)->state=1; *(char * *)&((struct ManualWork *)work)->list=func_021BB6E0(work+0x20,*(char * *)&((struct ManualWork *)work)->data); }
+     else if(((struct ManualWork *)work)->ownerState==1) { ((struct ManualWork *)work)->state=done; *(char * *)&((struct ManualWork *)work)->menu=func_021BB2B4(work+0x14,*(char * *)&((struct ManualWork *)work)->data); }
     } else {
-     ((struct Obj00100 *)p)->f10=3;
-     id=((struct Obj00100 *)p)->f40;
-     count=func_021B9BEC(*(char * *)&((struct Obj26118 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
-     selected=func_021B9BE0(*(char * *)&((struct Obj26119 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
-     if(!func_021B9C98(*(char * *)&((struct Obj26120 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,selected,**(int * *)&((struct Obj00100 *)p)->f8))
-      func_021B9CB0(*(char * *)&((struct Obj26122 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,selected,(struct Big *)(**(int * *)&((struct Obj00100 *)p)->f8));
-     ((struct Obj00100 *)p)->f4A=func_021B9BC8(*(char * *)&((struct Obj26124 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
-     ((struct Obj00100 *)p)->f48=func_021B9BEC(*(char * *)&((struct Obj26125 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
-     for(i=0;i<count;i++) {
-      item=func_021B9C0C(*(char * *)&((struct Obj26126 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id,i);
-      if(!func_021B9CC8((unsigned int)(*(char * *)&((struct Obj26127 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C),item)) item=65535;
-      *(u16 *)(p+i*4+0x4c)=item;
-      *(u16 *)(p+i*4+0x4e)=func_021B9BF8(*(char * *)&((struct Obj26128 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id,i);
+     ((struct ManualWork *)work)->state=3;
+     id=((struct ManualWork *)work)->entryId;
+     count=func_021B9BEC(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
+     selected=func_021B9BE0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
+     if(!func_021B9C98(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,selected,**(int * *)&((struct ManualWork *)work)->data))
+      func_021B9CB0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,selected,(struct Big *)(**(int * *)&((struct ManualWork *)work)->data));
+     ((struct ManualWork *)work)->selectedId=func_021B9BC8(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
+     ((struct ManualWork *)work)->entryCount=func_021B9BEC(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
+     for(entryIndex=0;entryIndex<count;entryIndex++) {
+      item=func_021B9C0C(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id,entryIndex);
+      if(!func_021B9CC8((unsigned int)(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list),item)) item=65535;
+      ((struct ManualWork *)work)->entries[entryIndex].item=item;
+      ((struct ManualWork *)work)->entries[entryIndex].count=func_021B9BF8(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id,entryIndex);
      }
-     *(char * *)&((struct Obj00100 *)p)->f74=func_021BBA74(p+0x48,*(char * *)&((struct Obj00100 *)p)->f8);
+     *(char * *)&((struct ManualWork *)work)->optionList=func_021BBA74(work+0x48,*(char * *)&((struct ManualWork *)work)->data);
     }
    }
    break;
   case 3:
-   if(func_021BBB0C(*(char * *)&((struct Obj00100 *)p)->f74)) {
-    func_021BBAE8(((struct Obj00100 *)p)->f74);
-    if(((struct Obj00100 *)p)->f70==0) {
-     ((struct Obj00100 *)p)->f10=2;
-     *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
+   if(func_021BBB0C(*(char * *)&((struct ManualWork *)work)->optionList)) {
+    func_021BBAE8(((struct ManualWork *)work)->optionList);
+    if(((struct ManualWork *)work)->closeFlag==0) {
+     ((struct ManualWork *)work)->state=2;
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)func_021BB854((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;
@@ -355,11 +359,11 @@ innerDone:
  case 3: if(!FADE_IsActive()) *state=4; break;
  case 4: return 1;
  }
- func_021B9E60(*(char * *)&((struct Obj00100 *)p)->f8);
+ func_021B9E60(*(char * *)&((struct ManualWork *)work)->data);
  return 0;
 }
 
-void func_021B98FC(void *unused, char *work)
+void MANUAL_GRAPHIC_TaskNoop(void *unused, char *work)
 {
 }
 
@@ -376,106 +380,106 @@ static inline void GXS_SetVisibleWnd(int window) {
     *(volatile u32 *)0x04001000 = (u32)((*(volatile u32 *)0x04001000 & ~0xE000) | (window << 13));
 }
 
-void *func_021B9900(u32 swap, u32 heap)
+void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
-    char *p = func_02030734(heap, 16, 0, file, 454);
-    MI_CpuFill8(p, 0, 16);
+    char *screen = func_02030734(heap, 16, 0, file, 454);
+    MI_CpuFill8(screen, 0, 16);
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)vram);
-    func_0204363C(swap);
+    BMP_SetDisplaySwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
-    func_021B9A28(p, heap);
-    func_021B9ACC((unsigned char *)p + 4, (int)vram, heap);
-    ((struct Obj26129 *)p)->fC = func_020056A0(func_021B9A14, p, 0);
-    return p;
+    GF_FONT_InitTextColor();
+    MANUAL_GRAPHIC_CreateBg(screen, heap);
+    MANUAL_GRAPHIC_CreateClactUnit((unsigned char *)screen + 4, (int)vram, heap);
+    ((struct ManualScreen *)screen)->task = func_020056A0(MANUAL_GRAPHIC_VBlankScreen, screen, 0);
+    return screen;
 }
 
-void func_021B99A0(char *p)
+void MANUAL_GRAPHIC_DeleteScreen(char *screen)
 {
-    func_02030EAC(((struct Obj26130 *)p)->fC);
-    func_021B9B0C(p + 4);
-    func_021B9A88(p);
-    func_0201DD68();
+    func_02030EAC(((struct ManualScreen *)screen)->task);
+    MANUAL_GRAPHIC_DeleteClactUnit(screen + 4);
+    MANUAL_GRAPHIC_DeleteBg(screen);
+    GF_FONT_SetDefaultTextColor();
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    MI_CpuFill8(p, 0, 16);
-    func_020307B0(p);
+    MI_CpuFill8(screen, 0, 16);
+    func_020307B0(screen);
 }
 
 
-void func_021B99F4(char *p)
+void MANUAL_GRAPHIC_DrawScreen(char *screen)
 {
-    func_021B9B28(p + 4);
-    func_021B9AC0(p);
+    MANUAL_GRAPHIC_DrawClactUnit(screen + 4);
+    MANUAL_GRAPHIC_DrawBg(screen);
 }
 
-u32 func_021B9A08(const u8 *p) { return func_021B9B38((const u32 *)(p+4)); }
+u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *screen) { return MANUAL_GRAPHIC_GetUnitHandle((const u32 *)(screen+4)); }
 
 
-void func_021B9A14(void *unused, char *p)
+void MANUAL_GRAPHIC_VBlankScreen(void *unused, char *screen)
 {
-    func_021B9AC4(p);
-    func_021B9B30(p + 4);
+    MANUAL_GRAPHIC_VBlankBg(screen);
+    MANUAL_GRAPHIC_VBlankClactUnit(screen + 4);
 }
 
-void func_021B9A28(void *p, u32 heap)
+void MANUAL_GRAPHIC_CreateBg(void *screen, u32 heap)
 {
-    u32 i = 0;
-    MI_CpuFill8(p, 0, 4);
+    u32 index = 0;
+    MI_CpuFill8(screen, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)config);
-    for (; i < 4; i++) {
-        struct Record *r = &table[i];
-        u32 id = r->id;
-        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
-        func_020414AC(id);
-        func_02040588(id, r->visible);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)config);
+    for (; index < 4; index++) {
+        struct Record *row = &gManualGraphicMainBgLayerTable[index];
+        u32 id = row->id;
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)row->bg, (u8)row->kind);
+        BG_SYS_FreeSlot(id);
+        func_02040588(id, row->visible);
     }
 }
 
-void func_021B9A88(void *p) {
-    u32 i;
-    for (i=0; i<4; i++) func_020403F4((u8)(*(const u32 *)(d_021BBE4C+i*44)));
+void MANUAL_GRAPHIC_DeleteBg(void *screen) {
+    u32 index;
+    for (index=0; index<4; index++) func_020403F4((u8)(*(const u32 *)((const u8 *)gManualGraphicMainBgLayerTable+index*44)));
     BMP_WIN_Exit();
     BG_SYS_Delete();
-    MI_CpuFill8(p,0,4);
+    MI_CpuFill8(screen,0,4);
 }
 
-void func_021B9AC0(void *a0) {}
+void MANUAL_GRAPHIC_DrawBg(void *unused) {}
 
-void func_021B9AC4(void *a0) { func_020419E4(); }
+void MANUAL_GRAPHIC_VBlankBg(void *unused) { BG_SYS_Update(); }
 
 
-void func_021B9ACC(unsigned char *p, int a, int b)
+void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, int arg, int heap)
 {
-    MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021BBE00, a, b);
-    ((struct Obj14801 *)p)->f0 = (int)CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer((void *)((struct Obj14801 *)p)->f0);
+    MI_CpuFill8(clact, 0, 4);
+    CLACT_InitSystem((const struct Cfg *)0x021BBE00, arg, heap);
+    ((struct ManualClactUnit *)clact)->unit = (int)CLACT_CreateUnit(0x80, 0, heap);
+    CLACT_SetUnitDefaultRenderer((void *)((struct ManualClactUnit *)clact)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
-void func_021B9B0C(char *p)
+void MANUAL_GRAPHIC_DeleteClactUnit(char *clact)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj26131 *)p)->f0));
+    CLACT_DeleteUnit((struct Bank *)(((struct ManualClactUnit *)clact)->unit));
     CLACT_ExitSystem();
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(clact, 0, 4);
 }
 
-void func_021B9B28(void *a0) {CLACT_DrawSystem();}
+void MANUAL_GRAPHIC_DrawClactUnit(void *unused) {CLACT_DrawSystem();}
 
-void func_021B9B30(void *a0) {CLACT_VBlankSystem();}
+void MANUAL_GRAPHIC_VBlankClactUnit(void *unused) {CLACT_VBlankSystem();}
 
-u32 func_021B9B38(const u32 *p) {return *p;}
+u32 MANUAL_GRAPHIC_GetUnitHandle(const u32 *handle) {return *handle;}

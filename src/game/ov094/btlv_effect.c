@@ -13,11 +13,11 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   sub_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
- *   sub_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   func_020307B0  0x020307B0  arm
  *   func_0207C768  0x0207C768  arm
  *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
@@ -37,7 +37,7 @@
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
- *   func_0201493C  0x0201493C  thumb
+ *   ZONEDATA_GetTimeLightColors  0x0201493C  thumb
  *   G3D_SYSTEM_SetLight  0x02046A94  arm
  *   BTLV_TIMER_Create  0x02209224  thumb  ov094
  *   BTLV_BG_Create  0x0220975C  thumb  ov094
@@ -51,8 +51,8 @@
  *   BTLV_BG_Delete 0x0220977C thumb ov094
  *   PARTICLE_ExitManager 0x02050ED4 arm
  *   func_02030EAC 0x02030EAC arm
- *   func_02030DA4 0x02030DA4 arm
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Noop 0x02030DA4 arm
+ *   TCB_Main  0x02030D28  arm
  *   func_02047964  0x02047964  arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   PARTICLE_Main  0x02050BE8  arm
@@ -91,7 +91,7 @@
  *   BTLV_GAUGE_SetBgmReplaced  0x02208924  thumb  ov094
  *   BTL_MAIN_IsRecordEnabledInComm 0x021BA1EC thumb ov093
  *   BTL_MAIN_IsRecordAllowed 0x021BA20C thumb ov093
- *   sub_02030EAC   0x02030EAC  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
@@ -99,7 +99,7 @@
  *   gBtlvIntroPickTableB 0x0220AC78 data a4
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   FX_Div  0x0207C768  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02061CA4  0x02061CA4  arm
@@ -241,7 +241,7 @@ typedef struct BtlvEffSpriteTransitionTask {
     int playSound;                  /* 0x0C */
 } BtlvEffSpriteTransitionTask;
 
-extern void *sub_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 
@@ -249,7 +249,7 @@ extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
 
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 func_020307B0(void *p);
 
@@ -285,7 +285,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 
-extern void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
+extern void ZONEDATA_GetTimeLightColors(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
 
 extern void G3D_SYSTEM_SetLight(u32 idx, const BtlvEffLight *light);
 
@@ -313,9 +313,9 @@ extern void PARTICLE_ExitManager(void);
 
 extern void func_02030EAC(struct Node *n);
 
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 
-extern void * func_02030D28(struct Ctx *c);
+extern void * TCB_Main(struct Ctx *c);
 
 extern void func_02047964(void);
 
@@ -391,7 +391,7 @@ extern int BTL_MAIN_IsRecordAllowed(char **p);
 
 extern void *TCBL_GetTaskUserData(void *task);
 
-extern void sub_02030EAC(struct Node *n);
+extern void TCB_DeleteTask(struct Node *n);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -402,7 +402,7 @@ extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_GetTrg(void);
 
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 
 extern u32 FX_Div(u32 a, u32 b);
 
@@ -789,7 +789,7 @@ BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFie
     BtlvEffSetup *o;
     int i = 0;
 
-    o = sub_02030734((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0xca);
+    o = GFL_HEAP_Alloc((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0xca);
     o->mode = rule;
     o->competitor = competitor;
     o->situation = *situation;
@@ -843,11 +843,11 @@ void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
     BtlvEffLight r;
     u16 out[10];
 
-    w = sub_02030734(heap, sizeof(BtlvEff), 1, gBtlvEffectFileName, 0x116);
+    w = GFL_HEAP_Alloc(heap, sizeof(BtlvEff), 1, gBtlvEffectFileName, 0x116);
     gBtlvEff = w;
     w->setup = *p;
     w->heap = heap;
-    gBtlvEff->taskBuf = sub_02030734(heap, func_02030CB0(0x20), 1, gBtlvEffectFileName, 0x11c);
+    gBtlvEff->taskBuf = GFL_HEAP_Alloc(heap, func_02030CB0(0x20), 1, gBtlvEffectFileName, 0x11c);
     gBtlvEff->owner = func_02030CBC(0x20, gBtlvEff->taskBuf);
     gBtlvEff->effvm = BTLV_EFFVM_Create(gBtlvEff->owner, heap);
     gBtlvEff->palanm = PALANM_Create(heap);
@@ -869,7 +869,7 @@ void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
         gBtlvEff->field = BTLV_FIELD_Create(0, tbl[p->situation.stageGroup].fieldId[p->situation.stageIndex], v, heap);
     }
     if (tbl[p->situation.stageGroup].hasLight != 0) {
-        func_0201493C(p->situation.lightArg1, p->situation.lightArg2, p->situation.lightArg3, p->situation.lightArg0, p->situation.variant, out, gBtlvEff->heap);
+        ZONEDATA_GetTimeLightColors(p->situation.lightArg1, p->situation.lightArg2, p->situation.lightArg3, p->situation.lightArg0, p->situation.variant, out, gBtlvEff->heap);
         r.color = out[0];
         r.x = 0;
         r.y = -0x1000;
@@ -919,7 +919,7 @@ void BTLV_EFFECT_Exit(void)
         PARTICLE_ExitManager();
         BTLV_EFFVM_Destroy(gBtlvEff->effvm);
         func_02030EAC(gBtlvEff->vblankTask);
-        func_02030DA4(gBtlvEff->owner);
+        TCB_Noop(gBtlvEff->owner);
         func_020307B0(gBtlvEff->taskBuf);
         func_020307B0(gBtlvEff);
         gBtlvEff = 0;
@@ -934,7 +934,7 @@ void BTLV_EFFECT_Main(void)
     if (gBtlvEff != 0) {
         gBtlvEff->effvmActive = BTLV_EFFVM_Main(gBtlvEff->effvm);
         BTLV_EFFECT_UpdateIntroInput();
-        func_02030D28(gBtlvEff->owner);
+        TCB_Main(gBtlvEff->owner);
         BTLV_MCSS_Update(gBtlvEff->mcss);
         BTLV_STAGE_UpdateLayerAnims(gBtlvEff->stage);
         BTLV_FIELD_UpdateAnims(gBtlvEff->field);
@@ -962,7 +962,7 @@ void BTLV_EFFECT_StartEffect(u32 a)
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x14, 1, gBtlvEffectFileName, 0x210);
+    o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x14, 1, gBtlvEffectFileName, 0x210);
     o->attackerPos = 0xff;
     o->defenderPos = 0xff;
     o->scriptId = a;
@@ -978,7 +978,7 @@ void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b)
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x22c);
+    o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x22c);
     o->attackerPos = a;
     o->defenderPos = 0xff;
     o->scriptId = b;
@@ -994,7 +994,7 @@ void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c)
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x249);
+    o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x249);
     o->attackerPos = a;
     o->defenderPos = b;
     o->scriptId = c;
@@ -1015,8 +1015,8 @@ void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *r)
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x26b);
-    o->params = sub_02030734(gBtlvEff->heap, 0x10, 1, gBtlvEffectFileName, 0x26c);
+    o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x26b);
+    o->params = GFL_HEAP_Alloc(gBtlvEff->heap, 0x10, 1, gBtlvEffectFileName, 0x26c);
     o->attackerPos = r->attackerPos;
     o->defenderPos = r->defenderPos;
     o->scriptId = r->scriptId;
@@ -1051,7 +1051,7 @@ void BTLV_EFFECT_StartDamageTintTask(int a, int b)
 {
     BtlvEffDamageTintTask *o;
 
-    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x18, 0, gBtlvEffectFileName, 0x29b);
+    o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x18, 0, gBtlvEffectFileName, 0x29b);
     o->step = 0;
     o->pos = a;
     o->cyclesLeft = 3;
@@ -1104,7 +1104,7 @@ void BTLV_EFFECT_StartHitTask(void *a, int b)
 {
     BtlvEffHitTask *o;
 
-    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0x2f9);
+    o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0x2f9);
     o->step = 0;
     o->pos = b;
     BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, b, a);
@@ -1416,7 +1416,7 @@ void BTLV_EFFECT_SetStageLayerEnable(u32 a, u32 b)
 
 void BTLV_EFFECT_StartPokeSpriteTransitionTask(int a, int b, int c)
 {
-    BtlvEffSpriteTransitionTask *s = sub_02030734((u16)((gBtlvEff->heap & 0x7FFF) | 0x8000), 0x10, 0, gBtlvEffectFileName, 0x538);
+    BtlvEffSpriteTransitionTask *s = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7FFF) | 0x8000), 0x10, 0, gBtlvEffectFileName, 0x538);
 
     if (a != 1) {
         s->step = 0;
@@ -1778,8 +1778,8 @@ void BTLV_EFFECT_DeleteTask(void *h)
     if (gBtlvEff->taskCallback[i] != 0)
         gBtlvEff->taskCallback[i](h);
     if (w != 0)
-        sub_020307B0(w);
-    sub_02030EAC(h);
+        GFL_HEAP_Free(w);
+    TCB_DeleteTask(h);
     gBtlvEff->taskHandle[i] = 0;
     gBtlvEff->taskCallback[i] = 0;
 }
@@ -2092,13 +2092,13 @@ void BTLV_EFFECT_UpdateIntroInput(void)
         if (BTLV_EFFECT_IsBusy() == 0) {
             if (gBtlvEff->introState == 3 && BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x400)) {
                 do {
-                    n = (u32)(((u64)func_0203F0A8() * 2) >> 32);
+                    n = (u32)(((u64)GF_STANDARD_Rand() * 2) >> 32);
                 } while (gBtlvEff->introLastPick == n);
                 gBtlvEff->introLastPick = n;
                 value = gBtlvIntroPickTableA[gBtlvEff->introLastPick];
             } else {
                 do {
-                    n = (u32)(((u64)func_0203F0A8() * 6) >> 32);
+                    n = (u32)(((u64)GF_STANDARD_Rand() * 6) >> 32);
                 } while (gBtlvEff->introLastPick == n);
                 gBtlvEff->introLastPick = n;
                 value = gBtlvIntroPickTableB[gBtlvEff->introLastPick];

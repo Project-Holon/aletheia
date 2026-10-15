@@ -1,5 +1,5 @@
 /*
- * function: func_021D846C
+ * function: GTSNEGO_MSG_DeleteDraw
  * address:  0x021D846C
  * packet:   pkt_021D846C
  * region:   ov120
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Obj;
 extern void PMS_DRAW_Delete(struct Obj *p);
 
-void func_021D846C(u8 *p)
+void GTSNEGO_MSG_DeleteDraw(u8 *p)
 {
     if (((struct Obj00286 *)p)->fCC) {
         PMS_DRAW_Delete(((struct Obj00286 *)p)->fCC);

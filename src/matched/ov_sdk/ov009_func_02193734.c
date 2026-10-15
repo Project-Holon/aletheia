@@ -1,5 +1,5 @@
 /*
- * function: func_02193734
+ * function: gpiSetErrorString
  * address:  0x02193734
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Tail call on the word the pointer holds, with the constant third argument 0x100.
  *
  * symbols:
- *   func_0219327C  0x0219327C  arm  ov009
+ *   strzcpy  0x0219327C  arm  ov009
  */
 
-extern void func_0219327C(char *p, int b, int n);
+extern void strzcpy(char *p, int b, int n);
 
-void func_02193734(int *p, int b)
+void gpiSetErrorString(int *p, int b)
 {
-    func_0219327C((char *)(*p), b, 0x100);
+    strzcpy((char *)(*p), b, 0x100);
 }
 

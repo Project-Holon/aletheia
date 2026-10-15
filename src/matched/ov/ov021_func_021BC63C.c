@@ -12,15 +12,16 @@
  * symbols:
  *   FIELD_PLACE_NAME_FreeBgChars  0x021BC704  thumb  ov021
  *   FIELD_PLACE_NAME_DeleteBmpWin  0x021BD07C  thumb  ov021
+ *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
  */
 
-extern void func_020414AC(int a);
+extern void BG_SYS_FreeSlot(int a);
 extern void FIELD_PLACE_NAME_FreeBgChars(void *p);
 extern void FIELD_PLACE_NAME_DeleteBmpWin(void *p);
 
 void FIELD_PLACE_NAME_ReleaseWindow(void *p)
 {
-    func_020414AC(3);
+    BG_SYS_FreeSlot(3);
     FIELD_PLACE_NAME_FreeBgChars(p);
     FIELD_PLACE_NAME_DeleteBmpWin(p);
 }

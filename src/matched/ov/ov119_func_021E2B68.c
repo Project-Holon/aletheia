@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F4560 0x021F4560 data
+ *   gLightSetHandle 0x021F4560 data
  *   G3D_LIGHT_DeleteSlots 0x02048C4C arm
  */
 extern void G3D_LIGHT_DeleteSlots(void *);
-extern void *d_021F4560;
+extern void *gLightSetHandle;
 void POKETRADE_SAVE_Free3DLightSet(void)
 {
-    G3D_LIGHT_DeleteSlots(d_021F4560);
+    G3D_LIGHT_DeleteSlots(gLightSetHandle);
 }

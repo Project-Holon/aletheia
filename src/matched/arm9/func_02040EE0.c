@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02040EE0
+ * function: BG_SYS_GetTileMapEntry
  * address:  0x02040EE0
  * packet:   pkt_020409E0
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * The (x, y) to linear screen-entry index helper the whole BG layer uses
- * (src/matched/sub_02042FB0.c and src/matched/func_020413B0.c are two of
+ * (src/matched/BG_SYS_SetupTileScreen.c and src/matched/BG_SYS_FillTileMap.c are two of
  * its callers).  The third argument is the slot's screen-size code at +0x1d
  * of the 0x2c-byte slot record, and the six arms spell the DS BG screen
  * layouts out exactly:
@@ -35,14 +35,14 @@
  * dispatch to `bx lr` with x still in r0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040EE0.c \
- *       --func func_02040EE0 --addr 0x02040EE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_GetTileMapEntry.c \
+ *       --func BG_SYS_GetTileMapEntry --addr 0x02040EE0 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_02040EE0(int x, int y, u32 code)
+u16 BG_SYS_GetTileMapEntry(int x, int y, u32 code)
 {
     u16 map;
     u16 off;

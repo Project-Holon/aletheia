@@ -1,5 +1,5 @@
 /*
- * function: sub_02043228
+ * function: BG_SYS_SetAffineField
  * address:  0x02043228
  * packet:   pkt_02042B24
  * region:   arm9
@@ -26,7 +26,7 @@ struct Obj {
     u16 unk_18;
 };
 
-void sub_02043228(struct Obj *p, u32 op, u16 value)
+void BG_SYS_SetAffineField(struct Obj *p, u32 op, u16 value)
 {
     switch (op) {
     case 0:

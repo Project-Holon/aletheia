@@ -15,7 +15,7 @@
  * symbols:
  *   gsiCoreGetManager  0x0217CA20  arm  ov009
  *   msleep  0x0217F2BC  arm  ov009
- *   func_0217F0B4  0x0217F0B4  arm  ov009
+ *   gsiInterlockedIncrement  0x0217F0B4  arm  ov009
  *   gsiInitializeCriticalSection  0x0217F0FC  arm  ov009
  *   MSL_C_LIB_LockRegisterDestructor  0x020912A8  arm
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
@@ -39,7 +39,7 @@ typedef struct {
 
 extern void *gsiCoreGetManager(void);
 extern void msleep(unsigned int msec);
-extern unsigned int func_0217F0B4(unsigned int *value);
+extern unsigned int gsiInterlockedIncrement(unsigned int *value);
 extern void gsiInitializeCriticalSection(void *mutex);
 extern u32 MSL_C_LIB_LockRegisterDestructor(u32 a0);
 extern void gsiEnterCriticalSection(void *mutex);
@@ -54,7 +54,7 @@ void gsCoreInitialize(void)
 
     while (aCore->mIsShuttingDown)
         msleep(100);
-    if (func_0217F0B4(&aCore->mRefCount) == 1) {
+    if (gsiInterlockedIncrement(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
             gsiInitializeCriticalSection(aCore->mQueueCrit);
             MSL_C_LIB_LockRegisterDestructor((u32)gsiCoreAtExitShutdown);

@@ -1,5 +1,5 @@
 /*
- * function: func_0220BB98
+ * function: B_BAG_MAIN_GetSlotItem
  * address: 0x0220BB98
  * packet: pkt_ov197_0220BB98
  * region: ov197
@@ -14,7 +14,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-unsigned func_0220BB98(const char *p, unsigned n)
+unsigned B_BAG_MAIN_GetSlotItem(const char *p, unsigned n)
 {
     unsigned index = *(u8 *)(p + 0x533);
     const u16 *s;

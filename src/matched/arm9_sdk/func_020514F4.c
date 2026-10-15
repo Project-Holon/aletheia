@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  ABS32 func_02052770 at +0x0c (tail-call pool word): 0x02052770 (pkt_0205250C, 312 bytes) open, no witness
+ * blocker:  ABS32 SPL_EMITTER_FreeTexNode at +0x0c (tail-call pool word): 0x02052770 (pkt_0205250C, 312 bytes) open, no witness
  *
  * NOTE ON PACKET: this 16-byte leaf sits at 0x020514F4..0x02051504, in the
  * four-byte gap between packet pkt_02051230 (ends 0x020514F4) and packet
@@ -23,13 +23,16 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/PARTICLE_UpdateSystem.c \
  *       --func PARTICLE_UpdateSystem --addr 0x020514F4 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   SPL_EMITTER_FreeTexNode  0x02052770  arm
  */
 
 typedef unsigned int u32;
 
-extern int func_02052770(u32 a);
+extern int SPL_EMITTER_FreeTexNode(u32 a);
 
 int PARTICLE_UpdateSystem(u32 *p)
 {
-    return func_02052770(*p);
+    return SPL_EMITTER_FreeTexNode(*p);
 }

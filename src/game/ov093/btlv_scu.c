@@ -23,7 +23,7 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
  *   PALANM_CopyToSlot 0x020215BC thumb
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   func_0204989C 0x0204989C arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -106,7 +106,7 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
- *   func_0201DD68  0x0201DD68  thumb  arm9
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
@@ -139,7 +139,7 @@
  *   BMP_Create  0x02043678  arm
  *   BMP_Delete  0x020437AC  arm
  *   BTLV_EFFECT_SetPokeEffectValue  0x021F8AE8  thumb  ov094
- *   func_02040B1C 0x02040B1C arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
  *   func_02040618 0x02040618 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
@@ -166,7 +166,7 @@
  *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
  *   gBtlAdapterSlots  0x021F6388  data  a4
  *   gBtlAdapterMode  0x021F6384  data  a4
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
  *   BTL_NET_ExpectReplies   0x021D4C58  thumb
  *   BTL_NET_SendServerCmd  0x021D4B58  thumb  ov093
@@ -183,36 +183,36 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201EE84  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonName  0x0201EE84  thumb
  *   WORDSET_Set  0x0201F0F8  thumb
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
  *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
  *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
  *   TPOKE_DATA_GetGenderValue  0x0202A3CC  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F134  0x0201F134  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb
  *   d_021F63C8     0x021F63C8  data  a4
  *   sBtlMsgSidePairIds     0x021F39A0  data  a2
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_0201D5C4  0x0201D5C4  thumb
+ *   GF_FONT_GetTagChar  0x0201D5C4  thumb
  *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
- *   func_0201D670  0x0201D670  thumb
- *   func_0201D5F4  0x0201D5F4  thumb
- *   func_0201D658  0x0201D658  thumb
- *   func_0201D688  0x0201D688  thumb
+ *   GF_FONT_GetTagParam  0x0201D670  thumb
+ *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
+ *   GF_FONT_GetTagKind  0x0201D658  thumb
+ *   GF_FONT_SkipTag  0x0201D688  thumb
  *   STRBUF_GetChars  0x02045A90  arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EF8C 0x0201EF8C thumb
- *   func_0201EF34 0x0201EF34 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   func_0201F020 0x0201F020 thumb
+ *   WORDSET_SetSlotFromMsgC7 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
@@ -304,7 +304,7 @@ extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void func_02041300(u32, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -373,7 +373,7 @@ extern u32 KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 extern void PRINTSYS_PrintStreamReleasePause(struct PrintStream *stream);
 extern int GFL_USE_IsSeqPlaying(u32 a);
@@ -406,7 +406,7 @@ extern void *func_02049DB4(u32 arcId, u32 fileId, u32 zero, BtlvScuNameGfx **out
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void BTLV_EFFECT_SetPokeEffectValue(int viewPos, u32 speciesId);
-extern void func_02040B1C(int bgPlane, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int bgPlane, const void *src, u32 size, u32 tile);
 extern void func_02040618(u32 bgPlane, u32 mode, u32 value);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void *BTLV_EFFECT_GetOwner(void);
@@ -666,7 +666,7 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 0xb, 0xd6, scu->heapId, 0, 0x60, 0x10, 0x10);
     zero = 0;
     PALANM_CopyToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), &zero, 0, 0, 2);
-    func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(1, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_Init(1, 0, 1, 0);
     frameTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0x59, 1);
     scu->msgTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0xd5, 3);
@@ -2114,7 +2114,7 @@ int BTLV_SCU_UpdateMessage(BtlvScu *scu)
         break;
     case 5:
         if (scu->msgStreamState == 2) {
-            func_0201DD68();
+            GF_FONT_SetDefaultTextColor();
             PRINTSYS_PrintStreamDelete(scu->msgStream);
             scu->msgStream = 0;
             scu->msgStep = 6;
@@ -2974,7 +2974,7 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
     u16 mask;
     switch (plate->phase) {
     case 0:
-        func_02040B1C(plate->bgPlane, plate->templatePixels, 0x900, plate->tile);
+        BG_SYS_LoadTileData(plate->bgPlane, plate->templatePixels, 0x900, plate->tile);
         plate->phase++;
         break;
     case 1:
@@ -3008,7 +3008,7 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
             dst = plate->tile + plate->counter;
             src += plate->counter * 32;
             for (i = 0; i < 4; i++) {
-                func_02040B1C(plate->bgPlane, src + i * 0x240, 32, dst + i * 18);
+                BG_SYS_LoadTileData(plate->bgPlane, src + i * 0x240, 32, dst + i * 18);
             }
             plate->counter++;
         } else {
@@ -3165,7 +3165,7 @@ int BTLV_SCU_ProcNamePlateMosaic(BtlvScuNamePlate *plate)
         }
         break;
     case 2:
-        func_02040B1C(plate->bgPlane, BMP_GetPixels(plate->bmp), 0x900, plate->tile);
+        BG_SYS_LoadTileData(plate->bgPlane, BMP_GetPixels(plate->bmp), 0x900, plate->tile);
         plate->phase++;
         break;
     case 3:
@@ -3433,7 +3433,7 @@ int BTLV_SCU_StepBallWindowClose(int *state, BtlvScu *scu)
         width = BMP_WIN_GetWidth(scu->nameWin) + 2;
         height = BMP_WIN_GetHeight(scu->nameWin) + 2;
         index = BMP_WIN_GetBgLayer(scu->nameWin);
-        func_02041300(index, 0, (u8)left, (u8)top, (u8)width, (u8)height, 0);
+        BG_SYS_SetTileEntry(index, 0, (u8)left, (u8)top, (u8)width, (u8)height, 0);
         func_020409B4(index);
         GFL_USE_PlaySeDefaultVolume(0x547);
         (*state)++;

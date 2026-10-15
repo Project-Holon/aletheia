@@ -25,10 +25,10 @@
  *
  * symbols:
  *   DWCi_HEAPlAllocEx  0x021D6414  arm    ov016
- *   func_02068FC4  0x02068FC4  arm
+ *   NNSi_G2dInitPenSimple  0x02068FC4  arm
  *   func_0207DF94  0x0207DF94  arm
  *   G2_GetBG0ScrPtr  0x0207DF60  arm
- *   func_02069078  0x02069078  arm
+ *   NNS_G2dMapScrToCharText  0x02069078  arm
  *   DWCi_FNTlClear  0x021D5F14  arm    ov016
  *   DWCi_TSKlForm  0x021D7680  arm    ov016
  *   func_021D5BC0  0x021D5BC0  arm    ov016
@@ -56,10 +56,10 @@ extern const u16 sFontTable3[];
 extern const u16 sFontTable1[];
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
-extern void func_02068FC4(int a, int b, int c, int d, int e);
+extern void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
 extern void *func_0207DF94(void);
 extern void *G2_GetBG0ScrPtr(void);
-extern void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
+extern void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 extern void DWCi_FNTlClear(void *c, int col);
 extern void *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
 extern void func_021D5BC0(void *task, void *work);
@@ -81,7 +81,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
         *(volatile u16 *)0x04000008 &= 0xFFBF;
         *(volatile u16 *)0x04000008 = (*(volatile u16 *)0x04000008 & 0x43) | 0xC00;
     }
-    func_02068FC4((int)cv, (int)cv->buf, w, h, 4);
+    NNSi_G2dInitPenSimple((int)cv, (int)cv->buf, w, h, 4);
     char *base = gFontWork;
     cv->self = cv;
     cv->font = base + font * 8;
@@ -92,7 +92,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     else
         scr = G2_GetBG0ScrPtr();
     chr = sFontTable1[lcd];
-    func_02069078(scr, w, h, 0, 0, 0x20, chr, 0xF);
+    NNS_G2dMapScrToCharText(scr, w, h, 0, 0, 0x20, chr, 0xF);
     DWCi_FNTlClear(cv, 0);
     cv->task = DWCi_TSKlForm(1, (void (*)(void *))func_021D5BC0, gFontWork + 0x67C + lcd, 0xC8);
     return cv;

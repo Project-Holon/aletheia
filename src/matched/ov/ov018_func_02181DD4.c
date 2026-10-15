@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
  *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
@@ -44,7 +44,7 @@ struct Evt;
 struct Obj;
 struct WordSet;
 void *GAME_EVENT_GetGameSystem(struct Obj *p);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
@@ -63,7 +63,7 @@ int EVENT_COMM_COMMON_SupportMsgEventMain(void *a, int *state, Ov018Obj *c)
     sub = GAME_EVENT_GetGameSystem(a);
     switch (*state) {
     case 0:
-        func_0201F02C(c->f00, 0, c->f30);
+        WORDSET_SetSlotMyStatus(c->f00, 0, c->f30);
         EVENT_COMM_COMMON_PrintMsg(c, 0x1C);
         (*state)++;
         break;

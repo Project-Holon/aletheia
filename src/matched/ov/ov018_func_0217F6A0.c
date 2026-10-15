@@ -29,8 +29,8 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb  ov010
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
@@ -85,8 +85,8 @@ int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
 struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 void *func_02045EC0(struct MsgBank *bank, u32 index);
 int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0201F250(struct WordSet *ws, void *dst, void *src);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 int FIELD_MSGBG_MsgWinPrintStr(u32 a, u32 b, u32 c, u32 d);
 void STRBUF_Delete(struct U16Vec *vec);
 int GFL_NET_GetNegotiationNum(void);
@@ -143,8 +143,8 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         } else {
             a = (int)STRBUF_Create(0x100, 0x15);
             b = (int)func_02045EC0((struct MsgBank *)c->f0, 0x4A);
-            func_0201F02C((struct WordSet *)c->f8, 0, (void *)GAME_DATA_GetMyStatusByNetId(s, GAME_DATA_GetIntrudeIdByte(s)));
-            func_0201F250((struct WordSet *)c->f8, (void *)a, (void *)b);
+            WORDSET_SetSlotMyStatus((struct WordSet *)c->f8, 0, (void *)GAME_DATA_GetMyStatusByNetId(s, GAME_DATA_GetIntrudeIdByte(s)));
+            WORDSET_CopyTaggedText((struct WordSet *)c->f8, (void *)a, (void *)b);
             FIELD_MSGBG_MsgWinPrintStr(c->f4, 0, 0, a);
             STRBUF_Delete((struct U16Vec *)b);
             STRBUF_Delete((struct U16Vec *)a);

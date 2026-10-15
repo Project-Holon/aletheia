@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02025B3C 0x02025B3C thumb
+ *   BMP_OAM_GetRecordIndex 0x02025B3C thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02025B3C(u32);
-u32 func_02184790(u32 key){return func_02025B3C(key);}
+extern u32 BMP_OAM_GetRecordIndex(u32);
+u32 func_02184790(u32 key){return BMP_OAM_GetRecordIndex(key);}

@@ -8,9 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
  */
 
-extern void func_020413B0(int, int, int, int, int, int);
+extern void BG_SYS_FillTileMap(int, int, int, int, int, int);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
@@ -27,6 +30,6 @@ void RESEARCH_TOP_DrawSelectorIdle(int sel)
     default:
         return;
     }
-    func_020413B0(a, b, c, d, e, f);
+    BG_SYS_FillTileMap(a, b, c, d, e, f);
     func_020409B4(a);
 }

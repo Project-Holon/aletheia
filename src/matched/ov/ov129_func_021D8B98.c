@@ -1,5 +1,5 @@
 /*
- * function: func_021D8B98
+ * function: WF2DMAP_SCENE_StepWipeIn
  * address: 0x021D8B98
  * packet: pkt_ov129_021D8B98
  * region: ov129
@@ -15,7 +15,7 @@
 
 extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 extern unsigned WIPE_SYS_EndCheck(void);
-int func_021D8B98(char *p)  {
+int WF2DMAP_SCENE_StepWipeIn(char *p)  {
     switch(((struct Obj10499 *)p)->f234)  {
         case 0: WIPE_SYS_Start(0,0,0,0,6,1,50);
         ((struct Obj10499 *)p)->f234+=1;

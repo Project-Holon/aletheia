@@ -37,7 +37,7 @@
  *   d_0209F852          0x0209F852  data a2
  *   d_0209F868          0x0209F868  data a4
  *   d_0209F870          0x0209F870  data a2
- *   func_020410D0       0x020410D0  arm
+ *   BG_SYS_DrawTileEx       0x020410D0  arm
  *   func_020409B4       0x020409B4  arm
  *   func_02035630       0x02035630  arm
  *   OS_IsRunOnTwl       0x02085D3C  arm
@@ -46,9 +46,10 @@
  *   func_02049B68       0x02049B68  arm
  *   func_02049658       0x02049658  arm
  *   ENV_SetResourceSet  0x02049238  arm
- *   func_02041300       0x02041300  arm
+ *   BG_SYS_SetTileEntry       0x02041300  arm
  *   GF_STANDARD_SetField00       0x0203F4CC  arm
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  */
 struct Node;
 struct BigObj;
@@ -149,15 +150,15 @@ extern u32 GFL_NET_IsNetTypeWifi(void);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
 extern int  BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
-extern int  func_02040E78(u32 a, const void *b, u16 c, u16 d);
+extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void  func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  ENV_SetResourceSet(void *a);
-extern void  func_02041300(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void GF_STANDARD_SetField00(struct RtcTime *time);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020409B4(u32 a0);
 extern u8 func_02035630(void);
 extern int  OS_IsRunOnTwl(void);
@@ -378,7 +379,7 @@ void INFOWIN_DrawTask(void)
         buf.clk[7] = gInfoWin->charBase + ((gInfoWin->palette << 12) + k);
         buf.clk[8] = buf.clk[3] + 0x10;
         buf.clk[9] = buf.clk[4] + 0x10;
-        func_020410D0(gInfoWin->bgFrame, 1, 0, 5, 2, (u32)buf.clk, 0, 0, 5, 2);
+        BG_SYS_DrawTileEx(gInfoWin->bgFrame, 1, 0, 5, 2, (u32)buf.clk, 0, 0, 5, 2);
         done = 1;
         gInfoWin->redrawFlags = gInfoWin->redrawFlags - 1;
     }
@@ -447,7 +448,7 @@ void INFOWIN_DrawTask(void)
         buf.scr[2] = buf.scr[0] + 0x10;
         buf.scr[1] = buf.scr[0] + 0x400;
         buf.scr[3] = buf.scr[2] + 0x400;
-        func_020410D0(gInfoWin->bgFrame, 0x1C, 0, 2, 2, (u32)buf.scr, 0, 0, 2, 2);
+        BG_SYS_DrawTileEx(gInfoWin->bgFrame, 0x1C, 0, 2, 2, (u32)buf.scr, 0, 0, 2, 2);
         INFOWIN_LoadCharacters(13, d_0209F830, 1);
         done = 1;
         gInfoWin->redrawFlags = gInfoWin->redrawFlags - 0x20;
@@ -460,7 +461,7 @@ void INFOWIN_DrawTask(void)
 /*
  * note:     infowin tile-rect writer: fills a w*h u16 screen buffer with
  *           charbase + base + (pal << 12) + i + j*16 and hands it to
- *           func_020410D0.  x/y/w/h are u8 (the callee takes u8 w/h);
+ *           BG_SYS_DrawTileEx.  x/y/w/h are u8 (the callee takes u8 w/h);
  *           `j * 16`, not `j << 4`, fixes the adds operand order.
  */
 void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
@@ -482,12 +483,12 @@ void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
             i++;
         } while (i < w);
     }
-    func_020410D0(gInfoWin->bgFrame, x, y, w, h, (u32)buf, 0, 0, w, h);
+    BG_SYS_DrawTileEx(gInfoWin->bgFrame, x, y, w, h, (u32)buf, 0, 0, w, h);
 }
 
 int INFOWIN_LoadCharacters(int tile, const void *src, int count)
 {
-    return func_02040E78(gInfoWin->bgFrame, src, count * 2, (tile + (gInfoWin->palette << 4)) * 2);
+    return BG_SYS_LoadPltt(gInfoWin->bgFrame, src, count * 2, (tile + (gInfoWin->palette << 4)) * 2);
 }
 
 void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
@@ -504,8 +505,8 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
     func_02049B68(env, 0, sel, b << 5, 0x20, c);
     func_02049658(env, 1, a, gInfoWin->charBase, 0, 0, c);
     ENV_SetResourceSet(env);
-    func_02041300(a, (u16)(gInfoWin->charBase + 0xf), 0, 0, 0x20, 1, b);
-    func_02041300(a, (u16)(gInfoWin->charBase + 0x1f), 0, 1, 0x20, 1, b);
+    BG_SYS_SetTileEntry(a, (u16)(gInfoWin->charBase + 0xf), 0, 0, 0x20, 1, b);
+    BG_SYS_SetTileEntry(a, (u16)(gInfoWin->charBase + 0x1f), 0, 1, 0x20, 1, b);
     func_020409B4(a);
 }
 

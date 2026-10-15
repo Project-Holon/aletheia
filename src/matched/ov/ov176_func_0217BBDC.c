@@ -13,7 +13,7 @@
  *   func_0217C2EC 0x0217C2EC thumb ov176
  *   func_0217D028 0x0217D028 thumb ov176
  *   func_0217D1A0 0x0217D1A0 thumb ov176
- *   func_0217D188 0x0217D188 arm ov176
+ *   func_0217D188 0x0217D188 thumb ov176
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_BOX_GetFromSave 0x0200BAC8 thumb
  *   func_0217CFE8 0x0217CFE8 thumb ov176

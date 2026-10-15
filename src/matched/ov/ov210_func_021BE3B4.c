@@ -1,5 +1,5 @@
 /*
- * function: func_021BE3B4
+ * function: ZKNSEARCH_MAIN_DeleteBmpWindows
  * address:  0x021BE3B4
  * packet:   pkt_021BE3B4
  * region:   ov210
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 
-void func_021BE3B4(char *p)
+void ZKNSEARCH_MAIN_DeleteBmpWindows(char *p)
 {
     unsigned int i;
     for (i = 0; i < 0x10; i++)

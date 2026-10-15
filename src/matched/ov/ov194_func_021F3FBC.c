@@ -1,5 +1,5 @@
 /*
- * function: func_021F3FBC
+ * function: NAMEIN_GRAPHIC_InitIconActor
  * address:  0x021F3FBC
  * packet:   pkt_ov194_021F3FBC
  * region:   ov194
@@ -35,7 +35,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_021F51E4  0x021F51E4  thumb ov194
+ *   NAMEIN_GRAPHIC_LoadIconMember  0x021F51E4  thumb ov194
  *   BMP_Create  0x02043678  arm
  *   BMP_OAM_Create  0x020255A0  thumb
  *   func_02045EC0  0x02045EC0  arm
@@ -78,7 +78,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const voi
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void func_021F51E4(u8 *dst, unsigned arc, u32 member, u32 index, u16 width, u16 height, int pos, int mode, u16 heap);
+extern void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst, unsigned arc, u32 member, u32 index, u16 width, u16 height, int pos, int mode, u16 heap);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -88,7 +88,7 @@ extern const u8 d_021F5569[];
 
 typedef struct { u16 w; u16 h; u32 pad; } Dim8;
 
-void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
+void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
 {
     u32 flagA = 0;
     u32 v40;
@@ -170,13 +170,13 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
     switch (mode) {
     case 0:
         if (a2 == 0) {
-            func_021F51E4(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
+            NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
         } else {
-            func_021F51E4(*(void **)o, 0x31, 9, 3, 4, 4, 0, 0, heap);
+            NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 9, 3, 4, 4, 0, 0, heap);
         }
         break;
     case 1:
-        func_021F51E4(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
+        NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
     case 2:
         CLACT_SetActorPaletteOffset(*(void **)o, 0, 1);
         break;

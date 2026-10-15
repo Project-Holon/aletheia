@@ -1,5 +1,5 @@
 /*
- * function: func_021CA154
+ * function: WF2DMAP_TOUCH_SetTopHighlight1
  * address:  0x021CA154
  * packet:   pkt_021CA154
  * region:   ov128
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA124  0x021CA124  thumb
+ *   WF2DMAP_TOUCH_DrawTopHighlight  0x021CA124  thumb
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *
  * Addresses are Black-image addresses.
@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct CodeIn;
-extern void func_021CA124(u32 a, u32 b);
+extern void WF2DMAP_TOUCH_DrawTopHighlight(u32 a, u32 b);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 
-void func_021CA154(u8 *p, int a)
+void WF2DMAP_TOUCH_SetTopHighlight1(u8 *p, int a)
 {
-    func_021CA124(a, 1);
+    WF2DMAP_TOUCH_DrawTopHighlight(a, 1);
     BLINK_PALANM_ResetPhase(((struct Obj00329 *)p)->f184);
 }

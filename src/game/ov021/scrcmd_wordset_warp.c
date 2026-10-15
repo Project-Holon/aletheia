@@ -28,16 +28,16 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   WORDSET_Callback_EF40  0x0201EF40  thumb
  *   WORDSET_Callback_EF4C  0x0201EF4C  thumb
- *   func_0201EF5C  0x0201EF5C  thumb
+ *   WORDSET_SetSlotFromMsg118  0x0201EF5C  thumb
  *   WORDSET_Callback  0x0201EE60  thumb
  *   WORDSET_Callback_EEC4  0x0201EEC4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0201EE84  0x0201EE84  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonName  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   FIELDMAP_GetSodateya  0x02188D50  thumb  ov021
  *   SODATEYA_GetPokemon  0x021C34F8  thumb  ov021
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_Set  0x0201F0F8  thumb
  *   WORDSET_Callback_F124  0x0201F124  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -66,6 +66,16 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
  *   FILE_UTIL_Get_12B0  0x020212B0  thumb  arm9
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
+ *   WORDSET_SetSlotPmsWord  0x0201EFC8  thumb  arm9
+ *   WORDSET_SetSlotFromMsgC7  0x0201F020  thumb  arm9
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
+ *   WORDSET_SetSlotFromMsg37  0x0201F14C  thumb  arm9
+ *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb  arm9
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb  arm9
+ *   WORDSET_SetSlotFromMsg2B  0x0201F198  thumb  arm9
+ *   WORDSET_SetSlotFromMsg00  0x0201F1B0  thumb  arm9
  */
 #include "../arm9/script_vm_types.h"
 #include "../ov010/script_work_types.h"
@@ -107,30 +117,30 @@ extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern u16 VM_GetU16(ScriptVm *vm);
 extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
 extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
-extern void func_0201F02C(WordSet *wordSet, u32 slot, PlayerStatus *myStatus);
+extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 slot, PlayerStatus *myStatus);
 extern void WORDSET_Callback_EF40(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_Callback_EF4C(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201EF5C(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsg118(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern u32 FILE_UTIL_Get_12B0(u32 value);
-extern void func_0201EF34(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201F020(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsgCB(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsgC7(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_Callback(WordSet *wordSet, u32 slot, u16 speciesId);
 extern void WORDSET_Callback_EEC4(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201F14C(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsg37(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern Party *GAME_DATA_GetMyParty(GameData *gameData);
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
-extern void func_0201EE84(WordSet *wordSet, u32 slot, PokemonParam *mon);
-extern void func_0201EEF4(WordSet *wordSet, u32 slot, PokemonParam *mon);
+extern void WORDSET_SetSlotMonName(WordSet *wordSet, u32 slot, PokemonParam *mon);
+extern void WORDSET_SetSlotMonSpecies(WordSet *wordSet, u32 slot, PokemonParam *mon);
 extern Sodateya *FIELDMAP_GetSodateya(FieldMap *fieldMap);
 extern PokemonParam *SODATEYA_GetPokemon(Sodateya *sodateya, u32 index);
-extern void func_0201EFA4(WordSet *wordSet, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
+extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern void func_0201F158(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201EFC8(WordSet *wordSet, u32 slot, u32 pmsWord);
-extern void func_0201F048(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201F198(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void func_0201F1B0(WordSet *wordSet, u32 slot, u8 entryIndex);
-extern void func_0201F184(WordSet *wordSet, u32 slot, s32 entryIndex);
+extern void WORDSET_SetSlotFromMsg59(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotPmsWord(WordSet *wordSet, u32 slot, u32 pmsWord);
+extern void WORDSET_SetSlotFromMsgE7(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsg2B(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsg00(WordSet *wordSet, u32 slot, u8 entryIndex);
+extern void WORDSET_SetSlotFromMsgA0(WordSet *wordSet, u32 slot, s32 entryIndex);
 extern void WORDSET_Set(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_Callback_F124(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
@@ -212,7 +222,7 @@ int SCRCMD_BufferPlayerName(ScriptVm *vm, ScrcmdWork *cmdWork)
     SCRIPT_WORK_ResetFieldParam(scriptWork);
     myStatus = GAME_DATA_GetMyStatus(SCRCMD_WORK_GetGameData(cmdWork));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
-    func_0201F02C(wordSet, ScriptVm_ReadU8(vm), myStatus);
+    WORDSET_SetSlotMyStatus(wordSet, ScriptVm_ReadU8(vm), myStatus);
     return 0;
 }
 
@@ -249,7 +259,7 @@ void SCRCMD_BufferItemNameWithCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     count = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     useAltList = ScriptVm_ReadU8(vm);
     if (count > 1) {
-        func_0201EF5C(wordSet, slot, entry);
+        WORDSET_SetSlotFromMsg118(wordSet, slot, entry);
     } else if (useAltList != 0) {
         WORDSET_Callback_EF4C(wordSet, slot, entry);
     } else {
@@ -263,7 +273,7 @@ int SCRCMD_BufferConvertedEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201EF34(wordSet, slot, FILE_UTIL_Get_12B0(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    WORDSET_SetSlotFromMsgCB(wordSet, slot, FILE_UTIL_Get_12B0(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 0;
 }
 
@@ -272,7 +282,7 @@ int SCRCMD_BufferGroupEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201EF34(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    WORDSET_SetSlotFromMsgCB(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -281,7 +291,7 @@ int SCRCMD_BufferCategoryEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201F020(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    WORDSET_SetSlotFromMsgC7(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -303,7 +313,7 @@ int SCRCMD_BufferShortEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201F14C(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    WORDSET_SetSlotFromMsg37(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -317,7 +327,7 @@ int SCRCMD_BufferPartyMonSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 partyIndex;
 
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_0201EE84(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
+    WORDSET_SetSlotMonName(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
     return 0;
 }
 
@@ -331,7 +341,7 @@ int SCRCMD_BufferPartyMonNickname(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 partyIndex;
 
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_0201EEF4(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
+    WORDSET_SetSlotMonSpecies(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
     return 0;
 }
 
@@ -343,7 +353,7 @@ int SCRCMD_BufferDaycareMonSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 daycareIndex;
 
     daycareIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_0201EE84(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
+    WORDSET_SetSlotMonName(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
     return 0;
 }
 
@@ -355,7 +365,7 @@ int SCRCMD_BufferDaycareMonNickname(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 daycareIndex;
 
     daycareIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_0201EEF4(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
+    WORDSET_SetSlotMonSpecies(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
     return 0;
 }
 
@@ -369,7 +379,7 @@ int SCRCMD_BufferNumber(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     number = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     digitCount = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_0201EFA4(wordSet, slot, number, digitCount, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, number, digitCount, 0, 1);
     return 0;
 }
 
@@ -379,7 +389,7 @@ int SCRCMD_BufferPlaceName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201F158(wordSet, slot, ZONEDATA_GetPlaceNameId(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    WORDSET_SetSlotFromMsg59(wordSet, slot, ZONEDATA_GetPlaceNameId(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 0;
 }
 
@@ -388,7 +398,7 @@ int SCRCMD_BufferEasyChatWord(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201EFC8(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    WORDSET_SetSlotPmsWord(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -397,7 +407,7 @@ int SCRCMD_BufferGroupedEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201F048(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    WORDSET_SetSlotFromMsgE7(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -406,7 +416,7 @@ int SCRCMD_BufferByteEntryNameA(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201F198(wordSet, slot, (u8)SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    WORDSET_SetSlotFromMsg2B(wordSet, slot, (u8)SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -415,7 +425,7 @@ int SCRCMD_BufferByteEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201F1B0(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    WORDSET_SetSlotFromMsg00(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -425,7 +435,7 @@ int SCRCMD_BufferSignedEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     u8 slot = ScriptVm_ReadU8(vm);
     u32 entryIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    func_0201F184(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork)), slot, entryIndex);
+    WORDSET_SetSlotFromMsgA0(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork)), slot, entryIndex);
     return 0;
 }
 
@@ -454,7 +464,7 @@ int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    func_0201EFA4(wordSet, slot, BEACON_GetThanksCount(beacon), 9, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, BEACON_GetThanksCount(beacon), 9, 1, 1);
     return 0;
 }
 
@@ -469,7 +479,7 @@ int SCRCMD_BufferBeaconGreetCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    func_0201EFA4(wordSet, slot, BEACON_GetGreetCount(beacon), 9, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, BEACON_GetGreetCount(beacon), 9, 1, 1);
     return 0;
 }
 

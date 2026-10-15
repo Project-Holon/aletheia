@@ -1,5 +1,5 @@
 /*
- * function: func_021CA478
+ * function: WF2DMAP_TOUCH_UpdateSlots
  * address: 0x021CA478
  * packet: pkt_ov128_021CA478
  * region: ov128
@@ -23,4 +23,4 @@ struct PrintSys;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021CA478(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=((struct Obj06477 *)p)->f34;if(((struct Obj08135 *)q)->f4) {if(!PRINTSYS_QUE_IsExistTarget(v,BMP_WIN_GetBmp(((struct Obj08135 *)q)->f0))) {BMP_WIN_TransferChars(((struct Obj08135 *)q)->f0);((struct Obj08135 *)q)->f4=0;}}}}
+void WF2DMAP_TOUCH_UpdateSlots(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=((struct Obj06477 *)p)->f34;if(((struct Obj08135 *)q)->f4) {if(!PRINTSYS_QUE_IsExistTarget(v,BMP_WIN_GetBmp(((struct Obj08135 *)q)->f0))) {BMP_WIN_TransferChars(((struct Obj08135 *)q)->f0);((struct Obj08135 *)q)->f4=0;}}}}

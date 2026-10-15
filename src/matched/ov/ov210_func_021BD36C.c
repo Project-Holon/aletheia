@@ -1,5 +1,5 @@
 /*
- * function: func_021BD36C
+ * function: ZKNSEARCH_MAIN_ExitState
  * address:  0x021BD36C
  * packet:   pkt_021BD36C
  * region:   ov210
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCD3C  0x021BCD3C  thumb  ov210
- *   func_021BEDF0  0x021BEDF0  thumb  ov210
- *   func_021BFF18  0x021BFF18  thumb  ov210
+ *   ZKNSEARCH_MAIN_SetFadeStateB  0x021BCD3C  thumb  ov210
+ *   ZKNSEARCH_MAIN_SetActorVisible  0x021BEDF0  thumb  ov210
+ *   ZKNSEARCH_MAIN_DeleteCursorMove  0x021BFF18  thumb  ov210
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01779.h"
@@ -22,15 +22,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021BCD3C(u8 *);
-extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BFF18(int p);
+extern void ZKNSEARCH_MAIN_SetFadeStateB(u8 *);
+extern void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
+extern void ZKNSEARCH_MAIN_DeleteCursorMove(int p);
 
-u32 func_021BD36C(u8 *p)
+u32 ZKNSEARCH_MAIN_ExitState(u8 *p)
 {
-    func_021BCD3C(p);
-    func_021BEDF0((int)p, 7, 0);
-    func_021BFF18((int)p);
+    ZKNSEARCH_MAIN_SetFadeStateB(p);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 7, 0);
+    ZKNSEARCH_MAIN_DeleteCursorMove((int)p);
     return ((struct Obj01779 *)p)->f18;
 }
 

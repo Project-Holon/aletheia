@@ -1,5 +1,5 @@
 /*
- * function: func_020627F0
+ * function: NNSi_G2dGetCellDataBankOamBase
  * address:  0x020627F0
  * packet:   pkt_020627F0
  * region:   arm9
@@ -32,7 +32,7 @@ struct CellDataBank {
     void *cells;
 };
 
-void *func_020627F0(struct CellDataBank *bank)
+void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank)
 {
     if (bank->bankAttr & 1) {
         return (struct CellDataEx *)bank->cells + bank->numCells;

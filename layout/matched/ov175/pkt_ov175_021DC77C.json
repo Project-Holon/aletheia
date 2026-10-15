@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC77C",
+   "name": "WIFIBATTLEMATCH_NET_HttpRapProcess",
    "address": "0x021DC77C",
    "kind": "game",
    "region": "ov175",

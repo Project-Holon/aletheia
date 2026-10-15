@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 typedef unsigned char  u8;
 struct Descriptor;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
@@ -29,7 +29,7 @@ void POKE_SUMMARY_MAIN_ClearWindow(char *p)
 {
     u32 x;
 
-    func_0201F7A8((void *)(((struct Obj14315 *)p)->f20), 2);
+    BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj14315 *)p)->f20), 2);
     x = ((struct Obj14315 *)p)->f20;
     BMP_WIN_ClearScreen((struct Descriptor *)x);
     func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)x));

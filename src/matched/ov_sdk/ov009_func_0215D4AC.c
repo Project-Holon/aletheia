@@ -1,5 +1,5 @@
 /*
- * function: func_0215D4AC
+ * function: SOCL_Connect
  * address:  0x0215D4AC
  * packet:   pkt_ov009_0215D4AC
  * region:   ov009
@@ -39,7 +39,7 @@ extern int g_021A1CE0;
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int func_0215D5F8(struct SOCLSocket *socket);
 
-int func_0215D4AC(int s, unsigned short remote_port, unsigned long remote_ip)
+int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip)
 {
 	struct SOCLSocket *socket = (struct SOCLSocket *)s;
 

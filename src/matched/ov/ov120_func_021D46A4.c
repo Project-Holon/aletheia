@@ -1,5 +1,5 @@
 /*
- * function: func_021D46A4
+ * function: GTSNEGO_DISP_PrepareTrade
  * address: 0x021D46A4
  * packet: pkt_ov120_021D46A4
  * region: ov120
@@ -17,10 +17,10 @@
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_0217BC44 0x0217BC44 arm ov009
+ *   DWC_CheckProfanityExAsync 0x0217BC44 arm ov009
  *   STRBUF_Delete 0x02045808 arm
- *   func_021D4244 0x021D4244 thumb ov120
- *   func_021D4608 0x021D4608 thumb ov120
+ *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
+ *   GTSNEGO_DISP_ConfirmStatus 0x021D4608 thumb ov120
  */
 #include "../include/Obj05341.h"
 #include "../include/Obj22824.h"
@@ -37,11 +37,11 @@ struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
-extern int func_0217BC44(u16 **, int, char *, int, char *, int *, int);
+extern int DWC_CheckProfanityExAsync(u16 **, int, char *, int, char *, int *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021D4244(int *p, int v, int a2);
-extern void func_021D4608(u8 *);
-void func_021D46A4(u8 *p)
+extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
+extern void GTSNEGO_DISP_ConfirmStatus(u8 *);
+void GTSNEGO_DISP_PrepareTrade(u8 *p)
 {
     void *str;
     u16 *chars;
@@ -59,8 +59,8 @@ void func_021D46A4(u8 *p)
         }
         ((struct Obj05341 *)p)->f1A0 = p + 0x188;
         ((struct Obj05341 *)p)->f1A8 = 0;
-        func_0217BC44((u16 **)(p + 0x1a0), 1, 0, 0, (char *)(p + 0x1a4), (int *)(p + 0x1a8), 128);
+        DWC_CheckProfanityExAsync((u16 **)(p + 0x1a0), 1, 0, 0, (char *)(p + 0x1a4), (int *)(p + 0x1a8), 128);
         STRBUF_Delete(str);
-        func_021D4244((int *)p, (int)func_021D4608, 0x29c);
+        GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_ConfirmStatus, 0x29c);
     }
 }

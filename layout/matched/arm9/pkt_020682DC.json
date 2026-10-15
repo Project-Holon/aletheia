@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02068430",
+   "name": "NNSi_G2dBlitCharData",
    "address": "0x02068430",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02068670",
+   "name": "NNSi_G2dCharCanvasDrawText",
    "address": "0x02068670",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02068808",
+   "name": "NNSi_G2dCharCanvasDrawTextForVRAM",
    "address": "0x02068808",
    "kind": "game",
    "region": "arm9",

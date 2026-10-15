@@ -1,5 +1,5 @@
 /*
- * function: func_021F22E8
+ * function: NAMEIN_GRAPHIC_IsFieldDrawDone
  * address:  0x021F22E8
  * packet:   pkt_021F22E8
  * region:   ov194
@@ -23,7 +23,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-int func_021F22E8(unsigned char *p)
+int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p)
 {
     int c = p[0x30];
     int r4 = ((struct Obj05509 *)p)->f38;

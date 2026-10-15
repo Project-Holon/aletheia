@@ -1,5 +1,5 @@
 /*
- * function: func_021FA528
+ * function: STA_ACT_AUDIENCE_RandomizeRecords
  * address: 0x021FA528
  * packet: pkt_ov132_021FA528
  * region: ov132
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_02005728(unsigned);
-void func_021FA528(char *p)
+void STA_ACT_AUDIENCE_RandomizeRecords(char *p)
 {
     u8 i;
     for (i = 0; i < 60; i++) {

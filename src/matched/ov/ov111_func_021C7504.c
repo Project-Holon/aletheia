@@ -1,5 +1,5 @@
 /*
- * function: func_021C7504
+ * function: VIEWER_TEXT_InitClact
  * address:  0x021C7504
  * packet:   pkt_ov111_021C7504
  * region:   ov111
@@ -126,7 +126,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern const unsigned char gClActorInitParam[];
 extern const unsigned char d_021C88FC[];
 
-void func_021C7504(Work *p)
+void VIEWER_TEXT_InitClact(Work *p)
 {
     void *arc = func_020490F4(func_020275E4(), 0x27);
 

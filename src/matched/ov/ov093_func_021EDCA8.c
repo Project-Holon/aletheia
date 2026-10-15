@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 021EDDC6 rereads flags after setting bit 0.
  * symbols:
- *   func_02040B1C 0x02040B1C arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
  *   func_02040618 0x02040618 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Flags { u8 shown : 1; u8 close : 1; };
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void func_02040618(u32, u32, u32);
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
@@ -45,7 +45,7 @@ int BTLV_SCU_ProcNamePlate(u8 *p)
     u16 mask;
     switch (p[0xd]) {
     case 0:
-        func_02040B1C(p[0xb], ((struct Obj00341 *)p)->f10, 0x900, ((struct Obj00341 *)p)->f1C);
+        BG_SYS_LoadTileData(p[0xb], ((struct Obj00341 *)p)->f10, 0x900, ((struct Obj00341 *)p)->f1C);
         p[0xd]++;
         break;
     case 1:
@@ -79,7 +79,7 @@ int BTLV_SCU_ProcNamePlate(u8 *p)
             dst = ((struct Obj00341 *)p)->f1C + p[0x21];
             src += p[0x21] * 32;
             for (i = 0; i < 4; i++) {
-                func_02040B1C(p[0xb], src + i * 0x240, 32, dst + i * 18);
+                BG_SYS_LoadTileData(p[0xb], src + i * 0x240, 32, dst + i * 18);
             }
             p[0x21]++;
         } else {

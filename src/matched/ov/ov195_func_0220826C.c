@@ -1,5 +1,5 @@
 /*
- * function: func_0220826C
+ * function: SHINKA_DEMO_VIEW_IsGridFadeDone
  * address:  0x0220826C
  * packet:   pkt_0220826C
  * region:   ov195
@@ -28,7 +28,7 @@ typedef struct Fade {
     s16 count;
 } Fade;
 
-int func_0220826C(Fade *p, int x)
+int SHINKA_DEMO_VIEW_IsGridFadeDone(Fade *p, int x)
 {
     if (p->step == 0)
         return 1;

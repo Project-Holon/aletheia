@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCF0C",
+   "name": "ZKNSEARCH_MAIN_NormalizeRecordByte",
    "address": "0x021BCF0C",
    "kind": "game",
    "region": "ov210",

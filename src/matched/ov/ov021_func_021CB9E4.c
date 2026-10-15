@@ -1,5 +1,5 @@
 /*
- * function: func_021CB9E4
+ * function: BSUBWAY_SCR_CreateMarkerObjects
  * address:  0x021CB9E4
  * packet:   pkt_ov021_021CB9E4
  * region:   ov021
@@ -90,7 +90,7 @@ extern const u16 d_021DAD5C[];
 extern const Ent d_021DAEBC[];
 extern const u32 d_021DADF8[];
 
-void func_021CB9E4(u8 *p, void *a1, void *a2, void *a3)
+void BSUBWAY_SCR_CreateMarkerObjects(u8 *p, void *a1, void *a2, void *a3)
 {
     int i;
     u16 slot;

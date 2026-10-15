@@ -15,7 +15,7 @@
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   func_02030734  0x02030734  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  */
 
 typedef signed int     s32;
@@ -29,7 +29,7 @@ extern u32 FIELD_PLACE_NAME_GetArcHandle(u8 *p);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
 typedef struct S {
     char pad[0x14c];
@@ -46,5 +46,5 @@ void FIELD_PLACE_NAME_LoadPaletteFile(S *p)
     h = (int)func_02030734(r4, ARC_TOOL_GetHandleMemberSize((struct ArcFile *)r6, 1), 0, (const char *)0x021DE354, 0x2c8);
     p->a = h;
     ARC_TOOL_ReadHandleMember((struct ArcFile *)r6, 1, (void *)h);
-    func_02062A98((struct NitroFileHeader *)p->a, (void **)((int)&p->b));
+    NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)p->a, (void **)((int)&p->b));
 }

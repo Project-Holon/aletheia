@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014910",
+   "name": "FIELD_STATUS_CreateSubProcListEvent",
    "address": "0x02014910",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014A10",
+   "name": "ZONEDATA_GetLightTableMember",
    "address": "0x02014A10",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3F18
+ * function: VIEWER_MAIN_PlaySe
  * address:  0x021C3F18
  * packet:   pkt_ov111_021C3F18
  * region:   ov111
@@ -27,7 +27,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_021C3F18(Work *p, int speed)
+void VIEWER_MAIN_PlaySe(Work *p, int speed)
 {
     if (p->cooldown != 0) {
         p->cooldown--;

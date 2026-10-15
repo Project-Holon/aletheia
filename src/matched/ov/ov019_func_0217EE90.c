@@ -15,11 +15,11 @@
  *   func_02008550  0x02008550  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetString  0x02045924  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201F048  0x0201F048  thumb
+ *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
  *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
  *   UNION_MSG_SetGreetingWordFlag  0x0217EFE0  thumb  ov019
  *   d_021807F8     0x021807F8  data  a1
@@ -72,11 +72,11 @@ struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void UNION_MSG_SetGreetingWordFlag(int a, unsigned int n);
 extern const char d_021807F8[];
@@ -112,9 +112,9 @@ void UNION_MSG_RegisterPartnerWords(Self *self)
 
     s = STRBUF_Create(0x20, 0x41);
     STRBUF_SetString(s, buf);
-    func_0201EE0C(self->win2804, 0, s, flag, 1, kind);
+    WORDSET_SetSlotTag(self->win2804, 0, s, flag, 1, kind);
     STRBUF_Delete(s);
-    func_0201F02C(self->win2804, 1, (void *)x);
+    WORDSET_SetSlotMyStatus(self->win2804, 1, (void *)x);
 
     switch (kind) {
     case 1: id = 0xe7; break;
@@ -127,11 +127,11 @@ void UNION_MSG_RegisterPartnerWords(Self *self)
     default: id = 0xed; break;
     }
     t = func_02045EC0(self->msg2808, id);
-    func_0201EE0C(self->win2804, 2, t, flag, 1, kind);
+    WORDSET_SetSlotTag(self->win2804, 2, t, flag, 1, kind);
     STRBUF_Delete(t);
 
     if (sub->rec != 0 && sub->rec->f26 != 0) {
-        func_0201F048(self->win2804, 3, sub->rec->f26);
+        WORDSET_SetSlotFromMsgE7(self->win2804, 3, sub->rec->f26);
         if (sub->rec->f27 != 0)
             WORDSET_DeleteMsgdataF094(self->win2804, 4, sub->rec->f26, sub->rec->f27);
     }

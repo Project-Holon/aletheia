@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02184938",
+   "name": "GSMD5Init",
    "address": "0x02184938",
    "kind": "sdk",
    "region": "ov009",

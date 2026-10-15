@@ -1,5 +1,5 @@
 /*
- * function: func_021D98E4
+ * function: WIFIBATTLEMATCH_NET_SetupRegSprite
  * address: 0x021D98E4
  * packet: pkt_ov175_021D98E4
  * region: ov175
@@ -18,7 +18,7 @@ typedef struct { u32 x0,x1,x2,x3,x4,x5,x6,x7; u16 a,b,c,d; int enabled; u16 kind
 extern void MI_CpuFill8(void *, int, u32);
 extern u32 func_021E888C(Desc *, int);
 extern u32 func_021E88B0(Desc *, int, unsigned char, int, int, int);
-void func_021D98E4(u32 *p, int mode) {
+void WIFIBATTLEMATCH_NET_SetupRegSprite(u32 *p, int mode) {
     Desc d;
     if (p[12] == 0) {
         MI_CpuFill8(&d, 0, 48);

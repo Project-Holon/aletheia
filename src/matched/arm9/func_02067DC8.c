@@ -32,7 +32,7 @@
  *   in pkt_02066E30 (see docs/notes/pkt_02066E30.c.txt).
  *
  * compiler pin, ../2.0/sp2, the "kept constants" tell of
- * src/matched/func_0206380C.c measured again on this row: the image
+ * src/matched/NNSi_G2dIsVramHandleSetEx.c measured again on this row: the image
  * materialises the -1 sentinel in a register, `mvn r0, #0` (`00 00 e0 e3`)
  * at 0x02067E20 followed by `cmp r4, r0` (`00 00 54 e1`) at 0x02067E24,
  * where dsi/1.1p1 -O4,p folds the constant into the compare as

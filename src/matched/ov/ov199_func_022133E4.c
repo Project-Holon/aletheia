@@ -14,7 +14,7 @@
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02167ED8 0x02167ED8 arm ov009
+ *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   func_02034714 0x02034714 arm
  *   func_022135CC 0x022135CC thumb ov199
  *   REGULATION_GetRuleValue 0x0200AE54 thumb
@@ -38,7 +38,7 @@ extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 struct Reg;
-extern int func_02167ED8(void *date, void *time);
+extern int DWC_GetDateTime(void *date, void *time);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_022135CC(u8 *,u8 *,u8 *);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
@@ -72,7 +72,7 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
             *(u8 *)((unsigned)p+i+0x3e)=func_02017E1C(mon,0x6e,zero);
         }
     }
-    if(func_02167ED8(&date,&time)==0) func_02034714(d_02213D00,0,d_02213D00);
+    if(DWC_GetDateTime(&date,&time)==0) func_02034714(d_02213D00,0,d_02213D00);
     ((Flags *)(p + 0x44))->year=date.a;
     ((Flags *)(p + 0x44))->month=date.b;
     ((Flags *)(p + 0x44))->day=date.c;

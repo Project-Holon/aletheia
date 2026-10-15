@@ -14,7 +14,7 @@
  * symbols:
  *   SOC_Close 0x0215F644 arm
  *   OS_Sleep 0x02085A38 arm
- *   func_0215EBB4 0x0215EBB4 arm
+ *   SOCLi_TrashSocket 0x0215EBB4 arm
  *   NHTTPi_free 0x021BA850 arm ov114
  */
 
@@ -25,7 +25,7 @@ typedef struct {
 
 extern int SOC_Close(int socket);
 extern void OS_Sleep(unsigned long msec);
-extern void func_0215EBB4(void);
+extern void SOCLi_TrashSocket(void);
 extern void NHTTPi_free(int a);
 
 int NHTTPi_SocClose(int unused, Req *req_p, int socket)
@@ -37,7 +37,7 @@ int NHTTPi_SocClose(int unused, Req *req_p, int socket)
     if (error == 0 || error == -26) {
         for (elapsed = 0; (error = SOC_Close(socket)) == -26 && elapsed <= 10000; elapsed += 500) {
             OS_Sleep(500);
-            func_0215EBB4();
+            SOCLi_TrashSocket();
         }
     }
     if (error != -26 && req_p != 0 && req_p->pSslCon != 0) {

@@ -25,12 +25,12 @@
  * symbols:
  *   func_0217EC4C  0x0217EC4C  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
- *   func_0217EAC8  0x0217EAC8  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsirealloc  0x0217EAC8  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_02092344  0x02092344  arm
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   g_021A44C8     0x021A44C8  data ov009
  *   g_021A453C     0x021A453C  data ov009
  *   g_021A4568     0x021A4568  data ov009
@@ -49,12 +49,12 @@ typedef struct {
 
 extern int func_0217EC4C(int sock, char *buffer, int len, int flags);
 extern int GOAGetLastError(int sock);
-extern char *func_0217EAC8(char *p, int size);
-extern char *func_0217EAB0(int size);
+extern char *gsirealloc(char *p, int size);
+extern char *gsimalloc(int size);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0217EAE0(void *p);
-extern void func_02193734(int *connection, int string);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsifree(void *p);
+extern void gpiSetErrorString(int *connection, int string);
 extern char g_021A44C8[];
 extern char g_021A453C[];
 extern char g_021A4568[];
@@ -83,9 +83,9 @@ int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
     do {
         if ((len + 0x4000) > size) {
             size = len + 0x4000;
-            buffer = func_0217EAC8(buffer, size + 1);
+            buffer = gsirealloc(buffer, size + 1);
             if (buffer == 0) {
-                func_02193734(connection, (int)g_021A44C8);
+                gpiSetErrorString(connection, (int)g_021A44C8);
                 return 1;
             }
             inputBuffer->buffer = buffer;
@@ -97,19 +97,19 @@ int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
         if (rcode == -1) {
             int error = GOAGetLastError(sock);
             if (error != -6 && error != -26 && error != -76) {
-                func_02193734(connection, (int)g_021A453C);
+                gpiSetErrorString(connection, (int)g_021A453C);
                 return 3;
             }
         } else if (rcode == 0) {
             closed = 1;
-            func_0217D254(1, 0, 0x10, g_021A4568, id);
+            gsDebugFormat(1, 0, 0x10, g_021A4568, id);
         } else {
-            char *buf = func_0217EAB0(rcode + 1);
+            char *buf = gsimalloc(rcode + 1);
 
             func_02092344(buf, &buffer[len], rcode);
             buf[rcode] = 0;
-            func_0217D254(1, 0, 0x20, g_021A458C, recvCount++, id, buf);
-            func_0217EAE0(buf);
+            gsDebugFormat(1, 0, 0x20, g_021A458C, recvCount++, id, buf);
+            gsifree(buf);
             len += rcode;
             total += rcode;
         }
@@ -118,7 +118,7 @@ int func_02189780(int *connection, int sock, GPIBuffer *inputBuffer,
     } while ((rcode >= 0) && !closed && (total < 0x20000));
 
     if (total != 0) {
-        func_0217D254(1, 0, 0x20, g_021A45A0, id, total);
+        gsDebugFormat(1, 0, 0x20, g_021A45A0, id, total);
     }
 
     inputBuffer->buffer = buffer;

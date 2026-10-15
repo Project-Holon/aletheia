@@ -1,7 +1,7 @@
 /*
  * file:     comm_btl_demo_main.c
  * unit:     yes
- * function: func_021B95A0, func_021B96C0, func_021B9740, func_021B9794, func_021B9830, func_021B9858, func_021B9864, func_021B98A0, func_021B98DC, func_021B98EC, func_021B9A68, func_021B9A84, func_021B9B0C, func_021B9D4C, func_021B9D80, func_021B9E08, func_021B9E28, func_021B9E50, func_021B9E80, func_021B9EB0, func_021B9EE4, func_021BA014, func_021BA034, func_021BA14C, func_021BA1C0, func_021BA1C8, func_021BA200, func_021BA268, func_021BA2E0, func_021BA2F0, func_021BA30C, func_021BA330, func_021BA38C, func_021BA408, func_021BA444, func_021BA480, func_021BA4BC, func_021BA514, func_021BA5A0, func_021BA624, func_021BA650, func_021BA68C, func_021BA6C8, func_021BA710, func_021BA71C, func_021BA750, func_021BA780, func_021BA7B8, func_021BA7D0, func_021BA81C, func_021BA8BC, func_021BA8D4, func_021BA8E8, func_021BA8F4, func_021BA920, func_021BA95C, func_021BA9AC, func_021BA9C0, func_021BA9D0, func_021BAA20, func_021BAA8C, func_021BAABC
+ * function: COMM_BTL_DEMO_MAIN_Create, COMM_BTL_DEMO_MAIN_Delete, COMM_BTL_DEMO_MAIN_Update, COMM_BTL_DEMO_MAIN_LoadGraphics, COMM_BTL_DEMO_MAIN_Exit, COMM_BTL_DEMO_MAIN_Step, COMM_BTL_DEMO_MAIN_SetupFirstSide, COMM_BTL_DEMO_MAIN_SetupSecondSide, COMM_BTL_DEMO_MAIN_GetSoundId, COMM_BTL_DEMO_MAIN_Tick, COMM_BTL_DEMO_MAIN_Exit2, COMM_BTL_DEMO_MAIN_LayoutRows, COMM_BTL_DEMO_MAIN_UpdateBattle, COMM_BTL_DEMO_MAIN_UpdateExit, COMM_BTL_DEMO_MAIN_UpdateEnd, COMM_BTL_DEMO_MAIN_UpdateFadeOut, COMM_BTL_DEMO_MAIN_GetModeIndex, COMM_BTL_DEMO_MAIN_IsFullPartyMode, COMM_BTL_DEMO_MAIN_HasVisibleActors, COMM_BTL_DEMO_MAIN_TypeToFrame, COMM_BTL_DEMO_MAIN_InitActorRow, COMM_BTL_DEMO_MAIN_DeleteActorRow, COMM_BTL_DEMO_MAIN_UpdateActorRow, COMM_BTL_DEMO_MAIN_UpdateRowDelay, COMM_BTL_DEMO_MAIN_MarkRowDone, COMM_BTL_DEMO_MAIN_SetRowActorAnim, COMM_BTL_DEMO_MAIN_CreateRowWindow, COMM_BTL_DEMO_MAIN_InitRowContext, COMM_BTL_DEMO_MAIN_RefreshRowText, COMM_BTL_DEMO_MAIN_DeleteRowContext, COMM_BTL_DEMO_MAIN_UpdateRowContext, COMM_BTL_DEMO_MAIN_DrawRowText, COMM_BTL_DEMO_MAIN_InitRows, COMM_BTL_DEMO_MAIN_DeleteRows, COMM_BTL_DEMO_MAIN_UpdateRows, COMM_BTL_DEMO_MAIN_MarkRowsDone, COMM_BTL_DEMO_MAIN_SetActorAnimKind, COMM_BTL_DEMO_MAIN_UpdateNetKind, COMM_BTL_DEMO_MAIN_InitBattleContext, COMM_BTL_DEMO_MAIN_DeleteBattleContext, COMM_BTL_DEMO_MAIN_UpdateBattleActors, COMM_BTL_DEMO_MAIN_ShowBattleActor, COMM_BTL_DEMO_MAIN_InitCursor, COMM_BTL_DEMO_MAIN_DeleteCursor, COMM_BTL_DEMO_MAIN_CreateActor, COMM_BTL_DEMO_MAIN_CreateSideActor, COMM_BTL_DEMO_MAIN_InitGraphics, COMM_BTL_DEMO_MAIN_DeleteGraphics, COMM_BTL_DEMO_MAIN_DrawGraphics, COMM_BTL_DEMO_MAIN_InitEffect, COMM_BTL_DEMO_MAIN_DeleteEffect, COMM_BTL_DEMO_MAIN_DeleteEffectManager, COMM_BTL_DEMO_MAIN_StartEffect, COMM_BTL_DEMO_MAIN_StartEffects, COMM_BTL_DEMO_MAIN_BindModelPalette, COMM_BTL_DEMO_MAIN_LoadObject, COMM_BTL_DEMO_MAIN_UnloadObject, COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded, COMM_BTL_DEMO_MAIN_UpdateObjectAnime, COMM_BTL_DEMO_MAIN_InitializeFlags, COMM_BTL_DEMO_MAIN_CountFlags, COMM_BTL_DEMO_MAIN_Init3dSystem
  * address:  0x021B95A0
  * region:   ov213
  * compiler: dsi/1.1p1
@@ -39,7 +39,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   COMM_BTL_DEMO_GRAPHIC_Delete 0x021BAC0C thumb ov213
  *   PROCSYS_FreeProcWork 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   overlay_id 0x00000043 data a1
  *   UI_SCENE_Step 0x021B6144 thumb ov067
@@ -100,7 +100,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_021BA30C 0x021BA30C thumb ov213
+ *   COMM_BTL_DEMO_MAIN_UpdateRowContext 0x021BA30C thumb ov213
  *   func_02008DF0 0x02008DF0 thumb
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -293,9 +293,9 @@ extern void UI_SCENE_Delete(void *);
 extern void MSGDATA_Delete(struct Rec *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void GF_FONT_Delete(void *);
-extern void func_021BA710(char *),func_021BA7B8(char *),COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *);
+extern void COMM_BTL_DEMO_MAIN_DeleteCursor(char *),COMM_BTL_DEMO_MAIN_DeleteGraphics(char *),COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *);
 extern void PROCSYS_FreeProcWork(struct S020315D4 *);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 extern void GF_OVERLAY_Unload(int);
 extern void COMM_BTL_DEMO_GRAPHIC_Draw(char *p);
 extern int UI_SCENE_Step(struct S *s);
@@ -345,7 +345,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-void func_021BA30C();
+void COMM_BTL_DEMO_MAIN_UpdateRowContext();
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern u32 GFL_NET_GetGameKind(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v),CLACT_SetActorAutoAnim(void *,unsigned);
@@ -387,67 +387,67 @@ extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
-int func_021B95A0(void *manager,int *state,struct Args *args);
-int func_021B96C0(struct S020315D4 *owner,int unused,const void *cfg,char *p);
-int func_021B9740(int a,int b,int c,char *p);
-void func_021B9794(int a,u16 heap,int index);
-void func_021B9830(u8 *task, char *p);
-int func_021B9858(void *unused, Context_021B95A0 *p);
-void func_021B9864(u8 *p);
-void func_021B98A0(char *p);
-int func_021B98DC(int a, int b);
-int func_021B98EC(u8 *task,char *p);
-int func_021B9A68(u8 *task,void *p);
-int func_021B9A84(int unused,char *p);
-int func_021B9B0C(unsigned char *state,unsigned char *p);
-int func_021B9D4C(u8 *task,char *p);
-int func_021B9D80(void *state,char *p);
-int func_021B9E08(void *a,void *b);
-int func_021B9E28(const char *p);
-int func_021B9E50(u32 x);
-int func_021B9E80(u32 x);
-int func_021B9EB0(void *p,u32 x);
-void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent,const u8 *types);
-void func_021BA014(u8 *p);
-void func_021BA034(struct C *p, u32 time);
-void func_021BA14C(char *p,unsigned limit);
-void func_021BA1C0(char *p);
-void func_021BA1C8(char *p,void *list,const u8 *flags,int index);
-unsigned func_021BA200(unsigned kind,unsigned index);
-void func_021BA268(Context_021BA14C *p,unsigned char kind,unsigned char index,const char *owner,void *a,void *b,int c);
-void func_021BA2E0(char *a);
-void func_021BA2F0(u8 *p);
-void func_021BA330(void *p, int a);
-void func_021BA38C(Context_021B95A0 *p);
-void func_021BA408(char *p);
-void func_021BA444(char *p);
-void func_021BA480(char *p);
-void func_021BA4BC(void *p,int kind,int variant);
-void func_021BA514(char *p);
-void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind);
-void func_021BA624(char *p);
-void func_021BA650(char *p);
-void func_021BA68C(char *p,unsigned i,int kind);
-void func_021BA6C8(char *p, void *state, short heap);
-void func_021BA710(char *p);
-void *func_021BA71C(char *p,int a,int b,unsigned short c);
-void *func_021BA750(void *p,int kind,unsigned a);
-void func_021BA780(char *p,void *state,short heap);
-void func_021BA7B8(char *p);
-void func_021BA7D0(unsigned char *p);
-void func_021BA81C(u8 *p,unsigned code);
-void func_021BA8BC(char *p, int object);
-void func_021BA8D4(char *p);
-int func_021BA8E8(char *p,int b,int c);
-void func_021BA8F4(char *p,int v);
-int func_021BA920(int *p,u32 b,u32 c);
-void func_021BA95C(unsigned char *p, int index);
-void func_021BA9AC(char *p);
-void func_021BA9C0(void *a);
-int func_021BA9D0(unsigned char *p);
-void func_021BAA20(unsigned char *p);
-int func_021BAA8C(char *p);
-void func_021BAABC(void);
+int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct Args *args);
+int COMM_BTL_DEMO_MAIN_Delete(struct S020315D4 *owner,int unused,const void *cfg,char *p);
+int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p);
+void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index);
+void COMM_BTL_DEMO_MAIN_Exit(u8 *task, char *p);
+int COMM_BTL_DEMO_MAIN_Step(void *unused, Context_021B95A0 *p);
+void COMM_BTL_DEMO_MAIN_SetupFirstSide(u8 *p);
+void COMM_BTL_DEMO_MAIN_SetupSecondSide(char *p);
+int COMM_BTL_DEMO_MAIN_GetSoundId(int a, int b);
+int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p);
+int COMM_BTL_DEMO_MAIN_Exit2(u8 *task,void *p);
+int COMM_BTL_DEMO_MAIN_LayoutRows(int unused,char *p);
+int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p);
+int COMM_BTL_DEMO_MAIN_UpdateExit(u8 *task,char *p);
+int COMM_BTL_DEMO_MAIN_UpdateEnd(void *state,char *p);
+int COMM_BTL_DEMO_MAIN_UpdateFadeOut(void *a,void *b);
+int COMM_BTL_DEMO_MAIN_GetModeIndex(const char *p);
+int COMM_BTL_DEMO_MAIN_IsFullPartyMode(u32 x);
+int COMM_BTL_DEMO_MAIN_HasVisibleActors(u32 x);
+int COMM_BTL_DEMO_MAIN_TypeToFrame(void *p,u32 x);
+void COMM_BTL_DEMO_MAIN_InitActorRow(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent,const u8 *types);
+void COMM_BTL_DEMO_MAIN_DeleteActorRow(u8 *p);
+void COMM_BTL_DEMO_MAIN_UpdateActorRow(struct C *p, u32 time);
+void COMM_BTL_DEMO_MAIN_UpdateRowDelay(char *p,unsigned limit);
+void COMM_BTL_DEMO_MAIN_MarkRowDone(char *p);
+void COMM_BTL_DEMO_MAIN_SetRowActorAnim(char *p,void *list,const u8 *flags,int index);
+unsigned COMM_BTL_DEMO_MAIN_CreateRowWindow(unsigned kind,unsigned index);
+void COMM_BTL_DEMO_MAIN_InitRowContext(Context_021BA14C *p,unsigned char kind,unsigned char index,const char *owner,void *a,void *b,int c);
+void COMM_BTL_DEMO_MAIN_RefreshRowText(char *a);
+void COMM_BTL_DEMO_MAIN_DeleteRowContext(u8 *p);
+void COMM_BTL_DEMO_MAIN_DrawRowText(void *p, int a);
+void COMM_BTL_DEMO_MAIN_InitRows(Context_021B95A0 *p);
+void COMM_BTL_DEMO_MAIN_DeleteRows(char *p);
+void COMM_BTL_DEMO_MAIN_UpdateRows(char *p);
+void COMM_BTL_DEMO_MAIN_MarkRowsDone(char *p);
+void COMM_BTL_DEMO_MAIN_SetActorAnimKind(void *p,int kind,int variant);
+void COMM_BTL_DEMO_MAIN_UpdateNetKind(char *p);
+void COMM_BTL_DEMO_MAIN_InitBattleContext(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind);
+void COMM_BTL_DEMO_MAIN_DeleteBattleContext(char *p);
+void COMM_BTL_DEMO_MAIN_UpdateBattleActors(char *p);
+void COMM_BTL_DEMO_MAIN_ShowBattleActor(char *p,unsigned i,int kind);
+void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, short heap);
+void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p);
+void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c);
+void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a);
+void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,short heap);
+void COMM_BTL_DEMO_MAIN_DeleteGraphics(char *p);
+void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p);
+void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code);
+void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object);
+void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p);
+int COMM_BTL_DEMO_MAIN_StartEffect(char *p,int b,int c);
+void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v);
+int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c);
+void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index);
+void COMM_BTL_DEMO_MAIN_UnloadObject(char *p);
+void COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(void *a);
+int COMM_BTL_DEMO_MAIN_UpdateObjectAnime(unsigned char *p);
+void COMM_BTL_DEMO_MAIN_InitializeFlags(unsigned char *p);
+int COMM_BTL_DEMO_MAIN_CountFlags(char *p);
+void COMM_BTL_DEMO_MAIN_Init3dSystem(void);
 extern const char callbacks[];
 extern const char ov067_id[];
 extern char overlay_id[];
@@ -474,7 +474,7 @@ extern const unsigned short d_021BB1A8[][4];
 
 
 
-int func_021B95A0(void *manager,int *state,struct Args *args)
+int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct Args *args)
 {
     struct Obj *p;
     if(*state==1 && complete()==1) return 1;
@@ -515,17 +515,17 @@ int func_021B95A0(void *manager,int *state,struct Args *args)
 
 
 
-int func_021B96C0(struct S020315D4 *owner,int unused,const void *cfg,char *p) {
+int COMM_BTL_DEMO_MAIN_Delete(struct S020315D4 *owner,int unused,const void *cfg,char *p) {
 u16 heap;
 BG_SYS_ResetSlot(3,0,0);
-if(*(int *)((unsigned)cfg+0x44)==2 || *(int *)((unsigned)cfg+0x44)==4)func_021BA514(p);
+if(*(int *)((unsigned)cfg+0x44)==2 || *(int *)((unsigned)cfg+0x44)==4)COMM_BTL_DEMO_MAIN_UpdateNetKind(p);
 UI_SCENE_Delete(((struct Obj06704 *)p)->f49C4);
 MSGDATA_Delete(*(void **)((unsigned)p+0x49c0));
 PRINTSYS_QUE_Delete(((struct Obj06704 *)p)->f49BC);
 GF_FONT_Delete(*(void **)((unsigned)p+0x49b8));
-func_021BA710(p+0xc);func_021BA7B8(p+0x24);
+COMM_BTL_DEMO_MAIN_DeleteCursor(p+0xc);COMM_BTL_DEMO_MAIN_DeleteGraphics(p+0x24);
 COMM_BTL_DEMO_GRAPHIC_Delete(((struct Obj06704 *)p)->f49B4);
-heap=*(u16 *)p;PROCSYS_FreeProcWork(owner);func_020306F0(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
+heap=*(u16 *)p;PROCSYS_FreeProcWork(owner);GFL_HEAP_DeleteChecked(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
 }
 
 
@@ -541,9 +541,9 @@ heap=*(u16 *)p;PROCSYS_FreeProcWork(owner);func_020306F0(heap);GF_OVERLAY_Unload
 
 
 
-int func_021B9740(int a,int b,int c,char *p)
+int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p)
 {
-    func_021BA7D0((unsigned char *)(p+0x24));
+    COMM_BTL_DEMO_MAIN_DrawGraphics((unsigned char *)(p+0x24));
     if(UI_SCENE_Step(((struct Obj06704 *)p)->f49C4)) return 1;
     PRINTSYS_QUE_Main(((struct Obj06704 *)p)->f49BC);
     COMM_BTL_DEMO_GRAPHIC_Draw(((struct Obj06704 *)p)->f49B4);
@@ -568,7 +568,7 @@ int func_021B9740(int a,int b,int c,char *p)
 /*
  * prototype: 49238 asm body saves entry r0 and forwards it to destructors; retain caller's resource argument.
  */
-void func_021B9794(int a,u16 heap,int index)
+void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index)
 {
     void *p;
     p=func_020490F4(181,heap);
@@ -594,9 +594,9 @@ void func_021B9794(int a,u16 heap,int index)
 
 
 
-void func_021B9830(u8 *task, char *p) {
-    func_021BA408(p);
-    func_021BA624(p + 0x498C);
+void COMM_BTL_DEMO_MAIN_Exit(u8 *task, char *p) {
+    COMM_BTL_DEMO_MAIN_DeleteRows(p);
+    COMM_BTL_DEMO_MAIN_DeleteBattleContext(p + 0x498C);
     UI_SCENE_SetNextScene(task,65534);
 }
 
@@ -613,7 +613,7 @@ void func_021B9830(u8 *task, char *p) {
 
 
 
-int func_021B9858(void *unused, Context_021B95A0 *p) { func_021BA38C(p); return 1; }
+int COMM_BTL_DEMO_MAIN_Step(void *unused, Context_021B95A0 *p) { COMM_BTL_DEMO_MAIN_InitRows(p); return 1; }
 
 
 
@@ -628,7 +628,7 @@ int func_021B9858(void *unused, Context_021B95A0 *p) { func_021BA38C(p); return 
 
 
 
-void func_021B9864(u8 *p) {
+void COMM_BTL_DEMO_MAIN_SetupFirstSide(u8 *p) {
     void *object;
     int i;
     struct Resource *sub;
@@ -637,7 +637,7 @@ void func_021B9864(u8 *p) {
     for(i=0;i<2;i++) {
         int state = 1;
         if (*(u32 *)(p+0x4850+i*0x54)) state = 2;
-        func_021BA920(object,i+1,state);
+        COMM_BTL_DEMO_MAIN_BindModelPalette(object,i+1,state);
     }
 }
 
@@ -654,7 +654,7 @@ void func_021B9864(u8 *p) {
 
 
 
-void func_021B98A0(char *p) {int *object;int i;struct Sub *sub;sub=(struct Sub *)(p+0x24);object=(int *)func_02048A18((u8 *)sub->util,sub->index);for(i=0;i<4;i++){int value=1;if(*(u32 *)(p+0x4850+i*0x54))value=3;func_021BA920(object,i+1,value);}}
+void COMM_BTL_DEMO_MAIN_SetupSecondSide(char *p) {int *object;int i;struct Sub *sub;sub=(struct Sub *)(p+0x24);object=(int *)func_02048A18((u8 *)sub->util,sub->index);for(i=0;i<4;i++){int value=1;if(*(u32 *)(p+0x4850+i*0x54))value=3;COMM_BTL_DEMO_MAIN_BindModelPalette(object,i+1,value);}}
 
 
 
@@ -670,7 +670,7 @@ void func_021B98A0(char *p) {int *object;int i;struct Sub *sub;sub=(struct Sub *
 
 
 
-int func_021B98DC(int a, int b)
+int COMM_BTL_DEMO_MAIN_GetSoundId(int a, int b)
 {
     return *(int *)((char *)d_021BB004 + a * 8 + b * 4);
 }
@@ -688,7 +688,7 @@ int func_021B98DC(int a, int b)
 
 
 
-int func_021B98EC(u8 *task,char *p)
+int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p)
 {
     u32 state;
     struct Record a,b,c,d;
@@ -748,7 +748,7 @@ int func_021B98EC(u8 *task,char *p)
 
 
 
-int func_021B9A68(u8 *task,void *p) {func_021BA408((char *)p);UI_SCENE_SetNextScene(task,65534);return 1;}
+int COMM_BTL_DEMO_MAIN_Exit2(u8 *task,void *p) {COMM_BTL_DEMO_MAIN_DeleteRows((char *)p);UI_SCENE_SetNextScene(task,65534);return 1;}
 
 
 
@@ -761,20 +761,20 @@ int func_021B9A68(u8 *task,void *p) {func_021BA408((char *)p);UI_SCENE_SetNextSc
 
 
 
-int func_021B9A84(int unused,char *p)
+int COMM_BTL_DEMO_MAIN_LayoutRows(int unused,char *p)
 {
     u16 a,b;
-    func_021BA38C((Context_021B95A0 *)p);
-    if(func_021B9E50(((struct Obj02260 *)p)->f49C8)) {
-        a=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4);
-        b=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+16);
+    COMM_BTL_DEMO_MAIN_InitRows((Context_021B95A0 *)p);
+    if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct Obj02260 *)p)->f49C8)) {
+        a=COMM_BTL_DEMO_MAIN_CountFlags(*(char * *)&((struct Obj02260 *)p)->f4);
+        b=COMM_BTL_DEMO_MAIN_CountFlags(*(char * *)&((struct Obj02260 *)p)->f4+16);
     } else {
-        a=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4);
-        a+=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+16);
-        b=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+32);
-        b+=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+48);
+        a=COMM_BTL_DEMO_MAIN_CountFlags(*(char * *)&((struct Obj02260 *)p)->f4);
+        a+=COMM_BTL_DEMO_MAIN_CountFlags(*(char * *)&((struct Obj02260 *)p)->f4+16);
+        b=COMM_BTL_DEMO_MAIN_CountFlags(*(char * *)&((struct Obj02260 *)p)->f4+32);
+        b+=COMM_BTL_DEMO_MAIN_CountFlags(*(char * *)&((struct Obj02260 *)p)->f4+48);
     }
-    func_021BA5A0((Context *)(p+0x498C), p+0xC, p+0x24, a, b, ((struct Obj02260 *)p)->f49C8);
+    COMM_BTL_DEMO_MAIN_InitBattleContext((Context *)(p+0x498C), p+0xC, p+0x24, a, b, ((struct Obj02260 *)p)->f49C8);
     return 1;
 }
 
@@ -788,35 +788,35 @@ int func_021B9A84(int unused,char *p)
 
 
 
-int func_021B9B0C(unsigned char *state,unsigned char *p)
+int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
 {
     int stage,x,y,index;
     struct V v0,v1,v2,v3,v4,v5;
     stage=UI_SCENE_GetPhaseFrame(state);
-    func_021BA444((char *)p);func_021BA650((char *)(p+0x498c));
+    COMM_BTL_DEMO_MAIN_UpdateRows((char *)p);COMM_BTL_DEMO_MAIN_UpdateBattleActors((char *)(p+0x498c));
     switch(stage){
     case 0:
-        if(func_021B9E50(p[0x49c8]))func_021BA95C(p+0x24,1);
-        else func_021BA95C(p+0x24,3);
-        func_021BA81C(p+0x24,0xd);
-        func_021BA480((char *)p);UI_SCENE_AdvancePhaseFrame((unsigned char *)state);break;
+        if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(p[0x49c8]))COMM_BTL_DEMO_MAIN_LoadObject(p+0x24,1);
+        else COMM_BTL_DEMO_MAIN_LoadObject(p+0x24,3);
+        COMM_BTL_DEMO_MAIN_InitEffect(p+0x24,0xd);
+        COMM_BTL_DEMO_MAIN_MarkRowsDone((char *)p);UI_SCENE_AdvancePhaseFrame((unsigned char *)state);break;
     case 1:
-        if(func_021BA9D0(p+0x24)==0){
+        if(COMM_BTL_DEMO_MAIN_UpdateObjectAnime(p+0x24)==0){
             if(((struct Obj01295 *)p)->f49CC==2)return 1;
             ((struct Obj01295 *)p)->f49D0=0;
-            func_021BA81C(p+0x24,0xc);UI_SCENE_AdvancePhaseFrame(state);
+            COMM_BTL_DEMO_MAIN_InitEffect(p+0x24,0xc);UI_SCENE_AdvancePhaseFrame(state);
         }break;
     case 2:
         if(((struct Obj01295 *)p)->f49D0==15){
             index=((struct Obj01295 *)p)->f49CC!=0;
-            GFL_USE_PlaySeDefaultVolume(func_021B98DC(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
-            func_021BA68C((char *)(p+0x498c),index,0);
+            GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
+            COMM_BTL_DEMO_MAIN_ShowBattleActor((char *)(p+0x498c),index,0);
         }else if(((struct Obj01295 *)p)->f49D0==24){
             index=((struct Obj01295 *)p)->f49CC!=0;
             CLACT_SetActorDrawEnable(*(void**)((u32)p+(u32)index*4+0x499c),0);
         }else if(((struct Obj01295 *)p)->f49D0==45){
             index=((struct Obj01295 *)p)->f49CC!=1;
-            func_021BA68C((char *)(p+0x498c),index,1);
+            COMM_BTL_DEMO_MAIN_ShowBattleActor((char *)(p+0x498c),index,1);
         }else if(((struct Obj01295 *)p)->f49D0==54){
             index=((struct Obj01295 *)p)->f49CC!=1;
             CLACT_SetActorDrawEnable(*(void**)((u32)p+(u32)index*4+0x499c),0);
@@ -825,12 +825,12 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
         if(((struct Obj01295 *)p)->f49D0%180==0){
             if(((struct Obj01295 *)p)->f49CC==1){x=-0x2800;y=0x2000;}
             else{x=0x2800;y=-0x1800;}
-            v0=d0;v0.x=x;v0.y=y;func_021BA8E8((char *)(p+0x24),0,(int)(&v0));
-            v1=d1;v1.x=x;v1.y=y;func_021BA8E8((char *)(p+0x24),1,(int)(&v1));
-            v2=d2;v2.x=x;v2.y=y;func_021BA8E8((char *)(p+0x24),2,(int)(&v2));
-            v3=d3;v3.x=x;v3.y=y;func_021BA8E8((char *)(p+0x24),3,(int)(&v3));
-            v4=d4;v4.x=x;v4.y=y;func_021BA8E8((char *)(p+0x24),4,(int)(&v4));
-            v5=d5;v5.x=x;v5.y=y;func_021BA8E8((char *)(p+0x24),5,(int)(&v5));
+            v0=d0;v0.x=x;v0.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),0,(int)(&v0));
+            v1=d1;v1.x=x;v1.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),1,(int)(&v1));
+            v2=d2;v2.x=x;v2.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),2,(int)(&v2));
+            v3=d3;v3.x=x;v3.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),3,(int)(&v3));
+            v4=d4;v4.x=x;v4.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),4,(int)(&v4));
+            v5=d5;v5.x=x;v5.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),5,(int)(&v5));
         }
         (((struct Obj01295 *)p)->f49D0)++;break;
     }
@@ -847,7 +847,7 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
 
 
 
-int func_021B9D4C(u8 *task,char *p) {if(((struct Obj14692 *)p)->f49CC==2){GFL_USE_PlaySeDefaultVolume(func_021B98DC(4,((struct Obj25691 *)(*(char * *)&((struct Obj14692 *)p)->f4))->f50));UI_SCENE_SetNextScene(task,2);return 1;}func_021B9830(task,p);return 1;}
+int COMM_BTL_DEMO_MAIN_UpdateExit(u8 *task,char *p) {if(((struct Obj14692 *)p)->f49CC==2){GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(4,((struct Obj25691 *)(*(char * *)&((struct Obj14692 *)p)->f4))->f50));UI_SCENE_SetNextScene(task,2);return 1;}COMM_BTL_DEMO_MAIN_Exit(task,p);return 1;}
 
 
 
@@ -859,17 +859,17 @@ int func_021B9D4C(u8 *task,char *p) {if(((struct Obj14692 *)p)->f49CC==2){GFL_US
 
 
 
-int func_021B9D80(void *state,char *p)
+int COMM_BTL_DEMO_MAIN_UpdateEnd(void *state,char *p)
 {
     int stage;
     stage=UI_SCENE_GetPhaseFrame(state);
-    func_021BA444(p);func_021BA650(p+0x498C);
+    COMM_BTL_DEMO_MAIN_UpdateRows(p);COMM_BTL_DEMO_MAIN_UpdateBattleActors(p+0x498C);
     switch(stage) {
     case 0:
-        func_021BA95C((unsigned char *)(p+0x24),5);((struct Obj14693 *)p)->f49D0=0;UI_SCENE_AdvancePhaseFrame(state);break;
+        COMM_BTL_DEMO_MAIN_LoadObject((unsigned char *)(p+0x24),5);((struct Obj14693 *)p)->f49D0=0;UI_SCENE_AdvancePhaseFrame(state);break;
     case 1:
-        if((((struct Obj14693 *)p)->f49D0)++==30) func_021BA68C(p+0x498C,2,2);
-        if(func_021BA9D0((unsigned char *)(p+0x24))==0) {FADE_Start(3,0,16,-3);return 1;}
+        if((((struct Obj14693 *)p)->f49D0)++==30) COMM_BTL_DEMO_MAIN_ShowBattleActor(p+0x498C,2,2);
+        if(COMM_BTL_DEMO_MAIN_UpdateObjectAnime((unsigned char *)(p+0x24))==0) {FADE_Start(3,0,16,-3);return 1;}
         break;
     case 2:break;
     }
@@ -885,7 +885,7 @@ int func_021B9D80(void *state,char *p)
 
 
 
-int func_021B9E08(void *a,void *b) {if(FADE_IsActive()==1)return 0;func_021B9830(a,b);return 1;}
+int COMM_BTL_DEMO_MAIN_UpdateFadeOut(void *a,void *b) {if(FADE_IsActive()==1)return 0;COMM_BTL_DEMO_MAIN_Exit(a,b);return 1;}
 
 
 
@@ -896,7 +896,7 @@ int func_021B9E08(void *a,void *b) {if(FADE_IsActive()==1)return 0;func_021B9830
 
 
 
-int func_021B9E28(const char *p) {switch(((struct Obj25692 *)p)->f44){case 1:case 3:return 0;case 2:case 4:return 1;case 0:default:return 0;}}
+int COMM_BTL_DEMO_MAIN_GetModeIndex(const char *p) {switch(((struct Obj25692 *)p)->f44){case 1:case 3:return 0;case 2:case 4:return 1;case 0:default:return 0;}}
 
 
 
@@ -907,7 +907,7 @@ int func_021B9E28(const char *p) {switch(((struct Obj25692 *)p)->f44){case 1:cas
 
 
 
-int func_021B9E50(u32 x) {switch(x){case 1:return 1;case 2:return 1;case 3:return 0;case 4:return 0;case 0:default:return 1;}}
+int COMM_BTL_DEMO_MAIN_IsFullPartyMode(u32 x) {switch(x){case 1:return 1;case 2:return 1;case 3:return 0;case 4:return 0;case 0:default:return 1;}}
 
 
 
@@ -918,7 +918,7 @@ int func_021B9E50(u32 x) {switch(x){case 1:return 1;case 2:return 1;case 3:retur
 
 
 
-int func_021B9E80(u32 x) {switch(x){case 1:return 1;case 2:return 0;case 3:return 1;case 4:return 0;case 0:default:return 1;}}
+int COMM_BTL_DEMO_MAIN_HasVisibleActors(u32 x) {switch(x){case 1:return 1;case 2:return 0;case 3:return 1;case 4:return 0;case 0:default:return 1;}}
 
 
 
@@ -927,7 +927,7 @@ int func_021B9E80(u32 x) {switch(x){case 1:return 1;case 2:return 0;case 3:retur
 
 
 
-int func_021B9EB0(void *p,u32 x) {if(!p)return 13;switch(x){case 3:return 13;case 0:return 10;case 1:return 11;case 2:return 12;default:return 10;}}
+int COMM_BTL_DEMO_MAIN_TypeToFrame(void *p,u32 x) {if(!p)return 13;switch(x){case 3:return 13;case 0:return 10;case 1:return 11;case 2:return 12;default:return 10;}}
 
 
 
@@ -939,22 +939,22 @@ int func_021B9EB0(void *p,u32 x) {if(!p)return 13;switch(x){case 3:return 13;cas
  * lever: negative constant multiplication keeps Thumb shift/negate/add; unary negation is folded back into constant-minus-shift.
  * POKEPARTY_GetCount 0x0201AA18 thumb
  * POKEPARTY_GetMember 0x0201AB28 thumb
- * func_021B9E50 0x021B9E50 thumb ov213
- * func_021B9E80 0x021B9E80 thumb ov213
- * func_021B9EB0 0x021B9EB0 thumb ov213
- * func_021BA71C 0x021BA71C thumb ov213
+ * COMM_BTL_DEMO_MAIN_IsFullPartyMode 0x021B9E50 thumb ov213
+ * COMM_BTL_DEMO_MAIN_HasVisibleActors 0x021B9E80 thumb ov213
+ * COMM_BTL_DEMO_MAIN_TypeToFrame 0x021B9EB0 thumb ov213
+ * COMM_BTL_DEMO_MAIN_CreateActor 0x021BA71C thumb ov213
  * CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
-void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent,const u8 *types)
+void COMM_BTL_DEMO_MAIN_InitActorRow(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent,const u8 *types)
 {
     int i,x,y,frame;
     void *entry;
     p->kind=kind;p->index=index;p->owner=owner;
     p->n=POKEPARTY_GetCount(owner);
-    if(func_021B9E50(kind))p->count=6;else p->count=3;
+    if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(kind))p->count=6;else p->count=3;
     p->parent=parent;p->step=0;p->types=types;
     for(i=0;i<p->count;i++){
-        if(func_021B9E50(kind)){
+        if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(kind)){
             x=(s16_021B95A0)((i<<4)+0x88);
             y=(s16_021B95A0)(index==0?0xa8:0x38);
             if(index==0)x*=-1;
@@ -968,10 +968,10 @@ void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent
         }
         entry=0;
         if(i<p->n)entry=POKEPARTY_GetMember(owner,i);
-        frame=func_021B9EB0(entry,types[i]);
-        if(!func_021B9E80(kind)&&frame!=0xd)frame=0xa;
-        p->obj[i]=func_021BA71C(a,x,y,(u16)frame);
-        if(func_021B9E80(kind))CLACT_SetActorDrawEnable(p->obj[i],0);
+        frame=COMM_BTL_DEMO_MAIN_TypeToFrame(entry,types[i]);
+        if(!COMM_BTL_DEMO_MAIN_HasVisibleActors(kind)&&frame!=0xd)frame=0xa;
+        p->obj[i]=COMM_BTL_DEMO_MAIN_CreateActor(a,x,y,(u16)frame);
+        if(COMM_BTL_DEMO_MAIN_HasVisibleActors(kind))CLACT_SetActorDrawEnable(p->obj[i],0);
         else CLACT_SetActorDrawEnable(p->obj[i],1);
     }
 }
@@ -981,20 +981,20 @@ void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent
 
 
 
-void func_021BA014(u8 *p) {int i;for(i=0;i<p[11];i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+12+i*4)));}
+void COMM_BTL_DEMO_MAIN_DeleteActorRow(u8 *p) {int i;for(i=0;i<p[11];i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+12+i*4)));}
 
 
 
 
 
-void func_021BA034(struct C *p, u32 time)
+void COMM_BTL_DEMO_MAIN_UpdateActorRow(struct C *p, u32 time)
 {
     int i=p->step-time;
     int x,y;
     struct V pos;
     if(i < p->count) {
-        if(i==0 && p->index==0) GFL_USE_PlaySeDefaultVolume(func_021B98DC(0,0));
-        if(func_021B9E50(p->kind)) {
+        if(i==0 && p->index==0) GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(0,0));
+        if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(p->kind)) {
             if(p->index==0){x=-0x400-(i<<11);y=-0x2500;}
             else if(p->index==1){x=(i<<11)+0x300;y=0x1300;}
         } else {
@@ -1004,9 +1004,9 @@ void func_021BA034(struct C *p, u32 time)
             else if(p->index==3){x=(i<<11)+0x1f00;y=0x300;}
         }
         pos=zero; pos.x=x; pos.y=y;
-        func_021BA8F4(p->parent,(int)(&pos));
-        if(func_021B9E80(p->kind)) CLACT_SetActorDrawEnable(p->obj[i],1);
-        else func_021BA1C8((char *)p,p->owner,p->types,p->count-1-i);
+        COMM_BTL_DEMO_MAIN_StartEffects(p->parent,(int)(&pos));
+        if(COMM_BTL_DEMO_MAIN_HasVisibleActors(p->kind)) CLACT_SetActorDrawEnable(p->obj[i],1);
+        else COMM_BTL_DEMO_MAIN_SetRowActorAnim((char *)p,p->owner,p->types,p->count-1-i);
     } else {
         for(i=0;i<p->count;i++) CLACT_SetActorBgPriority(p->obj[i],1);
         p->active=0;
@@ -1017,7 +1017,7 @@ void func_021BA034(struct C *p, u32 time)
 
 
 
-void func_021BA14C(char *p,unsigned limit)
+void COMM_BTL_DEMO_MAIN_UpdateRowDelay(char *p,unsigned limit)
 {
     if(((struct Obj00443 *)p)->f28) {
         switch(((struct Obj00443 *)p)->f8) {
@@ -1033,7 +1033,7 @@ void func_021BA14C(char *p,unsigned limit)
             else if(((struct Obj00443 *)p)->f9==1 || ((struct Obj00443 *)p)->f9==3) limit=15;
             break;
         }
-        if(((struct Obj00443 *)p)->f24>=limit) func_021BA034((struct C *)p,limit);
+        if(((struct Obj00443 *)p)->f24>=limit) COMM_BTL_DEMO_MAIN_UpdateActorRow((struct C *)p,limit);
         (((struct Obj00443 *)p)->f24)++;
     }
 }
@@ -1042,22 +1042,22 @@ void func_021BA14C(char *p,unsigned limit)
 
 
 
-void func_021BA1C0(char *p) {p[0x28]=1;}
+void COMM_BTL_DEMO_MAIN_MarkRowDone(char *p) {p[0x28]=1;}
 
 
 
 
 
-void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)POKEPARTY_GetCount(list))entry=POKEPARTY_GetMember(((struct Obj25696 *)p)->f0,index);value=func_021B9EB0(entry,flags[index]);CLACT_ChangeActorAnimSeq((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
+void COMM_BTL_DEMO_MAIN_SetRowActorAnim(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)POKEPARTY_GetCount(list))entry=POKEPARTY_GetMember(((struct Obj25696 *)p)->f0,index);value=COMM_BTL_DEMO_MAIN_TypeToFrame(entry,flags[index]);CLACT_ChangeActorAnimSeq((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
 
 
 
 
 
-unsigned func_021BA200(unsigned kind,unsigned index)
+unsigned COMM_BTL_DEMO_MAIN_CreateRowWindow(unsigned kind,unsigned index)
 {
     int x,y;
-    if(func_021B9E50(kind)) {
+    if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(kind)) {
         if(index==0) {x=4;y=17;}
         else {x=16;y=3;}
     } else {
@@ -1079,7 +1079,7 @@ unsigned func_021BA200(unsigned kind,unsigned index)
  * extent: 021BA2DE..021BA2E0 is two zero alignment bytes; following021BA2E0 already filed separately.
  * lever: logical owner,a,b,c,zero field order restores stack-load scheduling; const owner and typed destination alone did not.
  */
-void func_021BA268(Context_021BA14C *p,unsigned char kind,unsigned char index,const char *owner,void *a,void *b,int c)
+void COMM_BTL_DEMO_MAIN_InitRowContext(Context_021BA14C *p,unsigned char kind,unsigned char index,const char *owner,void *a,void *b,int c)
 {
     void *first,*second;
     int value;
@@ -1087,12 +1087,12 @@ void func_021BA268(Context_021BA14C *p,unsigned char kind,unsigned char index,co
     p->owner=owner;p->a=first;p->b=second;
     p->c=value;p->v50=0;
     p->kind=kind;p->index=index;
-    func_021B9EE4((struct C *)p->sub,((struct Obj25698 *)owner)->f0,kind,index,a,b,(const unsigned char *)(owner+10));
+    COMM_BTL_DEMO_MAIN_InitActorRow((struct C *)p->sub,((struct Obj25698 *)owner)->f0,kind,index,a,b,(const unsigned char *)(owner+10));
     p->v18=STRBUF_Create(16,116);
     func_02008500(((struct Obj25699 *)(p->owner))->f4,p->v18);
     p->v14=func_02008550(((struct Obj25700 *)(p->owner))->f4);
-    p->v1C=func_021BA200(kind,index);
-    if(func_021B9E80(p->kind)==0) func_021BA330(p,p->c);
+    p->v1C=COMM_BTL_DEMO_MAIN_CreateRowWindow(kind,index);
+    if(COMM_BTL_DEMO_MAIN_HasVisibleActors(p->kind)==0) COMM_BTL_DEMO_MAIN_DrawRowText(p,p->c);
 }
 
 
@@ -1100,28 +1100,28 @@ void func_021BA268(Context_021BA14C *p,unsigned char kind,unsigned char index,co
 
 
 
-void func_021BA2E0(char *a)
+void COMM_BTL_DEMO_MAIN_RefreshRowText(char *a)
 {
     if (*(int *)&((struct Obj08419 *)a)->f50 == 0x2d)
-        func_021BA330(a, ((struct Obj08419 *)a)->fC);
+        COMM_BTL_DEMO_MAIN_DrawRowText(a, ((struct Obj08419 *)a)->fC);
 }
 
 
 
 
 
-void func_021BA2F0(u8 *p) {STRBUF_Delete((struct U16Vec *)(((struct Obj14694 *)p)->f18));func_021BA014(p+32);BMP_WIN_Delete((struct Descriptor *)(((struct Obj14694 *)p)->f1C));}
+void COMM_BTL_DEMO_MAIN_DeleteRowContext(u8 *p) {STRBUF_Delete((struct U16Vec *)(((struct Obj14694 *)p)->f18));COMM_BTL_DEMO_MAIN_DeleteActorRow(p+32);BMP_WIN_Delete((struct Descriptor *)(((struct Obj14694 *)p)->f1C));}
 
 
 
 
 
-void func_021BA30C(p,limit)
+void COMM_BTL_DEMO_MAIN_UpdateRowContext(p,limit)
 char *p;
 
 unsigned limit;
 
-{func_021BA14C(p+32,limit);if(func_021B9E80(((struct Obj08419 *)p)->f10))func_021BA2E0(p);(((struct Obj08419 *)p)->f50)++;}
+{COMM_BTL_DEMO_MAIN_UpdateRowDelay(p+32,limit);if(COMM_BTL_DEMO_MAIN_HasVisibleActors(((struct Obj08419 *)p)->f10))COMM_BTL_DEMO_MAIN_RefreshRowText(p);(((struct Obj08419 *)p)->f50)++;}
 
 
 
@@ -1130,7 +1130,7 @@ unsigned limit;
  *           (call written per arm), and PRINTSYS_Print takes a fifth argument
  *           (stack word); 8 byte gap closed. EXACT* (trailing alignment).
  */
-void func_021BA330(void *p, int a)
+void COMM_BTL_DEMO_MAIN_DrawRowText(void *p, int a)
 {
     int z = 0;
     int q;
@@ -1148,38 +1148,38 @@ void func_021BA330(void *p, int a)
 }
 
 
-void func_021BA38C(Context_021B95A0 *p)
+void COMM_BTL_DEMO_MAIN_InitRows(Context_021B95A0 *p)
 {
     int i;
     enum Count count;
-    if(func_021B9E50(p->kind)) count=CountTwo;
+    if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(p->kind)) count=CountTwo;
     else count=CountFour;
     for(i=0;i<count;i++)
-        func_021BA268(&p->rows[i],p->kind,i,p->owner+i*16,(char *)p+0xC,(char *)p+0x24,p->c);
+        COMM_BTL_DEMO_MAIN_InitRowContext(&p->rows[i],p->kind,i,p->owner+i*16,(char *)p+0xC,(char *)p+0x24,p->c);
 }
 
 
 
 
-void func_021BA408(char *p){int i;enum Count count;if(func_021B9E50(((struct Obj25701 *)p)->f49C8))count=CountTwo;else count=CountFour;p+=0x483C;for(i=0;i<count;i++)func_021BA2F0((u8 *)(p+i*84));}
+void COMM_BTL_DEMO_MAIN_DeleteRows(char *p){int i;enum Count count;if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct Obj25701 *)p)->f49C8))count=CountTwo;else count=CountFour;p+=0x483C;for(i=0;i<count;i++)COMM_BTL_DEMO_MAIN_DeleteRowContext((u8 *)(p+i*84));}
 
 
 
 
 
-void func_021BA444(char *p){int i;enum Count count;if(func_021B9E50(((struct Obj25702 *)p)->f49C8))count=CountTwo;else count=CountFour;p+=0x483C;for(i=0;i<count;i++)func_021BA30C(p+i*84);}
+void COMM_BTL_DEMO_MAIN_UpdateRows(char *p){int i;enum Count count;if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct Obj25702 *)p)->f49C8))count=CountTwo;else count=CountFour;p+=0x483C;for(i=0;i<count;i++)COMM_BTL_DEMO_MAIN_UpdateRowContext(p+i*84);}
 
 
 
 
 
-void func_021BA480(char *p){int i;enum Count count;if(func_021B9E50(((struct Obj25703 *)p)->f49C8))count=CountTwo;else count=CountFour;p+=0x485C;for(i=0;i<count;i++)func_021BA1C0(p+i*84);}
+void COMM_BTL_DEMO_MAIN_MarkRowsDone(char *p){int i;enum Count count;if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct Obj25703 *)p)->f49C8))count=CountTwo;else count=CountFour;p+=0x485C;for(i=0;i<count;i++)COMM_BTL_DEMO_MAIN_MarkRowDone(p+i*84);}
 
 
 
 
 
-void func_021BA4BC(void *p,int kind,int variant)
+void COMM_BTL_DEMO_MAIN_SetActorAnimKind(void *p,int kind,int variant)
 {
     switch(kind) {
     case 13:
@@ -1203,14 +1203,14 @@ void func_021BA4BC(void *p,int kind,int variant)
 
 
 
-void func_021BA514(char *p)
+void COMM_BTL_DEMO_MAIN_UpdateNetKind(char *p)
 {
     if(((struct Obj25704 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54) {
         switch((int)GFL_NET_GetGameKind()) {
-        case 37:case 12:case 31:func_021BA4BC(((struct Obj25706 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,37,((struct Obj03939 *)p)->f49CC);break;
-        case 10:func_021BA4BC(((struct Obj25707 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,17,((struct Obj03939 *)p)->f49CC);break;
+        case 37:case 12:case 31:COMM_BTL_DEMO_MAIN_SetActorAnimKind(((struct Obj25706 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,37,((struct Obj03939 *)p)->f49CC);break;
+        case 10:COMM_BTL_DEMO_MAIN_SetActorAnimKind(((struct Obj25707 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,17,((struct Obj03939 *)p)->f49CC);break;
         case 20:case 21:case 23:case 24:case 25:case 26:
-            func_021BA4BC(((struct Obj25708 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,13,((struct Obj03939 *)p)->f49CC);break;
+            COMM_BTL_DEMO_MAIN_SetActorAnimKind(((struct Obj25708 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,13,((struct Obj03939 *)p)->f49CC);break;
         }
     }
 }
@@ -1222,20 +1222,20 @@ void func_021BA514(char *p)
  * lever: source kind,a,b emits image a,kind,b stores and both entry copies; source a,kind,b left115 differing bytes.
  * domain: loop index is exactly 0,1,2; each switch arm initializes both coordinates before use.
  */
-void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
+void COMM_BTL_DEMO_MAIN_InitBattleContext(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
 {
     int i,x,y;
     p->owner=owner;p->other=other;
     p->kind=kind;p->a=a;p->b=b;
-    p->one=func_021BA750((void *)owner,0,(u8)p->a);
-    p->two=func_021BA750((void *)owner,1,(u8)p->b);
+    p->one=COMM_BTL_DEMO_MAIN_CreateSideActor((void *)owner,0,(u8)p->a);
+    p->two=COMM_BTL_DEMO_MAIN_CreateSideActor((void *)owner,1,(u8)p->b);
     for(i=0;i<3;i++) {
         switch(i) {
         case 0:x=206;y=152;break;
         case 1:x=50;y=40;break;
         case 2:x=128;y=96;break;
         }
-        p->objects[i]=func_021BA71C((void *)owner,x,y,7);
+        p->objects[i]=COMM_BTL_DEMO_MAIN_CreateActor((void *)owner,x,y,7);
         CLACT_SetActorDrawEnable(p->objects[i],0);
     }
 }
@@ -1243,22 +1243,22 @@ void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
 
 
 
-void func_021BA624(char *p){int i;for(i=0;i<3;i++)CLACT_DeleteActor(*(void **)((unsigned)p+i*4+24));for(i=0;i<2;i++)CLACT_DeleteActor(*(void **)((unsigned)p+i*4+16));}
+void COMM_BTL_DEMO_MAIN_DeleteBattleContext(char *p){int i;for(i=0;i<3;i++)CLACT_DeleteActor(*(void **)((unsigned)p+i*4+24));for(i=0;i<2;i++)CLACT_DeleteActor(*(void **)((unsigned)p+i*4+16));}
 
 
 
 
-void func_021BA650(char *p){func_021B9E50(((struct Obj04630 *)p)->f26);if(((struct Obj04630 *)p)->f24==30){CLACT_SetActorDrawEnable(((struct Obj04630 *)p)->f10,1);CLACT_SetActorAutoAnim(((struct Obj04630 *)p)->f10,1);CLACT_SetActorDrawEnable(((struct Obj04630 *)p)->f14,1);CLACT_SetActorAutoAnim(((struct Obj04630 *)p)->f14,1);}(((struct Obj04630 *)p)->f24)++;}
+void COMM_BTL_DEMO_MAIN_UpdateBattleActors(char *p){COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct Obj04630 *)p)->f26);if(((struct Obj04630 *)p)->f24==30){CLACT_SetActorDrawEnable(((struct Obj04630 *)p)->f10,1);CLACT_SetActorAutoAnim(((struct Obj04630 *)p)->f10,1);CLACT_SetActorDrawEnable(((struct Obj04630 *)p)->f14,1);CLACT_SetActorAutoAnim(((struct Obj04630 *)p)->f14,1);}(((struct Obj04630 *)p)->f24)++;}
 
 
 
 
-void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;CLACT_SetActorDrawEnable(*(void **)((unsigned)p+i*4),1);CLACT_SetActorAutoAnim(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}
+void COMM_BTL_DEMO_MAIN_ShowBattleActor(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;CLACT_SetActorDrawEnable(*(void **)((unsigned)p+i*4),1);CLACT_SetActorAutoAnim(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}
 
 
 
 
-void func_021BA6C8(char *p, void *state, short heap)
+void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, short heap)
 {
     int resource;
     In config;
@@ -1281,29 +1281,29 @@ void func_021BA6C8(char *p, void *state, short heap)
 
 
 
-void func_021BA710(char *p){UI_SCENE_FreeActorGfx((unsigned int *)(p+8));}
+void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p){UI_SCENE_FreeActorGfx((unsigned int *)(p+8));}
 
 
 
 
-void *func_021BA71C(char *p,int a,int b,unsigned short c){return UI_SCENE_CreateActor(p+8,COMM_BTL_DEMO_GRAPHIC_GetCamera(((struct Obj14696 *)p)->f0),a,b,c,((struct Obj14696 *)p)->f4);}
+void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c){return UI_SCENE_CreateActor(p+8,COMM_BTL_DEMO_GRAPHIC_GetCamera(((struct Obj14696 *)p)->f0),a,b,c,((struct Obj14696 *)p)->f4);}
 
 
 
 
-void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);CLACT_SetActorDrawEnable(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
+void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=COMM_BTL_DEMO_MAIN_CreateActor(p,x,y,a);CLACT_SetActorDrawEnable(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
 
 
 
-void func_021BA780(char *p,void *state,short heap){func_0207D63C((void *)0x04000050,1,31,0,0);((struct Obj10929 *)p)->f0=state;((struct Obj10929 *)p)->f4=heap;((struct Obj10929 *)p)->f8=G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
+void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,short heap){func_0207D63C((void *)0x04000050,1,31,0,0);((struct Obj10929 *)p)->f0=state;((struct Obj10929 *)p)->f4=heap;((struct Obj10929 *)p)->f8=G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
 
 
 
-void func_021BA7B8(char *p){func_021BA9C0(p);func_021BA8D4(p);G3D_UTIL_Delete(((struct Obj10931 *)p)->f8);}
+void COMM_BTL_DEMO_MAIN_DeleteGraphics(char *p){COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(p);COMM_BTL_DEMO_MAIN_DeleteEffectManager(p);G3D_UTIL_Delete(((struct Obj10931 *)p)->f8);}
 
 
 
-void func_021BA7D0(unsigned char *p)
+void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p)
 {
     struct Arg arg;
     void *object;
@@ -1321,12 +1321,12 @@ void func_021BA7D0(unsigned char *p)
 
 
 
-void func_021BA81C(u8 *p,unsigned code)
+void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
 {
     struct Src648 config;
     int resource;
     u32 context;
-    if(*(int *)&((struct Obj02925 *)p)->f10) func_021BA8BC((char *)p,*(int *)&((struct Obj02925 *)p)->f10);
+    if(*(int *)&((struct Obj02925 *)p)->f10) COMM_BTL_DEMO_MAIN_DeleteEffect((char *)p,*(int *)&((struct Obj02925 *)p)->f10);
     *(int *)&((struct Obj02925 *)p)->f10=PARTICLE_CreateSystemDefault((int)(p+20),0x4800,1,((struct Obj02925 *)p)->f4);
     config.f04=0x3000;
     config.f08=-0x3000;
@@ -1346,40 +1346,40 @@ void func_021BA81C(u8 *p,unsigned code)
 
 
 
-void func_021BA8BC(char *p, int object) { PARTICLE_KillAllEffects(*(u8 * *)&((struct Obj10930 *)p)->f10); PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }
+void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object) { PARTICLE_KillAllEffects(*(u8 * *)&((struct Obj10930 *)p)->f10); PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }
 
 
 
-void func_021BA8D4(char *p) { if(*(u8 * *)&((struct Obj10931 *)p)->f10) PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10931 *)p)->f10); PARTICLE_ExitManager(); }
+void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p) { if(*(u8 * *)&((struct Obj10931 *)p)->f10) PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10931 *)p)->f10); PARTICLE_ExitManager(); }
 
 
 
-int func_021BA8E8(char *p,int b,int c) { return PARTICLE_StartEffect(((struct Obj25709 *)p)->f10,b,c); }
+int COMM_BTL_DEMO_MAIN_StartEffect(char *p,int b,int c) { return PARTICLE_StartEffect(((struct Obj25709 *)p)->f10,b,c); }
 
 
 
 /*
  * The original truncates the second call argument to u16; the extern preserves that width.
  */
-void func_021BA8F4(char *p,int v) { int i; for(i=0;i<((struct Obj25710 *)p)->f4814;i++) func_021BA8E8(p,(u16)i,v); }
+void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v) { int i; for(i=0;i<((struct Obj25710 *)p)->f4814;i++) COMM_BTL_DEMO_MAIN_StartEffect(p,(u16)i,v); }
 
 
 
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct Obj25711 *)((char *)G3D_SYSTEM_GetRenderObj(q)))->f4; r=(char *)func_02047250(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
+int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct Obj25711 *)((char *)G3D_SYSTEM_GetRenderObj(q)))->f4; r=(char *)func_02047250(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
 
 
 
 /*
  * width: 477A4 index u16: original narrows at 021BA994-021BA998.
  */
-void func_021BA95C(unsigned char *p, int index)
+void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index)
 {
     int *object;
     int i, count;
-    if (p[15]) func_021BA9AC((char *)p);
+    if (p[15]) COMM_BTL_DEMO_MAIN_UnloadObject((char *)p);
     ((struct Obj02551 *)p)->fC=G3D_UTIL_AddUnit(*(Util * *)&((struct Obj02551 *)p)->f8, &d_021BB0F8[index]);
     p[15]=1;
     object=(int *)func_02048A18((u8 *)(*(Util * *)&((struct Obj02551 *)p)->f8), ((struct Obj02551 *)p)->fC);
@@ -1389,20 +1389,20 @@ void func_021BA95C(unsigned char *p, int index)
 
 
 
-void func_021BA9AC(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj02551 *)p)->f8,((struct Obj02551 *)p)->fC); ((struct Obj02551 *)p)->fF=0; ((struct Obj02551 *)p)->fE=0; }
+void COMM_BTL_DEMO_MAIN_UnloadObject(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj02551 *)p)->f8,((struct Obj02551 *)p)->fC); ((struct Obj02551 *)p)->fF=0; ((struct Obj02551 *)p)->fE=0; }
 
 
 
 
-void func_021BA9C0(void *a)
+void COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(void *a)
 {
     if (((struct Obj02551 *)a)->fF)
-        func_021BA9AC(a);
+        COMM_BTL_DEMO_MAIN_UnloadObject(a);
 }
 
 
 
-int func_021BA9D0(unsigned char *p)
+int COMM_BTL_DEMO_MAIN_UpdateObjectAnime(unsigned char *p)
 {
     int result=1;
     int *object;
@@ -1422,7 +1422,7 @@ int func_021BA9D0(unsigned char *p)
 /*
  * extent: 021BAA8A..021BAA8C is two zero alignment bytes, no follower.
  */
-void func_021BAA20(unsigned char *p)
+void COMM_BTL_DEMO_MAIN_InitializeFlags(unsigned char *p)
 {
     int i;
     if(((struct Obj10932 *)p)->f44==1) {
@@ -1446,7 +1446,7 @@ void func_021BAA20(unsigned char *p)
 
 
 
-int func_021BAA8C(char *p) { void *q; u8 *flags; int i,n; q=((struct Obj25712 *)p)->f0; n=0; flags=(u8 *)p+10; for(i=0;i<(int)POKEPARTY_GetCount(q);i++) if(flags[i]<=1) n++; return n; }
+int COMM_BTL_DEMO_MAIN_CountFlags(char *p) { void *q; u8 *flags; int i,n; q=((struct Obj25712 *)p)->f0; n=0; flags=(u8 *)p+10; for(i=0;i<(int)POKEPARTY_GetCount(q);i++) if(flags[i]<=1) n++; return n; }
 
 
 
@@ -1470,7 +1470,7 @@ static inline void EdgeMarking(BOOL enable) { if (enable) REG3D = (unsigned shor
 
 
 
-void func_021BAABC(void)
+void COMM_BTL_DEMO_MAIN_Init3dSystem(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);

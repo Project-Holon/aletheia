@@ -134,7 +134,7 @@
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
  *   d_02187E04     0x02187E04  data  ov020  a2
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
@@ -155,20 +155,20 @@
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
- *   func_0204047C 0x0204047C arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   EL_SCOREBOARD_VramBankConfig     0x02187E58  data  ov020
  *   EL_SCOREBOARD_DispConfig     0x02187E28  data  ov020
  *   EL_SCOREBOARD_BgTemplate     0x02187E38  data  ov020
- *   func_02062A98  0x02062A98  arm
- *   func_02040E78  0x02040E78  arm
- *   func_02062A4C  0x02062A4C  arm
- *   func_02040B1C  0x02040B1C  arm
- *   func_02062B30  0x02062B30  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
@@ -226,19 +226,19 @@ extern u8 func_0202E8B8(int);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void func_0204047C(int idx, unsigned short val);
-extern void func_020414AC(int a);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_FreeSlot(int a);
 void BG_SYS_SetVramBanks(const struct DispVram *c);
 void BG_SYS_Create(u16 heapId);
-void func_0203FC28(struct DispConfig *cfg);
+void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020403F4(unsigned int i);
 extern void BG_SYS_Delete(void);
-s32 func_02062A98(struct NitroFileHeader *file, void **out);
-void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
-s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-int func_02062B30(void *file, void **out);
+s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
+s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
+int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 void func_0207D658(u32 addr, int plane, int brightness);
 void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
@@ -416,24 +416,24 @@ void EL_SCOREBOARD_SetupSharedDisplay(ElScoreboardWork *work)
     planes = BG_SYS_GetMainVisiblePlanes();
     FIELDMAP_SetBgMode();
     BG_SYS_SetMainVisiblePlanes(planes);
-    func_0204047C(0, 1);
-    func_0204047C(3, 0);
-    func_0204047C(1, 3);
-    func_0204047C(2, 3);
-    func_020414AC(3);
+    BG_SYS_SetVisibleLayer(0, 1);
+    BG_SYS_SetVisibleLayer(3, 0);
+    BG_SYS_SetVisibleLayer(1, 3);
+    BG_SYS_SetVisibleLayer(2, 3);
+    BG_SYS_FreeSlot(3);
 }
 
 void EL_SCOREBOARD_SetupStandaloneDisplay(ElScoreboardWork *work)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)EL_SCOREBOARD_VramBankConfig);
     BG_SYS_Create(work->heapId);
-    func_0203FC28((struct DispConfig *)EL_SCOREBOARD_DispConfig);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)EL_SCOREBOARD_DispConfig);
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)EL_SCOREBOARD_BgTemplate, 0);
-    func_0204047C(0, 1);
-    func_0204047C(3, 0);
-    func_0204047C(1, 3);
-    func_0204047C(2, 3);
-    func_020414AC(3);
+    BG_SYS_SetVisibleLayer(0, 1);
+    BG_SYS_SetVisibleLayer(3, 0);
+    BG_SYS_SetVisibleLayer(1, 3);
+    BG_SYS_SetVisibleLayer(2, 3);
+    BG_SYS_FreeSlot(3);
 }
 
 void EL_SCOREBOARD_TeardownDisplay(ElScoreboardWork *work)
@@ -483,15 +483,15 @@ void EL_SCOREBOARD_LoadSeasonGraphics(int season, int heapId)
     }
     archive = func_020490F4(0x97, heapId);
     member = ARC_TOOL_LoadHandleMember(archive, palIdx, heapId);
-    func_02062A98(member, (void **)(&palFile));
-    func_02040E78(3, (void *)palFile[3], 0x20, 0);
+    NNS_G2dGetUnpackedPaletteData(member, (void **)(&palFile));
+    BG_SYS_LoadPltt(3, (void *)palFile[3], 0x20, 0);
     func_020307B0(member);
     member = ARC_TOOL_LoadHandleMember(archive, charIdx, heapId);
-    func_02062A4C(member, (void **)(&charFile));
-    func_02040B1C(3, (const void *)charFile[5], charFile[4], 0);
+    NNS_G2dGetUnpackedCharacterDataEx(member, (void **)(&charFile));
+    BG_SYS_LoadTileData(3, (const void *)charFile[5], charFile[4], 0);
     func_020307B0(member);
     member = ARC_TOOL_LoadHandleMember(archive, screenIdx, heapId);
-    func_02062B30(member, (void **)(&screenFile));
+    NNS_G2dGetUnpackedScreenData(member, (void **)(&screenFile));
     BG_SYS_PushTileSource(3, screenFile + 3, screenFile[2], 0);
     func_020307B0(member);
     ARC_TOOL_DeleteHandle(archive);

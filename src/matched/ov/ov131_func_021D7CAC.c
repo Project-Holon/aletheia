@@ -12,9 +12,9 @@
  *   returned by 02017E88. Extent tail 021D7E82..021D7E84 is zero padding.
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02040AE0 0x02040AE0 arm
+ *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -39,12 +39,12 @@ typedef unsigned int u32;
 struct Rec { u32 w[9]; };
 struct Point { s16 x,y; };
 extern void *P_STATUS_GetPokePara(u8 *);
-extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
+extern void BG_SYS_DrawTileEx(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 struct Cfg;
 struct Descriptor;
 struct Obj;
-extern void func_02040AE0(u32 index, const void *src, u32 mode);
+extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -69,12 +69,12 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
     void *cell;
     u32 first,second;
     object=P_STATUS_GetPokePara(a);
-    if(((struct Obj01407 *)a)->f38==0) func_020410D0(2,0,0,32,24,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f4C+12),0,0,32,32);
-    else func_020410D0(2,0,0,32,24,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f54+12),0,0,32,32);
+    if(((struct Obj01407 *)a)->f38==0) BG_SYS_DrawTileEx(2,0,0,32,24,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f4C+12),0,0,32,32);
+    else BG_SYS_DrawTileEx(2,0,0,32,24,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f54+12),0,0,32,32);
     func_02041B6C(2);
-    func_02040AE0(6,*(u8 * *)&((struct Obj05391 *)p)->f5C+12,((struct Obj23144 *)(*(u8 * *)&((struct Obj05391 *)p)->f5C))->f8);
+    BG_SYS_DecodeTile(6,*(u8 * *)&((struct Obj05391 *)p)->f5C+12,((struct Obj23144 *)(*(u8 * *)&((struct Obj05391 *)p)->f5C))->f8);
     func_02041B6C(6);
-    func_020410D0(5,0,0,32,3,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f64+12),0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f64+12),0,0,32,32);
     func_02041B6C(5);
     for(i=0;i<10;i++) {
         cell=*(void **)((p+i*4)+0xc);

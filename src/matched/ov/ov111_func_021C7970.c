@@ -1,5 +1,5 @@
 /*
- * function: func_021C7970
+ * function: VIEWER_ACTOR_PrintQueMain
  * address:  0x021C7970
  * packet:   pkt_ov111_021C7970
  * region:   ov111
@@ -49,7 +49,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-void func_021C7970(Work *p)
+void VIEWER_ACTOR_PrintQueMain(Work *p)
 {
     void *w;
 

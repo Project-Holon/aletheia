@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD038",
+   "name": "CTVT_CALL_UpdateTimeWindow",
    "address": "0x021BD038",
    "kind": "game",
    "region": "ov172",

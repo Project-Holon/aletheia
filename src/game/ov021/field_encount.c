@@ -49,7 +49,7 @@
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   sSwarmTable  0x021D8DE8  data
  *   MOVE_POKEMON_SAVE_GetStartLocation  0x0200D454  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   sSlotPickFuncs  0x021D8DD8  data
  *   sHeldItemWeights  0x021D8DCC  data
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
@@ -250,7 +250,7 @@ extern void POKE_PERSONAL_Delete(struct PersonalData *personal);
 extern u8 MOVE_POKEMON_SAVE_GetStartLocation(struct EncountSave *encountSave);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u32 func_02019C90(u16 species, u16 form, u32 field);
+extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field);
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
 extern u32 POKE_PERSONAL_IsPlaceholderAbility(u32 genderRatio);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
@@ -746,7 +746,7 @@ void FIELD_ENCOUNT_RollSlotMon(EncountSlot *slot, EncountMon *mon)
     mon->level = slot->minLevel + FIELD_ENCOUNT_RandPercent() % (u32)(levelRange + 1);
     species = slot->species;
     mon->species = species;
-    formCount = func_02019C90(species, 0, 0x20);
+    formCount = POKE_TOOL_GetPersonalParam(species, 0, 0x20);
     form = slot->form;
     if (form == 0x1F)
         mon->form = func_02005728(formCount);
@@ -767,8 +767,8 @@ u8 FIELD_ENCOUNT_PickSlotByType(FieldEncountParam *param, EncountSlot *slots, u3
     count = 0;
     for (i = 0; i < param->slotCount; i++) {
         if (slots[i].form != 0x1F) {
-            type1 = func_02019C90(slots[i].species, slots[i].form, 6);
-            type2 = func_02019C90(slots[i].species, slots[i].form, 7);
+            type1 = POKE_TOOL_GetPersonalParam(slots[i].species, slots[i].form, 6);
+            type2 = POKE_TOOL_GetPersonalParam(slots[i].species, slots[i].form, 7);
             if (type1 == type || type2 == type) {
                 candidates[count] = i;
                 count++;

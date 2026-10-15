@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA10
+ * function: ZKNSEARCH_MAIN_UpdateBlinkPalette
  * address:  0x021BCA10
  * packet:   pkt_021BCA10
  * region:   ov210
@@ -22,7 +22,7 @@ typedef signed char    s8;
 struct Obj0202EA20;
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
 
-u32 func_021BCA10(u8 *p)
+u32 ZKNSEARCH_MAIN_UpdateBlinkPalette(u8 *p)
 {
     return func_0202EA20((struct Obj0202EA20 *)(((struct Obj25586 *)p)->f2B4));
 }

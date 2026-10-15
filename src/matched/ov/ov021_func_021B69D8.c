@@ -23,7 +23,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetString  0x02045924  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  * Addresses are Black-image addresses.
  */
@@ -60,7 +60,7 @@ extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 struct WordSet;
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(void *a, void *b)
@@ -84,7 +84,7 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(void *a, void *b)
     r7 = (u32)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(b));
     v = STRBUF_Create(8, 0x8001);
     STRBUF_SetString(v, (const u16 *)r6);
-    func_0201EE0C((struct WordSet *)r7, s8, v, fl, 1, 2);
+    WORDSET_SetSlotTag((struct WordSet *)r7, s8, v, fl, 1, 2);
     STRBUF_Delete(v);
     return 0;
 }

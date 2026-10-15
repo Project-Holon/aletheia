@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "ZENKOKU_ZUKAN_AWARD_Main",
-    "func_021B98FC"
+    "ZENKOKU_ZUKAN_AWARD_Task"
    ],
    "addresses": [
     "0x021B97C4",

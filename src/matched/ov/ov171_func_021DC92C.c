@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -29,7 +29,7 @@ struct BgTemplate {u32 w[8];};
 extern const struct DispConfig d_021DEA50;
 extern const struct BgTemplate d_021DEAC0,d_021DEAA0,sBgTemplateMain2,sBgTemplateMain3,d_021DEA80,d_021DEAE0;
 extern void BG_SYS_Create(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 void DENDOU_VIEW_InitBgs(void)
@@ -37,7 +37,7 @@ void DENDOU_VIEW_InitBgs(void)
     struct DispConfig d;
     struct BgTemplate a,b,c,e,f,g;
     BG_SYS_Create(140);
-    d=d_021DEA50;func_0203FC28(&d);
+    d=d_021DEA50;BG_SYS_SetGraphicsMode(&d);
     a=d_021DEAC0;BG_SYS_InitBgLayer(0,&a,0);
     b=d_021DEAA0;BG_SYS_InitBgLayer(1,&b,0);
     c=sBgTemplateMain2;BG_SYS_InitBgLayer(2,&c,0);

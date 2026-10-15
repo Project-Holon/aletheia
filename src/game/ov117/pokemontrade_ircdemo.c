@@ -42,10 +42,10 @@
  *   d_021D5600     0x021D5600  data
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
- *   func_02041300  0x02041300  arm
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   POKETRADE_SAVE_OpenMessageWindowAtPos  0x021E0FF4  thumb  ov119
  *   MCSS_SetPosition  0x02015C48  thumb
  *   MCSS_ResetVanishFlag  0x02015EB0  thumb
@@ -79,7 +79,7 @@
  *   POKETRADE_IRCDEMO_UpdateScene  0x021D4CE8  thumb  ov117
  *   d_021D55CC     0x021D55CC  data
  */
-#include "../ov118/pokemontrade_demo_up.h"
+#include "../ov118/pokemontrade_demo_types.h"
 
 #define FRAME (((PokeTradeDemoWork *)p)->frame)
 #define OBJ(i) (((PokeTradeDemoWork *)p)->mcssObj[i])
@@ -127,10 +127,10 @@ extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02041300(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void BG_SYS_SetTileEntry(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void POKETRADE_SAVE_OpenMessageWindowAtPos(void *p, int a, int b);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void MCSS_ResetVanishFlag(void *p);
@@ -244,10 +244,10 @@ void POKETRADE_IRCDEMO_PrintMessage(u8 *p)
     } else {
         MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x81, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
     }
-    func_0201EEF4(((PokeTradeDemoWork *)p)->wordSet, 0, POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p)));
-    func_0201F02C((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)p)->wordSet), 1, (void *)(((PokeTradeDemoWork *)p)->enemyMonKey));
-    func_0201F250((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)p)->wordSet), (void *)(((PokeTradeDemoWork *)p)->stringDst), (void *)(((PokeTradeDemoWork *)p)->stringSrc));
-    func_02041300(4, 0, 0, 0, 0x20, 0x18, 0x11);
+    WORDSET_SetSlotMonSpecies(((PokeTradeDemoWork *)p)->wordSet, 0, POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p)));
+    WORDSET_SetSlotMyStatus((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)p)->wordSet), 1, (void *)(((PokeTradeDemoWork *)p)->enemyMonKey));
+    WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)p)->wordSet), (void *)(((PokeTradeDemoWork *)p)->stringDst), (void *)(((PokeTradeDemoWork *)p)->stringSrc));
+    BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x18, 0x11);
     POKETRADE_SAVE_OpenMessageWindowAtPos(p, 1, 0);
     POKETRADE_2D_ScheduleSubPlaneVisible(p, 0x14);
     *(volatile u16 *)0x04001050 = 0;

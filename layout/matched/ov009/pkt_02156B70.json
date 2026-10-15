@@ -42,7 +42,7 @@
    }
   },
   {
-   "name": "func_0215D7FC",
+   "name": "SOCLi_ReadAndConsumeBuffer",
    "address": "0x0215D7FC",
    "kind": "sdk",
    "region": "ov009",
@@ -61,7 +61,7 @@
    }
   },
   {
-   "name": "func_0215E23C",
+   "name": "SOCLi_AllocWriteBuffer",
    "address": "0x0215E23C",
    "kind": "sdk",
    "region": "ov009",
@@ -73,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215E620",
+   "name": "SOCLi_MemCpy",
    "address": "0x0215E620",
    "kind": "sdk",
    "region": "ov009",
@@ -85,7 +85,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215F500",
+   "name": "SOC_RecvFrom",
    "address": "0x0215F500",
    "kind": "sdk",
    "region": "ov009",
@@ -155,7 +155,7 @@
    }
   },
   {
-   "name": "func_0217C070",
+   "name": "DWC_Svl_Init",
    "address": "0x0217C070",
    "kind": "sdk",
    "region": "ov009",
@@ -196,7 +196,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218022C",
+   "name": "_UTF8ToUCS2ConversionLengthOnly",
    "address": "0x0218022C",
    "kind": "sdk",
    "region": "ov009",
@@ -208,7 +208,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02180334",
+   "name": "UTF8ToUCS2StringLen2",
    "address": "0x02180334",
    "kind": "sdk",
    "region": "ov009",
@@ -237,7 +237,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02190650",
+   "name": "gpiStartSearch",
    "address": "0x02190650",
    "kind": "sdk",
    "region": "ov009",
@@ -254,7 +254,7 @@
    }
   },
   {
-   "name": "func_021954F4",
+   "name": "gti2UnrecognizedMessageCallback",
    "address": "0x021954F4",
    "kind": "sdk",
    "region": "ov009",

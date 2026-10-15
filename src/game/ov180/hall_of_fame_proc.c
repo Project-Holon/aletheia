@@ -15,14 +15,14 @@
  * symbols:
  *   HALL_OF_FAME_RunState  0x021B6A10  thumb  ov180
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_020056A0  0x020056A0  thumb
  *   SDK_AUTOLOAD_DTCM_START 0x02FE0000 data a4
  *   gHallOfFameVramBanksMain 0x021B8060 data a4
  *   gHallOfFameVramBanksSub 0x021B8090 data a4
  *   gHallOfFameDisplayConfig 0x021B80D8 data a4
- *   func_0203FC28 0x0203FC28 arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm  arm9
  *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
@@ -32,6 +32,7 @@
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   DOUBLE3DDISP_Delete  0x0204EA64  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 #include "hall_of_fame.h"
 
@@ -46,18 +47,18 @@ extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void func_020315D4(struct Proc *proc);
-extern void func_020306F0(unsigned int heapId);
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern int func_020056A0(void *func, void *work, int priority);
 extern void func_02030EAC(void *task);
 extern void CLACT_VBlankSystem(void);
 extern void DOUBLE3DDISP_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16);
 extern void BG_SYS_Delete(void);
-extern void func_0203FC28(struct DispConfig *);
-extern void func_02040EBC(u32, u32);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
+extern void BG_SYS_LoadPlttEntry(u32, u32);
 extern u32 SDK_AUTOLOAD_DTCM_START[];
 extern const struct DispVram gHallOfFameVramBanksMain;
 extern const struct DispVram gHallOfFameVramBanksSub;
@@ -83,7 +84,7 @@ int HALL_OF_FAME_ProcMain(int proc, int unused, int unused2, HallOfFameWork *wor
 int HALL_OF_FAME_ProcExit(struct Proc *proc)
 {
     func_020315D4(proc);
-    func_020306F0(HOF_HEAP_ID);
+    GFL_HEAP_DeleteChecked(HOF_HEAP_ID);
     return 1;
 }
 
@@ -117,7 +118,7 @@ void HALL_OF_FAME_VBlankMon(void)
  */
 void HALL_OF_FAME_VBlankTrainer(void)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     *(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
 }
@@ -152,7 +153,7 @@ void HALL_OF_FAME_SetupDisplay(void)
 {
     struct DispConfig cfg;
     cfg = gHallOfFameDisplayConfig;
-    func_0203FC28(&cfg);
-    func_02040EBC(0, 0);
-    func_02040EBC(4, 0);
+    BG_SYS_SetGraphicsMode(&cfg);
+    BG_SYS_LoadPlttEntry(0, 0);
+    BG_SYS_LoadPlttEntry(4, 0);
 }

@@ -13,8 +13,8 @@
  *   ITEMMENU_OpenYesNoList  0x021BB0F8  thumb  ov070
  *   ITEMMENU_GetSellTotal  0x021B619C  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   ITEMMENU_ShowMessageDefault  0x021BADAC  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   ITEMMENU_TaskSellConfirmInput  0x021B7B80  thumb  ov070
@@ -42,8 +42,8 @@ struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, void *dest);
 typedef unsigned int   u32;
 struct WordSet;
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_ShowMessageDefault(void *p);
 extern void ITEMMENU_SetTask(char *p, int k);
 extern void ITEMMENU_TaskSellConfirmInput(struct Obj *o);
@@ -55,8 +55,8 @@ void ITEMMENU_TaskSellAskConfirm(Obj *o)
     ITEMMENU_OpenYesNoList((int)o);
     v = ITEMMENU_GetSellTotal(o->f84C, o->f7F4, o->f544);
     MSGDATA_ReadString(o->f51C, 0x4F, (void *)o->f524);
-    func_0201EFA4(o->f520, 0, v, 7, 0, 1);
-    func_0201F250(o->f520, o->f528, (void *)o->f524);
+    WORDSET_SetSlotNumber(o->f520, 0, v, 7, 0, 1);
+    WORDSET_CopyTaggedText(o->f520, o->f528, (void *)o->f524);
     ITEMMENU_ShowMessageDefault(o);
     ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskSellConfirmInput));
 }

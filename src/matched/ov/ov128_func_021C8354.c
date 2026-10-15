@@ -11,7 +11,7 @@
  * symbols:
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_021CA4B4 0x021CA4B4 thumb ov128
+ *   WF2DMAP_TOUCH_TransferScreen 0x021CA4B4 thumb ov128
  */
 #include "../include/Obj23081.h"
 #include "../include/Obj23082.h"
@@ -22,5 +22,5 @@ typedef unsigned int u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
-extern void func_021CA4B4(char *);
-int func_021C8354(u8 *p,u8 *q) {if(PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((struct Obj23082 *)q)->f34)==1) {BG_SYS_ResetSlot(2,0,0);BG_SYS_ResetSlot(3,0,0);func_021CA4B4(**(char ** *)&((struct Obj23081 *)p)->f14);return 1;}return 0;}
+extern void WF2DMAP_TOUCH_TransferScreen(char *);
+int func_021C8354(u8 *p,u8 *q) {if(PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((struct Obj23082 *)q)->f34)==1) {BG_SYS_ResetSlot(2,0,0);BG_SYS_ResetSlot(3,0,0);WF2DMAP_TOUCH_TransferScreen(**(char ** *)&((struct Obj23081 *)p)->f14);return 1;}return 0;}

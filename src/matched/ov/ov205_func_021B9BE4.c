@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BE4
+ * function: SAVE_SCREEN_NoticeMain
  * address: 0x021B9BE4
  * packet: pkt_ov205_021B9BE4
  * region: ov205
@@ -13,7 +13,7 @@
  *   func_0208068C 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02080B98 0x02080B98 arm
- *   func_021B9D58 0x021B9D58 thumb ov205
+ *   SAVE_SCREEN_SetupNoticeBackground 0x021B9D58 thumb ov205
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
@@ -29,13 +29,13 @@
  *   FADE_IsActive 0x0204E804 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020403F4 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_021B9DAC 0x021B9DAC thumb ov205
+ *   SAVE_SCREEN_DeleteNoticeBackground 0x021B9DAC thumb ov205
  */
 #include "../include/Obj01293.h"
 typedef unsigned int u32;
@@ -46,7 +46,7 @@ extern u32 KEY_GetTrg(void);
 extern void func_0208068C(u32);
 extern void MIi_CpuClearFast(u32,u32,u32);
 extern void func_02080B98(void);
-extern void func_021B9D58(u16);
+extern void SAVE_SCREEN_SetupNoticeBackground(u16);
 typedef signed int     s32;
 struct Cfg;
 struct CharBuf;
@@ -70,14 +70,14 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F7A8(void *,u32);
+extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020403F4(u32);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_021B9DAC(void);
-int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
+extern void SAVE_SCREEN_DeleteNoticeBackground(void);
+int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,char *p)
 {
     u32 keys;
     void *obj;
@@ -85,7 +85,7 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
     switch(*state){
     case 0:
         func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();
-        func_021B9D58(((struct Obj01293 *)p)->f0);
+        SAVE_SCREEN_SetupNoticeBackground(((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->f18=GF_FONT_Create(23,0,0,0,((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->fC=func_02045B38(0,2,37,((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->f10=GF_FONT_Create_EC64(((struct Obj01293 *)p)->f0);
@@ -109,9 +109,9 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(((struct Obj01293 *)p)->f14),0);(*state)++;}
         break;
     case 5:
-        func_0201F7A8(((struct Obj01293 *)p)->f14,0);BMP_WIN_Delete(((struct Obj01293 *)p)->f14);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj01293 *)p)->f14,0);BMP_WIN_Delete(((struct Obj01293 *)p)->f14);
         WORDSET_DeleteStrbufED04(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
-        func_020403F4(0);GF_FONT_Delete(((struct Obj01293 *)p)->f18);func_021B9DAC();return 1;
+        func_020403F4(0);GF_FONT_Delete(((struct Obj01293 *)p)->f18);SAVE_SCREEN_DeleteNoticeBackground();return 1;
     }
     return 0;
 }

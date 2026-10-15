@@ -93,7 +93,7 @@
  *   FIELD_RAIL_WORK_GetLocationParts  0x021B83FC  thumb  ov021
  *   RAIL_SLIPDOWN_Start  0x021C474C  thumb  ov021
  *   FIELD_RAIL_WORK_SetLineLocation  0x021B8484  thumb  ov021
- *   func_021B7DC0  0x021B7DC0  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb  ov021
  *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
  *   FIELD_TASK_CreateMmdlDrawOffsetTween  0x021C7878  thumb  ov021
  *   FIELD_TASK_CreateMmdlSpinLinear  0x021C7220  thumb  ov021
@@ -205,7 +205,7 @@ extern int FIELD_PLAYER_CheckFormModel(FieldPlayer *player);
 extern Mmdl *FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit);
 extern void FIELD_RAIL_WORK_GetLocationParts(RailWork *work, u16 *outRailIndex, u16 *outLineGrid, u16 *outWidthGrid);
 extern void FIELD_RAIL_WORK_SetLineLocation(RailWork *work, u32 railIndex, u32 lineGrid, int widthPos);
-extern void func_021B7DC0(RailWork *work, RailLocation *outLocation);
+extern void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation *outLocation);
 extern GameEvent *RAIL_SLIPDOWN_Start(GameSystem *gameSystem, FieldMap *fieldMap, Mmdl *mmdl);
 extern FieldTask *FIELD_TASK_CreateMmdlPosOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
 extern FieldTask *FIELD_TASK_CreateMmdlDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
@@ -972,7 +972,7 @@ int SCRCMD_FLDMMDL_SetPlayerRailLocation(ScriptVm *vm, ScrcmdWork *cmdWork)
     widthPos = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     railWork = FLDMMDL_RAIL_GetRailWork(playerMmdl);
     FIELD_RAIL_WORK_SetLineLocation(railWork, railIndex, lineGrid, widthPos);
-    func_021B7DC0(railWork, &location);
+    FIELD_RAIL_WORK_GetLocation(railWork, &location);
     FLDMMDL_RAIL_SetLocation(playerMmdl, &location);
     return 0;
 }
@@ -993,7 +993,7 @@ int SCRCMD_FLDMMDL_SetMmdlRailLocation(ScriptVm *vm, ScrcmdWork *cmdWork)
     widthPos = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
     FIELD_RAIL_WORK_SetLineLocation(railWork, railIndex, lineGrid, widthPos);
-    func_021B7DC0(railWork, &location);
+    FIELD_RAIL_WORK_GetLocation(railWork, &location);
     FLDMMDL_RAIL_SetLocation(mmdl, &location);
     return 0;
 }

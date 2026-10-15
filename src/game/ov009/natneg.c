@@ -33,7 +33,7 @@
  *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
- *   func_02184234  0x02184234  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
  *   func_02184324  0x02184324  arm  ov009
  *   gsDebugFormat  0x0217D254 arm
  *   ArrayFree      0x021841B0 arm
@@ -104,7 +104,7 @@
  *   gNatNegBothDoneFmt               0x021A60FC  data
  *   gNatNegLingerDoneFmt               0x021A6150  data
  *   gNatNegRemovePostFmt               0x021A61A0  data
- *   func_02184200            0x02184200  arm ov009
+ *   ArrayLength            0x02184200  arm ov009
  *   gNatNegSendConnectAckFmt               0x021A61E8  data
  *   gNatNegConnectPacketFmt               0x021A621C  data
  *   gNatNegAlreadyConnectedFmt               0x021A6274  data
@@ -276,7 +276,7 @@ extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern int ArrayLength(void *array);
 extern void *func_02184208(void *array, int n);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void func_02184234(void *array, void *newElem);
+extern void ArrayAppend(void *array, void *newElem);
 extern void func_02184324(void *array, int n);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern void ArrayFree(struct DArrayImplementation *array);
@@ -301,7 +301,6 @@ extern NATNegotiator *FindNegotiatorForCookie(int cookie);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
-extern int func_02184200(const int *p);
 NATNegotiator *AddNegotiator(void);
 void RemoveNegotiator(NATNegotiator *neg);
 void NNFreeNegotiateList(void);
@@ -484,7 +483,7 @@ NATNegotiator *AddNegotiator(void)
 
     if (!negotiateList)
         negotiateList = func_02184144(sizeof(NATNegotiator), 4, 0);
-    func_02184234(negotiateList, &_neg);
+    ArrayAppend(negotiateList, &_neg);
     return (NATNegotiator *)func_02184208(negotiateList, ArrayLength(negotiateList) - 1);
 }
 
@@ -1105,7 +1104,7 @@ void NNThink(void *p)
         gNatnegGlobals.natifyActive = CheckNatifyStatus(gNatSocks.mappingSock) && CheckNatifyStatus(gNatSocks.ertSock);
     if (!gNatnegGlobals.negotiateList)
         return;
-    for (i = func_02184200(gNatnegGlobals.negotiateList) - 1; i >= 0; i--)
+    for (i = ArrayLength(gNatnegGlobals.negotiateList) - 1; i >= 0; i--)
         NegotiateThink(func_02184208(gNatnegGlobals.negotiateList, i));
 }
 

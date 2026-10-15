@@ -1,5 +1,5 @@
 /*
- * function: func_021F4614
+ * function: NAMEIN_GRAPHIC_RunCallback
  * address:  0x021F4614
  * packet:   pkt_021F4614
  * region:   ov194
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef void (*fn_021F4614_t)(u8 *, u8 *, u32);
 
-void func_021F4614(u8 *p)
+void NAMEIN_GRAPHIC_RunCallback(u8 *p)
 {
     if (((struct Obj14507 *)p)->f4 == 0) {
         ((fn_021F4614_t)*(void **)p)(p, p + 8, ((struct Obj14507 *)p)->fC);

@@ -15,7 +15,7 @@
  *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
- *   func_021B7DC0  0x021B7DC0  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb  ov021
  *   FIELD_RAIL_WORK_QueryStep  0x021B7E60  thumb  ov021
  *   FIELD_RAIL_TryStepLocation  0x021B7CD8  thumb  ov021
  *   FLDMMDL_RAIL_DirToRailKey  0x0219E938  thumb  ov021
@@ -32,7 +32,7 @@ extern void *FLDMMDL_SysGetNogridMapper(void *p);
 extern void *FLDMMDL_GetMoveProcWork(void *p);
 extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *p);
-extern void func_021B7DC0();
+extern void FIELD_RAIL_WORK_GetLocation();
 extern int FIELD_RAIL_WORK_QueryStep();
 extern int FIELD_RAIL_TryStepLocation();
 extern u32 FLDMMDL_RAIL_DirToRailKey(int a0);
@@ -49,7 +49,7 @@ int FLDMMDL_RAIL_GetHitBitsDir(u32 o, u32 k, u32 x)
 
     v = (u32)FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys((void *)o)));
     p = FLDMMDL_GetMoveProcWork((void *)o);
-    func_021B7DC0(*p, a);
+    FIELD_RAIL_WORK_GetLocation(*p, a);
     t = FLDMMDL_GetDirDisp((void *)o);
     if (t == k) {
         r = FIELD_RAIL_WORK_QueryStep(*p, FLDMMDL_RAIL_DirToRailKey(k), b, 0);

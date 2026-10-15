@@ -1,5 +1,5 @@
 /*
- * function: func_02188638
+ * function: gpiProcessRecvBuddyList
  * address:  0x02188638
  * packet:   pkt_ov009_02188638
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      gpiProcessRecvBuddyList (gpibuddy.o)
  *
  * symbols:
- *   func_0219329C  0x0219329C  arm   ov009
- *   func_02193378  0x02193378  arm   ov009
- *   func_02193710  0x02193710  arm   ov009
- *   func_02189D78  0x02189D78  arm   ov009
+ *   gpiCheckForError  0x0219329C  arm   ov009
+ *   gpiValueForKeyWithIndex  0x02193378  arm   ov009
+ *   gpiSetError  0x02193710  arm   ov009
+ *   gpiCallErrorCallback  0x02189D78  arm   ov009
  *   atoi  0x020964E0  arm
  *   strstr  0x02094B20  arm
- *   func_0218FCD8  0x0218FCD8  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
- *   func_0217EAB0  0x0217EAB0  arm   ov009
- *   func_02189300  0x02189300  arm   ov009
+ *   gpiProfileListAdd  0x0218FCD8  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   gsimalloc  0x0217EAB0  arm   ov009
+ *   gpiBuddyDeletedLocally  0x02189300  arm   ov009
  *   g_021A4450     0x021A4450  data
  *   g_021A4280     0x021A4280  data
  *   g_021A4458     0x021A4458  data
@@ -53,23 +53,23 @@ typedef struct GPIConnection {
     int numBuddies;
 } GPIConnection;
 
-extern int func_0219329C(void **connection, char *input, int callErrorCallback);
-extern int func_02193378(char *command, char *key, int *index, char *value, int len);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
+extern int gpiCheckForError(void **connection, char *input, int callErrorCallback);
+extern int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len);
+extern void gpiSetError(void **connection, int errorCode, char *errorString);
+extern void gpiCallErrorCallback(void **connection, int result, int fatal);
 extern int atoi(const char *s);
 extern char *strstr(const char *s, const char *sub);
-extern GPIProfile *func_0218FCD8(void **connection, int id);
-extern void func_02193734(void **connection, char *errorString);
-extern void *func_0217EAB0(unsigned long size);
-extern int func_02189300(void **connection, int id, int isDeleted);
+extern GPIProfile *gpiProfileListAdd(void **connection, int id);
+extern void gpiSetErrorString(void **connection, char *errorString);
+extern void *gsimalloc(unsigned long size);
+extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
 extern char g_021A4450[];
 extern char g_021A4280[];
 extern char g_021A4458[];
 extern char g_021A4460[];
 extern char g_021A42BC[];
 
-int func_02188638(void **connection, char *input)
+int gpiProcessRecvBuddyList(void **connection, char *input)
 {
     int i;
     int num;
@@ -82,20 +82,20 @@ int func_02188638(void **connection, char *input)
     int profileid;
     GPIConnection *iconnection = (GPIConnection *)*connection;
 
-    if (func_0219329C(connection, input, 1))
+    if (gpiCheckForError(connection, input, 1))
         return 4;
 
-    if (!func_02193378(input, g_021A4450, &index, buffer, sizeof(buffer))) {
-        func_02193710(connection, 1, g_021A4280);
-        func_02189D78(connection, 3, 1);
+    if (!gpiValueForKeyWithIndex(input, g_021A4450, &index, buffer, sizeof(buffer))) {
+        gpiSetError(connection, 1, g_021A4280);
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     num = atoi(buffer);
 
     str = strstr(input, g_021A4458);
     if (str == 0) {
-        func_02193710(connection, 1, g_021A4280);
-        func_02189D78(connection, 3, 1);
+        gpiSetError(connection, 1, g_021A4280);
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     index += 6;
@@ -107,28 +107,28 @@ int func_02188638(void **connection, char *input)
             buffer[j] = '\0';
             index += j;
         } else {
-            if (!func_02193378(input, g_021A4460, &index, buffer, sizeof(buffer))) {
-                func_02193710(connection, 1, g_021A4280);
-                func_02189D78(connection, 3, 1);
+            if (!gpiValueForKeyWithIndex(input, g_021A4460, &index, buffer, sizeof(buffer))) {
+                gpiSetError(connection, 1, g_021A4280);
+                gpiCallErrorCallback(connection, 3, 1);
                 return 3;
             }
         }
 
         profileid = atoi(buffer);
-        profile = func_0218FCD8(connection, profileid);
+        profile = gpiProfileListAdd(connection, profileid);
         if (profile == 0) {
-            func_02193734(connection, g_021A42BC);
+            gpiSetErrorString(connection, g_021A42BC);
             return 1;
         }
-        profile->buddyStatus = (GPIBuddyStatus *)func_0217EAB0(sizeof(GPIBuddyStatus));
+        profile->buddyStatus = (GPIBuddyStatus *)gsimalloc(sizeof(GPIBuddyStatus));
         if (profile->buddyStatus == 0) {
-            func_02193734(connection, g_021A42BC);
+            gpiSetErrorString(connection, g_021A42BC);
             return 1;
         }
         __builtin__clear(profile->buddyStatus, sizeof(GPIBuddyStatus));
         profile->buddyStatus->buddyIndex = iconnection->numBuddies++;
         profile->buddyStatus->status = 0;
-        func_02189300(connection, profileid, 0);
+        gpiBuddyDeletedLocally(connection, profileid, 0);
     }
     return 0;
 }

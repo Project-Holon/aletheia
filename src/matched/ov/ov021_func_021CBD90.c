@@ -22,7 +22,7 @@
  * _s32_div_f, so the u16 % u16 modulo is signed (int promotion).
  *
  * symbols:
- *   func_021CBF98  0x021CBF98  thumb  ov021
+ *   BSUBWAY_SCR_Random  0x021CBF98  thumb  ov021
  *   _s32_div_f  0x0209C0A4  arm
  *   d_021DB3D0  0x021DB3D0  data
  *   d_021DB3D8  0x021DB3D8  data
@@ -40,7 +40,7 @@ typedef struct {
     u16 hi;
 } Range;
 
-extern u16 func_021CBF98(void *ctx);
+extern u16 BSUBWAY_SCR_Random(void *ctx);
 extern const Range d_021DB3D0[];
 extern const Range d_021DB3D8[];
 extern const Range d_021DB3E4[];
@@ -49,7 +49,7 @@ extern const Range d_021DB3F4[];
 static inline u16 RandInRange(void *ctx, u32 tbl, u32 round)
 {
     u16 span = ((const Range *)(tbl + round * 4))->hi - ((const Range *)(tbl + round * 4))->lo + 1;
-    return func_021CBF98(ctx) % span + ((const Range *)(tbl + round * 4))->lo;
+    return BSUBWAY_SCR_Random(ctx) % span + ((const Range *)(tbl + round * 4))->lo;
 }
 
 u16 BSUBWAY_SCR_DrawTrainerNo(void *ctx, u32 round, u32 stage, u32 line, u8 alt)
@@ -134,7 +134,7 @@ u16 BSUBWAY_SCR_DrawTrainerNo(void *ctx, u32 round, u32 stage, u32 line, u8 alt)
         id = RandInRange(ctx, (u32)d_021DB3F4, round);
         goto end;
 rnd:
-        id = func_021CBF98(ctx) % 100 + 200;
+        id = BSUBWAY_SCR_Random(ctx) % 100 + 200;
     }
 end:
     return id;

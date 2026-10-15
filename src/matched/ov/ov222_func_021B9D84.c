@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D84
+ * function: ZENKOKU_ZUKAN_AWARD_SetupActorPos
  * address: 0x021B9D84
  * packet: pkt_ov222_021B9D84
  * region: ov222
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021B9D84(char*p)
+void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p)
 {
     Pt pos;
     if(*(int*)(*(char**)(p+4)+4)==0){

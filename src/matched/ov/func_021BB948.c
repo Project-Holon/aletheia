@@ -12,7 +12,7 @@
  * Tail call on the word at +0x10.
  *
  * symbols:
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Ctx;
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 
 void FIELD_SUBPROC_MGR_RunUpdate(u8 *p)
 {
-    func_02030D28((struct Ctx *)(((struct Obj18174 *)p)->f10));
+    TCB_Main((struct Ctx *)(((struct Obj18174 *)p)->f10));
 }

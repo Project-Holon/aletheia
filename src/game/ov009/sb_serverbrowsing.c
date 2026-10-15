@@ -18,17 +18,17 @@
  *   SBQueryEngineUpdateServer  0x0219D928  arm  ov009
  *   SBQueryEngineRemoveServerFromFIFOs  0x0219DF04  arm  ov009
  *   SBServerListDisconnect  0x021A02E0  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
- *   func_0219D8D8  0x0219D8D8  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
+ *   SBQueryEngineSetPublicIP  0x0219D8D8  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   SBServerListInit  0x0219F9A8  arm  ov009
  *   SBQueryEngineInit  0x0219D864  arm  ov009
  *   gGsAvailabilityState  0x021ACEF8  data
  *   SBServerListCleanup  0x021A0340  arm  ov009
  *   SBEngineCleanup  0x0219D8FC  arm  ov009
  *   NNFreeNegotiateList  0x0219922C  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   strlen  0x0209477C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   SBQueryEngineAddQueryKey  0x0219DEE8  arm  ov009
@@ -64,9 +64,9 @@ struct SortInfo {
 extern void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
 extern void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
 extern void SBServerListDisconnect(SBServerList *slist);
-extern int func_02184200(const int *p);
-extern void func_0219D8D8(int *engine, int publicip);
-extern void *func_0217EAB0(unsigned long size);
+extern int ArrayLength(const int *p);
+extern void SBQueryEngineSetPublicIP(int *engine, int publicip);
+extern void *gsimalloc(unsigned long size);
 extern void SBServerListInit(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                           int queryFromVersion, int lanBrowse, void *callback, void *instance);
 extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
@@ -74,8 +74,8 @@ extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, in
 extern void SBServerListCleanup(SBServerList *slist);
 extern void SBEngineCleanup(void *engine);
 extern void NNFreeNegotiateList(void);
-extern void func_0217EAE0(void *ptr);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void gsifree(void *ptr);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void SBQueryEngineAddQueryKey(char *p, int v);
@@ -164,14 +164,14 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
     case 3:
         if (sb->disconnectFlag)
             SBServerListDisconnect((SBServerList *)serverlist);
-        if (func_02184200(serverlist->servers) == 0 || sb->engine.querylist.count == 0)
+        if (ArrayLength(serverlist->servers) == 0 || sb->engine.querylist.count == 0)
             sb->BrowserCallback(sb, 4, 0, sb->instance);
         break;
     case 5:
         sb->BrowserCallback(sb, 5, 0, sb->instance);
         break;
     case 6:
-        func_0219D8D8((int *)(&sb->engine), sb->list.mypublicip);
+        SBQueryEngineSetPublicIP((int *)(&sb->engine), sb->list.mypublicip);
         break;
     case 4:
     case 7:
@@ -225,7 +225,7 @@ ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename
 
     if (lanBrowse == 0 && gGsAvailabilityState != 1)
         return 0;
-    sb = func_0217EAB0(0x858);
+    sb = gsimalloc(0x858);
     if (sb == 0)
         return 0;
     sb->BrowserCallback = callback;
@@ -251,7 +251,7 @@ void ServerBrowserFree(ServerBrowser *sb)
     SBEngineCleanup(&sb->engine);
     if (sb->ConnectCallback != 0)
         NNFreeNegotiateList();
-    func_0217EAE0(sb);
+    gsifree(sb);
 }
 
 
@@ -272,7 +272,7 @@ int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComp
     char *key;
 
     if (numBasicFields > 40) {
-        func_0217D254(4, (char *)4, 2, g_021A81DC);
+        gsDebugFormat(4, (char *)4, 2, g_021A81DC);
         return 6;
     }
     sb->disconnectFlag = disconnectOnComplete;

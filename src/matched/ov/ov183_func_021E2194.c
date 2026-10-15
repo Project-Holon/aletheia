@@ -1,5 +1,5 @@
 /*
- * function: func_021E2194
+ * function: BR_CODEIN_SaveStepFadeOut
  * address: 0x021E2194
  * packet: pkt_ov183_021E2194
  * region: ov183
@@ -21,7 +21,7 @@ extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
 extern int BR_UTIL_ClearTaskStep(int *a);
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
-void func_021E2194(int *task,int *state,char *p)
+void BR_CODEIN_SaveStepFadeOut(int *task,int *state,char *p)
 {
     switch (*state) {
     case 0: BR_FADE_Start(((struct Obj24651 *)(*(char * *)&((struct Obj10760 *)p)->f20))->f4,2,3,1); *state=1; break;

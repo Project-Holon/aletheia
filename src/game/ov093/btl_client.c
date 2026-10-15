@@ -75,8 +75,8 @@
  *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
- *   sub_02008DF0 0x02008DF0 thumb
- *   sub_02008DAC 0x02008DAC thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
+ *   RECORD_AddCounter 0x02008DAC thumb
  *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  *   NATSUKI_CalcParty 0x0201B818 thumb
@@ -109,7 +109,7 @@
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
  *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   BTL_REC_InitPacket 0x021EE8B4 thumb ov093
  *   BTL_REC_MakeSkipPacket 0x021EE8D8 thumb ov093
  *   BTL_REC_AddRecord  0x021EE8F4  thumb  ov093
@@ -292,7 +292,7 @@
  *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
  *   BTL_EVENT_RemoveDeadFactors 0x021D701C thumb ov093
  *   BTL_MAIN_GetPmsWork 0x021B8630 thumb ov093
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
  *   COMM_PLAYER_SUPPORT_SavePreviousAndSuspend 0x0202E7E4 thumb
@@ -397,7 +397,7 @@
  *   FX_Sqrt  0x0207C7B4  arm
  *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  *   gEffortValueStatTable      0x021EFDC0  data  ov093
- *   func_02019C90   0x02019C90  thumb arm9
+ *   POKE_TOOL_GetPersonalParam   0x02019C90  thumb arm9
  *   POKE_TOOL_DecodePartyParam   0x02017D30  thumb arm9
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   gBagItemEffectTable 0x021EFDE4 data a4
@@ -730,7 +730,7 @@
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02007B00  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
  *   MYSTATUS_GetSize 0x02008468 thumb
@@ -1102,8 +1102,8 @@ extern u32 BTL_MAIN_GetRule(void **p);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 extern u32 func_020307B0(void *p);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
-extern u32 sub_02008DF0(struct Sub02008C20Obj *, int);
-extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *, int);
+extern u32 RECORD_AddCounter(struct Sub02008C20Obj *, int, u32);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
 extern u32 _u32_div_f(u32, u32);
@@ -1142,7 +1142,7 @@ extern u16 BTL_POKEPARAM_GetTypePair(void *);
 extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern int BTL_CALC_SummarizeTypeAffinity(int);
 extern void BTL_POKEPARAM_SetAbility(struct BtlPokeParam *p, u32 ability);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern void BTL_POKEPARAM_ResetAllEffects(struct BtlPokeParam *);
 extern int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r);
 extern u8 WAZA_TOOL_GetType(void *p);
@@ -1477,7 +1477,7 @@ extern void BTLV_CORE_SetCounterValueMode(u8 *p, int v, int w);
 extern int BTLV_EFFECT_SuspendVmWait(void);
 extern int BTLV_CORE_PollFadeInDone(u32 *p);
 extern int POKE_REGULATION_GetDataSize(void);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -2172,7 +2172,7 @@ u32 BTL_CLIENT_PickWindowMode(u32 mode)
     u32 v;
     int t;
 
-    v = (u32)(((u64)func_0203F0A8() * 100) >> 32);
+    v = (u32)(((u64)GF_STANDARD_Rand() * 100) >> 32);
     if (mode == 0) {
         if (v < 0x1e) {
             mode = 3;

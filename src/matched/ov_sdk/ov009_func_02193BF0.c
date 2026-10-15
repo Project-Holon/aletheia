@@ -1,5 +1,5 @@
 /*
- * function: func_02193BF0
+ * function: bfloat
  * address:  0x02193BF0
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern char g_021ADFD0[];
 extern char g_021ADFD8[];
 
-char *func_02193BF0(int a, int b)
+char *bfloat(int a, int b)
 {
     *(int *)(g_021ADFD0 + 8) = a;
     *(int *)(g_021ADFD0 + 0xc) = b;

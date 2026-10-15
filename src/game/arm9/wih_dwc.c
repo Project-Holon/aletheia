@@ -26,10 +26,10 @@
  *   GF_FONT_Create_EC64     0x0201EC64  thumb
  *   GF_FONT_Create     0x0201D7EC  thumb
  *   func_02045B38     0x02045B38  arm
- *   func_0201EFA4     0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber     0x0201EFA4  thumb
  *   func_02045EC0     0x02045EC0  arm
  *   STRBUF_Create     0x020457B0  arm
- *   func_0201F250     0x0201F250  thumb
+ *   WORDSET_CopyTaggedText     0x0201F250  thumb
  *   PRINTSYS_PrintColor     0x0201C7D0  thumb
  *   STRBUF_Delete     0x02045808  arm
  *   MSGDATA_Delete     0x02045C04  arm
@@ -48,8 +48,8 @@
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   func_02034A5C  0x02034A5C  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0203F004  0x0203F004  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_GetStringLength  0x0203F004  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_GetScanResult  0x0203CF10  arm
@@ -239,10 +239,10 @@ extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 d
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flags);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flags);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
@@ -257,8 +257,8 @@ extern void WIH_SetBeaconFoundCallback(u32 callback);
 extern void GFL_NET_FreeAligned(void *p);
 extern void func_02034A5C(int handle);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern u32 func_0203F004(const u8 *s);
-extern s32 func_0203EFC8(const void *a, const void *b, u32 n);
+extern u32 GF_STANDARD_GetStringLength(const u8 *s);
+extern s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 n);
 extern void *GFL_NET_GetInitParam(void);
 extern int  GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_GetScanResult(u32 slot);
@@ -437,7 +437,7 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
         u8 netType = errWork->netType;
 
         if (netType == 1 || netType == 2 || netType == 6) {
-            func_0201EFA4(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, 1);
             msgBank = func_02045B38(0, 2, 0xe8, 1);
             if (errWork->fatalRaised != 0) {
                 messageIndex = errWork->messageId;
@@ -446,7 +446,7 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
                 messageIndex = GFL_NET_ERR_GetMessageId(&errWork->errorInfo, errWork->messageId);
             }
         } else {
-            func_0201EFA4(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
             msgBank = func_02045B38(0, 2, 0x52, 1);
             messageIndex = 1;
             if (messageVariant != 1) {
@@ -457,7 +457,7 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
 
     message = func_02045EC0(msgBank, messageIndex);
     textBuf = STRBUF_Create(0x189, 1);
-    func_0201F250(wordSet, textBuf, message);
+    WORDSET_CopyTaggedText(wordSet, textBuf, message);
     PRINTSYS_PrintColor(bmp, 0, 0, textBuf, font, 0x1167);
     STRBUF_Delete(textBuf);
     STRBUF_Delete(message);
@@ -696,16 +696,16 @@ void WIH_DWC_TickTimers(void)
 
 /*
  * Three 0x100-byte slots at +0x640 of the buffer behind the context's +0x304;
- * the first slot with a positive func_0203F004 whose func_0203EFC8 against
- * the record's name returns zero makes the function return 1.  func_0203EFC8
- * takes THREE arguments, the third is the result of func_0203F004 (kept in
+ * the first slot with a positive GF_STANDARD_GetStringLength whose GF_STANDARD_CompareBytes against
+ * the record's name returns zero makes the function return 1.  GF_STANDARD_CompareBytes
+ * takes THREE arguments, the third is the result of GF_STANDARD_GetStringLength (kept in
  * r2).  `i` must be initialised before `q`, and the loop-body local `n` must
  * be declared inside the loop.
  */
 /*
  * Three 0x100-byte slots at +0x640 of the object hanging off +0x304 of the
  * global at 0x021461E0 (the same global WIH_DWC_AddBeacon reads); the first slot
- * with a positive func_0203F004 whose func_0203EFC8 against obj+0xC returns
+ * with a positive GF_STANDARD_GetStringLength whose GF_STANDARD_CompareBytes against obj+0xC returns
  * zero makes the function return 1.
  *
  * Three spellings the previous pass (docs/notes/pkt_0201045C.c.txt) did not
@@ -715,10 +715,10 @@ void WIH_DWC_TickTimers(void)
  *     not the object: the original does one `ldr r1, [r7]` and then
  *     `ldr r1, [r1, r0]` with r0 = 0x304.  Reading it as `**` costs an extra
  *     dereference at both sites.  It is the same global WIH_DWC_AddBeacon reads.
- *  2. func_0203EFC8 takes THREE arguments, and the third is the result of
- *     func_0203F004.  That is what the otherwise pointless `adds r2, r0, #0`
+ *  2. GF_STANDARD_CompareBytes takes THREE arguments, and the third is the result of
+ *     GF_STANDARD_GetStringLength.  That is what the otherwise pointless `adds r2, r0, #0`
  *     at 0x02010518 is: r2 is set right after the first call and is still
- *     live, unwritten, at the `blx` to func_0203EFC8 twenty-four bytes
+ *     live, unwritten, at the `blx` to GF_STANDARD_CompareBytes twenty-four bytes
  *     later.  Two arguments plus a named local for the comparison folds the
  *     copy away (80 bytes); a function-scope or volatile local gives it a
  *     stack home (`str r0, [sp]` / `ldr r0, [sp]`) instead of r2.  The local
@@ -740,11 +740,11 @@ int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
 
     for (; slotIndex < 3; slotIndex++) {
         u8 *slot = gWihDwc.context->filterBuf->ssidSlot[slotIndex];
-        int slotLength = func_0203F004(slot);
+        int slotLength = GF_STANDARD_GetStringLength(slot);
 
         if (slotLength > 0) {
             slot = gWihDwc.context->filterBuf->ssidSlot[slotIndex];
-            if (func_0203EFC8(slot, ssid, slotLength) == 0)
+            if (GF_STANDARD_CompareBytes(slot, ssid, slotLength) == 0)
                 return 1;
         }
     }
@@ -755,7 +755,7 @@ int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
 /*
  * Three gates on one record then `return 1`; all false paths share the single
  * `return 0` at the bottom.  The compare is against the 8 bytes at
- * 0x020A7250, func_0203EFC8 is a memcmp-shaped helper whose zero means equal.
+ * 0x020A7250, GF_STANDARD_CompareBytes is a memcmp-shaped helper whose zero means equal.
  */
 /*
  * Three gates on one object then `return 1`.  All three false paths share the
@@ -763,7 +763,7 @@ int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
  * shared epilogue instead of inlining two `movs r0, #0`: the source is a nest
  * of three `if`s with one `return 1` inside and one `return 0` after them.
  * The compare is against the 8 bytes at 0x020A7250, a cast address constant
- * (no relocation), and `func_0203EFC8` is a memcmp-shaped helper whose zero
+ * (no relocation), and `GF_STANDARD_CompareBytes` is a memcmp-shaped helper whose zero
  * means equal.
  *
  * Verified with:
@@ -773,7 +773,7 @@ int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
 int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon)
 {
     if (beacon->ssidLength == 8) {
-        if (func_0203EFC8(sWihBeaconSsidTag, beacon->ssid, 8) != 0) {
+        if (GF_STANDARD_CompareBytes(sWihBeaconSsidTag, beacon->ssid, 8) != 0) {
             if ((beacon->capaInfo & 0x10) == 0) {
                 return 1;
             }

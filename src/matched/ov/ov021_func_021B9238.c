@@ -1,5 +1,5 @@
 /*
- * function: func_021B9238
+ * function: FIELD_RAIL_WORK_GetLocationFromSpot
  * address:  0x021B9238
  * packet:   pkt_ov021_021B9238
  * region:   ov021
@@ -24,7 +24,7 @@ typedef struct { u16 t; u16 pad; void *p4; int p8; int pc; int p10; int p14; int
 int FIELD_RAIL_SETTING_GetPointIndex(void *a, void *b);
 int FIELD_RAIL_SETTING_GetLineIndex(void *a, void *b);
 
-void func_021B9238(const In *p, Out *out)
+void FIELD_RAIL_WORK_GetLocationFromSpot(const In *p, Out *out)
 {
     int v;
     u32 t;

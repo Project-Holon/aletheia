@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5AEC",
+   "name": "VIEWER_MAIN_ClearBg",
    "address": "0x021C5AEC",
    "kind": "game",
    "region": "ov111",

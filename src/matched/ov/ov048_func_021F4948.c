@@ -18,7 +18,7 @@
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_0201D304  0x0201D304  thumb
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
@@ -97,7 +97,7 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_020307B0(void *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern int G3D_SYSTEM_GetObjectRender(int *p);
@@ -128,7 +128,7 @@ R *GIMMICK_OBJ_ELBOARD_CreateLine(P *p, const Q *q, int c)
     if (q->f18 != 0) {
         str = (u32)STRBUF_Create(0xC0, p->h0);
         tmp = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);
-        func_0201F250((struct WordSet *)q->f18, (void *)str, (void *)tmp);
+        WORDSET_CopyTaggedText((struct WordSet *)q->f18, (void *)str, (void *)tmp);
         func_020307B0((void *)tmp);
     } else {
         str = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);

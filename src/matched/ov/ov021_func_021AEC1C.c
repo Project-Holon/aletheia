@@ -12,7 +12,7 @@
  * symbols:
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_0215A4C8  0x0215A4C8  thumb  ov010
+ *   EVENT_POKE_STATUS_GetRecordField2  0x0215A4C8  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -23,12 +23,12 @@ typedef signed char    s8;
 
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern int func_0215A4C8(int a0);
+extern int EVENT_POKE_STATUS_GetRecordField2(int a0);
 
 int SCRCMD_GetTrainerBattleKind(u32 a, u32 b)
 {
     u32 x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
 
-    *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = func_0215A4C8(x);
+    *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = EVENT_POKE_STATUS_GetRecordField2(x);
     return 0;
 }

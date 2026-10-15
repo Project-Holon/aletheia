@@ -1,5 +1,5 @@
 /*
- * function: func_0215E980
+ * function: SOCLi_CloseCallBack
  * address:  0x0215E980
  * packet:   pkt_ov009_0215E980
  * region:   ov009
@@ -19,8 +19,8 @@
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215F31C  0x0215F31C  arm  ov009
- *   func_0215F304  0x0215F304  arm  ov009
+ *   SOCLi_SocketUnregister  0x0215F31C  arm  ov009
+ *   SOCLi_SocketRegisterTrash  0x0215F304  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
@@ -46,8 +46,8 @@ extern void CPS_SocRelease(void);
 extern void CPS_SocUnRegister(void);
 extern int SOCLi_SendCommandPacket(int a0, char *a1);
 extern unsigned long OS_DisableInterrupts(void);
-extern void func_0215F31C(int a);
-extern void func_0215F304(int a);
+extern void SOCLi_SocketUnregister(int a);
+extern void SOCLi_SocketRegisterTrash(int a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 static inline int IsStream(Socket *socket)
@@ -59,7 +59,7 @@ static inline int IsStream(Socket *socket)
 	return r;
 }
 
-int func_0215E980(void *arg)
+int SOCLi_CloseCallBack(void *arg)
 {
 	unsigned long enable;
 	Socket *socket;
@@ -75,8 +75,8 @@ int func_0215E980(void *arg)
 	socket->state &= ~6;
 	SOCLi_SendCommandPacket((int)(socket->flag_mode == 2 ? socket->send_pipe : socket->recv_pipe), 0);
 	enable = OS_DisableInterrupts();
-	func_0215F31C((int)socket);
-	func_0215F304((int)socket);
+	SOCLi_SocketUnregister((int)socket);
+	SOCLi_SocketRegisterTrash((int)socket);
 	OS_RestoreInterrupts(enable);
 	socket->state |= 0x20;
 	return 0;

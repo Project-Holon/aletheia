@@ -20,7 +20,7 @@
  *   BG_SYS_Get 0x020416D4 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -41,7 +41,7 @@ extern void CLACT_SetActorBgPriority(void *, u32);
 struct Actor;
 struct Obj;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -65,13 +65,13 @@ void func_021B9F5C(u8 *p)
         CLACT_SetActorObjMode(((struct Obj06502 *)q)->f1890, 0);
         t = p + i;
         if (*(u8 *)((u32)p+(u32)i+(u32)d) == 0) {
-            pos.x = ((u64)func_0203F0A8() * 56) >> 32;
-            if ((u32)(((u64)func_0203F0A8() * 2) >> 32) == 1) pos.x = 256 - pos.x;
-            pos.y = ((u64)func_0203F0A8() * 192) >> 32;
+            pos.x = ((u64)GF_STANDARD_Rand() * 56) >> 32;
+            if ((u32)(((u64)GF_STANDARD_Rand() * 2) >> 32) == 1) pos.x = 256 - pos.x;
+            pos.y = ((u64)GF_STANDARD_Rand() * 192) >> 32;
             CLACT_AddActorSurfacePos(((struct Obj06502 *)q)->f1890, (const struct Vec2 *)(&pos), 1);
-            if (pos.y > 90) CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, ((u64)func_0203F0A8() * 2) >> 32);
-            else CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, (((u64)func_0203F0A8() * 2) >> 32) + 2);
-            t[c] = (((u64)func_0203F0A8() * 200) >> 32) + delay;
+            if (pos.y > 90) CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, ((u64)GF_STANDARD_Rand() * 2) >> 32);
+            else CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, (((u64)GF_STANDARD_Rand() * 2) >> 32) + 2);
+            t[c] = (((u64)GF_STANDARD_Rand() * 200) >> 32) + delay;
         } else {
             t[b] = t[a] - 1;
         }

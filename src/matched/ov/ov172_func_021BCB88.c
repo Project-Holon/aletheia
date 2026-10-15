@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB88
+ * function: CTVT_CALL_UpdateRows
  * address:  0x021BCB88
  * packet:   pkt_ov172_021BCB88
  * region:   ov172
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCC40  0x021BCC40  thumb  ov172
+ *   CTVT_CALL_DrawRow  0x021BCC40  thumb  ov172
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   _u32_div_f     0x0209C2B0  arm
@@ -29,13 +29,13 @@ struct SpritePos {
     s16 y;
 };
 
-extern void func_021BCC40(void *ctx, char *list, char *row, int idx);
+extern void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *spr, unsigned int on);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021BCB88(void *ctx, char *list)
+void CTVT_CALL_UpdateRows(void *ctx, char *list)
 {
     struct SpritePos pos;
     u8 n = 0;
@@ -43,7 +43,7 @@ void func_021BCB88(void *ctx, char *list)
     u32 range;
 
     for (i = 0; i < 15; i++)
-        func_021BCC40(ctx, list, list + 0x40 + i * 0x1c, i);
+        CTVT_CALL_DrawRow(ctx, list, list + 0x40 + i * 0x1c, i);
     for (i = 0; i < 15; i++) {
         if (*(u8 *)(list + i * 0x1c + 0x58) != 0xff)
             n++;

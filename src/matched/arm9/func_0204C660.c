@@ -18,7 +18,7 @@
  *
  * symbols:
  *   s_clact_c      0x020A7F74  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   NNS_G2dInitCellTransferStateManager  0x02066934  arm
  *   CLACT_AllocTransferEntries  0x0204C718  arm
  *   CLACT_RequestTransfer  0x0204C83C  arm
@@ -68,7 +68,7 @@ struct Pool {
 
 extern char s_clact_c[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  NNS_G2dInitCellTransferStateManager(struct Rec *recs, u32 n, void *cb);
 extern void  CLACT_AllocTransferEntries(struct Pool *p, u32 n, u32 heapId);
@@ -84,7 +84,7 @@ void CLACT_InitTransferPool(struct Pool *p, u8 n, u32 heapId)
     }
 
     p->count = n;
-    recs = sub_02030734(heapId, n * sizeof(struct Rec), 0, s_clact_c, 0x1337);
+    recs = GFL_HEAP_Alloc(heapId, n * sizeof(struct Rec), 0, s_clact_c, 0x1337);
     p->recs = recs;
 
     NNS_G2dInitCellTransferStateManager(recs, n, CLACT_RequestTransfer);

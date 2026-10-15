@@ -12,7 +12,7 @@
  * sdk:      SOC_GetHostByName (libsoc.TWL.HYB.a(soc.o))
  *
  * symbols:
- *   func_0215EDD0  0x0215EDD0  arm  ov009
+ *   SOCL_Resolve  0x0215EDD0  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   STD_CopyLString  0x0208CB10  arm
  *   g_021AA544     0x021AA544  data
@@ -34,7 +34,7 @@ typedef struct {
 	unsigned char **addrList;
 } HostEnt;
 
-extern unsigned long func_0215EDD0(char *hostname);
+extern unsigned long SOCL_Resolve(char *hostname);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 
@@ -48,7 +48,7 @@ HostEnt *SOC_GetHostByName(const char *name)
 {
 	unsigned long h;
 
-	h = func_0215EDD0((char *)name);
+	h = SOCL_Resolve((char *)name);
 	if (h == 0) {
 		return 0;
 	}

@@ -27,7 +27,7 @@
  *   NNS_GfdDefaultFuncFreePlttVram   0x020A814C  data
  *   func_02030734      0x02030734  arm
  *   func_020307B0      0x020307B0  arm
- *   func_020307C8      0x020307C8  arm
+ *   GFL_HEAP_InitAllocatorChecked      0x020307C8  arm
  *   func_020307E0      0x020307E0  arm
  *   func_02030BBC      0x02030BBC  arm
  *   func_02030BC8      0x02030BC8  arm
@@ -297,7 +297,7 @@ typedef struct {
 
 extern void *func_02030734(u16 heapId, u32 size, int clear, const char *file, int line);
 extern void  func_020307B0(void *memory);
-extern void  func_020307C8(NNSFndAllocator *allocator, u16 heapId, u32 align);
+extern void  GFL_HEAP_InitAllocatorChecked(NNSFndAllocator *allocator, u16 heapId, u32 align);
 extern void  func_020307E0(void *memory, u32 newSize);
 extern void *func_02030BBC(u32 size);
 extern int   func_02030BC8(u32 buffer);
@@ -471,7 +471,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
         NNS_G3dGeSetBuffer(func_02030BBC(geBufSize > 0x1800 ? 0x1800 : geBufSize));
 
     reg_G3_SWAP_BUFFERS = 2;
-    func_020307C8(&_G3dSystem.work->allocator, _G3dSystem.work->heapId, 4);
+    GFL_HEAP_InitAllocatorChecked(&_G3dSystem.work->allocator, _G3dSystem.work->heapId, 4);
 
     if (texManMode == 0) {
         workSize = NNSi_GfdSizeToGranuleTex(texManSize << 7);

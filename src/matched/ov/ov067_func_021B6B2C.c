@@ -22,8 +22,8 @@
  *   TOUCHBAR_PrintAligned  0x021B6AE4  thumb  ov067
  *   TOUCHBAR_GetStringAlignOffset  0x021B6C4C  thumb  ov067
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  */
@@ -45,8 +45,8 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *s, u32 a, u32 mode);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -67,13 +67,13 @@ void TOUCHBAR_PrintYesNoCancelLabels(u32 a0, void *a1, u32 a2, u16 a3, u16 a4, u
     a3 = a3 - TOUCHBAR_GetStringAlignOffset(s, a2, 2);
     STRBUF_Delete(s);
     s = func_02045EC0(m, 1);
-    func_0201EFA4(w, 0, a6, 8, 0, 1);
-    func_0201F250(w, buf, s);
+    WORDSET_SetSlotNumber(w, 0, a6, 8, 0, 1);
+    WORDSET_CopyTaggedText(w, buf, s);
     TOUCHBAR_PrintAligned((u8 *)a0, a1, a3, a4, (u32)buf, a2, a5, 1);
     STRBUF_Delete(s);
     s = func_02045EC0(m, 2);
-    func_0201EFA4(w, 0, a7, 8, 0, 1);
-    func_0201F250(w, buf, s);
+    WORDSET_SetSlotNumber(w, 0, a7, 8, 0, 1);
+    WORDSET_CopyTaggedText(w, buf, s);
     TOUCHBAR_PrintAligned((u8 *)a0, a1, a3 + t, a4, (u32)buf, a2, a5, 0);
     STRBUF_Delete(s);
     STRBUF_Delete(buf);

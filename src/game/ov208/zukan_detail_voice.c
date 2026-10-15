@@ -22,7 +22,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   func_02040618 0x02040618 arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -36,7 +36,7 @@
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   ZUKAN_DETAIL_VOICE_SetHeapId 0x021C255C thumb
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   CLACT_AddActorSurfacePos        0x0204B404  arm
  *   CLACT_RegisterPaletteEx        0x0204AC18  arm
  *   CLACT_RegisterCharacter        0x0204A6C8  arm
@@ -152,7 +152,7 @@
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled 0x021BDAE8 thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive 0x021BDC2C thumb ov208
- *   data_020A7370 0x020A7370 data a4
+ *   gSpeciesNameBank 0x020A7370 data a4
  *   func_020870D0 0x020870D0 arm
  *   ov208_func_021C3208 0x021C3208 thumb ov208
  *   ov208_func_021C337C 0x021C337C thumb ov208
@@ -173,7 +173,7 @@
  *   PM_VOICE_GetDataSize 0x02006B78 thumb
  *   PM_VOICE_GetVolume 0x02006B20 thumb
  *   BMP_WIN_GetCharOffset 0x02045768 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  */
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
@@ -193,7 +193,7 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 
 extern void func_02040618(unsigned,unsigned,unsigned);
 
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -210,7 +210,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 #include "zukan_detail_voice_types.h"
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
@@ -443,11 +443,11 @@ extern s8 PM_VOICE_GetVolume(u32 i);
 
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 
-extern void func_02041090(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
+extern void BG_SYS_DrawTile(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
 
 extern void func_0207D63C(u32 reg,int p1,int p2,int ev1,int ev2);
 
-extern struct MsgBank *data_020A7370;
+extern struct MsgBank *gSpeciesNameBank;
 
 extern const char data_021C8E28[];
 
@@ -582,14 +582,14 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
             if (i != 1 && i != 5) {
                 func_02040618(i, 0, 0);
                 func_02040618(i, 3, 0);
-                func_020414AC(i);
+                BG_SYS_FreeSlot(i);
             }
         }
-        func_0204047C(2, 1);
-        func_0204047C(3, 2);
-        func_0204047C(0, 3);
-        func_0204047C(6, 1);
-        func_0204047C(4, 3);
+        BG_SYS_SetVisibleLayer(2, 1);
+        BG_SYS_SetVisibleLayer(3, 2);
+        BG_SYS_SetVisibleLayer(0, 3);
+        BG_SYS_SetVisibleLayer(6, 1);
+        BG_SYS_SetVisibleLayer(4, 3);
         ZUKAN_DETAIL_VOICE_CreateNumberActors(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(heapIdPtr, (u8 *)voice, ctx, voice->currentSlot);
         CLACT_SetActorObjMode(voice->pokemonActor[voice->currentSlot], 1);
@@ -999,7 +999,7 @@ void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice 
     struct StrObj *name;
     u16 textWidth;
     u16 winWidth;
-    name = func_02045EC0(data_020A7370, ZUKAN_DETAIL_COMMON_GetCurrentEntry((void *)ctx));
+    name = func_02045EC0(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry((void *)ctx));
     textWidth = func_0201D304(name, voice->font, 0);
     winWidth = BMP_GetWidth(BMP_WIN_GetBmp(voice->nameWin));
     PRINTSYS_PrintQueColor(voice->printQue, (u32)BMP_WIN_GetBmp(voice->nameWin), (s16)((u16)((winWidth - textWidth) / 2)), (s16)1, (u32)name, voice->font, 0x3c40);
@@ -1332,7 +1332,7 @@ void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVo
             index++;
         }
     }
-    func_02041090(3, (u32)voice->waveTileMap, 1, 2, 31, 15);
+    BG_SYS_DrawTile(3, (u32)voice->waveTileMap, 1, 2, 31, 15);
     voice->waveBgDirty = 1;
     BMP_WIN_TransferChars(voice->waveWin);
 }

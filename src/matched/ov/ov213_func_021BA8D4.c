@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8D4
+ * function: COMM_BTL_DEMO_MAIN_DeleteEffectManager
  * address: 0x021BA8D4
  * packet: pkt_ov213_021BA8D4
  * region: ov213
@@ -20,4 +20,4 @@ typedef short s16;
 typedef unsigned int u32;
 extern void PARTICLE_DeleteSystem(u8 *);
 extern void PARTICLE_ExitManager(void);
-void func_021BA8D4(char *p) { if(*(u8 * *)&((struct Obj10931 *)p)->f10) PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10931 *)p)->f10); PARTICLE_ExitManager(); }
+void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p) { if(*(u8 * *)&((struct Obj10931 *)p)->f10) PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10931 *)p)->f10); PARTICLE_ExitManager(); }

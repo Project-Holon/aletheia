@@ -1,5 +1,5 @@
 /*
- * function: func_021E02F8
+ * function: BR_CODEIN_CodeSetupText
  * address: 0x021E02F8
  * packet: pkt_ov183_021E02F8
  * region: ov183
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern void *BR_UTIL_Create(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
 extern void BR_UTIL_SetTextFromMessage(char *p, void *a, void *b, void *font, unsigned short value);
-void func_021E02F8(char *p, int *q)
+void BR_CODEIN_CodeSetupText(char *p, int *q)
 {
     int first, second, i;
     const struct Record *r;

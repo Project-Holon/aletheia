@@ -1,5 +1,5 @@
 /*
- * function: func_021D71B8
+ * function: GTSNEGO_MSG_SetListEntry
  * address: 0x021D71B8
  * packet: pkt_ov120_021D71B8
  * region: ov120
@@ -9,20 +9,20 @@
  * status: EXACT*
  * symbols:
  *   func_02008554 0x02008554 thumb
- *   func_021D7128 0x021D7128 thumb ov120
- *   func_021D7190 0x021D7190 thumb ov120
+ *   GTSNEGO_MSG_CreateListActor 0x021D7128 thumb ov120
+ *   GTSNEGO_MSG_SetListActorPos 0x021D7190 thumb ov120
  */
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern void func_021D7128(u8 *, int, int);
-extern void func_021D7190(u8 *, int, int, int);
-void func_021D71B8(u8 *p, void *entry, int index)
+extern void GTSNEGO_MSG_CreateListActor(u8 *, int, int);
+extern void GTSNEGO_MSG_SetListActorPos(u8 *, int, int, int);
+void GTSNEGO_MSG_SetListEntry(u8 *p, void *entry, int index)
 {
     if (entry != 0) {
-        func_021D7128(p, index, func_02008554((const struct Sub0200852CObj *)((int)entry)));
-        func_021D7190(p, index, 16, -48 * (1 - index));
+        GTSNEGO_MSG_CreateListActor(p, index, func_02008554((const struct Sub0200852CObj *)((int)entry)));
+        GTSNEGO_MSG_SetListActorPos(p, index, 16, -48 * (1 - index));
     }
 }

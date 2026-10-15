@@ -1,5 +1,5 @@
 /*
- * function: func_02062D08
+ * function: NNSi_G2dSetCellAnimationFrame
  * address:  0x02062D08
  * packet:   pkt_02062BF4
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_02062D08(void *p, u32 i)
+int NNSi_G2dSetCellAnimationFrame(void *p, u32 i)
 {
     u8 *s = (u8 *)p;
     u8 *t = *(u8 * *)&((struct Obj07015 *)s)->f1C;

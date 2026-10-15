@@ -1,5 +1,5 @@
 /*
- * function: func_02208850
+ * function: SHINKA_DEMO_EFFECT_IsState4
  * address:  0x02208850
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * True when the ov195 scene object's +8 state is 4; unlabelled leaf.
  */
-int func_02208850(int *p)
+int SHINKA_DEMO_EFFECT_IsState4(int *p)
 {
     if (p[2] == 4)
         return 1;

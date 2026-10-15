@@ -21,11 +21,11 @@
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
  *   func_02030734 0x02030734 arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   PROCSYS_Push  0x02031348  arm
@@ -46,8 +46,8 @@
  *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
- *   func_02168064  0x02168064  arm
- *   func_02168124 0x02168124 arm ov009
+ *   DWC_NASLoginAsync  0x02168064  arm
+ *   DWC_NASLoginProcess 0x02168124 arm ov009
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
@@ -90,13 +90,6 @@
  *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
  */
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj23396.h"
-#include "../../matched/include/Obj23397.h"
-#include "../../matched/include/Obj23398.h"
-#include "../../matched/include/Obj23399.h"
-#include "../../matched/include/Obj23400.h"
-#include "../../matched/include/Obj23401.h"
-#include "../../matched/include/Obj23403.h"
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -118,7 +111,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
@@ -152,9 +145,9 @@ extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 
 extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
-extern void func_02168064(void);
+extern void DWC_NASLoginAsync(void);
 
-extern int func_02168124(void);
+extern int DWC_NASLoginProcess(void);
 
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 
@@ -200,7 +193,7 @@ extern void DWC_ShutdownFriendsMatch(void);
 
 extern void DWC_CleanupInet(void);
 
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 
 extern void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d, int e, PrintStreamCtx *p);
 
@@ -437,18 +430,18 @@ int WORLDTRADE_ENTER_SetState(Work *p)
 }
 
 /*
- * Call func_02168064 and report success.
+ * Call DWC_NASLoginAsync and report success.
  */
 int WORLDTRADE_ENTER_StateStartServerCheck(Work *a0)
 {
-    func_02168064();
+    DWC_NASLoginAsync();
     return 1;
 }
 
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
-int WORLDTRADE_ENTER_StatePollServerCheck(Work *a0) { switch(func_02168124()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
+int WORLDTRADE_ENTER_StatePollServerCheck(Work *a0) { switch(DWC_NASLoginProcess()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
 
 /*
  * extent: 0x021F8AF2..0x021F8AF4 is two zero alignment bytes.
@@ -829,11 +822,11 @@ void WORLDTRADE_INPUT_PrintBankString(Work *p, void *bank, u32 index, int unused
 {
     void *str;
     str = func_02045EC0(bank, index);
-    func_0201F250(p->words, p->str, str);
+    WORDSET_CopyTaggedText(p->words, p->str, str);
     STRBUF_Delete(str);
     BMP_Clear(BMP_WIN_GetBmp(p->d40), 15);
     BMP_WIN_TransferChars(p->d40);
-    func_0201F73C(p->d40, 0, 1, 14);
+    BMP_MENUWORK_DrawWindow(p->d40, 0, 1, 14);
     if (slow)
         WORLDTRADE_ADAPTER_StartPrintStream(p->d40, 0, (unsigned int)(p->str), 0, 0, &p->printCtx);
     else

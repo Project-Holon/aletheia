@@ -112,7 +112,7 @@
  *   func_0202C83C 0x0202C83C thumb
  *   func_02082A7C 0x02082A7C arm
  *   BTL_SETUP_Delete  0x020130B4  thumb
- *   func_0203F0A8  0x0203F0A8  arm
+ *   GF_STANDARD_Rand  0x0203F0A8  arm
  */
 
 struct BtlSetup;
@@ -280,7 +280,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
 extern int func_0202C83C(int,int);
 extern void func_02082A7C(int,void *,int);
 extern int BTL_SETUP_Delete(int a0);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 int EVENT_BATTLE_CallAndInvert(void (*fn)(void));
 int EVENT_BATTLE_ProcScriptedBattle(void *evt, u32 *state, ScriptedBattleArgs *args);
 int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetup, int returnImmediately, int effectId);
@@ -955,8 +955,8 @@ int EVENT_BATTLE_FreeBtlSetup(BattleTask *task)
 
 int EVENT_BATTLE_IntegrityProbeA(int unused)
 {
-    func_0203F0A8();
-    return func_0203F0A8();
+    GF_STANDARD_Rand();
+    return GF_STANDARD_Rand();
 }
 
 
@@ -964,8 +964,8 @@ int EVENT_BATTLE_IntegrityProbeA(int unused)
 
 int EVENT_BATTLE_IntegrityProbeB(int unused)
 {
-    func_0203F0A8();
-    return func_0203F0A8();
+    GF_STANDARD_Rand();
+    return GF_STANDARD_Rand();
 }
 
 
@@ -973,6 +973,6 @@ int EVENT_BATTLE_IntegrityProbeB(int unused)
 
 int EVENT_BATTLE_IntegrityProbeC(int unused)
 {
-    func_0203F0A8();
-    return func_0203F0A8();
+    GF_STANDARD_Rand();
+    return GF_STANDARD_Rand();
 }

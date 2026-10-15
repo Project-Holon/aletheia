@@ -1,5 +1,5 @@
 /*
- * function: func_021FAE4C
+ * function: STA_ACT_SCRIPT_StepTaskVec
  * address: 0x021FAE4C
  * packet: pkt_ov132_021FAE4C
  * region: ov132
@@ -17,7 +17,7 @@
 #include "../include/Obj03288.h"
 typedef unsigned short u16;
 extern void VEC_MultAdd(int, void *, void *, void *);
-int func_021FAE4C(char *p, int *out)
+int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out)
 {
     int v;
     (((struct Obj03288 *)p)->f2A)++;

@@ -15,7 +15,7 @@
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
  */
 
@@ -27,7 +27,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void STARTMENU_LoadGraphics(void)
@@ -41,7 +41,7 @@ void STARTMENU_LoadGraphics(void)
     func_02049658(h, 1, 5, 0, 0, 1, 0xb);
     func_020498F4(h, 0, 6, 0, 0, 1, 0xb);
     ARC_TOOL_DeleteHandle(h);
-    func_0201F5BC(0, 1, 0xe, 0, 0xb);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0xb);
     func_02049B40(0x17, 5, 0, 0x1e0, 0x20, 0xb);
     func_02049B40(0x17, 5, 4, 0x1e0, 0x20, 0xb);
 }

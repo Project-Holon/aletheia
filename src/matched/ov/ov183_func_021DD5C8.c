@@ -1,5 +1,5 @@
 /*
- * function: func_021DD5C8
+ * function: BR_CODEIN_ListSetupText
  * address: 0x021DD5C8
  * packet: pkt_ov183_021DD5C8
  * region: ov183
@@ -20,7 +20,7 @@
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   func_0200DABC 0x0200DABC thumb
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   func_021DE084 0x021DE084 thumb ov183
+ *   BR_CODEIN_ListCreateActor 0x021DE084 thumb ov183
  *   d_021E3350 0x021E3350 data a4
  */
 #include "../include/Obj00631.h"
@@ -43,8 +43,8 @@ extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern int BR_RES_GetSprite(int, int, struct Triple *);
-extern void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap);
-void func_021DD5C8(char *p, char *q)
+extern void BR_CODEIN_ListCreateActor(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap);
+void BR_CODEIN_ListSetupText(char *p, char *q)
 {
     int first, second, v;
     struct Triple triple;
@@ -65,5 +65,5 @@ void func_021DD5C8(char *p, char *q)
     BR_UTIL_SetWindowText(((struct Obj00631 *)p)->f1C, (char *)(*(int *)&((struct Obj00632 *)q)->f8), (void *)0x86);
     v = func_0200DABC((struct Blk1AC *)(((struct Obj00632 *)q)->f10));
     BR_RES_GetSprite(*(int *)&((struct Obj00632 *)q)->f8, 13, &triple);
-    func_021DE084((void *)(p + 8), (void *)(*(int *)&((struct Obj00632 *)q)->f4), (const char *)(&triple), v, 0x68, 0x58, ((struct Obj00631 *)p)->f7C);
+    BR_CODEIN_ListCreateActor((void *)(p + 8), (void *)(*(int *)&((struct Obj00632 *)q)->f4), (const char *)(&triple), v, 0x68, 0x58, ((struct Obj00631 *)p)->f7C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220D11C
+ * function: B_BAG_MAIN_StateShowMessage
  * address: 0x0220D11C
  * packet: pkt_ov197_0220D11C
  * region: ov197
@@ -30,7 +30,7 @@
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -58,7 +58,7 @@
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -74,57 +74,57 @@
  *     func_02045E04(dest,index);
  * }
  * symbols:
- *   func_0220BBD8 0x0220BBD8 thumb ov197
+ *   B_BAG_MAIN_GetItemFlag 0x0220BBD8 thumb ov197
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0220B904 0x0220B904 thumb ov197
+ *   B_BAG_MAIN_PrintItemMsg 0x0220B904 thumb ov197
  *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_0220BBD8(unsigned);
+extern int B_BAG_MAIN_GetItemFlag(unsigned);
 typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0220B904(char *);
+extern void B_BAG_MAIN_PrintItemMsg(char *);
 extern unsigned FILE_UTIL_Get_0FE4(void *, unsigned, unsigned);
-int func_0220D11C(char *p)
+int B_BAG_MAIN_StateShowMessage(char *p)
 {
     char *q = *(char **)p;
-    if (*(int *)(q + 8) == 1 && *(u8 *)(q + 0x14) < func_0220BBD8(*(u16 *)(q + 0x16))) {
+    if (*(int *)(q + 8) == 1 && *(u8 *)(q + 0x14) < B_BAG_MAIN_GetItemFlag(*(u16 *)(q + 0x16))) {
         MSGDATA_ReadString(*(void **)(p + 0xc), 0x31, *(void **)(p + 0x14));
-        func_0220B904(p);
+        B_BAG_MAIN_PrintItemMsg(p);
         *(u8 *)(p + 0x531) = 0xd;
         return 0xe;
     }
     if (*(u8 *)(p + 0x533) == 2) {
         if (*(u8 *)(q + 0x28) == 1) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x2d, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 2) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x2c, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 3) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x33, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 4) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x2f, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
     }
     if (*(u8 *)(q + 0x29) == 0 && FILE_UTIL_Get_0FE4((void *)(unsigned)*(u16 *)(q + 0x16), 7, *(u16 *)(q + 0xc)) == 3) {
         MSGDATA_ReadString(*(void **)(p + 0xc), 0x32, *(void **)(p + 0x14));
-        func_0220B904(p);
+        B_BAG_MAIN_PrintItemMsg(p);
         *(u8 *)(p + 0x531) = 0xd;
         return 0xe;
     }

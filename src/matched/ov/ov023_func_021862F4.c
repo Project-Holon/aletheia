@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  */
 #include "../include/Obj20365.h"
-extern void func_0201F7A8(void *, unsigned int);
+extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned int);
 void OEKAKI_ClearMessageWindow(char *p)
 {
-    func_0201F7A8(((struct Obj20365 *)p)->f11C, 0);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj20365 *)p)->f11C, 0);
 }

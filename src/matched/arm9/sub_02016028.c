@@ -12,12 +12,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020627D8  0x020627D8  arm
+ *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
  *   func_020307B0  0x020307B0  arm
  *   MCSS_InitAnimCtrl  0x02016984  thumb
  *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
  *
- * Reconfigures the object: derives a value from func_020627D8 on field
+ * Reconfigures the object: derives a value from NNS_G2dGetAnimSequenceByIdx on field
  * +0x28 and a caller-supplied flag truncated to 16 bits (the explicit
  * lsls/lsrs #0x10 pair in the original is exactly that narrowing cast in
  * the callee, not something the caller is trusted to have done), releases
@@ -47,7 +47,7 @@ typedef unsigned int u32;
 struct AnimBank;
 struct AnimSequence;
 struct Obj0206469C;
-extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
+extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
 extern u32 func_020307B0(void *p);
 extern void MCSS_InitAnimCtrl(char *a0, int a1);
 extern void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank);
@@ -55,7 +55,7 @@ extern void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *ban
 void MCSS_SetAnimeIndex(void *a, u32 flag)
 {
     u8 *p = (u8 *)a;
-    u32 value = (u32)func_020627D8((struct AnimBank *)(((struct Obj02301 *)p)->f28), (u16)flag);
+    u32 value = (u32)NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)(((struct Obj02301 *)p)->f28), (u16)flag);
 
     if (((struct Obj02301 *)p)->f98 != 0) {
         func_020307B0((void *)(((struct Obj02301 *)p)->f98));

@@ -1,5 +1,5 @@
 /*
- * function: func_021A7B10
+ * function: FIELD_GROUND_ANIME_FreePlayerAcmd
  * address:  0x021A7B10
  * packet:   pkt_021A7B10
  * region:   ov021
@@ -28,7 +28,7 @@ struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 
-int func_021A7B10(void *a)
+int FIELD_GROUND_ANIME_FreePlayerAcmd(void *a)
 {
 return (int)FLDMMDL_FreeAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((struct Obj00020 *)a)));
 }

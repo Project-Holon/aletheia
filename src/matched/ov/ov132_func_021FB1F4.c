@@ -1,5 +1,5 @@
 /*
- * function: func_021FB1F4
+ * function: SCRIPT_COMMAND_GetActorMask
  * address:  0x021FB1F4
  * packet:   pkt_021FB1F4
  * region:   ov132
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021FB1F4(char *p, int i)
+int SCRIPT_COMMAND_GetActorMask(char *p, int i)
 {
     if (i == -1)
         return ((struct Obj23254 *)p)->f18;

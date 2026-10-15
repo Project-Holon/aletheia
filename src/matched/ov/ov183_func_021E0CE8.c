@@ -1,5 +1,5 @@
 /*
- * function: func_021E0CE8
+ * function: BR_CODEIN_ProfileSetActorVisible
  * address:  0x021E0CE8
  * packet:   pkt_021E0CE8
  * region:   ov183
@@ -16,7 +16,7 @@
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
-void func_021E0CE8(char *p, int index, int a2)
+void BR_CODEIN_ProfileSetActorVisible(char *p, int index, int a2)
 {
     CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + index * 0x1c + 0x194), (unsigned int)a2);
 }

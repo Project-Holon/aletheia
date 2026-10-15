@@ -1,5 +1,5 @@
 /*
- * function: func_0206285C
+ * function: NNS_G2dGetCellDataByIdx
  * address:  0x0206285C
  * packet:   pkt_02062820
  * region:   arm9
@@ -25,13 +25,13 @@
  * the extra bounding-box rectangle. Every cell in the a/0/0/4 rig archive is
  * the plain 8-byte kind.
  *
- * func_02062884 fixes the block up and is what pins the OAM array's own base:
+ * NNSi_G2dUnpackCellBank fixes the block up and is what pins the OAM array's own base:
  * it walks the cells adding the address *past* the end of the cell array
- * (func_020627F0) to each cell's own offset field, so a cell's OAM offset is
+ * (NNSi_G2dGetCellDataBankOamBase) to each cell's own offset field, so a cell's OAM offset is
  * relative to the byte after the last cell record, not to the block.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206285C.c  *       --func func_0206285C --addr 0x0206285C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetCellDataByIdx.c  *       --func NNS_G2dGetCellDataByIdx --addr 0x0206285C --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -46,7 +46,7 @@ struct CellDataBank {
     void *cells;
 };
 
-void *func_0206285C(struct CellDataBank *bank, u32 idx)
+void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx)
 {
     if (idx >= bank->numCells) {
         return 0;

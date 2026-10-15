@@ -1,5 +1,5 @@
 /*
- * function: func_02057F8C
+ * function: SPL_EMITTER_InterpTarget
  * address:  0x02057F8C
  * packet:   pkt_02057F8C
  * region:   arm9
@@ -57,7 +57,7 @@ struct S {
     int f3c;
 };
 
-void func_02057F8C(struct A *a, struct S *s, int unused, struct C *c)
+void SPL_EMITTER_InterpTarget(struct A *a, struct S *s, int unused, struct C *c)
 {
     int target;
     int v;

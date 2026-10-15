@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
  */
 typedef unsigned char u8;
@@ -32,14 +32,14 @@ typedef struct {
 } Obj;
 
 extern const char gBtlvEffectFileName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 Obj *BTLV_EFFECT_CreateSetup(int a, int b, Q *q, int c, u16 *h, int e, int f, u16 heap)
 {
     Obj *o;
     int i = 0;
 
-    o = sub_02030734((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0xca);
+    o = GFL_HEAP_Alloc((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0xca);
     o->f0 = a;
     o->f4 = b;
     o->q = *q;

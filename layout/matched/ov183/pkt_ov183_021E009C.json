@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E009C",
+   "name": "BR_CODEIN_CodeStepPokeSearch",
    "address": "0x021E009C",
    "kind": "game",
    "region": "ov183",

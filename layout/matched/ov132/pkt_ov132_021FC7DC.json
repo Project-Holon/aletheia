@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FC7DC",
-    "func_021FC7F8"
+    "MUS_COMM_FUNC_WaitSessionNull",
+    "MUS_COMM_FUNC_Task"
+   ],
+   "addresses": [
+    "0x021FC7DC",
+    "0x021FC7F8"
    ]
   }
  ]

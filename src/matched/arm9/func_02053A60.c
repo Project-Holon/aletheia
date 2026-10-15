@@ -1,5 +1,5 @@
 /*
- * function: func_02053A60
+ * function: SPL_EMITTER_SetupResource
  * address:  0x02053A60
  * packet:   pkt_02052F58
  * region:   arm9
@@ -44,8 +44,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02053A60.c \
- *       --func func_02053A60 --addr 0x02053A60 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_SetupResource.c \
+ *       --func SPL_EMITTER_SetupResource --addr 0x02053A60 --arm --cc ../1.2/sp2
  */
 typedef unsigned char u8;
 typedef short s16;
@@ -153,7 +153,7 @@ struct Obj
   s32 f94;
   s32 f98;
 };
-void func_02053A60(volatile struct Obj *o, struct Cfg *cfg, const struct Vec3 *pos)
+void SPL_EMITTER_SetupResource(volatile struct Obj *o, struct Cfg *cfg, const struct Vec3 *pos)
 {
   volatile struct Res0 *r;
   struct Cfg *c;

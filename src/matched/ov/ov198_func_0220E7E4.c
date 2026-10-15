@@ -1,5 +1,5 @@
 /*
- * function: func_0220E7E4
+ * function: B_PLIST_DRAW_ApplyActorPalettes
  * address: 0x0220E7E4
  * packet: pkt_ov198_0220E7E4
  * region: ov198
@@ -19,7 +19,7 @@ extern unsigned POKE_TOOL_CalcIconPalette(unsigned,unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_0220E7E4(Record *records)
+void B_PLIST_DRAW_ApplyActorPalettes(Record *records)
 {
     char *p=(char *)records;
     char *flags;

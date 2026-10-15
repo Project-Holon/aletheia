@@ -27,7 +27,7 @@
  *   FILE_UTIL_Check136C 0x0202136C thumb
  *   MAIL_Create 0x02008F08 thumb
  *   func_02008F88 0x02008F88 thumb
- *   func_02019B58 0x02019B58 thumb
+ *   POKE_TOOL_SetDefaultName 0x02019B58 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -62,7 +62,7 @@ extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
 extern void *MAIL_Create(int);
 extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
-extern void func_02019B58(void *);
+extern void POKE_TOOL_SetDefaultName(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -111,7 +111,7 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                                 POKE_TOOL_SetPartyValue(mon,167,(u32)name);
                                 func_020307B0(name);
                             }
-                            func_02019B58(mon);
+                            POKE_TOOL_SetDefaultName(mon);
                             POKE_TOOL_SetPartyValue(mon,142,(u32)STRBUF_GetChars(text));
                             STRBUF_Delete(text);
                         }

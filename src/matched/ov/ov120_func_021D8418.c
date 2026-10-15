@@ -1,5 +1,5 @@
 /*
- * function: func_021D8418
+ * function: GTSNEGO_MSG_CloseMenu
  * address:  0x021D8418
  * packet:   pkt_021D8418
  * region:   ov120
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 
-void func_021D8418(int a)
+void GTSNEGO_MSG_CloseMenu(int a)
 {
     if (a != 0) {
         *(volatile u16 *)0x04000050 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1F7C
+ * function: NAMEIN_GRAPHIC_DeleteInputField
  * address: 0x021F1F7C
  * packet: pkt_ov194_021F1F7C
  * region: ov194
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F4F60 0x021F4F60 thumb ov194
- *   func_021F4DD0 0x021F4DD0 thumb ov194
+ *   NAMEIN_GRAPHIC_FreePairMember 0x021F4F60 thumb ov194
+ *   NAMEIN_GRAPHIC_FreeHandle 0x021F4DD0 thumb ov194
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -20,10 +20,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern void func_021F4F60(void *);
-extern void func_021F4DD0(void *);
+extern void NAMEIN_GRAPHIC_FreePairMember(void *);
+extern void NAMEIN_GRAPHIC_FreeHandle(void *);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void MI_CpuFill8(void *,int,int);
-void func_021F1F7C(u8 *p) { int i;func_021F4F60(((struct Obj10806 *)p)->f90);for(i=0;i<3;i++)func_021F4DD0(*(void **)((u32)p+(u32)i*4+132));STRBUF_Delete(((struct Obj10806 *)p)->f3C);BMP_WIN_Delete((struct Descriptor *)(((struct Obj10806 *)p)->f40));MI_CpuFill8(p,0,148); }
+void NAMEIN_GRAPHIC_DeleteInputField(u8 *p) { int i;NAMEIN_GRAPHIC_FreePairMember(((struct Obj10806 *)p)->f90);for(i=0;i<3;i++)NAMEIN_GRAPHIC_FreeHandle(*(void **)((u32)p+(u32)i*4+132));STRBUF_Delete(((struct Obj10806 *)p)->f3C);BMP_WIN_Delete((struct Descriptor *)(((struct Obj10806 *)p)->f40));MI_CpuFill8(p,0,148); }

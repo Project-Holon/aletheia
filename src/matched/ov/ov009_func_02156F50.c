@@ -14,7 +14,7 @@
  *
  * Setter after the function ending at pool 0x02156F4C, which stores to the
  * same halfword: writes its argument to +0x20 of the object _pRapHeap
- * points to. Called from the ov175 root func_021D7E18 (0x021D85E0).
+ * points to. Called from the ov175 root WIFIBATTLEMATCH_NET_CompStepF (0x021D85E0).
  */
 
 #include "../include/G_Obj.h"

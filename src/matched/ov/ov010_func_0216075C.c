@@ -17,7 +17,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   EVENT_SHORTCUT_MENU_InitHooks  0x02160A28  thumb  ov010
- *   func_02164480  0x02164480  thumb  ov010
+ *   FIELD_SKILL_CHECK_FillUseFlags  0x02164480  thumb  ov010
  *   MOVE_POKEMON_InitSkillInfo  0x0215E840  thumb  ov010
  *   EVENT_SHORTCUT_MENU_ProcEventMain  0x021607E0  thumb  ov010
  */
@@ -68,7 +68,7 @@ struct Flags;
 struct Info;
 struct Rect;
 extern void EVENT_SHORTCUT_MENU_InitHooks(struct Rect *r, u32 tag, u32 x, u32 y, u32 w, u32 h);
-extern void func_02164480(struct Flags *f, void *a, void *b);
+extern void FIELD_SKILL_CHECK_FillUseFlags(struct Flags *f, void *a, void *b);
 extern void MOVE_POKEMON_InitSkillInfo(void *field, struct Info *out);
 extern int EVENT_SHORTCUT_MENU_ProcEventMain(void *evt, u32 *state, struct Task *t);
 
@@ -91,7 +91,7 @@ void *EVENT_SHORTCUT_MENU_CreateProcEvent(Owner *o, u16 id)
     t->f62 = 0;
     t->f68 = 0;
     EVENT_SHORTCUT_MENU_InitHooks((struct Rect *)t->rect, (u32)t->owner, t->owner->f14, t->owner->f18, t->owner->f1c, t->owner->f20);
-    func_02164480((struct Flags *)t->flags, t->owner->f00, t->owner->f04);
+    FIELD_SKILL_CHECK_FillUseFlags((struct Flags *)t->flags, t->owner->f00, t->owner->f04);
     MOVE_POKEMON_InitSkillInfo(t->owner->f04, (struct Info *)t->info);
     return h;
 }

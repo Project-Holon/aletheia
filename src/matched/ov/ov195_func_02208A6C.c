@@ -1,5 +1,5 @@
 /*
- * function: func_02208A6C
+ * function: SHINKA_DEMO_EFFECT_DeleteUnit
  * address: 0x02208A6C
  * packet: pkt_ov195_02208A6C
  * region: ov195
@@ -18,4 +18,4 @@ typedef short s16;
 typedef unsigned int u32;
 struct Rec;
 extern void G3D_UTIL_Delete(struct Rec *);
-void func_02208A6C(char *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj05518 *)p)->f14); }
+void SHINKA_DEMO_EFFECT_DeleteUnit(char *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj05518 *)p)->f14); }

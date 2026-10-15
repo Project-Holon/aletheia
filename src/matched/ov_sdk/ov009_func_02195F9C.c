@@ -12,11 +12,11 @@
  * sdk:      gti2HandleESN (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   gti2SNDiff  0x02195EB4  arm  ov009
- *   func_0218437C  0x0218437C  arm  ov009
- *   func_02194E80  0x02194E80  arm  ov009
+ *   ArrayDeleteAt  0x0218437C  arm  ov009
+ *   gti2BufferShorten  0x02194E80  arm  ov009
  */
 
 typedef struct Msg {
@@ -33,11 +33,11 @@ typedef struct Conn {
 	void *outgoing;
 } Conn;
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int gti2SNDiff(unsigned short SN1, unsigned short SN2);
-extern void func_0218437C(int a, int b);
-extern void func_02194E80(void *buffer, int start, int shortenBy);
+extern void ArrayDeleteAt(int a, int b);
+extern void gti2BufferShorten(void *buffer, int start, int shortenBy);
 
 int gti2HandleESN(Conn *connection, unsigned short ESN)
 {
@@ -46,7 +46,7 @@ int gti2HandleESN(Conn *connection, unsigned short ESN)
 	Msg *message;
 	int shortenBy;
 
-	len = func_02184200(connection->outgoing);
+	len = ArrayLength(connection->outgoing);
 	if (len == 0)
 		return 1;
 	for (i = 0; i < len; i++) {
@@ -57,8 +57,8 @@ int gti2HandleESN(Conn *connection, unsigned short ESN)
 	if (i == 0)
 		return 1;
 	while (i-- != 0)
-		func_0218437C((int)connection->outgoing, i);
-	len = func_02184200(connection->outgoing);
+		ArrayDeleteAt((int)connection->outgoing, i);
+	len = ArrayLength(connection->outgoing);
 	if (len == 0) {
 		connection->a58 = 0;
 		return 1;
@@ -69,6 +69,6 @@ int gti2HandleESN(Conn *connection, unsigned short ESN)
 		message = func_02184208(connection->outgoing, i);
 		message->offset -= shortenBy;
 	}
-	func_02194E80(connection->buffer, 0, shortenBy);
+	gti2BufferShorten(connection->buffer, 0, shortenBy);
 	return 1;
 }

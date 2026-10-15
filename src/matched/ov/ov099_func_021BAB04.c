@@ -17,9 +17,9 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -41,9 +41,9 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
@@ -58,9 +58,9 @@ void WIFICLUB_ShowNoticeWindow(void *p, int message)
     BMP_Clear(BMP_WIN_GetBmp(P(0x19c)),255);
     BMP_WIN_ClearScreen(P(0x19c));
     BMP_WIN_MakeScreen(P(0x19c));
-    func_0201F73C(P(0x19c),1,(u16)*(u32 *)((u8 *)p+0x1334),14);
+    BMP_MENUWORK_DrawWindow(P(0x19c),1,(u16)*(u32 *)((u8 *)p+0x1334),14);
     MSGDATA_ReadString(P(0xe4),message,P(0xf0));
-    func_0201F250(P(0xdc),P(0xf4),P(0xf0));
+    WORDSET_CopyTaggedText(P(0xdc),P(0xf4),P(0xf0));
     GF_FONT_SetDefaultTextColor();
     PRINTSYS_Print(BMP_WIN_GetBmp(P(0x19c)),4,4,P(0xf4),P(0xe8));
     BMP_WIN_TransferChars(P(0x19c));

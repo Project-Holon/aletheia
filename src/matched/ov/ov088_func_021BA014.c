@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GAME_BEACON_RegisterClearCallback  0x020274C8  thumb
  *   STARTMENU_ReplaceWithBattleFlagProcNoSave  0x021BC114  thumb  ov088
  *   STARTMENU_ReplaceWithBattleFlagProcWithSave  0x021BC0FC  thumb  ov088
@@ -42,7 +42,7 @@ typedef unsigned int u32;
 
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void GAME_BEACON_RegisterClearCallback(void);
 extern void STARTMENU_ReplaceWithBattleFlagProcNoSave(void);
 extern void STARTMENU_ReplaceWithBattleFlagProcWithSave(void);
@@ -73,7 +73,7 @@ int STARTMENU_MenuExit(int a0, int a1, int a2, char *a3)
     char *w;
 
     func_020315D4((struct S020315D4 *)a0);
-    func_020306F0(0xb);
+    GFL_HEAP_DeleteChecked(0xb);
     switch (sel) {
     case 0:
         GAME_BEACON_RegisterClearCallback();

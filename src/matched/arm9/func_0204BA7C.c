@@ -11,10 +11,10 @@
  *
  * symbols:
  *   g_ClactSystem     0x02146A74  data
- *   func_02063800  0x02063800  arm
+ *   NNSi_G2dGetVramHandleEx  0x02063800  arm
  *
  * Record the two VRAM base offsets of a cell-actor resource set in the
- * singleton: func_02063800 returns a byte address per bank selector, the
+ * singleton: NNSi_G2dGetVramHandleEx returns a byte address per bank selector, the
  * halfword fields at +0xf0 and +0xf2 hold it in 32-byte units, and the
  * caller's bias is then folded into both.
  *
@@ -41,12 +41,12 @@ typedef unsigned int   u32;
 
 extern struct Mgr *g_ClactSystem;
 
-extern int func_02063800(char *p, int i);
+extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 
 void CLACT_SetOamOffsets(u32 set, u16 bias, u32 v)
 {
-    g_ClactSystem->unk_f0 = (u32)func_02063800((char *)set, (u32)1) >> 5;
-    g_ClactSystem->unk_f2 = (u32)func_02063800((char *)set, (u32)2) >> 5;
+    g_ClactSystem->unk_f0 = (u32)NNSi_G2dGetVramHandleEx((char *)set, (u32)1) >> 5;
+    g_ClactSystem->unk_f2 = (u32)NNSi_G2dGetVramHandleEx((char *)set, (u32)2) >> 5;
 
     g_ClactSystem->unk_f0 += bias;
     g_ClactSystem->unk_f2 += bias;

@@ -1,5 +1,5 @@
 /*
- * function: func_0215E620
+ * function: SOCLi_MemCpy
  * address:  0x0215E620
  * packet:   pkt_02156B70
  * region:   ov009
@@ -30,7 +30,7 @@ struct Ring {
     int  tail_len;  /* +0x1c */
 };
 
-int func_0215E620(u8 *dst, int len, struct Ring *r)
+int SOCLi_MemCpy(u8 *dst, int len, struct Ring *r)
 {
     int n;
     int m;

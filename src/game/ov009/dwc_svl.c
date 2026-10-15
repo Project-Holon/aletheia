@@ -1,7 +1,7 @@
 /*
  * file:     dwc_svl.c
  * unit:     yes
- * function: func_0217C070, func_0217C104, func_0217C144, func_0217C384, func_0217C448
+ * function: DWC_Svl_Init, DWC_Svl_Cleanup, DWC_Svl_GetTokenAsync, DWC_Svl_Process, DWCi_Svl_ParseHttp
  * address:  0x0217C070
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,8 +20,8 @@
  *   OS_Terminate  0x02088234  arm
  *   strcmp  0x020948E0  arm
  *   DWC_Http_Create  0x0217956C  arm  ov009
- *   func_02178F4C  0x02178F4C  arm  ov009
- *   func_02179218  0x02179218  arm  ov009
+ *   DWC_Auth_GetCalInfoFromNVRAM  0x02178F4C  arm  ov009
+ *   DWC_Auth_SetCalInfoToHttp  0x02179218  arm  ov009
  *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
  *   DWC_Http_FinishHeader  0x0217967C  arm  ov009
@@ -175,8 +175,8 @@ extern int OS_IsThreadTerminated(OSThread *thread);
 extern void OS_Terminate(void);
 extern int strcmp(const char *s1, const char *s2) __attribute__((pure));
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern int func_02178F4C(void *cal);
-extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
+extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
+extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern void DWC_Http_Destroy(DWCHttp *http);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int DWC_Http_FinishHeader(DWCHttp *http);
@@ -187,7 +187,7 @@ extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
-int func_0217C448(void);
+int DWCi_Svl_ParseHttp(void);
 
 extern DWCSvlIntWorkarea *g_021ACEF4;
 extern DWCAuthHttpParam g_021A2358;
@@ -204,7 +204,7 @@ extern char g_021A289C[];
 extern char g_021A28AC[];
 extern OSThreadInfo gMslRefToken;
 
-int func_0217C070(DWCSvlAlloc alloc, DWCSvlFree free)
+int DWC_Svl_Init(DWCSvlAlloc alloc, DWCSvlFree free)
 {
     void *p;
 
@@ -230,7 +230,7 @@ int func_0217C070(DWCSvlAlloc alloc, DWCSvlFree free)
 /*
  * sdk:      DWC_Svl_Cleanup (dwc_svl.o)
  */
-void func_0217C104(void)
+void DWC_Svl_Cleanup(void)
 {
     if (g_021ACEF4 == 0) {
         return;
@@ -246,7 +246,7 @@ void func_0217C104(void)
  * strcmp (strcmp) is declared pure: the object keeps the intwork
  * load live across the call, which only a side-effect-free callee allows.
  */
-int func_0217C144(char *svc, DWCSvlResult *result)
+int DWC_Svl_GetTokenAsync(char *svc, DWCSvlResult *result)
 {
     DWCHttpParam httpparam;
     DWCCalInfo calinfo;
@@ -273,7 +273,7 @@ int func_0217C144(char *svc, DWCSvlResult *result)
         return 0;
     }
 
-    if (!func_02178F4C(&calinfo) || !func_02179218(&g_021ACEF4->http, &calinfo, 0)) {
+    if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(&g_021ACEF4->http, &calinfo, 0)) {
         DWC_Http_Destroy(&g_021ACEF4->http);
         func_02059F54(9, -24100);
         return 0;
@@ -304,7 +304,7 @@ int func_0217C144(char *svc, DWCSvlResult *result)
 /*
  * sdk:      DWC_Svl_Process (dwc_svl.o)
  */
-int func_0217C384(void)
+int DWC_Svl_Process(void)
 {
     if (g_021ACEF4 == 0) {
         return 0;
@@ -315,7 +315,7 @@ int func_0217C384(void)
     if (OS_IsThreadTerminated(&g_021ACEF4->http.thread) == 1) {
         switch (g_021ACEF4->http.error) {
         case 8:
-            if (func_0217C448() == 0) {
+            if (DWCi_Svl_ParseHttp() == 0) {
                 DWC_Http_Destroy(&g_021ACEF4->http);
                 return 4;
             }
@@ -336,7 +336,7 @@ int func_0217C384(void)
 /*
  * sdk:      DWCi_Svl_ParseHttp (libdwcauth.TWL.HYB.a dwc_svl.o)
  */
-int func_0217C448(void)
+int DWCi_Svl_ParseHttp(void)
 {
     char *strp;
     int httpretcode;

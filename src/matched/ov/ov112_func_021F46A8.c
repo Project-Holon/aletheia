@@ -1,5 +1,5 @@
 /*
- * function: func_021F46A8
+ * function: MUSICAL_MCSS_InitWindows
  * address: 0x021F46A8
  * packet: pkt_ov112_021F46A8
  * region: ov112
@@ -19,6 +19,7 @@
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb  arm9
  */
 #include "../include/Obj01147.h"
 typedef unsigned char u8;
@@ -35,12 +36,12 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 func_02049B40(int,int,int,int,int,u16);
 extern void GF_FONT_SetDefaultTextColor(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *p);
-void func_021F46A8(u8 *p)
+void MUSICAL_MCSS_InitWindows(u8 *p)
 {
     int zero;
     ((struct Obj01147 *)p)->f1C=BMP_WIN_Create(4,1,1,30,4,10,1);
@@ -50,7 +51,7 @@ void func_021F46A8(u8 *p)
     zero=0;
     ((struct Obj01147 *)p)->f20=(u32)GF_FONT_Create(23,0,0,0,((struct Obj01147 *)p)->f0);
     ((struct Obj01147 *)p)->f28=(u32)func_02045B38(0,2,78,((struct Obj01147 *)p)->f0);
-    func_0201F5BC(4,1,11,0,((struct Obj01147 *)p)->f0);
+    BMP_MENUWORK_LoadCharAndPltt(4,1,11,0,((struct Obj01147 *)p)->f0);
     GF_FONT_SetDefaultTextColor(func_02049B40(23,5,4,320,32,((struct Obj01147 *)p)->f0));
     ((struct Obj01147 *)p)->f18=(u32)TCBL_Create(((struct Obj01147 *)p)->f0,((struct Obj01147 *)p)->f0,3,256);
     ((struct Obj01147 *)p)->f24=zero;

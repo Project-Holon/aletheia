@@ -1,5 +1,5 @@
 /*
- * function: func_021B9864
+ * function: COMM_BTL_DEMO_MAIN_SetupFirstSide
  * address: 0x021B9864
  * packet: pkt_ov213_021B9864
  * region: ov213
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA920 0x021BA920 thumb ov213
+ *   COMM_BTL_DEMO_MAIN_BindModelPalette 0x021BA920 thumb ov213
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02048A18(u8 *, int);
-extern int func_021BA920(int *p, u32 b, u32 c);
+extern int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p, u32 b, u32 c);
 struct Resource {u32 f0, f4; u8 *util; u16 index;};
-void func_021B9864(u8 *p) {
+void COMM_BTL_DEMO_MAIN_SetupFirstSide(u8 *p) {
     void *object;
     int i;
     struct Resource *sub;
@@ -25,6 +25,6 @@ void func_021B9864(u8 *p) {
     for(i=0;i<2;i++) {
         int state = 1;
         if (*(u32 *)(p+0x4850+i*0x54)) state = 2;
-        func_021BA920(object,i+1,state);
+        COMM_BTL_DEMO_MAIN_BindModelPalette(object,i+1,state);
     }
 }

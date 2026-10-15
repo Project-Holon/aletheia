@@ -1,5 +1,5 @@
 /*
- * function: func_021D8684
+ * function: GTSNEGO_MSG_PrintPair
  * address: 0x021D8684
  * packet: pkt_ov120_021D8684
  * region: ov120
@@ -17,6 +17,8 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj00131.h"
 typedef unsigned char u8;
@@ -36,9 +38,9 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_021D8684(char *p,int unused,u32 n)
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+void GTSNEGO_MSG_PrintPair(char *p,int unused,u32 n)
 {
     void *q;
     MSGDATA_ReadString(((struct Obj00131 *)p)->fC,40,((struct Obj00131 *)p)->f18);
@@ -49,9 +51,9 @@ void func_021D8684(char *p,int unused,u32 n)
     PRINTSYS_Print(BMP_WIN_GetBmp(q),0,3,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_0201EFA4(((struct Obj00131 *)p)->f10,0,n,5,1,1);
+    WORDSET_SetSlotNumber(((struct Obj00131 *)p)->f10,0,n,5,1,1);
     MSGDATA_ReadString(((struct Obj00131 *)p)->fC,36,((struct Obj00131 *)p)->f20);
-    func_0201F250(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);
+    WORDSET_CopyTaggedText(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);
     if(!((struct Obj00131 *)p)->f90) ((struct Obj00131 *)p)->f90=(void *)BMP_WIN_Create(1,21,6,10,3,11,1);
     q=((struct Obj00131 *)p)->f90;
     BMP_Clear(BMP_WIN_GetBmp(q),0);

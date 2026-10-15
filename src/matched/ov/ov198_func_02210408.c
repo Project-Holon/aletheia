@@ -1,5 +1,5 @@
 /*
- * function: func_02210408
+ * function: B_PLIST_MAIN_WaitFadeOut
  * address:  0x02210408
  * packet:   pkt_02210408
  * region:   ov198
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-u32 func_02210408(u8 *p)
+u32 B_PLIST_MAIN_WaitFadeOut(u8 *p)
 {
     if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25238 *)p)->f1D8)) == 0) {
         return 0x21;

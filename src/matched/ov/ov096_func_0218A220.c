@@ -20,8 +20,8 @@
  *   BTLV_EFFECT_GetPokeEffectValue 0x021F8AFC thumb ov094
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
- *   func_02019C90 0x02019C90 thumb
- *   func_0203F0A8 0x0203F0A8 arm
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  */
 typedef unsigned char u8;
@@ -35,11 +35,11 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTLV_EFFECT_GetPokeEffectValue(int);
 extern int func_021D59B4(u8 *p, int k);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
-extern u32 func_02019C90(u16, u16, u32);
-extern u32 func_0203F0A8(void);
+extern u32 POKE_TOOL_GetPersonalParam(u16, u16, u32);
+extern u32 GF_STANDARD_Rand(void);
 static inline u32 draw_below(u32 n)
 {
-    u64 draw = func_0203F0A8();
+    u64 draw = GF_STANDARD_Rand();
     if (n != 0) draw = (draw * n) >> 32;
     return draw;
 }
@@ -63,9 +63,9 @@ int TR_AI_GetAbility(u8 *p, int k, int slot)
         a = BTL_POKEPARAM_GetSpecies(mon);
         b = func_021D59B4(mon, 0x13);
         n = 0;
-        x = func_02019C90(a, b, 0x1a);
-        y = func_02019C90(a, b, 0x1b);
-        z = func_02019C90(a, b, 0x1c);
+        x = POKE_TOOL_GetPersonalParam(a, b, 0x1a);
+        y = POKE_TOOL_GetPersonalParam(a, b, 0x1b);
+        z = POKE_TOOL_GetPersonalParam(a, b, 0x1c);
         if (x != 0) values[n++] = x;
         if (y != 0) values[n++] = y;
         if (z != 0) values[n++] = z;

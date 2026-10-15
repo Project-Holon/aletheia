@@ -1,5 +1,5 @@
 /*
- * function: func_02068C84
+ * function: NNSi_G2dSurfaceFillRectSwizzled
  * address:  0x02068C84
  * packet:   pkt_02068AE8
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020681E4    0x020681E4  arm
- *   func_020682F8    0x020682F8  arm
+ *   NNSi_G2dCalcRectMask    0x020681E4  arm
+ *   NNSi_G2dCharCanvasFill    0x020682F8  arm
  *
  * Fill a rectangle of a SWIZZLED tile grid with one pixel value
  * (docs/families/cluster_020682DC.h): expand the pixel to a word, round the
- * rectangle out to whole 8x8 tiles, ask func_020681E4 for each tile's index
+ * rectangle out to whole 8x8 tiles, ask NNSi_G2dCalcRectMask for each tile's index
  * (tx, ty, w, h and the two swizzle bytes of the +0x10 word) and hand every
- * covered tile to func_020682F8 with its own sub-rectangle.
+ * covered tile to NNSi_G2dCharCanvasFill with its own sub-rectangle.
  *
  * Levers, in the order they were found (docs/notes/pkt_02068808.c.txt):
  *   - ../2.0/sp2 pin (1.1p1 is 492 bytes);
@@ -28,10 +28,10 @@
  *     local.  The two loads CSE to the one `ldrb`, but the tile size then
  *     becomes its own value in the IR and the image's `stm sp, {r5, fp}` is
  *     scheduled before `sub r3, r2, r1` (tw - xo).  The same lever closes
- *     func_02068AE8, where it decides whether bpp or the tile size is the
- *     spilled value.  (Declaring func_020682F8's bpp parameter u8 in this
+ *     NNSi_G2dSurfaceFillRect, where it decides whether bpp or the tile size is the
+ *     spilled value.  (Declaring NNSi_G2dCharCanvasFill's bpp parameter u8 in this
  *     caller also closes C84 alone, but the callee's own definition,
- *     src/matched/func_020682F8.c, is EXACT only with `int bpp`, so the
+ *     src/matched/NNSi_G2dCharCanvasFill.c, is EXACT only with `int bpp`, so the
  *     re-read is the reading kept.)  The permuter (hill 800 + anneal 2000,
  *     --types) never moved this residue.
  */
@@ -49,10 +49,10 @@ struct Surface {
     struct Swz f10; /* +0x10 */
 };
 
-extern int func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
-extern void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
+extern int NNSi_G2dCalcRectMask(int tx, int ty, int w, int h, int sx, int sy);
+extern void NNSi_G2dCharCanvasFill(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
 
-void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h)
+void NNSi_G2dSurfaceFillRectSwizzled(struct Surface *s, u32 arg, int x, int y, int w, int h)
 {
     struct Swz f10;
     int cy;
@@ -103,13 +103,13 @@ void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h)
             t = 8;
         th = t - yo;
         for (cx = x0; cx < xe; cx += 8) {
-            int off = func_020681E4(tx, ty, sw, sh, sx, sy);
+            int off = NNSi_G2dCalcRectMask(tx, ty, sw, sh, sx, sy);
             int xo = (cx < x) ? x - cx : 0;
             int tw = x1 - cx;
             if (tw > 8)
                 tw = 8;
             tw -= xo;
-            func_020682F8((u32 *)(base + tilesz * off), xo, yo, tw, th, arg, bpp);
+            NNSi_G2dCharCanvasFill((u32 *)(base + tilesz * off), xo, yo, tw, th, arg, bpp);
             tx = tx + 1;
         }
         ty = ty + 1;

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020524C8 0x020524C8 arm
+ *   SPL_EMITTER_FreeResourceList 0x020524C8 arm
  */
 
-extern void func_020524C8(void *p);
+extern void SPL_EMITTER_FreeResourceList(void *p);
 
 void PARTICLE_KillAllEffects(void **p)
 {
-    func_020524C8(*p);
+    SPL_EMITTER_FreeResourceList(*p);
 }

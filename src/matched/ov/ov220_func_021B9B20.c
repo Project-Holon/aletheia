@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B20
+ * function: TH_AWARD_DeleteSpeciesActors
  * address: 0x021B9B20
  * packet: pkt_ov220_021B9B20
  * region: ov220
@@ -20,7 +20,7 @@ typedef struct {char pad0[24];u8 count;char pad19[3];Row rows[4];void *objects[4
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(unsigned),CLACT_ReleaseCharacter(unsigned),CLACT_ReleasePalette(unsigned);
-void func_021B9B20(Context *p)
+void TH_AWARD_DeleteSpeciesActors(Context *p)
 {
     u8 i;
     for(i=0;i<p->count;i++) {

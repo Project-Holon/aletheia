@@ -10,7 +10,7 @@
  * status: EXACT*
  * Trailing two bytes are zero alignment padding.
  * symbols:
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -21,7 +21,7 @@
 #include "../include/Obj10880.h"
 #include "../include/Obj14623.h"
 
-extern void func_0201F7A8(void *, unsigned int);
+extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned int);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -38,7 +38,7 @@ extern void MI_CpuFill8(void *, int, unsigned int);
 void func_021BF4E8(char *p)
 {
     char *block = p + 0x24;
-    func_0201F7A8(((struct Obj10880 *)p)->f38, 0);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj10880 *)p)->f38, 0);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj10880 *)p)->f38), 0);
     BMP_WIN_TransferChars(((struct Obj10880 *)p)->f38);
     BMP_MENULIST_Delete(((struct Obj14623 *)block)->f0, 0, 0);

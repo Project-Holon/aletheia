@@ -18,7 +18,7 @@
  *   func_02007F68 0x02007F68 thumb
  *   func_02007F1C 0x02007F1C thumb
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02019CE0 0x02019CE0 thumb
+ *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -57,7 +57,7 @@ extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
@@ -84,7 +84,7 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
     if (func_02007F68(save, 4, 1, ((struct Obj06644 *)b)->f0) == 0)
         return;
     p = (u32)func_02030734(((struct Obj06644 *)b)->f0, POKE_TOOL_GetPartyParamSize(), 1, (const char *)d_02208F40, 0xaf5);
-    func_02019CE0((const struct RecDC *)(((struct Obj06644 *)b)->f10), (struct RecDC *)p);
+    POKE_TOOL_CopyPartyPokemon((const struct RecDC *)(((struct Obj06644 *)b)->f10), (struct RecDC *)p);
     POKE_TOOL_ChangeSpecies((void *)p, 0x124);
     POKE_TOOL_SetPartyValue((void *)p, 0x98, 4);
     POKE_TOOL_SetPartyValue((void *)p, 6, 0);

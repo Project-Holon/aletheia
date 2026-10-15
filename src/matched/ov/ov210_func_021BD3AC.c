@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3AC
+ * function: ZKNSEARCH_MAIN_UpdateSearchEngine
  * address:  0x021BD3AC
  * packet:   pkt_ov210_021BD3AC
  * region:   ov210
@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * 2026-10-05 (wD5 lane14): EXACT. func_021BFE84 takes the state byte as a
+ * 2026-10-05 (wD5 lane14): EXACT. ZKNSEARCH_MAIN_PlaceProgressActor takes the state byte as a
  *   second argument (its matched body uses n); the r1 load was that argument.
  * 2026-10-05 (wD4 lane16): re-read; still the single r1/r0 load at the 0x79 test after ZUKAN_SEARCH_ENGINE_ReleaseWork. No change tried that moved it (callee arity cannot explain it: the load is after the call).
- * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (2 bytes: ldrb r1/cmp r1,#0x79 in the image, r0 in ours). Also tried the 0x79 test through a u32 local and p[0x2BB]++ for the tail; no change. Lesson from func_021BE010 (same overlay): a callee that takes the byte as a second argument with r0 untouched explains an r1 load, but no call here does.
+ * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (2 bytes: ldrb r1/cmp r1,#0x79 in the image, r0 in ours). Also tried the 0x79 test through a u32 local and p[0x2BB]++ for the tail; no change. Lesson from ZKNSEARCH_MAIN_UpdateMessageDialog (same overlay): a callee that takes the byte as a second argument with r0 untouched explains an r1 load, but no call here does.
  *
  * 2026-10-02 (wave C2 lane 03): re-checked, still the same two bytes at
  * 0x021BD448: the image loads the 0x2bb byte into r1 before `cmp #0x79`.
@@ -23,13 +23,13 @@
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb
- *   func_021BCC2C  0x021BCC2C  thumb  ov210
- *   func_021BCF38  0x021BCF38  thumb  ov210
- *   func_021BECF8  0x021BECF8  thumb  ov210
- *   func_021BED04  0x021BED04  thumb  ov210
- *   func_021BED10  0x021BED10  thumb  ov210
- *   func_021BE820  0x021BE820  thumb  ov210
- *   func_021BFE84  0x021BFE84  thumb  ov210
+ *   ZKNSEARCH_MAIN_ShowResultLayout  0x021BCC2C  thumb  ov210
+ *   ZKNSEARCH_MAIN_DenormalizeRecordByte  0x021BCF38  thumb  ov210
+ *   ZKNSEARCH_MAIN_PrintMessage11  0x021BECF8  thumb  ov210
+ *   ZKNSEARCH_MAIN_PrintMessage9  0x021BED04  thumb  ov210
+ *   ZKNSEARCH_MAIN_PrintMessage10  0x021BED10  thumb  ov210
+ *   ZKNSEARCH_MAIN_ClearLabel1  0x021BE820  thumb  ov210
+ *   ZKNSEARCH_MAIN_PlaceProgressActor  0x021BFE84  thumb  ov210
  *   ZUKAN_SEARCH_ENGINE_Create  0x021C9428  thumb  ov212
  *   ZUKAN_SEARCH_ENGINE_ReleaseWork  0x021C9460  thumb  ov212
  *   ZUKAN_SEARCH_ENGINE_Filter  0x021C9468  thumb  ov212
@@ -40,7 +40,7 @@
  * corrected to ov212 and 13 of 14 relocations now resolve.  The two differing
  * bytes are the image's `ldrb r1,[r4,r5] / cmp r1,#0x79` versus the compile's
  * `ldrb r0,... / cmp r0,#0x79` (the dead argument register is reused for the
- * load) -- the same allocator tell as HALL_OF_FAME_DeleteMonSprite/func_021BEA54.  The last
+ * load) -- the same allocator tell as HALL_OF_FAME_DeleteMonSprite/ZKNSEARCH_MAIN_PrintEntryCount3.  The last
  * site, ZUKAN_SEARCH_ENGINE_ReleaseWork, is a Thumb-shaped linker stub (`ldr r3,[pc,#0];
  * bx r3; .word 0x020307B0`) that disasm emits as an unlabelled .word run, so
  * the `veneer` class cannot attest it; only the ARM stub shape attests
@@ -59,18 +59,18 @@ typedef unsigned char  u8;
 struct Search;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GFL_USE_StopAllSe(void);
-extern void func_021BCC2C(char *p);
-extern void func_021BCF38(u8 *p);
-extern void func_021BECF8(void *);
-extern void func_021BED04(void *);
-extern void func_021BED10(void *);
-extern void func_021BE820(u8 *p);
-extern void func_021BFE84(int p, int n);
+extern void ZKNSEARCH_MAIN_ShowResultLayout(char *p);
+extern void ZKNSEARCH_MAIN_DenormalizeRecordByte(u8 *p);
+extern void ZKNSEARCH_MAIN_PrintMessage11(void *);
+extern void ZKNSEARCH_MAIN_PrintMessage9(void *);
+extern void ZKNSEARCH_MAIN_PrintMessage10(void *);
+extern void ZKNSEARCH_MAIN_ClearLabel1(u8 *p);
+extern void ZKNSEARCH_MAIN_PlaceProgressActor(int p, int n);
 extern int ZUKAN_SEARCH_ENGINE_Create(int, int, int);
 extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
 extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 
-int func_021BD3AC(unsigned char *p)
+int ZKNSEARCH_MAIN_UpdateSearchEngine(unsigned char *p)
 {
     unsigned short v;
     int w;
@@ -78,14 +78,14 @@ int func_021BD3AC(unsigned char *p)
 
     if (p[0x2BB] == 0) {
         GFL_USE_PlaySeDefaultVolume(0x63F);
-        func_021BCC2C((char *)p);
-        func_021BECF8(p);
-        func_021BE820(p);
+        ZKNSEARCH_MAIN_ShowResultLayout((char *)p);
+        ZKNSEARCH_MAIN_PrintMessage11(p);
+        ZKNSEARCH_MAIN_ClearLabel1(p);
     }
     if (p[0x2BB] == 0x64)
         GFL_USE_StopAllSe();
     if (p[0x2BB] == 1) {
-        func_021BCF38(p);
+        ZKNSEARCH_MAIN_DenormalizeRecordByte(p);
         *(int *)(p + 0x2CC) =
             ZUKAN_SEARCH_ENGINE_Create(*(int *)(*(int *)p + 4), *(int *)(*(int *)p + 8), 0x807B);
         *(int *)(p + 0x2D0) = 0;
@@ -105,16 +105,16 @@ int func_021BD3AC(unsigned char *p)
         if (*(int *)(p + 0x2D0) == 1) {
             if (*(unsigned short *)(*(int *)p + 0x14) != 0) {
                 GFL_USE_PlaySeDefaultVolume(0x76F);
-                func_021BED04(p);
+                ZKNSEARCH_MAIN_PrintMessage9(p);
             } else {
                 GFL_USE_PlaySeDefaultVolume(0x557);
-                func_021BED10(p);
+                ZKNSEARCH_MAIN_PrintMessage10(p);
             }
             p[0x2BB] = 0;
             return 8;
         }
     } else {
-        func_021BFE84((int)p, p[0x2BB]);
+        ZKNSEARCH_MAIN_PlaceProgressActor((int)p, p[0x2BB]);
         p[0x2BB] = p[0x2BB] + 1;
     }
     return 7;

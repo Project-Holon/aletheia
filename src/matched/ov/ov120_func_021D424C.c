@@ -1,5 +1,5 @@
 /*
- * function: func_021D424C
+ * function: GTSNEGO_DISP_OnTradeSync
  * address: 0x021D424C
  * packet: pkt_ov120_021D424C
  * region: ov120
@@ -21,4 +21,4 @@ struct Entry; struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
 extern void MI_CpuCopy8(const void *,void *,u32);
-void func_021D424C(u32 id,int b,const void *src,u8 *p,struct Entry *entry) { u8 *q; q=*(u8 * *)&((struct Obj22820 *)p)->f48; if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(src,q+12,8); }
+void GTSNEGO_DISP_OnTradeSync(u32 id,int b,const void *src,u8 *p,struct Entry *entry) { u8 *q; q=*(u8 * *)&((struct Obj22820 *)p)->f48; if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(src,q+12,8); }

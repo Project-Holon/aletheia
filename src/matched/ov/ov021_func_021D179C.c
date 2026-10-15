@@ -23,7 +23,7 @@
  *   func_02009390  0x02009390  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  * Addresses are Black-image addresses.
  */
@@ -47,7 +47,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 struct WordSet;
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 int SCRCMD_SetWifiFriendNameWord(u32 a, u32 b)
@@ -73,7 +73,7 @@ int SCRCMD_SetWifiFriendNameWord(u32 a, u32 b)
     if (e != 0 && e[0] != 0x7E && e[0] != 0) {
         h = (u32)STRBUF_Create(0xE, s8);
         STRBUF_SetStringN((struct Strbuf *)h, e + 1, 0xD);
-        func_0201EE0C((struct WordSet *)s12, k0, (const void *)h, 0, 0, 2);
+        WORDSET_SetSlotTag((struct WordSet *)s12, k0, (const void *)h, 0, 0, 2);
         STRBUF_Delete((struct U16Vec *)h);
     }
     return 0;

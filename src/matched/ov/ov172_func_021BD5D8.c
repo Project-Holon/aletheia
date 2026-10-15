@@ -1,5 +1,5 @@
 /*
- * function: func_021BD5D8
+ * function: CTVT_CALL_InitDisplay
  * address:  0x021BD5D8
  * packet:   pkt_ov172_021BD5D8
  * region:   ov172
@@ -19,8 +19,8 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   func_0203FC28  0x0203FC28  arm
- *   func_021BD820  0x021BD820  thumb  ov172
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
+ *   CTVT_CALL_InitBgLayer  0x021BD820  thumb  ov172
  *   G2_GetBG2ScrPtr  0x0207E008  arm
  *   G2_GetBG3ScrPtr  0x0207E100  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -59,8 +59,8 @@ extern u32 WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
-extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
+extern void CTVT_CALL_InitBgLayer(const struct BgTemplate *tmpl, u32 bgId, u32 type);
 extern void *G2_GetBG2ScrPtr(void);
 extern void *G2_GetBG3ScrPtr(void);
 extern void MI_CpuFill8(void *p, int c, u32 n);
@@ -104,7 +104,7 @@ static inline void outside(int wnd, int effect)
     WINOUT = (u16)tmp;
 }
 
-void func_021BD5D8(u8 *p)
+void CTVT_CALL_InitDisplay(u8 *p)
 {
     u32 size;
     u32 mode;
@@ -126,13 +126,13 @@ void func_021BD5D8(u8 *p)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C7120);
     BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((struct DispConfig *)d_021C7050);
-    func_021BD820((const struct BgTemplate *)d_021C70A0, 0, 0);
-    func_021BD820((const struct BgTemplate *)d_021C7100, 1, 0);
-    func_021BD820((const struct BgTemplate *)d_021C70C0, 4, 0);
-    func_021BD820((const struct BgTemplate *)d_021C70E0, 5, 0);
-    func_021BD820((const struct BgTemplate *)d_021C7080, 6, 0);
-    func_021BD820((const struct BgTemplate *)d_021C7060, 7, 0);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021C7050);
+    CTVT_CALL_InitBgLayer((const struct BgTemplate *)d_021C70A0, 0, 0);
+    CTVT_CALL_InitBgLayer((const struct BgTemplate *)d_021C7100, 1, 0);
+    CTVT_CALL_InitBgLayer((const struct BgTemplate *)d_021C70C0, 4, 0);
+    CTVT_CALL_InitBgLayer((const struct BgTemplate *)d_021C70E0, 5, 0);
+    CTVT_CALL_InitBgLayer((const struct BgTemplate *)d_021C7080, 6, 0);
+    CTVT_CALL_InitBgLayer((const struct BgTemplate *)d_021C7060, 7, 0);
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & 0x43) | 0x4484;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & 0x43) | 0x4A84;
     size = 0x18000;

@@ -36,7 +36,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId 0x021BDB08 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId 0x021BDB54 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_Update 0x021BD974 thumb
@@ -153,7 +153,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 
 extern void func_020315D4(struct S020315D4 *p);
 
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(const struct Ov208Fsm *p);
 
@@ -261,7 +261,7 @@ int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
     GF_FONT_Delete(((struct Ov208Main *)p)->font);
     ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Ov208Main *)p)->display);
     func_020315D4(a);
-    func_020306F0(149);
+    GFL_HEAP_DeleteChecked(149);
     return 1;
 }
 

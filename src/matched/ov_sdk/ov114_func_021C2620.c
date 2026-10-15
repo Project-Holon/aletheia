@@ -12,7 +12,7 @@
  * sdk:      ghiPostGetNoFilesContentLength (libdwcgsghttp.TWL.HYB.a ghttppost.o)
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   strlen  0x0209477C  arm
  *   gsXmlWriterGetDataLength  0x02181E20  arm  ov009
@@ -39,7 +39,7 @@ typedef struct GHIConnection {
     GHIPost *post;
 } GHIConnection;
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *, int);
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
@@ -55,7 +55,7 @@ int ghiPostGetNoFilesContentLength(GHIConnection *connection)
 
     post = connection->post;
     total = 0;
-    num = func_02184200(post->data);
+    num = ArrayLength(post->data);
     if (num == 0)
         return 0;
     for (i = 0; i < num; i++) {

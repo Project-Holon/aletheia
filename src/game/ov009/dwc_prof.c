@@ -1,7 +1,7 @@
 /*
  * file:     dwc_prof.c
  * unit:     yes
- * function: func_0217B828, func_0217BC44, func_0217BC90, func_0217BDA8, DWCi_Prof_Alloc, DWCi_Prof_Free
+ * function: DWCi_CheckProfanityAsync, DWC_CheckProfanityExAsync, DWC_CheckProfanityProcess, DWCi_Prof_ParseResponse, DWCi_Prof_Alloc, DWCi_Prof_Free
  * address:  0x0217B828
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,8 +20,8 @@
  *   strstr  0x02094B20  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   DWC_Http_Create  0x0217956C  arm  ov009
- *   func_02178F4C  0x02178F4C  arm  ov009
- *   func_02179218  0x02179218  arm  ov009
+ *   DWC_Auth_GetCalInfoFromNVRAM  0x02178F4C  arm  ov009
+ *   DWC_Auth_SetCalInfoToHttp  0x02179218  arm  ov009
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
  *   DWC_Http_Add_Body  0x0217A044  arm  ov009
  *   wcscpy  0x02096594  arm
@@ -135,8 +135,8 @@ extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern char *strstr(const char *s1, const char *s2);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern int func_02178F4C(void *cal);
-extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
+extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
+extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int DWC_Http_Add_Body(char *http, char *data);
 extern unsigned short *wcscpy(unsigned short *dst, const unsigned short *src);
@@ -156,16 +156,16 @@ extern int func_02168250(char *datestr);
 extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void *DWC_Alloc(int name, unsigned long size);
-int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, char *region);
+int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, char *region);
 /*
  * sdk: DWC_CheckProfanityExAsync (dwc_prof.o) * * The region letter default is the byte at 0x02FFFE0F, a literal address * (no relocation in the object).
  */
-int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
+int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 /*
  * sdk: DWC_CheckProfanityProcess (libdwcauth.TWL.HYB.a dwc_prof.o)
  */
-int func_0217BC90(void);
-int func_0217BDA8(void);
+int DWC_CheckProfanityProcess(void);
+int DWCi_Prof_ParseResponse(void);
 static void *DWCi_Prof_Alloc(int name, unsigned long size);
 extern DWCProfWorkarea *g_021ACEF0;
 extern DWCAuthHttpParam g_021A2358;
@@ -201,7 +201,7 @@ extern char g_021A2838[];
  * src/matched/arm9/wcscpy.c (EXACT) gave the `matched` class the
  * witness, the same route wcslen already had.
  */
-int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int timeout,
+int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserved, int timeout,
                   char *result, int *badwordsnum, char *region)
 {
     DWCHttpParam httpparam;
@@ -257,9 +257,9 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
         goto error;
     g_021ACEF0->http_initialized = 1;
 
-    if (!func_02178F4C(&calinfo))
+    if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo))
         goto error;
-    if (!func_02179218(&g_021ACEF0->http, &calinfo, g_021ACE70))
+    if (!DWC_Auth_SetCalInfoToHttp(&g_021ACEF0->http, &calinfo, g_021ACE70))
         goto error;
     if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A27E4, region, 1) != 0)
         goto error;
@@ -318,7 +318,7 @@ error:
  * The region letter default is the byte at 0x02FFFE0F, a literal address
  * (no relocation in the object).
  */
-int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region)
+int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region)
 {
     char regionLetter;
 
@@ -327,7 +327,7 @@ int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int time
     } else {
         regionLetter = *(char *)0x02FFFE0F;
     }
-    return func_0217B828(words, wordsnum, reserved, timeout, result, badwordsnum, &regionLetter);
+    return DWCi_CheckProfanityAsync(words, wordsnum, reserved, timeout, result, badwordsnum, &regionLetter);
 }
 
 
@@ -337,7 +337,7 @@ int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int time
 /*
  * sdk:      DWC_CheckProfanityProcess (libdwcauth.TWL.HYB.a dwc_prof.o)
  */
-int func_0217BC90(void)
+int DWC_CheckProfanityProcess(void)
 {
     int retval;
     unsigned char aptype;
@@ -351,7 +351,7 @@ int func_0217BC90(void)
 
         switch (g_021ACEF0->http.error) {
         case 8:
-            if (func_0217BDA8() == 0)
+            if (DWCi_Prof_ParseResponse() == 0)
                 retval = 3;
             else
                 retval = 2;
@@ -386,7 +386,7 @@ int func_0217BC90(void)
 /*
  * sdk:      DWCi_Prof_ParseResponse (libdwcauth.TWL.HYB.a dwc_prof.o)
  */
-int func_0217BDA8(void)
+int DWCi_Prof_ParseResponse(void)
 {
     DWCProfFieldNames regionResultFieldName = g_021A27B8;
     int isAllRegionResult = 0;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MSGDATA_AllocSite     0x020A7E8C  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   func_0204960C  0x0204960C  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -20,7 +20,7 @@
  * twelve-byte part is read onto the stack first because its language count is
  * what sizes the real allocation, 0xc + 4 * langCount; the stack copy is then
  * moved into the front of that block and the language offset table is read
- * straight in behind it.  This is the only caller of sub_02030734 with tag
+ * straight in behind it.  This is the only caller of GFL_HEAP_Alloc with tag
  * 0x1f3.
  *
  * The header is twelve bytes here but sixteen in the MsgFile view used by
@@ -66,7 +66,7 @@ struct MsgFile {
 };
 
 extern char MSGDATA_AllocSite[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 struct ArcFile;
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
@@ -83,7 +83,7 @@ struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
     hp = (struct MsgFileHdr *)hdr;
     ARC_TOOL_ReadHandle(stream, sizeof(struct MsgFileHdr), hp);
 
-    file = (struct MsgFile *)sub_02030734(heapId, hp->langCount * 4 + 0xc, 0,
+    file = (struct MsgFile *)GFL_HEAP_Alloc(heapId, hp->langCount * 4 + 0xc, 0,
                                           MSGDATA_AllocSite, 0x1f3);
     MI_CpuCopy8(hp, file, sizeof(struct MsgFileHdr));
     ARC_TOOL_ReadHandle(stream, file->langCount * 4, file->langOff);

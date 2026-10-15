@@ -48,7 +48,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
@@ -103,8 +103,8 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
  *   func_02029620  0x02029620  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
@@ -146,10 +146,10 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   func_0201F548  0x0201F548  thumb
+ *   BMP_MENUWORK_GetPlttFileId  0x0201F548  thumb
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
- *   func_0201F73C  0x0201F73C  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   PMS_WORD_IsSameGroup  0x020249B0  thumb
  *   gFieldSoundSlotTable     0x021DD614  data  ov021  a4
  *   func_02008854  0x02008854  thumb
@@ -208,25 +208,25 @@
  *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
  *   FIELD_SUBSCREEN_ClearPanelResult  0x021A0FA8  thumb  ov021
- *   func_02011330  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   func_02045B38  0x02045B38  arm
  *   BMP_WIN_CreateAt  0x02045180  arm
  *   func_02045CAC  0x02045CAC  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_02008C58  0x02008C58  thumb
  *   func_02008DAC  0x02008DAC  thumb
  *   func_02008DFC  0x02008DFC  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   WORDSET_Callback  0x0201EE60  thumb
  *   GF_STANDARD_SetField00  0x0203F4CC  arm
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   gGreetingCounterTable     0x021DD774  data  ov021
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   gGreetingMiscMessageIds     0x021DD718  data  a4
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   BEACON_GetFlag  0x0200C234  thumb
@@ -438,7 +438,7 @@ extern u16 SCRCMD_WORK_GetHeapId(ScrcmdWork *cmdWork);
 extern WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(Strbuf *strbuf, const u16 *srcChars, u32 charCount);
-extern void func_0201EE0C(WordSet *words, u32 slot, Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
+extern void WORDSET_SetSlotTag(WordSet *words, u32 slot, Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 extern void STRBUF_Delete(Strbuf *strbuf);
 extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 extern FieldmapFunc *FIELDMAP_GetMapFunc(FieldMap *fieldMap);
@@ -500,8 +500,8 @@ extern GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(GameSystem *gameSystem, u32 f
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern u32 SND_MIC_StartRecording(void *callback, void *arg);
 extern Strbuf *func_02045EC0(MsgData *msgData, u32 index);
-extern void func_0201EEF4(WordSet *words, u32 slot, PokemonParam *mon);
-extern void func_0201F250(WordSet *words, Strbuf *dst, Strbuf *src);
+extern void WORDSET_SetSlotMonSpecies(WordSet *words, u32 slot, PokemonParam *mon);
+extern void WORDSET_CopyTaggedText(WordSet *words, Strbuf *dst, Strbuf *src);
 extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, Strbuf *str);
 extern void SND_MIC_Exit(void);
 extern void UI_ClearKeepAwakeFlagsGlobal(u8 flags);
@@ -532,10 +532,10 @@ extern u32 CLACT_DeleteUnit(Unit *unit);
 extern void CLACT_DeleteActor(Actor *actor);
 extern void CLACT_GetActorSurfacePos(Actor *actor, SpritePos *out, u16 space);
 extern void CLACT_AddActorSurfacePos(Actor *actor, const SpritePos *delta, u32 which);
-extern u8 func_0201F548(int index);
+extern u8 BMP_MENUWORK_GetPlttFileId(int index);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_0201F73C(BmpWin *win, int commitMode, u16 tileBase, u32 palette);
-extern void func_0201F7A8(BmpWin *win, u32 commitMode);
+extern void BMP_MENUWORK_DrawWindow(BmpWin *win, int commitMode, u16 tileBase, u32 palette);
+extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *win, u32 commitMode);
 extern int PMS_WORD_IsSameGroup(u32 a, u16 b);
 extern StepCounter *func_02008854(SaveControl *save);
 extern u16 func_02008990(const StepCounter *counter);
@@ -590,24 +590,24 @@ extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(WfbcPosition *positions)
 extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(WfbcNpcData *npcData);
 extern int FIELD_SUBSCREEN_GetPanelResult(FieldSubscreen *subscreen);
 extern void FIELD_SUBSCREEN_ClearPanelResult(FieldSubscreen *subscreen);
-extern u16 func_02011330(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset);
 extern void func_02045CAC(MsgBank *bank, u32 index, Strbuf *dest);
 extern GfFont *FIELD_MSGBG_GetFont(FieldMsgBg *msgBg);
 extern void PRINTSYS_Print(Bmp *bmp, s16 x, s16 y, Strbuf *str, GfFont *font);
 extern u32 MSGDATA_Delete(MsgBank *bank);
-extern void func_02041300(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern TrainerRecord *func_02008C58(SaveControl *save);
 extern u32 func_02008DAC(TrainerRecord *record, int index, u32 delta);
 extern u32 func_02008DFC(TrainerRecord *record, int index);
-extern void func_0201F02C(WordSet *words, u32 slot, PlayerStatus *status);
+extern void WORDSET_SetSlotMyStatus(WordSet *words, u32 slot, PlayerStatus *status);
 extern u32 POKEPARTY_GetCount(Party *party);
 extern u32 func_02017E1C(PokemonParam *pp, u32 paramId, u32 arg);
 extern void WORDSET_Callback(WordSet *words, u32 slot, u16 speciesId);
 extern void GF_STANDARD_SetField00(RtcTime *time);
 extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
-extern void func_0201EFA4(WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
+extern void WORDSET_SetSlotNumber(WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
 extern BeaconSave *BEACON_GetBlock(SaveControl *save);
 extern int BEACON_GetFlag(BeaconSave *beacon);
 extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
@@ -897,7 +897,7 @@ int SCRCMD_SetWifiFriendNameWord(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (entry != 0 && entry[0] != 0x7E && entry[0] != 0) {
         nameBuf = STRBUF_Create(0xE, heapId);
         STRBUF_SetStringN(nameBuf, entry + 1, 0xD);
-        func_0201EE0C(wordSet, wordSlot, nameBuf, 0, 0, 2);
+        WORDSET_SetSlotTag(wordSet, wordSlot, nameBuf, 0, 0, 2);
         STRBUF_Delete(nameBuf);
     }
     return 0;
@@ -1233,8 +1233,8 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
                 *seq = 7;
             } else {
                 string = func_02045EC0(work->msgData, 3);
-                func_0201EEF4(work->wordSet, 0, work->partyMon);
-                func_0201F250(work->wordSet, work->msgBuf, string);
+                WORDSET_SetSlotMonSpecies(work->wordSet, 0, work->partyMon);
+                WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, string);
                 STRBUF_Delete(string);
                 FIELD_MSGBG_ClearSysWin(work->sysWin);
                 FIELD_MSGBG_SysWinPrintStr(work->sysWin, 0, 0, work->msgBuf);
@@ -1257,8 +1257,8 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 8:
         if (EVENT_PERAP_RECORD_HopPokeIcon(work) == 0) {
             string = func_02045EC0(work->msgData, 2);
-            func_0201EEF4(work->wordSet, 0, work->partyMon);
-            func_0201F250(work->wordSet, work->msgBuf, string);
+            WORDSET_SetSlotMonSpecies(work->wordSet, 0, work->partyMon);
+            WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, string);
             STRBUF_Delete(string);
             FIELD_MSGBG_ClearSysWin(work->sysWin);
             FIELD_MSGBG_SysWinPrintStr(work->sysWin, 0, 0, work->msgBuf);
@@ -1373,19 +1373,19 @@ int EVENT_PERAP_RECORD_HopPokeIcon(PerapRecordWork *work)
 
 void EVENT_PERAP_RECORD_SetupWindow(PerapRecordWork *work)
 {
-    ARC_UTIL_UploadPaletteFromArchive(5, func_0201F548(0), 0, 0, 0, 0x20, 0x15);
+    ARC_UTIL_UploadPaletteFromArchive(5, BMP_MENUWORK_GetPlttFileId(0), 0, 0, 0, 0x20, 0x15);
     work->bmpWin = BMP_WIN_Create(1, 10, 3, 12, 12, 0, 1);
     BMP_Clear(BMP_WIN_GetBmp(work->bmpWin), 0x11);
     BMP_WIN_TransferChars(work->bmpWin);
     BMP_WIN_MakeScreen(work->bmpWin);
-    func_0201F73C(work->bmpWin, 1, 1, 0);
+    BMP_MENUWORK_DrawWindow(work->bmpWin, 1, 1, 0);
     EVENT_PERAP_RECORD_CreatePokeIcon(work);
 }
 
 int EVENT_PERAP_RECORD_Cleanup(PerapRecordWork *work)
 {
     EVENT_PERAP_RECORD_DeletePokeIcon(work);
-    func_0201F7A8(work->bmpWin, 1);
+    BMP_MENUWORK_DrawWindowBorder(work->bmpWin, 1);
     return BMP_WIN_Delete(work->bmpWin);
 }
 
@@ -1641,7 +1641,7 @@ void SCRCMD_POKE_ICON_InitWindow(PokeIconWork *work)
     BMP_Clear(BMP_WIN_GetBmp(work->bmpWin), 17);
     BMP_WIN_TransferChars(work->bmpWin);
     BMP_WIN_MakeScreen(work->bmpWin);
-    func_0201F73C(work->bmpWin, 1, 1, 13);
+    BMP_MENUWORK_DrawWindow(work->bmpWin, 1, 1, 13);
 }
 
 /*
@@ -1651,7 +1651,7 @@ void SCRCMD_POKE_ICON_InitWindow(PokeIconWork *work)
  */
 void SCRCMD_POKE_ICON_ShowWindow(PokeIconWork *work)
 {
-    func_0201F7A8(work->bmpWin, 1);
+    BMP_MENUWORK_DrawWindowBorder(work->bmpWin, 1);
 }
 
 /*
@@ -1872,13 +1872,13 @@ int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
     fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(cmdWork));
     heapId = FIELDMAP_GetHeapId(fieldParam->fieldSystem);
     msgBg = FIELDMAP_GetMsgBg(fieldParam->fieldSystem);
-    if (func_02011330(vm)) {
+    if (VM_ReadU16(vm)) {
         msgBank = func_02045B38(0, 2, 0x16, heapId);
         bmpWin = BMP_WIN_CreateAt(2, 1, 1, 0x1E, 10, 14, 0x40);
         BMP_Clear(BMP_WIN_GetBmp(bmpWin), 0xF);
         BMP_WIN_TransferChars(bmpWin);
         BMP_WIN_MakeScreen(bmpWin);
-        func_0201F73C(bmpWin, 0, 1, 0xD);
+        BMP_MENUWORK_DrawWindow(bmpWin, 0, 1, 0xD);
         msgBuf = STRBUF_Create(0xB4, heapId);
         func_02045CAC(msgBank, 3, msgBuf);
         PRINTSYS_Print(BMP_WIN_GetBmp(bmpWin), 0, 0, msgBuf, FIELD_MSGBG_GetFont(msgBg));
@@ -1888,7 +1888,7 @@ int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
         MSGDATA_Delete(msgBank);
         BMP_WIN_Delete(bmpWin);
     } else {
-        func_02041300(2, 0, 0, 0, 0x20, 0xC, 0x11);
+        BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0xC, 0x11);
         func_02041B6C(2);
     }
     return 0;
@@ -1938,7 +1938,7 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     fixedMessage = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    func_0201F02C(wordSet, 0, status);
+    WORDSET_SetSlotMyStatus(wordSet, 0, status);
     party = GAME_DATA_GetMyParty(gameData);
     partyCount = POKEPARTY_GetCount(party);
     for (i = 0; i < partyCount; i++) {
@@ -1958,12 +1958,12 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
         idA = gGreetingCounterTable[msgIndex].idA;
         if (idA != -1) {
             countA = func_02008DFC(trainerRecord, idA);
-            func_0201EFA4(wordSet, 1, countA, gGreetingCounterTable[msgIndex].digitsA, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 1, countA, gGreetingCounterTable[msgIndex].digitsA, 0, 1);
         }
         idB = gGreetingCounterTable[msgIndex].idB;
         if (idB != -1) {
             countB = func_02008DFC(trainerRecord, idB);
-            func_0201EFA4(wordSet, 2, countB, gGreetingCounterTable[msgIndex].digitsB, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 2, countB, gGreetingCounterTable[msgIndex].digitsB, 0, 1);
         }
         if (msgIndex < 11) {
             if (idA != -1 && idB != -1) {

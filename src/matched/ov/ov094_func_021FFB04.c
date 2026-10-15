@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   MCSS_GetPosition  0x02015C30  thumb
  *   BTLV_EFFECT_RegisterTask  0x021F896C  thumb  ov094
@@ -49,7 +49,7 @@ typedef struct {
 } Obj;
 
 extern const char gBtlvMcssSourceFileName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
@@ -60,7 +60,7 @@ extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 
 void BTLV_MCSS_StartBounceTask(Work *w, Obj *s)
 {
-    Obj *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvMcssSourceFileName, 0x660);
+    Obj *o = GFL_HEAP_Alloc((u16)((w->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvMcssSourceFileName, 0x660);
     int idx = BTLV_MCSS_FindSpriteIndex((char *)w, s->key);
 
     if (idx == -1)

@@ -26,7 +26,7 @@
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207D63C 0x0207D63C arm
  *   BG_SYS_CreateRun 0x0203FA08 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   PALANM_BlendColors 0x02021F64 thumb
  *   WIFI_BSUBWAY_GRAPHIC_StepBgAnim 0x021D7F54 thumb ov116
  */
@@ -47,7 +47,7 @@ extern void *func_020056A0(void *, void *, int);
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
 extern void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused, u8 *p);
 struct Arc { int f0; int f4; int f8; u8 *fC; };
@@ -110,7 +110,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *p, short heap) {
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_CreateRun(1, 0x20, 0);
     BG_SYS_CreateRun(2, 0x20, 0);
-    *(void **)(p + 0x984) = func_0201F5DC((void *)1, 0xd, 0, heap);
-    *(void **)(p + 0x988) = func_0201F5DC((void *)2, 0xd, 0, heap);
+    *(void **)(p + 0x984) = BMP_MENUWORK_LoadFrameGfx((void *)1, 0xd, 0, heap);
+    *(void **)(p + 0x988) = BMP_MENUWORK_LoadFrameGfx((void *)2, 0xd, 0, heap);
     func_02049B40(0x17, 5, 0, 0x180, 0x20, heap);
 }

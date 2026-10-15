@@ -21,14 +21,14 @@
  * (u8/s8/u16); the word read needs the local copy, not one per call.
  *
  * symbols:
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
+extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
                           u32 a6);
 extern void func_02041B6C(u32);
 
@@ -36,14 +36,14 @@ void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg)
 {
     u32 layer = *(u32 *)&bg;
 
-    func_02041300(layer, 1, x, y, 1, 1, 1);
-    func_02041300(layer, 3, x + w - 1, y, 1, 1, 1);
-    func_02041300(layer, 7, x, y + h - 1, 1, 1, 1);
-    func_02041300(layer, 9, x + w - 1, y + h - 1, 1, 1, 1);
-    func_02041300(layer, 2, x + 1, y, w - 2, 1, 1);
-    func_02041300(layer, 8, x + 1, y + h - 1, w - 2, 1, 1);
-    func_02041300(layer, 4, x, y + 1, 1, h - 2, 1);
-    func_02041300(layer, 6, x + w - 1, y + 1, 1, h - 2, 1);
-    func_02041300(layer, 5, x + 1, y + 1, w - 2, h - 2, 1);
+    BG_SYS_SetTileEntry(layer, 1, x, y, 1, 1, 1);
+    BG_SYS_SetTileEntry(layer, 3, x + w - 1, y, 1, 1, 1);
+    BG_SYS_SetTileEntry(layer, 7, x, y + h - 1, 1, 1, 1);
+    BG_SYS_SetTileEntry(layer, 9, x + w - 1, y + h - 1, 1, 1, 1);
+    BG_SYS_SetTileEntry(layer, 2, x + 1, y, w - 2, 1, 1);
+    BG_SYS_SetTileEntry(layer, 8, x + 1, y + h - 1, w - 2, 1, 1);
+    BG_SYS_SetTileEntry(layer, 4, x, y + 1, 1, h - 2, 1);
+    BG_SYS_SetTileEntry(layer, 6, x + w - 1, y + 1, 1, h - 2, 1);
+    BG_SYS_SetTileEntry(layer, 5, x + 1, y + 1, w - 2, h - 2, 1);
     func_02041B6C(layer);
 }

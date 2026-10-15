@@ -1,5 +1,5 @@
 /*
- * function: func_0220B928
+ * function: B_BAG_MAIN_StartItemMsg
  * address: 0x0220B928
  * packet: pkt_ov197_0220B928
  * region: ov197
@@ -34,7 +34,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-void func_0220B928(char *p)
+void B_BAG_MAIN_StartItemMsg(char *p)
 {
     void *d;
     GF_FONT_SetTextColor(1, 2, 0);

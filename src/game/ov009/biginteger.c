@@ -1,7 +1,7 @@
 /*
  * file:     biginteger.c
  * unit:     yes
- * function: func_02163F24, func_02163F4C, func_02163F7C, func_02164018, func_02164078, func_021640B8, func_02164160, func_021641C4, func_021641FC, func_02164230, func_021642E0, func_02164358, func_02164484, func_02164490, func_021644A0, func_021644B4, func_021644D0, func_0216469C, func_02164830, func_0216497C, func_02164AA8, func_02164CC4, func_02164D20
+ * function: count_digits, func_02163F4C, CPSi_big_add, func_02164018, func_02164078, CPSi_big_sub, func_02164160, CPSi_big_compare, func_021641FC, CPSi_big_mult, func_021642E0, CPSi_big_sqr, get48bits_1, func_02164490, func_021644A0, func_021644B4, CPSi_big_div, CPSi_big_power, CPSi_big_modinv, CPSi_big_montmult, func_02164AA8, func_02164CC4, func_02164D20
  * address:  0x02163F24
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -40,7 +40,6 @@ typedef unsigned long long u64;
 
 typedef unsigned char  u8;
 
-int count_digits(unsigned short *a, int digits);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
@@ -54,24 +53,24 @@ extern void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short
 extern void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 extern void CPSi_big_div(unsigned short *c, unsigned short *a, unsigned short *b, unsigned short *r, int digits, unsigned short *work);
 extern void CPSi_big_montmult(unsigned short *c, unsigned short *a, unsigned short *b, int digits, int rdigits, unsigned short *n, unsigned short *np, unsigned short *m, unsigned short *m2);
-int func_02163F24(const unsigned short *p, int n);
+int count_digits(const unsigned short *p, int n);
 int CPSi_big_sign(unsigned short *a, int digits);
-void func_02163F7C(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
+void CPSi_big_add(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 void CPSi_big_add_small(unsigned short *c, unsigned short *a, unsigned short _b, int digits);
 void CPSi_big_negate(unsigned short *a, int digits);
-void func_021640B8(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
+void CPSi_big_sub(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 void CPSi_big_sub_small(unsigned short *c, unsigned short *a, unsigned short _b, int digits);
-int func_021641C4(unsigned short *a, unsigned short *b, int n);
+int CPSi_big_compare(unsigned short *a, unsigned short *b, int n);
 void CPSi_big_add_part(unsigned short *a, unsigned long b, int i, int digits);
-void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
+void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 void CPSi_big_mult_small(unsigned short *c, unsigned short *a, unsigned short b, int digits);
-void func_02164358(unsigned short *c, unsigned short *a, int digits);
-unsigned long long func_02164484(unsigned short *p);
+void CPSi_big_sqr(unsigned short *c, unsigned short *a, int digits);
+unsigned long long get48bits_1(unsigned short *p);
 asm void get48bits_2(void);
 asm void get48bits_3(void);
 asm void get64bits(void);
-void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work);
-void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n);
+void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work);
+void CPSi_big_power(u16 *c, u16 *a, u16 *b, int digits, u16 *n);
 void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n);
 void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
 void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes);
@@ -82,7 +81,7 @@ void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes);
 /*
  * Drops trailing zero halfwords from a counted array.
  */
-int func_02163F24(const unsigned short *p, int n)
+int count_digits(const unsigned short *p, int n)
 {
     while (n != 0 && p[n - 1] == 0)
         n--;
@@ -107,7 +106,7 @@ int CPSi_big_sign(unsigned short *a, int digits)
 /*
  * sdk:      CPSi_big_add (libssl.TWL.HYB.a(biginteger.o))
  */
-void func_02163F7C(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
+void CPSi_big_add(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
 {
 	int digits_b;
 	int digits_a;
@@ -115,8 +114,8 @@ void func_02163F7C(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	int carry;
 	unsigned long tmp;
 
-	digits_a = func_02163F24(a, digits);
-	digits_b = func_02163F24(b, digits);
+	digits_a = count_digits(a, digits);
+	digits_b = count_digits(b, digits);
 	if (digits_a < digits_b) {
 		digits_a = digits_b;
 	}
@@ -177,7 +176,7 @@ void CPSi_big_negate(unsigned short *a, int digits)
 /*
  * sdk:      CPSi_big_sub (libssl.TWL.HYB.a(biginteger.o))
  */
-void func_021640B8(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
+void CPSi_big_sub(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
 {
 	int digits_b;
 	int digits_a;
@@ -185,8 +184,8 @@ void func_021640B8(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	int borrow;
 	unsigned long tmp;
 
-	digits_a = func_02163F24(a, digits);
-	digits_b = func_02163F24(b, digits);
+	digits_a = count_digits(a, digits);
+	digits_b = count_digits(b, digits);
 	if (digits_a < digits_b) {
 		digits_a = digits_b;
 	}
@@ -234,7 +233,7 @@ void CPSi_big_sub_small(unsigned short *c, unsigned short *a, unsigned short _b,
  * Lexicographic compare of two halfword arrays from the top down: 1, -1 or
  * 0.
  */
-int func_021641C4(unsigned short *a, unsigned short *b, int n)
+int CPSi_big_compare(unsigned short *a, unsigned short *b, int n)
 {
     int i;
 
@@ -267,7 +266,7 @@ void CPSi_big_add_part(unsigned short *a, unsigned long b, int i, int digits)
 /*
  * sdk:      CPSi_big_mult (libssl.TWL.HYB.a(biginteger.o))
  */
-void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
+void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
 {
 	int digits_b;
 	int digits_a;
@@ -275,8 +274,8 @@ void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	int j;
 
 	MI_CpuFill8(c, 0, digits * 2);
-	digits_a = func_02163F24(a, digits);
-	digits_b = func_02163F24(b, digits);
+	digits_a = count_digits(a, digits);
+	digits_b = count_digits(b, digits);
 	for (i = 0; i < digits_b; i++) {
 		for (j = 0; j < digits_a && j < digits - i; j++) {
 			func_021641FC(c, a[j] * b[i], i + j, digits);
@@ -316,14 +315,14 @@ void CPSi_big_mult_small(unsigned short *c, unsigned short *a, unsigned short b,
 /*
  * sdk:      CPSi_big_sqr (libssl.TWL.HYB.a(biginteger.o))
  */
-void func_02164358(unsigned short *c, unsigned short *a, int digits)
+void CPSi_big_sqr(unsigned short *c, unsigned short *a, int digits)
 {
     int i;
     int j;
     int digits_a;
     unsigned long tmp;
 
-    digits_a = func_02163F24(a, digits);
+    digits_a = count_digits(a, digits);
     if (digits > digits_a * 2)
         MI_CpuFill8(c + digits_a * 2, 0, (digits - digits_a * 2) * 2);
     for (i = 0; i < digits_a; i++) {
@@ -355,7 +354,7 @@ void func_02164358(unsigned short *c, unsigned short *a, int digits)
 /*
  * Halfword at p as the high word of a 64-bit value.
  */
-unsigned long long func_02164484(unsigned short *p)
+unsigned long long get48bits_1(unsigned short *p)
 {
     return (unsigned long long)*p << 32;
 }
@@ -407,7 +406,7 @@ asm void get64bits(void)
 /*
  * sdk:      CPSi_big_div (libssl.TWL.HYB.a(biginteger.o))
  */
-void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
+void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
 {
     int digits_a;
     int digits_b;
@@ -420,8 +419,8 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
     ca = work + digits;
     cca = ca + digits;
     MI_CpuFill8(ca, 0, digits * 4);
-    digits_a = func_02163F24(a, digits);
-    digits_b = func_02163F24(b, digits);
+    digits_a = count_digits(a, digits);
+    digits_b = count_digits(b, digits);
     if (digits_a > 0 && digits_b > 0) {
         i = digits_b + (digits - digits_a) - 1;
         if (i >= digits) {
@@ -433,7 +432,7 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
             else if (digits_b > 1)
                 msd = func_02164490(b + digits_b - 1);
             else
-                msd = func_02164484(b + digits_b - 1);
+                msd = get48bits_1(b + digits_b - 1);
             for (; i < digits; i++) {
                 memmove(ca + 1, ca, (digits * 2 - 1) * 2);
                 guess = func_021644B4(cca + digits_b) / msd;
@@ -441,11 +440,11 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
                     guess = 0xffff;
                 while (1) {
                     func_021642E0(work, b, (u16)guess, digits);
-                    if (func_021641C4(cca, work, digits) >= 0)
+                    if (CPSi_big_compare(cca, work, digits) >= 0)
                         break;
                     guess--;
                 }
-                func_021640B8(cca, cca, work, digits);
+                CPSi_big_sub(cca, cca, work, digits);
                 *ca = guess;
             }
         }
@@ -470,7 +469,7 @@ extern void (*CPSiFree)(void *ptr);
 /*
  * sdk:      CPSi_big_power (libssl.TWL.HYB.a(biginteger.o))
  */
-void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
+void CPSi_big_power(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
 {
     u16 *tmp;
     u16 *divwork;
@@ -482,7 +481,7 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
     divwork = tmp + digits;
     MI_CpuFill8(c + 1, 0, (digits - 1) * sizeof(u16));
     c[0] = 1;
-    for (i = (digits - func_02163F24(b, digits)) * 16; i < digits * sizeof(u16) * 8; i++) {
+    for (i = (digits - count_digits(b, digits)) * 16; i < digits * sizeof(u16) * 8; i++) {
         if (b[digits - (i >> 4) - 1] & (0x8000u >> (i & 15))) {
             MI_CpuCopy8(a, c, digits * sizeof(u16));
             i++;
@@ -490,15 +489,15 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
         }
     }
     for (; i < digits * sizeof(u16) * 8; i++) {
-        func_02164358(tmp, c, digits);
+        CPSi_big_sqr(tmp, c, digits);
         MI_CpuCopy8(tmp, c, digits * sizeof(u16));
         if (n)
-            func_021644D0(0, c, n, c, digits, divwork);
+            CPSi_big_div(0, c, n, c, digits, divwork);
         if (b[digits - (i >> 4) - 1] & (0x8000u >> (i & 15))) {
-            func_02164230(tmp, c, a, digits);
+            CPSi_big_mult(tmp, c, a, digits);
             MI_CpuCopy8(tmp, c, digits * sizeof(u16));
             if (n)
-                func_021644D0(0, c, n, c, digits, divwork);
+                CPSi_big_div(0, c, n, c, digits, divwork);
         }
     }
     CPSiFree(tmp);
@@ -510,7 +509,7 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
 /*
  * sdk:      CPSi_big_modinv (libssl.TWL.HYB.a(biginteger.o))
  */
-static void func_02164830(unsigned short *c, unsigned short *a, unsigned short *n, int digits,
+static void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short *n, int digits,
                           unsigned short *tmp_var)
 {
     unsigned short *q;
@@ -531,16 +530,16 @@ static void func_02164830(unsigned short *c, unsigned short *a, unsigned short *
     MI_CpuCopy8(n, t, digits * 2);
     u[0] = 1;
     while (func_02163F4C(tmp_var, digits) > 0) {
-        func_021644D0(q, t, tmp_var, w, digits, divwork);
+        CPSi_big_div(q, t, tmp_var, w, digits, divwork);
         MI_CpuCopy8(tmp_var, t, digits * 2);
         MI_CpuCopy8(w, tmp_var, digits * 2);
-        func_02164230(w, q, u, digits);
-        func_021640B8(w, v, w, digits);
+        CPSi_big_mult(w, q, u, digits);
+        CPSi_big_sub(w, v, w, digits);
         MI_CpuCopy8(u, v, digits * 2);
         MI_CpuCopy8(w, u, digits * 2);
     }
-    func_02163F7C(v, v, n, digits);
-    func_021644D0(0, v, n, c, digits, divwork);
+    CPSi_big_add(v, v, n, digits);
+    CPSi_big_div(0, v, n, c, digits, divwork);
 }
 
 
@@ -549,27 +548,27 @@ static void func_02164830(unsigned short *c, unsigned short *a, unsigned short *
 /*
  * sdk:      CPSi_big_montmult (libssl.TWL.HYB.a(biginteger.o))
  */
-static void func_0216497C(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
+static void CPSi_big_montmult(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           int rdigits, unsigned short *n, unsigned short *np,
                           unsigned short *m, unsigned short *m2)
 {
     MI_CpuCopy8(c, a, digits * 2);
     if (b == (unsigned short *)1)
-        func_02164358(c, a, digits);
+        CPSi_big_sqr(c, a, digits);
     else if (b != 0)
-        func_02164230(c, a, b, digits);
-    func_02164230(m, c, np, rdigits);
+        CPSi_big_mult(c, a, b, digits);
+    CPSi_big_mult(m, c, np, rdigits);
     MI_CpuFill8(m + rdigits, 0, (digits - rdigits) * 2);
-    func_02164230(m2, m, n, digits);
-    func_02163F7C(c, c, m2, digits);
+    CPSi_big_mult(m2, m, n, digits);
+    CPSi_big_add(c, c, m2, digits);
     memmove(c, c + rdigits, (digits - rdigits) * 2);
     MI_CpuFill8(c + digits - rdigits, 0, rdigits * 2);
-    switch (func_021641C4(c, n, digits)) {
+    switch (CPSi_big_compare(c, n, digits)) {
     case 0:
         MI_CpuFill8(c, 0, digits * 2);
         break;
     case 1:
-        func_021640B8(c, c, n, digits);
+        CPSi_big_sub(c, c, n, digits);
         break;
     }
 }

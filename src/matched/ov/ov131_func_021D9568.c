@@ -24,7 +24,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_02040AE0 0x02040AE0 arm
+ *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
  */
 #include "../include/Obj02484.h"
@@ -48,7 +48,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_02040AE0(u32 index, const void *src, u32 mode);
+extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern u32 P_STA_RIBBON_GetRibbonInfo(u32,u32);
 void P_STA_RIBBON_ShowDetail(u8 *a,u8 *p)
 {
@@ -76,7 +76,7 @@ void P_STA_RIBBON_ShowDetail(u8 *a,u8 *p)
     *(u32 *)&((struct Obj02484 *)p)->f1C=(u32)CLACT_CreateActor((void *)((struct Obj03816 *)a)->f174,((struct Obj02484 *)p)->f18,((struct Obj03816 *)a)->fB4,((struct Obj03816 *)a)->f128,&pos,1,((struct Obj03816 *)a)->f0);
     CLACT_SetActorPaletteOffset(((struct Obj02484 *)p)->f1C,(u8)P_STA_RIBBON_GetRibbonInfo(index,2),1);
     CLACT_SetActorDrawEnable(((struct Obj02484 *)p)->f1C,1);
-    func_02040AE0(6,*(u8 * *)&((struct Obj02484 *)p)->f38+12,((struct Obj23157 *)(*(u8 * *)&((struct Obj02484 *)p)->f38))->f8);
+    BG_SYS_DecodeTile(6,*(u8 * *)&((struct Obj02484 *)p)->f38+12,((struct Obj23157 *)(*(u8 * *)&((struct Obj02484 *)p)->f38))->f8);
     func_02041B6C(6);
     ((struct Obj02484 *)p)->f4=1;
 }

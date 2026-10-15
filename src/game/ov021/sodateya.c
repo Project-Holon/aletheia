@@ -19,7 +19,7 @@
  *   sSodateyaHasMoveSlotIds     0x021DA8D8  data  ov021  a4
  *   DAYCARE_IsSlotInUse  0x0200BCA8  thumb
  *   DAYCARE_SwapSlots  0x0200BCEC  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   DAYCARE_GetInUseCount  0x0200BCB8  thumb
  *   SODATEYA_GetCompatibility  0x021C34C4  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -222,7 +222,7 @@ typedef struct LearnsetEntry {
 extern u32 func_02017E1C(const struct Pokemon *mon, u32 dataId, u32 arg);
 extern int DAYCARE_IsSlotInUse(void *dayCare, int slot);
 extern void DAYCARE_SwapSlots(void *dayCare, int slot, int newSlot);
-extern u32 func_02019C90(u16 species, u16 form, u32 groupField);
+extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 groupField);
 extern int DAYCARE_GetInUseCount(void *dayCare);
 extern u32 func_02005728(u32 range);
 extern struct FieldMap *FIELDMAP_GetGameSystem(struct FieldMap *p);
@@ -703,8 +703,8 @@ int SODATEYA_CalcCompatibility(struct Pokemon *monA, struct Pokemon *monB)
         func_02017E1C(mons[i], MON_DATA_OT_ID, 0);
         form[i] = func_02017E1C(mons[i], MON_DATA_FORM, 0);
         gender[i] = func_02017E1C(mons[i], MON_DATA_GENDER, 0);
-        eggGroup1[i] = func_02019C90(species[i], form[i], PERSONAL_EGG_GROUP_1);
-        eggGroup2[i] = func_02019C90(species[i], form[i], PERSONAL_EGG_GROUP_2);
+        eggGroup1[i] = POKE_TOOL_GetPersonalParam(species[i], form[i], PERSONAL_EGG_GROUP_1);
+        eggGroup2[i] = POKE_TOOL_GetPersonalParam(species[i], form[i], PERSONAL_EGG_GROUP_2);
     }
     if (eggGroup1[0] == EGG_GROUP_UNDISCOVERED || eggGroup1[1] == EGG_GROUP_UNDISCOVERED
         || eggGroup2[0] == EGG_GROUP_UNDISCOVERED || eggGroup2[1] == EGG_GROUP_UNDISCOVERED)

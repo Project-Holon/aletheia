@@ -1,5 +1,5 @@
 /*
- * function: func_0220D29C
+ * function: B_BAG_MAIN_StateStartMessage
  * address:  0x0220D29C
  * packet:   pkt_0220D29C
  * region:   ov197
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  */
 #include "../include/Obj25087.h"
 
 typedef unsigned int   u32;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-int func_0220D29C(char *a)
+int B_BAG_MAIN_StateStartMessage(char *a)
 {
-    func_0201F7A8((void *)(((struct Obj25087 *)a)->f24), 0);
+    BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj25087 *)a)->f24), 0);
     return 6;
 }

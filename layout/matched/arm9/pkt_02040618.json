@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02040618",
+   "name": "BG_SYS_FillScrollArea",
    "address": "0x02040618",
    "kind": "game",
    "region": "arm9",
@@ -39,7 +39,7 @@
    ]
   },
   {
-   "name": "sub_02040820",
+   "name": "BG_SYS_SetScroll",
    "address": "0x02040820",
    "kind": "game",
    "region": "arm9",
@@ -51,7 +51,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02040860",
+   "name": "BG_SYS_SetScrollRegs",
    "address": "0x02040860",
    "kind": "game",
    "region": "arm9",

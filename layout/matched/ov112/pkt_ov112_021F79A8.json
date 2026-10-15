@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F79A8",
-    "func_021F7A80",
-    "func_021F7A94"
+    "STA_ACT_LIGHT_HandleElemAnim",
+    "STA_ACT_LIGHT_NoOp2",
+    "STA_ACT_LIGHT_NoOp3"
+   ],
+   "addresses": [
+    "0x021F79A8",
+    "0x021F7A80",
+    "0x021F7A94"
    ],
    "evidence": {
     "sole-ref": [

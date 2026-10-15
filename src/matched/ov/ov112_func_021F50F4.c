@@ -1,5 +1,5 @@
 /*
- * function: func_021F50F4
+ * function: MUSICAL_MCSS_GetIndex
  * address: 0x021F50F4
  * packet: pkt_ov112_021F50F4
  * region: ov112
@@ -10,7 +10,7 @@
  * status: EXACT
  * leaf: Sole unresolved ov112 mapper for concrete-correct ov133 func_021B8444; root reserved ownership.
  */
-int func_021F50F4(unsigned index)
+int MUSICAL_MCSS_GetIndex(unsigned index)
 {
     switch (index) {
     case 0: return 0;

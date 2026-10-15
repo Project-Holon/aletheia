@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02040AE0
+ * function: BG_SYS_DecodeTile
  * address:  0x02040AE0
  * packet:   pkt_020409E0
  * region:   arm9
@@ -28,15 +28,15 @@
  * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040AE0.c \
- *       --func func_02040AE0 --addr 0x02040AE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DecodeTile.c \
+ *       --func BG_SYS_DecodeTile --addr 0x02040AE0 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
-void func_02040AE0(u32 index, const void *src, u32 mode)
+void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode)
 {
     BG_SYS_DecodeTileSource(index, src, mode, 0);
 }

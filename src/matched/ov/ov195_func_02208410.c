@@ -1,5 +1,5 @@
 /*
- * function: func_02208410
+ * function: SHINKA_DEMO_VIEW_IsGridState3
  * address:  0x02208410
  * packet:   pkt_02208410
  * region:   ov195
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_02208410(char *p, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState3(char *p, u16 heap)
 {
     return ((struct Obj24978 *)p)->f28 == 3;
 }

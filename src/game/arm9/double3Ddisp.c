@@ -1,7 +1,7 @@
 /*
  * file:     double3Ddisp.c
  * unit:     yes
- * function: func_0204E8C0, func_0204E914, func_0204EA0C, DOUBLE3DDISP_GetField04, DOUBLE3DDISP_SetField08, DOUBLE3DDISP_Delete, DOUBLE3DDISP_SetupGraphics, DOUBLE3DDISP_SetupGraphics_EB68, BILLBOARD_Create, BILLBOARD_Delete, BILLBOARD_SetFlagWord, BILLBOARD_SetField10, BILLBOARD_SetField1C, BILLBOARD_SetField1E, BILLBOARD_SetField20, BILLBOARD_SetField22, BILLBOARD_SetField24, BILLBOARD_SetField25, func_0204EDC4, func_0204EDD0
+ * function: DOUBLE3DDISP_Init, DOUBLE3DDISP_InitOam, DOUBLE3DDISP_Exit, DOUBLE3DDISP_GetField04, DOUBLE3DDISP_SetField08, DOUBLE3DDISP_Delete, DOUBLE3DDISP_SetupGraphics, DOUBLE3DDISP_SetupGraphics_EB68
  * address:  0x0204E8C0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from double3Ddisp.c by tools/splitfile.py.
  *
  * symbols:
  *   func_02030734  0x02030734  arm
@@ -28,25 +28,9 @@
  *   func_0207D518   0x0207D518  arm
  *   func_020809A0   0x020809A0  arm
  *   GX_SetBankForSubOBJ   0x0208074C  arm
- *   sBillboard     0x020A7FA4  data
- *   BILLBOARD_DeleteAllImages  0x0204F27C  arm
  *   func_020307B0  0x020307B0  arm
  */
-#include "../../matched/include/Obj11443.h"
-#include "../../matched/include/Obj06987.h"
-#include "../../matched/include/Obj16108.h"
-#include "../../matched/include/Obj16110.h"
-#include "../../matched/include/Obj16112.h"
-#include "../../matched/include/Obj16114.h"
-#include "../../matched/include/Obj16116.h"
-#include "../../matched/include/Obj16118.h"
-#include "../../matched/include/Obj11444.h"
-
-struct Actor;
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "double3Ddisp_shared_types.h"
 
 union OamEntry {
     u32 w[2];
@@ -61,72 +45,53 @@ struct Double3Ddisp {
     union OamEntry oam[12];
 };
 
-struct Blk3 {
-    u32 w[3];
-};
-
-struct Blob28 { u32 w[7]; };   /* 28 bytes, align 4 -> ldm/stm 16 + 12 */
-
-struct Board {
-    u16 id;             /* 0x00 */
-    u16 pad0;
-    u32 ptr0;           /* 0x04 */
-    u32 ptr1;           /* 0x08 */
-    u16 count0;         /* 0x0c */
-    u16 count1;         /* 0x0e */
-    u8  blob[0x18];     /* 0x10 .. 0x27 */
-    u32 a28;            /* 0x28 */
-    u32 a2c;            /* 0x2c */
-    u16 b30;            /* 0x30 */
-    u16 b32;
-    u16 b34;
-    u16 b36;
-    u16 b38;
-};
-
-struct BigElem { u32 f00; u32 f04; u32 f08; u32 f0c; u32 f10; u32 f14; u32 f18; u32 f1c; u32 f20; u32 f24; };  /* 0x28 */
-
 extern void func_020809B4(void);
+
 extern void GX_SetBankForSubBG(int sub_bg);
+
 extern void func_0208068C(u32 v);
+
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+
 extern void func_0207D518(u32 v);
+
 extern int func_020809A0(void);
+
 extern void GX_SetBankForSubOBJ(int sub_obj);
-extern void BILLBOARD_DeleteAllImages(struct Actor *p);
+
 extern u32 func_020307B0(void *p);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern const char double3Ddisp_File[];
+
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+
 extern void GXS_LoadOAM(void *p, u32 off, u32 n);
+
 extern void func_02080B98(void);
+
 extern void func_02080BAC(void);
+
 extern void func_02080BC0(void);
-void func_0204E8C0(u32 heap);
-void func_0204E914(void);
-int func_0204EA0C(void);
+
+void DOUBLE3DDISP_Init(u32 heap);
+
+void DOUBLE3DDISP_InitOam(void);
+
+int DOUBLE3DDISP_Exit(void);
+
 u32 DOUBLE3DDISP_GetField04(void);
+
 void DOUBLE3DDISP_SetField08(void);
+
 void DOUBLE3DDISP_Delete(void);
+
 void DOUBLE3DDISP_SetupGraphics(void);
+
 void DOUBLE3DDISP_SetupGraphics_EB68(void);
-void *BILLBOARD_Create(u8 *src, void *heap);
-void BILLBOARD_Delete(void *p);
-void BILLBOARD_SetFlagWord(u8 *a0, short *a1);
-void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src);
-void BILLBOARD_SetField1C(u8 *dst, u16 *src);
-void BILLBOARD_SetField1E(u8 *dst, u16 *src);
-void BILLBOARD_SetField20(u8 *dst, u16 *src);
-void BILLBOARD_SetField22(u8 *dst, u16 *src);
-void BILLBOARD_SetField24(u8 *dst, u8 *src);
-void BILLBOARD_SetField25(u8 *dst, u8 val);
-void func_0204EDC4(u8 *dst, int a, int b);
-void func_0204EDD0(s32 flags, u16 *a, u16 *b);
+
 extern struct Double3Ddisp *g_02146A80;
-extern const char sBillboard[];
-
-
-
 
 #define REG32(a) (*(volatile u32 *)(a))
 
@@ -139,10 +104,10 @@ extern const char sBillboard[];
  * neighbours are in.
  *
  * Blocked at MATCH on the `label`/`matched` classes: all 68 concrete bytes
- * are right, but func_0204E914 (0x0204E914) has exactly one branch
+ * are right, but DOUBLE3DDISP_InitOam (0x0204E914) has exactly one branch
  * reference image-wide, the call at the end of this function, so the site
  * has no witness and no cut frees it.  0x0204E914 is closed to a register
- * allocation residue, see docs/notes/func_0204E914.c.txt, which also
+ * allocation residue, see docs/notes/DOUBLE3DDISP_InitOam.c.txt, which also
  * carries the C for it.
  *
  * Constructor: allocate the 0x6c-byte singleton on the caller's heap and
@@ -153,10 +118,10 @@ extern const char sBillboard[];
  * itself.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204E8C0.c \
- *       --func func_0204E8C0 --addr 0x0204E8C0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/DOUBLE3DDISP_Init.c \
+ *       --func DOUBLE3DDISP_Init --addr 0x0204E8C0 --cc 1.1p1 --arm
  */
-void func_0204E8C0(u32 heap)
+void DOUBLE3DDISP_Init(u32 heap)
 {
     g_02146A80 = func_02030734(heap, 0x6c, 1, double3Ddisp_File, 63);
 
@@ -164,11 +129,11 @@ void func_0204E8C0(u32 heap)
     g_02146A80->unk04 = 1;
     g_02146A80->unk08 = 0;
 
-    func_0204E914();
+    DOUBLE3DDISP_InitOam();
 }
 
 /*
- * double3Ddisp.c, second function (the TU starts at func_0204E8C0).  Builds
+ * double3Ddisp.c, second function (the TU starts at DOUBLE3DDISP_Init).  Builds
  * the twelve sub-engine sprites that carry the doubled 3D image, a 4 x 3
  * grid of 64 x 64 cells over 256 x 192, then flushes the OAM copy
  * (DWCi_ScreenDC_FlushRange, DC_FlushRange) and loads it at OAM offset 0x3A0
@@ -182,7 +147,7 @@ void func_0204E8C0(u32 heap)
  * declaration order i, x, y, k, oam (wave 16) is still load-bearing: it
  * makes the clearing counter share x's register and y take the stored zero.
  */
-void func_0204E914(void)
+void DOUBLE3DDISP_InitOam(void)
 {
     s32 i;
     s32 x;
@@ -212,7 +177,7 @@ void func_0204E914(void)
     GXS_LoadOAM(g_02146A80->oam, 0x3a0, 0x60);
 }
 
-int func_0204EA0C(void)
+int DOUBLE3DDISP_Exit(void)
 {
     func_02080B98();
     func_02080BAC();
@@ -231,10 +196,6 @@ u32 DOUBLE3DDISP_GetField04(void)
     return g_02146A80->unk04;
 }
 
-
-
-
-
 /*
  * Sets the +8 word of the cell-actor singleton to 1.
  * Witness leaf for ov180 func_021B6704.
@@ -243,11 +204,6 @@ void DOUBLE3DDISP_SetField08(void)
 {
     g_02146A80->unk08 = 1;
 }
-
-
-
-
-
 
 /*
  * The cell-actor system's shutdown step: it bails out while the power-control
@@ -285,11 +241,6 @@ void DOUBLE3DDISP_Delete(void)
     g_02146A80->unk04 = (g_02146A80->unk04 == 0) ? 1 : 0;
 }
 
-
-
-
-
-
 /*
  * The mirror of DOUBLE3DDISP_SetupGraphics_EB68, and DOUBLE3DDISP_Delete's other shutdown arm: it
  * *sets* bit 15 of the power-control halfword at 0x04000304 instead of
@@ -320,11 +271,6 @@ void DOUBLE3DDISP_SetupGraphics(void)
     *(volatile u16 *)0x0400100c = *(volatile u16 *)0x0400100c & 0xffbf;
 }
 
-
-
-
-
-
 /*
  * The other arm of DOUBLE3DDISP_Delete's shutdown: it clears bit 15 of the
  * power-control halfword at 0x04000304, runs three SDK calls, writes
@@ -354,263 +300,4 @@ void DOUBLE3DDISP_SetupGraphics_EB68(void)
     GX_SetGraphicsMode(1, 0, 1);
     func_0207D518(5);
     *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x1000;
-}
-
-
-
-/*
- * billboard.c's board constructor; the only allocation site in the image
- * whose __FILE__ word is 0x020A7FA4 ("billboard.c", the NUL of
- * "battle_disp.c" at 0x020A7FA3 fixes where it starts).  Caller is
- * func_0204FF18.  Three func_02030734 calls at lines 153, 159 and 161: the
- * 0x3c-byte board, its count0 * 0x28 record array and its count1 * 0x1c
- * element array.
- *
- * The whole payload is ONE 28-byte aggregate assignment at +0x0c, which mwcc
- * expands to a 16-byte ldm/stm pair with write-back followed by a 12-byte
- * pair without: the second pair reuses the bases the write-back left in r8
- * (source + 16) and sb (dest + 0x10), so the three bytes of `add` that a
- * spelled-out second copy costs are absent from the original.  The source
- * must be a 4-aligned aggregate; a struct of bytes compiles to a byte-copy
- * loop instead.
- */
-void *BILLBOARD_Create(u8 *src, void *heap)
-{
-    struct Board *h;
-    const char *file;
-    int i;
-
-    file = sBillboard;
-    h = (struct Board *)func_02030734((int)heap, sizeof(struct Board), 1, file, 153);
-    h->id = (u16)(int)heap;
-    *(struct Blob28 *)((u8 *)h + 0x0c) = *(struct Blob28 *)src;
-    h->ptr0 = (u32)func_02030734((int)heap, h->count0 * 0x28, 1, file, 159);
-    h->ptr1 = (u32)func_02030734((int)heap, h->count1 * 0x1c, 1, file, 161);
-    for (i = 0; i < h->count0; i++) {
-        ((struct BigElem *)h->ptr0)[i].f00 = 0;
-        ((struct BigElem *)h->ptr0)[i].f14 = 5;
-    }
-    for (i = 0; i < h->count1; i++) {
-        u16 *q = (u16 *)(h->ptr1 + i * 0x1c);
-        *q = (u16)((*q & ~0x3FFFu) | 0x3FFFu);
-    }
-    h->a2c = 0;
-    h->b30 = 0;
-    h->b32 = 0;
-    h->b34 = 0;
-    h->a28 = 0;
-    h->b36 = 0;
-    h->b38 = 0;
-    return h;
-}
-
-
-
-
-/*
- * Free an actor and its two sub-objects, in +8, +4, self order.
- */
-void BILLBOARD_Delete(void *p)
-{
-    BILLBOARD_DeleteAllImages(p);
-    func_020307B0(((struct Obj11443 *)p)->f8);
-    func_020307B0(((struct Obj11443 *)p)->f4);
-    func_020307B0(p);
-}
-
-
-
-
-
-/*
- * Sets the flag word at +0x2c and copies three signed halfwords out of the
- * caller's array into +0x30, +0x32 and +0x34.
- *
- * Unlabelled in the generated listing, and it is the follower that makes
- * BILLBOARD_Delete EXACT*: the prologue saves nothing, so `disasm.py` never
- * auto-labelled it, and the extent inferred for 0x0204ED24 runs through these
- * 36 bytes to the next label at 0x0204ED70
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Seeding
- * 0x0204ED4C in layout/function_starts.txt turns that EXACT* into EXACT and
- * changes nothing else - it is the integrator's file, not this packet's.
- *
- * The three `ldrsh` leave the array backwards (a1[2] first) and the three
- * `strh` write in order, so the values have to live in three registers at
- * once: the source holds them in locals, and the locals have to be *declared*
- * in reverse order (`v2`, `v1`, `v0`) while being assigned in the same
- * reverse order.  Declared v0, v1, v2 the compiler gives a1[1] the higher of
- * the two scratch registers and a1[2] the lower one, which is four bytes of
- * register field wrong - see
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- * Writing the three stores straight from the array (no locals) interleaves
- * each load with its store and is eight bytes wrong.
- */
-void BILLBOARD_SetFlagWord(u8 *a0, short *a1)
-{
-    short v2;
-    short v1;
-    short v0;
-
-    ((struct Obj06987 *)a0)->f2C = 1;
-    v2 = a1[2];
-    v1 = a1[1];
-    v0 = a1[0];
-    ((struct Obj06987 *)a0)->f30 = v0;
-    ((struct Obj06987 *)a0)->f32 = v1;
-    ((struct Obj06987 *)a0)->f34 = v2;
-}
-
-
-
-
-
-/*
- * Copy the caller's 12-byte record into the actor at +0x10.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204ED70 and its body ends at 0x0204ED80.
- */
-void BILLBOARD_SetField10(u8 *dst, struct Blk3 *src)
-{
-    *(struct Blk3 *)(dst + 0x10) = *src;
-}
-
-
-
-
-/*
- * Halfword field store into the actor at +0x1c from the caller's pointer.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204ED80 and its body ends at 0x0204ED8C.
- */
-void BILLBOARD_SetField1C(u8 *dst, u16 *src)
-{
-    ((struct Obj16108 *)dst)->f1C = *src;
-}
-
-
-
-
-/*
- * Halfword field store into the actor at +0x1e from the caller's pointer.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204ED8C and its body ends at 0x0204ED98.
- */
-void BILLBOARD_SetField1E(u8 *dst, u16 *src)
-{
-    ((struct Obj16110 *)dst)->f1E = *src;
-}
-
-
-
-
-/*
- * Halfword field store into the actor at +0x20 from the caller's pointer.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204ED98 and its body ends at 0x0204EDA4.
- */
-void BILLBOARD_SetField20(u8 *dst, u16 *src)
-{
-    ((struct Obj16112 *)dst)->f20 = *src;
-}
-
-
-
-
-/*
- * Halfword field store into the actor at +0x22 from the caller's pointer.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204EDA4 and its body ends at 0x0204EDB0.
- */
-void BILLBOARD_SetField22(u8 *dst, u16 *src)
-{
-    ((struct Obj16114 *)dst)->f22 = *src;
-}
-
-
-
-
-/*
- * Byte field store into the actor at +0x24 from the caller's pointer.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204EDB0 and its body ends at 0x0204EDBC.
- */
-void BILLBOARD_SetField24(u8 *dst, u8 *src)
-{
-    ((struct Obj16116 *)dst)->f24 = *src;
-}
-
-
-
-
-/*
- * Byte field store into the actor at +0x25 straight from the value
- * parameter: there is no load in the image at all.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204EDBC and its body ends at 0x0204EDC4.
- */
-void BILLBOARD_SetField25(u8 *dst, u8 val)
-{
-    ((struct Obj16118 *)dst)->f25 = val;
-}
-
-
-
-
-/*
- * Two halfword field stores, +0x36 and +0x38, from the two value
- * parameters.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204EDC4 and its body ends at 0x0204EDD0.
- */
-void func_0204EDC4(u8 *dst, int a, int b)
-{
-    ((struct Obj11444 *)dst)->f36 = a;
-    ((struct Obj11444 *)dst)->f38 = b;
-}
-
-
-/*
- * Turn two bit groups of the flags word into one-hot halfwords, each store
- * guarded by its own null check.  The `asr` on the high group is the tell
- * that the flags word is signed (an unsigned group would be lsr), and the
- * first guard is a real branch while the second is folded into conditional
- * instructions because nothing follows it.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it and the worklist's function list for this
- * packet does not carry it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * It starts at 0x0204EDD0 and its body ends at 0x0204EE0C.
- */
-void func_0204EDD0(s32 flags, u16 *a, u16 *b)
-{
-    if (a != 0) {
-        *a = (u16)(1 << (((flags & 0x70) >> 4) + 3));
-    }
-    if (b != 0) {
-        *b = (u16)(1 << ((flags & 7) + 3));
-    }
 }

@@ -14,7 +14,7 @@
  * symbols:
  *   SBAllocateServerList  0x0219F888  arm  ov009
  *   func_0219DF64  0x0219DF64  arm  ov009
- *   func_021803BC  0x021803BC  arm  ov009
+ *   gsiSafeStrcpyA  0x021803BC  arm  ov009
  *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   srand  0x020946C8  arm
@@ -64,7 +64,7 @@ typedef struct SBServerList {
 
 extern void SBAllocateServerList(SBServerList *slist);
 extern void *func_0219DF64(SBServerList *slist);
-extern int func_021803BC(char *dst, const char *src, unsigned int n);
+extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern void SBServerListSetLastError(int *p, int v);
 extern unsigned int current_time(void);
 extern void srand(unsigned int seed);
@@ -82,9 +82,9 @@ void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFr
     slist->state = 1;
     SBAllocateServerList(slist);
     func_0219DF64(slist);
-    func_021803BC(slist->queryforgamename, queryForGamename, 36);
-    func_021803BC(slist->queryfromgamename, queryFromGamename, 36);
-    func_021803BC(slist->queryfromkey, queryFromKey, 32);
+    gsiSafeStrcpyA(slist->queryforgamename, queryForGamename, 36);
+    gsiSafeStrcpyA(slist->queryfromgamename, queryFromGamename, 36);
+    gsiSafeStrcpyA(slist->queryfromkey, queryFromKey, 32);
     slist->ListCallback = callback;
     slist->MaploopCallback = 0;
     slist->mypublicip = 0;

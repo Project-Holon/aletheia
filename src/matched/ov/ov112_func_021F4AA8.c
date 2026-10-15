@@ -1,5 +1,5 @@
 /*
- * function: func_021F4AA8
+ * function: MUSICAL_MCSS_GetArcFileCount
  * address: 0x021F4AA8
  * packet: pkt_ov112_021F4AA8
  * region: ov112
@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
-u16 func_021F4AA8(int i)
+u16 MUSICAL_MCSS_GetArcFileCount(int i)
 {
     u32 n = (u16)ARC_TOOL_GetArchiveFileCount(45) - 2;
     if (i >= (int)n) return 100;

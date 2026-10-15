@@ -28,7 +28,7 @@
  *   func_02028590  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020071F0  0x020071F0  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
@@ -40,8 +40,8 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   func_02030734  0x02030734  arm
@@ -140,7 +140,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
-extern void func_0201F7A8(void *p, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *p, u32 kind);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -153,8 +153,8 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern int GFL_USE_IsSeqPlaying(u32 a);
@@ -204,7 +204,7 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
                 REPORT_EVENT_PrintMessage(w, 8);
                 *state = 0xE;
             } else {
-                func_0201F7A8(w->f18->f08, 1);
+                BMP_MENUWORK_DrawWindowBorder(w->f18->f08, 1);
                 *state = 5;
             }
             break;
@@ -266,8 +266,8 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
             REPORT_EVENT_EndAvatarAnim((int)w);
             ws = GF_FONT_Create_EC64(w->f10);
             str = func_02045EC0(w->f18->f04, 5);
-            func_0201F02C(ws, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->f04)));
-            func_0201F250(ws, w->f18->f18, str);
+            WORDSET_SetSlotMyStatus(ws, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->f04)));
+            WORDSET_CopyTaggedText(ws, w->f18->f18, str);
             STRBUF_Delete(str);
             WORDSET_DeleteStrbufED04(ws);
             REPORT_EVENT_StartPrintStream(w);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4B74
+ * function: VIEWER_MAIN_UpdateRows
  * address:  0x021C4B74
  * packet:   pkt_ov111_021C4B74
  * region:   ov111
@@ -10,9 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4858  0x021C4858  thumb  ov111
- *   func_021C49D8  0x021C49D8  thumb  ov111
- *   func_021C4AB0  0x021C4AB0  thumb  ov111
+ *   VIEWER_MAIN_UpdateRowA  0x021C4858  thumb  ov111
+ *   VIEWER_MAIN_UpdateRowB  0x021C49D8  thumb  ov111
+ *   VIEWER_MAIN_UpdateRowC  0x021C4AB0  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -56,18 +57,18 @@ typedef struct {
     u8 b32F6;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_021C4858(Work *p, int flag);
-extern void func_021C49D8(Work *p, int flag);
-extern void func_021C4AB0(Work *p, int flag);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_MAIN_UpdateRowA(Work *p, int flag);
+extern void VIEWER_MAIN_UpdateRowB(Work *p, int flag);
+extern void VIEWER_MAIN_UpdateRowC(Work *p, int flag);
 
-void func_021C4B74(Work *p, int flag)
+void VIEWER_MAIN_UpdateRows(Work *p, int flag)
 {
     if (p->info->f4_7 == 1) {
-        func_021C4AB0(p, flag);
+        VIEWER_MAIN_UpdateRowC(p, flag);
     } else if (p->f24->f8 == 0) {
-        func_021C49D8(p, flag);
+        VIEWER_MAIN_UpdateRowB(p, flag);
     } else {
-        func_021C4858(p, flag);
+        VIEWER_MAIN_UpdateRowA(p, flag);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE324
+ * function: ZKNSEARCH_MAIN_ToggleSaveFlag
  * address: 0x021BE324
  * packet: pkt_ov210_021BE324
  * region: ov210
@@ -17,20 +17,20 @@
  * symbols:
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
- *   func_021BEDB8 0x021BEDB8 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorAnimAuto 0x021BEDB8 thumb ov210
  */
 #include "../include/Obj10921.h"
 typedef unsigned char u8;
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
-extern void func_021BEDB8(int p, int i, int v);
-void func_021BE324(u8 *p)
+extern void ZKNSEARCH_MAIN_SetActorAnimAuto(int p, int i, int v);
+void ZKNSEARCH_MAIN_ToggleSaveFlag(u8 *p)
 {
     if (GAME_DATA_CheckSaveFlag((int)(**(void ** *)&((struct Obj10921 *)p)->f0), 16) == 1) {
         GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 0);
-        func_021BEDB8((int)p, 4, 6);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 6);
     } else {
         GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 1);
-        func_021BEDB8((int)p, 4, 7);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 7);
     }
 }

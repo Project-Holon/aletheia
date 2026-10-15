@@ -36,6 +36,7 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
+ *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -77,7 +78,7 @@ extern u32  func_0202762C(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -114,7 +115,7 @@ void CTVT_DRAW_Init(void *a0, u8 *p)
     bank = func_020490F4(func_020275E4(), v);
     BG_SYS_ClearSlot(0);
     ARC_UTIL_UploadBgPaletteAddFromHandle(bank, func_0202762C(), 0, 0x60, 0, 0x600, 0, v);
-    func_020413B0(0, 0, 0x15, 0x20, 3, 0);
+    BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
     func_020409B4(0);
     func_02040618(0, 3, 0);
     ARC_TOOL_DeleteHandle(bank);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4ED4
+ * function: MUSICAL_MCSS_SetElemField
  * address: 0x021F4ED4
  * packet: pkt_ov112_021F4ED4
  * region: ov112
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021F4ED4(u32 unused,u32 p,u16 v) { ((struct Obj01396 *)p)->f2=v; ((struct Obj01396 *)p)->f0 |=2; }
+void MUSICAL_MCSS_SetElemField(u32 unused,u32 p,u16 v) { ((struct Obj01396 *)p)->f2=v; ((struct Obj01396 *)p)->f0 |=2; }

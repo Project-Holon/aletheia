@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEC60",
+   "name": "DEMO3D_DATA_FadeSeSlotParam1",
    "address": "0x021BEC60",
    "kind": "game",
    "region": "ov203",

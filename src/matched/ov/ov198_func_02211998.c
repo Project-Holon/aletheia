@@ -1,5 +1,5 @@
 /*
- * function: func_02211998
+ * function: B_PLIST_MAIN_CreateCursor
  * address: 0x02211998
  * packet: pkt_ov198_02211998
  * region: ov198
@@ -13,7 +13,7 @@
  *   CURSOR_MOVE_Create 0x02025CD0 thumb
  *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
  *   CURSOR_MOVE_SetMode 0x02025D24 thumb
- *   func_02211A24 0x02211A24 thumb ov198
+ *   B_PLIST_MAIN_LayoutCursorActors 0x02211A24 thumb ov198
  *   d_022122D4 0x022122D4 data a4
  *   d_022122A0 0x022122A0 data a4
  */
@@ -29,9 +29,9 @@ struct Struct_02025D24;
 extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
 extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *);
 extern void CURSOR_MOVE_SetMode(struct Struct_02025D24 *);
-extern void func_02211A24(u8 *,u32);
+extern void B_PLIST_MAIN_LayoutCursorActors(u8 *,u32);
 extern const u32 d_022122D4[],d_022122A0[];
-void func_02211998(u8 *p,u32 index,u32 b)
+void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b)
 {
     Offset offset=task_offset;
     struct Struct_02025CD0 *result;
@@ -40,5 +40,5 @@ void func_02211998(u8 *p,u32 index,u32 b)
     CURSOR_MOVE_EnableInput((struct Struct_02025D1C *)result);
     offset-=8;
     CURSOR_MOVE_SetMode(*(struct Struct_02025D24 **)(p+offset));
-    func_02211A24(p,b);
+    B_PLIST_MAIN_LayoutCursorActors(p,b);
 }

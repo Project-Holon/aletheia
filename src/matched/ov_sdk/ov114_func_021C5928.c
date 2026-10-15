@@ -20,7 +20,7 @@
  *   DWCi_NdAlloc  0x021C569C  arm  ov114
  *   MI_CpuFill8  0x02082BCC  arm
  *   strncpy        0x02094860  arm
- *   func_02167FA8  0x02167FA8  arm
+ *   DWC_SVLGetTokenAsync  0x02167FA8  arm
  *   DWCi_NdFree  0x021C56B4  arm  ov114
  *   OS_CreateThread  0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
@@ -51,7 +51,7 @@ extern void OS_UnlockMutex(void *mutex);
 extern void *DWCi_NdAlloc(int a, int b);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
-extern int func_02167FA8(char *svl, void *result);
+extern int DWC_SVLGetTokenAsync(char *svl, void *result);
 extern void DWCi_NdFree(int a);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack,
                           unsigned long stackSize, unsigned long prio);
@@ -89,7 +89,7 @@ int DWC_NdInitAsync(void (*callback)(int, int, int), char *gamecd, char *passwd)
     ((NdParam *)gDwcNdState.svl)->f40 = 0;
     strncpy(((NdParam *)gDwcNdState.svl)->gamecd, gamecd, 31);
     strncpy(((NdParam *)gDwcNdState.svl)->passwd, passwd, 31);
-    if (func_02167FA8(sDwcNdServiceLocatorPort, ((NdParam *)gDwcNdState.svl)->svl) == 0) {
+    if (DWC_SVLGetTokenAsync(sDwcNdServiceLocatorPort, ((NdParam *)gDwcNdState.svl)->svl) == 0) {
         DWCi_NdFree((int)gDwcNdState.svl);
         gDwcNdState.svl = 0;
         return 0;

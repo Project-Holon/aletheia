@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220D6AC",
+   "name": "B_PLIST_DRAW_PrintWordAndRefresh",
    "address": "0x0220D6AC",
    "kind": "game",
    "region": "ov198",

@@ -1,5 +1,5 @@
 /*
- * function: func_02208430
+ * function: SHINKA_DEMO_VIEW_UpdateGridFade
  * address:  0x02208430
  * packet:   pkt_02208430
  * region:   ov195
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0220826C 0x0220826C thumb ov195
- *   func_0220827C 0x0220827C thumb ov195
+ *   SHINKA_DEMO_VIEW_IsGridFadeDone 0x0220826C thumb ov195
+ *   SHINKA_DEMO_VIEW_StepGridFade 0x0220827C thumb ov195
  */
 
 typedef unsigned char u8;
@@ -32,26 +32,26 @@ typedef struct Fade {
     s16 count;
 } Fade;
 
-extern int func_0220826C(Fade *p, int x);
-extern void func_0220827C(Fade *p, int x);
+extern int SHINKA_DEMO_VIEW_IsGridFadeDone(Fade *p, int x);
+extern void SHINKA_DEMO_VIEW_StepGridFade(Fade *p, int x);
 
-void func_02208430(Fade *p, int x)
+void SHINKA_DEMO_VIEW_UpdateGridFade(Fade *p, int x)
 {
     switch (p->state) {
     case 0:
     case 1:
         break;
     case 2:
-        if (func_0220826C(p, x))
+        if (SHINKA_DEMO_VIEW_IsGridFadeDone(p, x))
             p->state = 3;
         break;
     case 3:
     case 4:
         break;
     case 5:
-        if (func_0220826C(p, x))
+        if (SHINKA_DEMO_VIEW_IsGridFadeDone(p, x))
             p->state = 0;
         break;
     }
-    func_0220827C(p, x);
+    SHINKA_DEMO_VIEW_StepGridFade(p, x);
 }

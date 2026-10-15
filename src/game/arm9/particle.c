@@ -1,7 +1,7 @@
 /*
  * file:     particle.c
  * unit:     yes
- * function: BILLBOARD_ACT_Create, BILLBOARD_ACT_Delete, BILLBOARD_ACT_GetBoard, func_02050084, BILLBOARD_ACT_InitSlot, BILLBOARD_ACT_ResetPlayback, BILLBOARD_ACT_InitEntry, BILLBOARD_ACT_CreateSlots, BILLBOARD_ACT_AddSlot, BILLBOARD_ACT_DeleteSlots, BILLBOARD_ACT_DeleteSlot, BILLBOARD_ACT_GetSlotBoardId, BILLBOARD_ACT_CreateEntries, BILLBOARD_ACT_DeleteEntries, BILLBOARD_ACT_UpdateEntries, BILLBOARD_ACT_UpdateEntry, BILLBOARD_ACT_UploadSlotFrame, BILLBOARD_ACT_UploadSlotPalette, func_02050790, BILLBOARD_ACT_SetEntryFlags, BILLBOARD_ACT_GetEntryFlags, BILLBOARD_ACT_SetEntryEnabled, BILLBOARD_ACT_SetEntryCommands, BILLBOARD_ACT_SetEntryList, BILLBOARD_ACT_GetEntryList, BILLBOARD_ACT_SetEntryCursor, BILLBOARD_ACT_GetEntryCursor, BILLBOARD_ACT_SetEntryPaletteFromSlot, BILLBOARD_ACT_GetEntryElemId, BILLBOARD_ACT_GetEntrySlotIndex, BILLBOARD_ACT_GetEntryLastCommand, BILLBOARD_ACT_IsControlCommand, BILLBOARD_ACT_RunControlCommand, BILLBOARD_ACT_GetControlHandler, BILLBOARD_ACT_CmdEnd, BILLBOARD_ACT_CmdSetList, BILLBOARD_ACT_CmdLoop, BILLBOARD_ACT_CmdJump, func_02050A70, func_02050B14, PARTICLE_InitManager, PARTICLE_Main, PARTICLE_CreateSystemDefault, PARTICLE_CreateSystem, PARTICLE_DeleteSystem, PARTICLE_ExitManager, PARTICLE_AllocWorkSlot0, PARTICLE_AllocWorkSlot1, PARTICLE_AllocWorkSlot2, PARTICLE_AllocWorkSlot3, PARTICLE_AllocWorkSlot4, PARTICLE_AllocWorkSlot5, PARTICLE_AllocWorkSlot6, PARTICLE_AllocWorkSlot7, PARTICLE_AllocWorkSlot8, PARTICLE_AllocWorkSlot9, PARTICLE_AllocWorkSlot10, PARTICLE_AllocWorkSlot11, PARTICLE_AllocWorkSlot12, PARTICLE_AllocWorkSlot13, PARTICLE_AllocWorkSlot14, PARTICLE_AllocWorkSlot15, PARTICLE_LoadArchiveMember, PARTICLE_SetupSystem, PARTICLE_SetupSystemBorrowed, PARTICLE_SetupSystemNoHandlers, PARTICLE_ApplyLoadHandlers, PARTICLE_ApplyLoadHandlersTask, PARTICLE_DrawSystem, PARTICLE_UpdateSystem, PARTICLE_CountSystems, PARTICLE_DrawAllSystems, PARTICLE_UpdateAllSystems, PARTICLE_StartEffect, PARTICLE_StartEffectWithCallback, PARTICLE_GetEffectCount, PARTICLE_KillAllEffects, PARTICLE_KillEffect, PARTICLE_GetWorkBase, PARTICLE_InitCamera, PARTICLE_ReleaseCamera
+ * function: BILLBOARD_ACT_Create, BILLBOARD_ACT_Delete, BILLBOARD_ACT_GetBoard, func_02050084, BILLBOARD_ACT_InitSlot, BILLBOARD_ACT_ResetPlayback, BILLBOARD_ACT_InitEntry, BILLBOARD_ACT_CreateSlots, BILLBOARD_ACT_AddSlot, BILLBOARD_ACT_DeleteSlots, BILLBOARD_ACT_DeleteSlot, BILLBOARD_ACT_GetSlotBoardId, BILLBOARD_ACT_CreateEntries, BILLBOARD_ACT_DeleteEntries, BILLBOARD_ACT_UpdateEntries, BILLBOARD_ACT_UpdateEntry, BILLBOARD_ACT_UploadSlotFrame, BILLBOARD_ACT_UploadSlotPalette, LIST_PopFront, BILLBOARD_ACT_SetEntryFlags, BILLBOARD_ACT_GetEntryFlags, BILLBOARD_ACT_SetEntryEnabled, BILLBOARD_ACT_SetEntryCommands, BILLBOARD_ACT_SetEntryList, BILLBOARD_ACT_GetEntryList, BILLBOARD_ACT_SetEntryCursor, BILLBOARD_ACT_GetEntryCursor, BILLBOARD_ACT_SetEntryPaletteFromSlot, BILLBOARD_ACT_GetEntryElemId, BILLBOARD_ACT_GetEntrySlotIndex, BILLBOARD_ACT_GetEntryLastCommand, BILLBOARD_ACT_IsControlCommand, BILLBOARD_ACT_RunControlCommand, BILLBOARD_ACT_GetControlHandler, BILLBOARD_ACT_CmdEnd, BILLBOARD_ACT_CmdSetList, BILLBOARD_ACT_CmdLoop, BILLBOARD_ACT_CmdJump, DMA_UpdateChannels, DMA_ProgramChannel, PARTICLE_InitManager, PARTICLE_Main, PARTICLE_CreateSystemDefault, PARTICLE_CreateSystem, PARTICLE_DeleteSystem, PARTICLE_ExitManager, PARTICLE_AllocWorkSlot0, PARTICLE_AllocWorkSlot1, PARTICLE_AllocWorkSlot2, PARTICLE_AllocWorkSlot3, PARTICLE_AllocWorkSlot4, PARTICLE_AllocWorkSlot5, PARTICLE_AllocWorkSlot6, PARTICLE_AllocWorkSlot7, PARTICLE_AllocWorkSlot8, PARTICLE_AllocWorkSlot9, PARTICLE_AllocWorkSlot10, PARTICLE_AllocWorkSlot11, PARTICLE_AllocWorkSlot12, PARTICLE_AllocWorkSlot13, PARTICLE_AllocWorkSlot14, PARTICLE_AllocWorkSlot15, PARTICLE_LoadArchiveMember, PARTICLE_SetupSystem, PARTICLE_SetupSystemBorrowed, PARTICLE_SetupSystemNoHandlers, PARTICLE_ApplyLoadHandlers, PARTICLE_ApplyLoadHandlersTask, PARTICLE_DrawSystem, PARTICLE_UpdateSystem, PARTICLE_CountSystems, PARTICLE_DrawAllSystems, PARTICLE_UpdateAllSystems, PARTICLE_StartEffect, PARTICLE_StartEffectWithCallback, PARTICLE_GetEffectCount, PARTICLE_KillAllEffects, PARTICLE_KillEffect, PARTICLE_GetWorkBase, PARTICLE_InitCamera, PARTICLE_ReleaseCamera
  * address:  0x0204FE94
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -37,7 +37,7 @@
  *   BILLBOARD_GetImageVramAddr  0x0204F2B4  arm
  *   BILLBOARD_CalcImageFrameRange  0x0204F344  arm
  *   G3D_SYSTEM_GetPlttDataAddr   0x020473EC  arm
- *   func_0204F2CC   0x0204F2CC  arm
+ *   BILLBOARD_GetImagePlttVramOffset   0x0204F2CC  arm
  *   DWCi_LSTlErase 0x0204F7DC arm
  *   g_pDmaChannels     0x02146A84  data
  *   OS_DisableInterrupts  0x02087988  arm
@@ -48,7 +48,7 @@
  *   sDefaultCameraTarget     0x020A1584  data
  *   sDefaultCameraUp     0x020A1578  data
  *   sSystemEngineIds     0x020A15A8  data
- *   func_02052DC8  0x02052DC8  arm
+ *   SPL_EMITTER_AllocNodeFromHeap  0x02052DC8  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   PARTICLE_KillAllEffects  0x02051620  arm
  *   NNS_GfdLoadVramManager  0x0206168C  arm
@@ -61,16 +61,16 @@
  *   G3D_SYSTEM_GetPlttManagerMode  0x02046C10  arm
  *   NNS_GfdSaveVramManager  0x0206164C  arm
  *   NNSi_GfdGetVramManagerWork  0x02061808  arm
- *   func_02052A50  0x02052A50  arm
+ *   SPL_EMITTER_FreeNodeToHeap  0x02052A50  arm
  *   func_02030DA8  0x02030DA8  arm
  *   BUTTON_MAN_Func1A3C  0x02051A3C  arm
  *   BUTTON_MAN_AppendList0  0x02051A54  arm
  *   BUTTON_MAN_Func1AA0  0x02051AA0  arm
  *   BUTTON_MAN_AppendList1  0x02051AB8  arm
- *   func_020528A8  0x020528A8  arm
- *   func_020528BC  0x020528BC  arm
- *   func_020528D0  0x020528D0  arm
- *   func_02052984  0x02052984  arm
+ *   SPL_EMITTER_AllocPlttVramDefault  0x020528A8  arm
+ *   SPL_EMITTER_AllocTexVramDefault  0x020528BC  arm
+ *   SPL_EMITTER_AllocPlttVramList  0x020528D0  arm
+ *   SPL_EMITTER_AllocTexVramList  0x02052984  arm
  *   sDefaultViewVec      0x020A159C  data
  *   g_renderState      0x02148B4C  data
  *   g_renderStateDrawParams      0x02148B98  data
@@ -81,16 +81,19 @@
  *   G3D_SYSTEM_SetLookAt   0x02046B40  arm
  *   G3D_SYSTEM_ApplyLookAt   0x020479D8  arm
  *   func_02048AD0   0x02048AD0  arm
- *   func_020526A8   0x020526A8  arm
+ *   SPL_EMITTER_FreeNodeHeap   0x020526A8  arm
  *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
  *   NNS_G3dGeFlushBuffer   0x0206DB80  arm
  *   MI_Copy36B      0x02082B60  arm
  *   MTX_Identity33_ 0x0207ADC4  arm
- *   func_020524C8 0x020524C8 arm
- *   func_0205250C  0x0205250C  arm
+ *   SPL_EMITTER_FreeResourceList 0x020524C8 arm
+ *   SPL_EMITTER_FreeResource  0x0205250C  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   BILLBOARD_GetElemVisible  0x0204F704  arm
+ *   SPL_EMITTER_AllocResourceEx  0x020525A0  arm
+ *   SPL_EMITTER_AllocResource  0x02052634  arm
+ *   SPL_EMITTER_FreeTexNode  0x02052770  arm
  */
 
 typedef unsigned char  u8;
@@ -246,7 +249,7 @@ typedef struct tagLISTCB {
 
 typedef u32 (*ParticleLoadFn)(u32 id, u32 arg);
 
-/* Particle engine instance made by func_02052DC8; only the count is read here. */
+/* Particle engine instance made by SPL_EMITTER_AllocNodeFromHeap; only the count is read here. */
 struct ParticleEngine {
     u32 engineId;
     u32 effectLimit;
@@ -328,12 +331,12 @@ extern int G3D_SYSTEM_GetTexDataAddr(u32 payload);
 extern void BILLBOARD_GetImageVramAddr(struct BbBoard *board, u32 boardId, u32 *texDst);
 extern void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 boardId, int frame, u32 *offset, u32 *size, u8 flag);
 extern int G3D_SYSTEM_GetPlttDataAddr(u32 payload);
-extern u32 func_0204F2CC(struct BbBoard *board, u16 boardId, u32 *palDst);
+extern u32 BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, u16 boardId, u32 *palDst);
 extern void DWCi_LSTlErase(void *ob);
 extern u32 BILLBOARD_GetElemVisible(struct BbBoard *board, u32 elemId);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
-extern struct ParticleEngine *func_02052DC8(u32 engineId, u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
+extern struct ParticleEngine *SPL_EMITTER_AllocNodeFromHeap(u32 engineId, u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
 extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void NNS_GfdLoadVramManager(u32 *table);
 extern u32 NNS_GfdFreeTexVram(u32 handle);
@@ -345,16 +348,16 @@ extern int G3D_SYSTEM_GetTexManagerMode(void);
 extern int G3D_SYSTEM_GetPlttManagerMode(void);
 extern void NNS_GfdSaveVramManager(u32 *table);
 extern void NNSi_GfdGetVramManagerWork(u32 *table);
-extern void func_02052A50(struct ParticleEngine *engine, void *block);
+extern void SPL_EMITTER_FreeNodeToHeap(struct ParticleEngine *engine, void *block);
 extern void func_02030DA8(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
 extern u32 BUTTON_MAN_Func1A3C(u32 id, u32 arg);
 extern u32 BUTTON_MAN_AppendList0(u32 id, u32 arg);
 extern u32 BUTTON_MAN_Func1AA0(u32 id, u32 arg);
 extern u32 BUTTON_MAN_AppendList1(u32 id, u32 arg);
-extern void func_020528A8(struct ParticleEngine *engine);
-extern void func_020528BC(struct ParticleEngine *engine);
-extern int  func_020528D0(struct ParticleEngine *engine, ParticleLoadFn fn);
-extern int  func_02052984(struct ParticleEngine *engine, ParticleLoadFn fn);
+extern void SPL_EMITTER_AllocPlttVramDefault(struct ParticleEngine *engine);
+extern void SPL_EMITTER_AllocTexVramDefault(struct ParticleEngine *engine);
+extern int  SPL_EMITTER_AllocPlttVramList(struct ParticleEngine *engine, ParticleLoadFn fn);
+extern int  SPL_EMITTER_AllocTexVramList(struct ParticleEngine *engine, ParticleLoadFn fn);
 extern void func_02030EAC(struct TaskNode *task);
 extern void G3D_SYSTEM_GetProjection(SavedGxState *dst);
 extern void G3D_SYSTEM_SetProjection(const SavedGxState *src);
@@ -362,17 +365,17 @@ extern void G3D_SYSTEM_GetLookAt(Mtx33 *dst);
 extern void G3D_SYSTEM_SetLookAt(Mtx33 *src);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void func_02048AD0(struct ParticleCamera *camera);
-extern void func_020526A8(struct ParticleEngine *engine, const u32 *drawParams);
+extern void SPL_EMITTER_FreeNodeHeap(struct ParticleEngine *engine, const u32 *drawParams);
 extern void NNS_G3dGlbBaseTrans(Vec3 *p);
 extern void NNS_G3dGlbBaseScale(Vec3 *p);
 extern void NNS_G3dGeFlushBuffer(void);
 extern void MI_Copy36B(const void *src, void *dst);
 extern void MTX_Identity33_(Mtx33 *p);
-extern int func_02052770(struct ParticleEngine *engine);
-extern int func_02052634(struct ParticleEngine *engine, int resId, int arg);
-extern int func_020525A0(struct ParticleEngine *engine, int resId, void (*callback)(void *));
-extern void func_020524C8(struct ParticleEngine *engine);
-extern void func_0205250C(struct ParticleEngine *engine, void *effect);
+extern int SPL_EMITTER_FreeTexNode(struct ParticleEngine *engine);
+extern int SPL_EMITTER_AllocResource(struct ParticleEngine *engine, int resId, int arg);
+extern int SPL_EMITTER_AllocResourceEx(struct ParticleEngine *engine, int resId, void (*callback)(void *));
+extern void SPL_EMITTER_FreeResourceList(struct ParticleEngine *engine);
+extern void SPL_EMITTER_FreeResource(struct ParticleEngine *engine, void *effect);
 extern struct ParticleCamera *G3D_CAMERA_Create(u32 projType, u32 fovSin, u32 fovCos, u32 aspect,
                                             u32 orthoExtent, u32 nearZ, u32 farZ, u32 projScale,
                                             Vec3 *pos, Vec3 *target, Vec3 *up, int heapId);
@@ -394,7 +397,7 @@ void BILLBOARD_ACT_UpdateEntries(struct BbActSys *sys);
 void BILLBOARD_ACT_UpdateEntry(struct BbActSys *sys, struct BbActEntry *entry);
 void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot, u32 frame);
 u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot);
-void func_02050790(LISTCB *list, int unused1, int unused2);
+void LIST_PopFront(LISTCB *list, int unused1, int unused2);
 int BILLBOARD_ACT_SetEntryFlags(struct BbActSys *sys, int entryIndex, u32 flags);
 int BILLBOARD_ACT_GetEntryFlags(struct BbActSys *sys, int entryIndex);
 void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, int entryIndex, u32 enabled);
@@ -414,8 +417,8 @@ int BILLBOARD_ACT_CmdEnd(struct BbActEntry *entry, struct BbActCmd *cmd);
 int BILLBOARD_ACT_CmdSetList(struct BbActEntry *entry, struct BbActCmd *cmd);
 int BILLBOARD_ACT_CmdLoop(struct BbActEntry *entry, struct BbActCmd *cmd);
 int BILLBOARD_ACT_CmdJump(struct BbActEntry *entry, struct BbActCmd *cmd);
-void func_02050A70(void);
-void func_02050B14(u32 channel);
+void DMA_UpdateChannels(void);
+void DMA_ProgramChannel(u32 channel);
 void PARTICLE_InitManager(u32 heapId);
 void PARTICLE_Main(void);
 struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
@@ -1001,10 +1004,10 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
 /*
  * An 88-byte ARM function in the 0x02050000 block.  It reads a record index
  * out of the object at +4, resolves it through G3D_SYSTEM_GetPlttDataAddr, then calls
- * func_0204F2CC with the object's word at +4, the halfword at q[0] and a
+ * BILLBOARD_GetImagePlttVramOffset with the object's word at +4, the halfword at q[0] and a
  * stack scratch slot; when the hook pointer at p+8 is non-null it calls the
  * hook with the scratch value and the resolved record.  The null case returns
- * the func_0204F2CC result, which is why the `cmp ip, #0` sits after the
+ * the BILLBOARD_GetImagePlttVramOffset result, which is why the `cmp ip, #0` sits after the
  * second call with r0 still live.
  *
  * Verified with:
@@ -1015,7 +1018,7 @@ u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot
 {
     u32 paletteSrc = G3D_SYSTEM_GetPlttDataAddr(slot->payload);
     u32 paletteDst;
-    u32 result = func_0204F2CC(sys->board, slot->boardId, &paletteDst);
+    u32 result = BILLBOARD_GetImagePlttVramOffset(sys->board, slot->boardId, &paletteDst);
     BbActUploadFn uploadFn = sys->uploadFn;
 
     if (uploadFn == 0)
@@ -1031,7 +1034,7 @@ u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot
 /*
  * sdk:      DWCi_LSTlPopFront (libdwcutil.TWL.HYB.a list.o)
  */
-void func_02050790(LISTCB *list, int unused1, int unused2)
+void LIST_PopFront(LISTCB *list, int unused1, int unused2)
 {
     DWCi_LSTlErase(list->tail);
 }
@@ -1464,10 +1467,10 @@ int BILLBOARD_ACT_CmdJump(struct BbActEntry *entry, struct BbActCmd *cmd)
  * the store can alias the global itself.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02050A70.c \
- *       --func func_02050A70 --addr 0x02050A70 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/DMA_UpdateChannels.c \
+ *       --func DMA_UpdateChannels --addr 0x02050A70 --cc 1.1p1 --arm
  */
-void func_02050A70(void)
+void DMA_UpdateChannels(void)
 {
     int i;
 
@@ -1478,13 +1481,13 @@ void func_02050A70(void)
         if (g_pDmaChannels[i].dirty) {
             g_pDmaChannels[i].dirty = 0;
             if (g_pDmaChannels[i].control >> 11) {
-                func_02050B14(i);
+                DMA_ProgramChannel(i);
                 g_pDmaChannels[i].programmed = 1;
             }
         }
         if (g_pDmaChannels[i].reprogram) {
             g_pDmaChannels[i].reprogram = 0;
-            func_02050B14(i);
+            DMA_ProgramChannel(i);
         }
     }
 }
@@ -1522,11 +1525,11 @@ void func_02050A70(void)
  * Written in descending destination order the four extracts come out mirrored.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050B14.c \
- *       --func func_02050B14 --addr 0x02050B14 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DMA_ProgramChannel.c \
+ *       --func DMA_ProgramChannel --addr 0x02050B14 --cc 1.1p1 --arm
  *   EXACT, 108 bytes, 3 relocation sites, all resolved.
  */
-void func_02050B14(u32 channel)
+void DMA_ProgramChannel(u32 channel)
 {
     u32 state = OS_DisableInterrupts();
     u32 v = g_pDmaChannels[channel].control;
@@ -1617,7 +1620,7 @@ struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 
  * line 285), clear it, copy the three default vectors in as struct
  * assignments, clear flag bit 0, wire the work-buffer span fields from (workBuf, workSize), publish
  * the emitter in its slot, optionally build the 3D block (a2 == 1), and store
- * func_02052DC8's handle at +0.
+ * SPL_EMITTER_AllocNodeFromHeap's handle at +0.
  *
  * WHAT CLOSED IT (docs/notes/pkt_02050C30.c.txt: size-exact at 392 with 37
  * bytes out inside the final argument setup, permuter exhausted): the
@@ -1662,7 +1665,7 @@ struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCam
     if (withCamera == 1)
         PARTICLE_InitCamera(sys, 0, 0x2000, 0, 0, 0, heapId);
 
-    sys->engine = func_02052DC8(sSystemEngineIds[i], 0x18, 0xc8, (u16)limitA, (u16)limitB, (u16)maxResIndex);
+    sys->engine = SPL_EMITTER_AllocNodeFromHeap(sSystemEngineIds[i], 0x18, 0xc8, (u16)limitA, (u16)limitB, (u16)maxResIndex);
     return sys;
 }
 
@@ -2087,7 +2090,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     }
     engine = sys->engine;
     sys->resourceBlock = block;
-    func_02052A50(engine, block);
+    SPL_EMITTER_FreeNodeToHeap(engine, block);
     if (applyNow == 1) {
         PARTICLE_ApplyLoadHandlers(sys);
         return;
@@ -2148,7 +2151,7 @@ void PARTICLE_SetupSystemNoHandlers(struct ParticleSys *sys, void *block)
  * That gap was statement form.  The condition field and the call's argument
  * must both be read into NAMED LOCALS, and by plain ASSIGNMENT STATEMENTS
  * placed after the publish store, not by initialisers at the declarations:
- *   - inline (`if (p[6] == 0) func_020528BC(p[0]);`) the compiler folds the
+ *   - inline (`if (p[6] == 0) SPL_EMITTER_AllocTexVramDefault(p[0]);`) the compiler folds the
  *     condition into r0 and issues `cmp` before the argument load, so the
  *     image's `ldr r1, [r4, #0x18]` / `ldr r0, [r4]` / `cmp r1, #0` triple
  *     comes out in the wrong order in BOTH blocks (10 bytes out);
@@ -2171,16 +2174,16 @@ void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
     fn = sys->texLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        func_020528BC(engine);
+        SPL_EMITTER_AllocTexVramDefault(engine);
     else
-        func_02052984(engine, fn);
+        SPL_EMITTER_AllocTexVramList(engine, fn);
 
     fn = sys->palLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        func_020528A8(engine);
+        SPL_EMITTER_AllocPlttVramDefault(engine);
     else
-        func_020528D0(engine, fn);
+        SPL_EMITTER_AllocPlttVramList(engine, fn);
 
     g_pParticleMan->current = 0;
 }
@@ -2215,7 +2218,7 @@ void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *s
  * 0x24 bytes), copy the model vector 0x020A159C into a local, build an
  * identity 3x3, zero a vector for NNS_G3dGlbBaseTrans, copy the 3x3 to the
  * 0x02148C08 scratch, clear bits 0xa4 of word 63 of 0x02148B4C and hand the
- * model vector to NNS_G3dGlbBaseScale; then the shared call func_020526A8 and, when
+ * model vector to NNS_G3dGlbBaseScale; then the shared call SPL_EMITTER_FreeNodeHeap and, when
  * the block is still there, the teardown.
  *
  * WHAT CLOSED IT (docs/notes/pkt_02051414.c.txt had it at 152 bytes out,
@@ -2228,7 +2231,7 @@ void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *s
  * the same locals in the if-block without initialisers all stay at 152 out.
  *
  * sDefaultViewVec resolves through sole-ref/self (its only pool word is inside
- * this function; the ROM word equals the relocation), func_020526A8 through
+ * this function; the ROM word equals the relocation), SPL_EMITTER_FreeNodeHeap through
  * sole-ref/code.
  */
 void PARTICLE_DrawSystem(struct ParticleSys *sys)
@@ -2253,7 +2256,7 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
         G3D_SYSTEM_ApplyLookAt();
         NNS_G3dGeFlushBuffer();
     }
-    func_020526A8(sys->engine, g_renderStateDrawParams);
+    SPL_EMITTER_FreeNodeHeap(sys->engine, g_renderStateDrawParams);
     if (sys->camera == 0)
         return;
     G3D_SYSTEM_SetProjection(&savedState);
@@ -2285,7 +2288,7 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
  */
 int PARTICLE_UpdateSystem(struct ParticleSys *sys)
 {
-    return func_02052770(sys->engine);
+    return SPL_EMITTER_FreeTexNode(sys->engine);
 }
 
 
@@ -2375,7 +2378,7 @@ int PARTICLE_UpdateAllSystems(void)
 
 /*
  * Promoted by parks lane 2: the callee 0x02052634 was filed first as an
- * EXACT entry (src/matched/func_02052634.c, shard pkt_0205250C) and this
+ * EXACT entry (src/matched/SPL_EMITTER_AllocResource.c, shard pkt_0205250C) and this
  * file's call site now resolves through the `matched` class.  No change to
  * the C was needed.
  *
@@ -2385,7 +2388,7 @@ int PARTICLE_UpdateAllSystems(void)
  */
 int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg)
 {
-    int effect = func_02052634(sys->engine, resId, arg);
+    int effect = SPL_EMITTER_AllocResource(sys->engine, resId, arg);
     sys->activeEffect = effect;
     return effect;
 }
@@ -2396,7 +2399,7 @@ int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg)
 
 /*
  * Promoted by parks lane 2: the callee 0x020525A0 was filed first as an
- * EXACT entry (src/matched/func_020525A0.c, shard pkt_0205250C) and this
+ * EXACT entry (src/matched/SPL_EMITTER_AllocResourceEx.c, shard pkt_0205250C) and this
  * file's call site now resolves through the `matched` class.  No change to
  * the C was needed.
  *
@@ -2413,7 +2416,7 @@ int PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, void (*
     if (sys->engine->effectCount >= 0x18)
         return -1;
     g_pParticleMan->callbackArg = userArg;
-    effect = func_020525A0(sys->engine, resId, callback);
+    effect = SPL_EMITTER_AllocResourceEx(sys->engine, resId, callback);
     g_pParticleMan->callbackArg = 0;
     sys->activeEffect = effect;
     return effect;
@@ -2437,7 +2440,7 @@ int PARTICLE_GetEffectCount(struct ParticleSys *sys)
 
 void PARTICLE_KillAllEffects(struct ParticleSys *sys)
 {
-    func_020524C8(sys->engine);
+    SPL_EMITTER_FreeResourceList(sys->engine);
 }
 
 
@@ -2446,13 +2449,13 @@ void PARTICLE_KillAllEffects(struct ParticleSys *sys)
 
 
 /*
- * Dereference the first argument and tail-call func_0205250C with the loaded
+ * Dereference the first argument and tail-call SPL_EMITTER_FreeResource with the loaded
  * pointer.  Unlabelled ARM leaf in the ARM9 listing; matched so its overlay
  * callers get a `matched` witness.
  */
 void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect)
 {
-    func_0205250C(sys->engine, effect);
+    SPL_EMITTER_FreeResource(sys->engine, effect);
 }
 
 

@@ -1,7 +1,7 @@
 /*
  * file:     gpibuffer.c
  * unit:     yes
- * function: func_0218934C, func_021893C8, func_0218946C, func_0218949C, func_021894D8, gpiSendOrBufferChar, func_0218964C, func_02189750, func_02189780, func_0218998C, func_02189A7C, func_02189BE4, func_02189D28
+ * function: gpiAppendCharToBuffer, gpiAppendStringToBufferLen, gpiAppendStringToBuffer, gpiAppendIntToBuffer, func_021894D8, gpiSendOrBufferChar, func_0218964C, func_02189750, func_02189780, gpiSendFromBuffer, gpiSendBufferToPeer, gpiReadMessageFromBuffer, gpiClipBufferToPosition
  * address:  0x0218934C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,8 +16,8 @@
  * helper (connection, peer, character); its caller only tests the result.
  *
  * symbols:
- *   func_0217EAC8  0x0217EAC8  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gsirealloc  0x0217EAC8  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   g_021A44C8     0x021A44C8  data
  *   func_02092344  0x02092344  arm
  *   strlen  0x0209477C  arm
@@ -25,11 +25,11 @@
  *   g_021A44D8     0x021A44D8  data
  *   func_0217EC90  0x0217EC90  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
- *   func_02193710  0x02193710  arm  ov009
- *   func_02189D78  0x02189D78  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gpiSetError  0x02193710  arm  ov009
+ *   gpiCallErrorCallback  0x02189D78  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   g_021A44DC     0x021A44DC  data ov009
  *   g_021A4504     0x021A4504  data ov009
  *   g_021A4528     0x021A4528  data ov009
@@ -52,7 +52,7 @@
  *   gsUdpEngineGetPeerState  0x02181010  arm   ov009
  *   strchr         0x02094a28  arm
  *   strncmp        0x020949f4  arm
- *   func_02193418  0x02193418  arm   ov009
+ *   gpiValueForKey  0x02193418  arm   ov009
  *   atoi           0x020964e0  arm
  *   g_021A45B4     0x021a45b4  data
  *   g_021A45BC     0x021a45bc  data
@@ -131,41 +131,38 @@ typedef struct GPIBuffer_02189D28 {
     int pos;
 } GPIBuffer_02189D28;
 
-extern char *func_0217EAC8(char *p, int n);
-extern void func_02193734(int *connection, int string);
+extern char *gsirealloc(char *p, int n);
+extern void gpiSetErrorString(int *connection, int string);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
 extern int GOAGetLastError(int sock);
-extern void func_02193710(int *connection, int result, int errorString);
-extern int func_02189D78(int *connection, int a1, int a2);
-extern char *func_0217EAB0(int size);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0217EAE0(void *p);
+extern void gpiSetError(int *connection, int result, int errorString);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
+extern char *gsimalloc(int size);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsifree(void *p);
 extern int ArrayLength(void *array);
 extern unsigned int gsUdpEngineGetPeerOutBufferFreeSpace(u32 theIp, u16 thePort);
 extern int gsUdpEngineSendMessage(u32 theIp, u16 thePort, char *theHeader,
                                   unsigned char *theMsg, u32 theMsgLen,
                                   int theReliable);
-extern int gpiAppendStringToBufferLen(void **connection,
-                                      struct GPIBuffer_0218964C *outputBuffer,
-                                      char *string, int stringLen);
 extern int func_0217EC4C(int sock, char *buffer, int len, int flags);
 extern int gsUdpEngineGetPeerState(unsigned int ip, unsigned short port, int *state);
-extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
-int func_0218934C(int *connection, int *buffer, int c);
-int func_021893C8(int *connection, int *buffer, int src, int n);
-int func_0218946C(int *connection, int *buffer, const char *string);
-int func_0218949C(int *connection, int *buffer, int value);
+extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
+int gpiAppendCharToBuffer(int *connection, int *buffer, int c);
+int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n);
+int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
+int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 int func_021894D8(int *connection, int sock, char *buffer, int bufferLen, int *closed, int *sent, char *id);
 int gpiSendOrBufferChar(void);
 int gpiSendOrBufferStringLenToPeer(void **connection, struct GPIPeer_s *peer, char *string, int stringLen);
 int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer, char *string);
 int func_02189780(int *connection, int sock, GPIBuffer_02189780 *inputBuffer, int *bytesRead, int *connClosed, char *id);
-int func_0218998C(int *connection, int sock, GPIBuffer_0218998C *outputBuffer, int *connClosed, int clipSentData, char *id);
-int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short port, GPIBuffer_02189A7C *outputBuffer, int *closed, int clipSentData);
-int func_02189BE4(int unused, GPIBuffer_02189BE4 *inputBuffer, char **message, int *type, int *plen);
-int func_02189D28(void **unused, GPIBuffer_02189D28 *buffer);
+int gpiSendFromBuffer(int *connection, int sock, GPIBuffer_0218998C *outputBuffer, int *connClosed, int clipSentData, char *id);
+int gpiSendBufferToPeer(GPIConnection **connection, unsigned int ip, unsigned short port, GPIBuffer_02189A7C *outputBuffer, int *closed, int clipSentData);
+int gpiReadMessageFromBuffer(int unused, GPIBuffer_02189BE4 *inputBuffer, char **message, int *type, int *plen);
+int gpiClipBufferToPosition(void **unused, GPIBuffer_02189D28 *buffer);
 extern char g_021A44C8[];
 extern char g_021A44D8[];
 extern char g_021A44DC[];
@@ -190,7 +187,7 @@ extern void *memmove(void *dest, const void *src, unsigned int n);
  * gpiAppendCharToBuffer: append one character to a GPIBuffer (0=data,
  * 4=size, 8=len), growing the backing store by 0x4000 bytes when full.
  */
-int func_0218934C(int *connection, int *buffer, int c)
+int gpiAppendCharToBuffer(int *connection, int *buffer, int c)
 {
     int len = buffer[2];
     int size = buffer[1];
@@ -199,9 +196,9 @@ int func_0218934C(int *connection, int *buffer, int c)
     data = (char *)buffer[0];
     if (size == len) {
         size += 0x4000;
-        data = func_0217EAC8(data, size + 1);
+        data = gsirealloc(data, size + 1);
         if (data == 0) {
-            func_02193734(connection, (int)g_021A44C8);
+            gpiSetErrorString(connection, (int)g_021A44C8);
             return 1;
         }
     }
@@ -220,7 +217,7 @@ int func_0218934C(int *connection, int *buffer, int c)
  * (0=data, 4=size, 8=len).  Grows the store by max(0x4000, n) when the
  * free tail is shorter than n, then NUL-terminates.
  */
-int func_021893C8(int *connection, int *buffer, int src, int n)
+int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
 {
     int buflen;
     int size;
@@ -236,9 +233,9 @@ int func_021893C8(int *connection, int *buffer, int src, int n)
         if (n >= grow)
             grow = n;
         size += grow;
-        data = func_0217EAC8(data, size + 1);
+        data = gsirealloc(data, size + 1);
         if (data == 0) {
-            func_02193734(connection, (int)g_021A44C8);
+            gpiSetErrorString(connection, (int)g_021A44C8);
             return 1;
         }
     }
@@ -256,9 +253,9 @@ int func_021893C8(int *connection, int *buffer, int src, int n)
  * gpiAppendStringToBuffer: append a NUL-terminated string's bytes to a
  * GPIBuffer, its length supplied by strlen.
  */
-int func_0218946C(int *connection, int *buffer, const char *string)
+int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string)
 {
-    return func_021893C8(connection, buffer, (int)string, strlen((const char *)string));
+    return gpiAppendStringToBufferLen(connection, buffer, (int)string, strlen((const char *)string));
 }
 
 
@@ -267,18 +264,18 @@ int func_0218946C(int *connection, int *buffer, const char *string)
  * gpiAppendIntToBuffer: format the integer with sprintf("%d") into a small
  * stack buffer, then append that string to the GPIBuffer.
  */
-int func_0218949C(int *connection, int *buffer, int value)
+int gpiAppendIntToBuffer(int *connection, int *buffer, int value)
 {
     char buf[0x10];
 
     OS_SPrintf(buf, g_021A44D8, value);
-    return func_0218946C(connection, buffer, buf);
+    return gpiAppendStringToBuffer(connection, buffer, buf);
 }
 
 
 
 /*
- * gpiSendData (static helper of gpiSendFromBuffer): one send() on the socket.
+ * func_021894D8 (static helper of gpiSendFromBuffer): one send() on the socket.
  * On -1/GOAGetLastError outside the three would-block/in-progress/timeout
  * codes, a "PR" peer id returns GP_NETWORK_ERROR immediately, else raise
  * GP_NETWORK on the connection and return GP_NETWORK_ERROR.  On rcode == 0
@@ -357,23 +354,23 @@ int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
         if (rcode != -6 && rcode != -26 && rcode != -76) {
             if (id[0] == 'P' && id[1] == 'R')
                 return 3;
-            func_02193710(connection, 5, (int)g_021A44DC);
-            func_02189D78(connection, 3, 0);
+            gpiSetError(connection, 5, (int)g_021A44DC);
+            gpiCallErrorCallback(connection, 3, 0);
             return 3;
         }
         *sent = 0;
         *closed = 0;
     } else if (rcode == 0) {
-        func_0217D254(1, 0, 0x10, g_021A4504, id);
+        gsDebugFormat(1, 0, 0x10, g_021A4504, id);
         *sent = 0;
         *closed = 1;
     } else {
-        char *buf = func_0217EAB0(rcode + 1);
+        char *buf = gsimalloc(rcode + 1);
 
         func_02092344(buf, buffer, rcode);
         buf[rcode] = 0;
-        func_0217D254(1, 0, 0x20, g_021A4528, sendCount++, id, buf);
-        func_0217EAE0(buf);
+        gsDebugFormat(1, 0, 0x20, g_021A4528, sendCount++, id, buf);
+        gsifree(buf);
         *sent = rcode;
         *closed = 0;
     }
@@ -419,8 +416,8 @@ int gpiSendOrBufferStringLenToPeer(void **connection, struct GPIPeer_s *peer,
         }
     }
     if (remaining != 0) {
-        int result = gpiAppendStringToBufferLen(connection, &peer->outputBuffer,
-                                                string + total, remaining);
+        int result = gpiAppendStringToBufferLen((int *)connection, (int *)&peer->outputBuffer,
+                                                (int)(string + total), remaining);
         if (result != 0)
             return result;
     }
@@ -440,16 +437,16 @@ int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer,
 
 
 /*
- * sdk:      gpiRecvToBuffer (GameSpy gp, C++ object stamped 4.0.0.1025)
+ * sdk:      func_02189780 (GameSpy gp, C++ object stamped 4.0.0.1025)
  *
- * gpiRecvToBuffer: drain the socket into inputBuffer, growing it by 0x4000
+ * func_02189780: drain the socket into inputBuffer, growing it by 0x4000
  * bytes whenever len+0x4000 exceeds size, until recv stops making progress,
  * the peer closes, or 128 KiB have accumulated. Publishes buffer/size/len
  * plus *bytesRead and *connClosed.
  *
  * 2026-10-01 (w3 lane28): closed. recvCount is a function-local static
  * (lever 3, as sibling func_021894D8). The vendor reloc is
- * gpiSendData's sendCount + 4: both counters sit in this object's .bss with
+ * func_021894D8's sendCount + 4: both counters sit in this object's .bss with
  * sendCount first, so the load is `[anchor, #4]`. No volatile needed.
  */
 int func_02189780(int *connection, int sock, GPIBuffer_02189780 *inputBuffer,
@@ -472,9 +469,9 @@ int func_02189780(int *connection, int sock, GPIBuffer_02189780 *inputBuffer,
     do {
         if ((len + 0x4000) > size) {
             size = len + 0x4000;
-            buffer = func_0217EAC8(buffer, size + 1);
+            buffer = gsirealloc(buffer, size + 1);
             if (buffer == 0) {
-                func_02193734(connection, (int)g_021A44C8);
+                gpiSetErrorString(connection, (int)g_021A44C8);
                 return 1;
             }
             inputBuffer->buffer = buffer;
@@ -486,19 +483,19 @@ int func_02189780(int *connection, int sock, GPIBuffer_02189780 *inputBuffer,
         if (rcode == -1) {
             int error = GOAGetLastError(sock);
             if (error != -6 && error != -26 && error != -76) {
-                func_02193734(connection, (int)g_021A453C);
+                gpiSetErrorString(connection, (int)g_021A453C);
                 return 3;
             }
         } else if (rcode == 0) {
             closed = 1;
-            func_0217D254(1, 0, 0x10, g_021A4568, id);
+            gsDebugFormat(1, 0, 0x10, g_021A4568, id);
         } else {
-            char *buf = func_0217EAB0(rcode + 1);
+            char *buf = gsimalloc(rcode + 1);
 
             func_02092344(buf, &buffer[len], rcode);
             buf[rcode] = 0;
-            func_0217D254(1, 0, 0x20, g_021A458C, recvCount++, id, buf);
-            func_0217EAE0(buf);
+            gsDebugFormat(1, 0, 0x20, g_021A458C, recvCount++, id, buf);
+            gsifree(buf);
             len += rcode;
             total += rcode;
         }
@@ -507,7 +504,7 @@ int func_02189780(int *connection, int sock, GPIBuffer_02189780 *inputBuffer,
     } while ((rcode >= 0) && !closed && (total < 0x20000));
 
     if (total != 0) {
-        func_0217D254(1, 0, 0x20, g_021A45A0, id, total);
+        gsDebugFormat(1, 0, 0x20, g_021A45A0, id, total);
     }
 
     inputBuffer->buffer = buffer;
@@ -522,16 +519,16 @@ int func_02189780(int *connection, int sock, GPIBuffer_02189780 *inputBuffer,
 
 /*
  * gpiSendFromBuffer: push outputBuffer's pending bytes [pos, len) at the
- * socket through gpiSendData (func_021894D8), looping until nothing more is
+ * socket through func_021894D8 (func_021894D8), looping until nothing more is
  * sent or the buffer is drained.  With clipSentData the sent prefix is
  * memmoved out and len shrinks; otherwise pos advances.  Publishes the new
  * len/pos and, when connClosed is non-NULL, the closed flag.
  *
- * GPIBuffer here is DWC's field order {buffer, size, len, pos}: func_0218934C
+ * GPIBuffer here is DWC's field order {buffer, size, len, pos}: gpiAppendCharToBuffer
  * treats +4 as size and +8 as len, while this routine reads len at +8 and
  * pos at +0xc.
  */
-int func_0218998C(int *connection, int sock, GPIBuffer_0218998C *outputBuffer,
+int gpiSendFromBuffer(int *connection, int sock, GPIBuffer_0218998C *outputBuffer,
                   int *connClosed, int clipSentData, char *id)
 {
     int closed;
@@ -583,7 +580,7 @@ int func_0218998C(int *connection, int sock, GPIBuffer_0218998C *outputBuffer,
 /*
  * sdk:      gpiSendBufferToPeer (libdwcgsgp.TWL.HYB.a gpibuffer.o)
  */
-int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short port,
+int gpiSendBufferToPeer(GPIConnection **connection, unsigned int ip, unsigned short port,
                   GPIBuffer_02189A7C *outputBuffer, int *closed, int clipSentData)
 {
     GPIConnection *iconnection;
@@ -645,7 +642,7 @@ int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short po
 /*
  * sdk:      gpiReadMessageFromBuffer (libdwcgsgp.TWL.HYB.a gpibuffer.o)
  */
-int func_02189BE4(int unused, GPIBuffer_02189BE4 *inputBuffer, char **message, int *type, int *plen)
+int gpiReadMessageFromBuffer(int unused, GPIBuffer_02189BE4 *inputBuffer, char **message, int *type, int *plen)
 {
     char intValue[16];
     int len;
@@ -659,10 +656,10 @@ int func_02189BE4(int unused, GPIBuffer_02189BE4 *inputBuffer, char **message, i
         if (strncmp(str - 5, g_021A45B4, 5) != 0)
             return 3;
         *str = 0;
-        if (!func_02193418(inputBuffer->buffer, g_021A45BC, intValue, 16))
+        if (!gpiValueForKey(inputBuffer->buffer, g_021A45BC, intValue, 16))
             return 3;
         *type = atoi(intValue);
-        if (!func_02193418(inputBuffer->buffer, g_021A45C0, intValue, 16))
+        if (!gpiValueForKey(inputBuffer->buffer, g_021A45C0, intValue, 16))
             return 3;
         len = atoi(intValue);
         if (inputBuffer->len > len + 1 + (str - inputBuffer->buffer)) {
@@ -683,7 +680,7 @@ int func_02189BE4(int unused, GPIBuffer_02189BE4 *inputBuffer, char **message, i
 /*
  * sdk:      gpiClipBufferToPosition (gpibuffer.o)
  */
-int func_02189D28(void **unused, GPIBuffer_02189D28 *buffer)
+int gpiClipBufferToPosition(void **unused, GPIBuffer_02189D28 *buffer)
 {
     if (buffer == 0 || buffer->buffer == 0 || buffer->pos == 0)
         return 0;

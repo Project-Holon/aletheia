@@ -1,5 +1,5 @@
 /*
- * function: func_021FA56C
+ * function: STA_ACT_AUDIENCE_SetHighlight
  * address:  0x021FA56C
  * packet:   pkt_021FA56C
  * region:   ov132
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021FA56C(char *p, u8 v)
+void STA_ACT_AUDIENCE_SetHighlight(char *p, u8 v)
 {
     ((struct Obj14092 *)p)->f1FC = v;
     ((struct Obj14092 *)p)->f200 = 1;

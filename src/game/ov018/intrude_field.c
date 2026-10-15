@@ -60,8 +60,8 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_02012944  0x02012944  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -422,8 +422,8 @@ extern struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 a1, u3
 extern u8 func_02008530(const struct PlayerStatus *status);
 extern u8 func_02008550(const struct PlayerStatus *status);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
-extern void func_0201F02C(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
-extern void func_0201F250(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct STRBUF *func_02045EC0(struct MsgData *msgData, u32 index);
@@ -853,12 +853,12 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
                 FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x4E);
         } else {
             nameText = STRBUF_Create(0x100, 0x15);
-            func_0201F02C(work->wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, intrudeWork->localPeer.intrudeId));
+            WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, intrudeWork->localPeer.intrudeId));
             if (work->sessionBusy == 1)
                 template = func_02045EC0(work->msgData, 0x50);
             else
                 template = func_02045EC0(work->msgData, 0x51);
-            func_0201F250(work->wordSet, nameText, template);
+            WORDSET_CopyTaggedText(work->wordSet, nameText, template);
             FIELD_MSGBG_MsgWinPrintStr(work->msgWin, 0, 0, nameText);
             STRBUF_Delete(template);
             STRBUF_Delete(nameText);

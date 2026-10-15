@@ -1,5 +1,5 @@
 /*
- * function: func_021C7830
+ * function: VIEWER_ACTOR_DrawModel
  * address:  0x021C7830
  * packet:   pkt_ov111_021C7830
  * region:   ov111
@@ -131,7 +131,7 @@ extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern Counter d_021C8E80;
 
-void func_021C7830(Work *p)
+void VIEWER_ACTOR_DrawModel(Work *p)
 {
     void *mdl;
     int out;

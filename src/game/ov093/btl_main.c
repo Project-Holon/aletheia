@@ -26,7 +26,7 @@
  *   BTL_FIELD_Create 0x021EF958 thumb ov093
  *   BTL_SIDE_Init 0x021B93E0 thumb ov093
  *   BTL_SETUP_ClearResultStats 0x021BA82C thumb ov093
- *   func_0203F258 0x0203F258 arm
+ *   GF_STANDARD_CalcHash 0x0203F258 arm
  *   BTL_CALC_Init 0x021D7840 thumb ov093
  *   BTL_SERVER_CMD_Dummy 0x021CD6EC thumb ov093
  *   BTL_CALC_CalcPrizeMoney 0x021D7F88 thumb ov093
@@ -49,7 +49,7 @@
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
  *   BTL_FIELD_Delete 0x021EF980 thumb ov093
  *   BTL_NET_FreeRelayPacket 0x021D4D5C thumb ov093
@@ -217,8 +217,8 @@
  *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
- *   sub_02008DF0 0x02008DF0 thumb
- *   sub_02008DAC 0x02008DAC thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
+ *   RECORD_AddCounter 0x02008DAC thumb
  *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  *   NATSUKI_CalcParty 0x0201B818 thumb
@@ -292,7 +292,7 @@ extern u32 CONFIG_GetBattleStyle(struct Config *config);
 extern struct BtlField *BTL_FIELD_Create(u32 heapId);
 extern void BTL_SIDE_Init(struct BtlSide *side, struct BtlMain *main, u32 sideIndex);
 extern void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup);
-extern void func_0203F258(struct BattleRngState *rng);
+extern void GF_STANDARD_CalcHash(struct BattleRngState *rng);
 extern void BTL_CALC_Init(struct BattleRngState *rng, u32 heapId);
 extern void BTL_SERVER_CMD_Dummy(void);
 extern u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup);
@@ -330,7 +330,7 @@ extern void GFL_USE_SetPlayersAudible(int, u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern void func_020315D4(struct ProcHandle *proc);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BTLV_CORE_UnloadDsiOverlay(void);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern const struct PerapVoice *func_02007B44(void *sys);
@@ -481,8 +481,8 @@ extern void STRBUF_SetChars(void *buf, const void *src, u32 n);
 char *COMM_PLAYER_SUPPORT_GetCurrent(char *p);
 extern struct Party *POKEPARTY_Create(u32);
 int BTL_SETUP_CheckStatusFlag(struct BattleSetupParam *setup, int mask);
-extern u32 sub_02008DF0(void *trainerRecord, int arg);
-extern u32 sub_02008DAC(void *trainerRecord, int arg, u32 delta);
+extern u32 RECORD_AddOne(void *trainerRecord, int arg);
+extern u32 RECORD_AddCounter(void *trainerRecord, int arg, u32 delta);
 extern u8 BTL_MAIN_IsCommCompetitor(struct BattleSetupParam *setup);
 extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
 extern int BTL_CALC_IsBossTrainer(u32);
@@ -744,7 +744,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       main->tempBuffer = 0;
       main->netBuffer = 0;
       if (main->setup->ownsSlots == 0)
-        func_0203F258(&main->rng);
+        GF_STANDARD_CalcHash(&main->rng);
       else
         main->rng = setup->rng;
       BTL_CALC_Init(&main->rng, main->heapId);
@@ -938,9 +938,9 @@ int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct Btl
         PM_VOICE_ResetMasterVolume();
         if (main->flags.sleepHooksSet) { RINGTONE_SYS_RegisterSleepCallbacks(); main->flags.sleepHooksSet = 0; }
         func_020315D4(proc);
-        func_020306F0(19);
-        func_020306F0(20);
-        func_020306F0(18);
+        GFL_HEAP_DeleteChecked(19);
+        GFL_HEAP_DeleteChecked(20);
+        GFL_HEAP_DeleteChecked(18);
         BTLV_CORE_UnloadDsiOverlay();
         return 1;
     }
@@ -5382,7 +5382,7 @@ int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, int mask)
 void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int arg)
 {
     if (main->setup->ownsSlots == 0)
-        sub_02008DF0(main->setup->trainerRecord, arg);
+        RECORD_AddOne(main->setup->trainerRecord, arg);
 }
 
 
@@ -5406,7 +5406,7 @@ void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int arg)
 void BTL_MAIN_TrainerRecordAddDelta(struct BtlMain *main, int arg, u32 delta)
 {
     if (main->setup->ownsSlots == 0)
-        sub_02008DAC(main->setup->trainerRecord, arg, delta);
+        RECORD_AddCounter(main->setup->trainerRecord, arg, delta);
 }
 
 

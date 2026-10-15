@@ -1,5 +1,5 @@
 /*
- * function: func_02019CF8
+ * function: POKE_TOOL_GetPlateTypeForwarder
  * address:  0x02019CF8
  * packet:   pkt_02019CF8
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02019BBC  0x02019BBC  thumb
+ *   POKE_TOOL_GetPlateType  0x02019BBC  thumb
  *
- * Plain forwarder to func_02019BBC (ldr r3, =target; bx r3).  Callee of
+ * Plain forwarder to POKE_TOOL_GetPlateType (ldr r3, =target; bx r3).  Callee of
  * ov170 BOX2_MAIN_CanPlaceInBox.
  */
 
-extern unsigned int func_02019BBC(unsigned int item);
+extern unsigned int POKE_TOOL_GetPlateType(unsigned int item);
 
-unsigned int func_02019CF8(unsigned int item)
+unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item)
 {
-    return func_02019BBC(item);
+    return POKE_TOOL_GetPlateType(item);
 }

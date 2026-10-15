@@ -1,5 +1,5 @@
 /*
- * function: func_02190140
+ * function: gpiCanFreeProfile
  * address:  0x02190140
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-int func_02190140(char *p)
+int gpiCanFreeProfile(char *p)
 {
     if (p != 0
         && *(int *)(p + 0x10) == 0

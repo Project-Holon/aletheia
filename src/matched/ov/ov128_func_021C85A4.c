@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021CA40C 0x021CA40C thumb ov128
+ *   WF2DMAP_TOUCH_SetActorAnimSeq 0x021CA40C thumb ov128
  *   func_021C88C0 0x021C88C0 thumb ov128
  *   func_021C899C 0x021C899C thumb ov128
- *   func_021CA2DC 0x021CA2DC thumb ov128
+ *   WF2DMAP_TOUCH_UpdateItemBar 0x021CA2DC thumb ov128
  */
 #include "../include/Obj00179.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void func_021CA40C(char *p, int n);
+extern void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n);
 extern void func_021C88C0(s16 *, void *, u8 *);
 extern void func_021C899C(char *p, char *q, void *r, void *s, int t, char *table, int page, u16 heap);
-extern void func_021CA2DC(char *p);
+extern void WF2DMAP_TOUCH_UpdateItemBar(char *p);
 void func_021C85A4(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
 {
     int offset;
@@ -28,11 +28,11 @@ void func_021C85A4(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
     if (n == 0) {
         ((struct Obj00179 *)p)->f0 = x;
         ((struct Obj00179 *)p)->f4 = y;
-        func_021CA40C((char *)p, x);
+        WF2DMAP_TOUCH_SetActorAnimSeq((char *)p, x);
     }
     offset = n * 0x4c;
     base = p + 12;
     func_021C88C0((s16 *)(base + offset), b, b + 0x16c);
     func_021C899C((char *)(base + offset), (char *)a, b, ((struct Obj00179 *)p)->f104, (int)(b + 0x16c), (char *)(a + 16), x, c);
-    func_021CA2DC((char *)p);
+    WF2DMAP_TOUCH_UpdateItemBar((char *)p);
 }

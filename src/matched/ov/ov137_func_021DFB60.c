@@ -10,7 +10,7 @@
  * volatile: 021DFB6E reads and 021DFB76 writes hardware register 04000304
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -28,7 +28,7 @@ struct BgTemplate {u32 w[8];};
 extern const struct DispConfig gGuru2GameDispConfig;
 extern const struct BgTemplate gGuru2GameBg1Template,gGuru2GameBg2Template,gGuru2GameBg3Template,gGuru2GameBg6Template,gGuru2GameBg7Template;
 extern void BG_SYS_Create(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 typedef unsigned char  u8;
@@ -37,7 +37,7 @@ void GURU2_MAIN_SetupBg(char *a0)
 {
     BG_SYS_Create(114);
     *(volatile u16 *)0x04000304 |= 0x8000;
-    {struct DispConfig t=gGuru2GameDispConfig; func_0203FC28(&t);}
+    {struct DispConfig t=gGuru2GameDispConfig; BG_SYS_SetGraphicsMode(&t);}
     {struct BgTemplate t=gGuru2GameBg1Template; BG_SYS_InitBgLayer(1,&t,0); BG_SYS_ClearSlot(1); BG_SYS_InitRun(1,32,0,114);}
     {struct BgTemplate t=gGuru2GameBg2Template; BG_SYS_InitBgLayer(2,&t,0); BG_SYS_ClearSlot(2);}
     {struct BgTemplate t=gGuru2GameBg3Template; BG_SYS_InitBgLayer(3,&t,0); BG_SYS_ClearSlot(3);}

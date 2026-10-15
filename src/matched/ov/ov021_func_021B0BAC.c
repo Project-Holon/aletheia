@@ -23,7 +23,7 @@
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   SCRCMD_WORK_GetWordSetWork  0x0215A63C  thumb  ov010
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
@@ -70,7 +70,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 SCRCMD_WORK_GetHeapId(void *a0);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u8 *SCRCMD_WORK_GetWordSetWork(u8 *p);
 extern int SCRIPT_WORK_CheckFlag(int a0);
 extern int SCRCMD_WORK_GetMsgWindow(int a0);
@@ -119,7 +119,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
         func_02045CAC((struct MsgBank *)h, d, (void *)r5);
         MSGDATA_Delete((struct Rec *)h);
     }
-    func_0201F250((struct WordSet *)r18, (void *)r7, (void *)r5);
+    WORDSET_CopyTaggedText((struct WordSet *)r18, (void *)r7, (void *)r5);
     s = (S *)SCRCMD_WORK_GetWordSetWork((u8 *)b);
     if (SCRIPT_WORK_CheckFlag(2) != 0) {
         FIELD_MSGBG_TalkWinPrintStr((u32 *)SCRCMD_WORK_GetMsgWindow(b), r7);

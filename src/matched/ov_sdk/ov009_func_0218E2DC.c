@@ -1,5 +1,5 @@
 /*
- * function: func_0218E2DC
+ * function: gpiOperationsAreBlocking
  * address:  0x0218E2DC
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-int func_0218E2DC(char *p)
+int gpiOperationsAreBlocking(char *p)
 {
     char *q = *(char **)(*(char **)p + 0x5c4);
 

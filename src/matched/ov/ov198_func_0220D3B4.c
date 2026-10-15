@@ -1,5 +1,5 @@
 /*
- * function: func_0220D3B4
+ * function: B_PLIST_DRAW_PrintSlotLabelD
  * address: 0x0220D3B4
  * packet: pkt_ov198_0220D3B4
  * region: ov198
@@ -30,7 +30,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-void func_0220D3B4(char *p, int i)
+void B_PLIST_DRAW_PrintSlotLabelD(char *p, int i)
 {
     void *t;
     void *f;

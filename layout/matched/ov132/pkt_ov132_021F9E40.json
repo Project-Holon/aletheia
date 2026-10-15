@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F9E40",
+   "name": "STA_ACT_EFFECT_SetSceneField14",
    "address": "0x021F9E40",
    "kind": "game",
    "region": "ov132",

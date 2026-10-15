@@ -55,6 +55,7 @@
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -99,7 +100,7 @@ extern u32  KEY_GetTrg(void);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *w);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
@@ -247,7 +248,7 @@ int CTVT_DRAW_Main(void *a0, char *p)
     if (((struct Obj00140 *)p)->f38 == 1) {
         t = COMM_TVT_SYS_GetPrintQue(a0);
         if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00140 *)p)->f48))) == 0) {
-            func_0201F73C((void *)(((struct Obj00140 *)p)->f48), 2, 0x140, 9);
+            BMP_MENUWORK_DrawWindow((void *)(((struct Obj00140 *)p)->f48), 2, 0x140, 9);
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f48);
             BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f48));
             func_02041B6C(4);

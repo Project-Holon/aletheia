@@ -12,9 +12,9 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BA1D4 0x021BA1D4 data a4
  *   d_021BA250 0x021BA250 data a4
@@ -31,9 +31,9 @@ extern void BG_SYS_Create(u32);
 extern void BMP_WIN_Init(u32);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap)
 {
@@ -41,12 +41,12 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap)
  MI_CpuFill8(p,0,4);
  BG_SYS_Create(heap);
  BMP_WIN_Init(heap);
- func_0203FC28((struct DispConfig *)d_021BA1D4);
+ BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BA1D4);
  for(i=0;i<2;i++){
   const Row *row=&d_021BA250[i];
   u32 layer=row->layer;
   BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate *)row->cfg,(u8)row->type);
-  func_020414AC(layer);
+  BG_SYS_FreeSlot(layer);
   func_02040588(layer,row->enable);
  }
 }

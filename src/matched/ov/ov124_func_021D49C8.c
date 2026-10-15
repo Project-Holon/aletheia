@@ -13,7 +13,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_02030734 0x02030734 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020409B4 0x020409B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -40,7 +40,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern int func_02061CA4(void *, u32, u32, int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02041090(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32);
 struct Vec2;
@@ -62,11 +62,11 @@ void CG_HELP_UpdatePageGraphics(char *p, u32 n)
                 q[i * 4 + j] = j + gCgHelpPageTileBase[n] + i * 32 + 0xa000;
             }
         }
-        func_02041090(4, (u32)q, 2, 4, 4, 4);
+        BG_SYS_DrawTile(4, (u32)q, 2, 4, 4, 4);
         func_020307B0(q);
     } else {
         q = func_02030734(((struct Obj00122 *)p)->f0, 32, 1, gCgHelpFileName, 0x2bb);
-        func_02041090(4, (u32)q, 2, 4, 4, 4);
+        BG_SYS_DrawTile(4, (u32)q, 2, 4, 4, 4);
         func_020307B0(q);
     }
     func_020409B4(4);

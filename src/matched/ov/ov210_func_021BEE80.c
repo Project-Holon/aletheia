@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE80
+ * function: ZKNSEARCH_MAIN_SetActorBgPriority
  * address:  0x021BEE80
  * packet:   pkt_ov210_021BEE80
  * region:   ov210
@@ -16,7 +16,7 @@
 
 extern void CLACT_SetActorBgPriority(int h, unsigned v);
 
-void func_021BEE80(int p, int i, unsigned v)
+void ZKNSEARCH_MAIN_SetActorBgPriority(int p, int i, unsigned v)
 {
     CLACT_SetActorBgPriority(((int *)(p + i * 4))[0xa], (unsigned char)v);
 }

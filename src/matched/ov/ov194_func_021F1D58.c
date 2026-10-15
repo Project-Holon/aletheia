@@ -1,5 +1,5 @@
 /*
- * function: func_021F1D58
+ * function: NAMEIN_GRAPHIC_FadeCellColor
  * address:  0x021F1D58
  * packet:   pkt_ov194_021F1D58
  * region:   ov194
@@ -26,7 +26,7 @@ extern fx16 FX_SinCosTable_[];
 static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1) + 1]; }
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b)
+int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b)
 {
     u8 r, g, blue; int dr, dg, db; s16 t;
     int ph = *phase + step;

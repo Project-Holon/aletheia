@@ -14,13 +14,13 @@
  * object itself.
  *
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm
+ *   gsifree  0x0217EAE0  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0217EAE0(void *);
+extern void gsifree(void *);
 
 int sciDestroyReport(u32 *p)
 {
@@ -31,11 +31,11 @@ int sciDestroyReport(u32 *p)
     p[1] = 0;
     p[4] = 0;
     p[3] = 0;
-    func_0217EAE0(q);
+    gsifree(q);
     p[0x124 / 4] = 0;
     p[0x11c / 4] = 0;
     p[0x118 / 4] = 0;
     p[0x120 / 4] = 0;
-    func_0217EAE0(p);
+    gsifree(p);
     return 0;
 }

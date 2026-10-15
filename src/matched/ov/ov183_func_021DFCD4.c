@@ -1,5 +1,5 @@
 /*
- * function: func_021DFCD4
+ * function: BR_CODEIN_CodeStepInput
  * address: 0x021DFCD4
  * packet: pkt_ov183_021DFCD4
  * region: ov183
@@ -10,11 +10,11 @@
  * status: EXACT
  * lever: A separate result!=3 guard around the three-case switch removes the extra 8-byte dense dispatch (460 to 452 B).
  * symbols:
- *   func_021E04C8 0x021E04C8 thumb ov183
+ *   BR_CODEIN_CodeHitTestOptions 0x021E04C8 thumb ov183
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021E03B0 0x021E03B0 thumb ov183
+ *   BR_CODEIN_CodeSetMenuText 0x021E03B0 thumb ov183
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200856C 0x0200856C thumb
@@ -29,12 +29,12 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern int func_021E04C8(void);
+extern int BR_CODEIN_CodeHitTestOptions(void);
 struct Sub0200852CObj;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void BR_UTIL_StartEffect(int,int,int *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021E03B0(char *,char *,int);
+extern void BR_CODEIN_CodeSetMenuText(char *,char *,int);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
@@ -43,9 +43,9 @@ extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 extern int BR_BTN_TestHitBox(u32 *p, int a1, int a2);
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
 extern void BR_PROC_SYS_PushEntry(unsigned *,unsigned);
-int func_021DFCD4(char *p,char *q)
+int BR_CODEIN_CodeStepInput(char *p,char *q)
 {
-    int result=func_021E04C8();
+    int result=BR_CODEIN_CodeHitTestOptions();
     if(result!=3) {
     switch(result) {
     case 0: {
@@ -55,7 +55,7 @@ int func_021DFCD4(char *p,char *q)
         BR_UTIL_StartEffect(((struct Obj00277 *)p)->f40,1,args);
         GFL_USE_PlaySeDefaultVolume(0x703);
         ((struct Obj00351 *)q)->f18=19;
-        func_021E03B0(p,q,0);
+        BR_CODEIN_CodeSetMenuText(p,q,0);
         BR_UTIL_SetWindowText(((struct Obj00277 *)p)->f38,(char *)(*(int *)&((struct Obj00351 *)q)->f8),(void *)105);
         ((struct Obj00277 *)p)->f50=1;
         return 1;
@@ -67,7 +67,7 @@ int func_021DFCD4(char *p,char *q)
         BR_UTIL_StartEffect(((struct Obj00277 *)p)->f40,1,args);
         GFL_USE_PlaySeDefaultVolume(0x703);
         ((struct Obj00351 *)q)->f14=0xffff;
-        func_021E03B0(p,q,1);
+        BR_CODEIN_CodeSetMenuText(p,q,1);
         BR_UTIL_SetWindowText(((struct Obj00277 *)p)->f38,(char *)(*(int *)&((struct Obj00351 *)q)->f8),(void *)106);
         ((struct Obj00277 *)p)->f50=2;
         return 1;
@@ -89,7 +89,7 @@ int func_021DFCD4(char *p,char *q)
         GFL_USE_PlaySeDefaultVolume(0x703);
         if(((struct Obj00351 *)q)->f16==255){((struct Obj00351 *)q)->f16=a;((struct Obj00351 *)q)->f17=b;}
         else{((struct Obj00351 *)q)->f16=255;((struct Obj00351 *)q)->f17=255;}
-        func_021E03B0(p,q,2);
+        BR_CODEIN_CodeSetMenuText(p,q,2);
         return 0;
     }
     }

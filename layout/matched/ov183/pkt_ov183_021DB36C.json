@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB36C",
+   "name": "BR_CODEIN_SidebarDestroy",
    "address": "0x021DB36C",
    "kind": "game",
    "region": "ov183",

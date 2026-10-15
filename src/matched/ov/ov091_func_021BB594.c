@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
  *   func_02028590  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern u8 sPlistMessageAllocSite[];
 extern void *func_02030734(u32 heap, u32 size, int align, const char *file, u16 line);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 struct Tcbl;
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(int a, int b, int c, u16 d);
@@ -36,7 +36,7 @@ u32 *PLIST_MESSAGE_Create(u16 *h)
 
     r = func_02030734(*h, 0x38, 0, (const char *)sPlistMessageAllocSite, 0x64);
     z = 0;
-    func_0201F5BC(0, 1, 0xc, 0, *h);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xc, 0, *h);
     r[2] = (u32)TCBL_Create(*h, *h, 1, 0);
     r[3] = z;
     r[0] = 4;

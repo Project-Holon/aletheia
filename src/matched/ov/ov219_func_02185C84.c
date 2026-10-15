@@ -12,11 +12,11 @@
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02025BA0 0x02025BA0 thumb
+ *   BMP_OAM_GetRecordField 0x02025BA0 thumb
  * prototype: caller explicitly truncatesB5B38 member/heap at secondsite; useu16extern for those observed narrow inputs.4790 is tailstubto02025B3C readingonlykey.
  */
 typedef unsigned short u16;
-extern unsigned func_02184790(unsigned),func_02025BA0(unsigned);
+extern unsigned func_02184790(unsigned),BMP_OAM_GetRecordField(unsigned);
 extern void *func_02045B38(unsigned,unsigned,u16,u16);
 typedef unsigned int   u32;
 struct MsgBank;
@@ -35,7 +35,7 @@ int func_02185C84(unsigned key,unsigned optional,void *first,void *second,unsign
     MSGDATA_Delete(bank);
     if(index==0) {index=1;optional=0;}
     else found=1;
-    bank=func_02045B38(0,2,func_02025BA0(index),heap);
+    bank=func_02045B38(0,2,BMP_OAM_GetRecordField(index),heap);
     MSGDATA_ReadString(bank,optional,second);
     MSGDATA_Delete(bank);
     return found;

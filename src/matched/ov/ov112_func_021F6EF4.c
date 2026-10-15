@@ -1,5 +1,5 @@
 /*
- * function: func_021F6EF4
+ * function: STA_ACT_LIGHT_CopyElemA
  * address: 0x021F6EF4
  * packet: pkt_ov112_021F6EF4
  * region: ov112
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F6EF4(void *unused,u32 *p,const u32 *q) { p[2]=q[0]; p[3]=q[1]; p[4]=q[2]; }
+void STA_ACT_LIGHT_CopyElemA(void *unused,u32 *p,const u32 *q) { p[2]=q[0]; p[3]=q[1]; p[4]=q[2]; }

@@ -58,6 +58,8 @@
  *   SHA1_HMAC_UpdateData  0x0273184C  arm
  *   SHA1_HMAC_Finish  0x02731868  arm
  *   SHA1_HMAC_Calc  0x02731920  arm
+ *   WCMi_CpsifRecvCallback  0x02166358  arm  ov009
+ *   WCMi_ShelterRssi  0x02166804  arm  ov009
  */
 
 typedef unsigned int u32;
@@ -171,8 +173,8 @@ extern void OS_GetMacAddress(void *mac);
 extern void func_021665CC(void *mac);
 extern u32 NWM_SetPowerSaveMode(void *arg, u32 b);
 extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
-extern void func_02166804(u8 v);
-extern void func_02166358(u8 *a, u8 *b, u8 *c, u32 len);
+extern void WCMi_ShelterRssi(u8 v);
+extern void WCMi_CpsifRecvCallback(u8 *a, u8 *b, u8 *c, u32 len);
 extern int NWM_Connect(void *cb, u8 flag, void *buf);
 extern unsigned long WCM_UpdateOption(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);

@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201EF34 0x0201EF34 thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  */
 #include "../include/Obj20893.h"
 typedef unsigned int   u32;
 struct WordSet;
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-void PLIST_MESSAGE_SetWordSetMove(int a,int b,int c,int d) {func_0201EF34((struct WordSet *)(((struct Obj20893 *)b)->f2C),c,d);}
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
+void PLIST_MESSAGE_SetWordSetMove(int a,int b,int c,int d) {WORDSET_SetSlotFromMsgCB((struct WordSet *)(((struct Obj20893 *)b)->f2C),c,d);}

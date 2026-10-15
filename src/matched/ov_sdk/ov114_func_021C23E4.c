@@ -16,9 +16,9 @@
  * shares the zero with the early return.
  *
  * symbols:
- *   func_0217EAB0                  0x0217EAB0  arm ov009
+ *   gsimalloc                  0x0217EAB0  arm ov009
  *   func_02184144                  0x02184144  arm ov009
- *   func_0217EAE0                  0x0217EAE0  arm ov009
+ *   gsifree                  0x0217EAE0  arm ov009
  *   ghiPostDataFree                  0x021C235C  arm ov114
  */
 
@@ -38,24 +38,24 @@ typedef struct GHIPost {
     GHTTPBool autoFree;
 } GHIPost;
 
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAllocate,
                                                   void (*elemFreeFn)(void *));
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern void ghiPostDataFree(void *elem);
 
 GHIPost *ghiNewPost(void)
 {
     GHIPost *post;
 
-    post = (GHIPost *)func_0217EAB0(sizeof(GHIPost));
+    post = (GHIPost *)gsimalloc(sizeof(GHIPost));
     if (post == 0)
         return 0;
     memset(post, 0, sizeof(GHIPost));
     post->autoFree = GHTTPTrue;
     post->data = func_02184144(0x18, 0, ghiPostDataFree);
     if (post->data == 0) {
-        func_0217EAE0(post);
+        gsifree(post);
         return 0;
     }
     return post;

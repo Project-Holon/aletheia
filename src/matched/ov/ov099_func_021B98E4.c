@@ -12,7 +12,7 @@
  * Promoted by the recursive unblocker lane.  The +0008 ABS32 WF2DMAP_OBJDRAW_SetActorValue2
  * call now resolves as `matched` against layout/matched/ov127/
  * pkt_ov127_021C584C.json (an unlabelled ov127 accessor veneer matched
- * after its own callee func_021C424C).  The region hint on the symbols line
+ * after its own callee WIFI_2DCHAR_SetSubActorDrawEnable).  The region hint on the symbols line
  * breaks the 9-overlay overlap.
  *
  * symbols:

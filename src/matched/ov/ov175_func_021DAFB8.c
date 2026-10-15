@@ -1,5 +1,5 @@
 /*
- * function: func_021DAFB8
+ * function: WIFIBATTLEMATCH_NET_ReportAddRecord
  * address: 0x021DAFB8
  * packet: pkt_ov175_021DAFB8
  * region: ov175
@@ -18,7 +18,7 @@ extern int func_021DF420(int,int,int);
 extern int DWC_ScReportAddIntValue(int,int,int);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
-void func_021DAFB8(int *ctx,const u32 *record,int invert) {
+void WIFIBATTLEMATCH_NET_ReportAddRecord(int *ctx,const u32 *record,int invert) {
     int first,second,flip=0,skip=0,present;
     present=record[2]!=0 || record[3]!=0;
     switch(record[1]) {

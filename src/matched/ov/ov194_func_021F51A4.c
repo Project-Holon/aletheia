@@ -1,5 +1,5 @@
 /*
- * function: func_021F51A4
+ * function: NAMEIN_GRAPHIC_CopyRows
  * address: 0x021F51A4
  * packet: pkt_ov194_021F51A4
  * region: ov194
@@ -12,7 +12,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  */
 extern void MI_CpuCopy8(const void *, void *, unsigned);
-void func_021F51A4(const char *src, char *dst, unsigned *a, unsigned *b, unsigned n, unsigned step)
+void NAMEIN_GRAPHIC_CopyRows(const char *src, char *dst, unsigned *a, unsigned *b, unsigned n, unsigned step)
 {
     int i;
     for (i = 0; i < 8; i++) {

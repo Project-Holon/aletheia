@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062820  0x02062820  arm
- *   func_02062670  0x02062670  arm
+ *   NNS_G2dGetUnpackedCellBank  0x02062820  arm
+ *   NNS_G2dGetUnpackedAnimBankEx  0x02062670  arm
  *
  * Publish the two handles of one 0x14-byte pool entry.  The entry is
  * addressed as `pool->entries[idx]` (the `mla` by 0x14 is the subscript,
@@ -53,15 +53,15 @@ struct Pool {
     struct Entry *entries;
 };
 
-extern int func_02062820(int a, int *out);
-extern s32 func_02062670(void *handle, void **slot);
+extern int NNS_G2dGetUnpackedCellBank(int a, int *out);
+extern s32 NNS_G2dGetUnpackedAnimBankEx(void *handle, void **slot);
 
 s32 CLACT_LoadCellAnimBanks(struct Pool *pool, s32 idx, void *a, void *b)
 {
     struct Entry *entry = &pool->entries[idx];
 
-    if (func_02062820((int)a, (int *)(&entry->unk_08)) != 0) {
-        if (func_02062670(b, &entry->unk_0c) != 0) {
+    if (NNS_G2dGetUnpackedCellBank((int)a, (int *)(&entry->unk_08)) != 0) {
+        if (NNS_G2dGetUnpackedAnimBankEx(b, &entry->unk_0c) != 0) {
             entry->unk_10 = 0;
             return 1;
         }

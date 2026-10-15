@@ -1,5 +1,5 @@
 /*
- * function: func_021BA01C
+ * function: TH_AWARD_UploadWindows
  * address:  0x021BA01C
  * packet:   pkt_ov220_021BA01C
  * region:   ov220
@@ -37,7 +37,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
 
-void func_021BA01C(Obj *o)
+void TH_AWARD_UploadWindows(Obj *o)
 {
     unsigned char i;
 

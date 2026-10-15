@@ -11,7 +11,7 @@
  * lowest stack slot; k = 0 sits after the allocation loop, whose 0/1 clear
  * arguments then reuse the k and i slots.
  * symbols:
- *   sub_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   G3D_SYSTEM_CreateResourceArc 0x02046DB8 arm
  *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
@@ -23,7 +23,7 @@
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   func_0207DCF8 0x0207DCF8 arm
- *   sub_020307B0 0x020307B0 arm
+ *   GFL_HEAP_Free 0x020307B0 arm
  *   gBtlvStageFileName 0x0220AC40 data
  */
 typedef unsigned char u8;
@@ -56,7 +56,7 @@ typedef struct {
     u16 padba;
 } Obj;
 extern const char gBtlvStageFileName[];
-extern void *sub_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 extern void *G3D_SYSTEM_CreateResourceArc(u32, u32);
 extern int G3D_SYSTEM_TransVramTexture(int *);
@@ -72,7 +72,7 @@ extern void MTX_Identity33_(int *);
 extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void func_0207DCF8(void *);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 Obj *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
 {
@@ -80,7 +80,7 @@ Obj *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     Rec *table;
     int i, k, m;
     int bytes;
-    o = sub_02030734(heap, 0xbc, 1, gBtlvStageFileName, 0x63);
+    o = GFL_HEAP_Alloc(heap, 0xbc, 1, gBtlvStageFileName, 0x63);
     table = ARC_TOOL_LoadMember(0x98, 2, (u16)((heap & 0x7fff) | 0x8000));
     o->heap = heap;
     if (mode == 3)
@@ -97,21 +97,21 @@ Obj *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     o->h1c[1] = G3D_SYSTEM_CreateRender(o->f0, 0, o->f0);
     if (mode == 3) {
         o->n = 1;
-        o->f10 = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0x93);
+        o->f10 = GFL_HEAP_Alloc(o->heap, 4, 0, gBtlvStageFileName, 0x93);
         *o->f10 = G3D_SYSTEM_CreateResourceArc(11, 0x57);
         for (i = 0; i < 2; i++) {
-            o->f14[i] = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0x98);
-            o->arr[i] = sub_02030734(o->heap, 0x10, 1, gBtlvStageFileName, 0x99);
+            o->f14[i] = GFL_HEAP_Alloc(o->heap, 4, 0, gBtlvStageFileName, 0x98);
+            o->arr[i] = GFL_HEAP_Alloc(o->heap, 0x10, 1, gBtlvStageFileName, 0x99);
             *o->f14[i] = G3D_SYSTEM_CreateAnime(o->h1c[i], *o->f10, 0);
             o->arr[i]->kind = 1;
             o->h24[i] = G3D_SYSTEM_CreateObject((u32)o->h1c[i], (u32 *)o->f14[i], (u16)o->n);
             G3D_SYSTEM_EnableObjectAnime(o->h24[i], (u16)0);
         }
     } else if (o->n != 0) {
-        o->f10 = sub_02030734(o->heap, o->n * 4, 0, gBtlvStageFileName, 0xa7);
+        o->f10 = GFL_HEAP_Alloc(o->heap, o->n * 4, 0, gBtlvStageFileName, 0xa7);
         for (i = 0; i < 2; i++) {
-            o->f14[i] = sub_02030734(o->heap, o->n * 4, 0, gBtlvStageFileName, 0xab);
-            o->arr[i] = sub_02030734(o->heap, o->n * 16, 1, gBtlvStageFileName, 0xac);
+            o->f14[i] = GFL_HEAP_Alloc(o->heap, o->n * 4, 0, gBtlvStageFileName, 0xab);
+            o->arr[i] = GFL_HEAP_Alloc(o->heap, o->n * 16, 1, gBtlvStageFileName, 0xac);
         }
         k = 0;
         for (i = 1; i < 4; i++) {
@@ -133,10 +133,10 @@ Obj *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         o->h24[1] = G3D_SYSTEM_CreateObject((u32)o->h1c[1], 0, (u16)0);
     }
     bytes = *(u16 *)(NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(o->f0)) + 0x30) * 8;
-    o->fa4 = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0xd6);
-    o->fa8 = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0xd7);
+    o->fa4 = GFL_HEAP_Alloc(o->heap, 4, 0, gBtlvStageFileName, 0xd6);
+    o->fa8 = GFL_HEAP_Alloc(o->heap, 4, 0, gBtlvStageFileName, 0xd7);
     *o->fa4 = o->f0;
-    *o->fa8 = sub_02030734(o->heap, bytes, 0, gBtlvStageFileName, 0xda);
+    *o->fa8 = GFL_HEAP_Alloc(o->heap, bytes, 0, gBtlvStageFileName, 0xda);
     o->fac = 0;
     o->fad = 1;
     o->xf[0].f0 = 0;
@@ -158,6 +158,6 @@ Obj *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         o->xf[1].f8 = -0xf000;
     }
     func_0207DCF8(&table[group]);
-    sub_020307B0(table);
+    GFL_HEAP_Free(table);
     return o;
 }

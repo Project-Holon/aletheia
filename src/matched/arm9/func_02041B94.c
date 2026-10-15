@@ -1,5 +1,5 @@
 /*
- * function: func_02041B94
+ * function: BG_SYS_CommitScroll
  * address:  0x02041B94
  * packet:   pkt_02041B94
  * region:   arm9
@@ -61,8 +61,8 @@
  * with no reason to exist and loses them.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02041B94.c \
- *       --func func_02041B94 --addr 0x02041B94 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/BG_SYS_CommitScroll.c \
+ *       --func BG_SYS_CommitScroll --addr 0x02041B94 --arm --cc 1.1p1
  */
 
 
@@ -103,7 +103,7 @@ extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
 #define W(a) (*(volatile u32 *)(a))
 
-void func_02041B94(void)
+void BG_SYS_CommitScroll(void)
 {
     u32 m  = 0x1ff;
     u32 hm = m << 16;

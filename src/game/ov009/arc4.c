@@ -1,7 +1,7 @@
 /*
  * file:     arc4.c
  * unit:     yes
- * function: func_02163E40, func_02163EB8
+ * function: CPSi_rc4_init, CPSi_rc4_crypt
  * address:  0x02163E40
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -18,8 +18,8 @@ typedef struct {
     unsigned char m[256];
 } CPSRc4Ctx;
 
-void func_02163E40(CPSRc4Ctx *ctx, unsigned char *key, int len);
-void func_02163EB8(CPSRc4Ctx *ctx, unsigned char *data, int len);
+void CPSi_rc4_init(CPSRc4Ctx *ctx, unsigned char *key, int len);
+void CPSi_rc4_crypt(CPSRc4Ctx *ctx, unsigned char *data, int len);
 
 
 /*
@@ -30,7 +30,7 @@ void func_02163EB8(CPSRc4Ctx *ctx, unsigned char *data, int len);
  *
  * sdk:      CPSi_rc4_init (libssl.TWL.HYB.a(arc4.o))
  */
-void func_02163E40(CPSRc4Ctx *ctx, unsigned char *key, int len)
+void CPSi_rc4_init(CPSRc4Ctx *ctx, unsigned char *key, int len)
 {
     unsigned char m_i;
     unsigned char *m = ctx->m;
@@ -63,7 +63,7 @@ void func_02163E40(CPSRc4Ctx *ctx, unsigned char *key, int len)
 /*
  * sdk:      CPSi_rc4_crypt (libssl.TWL.HYB.a(arc4.o))
  */
-void func_02163EB8(CPSRc4Ctx *ctx, unsigned char *data, int len)
+void CPSi_rc4_crypt(CPSRc4Ctx *ctx, unsigned char *data, int len)
 {
 	int i;
 	unsigned char x;

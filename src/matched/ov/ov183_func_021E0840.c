@@ -1,5 +1,5 @@
 /*
- * function: func_021E0840
+ * function: BR_CODEIN_ProfileSetupSprite
  * address: 0x021E0840
  * packet: pkt_ov183_021E0840
  * region: ov183
@@ -18,7 +18,7 @@ extern int BR_RES_GetSprite(void *, int, struct Triple *);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_021E3978[];
-void func_021E0840(char *p)
+void BR_CODEIN_ProfileSetupSprite(char *p)
 {
     struct Triple t;
     if (!BR_RES_GetSprite(((struct Obj00143 *)p)->f344, 11, &t)) func_02034714(d_021E3978, 0, d_021E3978);

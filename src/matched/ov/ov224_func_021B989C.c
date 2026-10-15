@@ -1,5 +1,5 @@
 /*
- * function: func_021B989C
+ * function: SUBWAY_MAP_GRAPHIC_Setup3d
  * address: 0x021B989C
  * packet: pkt_ov224_021B989C
  * region: ov224
@@ -51,7 +51,7 @@ static inline void G3X_EdgeMarking(int enable) {
     if(enable) DISP = (u16)((DISP & ~(0x1000|0x2000)) | 32);
     else DISP &= (u16)~(32|0x1000|0x2000);
 }
-void func_021B989C(void)
+void SUBWAY_MAP_GRAPHIC_Setup3d(void)
 {
     u32 i;
     BG_SYS_SetMainPlaneVisible(1,1);

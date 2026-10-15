@@ -24,9 +24,9 @@
  * 0x021A1974 is unlabelled data, not a function; hence EXACT*.
  *
  * symbols:
- *   func_0219E120  0x0219E120  arm  ov009
+ *   SBServerGetIntValueA  0x0219E120  arm  ov009
  *   func_0219E1B8  0x0219E1B8  arm  ov009
- *   func_0219E0C0  0x0219E0C0  arm  ov009
+ *   SBServerGetStringValueA  0x0219E0C0  arm  ov009
  *   strcmp  0x020948E0  arm
  *   strcmp_nocase  0x0209ABF8  arm
  *   _dsub  0x0209AF34  arm
@@ -37,14 +37,14 @@
  *   gSBEmptyString  0x021A8230  data
  *   strlen  0x0209477C  arm
  *   strcmp  0x020948E0  arm
- *   func_021843C8  0x021843C8  arm  ov009
- *   func_02184234  0x02184234  arm  ov009
- *   func_02184200  0x02184200  arm  ov009
+ *   ArraySort  0x021843C8  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   SBServerGetPublicInetAddress  0x0219E1EC  arm  ov009
  *   SBServerGetPublicQueryPortNBO  0x0219E218  arm  ov009
  *   SBServerSetNext  0x0219E264  arm  ov009
- *   func_0218437C  0x0218437C  arm  ov009
+ *   ArrayDeleteAt  0x0218437C  arm  ov009
  *   SBServerGetNext  0x0219E26C  arm  ov009
  *   func_0219DFF8  0x0219DFF8  arm  ov009
  *   func_0218452C  0x0218452C  arm  ov009
@@ -54,7 +54,7 @@
  *   goastrdup  0x0217F1E0  arm  ov009
  *   func_0218474C  0x0218474C  arm  ov009
  *   func_021847BC  0x021847BC  arm  ov009
- *   func_021803BC  0x021803BC  arm  ov009
+ *   gsiSafeStrcpyA  0x021803BC  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   srand  0x020946C8  arm
  *   SocketStartUp  0x0217F25C  arm  ov009
@@ -77,23 +77,23 @@
  *   unit_02092344  0x02092344  arm
  *   rand  0x02094694  arm  ov009
  *   func_0217EC90  0x0217EC90  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   func_021841B0  0x021841B0  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   func_0219DFC0  0x0219DFC0  arm  ov009
- *   func_0219D2F0  0x0219D2F0  arm  ov009
+ *   GOACryptInit  0x0219D2F0  arm  ov009
  *   SBServerSetFlags  0x0219E9AC  arm  ov009
- *   func_0219E9B4  0x0219E9B4  arm  ov009
+ *   SBServerSetPrivateAddr  0x0219E9B4  arm  ov009
  *   SBServerSetICMPIP  0x0219E9C0  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   SBServerGetState  0x0219E9D0  arm  ov009
  *   SBServerSetState  0x0219E9C8  arm  ov009
  *   memcmp  0x020923F0  arm
- *   func_0219E900  0x0219E900  arm  ov009
- *   func_0219E9D8  0x0219E9D8  arm  ov009
+ *   SBAllocServer  0x0219E900  arm  ov009
+ *   SBIsNullServer  0x0219E9D8  arm  ov009
  *   gSBNatNegMagic  0x021A8250  data
- *   func_0219D478  0x0219D478  arm  ov009
+ *   GOADecrypt  0x0219D478  arm  ov009
  *   memmove  0x02092364  arm
  *   memmove        0x02092364  arm
  *   func_0217EF50  0x0217EF50  arm  ov009
@@ -182,18 +182,18 @@ typedef struct KeyInfo {
 
 typedef void (*SBMapLoopCallback)(SBServerList *slist, void *server, long changeTime, int count, char **mapList, void *instance);
 
-extern int func_0219E120(SBServer *server, char *key, int idefault);
+extern int SBServerGetIntValueA(SBServer *server, char *key, int idefault);
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
-extern char *func_0219E0C0(SBServer *server, char *keyname, char *def);
+extern char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def);
 extern int strcmp_nocase(const char *a, const char *b);
-extern void func_021843C8(int *p, int b);
-extern void func_02184234(void *array, void *newElem);
-extern int func_02184200(const void *array);
+extern void ArraySort(int *p, int b);
+extern void ArrayAppend(void *array, void *newElem);
+extern int ArrayLength(const void *array);
 extern void *func_02184208(void *a, int n);
 extern int SBServerGetPublicInetAddress(const int *p);
 extern unsigned short SBServerGetPublicQueryPortNBO(const unsigned short *p);
 extern void SBServerSetNext(int *p, int v);
-extern void func_0218437C(int a, int b);
+extern void ArrayDeleteAt(int a, int b);
 extern int SBServerGetNext(const int *p);
 extern void func_0219DFF8(void *elem);
 extern void func_0218452C(void *a);
@@ -203,7 +203,7 @@ extern struct Ref *func_0218482C(void *t, void *k);
 extern char *goastrdup(char *s);
 extern void func_0218474C(void *t, void *e);
 extern int func_021847BC(void *t, void *k);
-extern int func_021803BC(char *dst, const char *src, unsigned int n);
+extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern unsigned int current_time(void);
 extern void srand(unsigned int seed);
 extern void SocketStartUp(void);
@@ -219,21 +219,21 @@ extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void *unit_02092344(void *dst, const void *src, unsigned long n);
 extern int func_02094694(void);
 extern int func_0217EC90(int sock, char *buf, int len, int flags);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void func_021841B0(void *a);
-extern void func_0217EAE0(void *p);
+extern void gsifree(void *p);
 extern void func_0219DFC0(SBServerList *slist);
-extern void func_0219D2F0(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
+extern void GOACryptInit(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
 extern void SBServerSetFlags(SBServer *server, unsigned char flags);
-extern void func_0219E9B4(SBServer *server, unsigned int ip, unsigned short port);
+extern void SBServerSetPrivateAddr(SBServer *server, unsigned int ip, unsigned short port);
 extern void SBServerSetICMPIP(SBServer *server, unsigned int ip);
 extern void func_0219E084(SBServer *server, char *keyname, int value);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern unsigned char SBServerGetState(SBServer *server);
 extern void SBServerSetState(SBServer *server, unsigned char state);
-extern SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
-extern int func_0219E9D8(int v);
-extern void func_0219D478(void *state, unsigned char *bp, int len);
+extern SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport);
+extern int SBIsNullServer(int v);
+extern void GOADecrypt(void *state, unsigned char *bp, int len);
 extern int func_0217EF50(int sock);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
@@ -326,7 +326,7 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
     prevsortkey = gSBSortContext.slist->prevsortinfo.sortkey;
     switch (gSBSortContext.slist->prevsortinfo.comparemode) {
     case 0:
-        diff = func_0219E120(server1, prevsortkey, 0) - func_0219E120(server2, prevsortkey, 0);
+        diff = SBServerGetIntValueA(server1, prevsortkey, 0) - SBServerGetIntValueA(server2, prevsortkey, 0);
         break;
     case 1:
         f = func_0219E1B8(server1, prevsortkey, 0) - func_0219E1B8(server2, prevsortkey, 0);
@@ -338,10 +338,10 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
             return -1;
         return 0;
     case 2:
-        diff = strcmp(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
+        diff = strcmp(SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
         break;
     case 3:
-        diff = strcmp_nocase(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
+        diff = strcmp_nocase(SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
         break;
     default:
         return 0;
@@ -369,7 +369,7 @@ int IntKeyCompare(void *entry1, void *entry2)
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
-	diff = func_0219E120(server1, currsortkey, 0) - func_0219E120(server2, currsortkey, 0);
+	diff = SBServerGetIntValueA(server1, currsortkey, 0) - SBServerGetIntValueA(server2, currsortkey, 0);
 	if (diff == 0)
 		return prevKeyCompare(server1, server2);
 	if (gSBSortContext.slist->sortascending == 0)
@@ -427,7 +427,7 @@ int StrCaseKeyCompare(void *entry1, void *entry2)
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
-	diff = strcmp(func_0219E0C0(server1, currsortkey, (char *)gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)gSBEmptyString));
+	diff = strcmp(SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString), SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString));
 	if (diff == 0)
 		return prevKeyCompare(server1, server2);
 	if (gSBSortContext.slist->sortascending == 0)
@@ -453,7 +453,7 @@ int StrNoCaseKeyCompare(void *entry1, void *entry2)
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
-	diff = strcmp_nocase(func_0219E0C0(server1, currsortkey, (char *)gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)gSBEmptyString));
+	diff = strcmp_nocase(SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString), SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString));
 	if (diff == 0)
 		return prevKeyCompare(server1, server2);
 	if (gSBSortContext.slist->sortascending == 0)
@@ -500,7 +500,7 @@ void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
     slist->currsortinfo = sortinfo;
     slist->sortascending = ascending;
     gSBSortContext.slist = slist;
-    func_021843C8(slist->servers, (int)comparator);
+    ArraySort(slist->servers, (int)comparator);
 }
 
 
@@ -515,7 +515,7 @@ void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
  */
 void SBServerListAppendServer(SBServerList *slist, SBServer *server)
 {
-    func_02184234(slist->servers, &server);
+    ArrayAppend(slist->servers, &server);
     slist->ListCallback(slist, 0, server, slist->instance);
 }
 
@@ -531,7 +531,7 @@ void SBServerListAppendServer(SBServerList *slist, SBServer *server)
 int SBServerListFindServer(SBServerList *slist, void *findserver)
 {
 	int numservers, i;
-	numservers = func_02184200(slist->servers);
+	numservers = ArrayLength(slist->servers);
 	for (i = 0; i < numservers; i++)
 		if (findserver == *(void **)func_02184208(slist->servers, i))
 			return i;
@@ -552,7 +552,7 @@ int SBServerListFindServerByIP(SBServerList *slist, unsigned int ip, unsigned sh
 	int numservers;
 	void *server;
 	int i;
-	numservers = func_02184200(slist->servers);
+	numservers = ArrayLength(slist->servers);
 	for (i = 0; i < numservers; i++) {
 		server = *(void **)func_02184208(slist->servers, i);
 		if (ip == SBServerGetPublicInetAddress(server) && port == SBServerGetPublicQueryPortNBO(server))
@@ -593,7 +593,7 @@ void SBServerListRemoveAt(SBServerList *slist, int index)
 	SBServer *server;
 	server = *(SBServer **)func_02184208(slist->servers, index);
 	slist->ListCallback(slist, 2, server, slist->instance);
-	func_0218437C((int)slist->servers, index);
+	ArrayDeleteAt((int)slist->servers, index);
 	AddServerToDeadlist((SBServerList *)slist, (SBServer *)server);
 }
 
@@ -605,7 +605,7 @@ void SBServerListRemoveAt(SBServerList *slist, int index)
 
 void SBServerListCount(void *list)
 {
-    func_02184200(*(void **)((char *)list + 4));
+    ArrayLength(*(void **)((char *)list + 4));
 }
 
 
@@ -653,7 +653,7 @@ void SBServerListClear(SBServerList *slist)
 {
 	int i;
 	int nservers;
-	nservers = func_02184200(slist->servers);
+	nservers = ArrayLength(slist->servers);
 	for (i = 0; i < nservers; i++)
 		AddServerToDeadlist((SBServerList *)slist, *(void **)func_02184208(slist->servers, i));
 	func_0218452C(slist->servers);
@@ -751,9 +751,9 @@ void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFr
     slist->state = 1;
     SBAllocateServerList(slist);
     func_0219DF64(slist);
-    func_021803BC(slist->queryforgamename, queryForGamename, 36);
-    func_021803BC(slist->queryfromgamename, queryFromGamename, 36);
-    func_021803BC(slist->queryfromkey, queryFromKey, 32);
+    gsiSafeStrcpyA(slist->queryforgamename, queryForGamename, 36);
+    gsiSafeStrcpyA(slist->queryfromgamename, queryFromGamename, 36);
+    gsiSafeStrcpyA(slist->queryfromkey, queryFromKey, 32);
     slist->ListCallback = callback;
     slist->MaploopCallback = 0;
     slist->mypublicip = 0;
@@ -834,7 +834,7 @@ int ServerListConnect(SBServerList *slist)
 
     masterIndex = func_0219FB64(slist->queryforgamename, 20);
     if ((*(char * *)&gSBSortContext))
-        func_021803BC(masterHostname, (*(char * *)&gSBSortContext), 128);
+        gsiSafeStrcpyA(masterHostname, (*(char * *)&gSBSortContext), 128);
     else
         OS_SPrintf(masterHostname, gSBMasterHostFormat, slist->queryforgamename, masterIndex);
     saddr.family = 2;
@@ -1062,7 +1062,7 @@ SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *
     slist->state = 3;
     slist->pstate = 0;
     if (slist->inbuffer == 0) {
-        slist->inbuffer = func_0217EAB0(0x1000);
+        slist->inbuffer = gsimalloc(0x1000);
         if (slist->inbuffer == 0)
             return sbe_allocerror;
         slist->inbufferlen = 0;
@@ -1102,7 +1102,7 @@ void FreeKeyList(SBServerList *slist)
 	int i;
 	if (slist->keylist == 0)
 		return;
-	for (i = 0; i < func_02184200(slist->keylist); i++)
+	for (i = 0; i < ArrayLength(slist->keylist); i++)
 		SBReleaseStr(slist, *(char **)func_02184208(slist->keylist, i));
 	func_021841B0(slist->keylist);
 	slist->keylist = 0;
@@ -1119,7 +1119,7 @@ void FreeKeyList(SBServerList *slist)
 void SBServerListDisconnect(SBServerList *slist)
 {
 	if (slist->inbuffer != 0)
-		func_0217EAE0(slist->inbuffer);
+		gsifree(slist->inbuffer);
 	slist->inbuffer = 0;
 	slist->inbufferlen = 0;
 	if (slist->slsocket != -1)
@@ -1167,7 +1167,7 @@ void InitCryptKey(SBServerList *slist, char *key, int keylen)
 	seckey = slist->queryfromkey;
 	for (i = 0; i < keylen; i++)
 		slist->mychallenge[(i * seckey[i % seckeylen]) % 8] ^= slist->mychallenge[i % 8] ^ key[i];
-	func_0219D2F0((struct GOACryptState *)slist->cryptkey, (unsigned char *)slist->mychallenge, 8);
+	GOACryptInit((struct GOACryptState *)slist->cryptkey, (unsigned char *)slist->mychallenge, 8);
 }
 
 
@@ -1238,7 +1238,7 @@ int AllKeysPresent(SBServerList *slist, char *buf, int len)
 	int numkeys;
 	int i;
 	int strindex;
-	numkeys = func_02184200(slist->keylist);
+	numkeys = ArrayLength(slist->keylist);
 	for (i = 0; i < numkeys; i++) {
 		switch (((struct KeyEnt *)func_02184208(slist->keylist, i))->keyType) {
 		case 1:
@@ -1344,7 +1344,7 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
         len -= 2;
     } else
         port = slist->defaultport;
-    func_0219E9B4(server, ip, port);
+    SBServerSetPrivateAddr(server, ip, port);
     if (flags & 8) {
         memcpy(&ip, buf, 4);
         buf += 4;
@@ -1352,7 +1352,7 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
         SBServerSetICMPIP(server, ip);
     }
     if (flags & 0x40) {
-        numkeys = func_02184200(slist->keylist);
+        numkeys = ArrayLength(slist->keylist);
         for (i = 0; i < numkeys; i++) {
             ki = (KeyInfo *)func_02184208(slist->keylist, i);
             switch (ki->keyType) {
@@ -1432,8 +1432,8 @@ int IncomingListParseServer(SBServerList *slist, char *buf, int len)
     if (!memcmp(buf + 1, gSBNatNegMagic, 4))
         return -1;
     ParseServerIPPort((SBServerList *)slist, (unsigned char *)buf, len, &ip, &port);
-    server = func_0219E900((int)slist, ip, port);
-    if (func_0219E9D8((int)server))
+    server = SBAllocServer((int)slist, ip, port);
+    if (SBIsNullServer((int)server))
         return -2;
     ret = ParseServer(slist, server, buf, len, 1);
     SBServerListAppendServer(slist, server);
@@ -1482,7 +1482,7 @@ SBError ProcessMainListData(SBServerList *slist)
         slist->backendgameflags = NTOHS(slist->backendgameflags);
         inbuf += reqlen;
         inlen -= reqlen;
-        func_0219D478(slist->cryptkey, (unsigned char *)inbuf, inlen);
+        GOADecrypt(slist->cryptkey, (unsigned char *)inbuf, inlen);
     case 1:
         if (inlen < 6)
             break;
@@ -1518,7 +1518,7 @@ SBError ProcessMainListData(SBServerList *slist)
             inbuf++;
             inlen--;
         }
-        while (slist->expectedelements > func_02184200(slist->keylist)) {
+        while (slist->expectedelements > ArrayLength(slist->keylist)) {
             int keylen;
             if (inlen < 2)
                 break;
@@ -1527,11 +1527,11 @@ SBError ProcessMainListData(SBServerList *slist)
                 break;
             ki.keyType = (unsigned char)*inbuf;
             ki.keyName = SBRefStr(slist, inbuf + 1);
-            func_02184234(slist->keylist, &ki);
+            ArrayAppend(slist->keylist, &ki);
             inbuf += keylen + 1;
             inlen -= keylen + 1;
         }
-        if (slist->expectedelements > func_02184200(slist->keylist))
+        if (slist->expectedelements > ArrayLength(slist->keylist))
             break;
         slist->pstate = 3;
         slist->expectedelements = -1;
@@ -1615,7 +1615,7 @@ int ProcessPushKeyList(SBServerList *slist, char *buf, int len)
 			return 4;
 		ki.keyType = (unsigned char)buf[0];
 		ki.keyName = SBRefStr(slist, buf + 1);
-		func_02184234(slist->keylist, &ki);
+		ArrayAppend(slist->keylist, &ki);
 		buf += keylen + 1;
 		len -= keylen + 1;
 	}
@@ -1774,8 +1774,8 @@ int ProcessPushServer(SBServerList *slist, char *buf, int len)
 	ParseServerIPPort(slist, (unsigned char *)buf, len, &ip, &port);
 	foundexisting = SBServerListFindServerByIP(slist, ip, port);
 	if (foundexisting == -1) {
-		server = func_0219E900((int)slist, ip, port);
-		if (func_0219E9D8((int)server))
+		server = SBAllocServer((int)slist, ip, port);
+		if (SBIsNullServer((int)server))
 			return 5;
 	} else {
 		server = SBServerListNth(slist, foundexisting);
@@ -1873,7 +1873,7 @@ int ProcessIncomingData(SBServerList *slist)
 	}
 	slist->inbufferlen += len;
 	if (slist->state == 2 || slist->pstate > 0)
-		func_0219D478((struct GOACryptState *)slist->cryptkey, (unsigned char *)(slist->inbuffer + oldlen), slist->inbufferlen - oldlen);
+		GOADecrypt((struct GOACryptState *)slist->cryptkey, (unsigned char *)(slist->inbuffer + oldlen), slist->inbufferlen - oldlen);
 	if (slist->state == 3)
 		err = ProcessMainListData((SBServerList *)slist);
 	if (err != 0)
@@ -1971,8 +1971,8 @@ int ProcessLanData(SBServerList *slist)
         foundexisting = SBServerListFindServerByIP((SBServerList *)slist, saddr.addr, saddr.port);
         if (foundexisting != -1)
             continue;
-        server = func_0219E900((int)slist, saddr.addr, saddr.port);
-        if (func_0219E9D8((int)server))
+        server = SBAllocServer((int)slist, saddr.addr, saddr.port);
+        if (SBIsNullServer((int)server))
             return 5;
         SBServerSetFlags(server, 0x11);
         SBServerListAppendServer(slist, server);

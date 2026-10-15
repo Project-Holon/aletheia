@@ -1,5 +1,5 @@
 /*
- * function: func_021F65EC
+ * function: MUSICAL_MCSS_SetupG3
  * address: 0x021F65EC
  * packet: pkt_ov112_021F65EC
  * region: ov112
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F65EC(void) {*(volatile u32 *)0x040004c0=0x4210ffff;*(volatile u32 *)0x040004c4=0x4210;*(volatile u32 *)0x040004a4=0x001f00c0;}
+void MUSICAL_MCSS_SetupG3(void) {*(volatile u32 *)0x040004c0=0x4210ffff;*(volatile u32 *)0x040004c4=0x4210;*(volatile u32 *)0x040004a4=0x001f00c0;}

@@ -1,7 +1,7 @@
 /*
  * file:     b_bag_main.c
  * unit:     yes
- * function: B_BAG_MAIN_InitWindows, B_BAG_MAIN_CreateWindows, B_BAG_MAIN_DeleteWindows, B_BAG_MAIN_ExitWindows, B_BAG_MAIN_DrawPage, B_BAG_MAIN_PrintLabel, B_BAG_MAIN_DrawLabels, func_0220B31C, func_0220B3EC, func_0220B4B8, func_0220B520, func_0220B584, func_0220B6C4, func_0220B774, func_0220B78C, func_0220B814, func_0220B880, func_0220B904, func_0220B928, func_0220B980, func_0220B990, func_0220B9A4, func_0220B9D8, func_0220BA2C, func_0220BB1C, func_0220BB78, func_0220BB98, func_0220BBD8, func_0220BBE4, func_0220BD14, func_0220BD24, func_0220BF20, func_0220BF40, func_0220C034, func_0220C06C, func_0220C0B4, func_0220C180, func_0220C220, func_0220C27C, func_0220C304, func_0220C3B4, func_0220C40C, func_0220C448, func_0220C4D4, func_0220C4EC, func_0220C538, func_0220C574, func_0220C618, func_0220C68C, func_0220C6C0, func_0220C6D0, func_0220C6E8, func_0220C6F8, func_0220C714, func_0220C724, func_0220C834, func_0220C914, func_0220C980, func_0220CAAC, func_0220CBB4, func_0220CBE8, func_0220CC18, func_0220CD50, func_0220CFA4, func_0220CFF0, func_0220D024, func_0220D11C, func_0220D214, func_0220D234, func_0220D254, func_0220D274, func_0220D29C, func_0220D2AC, func_0220D328, func_0220D358, func_0220D370, func_0220D39C, func_0220D3B0, func_0220D464, func_0220D5C0, func_0220D6B8, func_0220D6DC, func_0220D798, func_0220D7D0, func_0220D7F0, func_0220D848, func_0220D884, func_0220D89C, func_0220D8B0, func_0220D8C4, func_0220D914, func_0220D924, func_0220D974, func_0220D98C, func_0220D9A8, B_BAG_MAIN_HandleSelection
+ * function: B_BAG_MAIN_InitWindows, B_BAG_MAIN_CreateWindows, B_BAG_MAIN_DeleteWindows, B_BAG_MAIN_ExitWindows, B_BAG_MAIN_DrawPage, B_BAG_MAIN_PrintLabel, B_BAG_MAIN_DrawLabels, B_BAG_MAIN_DrawItemName, B_BAG_MAIN_DrawItemInfo, B_BAG_MAIN_DrawSlot, B_BAG_MAIN_DrawPocket, B_BAG_MAIN_DrawHeader, B_BAG_MAIN_DrawInfoBox, B_BAG_MAIN_DrawItemsPage, B_BAG_MAIN_DrawDescription, B_BAG_MAIN_DrawItemUsage, B_BAG_MAIN_DrawOtherPage, B_BAG_MAIN_PrintItemMsg, B_BAG_MAIN_StartItemMsg, B_BAG_MAIN_UpdateTool, B_BAG_MAIN_ShowWindows, B_BAG_MAIN_CheckKeyItem, B_BAG_MAIN_SyncCursorToItem, B_BAG_MAIN_BuildPocketLists, B_BAG_MAIN_BuildOtherList, B_BAG_MAIN_InitOtherPage, B_BAG_MAIN_GetSlotItem, B_BAG_MAIN_GetItemFlag, B_BAG_MAIN_InitFrames, B_BAG_MAIN_DeleteFrames, B_BAG_MAIN_LayoutFrames, B_BAG_MAIN_StartFrameAnim, B_BAG_MAIN_StepFrameAnim, B_BAG_MAIN_CreateItemGraphics, B_BAG_MAIN_ClearHandles, B_BAG_MAIN_RegisterItemChars, B_BAG_MAIN_LoadItemGraphic, B_BAG_MAIN_LoadItemPalette, B_BAG_MAIN_RegisterCursorGraphics, B_BAG_MAIN_RegisterIconGraphics, B_BAG_MAIN_CreateItemActor, B_BAG_MAIN_CreateItemActors, B_BAG_MAIN_DeleteItemGraphics, B_BAG_MAIN_PlaceActor, B_BAG_MAIN_SetDisplayMode, B_BAG_MAIN_DisplaySingle, B_BAG_MAIN_DisplayList, B_BAG_MAIN_DisplaySelected, B_BAG_MAIN_CreateToolActors, B_BAG_MAIN_DeleteToolActors, B_BAG_MAIN_CreateFingerCursor, B_BAG_MAIN_DeleteFingerCursor, B_BAG_MAIN_StartFingerCursor, B_BAG_MAIN_DeleteFingerCursorActor, B_BAG_MAIN_DrawItemRow, B_BAG_MAIN_Create, B_BAG_MAIN_Main, B_BAG_MAIN_StateInit, B_BAG_MAIN_StateInitOther, B_BAG_MAIN_StateWaitPrintWipe, B_BAG_MAIN_StateWipeEnd, B_BAG_MAIN_StateSelectPocket, B_BAG_MAIN_StateSelectItem, B_BAG_MAIN_StateChangeCount, B_BAG_MAIN_StateWaitPrintRedraw, B_BAG_MAIN_StateChooseItem, B_BAG_MAIN_StateShowMessage, B_BAG_MAIN_StateShowPocket0, B_BAG_MAIN_StateShowPocket1, B_BAG_MAIN_StateShowPocket2, B_BAG_MAIN_StateWaitPrintSetMode, B_BAG_MAIN_StateStartMessage, B_BAG_MAIN_StateMessageInput, B_BAG_MAIN_StateMessageDone, B_BAG_MAIN_StateWaitKey, B_BAG_MAIN_StateFadeOut, B_BAG_MAIN_StateWaitFade, B_BAG_MAIN_StateExit, B_BAG_MAIN_StateOtherFlow, B_BAG_MAIN_InitBg, B_BAG_MAIN_ExitBg, B_BAG_MAIN_LoadBgGraphics, B_BAG_MAIN_CreateText, B_BAG_MAIN_DeleteText, B_BAG_MAIN_ResetBgSlot, B_BAG_MAIN_SwitchPage, B_BAG_MAIN_CheckCancel, B_BAG_MAIN_PlaySe, B_BAG_MAIN_PlaySe2, B_BAG_MAIN_CreateCursor, B_BAG_MAIN_DeleteCursor, B_BAG_MAIN_RecreateCursor, B_BAG_MAIN_SetCursorVisible, B_BAG_MAIN_LayoutCursor, B_BAG_MAIN_ShowCursorAt, B_BAG_MAIN_HandleSelection
  * address:  0x0220B120
  * region:   ov197
  * compiler: dsi/1.1p1
@@ -25,18 +25,18 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   d_0220DA0D 0x0220DA0D data a1
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
  *   d_0220DA38 0x0220DA38 data a4
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   d_0220DA3C 0x0220DA3C data a4
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   d_0220DA28 0x0220DA28 data a1
  *   d_0220DA19 0x0220DA19 data a1
  *   STRBUF_Create 0x020457B0 arm
- *   func_02020FB4 0x02020FB4 thumb
+ *   FILE_UTIL_ReadStringAlt 0x02020FB4 thumb
  *   d_0220DA08 0x0220DA08 data a1
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
@@ -68,12 +68,12 @@
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   BGWINFRM_HideFrame 0x0202CC70 thumb
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_02020F08 0x02020F08 thumb
+ *   FILE_UTIL_GetItemCount 0x02020F08 thumb
  *   FILE_UTIL_Get 0x02020E60 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_02020F0C 0x02020F0C thumb
- *   func_02020F10 0x02020F10 thumb
+ *   FILE_UTIL_GetBankCount 0x02020F0C thumb
+ *   FILE_UTIL_GetBaseIndex 0x02020F10 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
@@ -129,7 +129,7 @@
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
@@ -143,7 +143,7 @@
  *   B_APP_TOOL_Delete 0x0220AF64 thumb ov196
  *   func_02030EAC 0x02030EAC arm
  *   BTLV_FINGER_CURSOR_IsActive 0x02209C2C thumb
- *   func_0203FC6C 0x0203FC6C arm
+ *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -155,7 +155,7 @@
  *   func_020403F4 0x020403F4 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
@@ -164,7 +164,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CURSOR_MOVE_Create 0x02025CD0 thumb
  *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
@@ -479,14 +479,14 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201EFA4(struct WordSet *p, u32_0220B248 i, u32_0220B248 a, u32_0220B248 b, u32_0220B248 c, u32_0220B248 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32_0220B248 i, u32_0220B248 a, u32_0220B248 b, u32_0220B248 c, u32_0220B248 d);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32_0220B248 i, u32_0220B248 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
 extern struct U16Vec *STRBUF_Create(u32_0220B814 capacity, u32_0220B814 heapId);
-extern void func_02020FB4(void *,unsigned,unsigned);
-extern void func_0201F73C(void *, int, int, int);
+extern void FILE_UTIL_ReadStringAlt(void *,unsigned,unsigned);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern void GF_FONT_SetTextColor(u32_0220B928 r, u32_0220B928 g, u32_0220B928 b);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32_0220B928 a1, u32_0220B928 a2, void *a3, u32_0220B928 a4, u32_0220B928 a5, void *a6, u32_0220B928 a7, u16 a8, u32_0220B928 a9);
@@ -514,12 +514,12 @@ extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern unsigned func_02020F08(void);
+extern unsigned FILE_UTIL_GetItemCount(void);
 extern unsigned FILE_UTIL_Get(unsigned,unsigned);
 extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_02020F0C(void);
-extern int func_02020F10(void);
+extern int FILE_UTIL_GetBankCount(void);
+extern int FILE_UTIL_GetBaseIndex(void);
 extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
@@ -568,7 +568,7 @@ extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern unsigned FILE_UTIL_Get_0FE4(void *, unsigned, unsigned);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern unsigned PRINTSYS_PrintStreamGetState(void *);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *, int);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
@@ -582,14 +582,14 @@ extern void TCBL_Destroy(struct S02031140 *);
 extern void B_APP_TOOL_Delete(void *);
 extern void func_02030EAC(struct Node *);
 extern int BTLV_FINGER_CURSOR_IsActive(void *);
-extern void func_0203FC6C(const struct BgVramReq *,u32);
+extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020403F4(u32 i);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
-extern void func_0201F5BC(u32, u32, u32, u32, u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16);
 extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
 extern struct WordSet *GF_FONT_Create_EC64(unsigned);
@@ -598,7 +598,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void BG_SYS_ResetSlot(unsigned int, unsigned int, unsigned int);
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern struct Struct_02025CD0 *CURSOR_MOVE_Create(u32, u32, u32, u32, u8, u16);
 extern void CURSOR_MOVE_EnableInput(struct Struct_02025D1C *);
@@ -614,97 +614,97 @@ void B_BAG_MAIN_ExitWindows(char *a);
 void B_BAG_MAIN_DrawPage(char *a, int which);
 void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour);
 void B_BAG_MAIN_DrawLabels(char *p);
-void func_0220B31C(char *p,u32_0220B31C i,int id,int w,int unused,int unused2);
-void func_0220B3EC(char *p, u32_0220B3EC i, int id, int w, int unused, int y, int unused2);
-void func_0220B4B8(char *p,u16 i);
-void func_0220B520(char *p);
-void func_0220B584(char *p);
-void func_0220B6C4(char *p);
-void func_0220B774(char *a);
-void func_0220B78C(u8 *p, u32_0220B78C idx);
-void func_0220B814(char *p,int n);
-void func_0220B880(char *p);
-void func_0220B904(char *p);
-void func_0220B928(char *p);
-int func_0220B980(char *a);
-u32_0220B990 func_0220B990(u8 *p);
-int func_0220B9A4(char *p);
-void func_0220B9D8(u8 *p);
-void func_0220BA2C(u8 *p);
-void func_0220BB1C(char *p);
-void func_0220BB78(char *p);
-u16 func_0220BB98(const char *p, unsigned n);
-int func_0220BBD8(u32_0220BBD8 key);
-void func_0220BBE4(char *p);
-void func_0220BD14(char *a);
-void func_0220BD24(char *p, int mode);
-void func_0220BF20(char *p, int v);
-void func_0220BF40(char *p);
-void func_0220C034(char *p);
-void func_0220C06C(char *p);
-void func_0220C0B4(char *p);
-void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset);
-void func_0220C220(char *p,unsigned item,unsigned slot);
-void func_0220C27C(char *p);
-void func_0220C304(char *p);
-struct Obj *func_0220C3B4(char *p,const int *indices);
-void func_0220C40C(char *p);
-void func_0220C448(char *p);
-void func_0220C4D4(int a, int b);
-void func_0220C4EC(char *p, int mode);
-void func_0220C538(char *p);
-void func_0220C574(char *p);
-void func_0220C618(char *p);
-void func_0220C68C(char *p);
-void func_0220C6C0(char *a);
-void func_0220C6D0(char *a);
-void func_0220C6E8(char *a);
-void func_0220C6F8(u8 *p, u32 a, u32 b);
-void func_0220C714(char *a);
-void func_0220C724(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src);
-void func_0220C834(u8 *arg);
-void func_0220C914(void *task, char *p);
-int func_0220C980(char *p);
-int func_0220CAAC(char *p);
-int func_0220CBB4(char *p);
-int func_0220CBE8(char *p);
-int func_0220CC18(char *p);
-int func_0220CD50(char *p);
-int func_0220CFA4(char *p);
-int func_0220CFF0(char *p);
-int func_0220D024(char *p);
-int func_0220D11C(char *p);
-int func_0220D214(char *p);
-int func_0220D234(char *p);
-int func_0220D254(char *p);
-int func_0220D274(char *p);
-int func_0220D29C(char *a);
-int func_0220D2AC(char *p);
-int func_0220D328(char *p);
-int func_0220D358(char *p);
-int func_0220D370(char *p);
-int func_0220D39C(char *a);
-int func_0220D3B0(struct Node *task, char *p);
-int func_0220D464(char *p);
-void func_0220D5C0(char *p);
-void func_0220D6B8(void);
-void func_0220D6DC(char *p);
-void func_0220D798(char *p);
-void func_0220D7D0(char *p);
-void func_0220D7F0(void *unused, int mode);
-void func_0220D848(char *p,int mode);
-int func_0220D884(char **p);
-void func_0220D89C(char **a, int b);
-void func_0220D8B0(char **a, int b);
-void func_0220D8C4(u8 *p, u32 index, u32 value);
-u32 func_0220D914(u8 *p);
-void func_0220D924(u8 *p, int state, int value);
-void func_0220D974(char *a, int b);
-void func_0220D98C(u8 *p, u32 idx);
-void func_0220D9A8(u8 *p,u32 i);
-void func_0220D9BC(char *p);
-void func_0220D9C8(char *p);
-void func_0220D9D4(u8 *p,u32 i);
+void B_BAG_MAIN_DrawItemName(char *p,u32_0220B31C i,int id,int w,int unused,int unused2);
+void B_BAG_MAIN_DrawItemInfo(char *p, u32_0220B3EC i, int id, int w, int unused, int y, int unused2);
+void B_BAG_MAIN_DrawSlot(char *p,u16 i);
+void B_BAG_MAIN_DrawPocket(char *p);
+void B_BAG_MAIN_DrawHeader(char *p);
+void B_BAG_MAIN_DrawInfoBox(char *p);
+void B_BAG_MAIN_DrawItemsPage(char *a);
+void B_BAG_MAIN_DrawDescription(u8 *p, u32_0220B78C idx);
+void B_BAG_MAIN_DrawItemUsage(char *p,int n);
+void B_BAG_MAIN_DrawOtherPage(char *p);
+void B_BAG_MAIN_PrintItemMsg(char *p);
+void B_BAG_MAIN_StartItemMsg(char *p);
+int B_BAG_MAIN_UpdateTool(char *a);
+u32_0220B990 B_BAG_MAIN_ShowWindows(u8 *p);
+int B_BAG_MAIN_CheckKeyItem(char *p);
+void B_BAG_MAIN_SyncCursorToItem(u8 *p);
+void B_BAG_MAIN_BuildPocketLists(u8 *p);
+void B_BAG_MAIN_BuildOtherList(char *p);
+void B_BAG_MAIN_InitOtherPage(char *p);
+u16 B_BAG_MAIN_GetSlotItem(const char *p, unsigned n);
+int B_BAG_MAIN_GetItemFlag(u32_0220BBD8 key);
+void B_BAG_MAIN_InitFrames(char *p);
+void B_BAG_MAIN_DeleteFrames(char *a);
+void B_BAG_MAIN_LayoutFrames(char *p, int mode);
+void B_BAG_MAIN_StartFrameAnim(char *p, int v);
+void B_BAG_MAIN_StepFrameAnim(char *p);
+void B_BAG_MAIN_CreateItemGraphics(char *p);
+void B_BAG_MAIN_ClearHandles(char *p);
+void B_BAG_MAIN_RegisterItemChars(char *p);
+void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset);
+void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot);
+void B_BAG_MAIN_RegisterCursorGraphics(char *p);
+void B_BAG_MAIN_RegisterIconGraphics(char *p);
+struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices);
+void B_BAG_MAIN_CreateItemActors(char *p);
+void B_BAG_MAIN_DeleteItemGraphics(char *p);
+void B_BAG_MAIN_PlaceActor(int a, int b);
+void B_BAG_MAIN_SetDisplayMode(char *p, int mode);
+void B_BAG_MAIN_DisplaySingle(char *p);
+void B_BAG_MAIN_DisplayList(char *p);
+void B_BAG_MAIN_DisplaySelected(char *p);
+void B_BAG_MAIN_CreateToolActors(char *p);
+void B_BAG_MAIN_DeleteToolActors(char *a);
+void B_BAG_MAIN_CreateFingerCursor(char *a);
+void B_BAG_MAIN_DeleteFingerCursor(char *a);
+void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b);
+void B_BAG_MAIN_DeleteFingerCursorActor(char *a);
+void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src);
+void B_BAG_MAIN_Create(u8 *arg);
+void B_BAG_MAIN_Main(void *task, char *p);
+int B_BAG_MAIN_StateInit(char *p);
+int B_BAG_MAIN_StateInitOther(char *p);
+int B_BAG_MAIN_StateWaitPrintWipe(char *p);
+int B_BAG_MAIN_StateWipeEnd(char *p);
+int B_BAG_MAIN_StateSelectPocket(char *p);
+int B_BAG_MAIN_StateSelectItem(char *p);
+int B_BAG_MAIN_StateChangeCount(char *p);
+int B_BAG_MAIN_StateWaitPrintRedraw(char *p);
+int B_BAG_MAIN_StateChooseItem(char *p);
+int B_BAG_MAIN_StateShowMessage(char *p);
+int B_BAG_MAIN_StateShowPocket0(char *p);
+int B_BAG_MAIN_StateShowPocket1(char *p);
+int B_BAG_MAIN_StateShowPocket2(char *p);
+int B_BAG_MAIN_StateWaitPrintSetMode(char *p);
+int B_BAG_MAIN_StateStartMessage(char *a);
+int B_BAG_MAIN_StateMessageInput(char *p);
+int B_BAG_MAIN_StateMessageDone(char *p);
+int B_BAG_MAIN_StateWaitKey(char *p);
+int B_BAG_MAIN_StateFadeOut(char *p);
+int B_BAG_MAIN_StateWaitFade(char *a);
+int B_BAG_MAIN_StateExit(struct Node *task, char *p);
+int B_BAG_MAIN_StateOtherFlow(char *p);
+void B_BAG_MAIN_InitBg(char *p);
+void B_BAG_MAIN_ExitBg(void);
+void B_BAG_MAIN_LoadBgGraphics(char *p);
+void B_BAG_MAIN_CreateText(char *p);
+void B_BAG_MAIN_DeleteText(char *p);
+void B_BAG_MAIN_ResetBgSlot(void *unused, int mode);
+void B_BAG_MAIN_SwitchPage(char *p,int mode);
+int B_BAG_MAIN_CheckCancel(char **p);
+void B_BAG_MAIN_PlaySe(char **a, int b);
+void B_BAG_MAIN_PlaySe2(char **a, int b);
+void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value);
+u32 B_BAG_MAIN_DeleteCursor(u8 *p);
+void B_BAG_MAIN_RecreateCursor(u8 *p, int state, int value);
+void B_BAG_MAIN_SetCursorVisible(char *a, int b);
+void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx);
+void B_BAG_MAIN_ShowCursorAt(u8 *p,u32 i);
+void B_BAG_MAIN_HideCursor(char *p);
+void B_BAG_MAIN_HideCursor2(char *p);
+void B_BAG_MAIN_LayoutCursorOnly(u8 *p,u32 i);
 void B_BAG_MAIN_HandleSelection(char *p, int b);
 extern const u8 d_0220DA68[];
 extern const char d_0220DA0D[];
@@ -764,10 +764,10 @@ void B_BAG_MAIN_DrawPage(char *a, int which)
         B_BAG_MAIN_DrawLabels(a);
         break;
     case 1:
-        func_0220B774(a);
+        B_BAG_MAIN_DrawItemsPage(a);
         break;
     case 2:
-        func_0220B880(a);
+        B_BAG_MAIN_DrawOtherPage(a);
         break;
     }
 }
@@ -822,7 +822,7 @@ void B_BAG_MAIN_DrawLabels(char *p)
 /*
  * Width: printer x truncates to signed halfword in original; extern keeps s16 despite owner u32.
  */
-void func_0220B31C(char *p,u32_0220B31C i,int id,int w,int unused,int unused2)
+void B_BAG_MAIN_DrawItemName(char *p,u32_0220B31C i,int id,int w,int unused,int unused2)
 {
     char *windows=p+0x28;
     void *handle=*(void **)(windows+w*8);
@@ -837,7 +837,7 @@ void func_0220B31C(char *p,u32_0220B31C i,int id,int w,int unused,int unused2)
         text=func_02045EC0(((struct Obj00845 *)p)->fC,*(u32_0220B31C *)(d_0220DA38+id*8));
         page=(u32_0220B31C)p+((u8 *)p)[0x533]*0x90;
         WORDSET_Callback_EF40(((struct Obj00845 *)p)->f10,0,*(u16 *)(page+i*4+0x150));
-        func_0201F250(((struct Obj00845 *)p)->f10,((struct Obj00845 *)p)->f14,text);
+        WORDSET_CopyTaggedText(((struct Obj00845 *)p)->f10,((struct Obj00845 *)p)->f14,text);
         width=func_0201D304(((struct Obj00845 *)p)->f14,((struct Obj24993 *)(*(char * *)&((struct Obj00845 *)p)->f0))->f4,0);
         width=BMP_WIN_GetWidth(handle)*8-width;
         font=((struct Obj00845 *)p)->f18;
@@ -856,7 +856,7 @@ void func_0220B31C(char *p,u32_0220B31C i,int id,int w,int unused,int unused2)
 /*
  * Width: original narrows y to signed halfword before printer; corresponding extern keeps s16 despite owner u32.
  */
-void func_0220B3EC(char *p, u32_0220B3EC i, int id, int w, int unused, int y, int unused2)
+void B_BAG_MAIN_DrawItemInfo(char *p, u32_0220B3EC i, int id, int w, int unused, int y, int unused2)
 {
   char *windows = p + 0x28;
   void *handle = *((void **) (windows + (w * 8)));
@@ -874,9 +874,9 @@ void func_0220B3EC(char *p, u32_0220B3EC i, int id, int w, int unused, int y, in
   {
     text = func_02045EC0(*((void **) (p + 0xC)), *((u32_0220B3EC *) (d_0220DA3C + (id * 8))));
     page = ((u32_0220B3EC) p) + (((u8 *) p)[0x533] * 0x90);
-    func_0201EFA4(*((void **) (p + 0x10)), 0, *((u16 *) (((u32_0220B3EC) (page + (i * 4))) + 0x152)), 3, 0, 1);
+    WORDSET_SetSlotNumber(*((void **) (p + 0x10)), 0, *((u16 *) (((u32_0220B3EC) (page + (i * 4))) + 0x152)), 3, 0, 1);
     tmp2 = p + 0x14;
-    func_0201F250(*((void **) (p + 0x10)), *((void **) tmp2), text);
+    WORDSET_CopyTaggedText(*((void **) (p + 0x10)), *((void **) tmp2), text);
     font = *((void **) (p + 0x18));
     surface = BMP_WIN_GetBmp(*((void **) (windows + (w * 8))));
     tmp = p + 0x14;
@@ -897,25 +897,25 @@ void func_0220B3EC(char *p, u32_0220B3EC i, int id, int w, int unused, int y, in
 /*
  * lever: assign the doubled index after the flag branch; the flag is unsigned byte evidence.
  */
-void func_0220B4B8(char *p,u16 i)
+void B_BAG_MAIN_DrawSlot(char *p,u16 i)
 {
     int base=*(short *)(*(char * *)&((struct Obj00845 *)p)->f0+((u8 *)p)[0x533]*2+0x38)*6;
     int row=5;
     int twice;
     if(((u8 *)p)[0x141]!=0)row=0x11;
     twice=i*2;
-    func_0220B31C(p,i+base,i,row+twice,0,0);
-    func_0220B3EC(p,i+base,i,row+1+twice,0,4,0);
+    B_BAG_MAIN_DrawItemName(p,i+base,i,row+twice,0,0);
+    B_BAG_MAIN_DrawItemInfo(p,i+base,i,row+1+twice,0,4,0);
 }
 
 
 
 
-void func_0220B520(char *p)
+void B_BAG_MAIN_DrawPocket(char *p)
 {
     u16 i;
-    func_02041300(5,0,0,0,0x20,0x13,0x11);
-    for(i=0;i<6;i++)func_0220B4B8(p,i);
+    BG_SYS_SetTileEntry(5,0,0,0,0x20,0x13,0x11);
+    for(i=0;i<6;i++)B_BAG_MAIN_DrawSlot(p,i);
     if(((u8 *)p)[0x141]==0)
         *(const char * *)&((struct Obj00314 *)p)->f59C=d_0220DA28;
     else
@@ -930,7 +930,7 @@ void func_0220B520(char *p)
  * matching: parenthesised byte-pointer plus page keeps the page load before the far-field add; a flat offset sum differs in two bytes.
  * Width: original narrows x to signed 16 bits before each 0201C724 call; s16 extern preserves those caller truncations despite owner u32 x.
  */
-void func_0220B584(char *p)
+void B_BAG_MAIN_DrawHeader(char *p)
 {
     void *handle=((struct Obj00314 *)p)->f118;
     void *surface=BMP_WIN_GetBmp(handle);
@@ -946,13 +946,13 @@ void func_0220B584(char *p)
     PRINTSYS_PrintQueColor(((struct Obj00314 *)p)->f18,(u32_0220B584)surface,(s16_0220B584)x,(s16_0220B584)4,(u32_0220B584)text,((struct Obj25000 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj00314 *)p)->fC,29);
-    func_0201EFA4(((struct Obj00314 *)p)->f10,0,((u8 *)p+((u8 *)p)[0x533])[0x539]+1,2,0,1);
-    func_0201F250(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
+    WORDSET_SetSlotNumber(((struct Obj00314 *)p)->f10,0,((u8 *)p+((u8 *)p)[0x533])[0x539]+1,2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
     PRINTSYS_PrintQueColor(((struct Obj00314 *)p)->f18,(u32_0220B584)surface,(s16_0220B584)(x+width),(s16_0220B584)4,(u32_0220B584)(((struct Obj00314 *)p)->f14),((struct Obj25001 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj00314 *)p)->fC,30);
-    func_0201EFA4(((struct Obj00314 *)p)->f10,0,*(s16_0220B584 *)(*(char * *)&((struct Obj00314 *)p)->f0+((u8 *)p)[0x533]*2+0x38)+1,2,0,1);
-    func_0201F250(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
+    WORDSET_SetSlotNumber(((struct Obj00314 *)p)->f10,0,*(s16_0220B584 *)(*(char * *)&((struct Obj00314 *)p)->f0+((u8 *)p)[0x533]*2+0x38)+1,2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
     width=func_0201D304(((struct Obj00314 *)p)->f14,((struct Obj25002 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0);
     font=((struct Obj00314 *)p)->f18;
     lastSurface=BMP_WIN_GetBmp(((struct Obj00314 *)p)->f118);
@@ -964,7 +964,7 @@ void func_0220B584(char *p)
 
 
 
-void func_0220B6C4(char *p)
+void B_BAG_MAIN_DrawInfoBox(char *p)
 {
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00314 *)p)->f110)),0);
     if(((struct Obj25004 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f8!=1) {
@@ -981,18 +981,18 @@ void func_0220B6C4(char *p)
 
 
 
-void func_0220B774(char *a)
+void B_BAG_MAIN_DrawItemsPage(char *a)
 {
-    func_0220B520(a);
-    func_0220B6C4(a);
-    func_0220B584(a);
+    B_BAG_MAIN_DrawPocket(a);
+    B_BAG_MAIN_DrawInfoBox(a);
+    B_BAG_MAIN_DrawHeader(a);
 }
 
 
 
 
 
-void func_0220B78C(u8 *p, u32_0220B78C idx)
+void B_BAG_MAIN_DrawDescription(u8 *p, u32_0220B78C idx)
 {
     void *win = *(void **)(p + 0x120);
     void *msg = func_02045EC0(*(void **)(p + 0xc), 9);
@@ -1000,7 +1000,7 @@ void func_0220B78C(u8 *p, u32_0220B78C idx)
     u8 *row = p + sel * 0x90;
     void *w;
     WORDSET_Callback_EF40(*(void **)(p + 0x10), 0, *(u16 *)(row + 0x150 + idx * 4));
-    func_0201F250(*(void **)(p + 0x10), *(void **)(p + 0x14), msg);
+    WORDSET_CopyTaggedText(*(void **)(p + 0x10), *(void **)(p + 0x14), msg);
     BMP_Clear(BMP_WIN_GetBmp(win), 0);
     w = *(void **)(p + 0x18);
     PRINTSYS_PrintQueColor(w, (u32_0220B78C)BMP_WIN_GetBmp(*(void **)(p + 0x120)), 0, 0,
@@ -1015,7 +1015,7 @@ void func_0220B78C(u8 *p, u32_0220B78C idx)
 /*
  * matching: named row index in Row[36][2] restores base-add-before-column-shift; raw byte row differs in seven bytes.
  */
-void func_0220B814(char *p,int n)
+void B_BAG_MAIN_DrawItemUsage(char *p,int n)
 {
     void *owner;
     int index;
@@ -1023,7 +1023,7 @@ void func_0220B814(char *p,int n)
     void *buf=STRBUF_Create(130,((struct Obj25005 *)(*(char * *)&((struct Obj04597 *)p)->f0))->fC);
     index=((struct Obj04597 *)p)->f533;
     row=(Row *)(p+0x150);
-    func_02020FB4(buf,row[index].entry[n][0],((struct Obj25007 *)(*(char * *)&((struct Obj04597 *)p)->f0))->fC);
+    FILE_UTIL_ReadStringAlt(buf,row[index].entry[n][0],((struct Obj25007 *)(*(char * *)&((struct Obj04597 *)p)->f0))->fC);
     owner=((struct Obj04597 *)p)->f18;
     PRINTSYS_PrintQueColor(owner,(unsigned)BMP_WIN_GetBmp(((struct Obj04597 *)p)->f130),4,0,(unsigned)buf,((struct Obj25008 *)(*(char * *)&((struct Obj04597 *)p)->f0))->f4,0x3c40);
     ((struct Obj04597 *)p)->f134=1;
@@ -1039,10 +1039,10 @@ void func_0220B814(char *p,int n)
  *   lsls ahead of the `ldr r0,[r4]` base load (0220B8A4..0220B8AA). A row
  *   pointer `q = *(char **)p + idx*2` (either operand order, or as a short
  *   element address) loads the base first: 9 bytes.
- * prototype: func_0220B78C has no matched definition; (char *, unsigned) and
+ * prototype: B_BAG_MAIN_DrawDescription has no matched definition; (char *, unsigned) and
  *   void taken from its listing (r1 scaled by 4 as an index, no r0 use after).
  */
-void func_0220B880(char *p)
+void B_BAG_MAIN_DrawOtherPage(char *p)
 {
     unsigned i;
     int x, y;
@@ -1052,9 +1052,9 @@ void func_0220B880(char *p)
     off = *(u8 *)(p + 0x533) * 2;
     x = *(short *)(*(char **)p + 0x30 + off);
     y = *(short *)(*(char **)p + 0x38 + off) * 6;
-    func_0220B78C((u8 *)p, x + y);
-    func_0220B3EC(p, x + y, 0, 32, 0, 0, 0);
-    func_0220B814(p, x + y);
+    B_BAG_MAIN_DrawDescription((u8 *)p, x + y);
+    B_BAG_MAIN_DrawItemInfo(p, x + y, 0, 32, 0, 0, 0);
+    B_BAG_MAIN_DrawItemUsage(p, x + y);
     B_BAG_MAIN_PrintLabel(p, 34, 31, 0, 0x3c40);
     *(const u8 **)(p + 0x59c) = d_0220DA08;
 }
@@ -1063,11 +1063,11 @@ void func_0220B880(char *p)
 
 
 
-void func_0220B904(char *p)
+void B_BAG_MAIN_PrintItemMsg(char *p)
 {
-    func_0201F73C(((struct Obj14543 *)p)->f24, 2, 1, 0xb);
+    BMP_MENUWORK_DrawWindow(((struct Obj14543 *)p)->f24, 2, 1, 0xb);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj14543 *)p)->f24), 0xf);
-    func_0220B928(p);
+    B_BAG_MAIN_StartItemMsg(p);
 }
 
 
@@ -1081,7 +1081,7 @@ void func_0220B904(char *p)
  *   whose definition is declared void although it forwards PRINTSYS_PrintStreamCallBack's
  *   r0; the return type is the ov010 twin's void *.
  */
-void func_0220B928(char *p)
+void B_BAG_MAIN_StartItemMsg(char *p)
 {
     void *d;
     GF_FONT_SetTextColor(1, 2, 0);
@@ -1098,7 +1098,7 @@ void func_0220B928(char *p)
 
 
 
-int func_0220B980(char *a)
+int B_BAG_MAIN_UpdateTool(char *a)
 {
     return B_APP_TOOL_Update(a + 0x28, ((struct Obj25009 *)a)->f18, 0x23);
 }
@@ -1110,7 +1110,7 @@ int func_0220B980(char *a)
 /*
  * Addresses are Black-image addresses.
  */
-u32_0220B990 func_0220B990(u8 *p)
+u32_0220B990 B_BAG_MAIN_ShowWindows(u8 *p)
 {
     return B_APP_TOOL_ShowWindows(p + 0x28, ((struct Obj25010 *)p)->f59C);
 }
@@ -1121,12 +1121,12 @@ u32_0220B990 func_0220B990(u8 *p)
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int func_0220B9A4(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(MYITEM_SAVEDATA_HasItem(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }
+int B_BAG_MAIN_CheckKeyItem(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(MYITEM_SAVEDATA_HasItem(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }
 
 
 
 
-void func_0220B9D8(u8 *p)
+void B_BAG_MAIN_SyncCursorToItem(u8 *p)
 {
     unsigned int i = 0;
     u8 sel = *(u8 *)(p + 0x533);
@@ -1151,7 +1151,7 @@ void func_0220B9D8(u8 *p)
  *   statement and used once more), and idx*4 is the first operand of the final add, so e shares idx*4's
  *   register (r0) and row takes r4 as in the original.
  */
-void func_0220BA2C(u8 *p)
+void B_BAG_MAIN_BuildPocketLists(u8 *p)
 {
     u8 *tbl;
     u16 *r;
@@ -1200,7 +1200,7 @@ void func_0220BA2C(u8 *p)
 
 
 
-void func_0220BB1C(char *p)
+void B_BAG_MAIN_BuildOtherList(char *p)
 {
     unsigned i;
     for(i=0;i<46;i++) {
@@ -1217,7 +1217,7 @@ void func_0220BB1C(char *p)
 
 
 
-void func_0220BB78(char *p)
+void B_BAG_MAIN_InitOtherPage(char *p)
 {
     ((struct Obj08354 *)p)->f270 = 4;
     ((struct Obj08354 *)p)->f272 = 0x1e;
@@ -1234,7 +1234,7 @@ void func_0220BB78(char *p)
  *   spelling (n += ..; n *= 4; slot + 0x150) sank the shift after the
  *   0x90 multiply (13 bytes), and a typed row struct folded 0x150 (60 bytes).
  */
-u16 func_0220BB98(const char *p, unsigned n)
+u16 B_BAG_MAIN_GetSlotItem(const char *p, unsigned n)
 {
     unsigned index = *(u8 *)(p + 0x533);
     const u16 *s;
@@ -1251,12 +1251,12 @@ u16 func_0220BB98(const char *p, unsigned n)
 /*
  * Forward entry r0 as the key. The explicit result truncation requires a wide extern return.
  */
-int func_0220BBD8(u32_0220BBD8 key) { return (u16)sub_0202F144(key); }
+int B_BAG_MAIN_GetItemFlag(u32_0220BBD8 key) { return (u16)sub_0202F144(key); }
 
 
 
 
-void func_0220BBE4(char *p)
+void B_BAG_MAIN_InitFrames(char *p)
 {
     void *arc;
     unsigned i;
@@ -1288,7 +1288,7 @@ void func_0220BBE4(char *p)
 
 
 
-void func_0220BD14(char *a)
+void B_BAG_MAIN_DeleteFrames(char *a)
 {
     BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj25014 *)a)->f520);
 }
@@ -1303,7 +1303,7 @@ void func_0220BD14(char *a)
  *   arm with literal arguments. Tail merging sinks the common call parts into the join and keeps
  *   r4 = 0x533 live, so 0x520 comes out as 0x533 - 0x13.
  */
-void func_0220BD24(char *p, int mode)
+void B_BAG_MAIN_LayoutFrames(char *p, int mode)
 {
     u32 i;
     for (i = 0; i < 14; i++) BGWINFRM_HideFrame(MGR(p), i);
@@ -1327,7 +1327,7 @@ void func_0220BD24(char *p, int mode)
         BGWINFRM_PutFrame(MGR(p), 10, 59, 19);
         pm = (struct WinMgr **)(p + 0x520);
         for (i = 0; i < 6; i++) {
-            if (func_0220BB98(p, i) == 0)
+            if (B_BAG_MAIN_GetSlotItem(p, i) == 0)
                 BGWINFRM_ChangePalette(MGR(p), i + 4, 0, 0, d_0220DB44[i + 4].w, d_0220DB44[i + 4].h, 6);
             else
                 BGWINFRM_ChangePalette(*pm, i + 4, 0, 0, d_0220DB44[i + 4].w, d_0220DB44[i + 4].h, 4);
@@ -1369,7 +1369,7 @@ void func_0220BD24(char *p, int mode)
 
 
 
-void func_0220BF20(char *p, int v)
+void B_BAG_MAIN_StartFrameAnim(char *p, int v)
 {
     ((struct Obj08355 *)p)->f524 = 0;
     ((struct Obj08355 *)p)->f525 = 0;
@@ -1386,7 +1386,7 @@ void func_0220BF20(char *p, int v)
  * matching: naming unsigned index before the u8 palette settles r0/r2;
  *   unnamed repeated index loads differ in18 bytes. Callee uses u8 palette.
  */
-void func_0220BF40(char *p)
+void B_BAG_MAIN_StepFrameAnim(char *p)
 {
     if(((struct Obj01005 *)p)->f527) {
         switch(((struct Obj01005 *)p)->f524) {
@@ -1430,14 +1430,14 @@ void func_0220BF40(char *p)
 
 
 
-void func_0220C034(char *p) { func_0220C06C(p); func_0220C0B4(p); func_0220C27C(p); func_0220C304(p); func_0220C40C(p); func_0220C68C(p); func_0220C6D0(p); BG_SYS_SetSubPlaneVisible(16,1); }
+void B_BAG_MAIN_CreateItemGraphics(char *p) { B_BAG_MAIN_ClearHandles(p); B_BAG_MAIN_RegisterItemChars(p); B_BAG_MAIN_RegisterCursorGraphics(p); B_BAG_MAIN_RegisterIconGraphics(p); B_BAG_MAIN_CreateItemActors(p); B_BAG_MAIN_CreateToolActors(p); B_BAG_MAIN_CreateFingerCursor(p); BG_SYS_SetSubPlaneVisible(16,1); }
 
 
 
 
 
 
-void func_0220C06C(char *p)
+void B_BAG_MAIN_ClearHandles(char *p)
 {
     unsigned i;
     for(i=0;i<9;i++) *(int *)(p+0x544+i*4)=-1;
@@ -1456,7 +1456,7 @@ void func_0220C06C(char *p)
  *   0202F138 result widened to reproduce caller's explicit u16 narrowing;
  *   its own sub_0202F138 returns u16, which removed the observed shifts.
  */
-void func_0220C0B4(char *p)
+void B_BAG_MAIN_RegisterItemChars(char *p)
 {
     u16 item,i;
     void *arc;
@@ -1464,13 +1464,13 @@ void func_0220C0B4(char *p)
     int a;
     if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=(unsigned)func_0202F138(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
-    arc=func_020490F4(func_02020F08(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
+    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     for(i=0;i<7;i++) {
         *(int *)(p+i*4+0x544)=CLACT_RegisterCharacter(arc,FILE_UTIL_Get(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
         *(int *)(p+i*4+0x568)=CLACT_RegisterPalette(arc,FILE_UTIL_Get(item,second),1,(u16)(i*32),((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     }
-    a=func_02020F0C();
-    ((struct Obj00315 *)p)->f58C=CLACT_RegisterCellAnim(arc,a,func_02020F10(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    a=FILE_UTIL_GetBankCount();
+    ((struct Obj00315 *)p)->f58C=CLACT_RegisterCellAnim(arc,a,FILE_UTIL_GetBaseIndex(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1482,14 +1482,14 @@ void func_0220C0B4(char *p)
 /*
  * matching: u16 item restores entry spill order without extra truncation; unsigned item differs in eight bytes.
  */
-void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
+void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset)
 {
     char *q=*(char * *)&((struct Obj01075 *)p)->f0;
     unsigned first, second;
     void *arc;
     void *data,*buffer;
     if(((struct Obj14545 *)q)->f8==1) {first=3;second=4;} else {first=1;second=2;}
-    arc=func_020490F4(func_02020F08(),(u16)((((struct Obj14545 *)q)->fC&0x7fff)|0x8000));
+    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct Obj14545 *)q)->fC&0x7fff)|0x8000));
     buffer=ARC_UTIL_LoadScreenDataFromHandle(arc,FILE_UTIL_Get(item,first),0,(u32)(&data),((struct Obj25020 *)(*(char * *)&((struct Obj01075 *)p)->f0))->fC);
     CLACT_TransferCharacter(*(int *)(p+slot*4+0x544),data);
     func_020307B0(buffer);
@@ -1502,15 +1502,15 @@ void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
 
 
 
-void func_0220C220(char *p,unsigned item,unsigned slot)
+void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot)
 {
     char *q=*(char * *)&((struct Obj01075 *)p)->f0;
     unsigned archive;
     if(((struct Obj10833 *)q)->f8==1) {
-        archive=func_02020F08();
+        archive=FILE_UTIL_GetItemCount();
         func_02049B40(archive,FILE_UTIL_Get(item,4),5,slot*32,32,((struct Obj10833 *)q)->fC);
     } else {
-        archive=func_02020F08();
+        archive=FILE_UTIL_GetItemCount();
         func_02049B40(archive,FILE_UTIL_Get(item,2),5,slot*32,32,((struct Obj10833 *)q)->fC);
     }
 }
@@ -1520,7 +1520,7 @@ void func_0220C220(char *p,unsigned item,unsigned slot)
 
 
 
-void func_0220C27C(char *p)
+void B_BAG_MAIN_RegisterCursorGraphics(char *p)
 {
     void *arc = func_020490F4(99,(u16)((((struct Obj25022 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     ((struct Obj00315 *)p)->f560=CLACT_RegisterCharacter(arc,13,1,1,((struct Obj25023 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
@@ -1535,7 +1535,7 @@ void func_0220C27C(char *p)
 
 
 
-void func_0220C304(char *p)
+void B_BAG_MAIN_RegisterIconGraphics(char *p)
 {
     void *arc = func_020490F4(11,(u16)((((struct Obj25027 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     char *data;
@@ -1557,7 +1557,7 @@ void func_0220C304(char *p)
 /*
  * matching: const indices restores the load/store scheduling; mutable indices differ in 29 bytes.
  */
-struct Obj *func_0220C3B4(char *p,const int *indices)
+struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
 {
     Config c;
     c.a=0;c.b=0;c.c=0;c.d=1;c.e=1;
@@ -1573,19 +1573,19 @@ struct Obj *func_0220C3B4(char *p,const int *indices)
  * Raw byte stride i*12 emits muls rather than the flat word-index shift/add.
  * The caller stores live r0 from C3B4; its owner declaration is void.
  */
-void func_0220C40C(char *p) { u32 i; *(struct Bank * *)&((struct Obj00315 *)p)->f420=CLACT_CreateUnit(67,0,((struct Obj25034 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)func_0220C3B4(p,(const int *)((u32)d_0220DBBC+i*12)); }
+void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Bank * *)&((struct Obj00315 *)p)->f420=CLACT_CreateUnit(67,0,((struct Obj25034 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)B_BAG_MAIN_CreateItemActor(p,(const int *)((u32)d_0220DBBC+i*12)); }
 
 
 
 
 
 
-void func_0220C448(char *p)
+void B_BAG_MAIN_DeleteItemGraphics(char *p)
 {
     unsigned i;
-    func_0220C6E8(p);
+    B_BAG_MAIN_DeleteFingerCursor(p);
     for (i = 0; i < 63; i++) CLACT_DeleteActor(*(struct Obj **)(p + i * 4 + 0x424));
-    func_0220C6C0(p);
+    B_BAG_MAIN_DeleteToolActors(p);
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x544) != -1) CLACT_ReleaseCharacter(*(int *)(p + i * 4 + 0x544));
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x568) != -1) CLACT_ReleasePalette(*(int *)(p + i * 4 + 0x568));
     for (i = 0; i < 3; i++) if (*(int *)(p + i * 4 + 0x58c) != -1) CLACT_ReleaseCellAnim(*(int *)(p + i * 4 + 0x58c));
@@ -1598,7 +1598,7 @@ void func_0220C448(char *p)
 
 
 
-void func_0220C4D4(int a, int b)
+void B_BAG_MAIN_PlaceActor(int a, int b)
 {
     CLACT_SetActorDrawEnable((struct Obj *)a, 1);
     CLACT_AddActorSurfacePos((struct Obj *)a, (const struct Vec2 *)b, 1);
@@ -1609,43 +1609,43 @@ void func_0220C4D4(int a, int b)
 
 
 
-void func_0220C4EC(char *p, int mode)
+void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
 {
     unsigned int i;
     for (i = 0; i < 63; i++) CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x424), 0);
-    func_0220C714(p);
+    B_BAG_MAIN_DeleteFingerCursorActor(p);
     switch (mode) {
-    case 0: func_0220C538(p); break;
-    case 1: func_0220C574(p); break;
-    case 2: func_0220C618(p); break;
+    case 0: B_BAG_MAIN_DisplaySingle(p); break;
+    case 1: B_BAG_MAIN_DisplayList(p); break;
+    case 2: B_BAG_MAIN_DisplaySelected(p); break;
     }
 }
 
 
 
 
-void func_0220C538(char *p) { if(((struct Obj01075 *)p)->f540!=0) { func_0220C180(p,((struct Obj01075 *)p)->f540,6,6); func_0220C4D4(((struct Obj01075 *)p)->f43C,(int)d_0220DB7C); } if(((struct Obj25036 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8==2) func_0220C6F8((u8 *)p,192,24); }
+void B_BAG_MAIN_DisplaySingle(char *p) { if(((struct Obj01075 *)p)->f540!=0) { B_BAG_MAIN_LoadItemGraphic(p,((struct Obj01075 *)p)->f540,6,6); B_BAG_MAIN_PlaceActor(((struct Obj01075 *)p)->f43C,(int)d_0220DB7C); } if(((struct Obj25036 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
 
 
 
 
 
-void func_0220C574(char *p)
+void B_BAG_MAIN_DisplayList(char *p)
 {
     unsigned i;
     for (i = 0; i < 6; i++) {
-        u16 item = func_0220BB98(p, i);
+        u16 item = B_BAG_MAIN_GetSlotItem(p, i);
         if (item) {
-            func_0220C180(p, item, i, i);
-            func_0220C220(p, item, i);
-            func_0220C4D4(*(int *)(p + i * 4 + 0x424), (int)&d_0220DB88[i]);
+            B_BAG_MAIN_LoadItemGraphic(p, item, i, i);
+            B_BAG_MAIN_LoadItemPalette(p, item, i);
+            B_BAG_MAIN_PlaceActor(*(int *)(p + i * 4 + 0x424), (int)&d_0220DB88[i]);
             if (((struct Obj25037 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
-                func_0220C724(p, i * 8 + 7, func_0220BBD8(item), 0, (const struct Pair_0220C6E8 *)(&d_0220DB88[i + 6]));
+                B_BAG_MAIN_DrawItemRow(p, i * 8 + 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair_0220C6E8 *)(&d_0220DB88[i + 6]));
         }
     }
     if (((struct Obj25038 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
-        func_0220C724(p, 55, ((struct Obj25039 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f14, ((struct Obj25040 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f15, (const struct Pair_0220C6E8 *)(&d_0220DB88[i + 6]));
-    if (((struct Obj25041 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 2) func_0220C6F8((u8 *)p, 64, 16);
+        B_BAG_MAIN_DrawItemRow(p, 55, ((struct Obj25039 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f14, ((struct Obj25040 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f15, (const struct Pair_0220C6E8 *)(&d_0220DB88[i + 6]));
+    if (((struct Obj25041 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 64, 16);
 }
 
 
@@ -1655,28 +1655,28 @@ void func_0220C574(char *p)
 /*
  * caller-width: BB98 takes full signed short promotion; no u16 truncation in this caller.
  */
-void func_0220C618(char *p)
+void B_BAG_MAIN_DisplaySelected(char *p)
 {
-    u16 item = func_0220BB98(p, *(short *)(*(char * *)&((struct Obj01075 *)p)->f0 + ((struct Obj01075 *)p)->f533 * 2 + 0x30));
-    func_0220C180(p, item, 6, 6);
-    func_0220C4D4(((struct Obj01075 *)p)->f43C, (int)&d_0220DB80[0]);
+    u16 item = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct Obj01075 *)p)->f0 + ((struct Obj01075 *)p)->f533 * 2 + 0x30));
+    B_BAG_MAIN_LoadItemGraphic(p, item, 6, 6);
+    B_BAG_MAIN_PlaceActor(((struct Obj01075 *)p)->f43C, (int)&d_0220DB80[0]);
     if (((struct Obj25042 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
-        func_0220C724(p, 7, func_0220BBD8(item), 0, (const struct Pair_0220C6E8 *)(&d_0220DB80[1]));
-    if (((struct Obj25043 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 2) func_0220C6F8((u8 *)p, 0x68, 0x98);
+        B_BAG_MAIN_DrawItemRow(p, 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair_0220C6E8 *)(&d_0220DB80[1]));
+    if (((struct Obj25043 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 0x68, 0x98);
 }
 
 
 
 
 
-void func_0220C68C(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct Obj00315 *)p)->f148,*(int *)&((struct Obj00315 *)p)->f420,((struct Obj00315 *)p)->f564,((struct Obj00315 *)p)->f588,((struct Obj00315 *)p)->f594);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00315 *)p)->f148,0);}
+void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct Obj00315 *)p)->f148,*(int *)&((struct Obj00315 *)p)->f420,((struct Obj00315 *)p)->f564,((struct Obj00315 *)p)->f588,((struct Obj00315 *)p)->f594);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00315 *)p)->f148,0);}
 
 
 
 
 
 
-void func_0220C6C0(char *a)
+void B_BAG_MAIN_DeleteToolActors(char *a)
 {
     B_APP_TOOL_DeleteActors((u8 *)(((struct Obj25044 *)a)->f148));
 }
@@ -1686,7 +1686,7 @@ void func_0220C6C0(char *a)
 
 
 
-void func_0220C6D0(char *a)
+void B_BAG_MAIN_CreateFingerCursor(char *a)
 {
     ((struct Obj00315 *)a)->f14C = BTLV_FINGER_CURSOR_Create(*(int *)&((struct Obj00315 *)a)->f8, 9,
                                          *(unsigned short *)(*(int *)&((struct Obj00315 *)a)->f0 + 0xc));
@@ -1696,7 +1696,7 @@ void func_0220C6D0(char *a)
 
 
 
-void func_0220C6E8(char *a)
+void B_BAG_MAIN_DeleteFingerCursor(char *a)
 {
     BTLV_FINGER_CURSOR_Delete(((struct Obj25045 *)a)->f14C);
 }
@@ -1705,7 +1705,7 @@ void func_0220C6E8(char *a)
 
 
 
-void func_0220C6F8(u8 *p, u32 a, u32 b)
+void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b)
 {
     BTLV_FINGER_CURSOR_Start(((struct Obj25046 *)p)->f14C, a, b, 2, 6, 0x14);
 }
@@ -1714,7 +1714,7 @@ void func_0220C6F8(u8 *p, u32 a, u32 b)
 
 
 
-void func_0220C714(char *a)
+void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
 {
     BTLV_FINGER_CURSOR_DeleteActor(((struct Obj25047 *)a)->f14C);
 }
@@ -1726,13 +1726,13 @@ void func_0220C714(char *a)
  * matching: pair aggregate copy emits two unsigned halfword transfers;
  *   explicit objects base keeps the first indexed address split correctly.
  */
-void func_0220C724(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src)
+void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src)
 {
     struct Pair_0220C6E8 v;
     u16 i;
     s8 left,right;
     void **objects=(void **)(p+0x424);
-    func_0220C4D4((int)objects[slot],(int)src);
+    B_BAG_MAIN_PlaceActor((int)objects[slot],(int)src);
     CLACT_SetActorAnimSeq(objects[slot],a);
     slot++;
     left=a;
@@ -1749,7 +1749,7 @@ void func_0220C724(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src)
             else if(right>0) {CLACT_SetActorAnimSeq(*(void **)(p+slot*4+0x424),18);right--;}
             left--;
         } else {CLACT_SetActorAnimSeq(*(void **)(p+slot*4+0x424),17);left-=2;}
-        func_0220C4D4(*(int *)(p+slot*4+0x424),(int)&v);
+        B_BAG_MAIN_PlaceActor(*(int *)(p+slot*4+0x424),(int)&v);
         v.x+=8;
         slot++;
     }
@@ -1762,7 +1762,7 @@ void func_0220C724(char *p,u16 slot,u8 a,u8 b,const struct Pair_0220C6E8 *src)
 /*
  * lever: Size constant held in a local (offsets derived from it), the 0x533 store repeated in each arm instead of one shared tail, and no row-pointer local in the first loop (*(u8 **)p re-read per argument).
  */
-void func_0220C834(u8 *arg)
+void B_BAG_MAIN_Create(u8 *arg)
 {
     u8 *p;
     u8 *q;
@@ -1771,7 +1771,7 @@ void func_0220C834(u8 *arg)
     int v;
     int sz = 0x5A4;
     p = func_02030734(*(u16 *)(arg + 0xc), sz, 1, d_0220E0E0, 0xB1);
-    q = func_02030DA8(BTLV_EFFECT_GetOwner(), (u32)func_0220C914, p, 0x64);
+    q = func_02030DA8(BTLV_EFFECT_GetOwner(), (u32)B_BAG_MAIN_Main, p, 0x64);
     *(u8 **)p = arg;
     *(void **)(p + 8) = (void *)BTLV_EFFECT_GetPalanm();
     z = 0;
@@ -1796,7 +1796,7 @@ void func_0220C834(u8 *arg)
         }
         *(u16 *)(p + 0x540) = func_020082B0((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
         p[0x542] = func_020082B4((const struct MyItemSave *)(*(u32 *)(*(u8 **)p + 0x1c)));
-        func_0220B9A4((char *)p);
+        B_BAG_MAIN_CheckKeyItem((char *)p);
     } else {
         for (i = 0; i < 4; i++) {
             *(u16 *)(*(u8 **)p + i * 2 + 0x30) = 0;
@@ -1813,7 +1813,7 @@ extern int (*const d_0220DF40[])(char *);
 
 
 
-void func_0220C914(void *task, char *p)
+void B_BAG_MAIN_Main(void *task, char *p)
 {
     if (((struct Obj25048 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) {
         ((struct Obj25049 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f16 = 0;
@@ -1821,11 +1821,11 @@ void func_0220C914(void *task, char *p)
         ((struct Obj00846 *)p)->f530 = 20;
     }
     if (((struct Obj00846 *)p)->f530 != 20) ((struct Obj00846 *)p)->f530 = d_0220DF40[*(u8 *)(p + 0x530)](p);
-    if (((struct Obj00846 *)p)->f530 == 20 && func_0220D3B0(task, p) == 1) return;
+    if (((struct Obj00846 *)p)->f530 == 20 && B_BAG_MAIN_StateExit(task, p) == 1) return;
     TCBL_Main(*(struct Tcbl * *)&((struct Obj00846 *)p)->f4);
-    func_0220BF40(p);
+    B_BAG_MAIN_StepFrameAnim(p);
     BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj00846 *)p)->f520);
-    func_0220B980(p);
+    B_BAG_MAIN_UpdateTool(p);
 }
 
 
@@ -1834,33 +1834,33 @@ void func_0220C914(void *task, char *p)
 /*
  * lever: word-address arithmetic reuses the MMIO pool base, as in matched ov197 0220CAAC.
  */
-int func_0220C980(char *p)
+int B_BAG_MAIN_StateInit(char *p)
 {
     d_04001050[0]=0;
     GXx_SetMasterBrightness_((u16 *)((unsigned)d_04001050+0x1c),-16);
     ((struct Obj00736 *)p)->f4=TCBL_Create(((struct Obj25051 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,((struct Obj25052 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,1,4);
     ((struct Obj00736 *)p)->f148=B_APP_TOOL_Create(((struct Obj25053 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
-    func_0220D5C0(p);
-    func_0220D6DC(p);
-    func_0220D798(p);
-    if(((struct Obj25054 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==2) func_0220BB78(p);
-    else func_0220BA2C((u8 *)p);
+    B_BAG_MAIN_InitBg(p);
+    B_BAG_MAIN_LoadBgGraphics(p);
+    B_BAG_MAIN_CreateText(p);
+    if(((struct Obj25054 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==2) B_BAG_MAIN_InitOtherPage(p);
+    else B_BAG_MAIN_BuildPocketLists((u8 *)p);
     B_BAG_MAIN_InitWindows(p);
     B_BAG_MAIN_DrawPage(p,((struct Obj00736 *)p)->f532);
-    func_0220B990((u8 *)p);
-    func_0220BBE4(p);
-    func_0220BD24(p,((struct Obj00736 *)p)->f532);
-    func_0220C034(p);
-    func_0220C4EC(p,((struct Obj00736 *)p)->f532);
+    B_BAG_MAIN_ShowWindows((u8 *)p);
+    B_BAG_MAIN_InitFrames(p);
+    B_BAG_MAIN_LayoutFrames(p,((struct Obj00736 *)p)->f532);
+    B_BAG_MAIN_CreateItemGraphics(p);
+    B_BAG_MAIN_SetDisplayMode(p,((struct Obj00736 *)p)->f532);
     if(**(u8 * *)&((struct Obj25055 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f2C==1) ((struct Obj00736 *)p)->f598=(void *)1;
     else ((struct Obj00736 *)p)->f598=0;
     B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj00736 *)p)->f148,((struct Obj00736 *)p)->f598);
-    if(((struct Obj00736 *)p)->f532==0) func_0220D8C4((u8 *)p,((struct Obj00736 *)p)->f532,((struct Obj00736 *)p)->f542);
-    else func_0220D8C4((u8 *)p,((struct Obj00736 *)p)->f532,0);
+    if(((struct Obj00736 *)p)->f532==0) B_BAG_MAIN_CreateCursor((u8 *)p,((struct Obj00736 *)p)->f532,((struct Obj00736 *)p)->f542);
+    else B_BAG_MAIN_CreateCursor((u8 *)p,((struct Obj00736 *)p)->f532,0);
     GFL_NET_RestartWithDefaultTimeout(0,((struct Obj25057 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
     PALANM_CopyHwPaletteToSlot(((struct Obj00736 *)p)->f8,3,224,32);
     PALANM_RequestFade(((struct Obj00736 *)p)->f8,10,65535,0,16,0,0,BTLV_EFFECT_GetOwner());
-    if(((struct Obj25058 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==3) func_0220D7F0(p,((struct Obj00736 *)p)->f532);
+    if(((struct Obj25058 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==3) B_BAG_MAIN_ResetBgSlot(p,((struct Obj00736 *)p)->f532);
     ((struct Obj00736 *)p)->f5A0=1;
     return 2;
 }
@@ -1871,28 +1871,28 @@ int func_0220C980(char *p)
 /*
  * lever: word-address arithmetic reuses MMIO pool base for +0x1c; typed pointer addition pools a second word.
  */
-int func_0220CAAC(char *p)
+int B_BAG_MAIN_StateInitOther(char *p)
 {
     d_04001050[0] = 0;
     GXx_SetMasterBrightness_((u16 *)((unsigned)d_04001050 + 0x1c), -16);
     ((struct Obj01076 *)p)->f4 = TCBL_Create(((struct Obj25059 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC, ((struct Obj25060 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC, 1, 4);
     ((struct Obj01076 *)p)->f148 = B_APP_TOOL_Create(((struct Obj25061 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
-    func_0220D5C0(p);
-    func_0220D6DC(p);
-    func_0220D798(p);
-    func_0220BB1C(p);
-    func_0220D7F0(p, ((struct Obj01076 *)p)->f532);
+    B_BAG_MAIN_InitBg(p);
+    B_BAG_MAIN_LoadBgGraphics(p);
+    B_BAG_MAIN_CreateText(p);
+    B_BAG_MAIN_BuildOtherList(p);
+    B_BAG_MAIN_ResetBgSlot(p, ((struct Obj01076 *)p)->f532);
     B_BAG_MAIN_InitWindows(p);
     B_BAG_MAIN_DrawPage(p, ((struct Obj01076 *)p)->f532);
-    func_0220B990((u8 *)p);
-    func_0220BBE4(p);
-    func_0220BD24(p, ((struct Obj01076 *)p)->f532);
-    func_0220C034(p);
-    func_0220C4EC(p, ((struct Obj01076 *)p)->f532);
+    B_BAG_MAIN_ShowWindows((u8 *)p);
+    B_BAG_MAIN_InitFrames(p);
+    B_BAG_MAIN_LayoutFrames(p, ((struct Obj01076 *)p)->f532);
+    B_BAG_MAIN_CreateItemGraphics(p);
+    B_BAG_MAIN_SetDisplayMode(p, ((struct Obj01076 *)p)->f532);
     if (**(u8 * *)&((struct Obj25062 *)(*(char * *)&((struct Obj01076 *)p)->f0))->f2C == 1) ((struct Obj01076 *)p)->f598 = (void *)1;
     else ((struct Obj01076 *)p)->f598 = 0;
     B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj01076 *)p)->f148, ((struct Obj01076 *)p)->f598);
-    func_0220D8C4((u8 *)p, ((struct Obj01076 *)p)->f532, 0);
+    B_BAG_MAIN_CreateCursor((u8 *)p, ((struct Obj01076 *)p)->f532, 0);
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj25064 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
     PALANM_CopyHwPaletteToSlot(((struct Obj01076 *)p)->f8, 3, 0xe0, 0x20);
     PALANM_RequestFade(((struct Obj01076 *)p)->f8, 0xa, 0xffff, 0, 0x10, 0, 0, BTLV_EFFECT_GetOwner());
@@ -1903,53 +1903,53 @@ int func_0220CAAC(char *p)
 
 
 
-int func_0220CBB4(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj14547 *)p)->f18)==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj25065 *)(*(char * *)&((struct Obj14547 *)p)->f0))->fC);return 3;}return 2;}
+int B_BAG_MAIN_StateWaitPrintWipe(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj14547 *)p)->f18)==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj25065 *)(*(char * *)&((struct Obj14547 *)p)->f0))->fC);return 3;}return 2;}
 
 
 
 
-int func_0220CBE8(char *p){if(WIPE_SYS_EndCheck()==1){if(((struct Obj25066 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==2)return 17;if(((struct Obj25067 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==1)return 5;if(((struct Obj25068 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==3)return 5;return 4;}return 3;}
+int B_BAG_MAIN_StateWipeEnd(char *p){if(WIPE_SYS_EndCheck()==1){if(((struct Obj25066 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==2)return 17;if(((struct Obj25067 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==1)return 5;if(((struct Obj25068 *)(*(char * *)&((struct Obj10835 *)p)->f0))->f8==3)return 5;return 4;}return 3;}
 
 
 
 
-int func_0220CC18(char *p)
+int B_BAG_MAIN_StateSelectPocket(char *p)
 {
     unsigned sel;
     if (PALANM_GetFadeRequestBits(((struct Obj02244 *)p)->f8) != 0) goto done;
-    if (func_0220D884((char **)p) == 1) return 0x12;
+    if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 0x12;
     sel = CURSOR_MOVE_PollRepeatInput(((struct Obj02244 *)p)->f144);
     switch (sel) {
     case 0: case 1: case 2: case 3:
-        func_0220D89C((char **)p, 0x54d);
+        B_BAG_MAIN_PlaySe((char **)p, 0x54d);
         ((struct Obj02244 *)p)->f533 = (u8)sel;
         ((struct Obj02244 *)p)->f531 = 8;
-        func_0220BF20(p, (u8)sel);
+        B_BAG_MAIN_StartFrameAnim(p, (u8)sel);
         return 0x10;
     case 4:
         if (((struct Obj02244 *)p)->f540 != 0) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             ((struct Obj02244 *)p)->f533 = ((struct Obj02244 *)p)->f542;
             ((struct Obj02244 *)p)->f531 = 9;
-            func_0220B9D8((u8 *)p);
-            func_0220BF20(p, 0xd);
+            B_BAG_MAIN_SyncCursorToItem((u8 *)p);
+            B_BAG_MAIN_StartFrameAnim(p, 0xd);
             return 0x10;
         }
         break;
     case 5:
-        func_0220D89C((char **)p, 0x552);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
         ((struct Obj25069 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f16 = 0;
         ((struct Obj25070 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f2A = 4;
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x12;
     case (unsigned)-2:
-        func_0220D89C((char **)p, 0x552);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
         ((struct Obj25071 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f16 = 0;
         ((struct Obj25072 *)(*(char * *)&((struct Obj02244 *)p)->f0))->f2A = 4;
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x12;
     case (unsigned)-4: case (unsigned)-3:
-        func_0220D89C((char **)p, 0x548);
+        B_BAG_MAIN_PlaySe((char **)p, 0x548);
         break;
     case (unsigned)-8: case (unsigned)-7: case (unsigned)-6:
     case (unsigned)-5: case (unsigned)-1:
@@ -1962,25 +1962,25 @@ done:
 
 
 
-int func_0220CD50(char *p)
+int B_BAG_MAIN_StateSelectItem(char *p)
 {
     unsigned sel;
     if (PALANM_GetFadeRequestBits(((struct Obj00389 *)p)->f8) != 0) goto done;
-    if (func_0220D884((char **)p) == 1) return 0x12;
+    if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 0x12;
     sel = CURSOR_MOVE_PollRepeatInput(((struct Obj00389 *)p)->f144);
     switch (sel) {
     case 0: case 1: case 2: case 3: case 4: case 5:
-        if (func_0220BB98(p, sel) != 0) {
-            func_0220D89C((char **)p, 0x54d);
+        if (B_BAG_MAIN_GetSlotItem(p, sel) != 0) {
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = (u8)sel;
             ((struct Obj00389 *)p)->f531 = 9;
-            func_0220BF20(p, (u8)(sel + 4));
+            B_BAG_MAIN_StartFrameAnim(p, (u8)(sel + 4));
             return 0x10;
         }
         break;
     case 6:
-        func_0220D89C((char **)p, 0x552);
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         if (((struct Obj25073 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 1 || ((struct Obj25074 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 3) {
             ((struct Obj25075 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f16 = 0;
             ((struct Obj25076 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f2A = 4;
@@ -1989,8 +1989,8 @@ int func_0220CD50(char *p)
         ((struct Obj00389 *)p)->f531 = 7;
         return 0x10;
     case (unsigned)-2:
-        func_0220D89C((char **)p, 0x552);
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         if (((struct Obj25077 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 1 || ((struct Obj25078 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 3) {
             ((struct Obj25079 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f16 = 0;
             ((struct Obj25080 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f2A = 4;
@@ -2000,44 +2000,44 @@ int func_0220CD50(char *p)
         return 0x10;
     case 7:
         if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = 0;
             ((struct Obj00389 *)p)->f531 = 0xb;
             *(signed char *)&((struct Obj00389 *)p)->f534 = -1;
-            func_0220BF20(p, 0xb);
+            B_BAG_MAIN_StartFrameAnim(p, 0xb);
             return 0x10;
         }
         break;
     case 8:
         if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = 0;
             ((struct Obj00389 *)p)->f531 = 0xb;
             ((struct Obj00389 *)p)->f534 = 1;
-            func_0220BF20(p, 0xc);
+            B_BAG_MAIN_StartFrameAnim(p, 0xc);
             return 0x10;
         }
         break;
     case (unsigned)-4: case (unsigned)-3:
-        func_0220D89C((char **)p, 0x548);
+        B_BAG_MAIN_PlaySe((char **)p, 0x548);
         break;
     case (unsigned)-6:
         CURSOR_MOVE_GetCurrent(((struct Obj00389 *)p)->f144);
         if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             ((struct Obj00389 *)p)->f531 = 0xb;
             *(signed char *)&((struct Obj00389 *)p)->f534 = -1;
-            func_0220BF20(p, 0xb);
+            B_BAG_MAIN_StartFrameAnim(p, 0xb);
             return 0x10;
         }
         break;
     case (unsigned)-5:
         CURSOR_MOVE_GetCurrent(((struct Obj00389 *)p)->f144);
         if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             ((struct Obj00389 *)p)->f531 = 0xb;
             ((struct Obj00389 *)p)->f534 = 1;
-            func_0220BF20(p, 0xc);
+            B_BAG_MAIN_StartFrameAnim(p, 0xc);
             return 0x10;
         }
         break;
@@ -2054,7 +2054,7 @@ done:
 /*
  * lever: narrow value load then compound add before reading maximum fixes r0/r6 swap.
  */
-int func_0220CFA4(char *p)
+int B_BAG_MAIN_StateChangeCount(char *p)
 {
     unsigned index = ((struct Obj00314 *)p)->f533;
     short *values = (short *)(*(char * *)&((struct Obj00314 *)p)->f0 + 0x38);
@@ -2069,46 +2069,46 @@ int func_0220CFA4(char *p)
     }
     values[index] = value;
 done:
-    func_0220B520(p);
-    func_0220B584(p);
+    B_BAG_MAIN_DrawPocket(p);
+    B_BAG_MAIN_DrawHeader(p);
     return 12;
 }
 
 
 
 
-int func_0220CFF0(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj10837 *)p)->f18)==1){func_0220B990((unsigned char *)p);func_0220C4EC(p,((struct Obj10837 *)p)->f532);func_0220BD24(p,((struct Obj10837 *)p)->f532);return 5;}return 12;}
+int B_BAG_MAIN_StateWaitPrintRedraw(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj10837 *)p)->f18)==1){B_BAG_MAIN_ShowWindows((unsigned char *)p);B_BAG_MAIN_SetDisplayMode(p,((struct Obj10837 *)p)->f532);B_BAG_MAIN_LayoutFrames(p,((struct Obj10837 *)p)->f532);return 5;}return 12;}
 
 
 
 
-int func_0220D024(char *p)
+int B_BAG_MAIN_StateChooseItem(char *p)
 {
-    if (func_0220D884((char **)p) == 1) return 0x12;
+    if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 0x12;
     switch ((unsigned)CURSOR_MOVE_PollRepeatInput(((struct Obj02245 *)p)->f144)) {
     case 0:
-        func_0220D89C((char **)p, 0x54d);
-        ((struct Obj25081 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16 = func_0220BB98(p, *(short *)(*(char * *)&((struct Obj02245 *)p)->f0 + ((struct Obj02245 *)p)->f533 * 2 + 0x30));
+        B_BAG_MAIN_PlaySe((char **)p, 0x54d);
+        ((struct Obj25081 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16 = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct Obj02245 *)p)->f0 + ((struct Obj02245 *)p)->f533 * 2 + 0x30));
         ((struct Obj25082 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f2A = ((struct Obj02245 *)p)->f533;
         if (((struct Obj25083 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f8 == 1)
-            ((struct Obj25085 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f18 = func_0220BBD8(((struct Obj25084 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16);
+            ((struct Obj25085 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f18 = B_BAG_MAIN_GetItemFlag(((struct Obj25084 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16);
         else
             ((struct Obj25086 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f18 = 0;
-        func_0220BF20(p, 0xd);
-        return func_0220D11C(p);
+        B_BAG_MAIN_StartFrameAnim(p, 0xd);
+        return B_BAG_MAIN_StateShowMessage(p);
     case 1:
-        func_0220D89C((char **)p, 0x552);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
         ((struct Obj02245 *)p)->f531 = 8;
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x10;
     case (unsigned)-2:
-        func_0220D89C((char **)p, 0x552);
+        B_BAG_MAIN_PlaySe((char **)p, 0x552);
         ((struct Obj02245 *)p)->f531 = 8;
-        func_0220BF20(p, 0xa);
+        B_BAG_MAIN_StartFrameAnim(p, 0xa);
         return 0x10;
     case (unsigned)-4:
     case (unsigned)-3:
-        func_0220D89C((char **)p, 0x548);
+        B_BAG_MAIN_PlaySe((char **)p, 0x548);
         break;
     case (unsigned)-8:
     case (unsigned)-7:
@@ -2145,7 +2145,7 @@ int func_0220D024(char *p)
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -2173,7 +2173,7 @@ int func_0220D024(char *p)
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -2189,44 +2189,44 @@ int func_0220D024(char *p)
  *     func_02045E04(dest,index);
  * }
  */
-int func_0220D11C(char *p)
+int B_BAG_MAIN_StateShowMessage(char *p)
 {
     char *q = *(char **)p;
-    if (*(int *)(q + 8) == 1 && *(u8 *)(q + 0x14) < func_0220BBD8(*(u16 *)(q + 0x16))) {
+    if (*(int *)(q + 8) == 1 && *(u8 *)(q + 0x14) < B_BAG_MAIN_GetItemFlag(*(u16 *)(q + 0x16))) {
         MSGDATA_ReadString(*(void **)(p + 0xc), 0x31, *(void **)(p + 0x14));
-        func_0220B904(p);
+        B_BAG_MAIN_PrintItemMsg(p);
         *(u8 *)(p + 0x531) = 0xd;
         return 0xe;
     }
     if (*(u8 *)(p + 0x533) == 2) {
         if (*(u8 *)(q + 0x28) == 1) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x2d, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 2) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x2c, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 3) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x33, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 4) {
             MSGDATA_ReadString(*(void **)(p + 0xc), 0x2f, *(void **)(p + 0x14));
-            func_0220B904(p);
+            B_BAG_MAIN_PrintItemMsg(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
     }
     if (*(u8 *)(q + 0x29) == 0 && FILE_UTIL_Get_0FE4((void *)(unsigned)*(u16 *)(q + 0x16), 7, *(u16 *)(q + 0xc)) == 3) {
         MSGDATA_ReadString(*(void **)(p + 0xc), 0x32, *(void **)(p + 0x14));
-        func_0220B904(p);
+        B_BAG_MAIN_PrintItemMsg(p);
         *(u8 *)(p + 0x531) = 0xd;
         return 0xe;
     }
@@ -2236,37 +2236,37 @@ int func_0220D11C(char *p)
 
 
 
-int func_0220D214(char *p){B_BAG_MAIN_DrawPage(p,0);((struct Obj14548 *)p)->f532=0;((struct Obj14548 *)p)->f531=4;return 10;}
+int B_BAG_MAIN_StateShowPocket0(char *p){B_BAG_MAIN_DrawPage(p,0);((struct Obj14548 *)p)->f532=0;((struct Obj14548 *)p)->f531=4;return 10;}
 
 
 
 
-int func_0220D234(char *p){B_BAG_MAIN_DrawPage(p,1);((struct Obj14549 *)p)->f532=1;((struct Obj14549 *)p)->f531=5;return 10;}
+int B_BAG_MAIN_StateShowPocket1(char *p){B_BAG_MAIN_DrawPage(p,1);((struct Obj14549 *)p)->f532=1;((struct Obj14549 *)p)->f531=5;return 10;}
 
 
 
 
-int func_0220D254(char *p){B_BAG_MAIN_DrawPage(p,2);((struct Obj14550 *)p)->f532=2;((struct Obj14550 *)p)->f531=6;return 10;}
+int B_BAG_MAIN_StateShowPocket2(char *p){B_BAG_MAIN_DrawPage(p,2);((struct Obj14550 *)p)->f532=2;((struct Obj14550 *)p)->f531=6;return 10;}
 
 
 
 
-int func_0220D274(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj10838 *)p)->f18)==1){func_0220D848(p,((struct Obj10838 *)p)->f532);return ((struct Obj10838 *)p)->f531;}return 10;}
+int B_BAG_MAIN_StateWaitPrintSetMode(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj10838 *)p)->f18)==1){B_BAG_MAIN_SwitchPage(p,((struct Obj10838 *)p)->f532);return ((struct Obj10838 *)p)->f531;}return 10;}
 
 
 
 
 
-int func_0220D29C(char *a)
+int B_BAG_MAIN_StateStartMessage(char *a)
 {
-    func_0201F7A8((void *)(((struct Obj25087 *)a)->f24), 0);
+    BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj25087 *)a)->f24), 0);
     return 6;
 }
 
 
 
 
-int func_0220D2AC(char *p)
+int B_BAG_MAIN_StateMessageInput(char *p)
 {
     switch (PRINTSYS_PrintStreamGetState(*(struct Rec * *)&((struct Obj03346 *)p)->f1C)) {
     case 0:
@@ -2275,7 +2275,7 @@ int func_0220D2AC(char *p)
         break;
     case 1:
         if (!((struct Obj03346 *)p)->f20 && (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3))) {
-            func_0220D8B0((char **)p, 0x547);
+            B_BAG_MAIN_PlaySe2((char **)p, 0x547);
             PRINTSYS_PrintStreamReleasePause(*(struct Rec * *)&((struct Obj03346 *)p)->f1C);
             ((struct Obj03346 *)p)->f20 = 1;
         }
@@ -2295,9 +2295,9 @@ int func_0220D2AC(char *p)
 /*
  * trailing: larger follower filed as ov197_func_0220D358.c (parent cleared).
  */
-int func_0220D328(char *p)
+int B_BAG_MAIN_StateMessageDone(char *p)
 {
-    if (func_0220D884((char **)p) == 1) return 18;
+    if (B_BAG_MAIN_CheckCancel((char **)p) == 1) return 18;
     if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() == 1)
         return ((struct Obj25088 *)p)->f531;
     return 15;
@@ -2310,7 +2310,7 @@ int func_0220D328(char *p)
  * lever: explicit else preserves the nonzero arm after the field-return arm.
  * leaf: parent-cleared 24-byte follower in D328 extent.
  */
-int func_0220D358(char *p)
+int B_BAG_MAIN_StateWaitKey(char *p)
 {
     if (((struct Obj14551 *)p)->f527 == 0) {
         return ((struct Obj14551 *)p)->f531;
@@ -2322,13 +2322,13 @@ int func_0220D358(char *p)
 
 
 
-int func_0220D370(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
+int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
 
 
 
 
 
-int func_0220D39C(char *a)
+int B_BAG_MAIN_StateWaitFade(char *a)
 {
     if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25090 *)a)->f8)) == 0)
         return 0x14;
@@ -2341,7 +2341,7 @@ int func_0220D39C(char *a)
 /*
  * lever: explicit if/else field stores preserve one-first branch and shared store.
  */
-int func_0220D3B0(struct Node *task, char *p)
+int B_BAG_MAIN_StateExit(struct Node *task, char *p)
 {
     if (((struct Obj00846 *)p)->f5A0 == 1) {
         if (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18) == 0) {
@@ -2353,13 +2353,13 @@ int func_0220D3B0(struct Node *task, char *p)
             else return 0;
         }
         if (*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C) PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C);
-        func_0220BD14(p);
-        func_0220C448(p);
+        B_BAG_MAIN_DeleteFrames(p);
+        B_BAG_MAIN_DeleteItemGraphics(p);
         B_BAG_MAIN_ExitWindows(p);
-        func_0220D7D0(p);
-        func_0220D6B8();
+        B_BAG_MAIN_DeleteText(p);
+        B_BAG_MAIN_ExitBg();
         TCBL_Destroy(*(struct S02031140 * *)&((struct Obj00846 *)p)->f4);
-        func_0220D914((u8 *)p);
+        B_BAG_MAIN_DeleteCursor((u8 *)p);
         B_APP_TOOL_Delete(((struct Obj00846 *)p)->f148);
         if (((struct Obj00846 *)p)->f598 == 1) {
             **(u8 * *)&((struct Obj25093 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f2C = 1;
@@ -2376,22 +2376,22 @@ int func_0220D3B0(struct Node *task, char *p)
 
 
 
-int func_0220D464(char *p)
+int B_BAG_MAIN_StateOtherFlow(char *p)
 {
     switch (((struct Obj00688 *)p)->f53D) {
     case 0:
         if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             ((struct Obj00688 *)p)->f533 = 2;
             ((struct Obj00688 *)p)->f531 = 0x11;
-            func_0220BF20(p, 2);
+            B_BAG_MAIN_StartFrameAnim(p, 2);
             ++((struct Obj00688 *)p)->f53D;
             return 0x10;
         }
         break;
     case 1:
         if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
-            func_0220D234(p);
+            B_BAG_MAIN_StateShowPocket1(p);
             ++((struct Obj00688 *)p)->f53D;
             ((struct Obj00688 *)p)->f531 = 0x11;
             return 0xa;
@@ -2399,17 +2399,17 @@ int func_0220D464(char *p)
         break;
     case 2:
         if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
-            func_0220D89C((char **)p, 0x54d);
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
             *(u16 *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30) = 0;
             ((struct Obj00688 *)p)->f531 = 0x11;
-            func_0220BF20(p, 4);
+            B_BAG_MAIN_StartFrameAnim(p, 4);
             ++((struct Obj00688 *)p)->f53D;
             return 0x10;
         }
         break;
     case 3:
         if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
-            func_0220D254(p);
+            B_BAG_MAIN_StateShowPocket2(p);
             ++((struct Obj00688 *)p)->f53D;
             ((struct Obj00688 *)p)->f531 = 0x11;
             return 0xa;
@@ -2417,16 +2417,16 @@ int func_0220D464(char *p)
         break;
     case 4:
         if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
-            func_0220D89C((char **)p, 0x54d);
-            ((struct Obj25098 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f16 = func_0220BB98(p, *(short *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30));
+            B_BAG_MAIN_PlaySe((char **)p, 0x54d);
+            ((struct Obj25098 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f16 = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30));
             ((struct Obj25099 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f2A = ((struct Obj00688 *)p)->f533;
             ((struct Obj25100 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f18 = 0;
-            func_0220BF20(p, 0xd);
+            B_BAG_MAIN_StartFrameAnim(p, 0xd);
             ++((struct Obj00688 *)p)->f53D;
         }
         break;
     case 5:
-        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) return func_0220D11C(p);
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) return B_BAG_MAIN_StateShowMessage(p);
         break;
     }
     return 0x11;
@@ -2435,11 +2435,11 @@ int func_0220D464(char *p)
 
 
 
-void func_0220D5C0(char *p)
+void B_BAG_MAIN_InitBg(char *p)
 {
  struct BgVramReq req=d_0220DEB0;
  struct BgTemplate b7,b6,b5,b4;
- func_0203FC6C(&req,1);
+ BG_SYS_ApplyGraphicsMode(&req,1);
  b7=d_0220DEE0;BG_SYS_InitBgLayer(7,&b7,0);
  b6=d_0220DF20;BG_SYS_InitBgLayer(6,&b6,0);
  b5=d_0220DF00;BG_SYS_InitBgLayer(5,&b5,0);BG_SYS_ClearSlot(5);
@@ -2453,7 +2453,7 @@ void func_0220D5C0(char *p)
 
 
 
-void func_0220D6B8(void)
+void B_BAG_MAIN_ExitBg(void)
 {
     BG_SYS_SetSubPlaneVisible(0x1f, 0);
     func_020403F4(4);
@@ -2465,7 +2465,7 @@ void func_0220D6B8(void)
 
 
 
-void func_0220D6DC(char *p)
+void B_BAG_MAIN_LoadBgGraphics(char *p)
 {
     void *handle = func_020490F4(99,(u16)((((struct Obj25103 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC & 0x7fff) | 0x8000));
     func_02049658(handle, 0, 6, 0, 0, 1, ((struct Obj25104 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
@@ -2473,7 +2473,7 @@ void func_0220D6DC(char *p)
     func_020498F4(handle, 2, 7, 0, 0, 1, ((struct Obj25106 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
     PALANM_LoadHandlePaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, (void *)((u32)handle), 1, ((struct Obj25107 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC, 1, 224, 0);
     ARC_TOOL_DeleteHandle(handle);
-    func_0201F5BC(4, 1, 11, 0, ((struct Obj25108 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
+    BMP_MENUWORK_LoadCharAndPltt(4, 1, 11, 0, ((struct Obj25108 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
     PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, 1, 176, 32);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, 23, 5, ((struct Obj25109 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC, 1, 32, 192);
 }
@@ -2481,7 +2481,7 @@ void func_0220D6DC(char *p)
 
 
 
-void func_0220D798(char *p){*(struct MsgBank * *)&((struct Obj03906 *)p)->fC=func_02045B38(0,2,17,((struct Obj25110 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);*(struct WordSet * *)&((struct Obj03906 *)p)->f10=GF_FONT_Create_EC64(((struct Obj25111 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);((struct Obj03906 *)p)->f18=PRINTSYS_QUE_Create((void *)((struct Obj25112 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);*(struct U16Vec * *)&((struct Obj03906 *)p)->f14=STRBUF_Create(512,((struct Obj25113 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);}
+void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct Obj03906 *)p)->fC=func_02045B38(0,2,17,((struct Obj25110 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);*(struct WordSet * *)&((struct Obj03906 *)p)->f10=GF_FONT_Create_EC64(((struct Obj25111 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);((struct Obj03906 *)p)->f18=PRINTSYS_QUE_Create((void *)((struct Obj25112 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);*(struct U16Vec * *)&((struct Obj03906 *)p)->f14=STRBUF_Create(512,((struct Obj25113 *)(*(char * *)&((struct Obj03906 *)p)->f0))->fC);}
 
 
 
@@ -2489,7 +2489,7 @@ void func_0220D798(char *p){*(struct MsgBank * *)&((struct Obj03906 *)p)->fC=fun
 /*
  * Tail: two zero alignment bytes at 0x0220D7EE.
  */
-void func_0220D7D0(char *p){MSGDATA_Delete(((struct Obj08356 *)p)->fC);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj08356 *)p)->f10);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj08356 *)p)->f18);STRBUF_Delete(((struct Obj08356 *)p)->f14);}
+void B_BAG_MAIN_DeleteText(char *p){MSGDATA_Delete(((struct Obj08356 *)p)->fC);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj08356 *)p)->f10);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj08356 *)p)->f18);STRBUF_Delete(((struct Obj08356 *)p)->f14);}
 
 
 
@@ -2497,7 +2497,7 @@ void func_0220D7D0(char *p){MSGDATA_Delete(((struct Obj08356 *)p)->fC);WORDSET_D
 /*
  * trailing: 2 zero alignment bytes at 0x0220D846.
  */
-void func_0220D7F0(void *unused, int mode)
+void B_BAG_MAIN_ResetBgSlot(void *unused, int mode)
 {
     switch (mode) {
     case 0:
@@ -2518,13 +2518,13 @@ void func_0220D7F0(void *unused, int mode)
 
 
 
-void func_0220D848(char *p,int mode){func_0220D7F0(p,mode);func_02041570(4,0);func_02041570(5,0);func_0220B990((unsigned char *)p);func_0220BD24(p,mode);func_0220D924((unsigned char *)p,mode,0);func_0220C4EC(p,mode);}
+void B_BAG_MAIN_SwitchPage(char *p,int mode){B_BAG_MAIN_ResetBgSlot(p,mode);BG_SYS_ClearLayerEx(4,0);BG_SYS_ClearLayerEx(5,0);B_BAG_MAIN_ShowWindows((unsigned char *)p);B_BAG_MAIN_LayoutFrames(p,mode);B_BAG_MAIN_RecreateCursor((unsigned char *)p,mode,0);B_BAG_MAIN_SetDisplayMode(p,mode);}
 
 
 
 
 
-int func_0220D884(char **p)
+int B_BAG_MAIN_CheckCancel(char **p)
 {
     if (((struct Obj25114 *)(*p))->f20 == 1) {
         ((struct Obj25115 *)(*p))->f16 = 0;
@@ -2538,7 +2538,7 @@ int func_0220D884(char **p)
 
 
 
-void func_0220D89C(char **a, int b)
+void B_BAG_MAIN_PlaySe(char **a, int b)
 {
     if (((struct Obj25118 *)(*a))->f40 == 1)
         GFL_USE_PlaySeDefaultVolume(b);
@@ -2548,7 +2548,7 @@ void func_0220D89C(char **a, int b)
 
 
 
-void func_0220D8B0(char **a, int b)
+void B_BAG_MAIN_PlaySe2(char **a, int b)
 {
     if (((struct Obj25120 *)(*a))->f40 == 1)
         GFL_USE_PlaySeDefaultVolume(b);
@@ -2557,12 +2557,12 @@ void func_0220D8B0(char **a, int b)
 
 
 
-void func_0220D8C4(u8 *p, u32 index, u32 value)
+void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value)
 {
     *(struct Struct_02025CD0 * *)&((struct Obj03347 *)p)->f144 = CURSOR_MOVE_Create(d_0220DF9C[index], d_0220DF90[index], (u32)p, ((struct Obj03347 *)p)->f598, (u8)value, ((struct Obj25121 *)(*(u8 * *)&((struct Obj03347 *)p)->f0))->fC);
     CURSOR_MOVE_EnableInput(*(struct Struct_02025D1C * *)&((struct Obj03347 *)p)->f144);
     CURSOR_MOVE_SetMode(*(struct Struct_02025D24 * *)&((struct Obj03347 *)p)->f144);
-    func_0220D98C(p, value);
+    B_BAG_MAIN_LayoutCursor(p, value);
 }
 
 
@@ -2575,7 +2575,7 @@ void func_0220D8C4(u8 *p, u32 index, u32 value)
  *
  * Addresses are Black-image addresses.
  */
-u32 func_0220D914(u8 *p)
+u32 B_BAG_MAIN_DeleteCursor(u8 *p)
 {
     return CURSOR_MOVE_Delete((void *)(((struct Obj25122 *)p)->f144));
 }
@@ -2586,7 +2586,7 @@ u32 func_0220D914(u8 *p)
 /*
  * lever: an outer switch preserves the unconditional default-arm branch.
  */
-void func_0220D924(u8 *p, int state, int value)
+void B_BAG_MAIN_RecreateCursor(u8 *p, int state, int value)
 {
     switch (*(int *)&((struct Obj03347 *)p)->f598) {
     case 0: value = 0; break;
@@ -2598,15 +2598,15 @@ void func_0220D924(u8 *p, int state, int value)
         }
         break;
     }
-    func_0220D914(p);
-    func_0220D8C4(p, state, value);
+    B_BAG_MAIN_DeleteCursor(p);
+    B_BAG_MAIN_CreateCursor(p, state, value);
 }
 
 
 
 
 
-void func_0220D974(char *a, int b)
+void B_BAG_MAIN_SetCursorVisible(char *a, int b)
 {
     ((struct Obj06649 *)a)->f598 = b;
     B_APP_TOOL_SetActorsVisible((char *)(*(int *)&((struct Obj06649 *)a)->f148), (void *)b);
@@ -2616,7 +2616,7 @@ void func_0220D974(char *a, int b)
 
 
 
-void func_0220D98C(u8 *p, u32 idx)
+void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx)
 {
     void *t = CURSOR_MOVE_GetEntry(*(void ** *)&((struct Obj06649 *)p)->f144, idx);
 
@@ -2626,22 +2626,22 @@ void func_0220D98C(u8 *p, u32 idx)
 
 
 
-void func_0220D9A8(u8 *p,u32 i){func_0220D98C(p,i);func_0220D974((char *)p,1);}
+void B_BAG_MAIN_ShowCursorAt(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);B_BAG_MAIN_SetCursorVisible((char *)p,1);}
 
 
 
 
-void func_0220D9BC(char *p){func_0220D974(p,0);}
+void B_BAG_MAIN_HideCursor(char *p){B_BAG_MAIN_SetCursorVisible(p,0);}
 
 
 
 
-void func_0220D9C8(char *p){func_0220D974(p,0);}
+void B_BAG_MAIN_HideCursor2(char *p){B_BAG_MAIN_SetCursorVisible(p,0);}
 
 
 
 
-void func_0220D9D4(u8 *p,u32 i){func_0220D98C(p,i);}
+void B_BAG_MAIN_LayoutCursorOnly(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);}
 
 
 void B_BAG_MAIN_HandleSelection(char *p, int b)
@@ -2650,6 +2650,6 @@ void B_BAG_MAIN_HandleSelection(char *p, int b)
         CURSOR_MOVE_SetCurrent((struct Sound *)(*(int *)&((struct Obj06649 *)p)->f144), 0);
         b = 0;
     }
-    func_0220D98C((u8 *)p, b);
-    func_0220D974(p, 1);
+    B_BAG_MAIN_LayoutCursor((u8 *)p, b);
+    B_BAG_MAIN_SetCursorVisible(p, 1);
 }

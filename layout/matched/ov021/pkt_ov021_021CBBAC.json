@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CBBAC",
+   "name": "BSUBWAY_SCR_IsNpcEntryAvailable",
    "address": "0x021CBBAC",
    "kind": "game",
    "region": "ov021",

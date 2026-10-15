@@ -1,5 +1,5 @@
 /*
- * function: func_02211970
+ * function: B_PLIST_MAIN_PlaySe
  * address:  0x02211970
  * packet:   pkt_02211970
  * region:   ov198
@@ -22,7 +22,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-void func_02211970(u8 **p, u32 b)
+void B_PLIST_MAIN_PlaySe(u8 **p, u32 b)
 {
     if (((struct Obj25286 *)(*p))->f40 == 1) {
         GFL_USE_PlaySeDefaultVolume(b);

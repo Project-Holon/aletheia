@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  */
 
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 void func_021E5604(int *a0)
 {
-    func_020419E4();
+    BG_SYS_Update();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DED64
+ * function: BR_CODEIN_StatStepFadeOut
  * address: 0x021DED64
  * packet: pkt_ov183_021DED64
  * region: ov183
@@ -11,7 +11,7 @@
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DECB0 0x021DECB0 thumb ov183
+ *   BR_CODEIN_StatTeardown 0x021DECB0 thumb ov183
  */
 #include "../include/Obj14431.h"
 #include "../include/Obj24603.h"
@@ -19,8 +19,8 @@
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021DECB0(void *a, int b, char *p);
-void func_021DED64(int *p, int *state, char *q)
+extern void BR_CODEIN_StatTeardown(void *a, int b, char *p);
+void BR_CODEIN_StatStepFadeOut(int *p, int *state, char *q)
 {
     switch (*state) {
     case 0:
@@ -31,7 +31,7 @@ void func_021DED64(int *p, int *state, char *q)
         if (BR_FADE_GetResult(*(int * *)&((struct Obj24604 *)(*(char * *)&((struct Obj14431 *)q)->f108))->f8) != 0) *state = 2;
         break;
     case 2:
-        BR_UTIL_SetTaskStep(p, (int)func_021DECB0);
+        BR_UTIL_SetTaskStep(p, (int)BR_CODEIN_StatTeardown);
         break;
     }
 }

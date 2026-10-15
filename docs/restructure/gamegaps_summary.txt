@@ -1,93 +1,54 @@
 count/bytes of uncovered pieces per region and class
 region                        pad       veneer         leaf         func         frag         data   src fns  code range
-arm9                            -       10/104    750/13256    588/34220            -      46/4858      5431  0x02004000-0x0209D86C
+arm9                            -       10/104     271/4144      70/4144            -      28/2434      6460  0x02004000-0x0209D86C
 arm9_autoload0_ITCM          1/32            -            -            -            -            -        11  0x01FF8000-0x01FF8804
-twl                             -            -            -            -        2/112     1/159028       339  0x02700000-0x02732D54
-ov006                           -            -         1/24        1/112            -            -         7  0x021542C0-0x02154C28
-ov009                           -            -        9/108        5/232            -            -      1628  0x02155160-0x021A1974
-ov010                           -            -         2/60         2/80            -            -      1732  0x02155160-0x0216FED8
-ov011                           -            -        6/124        4/272            -            -       216  0x02172BC0-0x021768C4
-ov012                           -            -            -        5/176            -            -       146  0x02172BC0-0x02175380
-ov014                           -            -       15/120        9/192            -            -       147  0x02177020-0x02179670
-ov015                           -            -          1/8         2/24            -            -        71  0x021797C0-0x0217A9B0
+twl                             -            -            -            -        2/112     1/159028       341  0x02700000-0x02732D54
+ov010                           -            -            -         2/56            -            -      1734  0x02155160-0x0216FED8
+ov011                           -            -         2/52        2/176            -            -       222  0x02172BC0-0x021768C4
 ov016                           -            -         3/28        4/116            -            -       653  0x021B6100-0x021D77A8
-ov018                           -            -         1/16         1/32            -            -       224  0x0217AE20-0x02182B4C
-ov021                           -            -       11/400      15/1348            -            -      4353  0x02187F00-0x021D3594
-ov028                           -            -            -         1/24            -            -        17  0x021EE740-0x021EEA7C
-ov030                           -            -            -         1/28            -            -        10  0x021EFEC0-0x021F0130
-ov048                           -            -         3/12         1/28            -            -        65  0x021F36C0-0x021F4E5C
-ov051                           -            -            -        5/104            -            -        18  0x021F36C0-0x021F3DB4
-ov052                           -            -            -         1/36            -            -        11  0x021F36C0-0x021F39C4
+ov021                           -            -       15/176      16/1328            -            -      4348  0x02187F00-0x021D3594
+ov048                           -            -            -         1/28            -            -        68  0x021F36C0-0x021F4E5C
+ov051                           -            -            -         2/68            -            -        21  0x021F36C0-0x021F3DB4
 ov055                           -            -         1/16            -            -            -        34  0x021F39C0-0x021F45C0
-ov056                           -            -            -         1/52            -            -        41  0x021F36C0-0x021F4254
-ov067                           -            -         2/24            -            -            -       110  0x021B6100-0x021B9418
-ov068                           -            -       11/104            -            -            -        78  0x021B95A0-0x021BB538
-ov073                           -            -            -       26/312            -            -         3  0x021F5260-0x021F54C4
-ov088                           -            -         1/12        1/188            -            -       140  0x021B95A0-0x021BD3D4
-ov091                           -            -        8/148       11/888            -            -       187  0x021B6240-0x021BEA78
-ov093                           -     386/6176     207/2960    179/16816            -            -      2883  0x021B6100-0x021EFCF0
-ov094                           -            -        5/104        2/144          1/2            -       568  0x021F6560-0x02209CE8
-ov095                           -     520/8256       50/844        5/188            -            -       179  0x06898020-0x0689D608
-ov096                           -            -       11/124        5/444            -            -       145  0x02187F00-0x0218A570
-ov097                           -            -         1/24         1/24            -            -        38  0x021F6560-0x021F75E8
-ov098                           -            -         7/44        3/180            -            -        29  0x021B6100-0x021B6D70
-ov099                           -            -       15/208       11/908            -            -       416  0x021B95A0-0x021C2878
-ov100                           -            -         2/12        2/488            -            -        77  0x021B95A0-0x021BB650
-ov101                           -            -       17/204        8/748            -            -        65  0x021B6100-0x021B7404
-ov102                           -            -         5/28        2/188            -            -        53  0x021B7560-0x021B8AB8
-ov103                           -            -         4/16            -            -            -        75  0x021B7560-0x021B9218
-ov104                           -            -         4/16            -            -            -        69  0x021B7560-0x021B8F1C
-ov105                           -            -         7/48        2/976            -            -        44  0x021B7560-0x021B8954
-ov107                           -            -       16/132        2/104            -            -       183  0x021EE740-0x021F6AF4
-ov110                           -            -       13/204        8/340            -            -       374  0x021B95A0-0x021C184C
-ov112                           -            -         2/36         1/28            -            -       192  0x021F36C0-0x021F815C
-ov114                           -            -         5/56         1/80            -            -       485  0x021B95A0-0x021CDBDC
-ov116                           -            -         2/24        2/176            -            -        76  0x021D6660-0x021D83A0
-ov119                           -            -          1/8        3/348            -            -       515  0x021D8980-0x021E757C
-ov121                           -            -         8/80        1/248            -            -       228  0x021D6660-0x021DF4E4
-ov123                           -            -         5/76        2/216            -            -       246  0x021D4240-0x021DA630
-ov125                           -            -        7/104       6/1132            -            -        84  0x021D6660-0x021D8C80
-ov127                           -            -         5/80         1/36            -            -       164  0x021C3EE0-0x021C5FB0
-ov131                           -            -         2/44        2/772            -            -       158  0x021D4240-0x021DBF9C
-ov135                           -            -         2/16        2/124            -            -       528  0x021F4580-0x02202BA4
-ov136                           -            -         5/56        5/308            -            -       159  0x021C3CC0-0x021C7750
-ov137                           -            -       16/296       10/644            -            -       266  0x021DC860-0x021E1A28
-ov170                           -            -         2/24        2/300            -            -       576  0x021DC860-0x021EF78C
-ov171                           -            -         1/12        1/164            -            -        75  0x021DC860-0x021DEA40
-ov172                           -       58/464         3/28        2/144            -            -       294  0x021B6100-0x021C4D00
+ov068                           -            -         5/52            -            -            -        84  0x021B95A0-0x021BB538
+ov091                           -            -         4/84       10/728            -            -       192  0x021B6240-0x021BEA78
+ov093                           -     386/6176       10/124       11/624            -            -      3248  0x021B6100-0x021EFCF0
+ov095                           -     520/8256            -            -            -            -       234  0x06898020-0x0689D608
+ov098                           -            -            -         1/60            -            -        38  0x021B6100-0x021B6D70
+ov101                           -            -            -         1/52            -            -        89  0x021B6100-0x021B7404
+ov107                           -            -         1/12            -            -            -       200  0x021EE740-0x021F6AF4
+ov114                           -            -         4/48            -            -            -       487  0x021B95A0-0x021CDBDC
+ov125                           -            -         2/24            -            -            -        95  0x021D6660-0x021D8C80
+ov172                           -       58/464            -            -            -            -       299  0x021B6100-0x021C4D00
 ov175                           -            -         1/12            -            -            -       370  0x021D4240-0x021E2C30
-ov179                           -            -         1/32         1/52            -            -        43  0x021B6100-0x021B68D8
-ov180                           -            -         2/44        3/160            -            -        94  0x021B6100-0x021B8000
-ov186                           -            -         3/40       10/856            -            -       280  0x021F90C0-0x02200248
-ov208                           -            -          1/4        3/196            -            -       363  0x021BC240-0x021C80E0
-ov217                           -            -          1/4         1/68            -            -       729  0x021B95A0-0x021C2E30
+ov208                           -            -            -        2/112            -            -       365  0x021BC240-0x021C80E0
 ov230                           -       18/648          1/4      10/1492            -      24/4224         4  0x02187F00-0x02189958
-TOTAL                        1/32    992/15648   1265/20508    983/67556        3/114    71/168110
+TOTAL                        1/32    992/15648     320/4776     132/8984        2/112    53/165686
 
 by kind (hidden = no listing label, labeled = starts at a listing function label)
-hidden                       1/32            -     314/3824            -        2/112    70/167410
-labeled                         -    992/15648    951/16684    983/67556          1/2        1/700
+hidden                       1/32            -       33/404            -        2/112    53/165686
+labeled                         -    992/15648     287/4372     132/8984            -            -
 
-code pieces (leaf+func+frag): 2251, 88178 bytes: strong 2222, weak 29; hidden 316, labeled 1935
-code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 881, 53540 bytes
-code pieces of 100 bytes or more: 185
-  arm9 0x0209A0EC   636 func  labeled 
-  ov105 0x021B80E8   600 func  labeled 
-  ov131 0x021D44C8   540 func  labeled 
-  ov093 0x021BACAC   432 func  labeled 
-  ov100 0x021BA028   416 func  labeled 
+code pieces (leaf+func+frag): 454, 13872 bytes: strong 447, weak 7; hidden 35, labeled 419
+code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 206, 7588 bytes
+code pieces of 100 bytes or more: 28
   ov230 0x021896D0   392 func  labeled 
-  arm9 0x0209AA08   376 func  labeled 
-  ov105 0x021B85A4   376 func  labeled 
-  ov093 0x021DC32C   364 func  labeled 
-  arm9 0x02045CAC   344 func  labeled 
-  arm9 0x0201AE1C   336 leaf  labeled 
-  ov093 0x021DA3D8   324 func  labeled 
-  arm9 0x02016FC8   312 func  labeled 
-  ov093 0x021E37C0   312 func  labeled 
-  ov093 0x021B66D4   304 leaf  labeled 
+  ov230 0x021895B8   280 func  labeled 
+  arm9 0x0202CB4C   268 func  labeled 
+  arm9 0x0203ABC0   236 func  labeled 
+  arm9 0x0202D214   216 func  labeled 
+  arm9 0x0203ACAC   200 func  labeled 
+  arm9 0x02023C3C   192 leaf  labeled 
+  arm9 0x02024368   180 func  labeled 
+  arm9 0x0200B6E0   164 func  labeled 
+  ov093 0x021DA04C   164 func  labeled 
+  ov091 0x021BA004   148 func  labeled 
+  arm9 0x0202C3E0   144 func  labeled 
+  ov011 0x02175FB8   144 func  labeled 
+  ov230 0x02188BD0   144 func  labeled 
+  ov230 0x0218949C   140 func  labeled 
 
-src/game functions: 32791 defined; extent from listing trace 32677, from decode only 114, grown by decode 2, untraceable (covered to the next label) 0
-header function: entries with no definition in the .c files and no SDK/runtime shard: 137
-definitions whose name resolves to no address (helpers, ignored): 3444
+src/game functions: 34609 defined; extent from listing trace 34227, from decode only 382, grown by decode 3, untraceable (covered to the next label) 0
+header function: entries with no definition in the .c files and no SDK/runtime shard: 8
+definitions whose name resolves to no address (helpers, ignored): 1624
 rows with a draft under --drafts: 0

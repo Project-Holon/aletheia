@@ -1,5 +1,5 @@
 /*
- * function: func_021CBD84
+ * function: BSUBWAY_SCR_GetNameinEncounterWork
  * address:  0x021CBD84
  * packet:   pkt_021CBD84
  * region:   ov021
@@ -16,7 +16,7 @@
  * symbols:
  */
 
-void *func_021CBD84(void *a)
+void *BSUBWAY_SCR_GetNameinEncounterWork(void *a)
 {
     return (char *)a + 0x74c;
 }

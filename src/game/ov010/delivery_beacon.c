@@ -24,7 +24,7 @@
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   NET_WHPIPE_ReleaseAllEntrySlots  0x02177BCC  thumb  ov014
- *   func_0203F328  0x0203F328  arm
+ *   GF_STANDARD_Shuffle  0x0203F328  arm
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
@@ -91,7 +91,7 @@ extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 index);
 extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
-extern void func_0203F328(u16 *data, u32 size, u32 seed);
+extern void GF_STANDARD_Shuffle(u16 *data, u32 size, u32 seed);
 extern void GFL_NET_BeaconScanStart(void);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
@@ -269,7 +269,7 @@ void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work)
         u32 n;
 
         slot = &work->slots[0][i];
-        func_0203F328((u16 *)slot->data, DELIVERY_BEACON_PIECE_SIZE, slot->seed);
+        GF_STANDARD_Shuffle((u16 *)slot->data, DELIVERY_BEACON_PIECE_SIZE, slot->seed);
         n = (u16)off;
         if (work->param.destSize > (int)(n + DELIVERY_BEACON_PIECE_SIZE))
             MI_CpuCopy8(slot->data, work->param.dest + off, DELIVERY_BEACON_PIECE_SIZE);

@@ -24,8 +24,8 @@
  *   gsUdpEngineContext                  0x02180404  arm ov009
  *   gt2GetRemoteIP                  0x02195E28  arm ov009
  *   gt2GetRemotePort                  0x02195E30  arm ov009
- *   func_02198620                  0x02198620  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   func_02180430                  0x02180430  arm ov009
@@ -75,8 +75,8 @@ typedef struct GSUdpEngineObject {
 extern GSUdpEngineObject *gsUdpEngineContext(void);
 extern unsigned int gt2GetRemoteIP(void *connection);
 extern unsigned short gt2GetRemotePort(void *connection);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void *func_02184208(void *array, int n);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern int func_02180430(void *theFirstHandler, void *theSecondHandler);
@@ -93,8 +93,8 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
     GSUdpMsgHandler *aHandlerFound;
 
     aUdp = gsUdpEngineContext();
-    func_0217D254(12, 0, 16, g_021A3A30,
-        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
+    gsDebugFormat(12, 0, 16, g_021A3A30,
+        gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
     if (theMessageLen >= 16) {
         memcpy(&aHandler.mHeader, theMessage, sizeof(aHandler.mHeader));
@@ -102,7 +102,7 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
         if (index != -1) {
             aHandlerFound = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
             if (aHandlerFound->mReceived) {
-                func_0217D254(12, 0, 16, g_021A39EC);
+                gsDebugFormat(12, 0, 16, g_021A39EC);
                 aHandlerFound->mReceived(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                     theMessage + 16, theMessageLen - 16, reliable, aHandlerFound->mUserData);
                 return;
@@ -111,7 +111,7 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
     }
 
     if (aUdp->mAppRecvData) {
-        func_0217D254(12, 0, 16, g_021A3A14);
+        gsDebugFormat(12, 0, 16, g_021A3A14);
         aUdp->mAppRecvData(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
             theMessage, theMessageLen, reliable, aUdp->mAppUserData);
     }

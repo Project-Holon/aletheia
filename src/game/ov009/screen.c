@@ -1,7 +1,7 @@
 /*
  * file:     screen.c
  * unit:     yes
- * function: func_02183F68, func_02183FB4, func_0218402C
+ * function: ScrollTopScreen, PrintChar, VPrintf
  * address:  0x02183F68
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -27,9 +27,9 @@ extern void MIi_CpuClearFast(unsigned long data, void * destp, unsigned long siz
 extern int OS_VSNPrintf(char * dst, unsigned long len, const char * fmt, char * vlist);
 extern void PrintChar(char c);
 extern void OS_WaitVBlankIntr(void);
-void func_02183F68(void);
-void func_02183FB4(char c);
-void func_0218402C(char * format, char * args);
+void ScrollTopScreen(void);
+void PrintChar(char c);
+void VPrintf(char * format, char * args);
 extern unsigned short g_021AD1C8[768];
 extern int g_021AD1C4;
 extern int g_021A3FBC;
@@ -39,7 +39,7 @@ extern char g_021AD7C8[2048];
 /*
  * sdk:      ScrollTopScreen (screen)
  */
-void func_02183F68(void)
+void ScrollTopScreen(void)
 {
     int i;
 
@@ -52,13 +52,13 @@ void func_02183F68(void)
 /*
  * sdk:      PrintChar (screen)
  */
-void func_02183FB4(char c)
+void PrintChar(char c)
 {
     if (c == 13)
         return;
     if (g_021AD1C4 == 32)
     {
-        func_02183F68();
+        ScrollTopScreen();
         g_021AD1C4 = 0;
         if (c == 10)
             return;
@@ -73,7 +73,7 @@ void func_02183FB4(char c)
 }
 
 
-void func_0218402C(char * format, char * args)
+void VPrintf(char * format, char * args)
 {
     int i;
 

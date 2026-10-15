@@ -12,7 +12,7 @@
  * sdk:      ghiDoSecuringSession (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   ghiCallProgressCallback  0x021C02C8  arm  ov114
  *   ghiSendBufferedData  0x021C011C  arm  ov114
  *   ghiResetBuffer  0x021C00FC  arm  ov114
@@ -58,7 +58,7 @@ struct GHIConnection {
     GHIEncryptor encryptor;     /* 0x194 */
 };
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void ghiCallProgressCallback(struct GHIConnection *connection, char *buffer, int bufferLen);
 extern int ghiSendBufferedData(struct GHIConnection *connection);
 extern void ghiResetBuffer(GHIBuffer *buffer);
@@ -76,7 +76,7 @@ void ghiDoSecuringSession(GHIConnection *connection)
 
     if (!connection->encryptor.initialized)
     {
-        func_0217D254(8, (char *)3, 0x10, sGhttpSecuringSession);
+        gsDebugFormat(8, (char *)3, 0x10, sGhttpSecuringSession);
         if (connection->encryptor.processFunc != 0)
         {
             if (connection->encryptor.processFunc(connection, &connection->encryptor) == 3)

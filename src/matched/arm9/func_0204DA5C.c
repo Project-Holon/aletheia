@@ -22,6 +22,7 @@
  * symbols:
  *   s_clact_c     0x020A7F74  data
  *   VMAN_InvalidateHandle  0x02034630  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_AllocCharacterTable.c \
@@ -45,7 +46,7 @@ struct Rec {
     u32 unk_3c_31 : 1;
 };
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void  VMAN_InvalidateHandle(struct Sentinel *p);
 
 extern char s_clact_c[];
@@ -55,7 +56,7 @@ void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
     u32 i;
     struct Rec *arr;
 
-    arr = sub_02030734(heapId, count << 6, 0, s_clact_c, 0x1bbe);
+    arr = GFL_HEAP_Alloc(heapId, count << 6, 0, s_clact_c, 0x1bbe);
 
     for (i = 0; i < count; i++) {
         struct Rec *r = &arr[i];

@@ -1,5 +1,5 @@
 /*
- * function: func_0219E220
+ * function: SBServerHasPrivateAddress
  * address:  0x0219E220
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Tests bit 1 of the byte at +0x15.
  */
 
-int func_0219E220(const unsigned char *p)
+int SBServerHasPrivateAddress(const unsigned char *p)
 {
     return (p[0x15] & 2) == 2;
 }

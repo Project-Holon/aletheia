@@ -1,5 +1,5 @@
 /*
- * function: func_021C4354
+ * function: WIFI_2DCHAR_GetCellIndex
  * address: 0x021C4354
  * packet: pkt_ov127_021C4354
  * region: ov127
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 
-void func_021C4354(void) { }
+void WIFI_2DCHAR_GetCellIndex(void) { }

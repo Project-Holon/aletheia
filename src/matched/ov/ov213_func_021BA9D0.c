@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9D0
+ * function: COMM_BTL_DEMO_MAIN_UpdateObjectAnime
  * address: 0x021BA9D0
  * packet: pkt_ov213_021BA9D0
  * region: ov213
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
-int func_021BA9D0(unsigned char *p)
+int COMM_BTL_DEMO_MAIN_UpdateObjectAnime(unsigned char *p)
 {
     int result=1;
     int *object;

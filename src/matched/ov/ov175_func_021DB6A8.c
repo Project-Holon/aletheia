@@ -1,5 +1,5 @@
 /*
- * function: func_021DB6A8
+ * function: WIFIBATTLEMATCH_NET_SetupGdbRecord
  * address: 0x021DB6A8
  * packet: pkt_ov175_021DB6A8
  * region: ov175
@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_021DA470 0x021DA470 thumb ov175
- *   func_021DD020 0x021DD020 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GetDateTime 0x021DA470 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GetGsProfileId 0x021DD020 thumb ov175
  *   d_021E2F2C 0x021E2F2C data a4
  *   d_021E2F38 0x021E2F38 data a4
  *   d_021E2F4C 0x021E2F4C data a4
@@ -34,10 +34,10 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_021DA470(unsigned char *);
-extern u32 func_021DD020(char *obj);
+extern void WIFIBATTLEMATCH_NET_GetDateTime(unsigned char *);
+extern u32 WIFIBATTLEMATCH_NET_GetGsProfileId(char *obj);
 extern char d_021E2F2C[], d_021E2F38[], d_021E2F4C[], d_021E2F60[];
-void func_021DB6A8(char *ctx)
+void WIFIBATTLEMATCH_NET_SetupGdbRecord(char *ctx)
 {
     void *record;
     record = GAME_DATA_GetMyStatus(((struct Obj01171 *)ctx)->f8);
@@ -45,7 +45,7 @@ void func_021DB6A8(char *ctx)
     ((struct Obj24342 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f4 = 8;
     ((struct Obj24343 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f8 = record;
     ((struct Obj24344 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->fC = 32;
-    func_021DA470((unsigned char *)ctx + 0x38);
+    WIFIBATTLEMATCH_NET_GetDateTime((unsigned char *)ctx + 0x38);
     *(char * *)&((struct Obj24345 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f10 = d_021E2F38;
     ((struct Obj24346 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f14 = 8;
     *(char * *)&((struct Obj24347 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f18 = ctx + 0x38;
@@ -55,6 +55,6 @@ void func_021DB6A8(char *ctx)
     ((struct Obj24351 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f28 = ((struct Obj01171 *)ctx)->fC;
     *(char * *)&((struct Obj24352 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f30 = d_021E2F60;
     ((struct Obj24353 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f34 = 2;
-    ((struct Obj24354 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f38 = func_021DD020(ctx);
+    ((struct Obj24354 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f38 = WIFIBATTLEMATCH_NET_GetGsProfileId(ctx);
     ((struct Obj01171 *)ctx)->f198 = 4;
 }

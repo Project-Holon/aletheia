@@ -1,5 +1,5 @@
 /*
- * function: func_021BE820
+ * function: ZKNSEARCH_MAIN_ClearLabel1
  * address:  0x021BE820
  * packet:   pkt_021BE820
  * region:   ov210
@@ -28,7 +28,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-void func_021BE820(u8 *p)
+void ZKNSEARCH_MAIN_ClearLabel1(u8 *p)
 {
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj14681 *)p)->f154)), 0);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj14681 *)p)->f154);

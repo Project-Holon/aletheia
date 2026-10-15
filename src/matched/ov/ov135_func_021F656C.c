@@ -12,6 +12,7 @@
  *   WORLDTRADE_CloseTaskMenu 0x021F4CE4 thumb ov135
  *   WORLDTRADE_SetStateAndReturn 0x021F4EC0 thumb ov135
  *   WORLDTRADE_BOX_GetPartyMon 0x021F6B40 thumb ov135
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,7 +23,7 @@ extern int WORLDTRADE_UpdateTaskMenuYesNo(char *p);
 extern void WORLDTRADE_CloseTaskMenu(char *p);
 extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot);
-extern void func_0201F7A8(void *desc, unsigned kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, unsigned kind);
 int WORLDTRADE_BOX_StateSelectConfirmInput(Work *p)
 {
     unsigned result = WORLDTRADE_UpdateTaskMenuYesNo((char *)p);
@@ -33,7 +34,7 @@ int WORLDTRADE_BOX_StateSelectConfirmInput(Work *p)
         WORLDTRADE_SetStateAndReturn((u8 *)p, 6, 0);
     } else if (result == 2) {
         WORLDTRADE_CloseTaskMenu((char *)p);
-        func_0201F7A8(p->dd0, 0);
+        BMP_MENUWORK_DrawWindowBorder(p->dd0, 0);
         p->state = 1;
     }
     return 2;

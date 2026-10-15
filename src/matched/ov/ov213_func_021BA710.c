@@ -1,5 +1,5 @@
 /*
- * function: func_021BA710
+ * function: COMM_BTL_DEMO_MAIN_DeleteCursor
  * address: 0x021BA710
  * packet: pkt_ov213_021BA710
  * region: ov213
@@ -11,4 +11,4 @@
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  */
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
-void func_021BA710(char *p){UI_SCENE_FreeActorGfx((unsigned int *)(p+8));}
+void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p){UI_SCENE_FreeActorGfx((unsigned int *)(p+8));}

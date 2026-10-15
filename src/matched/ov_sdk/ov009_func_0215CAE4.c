@@ -1,5 +1,5 @@
 /*
- * function: func_0215CAE4
+ * function: SOCLi_StartupSOCL
  * address:  0x0215CAE4
  * packet:   pkt_ov009_0215CAE4
  * region:   ov009
@@ -27,7 +27,7 @@ extern struct G_021A1CD8 *gSoclConfig;
 extern int g_021A1D14;
 extern void *g_021AA440[4];
 
-int func_0215CAE4(void)
+int SOCLi_StartupSOCL(void)
 {
 	int r;
 

@@ -74,7 +74,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -101,7 +101,7 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -109,7 +109,7 @@
  *   func_020498F4 0x020498F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -143,7 +143,7 @@
  *   MB_UTIL_MSG_GetMsgData 0x021F1AFC thumb ov107
  *   MB_UTIL_MSG_GetWordSet 0x021F1B00 thumb ov107
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   MIi_CpuCopy16 0x02082A60 arm
@@ -209,7 +209,7 @@
  *   GAME_DATA_Create 0x020124F4 thumb
  *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
@@ -432,7 +432,7 @@ extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void CLACT_InitSystem(const void *,u32,u32);
 extern void *CLACT_CreateUnit(int,u8,u32);
@@ -446,7 +446,7 @@ extern void func_020403F4(unsigned);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u32);
+extern void BG_SYS_FreeSlot(u32);
 extern void func_020409B4(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -454,7 +454,7 @@ extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -488,7 +488,7 @@ extern void MB_UTIL_MSG_SetNumberZeroPad(struct MbMsgWork *a, int b, int c, int 
 extern void *MB_UTIL_MSG_GetMsgData(void *p);
 extern void *MB_UTIL_MSG_GetWordSet(void *p);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(void *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
 extern u16 STRBUF_GetLength(void *vec);
 extern u16 *STRBUF_GetChars(void *vec);
 extern void MIi_CpuCopy16(const void *, void *, int);
@@ -548,7 +548,7 @@ extern unsigned int KEY_GetCont(void);
 extern void *GAME_DATA_Create(u16);
 extern void GAME_DATA_Delete(unsigned char *);
 extern void func_020315D4(void *);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 extern u32 func_0200FB24(void);
 extern int func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowScreen(int);
@@ -1118,7 +1118,7 @@ void MB_COMM_SYS_InitDisplay(MbCommSysWork *p)
     BG_SYS_SetVramBanks(&d_021F6C10);
     BG_SYS_Create(p->heapId);
     BMP_WIN_Init(p->heapId);
-    func_0203FC28(&d_021F6B00);
+    BG_SYS_SetGraphicsMode(&d_021F6B00);
     MB_COMM_SYS_InitBgLayer(&d_021F6B50, 0, 0);
     MB_COMM_SYS_InitBgLayer(&d_021F6B70, 1, 0);
     MB_COMM_SYS_InitBgLayer(&d_021F6B90, 2, 0);
@@ -1166,7 +1166,7 @@ void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode)
 {
     BG_SYS_InitBgLayer(layer, bgTemplate, mode);
     func_02040588(layer, 1);
-    func_020414AC(layer);
+    BG_SYS_FreeSlot(layer);
     func_020409B4(layer);
 }
 
@@ -1218,7 +1218,7 @@ void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
     func_02049B68(archive, func_02027624(), 4, 256, 32, p->heapId);
     func_02049658(archive, func_02027628(), 6, 0, 0, 0, p->heapId);
     func_020498F4(archive, func_0202762C(), 6, 0, 0, 0, p->heapId);
-    func_020413B0(6, 0, 21, 32, 3, 8);
+    BG_SYS_FillTileMap(6, 0, 21, 32, 3, 8);
     func_020409B4(6);
     p->paletteId = CLACT_RegisterPaletteEx(archive, func_02027614(), 1, 0, 0, 3, p->heapId);
     p->charId = CLACT_RegisterCharacter(archive, func_02027618(), 0, 1, p->heapId);
@@ -1268,7 +1268,7 @@ void MB_COMM_SYS_DrawTitle(MbCommSysWork *p)
     func_02049B68(archive, 0, 0, 224, 32, p->heapId);
     func_02049658(archive, 1, textBg, 0, 0, 0, p->heapId);
     func_020498F4(archive, 2, textBg, 0, 0, 0, p->heapId);
-    func_020413B0(textBg, 0, 0, 32, 24, 7);
+    BG_SYS_FillTileMap(textBg, 0, 0, 32, 24, 7);
     func_020409B4(textBg);
     ARC_TOOL_DeleteHandle(archive);
     window = BMP_WIN_Create(textBg, 1, 4, 30, 8, 7, 1);
@@ -1315,7 +1315,7 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
     else
         msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xF);
     nameStr = STRBUF_Create(0x100, p->heapId);
-    func_0201F250(MB_UTIL_MSG_GetWordSet(p->msg), nameStr, msgPiece);
+    WORDSET_CopyTaggedText(MB_UTIL_MSG_GetWordSet(p->msg), nameStr, msgPiece);
     STRBUF_Delete(msgPiece);
     if (p->standalone == 0)
         msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xD);
@@ -2136,7 +2136,7 @@ int MB_COMM_SYS_ProcExit(void *task, int unused, int keep, MbCommSysWork *p)
         func_020307B0(p->arg);
     }
     func_020315D4(task);
-    func_020306F0(93);
+    GFL_HEAP_DeleteChecked(93);
     if (errorRequested == 1) {
         if (standalone) {
             if (wasSaving == 1 || func_0200FB24() == 1) {

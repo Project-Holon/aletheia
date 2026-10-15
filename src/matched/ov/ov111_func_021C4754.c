@@ -1,5 +1,5 @@
 /*
- * function: func_021C4754
+ * function: VIEWER_MAIN_SetBgSlotKind
  * address:  0x021C4754
  * packet:   pkt_ov111_021C4754
  * region:   ov111
@@ -39,7 +39,7 @@ typedef struct {
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern const FileTable d_021C85D8;
 
-void func_021C4754(Work *p, int kind)
+void VIEWER_MAIN_SetBgSlotKind(Work *p, int kind)
 {
     FileTable t = d_021C85D8;
     int j = 1;

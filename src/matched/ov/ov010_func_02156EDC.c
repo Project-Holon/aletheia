@@ -11,8 +11,8 @@
  *
  * symbols:
  *   MUSICAL_PROGRAM_Delete  0x0215716C  thumb
- *   func_021F6888  0x021F6888  thumb
- *   func_020306F0  0x020306F0  arm
+ *   MUSICAL_MCSS_FreeMon  0x021F6888  thumb
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   MUSICAL_STAGE_SYS_Delete  0x02156F98  thumb
  *   func_02034A5C  0x02034A5C  arm
  *   func_020315D4  0x020315D4  arm
@@ -31,8 +31,8 @@ typedef struct Ctx {
 } Ctx;
 
 extern void MUSICAL_PROGRAM_Delete(void *);
-extern void func_021F6888(void *);
-extern void func_020306F0(unsigned int);
+extern void MUSICAL_MCSS_FreeMon(void *);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 struct Stage;
 extern void MUSICAL_STAGE_SYS_Delete(struct Stage *s);
 typedef signed int     s32;
@@ -45,13 +45,13 @@ int MUSICAL_STAGE_SYS_Exit(void *a, int b, int c, Ctx **d)
 {
     if (c == 0) {
         MUSICAL_PROGRAM_Delete((*d)->f14);
-        func_021F6888((*d)->f18);
-        func_020306F0(0x2c);
+        MUSICAL_MCSS_FreeMon((*d)->f18);
+        GFL_HEAP_DeleteChecked(0x2c);
         *(*d)->f08 = 2;
         MUSICAL_STAGE_SYS_Delete((struct Stage *)(*d));
         func_02034A5C((u32)ov112_id);
     }
     func_020315D4(a);
-    func_020306F0(0x2e);
+    GFL_HEAP_DeleteChecked(0x2e);
     return 1;
 }

@@ -12,14 +12,15 @@
  * Calls the module helper on the pointed-to block and then on the pointer.
  *
  * symbols:
+ *   gsifree  0x0217EAE0  arm
 
  */
 
-extern void func_0217EAE0(void *p);
+extern void gsifree(void *p);
 
 void gsXmlFreeWriter(void **p)
 {
-    func_0217EAE0(*p);
-    func_0217EAE0(p);
+    gsifree(*p);
+    gsifree(p);
 }
 

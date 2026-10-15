@@ -13,7 +13,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_021FC81C  0x021FC81C  thumb
+ *   MUS_COMM_FUNC_InitCommandTable  0x021FC81C  thumb
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj09156.h"
@@ -26,7 +26,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern int func_021FC81C();
+extern int MUS_COMM_FUNC_InitCommandTable();
 
 void SCRCMD_MUSICAL_LinkProcCallback(int a0, int a1, int a2)
 {
@@ -54,7 +54,7 @@ a1 = 1;
 *(u16 *)&((struct Obj00005 *)((char *)a0))->f0 = a1;
 a0 = *(int *)&((struct Obj00005 *)t4)->f4;
 a0 = *(int *)&((struct Obj00005 *)a0)->f4;
-    a0 = func_021FC81C(a0, a1);
+    a0 = MUS_COMM_FUNC_InitCommandTable(a0, a1);
 loc_0215DFAA:
     return;
 loc_0215DFAC:

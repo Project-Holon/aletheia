@@ -1,5 +1,5 @@
 /*
- * function: func_021FC61C
+ * function: SCRIPT_COMMAND_CmdPlayBgm
  * address:  0x021FC61C
  * packet:   pkt_021FC61C
  * region:   ov132
@@ -23,7 +23,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void STA_ACTING_PlayBgm(char *p, int a);
 
-int func_021FC61C(int a, char **pp)
+int SCRIPT_COMMAND_CmdPlayBgm(int a, char **pp)
 {
     char *p = *pp;
     int x = VM_GetU32((struct Cursor *)(((struct Obj14124 *)pp)->f4));

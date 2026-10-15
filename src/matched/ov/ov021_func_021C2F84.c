@@ -14,11 +14,11 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_0201F4A0  0x0201F4A0  thumb
+ *   WORDSET_ParsePackedLimits  0x0201F4A0  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201D304  0x0201D304  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -62,11 +62,11 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *STRBUF_Create(u32 size, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern void func_0201F4A0(void *dst, void *src);
+extern void WORDSET_ParsePackedLimits(void *dst, void *src);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -95,14 +95,14 @@ void FLD3D_CI_DrawMessageTexture(int s, Obj *p, char *a1, char *a2, u32 c, u32 d
         x = GF_FONT_Create_EC64((u16)((heap & 0x7FFF) | 0x8000));
         str = STRBUF_Create(8, (heap & 0x7FFF) | 0x8000);
         y = func_02045EC0(m, c);
-        func_0201F02C(x, 0, (void *)s);
-        func_0201F250(x, str, y);
+        WORDSET_SetSlotMyStatus(x, 0, (void *)s);
+        WORDSET_CopyTaggedText(x, str, y);
         STRBUF_Delete(y);
         WORDSET_DeleteStrbufED04(x);
     } else {
         y = func_02045EC0(m, c);
         str = STRBUF_Create(0x10, (heap & 0x7FFF) | 0x8000);
-        func_0201F4A0(str, y);
+        WORDSET_ParsePackedLimits(str, y);
         STRBUF_Delete(y);
     }
     w = 0;

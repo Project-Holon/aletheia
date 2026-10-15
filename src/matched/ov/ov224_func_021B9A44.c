@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A44
+ * function: SUBWAY_MAP_GRAPHIC_DrawScreen
  * address:  0x021B9A44
  * packet:   pkt_021B9A44
  * region:   ov224
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9B6C  0x021B9B6C  thumb  ov224
- *   func_021B9B04  0x021B9B04  thumb  ov224
+ *   SUBWAY_MAP_GRAPHIC_DrawClactUnit  0x021B9B6C  thumb  ov224
+ *   SUBWAY_MAP_GRAPHIC_DrawBg  0x021B9B04  thumb  ov224
  *
  * Addresses are Black-image addresses.
  */
 
-void func_021B9A44(void *p)
+void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p)
 {
-    void func_021B9B6C(void *);
-    void func_021B9B04(void *);
-    func_021B9B6C((char *)p + 4);
-    func_021B9B04(p);
+    void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *);
+    void SUBWAY_MAP_GRAPHIC_DrawBg(void *);
+    SUBWAY_MAP_GRAPHIC_DrawClactUnit((char *)p + 4);
+    SUBWAY_MAP_GRAPHIC_DrawBg(p);
 }

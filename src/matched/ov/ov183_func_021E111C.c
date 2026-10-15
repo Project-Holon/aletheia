@@ -1,5 +1,5 @@
 /*
- * function: func_021E111C
+ * function: BR_CODEIN_ProfilePrintOamObject
  * address: 0x021E111C
  * packet: pkt_ov183_021E111C
  * region: ov183
@@ -46,7 +46,7 @@ extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void BMP_OAM_SetObjMode(u8 *g, u32 a);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021E111C(const Object *object,Index index,int x,int y)
+void BR_CODEIN_ProfilePrintOamObject(const Object *object,Index index,int x,int y)
 {
     char *p=(char *)object;
     int source,handle,obj;

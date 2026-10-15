@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
@@ -61,7 +61,7 @@ struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
@@ -77,7 +77,7 @@ void REPORT_EVENT_StartPrintStream(Work *w)
     void *p;
 
     BMP_Clear(BMP_WIN_GetBmp(w->f18->f08), 15);
-    func_0201F73C(w->f18->f08, 2, 1, 13);
+    BMP_MENUWORK_DrawWindow(w->f18->f08, 2, 1, 13);
     r = w->f18;
     a = FIELD_MSGBG_GetFont(w->f0C);
     w->f18->f10 = PRINTSYS_PrintStream(r->f08, 0, 0, r->f18, a, MSG_SPEED_GetWait(), r->f00, 10, w->f10, 15);

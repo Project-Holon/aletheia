@@ -1,5 +1,5 @@
 /*
- * function: func_021D42A8
+ * function: GTSNEGO_DISP_OnRecordSync
  * address: 0x021D42A8
  * packet: pkt_ov120_021D42A8
  * region: ov120
@@ -20,4 +20,4 @@ struct Entry; struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
 extern void MI_CpuCopy8(const void *,void *,u32);
-void func_021D42A8(u32 id,int b,const void *src,u8 *p,struct Entry *entry) { if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(src,p+0x174,12); }
+void GTSNEGO_DISP_OnRecordSync(u32 id,int b,const void *src,u8 *p,struct Entry *entry) { if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(src,p+0x174,12); }

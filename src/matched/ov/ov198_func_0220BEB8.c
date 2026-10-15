@@ -1,5 +1,5 @@
 /*
- * function: func_0220BEB8
+ * function: B_PLIST_DRAW_PrintRowName
  * address: 0x0220BEB8
  * packet: pkt_ov198_0220BEB8
  * region: ov198
@@ -19,11 +19,11 @@
  *   `(u16)i`), which puts the a2 spill store first at entry.
  * symbols:
  *   BMP_WIN_GetPalette 0x02045778 arm
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -54,11 +54,11 @@ struct StrObj;
 struct U16Vec;
 struct WordSet;
 extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
-extern int func_022110D4(u8 *, int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(u32, u32, s16, s16, void *, u32, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -66,7 +66,7 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 d_02211B68[];
 
-void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
+void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
 {
     u32 w2;
     u32 w;
@@ -93,14 +93,14 @@ void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     tab = p + 0x1F70;
     handle = *(void **)(tab + slot);
     k = BMP_WIN_GetPalette(handle);
-    n = func_022110D4(p, a2);
+    n = B_PLIST_MAIN_GetOrderIndex(p, a2);
     base = p + 4;
     off = n * 0x4C;
     rec = (struct R *)(base + off);
     vec = STRBUF_Create(12, P->hdr->f10);
     msg = func_02045EC0(P->f1EA0, d_02211B68[a2]);
-    func_0201EEF4(P->f1EA4, 0, *(void **)rec);
-    func_0201F250(P->f1EA4, vec, msg);
+    WORDSET_SetSlotMonSpecies(P->f1EA4, 0, *(void **)rec);
+    WORDSET_CopyTaggedText(P->f1EA4, vec, msg);
     if (k == 9) {
         u32 h9 = P->f1EAC;
         ex = extra;

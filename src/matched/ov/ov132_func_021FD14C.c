@@ -1,5 +1,5 @@
 /*
- * function: func_021FD14C
+ * function: MUS_COMM_FUNC_SendMyStatus
  * address: 0x021FD14C
  * packet: pkt_ov132_021FD14C
  * region: ov132
@@ -38,7 +38,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 extern const char d_021FDE5C[];
-u32 func_021FD14C(Owner *p)
+u32 MUS_COMM_FUNC_SendMyStatus(Owner *p)
 {
     u32 a, b;
     char *q, *t;

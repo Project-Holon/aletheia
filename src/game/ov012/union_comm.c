@@ -18,7 +18,7 @@
  *   REGULATION_Create  0x0200ADF0  thumb
  *   sUnionCommFile   0x02175600  data  ov012  a1
  *   func_020307B0 0x020307B0 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   sUnionNetInit 0x02175380 data ov012 a4
  *   GFL_NET_EndDeviceWrapper 0x0203D0FC arm
@@ -79,7 +79,7 @@ extern struct Regulation *REGULATION_Create(u32 heapId);
 
 extern u32 func_020307B0(void *memory);
 
-extern void func_020306F0(u32 heapId);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
 extern void GFL_NET_StartSession(const GFLNetInitializeStruct *init, void (*startCallback)(UnionRoomWork *work), UnionRoomWork *work);
 
@@ -275,7 +275,7 @@ void UNION_COMM_Delete(UnionParentWork *parent, UnionRoomWork *work)
     if (work->regulation != 0) func_020307B0(work->regulation);
     UNION_COMM_ReleaseWorks(work);
     func_020307B0(work);
-    func_020306F0(UNION_HEAP_ID);
+    GFL_HEAP_DeleteChecked(UNION_HEAP_ID);
     func_020307B0(parent);
 }
 

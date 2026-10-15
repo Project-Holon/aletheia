@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203F2FC  0x0203F2FC  arm
- *   func_0203F328  0x0203F328  arm
+ *   GF_STANDARD_Checksum  0x0203F2FC  arm
+ *   GF_STANDARD_Shuffle  0x0203F328  arm
  *
  * The 0x84C-byte save block's commit, and the second instance of the
  * 0x02FFFC3C idiom (see src/matched/unit_02008C58.c, which is the same block
@@ -22,8 +22,8 @@
  * The write at +0x84E is followed by a readback test against 0 and a store of 1
  * if it came back 0 -- the field is volatile all the way through, which is why
  * the `ldrh` is not folded away.  The checksum pair is the same shape as the
- * one in unit_02008C58.c: func_0203F2FC computes it over (obj, 0x84C) and
- * func_0203F328 writes it back with the +0x84E halfword as the high word.
+ * one in unit_02008C58.c: GF_STANDARD_Checksum computes it over (obj, 0x84C) and
+ * GF_STANDARD_Shuffle writes it back with the +0x84E halfword as the high word.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/SYMBOL_SAVE_UpdateChecksum.c \
@@ -35,8 +35,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef unsigned char  u8;
-extern u32 func_0203F2FC(const u8 *p, u32 len);
-extern void func_0203F328(u16 *p, u32 size, u32 seed);
+extern u32 GF_STANDARD_Checksum(const u8 *p, u32 len);
+extern void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 
@@ -49,8 +49,8 @@ void SYMBOL_SAVE_UpdateChecksum(void *obj)
     if (((struct Obj00318 *)obj)->f84E == 0) {
         ((struct Obj00318 *)obj)->f84E = 1;
     }
-    ((struct Obj00318 *)obj)->f84C = func_0203F2FC(obj, 0x84c);
-    func_0203F328(obj, 0x84c,
+    ((struct Obj00318 *)obj)->f84C = GF_STANDARD_Checksum(obj, 0x84c);
+    GF_STANDARD_Shuffle(obj, 0x84c,
                   ((struct Obj00318 *)obj)->f84C +
                   (((struct Obj00318 *)obj)->f84E << 16));
 }

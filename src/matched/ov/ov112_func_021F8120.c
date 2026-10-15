@@ -1,5 +1,5 @@
 /*
- * function: func_021F8120
+ * function: STA_ACT_LIGHT_CallElemD
  * address: 0x021F8120
  * packet: pkt_ov112_021F8120
  * region: ov112
@@ -10,10 +10,10 @@
  * status: EXACT*
  * extent: Existing matched follower ov112_func_021F812C.c follows.
  * symbols:
- *   func_021F5388 0x021F5388 thumb ov112
+ *   MUSICAL_MCSS_GetRenderHandle 0x021F5388 thumb ov112
  */
 #include "../include/Obj22568.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021F5388(u8 **p);
-int func_021F8120(int a,u8 *p) { return func_021F5388(((struct Obj22568 *)p)->f58); }
+extern int MUSICAL_MCSS_GetRenderHandle(u8 **p);
+int STA_ACT_LIGHT_CallElemD(int a,u8 *p) { return MUSICAL_MCSS_GetRenderHandle(((struct Obj22568 *)p)->f58); }

@@ -24,7 +24,7 @@
  *   } else { e = (struct MsgEntry *)((u8 *)bank->base + 4) + index; }
  *   if (bank->resident == 0) {
  *     void *buf; size = e->len * 2;
- *     buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),
+ *     buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),
  *                       size, 0, MSGDATA_AllocSite, 0xd6);
  *     if (buf != 0) {
  *       func_0204960C(bank->stream, e->off + (bank->origin
@@ -49,7 +49,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   func_02020D10 0x02020D10 thumb
  */
 typedef unsigned char u8;
@@ -85,7 +85,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void func_02020D10(u8 *p, u32 v);
 void func_021BF384(char *p,u32 *entries,u32 count,int flag)
 {
@@ -113,7 +113,7 @@ void func_021BF384(char *p,u32 *entries,u32 count,int flag)
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
     func_02020CF8(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4((u8)BMP_WIN_GetBgLayer(obj));
-    func_0201F73C(obj,1,7,9);
+    BMP_MENUWORK_DrawWindow(obj,1,7,9);
     if(flag)func_02020D10(*(void **)state,0);
     else func_02020D10(*(void **)state,1);
 }

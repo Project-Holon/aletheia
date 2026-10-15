@@ -1,5 +1,5 @@
 /*
- * function: func_020627D8
+ * function: NNS_G2dGetAnimSequenceByIdx
  * address:  0x020627D8
  * packet:   pkt_02061EB8
  * region:   arm9
@@ -35,7 +35,7 @@
  *                              relative to the bank's +0x08 array
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020627D8.c  *       --func func_020627D8 --addr 0x020627D8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetAnimSequenceByIdx.c  *       --func NNS_G2dGetAnimSequenceByIdx --addr 0x020627D8 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -58,7 +58,7 @@ struct AnimBank {
     struct AnimSequence *array;
 };
 
-struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx)
+struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx)
 {
     if (bank->numSequences > idx) {
         return &bank->array[idx];

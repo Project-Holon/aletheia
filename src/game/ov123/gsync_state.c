@@ -27,13 +27,13 @@
  *   func_02030734 0x02030734 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034714 0x02034714 arm
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_020056EC 0x020056EC thumb
- *   func_02019D30 0x02019D30 thumb
+ *   POKE_TOOL_NormalizeForm 0x02019D30 thumb
  *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
@@ -70,11 +70,11 @@
  *   func_02009390 0x02009390 thumb
  *   func_020093A8 0x020093A8 thumb
  *   func_020093F0 0x020093F0 thumb
- *   func_0203EFC8 0x0203EFC8 arm
+ *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   func_02009348 0x02009348 thumb
  *   TPOKE_DATA_Create 0x0202A128 thumb
- *   func_02019C90 0x02019C90 thumb
- *   func_02019D58 0x02019D58 thumb
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
+ *   POKE_TOOL_FilterSpecies 0x02019D58 thumb
  *   TPOKE_DATA_IsRecordKindTwo 0x0202A19C thumb
  *   SYMBOL_SAVE_GetBlock 0x0200E0B0 thumb
  *   SYMBOL_SAVE_WriteRecord 0x0200E1A8 thumb
@@ -162,6 +162,7 @@
  *   GSYNC_DISP_SetIconRecordSpecies 0x021D6AA8 thumb ov123
  *   GSYNC_DISP_LoadIconResources 0x021D6AB8 thumb ov123
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb  arm9
+ *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_download_types.h"
@@ -234,7 +235,7 @@ extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
 extern void func_020315D4(struct S020315D4 *p);
 
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -246,7 +247,7 @@ extern void func_02034A5C(int);
 
 extern u32 func_020056EC(u32 range);
 
-extern u32 func_02019D30(u32 a, u32 n);
+extern u32 POKE_TOOL_NormalizeForm(u32 a, u32 n);
 
 extern u32 KEY_GetTrg(void);
 
@@ -274,7 +275,7 @@ extern u8 *func_02009290(struct Sub02009210Obj *obj);
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
-extern void func_02019CA0(void *p, u32 v);
+extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 
 extern void *POKE_TOOL_GetBoxParam(void *p);
 
@@ -332,7 +333,7 @@ extern u32 func_0200E8B0(void);
 
 extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
 
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 extern void func_020093A8(struct Sub02009210Obj *obj, int i, const void *src);
 
@@ -340,9 +341,9 @@ extern void func_020093F0(struct Sub02009210Obj *obj, int value);
 
 extern void *TPOKE_DATA_Create(int);
 
-extern int func_02019C90(u16, int, int);
+extern int POKE_TOOL_GetPersonalParam(u16, int, int);
 
-extern int func_02019D58(u16, int);
+extern int POKE_TOOL_FilterSpecies(u16, int);
 
 extern int TPOKE_DATA_IsRecordKindTwo(u32, void *, u16, u16, int);
 
@@ -454,253 +455,253 @@ void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work);
 
 void *GSYNC_DOWNLOAD_NoteFinished(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *p);
+int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work);
 
 int GSYNC_DOWNLOAD_ClearResult(GsyncDownloadWork *work);
 
 int GSYNC_DOWNLOAD_Reset(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_SetAttr(GsyncDownloadWork *p,void *arg,int value);
+int GSYNC_DOWNLOAD_SetAttr(GsyncDownloadWork *work,void *arg,int value);
 
-void GSYNC_DOWNLOAD_IsBusy(GsyncDownloadWork *p);
+void GSYNC_DOWNLOAD_IsBusy(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_GetFileListAsync(GsyncDownloadWork *p);
+int GSYNC_DOWNLOAD_GetFileListAsync(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_GetFileAsync(GsyncDownloadWork *p);
+int GSYNC_DOWNLOAD_GetFileAsync(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_CleanupOnce(GsyncDownloadWork *p);
+int GSYNC_DOWNLOAD_CleanupOnce(GsyncDownloadWork *work);
 
 void GSYNC_DOWNLOAD_Process(GsyncDownloadWork *work);
 
-void *GSYNC_DISP_GetPokeIconActor(GsyncDispWork *p);
+void *GSYNC_DISP_GetPokeIconActor(GsyncDispWork *disp);
 
 u8 *GSYNC_DISP_Init(u32 heap);
 
-void GSYNC_DISP_Draw(GsyncDispWork *p);
+void GSYNC_DISP_Draw(GsyncDispWork *disp);
 
-void GSYNC_DISP_Exit(GsyncDispWork *p);
+void GSYNC_DISP_Exit(GsyncDispWork *disp);
 
-void GSYNC_DISP_CreateEffectActorDefault(GsyncDispWork *p);
+void GSYNC_DISP_CreateEffectActorDefault(GsyncDispWork *disp);
 
-void GSYNC_DISP_CreateSlotActor(GsyncDispWork *p,unsigned int i);
+void GSYNC_DISP_CreateSlotActor(GsyncDispWork *disp,unsigned int slotIndex);
 
-void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *p, int i, u32 v);
+void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *disp, int slotIndex, u32 animSeq);
 
-void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *p, int i, int v);
+void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int command);
 
-void GSYNC_DISP_DeleteSlotActor(GsyncDispWork *p, int i);
+void GSYNC_DISP_DeleteSlotActor(GsyncDispWork *disp, int slotIndex);
 
-void GSYNC_DISP_SetMainActorAnimSeq(GsyncDispWork *p);
+void GSYNC_DISP_SetMainActorAnimSeq(GsyncDispWork *disp);
 
-void GSYNC_DISP_CreateMonIconActor(GsyncDispWork *p, void *n, int i);
+void GSYNC_DISP_CreateMonIconActor(GsyncDispWork *disp, void *mon, int slotIndex);
 
-void GSYNC_DISP_EnableActorAutoAnim(GsyncDispWork *p);
+void GSYNC_DISP_EnableActorAutoAnim(GsyncDispWork *disp);
 
-void GSYNC_DISP_RestartActorAnim(GsyncDispWork *p);
+void GSYNC_DISP_RestartActorAnim(GsyncDispWork *disp);
 
-void GSYNC_DISP_StartPaletteWave(GsyncDispWork *p);
+void GSYNC_DISP_StartPaletteWave(GsyncDispWork *disp);
 
-void GSYNC_DISP_SetFadeDirection(GsyncStateWork *p,int flag);
+void GSYNC_DISP_SetFadeDirection(GsyncStateWork *state,int flag);
 
-void GSYNC_DISP_UpdateProgressPosition(GsyncDispWork *p, int n);
+void GSYNC_DISP_UpdateProgressPosition(GsyncDispWork *disp, int progress);
 
-void GSYNC_DISP_UpdateParticles(GsyncDispWork *p);
+void GSYNC_DISP_UpdateParticles(GsyncDispWork *disp);
 
-void GSYNC_DISP_SetIconRecord(GsyncDispWork *p,int i,int a,int b,int c);
+void GSYNC_DISP_SetIconRecord(GsyncDispWork *disp,int slotIndex,int species,int form,int gender);
 
-void GSYNC_DISP_SetIconRecordSpecies(GsyncDispWork *p, int i, u16 v);
+void GSYNC_DISP_SetIconRecordSpecies(GsyncDispWork *disp, int slotIndex, u16 species);
 
-void GSYNC_DISP_LoadIconResources(GsyncDispWork *p);
+void GSYNC_DISP_LoadIconResources(GsyncDispWork *disp);
 
-int GSYNC_STATE_HandleHttpError(GsyncStateWork *p,int x);
+int GSYNC_STATE_HandleHttpError(GsyncStateWork *state,int resultCode);
 
-int GSYNC_STATE_IsConnectionAlive(GsyncStateWork *p);
+int GSYNC_STATE_IsConnectionAlive(GsyncStateWork *state);
 
-int GSYNC_STATE_IsCommIdleWithTarget(GsyncStateWork *p);
+int GSYNC_STATE_IsCommIdleWithTarget(GsyncStateWork *state);
 
-int GSYNC_STATE_IsCommReady(GsyncStateWork *p);
+int GSYNC_STATE_IsCommReady(GsyncStateWork *state);
 
-void GSYNC_STATE_SetNextState(GsyncStateWork *p,u32 v,int unused);
+void GSYNC_STATE_SetNextState(GsyncStateWork *state,u32 nextState,int unused);
 
-void GSYNC_STATE_ChangeState(GsyncStateWork *p,u32 v,int unused);
+void GSYNC_STATE_ChangeState(GsyncStateWork *state,u32 nextState,int unused);
 
-void GSYNC_STATE_StateWaitFade(char *p);
+void GSYNC_STATE_StateWaitFade(char *state);
 
-void GSYNC_STATE_StateFadeOutAfterMessage(char *p);
+void GSYNC_STATE_StateFadeOutAfterMessage(char *state);
 
-void GSYNC_STATE_StateFreeDownloadAndExit(u8 *p);
+void GSYNC_STATE_StateFreeDownloadAndExit(u8 *state);
 
-void GSYNC_STATE_StateWaitInputCancelSave(unsigned char *a);
+void GSYNC_STATE_StateWaitInputCancelSave(unsigned char *state);
 
-void GSYNC_STATE_StateErrorMessage(char *p);
+void GSYNC_STATE_StateErrorMessage(char *state);
 
-void GSYNC_STATE_StateSetErrorExit(char *p);
+void GSYNC_STATE_StateSetErrorExit(char *state);
 
-void GSYNC_STATE_StateWaitMessageInput(char *p);
+void GSYNC_STATE_StateWaitMessageInput(char *state);
 
-void GSYNC_STATE_StateClearMessageExit(char *p);
+void GSYNC_STATE_StateClearMessageExit(char *state);
 
-void GSYNC_STATE_StateWaitEndingBgm(char *p);
+void GSYNC_STATE_StateWaitEndingBgm(char *state);
 
-void GSYNC_STATE_StateShowResultMessage(int a);
+void GSYNC_STATE_StateShowResultMessage(int state);
 
-void GSYNC_STATE_ResetSlotActors(char *p);
+void GSYNC_STATE_ResetSlotActors(char *state);
 
-void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *p);
+void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state);
 
-void GSYNC_STATE_StateSaveFinishMessage(char *p);
+void GSYNC_STATE_StateSaveFinishMessage(char *state);
 
-void GSYNC_STATE_StatePollResponse(char *p);
+void GSYNC_STATE_StatePollResponse(char *state);
 
-void GSYNC_STATE_StateSendRequest(char *p);
+void GSYNC_STATE_StateSendRequest(char *state);
 
-void GSYNC_STATE_StateSaveMainWait(u8 *p);
+void GSYNC_STATE_StateSaveMainWait(u8 *state);
 
-void GSYNC_STATE_StateSaveStart(int a);
+void GSYNC_STATE_StateSaveStart(int state);
 
-void GSYNC_STATE_StateCleanupDownload(int a);
+void GSYNC_STATE_StateCleanupDownload(int state);
 
-void GSYNC_STATE_StateFreeReceivedMon(u8 *p);
+void GSYNC_STATE_StateFreeReceivedMon(u8 *state);
 
-void GSYNC_STATE_StateExtraSaveMain(u8 *a);
+void GSYNC_STATE_StateExtraSaveMain(u8 *state);
 
-void GSYNC_STATE_StateExtraSaveLoadStart(int a);
+void GSYNC_STATE_StateExtraSaveLoadStart(int state);
 
-void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *p);
+void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *state);
 
-void GSYNC_STATE_StateExtraSaveMainSecond(char *p);
+void GSYNC_STATE_StateExtraSaveMainSecond(char *state);
 
-void GSYNC_STATE_StateExtraSaveLoadStartSecond(int a);
+void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state);
 
-void GSYNC_STATE_StateMusicalSaveApply(u8 *p);
+void GSYNC_STATE_StateMusicalSaveApply(u8 *state);
 
-void GSYNC_STATE_StateMusicalSaveCreate(int a,int n);
+void GSYNC_STATE_StateMusicalSaveCreate(int state,int dataSize);
 
-void GSYNC_STATE_StateDownloadReset(int a);
+void GSYNC_STATE_StateDownloadReset(int state);
 
-void GSYNC_STATE_StateMusicalSaveRetry(int a);
+void GSYNC_STATE_StateMusicalSaveRetry(int state);
 
-void GSYNC_STATE_StateWaitDownloadIdle(int a);
+void GSYNC_STATE_StateWaitDownloadIdle(int state);
 
-void GSYNC_STATE_StateRequestFile(int a);
+void GSYNC_STATE_StateRequestFile(int state);
 
-void GSYNC_STATE_StateWaitDownloadIdleThenRequest(int a);
+void GSYNC_STATE_StateWaitDownloadIdleThenRequest(int state);
 
-void GSYNC_STATE_StateRequestFileList(int a);
+void GSYNC_STATE_StateRequestFileList(int state);
 
-void GSYNC_STATE_StateSetFileAttribute(u8 *p);
+void GSYNC_STATE_StateSetFileAttribute(u8 *state);
 
-void GSYNC_STATE_StateInitDownload(char *p);
+void GSYNC_STATE_StateInitDownload(char *state);
 
-void GSYNC_STATE_StateSelectNextDownload(char *p);
+void GSYNC_STATE_StateSelectNextDownload(char *state);
 
-void GSYNC_STATE_CopyMonRecord(void *p, char *q);
+void GSYNC_STATE_CopyMonRecord(void *saveSystem, char *records);
 
-int GSYNC_STATE_GetEntryCount(int a,u8 *p);
+int GSYNC_STATE_GetEntryCount(int saveSystem,u8 *listBuffer);
 
-int GSYNC_STATE_GetListEntry(int a,GsyncConn *p);
+int GSYNC_STATE_GetListEntry(int saveSystem,GsyncConn *list);
 
-void GSYNC_STATE_BuildMonEntry(GsyncStateWork *p, int unused, int species, int gender, int form, int n, int value);
+void GSYNC_STATE_BuildMonEntry(GsyncStateWork *state, int unused, int species, int gender, int form, int entryArg, int value);
 
-void GSYNC_STATE_BuildMonEntries(GsyncStateWork *p,int a,u8 *records);
+void GSYNC_STATE_BuildMonEntries(GsyncStateWork *state,int saveSystem,u8 *records);
 
-void GSYNC_STATE_ApplyIconRecords(GsyncStateWork *p,GsyncConn *list);
+void GSYNC_STATE_ApplyIconRecords(GsyncStateWork *state,GsyncConn *list);
 
-void GSYNC_STATE_PrepareReceivedList(GsyncStateWork *p, void *h, GsyncConn *q, int *r);
+void GSYNC_STATE_PrepareReceivedList(GsyncStateWork *state, void *saveSystem, GsyncConn *list, int *errorCode);
 
-int GSYNC_STATE_UpdateCurrentEntry(GsyncStateWork *p);
+int GSYNC_STATE_UpdateCurrentEntry(GsyncStateWork *state);
 
-void GSYNC_STATE_StateReceiveList(char *p);
+void GSYNC_STATE_StateReceiveList(char *state);
 
-void GSYNC_STATE_StateSendListRequest(char *p);
+void GSYNC_STATE_StateSendListRequest(char *state);
 
-void GSYNC_STATE_StateWaitMessageThenSend(char *p);
+void GSYNC_STATE_StateWaitMessageThenSend(char *state);
 
-void GSYNC_STATE_StateShowProgressMessage(char *p);
+void GSYNC_STATE_StateShowProgressMessage(char *state);
 
-void GSYNC_STATE_StateWaitInputFirst(char *p);
+void GSYNC_STATE_StateWaitInputFirst(char *state);
 
-void GSYNC_STATE_StateWaitMessageThenPrintSecond(char *p);
+void GSYNC_STATE_StateWaitMessageThenPrintSecond(char *state);
 
-void GSYNC_STATE_StateWaitInputSecond(char *p);
+void GSYNC_STATE_StateWaitInputSecond(char *state);
 
-void GSYNC_STATE_StateWaitMessageThenPrintThird(char *p);
+void GSYNC_STATE_StateWaitMessageThenPrintThird(char *state);
 
-void GSYNC_STATE_StateConfirmMenuSelect(char *p);
+void GSYNC_STATE_StateConfirmMenuSelect(char *state);
 
-void GSYNC_STATE_StateOpenConfirmMenu(char *p);
+void GSYNC_STATE_StateOpenConfirmMenu(char *state);
 
-void GSYNC_STATE_StateShowEmptyMessage(char *p);
+void GSYNC_STATE_StateShowEmptyMessage(char *state);
 
-void GSYNC_STATE_StateWaitMessageEnd(char *p);
+void GSYNC_STATE_StateWaitMessageEnd(char *state);
 
-void GSYNC_STATE_StateWaitInputClearWindow(char *p);
+void GSYNC_STATE_StateWaitInputClearWindow(char *state);
 
-void GSYNC_STATE_StateWaitInputPrintNext(char *p);
+void GSYNC_STATE_StateWaitInputPrintNext(char *state);
 
-void GSYNC_STATE_StatePrintErrorMessage(char *p);
+void GSYNC_STATE_StatePrintErrorMessage(char *state);
 
-void GSYNC_STATE_StateReceiveResponse(char *p);
+void GSYNC_STATE_StateReceiveResponse(char *state);
 
-void GSYNC_STATE_StateSendResponse(char *p);
+void GSYNC_STATE_StateSendResponse(char *state);
 
-void GSYNC_STATE_StateWaitInputThird(char *p);
+void GSYNC_STATE_StateWaitInputThird(char *state);
 
-void GSYNC_STATE_StateWaitMessageThenPrintFourth(char *p);
+void GSYNC_STATE_StateWaitMessageThenPrintFourth(char *state);
 
-void GSYNC_STATE_StateWaitInputFourth(char *p);
+void GSYNC_STATE_StateWaitInputFourth(char *state);
 
-void GSYNC_STATE_StateWaitMessageThenPrintFifth(char *p);
+void GSYNC_STATE_StateWaitMessageThenPrintFifth(char *state);
 
-void GSYNC_STATE_ParseResponse(GsyncStateWork *p,int x,int *q);
+void GSYNC_STATE_ParseResponse(GsyncStateWork *work,int resultCode,int *responseCode);
 
-void GSYNC_STATE_StateReceiveParsedResponse(char *p);
+void GSYNC_STATE_StateReceiveParsedResponse(char *state);
 
-void GSYNC_STATE_StateSendParsedRequest(char *p);
+void GSYNC_STATE_StateSendParsedRequest(char *state);
 
-void GSYNC_STATE_StateWaitMessageClearStream(char *p);
+void GSYNC_STATE_StateWaitMessageClearStream(char *state);
 
-void GSYNC_STATE_StatePrintFinalMessage(char *p);
+void GSYNC_STATE_StatePrintFinalMessage(char *state);
 
-void GSYNC_STATE_StateReceiveFinalResponse(char *p);
+void GSYNC_STATE_StateReceiveFinalResponse(char *state);
 
-void GSYNC_STATE_StateSendFinalRequest(char *p);
+void GSYNC_STATE_StateSendFinalRequest(char *state);
 
-void GSYNC_STATE_StatePlaySeWaitInput(char *p);
+void GSYNC_STATE_StatePlaySeWaitInput(char *state);
 
-void GSYNC_STATE_StateWaitMessageThenNext(char *p);
+void GSYNC_STATE_StateWaitMessageThenNext(char *state);
 
-void GSYNC_STATE_StateShowCompletionMessage(char *p);
+void GSYNC_STATE_StateShowCompletionMessage(char *state);
 
-void GSYNC_STATE_StateSaveErrorExit(char *p);
+void GSYNC_STATE_StateSaveErrorExit(char *state);
 
-void GSYNC_STATE_StateTrainerRecordSaveStart(char *p);
+void GSYNC_STATE_StateTrainerRecordSaveStart(char *state);
 
-void GSYNC_STATE_StateReceiveRecordResponse(char *p);
+void GSYNC_STATE_StateReceiveRecordResponse(char *state);
 
-void GSYNC_STATE_StateSendRecordRequest(char *p);
+void GSYNC_STATE_StateSendRecordRequest(char *state);
 
-void GSYNC_STATE_StateStartTransferAnimation(char *p);
+void GSYNC_STATE_StateStartTransferAnimation(char *state);
 
-void GSYNC_STATE_StateTransferAnimationStep(char *p);
+void GSYNC_STATE_StateTransferAnimationStep(char *state);
 
-void GSYNC_STATE_StateTransferAnimationOpen(char *p);
+void GSYNC_STATE_StateTransferAnimationOpen(char *state);
 
-void GSYNC_STATE_StateTransferAnimationEffect(char *p);
+void GSYNC_STATE_StateTransferAnimationEffect(char *state);
 
-void GSYNC_STATE_StateCreateReceivedMonIcon(char *p);
+void GSYNC_STATE_StateCreateReceivedMonIcon(char *state);
 
-void GSYNC_STATE_StateStoreReceivedMon(char *p);
+void GSYNC_STATE_StateStoreReceivedMon(char *state);
 
-void GSYNC_STATE_DestroyHttpConnection(char *p);
+void GSYNC_STATE_DestroyHttpConnection(char *state);
 
-void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *p);
+void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *state);
 
-int GSYNC_STATE_ProcInit(void *a,int b,GsyncConn *q);
+int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection);
 
-int GSYNC_STATE_ProcMain(void *a, int b, int c, GsyncStateWork *p);
+int GSYNC_STATE_ProcMain(void *unused0, int unused1, int unused2, GsyncStateWork *state);
 
-int GSYNC_STATE_ProcExit(void *a, int b, int c, GsyncStateWork *p);
+int GSYNC_STATE_ProcExit(void *procSys, int unused0, int unused1, GsyncStateWork *state);
 
 extern const GsyncMessageIdTable gGsyncMessageIds;
 
@@ -716,1072 +717,1072 @@ extern char ov114_id[];
 
 extern const char gGsyncStateAssertTag[];
 
-int GSYNC_STATE_HandleHttpError(GsyncStateWork *p,int x)
+int GSYNC_STATE_HandleHttpError(GsyncStateWork *state,int resultCode)
 {
-    switch (x) {
+    switch (resultCode) {
     case 503:
-        p->errorCode=0xfff1;
-        GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateErrorMessage,0xd3);
+        state->errorCode=0xfff1;
+        GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateErrorMessage,0xd3);
         return 1;
     case 502:
-        p->errorCode=0xfff2;
-        GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateErrorMessage,0xd7);
+        state->errorCode=0xfff2;
+        GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateErrorMessage,0xd7);
         return 1;
     }
-    if (x>=400) {
-        p->errorCode=0xfff3;
-        GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateErrorMessage,0xdd);
+    if (resultCode>=400) {
+        state->errorCode=0xfff3;
+        GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateErrorMessage,0xdd);
         return 1;
     }
     return 0;
 }
 
-int GSYNC_STATE_IsConnectionAlive(GsyncStateWork *p){u8 *q=p->connection;if(((GsyncConn *)q)->state==2)return 0;if(((GsyncConn *)q)->rapFlags && ((GsyncConn *)q)->rapState==4)return 0;if(GFL_NET_GetRunState())return 1;return 0;}
+int GSYNC_STATE_IsConnectionAlive(GsyncStateWork *state){u8 *connection=state->connection;if(((GsyncConn *)connection)->state==2)return 0;if(((GsyncConn *)connection)->rapFlags && ((GsyncConn *)connection)->rapState==4)return 0;if(GFL_NET_GetRunState())return 1;return 0;}
 
-int GSYNC_STATE_IsCommIdleWithTarget(GsyncStateWork *p)
+int GSYNC_STATE_IsCommIdleWithTarget(GsyncStateWork *state)
 {
-    char *q = p->connection;
+    char *connection = state->connection;
 
-    return ((GsyncConn *)q)->rapFlags != 0 && ((GsyncConn *)q)->rapState == 0;
+    return ((GsyncConn *)connection)->rapFlags != 0 && ((GsyncConn *)connection)->rapState == 0;
 }
 
-int GSYNC_STATE_IsCommReady(GsyncStateWork *p){u8 *q=p->connection;if(((GsyncConn *)q)->rapFlags){unsigned int x=((GsyncConn *)q)->rapState;if(x==0)return 1;if(x==4)return 1;}return 0;}
+int GSYNC_STATE_IsCommReady(GsyncStateWork *state){u8 *connection=state->connection;if(((GsyncConn *)connection)->rapFlags){unsigned int rapState=((GsyncConn *)connection)->rapState;if(rapState==0)return 1;if(rapState==4)return 1;}return 0;}
 
-void GSYNC_STATE_SetNextState(GsyncStateWork *p,u32 v,int unused){p->stateHandler=v;}
+void GSYNC_STATE_SetNextState(GsyncStateWork *state,u32 nextState,int unused){state->stateHandler=nextState;}
 
-void GSYNC_STATE_ChangeState(GsyncStateWork *p,u32 v,int unused){GSYNC_STATE_SetNextState(p,v,unused);}
+void GSYNC_STATE_ChangeState(GsyncStateWork *state,u32 nextState,int unused){GSYNC_STATE_SetNextState(state,nextState,unused);}
 
-void GSYNC_STATE_StateWaitFade(char *p)
+void GSYNC_STATE_StateWaitFade(char *state)
 {
     if (WIPE_SYS_EndCheck() != 0)
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, 0, 0x157);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, 0, 0x157);
 }
 
-void GSYNC_STATE_StateFadeOutAfterMessage(char *p)
+void GSYNC_STATE_StateFadeOutAfterMessage(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        WIPE_SYS_Start(0,0,0,0,6,1,((GsyncStateWork *)p)->heapId);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitFade,0x16b);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        WIPE_SYS_Start(0,0,0,0,6,1,((GsyncStateWork *)state)->heapId);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitFade,0x16b);
     }
 }
 
-void GSYNC_STATE_StateFreeDownloadAndExit(u8 *p){if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)p)->downloadWork)))){GSYNC_DOWNLOAD_FreeWork((GsyncDownloadWork *)((char *)(((GsyncStateWork *)p)->downloadWork)));((GsyncStateWork *)p)->downloadWork=0;GSYNC_STATE_ChangeState((GsyncStateWork *)p,(u32)GSYNC_STATE_StateSetErrorExit,0x17c);}}
+void GSYNC_STATE_StateFreeDownloadAndExit(u8 *state){if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))){GSYNC_DOWNLOAD_FreeWork((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));((GsyncStateWork *)state)->downloadWork=0;GSYNC_STATE_ChangeState((GsyncStateWork *)state,(u32)GSYNC_STATE_StateSetErrorExit,0x17c);}}
 
-void GSYNC_STATE_StateWaitInputCancelSave(unsigned char *a)
+void GSYNC_STATE_StateWaitInputCancelSave(unsigned char *state)
 {
-    if (((GsyncStateWork *)a)->saveInProgress != 0)
+    if (((GsyncStateWork *)state)->saveInProgress != 0)
         return;
     if (KEY_GetTrg() == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
-    if (((GsyncStateWork *)a)->saveActive != 0) {
-        GAME_DATA_SaveCancel((char *)(((GsyncStateWork *)a)->saveData));
-        ((GsyncStateWork *)a)->saveActive = 0;
+    if (((GsyncStateWork *)state)->saveActive != 0) {
+        GAME_DATA_SaveCancel((char *)(((GsyncStateWork *)state)->saveData));
+        ((GsyncStateWork *)state)->saveActive = 0;
     }
-    GSYNC_STATE_CommitReceivedMon((GsyncStateWork *)a);
-    if (((GsyncStateWork *)a)->downloadWork != 0) {
-        if (GSYNC_DOWNLOAD_CleanupOnce((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork))) != 0)
-            GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateFreeDownloadAndExit, 0x191);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a, 0x021D706D, 0x193);
+    GSYNC_STATE_CommitReceivedMon((GsyncStateWork *)state);
+    if (((GsyncStateWork *)state)->downloadWork != 0) {
+        if (GSYNC_DOWNLOAD_CleanupOnce((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork))) != 0)
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateFreeDownloadAndExit, 0x191);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, 0x021D706D, 0x193);
     } else {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a, 0x021D706D, 0x196);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, 0x021D706D, 0x196);
     }
 }
 
 /*
  * extent: unit includes the 28-byte store-and-tail stub at 021D706C.
  */
-void GSYNC_STATE_StateErrorMessage(char *p)
+void GSYNC_STATE_StateErrorMessage(char *state)
 {
-    int n=((GsyncStateWork *)p)->errorCode+29;
-    if (((GsyncStateWork *)p)->httpConnection) NHTTP_RAP_DeleteConnection(((GsyncStateWork *)p)->httpConnection);
-    if (((GsyncStateWork *)p)->errorCode==0xfff0) n=39;
-    else if (((GsyncStateWork *)p)->errorCode==0xfff1) n=40;
-    else if (((GsyncStateWork *)p)->errorCode==0xfff2) n=41;
-    else if (((GsyncStateWork *)p)->errorCode==0xfff3) n=38;
-    else if (((GsyncStateWork *)p)->errorCode<=0 || ((GsyncStateWork *)p)->errorCode>=10) n=38;
-    GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-    GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)p)->messageWork)),n);
-    GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),1,16);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitInputCancelSave,0x1b9);
+    int messageId=((GsyncStateWork *)state)->errorCode+29;
+    if (((GsyncStateWork *)state)->httpConnection) NHTTP_RAP_DeleteConnection(((GsyncStateWork *)state)->httpConnection);
+    if (((GsyncStateWork *)state)->errorCode==0xfff0) messageId=39;
+    else if (((GsyncStateWork *)state)->errorCode==0xfff1) messageId=40;
+    else if (((GsyncStateWork *)state)->errorCode==0xfff2) messageId=41;
+    else if (((GsyncStateWork *)state)->errorCode==0xfff3) messageId=38;
+    else if (((GsyncStateWork *)state)->errorCode<=0 || ((GsyncStateWork *)state)->errorCode>=10) messageId=38;
+    GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+    GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)),messageId);
+    GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),1,16);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitInputCancelSave,0x1b9);
 }
 
-void GSYNC_STATE_StateSetErrorExit(char *p)
+void GSYNC_STATE_StateSetErrorExit(char *state)
 {
-    ((struct GsyncConn *)(((GsyncStateWork *)p)->connection))->state=6;
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateFadeOutAfterMessage,0x1c9);
+    ((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->state=6;
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFadeOutAfterMessage,0x1c9);
 }
 
-void GSYNC_STATE_StateWaitMessageInput(char *p) { if(GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork)) && (KEY_GetTrg() || TOUCHPANEL_GetTrg())) GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSetErrorExit,0x1d9); }
+void GSYNC_STATE_StateWaitMessageInput(char *state) { if(GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork)) && (KEY_GetTrg() || TOUCHPANEL_GetTrg())) GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSetErrorExit,0x1d9); }
 
-void GSYNC_STATE_StateClearMessageExit(char *p)
+void GSYNC_STATE_StateClearMessageExit(char *state)
 {
-    GsyncMessageIdTable t=gGsyncMessageIds;
-    if (((GsyncStateWork *)p)->downloadFlags) {
-        GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)p)->messageWork)),t.ids[((GsyncStateWork *)p)->downloadFlags]);
-        GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),1,8);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitMessageInput,0x1f0);
+    GsyncMessageIdTable messageIdTable=gGsyncMessageIds;
+    if (((GsyncStateWork *)state)->downloadFlags) {
+        GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)),messageIdTable.ids[((GsyncStateWork *)state)->downloadFlags]);
+        GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),1,8);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageInput,0x1f0);
     } else {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSetErrorExit,0x1f3);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSetErrorExit,0x1f3);
     }
 }
 
-void GSYNC_STATE_StateWaitEndingBgm(char *p)
+void GSYNC_STATE_StateWaitEndingBgm(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork)) != 0) {
-        int n = ((GsyncStateWork *)p)->bgmWait - 1;
-        ((GsyncStateWork *)p)->bgmWait = n;
-        if (n <= 0) {
-            if (n == 0) {
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork)) != 0) {
+        int waitTicks = ((GsyncStateWork *)state)->bgmWait - 1;
+        ((GsyncStateWork *)state)->bgmWait = waitTicks;
+        if (waitTicks <= 0) {
+            if (waitTicks == 0) {
                 GFL_USE_PopBgm();
                 GFL_USE_SetBgmPlayerParam(0);
                 GFL_USE_FadeInBgmFull(6);
             }
             if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateClearMessageExit, 0x20B);
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateClearMessageExit, 0x20B);
             }
         }
     }
 }
 
-void GSYNC_STATE_StateShowResultMessage(int a)
+void GSYNC_STATE_StateShowResultMessage(int state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)a)->messageWork)))) == 0)
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)state)->messageWork)))) == 0)
         return;
     if (KEY_GetTrg() == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
-    if (((GsyncStateWork *)a)->messageArg == 0) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateClearMessageExit, 0x217);
+    if (((GsyncStateWork *)state)->messageArg == 0) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateClearMessageExit, 0x217);
         return;
     }
-    GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)a)->messageWork))));
-    GSYNC_MESSAGE_SetMonName((void *)((*(int *)&((GsyncStateWork *)a)->messageWork)), 0x16, ((GsyncStateWork *)a)->messageArg,
-                 (void *)((*(int *)&((GsyncStateWork *)a)->receivedMon)));
-    GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)a)->messageWork))), 0);
+    GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)state)->messageWork))));
+    GSYNC_MESSAGE_SetMonName((void *)((*(int *)&((GsyncStateWork *)state)->messageWork)), 0x16, ((GsyncStateWork *)state)->messageArg,
+                 (void *)((*(int *)&((GsyncStateWork *)state)->receivedMon)));
+    GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)state)->messageWork))), 0);
     GFL_USE_SetBgmPlayerParam((void *)1);
     GFL_USE_PushBgm();
     GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
-    ((GsyncStateWork *)a)->bgmWait = 0xb4;
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateWaitEndingBgm, 0x222);
+    ((GsyncStateWork *)state)->bgmWait = 0xb4;
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitEndingBgm, 0x222);
 }
 
-void GSYNC_STATE_ResetSlotActors(char *p) { GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)p)->displayWork,0,0); GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)),12); GSYNC_DISP_SetMainActorAnimSeq((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork)); }
+void GSYNC_STATE_ResetSlotActors(char *state) { GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork,0,0); GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),12); GSYNC_DISP_SetMainActorAnimSeq((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork)); }
 
 /*
  * lever: update the call-result local in both clamp arms to preserve its register.
  */
-void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *p)
+void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state)
 {
-    void *g;
-    void *q;
-    int size;
-    int n;
-    g=func_02009448(p->saveControl);
-    if (p->receivedMon) {
-        func_020307B0(p->receivedMon);
-        p->receivedMon=0;
+    void *saveSystem;
+    void *monData;
+    int monSize;
+    int monValue;
+    saveSystem=func_02009448(state->saveControl);
+    if (state->receivedMon) {
+        func_020307B0(state->receivedMon);
+        state->receivedMon=0;
     }
-    if (func_020076D0(p->boxSave,(int *)((char *)p+0x48),(int *)((char *)p+0x4c))) {
-        q=func_02030734(p->heapId,func_020173EC(),1,gGsyncStateAllocSource,0x245);
-        size=func_020173EC();
-        MI_CpuCopy8(func_02009290(g),q,size);
-        if (p->messageArg) {
-            n=func_02017E1C(q,158,0);
-            if (n==100) p->messageArg=0;
-            if (n+p->messageArg>100) {
-                p->messageArg=100-n;
-                n=100;
+    if (func_020076D0(state->boxSave,(int *)((char *)state+0x48),(int *)((char *)state+0x4c))) {
+        monData=func_02030734(state->heapId,func_020173EC(),1,gGsyncStateAllocSource,0x245);
+        monSize=func_020173EC();
+        MI_CpuCopy8(func_02009290(saveSystem),monData,monSize);
+        if (state->messageArg) {
+            monValue=func_02017E1C(monData,158,0);
+            if (monValue==100) state->messageArg=0;
+            if (monValue+state->messageArg>100) {
+                state->messageArg=100-monValue;
+                monValue=100;
             } else {
-                n+=p->messageArg;
+                monValue+=state->messageArg;
             }
-            func_02019CA0(q,n);
+            POKE_TOOL_SetLevelAndRecalc(monData,monValue);
         }
-        func_020074D8(p->boxSave,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(q)));
-        p->receivedMon=q;
-        func_020092F8(g,0);
-        func_020093D4(g,p->entryId);
+        func_020074D8(state->boxSave,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(monData)));
+        state->receivedMon=monData;
+        func_020092F8(saveSystem,0);
+        func_020093D4(saveSystem,state->entryId);
     }
 }
 
-void GSYNC_STATE_StateSaveFinishMessage(char *p)
+void GSYNC_STATE_StateSaveFinishMessage(char *state)
 {
-    NotifyCallback cb;
-    func_02009448(((GsyncStateWork *)p)->saveControl);
-    if (GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)p)->saveData))==2) {
-        ((GsyncStateWork *)p)->saveActive=0;
-        ((GsyncStateWork *)p)->saveInProgress=0;
-        ((GsyncStateWork *)p)->netDone=0;
-        GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        GSYNC_MESSAGE_SetMonName(((GsyncStateWork *)p)->messageWork,45,0,(void *)(*(int *)&((GsyncStateWork *)p)->receivedMon));
-        GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),1,4);
-        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)),0);
-        GSYNC_DISP_SetSlotAnimSeq((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),6,7);
-        GSYNC_DISP_SetSlotAnimSeq((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),0,1);
-        cb.value=0; cb.object=p; cb.callback=GSYNC_STATE_ResetSlotActors;
-        GSYNC_DISP_SetSlotAnimCommand((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),0,(int)&cb);
-        GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)),0);
-        GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),(void *)func_020185F0(((GsyncStateWork *)p)->receivedMon),0);
-        GSYNC_DISP_RestartActorAnim((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork));
+    NotifyCallback animCallback;
+    func_02009448(((GsyncStateWork *)state)->saveControl);
+    if (GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)state)->saveData))==2) {
+        ((GsyncStateWork *)state)->saveActive=0;
+        ((GsyncStateWork *)state)->saveInProgress=0;
+        ((GsyncStateWork *)state)->netDone=0;
+        GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        GSYNC_MESSAGE_SetMonName(((GsyncStateWork *)state)->messageWork,45,0,(void *)(*(int *)&((GsyncStateWork *)state)->receivedMon));
+        GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),1,4);
+        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),0);
+        GSYNC_DISP_SetSlotAnimSeq((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),6,7);
+        GSYNC_DISP_SetSlotAnimSeq((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,1);
+        animCallback.value=0; animCallback.object=state; animCallback.callback=GSYNC_STATE_ResetSlotActors;
+        GSYNC_DISP_SetSlotAnimCommand((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,(int)&animCallback);
+        GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),0);
+        GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),(void *)func_020185F0(((GsyncStateWork *)state)->receivedMon),0);
+        GSYNC_DISP_RestartActorAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork));
         GFL_USE_PlaySeDefaultVolume(0x658);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateShowResultMessage,0x295);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateShowResultMessage,0x295);
     }
 }
 
-void GSYNC_STATE_StatePollResponse(char *p)
+void GSYNC_STATE_StatePollResponse(char *state)
 {
-    if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)p,NHTTP_RAP_GetResultCode(((GsyncStateWork *)p)->httpConnection))==0) {
-        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)p)->httpConnection)==0) {
-            NHTTP_RAP_GetRecvBuffer(((GsyncStateWork *)p)->httpConnection);
-            func_02009448(((GsyncStateWork *)p)->saveControl);
-            ((GsyncStateWork *)p)->netDone=1;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSaveFinishMessage,0x2ae);
+    if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))==0) {
+        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)==0) {
+            NHTTP_RAP_GetRecvBuffer(((GsyncStateWork *)state)->httpConnection);
+            func_02009448(((GsyncStateWork *)state)->saveControl);
+            ((GsyncStateWork *)state)->netDone=1;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveFinishMessage,0x2ae);
         }
     }
 }
 
-void GSYNC_STATE_StateSendRequest(char *p)
+void GSYNC_STATE_StateSendRequest(char *state)
 {
-    if (((GsyncStateWork *)p)->bgmWait) {
-        --((GsyncStateWork *)p)->bgmWait;
+    if (((GsyncStateWork *)state)->bgmWait) {
+        --((GsyncStateWork *)state)->bgmWait;
         return;
     }
     if (GFL_NET_GetRunState()) {
-        if (NHTTP_RAP_CreateRequest(8,((GsyncStateWork *)p)->httpConnection)) {
-            p[2]=1;
-            p[3]=0;
-            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)p)->httpConnection),(void *)((unsigned int)(p+2)),4);
-            if (NHTTP_RAP_StartConnection(((GsyncStateWork *)p)->httpConnection)==0)
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StatePollResponse,0x2cd);
+        if (NHTTP_RAP_CreateRequest(8,((GsyncStateWork *)state)->httpConnection)) {
+            state[2]=1;
+            state[3]=0;
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)state)->httpConnection),(void *)((unsigned int)(state+2)),4);
+            if (NHTTP_RAP_StartConnection(((GsyncStateWork *)state)->httpConnection)==0)
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StatePollResponse,0x2cd);
         }
     }
 }
 
-void GSYNC_STATE_StateSaveMainWait(u8 *p) { if(((GsyncStateWork *)p)->progressPercent<100) ++((GsyncStateWork *)p)->progressPercent; GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),((GsyncStateWork *)p)->progressPercent); if(GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)p)->saveData))==1) { ((GsyncStateWork *)p)->bgmWait=func_020056EC(190); GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSendRequest,0x2e6); } }
+void GSYNC_STATE_StateSaveMainWait(u8 *state) { if(((GsyncStateWork *)state)->progressPercent<100) ++((GsyncStateWork *)state)->progressPercent; GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent); if(GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)state)->saveData))==1) { ((GsyncStateWork *)state)->bgmWait=func_020056EC(190); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSendRequest,0x2e6); } }
 
-void GSYNC_STATE_StateSaveStart(int a)
+void GSYNC_STATE_StateSaveStart(int state)
 {
-    int b;
-    int i;
-    u8 *p;
-    b=(int)func_02009448((void *)((*(int *)&((GsyncStateWork *)a)->saveControl)));
-    ((GsyncStateWork *)a)->saveInProgress=1;
-    GSYNC_STATE_LoadReceivedMon((GsyncStateWork *)a);
-    if(GSYNC_STATE_IsCommReady((GsyncStateWork *)a)==0) {
-        GSYNC_STATE_GetEntryCount(b,(u8 *)(((GsyncStateWork *)a)->listBuffer));
-        GSYNC_STATE_BuildMonEntries((GsyncStateWork *)a,b,(u8 *)(((GsyncStateWork *)a)->listBuffer));
-        GSYNC_STATE_CopyMonRecord((void *)b,(char *)(((GsyncStateWork *)a)->listBuffer));
-        func_020092D0((struct Sub02009210Obj *)b,*(u8 *)(((GsyncStateWork *)a)->listBuffer+0x5a));
+    int saveSystem;
+    int slotIndex;
+    u8 *monHeader;
+    saveSystem=(int)func_02009448((void *)((*(int *)&((GsyncStateWork *)state)->saveControl)));
+    ((GsyncStateWork *)state)->saveInProgress=1;
+    GSYNC_STATE_LoadReceivedMon((GsyncStateWork *)state);
+    if(GSYNC_STATE_IsCommReady((GsyncStateWork *)state)==0) {
+        GSYNC_STATE_GetEntryCount(saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
+        GSYNC_STATE_BuildMonEntries((GsyncStateWork *)state,saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
+        GSYNC_STATE_CopyMonRecord((void *)saveSystem,(char *)(((GsyncStateWork *)state)->listBuffer));
+        func_020092D0((struct Sub02009210Obj *)saveSystem,*(u8 *)(((GsyncStateWork *)state)->listBuffer+0x5a));
     } else {
-        p=(u8 *)((GsyncStateWork *)a)->connection+0xc;
-        GSYNC_STATE_BuildMonEntry((GsyncStateWork *)a,b,((GsyncMonHeader *)p)->species,p[7],p[6],((GsyncMonHeader *)p)->arg,func_020056EC(8));
-        for(i=0;i<20;i++) func_02009348((struct Sub02009210Obj *)b,i,*(u16 *)(p+8+i*2),p[0x30+i]);
+        monHeader=(u8 *)((GsyncStateWork *)state)->connection+0xc;
+        GSYNC_STATE_BuildMonEntry((GsyncStateWork *)state,saveSystem,((GsyncMonHeader *)monHeader)->species,monHeader[7],monHeader[6],((GsyncMonHeader *)monHeader)->arg,func_020056EC(8));
+        for(slotIndex=0;slotIndex<20;slotIndex++) func_02009348((struct Sub02009210Obj *)saveSystem,slotIndex,*(u16 *)(monHeader+8+slotIndex*2),monHeader[0x30+slotIndex]);
     }
-    ((GsyncStateWork *)a)->saveActive=1;
-    GAME_DATA_SaveStart(((GsyncStateWork *)a)->saveData);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateSaveMainWait,0x311);
+    ((GsyncStateWork *)state)->saveActive=1;
+    GAME_DATA_SaveStart(((GsyncStateWork *)state)->saveData);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveMainWait,0x311);
 }
 
-void GSYNC_STATE_StateCleanupDownload(int a)
+void GSYNC_STATE_StateCleanupDownload(int state)
 {
-    if (GSYNC_DOWNLOAD_CleanupOnce((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateDownloadReset, 0x319);
+    if (GSYNC_DOWNLOAD_CleanupOnce((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateDownloadReset, 0x319);
         return;
     }
-    ((GsyncStateWork *)a)->errorCode = 0xfff0;
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateErrorMessage, 0x31d);
+    ((GsyncStateWork *)state)->errorCode = 0xfff0;
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x31d);
 }
 
-void GSYNC_STATE_StateFreeReceivedMon(u8 *p) { ((GsyncStateWork *)p)->wantMusicalSave=0; func_020307B0(((GsyncStateWork *)p)->iconBuffer); ((GsyncStateWork *)p)->netDone=0; ((GsyncStateWork *)p)->iconBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateCleanupDownload,0x328); }
+void GSYNC_STATE_StateFreeReceivedMon(u8 *state) { ((GsyncStateWork *)state)->wantMusicalSave=0; func_020307B0(((GsyncStateWork *)state)->iconBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->iconBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x328); }
 
-void GSYNC_STATE_StateExtraSaveMain(u8 *a)
+void GSYNC_STATE_StateExtraSaveMain(u8 *state)
 {
-    int b = (int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)a)->saveData));
-    if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)a)->saveData),4)==2) {
-        func_0200734C((struct Sub02007324Ctrl *)b,4);
-        func_020090F8((struct Sub020090B0Obj *)func_02009210((void *)b),1);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateFreeReceivedMon,0x333);
+    int saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
+    if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),4)==2) {
+        func_0200734C((struct Sub02007324Ctrl *)saveControl,4);
+        func_020090F8((struct Sub020090B0Obj *)func_02009210((void *)saveControl),1);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeReceivedMon,0x333);
     }
 }
 
-void GSYNC_STATE_StateExtraSaveLoadStart(int a)
+void GSYNC_STATE_StateExtraSaveLoadStart(int state)
 {
     u16 checksum;
-    int b;
-    u8 *p;
-    int x;
-    b=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)a)->saveData));
-    p=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-    checksum=GF_STANDARD_SetupCalc(p,0x2600);
-    if(checksum!=*(u16 *)(p+0x2600)) {
-        ((GsyncStateWork *)a)->errorCode=0xfff0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x345);
+    int saveControl;
+    u8 *downloadData;
+    int buffer;
+    saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
+    downloadData=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+    checksum=GF_STANDARD_SetupCalc(downloadData,0x2600);
+    if(checksum!=*(u16 *)(downloadData+0x2600)) {
+        ((GsyncStateWork *)state)->errorCode=0xfff0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x345);
         return;
     }
-    ((GsyncStateWork *)a)->netDone=1;
-    x=(int)func_02030734(((GsyncStateWork *)a)->heapId,0x3000,0,gGsyncStateAllocSource,0x34a);
-    (*(int *)&((GsyncStateWork *)a)->iconBuffer)=x;
-    SAVE_CONTROL_LoadExtraSaveWithBuffer(b,4,((GsyncStateWork *)a)->heapId,x,0x3000);
-    MI_CpuCopy8(p,(void *)x,0x2600);
-    func_02009108((struct Sub020090B0Obj *)func_02009210((void *)b),checksum);
-    GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)a)->saveData,4);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateExtraSaveMain,0x355);
+    ((GsyncStateWork *)state)->netDone=1;
+    buffer=(int)func_02030734(((GsyncStateWork *)state)->heapId,0x3000,0,gGsyncStateAllocSource,0x34a);
+    (*(int *)&((GsyncStateWork *)state)->iconBuffer)=buffer;
+    SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,4,((GsyncStateWork *)state)->heapId,buffer,0x3000);
+    MI_CpuCopy8(downloadData,(void *)buffer,0x2600);
+    func_02009108((struct Sub020090B0Obj *)func_02009210((void *)saveControl),checksum);
+    GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,4);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMain,0x355);
 }
 
-void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *p) { ((GsyncStateWork *)p)->wantRecordSave=0; func_020307B0(((GsyncStateWork *)p)->extraSaveBuffer); ((GsyncStateWork *)p)->netDone=0; ((GsyncStateWork *)p)->extraSaveBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateCleanupDownload,0x360); }
+void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *state) { ((GsyncStateWork *)state)->wantRecordSave=0; func_020307B0(((GsyncStateWork *)state)->extraSaveBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->extraSaveBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x360); }
 
-void GSYNC_STATE_StateExtraSaveMainSecond(char *p) { int v; v=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)p)->saveData)); if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)p)->saveData),7)==2) { func_0200734C((struct Sub02007324Ctrl *)v,7); GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateFreeExtraSaveBuffer,0x36a); } }
+void GSYNC_STATE_StateExtraSaveMainSecond(char *state) { int saveControl; saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData)); if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),7)==2) { func_0200734C((struct Sub02007324Ctrl *)saveControl,7); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeExtraSaveBuffer,0x36a); } }
 
-void GSYNC_STATE_StateExtraSaveLoadStartSecond(int a)
+void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
 {
-    int b;
-    u8 *p;
-    int x;
+    int saveControl;
+    u8 *downloadData;
+    int buffer;
     u16 checksum;
-    b=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)a)->saveData));
-    p=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-    checksum=GF_STANDARD_SetupCalc(p,0x6200);
-    if(checksum!=*(u16 *)(p+0x6200)) {
-        ((GsyncStateWork *)a)->errorCode=0xfff0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x378);
+    saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
+    downloadData=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+    checksum=GF_STANDARD_SetupCalc(downloadData,0x6200);
+    if(checksum!=*(u16 *)(downloadData+0x6200)) {
+        ((GsyncStateWork *)state)->errorCode=0xfff0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x378);
         return;
     }
-    ((GsyncStateWork *)a)->netDone=1;
-    x=(int)func_02030734(((GsyncStateWork *)a)->heapId,0x6800,0,gGsyncStateAllocSource,0x37d);
-    *(int *)&((GsyncStateWork *)a)->extraSaveBuffer=x;
-    SAVE_CONTROL_LoadExtraSaveWithBuffer(b,7,((GsyncStateWork *)a)->heapId,*(int *)&((GsyncStateWork *)a)->extraSaveBuffer,0x6800);
-    MI_CpuCopy8(p,((GsyncStateWork *)a)->extraSaveBuffer,0x6200);
-    func_0200E8E0((void *)(*(int *)&((GsyncStateWork *)a)->extraSaveBuffer),1);
-    GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)a)->saveData,7);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateExtraSaveMainSecond,0x383);
+    ((GsyncStateWork *)state)->netDone=1;
+    buffer=(int)func_02030734(((GsyncStateWork *)state)->heapId,0x6800,0,gGsyncStateAllocSource,0x37d);
+    *(int *)&((GsyncStateWork *)state)->extraSaveBuffer=buffer;
+    SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,7,((GsyncStateWork *)state)->heapId,*(int *)&((GsyncStateWork *)state)->extraSaveBuffer,0x6800);
+    MI_CpuCopy8(downloadData,((GsyncStateWork *)state)->extraSaveBuffer,0x6200);
+    func_0200E8E0((void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),1);
+    GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,7);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMainSecond,0x383);
 }
 
-void GSYNC_STATE_StateMusicalSaveApply(u8 *p) { if(MUSICAL_DIST_SAVE_ProcessApply(((GsyncStateWork *)p)->musicalSave)) { ((GsyncStateWork *)p)->netDone=0; ((GsyncStateWork *)p)->musicalSave=0; GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateCleanupDownload,0x38e); } }
+void GSYNC_STATE_StateMusicalSaveApply(u8 *state) { if(MUSICAL_DIST_SAVE_ProcessApply(((GsyncStateWork *)state)->musicalSave)) { ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->musicalSave=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x38e); } }
 
-void GSYNC_STATE_StateMusicalSaveCreate(int a,int n)
+void GSYNC_STATE_StateMusicalSaveCreate(int state,int dataSize)
 {
-    u8 *p;
-    int h;
+    u8 *downloadData;
+    int wordCount;
     u16 checksum;
-    ((GsyncStateWork *)a)->wantExtraSave=0;
-    p=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-    h=n/2;
-    if(n>0x1fc0e) {
-        ((GsyncStateWork *)a)->errorCode=0xfff0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x39d);
+    ((GsyncStateWork *)state)->wantExtraSave=0;
+    downloadData=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+    wordCount=dataSize/2;
+    if(dataSize>0x1fc0e) {
+        ((GsyncStateWork *)state)->errorCode=0xfff0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x39d);
         return;
     }
-    checksum=GF_STANDARD_SetupCalc(p,n);
-    if(checksum!=*(u16 *)(p+h*2)) {
-        ((GsyncStateWork *)a)->errorCode=0xfff0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x3a3);
+    checksum=GF_STANDARD_SetupCalc(downloadData,dataSize);
+    if(checksum!=*(u16 *)(downloadData+wordCount*2)) {
+        ((GsyncStateWork *)state)->errorCode=0xfff0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x3a3);
         return;
     }
-    ((GsyncStateWork *)a)->netDone=1;
-    (*(int *)&((GsyncStateWork *)a)->musicalSave)=(int)MUSICAL_DIST_SAVE_CreateFromData((void *)(((GsyncStateWork *)a)->saveData),p,n,((GsyncStateWork *)a)->heapId);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateMusicalSaveApply,0x3a9);
+    ((GsyncStateWork *)state)->netDone=1;
+    (*(int *)&((GsyncStateWork *)state)->musicalSave)=(int)MUSICAL_DIST_SAVE_CreateFromData((void *)(((GsyncStateWork *)state)->saveData),downloadData,dataSize,((GsyncStateWork *)state)->heapId);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateMusicalSaveApply,0x3a9);
 }
 
-void GSYNC_STATE_StateDownloadReset(int a)
+void GSYNC_STATE_StateDownloadReset(int state)
 {
-    if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        if(GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-            ((GsyncStateWork *)a)->errorCode=0xfff0;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x3b6);
+    if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        if(GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+            ((GsyncStateWork *)state)->errorCode=0xfff0;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x3b6);
             return;
         }
-        GSYNC_DOWNLOAD_FreeWork((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-        ((GsyncStateWork *)a)->downloadWork=0;
-        if(((GsyncStateWork *)a)->progressPercent<100) ((GsyncStateWork *)a)->progressPercent+=10;
-        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)a)->displayWork),((GsyncStateWork *)a)->progressPercent);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateSelectNextDownload,0x3c3);
+        GSYNC_DOWNLOAD_FreeWork((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+        ((GsyncStateWork *)state)->downloadWork=0;
+        if(((GsyncStateWork *)state)->progressPercent<100) ((GsyncStateWork *)state)->progressPercent+=10;
+        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSelectNextDownload,0x3c3);
     }
 }
 
-void GSYNC_STATE_StateMusicalSaveRetry(int a)
+void GSYNC_STATE_StateMusicalSaveRetry(int state)
 {
-    switch(((GsyncStateWork *)a)->downloadKind) {
-    case 0: GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateExtraSaveLoadStart,0x3cb); break;
-    case 1: GSYNC_STATE_StateMusicalSaveCreate(a,(int)GSYNC_DISP_GetPokeIconActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)a)->downloadWork)))-2); break;
-    case 2: GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateExtraSaveLoadStartSecond,0x3d1); break;
+    switch(((GsyncStateWork *)state)->downloadKind) {
+    case 0: GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveLoadStart,0x3cb); break;
+    case 1: GSYNC_STATE_StateMusicalSaveCreate(state,(int)GSYNC_DISP_GetPokeIconActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->downloadWork)))-2); break;
+    case 2: GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveLoadStartSecond,0x3d1); break;
     }
 }
 
-void GSYNC_STATE_StateWaitDownloadIdle(int a)
+void GSYNC_STATE_StateWaitDownloadIdle(int state)
 {
-    if(GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        ((GsyncStateWork *)a)->errorCode=0xfff0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x3dd);
+    if(GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        ((GsyncStateWork *)state)->errorCode=0xfff0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x3dd);
         return;
     }
-    if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        GSYNC_DOWNLOAD_IsBusy((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateMusicalSaveRetry,0x3e8);
+    if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        GSYNC_DOWNLOAD_IsBusy((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateMusicalSaveRetry,0x3e8);
     }
 }
 
-void GSYNC_STATE_StateRequestFile(int a)
+void GSYNC_STATE_StateRequestFile(int state)
 {
-    if (GSYNC_DOWNLOAD_GetFileAsync((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateWaitDownloadIdle, 0x3f1);
+    if (GSYNC_DOWNLOAD_GetFileAsync((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitDownloadIdle, 0x3f1);
         return;
     }
-    ((GsyncStateWork *)a)->errorCode = 0xfff0;
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateErrorMessage, 0x3f5);
+    ((GsyncStateWork *)state)->errorCode = 0xfff0;
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x3f5);
 }
 
-void GSYNC_STATE_StateWaitDownloadIdleThenRequest(int a)
+void GSYNC_STATE_StateWaitDownloadIdleThenRequest(int state)
 {
-    if(GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        ((GsyncStateWork *)a)->errorCode=0xfff0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x3fe);
+    if(GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        ((GsyncStateWork *)state)->errorCode=0xfff0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x3fe);
         return;
     }
-    if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        if((void *)(int)GSYNC_DISP_GetPokeIconActor((GsyncDispWork *)((u8 *)((int)((u8 *)(((GsyncStateWork *)a)->downloadWork)))))==0) {
-            ((GsyncStateWork *)a)->errorCode=0xfff0;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateErrorMessage,0x407);
+    if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        if((void *)(int)GSYNC_DISP_GetPokeIconActor((GsyncDispWork *)((u8 *)((int)((u8 *)(((GsyncStateWork *)state)->downloadWork)))))==0) {
+            ((GsyncStateWork *)state)->errorCode=0xfff0;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x407);
             return;
         }
-        GSYNC_DOWNLOAD_IsBusy((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)));
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a,(int)GSYNC_STATE_StateRequestFile,0x40d);
+        GSYNC_DOWNLOAD_IsBusy((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateRequestFile,0x40d);
     }
 }
 
-void GSYNC_STATE_StateRequestFileList(int a)
+void GSYNC_STATE_StateRequestFileList(int state)
 {
-    if (GSYNC_DOWNLOAD_GetFileListAsync((GsyncDownloadWork *)((char *)(((GsyncStateWork *)a)->downloadWork)))) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateWaitDownloadIdleThenRequest, 0x415);
+    if (GSYNC_DOWNLOAD_GetFileListAsync((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitDownloadIdleThenRequest, 0x415);
         return;
     }
-    ((GsyncStateWork *)a)->errorCode = 0xfff0;
-    GSYNC_STATE_ChangeState((GsyncStateWork *)a, (int)GSYNC_STATE_StateErrorMessage, 0x419);
+    ((GsyncStateWork *)state)->errorCode = 0xfff0;
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x419);
 }
 
-void GSYNC_STATE_StateSetFileAttribute(u8 *p)
+void GSYNC_STATE_StateSetFileAttribute(u8 *state)
 {
-    if (GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)p)->downloadWork)))) {
-        if (GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)p)->downloadWork)))) {
-            ((GsyncStateWork *)p)->errorCode = 0xfff0;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateErrorMessage, 0x424);
+    if (GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)))) {
+        if (GSYNC_DOWNLOAD_Reset((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)))) {
+            ((GsyncStateWork *)state)->errorCode = 0xfff0;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x424);
             return;
         }
-        switch (((GsyncStateWork *)p)->downloadKind) {
+        switch (((GsyncStateWork *)state)->downloadKind) {
         case 0:
-            if (GSYNC_DOWNLOAD_SetAttr((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)p)->downloadWork)), (void *)gGsyncExtraSaveName, ((GsyncStateWork *)p)->wantMusicalSave)) {
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateRequestFileList, 0x42b);
+            if (GSYNC_DOWNLOAD_SetAttr((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)), (void *)gGsyncExtraSaveName, ((GsyncStateWork *)state)->wantMusicalSave)) {
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateRequestFileList, 0x42b);
                 return;
             }
-            ((GsyncStateWork *)p)->errorCode = 0xfff0;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateErrorMessage, 0x42f);
+            ((GsyncStateWork *)state)->errorCode = 0xfff0;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x42f);
             return;
         case 1:
-            if (GSYNC_DOWNLOAD_SetAttr((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)p)->downloadWork)), (void *)gGsyncMusicalSaveName, ((GsyncStateWork *)p)->wantExtraSave)) {
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateRequestFileList, 0x434);
+            if (GSYNC_DOWNLOAD_SetAttr((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)), (void *)gGsyncMusicalSaveName, ((GsyncStateWork *)state)->wantExtraSave)) {
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateRequestFileList, 0x434);
                 return;
             }
-            ((GsyncStateWork *)p)->errorCode = 0xfff0;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateErrorMessage, 0x438);
+            ((GsyncStateWork *)state)->errorCode = 0xfff0;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x438);
             return;
         case 2:
-            if (GSYNC_DOWNLOAD_SetAttr((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)p)->downloadWork)), (void *)gGsyncRecordSaveName, ((GsyncStateWork *)p)->wantRecordSave)) {
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateRequestFileList, 0x43d);
+            if (GSYNC_DOWNLOAD_SetAttr((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)), (void *)gGsyncRecordSaveName, ((GsyncStateWork *)state)->wantRecordSave)) {
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateRequestFileList, 0x43d);
                 return;
             }
-            ((GsyncStateWork *)p)->errorCode = 0xfff0;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateErrorMessage, 0x441);
+            ((GsyncStateWork *)state)->errorCode = 0xfff0;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x441);
             return;
         }
     }
 }
 
-void GSYNC_STATE_StateInitDownload(char *p)
+void GSYNC_STATE_StateInitDownload(char *state)
 {
-    switch (((GsyncStateWork *)p)->downloadKind) {
-    case 0: (*(void * *)&((GsyncStateWork *)p)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)p)->heapId, MUSICAL_DIST_SAVE_GetBlockSize() + 4); break;
-    case 1: (*(void * *)&((GsyncStateWork *)p)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)p)->heapId, 0x20000); break;
-    case 2: (*(void * *)&((GsyncStateWork *)p)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)p)->heapId, func_0200E8B0() + 4); break;
+    switch (((GsyncStateWork *)state)->downloadKind) {
+    case 0: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, MUSICAL_DIST_SAVE_GetBlockSize() + 4); break;
+    case 1: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, 0x20000); break;
+    case 2: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, func_0200E8B0() + 4); break;
     }
-    if (GSYNC_DOWNLOAD_InitAsync((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)p)->downloadWork)))) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSetFileAttribute, 0x458);
+    if (GSYNC_DOWNLOAD_InitAsync((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)))) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetFileAttribute, 0x458);
         return;
     }
-    ((GsyncStateWork *)p)->errorCode = 0xfff0;
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateErrorMessage, 0x45c);
+    ((GsyncStateWork *)state)->errorCode = 0xfff0;
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x45c);
 }
 
-void GSYNC_STATE_StateSelectNextDownload(char *p)
+void GSYNC_STATE_StateSelectNextDownload(char *state)
 {
-    if (((GsyncStateWork *)p)->wantMusicalSave) {
-        ((GsyncStateWork *)p)->downloadKind = 0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateInitDownload, 0x465);
+    if (((GsyncStateWork *)state)->wantMusicalSave) {
+        ((GsyncStateWork *)state)->downloadKind = 0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateInitDownload, 0x465);
         return;
     }
-    if (((GsyncStateWork *)p)->wantExtraSave) {
-        ((GsyncStateWork *)p)->downloadKind = 1;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateInitDownload, 0x46a);
+    if (((GsyncStateWork *)state)->wantExtraSave) {
+        ((GsyncStateWork *)state)->downloadKind = 1;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateInitDownload, 0x46a);
         return;
     }
-    if (((GsyncStateWork *)p)->wantRecordSave) {
-        ((GsyncStateWork *)p)->downloadKind = 2;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateInitDownload, 0x46f);
+    if (((GsyncStateWork *)state)->wantRecordSave) {
+        ((GsyncStateWork *)state)->downloadKind = 2;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateInitDownload, 0x46f);
         return;
     }
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSaveStart, 0x472);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSaveStart, 0x472);
 }
 
 /*
  * extent: two zero alignment bytes at 021D7CB2 follow the return.
  */
-void GSYNC_STATE_CopyMonRecord(void *p, char *q)
+void GSYNC_STATE_CopyMonRecord(void *saveSystem, char *records)
 {
     int changed = 0;
-    int i;
-    for (i = 0; i < 5; i++) {
-        if (func_0203EFC8((const u8 *)func_02009390(p, i), (const u8 *)(q + 0x98 + i * 26), 26)) {
+    int slotIndex;
+    for (slotIndex = 0; slotIndex < 5; slotIndex++) {
+        if (GF_STANDARD_CompareBytes((const u8 *)func_02009390(saveSystem, slotIndex), (const u8 *)(records + 0x98 + slotIndex * 26), 26)) {
             changed = 1;
             break;
         }
     }
     if (changed) {
-        for (i = 0; i < 5; i++) func_020093A8(p, i, q + 0x98 + i * 26);
-        func_020093F0(p, 127);
+        for (slotIndex = 0; slotIndex < 5; slotIndex++) func_020093A8(saveSystem, slotIndex, records + 0x98 + slotIndex * 26);
+        func_020093F0(saveSystem, 127);
     }
 }
 
-int GSYNC_STATE_GetEntryCount(int a,u8 *p) { int i,result; u16 n; result=0; for(i=0;i<20;i++) { n=*(u16 *)(p+92+i*2); if(n!=0 && n<=626) { func_02009348((struct Sub02009210Obj *)a,i,n,p[132+i]); result=1; } } return result; }
+int GSYNC_STATE_GetEntryCount(int saveSystem,u8 *listBuffer) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)(listBuffer+92+slotIndex*2); if(species!=0 && species<=626) { func_02009348((struct Sub02009210Obj *)saveSystem,slotIndex,species,listBuffer[132+slotIndex]); found=1; } } return found; }
 
-int GSYNC_STATE_GetListEntry(int a,GsyncConn *p) { int i,result; u16 n; result=0; for(i=0;i<20;i++) { n=*(u16 *)((u8 *)p+92+i*2); if(n!=0 && n<=626) result=1; } return result; }
+int GSYNC_STATE_GetListEntry(int saveSystem,GsyncConn *list) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)((u8 *)list+92+slotIndex*2); if(species!=0 && species<=626) found=1; } return found; }
 
-void GSYNC_STATE_BuildMonEntry(GsyncStateWork *p, int unused, int species, int gender, int form, int n, int value)
+void GSYNC_STATE_BuildMonEntry(GsyncStateWork *state, int unused, int species, int gender, int form, int entryArg, int value)
 {
-    int f;
-    u8 v = value;
-    void *h;
+    int formIndex;
+    u8 valueByte = value;
+    void *pokeData;
     int kind;
     int mapped;
-    int g;
+    int genderCode;
     if (species == 0 || species > 493) return;
-    h = TPOKE_DATA_Create(p->heapId);
+    pokeData = TPOKE_DATA_Create(state->heapId);
     kind = 3;
-    f = (int)func_02019D30((u16)species, (u8)form);
-    g = func_02019C90(species, f, 20);
-    mapped = func_02019D58(species, f);
-    switch (g) {
+    formIndex = (int)POKE_TOOL_NormalizeForm((u16)species, (u8)form);
+    genderCode = POKE_TOOL_GetPersonalParam(species, formIndex, 20);
+    mapped = POKE_TOOL_FilterSpecies(species, formIndex);
+    switch (genderCode) {
     case 0: gender = 0; break;
     case 254: gender = 1; break;
     case 255: gender = 2; break;
     default: if (gender > 1) gender = func_020056EC(2); break;
     }
-    if (TPOKE_DATA_IsRecordKindTwo((*(unsigned int *)&p->saveData), h, species, gender, mapped)) kind = 2;
-    if (v > 8) v = 0;
-    SYMBOL_SAVE_WriteRecord(SYMBOL_SAVE_GetBlock(p->saveControl), species, n, gender, mapped, v, kind);
-    func_0202A170(h);
+    if (TPOKE_DATA_IsRecordKindTwo((*(unsigned int *)&state->saveData), pokeData, species, gender, mapped)) kind = 2;
+    if (valueByte > 8) valueByte = 0;
+    SYMBOL_SAVE_WriteRecord(SYMBOL_SAVE_GetBlock(state->saveControl), species, entryArg, gender, mapped, valueByte, kind);
+    func_0202A170(pokeData);
 }
 
-void GSYNC_STATE_BuildMonEntries(GsyncStateWork *p,int a,u8 *records) { int i; GsyncListEntry *r; for(i=0;i<10;i++) { r=(GsyncListEntry *) (records+i*8); if(r->species==0) break; GSYNC_STATE_BuildMonEntry(p,a,r->species,((u8 *)r)[9],((u8 *)r)[8],r->arg,((u8 *)r)[10]); } }
+void GSYNC_STATE_BuildMonEntries(GsyncStateWork *state,int saveSystem,u8 *records) { int slotIndex; GsyncListEntry *entry; for(slotIndex=0;slotIndex<10;slotIndex++) { entry=(GsyncListEntry *) (records+slotIndex*8); if(entry->species==0) break; GSYNC_STATE_BuildMonEntry(state,saveSystem,entry->species,((u8 *)entry)[9],((u8 *)entry)[8],entry->arg,((u8 *)entry)[10]); } }
 
-void GSYNC_STATE_ApplyIconRecords(GsyncStateWork *p,GsyncConn *list) { int i; u16 n; for(i=0;i<20;i++) { n=*(u16 *)((u8 *)list+92+i*2); if(n!=0 && ((u8 *)list)[132+i]!=0 && n<=626) GSYNC_DISP_SetIconRecordSpecies(p->displayWork,i,n); } }
+void GSYNC_STATE_ApplyIconRecords(GsyncStateWork *state,GsyncConn *list) { int slotIndex; u16 species; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)((u8 *)list+92+slotIndex*2); if(species!=0 && ((u8 *)list)[132+slotIndex]!=0 && species<=626) GSYNC_DISP_SetIconRecordSpecies(state->displayWork,slotIndex,species); } }
 
 /*
  * lever: bind the record word before the call and use shared goto guards.
  */
-void GSYNC_STATE_PrepareReceivedList(GsyncStateWork *p, void *h, GsyncConn *q, int *r)
+void GSYNC_STATE_PrepareReceivedList(GsyncStateWork *state, void *saveSystem, GsyncConn *list, int *errorCode)
 {
-    int i;
-    int v;
-    if (*r != 0) {
-        p->errorCode = *r;
-        GSYNC_STATE_ChangeState(p, (int)GSYNC_STATE_StateErrorMessage, 0x500);
+    int slotIndex;
+    int statusWord;
+    if (*errorCode != 0) {
+        state->errorCode = *errorCode;
+        GSYNC_STATE_ChangeState(state, (int)GSYNC_STATE_StateErrorMessage, 0x500);
         return;
     }
-    if (((u8 *)q)[0x5b] != 0) goto unchanged;
-    v = q->statusWord;
-    if (v == func_020093D0(h)) goto unchanged;
+    if (((u8 *)list)[0x5b] != 0) goto unchanged;
+    statusWord = list->statusWord;
+    if (statusWord == func_020093D0(saveSystem)) goto unchanged;
     {
-        p->entryId = v;
-        ((GsyncStateWork *)p)->wantExtraSave = ((u8 *)q)[0x57];
-        ((GsyncStateWork *)p)->wantMusicalSave = ((u8 *)q)[0x58];
-        ((GsyncStateWork *)p)->wantRecordSave = ((u8 *)q)[0x59];
-        p->messageArg = q->listFlags;
-        if (((GsyncStateWork *)p)->wantMusicalSave) ((GsyncStateWork *)p)->downloadFlags |= 1;
-        if (((GsyncStateWork *)p)->wantExtraSave) ((GsyncStateWork *)p)->downloadFlags |= 2;
-        if (((GsyncStateWork *)p)->wantRecordSave) ((GsyncStateWork *)p)->downloadFlags |= 4;
-        for (i = 0; i < 10; i++) {
-            if (*(u16 *)((u8 *)q+i*8+4) == 0) break;
-            GSYNC_DISP_SetIconRecord(p->displayWork, i+20, *(u16 *)((u8 *)q+i*8+4), ((u8 *)q)[i*8+8], ((u8 *)q)[i*8+9]);
+        state->entryId = statusWord;
+        ((GsyncStateWork *)state)->wantExtraSave = ((u8 *)list)[0x57];
+        ((GsyncStateWork *)state)->wantMusicalSave = ((u8 *)list)[0x58];
+        ((GsyncStateWork *)state)->wantRecordSave = ((u8 *)list)[0x59];
+        state->messageArg = list->listFlags;
+        if (((GsyncStateWork *)state)->wantMusicalSave) ((GsyncStateWork *)state)->downloadFlags |= 1;
+        if (((GsyncStateWork *)state)->wantExtraSave) ((GsyncStateWork *)state)->downloadFlags |= 2;
+        if (((GsyncStateWork *)state)->wantRecordSave) ((GsyncStateWork *)state)->downloadFlags |= 4;
+        for (slotIndex = 0; slotIndex < 10; slotIndex++) {
+            if (*(u16 *)((u8 *)list+slotIndex*8+4) == 0) break;
+            GSYNC_DISP_SetIconRecord(state->displayWork, slotIndex+20, *(u16 *)((u8 *)list+slotIndex*8+4), ((u8 *)list)[slotIndex*8+8], ((u8 *)list)[slotIndex*8+9]);
         }
-        ((GsyncStateWork *)p)->hasListEntry = GSYNC_STATE_GetListEntry((int)h,q);
-        GSYNC_STATE_ApplyIconRecords(p,q);
-        GSYNC_DISP_LoadIconResources((GsyncDispWork *)(p->displayWork));
+        ((GsyncStateWork *)state)->hasListEntry = GSYNC_STATE_GetListEntry((int)saveSystem,list);
+        GSYNC_STATE_ApplyIconRecords(state,list);
+        GSYNC_DISP_LoadIconResources((GsyncDispWork *)(state->displayWork));
     }
     goto done;
 unchanged:
-    ((GsyncStateWork *)p)->hasListEntry = 0;
+    ((GsyncStateWork *)state)->hasListEntry = 0;
 done:
-    GSYNC_STATE_StateSelectNextDownload((char *)p);
+    GSYNC_STATE_StateSelectNextDownload((char *)state);
 }
 
-int GSYNC_STATE_UpdateCurrentEntry(GsyncStateWork *p)
+int GSYNC_STATE_UpdateCurrentEntry(GsyncStateWork *state)
 {
-    int i, j;
-    char *q;
-    func_02009448(p->saveControl);
-    q = (char *)p->connection + 0xc;
-    for (i = 0; i < 20; i++) {
-        for (j = i + 1; j < 20; j++) {
-            if (*(u16 *)(q + i * 2 + 8) != 0 &&
-                *(u16 *)(q + j * 2 + 8) == *(u16 *)(q + i * 2 + 8))
+    int slotIndex, otherIndex;
+    char *list;
+    func_02009448(state->saveControl);
+    list = (char *)state->connection + 0xc;
+    for (slotIndex = 0; slotIndex < 20; slotIndex++) {
+        for (otherIndex = slotIndex + 1; otherIndex < 20; otherIndex++) {
+            if (*(u16 *)(list + slotIndex * 2 + 8) != 0 &&
+                *(u16 *)(list + otherIndex * 2 + 8) == *(u16 *)(list + slotIndex * 2 + 8))
                 return 0;
         }
     }
     return 1;
 }
 
-void GSYNC_STATE_StateReceiveList(char *p)
+void GSYNC_STATE_StateReceiveList(char *state)
 {
-    char *q, *data;
-    void *v, *allocated;
-    if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)p) && !GSYNC_STATE_IsCommReady((GsyncStateWork *)p)) {
-        if (((GsyncStateWork *)p)->progressPercent<30) ++((GsyncStateWork *)p)->progressPercent;
-        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),((GsyncStateWork *)p)->progressPercent);
-        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)p,NHTTP_RAP_GetResultCode(((GsyncStateWork *)p)->httpConnection))) return;
-        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)p)->httpConnection)) return;
-        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)p)->httpConnection));
-        v=func_02009448(((GsyncStateWork *)p)->saveControl);
-        data=q+0x80;
-        allocated=func_02030734(((GsyncStateWork *)p)->heapId,0x11c,1,gGsyncStateAllocSource,0x573);
-        (*(void * *)&((GsyncStateWork *)p)->listBuffer)=allocated;
-        MI_CpuCopy8(data,allocated,0x11c);
-        GSYNC_STATE_PrepareReceivedList((GsyncStateWork *)p,v,(GsyncConn *)data,(int *)q);
+    char *response, *listData;
+    void *saveSystem, *listBuffer;
+    if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)state) && !GSYNC_STATE_IsCommReady((GsyncStateWork *)state)) {
+        if (((GsyncStateWork *)state)->progressPercent<30) ++((GsyncStateWork *)state)->progressPercent;
+        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent);
+        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
+        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        saveSystem=func_02009448(((GsyncStateWork *)state)->saveControl);
+        listData=response+0x80;
+        listBuffer=func_02030734(((GsyncStateWork *)state)->heapId,0x11c,1,gGsyncStateAllocSource,0x573);
+        (*(void * *)&((GsyncStateWork *)state)->listBuffer)=listBuffer;
+        MI_CpuCopy8(listData,listBuffer,0x11c);
+        GSYNC_STATE_PrepareReceivedList((GsyncStateWork *)state,saveSystem,(GsyncConn *)listData,(int *)response);
         return;
     } else {
-        ++((GsyncStateWork *)p)->waitTicks;
-        if (((GsyncStateWork *)p)->progressPercent<30) ++((GsyncStateWork *)p)->progressPercent;
-        if (((GsyncStateWork *)p)->waitTicks==360) {
-            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),43);
-            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        } else if (((GsyncStateWork *)p)->waitTicks==720) {
-            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),44);
-            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        } else if (((GsyncStateWork *)p)->waitTicks==1080) {
-            if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)p)) GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-            if (GSYNC_STATE_UpdateCurrentEntry((GsyncStateWork *)p)) {
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSaveStart,0x58c);
+        ++((GsyncStateWork *)state)->waitTicks;
+        if (((GsyncStateWork *)state)->progressPercent<30) ++((GsyncStateWork *)state)->progressPercent;
+        if (((GsyncStateWork *)state)->waitTicks==360) {
+            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),43);
+            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        } else if (((GsyncStateWork *)state)->waitTicks==720) {
+            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),44);
+            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        } else if (((GsyncStateWork *)state)->waitTicks==1080) {
+            if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)state)) GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+            if (GSYNC_STATE_UpdateCurrentEntry((GsyncStateWork *)state)) {
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveStart,0x58c);
             } else {
-                ((GsyncStateWork *)p)->errorCode=9;
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateErrorMessage,0x591);
+                ((GsyncStateWork *)state)->errorCode=9;
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x591);
             }
         }
-        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),((GsyncStateWork *)p)->progressPercent);
+        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent);
     }
 }
 
-void GSYNC_STATE_StateSendListRequest(char *p)
+void GSYNC_STATE_StateSendListRequest(char *state)
 {
-    if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)p) && !GSYNC_STATE_IsCommReady((GsyncStateWork *)p)) {
-        if (NHTTP_RAP_CreateRequest(2, ((GsyncStateWork *)p)->httpConnection) && !NHTTP_RAP_StartConnection(((GsyncStateWork *)p)->httpConnection)) {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateReceiveList, 0x59d);
+    if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)state) && !GSYNC_STATE_IsCommReady((GsyncStateWork *)state)) {
+        if (NHTTP_RAP_CreateRequest(2, ((GsyncStateWork *)state)->httpConnection) && !NHTTP_RAP_StartConnection(((GsyncStateWork *)state)->httpConnection)) {
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateReceiveList, 0x59d);
             return;
         }
     } else {
-        if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)p)) {
-            ((GsyncStateWork *)p)->waitTicks = 0;
-            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)p)->messageWork)), 42);
-            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
+        if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)state)) {
+            ((GsyncStateWork *)state)->waitTicks = 0;
+            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)), 42);
+            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
         } else {
-            ((GsyncStateWork *)p)->waitTicks = 0x42e;
+            ((GsyncStateWork *)state)->waitTicks = 0x42e;
         }
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateReceiveList, 0x5aa);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateReceiveList, 0x5aa);
     }
 }
 
-void GSYNC_STATE_StateWaitMessageThenSend(char *p) { if(GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSendListRequest,0x5b3); }
+void GSYNC_STATE_StateWaitMessageThenSend(char *state) { if(GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSendListRequest,0x5b3); }
 
-void GSYNC_STATE_StateShowProgressMessage(char *p)
+void GSYNC_STATE_StateShowProgressMessage(char *state)
 {
-    GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 11);
-    GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-    GSYNC_DISP_DeleteSlotActor(((GsyncStateWork *)p)->displayWork, 8);
-    GSYNC_DISP_StartPaletteWave((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)));
-    GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)), 1);
-    GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)p)->displayWork, 6, 5);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)), 0);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)), 12);
+    GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 11);
+    GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+    GSYNC_DISP_DeleteSlotActor(((GsyncStateWork *)state)->displayWork, 8);
+    GSYNC_DISP_StartPaletteWave((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)));
+    GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 1);
+    GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork, 6, 5);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 0);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 12);
     GFL_USE_PlaySeDefaultVolume(0x657);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitMessageThenSend, 0x5c3);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitMessageThenSend, 0x5c3);
 }
 
-void GSYNC_STATE_StateWaitInputFirst(char *p)
+void GSYNC_STATE_StateWaitInputFirst(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg()) {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSetErrorExit, 0x5d0);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetErrorExit, 0x5d0);
         }
     }
 }
 
-void GSYNC_STATE_StateWaitMessageThenPrintSecond(char *p)
+void GSYNC_STATE_StateWaitMessageThenPrintSecond(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 16);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitInputFirst, 0x5de);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 16);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitInputFirst, 0x5de);
     }
 }
 
-void GSYNC_STATE_StateWaitInputSecond(char *p)
+void GSYNC_STATE_StateWaitInputSecond(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg()) {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSetErrorExit, 0x5e9);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetErrorExit, 0x5e9);
         }
     }
 }
 
-void GSYNC_STATE_StateWaitMessageThenPrintThird(char *p)
+void GSYNC_STATE_StateWaitMessageThenPrintThird(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 49);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitInputSecond, 0x5f6);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 49);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitInputSecond, 0x5f6);
     }
 }
 
-void GSYNC_STATE_StateConfirmMenuSelect(char *p)
+void GSYNC_STATE_StateConfirmMenuSelect(char *state)
 {
-    if (((GsyncStateWork *)p)->blinkTimer % 110 == 0) GFL_USE_PlaySeDefaultVolume(0x659);
-    (((GsyncStateWork *)p)->blinkTimer)++;
-    if (APP_TASKMENU_IsFinish(((GsyncStateWork *)p)->confirmMenu)) {
-        if (APP_TASKMENU_GetCursorPos(((GsyncStateWork *)p)->confirmMenu) == 0) {
-            if (func_020076D0(((GsyncStateWork *)p)->boxSave, (int *)(p + 0x48), (int *)(p + 0x4c)) == 0)
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitMessageThenPrintThird, 0x60f);
+    if (((GsyncStateWork *)state)->blinkTimer % 110 == 0) GFL_USE_PlaySeDefaultVolume(0x659);
+    (((GsyncStateWork *)state)->blinkTimer)++;
+    if (APP_TASKMENU_IsFinish(((GsyncStateWork *)state)->confirmMenu)) {
+        if (APP_TASKMENU_GetCursorPos(((GsyncStateWork *)state)->confirmMenu) == 0) {
+            if (func_020076D0(((GsyncStateWork *)state)->boxSave, (int *)(state + 0x48), (int *)(state + 0x4c)) == 0)
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitMessageThenPrintThird, 0x60f);
             else
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateShowProgressMessage, 0x612);
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateShowProgressMessage, 0x612);
         } else {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSetErrorExit, 0x616);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetErrorExit, 0x616);
         }
-        GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        APP_TASKMENU_CloseMenu(((GsyncStateWork *)p)->confirmMenu);
+        GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        APP_TASKMENU_CloseMenu(((GsyncStateWork *)state)->confirmMenu);
         *(unsigned short *)0x04001050 = 0;
-        ((GsyncStateWork *)p)->confirmMenu = 0;
+        ((GsyncStateWork *)state)->confirmMenu = 0;
     }
 }
 
-void GSYNC_STATE_StateOpenConfirmMenu(char *p)
+void GSYNC_STATE_StateOpenConfirmMenu(char *state)
 {
-    if (((GsyncStateWork *)p)->blinkTimer % 110 == 0) GFL_USE_PlaySeDefaultVolume(0x659);
-    (((GsyncStateWork *)p)->blinkTimer)++;
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        ((GsyncStateWork *)p)->confirmMenu = (void *)GSYNC_MESSAGE_OpenYesNoMenu((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 0);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateConfirmMenuSelect, 0x632);
+    if (((GsyncStateWork *)state)->blinkTimer % 110 == 0) GFL_USE_PlaySeDefaultVolume(0x659);
+    (((GsyncStateWork *)state)->blinkTimer)++;
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        ((GsyncStateWork *)state)->confirmMenu = (void *)GSYNC_MESSAGE_OpenYesNoMenu((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 0);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateConfirmMenuSelect, 0x632);
     }
 }
 
-void GSYNC_STATE_StateShowEmptyMessage(char *p)
+void GSYNC_STATE_StateShowEmptyMessage(char *state)
 {
-    GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)), 0);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)), 12);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)), 6);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)p)->displayWork)), 8);
-    if (func_02009370((const struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)p)->saveControl)))
-        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 21);
+    GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 0);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 12);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 6);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 8);
+    if (func_02009370((const struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)state)->saveControl)))
+        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 21);
     else
-        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 10);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateOpenConfirmMenu, 0x64c);
+        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 10);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateOpenConfirmMenu, 0x64c);
 }
 
-void GSYNC_STATE_StateWaitMessageEnd(char *p)
+void GSYNC_STATE_StateWaitMessageEnd(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateShowEmptyMessage, 0x68d);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateShowEmptyMessage, 0x68d);
     }
 }
 
-void GSYNC_STATE_StateWaitInputClearWindow(char *p)
+void GSYNC_STATE_StateWaitInputClearWindow(char *state)
 {
     if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
-        GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        func_020092E0((struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)p)->saveControl), 1);
-        ((GsyncStateWork *)p)->responseValid = 1;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSendFinalRequest, 0x6a2);
+        GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        func_020092E0((struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)state)->saveControl), 1);
+        ((GsyncStateWork *)state)->responseValid = 1;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSendFinalRequest, 0x6a2);
     }
 }
 
-void GSYNC_STATE_StateWaitInputPrintNext(char *p)
+void GSYNC_STATE_StateWaitInputPrintNext(char *state)
 {
     if (KEY_GetTrg() || TOUCHPANEL_GetTrg()) {
-        GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)p)->messageWork)), 48);
-        GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 7, 14);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitInputClearWindow, 0x6ab);
+        GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)), 48);
+        GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 7, 14);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitInputClearWindow, 0x6ab);
     }
 }
 
-void GSYNC_STATE_StatePrintErrorMessage(char *p)
+void GSYNC_STATE_StatePrintErrorMessage(char *state)
 {
-    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct GsyncConn *)(((GsyncStateWork *)p)->connection))->saveData)));
-    GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 1);
-    GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)p)->messageWork)), 47);
-    GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 7, 14);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitInputPrintNext, 0x6b7);
+    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->saveData)));
+    GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 1);
+    GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)), 47);
+    GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 7, 14);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitInputPrintNext, 0x6b7);
 }
 
-void GSYNC_STATE_StateReceiveResponse(char *p)
+void GSYNC_STATE_StateReceiveResponse(char *state)
 {
-    char *q;
+    char *response;
     if (GFL_NET_GetRunState()) {
-        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)p, NHTTP_RAP_GetResultCode(((GsyncStateWork *)p)->httpConnection))) return;
-        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)p)->httpConnection)) return;
-        q = (char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)p)->httpConnection));
-        if (((GsyncHttpResponse *)q)->resultCode == 2) {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSendFinalRequest, 0x6d4);
+        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state, NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
+        response = (char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        if (((GsyncHttpResponse *)response)->resultCode == 2) {
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSendFinalRequest, 0x6d4);
             return;
         }
-        if (((GsyncHttpResponse *)q)->resultCode == 0) {
-            GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StatePrintErrorMessage, 0x6d8);
+        if (((GsyncHttpResponse *)response)->resultCode == 0) {
+            GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StatePrintErrorMessage, 0x6d8);
             return;
         }
-        ((GsyncStateWork *)p)->errorCode = ((GsyncHttpResponse *)q)->resultCode;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateErrorMessage, 0x6dc);
+        ((GsyncStateWork *)state)->errorCode = ((GsyncHttpResponse *)response)->resultCode;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateErrorMessage, 0x6dc);
         return;
     } else {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSendFinalRequest, 0x6e2);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSendFinalRequest, 0x6e2);
     }
 }
 
-void GSYNC_STATE_StateSendResponse(char *p)
+void GSYNC_STATE_StateSendResponse(char *state)
 {
-    int x;
-    unsigned int v;
+    int workAreaSize;
+    unsigned int workArea;
     if (GFL_NET_GetRunState()) {
-        if (NHTTP_RAP_CreateRequest(9,((GsyncStateWork *)p)->httpConnection)) {
-            v=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)p)->saveControl,&x);
-            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)p)->httpConnection),(void *)v,0x80000);
-            if (!NHTTP_RAP_StartConnection(((GsyncStateWork *)p)->httpConnection))
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveResponse,0x6fa);
+        if (NHTTP_RAP_CreateRequest(9,((GsyncStateWork *)state)->httpConnection)) {
+            workArea=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)state)->saveControl,&workAreaSize);
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)state)->httpConnection),(void *)workArea,0x80000);
+            if (!NHTTP_RAP_StartConnection(((GsyncStateWork *)state)->httpConnection))
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveResponse,0x6fa);
         }
     } else {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveResponse,0x700);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveResponse,0x700);
     }
 }
 
-void GSYNC_STATE_StateWaitInputThird(char *p)
+void GSYNC_STATE_StateWaitInputThird(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg()) {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitMessageEnd, 0x727);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitMessageEnd, 0x727);
         }
     }
 }
 
-void GSYNC_STATE_StateWaitMessageThenPrintFourth(char *p)
+void GSYNC_STATE_StateWaitMessageThenPrintFourth(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 17);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitInputThird, 0x739);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 17);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitInputThird, 0x739);
     }
 }
 
-void GSYNC_STATE_StateWaitInputFourth(char *p)
+void GSYNC_STATE_StateWaitInputFourth(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg()) {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSetErrorExit, 0x746);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetErrorExit, 0x746);
         }
     }
 }
 
-void GSYNC_STATE_StateWaitMessageThenPrintFifth(char *p)
+void GSYNC_STATE_StateWaitMessageThenPrintFifth(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 20);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitInputFourth, 0x758);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 20);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitInputFourth, 0x758);
     }
 }
 
-void GSYNC_STATE_ParseResponse(GsyncStateWork *p,int x,int *q)
+void GSYNC_STATE_ParseResponse(GsyncStateWork *work,int resultCode,int *responseCode)
 {
     int state;
-    switch (*q) {
+    switch (*responseCode) {
     case 0:
-        state=((struct GsyncConn *)(p->connection))->state;
+        state=((struct GsyncConn *)(work->connection))->state;
         switch (state) {
         case 0:
-            if (x==0) GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateWaitMessageEnd,0x774);
-            else if (x==3) GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateWaitMessageEnd,0x777);
-            else if (x==1) GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateWaitMessageThenPrintFourth,0x77b);
-            else if (x==2) GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateWaitMessageThenPrintFifth,0x77f);
-            else if (x==4) GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateWaitMessageEnd,0x782);
-            else GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateWaitMessageEnd,0x787);
+            if (resultCode==0) GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateWaitMessageEnd,0x774);
+            else if (resultCode==3) GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateWaitMessageEnd,0x777);
+            else if (resultCode==1) GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateWaitMessageThenPrintFourth,0x77b);
+            else if (resultCode==2) GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateWaitMessageThenPrintFifth,0x77f);
+            else if (resultCode==4) GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateWaitMessageEnd,0x782);
+            else GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateWaitMessageEnd,0x787);
             break;
         case 3:
-            if (p->responseValid==0) GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StatePrintErrorMessage,0x78c);
-            else GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateSendFinalRequest,0x78f);
+            if (work->responseValid==0) GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StatePrintErrorMessage,0x78c);
+            else GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateSendFinalRequest,0x78f);
             break;
         }
         break;
     case 5:
-        if (((struct GsyncConn *)(p->connection))->state==3)
-            GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateSendFinalRequest,0x797);
+        if (((struct GsyncConn *)(work->connection))->state==3)
+            GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateSendFinalRequest,0x797);
         else {
-            p->errorCode=*q;
-            GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateErrorMessage,0x79b);
+            work->errorCode=*responseCode;
+            GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateErrorMessage,0x79b);
         }
         break;
     case 8:
-        switch (((struct GsyncConn *)(p->connection))->state) {
-        case 0: GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateWaitMessageEnd,0x7a2); break;
-        case 3: GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateSendResponse,0x7a6); break;
+        switch (((struct GsyncConn *)(work->connection))->state) {
+        case 0: GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateWaitMessageEnd,0x7a2); break;
+        case 3: GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateSendResponse,0x7a6); break;
         }
         break;
     default:
-        p->errorCode=*q;
-        GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateErrorMessage,0x7ac);
+        work->errorCode=*responseCode;
+        GSYNC_STATE_ChangeState(work,(int)GSYNC_STATE_StateErrorMessage,0x7ac);
         break;
     }
 }
 
-void GSYNC_STATE_StateReceiveParsedResponse(char *p)
+void GSYNC_STATE_StateReceiveParsedResponse(char *state)
 {
-    char *q;
+    char *response;
     if (GFL_NET_GetRunState()) {
-        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)p,NHTTP_RAP_GetResultCode(((GsyncStateWork *)p)->httpConnection))) return;
-        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)p)->httpConnection)) return;
-        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)p)->httpConnection));
-        MI_CpuCopy8(q+0x80,(char *)((GsyncStateWork *)p)->connection+0xc,0x44);
-        ((struct GsyncConn *)(((GsyncStateWork *)p)->connection))->rapFlags=1;
-        GSYNC_STATE_ParseResponse((GsyncStateWork *)p,((GsyncConn *)q)->responseCode,(int *)q);
+        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
+        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        MI_CpuCopy8(response+0x80,(char *)((GsyncStateWork *)state)->connection+0xc,0x44);
+        ((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->rapFlags=1;
+        GSYNC_STATE_ParseResponse((GsyncStateWork *)state,((GsyncConn *)response)->responseCode,(int *)response);
     } else {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitMessageEnd,0x7d4);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageEnd,0x7d4);
     }
 }
 
-void GSYNC_STATE_StateSendParsedRequest(char *p)
+void GSYNC_STATE_StateSendParsedRequest(char *state)
 {
-    GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),13);
-    GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
+    GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),13);
+    GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
     if (GFL_NET_GetRunState()) {
-        if (NHTTP_RAP_CreateRequest(0,((GsyncStateWork *)p)->httpConnection)) {
-            if (!NHTTP_RAP_StartConnection(((GsyncStateWork *)p)->httpConnection))
-                GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveParsedResponse,0x7ea);
+        if (NHTTP_RAP_CreateRequest(0,((GsyncStateWork *)state)->httpConnection)) {
+            if (!NHTTP_RAP_StartConnection(((GsyncStateWork *)state)->httpConnection))
+                GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveParsedResponse,0x7ea);
         }
     } else {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveParsedResponse,0x7f1);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveParsedResponse,0x7f1);
     }
 }
 
-void GSYNC_STATE_StateWaitMessageClearStream(char *p)
+void GSYNC_STATE_StateWaitMessageClearStream(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg()) {
-            ((struct GsyncConn *)(((GsyncStateWork *)p)->connection))->state = 1;
-            GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateFadeOutAfterMessage, 0x808);
+            ((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->state = 1;
+            GSYNC_MESSAGE_ClearStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateFadeOutAfterMessage, 0x808);
         }
     }
 }
 
-void GSYNC_STATE_StatePrintFinalMessage(char *p)
+void GSYNC_STATE_StatePrintFinalMessage(char *state)
 {
-    GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork), 19);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateWaitMessageClearStream, 0x817);
+    GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 19);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateWaitMessageClearStream, 0x817);
 }
 
-void GSYNC_STATE_StateReceiveFinalResponse(char *p)
+void GSYNC_STATE_StateReceiveFinalResponse(char *state)
 {
-    char *q;
-    int state;
+    char *response;
+    int resultCode;
     if (GFL_NET_GetRunState()) {
-        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)p,NHTTP_RAP_GetResultCode(((GsyncStateWork *)p)->httpConnection))) return;
-        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)p)->httpConnection)) return;
-        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)p)->httpConnection));
-        state=((GsyncHttpResponse *)q)->resultCode;
-        if (state==0 || state==8) {
-            MI_CpuCopy8(q+0x80,(char *)((GsyncStateWork *)p)->connection+0x1d8,0x80);
-            ((struct GsyncConn *)(((GsyncStateWork *)p)->connection))->state=5;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateFadeOutAfterMessage,0x837);
+        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
+        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        resultCode=((GsyncHttpResponse *)response)->resultCode;
+        if (resultCode==0 || resultCode==8) {
+            MI_CpuCopy8(response+0x80,(char *)((GsyncStateWork *)state)->connection+0x1d8,0x80);
+            ((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->state=5;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFadeOutAfterMessage,0x837);
         } else {
-            ((GsyncStateWork *)p)->errorCode=state;
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateErrorMessage,0x842);
+            ((GsyncStateWork *)state)->errorCode=resultCode;
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x842);
         }
     } else {
-        ((struct GsyncConn *)(((GsyncStateWork *)p)->connection))->state=5;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateFadeOutAfterMessage,0x849);
+        ((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->state=5;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFadeOutAfterMessage,0x849);
     }
 }
 
-void GSYNC_STATE_StateSendFinalRequest(char *p)
+void GSYNC_STATE_StateSendFinalRequest(char *state)
 {
     struct GsyncRtcDate saved, current;
-    u32 value;
+    u32 rtcPacked;
     int day;
-    if (func_02008BD0(func_02008B14(((GsyncStateWork *)p)->saveControl)) && ((GsyncStateWork *)p)->responsePending) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x85c);
+    if (func_02008BD0(func_02008B14(((GsyncStateWork *)state)->saveControl)) && ((GsyncStateWork *)state)->responsePending) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x85c);
         return;
     }
-    value=func_020093C8((const struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)p)->saveControl));
-    saved.year=(u8)(value>>24);
-    saved.month=(u8)(value>>16);
-    saved.day=(u8)(value>>8);
-    saved.week=(u8)value;
+    rtcPacked=func_020093C8((const struct Sub02009210Obj *)func_02009448(((GsyncStateWork *)state)->saveControl));
+    saved.year=(u8)(rtcPacked>>24);
+    saved.month=(u8)(rtcPacked>>16);
+    saved.day=(u8)(rtcPacked>>8);
+    saved.week=(u8)rtcPacked;
     GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&current);
     day=GF_STANDARD_SetupRtc_F540((struct GsyncRtcDate *)&saved);
     if (day==GF_STANDARD_SetupRtc_F540((struct GsyncRtcDate *)&current)) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
         return;
     }
     if (GFL_NET_GetRunState()) {
-        if (NHTTP_RAP_CreateRequest(1,((GsyncStateWork *)p)->httpConnection) && !NHTTP_RAP_StartConnection(((GsyncStateWork *)p)->httpConnection))
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveFinalResponse,0x871);
+        if (NHTTP_RAP_CreateRequest(1,((GsyncStateWork *)state)->httpConnection) && !NHTTP_RAP_StartConnection(((GsyncStateWork *)state)->httpConnection))
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveFinalResponse,0x871);
     } else {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveFinalResponse,0x878);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveFinalResponse,0x878);
     }
 }
 
-void GSYNC_STATE_StatePlaySeWaitInput(char *p)
+void GSYNC_STATE_StatePlaySeWaitInput(char *state)
 {
-    if (((GsyncStateWork *)p)->blinkTimer % 110 == 0) GFL_USE_PlaySeDefaultVolume(0x659);
-    ++((GsyncStateWork *)p)->blinkTimer;
+    if (((GsyncStateWork *)state)->blinkTimer % 110 == 0) GFL_USE_PlaySeDefaultVolume(0x659);
+    ++((GsyncStateWork *)state)->blinkTimer;
     if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateSetErrorExit, 0x88e);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetErrorExit, 0x88e);
 }
 
-void GSYNC_STATE_StateWaitMessageThenNext(char *p)
+void GSYNC_STATE_StateWaitMessageThenNext(char *state)
 {
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StatePlaySeWaitInput, 0x8a0);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StatePlaySeWaitInput, 0x8a0);
     }
 }
 
-void GSYNC_STATE_StateShowCompletionMessage(char *p)
+void GSYNC_STATE_StateShowCompletionMessage(char *state)
 {
-    if (((GsyncStateWork *)p)->auxBuffer) {
-        func_020307B0(((GsyncStateWork *)p)->auxBuffer);
-        ((GsyncStateWork *)p)->auxBuffer=0;
+    if (((GsyncStateWork *)state)->auxBuffer) {
+        func_020307B0(((GsyncStateWork *)state)->auxBuffer);
+        ((GsyncStateWork *)state)->auxBuffer=0;
     }
-    ((GsyncStateWork *)p)->progressPercent=100;
-    GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),100);
-    GSYNC_MESSAGE_SetMonName(((GsyncStateWork *)p)->messageWork,14,0,(void *)((*(int *)&((GsyncStateWork *)p)->receivedMon)));
-    GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),0);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),8);
-    GSYNC_DISP_SetFadeDirection((GsyncStateWork *)(((GsyncStateWork *)p)->displayWork),0);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),0);
-    GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)p)->displayWork,4,6);
+    ((GsyncStateWork *)state)->progressPercent=100;
+    GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),100);
+    GSYNC_MESSAGE_SetMonName(((GsyncStateWork *)state)->messageWork,14,0,(void *)((*(int *)&((GsyncStateWork *)state)->receivedMon)));
+    GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),0);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),8);
+    GSYNC_DISP_SetFadeDirection((GsyncStateWork *)(((GsyncStateWork *)state)->displayWork),0);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
+    GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork,4,6);
     GFL_USE_PlaySeDefaultVolume(0x658);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateWaitMessageThenNext,0x8bd);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenNext,0x8bd);
 }
 
-void GSYNC_STATE_StateSaveErrorExit(char *p)
+void GSYNC_STATE_StateSaveErrorExit(char *state)
 {
-    if (((GsyncStateWork *)p)->progressPercent<100) ++((GsyncStateWork *)p)->progressPercent;
-    GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),((GsyncStateWork *)p)->progressPercent);
-    switch (GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)p)->saveData))) {
+    if (((GsyncStateWork *)state)->progressPercent<100) ++((GsyncStateWork *)state)->progressPercent;
+    GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent);
+    switch (GAME_DATA_SaveMain((*(void * *)&((GsyncStateWork *)state)->saveData))) {
     case 1:
-        if (((GsyncStateWork *)p)->receivedMonCopy) {
-            func_020307B0(((GsyncStateWork *)p)->receivedMonCopy);
-            ((GsyncStateWork *)p)->receivedMonCopy=0;
+        if (((GsyncStateWork *)state)->receivedMonCopy) {
+            func_020307B0(((GsyncStateWork *)state)->receivedMonCopy);
+            ((GsyncStateWork *)state)->receivedMonCopy=0;
         }
         break;
     case 3:
@@ -1789,8 +1790,8 @@ void GSYNC_STATE_StateSaveErrorExit(char *p)
         GFL_NET_STATE_SetErrorMode(0);
         break;
     case 2:
-        ((GsyncStateWork *)p)->saveActive=0;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateShowCompletionMessage,0x8e6);
+        ((GsyncStateWork *)state)->saveActive=0;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateShowCompletionMessage,0x8e6);
         break;
     }
 }
@@ -1798,64 +1799,64 @@ void GSYNC_STATE_StateSaveErrorExit(char *p)
 /*
  * lever: GAME_DATA_GetTrainerRecord leaves its return in r0 for func_02008DF0.
  */
-void GSYNC_STATE_StateTrainerRecordSaveStart(char *p)
+void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
 {
-    void *q;
+    void *saveSystem;
     struct GsyncRtcDate date;
-    q=func_02009448(((GsyncStateWork *)p)->saveControl);
-    ((GsyncStateWork *)p)->monStored=0;
+    saveSystem=func_02009448(((GsyncStateWork *)state)->saveControl);
+    ((GsyncStateWork *)state)->monStored=0;
     GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&date);
-    func_020093CC(q, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
-    if (func_020093D8(q)!=127) {
-        func_02009428(q,1);
-        func_020093F0(q,126);
+    func_020093CC(saveSystem, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
+    if (func_020093D8(saveSystem)!=127) {
+        func_02009428(saveSystem,1);
+        func_020093F0(saveSystem,126);
     }
-    ((GsyncStateWork *)p)->progressPercent=50;
-    func_02008DF0(GAME_DATA_GetTrainerRecord((*(void * *)&((GsyncStateWork *)p)->saveData)),119);
-    ((GsyncStateWork *)p)->saveActive=1;
-    GAME_DATA_SaveStart((int)((*(void * *)&((GsyncStateWork *)p)->saveData)));
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSaveErrorExit,0x914);
+    ((GsyncStateWork *)state)->progressPercent=50;
+    func_02008DF0(GAME_DATA_GetTrainerRecord((*(void * *)&((GsyncStateWork *)state)->saveData)),119);
+    ((GsyncStateWork *)state)->saveActive=1;
+    GAME_DATA_SaveStart((int)((*(void * *)&((GsyncStateWork *)state)->saveData)));
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveErrorExit,0x914);
 }
 
-void GSYNC_STATE_StateReceiveRecordResponse(char *p)
+void GSYNC_STATE_StateReceiveRecordResponse(char *state)
 {
-    char *q;
-    int state;
-    func_02009448(((GsyncStateWork *)p)->saveControl);
-    GSYNC_DISP_UpdateParticles(((GsyncStateWork *)p)->displayWork);
-    if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)p)) {
-        if (((GsyncStateWork *)p)->waitTicks==0) {
-            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),42);
-            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        } else if (((GsyncStateWork *)p)->waitTicks==360) {
-            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),43);
-            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        } else if (((GsyncStateWork *)p)->waitTicks==720) {
-            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),44);
-            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
+    char *response;
+    int resultCode;
+    func_02009448(((GsyncStateWork *)state)->saveControl);
+    GSYNC_DISP_UpdateParticles(((GsyncStateWork *)state)->displayWork);
+    if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)state)) {
+        if (((GsyncStateWork *)state)->waitTicks==0) {
+            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),42);
+            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        } else if (((GsyncStateWork *)state)->waitTicks==360) {
+            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),43);
+            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        } else if (((GsyncStateWork *)state)->waitTicks==720) {
+            GSYNC_MESSAGE_PrintId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),44);
+            GSYNC_MESSAGE_PrintInSubWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
         }
-        ++((GsyncStateWork *)p)->waitTicks;
+        ++((GsyncStateWork *)state)->waitTicks;
     }
-    if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)p)) {
-        if (((GsyncStateWork *)p)->progressPercent<50) ++((GsyncStateWork *)p)->progressPercent;
-        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),((GsyncStateWork *)p)->progressPercent);
-        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)p,NHTTP_RAP_GetResultCode(((GsyncStateWork *)p)->httpConnection))) return;
-        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)p)->httpConnection)) return;
-        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)p)->httpConnection));
-        if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)p)) GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        state=((GsyncHttpResponse *)q)->resultCode;
-        if (state==0) {
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateTrainerRecordSaveStart,0x955);
+    if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)state)) {
+        if (((GsyncStateWork *)state)->progressPercent<50) ++((GsyncStateWork *)state)->progressPercent;
+        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent);
+        if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
+        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)state)) GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        resultCode=((GsyncHttpResponse *)response)->resultCode;
+        if (resultCode==0) {
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTrainerRecordSaveStart,0x955);
             return;
         }
-        ((GsyncStateWork *)p)->errorCode=state;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateErrorMessage,0x959);
+        ((GsyncStateWork *)state)->errorCode=resultCode;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x959);
         return;
     } else {
-        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),((GsyncStateWork *)p)->progressStep);
-        if (++((GsyncStateWork *)p)->progressStep==100) {
-            if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)p)) GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateTrainerRecordSaveStart,0x967);
+        GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressStep);
+        if (++((GsyncStateWork *)state)->progressStep==100) {
+            if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)state)) GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTrainerRecordSaveStart,0x967);
         }
     }
 }
@@ -1868,113 +1869,113 @@ void GSYNC_STATE_StateReceiveRecordResponse(char *p)
  *       return BACKUP_SYSTEM_GetWork(*(void **)(p + 0x10), out);
  *   }
  */
-void GSYNC_STATE_StateSendRecordRequest(char *p)
+void GSYNC_STATE_StateSendRecordRequest(char *state)
 {
-    int x;
-    unsigned int v;
-    func_02009448(((GsyncStateWork *)p)->saveControl);
-    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork))) {
-        ((GsyncStateWork *)p)->waitTicks=0;
-        if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)p)) {
-            if (NHTTP_RAP_CreateRequest(3,((GsyncStateWork *)p)->httpConnection)) {
-                v=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)p)->saveControl,&x);
-                NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)p)->httpConnection),(void *)v,0x80000);
-                GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),0);
-                ((GsyncStateWork *)p)->progressPercent=0;
-                if (!NHTTP_RAP_StartConnection(((GsyncStateWork *)p)->httpConnection))
-                    GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveRecordResponse,0x986);
+    int workAreaSize;
+    unsigned int workArea;
+    func_02009448(((GsyncStateWork *)state)->saveControl);
+    if (GSYNC_MESSAGE_UpdateStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork))) {
+        ((GsyncStateWork *)state)->waitTicks=0;
+        if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)state)) {
+            if (NHTTP_RAP_CreateRequest(3,((GsyncStateWork *)state)->httpConnection)) {
+                workArea=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)state)->saveControl,&workAreaSize);
+                NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)state)->httpConnection),(void *)workArea,0x80000);
+                GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
+                ((GsyncStateWork *)state)->progressPercent=0;
+                if (!NHTTP_RAP_StartConnection(((GsyncStateWork *)state)->httpConnection))
+                    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveRecordResponse,0x986);
             }
         } else {
-            GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),0);
-            GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateReceiveRecordResponse,0x98c);
+            GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
+            GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveRecordResponse,0x98c);
         }
     }
 }
 
-void GSYNC_STATE_StateStartTransferAnimation(char *p)
+void GSYNC_STATE_StateStartTransferAnimation(char *state)
 {
-    if (--((GsyncStateWork *)p)->timer==0) {
-        GSYNC_DISP_StartPaletteWave((GsyncDispWork *)((unsigned char *)(((GsyncStateWork *)p)->displayWork)));
-        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork),8);
-        GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)p)->messageWork));
-        GSYNC_DISP_SetFadeDirection((GsyncStateWork *)(((GsyncStateWork *)p)->displayWork),1);
-        GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)p)->displayWork,4,5);
-        GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)p)->displayWork,0,0);
-        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),12);
+    if (--((GsyncStateWork *)state)->timer==0) {
+        GSYNC_DISP_StartPaletteWave((GsyncDispWork *)((unsigned char *)(((GsyncStateWork *)state)->displayWork)));
+        GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),8);
+        GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
+        GSYNC_DISP_SetFadeDirection((GsyncStateWork *)(((GsyncStateWork *)state)->displayWork),1);
+        GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork,4,5);
+        GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork,0,0);
+        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),12);
         GFL_USE_PlaySeDefaultVolume(0x657);
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateSendRecordRequest,0x9a8);
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSendRecordRequest,0x9a8);
     }
 }
 
-void GSYNC_STATE_StateTransferAnimationStep(char *p) { if(--((GsyncStateWork *)p)->timer==0) { GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),4); ((GsyncStateWork *)p)->timer=60; GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateStartTransferAnimation,0x9b9); } }
+void GSYNC_STATE_StateTransferAnimationStep(char *state) { if(--((GsyncStateWork *)state)->timer==0) { GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),4); ((GsyncStateWork *)state)->timer=60; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateStartTransferAnimation,0x9b9); } }
 
-void GSYNC_STATE_StateTransferAnimationOpen(char *p)
+void GSYNC_STATE_StateTransferAnimationOpen(char *state)
 {
-    if (--((GsyncStateWork *)p)->timer == 0) {
-        GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)p)->displayWork, 0, 1);
-        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork), 2);
-        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork), 3);
-        ((GsyncStateWork *)p)->timer = 15;
-        GSYNC_STATE_ChangeState((GsyncStateWork *)p, (int)GSYNC_STATE_StateTransferAnimationStep, 0x9cf);
+    if (--((GsyncStateWork *)state)->timer == 0) {
+        GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork, 0, 1);
+        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork), 2);
+        GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork), 3);
+        ((GsyncStateWork *)state)->timer = 15;
+        GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateTransferAnimationStep, 0x9cf);
     }
 }
 
-void GSYNC_STATE_StateTransferAnimationEffect(char *p) { if(--((GsyncStateWork *)p)->timer==0) { GSYNC_DISP_CreateEffectActorDefault((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork)); GSYNC_DISP_EnableActorAutoAnim((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork)); ((GsyncStateWork *)p)->timer=70; GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateTransferAnimationOpen,0x9e4); } }
+void GSYNC_STATE_StateTransferAnimationEffect(char *state) { if(--((GsyncStateWork *)state)->timer==0) { GSYNC_DISP_CreateEffectActorDefault((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork)); GSYNC_DISP_EnableActorAutoAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork)); ((GsyncStateWork *)state)->timer=70; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationOpen,0x9e4); } }
 
-void GSYNC_STATE_StateCreateReceivedMonIcon(char *p) { GSYNC_DISP_CreateMonIconActor(((GsyncStateWork *)p)->displayWork,(void *)func_020185F0(((GsyncStateWork *)p)->receivedMon),1); ((GsyncStateWork *)p)->timer=10; GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateTransferAnimationEffect,0x9f6); }
+void GSYNC_STATE_StateCreateReceivedMonIcon(char *state) { GSYNC_DISP_CreateMonIconActor(((GsyncStateWork *)state)->displayWork,(void *)func_020185F0(((GsyncStateWork *)state)->receivedMon),1); ((GsyncStateWork *)state)->timer=10; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationEffect,0x9f6); }
 
-void GSYNC_STATE_StateStoreReceivedMon(char *p)
+void GSYNC_STATE_StateStoreReceivedMon(char *state)
 {
-    void *v;
-    void *q;
-    void *t;
-    v=func_02009448(((GsyncStateWork *)p)->saveControl);
-    if (((GsyncStateWork *)p)->receivedMon) {
-        func_020307B0(((GsyncStateWork *)p)->receivedMon);
-        ((GsyncStateWork *)p)->receivedMon=0;
+    void *saveSystem;
+    void *monData;
+    void *boxMon;
+    saveSystem=func_02009448(((GsyncStateWork *)state)->saveControl);
+    if (((GsyncStateWork *)state)->receivedMon) {
+        func_020307B0(((GsyncStateWork *)state)->receivedMon);
+        ((GsyncStateWork *)state)->receivedMon=0;
     }
-    t=func_02007A18(((GsyncStateWork *)p)->boxSave,((GsyncStateWork *)p)->boxIndex,((GsyncStateWork *)p)->slotIndex);
-    if (t) {
-        q=POKE_TOOL_CreateFromBoxParam(t,((GsyncStateWork *)p)->heapId);
-        func_02009294(v,q);
-        ((GsyncStateWork *)p)->receivedMon=q;
-        func_02007664(((GsyncStateWork *)p)->boxSave,((GsyncStateWork *)p)->boxIndex,((GsyncStateWork *)p)->slotIndex);
-        func_020092F8(v,1);
-        ((GsyncStateWork *)p)->monStored=1;
+    boxMon=func_02007A18(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
+    if (boxMon) {
+        monData=POKE_TOOL_CreateFromBoxParam(boxMon,((GsyncStateWork *)state)->heapId);
+        func_02009294(saveSystem,monData);
+        ((GsyncStateWork *)state)->receivedMon=monData;
+        func_02007664(((GsyncStateWork *)state)->boxSave,((GsyncStateWork *)state)->boxIndex,((GsyncStateWork *)state)->slotIndex);
+        func_020092F8(saveSystem,1);
+        ((GsyncStateWork *)state)->monStored=1;
     }
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),0);
-    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)p)->displayWork),12);
-    GSYNC_STATE_ChangeState((GsyncStateWork *)p,(int)GSYNC_STATE_StateCreateReceivedMonIcon,0xa2a);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
+    GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),12);
+    GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCreateReceivedMonIcon,0xa2a);
 }
 
-void GSYNC_STATE_DestroyHttpConnection(char *p)
+void GSYNC_STATE_DestroyHttpConnection(char *state)
 {
-    if (*(u32 *)&((GsyncStateWork *)p)->httpConnection != 0) {
-        NHTTP_RAP_DeleteConnection(((GsyncStateWork *)p)->httpConnection);
-        NHTTP_RAP_Destroy(((GsyncStateWork *)p)->httpConnection);
-        *(u32 *)&((GsyncStateWork *)p)->httpConnection = 0;
+    if (*(u32 *)&((GsyncStateWork *)state)->httpConnection != 0) {
+        NHTTP_RAP_DeleteConnection(((GsyncStateWork *)state)->httpConnection);
+        NHTTP_RAP_Destroy(((GsyncStateWork *)state)->httpConnection);
+        *(u32 *)&((GsyncStateWork *)state)->httpConnection = 0;
     }
 }
 
 /*
  * extent: two zero alignment bytes follow the return.
  */
-void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *p)
+void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *state)
 {
-    void *v;
-    void *q;
-    v=func_02009448(p->saveControl);
-    if (p->receivedMonCopy) {
-        MI_CpuCopy8(p->receivedMonCopy,v,func_02009228());
-        func_020307B0(p->receivedMonCopy);
-        p->receivedMonCopy=0;
+    void *saveSystem;
+    void *monData;
+    saveSystem=func_02009448(state->saveControl);
+    if (state->receivedMonCopy) {
+        MI_CpuCopy8(state->receivedMonCopy,saveSystem,func_02009228());
+        func_020307B0(state->receivedMonCopy);
+        state->receivedMonCopy=0;
     }
-    if (p->monStored) {
-        q=func_02009290(v);
-        func_020075B0(p->boxSave,p->boxIndex,p->slotIndex,POKE_TOOL_GetBoxParam(q));
-        POKE_TOOL_ClearPartyParam(q);
-        func_020092F8(v,0);
-        p->monStored=0;
+    if (state->monStored) {
+        monData=func_02009290(saveSystem);
+        func_020075B0(state->boxSave,state->boxIndex,state->slotIndex,POKE_TOOL_GetBoxParam(monData));
+        POKE_TOOL_ClearPartyParam(monData);
+        func_020092F8(saveSystem,0);
+        state->monStored=0;
     }
 }
 
@@ -1982,115 +1983,115 @@ void GSYNC_STATE_CommitReceivedMon(GsyncStateWork *p)
  * interface: 0203159C returns the allocation live in r0 (original store
  * at 020315C0, then return); legacy matched definition says void.
  */
-int GSYNC_STATE_ProcInit(void *a,int b,GsyncConn *q)
+int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
 {
-    GsyncStateWork *p;
-    int value;
+    GsyncStateWork *state;
+    int profileValue;
     func_02034AC4((int)ov114_id);
     GFL_HEAP_CreateChildHeap(1,98,0x88000);
-    p=(GsyncStateWork *) PROCSYS_AllocProcWork(a,0xb0,98);
-    MI_CpuFill8(p,0,0xb0);
-    p->heapId=98;
-    if (!q) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
-    if (q) {
-        p->connection=(char *)q;
-        (*(void * *)&p->saveData)=q->saveData;
-        p->saveControl=GAME_DATA_GetSaveControl(q->saveData);
-        value=func_0200853C((const struct Sub0200852CObj *)func_02012944(q->saveData));
-        (*(unsigned int *)&p->boxSave)=GAME_DATA_GetBoxManager(q->saveData);
-        p->boxIndex=q->boxIndex;
-        p->slotIndex=q->slotIndex;
-        p->responsePending=func_020092EC((const struct Sub02009210Obj *)func_02009448(p->saveControl));
-        p->responseValid=p->responsePending;
-        func_02009448(p->saveControl);
-        switch (q->state) {
+    state=(GsyncStateWork *) PROCSYS_AllocProcWork(procSys,0xb0,98);
+    MI_CpuFill8(state,0,0xb0);
+    state->heapId=98;
+    if (!connection) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+    if (connection) {
+        state->connection=(char *)connection;
+        (*(void * *)&state->saveData)=connection->saveData;
+        state->saveControl=GAME_DATA_GetSaveControl(connection->saveData);
+        profileValue=func_0200853C((const struct Sub0200852CObj *)func_02012944(connection->saveData));
+        (*(unsigned int *)&state->boxSave)=GAME_DATA_GetBoxManager(connection->saveData);
+        state->boxIndex=connection->boxIndex;
+        state->slotIndex=connection->slotIndex;
+        state->responsePending=func_020092EC((const struct Sub02009210Obj *)func_02009448(state->saveControl));
+        state->responseValid=state->responsePending;
+        func_02009448(state->saveControl);
+        switch (connection->state) {
         case 0:
-            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
-            GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateSendParsedRequest,0xa89);
+            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateSendParsedRequest,0xa89);
             break;
         case 1:
-            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
-            GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateStoreReceivedMon,0xa8d);
+            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateStoreReceivedMon,0xa8d);
             break;
         case 2:
-            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
-            GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateStoreReceivedMon,0xa91);
+            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateStoreReceivedMon,0xa91);
             break;
         case 3:
-            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
-            GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StateSendParsedRequest,0xa95);
+            if (!profileValue) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateSendParsedRequest,0xa95);
             break;
         case 4:
-            GSYNC_STATE_ChangeState(p,(int)GSYNC_STATE_StatePrintFinalMessage,0xa98);
+            GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StatePrintFinalMessage,0xa98);
             break;
         }
-        if (*(int *)&q->state!=4) {
-            p->httpConnection=NHTTP_RAP_Create(98,value,(int)((char *)q+0x54));
-            DWC_RAP_SetErrorCallback((int)GSYNC_STATE_DestroyHttpConnection,(int)p);
+        if (*(int *)&connection->state!=4) {
+            state->httpConnection=NHTTP_RAP_Create(98,profileValue,(int)((char *)connection+0x54));
+            DWC_RAP_SetErrorCallback((int)GSYNC_STATE_DestroyHttpConnection,(int)state);
         }
     }
-    p->displayWork=GSYNC_DISP_Init(p->heapId);
-    p->messageWork=GSYNC_MESSAGE_InitSystem(p->heapId,39);
-    WIPE_SYS_Start(0,1,1,0,6,1,p->heapId);
-    GFL_NET_RestartWithDefaultTimeout(0,p->heapId);
+    state->displayWork=GSYNC_DISP_Init(state->heapId);
+    state->messageWork=GSYNC_MESSAGE_InitSystem(state->heapId,39);
+    WIPE_SYS_Start(0,1,1,0,6,1,state->heapId);
+    GFL_NET_RestartWithDefaultTimeout(0,state->heapId);
     return 1;
 }
 
-int GSYNC_STATE_ProcMain(void *a, int b, int c, GsyncStateWork *p)
+int GSYNC_STATE_ProcMain(void *unused0, int unused1, int unused2, GsyncStateWork *state)
 {
-    void (*callback)(char *);
+    void (*stateFunc)(char *);
     int result;
-    callback=(void (*)(char *))p->stateHandler;
+    stateFunc=(void (*)(char *))state->stateHandler;
     result=1;
-    if (WIPE_SYS_EndCheck() && !p->netDone && func_0200FB24()) {
-        if ((*(void * *)&p->downloadWork)) GSYNC_DOWNLOAD_CleanupOnce((GsyncDownloadWork *)((*(void * *)&p->downloadWork)));
-        NHTTP_RAP_DeleteConnection(p->httpConnection);
-        if (p->saveActive) {
-            GAME_DATA_SaveCancel((*(void * *)&p->saveData));
-            p->saveActive=0;
+    if (WIPE_SYS_EndCheck() && !state->netDone && func_0200FB24()) {
+        if ((*(void * *)&state->downloadWork)) GSYNC_DOWNLOAD_CleanupOnce((GsyncDownloadWork *)((*(void * *)&state->downloadWork)));
+        NHTTP_RAP_DeleteConnection(state->httpConnection);
+        if (state->saveActive) {
+            GAME_DATA_SaveCancel((*(void * *)&state->saveData));
+            state->saveActive=0;
         }
-        GSYNC_STATE_CommitReceivedMon(p);
-        if (p->saveInProgress) func_0200F7C0(41);
+        GSYNC_STATE_CommitReceivedMon(state);
+        if (state->saveInProgress) func_0200F7C0(41);
         WIPE_SetBrightnessFadeOut(0,0);
         WIPE_SetBrightnessFadeOut(1,0);
         DWC_RAPCOMMON_HandleNetError(1,0);
-        ((struct GsyncConn *)(p->connection))->state=7;
+        ((struct GsyncConn *)(state->connection))->state=7;
         return 1;
     }
-    if (callback) { callback((char *)p); result=0; }
-    if (p->confirmMenu) APP_TASKMENU_UpdateMenu(p->confirmMenu);
-    if ((*(void * *)&p->downloadWork)) GSYNC_DOWNLOAD_Process((GsyncDownloadWork *)((*(void * *)&p->downloadWork)));
-    GSYNC_DISP_Draw((GsyncDispWork *)(p->displayWork));
-    GSYNC_MESSAGE_UpdateSystem((GsyncMessageWork *)(p->messageWork));
+    if (stateFunc) { stateFunc((char *)state); result=0; }
+    if (state->confirmMenu) APP_TASKMENU_UpdateMenu(state->confirmMenu);
+    if ((*(void * *)&state->downloadWork)) GSYNC_DOWNLOAD_Process((GsyncDownloadWork *)((*(void * *)&state->downloadWork)));
+    GSYNC_DISP_Draw((GsyncDispWork *)(state->displayWork));
+    GSYNC_MESSAGE_UpdateSystem((GsyncMessageWork *)(state->messageWork));
     return result;
 }
 
 /*
  * evidence: unlabelled ov009 02156DE0 leaf filed and verified before caller rerun.
  */
-int GSYNC_STATE_ProcExit(void *a, int b, int c, GsyncStateWork *p)
+int GSYNC_STATE_ProcExit(void *procSys, int unused0, int unused1, GsyncStateWork *state)
 {
     if (!WIPE_SYS_EndCheck()) return 0;
-    if (p->confirmMenu) APP_TASKMENU_CloseMenu(p->confirmMenu);
-    if (p->listBuffer) {
-        func_020307B0(p->listBuffer);
-        p->listBuffer=0;
+    if (state->confirmMenu) APP_TASKMENU_CloseMenu(state->confirmMenu);
+    if (state->listBuffer) {
+        func_020307B0(state->listBuffer);
+        state->listBuffer=0;
     }
-    GSYNC_MESSAGE_ExitSystem((GsyncMessageWork *)(p->messageWork));
-    GSYNC_DISP_Exit((GsyncDispWork *)(p->displayWork));
-    GSYNC_DOWNLOAD_FreeWork((GsyncDownloadWork *)(p->downloadWork));
-    if (p->musicalSave) func_020307B0(p->musicalSave);
-    if (p->extraSaveBuffer) func_020307B0(p->extraSaveBuffer);
-    if (p->iconBuffer) func_020307B0(p->iconBuffer);
-    if (p->receivedMon) func_020307B0(p->receivedMon);
-    if (p->auxBuffer) func_020307B0(p->auxBuffer);
+    GSYNC_MESSAGE_ExitSystem((GsyncMessageWork *)(state->messageWork));
+    GSYNC_DISP_Exit((GsyncDispWork *)(state->displayWork));
+    GSYNC_DOWNLOAD_FreeWork((GsyncDownloadWork *)(state->downloadWork));
+    if (state->musicalSave) func_020307B0(state->musicalSave);
+    if (state->extraSaveBuffer) func_020307B0(state->extraSaveBuffer);
+    if (state->iconBuffer) func_020307B0(state->iconBuffer);
+    if (state->receivedMon) func_020307B0(state->receivedMon);
+    if (state->auxBuffer) func_020307B0(state->auxBuffer);
     if (GFL_NET_GetRunState()) DWC_RAP_SetErrorHookCallback(0,0);
-    if (p->httpConnection) {
-        NHTTP_RAP_Destroy(p->httpConnection);
+    if (state->httpConnection) {
+        NHTTP_RAP_Destroy(state->httpConnection);
         DWC_RAP_SetErrorCallback(0,0);
     }
-    func_020315D4(a);
-    func_020306F0(98);
+    func_020315D4(procSys);
+    GFL_HEAP_DeleteChecked(98);
     func_02034A5C((int)ov114_id);
     return 1;
 }

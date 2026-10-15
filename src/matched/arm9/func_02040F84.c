@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02040F84
+ * function: BG_SYS_DrawTileRegion
  * address:  0x02040F84
  * packet:   pkt_02040F84
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The arbitrary-size cousin of src/matched/func_02040EE0.c: linear screen
+ * The arbitrary-size cousin of src/matched/BG_SYS_GetTileMapEntry.c: linear screen
  * entry index for (x, y) in a map that is `w` by `h` tiles, laid out as up to
  * four 32-wide/32-tall blocks.  The block is selected by `(x >> 5)` and
  * `(y >> 5)` folded into a single u8 selector, and the switch has cases 0..3
@@ -40,8 +40,8 @@
  *    `mov ip, r6`), not the other way round.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02040F84.c \
- *       --func func_02040F84 --addr 0x02040F84 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_DrawTileRegion.c \
+ *       --func BG_SYS_DrawTileRegion --addr 0x02040F84 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -49,7 +49,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-u16 func_02040F84(u32 x, u32 y, u8 w, u32 h)
+u16 BG_SYS_DrawTileRegion(u32 x, u32 y, u8 w, u32 h)
 {
     u16 base;
     s16 w2 = w - 32;

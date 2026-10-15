@@ -57,7 +57,7 @@
  *   DWC_NdProcess 0x021C5AB8 arm ov114
  *   DWC_NdGetProgress 0x021C5E14 arm ov114
  *   DWC_NdCancelAsync 0x021C5DB4 arm ov114
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   d_021DFBD8 0x021DFBD8 data a4
  *   d_021DFBD0 0x021DFBD0 data a4
@@ -164,7 +164,7 @@ extern int DWC_NdGetFileAsync(void *,char *,u32);
 extern void DWC_NdProcess(void);
 extern int DWC_NdGetProgress(u32 *,u32 *);
 extern int DWC_NdCancelAsync(void);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
 extern int DWC_NdCleanupAsync(void);
 extern unsigned short STRBUF_GetEosChar(void);
@@ -575,7 +575,7 @@ void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p)
         if(n==1) {
             for(i=0;i<10;i++) if(((Flag *)((u32)q+(u32)i*4))->flag) {Q(0x724)=i;break;}
         } else if(n>1) {
-            j=0;rnd=func_0203F0A8();
+            j=0;rnd=GF_STANDARD_Rand();
             if(n) rnd=(u32)(((u64)rnd*(u32)n)>>32);
             for(i=0;i<10;i++) {
                 if(((Flag *)((u32)q+(u32)i*4))->flag) {
@@ -867,7 +867,7 @@ struct Rec {
 extern const u32 d_021DFB2C[];
 extern u8 g0209DF08;
 extern u8 g0209DF0C;
-extern void *gMsgBank;
+extern void *gSpeciesNameBank;
 
 extern u32 func_020056EC(u32 range);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -1104,7 +1104,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             if (r->f5C != 0) {
                 void *s;
                 POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
-                s = func_02045EC0(gMsgBank, 0x28a);
+                s = func_02045EC0(gSpeciesNameBank, 0x28a);
                 POKE_TOOL_SetPartyValue(mon, 0x73, (u32)s);
                 STRBUF_Delete(s);
                 POKE_TOOL_SetPartyValue(mon, 9, 10);

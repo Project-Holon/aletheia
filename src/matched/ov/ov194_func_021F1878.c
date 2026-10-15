@@ -1,5 +1,5 @@
 /*
- * function: func_021F1878
+ * function: NAMEIN_GRAPHIC_UpdateBg
  * address:  0x021F1878
  * packet:   pkt_021F1878
  * region:   ov194
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  */
 
-extern int func_02040DA8(int, int, int);
+extern int BG_SYS_SetTileUnit(int, int, int);
 
-int func_021F1878(void *a0)
+int NAMEIN_GRAPHIC_UpdateBg(void *a0)
 {
-    return func_02040DA8(4, 1, 0);
+    return BG_SYS_SetTileUnit(4, 1, 0);
 }

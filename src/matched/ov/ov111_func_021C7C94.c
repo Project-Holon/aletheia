@@ -1,5 +1,5 @@
 /*
- * function: func_021C7C94
+ * function: VIEWER_ACTOR_StepBounce
  * address:  0x021C7C94
  * packet:   pkt_ov111_021C7C94
  * region:   ov111
@@ -59,7 +59,7 @@ typedef struct {
     u8 f17C[8];
 } Work;
 
-void func_021C7C94(Work *p, int unused)
+void VIEWER_ACTOR_StepBounce(Work *p, int unused)
 {
     int v = p->f140;
 

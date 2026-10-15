@@ -12,7 +12,7 @@
  * symbols:
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   IRCBATTLEMENU_DeleteButtonWindows  0x02196454  thumb  ov021
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
  *   func_020403F4  0x020403F4  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void IRCBATTLEMENU_DeleteButtonWindows(u8 *p);
-extern void func_02040DA8(u32 a, u32 b, u32 c);
+extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern void BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
 struct Rec;
@@ -44,7 +44,7 @@ void IRCBATTLEMENU_FreeMenuGraphics(u8 *p)
 
     GF_FONT_SetDefaultTextColor();
     IRCBATTLEMENU_DeleteButtonWindows(p);
-    func_02040DA8(5, 1, 0);
+    BG_SYS_SetTileUnit(5, 1, 0);
     v = ((struct Obj03578 *)p)->f3C;
     BG_SYS_DeleteHalf(5, (u16)v, (u16)(v >> 16));
     func_020403F4(5);

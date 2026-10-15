@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030880
+ * function: GFL_HEAP_StampAllocSite
  *
- * Success-side bookkeeping for the allocation entry point sub_02030734:
+ * Success-side bookkeeping for the allocation entry point GFL_HEAP_Alloc:
  * stamps the allocation-site provenance pair (name string, u16 tag) into
  * the block header of a freshly allocated payload.
  *
- *   void sub_02030880(void *p, const char *site, u16 tag)
+ *   void GFL_HEAP_StampAllocSite(void *p, const char *site, u16 tag)
  *
  * sub_020304C0 (already EXACT) converts the payload pointer into
  * `&((char *)p - 0x1c)[4]`, so the provenance record lives at header+4 and
@@ -32,8 +32,8 @@
  *   sub_020304C0    0x020304C0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030880.c \
- *       --func sub_02030880 --addr 0x02030880 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_StampAllocSite.c \
+ *       --func GFL_HEAP_StampAllocSite --addr 0x02030880 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -45,7 +45,7 @@ struct HeapBlockSite {
 
 extern void *sub_020304C0(void *p);
 
-void sub_02030880(void *p, const char *site, u16 tag)
+void GFL_HEAP_StampAllocSite(void *p, const char *site, u16 tag)
 {
     struct HeapBlockSite *rec;
     int i;

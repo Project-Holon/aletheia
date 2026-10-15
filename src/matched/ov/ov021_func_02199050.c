@@ -1,5 +1,5 @@
 /*
- * function: func_02199050
+ * function: FLDMMDL_ACMD_StayMove
  * address:  0x02199050
  * packet:   pkt_ov021_02199050
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed char    s8;
 extern void *FLDMMDL_GetMoveCmdWork(void *p);
 extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-int func_02199050(u32 a)
+int FLDMMDL_ACMD_StayMove(u32 a)
 {
     u16 *p;
 

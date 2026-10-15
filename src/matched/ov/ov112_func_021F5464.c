@@ -1,5 +1,5 @@
 /*
- * function: func_021F5464
+ * function: MUSICAL_MCSS_GetRenderMatrix
  * address: 0x021F5464
  * packet: pkt_ov112_021F5464
  * region: ov112
@@ -9,4 +9,4 @@
  * status: EXACT*
  * follower: aggregate-copy function 021F546C parked as DIFF note.
  */
-char *func_021F5464(char *p) { return p+536; }
+char *MUSICAL_MCSS_GetRenderMatrix(char *p) { return p+536; }

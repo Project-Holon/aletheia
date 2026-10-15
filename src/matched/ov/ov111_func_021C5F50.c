@@ -1,5 +1,5 @@
 /*
- * function: func_021C5F50
+ * function: VIEWER_MAIN_CopyTouchPos
  * address:  0x021C5F50
  * packet:   pkt_ov111_021C5F50
  * region:   ov111
@@ -21,7 +21,7 @@ typedef struct {
     u8 active;
 } TouchPos;
 
-void func_021C5F50(TouchPos *src, TouchPos *dst)
+void VIEWER_MAIN_CopyTouchPos(TouchPos *src, TouchPos *dst)
 {
     dst->x = src->x;
     dst->y = src->y;

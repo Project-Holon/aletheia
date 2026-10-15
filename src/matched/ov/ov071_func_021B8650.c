@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   d_021BAA64     0x021BAA64  data  a4
  *   d_021BAA84     0x021BAA84  data  a4
  */
@@ -24,10 +24,10 @@ struct BgTemplate;
 void func_021B8650(void)
 {
     extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-    extern void func_02041300(int, int, int, int, int, int, int);
+    extern void BG_SYS_SetTileEntry(int, int, int, int, int, int, int);
 
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)d_021BAA64, 0);
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)d_021BAA84, 0);
-    func_02041300(0, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(2, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(0, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
 }

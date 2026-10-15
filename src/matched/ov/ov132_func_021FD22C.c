@@ -1,5 +1,5 @@
 /*
- * function: func_021FD22C
+ * function: MUS_COMM_FUNC_SendBoxData
  * address: 0x021FD22C
  * packet: pkt_ov132_021FD22C
  * region: ov132
@@ -24,7 +24,7 @@ extern int MYSTATUS_GetSize(void);
 extern void MI_CpuCopy8(void *,void *,u32);
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_021FD22C(char *p)
+int MUS_COMM_FUNC_SendBoxData(char *p)
 {
     u8 i;
     u32 n;

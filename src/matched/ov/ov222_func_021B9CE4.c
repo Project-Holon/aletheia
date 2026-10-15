@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CE4
+ * function: ZENKOKU_ZUKAN_AWARD_CreateActor
  * address: 0x021B9CE4
  * packet: pkt_ov222_021B9CE4
  * region: ov222
@@ -36,7 +36,7 @@ extern u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
 extern struct Obj *CLACT_CreateActor(void*,u32,u32,u32,const void*,u16,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void func_021B9CE4(char*p)
+void ZENKOKU_ZUKAN_AWARD_CreateActor(char*p)
 {
  u32 t;
  void *h;

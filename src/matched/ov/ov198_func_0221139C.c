@@ -1,5 +1,5 @@
 /*
- * function: func_0221139C
+ * function: B_PLIST_MAIN_GetFramePos
  * address:  0x0221139C
  * packet:   pkt_0221139C
  * region:   ov198
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_0221139C(u8 *a, u8 *b, unsigned int c)
+void B_PLIST_MAIN_GetFramePos(u8 *a, u8 *b, unsigned int c)
 {
     int lo = c & 1;
 

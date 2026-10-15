@@ -11,14 +11,14 @@
  * note: pass 2 2026-10-06 P2L47: closed from 62 B. The draw and the commit call are written in each arm of the blink
  *   test (the two arms are tail-merged into one call sequence by the compiler); this gives the window four uses, so
  *   palette1 (not the window) is spilled and y keeps its own register with the copy into r2 at the call. Callee
- *   prototypes are the u8 forms used by matched callers (ov103 021B8FA0, ov121 021DDC58): func_020413B0(u8 x6),
+ *   prototypes are the u8 forms used by matched callers (ov103 021B8FA0, ov121 021DDC58): BG_SYS_FillTileMap(u8 x6),
  *   func_020409B4(u8). palette0 declared first (window r4, palette0 r6); row fields read in field order x, y, w, h.
  *   opt_propagation off with named off/rows locals keeps the index copy and row address sequence (G8L1).
  * symbols:
  * BUTTON_MAN_UpdateSlots 0x02051C88 arm
  * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  * BMP_WIN_GetBgLayer 0x02045730 arm
- * func_020413B0 0x020413B0 arm
+ * BG_SYS_FillTileMap 0x020413B0 arm
  * func_020409B4 0x020409B4 arm
  */
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ typedef struct {
 extern int BUTTON_MAN_UpdateSlots(struct Ctx *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 #pragma opt_propagation off
 void IRC_COMPATIBLE_MENU_UpdateButtons(State *p)
@@ -73,10 +73,10 @@ void IRC_COMPATIBLE_MENU_UpdateButtons(State *p)
         case 1: palette1=9; palette0=4; break;
         }
         if (blink == 0) {
-            func_020413B0(win,a,b,c,d,palette0);
+            BG_SYS_FillTileMap(win,a,b,c,d,palette0);
             func_020409B4(win);
         } else {
-            func_020413B0(win,a,b,c,d,palette1);
+            BG_SYS_FillTileMap(win,a,b,c,d,palette1);
             func_020409B4(win);
         }
         (p->timer)++;

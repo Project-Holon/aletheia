@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CBD08",
+   "name": "BSUBWAY_SCR_CreateBtlSetup",
    "address": "0x021CBD08",
    "kind": "game",
    "region": "ov021",

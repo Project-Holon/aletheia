@@ -12,15 +12,16 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   CLACT_ExitRenderer 0x0204BE28 arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  */
 
 typedef unsigned int u32;
 struct OamState;
 extern void CLACT_ExitRenderer(struct OamState *p);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void CLACT_DeleteRenderer(struct OamState *p)
 {
     CLACT_ExitRenderer(p);
-    sub_020307B0(p);
+    GFL_HEAP_Free(p);
 }

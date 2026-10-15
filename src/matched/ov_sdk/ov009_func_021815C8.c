@@ -13,9 +13,9 @@
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   func_02184144                  0x02184144  arm ov009
- *   func_02184234                  0x02184234  arm ov009
+ *   ArrayAppend                  0x02184234  arm ov009
  *   g_021A3B9C                     0x021A3B9C  data
  *   g_021A3CA0                     0x021A3CA0  data
  *   g_021A3CC4                     0x021A3CC4  data
@@ -59,9 +59,9 @@ typedef struct GSUdpEngineObject {
 typedef struct { char c[16]; } GSChar16;
 
 extern void *gsUdpEngineContext(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void func_02184234(void *array, void *newElem);
+extern void ArrayAppend(void *array, void *newElem);
 extern char g_021A3B9C[];
 extern char g_021A3CA0[];
 extern char g_021A3CC4[];
@@ -80,15 +80,15 @@ int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader,
 
     aUdp = gsUdpEngineContext();
     if (!aUdp->mInitialized) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 3;
     }
     if (theInitMsg[0] == 0) {
-        func_0217D254(12, 0, 15, g_021A3CA0);
+        gsDebugFormat(12, 0, 15, g_021A3CA0);
         return 10;
     }
     if (theHeader[0] == 0) {
-        func_0217D254(12, 0, 15, g_021A3CC4);
+        gsDebugFormat(12, 0, 15, g_021A3CC4);
         return 10;
     }
 
@@ -102,10 +102,10 @@ int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader,
 
     aMsgHandler.mPendingConnections = func_02184144(4, 1, 0);
     if (aMsgHandler.mPendingConnections == 0) {
-        func_0217D254(12, (char *)2, 1, g_021A3B7C);
+        gsDebugFormat(12, (char *)2, 1, g_021A3B7C);
         return 1;
     }
     aMsgHandler.mUserData = theUserData;
-    func_02184234(aUdp->mMsgHandlers, &aMsgHandler);
+    ArrayAppend(aUdp->mMsgHandlers, &aMsgHandler);
     return 0;
 }

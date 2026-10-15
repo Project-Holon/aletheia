@@ -1,5 +1,5 @@
 /*
- * function: func_021BA068
+ * function: TH_AWARD_GetLevelIndex
  * address: 0x021BA068
  * packet: pkt_ov220_021BA068
  * region: ov220
@@ -12,7 +12,7 @@
  */
 struct Record { unsigned short a,b,c,level,d,e; };
 extern const struct Record d_021BA3A8[];
-unsigned char func_021BA068(unsigned value)
+unsigned char TH_AWARD_GetLevelIndex(unsigned value)
 {
     unsigned level;
     unsigned char i;

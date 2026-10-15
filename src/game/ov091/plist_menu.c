@@ -28,7 +28,7 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   func_02030734 0x02030734 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -42,14 +42,14 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BMP_FillRect  0x02043AF4  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F73C  0x0201F73C  thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   func_020275E4  0x020275E4  thumb
  *   func_02049B40  0x02049B40  arm
  *   func_02049DB4  0x02049DB4  arm
@@ -72,9 +72,9 @@
  *   FILE_UTIL_Get_1014 0x02021014 thumb
  *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_02019CF8 0x02019CF8 thumb
+ *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
- *   func_02019D00  0x02019D00  thumb
+ *   POKE_TOOL_GetBoxParamIndex  0x02019D00  thumb
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -165,7 +165,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *printSys, void *bmp, short x, short y, struct Strbuf *str, void *font, u16 flags);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
@@ -179,14 +179,14 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 extern void BMP_FillRect(void *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BMP_Clear(void *charBuf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 func_020275E4(void);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, void **out, u16 a4);
@@ -206,9 +206,9 @@ extern void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
 extern u32 FILE_UTIL_Get_1014(void *itemData, u32 param);
 extern unsigned int FILE_UTIL_Get_0FE4(u32 itemId, unsigned int param, unsigned int heapId);
 extern u32 POKEPARTY_GetCount(void *party);
-extern unsigned int func_02019CF8(unsigned int item);
+extern unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item);
 extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
-extern u32 func_02019D00(u32 id);
+extern u32 POKE_TOOL_GetBoxParamIndex(u32 id);
 extern void GAME_BEACON_SetPokeLevelUp(int);
 extern u32 func_0201D304(struct Strbuf *s, void *font, u32 b);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
@@ -610,7 +610,7 @@ int PLIST_MENU_GetItemUseMessage(PokelistWork *work, int itemId)
 }
 
 /*
- * 2026-10-05 (D8 lane 15): the leaf func_02019CF8 is now filed EXACT in src/matched/arm9, so every
+ * 2026-10-05 (D8 lane 15): the leaf POKE_TOOL_GetPlateTypeForwarder is now filed EXACT in src/matched/arm9, so every
  * relocation resolves and this file is EXACT.
  */
 void PLIST_MENU_ApplyArceusPlateForm(void *unused, void *mon, int itemId)
@@ -619,7 +619,7 @@ void PLIST_MENU_ApplyArceusPlateForm(void *unused, void *mon, int itemId)
     int plateForm;
     if (func_02017E1C(mon, 5, 0) == 0x1ED) {
         form = func_02017E1C(mon, 0x6F, form);
-        plateForm = func_02019CF8(itemId);
+        plateForm = POKE_TOOL_GetPlateTypeForwarder(itemId);
         if (form != plateForm)
             POKE_TOOL_ChangeForm(mon, plateForm);
     }
@@ -631,7 +631,7 @@ void PLIST_MENU_ApplyGenesectDriveForm(int unused, void *mon, int itemId)
     int driveForm;
     if (func_02017E1C(mon, 5, 0) == 0x289) {
         form = func_02017E1C(mon, 0x6f, form);
-        driveForm = func_02019D00(itemId);
+        driveForm = POKE_TOOL_GetBoxParamIndex(itemId);
         if (form != driveForm) {
             POKE_TOOL_ChangeForm(mon, (u16)driveForm);
         }
@@ -794,7 +794,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         u16 width;
         flag = 0;
         work->descriptor = BMP_WIN_Create((int)0, (u8)1, (u8)1, (int)14, 12, 14, 1);
-        func_0201F73C(DESC, 1, 1, 12);
+        BMP_MENUWORK_DrawWindow(DESC, 1, 1, 12);
         BMP_Clear(BMP_WIN_GetBmp(DESC), 15);
         desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
         for (i = 0; i < 6; i++) {
@@ -804,7 +804,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), 0, (s16)(i << 4), msg, work->fontMain, 0x440);
             STRBUF_Delete(msg);
             msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = GF_FONT_Create_EC64(work->heapId);
-            func_0201EFA4(wordSet, 0, delta, 3, 0, 1); func_0201F250(wordSet, numStr, msg);
+            WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = func_0201D304(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
@@ -833,7 +833,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         for (i = 0; i < 6; i++) {
             delta = func_02017E1C((void *)work->selectedMon, gPlistStatParamIds[i], 0);
             msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = GF_FONT_Create_EC64(work->heapId);
-            func_0201EFA4(wordSet, 0, delta, 3, 0, 1); func_0201F250(wordSet, numStr, msg);
+            WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = func_0201D304(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
@@ -846,7 +846,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         } break;
     case 5:
         if ((KEY_GetTrg() & 1) || (KEY_GetTrg() & 2) || TOUCHPANEL_GetTrg() == 1) {
-            work->inputStage = 6; GFL_USE_PlaySeDefaultVolume(0x547); BMP_WIN_ClearScreen(DESC); func_0201F7A8(DESC, 1); BMP_WIN_Delete(DESC); work->descriptor = 0;
+            work->inputStage = 6; GFL_USE_PlaySeDefaultVolume(0x547); BMP_WIN_ClearScreen(DESC); BMP_MENUWORK_DrawWindowBorder(DESC, 1); BMP_WIN_Delete(DESC); work->descriptor = 0;
         } break;
     case 6:
         result = POKE_TOOL_GetLevelUpMove((void *)work->selectedMon, &work->arg->levelUpCursor, work->heapId); PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
@@ -1002,7 +1002,7 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
         func_02049B68(h, func_02027624(), 4, 0x40, 0x20, work->heapId);
         func_02049658(h, func_02027628(), 5, 0, 0, 0, work->heapId);
         func_020498F4(h, func_0202762C(), 5, 0, 0, 0, work->heapId);
-        func_020413B0(5, 0, 0, 0x20, 0x20, 2);
+        BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x20, 2);
         func_02041B6C(5);
     }
     ARC_TOOL_DeleteHandle(h2);

@@ -38,7 +38,7 @@
  *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   TPOKE_DATA_GetTrainerKind 0x0202A3FC thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
@@ -110,7 +110,7 @@ extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sick);
 
 u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
 
-u32 func_02019C90(u16 species, u16 form, u32 paramId);
+u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 
 extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerId);
 
@@ -623,7 +623,7 @@ u32 BTL_CALC_CalcDefeatExp(struct BtlPokeParam *bpp)
     int species = BTL_POKEPARAM_GetSpecies(bpp);
     u16 form = func_021D59B4(bpp, BTL_BPP_VALUE_FORM);
     u16 level = func_021D59B4(bpp, BTL_BPP_VALUE_LEVEL);
-    u32 baseExp = func_02019C90(species, form, 9);
+    u32 baseExp = POKE_TOOL_GetPersonalParam(species, form, 9);
     return (baseExp * level) / 5;
 }
 

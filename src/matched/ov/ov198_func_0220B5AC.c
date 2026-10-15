@@ -11,8 +11,8 @@
  * symbols:
  *   B_PLIST_ANM_GetTileBuffer 0x0220B4B0 thumb ov198
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_022110D4 0x022110D4 thumb ov198
- *   func_02210F04 0x02210F04 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_IsBattleSlot 0x02210F04 thumb ov198
  *   d_02211A74 0x02211A74 data a4
  */
 #include "../include/Obj14553.h"
@@ -24,8 +24,8 @@ typedef struct {u8 low:7;u8 high:1;} Flags;
 extern const Rect d_02211A74[];
 extern void *B_PLIST_ANM_GetTileBuffer(void *,u32,u32,int);
 extern void MI_CpuCopy8(const void *,void *,u32);
-extern int func_022110D4(u8 *,int);
-extern u32 func_02210F04(u32,u32);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
+extern u32 B_PLIST_MAIN_IsBattleSlot(u32,u32);
 void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
 {
  void *src;
@@ -40,7 +40,7 @@ void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
  MI_CpuCopy8(src,dst,count*2);
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:
-  n=func_022110D4(p,kind);
+  n=B_PLIST_MAIN_GetOrderIndex(p,kind);
   rec=(u8 *)((u32)p+(u32)n*0x4c);
   if(((struct Obj14553 *)rec)->f8==0) break;
   if(((Flags *)(rec+0x1b))->high){
@@ -54,7 +54,7 @@ void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
   }else if(((struct Obj14553 *)rec)->f14==0){
    for(i=0;i<count;i++) *(u16 *)((u32)dst+i*2)=(*(u16 *)((u32)dst+i*2)&0xfff)|(((index&1)+7)<<12);
    return;
-  }else if(func_02210F04((u32)p,n)==1){
+  }else if(B_PLIST_MAIN_IsBattleSlot((u32)p,n)==1){
    for(i=0;i<count;i++) *(u16 *)((u32)dst+i*2)=(*(u16 *)((u32)dst+i*2)&0xfff)|(((index&1)+5)<<12);
   }
   break;

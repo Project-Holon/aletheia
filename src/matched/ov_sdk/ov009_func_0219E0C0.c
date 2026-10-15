@@ -1,5 +1,5 @@
 /*
- * function: func_0219E0C0
+ * function: SBServerGetStringValueA
  * address:  0x0219E0C0
  * packet:   pkt_ov009_0219E0C0
  * region:   ov009
@@ -36,7 +36,7 @@ struct _SBKeyValuePair {
 
 extern void *TableLookup(struct HashImplementation *table, void *elemKey);
 
-char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def)
+char *SBServerGetStringValueA(struct _SBServer *server, char *keyname, char *def)
 {
     struct _SBKeyValuePair *ptr;
     struct _SBKeyValuePair kv;

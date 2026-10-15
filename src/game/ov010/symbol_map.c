@@ -19,14 +19,14 @@
  *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
- *   func_021673C4  0x021673C4  thumb  ov010
- *   func_021673A8  0x021673A8  thumb  ov010
+ *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
+ *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
  *   g_SymbolMapGridTable 0x02171EF4 data a4
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  *   func_02030734  0x02030734  arm
- *   func_0216749C  0x0216749C  thumb  ov010
+ *   COMM_PLAYER_GetListPage  0x0216749C  thumb  ov010
  *   MI_CpuCopy8    0x02082D44  arm
  *   g_SymbolMapFileName     0x021729EC  data  a1
  *   EVENT_FIELD_PROCLINK_StartCommProc 0x02161CDC thumb ov010
@@ -39,7 +39,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb ov010
  *   GAME_DATA_GetEventState  0x02012ED0  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb ov010
- *   func_02011330  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb ov010
  *   PLEASURE_BOAT_GetPassengerParam  0x021C87A0  thumb ov021
  *   PLEASURE_BOAT_GetPassengerType  0x021C87AC  thumb ov021
@@ -123,11 +123,11 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
- *   func_0201F31C  0x0201F31C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
+ *   WORDSET_ClearAllSlots  0x0201F31C  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -310,13 +310,13 @@ extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *SYMBOL_SAVE_GetBlock(void *saveControl);
 extern u32 ICA_ANIME_GetField24(const struct GameSystem *gameSystem);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
-extern u8 func_021673C4(u8 *saveData);
-extern u8 func_021673A8(u8 *saveData);
+extern u8 COMM_PLAYER_GetState849(u8 *saveData);
+extern u8 COMM_PLAYER_GetState848(u8 *saveData);
 extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
 extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *link);
 extern int GAME_DATA_GetSymbolMapFlag(u8 *gameData);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u16 func_0216749C(SymbolMapEntry *entries, SymbolMapEntry *out, u32 capacity, int page, u8 *count);
+extern u16 COMM_PLAYER_GetListPage(SymbolMapEntry *entries, SymbolMapEntry *out, u32 capacity, int page, u8 *count);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern struct GameTask *func_020122C0(void *parent, void *reserved, void *mainFunc, u32 workSize);
 extern void *func_020124E8(struct GameTask *task);
@@ -327,7 +327,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *work);
 extern void *SCRCMD_WORK_GetGameSystem(void *work);
 extern u8 *GAME_DATA_GetEventState(struct GameData *gameData);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *vm, void *work);
-extern u16 func_02011330(struct ScriptVm *vm);
+extern u16 VM_ReadU16(struct ScriptVm *vm);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *work);
 extern u32 PLEASURE_BOAT_GetPassengerParam(void *eventState, u32 index);
 extern u32 PLEASURE_BOAT_GetPassengerType(void *eventState, u32 index);
@@ -392,11 +392,11 @@ extern int FIELD_MSGBG_DeleteMsgWin();
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern int WORDSET_DeleteStrbufED04();
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F02C(struct WordSet *wordSet, u32 index, void *myStatus);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
-extern void func_0201F31C(struct WordSet *wordSet);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
+extern void WORDSET_ClearAllSlots(struct WordSet *wordSet);
 extern int FIELD_MSGBG_MsgWinPrintStr(struct InfoWindow *window, u32 b, u32 c, u32 text);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(struct InfoWindow *window);
 extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
@@ -601,8 +601,8 @@ int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbo
     saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     comm = (void *)ICA_ANIME_GetField24(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
-        *outSymbolIndex = func_021673C4(saveData);
-        *outSymbolGroup = func_021673A8(saveData);
+        *outSymbolIndex = COMM_PLAYER_GetState849(saveData);
+        *outSymbolGroup = COMM_PLAYER_GetState848(saveData);
         return 1;
     }
     comm = (void *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
@@ -643,10 +643,10 @@ u8 *SYMBOL_MAP_GetSelectionGrid(void *gameSystem) {
  * heap id is u16 in this function and in the allocator prototype (both sides, as in the
  * ov010 and SDK callers that declare u16 heap). Plain literals 0x1DC and 530 already
  * derive 530 from the held 0x1DC; a constant local did not change the schedule.
- * Twin search: grep -rl -E "func_0216749C|func_021673C4|func_021673A8" src/matched src/pending
+ * Twin search: grep -rl -E "COMM_PLAYER_GetListPage|COMM_PLAYER_GetState849|COMM_PLAYER_GetState848" src/matched src/pending
  * (hits ov010 02166434, 021673C4, 021673A8, 0216749C, ov011 02174D5C); ov010 02166434 has
  * the same front half and was the shape source. Callees return real types: INTRUDE_COMM_GetPartnerSlot u8,
- * GAME_DATA_GetSymbolMapFlag int, func_0216749C u16, func_021673C4/A8 u8, func_02030734 void *.
+ * GAME_DATA_GetSymbolMapFlag int, COMM_PLAYER_GetListPage u16, COMM_PLAYER_GetState849/A8 u8, func_02030734 void *.
  */
 SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u32 *outStart)
 {
@@ -664,10 +664,10 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(gameData);
         record = func_02030734(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1C9);
-        *outStart = func_0216749C(saveData, record->entries, 20, page, &count);
+        *outStart = COMM_PLAYER_GetListPage(saveData, record->entries, 20, page, &count);
         record->entryCount = count;
-        record->symbolIndex = func_021673C4(saveData);
-        record->symbolGroup = func_021673A8(saveData);
+        record->symbolIndex = COMM_PLAYER_GetState849(saveData);
+        record->symbolGroup = COMM_PLAYER_GetState848(saveData);
         record->state = 4;
         record->page = page;
         return record;
@@ -838,7 +838,7 @@ int SYMBOL_MAP_ScrCmdGetEventStateValue(void *vm, void *work)
     SCRCMD_WORK_GetScriptWork(work);
     eventState = GAME_DATA_GetEventState(ICA_ANIME_GetField1C(SCRCMD_WORK_GetGameSystem(work)));
     index = SCRIPT_WORK_ReadWorkValue(vm, work);
-    subCommand = func_02011330(vm);
+    subCommand = VM_ReadU16(vm);
     index2 = SCRIPT_WORK_ReadWorkValue(vm, work);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
     switch (subCommand) {
@@ -995,7 +995,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockItem(void *vm, void *work)
     gameData = SCRCMD_WORK_GetGameSystem(work);
     gameData = ICA_ANIME_GetField1C(gameData);
     block = GAME_DATA_GetSaveSyncBlock(gameData);
-    index = (u8)func_02011330(vm);
+    index = (u8)VM_ReadU16(vm);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
     *out = SYMBOL_MAP_GetSyncBlockItem(block, index);
     return 0;
@@ -1563,12 +1563,12 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     numberA = EVENT_RESEARCH_RADAR_GetReportNumberA(work);
     numberB = EVENT_RESEARCH_RADAR_GetReportNumberB(work);
     messageId = EVENT_RESEARCH_RADAR_GetReportMessageId(messageId);
-    func_0201F02C(work->wordSet, 0, func_02012944(work->gameData));
-    func_0201EFA4(work->wordSet, 1, numberA, 5, 1, 1);
-    func_0201EFA4(work->wordSet, 2, numberB, 5, 1, 1);
+    WORDSET_SetSlotMyStatus(work->wordSet, 0, func_02012944(work->gameData));
+    WORDSET_SetSlotNumber(work->wordSet, 1, numberA, 5, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 2, numberB, 5, 1, 1);
     func_02045CAC(work->msgBank, messageId, rawText);
-    func_0201F250(work->wordSet, formattedText, rawText);
-    func_0201F31C(work->wordSet);
+    WORDSET_CopyTaggedText(work->wordSet, formattedText, rawText);
+    WORDSET_ClearAllSlots(work->wordSet);
     FIELD_MSGBG_MsgWinPrintStr(work->window, 8, 0, (u32)formattedText);
     func_020409B4(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
     STRBUF_Delete(rawText);

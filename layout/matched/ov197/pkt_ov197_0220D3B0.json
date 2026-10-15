@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220D3B0",
+   "name": "B_BAG_MAIN_StateExit",
    "address": "0x0220D3B0",
    "kind": "game",
    "region": "ov197",

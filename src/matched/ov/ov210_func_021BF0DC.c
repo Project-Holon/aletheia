@@ -1,5 +1,5 @@
 /*
- * function: func_021BF0DC
+ * function: ZKNSEARCH_MAIN_CreateActors
  * address:  0x021BF0DC
  * packet:   pkt_ov210_021BF0DC
  * region:   ov210
@@ -14,9 +14,9 @@
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   ZUKAN_CreateActor 0x021C940C thumb ov212
- *   func_021BEDB8 0x021BEDB8 thumb ov210
- *   func_021BEDF0 0x021BEDF0 thumb ov210
- *   func_021BEE14 0x021BEE14 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorAnimAuto 0x021BEDB8 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorVisible 0x021BEDF0 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorObjMode 0x021BEE14 thumb ov210
  *   data_021C09AC 0x021C09AC data
  *   data_021C0978 0x021C0978 data
  *   data_021C0960 0x021C0960 data
@@ -53,14 +53,14 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 struct Obj;
 extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
-extern void func_021BEDB8(int p, int i, int v);
-extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEE14(char *p, int idx, int flag);
+extern void ZKNSEARCH_MAIN_SetActorAnimAuto(int p, int i, int v);
+extern void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
+extern void ZKNSEARCH_MAIN_SetActorObjMode(char *p, int idx, int flag);
 extern const struct Tpl021BF0DC data_021C09AC[15];
 extern const struct Tpl021BF0DC data_021C0978;
 extern const struct Tpl021BF0DC data_021C0960;
 
-void func_021BF0DC(struct Obj021BF0DC *p)
+void ZKNSEARCH_MAIN_CreateActors(struct Obj021BF0DC *p)
 {
     u32 i;
     struct Tpl021BF0DC t0;
@@ -81,23 +81,23 @@ void func_021BF0DC(struct Obj021BF0DC *p)
     }
 
     if (GAME_DATA_CheckSaveFlag((int)(*p->sys), 0x10) == 1)
-        func_021BEDB8((int)p, 4, 7);
-    func_021BEDF0((int)p, 5, 0);
-    func_021BEDF0((int)p, 6, 0);
-    func_021BEDF0((int)p, 0, 0);
-    func_021BEDF0((int)p, 1, 0);
-    func_021BEDF0((int)p, 7, 0);
-    func_021BEDF0((int)p, 8, 0);
-    func_021BEDF0((int)p, 9, 0);
-    func_021BEDF0((int)p, 10, 0);
-    func_021BEDF0((int)p, 11, 0);
-    func_021BEDF0((int)p, 12, 0);
-    func_021BEDF0((int)p, 13, 0);
-    func_021BEDF0((int)p, 14, 0);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 7);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 5, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 6, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 0, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 1, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 7, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 8, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 9, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 10, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 11, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 12, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 13, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)p, 14, 0);
     CLACT_SetActorObjMode(p->objs[13], 2);
     CLACT_SetActorObjMode(p->objs[14], 2);
-    func_021BEE14((char *)p, 11, 1);
-    func_021BEE14((char *)p, 12, 1);
+    ZKNSEARCH_MAIN_SetActorObjMode((char *)p, 11, 1);
+    ZKNSEARCH_MAIN_SetActorObjMode((char *)p, 12, 1);
 
     ta = data_021C0978;
     tb = data_021C0960;
@@ -108,7 +108,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.c = p->c[t.c];
         t.id = i;
         p->objs[15 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
-        func_021BEDF0((int)p, i + 15, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((int)p, i + 15, 0);
 
         t = tb;
         t.a = p->a[t.a];
@@ -116,10 +116,10 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.c = p->c[t.c];
         t.id = i;
         p->objs[29 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
-        func_021BEDF0((int)p, i + 29, 0);
-        func_021BEE14((char *)p, (int)i + 29, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((int)p, i + 29, 0);
+        ZKNSEARCH_MAIN_SetActorObjMode((char *)p, (int)i + 29, 1);
         p->objs[43 + i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t), 0x7B);
-        func_021BEDF0((int)p, i + 43, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((int)p, i + 43, 0);
         CLACT_SetActorObjMode(p->objs[43 + i], 2);
     }
 }

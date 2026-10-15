@@ -1,5 +1,5 @@
 /*
- * function: func_0217A950
+ * function: DWC_Netcheck_Destroy
  * address:  0x0217A950
  * packet:   pkt_ov009_0217A950
  * region:   ov009
@@ -27,7 +27,7 @@ extern struct G g_021ACE5C;
 extern void DWC_Http_Destroy(char *http);
 extern void DWC_Auth_Destroy(void);
 
-void func_0217A950(void)
+void DWC_Netcheck_Destroy(void)
 {
     void (*free)(unsigned long, void *, long) =
         *(void (**)(unsigned long, void *, long))(g_021ACE5C.nc + 0x110c);

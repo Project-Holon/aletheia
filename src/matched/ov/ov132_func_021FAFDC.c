@@ -1,5 +1,5 @@
 /*
- * function: func_021FAFDC
+ * function: SCRIPT_COMMAND_CmdCameraTo0
  * address: 0x021FAFDC
  * packet: pkt_ov132_021FAFDC
  * region: ov132
@@ -11,8 +11,8 @@
  *   VM_GetU32 0x0201134C thumb
  *   func_02030734 0x02030734 arm
  *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
- *   func_021FADA0 0x021FADA0 thumb ov132
- *   func_021FB0DC 0x021FB0DC thumb ov132
+ *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
+ *   SCRIPT_COMMAND_TaskCameraPos 0x021FB0DC thumb ov132
  *   STA_ACTING_PlayRankSe 0x021F96D0 thumb ov132
  *   d_021FDD00 0x021FDD00 data ov132 a4
  */
@@ -26,10 +26,10 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u16 STA_ACTING_GetCameraPos(void *);
-extern void *func_021FADA0(char *, u32, u32, u32);
-extern void func_021FB0DC(void *unused, char *p);
+extern void *STA_ACT_SCRIPT_AddTask(char *, u32, u32, u32);
+extern void SCRIPT_COMMAND_TaskCameraPos(void *unused, char *p);
 extern void STA_ACTING_PlayRankSe(char *p);
-int func_021FAFDC(void *unused, char *ctx)
+int SCRIPT_COMMAND_CmdCameraTo0(void *unused, char *ctx)
 {
     char *owner;
     char *p;
@@ -46,7 +46,7 @@ int func_021FAFDC(void *unused, char *ctx)
     delta = ((struct Obj02850 *)p)->f8 - ((struct Obj02850 *)p)->f4;
     if (delta < 0) delta = -delta;
     ((struct Obj02850 *)p)->fC = delta / 2;
-    ((struct Obj02850 *)p)->f14 = func_021FADA0(owner, (u32)func_021FB0DC, (u32)p, 10);
+    ((struct Obj02850 *)p)->f14 = STA_ACT_SCRIPT_AddTask(owner, (u32)SCRIPT_COMMAND_TaskCameraPos, (u32)p, 10);
     STA_ACTING_PlayRankSe(((struct Obj08158 *)owner)->f34);
     if (wait == 1) {
         ((struct Obj10546 *)ctx)->f14 = ((struct Obj02850 *)p)->fC;

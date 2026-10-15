@@ -12,7 +12,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   d_021E7DEC 0x021E7DEC data a2
+ *   gPickedIconPath 0x021E7DEC data a2
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Create;
 typedef struct { short x,y; } Pt;
 typedef struct { Pt pos[6]; } Table;
-extern const Table d_021E7DEC;
+extern const Table gPickedIconPath;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void CLACT_SetActorAutoAnim(struct Obj *p,unsigned int v);
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void POKETRADE_2D_MovePickedIconActor(int p, int i) {
-    Table t=d_021E7DEC;
+    Table t=gPickedIconPath;
     Create c;
     if(i==-1) {
         if(((struct Obj00001 *)p)->fFD4) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00001 *)p)->fFD4,0);

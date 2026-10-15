@@ -16,7 +16,7 @@
  *
  * symbols:
  *   sub_02005610_Sys  0x020AA194  data
- *   func_02030D28     0x02030D28  arm
+ *   TCB_Main     0x02030D28  arm
  *   func_02030DA8     0x02030DA8  arm
  *
  * Six functions on the one system record at 0x020AA194 that the whole of this
@@ -71,7 +71,7 @@ extern struct Sub02005610Sys sub_02005610_Sys;
 
 struct Ctx;
 struct Node;
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 
 void GFL_USE_NoOpFrameHook(void)
@@ -80,7 +80,7 @@ void GFL_USE_NoOpFrameHook(void)
 
 void GFL_USE_RunHBlankTasks(void)
 {
-    func_02030D28(sub_02005610_Sys.unk10->unk18);
+    TCB_Main(sub_02005610_Sys.unk10->unk18);
 }
 
 void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c)

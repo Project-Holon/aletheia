@@ -15,8 +15,8 @@
  *
  * symbols:
  *   CLACT_InitSystem  0x0204A48C  arm
- *   d_021E7CE4     0x021E7CE4  data  ov119
- *   d_021E7D40     0x021E7D40  data  ov119
+ *   gClactConfigMain     0x021E7CE4  data  ov119
+ *   gClactInitData     0x021E7D40  data  ov119
  *
  * Addresses are Black-image addresses.
  */
@@ -25,10 +25,10 @@
 typedef unsigned int   u32;
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern const char d_021E7CE4[];
-extern const char d_021E7D40[];
+extern const char gClactConfigMain[];
+extern const char gClactInitData[];
 
 void POKETRADE_2D_InitClactSystemMain(char *p)
 {
-    CLACT_InitSystem((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, ((struct Obj22799 *)p)->f5F4);
+    CLACT_InitSystem((const struct Cfg *)gClactConfigMain, (u32)gClactInitData, ((struct Obj22799 *)p)->f5F4);
 }

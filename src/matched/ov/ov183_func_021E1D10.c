@@ -1,5 +1,5 @@
 /*
- * function: func_021E1D10
+ * function: BR_CODEIN_UploadDestroy
  * address: 0x021E1D10
  * packet: pkt_ov183_021E1D10
  * region: ov183
@@ -24,4 +24,4 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BR_UTIL_DeleteTask(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-int func_021E1D10(struct S020315D4 *a,int b,char *q,char *p){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)(p+i*4+16));BR_UTIL_DeleteTextWin(((struct Obj10753 *)p)->fC,((struct Obj24629 *)q)->f8);PRINTSYS_QUE_Delete(((struct Obj10753 *)p)->f0);BR_UTIL_DeleteTask((void *)(((struct Obj10753 *)p)->f4));func_020315D4(a);return 1;}
+int BR_CODEIN_UploadDestroy(struct S020315D4 *a,int b,char *q,char *p){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)(p+i*4+16));BR_UTIL_DeleteTextWin(((struct Obj10753 *)p)->fC,((struct Obj24629 *)q)->f8);PRINTSYS_QUE_Delete(((struct Obj10753 *)p)->f0);BR_UTIL_DeleteTask((void *)(((struct Obj10753 *)p)->f4));func_020315D4(a);return 1;}

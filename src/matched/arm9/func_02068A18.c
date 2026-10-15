@@ -1,5 +1,5 @@
 /*
- * function: func_02068A18
+ * function: NNSi_G2dSurfaceFill
  * address:  0x02068A18
  * packet:   pkt_02068808
  * region:   arm9
@@ -42,7 +42,7 @@ struct Surface {
 
 extern void MIi_CpuClearFast(u32 data, void *dst, int size);
 
-void func_02068A18(struct Surface *s, u32 arg)
+void NNSi_G2dSurfaceFill(struct Surface *s, u32 arg)
 {
     int bpp = s->bpp;
     u32 t;

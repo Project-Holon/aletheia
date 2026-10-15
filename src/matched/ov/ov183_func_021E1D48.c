@@ -1,5 +1,5 @@
 /*
- * function: func_021E1D48
+ * function: BR_CODEIN_UploadMain
  * address: 0x021E1D48
  * packet: pkt_ov183_021E1D48
  * region: ov183
@@ -32,7 +32,7 @@ extern int BR_UTIL_IsTaskIdle(int *p);
 extern void BR_UTIL_RunHandles(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BR_UTIL_FlushWindow(void *p);
-int func_021E1D48(int a,int b,int c,char *p)
+int BR_CODEIN_UploadMain(int a,int b,int c,char *p)
 {
     int i;
     if (!GAME_DATA_IsSaving((const u8 *)(((struct Obj24630 *)(*(char * *)&((struct Obj04579 *)p)->f18))->f14)) && BR_NET_HandleNetError((char *)(((struct Obj24631 *)(*(char * *)&((struct Obj04579 *)p)->f18))->f10))==2) {

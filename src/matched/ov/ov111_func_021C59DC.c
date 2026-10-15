@@ -1,5 +1,5 @@
 /*
- * function: func_021C59DC
+ * function: VIEWER_MAIN_ClearBgBuf
  * address:  0x021C59DC
  * packet:   pkt_ov111_021C59DC
  * region:   ov111
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern u32 BG_SYS_GetBuf(int channel);
 extern void func_02041B6C(u32 bit);
 
-void func_021C59DC(u32 bg, int mode)
+void VIEWER_MAIN_ClearBgBuf(u32 bg, int mode)
 {
     u16 *map = (u16 *)BG_SYS_GetBuf((u8)bg);
     u8 x, y;

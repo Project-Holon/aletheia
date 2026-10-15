@@ -1,5 +1,5 @@
 /*
- * function: func_0218E240
+ * function: gpiRemoveOperation
  * address:  0x0218E240
  * packet:   pkt_ov009_0218E240
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      gpiRemoveOperation (libdwcgsgp.TWL.HYB.a(gpioperation.o))
  *
  * symbols:
- *   func_0218E1CC  0x0218E1CC  arm  ov009
+ *   gpiDestroyOperation  0x0218E1CC  arm  ov009
  */
 
 struct GPIConnection {
@@ -29,9 +29,9 @@ struct GPIOperation {
     struct GPIOperation *pnext;
 };
 
-extern void func_0218E1CC(void **connection, struct GPIOperation *operation);
+extern void gpiDestroyOperation(void **connection, struct GPIOperation *operation);
 
-void func_0218E240(void **connection, struct GPIOperation *operation)
+void gpiRemoveOperation(void **connection, struct GPIOperation *operation)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
     struct GPIOperation *pcurr;
@@ -43,7 +43,7 @@ void func_0218E240(void **connection, struct GPIOperation *operation)
                 iconnection->operationList = pcurr->pnext;
             else
                 pprev->pnext = operation->pnext;
-            func_0218E1CC(connection, operation);
+            gpiDestroyOperation(connection, operation);
             return;
         }
         pprev = pcurr;

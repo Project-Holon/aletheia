@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *
  * Three-step release of the pointer at +0x1A0; the field is re-read for each
@@ -28,7 +28,7 @@ typedef int BOOL;
 
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 typedef struct {
@@ -40,7 +40,7 @@ void WIFICLUB_DeletePartyListWindow(S *s)
 {
     if (s->f1A0 != 0) {
         BMP_WIN_ClearScreen(s->f1A0);
-        func_0201F7A8(s->f1A0, 1);
+        BMP_MENUWORK_DrawWindowBorder(s->f1A0, 1);
         BMP_WIN_Delete(s->f1A0);
         s->f1A0 = 0;
     }

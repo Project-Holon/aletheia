@@ -1,5 +1,5 @@
 /*
- * function: func_02055498
+ * function: SPL_EMITTER_UpdateParticleMotion
  * address:  0x02055498
  * packet:   pkt_02052F58
  * region:   arm9
@@ -20,7 +20,7 @@
  *   FX_SinCosTable_        0x020A1B38  data
  * status:   EXACT
  *
- * SPLDraw_DirectionalBillboard: the parent-particle twin of func_02054DB8,
+ * SPLDraw_DirectionalBillboard: the parent-particle twin of SPL_EMITTER_UpdateParticleMotionEx,
  * ending in SPLUtil_DrawXYPlane with the emitter texture tiling and the
  * resource header polygonX/polygonY offsets.
  *
@@ -648,7 +648,7 @@ static inline BOOL SPLDraw_Setup(const SPLParticle *ptcl, const SPLManager *mgr)
     reg_G3_POLYGON_ATTR;
     return alpha == 0;
 }
-void func_02055498(SPLManager *mgr, SPLParticle *ptcl)
+void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl)
 {
     VecFx32 vel_dir;
     VecFx32 trs;

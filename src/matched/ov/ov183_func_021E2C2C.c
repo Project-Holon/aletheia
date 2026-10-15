@@ -1,5 +1,5 @@
 /*
- * function: func_021E2C2C
+ * function: BR_CODEIN_MenuStepSave
  * address: 0x021E2C2C
  * packet: pkt_ov183_021E2C2C
  * region: ov183
@@ -70,7 +70,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BR_UTIL_DeleteTextWin(void *,int);
 extern int BR_UTIL_ClearTaskStep(int *a);
-void func_021E2C2C(int *task,unsigned *state,char *p)
+void BR_CODEIN_MenuStepSave(int *task,unsigned *state,char *p)
 {
     Pair initial;
     Config cfg;

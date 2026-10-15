@@ -1,5 +1,5 @@
 /*
- * function: func_021D5748
+ * function: POKETRADE_DEMO_UP_SetMonSlide
  * address:  0x021D5748
  * packet:   pkt_ov118_021D5748
  * region:   ov118
@@ -46,7 +46,7 @@ extern const u8 d_021D7FEC[];
 extern const u8 d_021D80C4[];
 extern u8 d_021D8790[];
 
-void func_021D5748(u8 *p, int idx)
+void POKETRADE_DEMO_UP_SetMonSlide(u8 *p, int idx)
 {
     void *x;
     u32 buf[3];

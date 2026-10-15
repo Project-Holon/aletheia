@@ -1,5 +1,5 @@
 /*
- * function: func_021BA14C
+ * function: COMM_BTL_DEMO_MAIN_UpdateRowDelay
  * address: 0x021BA14C
  * packet: pkt_ov213_021BA14C
  * region: ov213
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA034 0x021BA034 thumb ov213
+ *   COMM_BTL_DEMO_MAIN_UpdateActorRow 0x021BA034 thumb ov213
  */
 #include "../include/Obj00443.h"
 typedef unsigned int   u32;
 struct C;
-extern void func_021BA034(struct C *p, u32 time);
-void func_021BA14C(char *p,unsigned limit)
+extern void COMM_BTL_DEMO_MAIN_UpdateActorRow(struct C *p, u32 time);
+void COMM_BTL_DEMO_MAIN_UpdateRowDelay(char *p,unsigned limit)
 {
     if(((struct Obj00443 *)p)->f28) {
         switch(((struct Obj00443 *)p)->f8) {
@@ -30,7 +30,7 @@ void func_021BA14C(char *p,unsigned limit)
             else if(((struct Obj00443 *)p)->f9==1 || ((struct Obj00443 *)p)->f9==3) limit=15;
             break;
         }
-        if(((struct Obj00443 *)p)->f24>=limit) func_021BA034((struct C *)p,limit);
+        if(((struct Obj00443 *)p)->f24>=limit) COMM_BTL_DEMO_MAIN_UpdateActorRow((struct C *)p,limit);
         (((struct Obj00443 *)p)->f24)++;
     }
 }

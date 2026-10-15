@@ -17,7 +17,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02199034  0x02199034  thumb  ov021
+ *   FLDMMDL_ACMD_StayInit  0x02199034  thumb  ov021
  *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
@@ -28,11 +28,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 FLDMMDL_IncAcmdSeq(u32);
-extern int func_02199034(u32 a, u32 b, u32 c, u32 d);
+extern int FLDMMDL_ACMD_StayInit(u32 a, u32 b, u32 c, u32 d);
 
 int FLDMMDL_ACMD_StayStop12F(u32 a, u32 b, u32 c, u32 d)
 {
-func_02199034(a, 0, 12, d);
+FLDMMDL_ACMD_StayInit(a, 0, 12, d);
 FLDMMDL_IncAcmdSeq(a);
 return 0;
 }

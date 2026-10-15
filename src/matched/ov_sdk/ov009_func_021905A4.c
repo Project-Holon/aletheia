@@ -1,5 +1,5 @@
 /*
- * function: func_021905A4
+ * function: gpiInitSearchData
  * address:  0x021905A4
  * packet:   pkt_0219091C
  * region:   ov009
@@ -16,9 +16,9 @@
  * either allocation fails, else 0.
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
- *   func_02193734  0x02193734  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   g_021A5280     0x021A5280  data ov009
  */
 
@@ -45,18 +45,18 @@ typedef struct {
     int unk19c;
 } GPISearchData;
 
-extern void *func_0217EAB0(int size);
+extern void *gsimalloc(int size);
 typedef unsigned int   u32;
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
-extern void func_02193734(int *p, int b);
+extern void gpiSetErrorString(int *p, int b);
 extern char g_021A5280[];
 
-int func_021905A4(int connection, GPISearchData **out, int type)
+int gpiInitSearchData(int connection, GPISearchData **out, int type)
 {
-    GPISearchData *data = func_0217EAB0(0x1a0);
+    GPISearchData *data = gsimalloc(0x1a0);
 
     if (data == 0) {
-        func_02193734((int *)connection, (int)g_021A5280);
+        gpiSetErrorString((int *)connection, (int)g_021A5280);
         return 1;
     }
     MSL_C_LIB_MemsetPtr(data, 0, 0x1a0);
@@ -69,9 +69,9 @@ int func_021905A4(int connection, GPISearchData **out, int type)
     data->outputBuffer.len = 0;
     data->unk24 = 0;
     data->outputBuffer.size = 0x1000;
-    data->outputBuffer.data = func_0217EAB0(0x1001);
+    data->outputBuffer.data = gsimalloc(0x1001);
     if (data->outputBuffer.data == 0) {
-        func_02193734((int *)connection, (int)g_021A5280);
+        gpiSetErrorString((int *)connection, (int)g_021A5280);
         return 1;
     }
     data->processing = 0;

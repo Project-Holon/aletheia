@@ -1,5 +1,5 @@
 /*
- * function: func_021F6D68
+ * function: STA_ACT_LIGHT_UpdateActor
  * address: 0x021F6D68
  * packet: pkt_ov112_021F6D68
  * region: ov112
@@ -13,7 +13,7 @@
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
- *   func_021F8044 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -37,12 +37,12 @@ extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern u16 STA_ACTING_GetCameraTarget(u8 *p);
 struct Vec2;
-extern void func_021F8044(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021F6D68(char *p)
+void STA_ACT_LIGHT_UpdateActor(char *p)
 {
     Vec v;
     Desc d;
@@ -70,7 +70,7 @@ void func_021F6D68(char *p)
         ctx=STA_ACTING_GetActorSystem(((struct Obj00771 *)p)->f4);
         model=STA_ACTING_GetActor(((struct Obj00771 *)p)->f4,STA_ACTING_GetSelection(*(char * *)&((struct Obj00771 *)p)->f4));
         n=STA_ACTING_GetCameraTarget(((struct Obj00771 *)p)->f4);
-        func_021F8044(ctx,(u32 *)model,(u32 *)(&v));
+        STA_ACT_LIGHT_ElemOpA(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
         CLACT_AddActorSurfacePos(((struct Obj00771 *)p)->fA4,(const struct Vec2 *)(&d.pos),0);

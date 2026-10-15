@@ -1,5 +1,5 @@
 /*
- * function: func_02052984
+ * function: SPL_EMITTER_AllocTexVramList
  * address:  0x02052984
  * packet:   pkt_020528D0
  * region:   arm9
@@ -18,7 +18,7 @@
  * row's texture handle (resource flag bit 17 set; the row index is the 8-bit
  * field at bits 18..25) or allocate through the caller's callback and upload
  * with GX_LoadTex, then GX_EndLoadTex.  Always returns 1.  Twin of
- * func_020528D0 (palettes).
+ * SPL_EMITTER_AllocPlttVramList (palettes).
  *
  * What closed it (wave 9): the natural spelling.  The byte-offset induction
  * variable and the two stack slots holding 1 and 0 are the compiler's own
@@ -60,7 +60,7 @@ extern void GX_BeginLoadTex(void);
 extern void GX_LoadTex(void *dst, u32 a, void *b);
 extern void GX_EndLoadTex(void);
 
-int func_02052984(struct Obj *o, Alloc alloc)
+int SPL_EMITTER_AllocTexVramList(struct Obj *o, Alloc alloc)
 {
     int i;
 

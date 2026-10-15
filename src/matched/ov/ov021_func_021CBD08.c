@@ -1,5 +1,5 @@
 /*
- * function: func_021CBD08
+ * function: BSUBWAY_SCR_CreateBtlSetup
  * address:  0x021CBD08
  * packet:   pkt_ov021_021CBD08
  * region:   ov021
@@ -46,7 +46,7 @@ struct Rec;
 extern struct Bs *FLD_BTL_INST_TOOL_CreateBtlSetup(void *sys, void *partyA, u32 mode0, struct Rec *recA, struct Rec *recB, int n);
 extern u32 func_020307B0(void *p);
 
-u32 func_021CBD08(u8 *p, int a)
+u32 BSUBWAY_SCR_CreateBtlSetup(u8 *p, int a)
 {
     void *list = POKEPARTY_Create(0x8004);
     void *h = BSUBWAY_SCR_GetParty(p);

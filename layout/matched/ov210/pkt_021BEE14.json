@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BEE14",
-    "func_021BEE38",
-    "func_021BEE58"
+    "ZKNSEARCH_MAIN_SetActorObjMode",
+    "ZKNSEARCH_MAIN_SetActorSurfacePos",
+    "ZKNSEARCH_MAIN_GetActorSurfacePos"
+   ],
+   "addresses": [
+    "0x021BEE14",
+    "0x021BEE38",
+    "0x021BEE58"
    ]
   }
  ]

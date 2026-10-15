@@ -13,13 +13,13 @@
  * `*(int *)(p + 0x808)` the loop hoists the 0x808 pool offset into r7 and
  * rematerialises 0x3000 every pass; the struct field keeps the offset in the
  * load and lets 0x3000 take r7, as in the image. d declared before n puts d
- * in r2 and n in r3. func_02041090 takes u8 widths (its own file).
+ * in r2 and n in r3. BG_SYS_DrawTile takes u8 widths (its own file).
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
- *   func_02062B30  0x02062B30  arm
- *   func_02041090  0x02041090  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
+ *   BG_SYS_DrawTile  0x02041090  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -44,8 +44,8 @@ typedef struct {
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
-extern int func_02062B30(void *file, void **out);
-extern void func_02041090(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+extern void BG_SYS_DrawTile(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 extern u32 func_020307B0(void *p);
@@ -63,13 +63,13 @@ void ITEMMENU_LoadSellPalette(Work *p)
     arc = func_020490F4(0x58, p->f544);
     tex = (int)ARC_UTIL_LoadHandleMember(arc, 0x23, 0, p->f544);
     i = 0;
-    if (func_02062B30((void *)tex, (void **)(&img))) {
+    if (NNS_G2dGetUnpackedScreenData((void *)tex, (void **)(&img))) {
         d = img->d;
         n = ((unsigned)img->w >> 3) * ((unsigned)img->h >> 3);
         for (; i < n; i++) {
             d[i] += (u16)((u16)p->f808 | 0x3000);
         }
-        func_02041090(3, (unsigned int)img->d, 0x10, 0xC, (unsigned)img->w >> 3, (unsigned)img->h >> 3);
+        BG_SYS_DrawTile(3, (unsigned int)img->d, 0x10, 0xC, (unsigned)img->w >> 3, (unsigned)img->h >> 3);
         func_02041B6C(3);
     }
     func_020307B0((void *)tex);

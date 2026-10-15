@@ -1,5 +1,5 @@
 /*
- * function: func_021E1DF0
+ * function: BR_CODEIN_UploadStepFadeOut
  * address: 0x021E1DF0
  * packet: pkt_ov183_021E1DF0
  * region: ov183
@@ -19,7 +19,7 @@ extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *p);
 extern int BR_UTIL_ClearTaskStep(int *a);
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
-void func_021E1DF0(int *a,int *state,char *p)
+void BR_CODEIN_UploadStepFadeOut(int *a,int *state,char *p)
 {
     switch (*state) {
     case 0: BR_FADE_Start(**(int * *)&((struct Obj10756 *)p)->f18,2,3,1); *state=1; break;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC0AC",
+   "name": "SCRIPT_COMMAND_CmdMoveEffect",
    "address": "0x021FC0AC",
    "kind": "game",
    "region": "ov132",

@@ -13,26 +13,26 @@
  *   d_021CE7B0    0x021CE7B0  data  a4
  *   sFuncNameGhiEncryptorSslCleanupFunc    0x021CE713  data  a1
  *   sGhttpGamespySslTwlEngineCleanup    0x021CED3C  data  a4
- *   func_0217EAE0 0x0217EAE0  arm
- *   func_0217D254 0x0217D254  arm
+ *   gsifree 0x0217EAE0  arm
+ *   gsDebugFormat 0x0217D254  arm
  */
 
 extern char d_021CE7B0[];
 extern char sFuncNameGhiEncryptorSslCleanupFunc[];
 extern char sGhttpGamespySslTwlEngineCleanup[];
 
-extern void func_0217EAE0(void *);
-extern void func_0217D254(int, int, int, void *, ...);
+extern void gsifree(void *);
+extern void gsDebugFormat(int, int, int, void *, ...);
 
 int ghiEncryptorSslCleanupFunc(int unused, unsigned int *p)
 {
-    func_0217D254(8, 4, 0xf, sGhttpGamespySslTwlEngineCleanup, d_021CE7B0, sFuncNameGhiEncryptorSslCleanupFunc, 0x4d5);
+    gsDebugFormat(8, 4, 0xf, sGhttpGamespySslTwlEngineCleanup, d_021CE7B0, sFuncNameGhiEncryptorSslCleanupFunc, 0x4d5);
     if (p != 0) {
         unsigned int *q = (unsigned int *)p[0];
         if (q != 0) {
             if (q[0] != 0)
-                func_0217EAE0((void *)q[0]);
-            func_0217EAE0(q);
+                gsifree((void *)q[0]);
+            gsifree(q);
             p[0] = 0;
         }
         p[2] = 0;

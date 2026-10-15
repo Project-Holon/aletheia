@@ -10,7 +10,7 @@
  * symbols:
  *   func_0207F7A0 0x0207F7A0 arm
  *   func_02030734 0x02030734 arm
- *   d_021E81C0 0x021E81C0 data ov119 a4
+ *   gParticleBufferAllocTag 0x021E81C0 data ov119 a4
  *   MI_CpuFill8 0x02082BCC arm
  *   POKETRADE_3D_FillTextureHeader 0x021E380C thumb ov119
  *   POKETRADE_3D_FillTexturePage 0x021E37D8 thumb ov119
@@ -25,7 +25,7 @@ extern void func_0207F7A0(void);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern const char d_021E81C0[];
+extern const char gParticleBufferAllocTag[];
 extern void MI_CpuFill8(void *, int, int);
 extern void POKETRADE_3D_FillTextureHeader(u16 *p, unsigned char *src, int a2);
 typedef unsigned char  u8;
@@ -40,7 +40,7 @@ void POKETRADE_3D_UploadTexturePages(char *p, int count)
     char *v;
     int i;
     func_0207F7A0();
-    v = func_02030734(((struct Obj10376 *)p)->f5F4, 0x200, 1, d_021E81C0, 0x510);
+    v = func_02030734(((struct Obj10376 *)p)->f5F4, 0x200, 1, gParticleBufferAllocTag, 0x510);
     for (i = 0; i < count; i++) {
         MI_CpuFill8(v, 0, 0x200);
         if (i == 0)

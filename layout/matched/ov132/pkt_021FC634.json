@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC634",
+   "name": "SCRIPT_COMMAND_CmdStopBgm",
    "address": "0x021FC634",
    "kind": "game",
    "region": "ov132",

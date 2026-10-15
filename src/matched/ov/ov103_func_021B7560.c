@@ -19,11 +19,11 @@
  * IRC_COMPATIBLE_TOUCH_TEST_InitText 0x021B7F7C thumb ov103
  * ICA_ANIME_GetField24 0x02012138 thumb
  * IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow 0x021B800C thumb ov103
- * func_0201F73C 0x0201F73C thumb
+ * BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  * IRC_COMPATIBLE_TOUCH_TEST_InitWindow 0x021B8074 thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered 0x021B81A4 thumb ov103
- * func_02041F6C 0x02041F6C arm
- * func_02041FB0 0x02041FB0 arm
+ * BG_SYS_SetScrollY 0x02041F6C arm
+ * BG_SYS_SetAffine 0x02041FB0 arm
  * IRC_COMPATIBLE_TOUCH_TEST_ClearStroke 0x021B91A8 thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_InitTrail 0x021B9110 thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_GetSpriteUnit 0x021B7948 thumb ov103
@@ -51,11 +51,11 @@ extern void IRC_COMPATIBLE_TOUCH_TEST_InitText(u32 *p, int skip, u32 heap);
 extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 struct Rec;
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(struct Rec *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitWindow(u8 *,int,int,u8,u8,u8,u8,u16,u8,u16);
 extern void IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(u8 *,void *,int);
-extern void func_02041F6C(u32 which, u32 op, u32 value);
-extern void func_02041FB0(u32,u32,u16);
+extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
+extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(void *);
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitTrail(u8 *,void *,int,int,int,u8);
 extern u32 IRC_COMPATIBLE_TOUCH_TEST_GetSpriteUnit(u8 *);
@@ -81,13 +81,13 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *owner,int unused,void *arg)
     IRC_COMPATIBLE_TOUCH_TEST_InitText((u32 *)(p+0x174),0,55);
     if(**(void ** *)&((struct Obj03740 *)p)->fB0C) ICA_ANIME_GetField24(**(void ** *)&((struct Obj03740 *)p)->fB0C);
     IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow((struct Rec *)(p+0x184),5,1,18,30,5,8,55);
-    func_0201F73C(((struct Obj03740 *)p)->f184,0,(u16)(((struct Obj03740 *)p)->f0),6);
+    BMP_MENUWORK_DrawWindow(((struct Obj03740 *)p)->f184,0,(u16)(((struct Obj03740 *)p)->f0),6);
     IRC_COMPATIBLE_TOUCH_TEST_InitWindow(p+0x748,7,6,3,20,5,8,1,1,55);
     IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(p+0x748,p+0x174,16);
-    func_02041F6C(7,3,0x1000);
-    func_02041F6C(7,6,0x1000);
-    func_02041FB0(7,9,128);
-    func_02041FB0(7,12,40);
+    BG_SYS_SetScrollY(7,3,0x1000);
+    BG_SYS_SetScrollY(7,6,0x1000);
+    BG_SYS_SetAffine(7,9,128);
+    BG_SYS_SetAffine(7,12,40);
     IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(p+0xa4c);
     IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(p+0xaac);
     IRC_COMPATIBLE_TOUCH_TEST_InitTrail(p+0x198,p,0,1,0,1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F40F4
+ * function: MUSICAL_MCSS_DrawLabel
  * address: 0x021F40F4
  * packet: pkt_ov112_021F40F4
  * region: ov112
@@ -26,6 +26,8 @@
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj00669.h"
 typedef unsigned char u8;
@@ -50,8 +52,8 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -61,7 +63,7 @@ extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32);
-void func_021F40F4(u8 *p)
+void MUSICAL_MCSS_DrawLabel(u8 *p)
 {
     void *buf;
     void *t;
@@ -78,10 +80,10 @@ void func_021F40F4(u8 *p)
     t=GF_FONT_Create_EC64(((struct Obj00669 *)p)->f0);
     f=func_02045B38(0,2,78,((struct Obj00669 *)p)->f0);
     b=func_02045EC0(f,0);
-    func_0201EFA4(t,0,(*(Input * *)&((struct Obj00669 *)p)->f4)->a,2,2,1);
-    func_0201EFA4(t,1,(*(Input * *)&((struct Obj00669 *)p)->f4)->b,2,2,1);
-    func_0201EFA4(t,2,(*(Input * *)&((struct Obj00669 *)p)->f4)->c,2,2,1);
-    func_0201F250(t,buf,b);
+    WORDSET_SetSlotNumber(t,0,(*(Input * *)&((struct Obj00669 *)p)->f4)->a,2,2,1);
+    WORDSET_SetSlotNumber(t,1,(*(Input * *)&((struct Obj00669 *)p)->f4)->b,2,2,1);
+    WORDSET_SetSlotNumber(t,2,(*(Input * *)&((struct Obj00669 *)p)->f4)->c,2,2,1);
+    WORDSET_CopyTaggedText(t,buf,b);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f54),0,0,buf,((struct Obj00669 *)p)->f5C,3424);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);

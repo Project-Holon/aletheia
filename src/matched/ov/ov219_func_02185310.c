@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *
  * Addresses are Black-image addresses.
@@ -19,12 +19,12 @@
 
 typedef unsigned int   u32;
 struct Descriptor;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void func_02185310(char *p)
 {
     char *q = p + 0xc040;
-    func_0201F7A8((void *)(((struct Obj14780 *)q)->f0), 0);
+    BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj14780 *)q)->f0), 0);
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj14780 *)q)->f0));
 }

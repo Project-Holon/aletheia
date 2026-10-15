@@ -10,11 +10,11 @@
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -35,11 +35,11 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int, void *, int, u16, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -51,10 +51,10 @@ void GURU2_RECEIPT_PrintMessage(char *p, int message, int unused) {
     void *window;
     text = STRBUF_Create(0xb4, 0x72);
     MSGDATA_ReadString(((struct Obj01414 *)p)->f40, message, text);
-    func_0201F250(((struct Obj01414 *)p)->f3C, ((struct Obj01414 *)p)->f5C, text);
+    WORDSET_CopyTaggedText(((struct Obj01414 *)p)->f3C, ((struct Obj01414 *)p)->f5C, text);
     STRBUF_Delete(text);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj01414 *)p)->fD4), 0xf);
-    func_0201F73C(((struct Obj01414 *)p)->fD4, 0, 1, 0xa);
+    BMP_MENUWORK_DrawWindow(((struct Obj01414 *)p)->fD4, 0, 1, 0xa);
     if (((struct Obj01414 *)p)->fF0 != 0)
         PRINTSYS_PrintStreamDelete(((struct Obj01414 *)p)->fF0);
     ((struct Obj01414 *)p)->fF0 = PRINTSYS_PrintStream(((struct Obj01414 *)p)->fD4, 0, 0, ((struct Obj01414 *)p)->f5C, ((struct Obj01414 *)p)->f38, 0, ((struct Obj01414 *)p)->fF4, 0, 0x72, 0xf);

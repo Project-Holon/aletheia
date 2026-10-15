@@ -17,13 +17,13 @@
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_020490F4 0x020490F4 arm
  *   func_021C6698 0x021C6698 thumb ov128
- *   func_021C66A8 0x021C66A8 arm ov128
+ *   func_021C66A8 0x021C66A8 thumb ov128
  *   func_021C67A8 0x021C67A8 thumb ov128
  *   func_021C692C 0x021C692C thumb ov128
  *   func_021C69C4 0x021C69C4 thumb ov128
  *   func_021C6CB0 0x021C6CB0 thumb ov128
  *   func_021C6A84 0x021C6A84 thumb ov128
- *   func_021CA0BC 0x021CA0BC thumb ov128
+ *   WF2DMAP_TOUCH_CreatePalAnims 0x021CA0BC thumb ov128
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -45,7 +45,7 @@ extern void func_021C692C(u8 *p, int heap);
 extern void func_021C69C4(void *,void *,int);
 extern void func_021C6CB0(char *p, int heap);
 extern void func_021C6A84(void *,int);
-extern void func_021CA0BC(void *,int);
+extern void WF2DMAP_TOUCH_CreatePalAnims(void *,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -58,6 +58,6 @@ void func_021C658C(char *p,void *q,int heap)
     ((struct Obj03812 *)p)->f8=func_020490F4(63,heap); ((struct Obj03812 *)p)->f180=heap;
     func_021C6698((void *)0x180);
     func_021C66A8(p,heap); func_021C67A8(p,heap); func_021C692C((u8 *)p,heap);
-    func_021C69C4(p,q,heap); func_021C6CB0(p,heap); func_021C6A84(p,heap); func_021CA0BC(p,heap);
+    func_021C69C4(p,q,heap); func_021C6CB0(p,heap); func_021C6A84(p,heap); WF2DMAP_TOUCH_CreatePalAnims(p,heap);
     GFL_NET_RestartWithDefaultTimeout(1,52); BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }

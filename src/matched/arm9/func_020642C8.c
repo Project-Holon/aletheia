@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The eight-argument forwarder into func_02066890 (four in registers, four
+ * The eight-argument forwarder into NNS_G2dSetCellTransferState (four in registers, four
  * on the stack at [sp]..[sp,#0xc], re-read from the caller's own stacked
  * arguments at [sp,#0x28]..[sp,#0x3c]), followed by the object fixups.
  *
@@ -30,36 +30,36 @@
  * Byte-correct: 132 bytes, 0 concrete mismatches, under the DEFAULT 1.1p1
  * (no pin needed; ../2.0/sp2 also gives 132/0 with the same C).
  *
- * Blocked on: `label`.  Three of the four PC24 sites resolve, but func_02066890
+ * Blocked on: `label`.  Three of the four PC24 sites resolve, but NNS_G2dSetCellTransferState
  * has no branch anywhere in the image outside this function's own `bl` at
  * 0x02064314, and no matched entry, so the site stays wildcarded and the file
  * caps at MATCH.  It promotes as soon as 0x02066890 or a second caller of it
  * is filed.
  *
  * symbols:
- *   func_02066890  0x02066890  arm
+ *   NNS_G2dSetCellTransferState  0x02066890  arm
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
- *   func_02062F38  0x02062F38  arm
+ *   NNS_G2dInitAnimCtrl  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
  */
 #include "../include/Obj08900.h"
 #include "../include/Obj16429.h"
 
 typedef unsigned int u32;
-extern void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 struct O02064140;
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
-extern int func_02062F38(int a0);
+extern int NNS_G2dInitAnimCtrl(int a0);
 extern void func_0206434C(char *self, int v);
 
 void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, char *c, int d,
                    int e, int f, int g, int h, int i, int j)
 {
-    func_02066890(d, e, f, g, *(int *)*(int * *)&((struct Obj16429 *)c)->fC, h, i, j);
+    NNS_G2dSetCellTransferState(d, e, f, g, *(int *)*(int * *)&((struct Obj16429 *)c)->fC, h, i, j);
     *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
     *(char *volatile *)&((struct Obj08900 *)self)->f34 = c;
     *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
     NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x3c), 1);
-    func_02062F38((int)self);
+    NNS_G2dInitAnimCtrl((int)self);
     func_0206434C(self, a1);
 }

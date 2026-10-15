@@ -1,5 +1,5 @@
 /*
- * function: func_021BC284
+ * function: ZKNSEARCH_SYS_Delete
  * address:  0x021BC284
  * packet:   pkt_021BC284
  * region:   ov210
@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -20,12 +21,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 
-u32 func_021BC284(void *p)
+u32 ZKNSEARCH_SYS_Delete(void *p)
 {
     func_020315D4(p);
-    func_020306F0(0x7b);
+    GFL_HEAP_DeleteChecked(0x7b);
     return 1;
 }
 

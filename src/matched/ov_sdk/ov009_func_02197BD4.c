@@ -16,7 +16,7 @@
  * string literal "\xFE\xFE", the vendor template @14988 at 0x021A5948.
  *
  * symbols:
- *   func_02198328  0x02198328  arm  ov009
+ *   gti2SocketSend  0x02198328  arm  ov009
  *   @14988         0x021A5948  data
  */
 
@@ -27,7 +27,7 @@ typedef struct Sock {
 	int type;
 } Sock;
 
-extern int func_02198328(Sock *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
+extern int gti2SocketSend(Sock *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
 
 int gti2SendClosedOnSocket(Sock *sock, unsigned int ip, unsigned short port)
 {
@@ -44,7 +44,7 @@ int gti2SendClosedOnSocket(Sock *sock, unsigned int ip, unsigned short port)
 	pos += 2;
 	buffer[pos] = 0x68;
 	pos++;
-	if (!func_02198328(sock, ip, port, (unsigned char *)buffer, pos))
+	if (!gti2SocketSend(sock, ip, port, (unsigned char *)buffer, pos))
 		return 0;
 	return 1;
 }

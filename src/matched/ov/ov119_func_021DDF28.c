@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E76E4 0x021E76E4 data a4
+ *   gConfirmMenuPos 0x021E76E4 data a4
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   POKETRADE_SAVE_OpenTaskMenu 0x021E1410 thumb ov119
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj22741.h"
 typedef struct { int a,b; } Pair;
-extern const Pair d_021E76E4;
+extern const Pair gConfirmMenuPos;
 typedef unsigned int   u32;
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern void POKETRADE_SAVE_OpenTaskMenu(void *p, int *ids, int count);
@@ -29,7 +29,7 @@ extern void POKETRADE_NEGO_StepConfirmMenuChoice(unsigned char *p);
 void POKETRADE_NEGO_StepOpenConfirmMenu(char *p)
 {
     if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
-        Pair t=d_021E76E4;
+        Pair t=gConfirmMenuPos;
         POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),2);
         BG_SYS_SetMainVisiblePlanes(31);
         TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj22741 *)p)->f9C0),1,0);

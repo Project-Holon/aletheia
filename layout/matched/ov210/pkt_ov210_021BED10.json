@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BED10",
+   "name": "ZKNSEARCH_MAIN_PrintMessage10",
    "address": "0x021BED10",
    "kind": "game",
    "region": "ov210",

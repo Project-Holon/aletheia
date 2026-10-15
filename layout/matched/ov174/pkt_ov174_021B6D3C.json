@@ -21,16 +21,16 @@
     "LOCAL_TVT_CHARA_Update",
     "LOCAL_TVT_CHARA_SetActive"
    ],
+   "addresses": [
+    "0x021B6D3C",
+    "0x021B6F24"
+   ],
    "evidence": {
     "sole-ref": [
      "data:0x021B7480",
      "data:0x021B7484"
     ]
-   },
-   "addresses": [
-    "0x021B6D3C",
-    "0x021B6F24"
-   ]
+   }
   }
  ]
 }

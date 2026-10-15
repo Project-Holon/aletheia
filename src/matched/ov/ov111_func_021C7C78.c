@@ -1,5 +1,5 @@
 /*
- * function: func_021C7C78
+ * function: VIEWER_ACTOR_WrapAngle
  * address:  0x021C7C78
  * packet:   pkt_ov111_021C7C78
  * region:   ov111
@@ -15,7 +15,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021C7C78(int a, int b)
+int VIEWER_ACTOR_WrapAngle(int a, int b)
 {
     if (a >= b) {
         return a % b;

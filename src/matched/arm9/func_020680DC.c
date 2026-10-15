@@ -1,5 +1,5 @@
 /*
- * function: func_020680DC
+ * function: NNS_G2dFontGetTextHeight
  * address:  0x020680DC
  * packet:   pkt_02067FE4
  * region:   arm9
@@ -15,14 +15,14 @@
  *
  * The two dead zero stores at [sp]/[sp+4] through `add r4, sp, #0` are an
  * unused `NNSG2dTextRect rect = {0, 0}`, the same aggregate initialiser
- * func_02068150 uses live.  `vSpace + linefeed` in that operand order
+ * NNS_G2dFontGetTextRect uses live.  `vSpace + linefeed` in that operand order
  * (`add r0, r4, r0`); the other order is 2 bytes out.
  *
  * COMPILER PIN ../2.0/sp2, "kept constants" (docs/FRONTEND-PINS.md): the
  * image rematerialises the cursor address, `add r0, sp, #8` at 0x02068100
  * and `add r5, sp, #8` at 0x02068118; dsi/1.1p1 hoists one `add r5, sp, #8`
  * and schedules the prologue differently, 49 concrete bytes out at 116.
- * 0 mismatches under the pin.  Supersedes src/pending/func_020680DC.c
+ * 0 mismatches under the pin.  Supersedes src/pending/NNS_G2dFontGetTextHeight.c
  * (DIFF 5, a different reading).
  */
 
@@ -64,7 +64,7 @@ typedef struct NNSG2dFont {
 
 typedef struct NNSG2dTextRect { int width; int height; } NNSG2dTextRect;
 
-int func_020680DC(const NNSG2dFont *pFont, int vSpace, const void *txt)
+int NNS_G2dFontGetTextHeight(const NNSG2dFont *pFont, int vSpace, const void *txt)
 {
     const void *pos = txt;
     NNSG2dTextRect rect = { 0, 0 };

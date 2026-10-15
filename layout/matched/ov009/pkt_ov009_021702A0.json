@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02168454",
+   "name": "DWC_SetCommonKeyValueString",
    "address": "0x02168454",
    "kind": "sdk",
    "region": "ov009",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216848C",
+   "name": "DWC_AddCommonKeyValueString",
    "address": "0x0216848C",
    "kind": "sdk",
    "region": "ov009",

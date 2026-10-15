@@ -15,11 +15,11 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   BG_SYS_Create  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   func_0201DD60  0x0201DD60  thumb
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   sVramBank     0x021DDB14  data   ov021  a4
  *   sGraphicsMode     0x021D4090  data   ov021  a4
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   gClActorInitParam     0x020A1448  data   a4
@@ -40,7 +40,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   IRCBATTLEMENU_SeqSetupTopMenu  0x021966F0  thumb  ov021
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
- *   func_02155A90  0x02155A90  thumb  ov010
+ *   IRC_BATTLE_ENTRY_GetGameSys  0x02155A90  thumb  ov010
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_0207D63C  0x0207D63C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
@@ -60,13 +60,13 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern u8 sVramBank[];
 extern const Q16 sGraphicsMode;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern u8 gClActorInitParam[];
@@ -92,7 +92,7 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern void IRCBATTLEMENU_SeqSetupTopMenu(u8 *p);
 extern void IRCBATTLEMENU_SetSeq(u8 *, void (*)(void), u32);
 struct Ctx;
-extern u32 func_02155A90(u8 *);
+extern u32 IRC_BATTLE_ENTRY_GetGameSys(u8 *);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
@@ -107,11 +107,11 @@ int IRCBATTLEMENU_Init(struct Obj0203159C *a, u32 b, u32 c)
     ((struct Obj00150 *)w)->f10 = 0x1f;
     BG_SYS_Create(((struct Obj00150 *)w)->f10);
     BMP_WIN_Init(((struct Obj00150 *)w)->f10);
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     BG_SYS_SetVramBanks((const struct DispVram *)sVramBank);
     {
         Q16 q = sGraphicsMode;
-        func_0203FC28((struct DispConfig *)(&q));
+        BG_SYS_SetGraphicsMode((struct DispConfig *)(&q));
     }
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
@@ -132,7 +132,7 @@ int IRCBATTLEMENU_Init(struct Obj0203159C *a, u32 b, u32 c)
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct Obj00150 *)w)->f10);
     IRCBATTLEMENU_SetSeq(w, (void (*)(void))IRCBATTLEMENU_SeqSetupTopMenu, 0x83B);
     ((struct Obj00150 *)w)->f2E4 = c;
-    ((struct Obj00150 *)w)->f30 = (u32)ICA_ANIME_GetField1C((const struct Ctx *)func_02155A90((u8 *)((struct Obj00150 *)w)->f2E4));
+    ((struct Obj00150 *)w)->f30 = (u32)ICA_ANIME_GetField1C((const struct Ctx *)IRC_BATTLE_ENTRY_GetGameSys((u8 *)((struct Obj00150 *)w)->f2E4));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00150 *)w)->f10);
     BG_SYS_SetMainVisiblePlanes(0x13);

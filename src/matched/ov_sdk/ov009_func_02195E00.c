@@ -1,5 +1,5 @@
 /*
- * function: func_02195E00
+ * function: gt2GetConnectionState
  * address:  0x02195E00
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Maps the word at +0xc onto 0..3.
  */
 
-int func_02195E00(const int *p)
+int gt2GetConnectionState(const int *p)
 {
     int v = p[3];
 

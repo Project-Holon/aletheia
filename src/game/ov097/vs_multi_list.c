@@ -20,10 +20,10 @@
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   CLACT_DrawSystem 0x0204A600 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0204363C  0x0204363C  arm
+ *   BMP_SetDisplaySwap  0x0204363C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   VS_MULTI_LIST_DeleteBgFrames 0x021F75E0 thumb ov097
@@ -36,7 +36,7 @@
  *   gVsMultiListDispVram 0x021F761C data a4
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
@@ -51,7 +51,7 @@
  *   func_020498F4  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02040EBC  0x02040EBC  arm
+ *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   func_02045B38  0x02045B38  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
@@ -61,7 +61,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020056A0 0x020056A0 thumb
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   SDK_AUTOLOAD_DTCM_START 0x02FE0000 data
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -79,13 +79,13 @@
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   gVsMultiListClactInit 0x021F764C data a4
@@ -260,10 +260,10 @@ extern void MI_CpuFill8(void *, int, unsigned int);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void CLACT_DrawSystem(void);
 extern void func_020315D4(struct Proc *proc);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -274,7 +274,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -285,7 +285,7 @@ extern u32 func_02049658(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f,
 extern void func_020498F4(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *h);
-extern void func_02040EBC(u32 a, u32 b);
+extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
@@ -296,7 +296,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern struct VBlankTask *func_020056A0(void (*)(void), void *, u32);
 extern void func_02030EAC(struct VBlankTask *task);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 extern u32 POKEPARTY_GetCount(struct PokeParty *party);
 extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 idx);
@@ -313,13 +313,13 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *p);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void func_0201EEF4(struct WordSet *p, u32 i, struct PokemonParam *mon);
-extern void func_0201F250(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, struct PokemonParam *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *que, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern u32 func_02017E1C(struct PokemonParam *mon, u32 param, u32 unused);
 extern u8 POKE_TOOL_GetGender(struct PokemonParam *mon);
 extern u32 func_0201D304(struct Strbuf *str, struct GfFont *font, u32 margin);
-extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *, u32, u32, u32, u32, u32);
 extern void BMP_FillRect(struct Bmp *, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern void CLACT_InitSystem(const struct ClactInit *, unsigned, unsigned);
 extern void CLACT_ExitSystem(void);
@@ -438,7 +438,7 @@ int VS_MULTI_LIST_ProcMain(struct Proc *proc, int *seq, int unused, struct VsMul
     return 0;
 }
 
-int VS_MULTI_LIST_ProcExit(struct Proc *proc) { func_020315D4(proc); func_020306F0(0x71); return 1; }
+int VS_MULTI_LIST_ProcExit(struct Proc *proc) { func_020315D4(proc); GFL_HEAP_DeleteChecked(0x71); return 1; }
 
 /* State 0: builds the screen and starts the wipe in. */
 int VS_MULTI_LIST_StateSetup(struct VsMultiList *work)
@@ -447,7 +447,7 @@ int VS_MULTI_LIST_StateSetup(struct VsMultiList *work)
     BG_SYS_SetSubVisiblePlanes(0);
     REG_BLDCNT = 0;
     REG_BLDCNT_SUB = 0;
-    func_0204363C(1);
+    BMP_SetDisplaySwap(1);
     VS_MULTI_LIST_InitMons(work);
     VS_MULTI_LIST_SetVramBanks();
     VS_MULTI_LIST_InitBgs();
@@ -576,7 +576,7 @@ void VS_MULTI_LIST_InitBgs(void)
     struct BgTemplate bg2;
     BG_SYS_Create(0x71);
     dispConfig = gVsMultiListDispConfig;
-    func_0203FC28(&dispConfig);
+    BG_SYS_SetGraphicsMode(&dispConfig);
     bg0 = gVsMultiListBg0Template;
     BG_SYS_InitBgLayer(0, &bg0, 0);
     BG_SYS_ClearSlot(0);
@@ -604,7 +604,7 @@ void VS_MULTI_LIST_LoadBgGraphics(struct VsMultiList *work)
     func_02049B68(handle, 0x13, 0, 0, 0, 0x8071);
     func_020498F4(handle, 0x10, 1, 0, 0x800, 1, 0x8071);
     ARC_TOOL_DeleteHandle(handle);
-    func_02040EBC(4, 0);
+    BG_SYS_LoadPlttEntry(4, 0);
 }
 
 void VS_MULTI_LIST_CreateTextResources(struct VsMultiList *work)
@@ -642,7 +642,7 @@ static inline void OS_SetIrqCheckFlag(u32 intr) { *(volatile u32 *)((u32)SDK_AUT
  */
 void VS_MULTI_LIST_VBlankCallback(void)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     OS_SetIrqCheckFlag(1);
 }
@@ -759,8 +759,8 @@ void VS_MULTI_LIST_PrintName(struct VsMultiList *work, int slot)
     format = func_02045EC0(work->msgBank, 0);
     mons = work->mons;
     monOffset = slot;
-    func_0201EEF4(work->wordSet, 0, mons[monOffset]);
-    func_0201F250(work->wordSet, name, format);
+    WORDSET_SetSlotMonSpecies(work->wordSet, 0, mons[monOffset]);
+    WORDSET_CopyTaggedText(work->wordSet, name, format);
     PrintLeft(work, slot, name, 0x20, 7, 0x3dc0);
     STRBUF_Delete(format);
     STRBUF_Delete(name);
@@ -795,9 +795,9 @@ void VS_MULTI_LIST_PrintLevel(struct VsMultiList *work, u32 slot)
 
     text = STRBUF_Create(0x20, 0x8071);
     format = func_02045EC0(work->msgBank, 0xb);
-    func_0201EFA4(work->wordSet, 0,
+    WORDSET_SetSlotNumber(work->wordSet, 0,
                   func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_LEVEL, 0), 3, dispType, 1);
-    func_0201F250(work->wordSet, text, format);
+    WORDSET_CopyTaggedText(work->wordSet, text, format);
     PrintLevel(work, slot, text);
     STRBUF_Delete(format);
     STRBUF_Delete(text);
@@ -845,8 +845,8 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     STRBUF_Delete(hpLabel);
 
     hpFormat = func_02045EC0(work->msgBank, 0xd);
-    func_0201EFA4(work->wordSet, 0, func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, 1);
-    func_0201F250(work->wordSet, buf, hpFormat);
+    WORDSET_SetSlotNumber(work->wordSet, 0, func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, buf, hpFormat);
     {
         u32 bmp;
         font = (u32)work->fontSmall;
@@ -859,8 +859,8 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     STRBUF_Delete(hpFormat);
 
     maxHpFormat = func_02045EC0(work->msgBank, 0xd);
-    func_0201EFA4(work->wordSet, 0, func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
-    func_0201F250(work->wordSet, buf, maxHpFormat);
+    WORDSET_SetSlotNumber(work->wordSet, 0, func_02017E1C(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, buf, maxHpFormat);
     {
         u32 bmp;
         printQue3 = (u32)work->printQue;

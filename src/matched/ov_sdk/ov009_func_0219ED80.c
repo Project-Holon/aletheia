@@ -12,7 +12,7 @@
  * sdk:      ServerBrowserBeginUpdate2 (libdwcgsserverbrowsing.TWL.HYB.a sb_serverbrowsing.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   strlen  0x0209477C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   SBQueryEngineAddQueryKey  0x0219DEE8  arm  ov009
@@ -35,7 +35,7 @@ typedef struct {
     int disconnectFlag;
 } ServerBrowser;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 struct SBServerList;
@@ -58,7 +58,7 @@ int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComp
     char *key;
 
     if (numBasicFields > 40) {
-        func_0217D254(4, (char *)4, 2, g_021A81DC);
+        gsDebugFormat(4, (char *)4, 2, g_021A81DC);
         return 6;
     }
     sb->disconnectFlag = disconnectOnComplete;

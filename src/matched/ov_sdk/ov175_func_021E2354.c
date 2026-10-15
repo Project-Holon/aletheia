@@ -23,11 +23,11 @@
  *   gsXmlMoveToParent  0x02183560  arm  ov009
  *   gsXmlReadChildAsLargeInt  0x02183E50  arm  ov009
  *   memcpy  0x02092344  arm
- *   func_02184938  0x02184938  arm  ov009
+ *   GSMD5Init  0x02184938  arm  ov009
  *   gsLargeIntAddToMD5  0x0217E978  arm  ov009
- *   func_02184A34  0x02184A34  arm  ov009
+ *   GSMD5Final  0x02184A34  arm  ov009
  *   wsLoginCertIsValid  0x021E26BC  arm  ov175
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   sWsTagLoginRemoteAuthResult  0x021E4A94  data
  *   sWsTagResponseCode  0x021E4A2C  data
  *   sWsTagCertificate  0x021E4A3C  data
@@ -88,11 +88,11 @@ extern int gsXmlMoveToChild(void *stream, char *matchtag);
 extern int func_021E2A5C(GSLoginCertificate *cert, void *reader);
 extern int gsXmlMoveToParent(void *stream);
 extern int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, gsLargeInt_t *valueOut);
-extern void func_02184938(GSMD5_CTX *context);
+extern void GSMD5Init(GSMD5_CTX *context);
 extern void gsLargeIntAddToMD5(gsLargeInt_t *lint, GSMD5_CTX *md5);
-extern void func_02184A34(unsigned char *digest, GSMD5_CTX *context);
+extern void GSMD5Final(unsigned char *digest, GSMD5_CTX *context);
 extern int wsLoginCertIsValid(GSLoginCertificate *cert);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern char sWsTagLoginRemoteAuthResult[];
 extern char sWsTagResponseCode[];
 extern char sWsTagCertificate[];
@@ -122,9 +122,9 @@ void wsLoginRemoteAuthCallback(int theResult, void *theRequestXml, void *theResp
             response.mLoginResult = 0x65;
         else {
             memcpy(&response.mPrivateData.mPeerPrivateKey.modulus, &cert->mPeerPublicKey.modulus, sizeof(gsLargeInt_t));
-            func_02184938(&md5);
+            GSMD5Init(&md5);
             gsLargeIntAddToMD5(&response.mPrivateData.mPeerPrivateKey.exponent, &md5);
-            func_02184A34((unsigned char *)response.mPrivateData.mKeyHash, &md5);
+            GSMD5Final((unsigned char *)response.mPrivateData.mKeyHash, &md5);
             cert->mIsValid = wsLoginCertIsValid(cert);
             if (!cert->mIsValid)
                 response.mLoginResult = 0x66;
@@ -135,5 +135,5 @@ void wsLoginRemoteAuthCallback(int theResult, void *theRequestXml, void *theResp
         response.mLoginResult = 0x64;
     if (requestData->mUserCallback != 0)
         requestData->mUserCallback(theResult, &response, requestData->mUserData);
-    func_0217EAE0(requestData);
+    gsifree(requestData);
 }

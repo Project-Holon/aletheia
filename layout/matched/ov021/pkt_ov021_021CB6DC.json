@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CB6DC",
+   "name": "BSUBWAY_SCR_WaitCommSend",
    "address": "0x021CB6DC",
    "kind": "game",
    "region": "ov021",

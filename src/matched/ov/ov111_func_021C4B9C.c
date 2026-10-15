@@ -1,5 +1,5 @@
 /*
- * function: func_021C4B9C
+ * function: VIEWER_MAIN_Update
  * address:  0x021C4B9C
  * packet:   pkt_ov111_021C4B9C
  * region:   ov111
@@ -14,11 +14,11 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   PMS_DRAW_SetDecoVisible  0x0202DCD4  thumb
  *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
- *   func_021C479C  0x021C479C  thumb  ov111
- *   func_021C4B74  0x021C4B74  thumb  ov111
- *   func_021C58E0  0x021C58E0  thumb  ov111
- *   func_021C5ACC  0x021C5ACC  thumb  ov111
- *   func_021C631C  0x021C631C  thumb  ov111
+ *   VIEWER_MAIN_ResetBgSlot  0x021C479C  thumb  ov111
+ *   VIEWER_MAIN_UpdateRows  0x021C4B74  thumb  ov111
+ *   VIEWER_MAIN_UploadBg  0x021C58E0  thumb  ov111
+ *   VIEWER_MAIN_UploadBgBuf  0x021C5ACC  thumb  ov111
+ *   VIEWER_TEXT_FlushWindow  0x021C631C  thumb  ov111
  *   _ll_mul          0x0209C054  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *
@@ -60,18 +60,18 @@ struct Obj0202DCC4;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void PMS_DRAW_SetDecoVisible(struct Obj0202DCC4 *p, u32 i, u32 val);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
-extern void func_021C479C(Work *p);
-extern void func_021C4B74(Work *p, int flag);
-extern void func_021C58E0(Work *p);
-extern void func_021C5ACC(u32 bg, const void *src, int mode);
-extern void func_021C631C(Work *p, void **bg);
+extern void VIEWER_MAIN_ResetBgSlot(Work *p);
+extern void VIEWER_MAIN_UpdateRows(Work *p, int flag);
+extern void VIEWER_MAIN_UploadBg(Work *p);
+extern void VIEWER_MAIN_UploadBgBuf(u32 bg, const void *src, int mode);
+extern void VIEWER_TEXT_FlushWindow(Work *p, void **bg);
 
 static inline fx32 FX_Mul(fx32 v1, fx32 v2)
 {
     return (fx32)(((fx64)v1 * v2 + 0x800LL) >> 12);
 }
 
-int func_021C4B9C(Work *p)
+int VIEWER_MAIN_Update(Work *p)
 {
     int done = 0;
 
@@ -99,20 +99,20 @@ int func_021C4B9C(Work *p)
         break;
     case 2:
         p->f3034 ^= 1;
-        func_021C479C(p);
-        func_021C4B74(p, p->f3034);
+        VIEWER_MAIN_ResetBgSlot(p);
+        VIEWER_MAIN_UpdateRows(p, p->f3034);
         p->state++;
         break;
     case 3:
         if (p->f3034 == 0) {
-            func_021C58E0(p);
+            VIEWER_MAIN_UploadBg(p);
         } else {
-            func_021C5ACC(7, p->pix, p->phase);
+            VIEWER_MAIN_UploadBgBuf(7, p->pix, p->phase);
         }
         p->state++;
         break;
     case 4:
-        func_021C631C(p, p->bg);
+        VIEWER_TEXT_FlushWindow(p, p->bg);
         p->state++;
         break;
     case 5:

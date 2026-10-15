@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B9788",
-    "func_021B9820"
+    "SUBWAY_MAP_GRAPHIC_Main",
+    "SUBWAY_MAP_GRAPHIC_TaskNoop"
+   ],
+   "addresses": [
+    "0x021B9788",
+    "0x021B9820"
    ]
   }
  ]

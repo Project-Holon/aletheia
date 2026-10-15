@@ -12,8 +12,8 @@
  * symbols:
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   FIELD_MSGBG_FillMsgWin  0x02190794  thumb  ov021
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -26,16 +26,16 @@ extern int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
 struct Slot;
 struct WordSet;
 extern void FIELD_MSGBG_FillMsgWin(struct Slot **p, int x, int y, int w, int h);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern int FIELD_MSGBG_MsgWinPrintStr(u32 a, u32 b, u32 c, u32 d);
 
 int COMM_ENTRY_MENU_PrintRemaining(u32 *p, int n)
 {
     if (p[3] && FIELD_MSGBG_IsMsgWinTransDone((u8 *)p[3]) == 1) {
         FIELD_MSGBG_FillMsgWin((struct Slot **)p[3], 0, 0x40, 0x90, 0x50);
-        func_0201EFA4((struct WordSet *)p[1], 0, ((struct Obj02736 *)p)->f51D - n, 1, 0, 1);
-        func_0201F250((struct WordSet *)p[1], (void *)p[10], (void *)p[9]);
+        WORDSET_SetSlotNumber((struct WordSet *)p[1], 0, ((struct Obj02736 *)p)->f51D - n, 1, 0, 1);
+        WORDSET_CopyTaggedText((struct WordSet *)p[1], (void *)p[10], (void *)p[9]);
         FIELD_MSGBG_MsgWinPrintStr(p[3], 0, 0x40, p[10]);
         return 1;
     }

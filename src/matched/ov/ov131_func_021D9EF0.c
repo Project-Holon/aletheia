@@ -13,15 +13,15 @@
  * lsl/add without invented selector bounds. 0204AB84 writes all nine words
  * before 0204B784 reads them; both Point halfwords are stored before use.
  * symbols:
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   BG_SYS_PushTileSource 0x020409E0 arm
- *   func_02040AE0 0x02040AE0 arm
+ *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_020410D0 0x020410D0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_SKILL_ShowSlot 0x021DB964 thumb ov131
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
@@ -43,7 +43,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {u32 w[9];} Rec;
 typedef struct {s16 x,y;} Point;
-extern void func_02041570(int,u16);
+extern void BG_SYS_ClearLayerEx(int,u16);
 struct Cfg;
 struct Descriptor;
 struct Obj;
@@ -52,9 +52,9 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void BG_SYS_PushTileSource(u32,const void *,u32,u32);
-extern void func_02040AE0(u32 index, const void *src, u32 mode);
+extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void func_02041B6C(u32 bit);
-extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
+extern void BG_SYS_DrawTileEx(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_SKILL_ShowSlot(u8 *,void *,u8 *);
 extern void *P_STATUS_GetPokePara(u8 *);
@@ -76,7 +76,7 @@ void P_STA_SKILL_ApplyMovesScreen(u8 *a,u8 *p)
     void *cell;
     void *object;
     u32 first,second;
-    func_02041570(4,0);
+    BG_SYS_ClearLayerEx(4,0);
     for(i=8;i<=11;i++) {
         cell=*(void **)((p+i*4)+0x5c);
         BMP_WIN_TransferChars(cell);
@@ -85,9 +85,9 @@ void P_STA_SKILL_ApplyMovesScreen(u8 *a,u8 *p)
     }
     i=0;
     BG_SYS_PushTileSource(6,*(u8 * *)&((struct Obj00536 *)p)->f44+12,((struct Obj23161 *)(*(u8 * *)&((struct Obj00536 *)p)->f44))->f8,0);
-    func_02040AE0(6,*(u8 * *)&((struct Obj00536 *)p)->f44+12,((struct Obj23162 *)(*(u8 * *)&((struct Obj00536 *)p)->f44))->f8);
+    BG_SYS_DecodeTile(6,*(u8 * *)&((struct Obj00536 *)p)->f44+12,((struct Obj23162 *)(*(u8 * *)&((struct Obj00536 *)p)->f44))->f8);
     func_02041B6C(6);
-    func_020410D0(5,0,0,32,3,(u32)(*(u8 * *)&((struct Obj00536 *)p)->f54+12),0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(u32)(*(u8 * *)&((struct Obj00536 *)p)->f54+12),0,0,32,32);
     func_02041B6C(5);
     CLACT_SetActorDrawEnable(((struct Obj00536 *)p)->f90,0);
     CLACT_SetActorDrawEnable(((struct Obj00536 *)p)->f94,1);

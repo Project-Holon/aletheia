@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206295C",
+   "name": "NNSi_G2dFixupMultiCellAnimBankTbl",
    "address": "0x0206295C",
    "kind": "sdk",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021FC5D8
+ * function: SCRIPT_COMMAND_CmdStopSeq
  * address:  0x021FC5D8
  * packet:   pkt_021FC5D8
  * region:   ov132
@@ -18,7 +18,7 @@
 
 extern void STA_ACTING_StopSeq(char *p);
 
-int func_021FC5D8(int a, char **pp)
+int SCRIPT_COMMAND_CmdStopSeq(int a, char **pp)
 {
     STA_ACTING_StopSeq(((struct Obj23266 *)(*pp))->f34);
     return 0;

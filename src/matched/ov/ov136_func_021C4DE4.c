@@ -10,7 +10,7 @@
  * symbols:
  *   MAILVIEW_InitBgs 0x021C4DE4 thumb
  *   MAILVIEW_SetVramBanks 0x021C4DD4 thumb
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
@@ -26,7 +26,7 @@ struct BgSet { struct BgTemplate t[5]; };
 extern const struct DispConfig g_77F4;
 extern const struct BgSet g_7804;
 extern void MAILVIEW_SetVramBanks(void);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32);
@@ -38,7 +38,7 @@ void MAILVIEW_InitBgs(u32 *p)
     MAILVIEW_SetVramBanks();
     {
         struct DispConfig d = g_77F4;
-        func_0203FC28(&d);
+        BG_SYS_SetGraphicsMode(&d);
     }
     BG_SYS_SetLcdSwap(0);
     {

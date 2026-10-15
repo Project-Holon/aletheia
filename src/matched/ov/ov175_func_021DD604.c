@@ -10,16 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217EAE0  0x_0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
+ *   gsifree  0x_0217EAE0  arm  ov009
  *
  * Second ARM tail jump to 0x0217EAE0 (ov009), the pair partner of
  *  *  sakeShutdown on the +0x1c path.
  */
 
-extern void func_0217EAE0(void);
+extern void gsifree(void);
 
 void sakeiFreeRequest(void *request)
 {
-    func_0217EAE0();
+    gsifree();
 }
 

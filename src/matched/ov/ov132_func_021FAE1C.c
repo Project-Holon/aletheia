@@ -1,5 +1,5 @@
 /*
- * function: func_021FAE1C
+ * function: STA_ACT_SCRIPT_StepTaskInt
  * address: 0x021FAE1C
  * packet: pkt_ov132_021FAE1C
  * region: ov132
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-int func_021FAE1C(char *p, int *out)
+int STA_ACT_SCRIPT_StepTaskInt(char *p, int *out)
 {
     int start;
     int delta;

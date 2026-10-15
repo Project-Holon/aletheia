@@ -1,5 +1,5 @@
 /*
- * function: func_021BF480
+ * function: ZKNSEARCH_MAIN_ShowActorsPage1
  * address:  0x021BF480
  * packet:   pkt_ov210_021BF480
  * region:   ov210
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BEDF0 0x021BEDF0 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorVisible 0x021BEDF0 thumb ov210
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BEDF0(int p, int i, int v);
+extern void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
 
-void func_021BF480(int p)
+void ZKNSEARCH_MAIN_ShowActorsPage1(int p)
 {
-    func_021BEDF0(p, 3, 0);
-    func_021BEDF0(p, 4, 0);
-    func_021BEDF0(p, 2, 1);
+    ZKNSEARCH_MAIN_SetActorVisible(p, 3, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(p, 4, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(p, 2, 1);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F9EDC  0x021F9EDC  thumb
+ *   STA_ACT_EFFECT_StartSystem  0x021F9EDC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -18,9 +18,9 @@
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern char *func_021F9EDC(char *p, u32 a);
+extern char *STA_ACT_EFFECT_StartSystem(char *p, u32 a);
 
 void STA_ACTING_CreateAnimHandle(char *p)
 {
-    ((struct Obj14086 *)p)->fBC = func_021F9EDC(((struct Obj14086 *)p)->f6C, 0x36);
+    ((struct Obj14086 *)p)->fBC = STA_ACT_EFFECT_StartSystem(((struct Obj14086 *)p)->f6C, 0x36);
 }

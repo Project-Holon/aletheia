@@ -1,5 +1,5 @@
 /*
- * function: func_02163F24
+ * function: count_digits
  * address:  0x02163F24
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Drops trailing zero halfwords from a counted array.
  */
 
-int func_02163F24(const unsigned short *p, int n)
+int count_digits(const unsigned short *p, int n)
 {
     while (n != 0 && p[n - 1] == 0)
         n--;

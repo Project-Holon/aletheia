@@ -17,8 +17,8 @@
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -91,8 +91,8 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -179,12 +179,12 @@ int INTRUDE_FIELD_TaskAreaChange(int a0, int *state, Obj *o)
                 FIELD_MSGBG_MsgWinPrintMsg(o->fc, 0, 0, 0x4E);
         } else {
             a = STRBUF_Create(0x100, 0x15);
-            func_0201F02C(o->f10, 0, GAME_DATA_GetPlayerStatus(ctx, p->slot));
+            WORDSET_SetSlotMyStatus(o->f10, 0, GAME_DATA_GetPlayerStatus(ctx, p->slot));
             if (o->f16 == 1)
                 b = func_02045EC0((struct MsgBank *)o->f8, 0x50);
             else
                 b = func_02045EC0((struct MsgBank *)o->f8, 0x51);
-            func_0201F250(o->f10, a, b);
+            WORDSET_CopyTaggedText(o->f10, a, b);
             FIELD_MSGBG_MsgWinPrintStr(o->fc, 0, 0, a);
             STRBUF_Delete(b);
             STRBUF_Delete(a);

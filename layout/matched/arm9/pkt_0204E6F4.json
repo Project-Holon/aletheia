@@ -61,7 +61,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204E8C0",
+   "name": "DOUBLE3DDISP_Init",
    "address": "0x0204E8C0",
    "kind": "game",
    "region": "arm9",

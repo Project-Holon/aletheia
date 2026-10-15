@@ -1,5 +1,5 @@
 /*
- * function: func_0215A480
+ * function: EVENT_POKE_STATUS_AddMs3000
  * address: 0x0215A480
  * packet: pkt_ov010_0215A480
  * region: ov010
@@ -9,4 +9,4 @@
  * status: EXACT
  */
 typedef unsigned short u16;
-u16 func_0215A480(unsigned a) { return a + 3000; }
+u16 EVENT_POKE_STATUS_AddMs3000(unsigned a) { return a + 3000; }

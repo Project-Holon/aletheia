@@ -13,11 +13,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   EGG_DEMO_GRAPHIC_InitBg 0x021F651C thumb ov215
  *   EGG_DEMO_GRAPHIC_InitClact 0x021F65C0 thumb ov215
  *   EGG_DEMO_GRAPHIC_InitG3d 0x021F6630 thumb ov215
@@ -36,11 +36,11 @@ typedef unsigned int   u32;
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void EGG_DEMO_GRAPHIC_InitBg(void *,unsigned);
 extern void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
 extern void EGG_DEMO_GRAPHIC_InitG3d(void **out, u16 heap);
@@ -57,11 +57,11 @@ char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heap)
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021F71C4);
-    func_0204363C(mode);
+    BMP_SetDisplaySwap(mode);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     EGG_DEMO_GRAPHIC_InitBg(p,heap);
     EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(p+4),(int)d_021F71C4,heap);
     EGG_DEMO_GRAPHIC_InitG3d((void **)(p+8),heap);

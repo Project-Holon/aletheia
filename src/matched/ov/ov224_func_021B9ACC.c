@@ -1,5 +1,5 @@
 /*
- * function: func_021B9ACC
+ * function: SUBWAY_MAP_GRAPHIC_DeleteBg
  * address: 0x021B9ACC
  * packet: pkt_ov224_021B9ACC
  * region: ov224
@@ -21,7 +21,7 @@ extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *, u32, u32);
-void func_021B9ACC(void *p) {
+void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p) {
     u32 i;
     for (i=0; i<2; i++) func_020403F4((u8)(*(const u32 *)(d_021B9CD0+i*44)));
     BMP_WIN_Exit();

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220E9A0",
+   "name": "B_PLIST_DRAW_SwapActorPair",
    "address": "0x0220E9A0",
    "kind": "game",
    "region": "ov198",

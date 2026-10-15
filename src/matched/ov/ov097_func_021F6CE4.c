@@ -17,8 +17,8 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  */
 
@@ -44,8 +44,8 @@ extern void *func_02045EC0(struct MsgBank *, u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
-extern void func_0201F250(struct WordSet *, void *, void *);
+extern void WORDSET_SetSlotNumber(struct WordSet *, u32, u32, u32, u32, u32);
+extern void WORDSET_CopyTaggedText(struct WordSet *, void *, void *);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 
 static inline void print_window(Owner *a, Index b, void *t)
@@ -64,9 +64,9 @@ void VS_MULTI_LIST_PrintLevel(Owner *a, Index b)
 
     t = STRBUF_Create(0x20, 0x8071);
     u = func_02045EC0(a->catalogue, 0xb);
-    func_0201EFA4(a->formatter, 0,
+    WORDSET_SetSlotNumber(a->formatter, 0,
                   POKE_TOOL_GetPartyValue(*(void **)((u32)a + (u32)b * 4 + 0xf8), 0x9e, 0), 3, z, 1);
-    func_0201F250(a->formatter, t, u);
+    WORDSET_CopyTaggedText(a->formatter, t, u);
     print_window(a, b, t);
     STRBUF_Delete(u);
     STRBUF_Delete(t);

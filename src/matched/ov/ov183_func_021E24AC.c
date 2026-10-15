@@ -1,5 +1,5 @@
 /*
- * function: func_021E24AC
+ * function: BR_CODEIN_SaveDeleteTextWin
  * address:  0x021E24AC
  * packet:   pkt_021E24AC
  * region:   ov183
@@ -17,7 +17,7 @@
 
 extern void BR_UTIL_DeleteTextWin(void *p, int a1);
 
-void func_021E24AC(char *p, char *a1)
+void BR_CODEIN_SaveDeleteTextWin(char *p, char *a1)
 {
     if (((struct Obj10761 *)p)->f4 != 0) {
         BR_UTIL_DeleteTextWin((void *)(((struct Obj10761 *)p)->f4), ((struct Obj24667 *)a1)->fC);

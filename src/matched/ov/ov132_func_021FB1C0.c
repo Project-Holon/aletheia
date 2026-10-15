@@ -1,5 +1,5 @@
 /*
- * function: func_021FB1C0
+ * function: SCRIPT_COMMAND_CmdSkipArg
  * address: 0x021FB1C0
  * packet: pkt_ov132_021FB1C0
  * region: ov132
@@ -14,4 +14,4 @@
 #include "../include/Obj23250.h"
 struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *);
-int func_021FB1C0(void *unused,char *p) { VM_GetU32(*(struct Cursor * *)&((struct Obj23250 *)p)->f4); return 0; }
+int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p) { VM_GetU32(*(struct Cursor * *)&((struct Obj23250 *)p)->f4); return 0; }

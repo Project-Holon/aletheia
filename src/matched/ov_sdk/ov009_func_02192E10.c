@@ -1,5 +1,5 @@
 /*
- * function: func_02192E10
+ * function: gpiProcessSearches
  * address:  0x02192E10
  * packet:   pkt_ov009_02192E10
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      gpiProcessSearches (libdwcgsgp.TWL.HYB.a gpisearch.o)
  *
  * symbols:
- *   func_0217EAB0  0x0217eab0  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
- *   func_0219091C  0x0219091c  arm   ov009
- *   func_0218E240  0x0218e240  arm   ov009
- *   func_0217EAE0  0x0217eae0  arm   ov009
+ *   gsimalloc  0x0217eab0  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   gpiProcessSearch  0x0219091c  arm   ov009
+ *   gpiRemoveOperation  0x0218e240  arm   ov009
+ *   gsifree  0x0217eae0  arm   ov009
  *   g_021A5280     0x021a5280  data
  */
 
@@ -43,15 +43,15 @@ typedef struct {
     GPIOperation *operationList;
 } GPIConnection;
 
-extern void *func_0217EAB0(unsigned long size);
-extern void func_02193734(int *p, int b);
-extern int func_0219091C(void **connection, GPIOperation *operation);
+extern void *gsimalloc(unsigned long size);
+extern void gpiSetErrorString(int *p, int b);
+extern int gpiProcessSearch(void **connection, GPIOperation *operation);
 struct GPIOperation;
-extern void func_0218E240(void **connection, struct GPIOperation *operation);
-extern void func_0217EAE0(void *ptr);
+extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
+extern void gsifree(void *ptr);
 extern char g_021A5280[];
 
-int func_02192E10(void **connection)
+int gpiProcessSearches(void **connection)
 {
     int i;
     int num;
@@ -64,9 +64,9 @@ int func_02192E10(void **connection)
     iconnection = (GPIConnection *)*connection;
     num = 0;
     if (iconnection->numSearches > 0) {
-        searchList = (GPIOperation **)func_0217EAB0(iconnection->numSearches * sizeof(GPIOperation *));
+        searchList = (GPIOperation **)gsimalloc(iconnection->numSearches * sizeof(GPIOperation *));
         if (searchList == 0) {
-            func_02193734((int *)connection, (int)g_021A5280);
+            gpiSetErrorString((int *)connection, (int)g_021A5280);
             return 1;
         }
         for (operation = iconnection->operationList; operation != 0; operation = operation->pnext) {
@@ -78,7 +78,7 @@ int func_02192E10(void **connection)
             }
         }
         for (i = 0; i < num; i++) {
-            result = func_0219091C(connection, searchList[i]);
+            result = gpiProcessSearch(connection, searchList[i]);
             if (result != 0)
                 searchList[i]->result = result;
         }
@@ -86,9 +86,9 @@ int func_02192E10(void **connection)
             data = searchList[i]->data;
             data->processing = 0;
             if (data->remove)
-                func_0218E240(connection, (struct GPIOperation *)searchList[i]);
+                gpiRemoveOperation(connection, (struct GPIOperation *)searchList[i]);
         }
-        func_0217EAE0(searchList);
+        gsifree(searchList);
     }
     return 0;
 }

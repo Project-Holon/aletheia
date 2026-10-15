@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F660C",
+   "name": "MUSICAL_MCSS_CalcMatrix",
    "address": "0x021F660C",
    "kind": "game",
    "region": "ov112",

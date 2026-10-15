@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F37C
+ * function: GF_STANDARD_ShuffleEx
  * address:  0x0203F37C
  * packet:   pkt_0203F32C
  * region:   arm9
@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GF_STANDARD_Shuffle  0x0203F328  arm
  */
 
-extern void func_0203F328(unsigned short *p, unsigned int size, unsigned int seed);
-void func_0203F37C(void *p, unsigned int size, unsigned int seed){ func_0203F328(p, size, seed); }
+extern void GF_STANDARD_Shuffle(unsigned short *p, unsigned int size, unsigned int seed);
+void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed){ GF_STANDARD_Shuffle(p, size, seed); }

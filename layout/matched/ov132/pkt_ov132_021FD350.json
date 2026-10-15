@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FD350",
+   "name": "MUS_COMM_FUNC_SendStatusBlock",
    "address": "0x021FD350",
    "kind": "game",
    "region": "ov132",

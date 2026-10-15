@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FLDMMDL_SysClearStatusBit  0x0216D4E4  thumb  ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02030DA4();
+extern int TCB_Noop();
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern u32 *FLDMMDL_SysClearStatusBit(u32 *p, u32 v);
@@ -32,7 +32,7 @@ void FLDMMDL_ReleaseSysProc(u32 *a0, int a1)
 
 t4 = (int)(a0 + 0);
 a0 = (u32 *)(((struct Obj09166 *)t4)->f20);
-    a0 = (u32 *)func_02030DA4(a0);
+    a0 = (u32 *)TCB_Noop(a0);
 loc_0216CD3A:
 a0 = (u32 *)(((struct Obj09166 *)t4)->f1C);
     a0 = (u32 *)func_020307B0(a0);

@@ -1,5 +1,5 @@
 /*
- * function: func_02155A94
+ * function: IRC_BATTLE_ENTRY_GetSaveControl
  * address:  0x02155A94
  * packet:   pkt_ov010_02155A94
  * region:   ov010
@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-u32 func_02155A94(u8 *p)
+u32 IRC_BATTLE_ENTRY_GetSaveControl(u8 *p)
 {
     return ((struct Obj18685 *)p)->f4C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215EB14
+ * function: SOCLi_FreeCommandPipe
  * address:  0x0215EB14
  * packet:   pkt_ov009_0215EB14
  * region:   ov009
@@ -38,7 +38,7 @@ extern unsigned long OS_EnableScheduler(void);
 extern void OS_RescheduleThread(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-void func_0215EB14(unsigned char *pipe)
+void SOCLi_FreeCommandPipe(unsigned char *pipe)
 {
 	unsigned long enable;
 	Command *command;

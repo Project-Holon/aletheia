@@ -21,6 +21,7 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -36,7 +37,7 @@ extern void COMM_TVT_SYS_ClearNameWindows(char *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 struct Descriptor;
 struct Obj;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 a);
@@ -60,7 +61,7 @@ void CTVT_DRAW_Exit(u16 *a0, char *p)
     }
     r = 0;
     GFL_NET_RestartWithDefaultTimeout(0, v);
-    func_0201F7A8((void *)(((struct Obj01265 *)p)->f48), 0);
+    BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj01265 *)p)->f48), 0);
     r = ((struct Obj01265 *)p)->f48;
     BMP_WIN_ClearScreen((struct Descriptor *)r);
     func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));

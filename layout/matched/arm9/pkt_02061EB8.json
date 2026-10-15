@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020627D8",
+   "name": "NNS_G2dGetAnimSequenceByIdx",
    "address": "0x020627D8",
    "kind": "game",
    "region": "arm9",

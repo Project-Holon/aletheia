@@ -16,8 +16,8 @@
  *   func_02017E88        0x02017E88  thumb
  *   POKE_TOOL_DecodeCalcBlock        0x02018D10  thumb
  *   POKE_TOOL_EncodeCalcBlock        0x02018D6C  thumb
- *   func_02019C38        0x02019C38  thumb
- *   func_02019C90        0x02019C90  thumb
+ *   POKE_TOOL_GetBoxSubstruct        0x02019C38  thumb
+ *   POKE_TOOL_GetPersonalParam        0x02019C90  thumb
  *
  * The three functions at 0x020189D0, 0x020189D8 and 0x020189F0 sit between
  * this file and src/matched/unit_02018A00.c and are a documented near miss:
@@ -40,8 +40,8 @@ struct Mon;
 struct Sav;
 extern u32 POKE_TOOL_DecodeCalcBlock(struct Sav *p);
 extern void POKE_TOOL_EncodeCalcBlock(struct Sav *p);
-extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
-extern u32  func_02019C90(u16 a, u16 b, u32 i);
+extern void *POKE_TOOL_GetBoxSubstruct(struct Mon *p, u32 pid, u32 n);
+extern u32  POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 i);
 
 struct Hdr {
     u32 unk00;
@@ -79,7 +79,7 @@ u32 POKE_TOOL_CheckSpeciesTmCompat(u16 a, u16 b, s32 v)
 
     if (a == 0x28A) {
         r = 0;
-    } else if (func_02019C90(a, b, v / 32 + 0x27) & (1 << (v % 32))) {
+    } else if (POKE_TOOL_GetPersonalParam(a, b, v / 32 + 0x27) & (1 << (v % 32))) {
         r = 1;
     } else {
         r = 0;
@@ -101,7 +101,7 @@ u32 POKE_TOOL_CheckSpeciesTutorCompat(u16 a, u16 b, s32 v)
 
     if (a == 0x28A) {
         r = 0;
-    } else if (func_02019C90(a, b, 0x2B) & (1 << (v % 32))) {
+    } else if (POKE_TOOL_GetPersonalParam(a, b, 0x2B) & (1 << (v % 32))) {
         r = 1;
     } else {
         r = 0;
@@ -118,9 +118,9 @@ u32 POKE_TOOL_HasRibbonData(struct Hdr *p)
 
     POKE_TOOL_DecodeCalcBlock((struct Sav *)p);
     r = 0;
-    a = func_02019C38((struct Mon *)p, p->unk00, 0);
-    b = func_02019C38((struct Mon *)p, p->unk00, 1);
-    c = func_02019C38((struct Mon *)p, p->unk00, 2);
+    a = POKE_TOOL_GetBoxSubstruct((struct Mon *)p, p->unk00, 0);
+    b = POKE_TOOL_GetBoxSubstruct((struct Mon *)p, p->unk00, 1);
+    c = POKE_TOOL_GetBoxSubstruct((struct Mon *)p, p->unk00, 2);
     if (a->unk1C != 0 || b->unk14 != 0 || c->unk18 != 0) {
         r = 1;
     }

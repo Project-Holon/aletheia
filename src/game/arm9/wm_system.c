@@ -36,7 +36,7 @@
  *   OS_JamMessage       0x02085EF0  arm
  *   PXI_SendWordByFifo       0x02088610  arm
  *   MI_CpuCopy8                    0x02082D44  arm
- *   data_02153058  0x02153058  data
+ *   gWmSystemWork  0x02153058  data
  *   g_021530B8               0x021530B8  data
  *   OS_Terminate             0x02088234  arm
  *   WMi_DeleteSleepCallback  0x0208EA80  arm
@@ -134,9 +134,9 @@ typedef enum WMApiid {
 
 typedef char *va_list;
 
-struct Struct_02153058 {
-    void *pad0;
-    void *val;
+struct WMSystemWork {
+    void *reserved;
+    void *work;
 };
 
 typedef struct WMCallback {
@@ -286,7 +286,7 @@ extern WmSystemBss g_02153058;
 extern OSMessageQueue bufMsgQ;
 extern void *bufMsg[10];
 extern u32 fifoBuf[10][64];
-extern struct Struct_02153058 data_02153058;
+extern struct WMSystemWork gWmSystemWork;
 /* the function-static cb_Port of WmReceiveFifo, in the same .bss */
 extern WMPortRecvCallback g_021530B8;
 
@@ -562,7 +562,7 @@ WMErrCode WMi_SendCommandDirect(void *data, u32 length)
  */
 void *WMi_GetSystemWork(void)
 {
-    return data_02153058.val;
+    return gWmSystemWork.work;
 }
 
 

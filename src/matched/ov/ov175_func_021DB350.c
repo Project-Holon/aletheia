@@ -1,5 +1,5 @@
 /*
- * function: func_021DB350
+ * function: WIFIBATTLEMATCH_NET_OnRecvFlagC
  * address:  0x021DB350
  * packet:   pkt_021DB350
  * region:   ov175
@@ -26,7 +26,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
-void func_021DB350(u32 a, u32 b, u32 c, char *d, u32 e)
+void WIFIBATTLEMATCH_NET_OnRecvFlagC(u32 a, u32 b, u32 c, char *d, u32 e)
 {
     if (e != (u32)GFL_NET_HANDLE_GetCurrentHandle())
         return;

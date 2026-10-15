@@ -19,7 +19,7 @@
  *
  * symbols:
  *   SOC_Fcntl  0x0215F854  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A3740     0x021A3740  data
  *   g_021A374C     0x021A374C  data
  *   g_021A375C     0x021A375C  data
@@ -27,7 +27,7 @@
  */
 
 extern int SOC_Fcntl(int sock, int cmd, int arg);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A3740[];
 extern char g_021A374C[];
 extern char g_021A375C[];
@@ -45,9 +45,9 @@ int SetSockBlocking(int sock, int isblocking)
         val |= 4;
     rcode = SOC_Fcntl(sock, 4, val);
     if (rcode == 0) {
-        func_0217D254(12, 0, 0x10, g_021A375C, sock, isblocking ? g_021A3740 : g_021A374C);
+        gsDebugFormat(12, 0, 0x10, g_021A375C, sock, isblocking ? g_021A3740 : g_021A374C);
         return 1;
     }
-    func_0217D254(12, 0, 0x10, g_021A3784, sock, isblocking ? g_021A3740 : g_021A374C);
+    gsDebugFormat(12, 0, 0x10, g_021A3784, sock, isblocking ? g_021A3740 : g_021A374C);
     return 0;
 }

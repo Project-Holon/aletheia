@@ -1,5 +1,5 @@
 /*
- * function: func_021D7858
+ * function: GTSNEGO_MSG_Main
  * address: 0x021D7858
  * packet: pkt_ov120_021D7858
  * region: ov120
@@ -25,7 +25,7 @@ extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void PMS_DRAW_Main(u8 *p);
-void func_021D7858(u8 *p)
+void GTSNEGO_MSG_Main(u8 *p)
 {
     GF_FONT_SetTextColor(1, 2, 15);
     TCBL_Main(((struct Obj05351 *)p)->fA0);

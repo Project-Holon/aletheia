@@ -11,6 +11,7 @@
  *
  * symbols:
  *   sakeiReadOutputRecords  0x021DE2E0  arm
+ *   gsifree  0x0217EAE0  arm  ov009
  *   (none)
  *
  * Slot lookup: the object's +8 table supplies the two keys and a 5th word that
@@ -21,7 +22,7 @@
 typedef unsigned int u32;
 
 extern int  sakeiReadOutputRecords(void *p, int **pa, int *nb, int c, int d);
-extern void func_0217EAE0(int *pa);
+extern void gsifree(int *pa);
 
 int sakeiGetRandomRecordProcessSoapResponse(int **p)
 {
@@ -37,6 +38,6 @@ int sakeiGetRandomRecordProcessSoapResponse(int **p)
         else
             *out = 0;
     }
-    func_0217EAE0(pa);
+    gsifree(pa);
     return h;
 }

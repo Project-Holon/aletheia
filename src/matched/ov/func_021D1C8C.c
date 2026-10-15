@@ -24,8 +24,8 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
@@ -116,8 +116,8 @@ extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern u32 SND_MIC_StartRecording(void *a, u32 b);
 extern void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
 extern void SND_MIC_Exit(void);
@@ -203,8 +203,8 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
                 *seq = 7;
             } else {
                 a = func_02045EC0(w->x18, 3);
-                func_0201EEF4(w->x28, 0, w->x14);
-                func_0201F250(w->x28, w->x2C, a);
+                WORDSET_SetSlotMonSpecies(w->x28, 0, w->x14);
+                WORDSET_CopyTaggedText(w->x28, w->x2C, a);
                 STRBUF_Delete(a);
                 FIELD_MSGBG_ClearSysWin(w->x20);
                 FIELD_MSGBG_SysWinPrintStr(w->x20, 0, 0, (u32)w->x2C);
@@ -227,8 +227,8 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
     case 8:
         if (EVENT_PERAP_RECORD_HopPokeIcon((u8 *)w) == 0) {
             a = func_02045EC0(w->x18, 2);
-            func_0201EEF4(w->x28, 0, w->x14);
-            func_0201F250(w->x28, w->x2C, a);
+            WORDSET_SetSlotMonSpecies(w->x28, 0, w->x14);
+            WORDSET_CopyTaggedText(w->x28, w->x2C, a);
             STRBUF_Delete(a);
             FIELD_MSGBG_ClearSysWin(w->x20);
             FIELD_MSGBG_SysWinPrintStr(w->x20, 0, 0, (u32)w->x2C);

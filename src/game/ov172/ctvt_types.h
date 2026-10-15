@@ -26,6 +26,40 @@ struct ArcHandle;
 struct ClActUnit;
 struct GameData;
 struct Bmp;
+struct Obj;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct Actor;
+struct PrintSys;
+struct MsgBank;
+struct U16Vec;
+struct Vec2;
+struct Q;
+struct StrObj;
+struct Sub0200852CObj;
+
+/* Screen and window parameter records shared by the overlay files. */
+typedef struct { u16 heap; u8 kind, pad; u16 count, a, b, c, d; } Params;
+
+struct Q { u8 b[4]; };
+
+/* One 0xE byte cell actor sprite placement. */
+struct Desc {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8  a;
+    u8  b;
+};
+
+struct SpritePos {
+    s16 x;
+    s16 y;
+};
+
+/* Window descriptor handed to the BMP_WIN and PRINTSYS helpers. */
+typedef struct { unsigned int heap; u8 count; u8 pad[3]; void *items; unsigned int zero; u8 a, b, c, d; } Descriptor;
 
 /* Sub-system records behind the CtvtWork pointers. */
 struct CtvtComm;
@@ -303,6 +337,66 @@ typedef struct CtvtTalk {
 } CtvtTalk;
 
 typedef char CtvtTalkSizeCheck[(sizeof(CtvtTalk) == 0xAC) ? 1 : -1];
+
+/* One row of the call list: the three cursor sprites and the name window of a
+ * single friend row (ctvt_call.c). Stride 0x1C, first row at +0x40. */
+typedef struct CtvtCallRow {
+    u32 active;                 /* +0x00: 1: the row shows an entry */
+    u32 pending;                /* +0x04: 1: the name window must be transferred */
+    void *actorA;               /* +0x08: left cursor sprite */
+    void *actorB;               /* +0x0C: middle cursor sprite */
+    void *actorC;               /* +0x10: right cursor sprite */
+    void *win;                  /* +0x14: name window of the row */
+    u8 slot;                    /* +0x18: entry index shown on the row, 0xFF none */
+} CtvtCallRow;
+
+/* One entry of the call list: the peer a row can show (ctvt_call.c). Stride
+ * 0x24, first entry at +0x1E4. */
+typedef struct CtvtCallEntry {
+    u32 active;                 /* +0x00: 1: the entry holds a peer */
+    u32 unseen;                 /* +0x04: 1: the peer was missing from the last scan */
+    u32 selected;               /* +0x08: 1: the player selected the entry */
+    u32 available;              /* +0x0C: 1: the peer record reports the peer available */
+    u32 dirty;                  /* +0x10: 1: the entry text must be rebuilt */
+    u8 *peer;                   /* +0x14: 0x64 byte peer record buffer */
+    u8 kind;                    /* +0x18: beacon kind, 0x20 or 3 */
+    u8 mac[6];                  /* +0x19: peer MAC address */
+    u8 level;                   /* +0x1F: signal level read from the peer record */
+    u8 row;                     /* +0x20: row index the entry is shown on, 0xFF none */
+    u8 pad21[3];
+} CtvtCallEntry;
+
+/* Call list screen ("Call"): the friend list of the video chat overlay
+ * (ctvt_call.c). Size 0x408. */
+typedef struct CtvtCall {
+    u8 slotSel[3];              /* +0x00: chosen entry per member slot, 0xFF none */
+    u8 selEntry;                /* +0x03: chosen entry of the last slot, 0xFF none */
+    u16 scroll;                 /* +0x04: list scroll offset */
+    u16 scrollPos;              /* +0x06: scroll slider position */
+    u32 state;                  /* +0x08: screen state */
+    u32 refresh;                /* +0x0C: 1: the rows must refresh */
+    u32 sliderDrag;             /* +0x10: 1: the scroll slider is held */
+    u8 rowCount;                /* +0x14: rows that show an entry */
+    u8 prevRowCount;            /* +0x15: row count at the last slider update */
+    u8 pad16[2];
+    u32 substate;               /* +0x18: prompt and leave substate */
+    u32 menuWin;                /* +0x1C: task menu window */
+    u32 msgDirty;               /* +0x20: 1: the message window must transfer */
+    u32 timeDirty;              /* +0x24: 1: the time window must transfer */
+    u32 soundPlayed;            /* +0x28: 1: the join sound was played */
+    u32 msgWin;                 /* +0x2C: message window */
+    u32 timeWin;                /* +0x30: time icon window */
+    u16 timerA;                 /* +0x34: connect wait timer */
+    u16 timerB;                 /* +0x36: slot timer display */
+    u32 timePending;            /* +0x38: 1: the time icon must be created */
+    u8 pad3C[4];
+    CtvtCallRow rows[15];       /* +0x40: one row per friend, stride 0x1C */
+    CtvtCallEntry entries[15];  /* +0x1E4: one entry per friend, stride 0x24 */
+    void *actorBack;            /* +0x400: back arrow sprite */
+    void *actorSlider;          /* +0x404: scroll slider sprite */
+} CtvtCall;
+
+typedef char CtvtCallSizeCheck[(sizeof(CtvtCall) == 0x408) ? 1 : -1];
 
 /* Accessors of CtvtWork fields and helpers (comm_tvt_sys.c). */
 extern CtvtCamView *COMM_TVT_SYS_GetCamView(CtvtWork *work);

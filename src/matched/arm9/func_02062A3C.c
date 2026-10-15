@@ -1,5 +1,5 @@
 /*
- * function: func_02062A3C
+ * function: NNSi_G2dFixupCharacterData
  * address:  0x02062A3C
  * packet:   pkt_0206296C
  * region:   arm9
@@ -14,7 +14,7 @@
  * self-relative offset that becomes an absolute pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062A3C.c  *       --func func_02062A3C --addr 0x02062A3C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupCharacterData.c  *       --func NNSi_G2dFixupCharacterData --addr 0x02062A3C --cc 1.1p1
  */
 #include "../include/Obj11515.h"
 
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 
-void func_02062A3C(u8 *block)
+void NNSi_G2dFixupCharacterData(u8 *block)
 {
     ((struct Obj11515 *)block)->f14 = ((struct Obj11515 *)block)->f14 + (u32)block;
 }

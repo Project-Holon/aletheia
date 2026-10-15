@@ -14,12 +14,12 @@
  *   FIELD_MSGBG_DeleteMenuItems  0x02190A6C  thumb  ov021
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   func_02008534  0x02008534  thumb
  *   STRBUF_SetString  0x02045924  arm
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_AddMenuItemStr  0x02190A64  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
  * Addresses are Black-image addresses.
@@ -56,12 +56,12 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern int FIELD_MSGBG_AddMenuItemStr(u32 a, u32 b, u32 c, u32 d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -82,16 +82,16 @@ void COMM_ENTRY_BuildParentItems(S *p)
     MSGDATA_ReadString((struct MsgBank *)p->f8, 0x1a, (void *)a);
     MSGDATA_ReadString((struct MsgBank *)p->f8, 0x1b, (void *)b);
     for (i = 0; i < 16; i++) {
-        func_0201EFA4((struct WordSet *)p->f4, 0, i + 1, 2, 2, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)p->f4, 0, i + 1, 2, 2, 1);
         if (p->ents[i].on == 1) {
-            func_0201F02C((struct WordSet *)p->f4, 1, &p->ents[i]);
-            func_0201EFA4((struct WordSet *)p->f4, 2, func_02008534((const struct Sub0200852CObj *)(&p->ents[i])), 5, 2, 1);
-            func_0201F250((struct WordSet *)p->f4, (void *)c, (void *)b);
+            WORDSET_SetSlotMyStatus((struct WordSet *)p->f4, 1, &p->ents[i]);
+            WORDSET_SetSlotNumber((struct WordSet *)p->f4, 2, func_02008534((const struct Sub0200852CObj *)(&p->ents[i])), 5, 2, 1);
+            WORDSET_CopyTaggedText((struct WordSet *)p->f4, (void *)c, (void *)b);
         } else {
             STRBUF_SetString((struct Strbuf *)d, &ch);
-            func_0201EE0C((struct WordSet *)p->f4, 1, (const void *)d, 0, 1, 2);
-            func_0201EE0C((struct WordSet *)p->f4, 2, (const void *)d, 0, 1, 2);
-            func_0201F250((struct WordSet *)p->f4, (void *)c, (void *)a);
+            WORDSET_SetSlotTag((struct WordSet *)p->f4, 1, (const void *)d, 0, 1, 2);
+            WORDSET_SetSlotTag((struct WordSet *)p->f4, 2, (const void *)d, 0, 1, 2);
+            WORDSET_CopyTaggedText((struct WordSet *)p->f4, (void *)c, (void *)a);
         }
         FIELD_MSGBG_AddMenuItemStr(p->f13c, c, i, p->f528);
     }

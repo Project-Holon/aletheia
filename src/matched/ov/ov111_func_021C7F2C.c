@@ -1,5 +1,5 @@
 /*
- * function: func_021C7F2C
+ * function: VIEWER_ACTOR_SelectActor
  * address:  0x021C7F2C
  * packet:   pkt_ov111_021C7F2C
  * region:   ov111
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021C7B20  0x021C7B20  thumb
- *   func_021C7908  0x021C7908  thumb
- *   func_021C7EF8  0x021C7EF8  thumb
- *   func_021C8078  0x021C8078  thumb
+ *   VIEWER_ACTOR_DrawLabel  0x021C7B20  thumb
+ *   VIEWER_ACTOR_FlushBgWindow  0x021C7908  thumb
+ *   VIEWER_ACTOR_FindNearestPreset  0x021C7EF8  thumb
+ *   VIEWER_ACTOR_ToggleFavorite  0x021C8078  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_020355D8  0x020355D8  arm
  *   d_021C88B4  0x021C88B4  data
@@ -98,15 +98,15 @@ typedef struct {
 
 struct Obj;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021C7B20(Work *p, int mode, int idx);
-extern void func_021C7908(Work *p);
-extern int func_021C7EF8(int v);
-extern void func_021C8078(Work *p);
+extern void VIEWER_ACTOR_DrawLabel(Work *p, int mode, int idx);
+extern void VIEWER_ACTOR_FlushBgWindow(Work *p);
+extern int VIEWER_ACTOR_FindNearestPreset(int v);
+extern void VIEWER_ACTOR_ToggleFavorite(Work *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020355D8(u8 v);
 extern const int d_021C88B4[8];
 
-void func_021C7F2C(Work *p, int sel, int flag)
+void VIEWER_ACTOR_SelectActor(Work *p, int sel, int flag)
 {
     int idx;
 
@@ -126,8 +126,8 @@ void func_021C7F2C(Work *p, int sel, int flag)
             return;
         }
         GFL_USE_PlaySeDefaultVolume(0x65F);
-        func_021C7B20(p, 0, sel);
-        func_021C7908(p);
+        VIEWER_ACTOR_DrawLabel(p, 0, sel);
+        VIEWER_ACTOR_FlushBgWindow(p);
         p->f144 = 0;
         p->f148 = d_021C88B4[sel];
         p->f140 = 40000;
@@ -143,10 +143,10 @@ void func_021C7F2C(Work *p, int sel, int flag)
         if (p->f140 != 0) {
             return;
         }
-        idx = func_021C7EF8(p->f13C);
+        idx = VIEWER_ACTOR_FindNearestPreset(p->f13C);
         GFL_USE_PlaySeDefaultVolume(0x65E);
-        func_021C7B20(p, 1, (sel - 8 + idx) % 8);
-        func_021C7908(p);
+        VIEWER_ACTOR_DrawLabel(p, 1, (sel - 8 + idx) % 8);
+        VIEWER_ACTOR_FlushBgWindow(p);
         return;
     case 16:
         p->state = 2;
@@ -155,7 +155,7 @@ void func_021C7F2C(Work *p, int sel, int flag)
         CLACT_SetActorAnimSeq(p->f4C, 0xC);
         return;
     case 17:
-        func_021C8078(p);
+        VIEWER_ACTOR_ToggleFavorite(p);
         return;
     case 18:
         GFL_USE_PlaySeDefaultVolume(0x556);

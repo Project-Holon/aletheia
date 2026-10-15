@@ -1,5 +1,5 @@
 /*
- * function: func_0220C714
+ * function: B_BAG_MAIN_DeleteFingerCursorActor
  * address:  0x0220C714
  * packet:   pkt_0220C714
  * region:   ov197
@@ -16,7 +16,7 @@
 
 extern void BTLV_FINGER_CURSOR_DeleteActor(int);
 
-void func_0220C714(char *a)
+void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
 {
     BTLV_FINGER_CURSOR_DeleteActor(((struct Obj25047 *)a)->f14C);
 }

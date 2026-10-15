@@ -1,5 +1,5 @@
 /*
- * function: func_021F709C
+ * function: STA_ACT_LIGHT_AddBillboardImage
  * address: 0x021F709C
  * packet: pkt_ov112_021F709C
  * region: ov112
@@ -19,7 +19,7 @@ extern char d_021F8464[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Desc;
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
-u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e)
+u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e)
 {
     u8 i = 0;
     u8 *p;

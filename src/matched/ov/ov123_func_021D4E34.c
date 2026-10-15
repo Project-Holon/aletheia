@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   TIME_ICON_Delete 0x0202F038 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void TIME_ICON_Delete(u8 *);
-extern void func_0201F7A8(void *,u32);
+extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern void func_02041B6C(u32);
-void GSYNC_MENU_HideMessage(u8 *p) { if(*(u8 * *)&((struct Obj04495 *)p)->f288) { TIME_ICON_Delete(*(u8 * *)&((struct Obj04495 *)p)->f288); *(u32 *)&((struct Obj04495 *)p)->f288=0; } func_0201F7A8(((struct Obj04495 *)p)->f224,2); BMP_WIN_ClearScreen(*(struct Descriptor * *)&((struct Obj04495 *)p)->f224); func_02041B6C(5); }
+void GSYNC_MENU_HideMessage(u8 *p) { if(*(u8 * *)&((struct Obj04495 *)p)->f288) { TIME_ICON_Delete(*(u8 * *)&((struct Obj04495 *)p)->f288); *(u32 *)&((struct Obj04495 *)p)->f288=0; } BMP_MENUWORK_DrawWindowBorder(((struct Obj04495 *)p)->f224,2); BMP_WIN_ClearScreen(*(struct Descriptor * *)&((struct Obj04495 *)p)->f224); func_02041B6C(5); }

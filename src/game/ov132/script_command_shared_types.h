@@ -1,0 +1,6 @@
+#ifndef SCRIPT_COMMAND_SHARED_TYPES_H
+#define SCRIPT_COMMAND_SHARED_TYPES_H
+
+struct Entry;
+
+#endif

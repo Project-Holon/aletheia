@@ -1,5 +1,5 @@
 /*
- * function: func_02062B30
+ * function: NNS_G2dGetUnpackedScreenData
  * address:  0x02062B30
  * packet:   pkt_02062688
  * region:   arm9
@@ -12,7 +12,7 @@
  * NitroSystem NNS_G2dGetUnpackedScreenData shape: find the block, hand back
  * its body (block + 8) through *out and return 1, else *out = 0 and 0.
  *
- * Closed wave 12 (was src/pending/func_02062B30.c, DIFF 48/52 under every
+ * Closed wave 12 (was src/pending/NNS_G2dGetUnpackedScreenData.c, DIFF 48/52 under every
  * front end on the NEGATIVE spelling).  The fix is the POSITIVE spelling
  * `if (b) { ...; return 1; } else { ...; return 0; }` under ../2.0/sp2 (also
  * ../2.0/base and sp1): 2.0 predicates only the zero arm (`popeq`) and keeps
@@ -20,8 +20,8 @@
  * every spelling measured.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02062B30.c \
- *       --func func_02062B30 --addr 0x02062B30 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G2dGetUnpackedScreenData.c \
+ *       --func NNS_G2dGetUnpackedScreenData --addr 0x02062B30 --arm --cc ../2.0/sp2
  *   EXACT, 52 bytes, 1 of 1 relocation site resolved.
  *
  * symbols:
@@ -38,7 +38,7 @@ typedef struct {
 struct NitroFileHeader;
 extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
 
-BOOL func_02062B30(void *file, void **out)
+BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out)
 {
     Blk *b = 0;
 

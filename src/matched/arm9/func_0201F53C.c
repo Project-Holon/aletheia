@@ -1,5 +1,5 @@
 /*
- * function: func_0201F53C
+ * function: BMP_MENUWORK_GetCharFileId
  * address:  0x0201F53C
  * packet:   pkt_0201F4A0
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern u8 sub_0209E8C8_Map[];
 
-u8 func_0201F53C(int i)
+u8 BMP_MENUWORK_GetCharFileId(int i)
 {
     return sub_0209E8C8_Map[i];
 }

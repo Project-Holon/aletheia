@@ -16,7 +16,7 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_02049B40 0x02049B40 arm
  */
 #include "../include/Obj02483.h"
@@ -31,7 +31,7 @@ extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 void func_021D9890(char *p)
 {
@@ -52,6 +52,6 @@ void func_021D9890(char *p)
     ((struct Obj02483 *)p)->f264=CLACT_RegisterPalette(arc,3,0,64,50);
     ((struct Obj02483 *)p)->f270=CLACT_RegisterCharacter(arc,8,0,0,50);
     ((struct Obj02483 *)p)->f288=CLACT_RegisterCellAnim(arc,13,16,50);
-    func_0201F5BC(4,1,11,0,50);
+    BMP_MENUWORK_LoadCharAndPltt(4,1,11,0,50);
     func_02049B40(23,5,4,384,32,50);
 }

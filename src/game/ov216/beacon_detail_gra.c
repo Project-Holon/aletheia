@@ -20,7 +20,7 @@
  *   ov067_id 0x00000043 data
  *   ov072_id 0x00000048 data
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -53,16 +53,16 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
- *   func_02062A98 0x02062A98 arm
+ *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
  *   func_0207D63C 0x0207D63C arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   d_021BDB4C 0x021BDB4C data a4
@@ -77,7 +77,7 @@
  *   configA 0x021BDB28 data a2
  *   configB 0x021BDB34 data a2
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
- *   func_02062A00 0x02062A00 arm
+ *   NNS_G2dGetUnpackedCharacterData 0x02062A00 arm
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
  *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
  *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
@@ -102,26 +102,26 @@
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   d_021BDDC0 0x021BDDC0 data a1
  *   d_021BDBD8 0x021BDBD8 data a4
  *   func_02030EAC 0x02030EAC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BDBAC 0x021BDBAC data a4
  *   d_021BDC28 0x021BDC28 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
@@ -158,7 +158,7 @@
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   d_021BDD92 0x021BDD92 data a1
  *   d_021BDD8A 0x021BDD8A data a2
@@ -166,20 +166,20 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   sub_0202DCC4 0x0202DCC4 thumb
  *   PMS_DRAW_SetVisible 0x0202DCB0 thumb
- *   sub_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   func_02040618 0x02040618 arm
  *   GAME_BEACON_ACCESSOR_GetFavoriteColorRgb 0x02165CC0 thumb ov010
  *   PALANM_BlendColors 0x02021F64 thumb
  *   GAME_BEACON_ACCESSOR_GetPlayerName 0x02165C34 thumb ov010
  *   GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond 0x02165C60 thumb ov010
  *   STRBUF_Clear 0x0204581C arm
- *   func_0201F1C8 0x0201F1C8 thumb
+ *   WORDSET_SetSlotFromMsg38 0x0201F1C8 thumb
  *   GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst 0x02165C78 thumb ov010
- *   func_0201F198 0x0201F198 thumb
+ *   WORDSET_SetSlotFromMsg2B 0x0201F198 thumb
  *   GAME_BEACON_ACCESSOR_GetPlayTime 0x02165D10 thumb ov010
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   GAME_BEACON_ACCESSOR_GetNation 0x02165C58 thumb ov010
- *   func_0201F048 0x0201F048 thumb
+ *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   GAME_BEACON_ACCESSOR_GetArea 0x02165C5C thumb ov010
  *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   GAME_BEACON_ACCESSOR_GetPassCount 0x02165D40 thumb ov010
@@ -210,6 +210,9 @@
  *   PMS_DRAW_Delete  0x0202DC08  thumb  arm9
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
  *   WORDSET_Callback  0x0201EE60  thumb  arm9
+ *   WORDSET_SetSlotPokeData  0x0201F104  thumb  arm9
+ *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb  arm9
+ *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb  arm9
  */
 #include "../../matched/include/Obj00366.h"
 #include "../../matched/include/Obj01437.h"
@@ -370,7 +373,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *,int,int);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int);
 extern void TCBL_Main(struct Tcbl *);
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
@@ -404,16 +407,16 @@ extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void TCBL_Destroy(struct S02031140 *);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *,u32,u32);
-extern int func_02062A98(struct NitroFileHeader *,void **);
+extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *,void **);
 extern void func_0207D63C(u32 *,u32,u32,int,int);
 extern R *TOUCHBAR_Create(A *,int);
 extern void TOUCHBAR_Delete(unsigned char *);
@@ -425,7 +428,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern int POKEGRA_OpenTrainerHandle(int a0);
-extern int func_02062A00(struct NitroFileHeader *,void **);
+extern int NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *,void **);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
@@ -450,23 +453,23 @@ extern int sub_0202DBC4(u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
 extern void func_02030EAC(struct Node *n);
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
@@ -498,32 +501,32 @@ extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const char *);
 extern unsigned short GAME_BEACON_ACCESSOR_GetZoneId(const struct Bits *);
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
-extern void func_0201F104(struct WordSet *p, u32 i, u32 a);
-extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotPokeData(struct WordSet *p, u32 i, u32 a);
+extern void WORDSET_SetSlotFromMsgBE(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_02045CAC(struct MsgBank*,u32,void*);
-extern void func_0201F250(struct WordSet*,void*,void*);
+extern void WORDSET_CopyTaggedText(struct WordSet*,void*,void*);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0*);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *, int, u32);
-extern void sub_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void func_02040618(u32,u32,u32);
 extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1);
 extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
 extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *,void *);
 extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int a0);
 extern void STRBUF_Clear(struct U16Vec *);
-extern void func_0201F1C8(struct WordSet *,u32,u32);
+extern void WORDSET_SetSlotFromMsg38(struct WordSet *,u32,u32);
 extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(int a0);
-extern void func_0201F198(struct WordSet *,u32,u32);
+extern void WORDSET_SetSlotFromMsg2B(struct WordSet *,u32,u32);
 extern void GAME_BEACON_ACCESSOR_GetPlayTime(const struct S *p, u16 *a, u16 *b);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p);
-extern void func_0201F048(struct WordSet *,u32,u32);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *,u32,u32,u32);
 extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct S *p);
@@ -683,7 +686,7 @@ int BEACON_DETAIL_GRA_Exit(struct S020315D4 *heap,int unused1,int unused2,char *
     BEACON_DETAIL_GRA_Delete(p);
     func_021BC9D0(*(unsigned * *)&((struct Obj01437 *)p)->f50);
     func_020315D4(heap);
-    func_020306F0(119);
+    GFL_HEAP_DeleteChecked(119);
     func_02034A5C((int)ov072_id);
     func_02034A5C((int)ov067_id);
     return 1;
@@ -864,7 +867,7 @@ void func_021BC178(char *p)
     GF_FONT_Delete(((struct Obj01437 *)p)->f128);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
     PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01437 *)p)->f18);
     ARC_TOOL_DeleteHandle(((struct Obj01437 *)p)->f54);
 }
@@ -886,7 +889,7 @@ void func_021BC1E4(char *p,u16 heap)
     func_020498F4(((struct Obj01591 *)p)->f54,32,4,0,0,1,heap);
     func_020498F4(((struct Obj01591 *)p)->f54,32,5,0,0,1,heap);
     func_020498F4(((struct Obj01591 *)p)->f54,33,7,0,0,1,heap);
-    func_020413B0(5,0,0,32,24,1);
+    BG_SYS_FillTileMap(5,0,0,32,24,1);
     func_020409B4(5);
     func_02049658(((struct Obj01591 *)p)->f54,31,1,0,0,1,heap);
     func_020498F4(((struct Obj01591 *)p)->f54,34,1,0,2048,1,heap);
@@ -895,7 +898,7 @@ void func_021BC1E4(char *p,u16 heap)
     func_02049658(arc,7,3,0,0,0,heap);
     func_020498F4(arc,16,3,0,2048,0,heap);
     ((struct Obj01591 *)p)->f120=ARC_TOOL_LoadHandleMember(*(struct ArcFile * *)&((struct Obj01591 *)p)->f54,29,((struct Obj01591 *)p)->f0);
-    func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01591 *)p)->f120,(void **)(p+280));
+    NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct Obj01591 *)p)->f120,(void **)(p+280));
     ((struct Obj01591 *)p)->f11C=((struct Obj25769 *)(*(char * *)&((struct Obj01591 *)p)->f118))->fC;
     ARC_TOOL_DeleteHandle(arc);
     func_0207D63C((u32 *)0x04000050,2,30,11,5);
@@ -990,11 +993,11 @@ void func_021BC454(char *p,u32 handle)
     arc=func_020490F4(32,((struct Obj01783 *)p)->f2);
     func_021BC3E4((u16 *)p, (int *)(p+128), (const Config_021BBD80 *)&b, (void *)((u32)arc));
     ((struct Obj01783 *)p)->f114=ARC_TOOL_LoadHandleMember(arc,0,((struct Obj01783 *)p)->f0);
-    func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01783 *)p)->f114,(void **)(p+268));
+    NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct Obj01783 *)p)->f114,(void **)(p+268));
     ((struct Obj01783 *)p)->f110=((struct Obj25771 *)(*(char * *)&((struct Obj01783 *)p)->f10C))->fC;
     for(i=0;i<16;i++){
         *(void **)(p+i*8+144)=ARC_TOOL_LoadHandleMember(arc,i+49,((struct Obj01783 *)p)->f0);
-        func_02062A00(*(struct NitroFileHeader **)(p+i*8+144),(void **)(p+140+i*8));
+        NNS_G2dGetUnpackedCharacterData(*(struct NitroFileHeader **)(p+i*8+144),(void **)(p+140+i*8));
     }
     ARC_TOOL_DeleteHandle(arc);
     for(i=0;i<2;i++){
@@ -1167,11 +1170,11 @@ void *BEACON_DETAIL_GRA_Create(int a,int heap)
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BDBD8);
-    func_0204363C(a);
+    BMP_SetDisplaySwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     func_021BCA58(p,heap);
     func_021BCAFC((void **)(p+1),d_021BDBD8,heap);
     p[3]=(unsigned)func_020056A0((void (*)(void *, void *))BEACON_DETAIL_GRA_Task,p,0);
@@ -1186,7 +1189,7 @@ void func_021BC9D0(unsigned *p)
     func_02030EAC((void *)p[3]);
     func_021BCB70((char *)(p+1));
     func_021BCAB8(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
@@ -1229,12 +1232,12 @@ void func_021BCA58(void *p,int heap)
     MI_CpuFill8(p,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_021BDBAC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BDBAC);
     for(i=0;i<8;i++) {
         const struct Entry *e=&d_021BDC28[i];
         unsigned id=e->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->fields,(u8)e->a);
-        func_020414AC(id);
+        BG_SYS_FreeSlot(id);
         func_02040588(id,e->b);
     }
 }
@@ -1251,7 +1254,7 @@ void func_021BCAF0(void *p) {}
 
 
 
-void func_021BCAF4(void *a0){func_020419E4();}
+void func_021BCAF4(void *a0){BG_SYS_Update();}
 
 
 
@@ -1397,13 +1400,13 @@ void func_021BCE04(void *p,void *q)
         WORDSET_Callback(q,0,GAME_BEACON_ACCESSOR_GetDetailsMonsNo(p)); break;
     case 2: {
         unsigned a=GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(p);
-        func_0201F104(q,0,a); func_0201F134(q,1,a); break;
+        WORDSET_SetSlotPokeData(q,0,a); WORDSET_SetSlotFromMsgBE(q,1,a); break;
     }
     case 3: case 4: break;
     default: {
         unsigned a=GAME_BEACON_ACCESSOR_GetZoneId(p);
         if(a>=427) a=317;
-        func_0201F158(q,0,ZONEDATA_GetPlaceNameId(a)); break;
+        WORDSET_SetSlotFromMsg59(q,0,ZONEDATA_GetPlaceNameId(a)); break;
     }
     }
 }
@@ -1461,7 +1464,7 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  * };
  *
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+ * extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
  * extern void func_020307B0(void *p);
  * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
@@ -1499,7 +1502,7 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  *         void *buf;
  *
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
  *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -1516,7 +1519,7 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  *     func_02045E04(dest, index);
  * }
  */
-void func_021BCEA4(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));func_0201F250(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
+void func_021BCEA4(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
 
 
 
@@ -1620,7 +1623,7 @@ void func_021BD0E4(char *p, u8 index, u32 enable)
         CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08428 *)entry)->f74, enable);
     if (sub_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158, index) != 0)
         PMS_DRAW_SetVisible(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158, index, enable);
-    sub_02040588(((struct Obj08428 *)entry)->f7E, (u8)enable);
+    BG_SYS_SetPlaneVisible(((struct Obj08428 *)entry)->f7E, (u8)enable);
 }
 
 
@@ -1651,24 +1654,24 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
     subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond((int)record);
     if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
-    else {func_0201F1C8(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
+    else {WORDSET_SetSlotFromMsg38(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
     func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst((int)record);
     if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
-    else {func_0201F198(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
+    else {WORDSET_SetSlotFromMsg2B(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
     func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);
     GAME_BEACON_ACCESSOR_GetPlayTime(record,&counts.b,&counts.a);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,2,counts.b,3,0,1);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,3,counts.a,2,2,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,2,counts.b,3,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,3,counts.a,2,2,1);
     func_021BCEA4((u8 *)p,6);
     func_021BD07C((char *)p,(void **)(q+48),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
-    func_0201F048(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
+    WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
     WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
     func_021BCEA4((u8 *)p,8);
     func_021BD07C((char *)p,(void **)(q+80),*(int *)&((struct Obj00051 *)p)->f140,0,0,28,4,0);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
     func_021BCEA4((u8 *)p,10);
     func_021BD07C((char *)p,(void **)(q+96),*(int *)&((struct Obj00051 *)p)->f140,21,0,6,4,0);
     if(PMS_DRAW_IsActive(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) PMS_DRAW_Clear(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
@@ -1720,8 +1723,8 @@ void func_021BD448(char *p)
     }
     BMP_Clear(*(struct CharBuf * *)&((struct Obj00051 *)p)->f14C,15);
     high=(u8)(((struct Obj00051 *)p)->f2C>>8);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,high,2,0,1);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,(u8)((struct Obj00051 *)p)->f2C,2,2,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,high,2,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,(u8)((struct Obj00051 *)p)->f2C,2,2,1);
     func_021BCEA4((u8 *)p,(high/12)+13);
     func_021BDA54(p,p+0x148,0,0,*(u32 *)&((struct Obj00051 *)p)->f140,0x1d0f);
     func_021BCE04(((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f138);

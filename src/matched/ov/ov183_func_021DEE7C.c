@@ -1,5 +1,5 @@
 /*
- * function: func_021DEE7C
+ * function: BR_CODEIN_SearchStep
  * address: 0x021DEE7C
  * packet: pkt_ov183_021DEE7C
  * region: ov183
@@ -61,7 +61,7 @@
  *   BR_NET_GetSearchResults 0x021FF6B4 thumb ov186
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DF18C 0x021DF18C thumb ov183
+ *   BR_CODEIN_SearchStepFade 0x021DF18C thumb ov183
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
@@ -89,14 +89,14 @@ extern void BR_UTIL_StartEffect(int,int,struct Pair *);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021DF18C(int *p, int *state, char *q);
+extern void BR_CODEIN_SearchStepFade(int *p, int *state, char *q);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern void GFL_USE_PlaySeDefaultVolume(u32),BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
 extern int BR_UTIL_ClearTaskStep(int *a);
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
-void func_021DEE7C(int *task,u32 *state,char *p)
+void BR_CODEIN_SearchStep(int *task,u32 *state,char *p)
 {
     switch(*state) {
     case 0: {
@@ -138,7 +138,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
                 for(i=0;i<(*(struct Data **)(*(char **)(p+0x108)+0x1c))->count;i++) {
                     *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)BATTLE_REC_GetHeaderParam((u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80),5,0);
                 }
-                BR_UTIL_SetTaskStep(task,(int)func_021DF18C);
+                BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_SearchStepFade);
             } else {
                 if(**(u32 **)(p+0x108)==3) BR_UTIL_SetWindowText(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)276);
                 else BR_UTIL_SetWindowText(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)339);

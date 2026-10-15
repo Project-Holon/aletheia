@@ -1,5 +1,5 @@
 /*
- * function: func_021A8234
+ * function: FIELD_GROUND_ANIME_DeleteBuildModel
  * address:  0x021A8234
  * packet:   pkt_ov021_021A8234
  * region:   ov021
@@ -20,7 +20,7 @@ typedef struct {
 
 extern void FIELD_BUILDMODEL_DeleteNode(int a);
 
-void func_021A8234(S *s)
+void FIELD_GROUND_ANIME_DeleteBuildModel(S *s)
 {
     if (s->f28 != 0) {
         FIELD_BUILDMODEL_DeleteNode(s->f28);

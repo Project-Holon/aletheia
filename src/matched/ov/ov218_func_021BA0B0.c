@@ -18,7 +18,7 @@
  *   func_021B9898 0x021B9898 thumb ov218
  *   FADE_IsActive 0x0204E804 arm
  *   BRIGHTNESS_IsFinished 0x02024004 thumb
- *   func_0201F048 0x0201F048 thumb
+ *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   tbl_021BAC80 0x021BAC80 data ov218 a4
  */
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ extern u32 func_021B9C88(char *p);
 extern struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap);
 extern int FADE_IsActive(void);
 extern int BRIGHTNESS_IsFinished(int a);
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern int tbl_021BAC80[];
 u32 func_021BA0B0(u8 *a, u8 *b)
 {
@@ -49,7 +49,7 @@ u32 func_021BA0B0(u8 *a, u8 *b)
     case 1:
         if (FADE_IsActive() == 1) break;
         if (BRIGHTNESS_IsFinished(1) == 0) break;
-        func_0201F048((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
+        WORDSET_SetSlotFromMsgE7((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
         func_021B9B78((char *)(*(u8 **)(b + 0x28)), 0xEA);
         goto tail;
     case 2:

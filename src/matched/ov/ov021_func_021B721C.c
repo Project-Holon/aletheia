@@ -18,7 +18,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_020307B0  0x020307B0  arm
  *   sScrcmdTableFileIds     0x021D99D0  data   ov021  a1
@@ -36,7 +36,7 @@ extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern u32 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_020307B0(void *p);
 extern const u8 sScrcmdTableFileIds[];
@@ -65,7 +65,7 @@ int SCRCMD_POKEMON_FLD_RegisterTableValueNumber(u32 a, u32 b)
     cnt >>= 3;
     for (i = 0; i < cnt; i++) {
         if (k == arr[i].k) {
-            func_0201EFA4((struct WordSet *)t, p1, arr[i].v, p2, 0, 1);
+            WORDSET_SetSlotNumber((struct WordSet *)t, p1, arr[i].v, p2, 0, 1);
             break;
         }
     }

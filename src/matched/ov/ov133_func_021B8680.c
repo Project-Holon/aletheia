@@ -9,21 +9,21 @@
  * isa: thumb
  * status: EXACT
  * lever: Unsigned word state local restores the state/sprite register pair; int and long left DIFF7.
- * ABI: func_021F4B24 declared int here: its forwarded func_021F50D0 returns 0/1; original compares the returned r0 despite legacy void declarations.
+ * ABI: MUSICAL_MCSS_GetFlagA declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
  * symbols:
  *   d_021BA57C 0x021BA57C data a4
  *   d_021BA5AC 0x021BA5AC data a4
  *   func_021BA218 0x021BA218 thumb ov133
  *   func_021BA22C 0x021BA22C thumb ov133
- *   func_021F4E8C 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  *   func_021BA21C 0x021BA21C thumb ov133
  *   func_021BA24C 0x021BA24C thumb ov133
  *   func_021B8254 0x021B8254 thumb ov133
  *   func_021BA258 0x021BA258 thumb ov133
- *   func_021F5450 0x021F5450 thumb ov112
- *   func_021F4B24 0x021F4B24 thumb ov112
- *   func_021F4EE8 0x021F4EE8 thumb ov112
- *   func_021F4ED4 0x021F4ED4 thumb ov112
+ *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
+ *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_SetElemFlag 0x021F4EE8 thumb ov112
+ *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   func_021B8444 0x021B8444 thumb ov133
  *   func_021BA238 0x021BA238 thumb ov133
  *   func_021B82E8 0x021B82E8 thumb ov133
@@ -43,16 +43,16 @@ typedef struct { u16 a:2; u16 flag:1; u16 b:13; } Flags;
 extern const Vec d_021BA57C,d_021BA5AC;
 extern unsigned int func_021BA218(u8 *p);
 extern void func_021BA22C(u8 *p, const u8 *src);
-extern void func_021F4E8C(int,int,Vec *);
+extern void MUSICAL_MCSS_SetElemPos(int,int,Vec *);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern void func_021BA24C(char *p, unsigned int v);
 extern void func_021B8254(u8 *);
 extern unsigned int func_021BA258(char *p);
-extern u8 *func_021F5450(u8 *,int);
-extern int func_021F4B24(u8 *);
-extern void func_021F4EE8(int,Flags *,int);
+extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
+extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern void MUSICAL_MCSS_SetElemFlag(int,Flags *,int);
 typedef unsigned int   u32;
-extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
 extern void func_021B8444(u8 *);
 extern u8 *func_021BA238(u8 *p);
 extern void func_021B82E8(u8 *,int);
@@ -72,7 +72,7 @@ void func_021B8680(u8 *p)
         if(((struct Obj00004 *)p)->f48>0) a.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f48<<12));
         else a.y=(int)((float)(((struct Obj00004 *)p)->f48<<12)-0.5f);
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posA));
-        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,&a);
+        MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,&a);
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(p+0x44));
         func_021BA24C((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),10);
         func_021B8254(p);
@@ -81,20 +81,20 @@ void func_021B8680(u8 *p)
         u8 *spriteB;
         spriteB=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
         state=func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
-        record=func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880,state);
+        record=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880,state);
         posB.x=(int)((float)(((struct Obj06498 *)record)->f4+((struct Obj06498 *)record)->f10)/4096.0f)+128;
         posB.y=(int)((float)(((struct Obj06498 *)record)->f8+((struct Obj06498 *)record)->f14)/4096.0f)+96;
         if(posB.x>0) b.x=(int)(0.5f+(float)(posB.x<<12));
         else b.x=(int)((float)(posB.x<<12)-0.5f);
         if(posB.y>0) b.y=(int)(0.5f+(float)(posB.y<<12));
         else b.y=(int)((float)(posB.y<<12)-0.5f);
-        if(func_021F4B24(spriteB)==1) b.z=102<<10;
+        if(MUSICAL_MCSS_GetFlagA(spriteB)==1) b.z=102<<10;
         else if(func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38))==7 || func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38))==8) b.z=222<<10;
         else b.z=202<<10;
         flag=((struct Obj06498 *)record)->f36;
-        func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(Flags *)spriteB,1);
-        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)spriteB,&b);
-        func_021F4ED4(*(int *)&((struct Obj00004 *)p)->f1884,(int)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),flag);
+        MUSICAL_MCSS_SetElemFlag(*(int *)&((struct Obj00004 *)p)->f1884,(Flags *)spriteB,1);
+        MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884,(int)spriteB,&b);
+        MUSICAL_MCSS_SetElemField(*(int *)&((struct Obj00004 *)p)->f1884,(int)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),flag);
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posB));
         currentB.x=((struct Obj00004 *)p)->f1C; currentB.y=*(int *)&((struct Obj00004 *)p)->f20;
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&currentB));
@@ -115,7 +115,7 @@ void func_021B8680(u8 *p)
         if(((struct Obj00004 *)p)->f48>0) c.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f48<<12));
         else c.y=(int)((float)(((struct Obj00004 *)p)->f48<<12)-0.5f);
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posC));
-        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,&c);
+        MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,&c);
         func_021B82E8(p,1);
         return;
     }

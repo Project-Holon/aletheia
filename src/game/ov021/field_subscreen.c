@@ -68,8 +68,8 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
- *   func_020414AC  0x020414AC  arm
- *   func_0204152C  0x0204152C  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
+ *   BG_SYS_ClearLayer  0x0204152C  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   FIELD_MENU_Create  0x021A836C  thumb  ov021
  *   FIELD_MENU_GetLayoutType  0x021A8B18  thumb  ov021
@@ -180,8 +180,8 @@ extern void NO_GEAR_Hook(void *noGear);
 extern void NO_GEAR_Update(void *noGear);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void func_02040588(u8 bgId, u8 visible);
-extern void func_020414AC(u32 bgId);
-extern void func_0204152C(int bgId, u16 value);
+extern void BG_SYS_FreeSlot(u32 bgId);
+extern void BG_SYS_ClearLayer(int bgId, u16 value);
 extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
 extern struct FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, FieldSubscreen *parent, void *fieldMap, int slideIn);
 extern u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId);
@@ -616,8 +616,8 @@ void FIELD_SUBSCREEN_InitMenu(FieldSubscreen *work, u32 prevMode)
         slideIn = 1;
     BG_SYS_InitBgLayer(4, &d_021D8708, 0);
     func_02040588(4, 1);
-    func_020414AC(4);
-    func_0204152C(4, 0);
+    BG_SYS_FreeSlot(4);
+    BG_SYS_ClearLayer(4, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     work->cgear = (void *)FIELD_MENU_Create(0x70, work->heapId, work, work->fieldMap, slideIn);
     if (FIELD_MENU_GetLayoutType(gameData, eventWork, zoneId) != 1)

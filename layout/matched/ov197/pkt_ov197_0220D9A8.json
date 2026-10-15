@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0220D9A8",
-    "func_0220D9BC",
-    "func_0220D9C8",
-    "func_0220D9D4"
+    "B_BAG_MAIN_ShowCursorAt",
+    "B_BAG_MAIN_HideCursor",
+    "B_BAG_MAIN_HideCursor2",
+    "B_BAG_MAIN_LayoutCursorOnly"
+   ],
+   "addresses": [
+    "0x0220D9A8",
+    "0x0220D9BC",
+    "0x0220D9C8",
+    "0x0220D9D4"
    ]
   }
  ]

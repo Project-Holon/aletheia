@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   gBtlNetSourceName     0x021F3A98  data  ov093  a1
  */
 
@@ -24,11 +24,11 @@ typedef struct {
 } Hdr;
 
 extern const char gBtlNetSourceName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void *BTL_NET_AllocRelayPacket(u32 a, u16 b)
 {
-    Hdr *h = sub_02030734(b, a + 4, 1, gBtlNetSourceName, 0x477);
+    Hdr *h = GFL_HEAP_Alloc(b, a + 4, 1, gBtlNetSourceName, 0x477);
 
     h->size = a;
     h->type = 4;

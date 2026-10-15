@@ -12,7 +12,7 @@
  *   func_021BA20C 0x021BA20C thumb ov133
  *   func_021BA218 0x021BA218 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
- *   func_021F4D74 0x021F4D74 thumb ov112
+ *   MUSICAL_MCSS_FreeElemImage 0x021F4D74 thumb ov112
  */
 #include "../include/Obj00004.h"
 #include "../include/Obj06496.h"
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern u32 func_021BA20C(u8 *p);
 extern u32 func_021BA218(u8 *p);
 extern u32 func_021BA208(u8 *p);
-extern void func_021F4D74(u8 *, u8 *, int, u16);
+extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
 void func_021B7A18(u8 *p)
 {
     u8 *e = func_021BA184(((struct Obj00004 *)p)->f181C);
@@ -33,9 +33,9 @@ void func_021B7A18(u8 *p)
         q = (u8 *)func_021BA20C(e);
         s = (u8 *)func_021BA218(e);
         if (((struct Obj06496 *)q)->fC == 1)
-            func_021F4D74(*(u8 **)(p + 0x1884), s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f8);
+            MUSICAL_MCSS_FreeElemImage(*(u8 **)(p + 0x1884), s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f8);
         else
-            func_021F4D74(*(u8 * *)&((struct Obj00004 *)p)->f1884, s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f4);
+            MUSICAL_MCSS_FreeElemImage(*(u8 * *)&((struct Obj00004 *)p)->f1884, s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f4);
         e = (u8 *)func_021BA208(e);
     }
 }

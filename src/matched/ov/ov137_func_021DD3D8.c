@@ -24,7 +24,7 @@
  * ARC_UTIL_UploadBgCharFromArchive 0x02049624 arm
  * func_0204989C 0x0204989C arm
  * func_02040588 0x02040588 arm
- * func_0201F5BC 0x0201F5BC thumb
+ * BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32,u32,u32,u32,u32,u32,u16);
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
 {
@@ -45,8 +45,8 @@ void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
     func_02049B40(30,13,4,0,352,114);
     ARC_UTIL_UploadBgCharFromArchive((void *)30,(void *)14,(void *)6,0,0,0,114);
     func_0204989C(30,3,6,0,0,0,114);
-    func_0201F5BC(0,1,10,0,114);
-    func_0201F5BC(0,31,11,0,114);
+    BMP_MENUWORK_LoadCharAndPltt(0,1,10,0,114);
+    BMP_MENUWORK_LoadCharAndPltt(0,31,11,0,114);
     func_02040588(0,1);
     func_02040588(1,1);
     func_02040588(6,1);

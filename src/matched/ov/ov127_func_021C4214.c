@@ -1,5 +1,5 @@
 /*
- * function: func_021C4214
+ * function: WIFI_2DCHAR_SetActorDrawPriority
  * address:  0x021C4214
  * packet:   pkt_021C4214
  * region:   ov127
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Node;
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 
-void func_021C4214(u8 *p, u32 v)
+void WIFI_2DCHAR_SetActorDrawPriority(u8 *p, u32 v)
 {
     CLACT_SetActorDrawPriority(((struct Obj23014 *)p)->f4, (u8)v);
 }

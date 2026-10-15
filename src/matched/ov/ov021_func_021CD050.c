@@ -17,8 +17,8 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_MsgWinPrintStrColorFont  0x02190764  thumb  ov021
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
@@ -51,8 +51,8 @@ extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void FIELD_MSGBG_MsgWinPrintStrColorFont(u32 a, u16 b, u32 c, void *d, u16 e, u32 f);
 extern int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -85,8 +85,8 @@ void PARTY_SELECT_LIST_PrintPartyNames(Obj *p, void *party)
         v9e = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
         v6e = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
         MSGDATA_ReadString((struct MsgBank *)p->fA8, 4, buf2);
-        func_0201EFA4((struct WordSet *)p->fA0, 0, v9e, 3, 0, 1);
-        func_0201F250((struct WordSet *)p->fA0, buf1, buf2);
+        WORDSET_SetSlotNumber((struct WordSet *)p->fA0, 0, v9e, 3, 0, 1);
+        WORDSET_CopyTaggedText((struct WordSet *)p->fA0, buf1, buf2);
         x = i * 0x28;
         FIELD_MSGBG_MsgWinPrintStrColorFont(p->fB4, x, 0x20, buf1, 0x440, p->fB8);
         if (v6e == 2) {

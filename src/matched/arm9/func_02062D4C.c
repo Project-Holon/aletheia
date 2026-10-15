@@ -1,5 +1,5 @@
 /*
- * function: func_02062D4C
+ * function: NNS_G2dTickAnimCtrl
  * address:  0x02062D4C
  * packet:   pkt_02062D4C
  * region:   arm9
@@ -12,12 +12,12 @@
  * shape): if active, advance currentTime by |FX_Mul(speed, frames)| (the
  * callee at 0x02091588 is abs), then while the controller is active and the
  * time has passed the current frame's length, step the frame pointer in the
- * play direction, hand the edge case to func_02062BF4, latch the last frame
+ * play direction, hand the edge case to NNSi_G2dCellAnimationEdgeHandler, latch the last frame
  * with a non-zero length, and fire the +0x20 callback functor (type 2: on one
  * frame index, type 3: every frame).  Returns whether a frame changed.
  *
- * Struct layout agrees with src/matched/func_02062BF4.c (the edge handler),
- * func_02062D08.c and sub_02062F1C.c (the u16 frame index).
+ * Struct layout agrees with src/matched/NNSi_G2dCellAnimationEdgeHandler.c (the edge handler),
+ * NNSi_G2dSetCellAnimationFrame.c and NNSi_G2dGetCellAnimFrameIdx.c (the u16 frame index).
  *
  * Levers, each measured:
  *   - ../2.0/sp2: every per-inline 0/1 constant hoisted to its own callee-
@@ -31,13 +31,13 @@
  *     the sequence load ahead of the direction test (16 bytes out).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02062D4C.c \
- *       --func func_02062D4C --addr 0x02062D4C --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G2dTickAnimCtrl.c \
+ *       --func NNS_G2dTickAnimCtrl --addr 0x02062D4C --arm --cc ../2.0/sp2
  *   EXACT, 436 bytes, 2 of 2 relocation sites resolved (sp2p2 also EXACT).
  *
  * symbols:
  *   abs  0x02091588  arm
- *   func_02062BF4  0x02062BF4  arm
+ *   NNSi_G2dCellAnimationEdgeHandler  0x02062BF4  arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -80,7 +80,7 @@ typedef struct {
 
 extern s32 abs(s32 x);
 struct Slider;
-extern void func_02062BF4(struct Slider *s);
+extern void NNSi_G2dCellAnimationEdgeHandler(struct Slider *s);
 
 static inline s32 FX_Mul(s32 a, s32 b)
 {
@@ -136,7 +136,7 @@ static inline void CallbackFuncHandling_(const Functor *f, u16 idx)
     }
 }
 
-BOOL func_02062D4C(Ctrl *p, s32 frames)
+BOOL NNS_G2dTickAnimCtrl(Ctrl *p, s32 frames)
 {
     BOOL bChanged = 0;
 
@@ -151,7 +151,7 @@ BOOL func_02062D4C(Ctrl *p, s32 frames)
         else
             p->pCurrent--;
         if (IsReachedEdge_(p))
-            func_02062BF4((struct Slider *)p);
+            NNSi_G2dCellAnimationEdgeHandler((struct Slider *)p);
         if (p->pCurrent->frames != 0)
             p->pActiveCurrent = p->pCurrent;
         if (p->callback.type != 0)

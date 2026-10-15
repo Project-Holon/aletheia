@@ -57,7 +57,7 @@
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_ResetTextColor 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
@@ -159,7 +159,7 @@
  *   BTLV_SCD_OnSlideInDone  0x06899D2C  thumb
  *   BTLV_SCD_OnSlideOutStart  0x06899D30  thumb
  *   BTL_PICK_Push  0x0689CAEC  thumb
- *   func_0220F3E8 0x0220F3E8 thumb ov198
+ *   B_PLIST_MAIN_Create 0x0220F3E8 thumb ov198
  *   ov196_id 0x000000C4 data
  *   ov198_id 0x000000C6 data
  *   BTL_MAIN_GetMyItem 0x021B90E8 thumb ov093
@@ -172,7 +172,7 @@
  *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_ID_IsBagItemUseBlocked  0x0689C90C  thumb
- *   func_0220C834 0x0220C834 thumb ov197
+ *   B_BAG_MAIN_Create 0x0220C834 thumb ov197
  *   ov197_id 0x000000C5 data
  *   BTLV_SCD_ShowRotateScreen  0x0689B514  thumb
  *   MYITEM_SAVEDATA_SetBattlePocketCursors  0x020082B8  thumb
@@ -336,7 +336,7 @@ extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u16, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
@@ -433,7 +433,7 @@ extern void BTLV_SCD_OnSlideInDone(struct BtlvAuxView *auxView);
 extern void BTL_PICK_Push(u8 *choiceFlags, u8 index, u8 slot);
 extern void BTLV_SCD_StartInputSlideOut(struct BtlvAuxView *auxView);
 extern void BTLV_SCD_OnSlideOutStart(struct BtlvAuxView *auxView);
-extern void func_0220F3E8(BtlvPlistWork *plist);
+extern void B_PLIST_MAIN_Create(BtlvPlistWork *plist);
 extern void *BTL_MAIN_GetMyItem(void *context);
 extern void *BTL_MAIN_GetMapMatrix(void *context);
 extern void *BTL_MAIN_GetRegulationRules(void *context);
@@ -444,7 +444,7 @@ extern u8 BTL_SLOT_GetCount(void *pokeList);
 extern void *BTL_SLOT_GetPokeParam(void *pokeList, u32 index);
 extern int BTL_POKEPARAM_HasSick(void *pokeParam, int sickId);
 extern int BTL_ID_IsBagItemUseBlocked(u16 itemId, u8 itemUseKind);
-extern void func_0220C834(BtlvBagWork *bag);
+extern void B_BAG_MAIN_Create(BtlvBagWork *bag);
 extern void MYITEM_SAVEDATA_SetBattlePocketCursors(struct MyItemSave *save, const s16 *cursorPos, const s16 *scrollPos);
 extern void MYITEM_SAVEDATA_SetLastBattleItem(struct MyItemSave *save, u16 item, u16 page);
 extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlContext *context, u32 slot);
@@ -1234,7 +1234,7 @@ void BTLV_CORE_InitDisplay(u16 heapId)
     BLDCNT = 0;
     SBLDCNT = 0;
     POWCNT = (u16)(POWCNT | 0x8000);
-    func_0203FC28(&gBtlvCoreDispConfig);
+    BG_SYS_SetGraphicsMode(&gBtlvCoreDispConfig);
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heapId, 0);
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 8);
@@ -1862,7 +1862,7 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
             func_02034AC4(ov198_id);
-            func_0220F3E8(&core->plist);
+            B_PLIST_MAIN_Create(&core->plist);
             core->subStep++;
         }
         break;
@@ -1977,7 +1977,7 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
             func_02034AC4(ov197_id);
-            func_0220C834(&core->bag);
+            B_BAG_MAIN_Create(&core->bag);
             core->subStep = 3;
         }
         break;
@@ -1992,7 +1992,7 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
         if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem, core->bag.selectedItemPage)) {
             core->plist.itemId = core->bag.selectedItem;
             func_02034AC4(ov198_id);
-            func_0220F3E8(&core->plist);
+            B_PLIST_MAIN_Create(&core->plist);
             core->subStep = 5;
         } else core->subStep = 6;
         break;
@@ -2905,7 +2905,7 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
             func_02034AC4(ov198_id);
-            func_0220F3E8(&core->plist);
+            B_PLIST_MAIN_Create(&core->plist);
             core->subStep++;
         }
         break;

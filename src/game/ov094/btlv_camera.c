@@ -13,7 +13,7 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   sub_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
@@ -37,7 +37,7 @@
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
 
-extern void *sub_02030734(u32, u32, int, const char *, u16);
+extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern u32 func_020307B0(void *p);
 
@@ -111,7 +111,7 @@ extern const s16_021F6560 FX_SinCosTable_[];
 
 BtlvCamera *BTLV_CAMERA_Create(void *owner, u16 heap)
 {
-    BtlvCamera *camera = sub_02030734(heap, 0xb8, 1, gBtlvCameraFileName, 0x56);
+    BtlvCamera *camera = GFL_HEAP_Alloc(heap, 0xb8, 1, gBtlvCameraFileName, 0x56);
 
     camera->heap = heap;
     camera->owner = owner;

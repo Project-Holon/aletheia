@@ -1,5 +1,5 @@
 /*
- * function: func_021F6BC0
+ * function: STA_ACT_LIGHT_SetElemVisible
  * address: 0x021F6BC0
  * packet: pkt_ov112_021F6BC0
  * region: ov112
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
-void func_021F6BC0(char *p,u32 *q,u32 flag) {BILLBOARD_SetElemVisible(((struct Obj22554 *)p)->f4,q[6],&flag);}
+void STA_ACT_LIGHT_SetElemVisible(char *p,u32 *q,u32 flag) {BILLBOARD_SetElemVisible(((struct Obj22554 *)p)->f4,q[6],&flag);}

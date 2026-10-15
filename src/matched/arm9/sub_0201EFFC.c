@@ -1,5 +1,5 @@
 /*
- * function: func_0201EFFC
+ * function: WORDSET_SetSlotMarkerFlag
  * address:  0x0201EFFC
  * packet:   pkt_0201E4C8
  * region:   arm9
@@ -28,7 +28,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201EFFC.c \
- *       --func func_0201EFFC --addr 0x0201EFFC --cc 1.1p1 --thumb
+ *       --func WORDSET_SetSlotMarkerFlag --addr 0x0201EFFC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -57,7 +57,7 @@ struct WordSet {
     void *buf;
 };
 
-void func_0201EFFC(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v)
 {
     u32 x = v;
 

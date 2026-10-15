@@ -25,7 +25,7 @@
  *   POKETRADE_3D_InitParticleSystems  0x021E2F34  thumb
  *   POKETRADE_3D_SetupParticleSystemsLow  0x021E2FB0  thumb ov119
  *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb
- *   func_021D6738  0x021D6738  thumb
+ *   POKETRADE_DEMO_DOWN_SetFrame  0x021D6738  thumb
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb
  *   POKETRADE_DEMO_MIDDLE_StepParticleSystems  0x021D7100  thumb
  *   d_021D866C  0x021D866C  data
@@ -54,7 +54,7 @@ extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_3D_InitParticleSystems(void *w);
 extern void POKETRADE_3D_SetupParticleSystemsLow(char *p);
 extern void POKETRADE_3D_CreateIcaStreamsForMode(void *w, int a);
-extern void func_021D6738(u8 *p, u32 v);
+extern void POKETRADE_DEMO_DOWN_SetFrame(u8 *p, u32 v);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_DEMO_MIDDLE_StepParticleSystems(u8 *p);
 extern const char d_021D866C[];
@@ -93,6 +93,6 @@ void POKETRADE_DEMO_MIDDLE_StepSetup(u8 *p)
     POKETRADE_3D_InitParticleSystems(WORK);
     POKETRADE_3D_SetupParticleSystemsLow((char *)WORK);
     POKETRADE_3D_CreateIcaStreamsForMode(WORK, 0);
-    func_021D6738(p, 0);
+    POKETRADE_DEMO_DOWN_SetFrame(p, 0);
     POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_StepParticleSystems);
 }

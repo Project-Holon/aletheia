@@ -14,7 +14,7 @@
  *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb  ov010
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
  *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
- *   func_021B7DC0  0x021B7DC0  thumb
+ *   FIELD_RAIL_WORK_GetLocation  0x021B7DC0  thumb
  *   FIELD_RAIL_WORK_QueryStep  0x021B7E60  thumb
  *   FIELD_RAIL_WORK_GetLastKey  0x021B8038  thumb
  *   FIELD_RAIL_WORK_IsMoving  0x021B8040  thumb
@@ -36,7 +36,7 @@ extern void *FLDMMDL_GetMoveProcWork(void *p);
 extern u8 FIELD_RAIL_WORK_IsMoving(u8 *p);
 extern u8 FIELD_RAIL_WORK_GetLastKey(u8 *p);
 extern void FIELD_RAIL_WORK_QueryStep(void *p, u32 a, void *out, u32 b);
-extern void func_021B7DC0(void *p, void *out);
+extern void FIELD_RAIL_WORK_GetLocation(void *p, void *out);
 
 void FLDMMDL_RAIL_GetNextLocation(void *o, void *out)
 {
@@ -47,5 +47,5 @@ void FLDMMDL_RAIL_GetNextLocation(void *o, void *out)
     if (FIELD_RAIL_WORK_IsMoving(*h))
         FIELD_RAIL_WORK_QueryStep(*h, FIELD_RAIL_WORK_GetLastKey(*h), out, 0);
     else
-        func_021B7DC0(*h, out);
+        FIELD_RAIL_WORK_GetLocation(*h, out);
 }

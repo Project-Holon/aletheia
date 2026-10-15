@@ -20,7 +20,7 @@
  *   func_02027624 0x02027624 thumb
  *   func_0202762C 0x0202762C thumb
  *   func_02049740 0x02049740 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02049B40 0x02049B40 arm
  */
@@ -37,7 +37,7 @@ extern u32 func_02027628(void);
 extern u32 func_02027624(void);
 extern u32 func_0202762C(void);
 extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 void ZUKAN_LIST_LoadBgGraphics(void)
@@ -58,7 +58,7 @@ void ZUKAN_LIST_LoadBgGraphics(void)
     func_02049740(arc,func_02027628(),1,0,0,107);
     func_02049B68(arc,func_02027624(),0,448,32,107);
     func_020498F4(arc,func_0202762C(),1,0,0,0,107);
-    func_020413B0(1,0,21,32,3,14);
+    BG_SYS_FillTileMap(1,0,21,32,3,14);
     func_02041B6C(1);
     ARC_TOOL_DeleteHandle(arc);
     func_02049B40(23,5,0,480,32,107);

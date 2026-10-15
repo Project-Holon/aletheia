@@ -11,18 +11,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008A7C, sub_02008ACC, sub_02008ADC
+ * function: TRCARD_SIGN_SetBadgeDate, TRCARD_SIGN_GetBadgeTimer, TRCARD_SIGN_SetBadgeTimer
  *
  * symbols:
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
- *   sub_02008A34                 0x02008A34  thumb
+ *   TRCARD_SIGN_SetLastBadgeTime                 0x02008A34  thumb
  *   sub_0203F49C                 0x0203F49C  arm
  *
  * alias: the tail of the id 0x21 save block's file; see
  * src/matched/unit_020089A8.c for the object layout and the block identity.
  * This is not a translation unit boundary.  The original file runs
  * 0x020089A8..0x02008AEC in one piece and this range is the part of it after
- * sub_02008A54, which is a near miss: see the note in unit_020089A8.c.  The
+ * TRCARD_SIGN_GetBadgeDate, which is a near miss: see the note in unit_020089A8.c.  The
  * two files are kept separate for the same reason unit_0200894C.c once was,
  * and should be merged the day that function closes.
  *
@@ -84,13 +84,13 @@ struct Sub020089A8Obj {
 
 /* In unit_020089A8.c; attested by the branch from ov111 at 0x021C81E6 as well
  * as by the call below. */
-extern void sub_02008A34(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
+extern void TRCARD_SIGN_SetLastBadgeTime(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
 
 /* Stamp record `i` with three bytes, mark its parallel entry 0xF0, and record
  * the wall clock as a second count in the object's 64 bit field.  The fifth
  * argument arrives on the stack and is loaded as a whole word, so it is an
  * `int`-width parameter that the `strb` truncates, not a `u8`. */
-void sub_02008A7C(struct Sub020089A8Obj *obj, u32 i, u32 a, u32 b, u32 c)
+void TRCARD_SIGN_SetBadgeDate(struct Sub020089A8Obj *obj, u32 i, u32 a, u32 b, u32 c)
 {
     struct RTCDate date;
     struct RTCTime time;
@@ -104,15 +104,15 @@ void sub_02008A7C(struct Sub020089A8Obj *obj, u32 i, u32 a, u32 b, u32 c)
     obj->unk604[i].unk02 = c;
     obj->unk638[i] = 0xF0;
 
-    sub_02008A34(obj, (u32)sec, (u32)(sec >> 32));
+    TRCARD_SIGN_SetLastBadgeTime(obj, (u32)sec, (u32)(sec >> 32));
 }
 
-u16 sub_02008ACC(const struct Sub020089A8Obj *obj, u32 i)
+u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i)
 {
     return obj->unk638[i];
 }
 
-void sub_02008ADC(struct Sub020089A8Obj *obj, int i, int value)
+void TRCARD_SIGN_SetBadgeTimer(struct Sub020089A8Obj *obj, int i, int value)
 {
     obj->unk638[i] = value;
 }

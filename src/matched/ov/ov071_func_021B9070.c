@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0201F184 0x0201F184 thumb
+ *   WORDSET_SetSlotFromMsgA0 0x0201F184 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
@@ -113,7 +113,7 @@ extern int func_021B7204(int a, int b, void *p, int *q);
 extern void func_021B71FC(void *p);
 extern void func_021B6C30(int *p, int flag, int index);
 extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
-extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern int INTRUDE_COMM_SendPairMessage(int,...);
 extern void MONOLITH_TOOL_LIST_ShowFormattedMessage(char *a, char *b, u32 c);
 extern void GFL_USE_FadeOutBgm(u32 a);
@@ -207,7 +207,7 @@ selected:
         } break;
     case 8:
         if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
-            func_0201F184((struct WordSet *)(*(u32 *)(CP(4)+0x10)),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
+            WORDSET_SetSlotFromMsgA0((struct WordSet *)(*(u32 *)(CP(4)+0x10)),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
             MONOLITH_TOOL_LIST_ShowFormattedMessage((char *)o,(char *)CP(4),0x23); *state=9;
         } break;
     case 9:

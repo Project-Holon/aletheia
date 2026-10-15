@@ -13,7 +13,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020637BC  0x020637BC  arm
+ *   NNSi_G2dIsVramHandleSet  0x020637BC  arm
  *
  * Three aggregate struct copies out of a cell actor, laid out as one unit so
  * the whole 140-byte range (padding included) is the evidence.
@@ -45,7 +45,7 @@ typedef struct Struct36 {
 } Struct36;
 
 typedef unsigned int   u32;
-extern int func_020637BC(const u32 *p, u32 i);
+extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
 
 static inline void copy_inline1(const Struct36 *src, Struct36 *dst) {
     *dst = *src;
@@ -63,8 +63,8 @@ void CLACT_GetActorPaletteProxy(const char *src, Struct20 *dst)
 void CLACT_SetActorImageProxy(char *dst, const Struct36 *src)
 {
     Struct36 s;
-    func_020637BC((void *)src, 1);
-    func_020637BC((void *)src, 2);
+    NNSi_G2dIsVramHandleSet((void *)src, 1);
+    NNSi_G2dIsVramHandleSet((void *)src, 2);
     s = *src;
     *(Struct36 *)(dst + 0x1c) = s;
 }

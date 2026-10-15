@@ -1,5 +1,5 @@
 /*
- * function: func_021BED1C
+ * function: ZKNSEARCH_MAIN_RedrawSubWindow
  * address:  0x021BED1C
  * packet:   pkt_ov210_021BED1C
  * region:   ov210
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE49C 0x021BE49C thumb ov210
+ *   ZKNSEARCH_MAIN_MakeWindowScreen 0x021BE49C thumb ov210
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern void func_021BE49C(u8 *p);
+extern void ZKNSEARCH_MAIN_MakeWindowScreen(u8 *p);
 
-void func_021BED1C(int p)
+void ZKNSEARCH_MAIN_RedrawSubWindow(int p)
 {
-    func_021BE49C((u8 *)(p + 0x1a4));
+    ZKNSEARCH_MAIN_MakeWindowScreen((u8 *)(p + 0x1a4));
 }

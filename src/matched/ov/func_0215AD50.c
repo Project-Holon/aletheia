@@ -12,7 +12,7 @@
  * symbols:
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_02159F84  0x02159F84  thumb  ov010
+ *   MAP_REPLACE_IsValidWarpId  0x02159F84  thumb  ov010
  *   GAME_DATA_SetWarpId  0x02012900  thumb
  */
 
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern int func_02159F84(int a0);
+extern int MAP_REPLACE_IsValidWarpId(int a0);
 extern int GAME_DATA_SetWarpId();
 
 int SCRCMD_WORK_CmdSetWarpDestination(int a0, int a1)
@@ -40,7 +40,7 @@ a1 = t6 + 0;
     a0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_0215AD66:
 t5 = a0 + 0;
-    a0 = func_02159F84(a0);
+    a0 = MAP_REPLACE_IsValidWarpId(a0);
 loc_0215AD6C:
     if (a0 != 1) goto loc_0215AD78;
 loc_0215AD70:

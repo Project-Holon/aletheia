@@ -36,10 +36,10 @@
  *   EVENT_MAPCHANGE_AddEventDataMmdl  0x021858E4  thumb  ov020
  *   EVENT_MAPCHANGE_SetMapEffectMask  0x02185A34  thumb  ov020
  *   EVENT_MAPCHANGE_ReloadMmdl  0x021859FC  thumb  ov020
- *   func_02159FE0  0x02159FE0  thumb  ov010
+ *   MAP_REPLACE_FindFlyTargetIndex  0x02159FE0  thumb  ov010
  *   FIELD_CLOCK_Update  0x02168EEC  thumb  ov010
- *   func_021643E8  0x021643E8  thumb  ov010
- *   func_0215A014  0x0215A014  thumb  ov010
+ *   FIELD_MAP_CHANGE_SetupZone  0x021643E8  thumb  ov010
+ *   MAP_REPLACE_SetArriveFlag  0x0215A014  thumb  ov010
  *   SCRIPT_SYS_RunZoneChangeScript  0x02158AE0  thumb  ov010
  *   FLDMMDL_SysLoadObjCodeParamCache  0x0216E29C  thumb  ov010
  *   FLDMMDL_ClearObjCodeParamCache  0x0216CCCC  thumb  ov010
@@ -93,10 +93,10 @@ void EVENT_MAPCHANGE_ApplyZoneTableEntry(int a0, int id);
 void EVENT_MAPCHANGE_AddEventDataMmdl(int a, const short *p);
 void EVENT_MAPCHANGE_SetMapEffectMask(void *p, unsigned int id);
 void EVENT_MAPCHANGE_ReloadMmdl(void *p, const short *s);
-int func_02159FE0(int v);
+int MAP_REPLACE_FindFlyTargetIndex(int v);
 void FIELD_CLOCK_Update(int a);
-void func_021643E8(void *p, u16 v);
-void func_0215A014(void *p, int v);
+void FIELD_MAP_CHANGE_SetupZone(void *p, u16 v);
+void MAP_REPLACE_SetArriveFlag(void *p, int v);
 void SCRIPT_SYS_RunZoneChangeScript(void *a0, void *a1);
 void FLDMMDL_SysLoadObjCodeParamCache(struct Obj *o, int v);
 void FLDMMDL_ClearObjCodeParamCache(struct Obj *o);
@@ -129,13 +129,13 @@ void EVENT_MAPCHANGE_ApplyLocation(void *a, int b)
     }
     ISS_SYS_ChangeZone((u32)GAMESYSTEM_GetIssSystem(a), s.h4);
     GAME_DATA_SetStartLocation(r5, (const struct Rec1C *)(&s));
-    v = func_02159FE0(s.h4);
+    v = MAP_REPLACE_FindFlyTargetIndex(s.h4);
     if (v != 0)
         GAME_DATA_SetWarpId(r5, v);
     EVENT_MAPCHANGE_ApplyZoneTableEntry((int)r5, s.h4);
     FIELD_CLOCK_Update((int)r5);
-    func_021643E8(r5, s.h4);
-    func_0215A014(r5, s.h4);
+    FIELD_MAP_CHANGE_SetupZone(r5, s.h4);
+    MAP_REPLACE_SetArriveFlag(r5, s.h4);
     SCRIPT_SYS_RunZoneChangeScript(a, (void *)4);
     EVENT_MAPCHANGE_AddEventDataMmdl((int)r5, (const short int *)b);
     EVENT_MAPCHANGE_SetMapEffectMask(r5, (u16)s.h4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FC5E8
+ * function: SCRIPT_COMMAND_CmdReplaceWave
  * address: 0x021FC5E8
  * packet: pkt_ov132_021FC5E8
  * region: ov132
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 VM_GetU32(struct Cursor *);
 extern int STA_ACTING_ReplaceWaveData(char *p, u32 a, u32 b, u32 d);
-int func_021FC5E8(int unused,char *p) { char *o; u32 a,b,c; o=*(char * *)&((struct Obj08172 *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct Obj08172 *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct Obj08172 *)p)->f4); c=VM_GetU32(*(struct Cursor * *)&((struct Obj08172 *)p)->f4); STA_ACTING_ReplaceWaveData(*(char * *)&((struct Obj23267 *)o)->f34,(u16)a,(u16)b,(u16)c); return 0; }
+int SCRIPT_COMMAND_CmdReplaceWave(int unused,char *p) { char *o; u32 a,b,c; o=*(char * *)&((struct Obj08172 *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct Obj08172 *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct Obj08172 *)p)->f4); c=VM_GetU32(*(struct Cursor * *)&((struct Obj08172 *)p)->f4); STA_ACTING_ReplaceWaveData(*(char * *)&((struct Obj23267 *)o)->f34,(u16)a,(u16)b,(u16)c); return 0; }

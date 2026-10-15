@@ -1,5 +1,5 @@
 /*
- * function: func_021E13FC
+ * function: BR_CODEIN_ProfileUpdateActor2
  * address: 0x021E13FC
  * packet: pkt_ov183_021E13FC
  * region: ov183
@@ -13,14 +13,14 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021E0E40 0x021E0E40 thumb ov183
- *   func_021E0CE8 0x021E0CE8 thumb ov183
- *   func_021E1008 0x021E1008 thumb ov183
- *   func_021E1C14 0x021E1C14 thumb ov183
- *   func_021E1C44 0x021E1C44 thumb ov183
- *   func_021E0D00 0x021E0D00 thumb ov183
- *   func_021E1C00 0x021E1C00 thumb ov183
- *   func_021E1374 0x021E1374 thumb ov183
+ *   BR_CODEIN_ProfileGetActorIndex 0x021E0E40 thumb ov183
+ *   BR_CODEIN_ProfileSetActorVisible 0x021E0CE8 thumb ov183
+ *   BR_CODEIN_ProfileUpdateActorPos 0x021E1008 thumb ov183
+ *   BR_CODEIN_ProfileFindActorIndex 0x021E1C14 thumb ov183
+ *   BR_CODEIN_ProfileFindRecord 0x021E1C44 thumb ov183
+ *   BR_CODEIN_ProfileSetActorPos 0x021E0D00 thumb ov183
+ *   BR_CODEIN_ProfileClear 0x021E1C00 thumb ov183
+ *   BR_CODEIN_ProfileSetAnimSeq 0x021E1374 thumb ov183
  *   d_021E3998 0x021E3998 data a4
  *   d_021E397C 0x021E397C data a4
  */
@@ -43,22 +43,22 @@ struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021E0E40(int,int);
-extern void func_021E0CE8(char *p, int index, int a2);
-extern void func_021E1008(char *);
-extern int func_021E1C14(char *,int);
-extern int func_021E1C44(const char *p, int a);
-extern void func_021E0D00(char *,int);
-extern void func_021E1C00(char *);
-extern void func_021E1374(char *,int);
-int func_021E13FC(char *p) {
+extern int BR_CODEIN_ProfileGetActorIndex(int,int);
+extern void BR_CODEIN_ProfileSetActorVisible(char *p, int index, int a2);
+extern void BR_CODEIN_ProfileUpdateActorPos(char *);
+extern int BR_CODEIN_ProfileFindActorIndex(char *,int);
+extern int BR_CODEIN_ProfileFindRecord(const char *p, int a);
+extern void BR_CODEIN_ProfileSetActorPos(char *,int);
+extern void BR_CODEIN_ProfileClear(char *);
+extern void BR_CODEIN_ProfileSetAnimSeq(char *,int);
+int BR_CODEIN_ProfileUpdateActor2(char *p) {
     int i,factor,selected;
     char *record;
     Pair scale;
     Coords coords;
     switch(((struct Obj00478 *)p)->f234){
     case 0:
-        func_021E0CE8(p,0,0);
+        BR_CODEIN_ProfileSetActorVisible(p,0,0);
         for(i=0;i<((struct Obj00478 *)p)->f23C;i++){
             record=(char *)((u32)p+i*28);
             if(((struct Obj00417 *)record)->f18!=0){
@@ -94,11 +94,11 @@ int func_021E13FC(char *p) {
         if(((struct Obj00478 *)p)->f18==0){
             for(i=((struct Obj00478 *)p)->f248;i<((struct Obj00478 *)p)->f24C;i++){
                 record=(char *)((u32)p+i*28);
-                CLACT_SetActorAnimSeq(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00417 *)record)->fC,BR_CODEIN_ProfileGetActorIndex(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
             }
             for(i=((struct Obj00478 *)p)->f250;i<((struct Obj00478 *)p)->f254;i++){
                 record=(char *)((u32)p+i*28);
-                CLACT_SetActorAnimSeq(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00417 *)record)->fC,BR_CODEIN_ProfileGetActorIndex(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
             }
             ++((struct Obj00478 *)p)->f234;
         }
@@ -126,13 +126,13 @@ int func_021E13FC(char *p) {
         if(++((struct Obj00478 *)p)->f238==6)++((struct Obj00478 *)p)->f234;
         break;
     default:
-        func_021E1008(p);
-        if(((struct Obj00478 *)p)->f320==0)selected=func_021E1C14(p,((struct Obj00478 *)p)->f31C);
-        else selected=func_021E1C44(p,((struct Obj00478 *)p)->f31C);
-        func_021E0D00(p,selected);
-        if(((struct Obj00478 *)p)->f240!=0)func_021E0CE8(p,0,1);
-        func_021E1C00(p);
-        func_021E1374(p,1);
+        BR_CODEIN_ProfileUpdateActorPos(p);
+        if(((struct Obj00478 *)p)->f320==0)selected=BR_CODEIN_ProfileFindActorIndex(p,((struct Obj00478 *)p)->f31C);
+        else selected=BR_CODEIN_ProfileFindRecord(p,((struct Obj00478 *)p)->f31C);
+        BR_CODEIN_ProfileSetActorPos(p,selected);
+        if(((struct Obj00478 *)p)->f240!=0)BR_CODEIN_ProfileSetActorVisible(p,0,1);
+        BR_CODEIN_ProfileClear(p);
+        BR_CODEIN_ProfileSetAnimSeq(p,1);
         break;
     }
     return 0;

@@ -18,6 +18,7 @@
  *   func_02040588 0x02040588 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 #include "../include/Obj00045.h"
 typedef unsigned char u8;
@@ -26,7 +27,7 @@ extern int WORLDTRADE_UpdateTaskMenuYesNo(char *p);
 extern void WORLDTRADE_CloseTaskMenu(char *p);
 extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 struct Descriptor;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -41,7 +42,7 @@ int WORLDTRADE_TITLE_StateConfirmYesNoInput(u8 *p)
     state = WORLDTRADE_UpdateTaskMenuYesNo((char *)p);
     if (state == 1) {
         WORLDTRADE_CloseTaskMenu((char *)p);
-        func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
+        BMP_MENUWORK_DrawWindowBorder((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
         w = *(u32 *)&((struct Obj00045 *)p)->fDD0;
         BMP_WIN_ClearScreen((struct Descriptor *)w);
         func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)w));
@@ -54,7 +55,7 @@ int WORLDTRADE_TITLE_StateConfirmYesNoInput(u8 *p)
         ((struct Obj00045 *)p)->f28 = 7;
     } else if (state == 2) {
         WORLDTRADE_CloseTaskMenu((char *)p);
-        func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
+        BMP_MENUWORK_DrawWindowBorder((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
         w = *(u32 *)&((struct Obj00045 *)p)->fDD0;
         BMP_WIN_ClearScreen((struct Descriptor *)w);
         func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)w));

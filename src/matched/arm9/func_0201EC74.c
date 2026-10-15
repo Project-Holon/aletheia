@@ -48,7 +48,7 @@
  *    a word for `p->heap = heap` -- but it changes the order mwccarm's value
  *    numbering creates the three incoming values in, which is what the
  *    prologue schedule follows.  This is the family's heap-id width seen
- *    once more: func_0201F344 in src/matched/unit_0201F31C.c takes its heap
+ *    once more: WORDSET_LoadSpeciesNameBank in src/matched/unit_0201F31C.c takes its heap
  *    as u16 for the same class of reason.
  *
  *    Found by tools/permuter.py (--mode hill --budget 800 --jobs 8 --types),

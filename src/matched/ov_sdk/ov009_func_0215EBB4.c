@@ -1,5 +1,5 @@
 /*
- * function: func_0215EBB4
+ * function: SOCLi_TrashSocket
  * address:  0x0215EBB4
  * packet:   pkt_ov009_0215EBB4
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215EA1C  0x0215EA1C  arm  ov009
+ *   SOCLi_CleanupSocket  0x0215EA1C  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA4B8  0x021AA4B8  data
  */
@@ -22,15 +22,15 @@
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_0215EA1C(void *socket);
+extern void SOCLi_CleanupSocket(void *socket);
 extern struct G_021AA4B8 *g_021AA4B8;
 
-void func_0215EBB4(void)
+void SOCLi_TrashSocket(void)
 {
 	unsigned long enable;
 
 	enable = OS_DisableInterrupts();
 	while (g_021AA4B8 != 0)
-		func_0215EA1C(g_021AA4B8);
+		SOCLi_CleanupSocket(g_021AA4B8);
 	OS_RestoreInterrupts(enable);
 }

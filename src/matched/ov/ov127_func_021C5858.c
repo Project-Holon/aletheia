@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * Unlabelled accessor veneer after WF2DMAP_OBJDRAW_SetActorValue2 (`ldr r0,[r0,#4]; ldr r3,=
- * func_021C4224; bx r3`).  Blocker of ov099 func_021B989C.
+ * WIFI_2DCHAR_GetActorDrawPriority; bx r3`).  Blocker of ov099 func_021B989C.
  *
  * symbols:
- *   func_021C4224  0x021C4224  thumb  ov127
+ *   WIFI_2DCHAR_GetActorDrawPriority  0x021C4224  thumb  ov127
  */
 #include "../include/Obj23052.h"
 
 typedef unsigned char u8;
 
-extern int func_021C4224(u8 *p);
+extern int WIFI_2DCHAR_GetActorDrawPriority(u8 *p);
 
 int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p)
 {
-    return func_021C4224(((struct Obj23052 *)p)->f4);
+    return WIFI_2DCHAR_GetActorDrawPriority(((struct Obj23052 *)p)->f4);
 }

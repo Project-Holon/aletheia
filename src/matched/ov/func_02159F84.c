@@ -1,5 +1,5 @@
 /*
- * function: func_02159F84
+ * function: MAP_REPLACE_IsValidWarpId
  * address:  0x02159F84
  * packet:   pkt_02159F84
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_02159F84(int a0)
+int MAP_REPLACE_IsValidWarpId(int a0)
 {
 
     if (a0 <= 0) goto loc_02159F8C;

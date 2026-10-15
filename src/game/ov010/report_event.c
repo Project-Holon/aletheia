@@ -41,7 +41,7 @@
  *   func_02028590  0x02028590  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020071F0  0x020071F0  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   func_020056BC  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
@@ -50,8 +50,8 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   TCBL_Create  0x0203101C  arm
@@ -60,12 +60,12 @@
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
@@ -255,7 +255,7 @@ extern TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 taskCount, u32 workSize)
 extern AppKeyCursor *func_02028590(u32 a0, u32 a1, u32 a2, u32 heapId);
 extern PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern int func_020071F0(SaveControl *saveControl);
-extern void func_0201F7A8(BmpWin *bmpWin, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *bmpWin, u32 kind);
 extern u32 func_02008DF0(TrainerRecord *record, int id);
 extern TcblSystem *func_020056BC(void);
 extern TimeIcon *TIME_ICON_Create(TcblSystem *tcbl, BmpWin *bmpWin, u8 color, u8 priority, u16 heapId);
@@ -264,20 +264,20 @@ extern int GAME_DATA_SaveMain(GameData *gameData);
 extern void TIME_ICON_Delete(TimeIcon *timeIcon);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern WordSet *GF_FONT_Create_EC64(u32 heapId);
-extern void func_0201F02C(WordSet *wordSet, u32 index, MyStatus *myStatus);
-extern void func_0201F250(WordSet *wordSet, Strbuf *dest, Strbuf *src);
+extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, MyStatus *myStatus);
+extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
 extern void WORDSET_DeleteStrbufED04(WordSet *wordSet);
 extern int GFL_USE_IsSeqPlaying(u32 seNo);
 extern void PRINTSYS_QUE_Delete(PrintQue *printQue);
 extern void APP_KEYCURSOR_Delete(AppKeyCursor *keyCursor);
 extern void TCBL_Destroy(TcblSystem *tcbl);
 extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u8 height, u8 palette, u8 charOffset);
-extern void func_0201F5BC(u32 bgLayer, u32 charOffset, u32 palette, u32 type, u32 heapId);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 bgLayer, u32 charOffset, u32 palette, u32 type, u32 heapId);
 extern void func_02049B40(u32 arcId, u32 fileId, u32 palType, u32 offset, u32 size, u32 heapId);
 extern void BMP_WIN_Delete(BmpWin *bmpWin);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
-extern void func_0201F73C(BmpWin *bmpWin, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(BmpWin *bmpWin, int a1, int a2, int a3);
 extern u32 FIELD_MSGBG_GetFont(FieldMsgContext *msgContext);
 extern signed char MSG_SPEED_GetWait(void);
 extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *str, u32 font, u32 speed, TcblSystem *tcbl, u32 priority, u16 heapId, u32 clearColor);
@@ -385,7 +385,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
                 REPORT_EVENT_PrintMessage(w, REPORT_EVENT_MSG_OVERWRITE);
                 *state = REPORT_EVENT_STATE_WAIT_MESSAGE;
             } else {
-                func_0201F7A8(w->res->window.bmpWin, 1);
+                BMP_MENUWORK_DrawWindowBorder(w->res->window.bmpWin, 1);
                 *state = REPORT_EVENT_STATE_PRINT_SAVING;
             }
             break;
@@ -447,8 +447,8 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             REPORT_EVENT_EndAvatarAnim(w);
             wordSet = GF_FONT_Create_EC64(w->heapId);
             message = func_02045EC0(w->res->msgData, REPORT_EVENT_MSG_SAVED);
-            func_0201F02C(wordSet, 0, func_02012944(ICA_ANIME_GetField1C(w->gameSystem)));
-            func_0201F250(wordSet, w->res->message, message);
+            WORDSET_SetSlotMyStatus(wordSet, 0, func_02012944(ICA_ANIME_GetField1C(w->gameSystem)));
+            WORDSET_CopyTaggedText(wordSet, w->res->message, message);
             STRBUF_Delete(message);
             WORDSET_DeleteStrbufED04(wordSet);
             REPORT_EVENT_StartPrintStream(w);
@@ -523,7 +523,7 @@ void REPORT_EVENT_CreateMessageWindow(ReportEventWork *w)
     u32 bgLayer = 6;
 
     w->res->window.bmpWin = BMP_WIN_Create(bgLayer, 1, 1, 0x1E, 4, 12, 1);
-    func_0201F5BC(6, 1, 13, 0, w->heapId);
+    BMP_MENUWORK_LoadCharAndPltt(6, 1, 13, 0, w->heapId);
     func_02049B40(0x17, 5, 4, bgLayer << 6, 0x20, w->heapId);
 }
 
@@ -547,7 +547,7 @@ void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
     BmpWin *bmpWin;
 
     BMP_Clear(BMP_WIN_GetBmp(w->res->window.bmpWin), 15);
-    func_0201F73C(w->res->window.bmpWin, 2, 1, 13);
+    BMP_MENUWORK_DrawWindow(w->res->window.bmpWin, 2, 1, 13);
     res = w->res;
     font = FIELD_MSGBG_GetFont(w->msgContext);
     w->res->printStream = PRINTSYS_PrintStream(res->window.bmpWin, 0, 0, res->message, font, MSG_SPEED_GetWait(), res->tcbl, 10, w->heapId, 15);
@@ -606,7 +606,7 @@ void REPORT_EVENT_QueueMessage(ReportEventWork *w, u32 msgIndex)
     BmpWin *bmpWin;
 
     BMP_Clear(BMP_WIN_GetBmp(w->res->window.bmpWin), 15);
-    func_0201F73C(w->res->window.bmpWin, 2, 1, 13);
+    BMP_MENUWORK_DrawWindow(w->res->window.bmpWin, 2, 1, 13);
     message = func_02045EC0(w->res->msgData, msgIndex);
     font = FIELD_MSGBG_GetFont(w->msgContext);
     window = &w->res->window;

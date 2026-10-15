@@ -1,5 +1,5 @@
 /*
- * function: func_021E0C04
+ * function: BR_CODEIN_ProfileCreateActors3
  * address: 0x021E0C04
  * packet: pkt_ov183_021E0C04
  * region: ov183
@@ -28,7 +28,7 @@ struct Vec2;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021E0C04(char *p) {
+void BR_CODEIN_ProfileCreateActors3(char *p) {
     struct Params pos;
     u32 manager=*(u32 *)&((struct Obj00143 *)p)->f25C;
     pos.a=0;pos.b=0;pos.z=0;pos.mode=10;pos.flag=0;

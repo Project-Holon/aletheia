@@ -1,5 +1,5 @@
 /*
- * function: func_020526A8
+ * function: SPL_EMITTER_FreeNodeHeap
  * address:  0x020526A8
  * packet:   pkt_020526A8
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02052FC8  0x02052FC8  arm
+ *   SPL_EMITTER_UpdateSubC  0x02052FC8  arm
  *
  * Per-frame sweep of one display rig.  It first pokes the 3D display control
  * halfword at 0x04000060 (DISP3DCNT): clear bits 12-13, set bit 3.  That is a
@@ -34,8 +34,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020526A8.c \
- *       --func func_020526A8 --addr 0x020526A8 --cc ../1.2/sp2 --arm \
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_FreeNodeHeap.c \
+ *       --func SPL_EMITTER_FreeNodeHeap --addr 0x020526A8 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
 
@@ -67,9 +67,9 @@ struct Head {
     u32 f44;
 };
 
-extern void func_02052FC8(struct Head *h);
+extern void SPL_EMITTER_UpdateSubC(struct Head *h);
 
-void func_020526A8(struct Head *h, u32 a)
+void SPL_EMITTER_FreeNodeHeap(struct Head *h, u32 a)
 {
     struct Node *n;
 
@@ -82,7 +82,7 @@ void func_020526A8(struct Head *h, u32 a)
         while (n != 0) {
             h->cur = n;
             if (n->f24_b3 == 0)
-                func_02052FC8(h);
+                SPL_EMITTER_UpdateSubC(h);
             n = n->next;
         }
     } else {
@@ -90,7 +90,7 @@ void func_020526A8(struct Head *h, u32 a)
         while (n != 0) {
             h->cur = n;
             if (n->f24_b3 == 0)
-                func_02052FC8(h);
+                SPL_EMITTER_UpdateSubC(h);
             n = n->prev;
         }
     }

@@ -28,7 +28,7 @@
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -56,7 +56,7 @@
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -73,7 +73,7 @@
  * }
  * symbols:
  *   GSYNC_MENU_SetPaletteFade 0x021D4D40 thumb ov123
- *   func_02041570 0x02041570 arm
+ *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   GSYNC_MENU_PrintMessageNoStream 0x021D4FAC thumb ov123
  *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
@@ -84,9 +84,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GSYNC_MENU_SetPaletteFade(char *,int);
 struct MsgBank;
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void GSYNC_MENU_PrintMessageNoStream(char *);
 extern void GSYNC_MENU_ChangeState(char *,void *,int);
 extern void GSYNC_MENU_StateOpenConfirmMenu(char *);
-void GSYNC_MENU_StatePrintConfirmMessage(char *p) { GSYNC_MENU_SetPaletteFade(p,1); func_02041570(5,0); MSGDATA_ReadString(*(void **)(p+36),3,*(void **)(p+56)); GSYNC_MENU_PrintMessageNoStream(p); GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateOpenConfirmMenu,0x4d0); }
+void GSYNC_MENU_StatePrintConfirmMessage(char *p) { GSYNC_MENU_SetPaletteFade(p,1); BG_SYS_ClearLayerEx(5,0); MSGDATA_ReadString(*(void **)(p+36),3,*(void **)(p+56)); GSYNC_MENU_PrintMessageNoStream(p); GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateOpenConfirmMenu,0x4d0); }

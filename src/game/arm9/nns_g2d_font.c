@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_font.c
  * unit:     yes
- * function: NNSi_G2dFontGetGlyphIndexFromCMap, NNS_G2dFontInitUTF16, NNS_G2dFontGetGlyphIndex, func_02067FE4, func_02068030, func_020680DC, func_02068150, func_020681E4, func_020682DC, func_020682F8, func_02068430, func_02068670, func_02068808, func_02068A18, func_02068A68, func_02068AE8, func_02068C84, func_02068E78, func_02068EA0, func_02068FC4, func_02068FF0, func_02069078, func_02069128, func_02069184, func_020691E0, func_020694D8, func_0206958C, func_020696F4, func_02069818, func_020698F8, func_02069AC4, func_02069BA0, NNSi_G2dReadCharUTF16, GetTaggedPayloadSize
+ * function: NNSi_G2dFontGetGlyphIndexFromCMap, NNS_G2dFontInitUTF16, NNS_G2dFontGetGlyphIndex, NNS_G2dFontGetCharWidthsFromIndex, NNS_G2dFontGetStringWidth, NNS_G2dFontGetTextHeight, NNS_G2dFontGetTextRect, NNSi_G2dCalcRectMask, NNSi_G2dGetOamShapeCode, NNSi_G2dCharCanvasFill, NNSi_G2dBlitCharData, NNSi_G2dCharCanvasDrawText, NNSi_G2dCharCanvasDrawTextForVRAM, NNSi_G2dSurfaceFill, NNSi_G2dSurfaceFillTiled, NNSi_G2dSurfaceFillRect, NNSi_G2dSurfaceFillRectSwizzled, NNSi_G2dInitPen, NNSi_G2dCharCanvasDrawChar, NNSi_G2dInitPenSimple, NNS_G2dCharCanvasInitForVRAM, NNS_G2dMapScrToCharText, NNSi_G2dFillScrCharArea, NNSi_G2dCalcCharAreaSize, NNSi_G2dMakeCharObjArea, NNSi_G2dDrawTextLine, NNSi_G2dDrawTextRotated, NNSi_G2dCalcTextBox, NNSi_G2dAlignTextVertical, NNS_G2dFontLoad, NNSi_G2dFontFixupSections, NNSi_G2dBitReaderRead, NNSi_G2dReadCharUTF16, GetTaggedPayloadSize
  * address:  0x02067EB0
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -19,17 +19,17 @@
  * the next byte is loaded (the static inline below) and the rest comes from
  * a recursive call; otherwise the byte is shifted down and the count drops.
  * Closed 2026-09-24 (wave 21, lane G) from DIFF 6
- * (docs/notes/func_02069BA0.c.txt).  PINNED ../2.0/sp2 on the schedule tell
- * already recorded for the NitroSystem g2d block (func_02062BAC /
- * func_02062BF4 in docs/FRONTEND-PINS.md): the image sets the recursive
+ * (docs/notes/NNSi_G2dBitReaderRead.c.txt).  PINNED ../2.0/sp2 on the schedule tell
+ * already recorded for the NitroSystem g2d block (NNSi_G2dFixupOffsets /
+ * NNSi_G2dCellAnimationEdgeHandler in docs/FRONTEND-PINS.md): the image sets the recursive
  * call's argument before the constant, `mov r1, r6` at 0x02069BD8 then
  * `mov r2, #8` at 0x02069BDC.  dsi/1.1p1 -O4,p emits the pair the other way
  * round on this exact source (96 bytes, 6 concrete out), as on every
  * spelling measured in waves 16 to 20; under ../2.0/sp2 (and sp1) it is 96
  * bytes, 0 out, and ../1.2/sp2 is 108 bytes.
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02069BA0.c \
- *       --func func_02069BA0 --addr 0x02069BA0 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dBitReaderRead.c \
+ *       --func NNSi_G2dBitReaderRead --addr 0x02069BA0 --arm --cc ../2.0/sp2
  *
  * symbols:
  *   g_020A18F4     0x020A18F4  data
@@ -290,35 +290,35 @@ extern void OS_Terminate(void);
 u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode);
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource);
 u16 NNS_G2dFontGetGlyphIndex(const NNSG2dFont *pFont, u16 charCode);
-const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u32 idx);
-int func_02068030(const NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos);
-int func_020680DC(const NNSG2dFont *pFont, int vSpace, const void *txt);
-NNSG2dTextRect func_02068150(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt);
-int func_020681E4(int x, int y, int w, int h, int sw0, int sh0);
-u32 func_020682DC(const u8 *p);
-void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
-void func_02068430(LC_INFO *i);
-void func_02068670(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph);
-void func_02068808(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph);
-void func_02068A18(struct Surface *s, u32 arg);
-void func_02068A68(struct Surface *s, u32 arg);
-void func_02068AE8(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int h);
-void func_02068C84(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int h);
-void func_02068E78(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7);
-s8 func_02068EA0(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 code);
-void func_02068FC4(int a, int b, int c, int d, int e);
-void func_02068FF0(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
-void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
-void func_02069128(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
-u32 func_02069184(u32 areaWidth, u32 areaHeight);
-int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift);
-void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2, const void *s, const void **last, Step st);
-void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w, s32 w2, u32 flags, const void *s, Step st);
-void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w, u32 flags, u32 s, Step st);
-void func_02069818(Ctx *ctx, s32 x, s32 y, s32 w, u32 a4, u32 a5, u32 flags, u32 s, Step st);
-u32 func_020698F8(Res *res, void **out);
-void func_02069AC4(Res *base);
-u32 func_02069BA0(struct BitReader *reader, int nBits);
+const NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(const NNSG2dFont *pFont, u32 idx);
+int NNS_G2dFontGetStringWidth(const NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos);
+int NNS_G2dFontGetTextHeight(const NNSG2dFont *pFont, int vSpace, const void *txt);
+NNSG2dTextRect NNS_G2dFontGetTextRect(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt);
+int NNSi_G2dCalcRectMask(int x, int y, int w, int h, int sw0, int sh0);
+u32 NNSi_G2dGetOamShapeCode(const u8 *p);
+void NNSi_G2dCharCanvasFill(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
+void NNSi_G2dBlitCharData(LC_INFO *i);
+void NNSi_G2dCharCanvasDrawText(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph);
+void NNSi_G2dCharCanvasDrawTextForVRAM(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph);
+void NNSi_G2dSurfaceFill(struct Surface *s, u32 arg);
+void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg);
+void NNSi_G2dSurfaceFillRect(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int h);
+void NNSi_G2dSurfaceFillRectSwizzled(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int h);
+void NNSi_G2dInitPen(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7);
+s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 code);
+void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
+void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
+void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
+void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
+u32 NNSi_G2dCalcCharAreaSize(u32 areaWidth, u32 areaHeight);
+int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift);
+void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2, const void *s, const void **last, Step st);
+void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w, s32 w2, u32 flags, const void *s, Step st);
+void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w, u32 flags, u32 s, Step st);
+void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w, u32 a4, u32 a5, u32 flags, u32 s, Step st);
+u32 NNS_G2dFontLoad(Res *res, void **out);
+void NNSi_G2dFontFixupSections(Res *base);
+u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits);
 u16 NNSi_G2dReadCharUTF16(CharCursor *cursor);
 u32 GetTaggedPayloadSize(const u8 *tag, const TaggedNode *node);
 extern const u8 g_020A18F4[4][4][2];
@@ -370,14 +370,14 @@ u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode)
 
 /*
  * Blocking class: label.  Every concrete byte is right; both relocation sites are
- * unresolved and both for the same reason: the `bl func_020698F8` at 0x02067F88 is
+ * unresolved and both for the same reason: the `bl NNS_G2dFontLoad` at 0x02067F88 is
  * the only branch to 0x020698F8 in the image, and the pool word that stores
  * 0x02069C00 as a value (+0x20) is the only reference to that address anywhere, so
  * neither `label` nor `literal` has a witness outside this file's 32 bytes.
  */
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource)
 {
-    func_020698F8((Res *)pResource, (void **)pFont);
+    NNS_G2dFontLoad((Res *)pResource, (void **)pFont);
     pFont->cbCharSpliter = (u16 (*)(const void **))NNSi_G2dReadCharUTF16;
 }
 
@@ -428,7 +428,7 @@ u16 NNS_G2dFontGetGlyphIndex(const NNSG2dFont *pFont, u16 charCode)
  * predicates it (subls/addls/addls/addls/bxls) and is 72 bytes against 76.
  * The same C is 76 bytes, 0 mismatches under the pin.
  */
-const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u32 idx)
+const NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(const NNSG2dFont *pFont, u32 idx)
 {
     const NNSG2dFontWidth *pWidth = pFont->pRes->pWidth;
 
@@ -453,7 +453,7 @@ static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
     u16 index = NNS_G2dFontGetGlyphIndex(pFont, c);
     if (index == 0xFFFF)
         index = pFont->pRes->alterCharIndex;
-    return func_02067FE4(pFont, index)->charWidth;
+    return NNS_G2dFontGetCharWidthsFromIndex(pFont, index)->charWidth;
 }
 
 
@@ -470,7 +470,7 @@ static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
  * in a stack slot.  *pPos gets the cursor after a newline, NULL at end of
  * string, and one trailing hSpace is removed.  NNS_G2dFontGetGlyphIndex is
  * NNS_G2dFontGetGlyphIndex (0xFFFF = not found -> alterCharIndex),
- * func_02067FE4 NNS_G2dFontGetCharWidthsFromIndex.
+ * NNS_G2dFontGetCharWidthsFromIndex NNS_G2dFontGetCharWidthsFromIndex.
  *
  * The cursor is a LOCAL COPY of the string argument (`str = txt`): taking
  * the address of the parameter itself spills all four argument registers
@@ -482,7 +482,7 @@ static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
  * (`add r4, sp, #0` / `mov r0, r4`), which permutes every callee-saved
  * register, 47 concrete bytes out at 172.  0 mismatches under the pin.
  */
-int func_02068030(const NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos)
+int NNS_G2dFontGetStringWidth(const NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos)
 {
     const void *str = txt;
     int width = 0;
@@ -518,17 +518,17 @@ int func_02068030(const NNSG2dFont *pFont, int hSpace, const void *txt, const vo
  *
  * The two dead zero stores at [sp]/[sp+4] through `add r4, sp, #0` are an
  * unused `NNSG2dTextRect rect = {0, 0}`, the same aggregate initialiser
- * func_02068150 uses live.  `vSpace + linefeed` in that operand order
+ * NNS_G2dFontGetTextRect uses live.  `vSpace + linefeed` in that operand order
  * (`add r0, r4, r0`); the other order is 2 bytes out.
  *
  * COMPILER PIN ../2.0/sp2, "kept constants" (docs/FRONTEND-PINS.md): the
  * image rematerialises the cursor address, `add r0, sp, #8` at 0x02068100
  * and `add r5, sp, #8` at 0x02068118; dsi/1.1p1 hoists one `add r5, sp, #8`
  * and schedules the prologue differently, 49 concrete bytes out at 116.
- * 0 mismatches under the pin.  Supersedes src/pending/func_020680DC.c
+ * 0 mismatches under the pin.  Supersedes src/pending/NNS_G2dFontGetTextHeight.c
  * (DIFF 5, a different reading).
  */
-int func_020680DC(const NNSG2dFont *pFont, int vSpace, const void *txt)
+int NNS_G2dFontGetTextHeight(const NNSG2dFont *pFont, int vSpace, const void *txt)
 {
     const void *pos = txt;
     NNSG2dTextRect rect = { 0, 0 };
@@ -553,7 +553,7 @@ int func_020680DC(const NNSG2dFont *pFont, int vSpace, const void *txt)
 
 /*
  * NNS_G2dFontGetTextRect (NitroSystem g2d_Font.c), struct return through the
- * hidden r0 pointer: widest line via func_02068030 (threading its pPos back
+ * hidden r0 pointer: widest line via NNS_G2dFontGetStringWidth (threading its pPos back
  * in as the next line), height = (lines - 1) * (vSpace + linefeed) - vSpace
  * with the counter starting at ONE (`mov r4, #1` / `sub r2, r4, #1`); a
  * counter from zero is 140 bytes against 148.
@@ -564,13 +564,13 @@ int func_020680DC(const NNSG2dFont *pFont, int vSpace, const void *txt)
  * [sp, #4]` at 0x020681D4, then `stm r8, {r0, r1}` at 0x020681D8; 1.1p1
  * issues the stm first.  0 mismatches under the pin.
  */
-NNSG2dTextRect func_02068150(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt)
+NNSG2dTextRect NNS_G2dFontGetTextRect(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt)
 {
     NNSG2dTextRect rect = { 0, 0 };
     int numLine = 1;
 
     while (txt != 0) {
-        const int width = func_02068030(pFont, hSpace, txt, &txt);
+        const int width = NNS_G2dFontGetStringWidth(pFont, hSpace, txt, &txt);
         if (width > rect.width)
             rect.width = width;
         numLine++;
@@ -601,7 +601,7 @@ NNSG2dTextRect func_02068150(const NNSG2dFont *pFont, int hSpace, int vSpace, co
  * in r6 with sh and log_h in r7, where the row pointer coalesces with the
  * next objWidth, as the image does.  1.1p1 is 240 bytes on this shape.
  */
-int func_020681E4(int x, int y, int w, int h, int sw0, int sh0)
+int NNSi_G2dCalcRectMask(int x, int y, int w, int h, int sw0, int sh0)
 {
   int base = 0;
   int sh;
@@ -683,10 +683,10 @@ int func_020681E4(int x, int y, int w, int h, int sw0, int sh0)
  * `lsl #2` inside the load's addressing mode.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020682DC.c \
- *       --func func_020682DC --addr 0x020682DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/NNSi_G2dGetOamShapeCode.c \
+ *       --func NNSi_G2dGetOamShapeCode --addr 0x020682DC --cc 1.1p1 --arm
  */
-u32 func_020682DC(const u8 *p)
+u32 NNSi_G2dGetOamShapeCode(const u8 *p)
 {
     return g_020A1914[p[1]][p[0]];
 }
@@ -701,12 +701,12 @@ u32 func_020682DC(const u8 *p)
 /*
  * Fill a sub-rectangle of ONE 8x8 tile with a pixel word.  dst is the tile,
  * (x, y) the sub-rectangle's offset inside it, (w, h) its extent, val the
- * expanded pixel word (func_02068A18's expansion) and bpp 4 or 8.  A whole
+ * expanded pixel word (NNSi_G2dSurfaceFill's expansion) and bpp 4 or 8.  A whole
  * tile goes to MIi_CpuClearFast (MIi_CpuClearFast) in one call; otherwise each
  * of the h rows is masked in place, one word per row at 4bpp and two at
  * 8bpp, where the 64-bit row mask is built longhand from two 32-bit halves
  * with the >= 32 shift cases spelled out.  Called seven-argument from
- * func_02068AE8 and func_02068C84.
+ * NNSi_G2dSurfaceFillRect and NNSi_G2dSurfaceFillRectSwizzled.
  *
  * COMPILER PIN ../2.0/sp2, "kept branches" (docs/FRONTEND-PINS.md): the image
  * keeps `blo` over both four-instruction >= 32 blocks (0x020683A4,
@@ -723,7 +723,7 @@ u32 func_020682DC(const u8 *p)
  *   - declaration order `set` before `end` (4bpp) and `slo, shi, p, end`
  *     (8bpp) picks the image's registers for the fill values and the bound.
  */
-void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp)
+void NNSi_G2dCharCanvasFill(u32 *dst, int x, int y, int w, int h, u32 val, int bpp)
 {
     if (w == 8 && h == 8) {
         MIi_CpuClearFast(val, dst, bpp << 3);
@@ -831,7 +831,7 @@ static inline void NNSi_G2dBitReaderInit(NNSiG2dBitReader *reader, const void *s
  * or 8 bits per destination pixel, adding the colour base cl to every
  * non-zero source value.  Each row opens an NNSiG2dBitReader at
  * src + offset / 8 and discards offset % 8 bits first
- * (NNSi_G2dBitReaderRead = func_02069BA0).  The LC_INFO block is the
+ * (NNSi_G2dBitReaderRead = NNSi_G2dBitReaderRead).  The LC_INFO block is the
  * ten-word "Blit" struct of docs/families/cluster_020682DC.h.
  *
  * Closed in wave 13 on the first compile of the library body with the
@@ -839,7 +839,7 @@ static inline void NNSi_G2dBitReaderInit(NNSiG2dBitReader *reader, const void *s
  * wave-11 transcription sat at 119 out.  ../2.0/sp2 and sp2p2 identical;
  * 1.1p1 is 564 bytes.
  */
-void func_02068430(LC_INFO *i)
+void NNSi_G2dBlitCharData(LC_INFO *i)
 {
     const u8 *pSrc;
     u32 x_st;
@@ -881,10 +881,10 @@ void func_02068430(LC_INFO *i)
                 u32 out_line = *pDst;
 
                 NNSi_G2dBitReaderInit(&reader, pSrc + offset / 8);
-                (void)func_02069BA0((struct BitReader *)(&reader), (int)offset % 8);
+                (void)NNSi_G2dBitReaderRead((struct BitReader *)(&reader), (int)offset % 8);
 
                 for (x = x_st; x < x_ed; x += 4) {
-                    u32 bits = func_02069BA0((struct BitReader *)(&reader), srcBpp);
+                    u32 bits = NNSi_G2dBitReaderRead((struct BitReader *)(&reader), srcBpp);
 
                     if ( bits != 0 ) {
                         out_line = (out_line & ~(0xF << x)) | ((cl + bits) << x);
@@ -906,10 +906,10 @@ void func_02068430(LC_INFO *i)
                 u32 out_line_1 = *(pDst + 1);
 
                 NNSi_G2dBitReaderInit(&reader, pSrc + offset / 8);
-                (void)func_02069BA0((struct BitReader *)(&reader), (int)offset % 8);
+                (void)NNSi_G2dBitReaderRead((struct BitReader *)(&reader), (int)offset % 8);
 
                 for (x = x_st; x < x_ed; x += 8) {
-                    u32 bits = func_02069BA0((struct BitReader *)(&reader), srcBpp);
+                    u32 bits = NNSi_G2dBitReaderRead((struct BitReader *)(&reader), srcBpp);
 
                     if ( bits != 0 ) {
                         if ( x < 32 ) {
@@ -985,7 +985,7 @@ static inline u8 NNS_G2dFontGetBpp(const NNSG2dFont *pFont)
  * the BG / OBJ-2D-rect glyph draw.  Clip the glyph to the canvas in whole
  * 8x8 characters, then walk the covered characters row by row on the
  * canvas's linear character grid (pCC->param = characters per row),
- * handing each to LetterChar (func_02068430) with an LC_INFO on the stack.
+ * handing each to LetterChar (NNSi_G2dBlitCharData) with an LC_INFO on the stack.
  * pCC is NNSG2dCharCanvas { charBase, areaWidth, areaHeight, u8 dstBpp,
  * param, vtable } (the "Surface" of docs/families/cluster_020682DC.h);
  * cell width / height / bpp come from pFont->pRes->pGlyph (FGLP).
@@ -995,7 +995,7 @@ static inline u8 NNS_G2dFontGetBpp(const NNSG2dFont *pFont)
  * the wave-11 transcription sat at 238 out on a spill choice.  ../2.0/sp2
  * and sp2p2 identical; 1.1p1 is 404 bytes.
  */
-void func_02068670(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
+void NNSi_G2dCharCanvasDrawText(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
 {
     int ofs_x_base;
     int ofs_x;
@@ -1079,7 +1079,7 @@ void func_02068670(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x
             for (ofs_x = ofs_x_base; ofs_x > ofs_x_end; ofs_x -= 8) {
                 i.dst = pChar;
                 i.ofs_x = ofs_x;
-                func_02068430(&i);
+                NNSi_G2dBlitCharData(&i);
                 pChar += charSize;
             }
             pChar += nextLineOffset;
@@ -1095,17 +1095,17 @@ void func_02068670(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x
 
 /*
  * NitroSystem g2d_CharCanvas.c DrawGlyph1D(pCC, pFont, x, y, cl, pGlyph):
- * the OBJ-1D glyph draw.  Same clip as DrawGlyphLine (func_02068670), but
- * each covered character's slot comes from GetCharIndex1D (func_020681E4)
+ * the OBJ-1D glyph draw.  Same clip as DrawGlyphLine (NNSi_G2dCharCanvasDrawText), but
+ * each covered character's slot comes from GetCharIndex1D (NNSi_G2dCalcRectMask)
  * with the two OBJ size shifts packed in the low bytes of pCC->param (the
  * OBJ1DParam union { packed; baseWidthShift:8; baseHeightShift:8 }), and
- * each character is drawn by LetterChar (func_02068430).
+ * each character is drawn by LetterChar (NNSi_G2dBlitCharData).
  *
  * Closed in wave 13 on the first compile of the library body; the wave-11
  * transcription sat at 168 out.  ../2.0/sp2 and sp2p2 identical; 1.1p1 is
  * 520 bytes.
  */
-void func_02068808(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
+void NNSi_G2dCharCanvasDrawTextForVRAM(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
 {
     int ofs_x_base;
     int ofs_x;
@@ -1198,12 +1198,12 @@ void func_02068808(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x
                 i.ofs_y = ofs_y;
                 cx = cx_base;
                 for (ofs_x = ofs_x_base; ofs_x > ofs_x_end; ofs_x -= 8) {
-                    const unsigned int iChar = func_020681E4((u32)cx, (u32)cy, areaWidth, areaHeight, baseWidthShift, baseHeightShift);
+                    const unsigned int iChar = NNSi_G2dCalcRectMask((u32)cx, (u32)cy, areaWidth, areaHeight, baseWidthShift, baseHeightShift);
 
                     i.ofs_x = ofs_x;
                     i.dst = pCharBase + iChar * charSize;
 
-                    func_02068430(&i);
+                    NNSi_G2dBlitCharData(&i);
                     cx++;
                 }
                 cy++;
@@ -1235,7 +1235,7 @@ void func_02068808(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x
  * #16), which is the image.  The `n = w * h` partial product must be its own
  * statement.
  */
-void func_02068A18(struct Surface *s, u32 arg)
+void NNSi_G2dSurfaceFill(struct Surface *s, u32 arg)
 {
     int bpp = s->bpp;
     u32 t;
@@ -1260,18 +1260,18 @@ void func_02068A18(struct Surface *s, u32 arg)
 
 
 /*
- * Row-by-row twin of func_02068A18: the same pixel expansion, then one
+ * Row-by-row twin of NNSi_G2dSurfaceFill: the same pixel expansion, then one
  * MIi_CpuClearFast (MIi_CpuClearFast) per row of w * tile-size bytes, stepping
  * the destination by stride * tile-size.  The row count is re-read from +0x08
  * each iteration (the call may alias it) and compared signed.
  *
  * Two levers: the `| (t << 16)` step is written in BOTH arms (see
- * func_02068A18), and `dst = s->base` is assigned AFTER the two products,
+ * NNSi_G2dSurfaceFill), and `dst = s->base` is assigned AFTER the two products,
  * immediately before the loop.  Initialising dst in its declaration gives the
  * same bytes with dst in r5 instead of sb (24 bytes out); the late assignment
  * is what makes it the last value the allocator colours.
  */
-void func_02068A68(struct Surface *s, u32 arg)
+void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg)
 {
     int i, n, adv, tsz;
     int bpp = s->bpp;
@@ -1306,12 +1306,12 @@ void func_02068A68(struct Surface *s, u32 arg)
  * Fill a rectangle of a LINEAR tile grid with one pixel value
  * (docs/families/cluster_020682DC.h): expand the pixel to a word, round the
  * rectangle out to whole 8x8 tiles and hand every covered tile to
- * func_020682F8 with its own sub-rectangle, walking the grid with
+ * NNSi_G2dCharCanvasFill with its own sub-rectangle, walking the grid with
  * `p += tilesz` per tile and `row += stride * tilesz` per tile row.
  *
  * Levers (docs/notes/pkt_02068808.c.txt has the earlier passes):
  *   - ../2.0/sp2 pin (1.1p1 is 408 bytes on this source);
- *   - the func_02068C84 loop shape: yo as `(cy < y) ? y - cy : 0`, p = row
+ *   - the NNSi_G2dSurfaceFillRectSwizzled loop shape: yo as `(cy < y) ? y - cy : 0`, p = row
  *     after it, th through a clamped temporary, loop locals declared
  *     `cx, th, xe, p, yo` at function scope (image r4..r8);
  *   - wave 10: the tile size reads the field again,
@@ -1323,7 +1323,7 @@ void func_02068A68(struct Surface *s, u32 arg)
  *     permuter's reorder(+2) from the old order reached 412/72, and only
  *     xe-ye-first orders are exact).
  */
-void func_02068AE8(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int h)
+void NNSi_G2dSurfaceFillRect(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int h)
 {
     int cy;
     int x1;
@@ -1368,7 +1368,7 @@ void func_02068AE8(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int
             if (tw > 8)
                 tw = 8;
             tw -= xo;
-            func_020682F8((u32 *)p, xo, yo, tw, th, arg, bpp);
+            NNSi_G2dCharCanvasFill((u32 *)p, xo, yo, tw, th, arg, bpp);
             p = p + tilesz;
         }
         row = row + rowadv;
@@ -1384,9 +1384,9 @@ void func_02068AE8(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int
 /*
  * Fill a rectangle of a SWIZZLED tile grid with one pixel value
  * (docs/families/cluster_020682DC.h): expand the pixel to a word, round the
- * rectangle out to whole 8x8 tiles, ask func_020681E4 for each tile's index
+ * rectangle out to whole 8x8 tiles, ask NNSi_G2dCalcRectMask for each tile's index
  * (tx, ty, w, h and the two swizzle bytes of the +0x10 word) and hand every
- * covered tile to func_020682F8 with its own sub-rectangle.
+ * covered tile to NNSi_G2dCharCanvasFill with its own sub-rectangle.
  *
  * Levers, in the order they were found (docs/notes/pkt_02068808.c.txt):
  *   - ../2.0/sp2 pin (1.1p1 is 492 bytes);
@@ -1397,14 +1397,14 @@ void func_02068AE8(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int
  *     local.  The two loads CSE to the one `ldrb`, but the tile size then
  *     becomes its own value in the IR and the image's `stm sp, {r5, fp}` is
  *     scheduled before `sub r3, r2, r1` (tw - xo).  The same lever closes
- *     func_02068AE8, where it decides whether bpp or the tile size is the
- *     spilled value.  (Declaring func_020682F8's bpp parameter u8 in this
+ *     NNSi_G2dSurfaceFillRect, where it decides whether bpp or the tile size is the
+ *     spilled value.  (Declaring NNSi_G2dCharCanvasFill's bpp parameter u8 in this
  *     caller also closes C84 alone, but the callee's own definition,
- *     src/matched/func_020682F8.c, is EXACT only with `int bpp`, so the
+ *     src/matched/NNSi_G2dCharCanvasFill.c, is EXACT only with `int bpp`, so the
  *     re-read is the reading kept.)  The permuter (hill 800 + anneal 2000,
  *     --types) never moved this residue.
  */
-void func_02068C84(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int h)
+void NNSi_G2dSurfaceFillRectSwizzled(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int h)
 {
     struct Swz f10;
     int cy;
@@ -1455,13 +1455,13 @@ void func_02068C84(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int
             t = 8;
         th = t - yo;
         for (cx = x0; cx < xe; cx += 8) {
-            int off = func_020681E4(tx, ty, sw, sh, sx, sy);
+            int off = NNSi_G2dCalcRectMask(tx, ty, sw, sh, sx, sy);
             int xo = (cx < x) ? x - cx : 0;
             int tw = x1 - cx;
             if (tw > 8)
                 tw = 8;
             tw -= xo;
-            func_020682F8((u32 *)(base + tilesz * off), xo, yo, tw, th, arg, bpp);
+            NNSi_G2dCharCanvasFill((u32 *)(base + tilesz * off), xo, yo, tw, th, arg, bpp);
             tx = tx + 1;
         }
         ty = ty + 1;
@@ -1497,13 +1497,13 @@ void func_02068C84(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int
  *      the narrowing is at the store, not at the call.
  *
  * THE ARITY AND THE ARGUMENT ORDER are not guessed: the caller
- * src/matched/func_02068FC4.c (already EXACT) spells the call as
+ * src/matched/NNSi_G2dInitPenSimple.c (already EXACT) spells the call as
  *
- *     func_02068E78((char *)a, b, c, d, e, 0x020A18DC, c);
+ *     NNSi_G2dInitPen((char *)a, b, c, d, e, 0x020A18DC, c);
  *
  * which fixes seven arguments, three in registers and four on the stack at
  * [sp+0], [sp+4], [sp+8], and shows the last argument repeating the third.
- * The other caller, func_02068FF0 at 0x02069064, agrees.
+ * The other caller, NNS_G2dCharCanvasInitForVRAM at 0x02069064, agrees.
  *
  * THE `../2.0/sp2` PIN.  dsi/1.1p1 cannot produce a leaf here at all: it
  * spends `r4` and `lr` on the three stack arguments and therefore opens
@@ -1512,9 +1512,9 @@ void func_02068C84(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int
  * `str r2, [r0, #4]` into one `stm`.  Nine of the ten instructions differ.
  * ../2.0/sp2 and ../1.2/sp2 both reproduce the image byte for byte with the
  * same C.  ../2.0/sp2 is recorded because the adjacent matched member of this
- * cluster, src/matched/func_02068EA0.c, is independently pinned to it (on the
+ * cluster, src/matched/NNSi_G2dCharCanvasDrawChar.c, is independently pinned to it (on the
  * "kept constants" re-read tell) and because the other function filed into
- * this cluster in the same pass, src/matched/func_02068FF0.c, is 2.0 and NOT
+ * this cluster in the same pass, src/matched/NNS_G2dCharCanvasInitForVRAM.c, is 2.0 and NOT
  * 1.2.  Since two front ends agree on this row it is not usable as evidence
  * for either pin on its own, and it is deliberately not offered as one in
  * docs/FRONTEND-PINS.md -- but the symptom is worth naming: A LEAF THAT GROWS
@@ -1523,11 +1523,11 @@ void func_02068C84(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02068E78.c \
- *       --func func_02068E78 --addr 0x02068E78 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G2dInitPen.c \
+ *       --func NNSi_G2dInitPen --addr 0x02068E78 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 40 = original 40, 0 relocation sites
  */
-void func_02068E78(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7)
+void NNSi_G2dInitPen(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7)
 {
     p->f04 = a2;
     p->f08 = a3;
@@ -1564,10 +1564,10 @@ void func_02068E78(struct Pen *p, void *a1, int a2, int a3, int a5, const void *
  * both the glyph record and the metrics record to the context's draw hook.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02068EA0.c \
- *       --func func_02068EA0 --addr 0x02068EA0 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dCharCanvasDrawChar.c \
+ *       --func NNSi_G2dCharCanvasDrawChar --addr 0x02068EA0 --cc ../2.0/sp2 --arm
  */
-s8 func_02068EA0(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 code)
+s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 code)
 {
     s8 *out[2];
     u32 idx;
@@ -1577,7 +1577,7 @@ s8 func_02068EA0(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 co
     idx = NNS_G2dFontGetGlyphIndex(font, code);
     if (idx == 0xffff)
         idx = font->pRes->alterCharIndex;
-    out[0] = (s8 *)func_02067FE4(font, idx);
+    out[0] = (s8 *)NNS_G2dFontGetCharWidthsFromIndex(font, idx);
     out[1] = (s8 *)((char *)font->pRes->pGlyph + 8 + idx * font->pRes->pGlyph->cellSize);
     g = out[0];
     k = font->pRes->pGlyph->flags;
@@ -1612,12 +1612,12 @@ s8 func_02068EA0(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 co
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02068FC4.c \
- *       --func func_02068FC4 --addr 0x02068FC4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dInitPenSimple.c \
+ *       --func NNSi_G2dInitPenSimple --addr 0x02068FC4 --cc 1.1p1 --arm
  */
-void func_02068FC4(int a, int b, int c, int d, int e)
+void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e)
 {
-    func_02068E78((struct Pen *)a, (void *)b, c, d, e, (const void *)0x020A18DC, c);
+    NNSi_G2dInitPen((struct Pen *)a, (void *)b, c, d, e, (const void *)0x020A18DC, c);
 }
 
 
@@ -1662,7 +1662,7 @@ inline static int SizeToShift(int size)
  * inline-asm MATH_CountLeadingZeros, which is how the image's predicated
  * clz/rsb #0x1f pairs arise), look the OBJ shift pair up in g_020A18F4
  * [shiftH][shiftW], and hand everything to the common initialiser
- * func_02068E78 with the vtable-like object g_020A18E8.
+ * NNSi_G2dInitPen with the vtable-like object g_020A18E8.
  *
  * Two readings closed it.  (1) The word the image reads uninitialised from
  * [sp, #0xc], edits in bytes 0 and 1 and stores to both [sp, #0xc] and
@@ -1674,10 +1674,10 @@ inline static int SizeToShift(int size)
  * the pin is ../2.0/sp2.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02068FF0.c \
- *       --func func_02068FF0 --addr 0x02068FF0 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G2dCharCanvasInitForVRAM.c \
+ *       --func NNS_G2dCharCanvasInitForVRAM --addr 0x02068FF0 --arm --cc ../2.0/sp2
  */
-void func_02068FF0(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode)
+void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode)
 {
     Param param;
     const int shiftW = SizeToShift(areaWidth);
@@ -1686,7 +1686,7 @@ void func_02068FF0(void *pCC, void *charBase, int areaWidth, int areaHeight, int
 
     param.w = p[0];
     param.h = p[1];
-    func_02068E78((struct Pen *)pCC, charBase, areaWidth, areaHeight, colorMode, g_020A18E8, param.raw);
+    NNSi_G2dInitPen((struct Pen *)pCC, charBase, areaWidth, areaHeight, colorMode, g_020A18E8, param.raw);
 }
 
 
@@ -1697,14 +1697,14 @@ void func_02068FF0(void *pCC, void *charBase, int areaWidth, int areaHeight, int
 /*
  * NitroSystem NNS_G2dMapScrToCharText (g2d_CharCanvas): map a rectangle of
  * a text-BG screen to consecutive character numbers.  A screen no wider
- * than 32 entries is linear and goes to func_02069128; a 64-wide screen is
+ * than 32 entries is linear and goes to NNSi_G2dFillScrCharArea; a 64-wide screen is
  * two 32x32 blocks side by side, so row y >= 32 skips the right-hand block
  * (y + 32) and column x >= 32 lands in it (x + 32 * 31).
  *
  * Levers: `scnWidth * areaTop + areaLeft` in that order and parenthesised
  * (the image's `mla r4, r5, lr, r3`; the unparenthesised sum is two adds,
  * and the other product order is 2 bytes out); `const u16 cpltMask` and the
- * post-increment inside the store, as in func_02069128.
+ * post-increment inside the store, as in NNSi_G2dFillScrCharArea.
  *
  * COMPILER PIN ../2.0/sp2 (docs/FRONTEND-PINS.md): both 32-block selects are
  * true conditional-move pairs in the image, `cmp lr, #0x20` / `movlt r2, lr`
@@ -1713,11 +1713,11 @@ void func_02068FF0(void *pCC, void *charBase, int areaWidth, int areaHeight, int
  * emits an unconditional `mov r2, lr` before the `cmp` (and `mov r2, r7`),
  * 16 concrete bytes out at 176.  0 mismatches under the pin.
  */
-void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop,
+void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop,
                    int scnWidth, int charNo, int cplt)
 {
     if (scnWidth <= 32) {
-        func_02069128((u16 *)scnBase + (scnWidth * areaTop + areaLeft), areaWidth, areaHeight,
+        NNSi_G2dFillScrCharArea((u16 *)scnBase + (scnWidth * areaTop + areaLeft), areaWidth, areaHeight,
                       scnWidth, charNo, cplt);
     } else {
         const int areaRight = areaLeft + areaWidth;
@@ -1742,7 +1742,7 @@ void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, i
  * The linear half of NitroSystem's NNS_G2dMapScrToCharText (g2d_CharCanvas):
  * fill an areaWidth x areaHeight block of a text-BG screen whose rows are
  * scnWidth entries apart with consecutive character numbers, palette
- * `cplt` in the top four bits of every entry.  func_02069078 calls it for
+ * `cplt` in the top four bits of every entry.  NNS_G2dMapScrToCharText calls it for
  * screens no wider than 32 entries.
  *
  * Three spellings decide it, all measured:
@@ -1754,7 +1754,7 @@ void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, i
  *   - `x` and `y` declared together at function scope, x first.
  * The same C is EXACT under dsi/1.1p1 and ../2.0/sp2; no pin.
  */
-void func_02069128(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt)
+void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt)
 {
     int x, y;
     const u16 cpltMask = (u16)(cplt << 12);
@@ -1777,7 +1777,7 @@ void func_02069128(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cp
 
 
 /*
- * Number of OBJs NitroSystem's 1D OBJ arrangement (func_020691E0) spends on
+ * Number of OBJs NitroSystem's 1D OBJ arrangement (NNSi_G2dMakeCharObjArea) spends on
  * an areaWidth x areaHeight character area: 8x8-char OBJs over the aligned
  * part, then per 8-char strip one OBJ for a 4-char remainder and two for
  * each of the 2- and 1-char remainders (a 1x8 or 2x8 OBJ does not exist),
@@ -1794,7 +1794,7 @@ void func_02069128(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cp
  * same C to a bare `mul lr, r3, r5` (every spelling of the zero the earlier
  * notes list does the same), 25 concrete bytes out.  0 under the pin.
  */
-u32 func_02069184(u32 areaWidth, u32 areaHeight)
+u32 NNSi_G2dCalcCharAreaSize(u32 areaWidth, u32 areaHeight)
 {
     u32 numX8 = areaWidth >> 3;
     u32 numY8 = areaHeight >> 3;
@@ -1876,7 +1876,7 @@ inline static void G2_SetOBJColorMode(GXOamAttr *oam, int color)
 /*
  * NitroSystem g2d_CharCanvas.c, NNS_G2dArrangeOBJ1D(oam, areaWidth,
  * areaHeight, x, y, color, charName, vramShift): pick the OBJ shape for the
- * area from g_020A18F4[log2 h][log2 w] (func_020682DC turns the pair into
+ * area from g_020A18F4[log2 h][log2 w] (NNSi_G2dGetOamShapeCode turns the pair into
  * the attr01 shape/size bits), lay the aligned block out with the SDK OAM
  * inlines, then recurse on the right strip, the bottom strip and the
  * corner; returns the number of OBJs written.  The log2 is the SDK's
@@ -1892,7 +1892,7 @@ inline static void G2_SetOBJColorMode(GXOamAttr *oam, int color)
  *
  * COMPILER PIN ../2.0/sp2: dsi/1.1p1 is 768 bytes with a wider push.
  */
-int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift)
+int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift)
 {
   const int shiftI = (areaWidth >= 8) ? (3) : (MATH_ILog2((u32) areaWidth));
   const int shiftJ = (areaHeight >= 8) ? (3) : (MATH_ILog2((u32) areaHeight));
@@ -1903,7 +1903,7 @@ int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, i
   const u32 alignedH = ((u32) areaHeight) & (0xFFFFFFFFu << objShiftH);
   const int charUnit = (color == 0) ? (1) : (2);
   int numOBJ = 0;
-  const u32 shape = func_020682DC(pair);
+  const u32 shape = NNSi_G2dGetOamShapeCode(pair);
   int charPerOBJ;
   int numX;
   int numY;
@@ -1933,7 +1933,7 @@ int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, i
   {
     const int restW = areaWidth - alignedW;
     const int tmp = x + (alignedW << 3);
-    const int n = func_020691E0(oam, restW, alignedH, tmp, y, color, charName, vramShift);
+    const int n = NNSi_G2dMakeCharObjArea(oam, restW, alignedH, tmp, y, color, charName, vramShift);
     oam += n;
     charName += ((u32) (alignedH * (charUnit * restW))) >> vramShift;
     numOBJ += n;
@@ -1941,14 +1941,14 @@ int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, i
   if (alignedH < ((u32) areaHeight))
   {
     const int restH = areaHeight - alignedH;
-    const int n = func_020691E0(oam, alignedW, restH, x, y + (alignedH << 3), color, charName, vramShift);
+    const int n = NNSi_G2dMakeCharObjArea(oam, alignedW, restH, x, y + (alignedH << 3), color, charName, vramShift);
     oam += n;
     charName += ((u32) (restH * (charUnit * alignedW))) >> vramShift;
     numOBJ += n;
   }
   if ((alignedW < ((u32) areaWidth)) && (alignedH < ((u32) areaHeight)))
   {
-    numOBJ += func_020691E0(oam, areaWidth - alignedW, areaHeight - alignedH, x + (alignedW << 3), y + (alignedH << 3), color, charName, vramShift);
+    numOBJ += NNSi_G2dMakeCharObjArea(oam, areaWidth - alignedW, areaHeight - alignedH, x + (alignedW << 3), y + (alignedH << 3), color, charName, vramShift);
   }
   return numOBJ;
 }
@@ -1962,16 +1962,16 @@ int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, i
 
 /*
  * The innermost draw step of the text renderer, the function
- * src/matched/func_0206958C.c calls once per line as
- * `func_020694D8(ctx, px, py, w2, cur, &cur, st)`.  It walks one LINE of the
+ * src/matched/NNSi_G2dDrawTextRotated.c calls once per line as
+ * `NNSi_G2dDrawTextLine(ctx, px, py, w2, cur, &cur, st)`.  It walks one LINE of the
  * string: a character iterator is fetched out of the font object
  * (`ctx->f04`, callback at +4, taking a `const void **` cursor and returning
- * the character code), each character is drawn with func_02068EA0, and the
+ * the character code), each character is drawn with NNSi_G2dCharCanvasDrawChar, and the
  * pen is stepped along the step vector by the glyph's advance plus the
  * inter-character gap `ctx->f08`.  The walk stops at NUL or at '\n' (0xa),
  * and the `last` out-parameter receives the cursor position when the stop was
  * a newline and 0 when it was the end of the string -- the identical tail
- * func_02068030 (the measure-one-line sibling at 0x02068030) carries at
+ * NNS_G2dFontGetStringWidth (the measure-one-line sibling at 0x02068030) carries at
  * 0x020680AC..0x020680C0, which is what fixes the polarity here.
  *
  * TWO C LEVERS, both needed, both found by measurement:
@@ -2000,14 +2000,14 @@ int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, i
  *    to after them.  The explicit two-label form below keeps them apart.
  *
  * The compiler pin is the cluster's, `../2.0/sp2`, shared with its packet
- * mates func_0206958C, func_020696F4 and func_02069AC4; see the "kept
+ * mates NNSi_G2dDrawTextRotated, NNSi_G2dCalcTextBox and NNSi_G2dFontFixupSections; see the "kept
  * branches" tell in docs/FRONTEND-PINS.md.  Under dsi/1.1p1 this same source
  * loses the 0x10 frame and the ten-register push.
  *
  * The two trailing `signed char`s are ONE 2-byte struct passed by value, the
- * same Step the whole cluster forwards (see func_02069818's header).
+ * same Step the whole cluster forwards (see NNSi_G2dAlignTextVertical's header).
  */
-void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2,
+void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2,
                    const void *s, const void **last, Step st)
 {
     const void *cur;
@@ -2030,7 +2030,7 @@ void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2,
     dx = st.dx;
 loop:
     if (c == 0xa) goto done;
-    adv = gap + func_02068EA0(ctx->f00, fnt, x, y, w2, c);
+    adv = gap + NNSi_G2dCharCanvasDrawChar(ctx->f00, fnt, x, y, w2, c);
     x = x + adv * dx;
     y = y + adv * dy;
     c = next(&cur);
@@ -2048,8 +2048,8 @@ done:
 
 
 /*
- * The line loop of the text renderer, sitting between func_02069818 /
- * func_020696F4 (which pre-align the pen) and func_020694D8 (which draws one
+ * The line loop of the text renderer, sitting between NNSi_G2dAlignTextVertical /
+ * NNSi_G2dCalcTextBox (which pre-align the pen) and NNSi_G2dDrawTextLine (which draws one
  * line). Per line it optionally re-aligns the pen horizontally within the
  * measured line box -- bit 11 of the flags word right-aligns by the full
  * measured width, bit 10 centres by half -- then draws the line and steps the
@@ -2072,7 +2072,7 @@ done:
  * line offset in r6/r7. Declared the other way round the same 360 bytes come
  * out with those four registers swapped, 21 concrete bytes out.
  */
-void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
                    s32 w2, u32 flags, const void *s, Step st)
 {
     const void *cur;
@@ -2105,15 +2105,15 @@ void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
         px = x + sx;
         py = y + sy;
         if (bit11 != 0) {
-            n = w - func_02068030(ctx->f04, ctx->f08, cur, 0);
+            n = w - NNS_G2dFontGetStringWidth(ctx->f04, ctx->f08, cur, 0);
             px = px + n * st.dx;
             py = py + n * st.dy;
         } else if (bit10 != 0) {
-            n = half - (func_02068030(ctx->f04, ctx->f08, cur, 0) + 1) / 2;
+            n = half - (NNS_G2dFontGetStringWidth(ctx->f04, ctx->f08, cur, 0) + 1) / 2;
             px = px + n * st.dx;
             py = py + n * st.dy;
         }
-        func_020694D8(ctx, px, py, w2, cur, &cur, st);
+        NNSi_G2dDrawTextLine(ctx, px, py, w2, cur, &cur, st);
         sx = sx + dx;
         sy = sy + dy;
     } while (cur != 0);
@@ -2126,14 +2126,14 @@ void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
 
 /*
  * The block-alignment pre-pass, the two-dimensional counterpart of
- * func_02069818's single-line one. It measures the whole multi-line extent
- * with func_02068150 into a two-word local, copies that pair into a second
+ * NNSi_G2dAlignTextVertical's single-line one. It measures the whole multi-line extent
+ * with NNS_G2dFontGetTextRect into a two-word local, copies that pair into a second
  * local (the one the caller-visible {w,h} box keeps), and then backs the pen
  * off along the step vector according to two pairs of flag bits:
  *   0x10 centre vertically, 0x20 bottom-align (measured width, +0x18)
  *   0x02 centre horizontally, 0x04 right-align (box height, +0x24)
- * Everything is then forwarded verbatim to func_0206958C, the same Step
- * struct by value that func_02069818 forwards.
+ * Everything is then forwarded verbatim to NNSi_G2dDrawTextRotated, the same Step
+ * struct by value that NNSi_G2dAlignTextVertical forwards.
  *
  * Per-file compiler pin, the "kept branches" tell (docs/FRONTEND-PINS.md).
  * The image keeps `tst r4, #0x20` at 0x02069768 (`20 00 14 e3`) and
@@ -2147,11 +2147,11 @@ void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
  * the same C is 292 bytes, 0 mismatches.
  *
  * The three {w,h} pairs at sp+0x10, sp+0x18 and sp+0x20 are three distinct
- * stack objects: the out buffer func_02068150 fills and two copies of it,
+ * stack objects: the out buffer NNS_G2dFontGetTextRect fills and two copies of it,
  * only one of which is read again. Both copies must be `volatile` or 1.1p1
  * and 2.0 alike dead-store-eliminate them and the frame comes out 0x18.
  */
-void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w,
                    u32 flags, u32 s, Step st)
 {
     volatile Ext box2;
@@ -2159,7 +2159,7 @@ void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
     volatile Ext box;
     s32 d;
 
-    e = func_02068150(ctx->f04, ctx->f08, ctx->f0C, (const void *)s);
+    e = NNS_G2dFontGetTextRect(ctx->f04, ctx->f08, ctx->f0C, (const void *)s);
     box.width = e.width;
     box.height = e.height;
     box2.width = e.width;
@@ -2185,7 +2185,7 @@ void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
         y = y + d * st.dx;
     }
 
-    func_0206958C(ctx, x, y, box2.width, w, flags, (const void *)s, st);
+    NNSi_G2dDrawTextRotated(ctx, x, y, box2.width, w, flags, (const void *)s, st);
 }
 
 
@@ -2197,7 +2197,7 @@ void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
  * gives each its own word slot and the image's `ldrsb r2, [sp, #0x39]` /
  * `strb ip, [sp, #0xd]` become +0x3C and +0x10; the struct form packs them
  * adjacently and is what makes the file byte-correct. The same pair is
- * forwarded verbatim to func_0206958C, which therefore takes it the same
+ * forwarded verbatim to NNSi_G2dDrawTextRotated, which therefore takes it the same
  * way.
  *
  * VERDICT: MATCH. Byte-correct -- 224 bytes, ZERO concrete mismatches, the
@@ -2223,7 +2223,7 @@ void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
  *
  * The horizontal/vertical alignment pre-pass for the text renderer.
  * Depending on two bits of the flags word (the third stack argument) it
- * measures the string with func_020680DC and shifts the pen:
+ * measures the string with NNS_G2dFontGetTextHeight and shifts the pen:
  *   bit 8  (0x100): right/bottom align -- back the pen off by the full
  *                   measured extent, `(limit - measured)`;
  *   bit 7  (0x080): centre align -- back it off by half, with the
@@ -2232,26 +2232,26 @@ void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
  *                   instructions at 0x02069888..0x020698A4.
  * The pen delta is applied as `pen += extent * (-dy)` and
  * `pen += extent * dx` through the two `mla`s, then everything is
- * forwarded verbatim to func_0206958C.
+ * forwarded verbatim to NNSi_G2dDrawTextRotated.
  */
-void func_02069818(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
                    u32 a4, u32 a5, u32 flags, u32 s, Step st)
 {
     s32 n;
     s32 d;
 
     if (flags & 0x100) {
-        n = func_020680DC(ctx->f04, ctx->f0C, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->f04, ctx->f0C, (const void *)s);
         d = (s32)a4 - n;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     } else if (flags & 0x80) {
-        n = func_020680DC(ctx->f04, ctx->f0C, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->f04, ctx->f0C, (const void *)s);
         d = ((s32)a4 + 1) / 2 - (n + 1) / 2;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     }
-    func_0206958C(ctx, x, y, w, a5, flags, (const void *)s, st);
+    NNSi_G2dDrawTextRotated(ctx, x, y, w, a5, flags, (const void *)s, st);
 }
 
 
@@ -2297,12 +2297,12 @@ static inline BOOL IsValid(const Res *r, u16 v)
  * bytes); `if (r == 0) return 0; return cond;` gives movhs/movlo (122 out).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020698F8.c \
- *       --func func_020698F8 --addr 0x020698F8 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G2dFontLoad.c \
+ *       --func NNS_G2dFontLoad --addr 0x020698F8 --arm --cc ../2.0/sp2
  *   EXACT, 460 bytes, 3 of 3 relocation sites resolved.
  *   ../2.0/sp2p2: EXACT as well; dsi/1.1p1: 452 bytes, DIFF.
  */
-u32 func_020698F8(Res *res, void **out)
+u32 NNS_G2dFontLoad(Res *res, void **out)
 {
     BOOL legacy = 0;
     u8 *finf;
@@ -2312,7 +2312,7 @@ u32 func_020698F8(Res *res, void **out)
             OS_Terminate();
         legacy = 1;
     }
-    func_02069AC4(res);
+    NNSi_G2dFontFixupSections(res);
     finf = NNS_G2dFindBinaryBlock((struct NitroFileHeader *)res, 0x46494e46u);
     if (finf == 0) {
         *out = 0;
@@ -2348,7 +2348,7 @@ u32 func_020698F8(Res *res, void **out)
  * `continue` and `goto` spellings all fold the same way under 1.1p1.
  * ../2.0/sp2 keeps the compare: 220 bytes, 0 mismatches.
  */
-void func_02069AC4(Res *base)
+void NNSi_G2dFontFixupSections(Res *base)
 {
     Section *s;
     s32 i;
@@ -2392,7 +2392,7 @@ static inline void BitReaderNextByte(struct BitReader *reader)
 }
 
 
-u32 func_02069BA0(struct BitReader *reader, int nBits)
+u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits)
 {
     u32 val = reader->bits;
     int avail = reader->avail;
@@ -2401,7 +2401,7 @@ u32 func_02069BA0(struct BitReader *reader, int nBits)
         int lack = nBits - avail;
         val <<= lack;
         BitReaderNextByte(reader);
-        val |= func_02069BA0(reader, lack);
+        val |= NNSi_G2dBitReaderRead(reader, lack);
     } else {
         val >>= (avail - nBits);
         reader->avail = (s8)(avail - nBits);
@@ -2415,7 +2415,7 @@ u32 func_02069BA0(struct BitReader *reader, int nBits)
 
 /*
  * The halfword post-increment reader over the bit reader's byte cursor
- * (+0x00), the unlabelled leaf after func_02069BA0 (seeded start).  The
+ * (+0x00), the unlabelled leaf after NNSi_G2dBitReaderRead (seeded start).  The
  * cursor must be read into a typed u16 pointer and post-incremented; the
  * u8-pointer spelling `p = b->cur; b->cur = p + 2; return *(u16 *)p;`
  * schedules the store before the load (7 bytes).

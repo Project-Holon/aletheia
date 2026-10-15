@@ -14,7 +14,7 @@
  * symbols:
  *   NHTTPi_alloc 0x021BA820 arm ov114
  *   NHTTPi_memclr 0x021BA13C arm ov114
- *   func_0215FC80 0x0215FC80 arm
+ *   SOCL_EnableSsl 0x0215FC80 arm
  *   NHTTPi_SetSSLseed 0x021B9C80 arm ov114
  *   NHTTPi_CpsAuthCallbackForDebug 0x021B9C78 arm ov114
  *   NHTTPi_CpsAuthCallback 0x021B9C6C arm ov114
@@ -44,7 +44,7 @@ typedef struct {
 
 extern int NHTTPi_alloc(int a, int b);
 extern void NHTTPi_memclr(int a, int b);
-extern int func_0215FC80(int s, SslCon *con);
+extern int SOCL_EnableSsl(int s, SslCon *con);
 extern void NHTTPi_SetSSLseed(void);
 extern int NHTTPi_CpsAuthCallbackForDebug(void);
 extern int NHTTPi_CpsAuthCallback(int result);
@@ -67,7 +67,7 @@ int NHTTPi_SocSSLConnect(int unused0, int unused1, Req *req_p, int socket)
     } else {
         pSslCon->cb810 = (void *)NHTTPi_CpsAuthCallback;
     }
-    if (func_0215FC80(socket, pSslCon) < 0) {
+    if (SOCL_EnableSsl(socket, pSslCon) < 0) {
         return -1001;
     }
     NHTTPi_SetSSLseed();

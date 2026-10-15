@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *
- * Free-like guard: calls sub_020307B0 only for a non-null pointer.
+ * Free-like guard: calls GFL_HEAP_Free only for a non-null pointer.
  */
 
 typedef unsigned char  u8;
@@ -23,11 +23,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void WIFICLUB_FreeRegulation(void *p)
 {
     if (p != 0) {
-        sub_020307B0(p);
+        GFL_HEAP_Free(p);
     }
 }

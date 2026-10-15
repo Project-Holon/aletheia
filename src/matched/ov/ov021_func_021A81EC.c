@@ -1,5 +1,5 @@
 /*
- * function: func_021A81EC
+ * function: FIELD_GROUND_ANIME_GetNextStep
  * address:  0x021A81EC
  * packet:   pkt_ov021_021A81EC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf: the Work step table entry after the current one
- * (step[f36 + 1]); func_021A81DC reads step[f36].
+ * (step[f36 + 1]); FIELD_GROUND_ANIME_GetCurrentStep reads step[f36].
  */
 
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ typedef struct Work {
     u8 f36;
 } Work;
 
-u8 func_021A81EC(Work *w)
+u8 FIELD_GROUND_ANIME_GetNextStep(Work *w)
 {
     return w->step[(u8)(w->f36 + 1)];
 }

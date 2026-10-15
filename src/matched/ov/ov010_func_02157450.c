@@ -1,5 +1,5 @@
 /*
- * function: func_02157450
+ * function: IRC_BATTLE_TASK_Create
  * address:  0x02157450
  * packet:   pkt_ov010_02157450
  * region:   ov010
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Create the ov010 field-effect task: allocate it with func_0215739C as
+ * Create the ov010 field-effect task: allocate it with IRC_BATTLE_TASK_Main as
  * its callback, pick the direction slot for effect kinds 4..23 (four kinds
  * per effect, the first matching case wins), start the effect object and
  * return the task.
  *
  * symbols:
- *   func_0215739C  0x0215739C  thumb  ov010
- *   func_02157650  0x02157650  thumb  ov010
+ *   IRC_BATTLE_TASK_Main  0x0215739C  thumb  ov010
+ *   IRC_BATTLE_TASK_SetFormationOnce  0x02157650  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -68,8 +68,8 @@ typedef struct Work {
 
 extern u8 d_0217277C[];
 
-extern int func_0215739C(void *evt, u32 *state, struct Work *w);
-extern void func_02157650(int *p, int v);
+extern int IRC_BATTLE_TASK_Main(void *evt, u32 *state, struct Work *w);
+extern void IRC_BATTLE_TASK_SetFormationOnce(int *p, int v);
 struct Ctx;
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
@@ -88,10 +88,10 @@ extern void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2);
 extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
+void *IRC_BATTLE_TASK_Create(void *a0, void *a1, u32 kind, Rec *rec)
 {
     int dir = 0x29;
-    void *task = func_020122C0(a0, 0, func_0215739C, 0xFC);
+    void *task = func_020122C0(a0, 0, IRC_BATTLE_TASK_Main, 0xFC);
     Work *w = func_020124E8(task);
     Obj *o;
     void *sys;
@@ -102,57 +102,57 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
     o = &w->f08;
     switch (kind) {
     case 5:
-        func_02157650(&dir, 0);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 0);
     case 4:
-        func_02157650(&dir, 2);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 2);
     case 7:
-        func_02157650(&dir, 1);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 1);
     case 6:
-        func_02157650(&dir, 3);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 3);
         sys = GAMESYSTEM_GetGameData(a0);
         BTL_SETUP_SetupCommSingle((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
-        func_02157650(&dir, 4);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 4);
     case 8:
-        func_02157650(&dir, 6);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 6);
     case 11:
-        func_02157650(&dir, 5);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 5);
     case 10:
-        func_02157650(&dir, 7);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 7);
         sys = GAMESYSTEM_GetGameData(a0);
         BTL_SETUP_SetupCommDouble((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
-        func_02157650(&dir, 8);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 8);
     case 12:
-        func_02157650(&dir, 10);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 10);
     case 15:
-        func_02157650(&dir, 9);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 9);
     case 14:
-        func_02157650(&dir, 11);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 11);
         sys = GAMESYSTEM_GetGameData(a0);
         BTL_SETUP_SetupCommTriple((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 17:
-        func_02157650(&dir, 12);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 12);
     case 16:
-        func_02157650(&dir, 14);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 14);
     case 19:
-        func_02157650(&dir, 13);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 13);
     case 18:
-        func_02157650(&dir, 15);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 15);
         sys = GAMESYSTEM_GetGameData(a0);
         BTL_SETUP_SetupCommRotation((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 21:
-        func_02157650(&dir, 16);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 16);
     case 20:
-        func_02157650(&dir, 18);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 18);
     case 23:
-        func_02157650(&dir, 17);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 17);
     case 22:
-        func_02157650(&dir, 19);
+        IRC_BATTLE_TASK_SetFormationOnce(&dir, 19);
         sys = GAMESYSTEM_GetGameData(a0);
         BTL_SETUP_SetupCommMulti((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, rec->f12, 4);
         break;

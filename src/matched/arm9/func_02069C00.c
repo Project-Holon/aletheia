@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * The halfword post-increment reader over the bit reader's byte cursor
- * (+0x00), the unlabelled leaf after func_02069BA0 (seeded start).  The
+ * (+0x00), the unlabelled leaf after NNSi_G2dBitReaderRead (seeded start).  The
  * cursor must be read into a typed u16 pointer and post-incremented; the
  * u8-pointer spelling `p = b->cur; b->cur = p + 2; return *(u16 *)p;`
  * schedules the store before the load (7 bytes).

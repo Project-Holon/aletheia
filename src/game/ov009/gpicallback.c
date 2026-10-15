@@ -1,7 +1,7 @@
 /*
  * file:     gpicallback.c
  * unit:     yes
- * function: func_02189D78, func_02189DFC, func_02189EA0, func_0218A0E4
+ * function: gpiCallErrorCallback, gpiAddCallback, gpiCallCallback, gpiProcessCallbacks
  * address:  0x02189D78
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_02193734  0x02193734  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gpiSetErrorString  0x02193734  arm  ov009
  *   g_021A45C8     0x021A45C8  data
- *   func_0217EAE0  0x0217EAE0  arm   ov009
- *   func_021890E0  0x021890E0  arm   ov009
+ *   gsifree  0x0217EAE0  arm   ov009
+ *   gpiDeleteBuddy  0x021890E0  arm   ov009
  */
 typedef struct GPICallback {
     void (*callback)(void **, void *, void *);
@@ -104,14 +104,14 @@ typedef struct GPGetProfileBuddyListArg {
     void *profiles;
 } GPGetProfileBuddyListArg;
 
-extern void *func_0217EAB0(int size);
-extern void func_02193734(void **connection, void *string);
-extern void func_0217EAE0(void *ptr);
-extern int func_021890E0(void **connection, int profile, int sendServerRequest);
-int func_02189D78(void **connection, int a1, int a2);
-int func_02189DFC(void **connection, GPICallback callback, void *arg, int *operation, int type);
-void func_02189EA0(void **connection, GPICallbackData *data);
-int func_0218A0E4(void **connection, int blockingOperationID);
+extern void *gsimalloc(int size);
+extern void gpiSetErrorString(void **connection, void *string);
+extern void gsifree(void *ptr);
+extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
+int gpiCallErrorCallback(void **connection, int a1, int a2);
+int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *operation, int type);
+void gpiCallCallback(void **connection, GPICallbackData *data);
+int gpiProcessCallbacks(void **connection, int blockingOperationID);
 extern char g_021A45C8[];
 
 
@@ -120,14 +120,14 @@ extern char g_021A45C8[];
 /*
  * Fetch the connection's registered callback, build a 0x10-byte argument
  * record ({arg1, connection+0x5b8, connection, arg2}) and hand both to
- * func_02189DFC with callbackType 1.
+ * gpiAddCallback with callbackType 1.
  */
 /*
  * Fetch the connection's registered callback from iconnection+0x1a8, build a
  * 0x10-byte argument record ({arg1, iconnection+0x5b8, iconnection, arg2})
- * and hand both to func_02189DFC with callbackType 1.
+ * and hand both to gpiAddCallback with callbackType 1.
  */
-int func_02189D78(void **connection, int a1, int a2)
+int gpiCallErrorCallback(void **connection, int a1, int a2)
 {
     GPIConnection *ic = (GPIConnection *)*connection;
     GPICallback cb;
@@ -139,14 +139,14 @@ int func_02189D78(void **connection, int a1, int a2)
     cb.param = ic->callback.param;
     if (cb.callback == 0)
         return (int)cb.param;
-    data = (int *)func_0217EAB0(0x10);
+    data = (int *)gsimalloc(0x10);
     if (data != 0) {
         data[0] = a1;
         data[3] = a2;
         data[1] = ic->f5B8;
         data[2] = (int)ic;
     }
-    return func_02189DFC(connection, cb, data, 0, 1);
+    return gpiAddCallback(connection, cb, data, 0, 1);
 }
 
 
@@ -161,14 +161,14 @@ int func_02189D78(void **connection, int a1, int a2)
  * why the prologue homes all four argument registers (push {r0-r3}) and the
  * epilogue is `pop {r4,r5,r6,lr}; add sp,#0x10; bx lr`.
  */
-int func_02189DFC(void **connection, GPICallback callback, void *arg, int *operation, int type)
+int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *operation, int type)
 {
     GPIConnection *ic = (GPIConnection *)*connection;
     GPICallbackData *data;
 
-    data = (GPICallbackData *)func_0217EAB0(0x18);
+    data = (GPICallbackData *)gsimalloc(0x18);
     if (data == 0) {
-        func_02193734(connection, g_021A45C8);
+        gpiSetErrorString(connection, g_021A45C8);
         return 1;
     }
     data->callback = callback;
@@ -195,60 +195,60 @@ int func_02189DFC(void **connection, GPICallback callback, void *arg, int *opera
  * Types 2 and 11 are separate branches with the same body; the compiler
  * cross-jumps them, as it does 7/15 and 8/13 (and the tail of 9 and 14).
  */
-void func_02189EA0(void **connection, GPICallbackData *data)
+void gpiCallCallback(void **connection, GPICallbackData *data)
 {
     data->callback.callback(connection, data->arg, data->callback.param);
 
     if (data->type == 2) {
-        func_0217EAE0(((GPErrorArg *)data->arg)->errorString);
+        gsifree(((GPErrorArg *)data->arg)->errorString);
         ((GPErrorArg *)data->arg)->errorString = 0;
     } else if (data->type == 11) {
-        func_0217EAE0(((GPErrorArg *)data->arg)->errorString);
+        gsifree(((GPErrorArg *)data->arg)->errorString);
         ((GPErrorArg *)data->arg)->errorString = 0;
     } else if (data->type == 3) {
         int i;
         GPGetUserNicksResponseArg *arg = (GPGetUserNicksResponseArg *)data->arg;
         for (i = 0; i < arg->numNicks; i++) {
-            func_0217EAE0(arg->nicks[i]);
+            gsifree(arg->nicks[i]);
             arg->nicks[i] = 0;
-            func_0217EAE0(arg->uniquenicks[i]);
+            gsifree(arg->uniquenicks[i]);
             arg->uniquenicks[i] = 0;
         }
-        func_0217EAE0(arg->nicks);
+        gsifree(arg->nicks);
         arg->nicks = 0;
-        func_0217EAE0(arg->uniquenicks);
+        gsifree(arg->uniquenicks);
         arg->uniquenicks = 0;
     } else if (data->type == 4) {
         GPFindPlayersResponseArg *arg = (GPFindPlayersResponseArg *)data->arg;
-        func_0217EAE0(arg->matches);
+        gsifree(arg->matches);
         arg->matches = 0;
     } else if (data->type == 7) {
         GPTransferCallbackArg *arg = (GPTransferCallbackArg *)data->arg;
         if (arg->message) {
-            func_0217EAE0(arg->message);
+            gsifree(arg->message);
             arg->message = 0;
         }
     } else if (data->type == 8) {
         GPGetReverseBuddiesResponseArg *arg = (GPGetReverseBuddiesResponseArg *)data->arg;
         if (arg->profiles) {
-            func_0217EAE0(arg->profiles);
+            gsifree(arg->profiles);
             arg->profiles = 0;
         }
     } else if (data->type == 9) {
         GPSuggestUniqueNickResponseArg *arg = (GPSuggestUniqueNickResponseArg *)data->arg;
         int i;
         for (i = 0; i < arg->numSuggestedNicks; i++) {
-            func_0217EAE0(arg->suggestedNicks[i]);
+            gsifree(arg->suggestedNicks[i]);
             arg->suggestedNicks[i] = 0;
         }
-        func_0217EAE0(arg->suggestedNicks);
+        gsifree(arg->suggestedNicks);
         arg->suggestedNicks = 0;
     } else if (data->type == 12) {
-        func_021890E0(connection, *(int *)data->arg, 0);
+        gpiDeleteBuddy(connection, *(int *)data->arg, 0);
     } else if (data->type == 13) {
         GPGetReverseBuddiesListResponseArg *arg = (GPGetReverseBuddiesListResponseArg *)data->arg;
         if (arg->matches) {
-            func_0217EAE0(arg->matches);
+            gsifree(arg->matches);
             arg->matches = 0;
         }
     } else if (data->type == 14) {
@@ -256,31 +256,31 @@ void func_02189EA0(void **connection, GPICallbackData *data)
         if (arg->numKeys != 0) {
             int i;
             for (i = 0; i < arg->numKeys; i++) {
-                func_0217EAE0(arg->keys[i]);
+                gsifree(arg->keys[i]);
                 arg->keys[i] = 0;
-                func_0217EAE0(arg->values[i]);
+                gsifree(arg->values[i]);
                 arg->values[i] = 0;
             }
-            func_0217EAE0(arg->keys);
+            gsifree(arg->keys);
             arg->keys = 0;
-            func_0217EAE0(arg->values);
+            gsifree(arg->values);
             arg->values = 0;
         }
     } else if (data->type == 15) {
         GPGetProfileBuddyListArg *arg = (GPGetProfileBuddyListArg *)data->arg;
         if (arg->profiles) {
-            func_0217EAE0(arg->profiles);
+            gsifree(arg->profiles);
             arg->profiles = 0;
         }
     }
 
-    func_0217EAE0(data->arg);
+    gsifree(data->arg);
     data->arg = 0;
-    func_0217EAE0(data);
+    gsifree(data);
 }
 
 
-int func_0218A0E4(void **connection, int blockingOperationID)
+int gpiProcessCallbacks(void **connection, int blockingOperationID)
 {
     GPIConnection *iconnection;
     GPICallbackData *list;
@@ -305,7 +305,7 @@ int func_0218A0E4(void **connection, int blockingOperationID)
                     list = pnext;
                 if (last == pcurr)
                     last = pprev;
-                func_02189EA0(connection, pcurr);
+                gpiCallCallback(connection, pcurr);
             } else {
                 pprev = pcurr;
             }
@@ -323,7 +323,7 @@ int func_0218A0E4(void **connection, int blockingOperationID)
             iconnection->lastCallback = 0;
             while (list) {
                 pnext = list->pnext;
-                func_02189EA0(connection, list);
+                gpiCallCallback(connection, list);
                 list = pnext;
             }
         }

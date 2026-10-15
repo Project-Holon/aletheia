@@ -10,7 +10,7 @@
  *   d_021E52B4     0x021E52B4  data  a1
  *   d_021E412C     0x021E412C  data  a4
  *   OS_SNPrintf  0x02084F80  arm
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  */
 typedef unsigned int u32;
@@ -21,7 +21,7 @@ extern signed char d_021E52B4;
 extern int d_021E412C;
 
 void OS_SNPrintf(void *p, int a, void *b, void *c);
-void *func_0217EAB0(int size);
+void *gsimalloc(int size);
 void MSL_C_LIB_MemsetPtr(void *dst, int c, int n);
 
 int sciInterfaceCreate(void **out)
@@ -34,7 +34,7 @@ int sciInterfaceCreate(void **out)
     } else {
         return 1;
     }
-    p = func_0217EAB0(0xac);
+    p = gsimalloc(0xac);
     *out = p;
     if (p == 0)
         return 5;

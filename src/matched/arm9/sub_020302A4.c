@@ -18,7 +18,7 @@
  * resolves fine. No cut exists inside a single function section, so
  * --suggest-split offers nothing. An EXACT entry for 0x02060CD0 promotes
  * this file unchanged, and promoting it in turn unblocks
- * src/pending/sub_020307E0.c, whose only unresolved site is this function.
+ * src/pending/GFL_HEAP_CheckAllocator.c, whose only unresolved site is this function.
  *
  * Resize in place: the realloc of this heap layer.
  *

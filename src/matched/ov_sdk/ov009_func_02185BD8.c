@@ -1,5 +1,5 @@
 /*
- * function: func_02185BD8
+ * function: gpGetInfo
  * address:  0x02185BD8
  * packet:   pkt_ov009_02185BD8
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      gpGetInfo (gp.o)
  *
  * symbols:
- *   func_02193734  0x02193734  arm   ov009
- *   func_0218D4A4  0x0218D4A4  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   gpiGetInfo  0x0218D4A4  arm   ov009
  *   g_021A4010     0x021A4010  data  ov009
  *   g_021A4024     0x021A4024  data  ov009
  */
@@ -31,12 +31,12 @@ typedef struct GPGetInfoResponseArg {
 
 typedef void (*GPCallback)(void **, void *, void *);
 
-extern void func_02193734(int *p, int b);
-extern int func_0218D4A4(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern void gpiSetErrorString(int *p, int b);
+extern int gpiGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern char g_021A4010[];
 extern char g_021A4024[];
 
-int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
+int gpGetInfo(void **connection, int profile, int checkCache, int blocking,
                   GPCallback callback, void *param)
 {
     GPIConnection *iconnection;
@@ -44,7 +44,7 @@ int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
     if (connection == 0 || (iconnection = (GPIConnection *)*connection) == 0 || profile == 0)
         return 2;
     if (callback == 0) {
-        func_02193734((int *)connection, (int)g_021A4010);
+        gpiSetErrorString((int *)connection, (int)g_021A4010);
         return 2;
     }
     if (iconnection->f108 != 0) {
@@ -53,8 +53,8 @@ int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
         return 0;
     }
     if (iconnection->f1F4 == 4) {
-        func_02193734((int *)connection, (int)g_021A4024);
+        gpiSetErrorString((int *)connection, (int)g_021A4024);
         return 2;
     }
-    return func_0218D4A4(connection, profile, checkCache, blocking, callback, param);
+    return gpiGetInfo(connection, profile, checkCache, blocking, callback, param);
 }

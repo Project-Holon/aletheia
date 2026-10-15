@@ -1,5 +1,5 @@
 /*
- * function: func_021E0808
+ * function: BR_CODEIN_ProfileDestroyObject
  * address: 0x021E0808
  * packet: pkt_ov183_021E0808
  * region: ov183
@@ -22,4 +22,4 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 extern char d_021E3974[];
-void func_021E0808(char *p){if(!((struct Obj14437 *)p)->f18)func_02034714(d_021E3974,0,d_021E3974);if(!p)func_02034714(d_021E3974,0,d_021E3974);STRBUF_Delete(((struct Obj14437 *)p)->f18);func_020307B0(p);}
+void BR_CODEIN_ProfileDestroyObject(char *p){if(!((struct Obj14437 *)p)->f18)func_02034714(d_021E3974,0,d_021E3974);if(!p)func_02034714(d_021E3974,0,d_021E3974);STRBUF_Delete(((struct Obj14437 *)p)->f18);func_020307B0(p);}

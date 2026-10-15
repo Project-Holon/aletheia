@@ -1,5 +1,5 @@
 /*
- * function: func_02057830
+ * function: SPL_EMITTER_TransformVec
  * address:  0x02057830
  * packet:   pkt_02057830
  * region:   arm9
@@ -34,15 +34,15 @@
  * `m->f20->f00->mode` (one of the three unit axes, or VEC_Fx16Normalize of
  * m+0x50 in the default arm), then the two basis rows are the cross product
  * of v with a and of v with the first row, computed inline with the FX_Mul
- * rounding quartet (the same shape as the sibling func_020576D0), and the
+ * rounding quartet (the same shape as the sibling SPL_EMITTER_ScaleVec), and the
  * two rows are normalised in place with the same two-identical-arguments
  * call the sibling records as load-bearing.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02057830.c \
- *       --func func_02057830 --addr 0x02057830 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_TransformVec.c \
+ *       --func SPL_EMITTER_TransformVec --addr 0x02057830 --arm --cc ../1.2/sp2
  */
 
 typedef int          fx32;
@@ -80,7 +80,7 @@ extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
 extern fx32 VEC_Fx16DotProduct(const struct Vec16 *a, const struct Vec16 *b);
 extern const struct Vec16 g_020A7FEC;
 
-void func_02057830(struct Rig *m)
+void SPL_EMITTER_TransformVec(struct Rig *m)
 {
     struct Vec16 a;
     struct Vec16 v;

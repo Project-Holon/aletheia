@@ -1,5 +1,5 @@
 /*
- * function: func_021C78C4
+ * function: VIEWER_ACTOR_InitBgWindow
  * address:  0x021C78C4
  * packet:   pkt_ov111_021C78C4
  * region:   ov111
@@ -69,7 +69,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-void func_021C78C4(Work *p)
+void VIEWER_ACTOR_InitBgWindow(Work *p)
 {
     BMP_WIN_Init(0x27);
     p->f8 = (void *)BMP_WIN_Create(4, 2, 10, 0x1C, 0xC, 0xF, 1);

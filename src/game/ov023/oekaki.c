@@ -80,12 +80,12 @@
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   gOekakiVramBanks     0x02186ACC  data  ov023  a4
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
@@ -109,7 +109,7 @@
  *   func_02049B40  0x02049B40  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_0201F5BC  0x0201F5BC  thumb
+ *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   func_020275E4  0x020275E4  thumb
  *   CLACT_InitSystem  0x0204A48C  arm
  *   gClActorInitParam     0x020A1448  data  a4
@@ -153,13 +153,13 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_0207D658  0x0207D658  arm
  *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   OEKAKI_OpenGroup  0x02184560  thumb  ov023
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   UNION_APP_Close  0x02184114  thumb  ov022
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
@@ -194,6 +194,8 @@
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb  arm9
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 typedef unsigned int u32;
 
@@ -282,11 +284,11 @@ extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(void *font);
 extern void func_020315D4(struct S020315D4 *task);
-extern void func_020306F0(u32 heapId);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
 void CLACT_VBlankSystem(void);
-void func_020419E4(void);
+void BG_SYS_Update(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0203FC28(const DispConfig *config);
+extern void BG_SYS_SetGraphicsMode(const DispConfig *config);
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const BgTemplate *tmpl, unsigned int type);
 extern void BG_SYS_ClearSlot(u32 bgId);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -302,7 +304,7 @@ extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId)
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 heapId);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern u32 func_020275E4(void);
 extern void CLACT_InitSystem(const void *config, const struct DispVram *vram, u32 heapId);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -416,12 +418,12 @@ extern int  TOUCHPANEL_GetCont(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void APP_TASKMENU_TransWinAfterPrint(TaskMenu *menu);
-extern void func_0201F7A8(struct BmpWin *window, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *window, u32 kind);
 extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(NetHandle *a, u32 b, u32 c, u32 d);
 extern int UNION_APP_Close(UnionAppWork *app);
 extern UnionAppEntry *UNION_APP_GetMemberEntry(UnionAppWork *app, int netId);
-extern void func_0201F02C(struct WordSet *wordSet, u32 index, UnionAppEntry *entry);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, UnionAppEntry *entry);
 extern void GFL_NET_HANDLE_SetUserInfo(NetHandle *handle, int a, int b, int c);
 extern u32 GFL_NET_IsConnectMember(u32 index);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(NetHandle *h, u32 a, u32 b);
@@ -434,8 +436,8 @@ extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u
 extern void func_02008500(UnionAppEntry *entry, StrBuf *dst);
 extern void PRINTSYS_PrintQueColor(TextPrinter *printer, struct Bmp *bmp, u32 x, u32 y, StrBuf *text, void *font, u16 color);
 extern int  GFL_NET_ResetSendQueue(void *h);
-extern void func_0201F250(struct WordSet *wordSet, StrBuf *dst, StrBuf *src);
-extern void func_0201F73C(struct BmpWin *window, int a, int b, int c);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, StrBuf *dst, StrBuf *src);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *window, int a, int b, int c);
 extern void PRINTSYS_PrintStreamDelete(void *stream);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, StrBuf *text, void *font, u32 speed, TcbList *taskList, u32 a, u16 heap, u32 color);
@@ -992,7 +994,7 @@ int OEKAKI_Exit(struct S020315D4 *task, int *seq, void *unused, OekakiWork *work
     case 3:
         OEKAKI_FreeWork(work);
         func_020315D4(task);
-        func_020306F0(OEKAKI_HEAP_ID);
+        GFL_HEAP_DeleteChecked(OEKAKI_HEAP_ID);
         return 1;
     }
     return 0;
@@ -1008,7 +1010,7 @@ int OEKAKI_Exit(struct S020315D4 *task, int *seq, void *unused, OekakiWork *work
 void OEKAKI_VBlankTask(void)
 {
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
 }
 
 
@@ -1065,7 +1067,7 @@ void OEKAKI_SetupBgs(void)
     BgTemplate bg5;
 
     dispConfig = gOekakiDispConfig;
-    func_0203FC28(&dispConfig);
+    BG_SYS_SetGraphicsMode(&dispConfig);
 
     bg0 = gOekakiBgTemplate0;
     BG_SYS_InitBgLayer(0, &bg0, 0);
@@ -1166,8 +1168,8 @@ void OEKAKI_LoadBgGraphics(OekakiWork *work, void *archive)
     func_020498F4(archive, 6, 2, 0, 0x600, 0, OEKAKI_HEAP_ID);
     func_02049658(archive, 4, 5, 0, 0x2000, 0, OEKAKI_HEAP_ID);
     func_020498F4(archive, 7, 5, 0, 0x600, 0, OEKAKI_HEAP_ID);
-    func_0201F5BC(0, 1, 10, 0, OEKAKI_HEAP_ID);
-    func_0201F5BC(0, 0x1F, 11, 0, OEKAKI_HEAP_ID);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 10, 0, OEKAKI_HEAP_ID);
+    BMP_MENUWORK_LoadCharAndPltt(0, 0x1F, 11, 0, OEKAKI_HEAP_ID);
 }
 
 
@@ -1533,7 +1535,7 @@ int OEKAKI_StepQuitMenuResult(OekakiWork *p, int procState)
             OEKAKI_PrintMessage(p, 4, 1);
         } else {
             OEKAKI_SetNextScene(p, 8);
-            func_0201F7A8(p->messageWindow, 2);
+            BMP_MENUWORK_DrawWindowBorder(p->messageWindow, 2);
         }
         window = p->canvasWindow;
         BMP_WIN_TransferChars(window);
@@ -1543,7 +1545,7 @@ int OEKAKI_StepQuitMenuResult(OekakiWork *p, int procState)
     case 1:
         OEKAKI_SetNextScene(p, 4);
         OEKAKI_SetQuitButtonPressed(p->quitButton, 0);
-        func_0201F7A8(p->messageWindow, 2);
+        BMP_MENUWORK_DrawWindowBorder(p->messageWindow, 2);
         window = p->canvasWindow;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
@@ -1670,7 +1672,7 @@ int OEKAKI_StepFinishMenuResult(OekakiWork *p, int procState)
     case 1:
         OEKAKI_SetNextScene(p, 4);
         OEKAKI_SetQuitButtonPressed(p->quitButton, 0);
-        func_0201F7A8(p->messageWindow, 2);
+        BMP_MENUWORK_DrawWindowBorder(p->messageWindow, 2);
         if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             OEKAKI_OpenGroup(p, 1);
             p->syncMode = 1;
@@ -1690,7 +1692,7 @@ void OEKAKI_RegisterPlayerName(OekakiWork *p, int wordIndex, int netId)
 
     entry = UNION_APP_GetMemberEntry(p->param->app, (u8)netId);
     if (entry != 0)
-        func_0201F02C(p->wordSet, wordIndex, entry);
+        WORDSET_SetSlotMyStatus(p->wordSet, wordIndex, entry);
 }
 
 int OEKAKI_StepSendFinishRequest(OekakiWork *p, int procState)
@@ -2157,10 +2159,10 @@ void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
 
     text = STRBUF_Create(0x50, 0x28);
     func_02045CAC(p->msgBank, msgId, text);
-    func_0201F250(p->wordSet, p->messageText, text);
+    WORDSET_CopyTaggedText(p->wordSet, p->messageText, text);
     STRBUF_Delete(text);
     BMP_Clear(BMP_WIN_GetBmp(p->messageWindow), 15);
-    func_0201F73C(p->messageWindow, 0, 1, 10);
+    BMP_MENUWORK_DrawWindow(p->messageWindow, 0, 1, 10);
     if (p->messageStream != 0) {
         PRINTSYS_PrintStreamDelete(p->messageStream);
         p->messageStream = 0;
@@ -2201,7 +2203,7 @@ int OEKAKI_IsMessageDone(OekakiWork *p)
 
 void OEKAKI_ClearMessageWindow(OekakiWork *p)
 {
-    func_0201F7A8(p->messageWindow, 0);
+    BMP_MENUWORK_DrawWindowBorder(p->messageWindow, 0);
 }
 
 /*

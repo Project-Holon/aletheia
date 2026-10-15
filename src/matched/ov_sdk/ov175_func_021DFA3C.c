@@ -11,7 +11,7 @@
  *
  * symbols:
  *   sciInterfaceDestroy  0x021DF8D4  arm
- *   func_0217EAE0  0x0217EAE0  arm
+ *   gsifree  0x0217EAE0  arm
  *
  * Tear a live record down: a null handle is not an error (2), a clear +0x50
  * flag means nothing is live (0), otherwise reset the record and run the
@@ -22,7 +22,7 @@ typedef int s32;
 typedef unsigned int u32;
 
 extern void sciInterfaceDestroy(char *p);
-extern void func_0217EAE0(void *);
+extern void gsifree(void *);
 
 s32 scShutdown(void *p)
 {
@@ -30,7 +30,7 @@ s32 scShutdown(void *p)
         return 2;
     if (*(u32 *)((char *)p + 0x50) != 0) {
         sciInterfaceDestroy(p);
-        func_0217EAE0(p);
+        gsifree(p);
     }
     return 0;
 }

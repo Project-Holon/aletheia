@@ -22,20 +22,20 @@
  *   gti2ClosedCallback                 0x02195158  arm ov009
  *   func_02195EC4                      0x02195EC4  arm ov009
  *   gti2SendClosed                     0x02197BB8  arm
- *   func_02184200                      0x02184200  arm ov009
+ *   ArrayLength                      0x02184200  arm ov009
  *   func_02184208                      0x02184208  arm ov009
- *   func_0218437C                      0x0218437C  arm ov009
- *   func_02194E80                      0x02194E80  arm ov009
- *   func_02195340                      0x02195340  arm ov009
- *   func_021950B4                      0x021950B4  arm ov009
- *   func_02194C6C                      0x02194C6C  arm ov009
- *   func_02194B74                      0x02194B74  arm ov009
- *   func_02194D74                      0x02194D74  arm ov009
- *   func_0217EAE0                      0x0217EAE0  arm ov009
+ *   ArrayDeleteAt                      0x0218437C  arm ov009
+ *   gti2BufferShorten                      0x02194E80  arm ov009
+ *   gti2ReceiveFilterCallback                      0x02195340  arm ov009
+ *   gti2ReceivedCallback                      0x021950B4  arm ov009
+ *   gti2GetResponse                      0x02194C6C  arm ov009
+ *   gti2GetChallenge                      0x02194B74  arm ov009
+ *   gti2CheckResponse                      0x02194D74  arm ov009
+ *   gsifree                      0x0217EAE0  arm ov009
  *   gti2CheckResponse                  0x02194D74  arm ov009
  *   current_time                       0x0217F264  arm ov009
  *   gti2ConnectAttemptCallback         0x02194F2C  arm ov009
- *   func_02194DD4                      0x02194DD4  arm ov009
+ *   gti2GetBufferFreeSpace                      0x02194DD4  arm ov009
  *   func_021842D0                      0x021842D0  arm ov009
  *   func_02194E2C                      0x02194E2C  arm ov009
  *   func_02196658                      0x02196658  arm ov009
@@ -46,13 +46,13 @@
  *   func_02197BA4 0x02197BA4 arm
  *   func_020923F0  0x020923F0  arm
  *   current_time  0x0217F264  arm  ov009
- *   func_021951E8  0x021951E8  arm  ov009
+ *   gti2PingCallback  0x021951E8  arm  ov009
  *   gGti2TimeKey  0x021A5940  data
  *   func_02196AF8  0x02196AF8  arm  ov009
  *   gti2HandleClosed  0x02196CC8  arm  ov009
  *   func_02197D5C  0x02197D5C  arm  ov009
- *   func_02195408  0x02195408  arm  ov009
- *   func_021954F4  0x021954F4  arm  ov009
+ *   gti2DumpCallback  0x02195408  arm  ov009
+ *   gti2UnrecognizedMessageCallback  0x021954F4  arm  ov009
  *   func_021955C0  0x021955C0  arm  ov009
  *   g_021A5948     0x021A5948  data
  *   gti2SocketFindConnection  0x02197D5C  arm  ov009
@@ -79,7 +79,7 @@
  *   gti2BufferShorten         0x02194E80  arm  ov009
  *   gti2UShortToBuffer      0x02195EA0 arm
  *   func_02195750  0x02195750  arm  ov009
- *   func_02198328  0x02198328  arm  ov009
+ *   gti2SocketSend  0x02198328  arm  ov009
  *   func_02197594  0x02197594  arm  ov009
  *   @14988         0x021A5948  data
  */
@@ -132,35 +132,33 @@ extern int gti2ConnectedCallback(GTI2Connection *connection, int result, unsigne
 extern int gti2ClosedCallback(GTI2Connection *connection, int reason);
 extern int gti2SendClosed(int *connection);
 extern int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
-extern int gti2CheckResponse();
 extern u32 current_time(void);
-extern int func_02184200(struct DArrayImplementation *array);
+extern int ArrayLength(struct DArrayImplementation *array);
 extern void *func_02184208(struct DArrayImplementation *array, int n);
 extern void func_021842D0(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
-extern void func_0218437C(struct DArrayImplementation *array, int n);
-extern int func_02194DD4(struct GTI2Buffer *buffer);
+extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
+extern int gti2GetBufferFreeSpace(struct GTI2Buffer *buffer);
 extern void func_02194E2C(void *buffer, unsigned char *data, int len);
-extern void func_02194E80(struct GTI2Buffer *buffer, int start, int shortenBy);
-extern unsigned char *func_02194C6C(unsigned char *buffer, unsigned char *challenge);
-extern unsigned char *func_02194B74(unsigned char *buffer);
-extern int func_02194D74(unsigned char *response1, unsigned char *response2);
-extern int func_02195340(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
-extern int func_021950B4(GTI2Connection *c, unsigned char *msg, int len, int reliable);
+extern void gti2BufferShorten(struct GTI2Buffer *buffer, int start, int shortenBy);
+extern unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge);
+extern unsigned char *gti2GetChallenge(unsigned char *buffer);
+extern int gti2CheckResponse(unsigned char *response1, unsigned char *response2);
+extern int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
+extern int gti2ReceivedCallback(GTI2Connection *c, unsigned char *msg, int len, int reliable);
 extern int gti2ResendMessage(GTI2Connection *c, GTI2OutgoingBufferMessage *message);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern int func_02197BA4(GTI2Connection *connection, unsigned char *message, int len);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
-extern int func_021951E8(GTI2Connection *c, int latency);
+extern int gti2PingCallback(GTI2Connection *c, int latency);
 extern int func_02196AF8(GTI2Connection *c, unsigned char *msg, int len);
 extern int gti2HandleClosed(GTI2Connection *c);
 extern GTI2Connection *func_02197D5C(GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern int func_02195408(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
+extern int gti2DumpCallback(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
-extern int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5);
+extern int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5);
 extern int func_021955C0(GTI2Socket *socket, GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
 extern GTI2Connection *gti2SocketFindConnection();
-extern int gti2DumpCallback();
 extern int func_02195EC4(GTI2Connection *c, int result, int reason);
 extern int CanReceiveOnSocket(int sock);
 extern int recvfrom(int sock, char *buf, int len, int flags,
@@ -190,7 +188,7 @@ extern int func_0219754C(GTI2Connection *c);
 extern void gti2BufferShorten();
 extern void gti2UShortToBuffer(char *buffer, int pos, int s);
 extern int func_02195750(GTI2Connection *c, unsigned char *message, int len);
-extern int func_02198328(GTI2Socket *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
+extern int gti2SocketSend(GTI2Socket *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
 extern void func_02197594(int a, int b, int c);
 unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos);
 s16 gti2SNDiff(unsigned short a, unsigned short b);
@@ -329,7 +327,7 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 	GTI2OutgoingBufferMessage *message;
 	int shortenBy;
 
-	len = func_02184200(connection->outgoingBufferMessages);
+	len = ArrayLength(connection->outgoingBufferMessages);
 	if (len == 0)
 		return 1;
 	for (i = 0; i < len; i++) {
@@ -340,8 +338,8 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 	if (i == 0)
 		return 1;
 	while (i-- != 0)
-		func_0218437C(connection->outgoingBufferMessages, i);
-	len = func_02184200(connection->outgoingBufferMessages);
+		ArrayDeleteAt(connection->outgoingBufferMessages, i);
+	len = ArrayLength(connection->outgoingBufferMessages);
 	if (len == 0) {
 		connection->outgoingBuffer.len = 0;
 		return 1;
@@ -352,7 +350,7 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 		message = func_02184208(connection->outgoingBufferMessages, i);
 		message->offset -= shortenBy;
 	}
-	func_02194E80(&connection->outgoingBuffer, 0, shortenBy);
+	gti2BufferShorten(&connection->outgoingBuffer, 0, shortenBy);
 	return 1;
 }
 
@@ -369,14 +367,14 @@ int gti2HandleAppUnreliable(GTI2Connection *c, unsigned char *msg, int len)
 
 	if (c->state != 5 && c->state != 6)
 		return 1;
-	if (func_02184200(c->receiveFilters)) {
+	if (ArrayLength(c->receiveFilters)) {
 		ret = 0;
-		if (func_02195340(c, 0, msg, len, 0))
+		if (gti2ReceiveFilterCallback(c, 0, msg, len, 0))
 			ret = 1;
 		return ret;
 	}
 	ret = 0;
-	if (func_021950B4(c, msg, len, 0))
+	if (gti2ReceivedCallback(c, msg, len, 0))
 		ret = 1;
 	return ret;
 }
@@ -395,13 +393,13 @@ int gti2HandleAppReliable(GTI2Connection *c, unsigned char *message, int len)
 	if (c->state != 5 && c->state != 6) {
 		if (!gti2ConnectionCommunicationError(c))
 			return 0;
-	} else if (func_02184200(c->receiveFilters)) {
+	} else if (ArrayLength(c->receiveFilters)) {
 		ret = 1;
-		if (!func_02195340(c, 0, message, len, 1))
+		if (!gti2ReceiveFilterCallback(c, 0, message, len, 1))
 			ret = 0;
 		return ret;
 	} else {
-		if (!func_021950B4(c, message, len, 1))
+		if (!gti2ReceivedCallback(c, message, len, 1))
 			return 0;
 	}
 	return 1;
@@ -428,9 +426,9 @@ int gti2HandleClientChallenge(GTI2Connection *c, unsigned char *message, int len
 			return 1;
 		return 0;
 	}
-	func_02194C6C((unsigned char *)response, message);
-	func_02194B74((unsigned char *)challenge);
-	func_02194C6C((unsigned char *)c->response, (unsigned char *)challenge);
+	gti2GetResponse((unsigned char *)response, message);
+	gti2GetChallenge((unsigned char *)challenge);
+	gti2GetResponse((unsigned char *)c->response, (unsigned char *)challenge);
 	if (!gti2SendServerChallenge(c, response, challenge))
 		return 0;
 	c->state = 3;
@@ -458,16 +456,16 @@ int gti2HandleServerChallenge(GTI2Connection *connection, unsigned char *message
 			return 1;
 		return 0;
 	}
-	if (!func_02194D74(message, (unsigned char *)connection->response)) {
+	if (!gti2CheckResponse(message, (unsigned char *)connection->response)) {
 		if (gti2ConnectionCommunicationError(connection))
 			return 1;
 		return 0;
 	}
-	func_02194C6C((unsigned char *)response, message + 0x20);
+	gti2GetResponse((unsigned char *)response, message + 0x20);
 	if (!gti2SendClientResponse(connection, response, connection->initialMessage, connection->initialMessageLen))
 		return 0;
 	if (connection->initialMessage != 0) {
-		func_0217EAE0(connection->initialMessage);
+		gsifree(connection->initialMessage);
 		connection->initialMessage = 0;
 	}
 	connection->state = 1;
@@ -489,7 +487,7 @@ int gti2HandleClientResponse(GTI2Connection *connection, unsigned char *message,
         return gti2ConnectionCommunicationError(connection) != 0;
     if (len < 32)
         return gti2ConnectionCommunicationError(connection) != 0;
-    if (!gti2CheckResponse(message, connection->response))
+    if (!gti2CheckResponse(message, (unsigned char *)connection->response))
         return gti2ConnectionCommunicationError(connection) != 0;
     if (connection->socket->connectAttemptCallback == 0)
     {
@@ -605,7 +603,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
     struct GTI2IncomingBufferMessage *prev;
     unsigned short diff;
 
-    num = func_02184200(connection->incomingBufferMessages);
+    num = ArrayLength(connection->incomingBufferMessages);
     for (i = 0; i < num; i++) {
         bufferedMessage = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, i);
         if (bufferedMessage->serialNumber == SN) {
@@ -616,7 +614,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
             break;
     }
 
-    if (func_02194DD4(&connection->incomingBuffer) < len) {
+    if (gti2GetBufferFreeSpace(&connection->incomingBuffer) < len) {
         *overflow = 1;
         return 1;
     }
@@ -627,7 +625,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
     messageInfo.serialNumber = SN;
     func_021842D0(connection->incomingBufferMessages, &messageInfo, gti2IncomingBufferMessageCompare);
 
-    if (func_02184200(connection->incomingBufferMessages) != num + 1) {
+    if (ArrayLength(connection->incomingBufferMessages) != num + 1) {
         *overflow = 1;
         return 1;
     }
@@ -673,8 +671,8 @@ void gti2RemoveHoldMessage(GTI2Connection *c, struct GTI2IncomingBufferMessage *
 	moveAfter = message->start;
 	shortenBy = message->len;
 	moveEnd = 0;
-	func_0218437C(c->incomingBufferMessages, index);
-	num = func_02184200(c->incomingBufferMessages);
+	ArrayDeleteAt(c->incomingBufferMessages, index);
+	num = ArrayLength(c->incomingBufferMessages);
 	for (i = 0; i < num; i++) {
 		m = (struct GTI2IncomingBufferMessage *)func_02184208(c->incomingBufferMessages, i);
 		if (m->start > moveAfter) {
@@ -683,7 +681,7 @@ void gti2RemoveHoldMessage(GTI2Connection *c, struct GTI2IncomingBufferMessage *
 				moveEnd = m->start + m->len;
 		}
 	}
-	func_02194E80(&c->incomingBuffer, moveAfter, shortenBy);
+	gti2BufferShorten(&c->incomingBuffer, moveAfter, shortenBy);
 }
 
 
@@ -700,7 +698,7 @@ int gti2DeliverHoldMessages(GTI2Connection *c)
 	struct GTI2IncomingBufferMessage *m;
 
 again:
-	for (i = func_02184200(c->incomingBufferMessages) - 1; i >= 0; i--) {
+	for (i = ArrayLength(c->incomingBufferMessages) - 1; i >= 0; i--) {
 		m = (struct GTI2IncomingBufferMessage *)func_02184208(c->incomingBufferMessages, i);
 		if (m->serialNumber == c->expectedSerialNumber) {
 			if (!gti2DeliverReliableMessage(c, m->type, c->incomingBuffer.buffer + m->start, m->len))
@@ -818,7 +816,7 @@ int gti2HandleNack(GTI2Connection *connection, unsigned char *message, int len)
 			return 1;
 		return 0;
 	}
-	num = func_02184200(connection->outgoingBufferMessages);
+	num = ArrayLength(connection->outgoingBufferMessages);
 	for (i = 0; i < num; i++) {
 		messageInfo = func_02184208(connection->outgoingBufferMessages, i);
 		if (gti2SNDiff(messageInfo->SN, SNMin) < 0)
@@ -867,7 +865,7 @@ int gti2HandlePong(GTI2Connection *c, unsigned char *message, int len)
 	d[1] = message[5];
 	d[2] = message[6];
 	d[3] = message[7];
-	if (!func_021951E8((GTI2Connection *)c, current_time() - startTime))
+	if (!gti2PingCallback((GTI2Connection *)c, current_time() - startTime))
 		return 0;
 	return 1;
 }
@@ -970,14 +968,14 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
     connection = func_02197D5C(socket, ip, port);
 
     if (socket->receiveDumpCallback) {
-        if (!func_02195408(socket, connection, ip, port, 0, message, len, 0))
+        if (!gti2DumpCallback(socket, connection, ip, port, 0, message, len, 0))
             return 0;
     }
 
     magicString = (actualLength > 2) && !func_020923F0(actualMessage, (const u8 *)g_021A5948, 2);
 
     if (!connection) {
-        if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
+        if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (int)message, len, &handled))
             return 0;
         if (handled)
             return 1;
@@ -1020,7 +1018,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
 
     if (!magicString) {
         if (connection->state < 5) {
-            if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
+            if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (int)message, len, &handled))
                 return 0;
         } else {
             if (!gti2HandleAppUnreliable((GTI2Connection *)connection, message, len))
@@ -1098,7 +1096,7 @@ int gti2HandleHostUnreachable(GTI2Socket *sock, unsigned int ip, unsigned short 
 
 	c = func_02197D5C(sock, ip, port);
 	if (sock->receiveDumpCallback) {
-		if (!func_02195408(sock, c, ip, port, 1, 0, 0, send))
+		if (!gti2DumpCallback(sock, c, ip, port, 1, 0, 0, send))
 			return 0;
 	}
 	if (!c)
@@ -1575,7 +1573,7 @@ int gti2SendClosedOnSocket(GTI2Socket *sock, unsigned int ip, unsigned short por
 	pos += 2;
 	buffer[pos] = 0x68;
 	pos++;
-	if (!func_02198328(sock, ip, port, (unsigned char *)buffer, pos))
+	if (!gti2SocketSend(sock, ip, port, (unsigned char *)buffer, pos))
 		return 0;
 	return 1;
 }

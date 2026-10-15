@@ -12,7 +12,7 @@
  * symbols:
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -39,7 +39,7 @@ struct Descriptor;
 struct MsgBank;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_0201F7A8(void *, unsigned);
+extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -60,7 +60,7 @@ void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, Object *p, Row *rows
     for (i = 0; i < 11; i++) {
         if (p->f10[i]) {
             BMP_WIN_ClearScreen(p->f10[i]);
-            func_0201F7A8(p->f10[i], 2);
+            BMP_MENUWORK_DrawWindowBorder(p->f10[i], 2);
             BMP_WIN_Delete(p->f10[i]);
         }
         p->f10[i] = 0;

@@ -15,7 +15,7 @@
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   ITEMMENU_ShowMessageDefault  0x021BADAC  thumb  ov070
  *   ITEMMENU_SetBackButtonAnim  0x021BB580  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
@@ -55,7 +55,7 @@ extern void ITEMMENU_UpdateSideButtons(int p, int mode);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 typedef unsigned char  u8;
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_ShowMessageDefault(void *p);
 extern void ITEMMENU_SetBackButtonAnim(char *p, int v);
 extern void ITEMMENU_SetTask(char *p, int k);
@@ -79,7 +79,7 @@ void ITEMMENU_TaskGiveItem(Obj *o)
         ITEMMENU_UpdateSideButtons((int)o, 0);
         MSGDATA_ReadString(o->f51C, 0x4D, (void *)o->f524);
         ITEMMENU_RegisterItemName((u8 *)o, 0, o->f84C);
-        func_0201F250(o->f520, o->f528, (void *)o->f524);
+        WORDSET_CopyTaggedText(o->f520, o->f528, (void *)o->f524);
         ITEMMENU_ShowMessageDefault(o);
         ITEMMENU_SetBackButtonAnim((char *)o, 0);
         ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskWaitMessageDismiss));
@@ -95,7 +95,7 @@ void ITEMMENU_TaskGiveItem(Obj *o)
     ITEMMENU_ShowQuantityWindows((u8 *)o, 2);
     MSGDATA_ReadString(o->f51C, 0x4E, (void *)o->f524);
     ITEMMENU_RegisterItemName((u8 *)o, 0, o->f84C);
-    func_0201F250(o->f520, o->f528, (void *)o->f524);
+    WORDSET_CopyTaggedText(o->f520, o->f528, (void *)o->f524);
     ITEMMENU_ShowMessageDefault(o);
     ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskSellQuantityInput));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D73B0
+ * function: GTSNEGO_MSG_CycleIdleAnim
  * address: 0x021D73B0
  * packet: pkt_ov120_021D73B0
  * region: ov120
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021D73B0(char *p) { u16 next; next=CLACT_GetActorAnimSeq(((struct Obj13936 *)p)->f130)+1; if(next>26) next=11; CLACT_SetActorAnimSeq(((struct Obj13936 *)p)->f130,next); }
+void GTSNEGO_MSG_CycleIdleAnim(char *p) { u16 next; next=CLACT_GetActorAnimSeq(((struct Obj13936 *)p)->f130)+1; if(next>26) next=11; CLACT_SetActorAnimSeq(((struct Obj13936 *)p)->f130,next); }

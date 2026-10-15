@@ -1,5 +1,5 @@
 /*
- * function: func_021BE20C
+ * function: ZKNSEARCH_MAIN_ClearEntry3
  * address:  0x021BE20C
  * packet:   pkt_ov210_021BE20C
  * region:   ov210
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BEA54  0x021BEA54  thumb  ov210
- *   func_021BF81C  0x021BF81C  thumb  ov210
+ *   ZKNSEARCH_MAIN_PrintEntryCount3  0x021BEA54  thumb  ov210
+ *   ZKNSEARCH_MAIN_HideColumnActors  0x021BF81C  thumb  ov210
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00222.h"
@@ -22,13 +22,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern void func_021BEA54(u8 *p);
-extern void func_021BF81C(char *p);
+extern void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *p);
+extern void ZKNSEARCH_MAIN_HideColumnActors(char *p);
 
-void func_021BE20C(u8 *p)
+void ZKNSEARCH_MAIN_ClearEntry3(u8 *p)
 {
     (*(u8 **)(*(u8 * *)&((struct Obj00222 *)p)->f0 + 8))[3] = 0xff;
     (*(u8 **)(*(u8 * *)&((struct Obj00222 *)p)->f0 + 8))[4] = 0xff;
-    func_021BEA54(p);
-    func_021BF81C((char *)p);
+    ZKNSEARCH_MAIN_PrintEntryCount3(p);
+    ZKNSEARCH_MAIN_HideColumnActors((char *)p);
 }

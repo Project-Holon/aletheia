@@ -13,6 +13,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -36,13 +37,13 @@ typedef signed int     s32;
 struct WordSet;
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
-extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 
 int SCRCMD_BufferSignedEntryName(Ctx *s, u32 b)
 {
     u8 c = Ctx_ReadByte(s);
     u32 x = SCRIPT_WORK_ReadWorkValue(s, (void *)b);
 
-    func_0201F184(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork((void *)b)), c, x);
+    WORDSET_SetSlotFromMsgA0(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork((void *)b)), c, x);
     return 0;
 }

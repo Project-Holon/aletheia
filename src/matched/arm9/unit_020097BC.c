@@ -24,7 +24,7 @@
  *
  *   struct WifiList *sub_020097C4(u32 heap)
  *   {
- *       struct WifiList *p = sub_02030734((u16)heap, 0x7C4, 1,
+ *       struct WifiList *p = GFL_HEAP_Alloc((u16)heap, 0x7C4, 1,
  *                                         sub_020097C4_File, 57);
  *       WIFILIST_Init(p);
  *       return p;

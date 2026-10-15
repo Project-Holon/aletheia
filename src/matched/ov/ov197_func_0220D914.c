@@ -1,5 +1,5 @@
 /*
- * function: func_0220D914
+ * function: B_BAG_MAIN_DeleteCursor
  * address:  0x0220D914
  * packet:   pkt_0220D914
  * region:   ov197
@@ -27,7 +27,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 CURSOR_MOVE_Delete(void *a0);
 
-u32 func_0220D914(u8 *p)
+u32 B_BAG_MAIN_DeleteCursor(u8 *p)
 {
     return CURSOR_MOVE_Delete((void *)(((struct Obj25122 *)p)->f144));
 }

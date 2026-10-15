@@ -13,13 +13,13 @@
  * prototypes: SDK asm 414AC reads r0 and forwards the index despite void(void); 414C4 argument narrowed at 021BE1B2/B4.
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_020414C4 0x020414C4 arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_InitSlot 0x020414C4 arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   d_021C37F4 0x021C37F4 data a4
  *   d_021C396C 0x021C396C data a4
  *   d_021C382C 0x021C382C data a4
@@ -41,13 +41,13 @@ extern const Bg d_021C38AC, d_021C38CC, d_021C392C, d_021C394C;
 extern void BG_SYS_Create(u16);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u32);
+extern void BG_SYS_FreeSlot(u32);
 extern void func_020409B4(u32);
 extern void BG_SYS_Init(u32, u32, u32, u32);
-extern void func_020414C4(u32 idx);
-extern void func_0204047C(int, u16);
+extern void BG_SYS_InitSlot(u32 idx);
+extern void BG_SYS_SetVisibleLayer(int, u16);
 void WIFICLUB_InitBackgrounds(u16 heap)
 {
     Disp d;
@@ -55,42 +55,42 @@ void WIFICLUB_InitBackgrounds(u16 heap)
     int i;
     BG_SYS_Create(heap);
     d = d_021C37F4;
-    func_0203FC28((struct DispConfig *)(&d));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&d));
     b0 = d_021C396C;
     i = 0;
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&b0), 0);
-    func_020414AC(0);
+    BG_SYS_FreeSlot(0);
     func_020409B4(0);
     b1 = d_021C382C;
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&b1), 0);
-    func_020414AC(1);
+    BG_SYS_FreeSlot(1);
     func_020409B4(1);
     b2 = d_021C384C;
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&b2), 0);
     BG_SYS_Init(2, 0, 1, 0);
-    func_020414AC(2);
+    BG_SYS_FreeSlot(2);
     func_020409B4(2);
     b3 = d_021C386C;
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&b3), 0);
-    func_020414AC(3);
+    BG_SYS_FreeSlot(3);
     func_020409B4(3);
     b4 = d_021C38AC;
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&b4), 0);
-    func_020414AC(4);
+    BG_SYS_FreeSlot(4);
     b5 = d_021C38CC;
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&b5), 0);
-    func_020414AC(5);
+    BG_SYS_FreeSlot(5);
     b6 = d_021C392C;
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)(&b6), 0);
-    func_020414AC(6);
+    BG_SYS_FreeSlot(6);
     b7 = d_021C394C;
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)(&b7), 0);
-    func_020414AC(7);
-    for (; i < 7; i++) func_020414C4((u8)i);
-    func_0204047C(0, 3);
-    func_0204047C(1, 1);
-    func_0204047C(3, 1);
-    func_0204047C(2, 0);
+    BG_SYS_FreeSlot(7);
+    for (; i < 7; i++) BG_SYS_InitSlot((u8)i);
+    BG_SYS_SetVisibleLayer(0, 3);
+    BG_SYS_SetVisibleLayer(1, 1);
+    BG_SYS_SetVisibleLayer(3, 1);
+    BG_SYS_SetVisibleLayer(2, 0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
 }

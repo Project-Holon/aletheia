@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0678",
+   "name": "ZKNSEARCH_RESULT_SetRow3",
    "address": "0x021C0678",
    "kind": "game",
    "region": "ov210",

@@ -39,6 +39,8 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
  *   GF_STANDARD_Reset  0x0203F3B4  arm
+ *   GFL_HEAP_InitSystemHeapChecked  0x02030BA4  arm
+ *   GF_STANDARD_Init  0x0203EF5C  arm
  *
  * gfl_use.c, the file's __FILE__ anchor function: system boot set-up.  On a
  * non-TWL console, carve the main arena into the OS heap (Hi read before Lo,
@@ -94,10 +96,10 @@ extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
 extern u32   OS_GetConsoleType(void);
 
 extern void GFL_HEAP_Init(u32 a, u32 b, u32 c, u32 d);
-extern void  func_02030BA4(u32 a);
+extern void  GFL_HEAP_InitSystemHeapChecked(u32 a);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void  GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
-extern void  func_0203EF5C(u32 a);
+extern void  GF_STANDARD_Init(u32 a);
 extern void ARC_TOOL_SetTable(u32 a, u32 b);
 typedef signed int     s32;
 struct Ctx;
@@ -136,7 +138,7 @@ void GFL_USE_InitSystem(void)
         GFL_HEAP_Init((u32)_ArenaTableDs, 2, 0xAD, 0);
     }
 
-    func_02030BA4(0x2000);
+    GFL_HEAP_InitSystemHeapChecked(0x2000);
     GFL_HEAP_CreateChildHeap(1, 7, 0x25000);
 
     if (OS_IsRunOnTwl() == 0) {
@@ -145,7 +147,7 @@ void GFL_USE_InitSystem(void)
         GFL_HEAP_CreateChildHeap(1, 9, 0x3F00);
     }
 
-    func_0203EF5C(0);
+    GF_STANDARD_Init(0);
     ARC_TOOL_SetTable((u32)_ArcPathTable, 0xEB);
     func_02034E24(0, 0);
 

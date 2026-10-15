@@ -1,5 +1,5 @@
 /*
- * function: func_021BC240
+ * function: ZKNSEARCH_SYS_Create
  * address:  0x021BC240
  * packet:   pkt_ov210_021BC240
  * region:   ov210
@@ -27,7 +27,7 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-u32 func_021BC240(void *man, u32 b, u32 arg)
+u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg)
 {
     u32 *p;
     GFL_HEAP_CreateChildHeap(1, 0x7b, 0x60000);

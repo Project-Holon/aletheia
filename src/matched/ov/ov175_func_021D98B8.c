@@ -1,5 +1,5 @@
 /*
- * function: func_021D98B8
+ * function: WIFIBATTLEMATCH_NET_DeleteRegSprite
  * address:  0x021D98B8
  * packet:   pkt_021D98B8
  * region:   ov175
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 
 extern void func_021E82BC(char *p);
 
-void func_021D98B8(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteRegSprite(char *obj)
 {
     u32 p = ((struct Obj14330 *)obj)->f24;
     if (p != 0) {

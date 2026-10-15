@@ -1,5 +1,5 @@
 /*
- * function: func_021F2884
+ * function: NAMEIN_GRAPHIC_ConvertCellMode
  * address: 0x021F2884
  * packet: pkt_ov194_021F2884
  * region: ov194
@@ -14,27 +14,27 @@
  *   width/height unassigned on that path exactly as the image does; the
  *   earlier `else return;` spelling was a guard the original lacks.
  * symbols:
- *   func_021F2F8C 0x021F2F8C thumb ov194
- *   func_021F2F60 0x021F2F60 thumb ov194
+ *   NAMEIN_GRAPHIC_SymbolGetValue 0x021F2F8C thumb ov194
+ *   NAMEIN_GRAPHIC_GridValue 0x021F2F60 thumb ov194
  */
 typedef struct {int x,y;} Pair;
 typedef int (*Conv)(Pair *, Pair *);
-extern int func_021F2F8C(Pair *p, Pair *out);
-extern int func_021F2F60(const int *p, int *out);
-void func_021F2884(Pair *p, int oldmode, int newmode)
+extern int NAMEIN_GRAPHIC_SymbolGetValue(Pair *p, Pair *out);
+extern int NAMEIN_GRAPHIC_GridValue(const int *p, int *out);
+void NAMEIN_GRAPHIC_ConvertCellMode(Pair *p, int oldmode, int newmode)
 {
     Conv from;
     Conv to;
     int width, height, result;
     Pair xy;
     if (oldmode == 3) {
-        from = func_021F2F8C;
-        to = (Conv)func_021F2F60;
+        from = NAMEIN_GRAPHIC_SymbolGetValue;
+        to = (Conv)NAMEIN_GRAPHIC_GridValue;
         width = 13;
         height = 5;
     } else if (newmode == 3) {
-        from = (Conv)func_021F2F60;
-        to = func_021F2F8C;
+        from = (Conv)NAMEIN_GRAPHIC_GridValue;
+        to = NAMEIN_GRAPHIC_SymbolGetValue;
         width = 11;
         height = 4;
     }

@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  */
 typedef unsigned char u8;
-extern void func_0204047C(int idx, unsigned short val);
-void FLD_FACEUP_RestoreBgPriorities(u8 *p) { int i; for(i=0;i<4;i++) func_0204047C((u8)i,p[i]); }
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+void FLD_FACEUP_RestoreBgPriorities(u8 *p) { int i; for(i=0;i<4;i++) BG_SYS_SetVisibleLayer((u8)i,p[i]); }

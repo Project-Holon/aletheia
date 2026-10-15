@@ -1,5 +1,5 @@
 /*
- * function: func_021FAF1C
+ * function: STA_ACT_SCRIPT_SkipArg
  * address: 0x021FAF1C
  * packet: pkt_ov132_021FAF1C
  * region: ov132
@@ -14,7 +14,7 @@
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-int func_021FAF1C(void *a, char *p)
+int STA_ACT_SCRIPT_SkipArg(void *a, char *p)
 {
     VM_GetU32(((struct Obj23249 *)p)->f4);
     return 0;

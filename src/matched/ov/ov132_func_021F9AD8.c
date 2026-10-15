@@ -12,7 +12,7 @@
  * ABI: The matched 0203D378 body returns u32(void); the preceding guard loads r0 without an argument to that call.
  * symbols:
  *   GFL_NET_IsParentAid 0x0203D378 arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   STA_ACTING_GetActionByIndex 0x021F9774 thumb ov132
  *   _ll_mul 0x0209C054 arm
  *   _ull_mul 0x0209C054 arm
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
 extern u32 GFL_NET_IsParentAid(void);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern int STA_ACTING_GetActionByIndex(char *, unsigned);
 static inline u32 random_below(u32 n)
 {
     u32 draw;
-    draw = func_0203F0A8();
+    draw = GF_STANDARD_Rand();
     return ((u64)draw * n) >> 32;
 }
 void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot)

@@ -13,6 +13,7 @@
  *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
  *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
 
  * When the build query answers 0 and either probe is set, release the +0xdd0 word and roll the state.
  */
@@ -25,13 +26,13 @@ typedef signed int s32;
 extern u32 WORLDTRADE_ADAPTER_IsStreamDone(u8 *p);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 int WORLDTRADE_BOX_StateWaitMessageOrKey(u8 *p)
 {
     if (WORLDTRADE_ADAPTER_IsStreamDone(p + 0xfa0) == 0) {
         if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
-            func_0201F7A8((void *)(((struct Obj09227 *)p)->fDD0), 0);
+            BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj09227 *)p)->fDD0), 0);
             ((struct Obj09227 *)p)->f28 = ((struct Obj09227 *)p)->f2C;
         }
     }

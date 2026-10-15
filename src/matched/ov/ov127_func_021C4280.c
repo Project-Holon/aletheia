@@ -1,5 +1,5 @@
 /*
- * function: func_021C4280
+ * function: WIFI_2DCHAR_GetActorAnimSeqCount
  * address: 0x021C4280
  * packet: pkt_ov127_021C4280
  * region: ov127
@@ -18,4 +18,4 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
-int func_021C4280(char *p) { return CLACT_GetActorAnimSeqCount(((struct Obj23021 *)p)->f4); }
+int WIFI_2DCHAR_GetActorAnimSeqCount(char *p) { return CLACT_GetActorAnimSeqCount(((struct Obj23021 *)p)->f4); }

@@ -16,7 +16,7 @@
  *   POKELIST_HasBackButton  0x021B9AB4  thumb  ov091
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_02041570  0x02041570  arm
+ *   BG_SYS_ClearLayerEx  0x02041570  arm
  *   func_020355C4  0x020355C4  arm
  */
 
@@ -31,7 +31,7 @@ extern int POKELIST_HasBackButton(u8 *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_0207D63C(u16 *r, int a, int b, int c, int d);
-extern void func_02041570(int channel, u16 val);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u8 func_020355C4(void);
 
 #define W(o) (*(int *)(p + (o)))
@@ -49,6 +49,6 @@ void POKELIST_CloseContextMenu(u8 *p)
         func_0207D63C((u16 *)0x04000050, 0x14, 8, 0x10, 0xa);
         W(0x10) = 0;
     }
-    func_02041570(0, 0);
+    BG_SYS_ClearLayerEx(0, 0);
     W(8) = func_020355C4();
 }

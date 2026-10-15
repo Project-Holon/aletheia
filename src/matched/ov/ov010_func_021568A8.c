@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Counts the slots below n that are occupied: without a link object every
- * slot but 0, otherwise the slots for which func_021FCE28 returns 0.
+ * slot but 0, otherwise the slots for which MUS_COMM_FUNC_GetSlotValueA returns 0.
  * Byte-correct (MATCH*: the listing extent runs over the unlabelled leaf
  * at 0x021568E0). Blocker: 0x021FCE28 has no func_ label in any overlay
  * listing (ov186 has it mid-function, ov094/ov132/ov135 do not start code
@@ -18,7 +18,7 @@
  * that holds it is labelled.
  *
  * symbols:
- *   func_021FCE28  0x021FCE28  thumb
+ *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef struct Work {
     void *f28;
 } Work;
 
-extern int func_021FCE28(void *p, u8 i);
+extern int MUS_COMM_FUNC_GetSlotValueA(void *p, u8 i);
 
 u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n)
 {
@@ -40,7 +40,7 @@ u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n)
         if (w->f28 == 0) {
             if (i == 0)
                 continue;
-        } else if (func_021FCE28(w->f28, i) != 0) {
+        } else if (MUS_COMM_FUNC_GetSlotValueA(w->f28, i) != 0) {
             continue;
         }
         cnt++;

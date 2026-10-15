@@ -1,5 +1,5 @@
 /*
- * function: func_021C7EF8
+ * function: VIEWER_ACTOR_FindNearestPreset
  * address:  0x021C7EF8
  * packet:   pkt_ov111_021C7EF8
  * region:   ov111
@@ -17,7 +17,7 @@
 
 extern const int d_021C88B4[8];
 
-int func_021C7EF8(int v)
+int VIEWER_ACTOR_FindNearestPreset(int v)
 {
     int i;
 

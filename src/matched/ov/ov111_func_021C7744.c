@@ -1,5 +1,5 @@
 /*
- * function: func_021C7744
+ * function: VIEWER_ACTOR_CreateModel
  * address:  0x021C7744
  * packet:   pkt_ov111_021C7744
  * region:   ov111
@@ -116,7 +116,7 @@ extern const VecFx32 d_021C8938;
 extern const VecFx32 d_021C8944;
 extern const s16 FX_SinCosTable_[];
 
-void func_021C7744(Work *p)
+void VIEWER_ACTOR_CreateModel(Work *p)
 {
     void *mdl;
     int i;

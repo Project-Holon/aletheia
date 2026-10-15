@@ -1,5 +1,5 @@
 /*
- * function: func_021803BC
+ * function: gsiSafeStrcpyA
  * address:  0x021803BC
  * packet:   pkt_0219091C
  * region:   ov009
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
-int func_021803BC(char *dst, const char *src, unsigned int n)
+int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n)
 {
     unsigned int len = strlen((const u8 *)src);
 

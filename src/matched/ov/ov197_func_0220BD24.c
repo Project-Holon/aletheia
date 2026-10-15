@@ -1,5 +1,5 @@
 /*
- * function: func_0220BD24
+ * function: B_BAG_MAIN_LayoutFrames
  * address: 0x0220BD24
  * packet: pkt_ov197_0220BD24
  * region: ov197
@@ -16,7 +16,7 @@
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   BGWINFRM_HideFrame 0x0202CC70 thumb
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
- *   func_0220BB98 0x0220BB98 thumb
+ *   B_BAG_MAIN_GetSlotItem 0x0220BB98 thumb
  *   d_0220DB44 0x0220DB44 data a1
  */
 typedef unsigned char u8;
@@ -31,10 +31,10 @@ extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 typedef signed char    s8;
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern unsigned func_0220BB98(const char *p, unsigned n);
+extern unsigned B_BAG_MAIN_GetSlotItem(const char *p, unsigned n);
 struct S { char pad0[0x520]; struct WinMgr *mgr; char pad1[0x533-0x524]; u8 idx; char pad2[5]; u8 fl[1]; };
 #define MGR(p) (*(struct WinMgr **)((p) + 0x520))
-void func_0220BD24(char *p, int mode)
+void B_BAG_MAIN_LayoutFrames(char *p, int mode)
 {
     u32 i;
     for (i = 0; i < 14; i++) BGWINFRM_HideFrame(MGR(p), i);
@@ -58,7 +58,7 @@ void func_0220BD24(char *p, int mode)
         BGWINFRM_PutFrame(MGR(p), 10, 59, 19);
         pm = (struct WinMgr **)(p + 0x520);
         for (i = 0; i < 6; i++) {
-            if (func_0220BB98(p, i) == 0)
+            if (B_BAG_MAIN_GetSlotItem(p, i) == 0)
                 BGWINFRM_ChangePalette(MGR(p), i + 4, 0, 0, d_0220DB44[i + 4].c, d_0220DB44[i + 4].d, 6);
             else
                 BGWINFRM_ChangePalette(*pm, i + 4, 0, 0, d_0220DB44[i + 4].c, d_0220DB44[i + 4].d, 4);

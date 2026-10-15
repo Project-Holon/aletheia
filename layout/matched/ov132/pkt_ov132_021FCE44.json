@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FCE44",
-    "func_021FCE60",
-    "func_021FCE64",
-    "func_021FCE68"
+    "MUS_COMM_FUNC_GetSlotValueB",
+    "MUS_COMM_FUNC_GetRecordPtr",
+    "MUS_COMM_FUNC_GetRecordSize",
+    "MUS_COMM_FUNC_Equals"
+   ],
+   "addresses": [
+    "0x021FCE44",
+    "0x021FCE60",
+    "0x021FCE64",
+    "0x021FCE68"
    ]
   }
  ]

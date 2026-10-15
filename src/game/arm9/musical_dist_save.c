@@ -47,6 +47,7 @@
  *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
  *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
  *   MUSICAL_SAVE_GetStageData  0x0200A7F8  thumb
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  */
 struct SaveWork;
 struct SaveBlockCtrl;
@@ -152,7 +153,7 @@ extern void STRBUF_Delete(struct MsgString *str);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void  ARC_TOOL_DeleteHandle(void *narc);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
@@ -485,7 +486,7 @@ u32 MUSICAL_DIST_SAVE_IsFooterSet(struct BlockImage *image)
     u32 footer_set = 0;
 
     MI_CpuFill8(blank, 0, sizeof(blank));
-    if (func_0203EFC8(blank, image->footer, sizeof(blank)) != 0) {
+    if (GF_STANDARD_CompareBytes(blank, image->footer, sizeof(blank)) != 0) {
         footer_set = 1;
     }
     return footer_set;

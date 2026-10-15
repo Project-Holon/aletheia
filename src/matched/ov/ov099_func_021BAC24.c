@@ -15,7 +15,7 @@
  *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -43,7 +43,7 @@ extern int WIFICLUB_DeleteWindow(void *);
 struct Src;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
@@ -64,7 +64,7 @@ void WIFICLUB_CreateMenuList(char *p, Desc *out, Pair *items, int count, int kin
         y = 13;
     *(u32 *)&((struct Obj00976 *)p)->f1A4 = BMP_WIN_Create(2, (u8)(31 - width), (u8)y, (u8)width, (u32)count * 2, 15, 1);
     BMP_WIN_MakeScreen(*(struct Cfg * *)&((struct Obj00976 *)p)->f1A4);
-    func_0201F73C(((struct Obj00976 *)p)->f1A4, 2, (u16)(((struct Obj00976 *)p)->f1330), 14);
+    BMP_MENUWORK_DrawWindow(((struct Obj00976 *)p)->f1A4, 2, (u16)(((struct Obj00976 *)p)->f1330), 14);
     out->w[0] = *(u32 *)&((struct Obj00976 *)p)->fB8;
     out->w[3] = *(u32 *)&((struct Obj00976 *)p)->f1A4;
     out->w[11] = *(u32 *)&((struct Obj00976 *)p)->f1B4;

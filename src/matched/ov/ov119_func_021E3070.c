@@ -15,7 +15,7 @@
  *   PARTICLE_CreateSystemDefault  0x02050C04  arm
  *   PARTICLE_LoadArchiveMember  0x0205121C  arm
  *   PARTICLE_SetupSystem  0x02051230  arm
- *   d_021E81C0  0x021E81C0  data a1
+ *   gParticleBufferAllocTag  0x021E81C0  data a1
  */
 
 typedef unsigned short u16;
@@ -26,7 +26,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern void PARTICLE_SetupSystem(void *, void *, int, int);
-extern const char d_021E81C0[];
+extern const char gParticleBufferAllocTag[];
 
 typedef struct {
     void *a[9];         /* 0x000 */
@@ -45,7 +45,7 @@ void POKETRADE_3D_InitTradeParticleSet(S *p)
     PARTICLE_InitManager(p->heap);
     for (i = 0; i < 6; i++) {
         q = &p->a[i];
-        buf = func_02030734(p->heap, 0x4800, 1, d_021E81C0, 0x273);
+        buf = func_02030734(p->heap, 0x4800, 1, gParticleBufferAllocTag, 0x273);
         q[9] = buf;
         *q = (void *)PARTICLE_CreateSystemDefault((int)buf, 0x4800, 0, p->heap);
     }

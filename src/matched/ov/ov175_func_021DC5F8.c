@@ -1,5 +1,5 @@
 /*
- * function: func_021DC5F8
+ * function: WIFIBATTLEMATCH_NET_GetDownloadSize
  * address: 0x021DC5F8
  * packet: pkt_ov175_021DC5F8
  * region: ov175
@@ -11,7 +11,7 @@
  * symbols:
  */
 typedef unsigned int u32;
-u32 func_021DC5F8(char *p, int a, int kind)
+u32 WIFIBATTLEMATCH_NET_GetDownloadSize(char *p, int a, int kind)
 {
     if (kind == 3 || kind == 6) return *(u32 *)(p + 0x1458);
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BED10
+ * function: ZKNSEARCH_MAIN_PrintMessage10
  * address:  0x021BED10
  * packet:   pkt_ov210_021BED10
  * region:   ov210
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BECB8  0x021BECB8  thumb ov210
+ *   ZKNSEARCH_MAIN_PrintMessageText  0x021BECB8  thumb ov210
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern void func_021BECB8(u8 *p, unsigned message);
+extern void ZKNSEARCH_MAIN_PrintMessageText(u8 *p, unsigned message);
 
-void func_021BED10(void *a)
+void ZKNSEARCH_MAIN_PrintMessage10(void *a)
 {
-    func_021BECB8((u8 *)a, 0xa);
+    ZKNSEARCH_MAIN_PrintMessageText((u8 *)a, 0xa);
 }

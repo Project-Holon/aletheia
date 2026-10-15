@@ -1,5 +1,5 @@
 /*
- * function: func_021FAD2C
+ * function: STA_ACT_SCRIPT_RunScript
  * address: 0x021FAD2C
  * packet: pkt_ov132_021FAD2C
  * region: ov132
@@ -22,7 +22,7 @@ extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern void VM_Delete(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-int func_021FAD2C(void *unused, char *p)
+int STA_ACT_SCRIPT_RunScript(void *unused, char *p)
 {
     if (((struct Obj02485 *)p)->f14 != 0) (((struct Obj02485 *)p)->f14)--;
     if (((struct Obj02485 *)p)->f14 == 0 && !(((struct Obj02485 *)p)->f16 & 4)) {

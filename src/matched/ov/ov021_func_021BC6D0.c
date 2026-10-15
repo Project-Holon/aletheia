@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BG_SYS_LoadPltt  0x02040E78  arm  arm9
  */
 
 typedef struct {
@@ -21,9 +24,9 @@ typedef struct {
 } Obj;
 
 typedef unsigned int   u32;
-extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
+extern void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 
 void FIELD_PLACE_NAME_TransferPalette(Obj *p)
 {
-    func_02040E78(3, (void *)p->f150->fC, 0x20, 0);
+    BG_SYS_LoadPltt(3, (void *)p->f150->fC, 0x20, 0);
 }

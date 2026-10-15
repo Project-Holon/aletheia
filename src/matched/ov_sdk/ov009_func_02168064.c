@@ -1,5 +1,5 @@
 /*
- * function: func_02168064
+ * function: DWC_NASLoginAsync
  * address:  0x02168064
  * packet:   pkt_ov009_02168064
  * region:   ov009
@@ -42,7 +42,7 @@ extern void DWC_Free(void);
 extern NalCnt *g_021AA830;
 extern char g_021A1F74[];
 
-int func_02168064(void)
+int DWC_NASLoginAsync(void)
 {
     if (g_021AA830 != 0)
         OS_Terminate();

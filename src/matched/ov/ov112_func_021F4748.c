@@ -1,5 +1,5 @@
 /*
- * function: func_021F4748
+ * function: MUSICAL_MCSS_DeleteWindows
  * address: 0x021F4748
  * packet: pkt_ov112_021F4748
  * region: ov112
@@ -36,7 +36,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
-void func_021F4748(u8 *p)
+void MUSICAL_MCSS_DeleteWindows(u8 *p)
 {
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj01924 *)p)->f38));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj01924 *)p)->f38));

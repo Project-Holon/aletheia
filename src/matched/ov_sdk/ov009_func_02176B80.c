@@ -1,5 +1,5 @@
 /*
- * function: func_02176B80
+ * function: DWCi_CleanupReliableQueue
  * address:  0x02176B80
  * packet:   pkt_ov009_02176B80
  * region:   ov009
@@ -31,7 +31,7 @@ typedef struct QueueInfo {
 extern void DWC_Free(int kind, void *p, int size);
 extern QueueInfo g_021AB178;
 
-void func_02176B80(char *p)
+void DWCi_CleanupReliableQueue(char *p)
 {
     SendQueue *it;
 

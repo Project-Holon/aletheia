@@ -1,5 +1,5 @@
 /*
- * function: func_0219E33C
+ * function: SBServerParseKeyVals
  * address:  0x0219E33C
  * packet:   pkt_ov009_0219E33C
  * region:   ov009
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0219E2D4  0x0219E2D4  arm  ov009
- *   func_0219E274  0x0219E274  arm  ov009
- *   func_0219D114  0x0219D114  arm  ov009
+ *   CheckValidKey  0x0219E274  arm  ov009
+ *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   g_021A8160  0x021A8160  data
  */
@@ -22,12 +22,12 @@
 struct SBServer;
 
 extern char *func_0219E2D4(char *instr, char delim);
-extern int func_0219E274(char *key);
-extern int func_0219D114(char *keyname);
+extern int CheckValidKey(char *key);
+extern int qr2_internal_is_master_only_key(char *keyname);
 extern void func_0219E01C(struct SBServer *server, char *keyname, char *value);
 extern char g_021A8160[];
 
-void func_0219E33C(struct SBServer *server, char *keyvals)
+void SBServerParseKeyVals(struct SBServer *server, char *keyvals)
 {
     char *k;
     char *v;
@@ -37,7 +37,7 @@ void func_0219E33C(struct SBServer *server, char *keyvals)
         v = func_0219E2D4(0, 0x5c);
         if (v == 0)
             v = g_021A8160;
-        if (func_0219E274(k) && !func_0219D114(k))
+        if (CheckValidKey(k) && !qr2_internal_is_master_only_key(k))
             func_0219E01C(server, k, v);
         k = func_0219E2D4(0, 0x5c);
     }

@@ -16,7 +16,7 @@
  * else so it lands at the tail, POKEPARTY_GetCount returning int.
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
@@ -74,7 +74,7 @@ typedef struct Work {
     u32 f68;            /* 0x68 */
 } Work;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Big;
 struct BigObj;
 struct Blk37;
@@ -104,7 +104,7 @@ Setup *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(Work *w, int kind, int mode, S
     void *link;
     int i;
 
-    s = sub_02030734(4, sizeof(Setup), 1, d_02172978, 0x4DE);
+    s = GFL_HEAP_Alloc(4, sizeof(Setup), 1, d_02172978, 0x4DE);
     sys = GAMESYSTEM_GetGameData(w->f18->f00);
     save = GAME_DATA_GetSaveControl(sys);
     t = ZUKAN_SAVE_GetFromGameData(sys);

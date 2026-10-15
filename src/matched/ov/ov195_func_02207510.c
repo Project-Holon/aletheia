@@ -1,5 +1,5 @@
 /*
- * function: func_02207510
+ * function: SHINKA_DEMO_VIEW_DrawGrid
  * address:  0x02207510
  * packet:   pkt_02207510
  * region:   ov195
@@ -77,7 +77,7 @@ typedef struct Grid {
     u8 rows;
 } Grid;
 
-void func_02207510(Grid *w, u16 heap)
+void SHINKA_DEMO_VIEW_DrawGrid(Grid *w, u16 heap)
 {
     int j;
     int i;

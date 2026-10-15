@@ -31,7 +31,7 @@
  *   FX_Inv 0x0207C778 arm
  *   func_0207D59C 0x0207D59C arm
  *   CTVT_CAMERA_Delete 0x021B63B8 thumb ov172
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   CTVT_CAMVIEW_StepWindow 0x021B78B8 thumb ov172
  *   CTVT_CAMERA_UpdateShutterSound 0x021B64AC thumb ov172
  *   COMM_TVT_SYS_GetLayoutMode 0x021BE05C thumb ov172
@@ -100,7 +100,7 @@ extern void CTVT_CAMERA_StartCapture(struct Camera *a0);
 extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 extern void CTVT_CAMERA_Delete(struct Camera *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void CTVT_CAMERA_UpdateShutterSound(struct Camera *p);
 extern int COMM_TVT_SYS_GetLayoutMode(void *p);
 extern u32 COMM_TVT_SYS_GetHalfRes(void *p);
@@ -233,7 +233,7 @@ void CTVT_CAMVIEW_Delete(int unused, CtvtCamView *view)
         func_020307B0(view->spareBufA);
         func_020307B0(view->spareBufB);
         CTVT_CAMERA_Delete(view->camera);
-        func_020306F0(110);
+        GFL_HEAP_DeleteChecked(110);
     }
     func_020307B0(view);
 }

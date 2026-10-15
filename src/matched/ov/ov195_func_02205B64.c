@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_020419E4(void);
-void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *a0){func_020419E4();}
+extern void BG_SYS_Update(void);
+void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *a0){BG_SYS_Update();}

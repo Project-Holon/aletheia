@@ -24,7 +24,7 @@
  *   func_0200E7AC  0x0200E7AC  thumb
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   STRBUF_SetString  0x02045924  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  */
 
 typedef unsigned char  u8;
@@ -45,7 +45,7 @@ extern void *func_0200E7AC(void *obj, u32 idx);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 struct WordSet;
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
 int SCRCMD_POKEMON_FLD_RegisterStoredName(void *a, void *b)
 {
@@ -69,6 +69,6 @@ int SCRCMD_POKEMON_FLD_RegisterStoredName(void *a, void *b)
         s[0] = STRBUF_GetEosChar();
         STRBUF_SetString(x, s);
     }
-    func_0201EE0C(y, j, x, 0, 1, 2);
+    WORDSET_SetSlotTag(y, j, x, 0, 1, 2);
     return 0;
 }

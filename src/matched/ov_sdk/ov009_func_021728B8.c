@@ -16,7 +16,7 @@
  *   DWCi_FinishCancelMatch  0x02172A58  arm  ov009
  *   DWCi_GT2GetConnectionListIdx  0x0216BB6C  arm  ov009
  *   func_02199FB4  0x02199FB4  arm  ov009
- *   func_02195DE4  0x02195DE4  arm  ov009
+ *   gt2CloseAllConnectionsHard  0x02195DE4  arm  ov009
  *   DWCi_CancelReservation  0x02171F68  arm  ov009
  *   DWCi_HandleMatchCommandError  0x021719A4  arm  ov009
  *   DWCi_InvalidateReservation  0x02172B08  arm  ov009
@@ -48,7 +48,7 @@ extern int func_02175F3C(void);
 extern void DWCi_FinishCancelMatch(void);
 extern int DWCi_GT2GetConnectionListIdx(void);
 extern void func_02199FB4(int cookie);
-extern void func_02195DE4(int *p);
+extern void gt2CloseAllConnectionsHard(int *p);
 extern int DWCi_CancelReservation(int arg);
 extern int DWCi_HandleMatchCommandError(int error);
 extern int DWCi_InvalidateReservation(void);
@@ -75,7 +75,7 @@ static void func_021728B8(void)
         }
         ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
         if (anyGT2ConnectionExist) {
-            func_02195DE4((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
+            gt2CloseAllConnectionsHard((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
         } else {
             result = DWCi_HandleMatchCommandError(DWCi_CancelReservation(0));
             if (result)
@@ -103,7 +103,7 @@ static void func_021728B8(void)
     }
     if (anyGT2ConnectionExist) {
         ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
-        func_02195DE4((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
+        gt2CloseAllConnectionsHard((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
     }
     DWCi_FinishCancelMatch();
 }

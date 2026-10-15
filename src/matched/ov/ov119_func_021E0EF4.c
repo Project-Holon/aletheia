@@ -20,7 +20,7 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_02028470 0x02028470 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
@@ -43,7 +43,7 @@ extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_02028470(u8 *,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -62,6 +62,6 @@ void POKETRADE_SAVE_OpenMessageWindow(char *p,int flag,int x,int y,int w,int h)
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(v),0,0,((struct Obj01055 *)p)->f738,((struct Obj01055 *)p)->f728);
     }
-    func_0201F73C(v,1,(u16)(((struct Obj01055 *)p)->f644),15);
+    BMP_MENUWORK_DrawWindow(v,1,(u16)(((struct Obj01055 *)p)->f644),15);
     BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);func_02041B6C(6);
 }

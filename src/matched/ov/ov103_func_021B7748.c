@@ -16,7 +16,7 @@
  *   IRC_COMPATIBLE_TOUCH_TEST_ExitText 0x021B7FC8 thumb ov103
  *   IRC_COMPATIBLE_TOUCH_TEST_ExitExchange 0x021B8B1C thumb ov103
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj22174.h"
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ extern void IRC_COMPATIBLE_TOUCH_TEST_ExitText(u8 *);
 extern void IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(u8 *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int IRC_COMPATIBLE_TOUCH_TEST_ProcExit(int a, int b, int c, u8 *p)
 {
     *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
@@ -40,6 +40,6 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcExit(int a, int b, int c, u8 *p)
     IRC_COMPATIBLE_TOUCH_TEST_ExitText(p + 0x174);
     IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(p + 0x75c);
     func_020315D4((struct S020315D4 *)a);
-    func_020306F0(55);
+    GFL_HEAP_DeleteChecked(55);
     return 1;
 }

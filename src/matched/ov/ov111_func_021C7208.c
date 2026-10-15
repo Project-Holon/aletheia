@@ -1,5 +1,5 @@
 /*
- * function: func_021C7208
+ * function: VIEWER_TEXT_InitVram
  * address:  0x021C7208
  * packet:   pkt_ov111_021C7208
  * region:   ov111
@@ -29,7 +29,7 @@ struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern const unsigned char d_021C88FC[];
 
-void func_021C7208(void)
+void VIEWER_TEXT_InitVram(void)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C88FC);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);

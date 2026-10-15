@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C48
+ * function: GTSNEGO_MSG_CreateRow
  * address: 0x021D7C48
  * packet: pkt_ov120_021D7C48
  * region: ov120
@@ -37,7 +37,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-int func_021D7C48(u8 *p, int n, int a, int b, int c, int d)
+int GTSNEGO_MSG_CreateRow(u8 *p, int n, int a, int b, int c, int d)
 {
     int i;
     void *q;

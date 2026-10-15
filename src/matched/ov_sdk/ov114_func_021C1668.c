@@ -12,7 +12,7 @@
  * sdk:      SslAuthCallback (ghttpencryption.o, static)
  *
  * symbols:
- *   func_0217D254                    0x0217d254 arm  ov009
+ *   gsDebugFormat                    0x0217d254 arm  ov009
  *   sGhttpEncryptionFileName                       0x021ce7b0 data
  *   sFuncNameSslAuthCallback                       0x021ce686 data
  *   sGhttpSslReceivedCertficate                       0x021ce8f8 data
@@ -32,7 +32,7 @@ typedef struct CPSSslConnection {
     char name[0x100];           /* +0x7b0 */
 } CPSSslConnection;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern char sGhttpEncryptionFileName[];       /* __FILE__ */
 extern char sFuncNameSslAuthCallback[];       /* __FUNCTION__ */
 extern char sGhttpSslReceivedCertficate[];
@@ -46,15 +46,15 @@ extern char sGhttpSslUnknownPublicKeyAlrorithm[];
 
 int SslAuthCallback(int result, CPSSslConnection *con, int level)
 {
-    func_0217D254(8, (char *)4, 8, sGhttpSslReceivedCertficate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 938);
-    func_0217D254(8, (char *)4, 8, sGhttpLSCnI, level, con->issuer, con->name, con->subject);
+    gsDebugFormat(8, (char *)4, 8, sGhttpSslReceivedCertficate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 938);
+    gsDebugFormat(8, (char *)4, 8, sGhttpLSCnI, level, con->issuer, con->name, con->subject);
 
     if (result & 0x8000) {
-        func_0217D254(8, (char *)4, 2, sGhttpCertificateIsOutOfDate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 946);
+        gsDebugFormat(8, (char *)4, 2, sGhttpCertificateIsOutOfDate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 946);
         result &= ~0x8000;
     }
     if (result & 0x4000) {
-        func_0217D254(8, (char *)4, 2, sGhttpSslServerNameDoesNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 954);
+        gsDebugFormat(8, (char *)4, 2, sGhttpSslServerNameDoesNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 954);
         result &= ~0x4000;
     }
 
@@ -62,16 +62,16 @@ int SslAuthCallback(int result, CPSSslConnection *con, int level)
     case 0:
         break;
     case 1:
-        func_0217D254(8, (char *)4, 2, sGhttpSslNoRootCaInstalled, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 963);
+        gsDebugFormat(8, (char *)4, 2, sGhttpSslNoRootCaInstalled, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 963);
         break;
     case 2:
-        func_0217D254(8, (char *)4, 2, sGhttpSslBadSignatureDoNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 969);
+        gsDebugFormat(8, (char *)4, 2, sGhttpSslBadSignatureDoNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 969);
         break;
     case 3:
-        func_0217D254(8, (char *)4, 2, sGhttpSslUnknownSignatureAlgorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 975);
+        gsDebugFormat(8, (char *)4, 2, sGhttpSslUnknownSignatureAlgorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 975);
         break;
     case 4:
-        func_0217D254(8, (char *)4, 2, sGhttpSslUnknownPublicKeyAlrorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 981);
+        gsDebugFormat(8, (char *)4, 2, sGhttpSslUnknownPublicKeyAlrorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 981);
         break;
     }
     return result;

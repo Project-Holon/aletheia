@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02066890",
+   "name": "NNS_G2dSetCellTransferState",
    "address": "0x02066890",
    "kind": "game",
    "region": "arm9",

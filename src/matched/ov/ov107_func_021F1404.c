@@ -13,7 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_02049B40 0x02049B40 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Create 0x0203101C arm
@@ -71,7 +71,7 @@ extern u8 ov021_id[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
 struct Tcbl;
@@ -97,7 +97,7 @@ struct Work *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e)
     w->f10 = 0;
     w->f14 = (u32)GF_FONT_Create(0x17, 0, 0, 0, w->f0);
     w->f1C = (u32)func_02045B38(0, 2, (u16)c, w->f0);
-    func_0201F5BC(a, 1, 0xD, 0, w->f0);
+    BMP_MENUWORK_LoadCharAndPltt(a, 1, 0xD, 0, w->f0);
     if (a < 4)
         func_02049B40(0x17, 5, 0, 0x1C0, 0x20, w->f0);
     else

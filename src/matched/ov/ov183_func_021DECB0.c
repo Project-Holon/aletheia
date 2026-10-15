@@ -1,5 +1,5 @@
 /*
- * function: func_021DECB0
+ * function: BR_CODEIN_StatTeardown
  * address: 0x021DECB0
  * packet: pkt_ov183_021DECB0
  * region: ov183
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two trailing zero bytes are alignment padding before the next labelled function.
  * symbols:
- *   func_021DF388 0x021DF388 thumb ov183
+ *   BR_CODEIN_SearchDeleteList 0x021DF388 thumb ov183
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   func_020409B4 0x020409B4 arm
  *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
@@ -22,16 +22,16 @@
 #include "../include/Obj24600.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021DF388(char *p);
+extern void BR_CODEIN_SearchDeleteList(char *p);
 extern void BR_UTIL_Delete(u8 *p);
 extern void func_020409B4(u32 index);
 extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern int BR_UTIL_ClearTaskStep(int *a);
-void func_021DECB0(void *a, int b, char *p)
+void BR_CODEIN_StatTeardown(void *a, int b, char *p)
 {
-    func_021DF388(p + 0x28);
+    BR_CODEIN_SearchDeleteList(p + 0x28);
     ((struct Obj02894 *)p)->f100 = 0;
     BR_UTIL_Delete(((struct Obj02894 *)p)->fC);
     ((struct Obj02894 *)p)->fC = 0;

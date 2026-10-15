@@ -10,7 +10,7 @@
  * symbols:
  *   func_021D584C 0x021D584C thumb ov115
  *   func_02030EAC 0x02030EAC arm
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -22,7 +22,7 @@ extern void func_021D584C(u8 *);
 typedef unsigned int   u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Delete(void);
@@ -34,8 +34,8 @@ void func_021D4E04(u8 *p) {
         ((struct Obj02170 *)p)->f10 = 0;
         ((struct Obj02170 *)p)->f14 = 0;
     }
-    func_02040DA8(5, 1, 0);
-    func_02040DA8(6, 1, 0);
+    BG_SYS_SetTileUnit(5, 1, 0);
+    BG_SYS_SetTileUnit(6, 1, 0);
     func_020403F4(5);
     func_020403F4(4);
     func_02040588(5, 0);

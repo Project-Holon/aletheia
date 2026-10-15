@@ -1,5 +1,5 @@
 /*
- * function: func_0219D8D8
+ * function: SBQueryEngineSetPublicIP
  * address:  0x0219D8D8
  * packet:   pkt_ov009_0219D8D8
  * region:   ov009
@@ -21,12 +21,12 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov/ov009_func_0219D8D8.c \
- *       --func func_0219D8D8 --addr 0x0219D8D8 --region ov009 --arm \
+ *       --func SBQueryEngineSetPublicIP --addr 0x0219D8D8 --region ov009 --arm \
  *       --cc 1.1p1 --lang c99
  */
 #include "../include/Obj18670.h"
 
-void func_0219D8D8(int *engine, int publicip)
+void SBQueryEngineSetPublicIP(int *engine, int publicip)
 {
     ((struct Obj18670 *)engine)->f28 = publicip;
 }

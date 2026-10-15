@@ -1,5 +1,5 @@
 /*
- * function: func_021DB924
+ * function: BR_CODEIN_ButtonLoadFadePalettes
  * address:  0x021DB924
  * packet:   pkt_021DB924
  * region:   ov183
@@ -17,7 +17,7 @@
 
 extern void BR_RES_LoadFadePalettes(char *p, void *owner, unsigned short heap);
 
-void func_021DB924(int a0, char *p)
+void BR_CODEIN_ButtonLoadFadePalettes(int a0, char *p)
 {
     int v = ((struct Obj08309 *)p)->f10;
     char *q = *(char * *)&((struct Obj08309 *)p)->fC;

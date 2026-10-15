@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A0
+ * function: COMM_BTL_DEMO_MAIN_Create
  * address: 0x021B95A0
  * packet: pkt_ov213_021B95A0
  * region: ov213
@@ -56,7 +56,7 @@ extern void fade(u32,int,int,int);
 extern const char ov067_id[];
 struct Args { u8 pad[0x40]; u32 a40,a44,a48,a4C,a50; };
 struct Obj { u16 heap,pad2; struct Args *args; u8 pad8[0x49B4-8]; void *video,*font,*text,*messages,*dispatch; u8 mode,pad49C9[3]; u32 x49CC; };
-int func_021B95A0(void *manager,int *state,struct Args *args)
+int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct Args *args)
 {
     struct Obj *p;
     if(*state==1 && complete()==1) return 1;

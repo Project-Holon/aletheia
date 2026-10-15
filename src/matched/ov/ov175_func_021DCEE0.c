@@ -1,5 +1,5 @@
 /*
- * function: func_021DCEE0
+ * function: WIFIBATTLEMATCH_NET_GetErrorCode
  * address:  0x021DCEE0
  * packet:   pkt_021DCEE0
  * region:   ov175
@@ -17,7 +17,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021DCEE0(int a, int b, int c)
+u32 WIFIBATTLEMATCH_NET_GetErrorCode(int a, int b, int c)
 {
     switch (a) {
     case 0:

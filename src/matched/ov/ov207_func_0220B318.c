@@ -13,11 +13,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   ZUKAN_TOROKU_GRAPHIC_InitBg 0x0220B448 thumb ov207
  *   ZUKAN_TOROKU_GRAPHIC_InitActors 0x0220B4EC thumb ov207
  *   ZUKAN_TOROKU_GRAPHIC_VBlank 0x0220B434 thumb ov207
@@ -34,11 +34,11 @@ extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 typedef unsigned char  u8;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void ZUKAN_TOROKU_GRAPHIC_InitBg(void *,int);
 extern void ZUKAN_TOROKU_GRAPHIC_InitActors(unsigned char *p, int a, int b);
 extern void ZUKAN_TOROKU_GRAPHIC_VBlank(void *unused, u8 *p);
@@ -53,11 +53,11 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_0220BAE8);
-    func_0204363C(a);
+    BMP_SetDisplaySwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     ZUKAN_TOROKU_GRAPHIC_InitBg(p,heap);
     ZUKAN_TOROKU_GRAPHIC_InitActors((unsigned char *)(p+1),(int)d_0220BAE8,heap);
     p[3]=(unsigned)func_020056A0((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank,p,0);

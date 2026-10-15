@@ -1,5 +1,5 @@
 /*
- * function: func_02057B10
+ * function: SPL_EMITTER_ClampShort
  * address:  0x02057B10
  * packet:   pkt_02057830
  * region:   arm9
@@ -25,7 +25,7 @@ struct Obj {
     short _34;
 };
 
-void func_02057B10(struct Obj *o, struct Src *s, int t)
+void SPL_EMITTER_ClampShort(struct Obj *o, struct Src *s, int t)
 {
     short cur;
 

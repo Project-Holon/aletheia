@@ -13,7 +13,7 @@
  *           offsets and the reload of &gBtlvEff seen in the listing.
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
  *   func_020307B0  0x020307B0  arm
@@ -28,7 +28,7 @@
  *   BTLV_STAGE_Create  0x021F6560  thumb  ov094
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   BTLV_FIELD_Create  0x021F6B04  thumb  ov094
- *   func_0201493C  0x0201493C  thumb
+ *   ZONEDATA_GetTimeLightColors  0x0201493C  thumb
  *   G3D_SYSTEM_SetLight  0x02046A94  arm
  *   BTLV_CAMERA_Create  0x021F6E3C  thumb  ov094
  *   BTLV_CLACT_Create  0x02201A8C  thumb  ov094
@@ -107,7 +107,7 @@ typedef struct {
 extern struct G_0220AF20 *gBtlvEff;
 extern const char gBtlvEffectFileName[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern unsigned func_02030CB0(unsigned);
 struct Ctx;
 struct Res;
@@ -124,7 +124,7 @@ extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void *BTLV_STAGE_Create(int, u8, u8, u16);
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern void *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap);
-extern void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
+extern void ZONEDATA_GetTimeLightColors(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void *BTLV_CAMERA_Create(void *a, u16 b);
 extern struct Res *BTLV_CLACT_Create(void *owner, u16 heap);
@@ -146,11 +146,11 @@ void BTLV_EFFECT_Init(Param *p, int arg, u16 heap)
     Rect r;
     u16 out[10];
 
-    w = sub_02030734(heap, sizeof(Work), 1, gBtlvEffectFileName, 0x116);
+    w = GFL_HEAP_Alloc(heap, sizeof(Work), 1, gBtlvEffectFileName, 0x116);
     gBtlvEff = (struct G_0220AF20 *)(w);
     w->param = *p;
     w->heap = heap;
-    gBtlvEff->buf = sub_02030734(heap, func_02030CB0(0x20), 1, gBtlvEffectFileName, 0x11c);
+    gBtlvEff->buf = GFL_HEAP_Alloc(heap, func_02030CB0(0x20), 1, gBtlvEffectFileName, 0x11c);
     gBtlvEff->owner = func_02030CBC(0x20, gBtlvEff->buf);
     gBtlvEff->h188 = BTLV_EFFVM_Create(gBtlvEff->owner, heap);
     gBtlvEff->h18c = (int)PALANM_Create(heap);
@@ -172,7 +172,7 @@ void BTLV_EFFECT_Init(Param *p, int arg, u16 heap)
         gBtlvEff->h198 = BTLV_FIELD_Create(0, tbl[p->f8].a2[p->fc], v, heap);
     }
     if (tbl[p->f8].f0 != 0) {
-        func_0201493C(p->f12, p->f14, p->f15, p->f10, p->f11, out, gBtlvEff->heap);
+        ZONEDATA_GetTimeLightColors(p->f12, p->f14, p->f15, p->f10, p->f11, out, gBtlvEff->heap);
         r.w = out[0];
         r.x = 0;
         r.y = -0x1000;

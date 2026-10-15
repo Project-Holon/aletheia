@@ -1,5 +1,5 @@
 /*
- * function: func_021DC240
+ * function: WIFIBATTLEMATCH_NET_TakeRegBuffer
  * address:  0x021DC240
  * packet:   pkt_021DC240
  * region:   ov175
@@ -25,7 +25,7 @@ typedef unsigned long u32;
 extern int POKE_REGULATION_GetDataSize(void);
 extern void MI_CpuCopy8(char *dst, u32 arg, u32 src);
 
-u32 func_021DC240(char *obj, u32 arg)
+u32 WIFIBATTLEMATCH_NET_TakeRegBuffer(char *obj, u32 arg)
 {
     u32 v = ((struct Obj14345 *)obj)->f144;
 

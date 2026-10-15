@@ -17,7 +17,7 @@
  *   POKETRADE_3D_SetCubeNormal 0x021E3730 thumb ov119
  *   POKETRADE_3D_EmitCubeVertex 0x021E3700 thumb ov119
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   d_021E8144 0x021E8144 data ov119 a4
+ *   gAnimeFrameCfg 0x021E8144 data ov119 a4
  */
 typedef unsigned long u32;
 typedef unsigned short u16;
@@ -30,7 +30,7 @@ extern void POKETRADE_3D_SetCubeTexCoord(int);
 extern void POKETRADE_3D_SetCubeNormal(int);
 extern void POKETRADE_3D_EmitCubeVertex(int);
 extern const s16 FX_SinCosTable_[];
-extern u16 d_021E8144[];
+extern u16 gAnimeFrameCfg[];
 #define REG(a) (*(volatile u32 *)(a))
 void POKETRADE_3D_DrawCubeFace(int z,int index,u16 a,int b)
 {
@@ -42,8 +42,8 @@ void POKETRADE_3D_DrawCubeFace(int z,int index,u16 a,int b)
     REG(0x04000470)=0;
     REG(0x04000470)=0;
     REG(0x04000470)=z;
-    G3_RotY(FX_SinCosTable_[(d_021E8144[0]>>4)*2],FX_SinCosTable_[(d_021E8144[0]>>4)*2+1]);
-    G3_RotX(FX_SinCosTable_[(d_021E8144[1]>>4)*2],FX_SinCosTable_[(d_021E8144[1]>>4)*2+1]);
+    G3_RotY(FX_SinCosTable_[(gAnimeFrameCfg[0]>>4)*2],FX_SinCosTable_[(gAnimeFrameCfg[0]>>4)*2+1]);
+    G3_RotX(FX_SinCosTable_[(gAnimeFrameCfg[1]>>4)*2],FX_SinCosTable_[(gAnimeFrameCfg[1]>>4)*2+1]);
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;

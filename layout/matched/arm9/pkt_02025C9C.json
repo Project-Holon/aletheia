@@ -21,15 +21,15 @@
     "CURSOR_MOVE_GetTableKind",
     "CURSOR_MOVE_FindTableGroupIndex"
    ],
+   "addresses": [
+    "0x02025C9C",
+    "0x02025CB0"
+   ],
    "evidence": {
     "sole-ref": [
      "self:0x0209FB1A"
     ]
-   },
-   "addresses": [
-    "0x02025C9C",
-    "0x02025CB0"
-   ]
+   }
   }
  ]
 }

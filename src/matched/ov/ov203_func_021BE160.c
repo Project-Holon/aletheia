@@ -28,7 +28,7 @@
  *   func_021BE63C 0x021BE63C thumb ov203
  *   func_021BE920 0x021BE920 thumb ov203
  *   func_021BE938 0x021BE938 thumb ov203
- *   func_0204E8C0 0x0204E8C0 arm
+ *   DOUBLE3DDISP_Init 0x0204E8C0 arm
  *   func_02005654 0x02005654 thumb
  *   func_021BE150 0x021BE150 thumb ov203
  *   MTX_Identity33_ 0x0207ADC4 arm
@@ -38,7 +38,7 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_020115EC 0x020115EC thumb
+ *   ICA_ANIME_SetFrame 0x020115EC thumb
  *   G3D_UTIL_Create 0x02047CFC arm
  *   func_021BE7F0 0x021BE7F0 thumb ov203
  *   func_021BE874 0x021BE874 thumb ov203
@@ -108,7 +108,7 @@ extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
 extern void func_021BE63C(struct Context *ctx, struct Config *cfg, const struct Record *record, u16 heap);
 extern u32 func_021BE920(u32);
 extern int func_021BE938(void *a);
-extern void func_0204E8C0(u32);
+extern void DOUBLE3DDISP_Init(u32);
 extern int func_02005654(int a, int b);
 extern void func_021BE150(void);
 extern void MTX_Identity33_(void *);
@@ -119,7 +119,7 @@ extern int _fadd(int, int);
 extern int _fsub(int, int);
 extern int _ffix(int);
 struct IcaAnime;
-extern void func_020115EC(struct IcaAnime *p, signed int v);
+extern void ICA_ANIME_SetFrame(struct IcaAnime *p, signed int v);
 extern u32 G3D_UTIL_Create(u16, u16, u32);
 extern void *func_021BE7F0(u32);
 extern void func_021BE874(char *ctx, const char *config, u8 type);
@@ -185,7 +185,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->f14 = func_021BE920(ctx->id);
     ctx->f10 = func_021BE938((void *)ctx->id);
     if (ctx->f10) {
-        func_0204E8C0(heap);
+        DOUBLE3DDISP_Init(heap);
         func_02005654((int)func_021BE150, 0);
     }
     ctx->z30[0] = 0;
@@ -202,7 +202,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
         r = _fadd(0x3f000000, _ffltu(ctx->f7c << 12));
     else
         r = _fsub(_ffltu(ctx->f7c << 12), 0x3f000000);
-    func_020115EC((struct IcaAnime *)ctx->f18, _ffix(r));
+    ICA_ANIME_SetFrame((struct IcaAnime *)ctx->f18, _ffix(r));
     n = ctx->f2c * 6;
     ctx->f1c = G3D_UTIL_Create((u16)n, (u16)n, heap);
     e = func_021BE7F0(heap);

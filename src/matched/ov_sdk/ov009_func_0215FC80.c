@@ -1,5 +1,5 @@
 /*
- * function: func_0215FC80
+ * function: SOCL_EnableSsl
  * address:  0x0215FC80
  * packet:   pkt_ov009_0215FC80
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
- *   func_0215FD00  0x0215FD00  arm  ov009
+ *   SOCLi_ExecEnableSslCommand  0x0215FD00  arm  ov009
  */
 
 typedef struct {
@@ -24,7 +24,7 @@ typedef struct {
 } Sock;
 
 extern int func_0215F3D0(Sock *socket);
-extern int func_0215FD00(void *socket, void *con);
+extern int SOCLi_ExecEnableSslCommand(void *socket, void *con);
 
 static inline int isReady(Sock *s)
 {
@@ -38,7 +38,7 @@ static inline int isOpen(Sock *s)
 	return r;
 }
 
-int func_0215FC80(int s, void *con)
+int SOCL_EnableSsl(int s, void *con)
 {
 	Sock *socket = (Sock *)s;
 
@@ -54,5 +54,5 @@ int func_0215FC80(int s, void *con)
 	if (socket->state & 2) {
 		return -28;
 	}
-	return func_0215FD00(socket, con);
+	return SOCLi_ExecEnableSslCommand(socket, con);
 }

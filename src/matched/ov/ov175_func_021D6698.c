@@ -1,5 +1,5 @@
 /*
- * function: func_021D6698
+ * function: WIFIBATTLEMATCH_NET_CopyBoxSave
  * address: 0x021D6698
  * packet: pkt_ov175_021D6698
  * region: ov175
@@ -32,7 +32,7 @@ extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struc
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int WIFILIST_GetGsProfileId(void *a0);
-void func_021D6698(u32 *p,u32 *q)
+void WIFIBATTLEMATCH_NET_CopyBoxSave(u32 *p,u32 *q)
 {
     u32 save=((u32 *)((u32 *)q[16])[2])[0];
     u32 profile=(u32)GAME_DATA_GetSaveControl((struct Big *)save);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E1C80
+ * function: BR_CODEIN_UploadCreate
  * address: 0x021E1C80
  * packet: pkt_ov183_021E1C80
  * region: ov183
@@ -12,7 +12,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
- *   func_021E1DA8 0x021E1DA8 thumb ov183
+ *   BR_CODEIN_UploadStepFadeIn 0x021E1DA8 thumb ov183
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
@@ -32,13 +32,13 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
-extern void func_021E1DA8(int,int *,char *);
+extern void BR_CODEIN_UploadStepFadeIn(int,int *,char *);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void BR_UTIL_StartEffect(int,int,Pair *);
-int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
+int BR_CODEIN_UploadCreate(struct Obj0203159C *obj,int unused,char *arg)
 {
     char *p;
     int i;
@@ -47,7 +47,7 @@ int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
     MI_CpuFill8(p,0,32);
     *(char * *)&((struct Obj02232 *)p)->f18=arg;
     ((struct Obj02232 *)p)->f8=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct Obj05482 *)arg)->fC));
-    ((struct Obj02232 *)p)->f4=(int)BR_UTIL_CreateTask((int)p,(int)func_021E1DA8,((struct Obj02232 *)p)->f8);
+    ((struct Obj02232 *)p)->f4=(int)BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_UploadStepFadeIn,((struct Obj02232 *)p)->f8);
     ((struct Obj02232 *)p)->f0=PRINTSYS_QUE_Create((void *)(((struct Obj02232 *)p)->f8));
     ((struct Obj02232 *)p)->fC=(int)BR_UTIL_CreateTextWin(((struct Obj05482 *)arg)->f8,(void *)(((struct Obj02232 *)p)->f0),((struct Obj02232 *)p)->f8);
     BR_UTIL_SetWindowText((char *)(((struct Obj02232 *)p)->fC),(char *)(((struct Obj05482 *)arg)->f8),(void *)111);

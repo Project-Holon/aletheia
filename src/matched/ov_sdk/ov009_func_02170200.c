@@ -18,7 +18,7 @@
  *   d_021A21A0  0x021A21A0  data
  *   strlen  0x0209477C  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021864CC  0x021864CC  arm  ov009
+ *   gpSendBuddyMessageA  0x021864CC  arm  ov009
  */
 
 extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
@@ -28,7 +28,7 @@ extern char d_021A21A0[];
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern int func_021864CC(void **connection, int profile, char *message);
+extern int gpSendBuddyMessageA(void **connection, int profile, char *message);
 
 int DWCi_SendGPBuddyMsgCommand(void *conn, unsigned char command, int pid, const char *data)
 {
@@ -46,5 +46,5 @@ int DWCi_SendGPBuddyMsgCommand(void *conn, unsigned char command, int pid, const
         MI_CpuCopy8(data, p, len);
         p[len] = 0;
     }
-    return func_021864CC(conn, pid, msg);
+    return gpSendBuddyMessageA(conn, pid, msg);
 }

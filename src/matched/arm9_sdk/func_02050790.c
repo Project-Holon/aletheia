@@ -1,5 +1,5 @@
 /*
- * function: func_02050790
+ * function: LIST_PopFront
  * address:  0x02050790
  * packet:   pkt_02050790
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct tagLISTCB {
 
 extern void DWCi_LSTlErase(void *ob);
 
-void func_02050790(LISTCB *list, int b, int c)
+void LIST_PopFront(LISTCB *list, int b, int c)
 {
     DWCi_LSTlErase(list->tail);
 }

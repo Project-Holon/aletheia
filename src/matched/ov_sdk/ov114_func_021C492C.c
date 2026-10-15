@@ -12,7 +12,7 @@
  * sdk:      ghiDoReceivingStatus (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   ghiDoReceive  0x021C04D4  arm  ov114
  *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
  *   ghiDecryptReceivedData  0x021C0378  arm  ov114
@@ -56,7 +56,7 @@ typedef struct {
     int sessionEstablished;     /* 0x1A8 */
 } GHIConnection;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 struct GHIBuffer;
 struct GHIConnection;
 extern int ghiDoReceive(struct GHIConnection *connection, char *buffer, int *bufferLen);
@@ -79,7 +79,7 @@ void ghiDoReceivingStatus(GHIConnection *connection)
     char *endOfStatus;
     int statusLength;
 
-    func_0217D254(8, (char *)3, 0x10, sGhttpReceivingStatus);
+    gsDebugFormat(8, (char *)3, 0x10, sGhttpReceivingStatus);
 
     bufferLen = sizeof(buffer);
     result = ghiDoReceive((struct GHIConnection *)connection, buffer, &bufferLen);
@@ -123,7 +123,7 @@ void ghiDoReceivingStatus(GHIConnection *connection)
             ghiResetBuffer(&connection->recvBuffer);
             connection->state = 6;
             ghiCallProgressCallback((struct GHIConnection *)connection, 0, 0);
-            func_0217D254(8, 0, 0x10, sGhttpGotHttpContinue);
+            gsDebugFormat(8, 0, 0x10, sGhttpGotHttpContinue);
         }
         else
         {

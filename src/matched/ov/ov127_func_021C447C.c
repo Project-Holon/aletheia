@@ -1,5 +1,5 @@
 /*
- * function: func_021C447C
+ * function: WIFI_2DCHAR_IsCellUsed
  * address:  0x021C447C
  * packet:   pkt_021C447C
  * region:   ov127
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C447C(char *p, int i)
+int WIFI_2DCHAR_IsCellUsed(char *p, int i)
 {
     if (*(int *)(p + i * 0x14 + 0x14) == -1)
         return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02070F2C
+ * function: NNSi_G3dTexMtxScaleRotTrans4x4
  * address:  0x02070F2C
  * packet:   pkt_02070DDC
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The 64-bit sibling of src/matched/func_02071034.c (docs/notes/pkt_02070DDC.c.txt),
+ * The 64-bit sibling of src/matched/NNSi_G3dTexMtxRotTrans4x4.c (docs/notes/pkt_02070DDC.c.txt),
  * and the member of the 0x02071CDC constructor family that carries the full
  * s32 2x2 block AND the f24/f28 cross terms.
  *
@@ -54,7 +54,7 @@ struct Dst { s32 f00; s32 f04; u8 pad_08[8]; s32 f10; s32 f14;
 extern void FX_DivAsync(s32 num, s32 den);
 extern s32  FX_GetDivResult(void);
 
-void func_02070F2C(struct Dst *d, struct Src *s)
+void NNSi_G3dTexMtxScaleRotTrans4x4(struct Dst *d, struct Src *s)
 {
     s32 c, e;
     s32 a, b, p, r;

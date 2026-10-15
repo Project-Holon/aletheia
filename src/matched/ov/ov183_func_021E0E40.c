@@ -1,5 +1,5 @@
 /*
- * function: func_021E0E40
+ * function: BR_CODEIN_ProfileGetActorIndex
  * address: 0x021E0E40
  * packet: pkt_ov183_021E0E40
  * region: ov183
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021E0E40(int a, int b) { int n=0; if(b==0)n=11; return n+a; }
+int BR_CODEIN_ProfileGetActorIndex(int a, int b) { int n=0; if(b==0)n=11; return n+a; }

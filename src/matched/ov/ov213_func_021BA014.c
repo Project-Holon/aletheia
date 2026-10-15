@@ -1,5 +1,5 @@
 /*
- * function: func_021BA014
+ * function: COMM_BTL_DEMO_MAIN_DeleteActorRow
  * address: 0x021BA014
  * packet: pkt_ov213_021BA014
  * region: ov213
@@ -15,4 +15,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021BA014(u8 *p) {int i;for(i=0;i<p[11];i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+12+i*4)));}
+void COMM_BTL_DEMO_MAIN_DeleteActorRow(u8 *p) {int i;for(i=0;i<p[11];i++)CLACT_DeleteActor((struct Obj *)(*(u32 *)(p+12+i*4)));}

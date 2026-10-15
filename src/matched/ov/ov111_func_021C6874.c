@@ -1,5 +1,5 @@
 /*
- * function: func_021C6874
+ * function: VIEWER_TEXT_DrawPage
  * address:  0x021C6874
  * packet:   pkt_ov111_021C6874
  * region:   ov111
@@ -16,7 +16,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_021C63B8  0x021C63B8  thumb  ov111
+ *   VIEWER_TEXT_DrawRow  0x021C63B8  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -39,9 +39,9 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
-extern void func_021C63B8(Work *p, void *a, int sel, int y, int idx);
+extern void VIEWER_TEXT_DrawRow(Work *p, void *a, int sel, int y, int idx);
 
-void func_021C6874(Work *p, int scroll, int flush, int idx)
+void VIEWER_TEXT_DrawPage(Work *p, int scroll, int flush, int idx)
 {
     void *bg = p->bg;
     int i;
@@ -49,7 +49,7 @@ void func_021C6874(Work *p, int scroll, int flush, int idx)
 
     BMP_Clear(BMP_WIN_GetBmp(bg), 0);
     for (i = 0; i < 5; i++) {
-        func_021C63B8(p, bg, p->list[i + top], scroll % 16 + i * 16, idx);
+        VIEWER_TEXT_DrawRow(p, bg, p->list[i + top], scroll % 16 + i * 16, idx);
     }
     if (flush) {
         BMP_WIN_TransferChars(bg);

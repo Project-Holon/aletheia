@@ -32,7 +32,7 @@
  *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
  *   gsXmlCloseWriter  0x02181DE8  arm  ov009
  *   gsXmlFreeWriter  0x02181D84  arm  ov009
- *   func_0217FE68  0x0217FE68  arm  ov009
+ *   gsiExecuteSoapCustom  0x0217FE68  arm  ov009
  *   sciWsSubmitReportCustom  0x021E0D84  arm  ov175
  *   sciWsSubmitReportCallback  0x021E0FE8  arm  ov175
  *
@@ -103,7 +103,7 @@ extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag,
 extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int gsXmlCloseWriter(void *stream);
 extern void gsXmlFreeWriter(void **p);
-extern void *func_0217FE68(char *theURL, char *theService, void *theRequestSoap,
+extern void *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap,
                            void (*theCallbackFunc)(int, void *, void *, void *),
                            void (*theRequestFunc)(void *, void *), void *theUserData);
 extern void sciWsSubmitReportCustom(char *a, char *b);
@@ -142,7 +142,7 @@ int sciWsSubmitReport(SCWebServices *theWebServices, unsigned int theGameId, cha
     theWebServices->mSubmitReportDataCallback = theCallback;
     theWebServices->mSubmitReportUserData = theUserData;
     theWebServices->mSubmitReportPending = 1;
-    func_0217FE68(gScStatsServiceUrl, sSciSoapActionSubmitReport, aRequest, (void (*)(int, void *, void *, void *))sciWsSubmitReportCallback,
+    gsiExecuteSoapCustom(gScStatsServiceUrl, sSciSoapActionSubmitReport, aRequest, (void (*)(int, void *, void *, void *))sciWsSubmitReportCallback,
                   (void (*)(void *, void *))sciWsSubmitReportCustom, theWebServices);
     return 0;
 }

@@ -23,15 +23,15 @@
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_02184A20 0x02184A20 data a4
  *   func_02030EAC  0x02030EAC  arm
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   ov088_id       0x00000058  data  a1
  *   d_021BD574     0x021BD574  data  a4
- *   func_02030D28   0x02030D28  arm
+ *   TCB_Main   0x02030D28  arm
  *   WIPE_SYS_Start   0x0202208C  thumb
  *   WIPE_SYS_EndCheck   0x020221A4  thumb
  *   func_0218484C   0x0218484C  thumb
@@ -71,7 +71,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
@@ -85,7 +85,7 @@
  *   func_02049B40 0x02049B40 arm
  *   func_02049624 0x02049624 arm
  *   func_0204989C 0x0204989C arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   func_02045B38 0x02045B38 arm
  *   BMP_WIN_CreateAt 0x02045180 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -216,13 +216,13 @@ extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_020056A0(u32,u32,u32);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_02030EAC(struct Node *n);
-extern void func_02030DA4(int);
+extern void TCB_Noop(int);
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int func_0218484C(void);
@@ -257,7 +257,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(unsigned);
@@ -269,7 +269,7 @@ extern void BG_SYS_Delete(void);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 extern unsigned int BMP_WIN_CreateAt(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, unsigned int offset);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -403,7 +403,7 @@ int func_02183C50(int a, int b, int c, void *p)
 
     func_02184408((int *)((char *)p + 0xf8));
     func_02030EAC((struct Node *)(*(int *)((char *)p + 0x148)));
-    func_02030DA4(*(int *)((char *)p + 0x144));
+    TCB_Noop(*(int *)((char *)p + 0x144));
     func_020307B0((void *)(*(int *)((char *)p + 0x140)));
     func_02184138(p);
     func_02183F98(p);
@@ -412,7 +412,7 @@ int func_02183C50(int a, int b, int c, void *p)
     func_02183F08();
     v = (unsigned short)*(int *)((char *)p + 0x14c);
     func_020315D4((struct S020315D4 *)a);
-    func_020306F0(v);
+    GFL_HEAP_DeleteChecked(v);
     GFL_USE_FadeInBgmFull(0xa);
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);
     return 1;
@@ -428,7 +428,7 @@ int func_02183C50(int a, int b, int c, void *p)
 
 /*
  * Gate on p+0x130, then run the four init/teardown helpers and the
- *   word at p+0x144 through func_02030D28.
+ *   word at p+0x144 through TCB_Main.
  */
 int func_02183CCC(int a, int b, int c, char *p)
 {
@@ -438,7 +438,7 @@ int func_02183CCC(int a, int b, int c, char *p)
     func_02183FA0((void **)p);
     func_021841F4(p + 0xE4);
     func_0218441C((int *)(p + 0xF8));
-    func_02030D28((struct Ctx *)(((struct Obj23813 *)p)->f144));
+    TCB_Main((struct Ctx *)(((struct Obj23813 *)p)->f144));
     return 0;
 }
 
@@ -824,7 +824,7 @@ void func_0218414C(char *p, int heap)
     unsigned bg;
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_02184878);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_02184878);
     ((struct Obj23821 *)p)->f10 = GF_FONT_Create(23, 0, 0, 0, (u16)heap);
     for (i = 0; i < 5; i++) {
         bg = d_02184964[i * 0x24 + 0x20];
@@ -889,7 +889,7 @@ void func_021841F8(void *p, int heap)
 
 
 
-void func_021842B4(void *p) { func_020419E4(); }
+void func_021842B4(void *p) { BG_SYS_Update(); }
 
 
 

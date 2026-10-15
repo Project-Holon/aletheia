@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F004
+ * function: GF_STANDARD_GetStringLength
  * address:  0x0203F004
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -21,14 +21,14 @@
  * and wants seeding into layout/function_starts.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F004.c \
- *       --func func_0203F004 --addr 0x0203F004 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetStringLength.c \
+ *       --func GF_STANDARD_GetStringLength --addr 0x0203F004 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_0203F004(const u8 *s)
+u32 GF_STANDARD_GetStringLength(const u8 *s)
 {
     u32 n = 0;
 

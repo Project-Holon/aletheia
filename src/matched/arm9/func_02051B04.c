@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * ARM leaf, seeded 2026-09-27 from the ov195 call site 0x02208954
- * (func_0220887C). Returns the u16 at +8 of its argument.
+ * (SHINKA_DEMO_EFFECT_CreateParticle). Returns the u16 at +8 of its argument.
  *
  * Addresses are Black-image addresses.
  */

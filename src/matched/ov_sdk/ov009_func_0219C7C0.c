@@ -21,7 +21,7 @@
  * sdk:      qr2_parse_queryA (libdwcgsqr2.TWL.HYB.a qr2.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm
  *   NNProcessData  0x0219AB8C  arm  ov009
  *   qr_add_packet_header  0x0219BA84  arm  ov009
@@ -35,7 +35,7 @@
  *   func_0219C554  0x0219C554  arm  ov009
  *   qr_process_client_message  0x0219C3A4  arm  ov009
  *   sendto  0x0217ECA4  arm  ov009
- *   func_0217D32C  0x0217D32C  arm  ov009
+ *   gsDebugBinary  0x0217D32C  arm  ov009
  *   current_rec    0x021A6600  data
  *   gNatNegMagic     0x021A5A7C  data
  *   g_021A7874     0x021A7874  data
@@ -106,7 +106,7 @@ extern char g_021A7A38[];
 extern char g_021A7A58[];
 extern char g_021A7A74[];
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
                           const char *theTokenStr, ...);
 extern int func_020923F0(const void *s1, const void *s2, int n);
 extern void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
@@ -126,7 +126,7 @@ extern int func_0219C554(qr2_implementation_s *qrec, int msgkey);
 extern void qr_process_client_message(qr2_implementation_s *qrec, char *buf, int len);
 extern int sendto(int sock, char *buf, int len, int flags,
                          SOCSockAddr *addr, int tolen);
-extern void func_0217D32C(int theCat, int theType, unsigned char theLevel,
+extern void gsDebugBinary(int theCat, int theType, unsigned char theLevel,
                           char *theBuffer, int theLength);
 
 void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
@@ -140,21 +140,21 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
     unsigned int backendoptions;
 
     buf.len = 0;
-    func_0217D254(3, 0, 0x40, g_021A7874);
+    gsDebugFormat(3, 0, 0x40, g_021A7874);
     if (qrec == 0)
         qrec = current_rec;
     i = query[0];
     if (i == ';') {
         if (qrec->cdkeyprocess != 0) {
-            func_0217D254(3, 0, 8, g_021A788C);
+            gsDebugFormat(3, 0, 8, g_021A788C);
             qrec->cdkeyprocess(query, len, sender);
         } else {
-            func_0217D254(3, 0, 2, g_021A78B4);
+            gsDebugFormat(3, 0, 2, g_021A78B4);
         }
         return;
     }
     if (len >= 6 && func_020923F0(query, ((unsigned char *)&gNatNegMagic), 6) == 0) {
-        func_0217D254(3, 0, 8, g_021A78F0);
+        gsDebugFormat(3, 0, 8, g_021A78F0);
         NNProcessData(query, len, (SOCSockAddrIn *)sender);
         return;
     }
@@ -170,12 +170,12 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
 
     switch (ptype) {
     case 9:
-        func_0217D254(3, 0, 8, g_021A791C);
+        gsDebugFormat(3, 0, 8, g_021A791C);
         if (qr2_process_ip_verify(qrec, &buf, (SOCSockAddrIn *)sender) == 0)
             return;
         break;
     case 0:
-        func_0217D254(3, 0, 8, g_021A7944);
+        gsDebugFormat(3, 0, 8, g_021A7944);
         if ((qrec->backendoptions & 0x80) == 0x80) {
             if (len < 4)
                 return;
@@ -188,23 +188,23 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         qr_process_query(qrec, &buf, (unsigned char *)pos, len, sender);
         return;
     case 1:
-        func_0217D254(3, 0, 8, g_021A7960);
+        gsDebugFormat(3, 0, 8, g_021A7960);
         for (i = 0; i < 4; i++)
             if (reqkey[i] != qrec->instance_key[i])
                 return;
         if (len >= 15) {
             func_0208CF34(pos + len - 15, g_021A7980, &backendoptions);
             qrec->backendoptions = (unsigned char)backendoptions;
-            func_0217D254(3, 4, 8, g_021A7988, qrec->backendoptions);
+            gsDebugFormat(3, 4, 8, g_021A7988, qrec->backendoptions);
             if (qrec->pa_callback != 0)
                 handle_public_address(qrec, pos + len - 13);
             else
-                func_0217D254(3, 0, 8, g_021A79A8);
+                gsDebugFormat(3, 0, 8, g_021A79A8);
         }
         compute_challenge_response(qrec, &buf, pos, len);
         break;
     case 2:
-        func_0217D254(3, 0, 8, g_021A79D8);
+        gsDebugFormat(3, 0, 8, g_021A79D8);
         if (len > 32)
             len = 32;
         buf.buffer[0] = 5;
@@ -212,7 +212,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         buf.len += len;
         break;
     case 4:
-        func_0217D254(3, 0, 2, g_021A79F4);
+        gsDebugFormat(3, 0, 2, g_021A79F4);
         if (qrec->listed_state == -1)
             return;
         for (i = 0; i < 4; i++)
@@ -224,7 +224,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         qrec->adderror_callback(pos[0], pos + 1, qrec->udata);
         return;
     case 6:
-        func_0217D254(3, 0, 8, g_021A7A14);
+        gsDebugFormat(3, 0, 8, g_021A7A14);
         for (i = 0; i < 4; i++)
             if (reqkey[i] != qrec->instance_key[i])
                 return;
@@ -238,10 +238,10 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
             qr_process_client_message(qrec, pos + 4, len - 4);
         break;
     case 8:
-        func_0217D254(3, 0, 0x10, g_021A7A38);
+        gsDebugFormat(3, 0, 0x10, g_021A7A38);
         return;
     case 10:
-        func_0217D254(3, 0, 0x10, g_021A7A58);
+        gsDebugFormat(3, 0, 0x10, g_021A7A58);
         if (qrec->hr_callback == 0)
             return;
         qrec->hr_callback(qrec->udata);
@@ -251,6 +251,6 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
     }
 
     sendto(qrec->hbsock, buf.buffer, buf.len, 0, sender, 8);
-    func_0217D254(3, 0, 0x10, g_021A7A74, buf.len);
-    func_0217D32C(3, 0, 0x20, buf.buffer, buf.len);
+    gsDebugFormat(3, 0, 0x10, g_021A7A74, buf.len);
+    gsDebugBinary(3, 0, 0x20, buf.buffer, buf.len);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C9E10
+ * function: WF2DMAP_TOUCH_CreateWidgetHandles
  * address: 0x021C9E10
  * packet: pkt_ov128_021C9E10
  * region: ov128
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u16 d_021CA648[4];
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
-void func_021C9E10(u8 *p,u8 *q,u16 heap)
+void WF2DMAP_TOUCH_CreateWidgetHandles(u8 *p,u8 *q,u16 heap)
 {
     u16 ids[4];
     int i;

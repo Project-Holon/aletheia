@@ -21,7 +21,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   SCRIPT_WORK_GetTempBuffer  0x02158F7C  thumb  ov010
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   VM_SetWait  0x020113D0  thumb
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  *   SCRCMD_MSGWIN_WaitBgWin  0x021B1240  thumb
@@ -43,7 +43,7 @@ extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern u32 SCRIPT_WORK_GetTempBuffer(u8 *p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void VM_SetWait(char *p, int val);
 extern void SCRIPT_WORK_SetCheckFlag(int);
 extern int SCRCMD_MSGWIN_WaitBgWin(int, int);
@@ -64,7 +64,7 @@ int SCRCMD_MSGWIN_CmdBgWinMsg(int a, unsigned char *b)
     y = (int)SCRIPT_WORK_GetWordSet(o);
     z = SCRIPT_WORK_GetTempBuffer(o);
     MSGDATA_ReadString((struct MsgBank *)s2, s0, (void *)z);
-    func_0201F250((struct WordSet *)y, (void *)x, (void *)z);
+    WORDSET_CopyTaggedText((struct WordSet *)y, (void *)x, (void *)z);
     VM_SetWait((char *)a, (int)SCRCMD_MSGWIN_WaitBgWin);
     SCRIPT_WORK_SetCheckFlag(4);
     return 1;

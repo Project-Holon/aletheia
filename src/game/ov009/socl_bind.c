@@ -1,7 +1,7 @@
 /*
  * file:     socl_bind.c
  * unit:     yes
- * function: func_0215D43C, func_0215D4AC, func_0215D5F8, func_0215D650
+ * function: func_0215D43C, SOCL_Connect, func_0215D5F8, SOCLi_BindCallBack
  * address:  0x0215D43C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -106,8 +106,8 @@ extern void func_02086078(void *mutex);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long CPS_TcpConnect(void);
 int SOCL_Bind(int s, unsigned short local_port);
-int func_0215D4AC(int s, unsigned short remote_port, unsigned long remote_ip);
-int func_0215D650(void *arg);
+int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip);
+int SOCLi_BindCallBack(void *arg);
 extern unsigned long g_021A82BC;
 extern unsigned long g_021A827C;
 extern int g_021A1CE0;
@@ -142,7 +142,7 @@ int SOCL_Bind(int s, unsigned short local_port)
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
-int func_0215D4AC(int s, unsigned short remote_port, unsigned long remote_ip)
+int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip)
 {
 	struct SOCLSocket_0215D4AC *socket = (struct SOCLSocket_0215D4AC *)s;
 
@@ -224,7 +224,7 @@ static int SOCLi_ExecBindCommand(struct SOCLSocket_0215D5F8 *socket)
  * note:     the socket state word is spelled volatile: the only spelling found that
  *           keeps the per-arm ldrsh/strh (the vendor DWARF carries no volatile).
  */
-int func_0215D650(void *arg)
+int SOCLi_BindCallBack(void *arg)
 {
 	CmdBind *cpacket;
 	Socket *socket;

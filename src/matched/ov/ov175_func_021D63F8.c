@@ -1,5 +1,5 @@
 /*
- * function: func_021D63F8
+ * function: WIFIBATTLEMATCH_NET_StartBoxAnim
  * address: 0x021D63F8
  * packet: pkt_ov175_021D63F8
  * region: ov175
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 extern int func_021E5548(int *);
 extern u32 func_021E7520(u32,u32,u32,u32,u32,u32,u32,u32,u32,u32,u32);
-void func_021D63F8(u32 *p,u32 arg)
+void WIFIBATTLEMATCH_NET_StartBoxAnim(u32 *p,u32 arg)
 {
     u32 b,a;
     if (p[7] == 0) {

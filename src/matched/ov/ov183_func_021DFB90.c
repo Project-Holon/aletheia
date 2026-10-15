@@ -1,5 +1,5 @@
 /*
- * function: func_021DFB90
+ * function: BR_CODEIN_CodeSetupButtons
  * address: 0x021DFB90
  * packet: pkt_ov183_021DFB90
  * region: ov183
@@ -40,7 +40,7 @@ extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,u16);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void MI_CpuFill8(void *,int,int);
-int func_021DFB90(char *p,char *q)
+int BR_CODEIN_CodeSetupButtons(char *p,char *q)
 {
     int first,second,i;
     struct Request req;

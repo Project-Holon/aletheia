@@ -1,5 +1,5 @@
 /*
- * function: func_0220F158
+ * function: B_PLIST_MAIN_GetMonAnimState
  * address: 0x0220F158
  * packet: pkt_ov198_0220F158
  * region: ov198
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Bits { u8 low:3; u8 kind:4; u8 high:1; };
 extern int func_0202D034(unsigned,unsigned);
-int func_0220F158(char *p)
+int B_PLIST_MAIN_GetMonAnimState(char *p)
 {
     u16 a=((struct Obj10848 *)p)->f10;
     if (a==0) return 0;

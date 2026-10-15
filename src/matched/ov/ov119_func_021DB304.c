@@ -15,7 +15,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   d_021E8044 0x021E8044 data a1
+ *   gSubScreenHitAreas 0x021E8044 data a1
  *   POKETRADE_2D_CreateCursorActor 0x021E6FD4 thumb ov119
  *   POKETRADE_PROC_FindMatchingBoxIcon 0x021DB1BC thumb ov119
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -38,7 +38,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 a,b,c,d; } Rect;
-extern Rect d_021E8044[];
+extern Rect gSubScreenHitAreas[];
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *),TOUCHPANEL_HitTrg(const void *);
 extern void POKETRADE_2D_CreateCursorActor(char *,int,int);
@@ -59,10 +59,10 @@ void POKETRADE_PROC_StepSubScreenList(char *p)
     int index;
     BG_SYS_SetSubVisiblePlanes(31);
     if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
-        index=TOUCHPANEL_HitTrg(d_021E8044);
+        index=TOUCHPANEL_HitTrg(gSubScreenHitAreas);
         if(index!=-1) {
             ((struct Obj00001 *)p)->f800=(u32)index+1u;
-            POKETRADE_2D_CreateCursorActor(p,d_021E8044[index].c,d_021E8044[index].a);
+            POKETRADE_2D_CreateCursorActor(p,gSubScreenHitAreas[index].c,gSubScreenHitAreas[index].a);
             if(POKETRADE_PROC_FindMatchingBoxIcon(p,index)) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
                 *(volatile u32 *)0x04001000 &= 0xffff1fff;

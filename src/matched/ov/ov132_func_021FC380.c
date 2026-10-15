@@ -1,5 +1,5 @@
 /*
- * function: func_021FC380
+ * function: SCRIPT_COMMAND_CmdCharFollowActor
  * address: 0x021FC380
  * packet: pkt_ov132_021FC380
  * region: ov132
@@ -10,18 +10,18 @@
  * status: EXACT
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021FB1F4 0x021FB1F4 thumb ov132
+ *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
- *   func_021F8044 0x021F8044 thumb ov112
- *   func_021F6EF4 0x021F6EF4 thumb ov112
+ *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
  *   VEC_Add 0x0207C9D0 arm
  *   func_02030734 0x02030734 arm
- *   func_021FADA0 0x021FADA0 thumb ov132
- *   func_021FC490 0x021FC490 thumb ov132
+ *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
+ *   SCRIPT_COMMAND_TaskCharFollow 0x021FC490 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
 #include "../include/Obj02487.h"
@@ -33,20 +33,20 @@ typedef unsigned int u32;
 typedef struct { int x,y,z; } Vec;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021FB1F4(char *,int);
+extern int SCRIPT_COMMAND_GetActorMask(char *,int);
 extern void *STA_ACTING_GetCharSystem(void *);
 extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *STA_ACTING_GetBoard(void *p);
-extern void func_021F8044(void *unused, u32 *p, u32 *q);
-extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
+extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 extern void VEC_Add(const Vec *,const Vec *,Vec *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void *func_021FADA0(char *,u32,u32,u32);
-extern void func_021FC490(int,char *);
+extern void *STA_ACT_SCRIPT_AddTask(char *,u32,u32,u32);
+extern void SCRIPT_COMMAND_TaskCharFollow(int,char *);
 extern const char d_021FDD00[];
-int func_021FC380(int unused,char *p)
+int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p)
 {
  char *owner,*q;
  Vec pos,delta;
@@ -56,7 +56,7 @@ int func_021FC380(int unused,char *p)
  u8 i;
  owner=*(char * *)&((struct Obj04519 *)p)->f0;
  a=VM_GetU32(((struct Obj04519 *)p)->f4);
- b=func_021FB1F4(p,VM_GetU32(((struct Obj04519 *)p)->f4));
+ b=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(((struct Obj04519 *)p)->f4));
  c=VM_GetU32(((struct Obj04519 *)p)->f4);
  d=VM_GetU32(((struct Obj04519 *)p)->f4);
  e=VM_GetU32(((struct Obj04519 *)p)->f4);
@@ -69,10 +69,10 @@ int func_021FC380(int unused,char *p)
   obj=STA_ACTING_GetActor(((struct Obj04520 *)owner)->f34,i);
   if(b&(1<<i)) {
    if(c==0) {
-    func_021F8044(scene,obj,(u32 *)(&pos));
+    STA_ACT_LIGHT_ElemOpA(scene,obj,(u32 *)(&pos));
     delta.x=d;delta.y=e;delta.z=f;
     VEC_Add(&pos,&delta,&pos);
-    func_021F6EF4(ctx,target,(const u32 *)(&pos));
+    STA_ACT_LIGHT_CopyElemA(ctx,target,(const u32 *)(&pos));
    } else {
     STA_ACTING_GetBoard(((struct Obj04520 *)owner)->f34);
     q=func_02030734(((struct Obj04520 *)owner)->f0,0x30,0,d_021FDD00,0x74D);
@@ -84,7 +84,7 @@ int func_021FC380(int unused,char *p)
     ((struct Obj02487 *)q)->f1E=0;
     ((struct Obj02487 *)q)->f10=d;((struct Obj02487 *)q)->f14=e;((struct Obj02487 *)q)->f18=f;
     ((struct Obj02487 *)q)->f1C=duration;
-    ((struct Obj02487 *)q)->f2C=func_021FADA0(owner,(u32)func_021FC490,(u32)q,7);
+    ((struct Obj02487 *)q)->f2C=STA_ACT_SCRIPT_AddTask(owner,(u32)SCRIPT_COMMAND_TaskCharFollow,(u32)q,7);
    }
   }
  }

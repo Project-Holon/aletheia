@@ -20,7 +20,7 @@
  *
  * The id 0x75 guard is what makes this correct game behaviour: a record the
  * player has renamed keeps its nickname across a species change, and one that
- * never was renamed follows the species.  func_02019ABC (unit_02019ABC.c) is
+ * never was renamed follows the species.  POKE_TOOL_IsDefaultName (unit_02019ABC.c) is
  * what sets that bit, and POKE_TOOL_GetBoxValueRaw reads it back as id 0x75.
  *
  * WHAT WAS WRONG IN THE EARLIER NOTE, AND WHAT CLOSED IT

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF838
+ * function: BR_CODEIN_SearchBuildHeader
  * address: 0x021DF838
  * packet: pkt_ov183_021DF838
  * region: ov183
@@ -54,7 +54,7 @@
 extern void MI_CpuFill8(void *, int, unsigned int);
 typedef unsigned char  u8;
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-void func_021DF838(int p, char *out)
+void BR_CODEIN_SearchBuildHeader(int p, char *out)
 {
     long i;
     int a, b, c;

@@ -15,6 +15,7 @@
  *   RESEARCH_GRAPH_TransferPalettes  0x021BF6BC  thumb  ov217
  *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -28,11 +29,11 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 PALANM_TransferPalettes();
-extern u32 func_020419E4();
+extern u32 BG_SYS_Update();
 extern void CLACT_VBlankSystem(void);
 u32 RESEARCH_GRAPH_TransferPalettes(u32 a0, u32 a1)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     return PALANM_TransferPalettes(((struct Obj25930 *)(((u8*)a1)))->f3B8);
 }

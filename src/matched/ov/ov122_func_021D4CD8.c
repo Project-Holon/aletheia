@@ -16,6 +16,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj01405.h"
 typedef unsigned char u8;
@@ -34,7 +35,7 @@ struct WordSet;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -47,7 +48,7 @@ void INTRUDE_COMM_VIEW_DrawRowText(int i, int value, int force, int mode, Object
     BMP_Clear(BMP_WIN_GetBmp(p->f10[i]), 0);
     if (mode) {
         MSGDATA_ReadString(((struct Obj01405 *)p)->f44, value, ((struct Obj01405 *)p)->f50);
-        func_0201F250(((struct Obj01405 *)p)->f48, ((struct Obj01405 *)p)->f54, ((struct Obj01405 *)p)->f50);
+        WORDSET_CopyTaggedText(((struct Obj01405 *)p)->f48, ((struct Obj01405 *)p)->f54, ((struct Obj01405 *)p)->f50);
     } else {
         MSGDATA_ReadString(((struct Obj01405 *)p)->f44, value, ((struct Obj01405 *)p)->f54);
     }

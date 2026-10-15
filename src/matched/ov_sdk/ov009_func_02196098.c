@@ -12,9 +12,9 @@
  * sdk:      gti2HandleAppUnreliable (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
- *   func_02195340  0x02195340  arm  ov009
- *   func_021950B4  0x021950B4  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
+ *   gti2ReceiveFilterCallback  0x02195340  arm  ov009
+ *   gti2ReceivedCallback  0x021950B4  arm  ov009
  */
 
 typedef struct Conn {
@@ -24,9 +24,9 @@ typedef struct Conn {
 	void *filters;
 } Conn;
 
-extern int func_02184200(const int *p);
-extern int func_02195340(Conn *c, int filterID, unsigned char *msg, int len, int reliable);
-extern int func_021950B4(Conn *c, unsigned char *msg, int len, int reliable);
+extern int ArrayLength(const int *p);
+extern int gti2ReceiveFilterCallback(Conn *c, int filterID, unsigned char *msg, int len, int reliable);
+extern int gti2ReceivedCallback(Conn *c, unsigned char *msg, int len, int reliable);
 
 int gti2HandleAppUnreliable(Conn *c, unsigned char *msg, int len)
 {
@@ -34,14 +34,14 @@ int gti2HandleAppUnreliable(Conn *c, unsigned char *msg, int len)
 
 	if (c->state != 5 && c->state != 6)
 		return 1;
-	if (func_02184200(c->filters)) {
+	if (ArrayLength(c->filters)) {
 		ret = 0;
-		if (func_02195340(c, 0, msg, len, 0))
+		if (gti2ReceiveFilterCallback(c, 0, msg, len, 0))
 			ret = 1;
 		return ret;
 	}
 	ret = 0;
-	if (func_021950B4(c, msg, len, 0))
+	if (gti2ReceivedCallback(c, msg, len, 0))
 		ret = 1;
 	return ret;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD008
+ * function: WIFIBATTLEMATCH_NET_RestartNet
  * address:  0x021DD008
  * packet:   pkt_021DD008
  * region:   ov175
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-void func_021DD008(char *p, int flag)
+void WIFIBATTLEMATCH_NET_RestartNet(char *p, int flag)
 {
     if (flag == 0)
         return;

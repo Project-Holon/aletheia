@@ -1,5 +1,5 @@
 /*
- * function: func_021FBE00
+ * function: SCRIPT_COMMAND_CmdFreeEntry
  * address: 0x021FBE00
  * packet: pkt_ov132_021FBE00
  * region: ov132
@@ -15,7 +15,7 @@
  *   STA_ACTING_GetSlot 0x021F9DB0 thumb ov132
  *   STA_ACTING_SetSlot 0x021F9DB8 thumb ov132
  *   STA_ACT_OBJ_FreeEntry 0x021F6B80 thumb ov112
- *   func_021F6BC0 0x021F6BC0 thumb ov112
+ *   STA_ACT_LIGHT_SetElemVisible 0x021F6BC0 thumb ov112
  */
 #include "../include/Obj10556.h"
 #include "../include/Obj14113.h"
@@ -26,5 +26,5 @@ extern unsigned int *STA_ACTING_GetSlot(void *,unsigned char);
 typedef unsigned int   u32;
 extern void STA_ACTING_SetSlot(void *p, void *v, u32 i);
 extern void STA_ACT_OBJ_FreeEntry(unsigned int *,unsigned int *);
-extern void func_021F6BC0(char *,unsigned int *,unsigned int);
-int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct Obj14113 *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct Obj14113 *)p)->f4);ctx=STA_ACTING_GetActObj(((struct Obj10556 *)obj)->f34);STA_ACT_OBJ_FreeEntry(ctx,STA_ACTING_GetSlot(((struct Obj10556 *)obj)->f34,n));STA_ACTING_SetSlot(((struct Obj10556 *)obj)->f34,0,(unsigned char)n);return 0; }
+extern void STA_ACT_LIGHT_SetElemVisible(char *,unsigned int *,unsigned int);
+int SCRIPT_COMMAND_CmdFreeEntry(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct Obj14113 *)p)->f0;n=VM_GetU32(*(struct Cursor * *)&((struct Obj14113 *)p)->f4);ctx=STA_ACTING_GetActObj(((struct Obj10556 *)obj)->f34);STA_ACT_OBJ_FreeEntry(ctx,STA_ACTING_GetSlot(((struct Obj10556 *)obj)->f34,n));STA_ACTING_SetSlot(((struct Obj10556 *)obj)->f34,0,(unsigned char)n);return 0; }

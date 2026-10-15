@@ -1,5 +1,5 @@
 /*
- * function: func_02163E40
+ * function: CPSi_rc4_init
  * address:  0x02163E40
  * packet:   pkt_ov009_02163E40
  * region:   ov009
@@ -26,7 +26,7 @@ typedef struct {
     unsigned char m[256];
 } CPSRc4Ctx;
 
-void func_02163E40(CPSRc4Ctx *ctx, unsigned char *key, int len)
+void CPSi_rc4_init(CPSRc4Ctx *ctx, unsigned char *key, int len)
 {
     unsigned char m_i;
     unsigned char *m = ctx->m;

@@ -18,7 +18,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   THE_END_GRAPHIC_Delete 0x021B998C thumb ov182
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj06593.h"
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void THE_END_GRAPHIC_Delete(char *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
 {
     int i;
@@ -52,6 +52,6 @@ int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
     GF_FONT_Delete(((struct Obj06593 *)p)->f8);
     THE_END_GRAPHIC_Delete(((struct Obj06593 *)p)->f4);
     func_020315D4(task);
-    func_020306F0(0x88);
+    GFL_HEAP_DeleteChecked(0x88);
     return 1;
 }

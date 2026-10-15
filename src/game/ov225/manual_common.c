@@ -25,7 +25,7 @@
  *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   func_0200EDEC  0x0200EDEC  thumb
  *   func_0200EE14 0x0200EE14 thumb
- *   func_021B9900 0x021B9900 thumb ov225
+ *   MANUAL_GRAPHIC_CreateScreen 0x021B9900 thumb ov225
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
@@ -37,9 +37,9 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_021B99A0 0x021B99A0 thumb ov225
+ *   MANUAL_GRAPHIC_DeleteScreen 0x021B99A0 thumb ov225
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021B99F4 0x021B99F4 thumb ov225
+ *   MANUAL_GRAPHIC_DrawScreen 0x021B99F4 thumb ov225
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   GX_LoadBG2Scr 0x0207EB78 arm
  *   func_02040588 0x02040588 arm
@@ -58,7 +58,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_021BBF4C 0x021BBF4C data a4
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021B9A08 0x021B9A08 thumb ov225
+ *   MANUAL_GRAPHIC_GetClactUnit 0x021B9A08 thumb ov225
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   d_021BBF00 0x021BBF00 data a1
  *   BMP_WIN_Create 0x020450F0 arm
@@ -75,8 +75,8 @@
  *   STRBUF_Delete 0x02045808 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_020275E4 0x020275E4 thumb
  *   func_02027614 0x02027614 thumb
@@ -111,7 +111,7 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   d_021BBF8C 0x021BBF8C data ov225 a2
  *   d_021BBF94 0x021BBF94 data ov225 a2
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02061CA4 0x02061CA4 arm
  *   func_020355C4 0x020355C4 arm
@@ -129,6 +129,7 @@
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   file_021BC038 0x021BC038 data a1
  *   d_021BBF9C 0x021BBF9C data a4
+ *   gManualGraphicMainBgLayerTable  0x021BBE4C  data
  */
 #include "../../matched/include/Obj08466.h"
 #include "../../matched/include/Obj26135.h"
@@ -420,7 +421,7 @@ extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern int func_0200EDEC(char *obj, int i);
 extern void func_0200EE14(char *obj, int i);
-extern void *func_021B9900(u32,u32);
+extern void *MANUAL_GRAPHIC_CreateScreen(u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
@@ -431,9 +432,9 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern unsigned int GF_FONT_Delete(void *ptr);
-extern void func_021B99A0(char *);
+extern void MANUAL_GRAPHIC_DeleteScreen(char *);
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
-extern void func_021B99F4(char *);
+extern void MANUAL_GRAPHIC_DrawScreen(char *);
 extern void DWCi_ScreenDC_FlushRange(const void *,unsigned);
 extern void GX_LoadBG2Scr(const void *,unsigned,unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -448,7 +449,7 @@ extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
 extern void MI_CpuFill8(void *,u8,u32);
-extern u32 func_021B9A08(const u8 *p);
+extern u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
 extern R *TOUCHBAR_Create(A *,int);
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
@@ -464,8 +465,8 @@ extern void PRINTSYS_PrintQueColor(void *,unsigned,unsigned,unsigned,unsigned,un
 extern void STRBUF_Delete(struct U16Vec *);
 extern struct WordSet *GF_FONT_Create_EC64(u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 func_020275E4(void);
 extern u32 func_02027614(void);
@@ -496,7 +497,7 @@ extern u32_021BA760 APP_TASKMENU_WIN_IsFinish(u8 *);
 extern void func_02049B68(void *,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u16);
 extern u32_021BA898 func_02049658(void *a, u32_021BA898 b, u32_021BA898 c, u32_021BA898 d, u32_021BA898 e, u32_021BA898 f, u16 g);
 extern u32_021BA898 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u16);
-extern void func_020414AC(unsigned);
+extern void BG_SYS_FreeSlot(unsigned);
 extern struct R *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
 extern int func_02061CA4(void *, unsigned, void *, int);
 extern u8 func_020355C4(void);
@@ -744,7 +745,7 @@ void *func_021B9D18(void *owner,u16 heap)
 {
     struct State_021B9B3C *p=func_02030734(heap,0x38,1,d_021BC004,0x4b);
     p->owner=owner; p->heap=heap;
-    p->screen=func_021B9900(1,p->heap);
+    p->screen=MANUAL_GRAPHIC_CreateScreen(1,p->heap);
     p->font=GF_FONT_Create(23,0,0,0,p->heap);
     p->str10=PRINTSYS_QUE_Create((void *)(u32)p->heap);
     p->str14=PRINTSYS_QUE_Create((void *)(u32)p->heap);
@@ -772,12 +773,12 @@ void func_021B9DEC(char *p)
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);
-    GF_FONT_Delete(((struct Obj01787 *)p)->fC);func_021B99A0(*(char * *)&((struct Obj01787 *)p)->f8);func_020307B0(p);
+    GF_FONT_Delete(((struct Obj01787 *)p)->fC);MANUAL_GRAPHIC_DeleteScreen(*(char * *)&((struct Obj01787 *)p)->f8);func_020307B0(p);
 }
 
 
 
-void func_021B9E60(char *p){PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f10);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f14);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f18);func_021B99F4(*(char * *)&((struct Obj08467 *)p)->f8);}
+void func_021B9E60(char *p){PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f10);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f14);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f18);MANUAL_GRAPHIC_DrawScreen(*(char * *)&((struct Obj08467 *)p)->f8);}
 
 
 
@@ -910,15 +911,15 @@ void func_021BA15C(void *task,void *data)
 
 
 /*
- * lever: args before table declaration puts the 64-byte copy at sp+0.
+ * lever: args before gManualGraphicMainBgLayerTable declaration puts the 64-byte copy at sp+0.
  */
 void func_021BA160(char *p)
 {
     A args;
-    struct Block table=d_021BBF4C;
+    struct Block gManualGraphicMainBgLayerTable=d_021BBF4C;
     MI_CpuFill8(&args,0,sizeof(args));
-    args.f0=(u8 *)&table;args.f4=2;
-    args.f8=(int)func_021B9A08(((struct Obj26147 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f8);
+    args.f0=(u8 *)&gManualGraphicMainBgLayerTable;args.f4=2;
+    args.f8=(int)MANUAL_GRAPHIC_GetClactUnit(((struct Obj26147 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f8);
     args.fC=6;args.f10=3;args.f14=1;args.f18=0;
     *(R * *)&((struct Obj08468 *)p)->f4=TOUCHBAR_Create(&args,((struct Obj26148 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f4);
     TOUCHBAR_SetButtonVisible(((struct Obj08468 *)p)->f4,0,0);
@@ -1006,9 +1007,9 @@ void func_021BA368(char *p)
     words=GF_FONT_Create_EC64(((struct Obj26163 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
     slot=func_02045EC0(*(struct MsgBank * *)&((struct Obj26164 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f1C,4);
     str=STRBUF_Create(16,((struct Obj26165 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
-    func_0201EFA4(words,0,((struct Obj02561 *)p)->fD+1,1,0,1);
-    func_0201EFA4(words,1,((struct Obj02561 *)p)->fC,1,0,1);
-    func_0201F250(words,str,slot);
+    WORDSET_SetSlotNumber(words,0,((struct Obj02561 *)p)->fD+1,1,0,1);
+    WORDSET_SetSlotNumber(words,1,((struct Obj02561 *)p)->fC,1,0,1);
+    WORDSET_CopyTaggedText(words,str,slot);
     PRINTSYS_PrintQueColor(((struct Obj26166 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18,(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),32,4,(u32)str,((struct Obj26167 *)(*(char * *)&((struct Obj02561 *)p)->f0))->fC,0x3c40);
     STRBUF_Delete(str);STRBUF_Delete(slot);WORDSET_DeleteStrbufED04(words);
     ((struct Obj02561 *)p)->f1C=1;func_021BA240(p);
@@ -1030,7 +1031,7 @@ void func_021BA41C(char *p)
     for(i=0;i<2;i++) {
         char *parent=*(char * *)&((struct Obj02562 *)p)->f0;
         char *dest=p+i*4;
-        *(struct Obj * *)&((struct Obj10983 *)dest)->f38=CLACT_CreateActor((void *)func_021B9A08(((struct Obj14803 *)parent)->f8),((struct Obj02562 *)p)->f2C,((struct Obj02562 *)p)->f30,((struct Obj02562 *)p)->f34,&d_021BBF14[i],1,((struct Obj14803 *)parent)->f4);
+        *(struct Obj * *)&((struct Obj10983 *)dest)->f38=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14803 *)parent)->f8),((struct Obj02562 *)p)->f2C,((struct Obj02562 *)p)->f30,((struct Obj02562 *)p)->f34,&d_021BBF14[i],1,((struct Obj14803 *)parent)->f4);
         CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,0);
         CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,1);
     }
@@ -1242,7 +1243,7 @@ void func_021BA898(char *p)
     *(int *)&((struct Obj00074 *)p)->f58=CLACT_RegisterCellAnim(((struct Obj26195 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,7,8,((struct Obj26196 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     q[1]=d_021BBF8C;
     parent=*(char * *)&((struct Obj00074 *)p)->f4;
-    ((struct Obj00074 *)p)->f5C=CLACT_CreateActor((void *)func_021B9A08(((struct Obj14804 *)parent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[1],1,((struct Obj14804 *)parent)->f4);
+    ((struct Obj00074 *)p)->f5C=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14804 *)parent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[1],1,((struct Obj14804 *)parent)->f4);
     CLACT_SetActorDrawEnable(((struct Obj00074 *)p)->f5C,0);
     CLACT_SetActorAutoAnim(((struct Obj00074 *)p)->f5C,1);
     q[0]=d_021BBF94;
@@ -1250,7 +1251,7 @@ void func_021BA898(char *p)
         char *loopparent;
         q[0].y=i*24-8;
         loopparent=*(char * *)&((struct Obj00074 *)p)->f4;
-        *(void **)(p+i*4+0x60)=CLACT_CreateActor((void *)func_021B9A08(((struct Obj14805 *)loopparent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[0],1,((struct Obj14805 *)loopparent)->f4);
+        *(void **)(p+i*4+0x60)=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14805 *)loopparent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[0],1,((struct Obj14805 *)loopparent)->f4);
         CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
         CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x60),1);
     }
@@ -1261,7 +1262,7 @@ void func_021BA898(char *p)
 
 void func_021BA9D0(char *p)
 {
-    func_020414AC(5);
+    BG_SYS_FreeSlot(5);
     *(struct R * *)&((struct Obj00074 *)p)->f8 = APP_TASKMENU_RES_Create(5, 4, ((struct Obj26197 *)(*(char * *)&((struct Obj00074 *)p)->f4))->fC, ((struct Obj26198 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f14, ((struct Obj26199 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     ((struct Obj00074 *)p)->f4C = 0x1ce7;
     func_02061CA4((void *)31, 154, p + 0x4c, 2);

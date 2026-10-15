@@ -1,5 +1,5 @@
 /*
- * function: func_0220B9A4
+ * function: B_BAG_MAIN_CheckKeyItem
  * address: 0x0220B9A4
  * packet: pkt_ov197_0220B9A4
  * region: ov197
@@ -19,4 +19,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern u32 MYITEM_SAVEDATA_HasItem(u8 *,u16,u16,u16);
-int func_0220B9A4(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(MYITEM_SAVEDATA_HasItem(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }
+int B_BAG_MAIN_CheckKeyItem(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(MYITEM_SAVEDATA_HasItem(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }

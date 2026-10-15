@@ -1,5 +1,5 @@
 /*
- * function: func_021C5054
+ * function: VIEWER_MAIN_HandleKey
  * address:  0x021C5054
  * packet:   pkt_ov111_021C5054
  * region:   ov111
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetTrg  0x020362DC  arm
  *   func_020355D8  0x020355D8  arm
- *   func_021C513C  0x021C513C  thumb  ov111
+ *   VIEWER_MAIN_ToggleFavorite  0x021C513C  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -57,42 +57,42 @@ typedef struct {
     Anim anim;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
-extern void func_021C513C(Work *p);
+extern void VIEWER_MAIN_ToggleFavorite(Work *p);
 
-int func_021C5054(Work *p)
+int VIEWER_MAIN_HandleKey(Work *p)
 {
     u32 key = KEY_GetTrg();
 
     if (key & 2) {
         if (p->h305E == 0) {
-            func_021C6FA0(&p->anim, 0, 9, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 0, 9, 1);
             GFL_USE_PlaySeDefaultVolume(0x551);
             func_020355D8(0);
             return 4;
         }
     } else if (key & 0x400) {
         if (p->h305E == 0 && !p->info->f4_7) {
-            func_021C6FA0(&p->anim, 1, 8, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 1, 8, 1);
             GFL_USE_PlaySeDefaultVolume(0x556);
             return 5;
         }
     } else if (key & 0x30) {
         if (p->h305E == 0) {
-            func_021C6FA0(&p->anim, 6, 0x17, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x17, 1);
             return 3;
         }
     } else if (key & 0x800) {
         if (!p->info->f4_7) {
-            func_021C513C(p);
+            VIEWER_MAIN_ToggleFavorite(p);
         }
     } else if (key & 1) {
         if (!p->info->f4_7 && p->f3034 == 0) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021C6FA0(&p->anim, 2, 0x11, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x11, 1);
             return 10;
         }
     }

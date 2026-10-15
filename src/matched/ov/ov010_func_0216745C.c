@@ -1,5 +1,5 @@
 /*
- * function: func_0216745C
+ * function: COMM_PLAYER_GetListPage10
  * address:  0x0216745C
  * packet:   pkt_ov010_0216745C
  * region:   ov010
@@ -12,7 +12,7 @@
  * One of the three 10-entry pages from index 20.
  *
  * symbols:
- *   func_021673E0  0x021673E0  thumb  ov010
+ *   COMM_PLAYER_CopyListRange  0x021673E0  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -24,13 +24,13 @@ typedef struct Entry32 {
     u32 rest : 21;
 } Entry32;
 
-extern u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count);
+extern u8 COMM_PLAYER_CopyListRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count);
 
-u16 func_0216745C(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
+u16 COMM_PLAYER_GetListPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
 {
     u16 start;
 
     start = page * 10 + 20;
-    *n = func_021673E0(list, out, cap, start, 10);
+    *n = COMM_PLAYER_CopyListRange(list, out, cap, start, 10);
     return start;
 }

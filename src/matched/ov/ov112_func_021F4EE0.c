@@ -1,5 +1,5 @@
 /*
- * function: func_021F4EE0
+ * function: MUSICAL_MCSS_GetElemField
  * address: 0x021F4EE0
  * packet: pkt_ov112_021F4EE0
  * region: ov112
@@ -11,7 +11,7 @@
  * extent: six-byte body, two zero alignment bytes before separately filed 021F4EE8.
  */
 typedef unsigned short u16;
-void func_021F4EE0(int unused, u16 *p, u16 *out)
+void MUSICAL_MCSS_GetElemField(int unused, u16 *p, u16 *out)
 {
     *out = p[1];
 }

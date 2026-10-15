@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_load.c
  * unit:     yes
- * function: func_02062B30, NNS_G2dFindBinaryBlock, func_02062BAC, func_02062BF4, func_02062D08, func_02062D40, func_02062D4C, func_02062F00, sub_02062F1C, func_02062F38, func_02062F78
+ * function: NNS_G2dGetUnpackedScreenData, NNS_G2dFindBinaryBlock, NNSi_G2dFixupOffsets, NNSi_G2dCellAnimationEdgeHandler, NNSi_G2dSetCellAnimationFrame, NNSi_G2dGetCellAnimationCurrentSequence, NNS_G2dTickAnimCtrl, NNSi_G2dSetCellAnimationCurrentFrame, NNSi_G2dGetCellAnimFrameIdx, NNS_G2dInitAnimCtrl, NNSi_G2dResetCellAnimationState
  * address:  0x02062B30
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -15,15 +15,15 @@
  * The 'NRCS' (NSCR screen data) accessor of docs/families/cluster_02062688.h,
  * NitroSystem NNS_G2dGetUnpackedScreenData shape: find the block, hand back
  * its body (block + 8) through *out and return 1, else *out = 0 and 0.
- * Closed wave 12 (was src/pending/func_02062B30.c, DIFF 48/52 under every
+ * Closed wave 12 (was src/pending/NNS_G2dGetUnpackedScreenData.c, DIFF 48/52 under every
  * front end on the NEGATIVE spelling).  The fix is the POSITIVE spelling
  * `if (b) { ...; return 1; } else { ...; return 0; }` under ../2.0/sp2 (also
  * ../2.0/base and sp1): 2.0 predicates only the zero arm (`popeq`) and keeps
  * the fall-through, exactly the image.  dsi/1.1p1 predicates both arms under
  * every spelling measured.
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02062B30.c \
- *       --func func_02062B30 --addr 0x02062B30 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G2dGetUnpackedScreenData.c \
+ *       --func NNS_G2dGetUnpackedScreenData --addr 0x02062B30 --arm --cc ../2.0/sp2
  *   EXACT, 52 bytes, 1 of 1 relocation site resolved.
  * *
  * NNS G2D binary-block lookup: walks the block chain of a loaded NITRO file
@@ -176,20 +176,20 @@ struct Node {
 
 extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
 extern s32 abs(s32 x);
-BOOL func_02062B30(void *file, void **out);
+BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out);
 void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
-void func_02062BAC(struct Tbl *t);
-void func_02062BF4(struct Slider *s);
-int func_02062D08(void *p, u32 i);
-void *func_02062D40(struct CellAnim *anim);
-BOOL func_02062D4C(Ctrl *p, s32 frames);
-int func_02062F00(void *s, u32 i);
-u16 sub_02062F1C(const struct Node *n);
-int func_02062F38(int a0);
-void func_02062F78(struct AnimState *state);
+void NNSi_G2dFixupOffsets(struct Tbl *t);
+void NNSi_G2dCellAnimationEdgeHandler(struct Slider *s);
+int NNSi_G2dSetCellAnimationFrame(void *p, u32 i);
+void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim);
+BOOL NNS_G2dTickAnimCtrl(Ctrl *p, s32 frames);
+int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
+u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
+int NNS_G2dInitAnimCtrl(int a0);
+void NNSi_G2dResetCellAnimationState(struct AnimState *state);
 
 
-BOOL func_02062B30(void *file, void **out)
+BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out)
 {
     Blk *b = 0;
 
@@ -286,11 +286,11 @@ void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signatu
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062BAC.c \
- *       --func func_02062BAC --addr 0x02062BAC --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G2dFixupOffsets.c \
+ *       --func NNSi_G2dFixupOffsets --addr 0x02062BAC --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 72 = original 72, 0 relocation sites
  */
-void func_02062BAC(struct Tbl *t)
+void NNSi_G2dFixupOffsets(struct Tbl *t)
 {
     u16 i;
 
@@ -338,7 +338,7 @@ static inline u32 getMode(struct Slider *s) {
  *      the image's order with the SAME C.  Measured on the note's body
  *      unchanged: 1.1p1 nine mismatched instructions, ../1.2/sp2 forty-seven,
  *      ../2.0/sp2 three.  This is the same front end the cluster neighbour
- *      src/matched/func_02062BAC.c is pinned to.
+ *      src/matched/NNSi_G2dFixupOffsets.c is pinned to.
  *
  *   2. THE RANGE FOLD, which is the note's item 1 and was the whole remaining
  *      residue (5 concrete bytes, three instructions).  mwccarm folds a
@@ -390,11 +390,11 @@ static inline u32 getMode(struct Slider *s) {
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062BF4.c \
- *       --func func_02062BF4 --addr 0x02062BF4 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G2dCellAnimationEdgeHandler.c \
+ *       --func NNSi_G2dCellAnimationEdgeHandler --addr 0x02062BF4 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 276 = original 276, 2 of 2 sites resolved
  */
-void func_02062BF4(struct Slider *s)
+void NNSi_G2dCellAnimationEdgeHandler(struct Slider *s)
 {
     u32 mode = getMode(s);
     if (mode == 3 || mode == 4 ? 1 : 0) {
@@ -445,7 +445,7 @@ void func_02062BF4(struct Slider *s)
 
 
 
-int func_02062D08(void *p, u32 i)
+int NNSi_G2dSetCellAnimationFrame(void *p, u32 i)
 {
     u8 *s = (u8 *)p;
     u8 *t = *(u8 * *)&((struct Obj07015 *)s)->f1C;
@@ -475,9 +475,9 @@ int func_02062D08(void *p, u32 i)
  * own sequence index selected.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062D40.c  *       --func func_02062D40 --addr 0x02062D40 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dGetCellAnimationCurrentSequence.c  *       --func NNSi_G2dGetCellAnimationCurrentSequence --addr 0x02062D40 --cc 1.1p1
  */
-void *func_02062D40(struct CellAnim *anim)
+void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim)
 {
     return *anim->sequence;
 }
@@ -568,12 +568,12 @@ static inline void CallbackFuncHandling_(const Functor *f, u16 idx)
  * shape): if active, advance currentTime by |FX_Mul(speed, frames)| (the
  * callee at 0x02091588 is abs), then while the controller is active and the
  * time has passed the current frame's length, step the frame pointer in the
- * play direction, hand the edge case to func_02062BF4, latch the last frame
+ * play direction, hand the edge case to NNSi_G2dCellAnimationEdgeHandler, latch the last frame
  * with a non-zero length, and fire the +0x20 callback functor (type 2: on one
  * frame index, type 3: every frame).  Returns whether a frame changed.
  *
- * Struct layout agrees with src/matched/func_02062BF4.c (the edge handler),
- * func_02062D08.c and sub_02062F1C.c (the u16 frame index).
+ * Struct layout agrees with src/matched/NNSi_G2dCellAnimationEdgeHandler.c (the edge handler),
+ * NNSi_G2dSetCellAnimationFrame.c and NNSi_G2dGetCellAnimFrameIdx.c (the u16 frame index).
  *
  * Levers, each measured:
  *   - ../2.0/sp2: every per-inline 0/1 constant hoisted to its own callee-
@@ -587,11 +587,11 @@ static inline void CallbackFuncHandling_(const Functor *f, u16 idx)
  *     the sequence load ahead of the direction test (16 bytes out).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02062D4C.c \
- *       --func func_02062D4C --addr 0x02062D4C --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G2dTickAnimCtrl.c \
+ *       --func NNS_G2dTickAnimCtrl --addr 0x02062D4C --arm --cc ../2.0/sp2
  *   EXACT, 436 bytes, 2 of 2 relocation sites resolved (sp2p2 also EXACT).
  */
-BOOL func_02062D4C(Ctrl *p, s32 frames)
+BOOL NNS_G2dTickAnimCtrl(Ctrl *p, s32 frames)
 {
     BOOL bChanged = 0;
 
@@ -606,7 +606,7 @@ BOOL func_02062D4C(Ctrl *p, s32 frames)
         else
             p->pCurrent--;
         if (IsReachedEdge_(p))
-            func_02062BF4((struct Slider *)p);
+            NNSi_G2dCellAnimationEdgeHandler((struct Slider *)p);
         if (p->pCurrent->frames != 0)
             p->pActiveCurrent = p->pCurrent;
         if (p->callback.type != 0)
@@ -619,9 +619,9 @@ BOOL func_02062D4C(Ctrl *p, s32 frames)
 
 
 
-int func_02062F00(void *s, u32 i)
+int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i)
 {
-    u32 r = func_02062D08(s, i);
+    u32 r = NNSi_G2dSetCellAnimationFrame(s, i);
 
     if (r != 0) {
         ((struct Obj07015 *)s)->f10 = 0;
@@ -648,19 +648,19 @@ int func_02062F00(void *s, u32 i)
  * other reference to this address in the image.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02062F1C.c \
- *       --func sub_02062F1C --addr 0x02062F1C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dGetCellAnimFrameIdx.c \
+ *       --func NNSi_G2dGetCellAnimFrameIdx --addr 0x02062F1C --cc 1.1p1 --arm
  */
-u16 sub_02062F1C(const struct Node *n)
+u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n)
 {
     return (u16)((n->cursor - n->owner->base) >> 3);
 }
 
 
 
-int func_02062F38(int a0)
+int NNS_G2dInitAnimCtrl(int a0)
 {
-    func_02062F78((struct AnimState *)(a0 + 0x20));
+    NNSi_G2dResetCellAnimationState((struct AnimState *)(a0 + 0x20));
     ((struct AnimObj *)a0)->f0 = 0;
     ((struct AnimObj *)a0)->f4 = 0;
     ((struct AnimObj *)a0)->f8 = 0;
@@ -678,7 +678,7 @@ int func_02062F38(int a0)
  * Zeroes a 14-byte animation-playback sub-state: three u32 words and a
  * trailing halfword. Written as four stores rather than a memset.
  */
-void func_02062F78(struct AnimState *state)
+void NNSi_G2dResetCellAnimationState(struct AnimState *state)
 {
     state->unk00 = 0;
     state->unk04 = 0;

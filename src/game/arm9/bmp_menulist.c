@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menulist.c
  * unit:     yes
- * function: BMP_MENULIST_Create, BMP_MENULIST_Main, BMP_MENULIST_Delete, BMP_MENULIST_Redraw, BMP_MENULIST_SetColors, BMP_MENULIST_SetOverrideColors, BMP_MENULIST_GetListIndex, BMP_MENULIST_GetPos, BMP_MENULIST_GetCursorY, BMP_MENULIST_GetRowY, BMP_MENULIST_GetItemValue, BMP_MENULIST_GetAttr, BMP_MENULIST_PrintItem, BMP_MENULIST_DrawItems, BMP_MENULIST_DrawCursor, BMP_MENULIST_EraseCursor, BMP_MENULIST_StepCursor, BMP_MENULIST_ScrollRows, BMP_MENULIST_MoveCursor, BMP_MENULIST_NotifyCursor, BMP_MENULIST_ShiftChars4bpp, BMP_MENULIST_ShiftChars8bpp, BMP_MENULIST_ShiftWindow, BMP_MENULIST_ResetCursorTile, BMP_MENULIST_GetUserData, BMP_MENULIST_SetCancelDisabled, BMP_CURSOR_Create, BMP_CURSOR_Delete, BMP_CURSOR_Draw, BMP_CURSOR_SetTileBitmap, FILE_UTIL_OpenById, FILE_UTIL_LoadRange, FILE_UTIL_Get, func_02020F84, func_02020FB4, FILE_UTIL_Get_0FE4, FILE_UTIL_Get_1014, func_020210C8, FILE_UTIL_Check1288, FILE_UTIL_Get_12B0, FILE_UTIL_Check12E4, FILE_UTIL_GetId, func_02021350, FILE_UTIL_Check136C, func_0202138C, func_020213AC
+ * function: BMP_MENULIST_Create, BMP_MENULIST_Main, BMP_MENULIST_Delete, BMP_MENULIST_Redraw, BMP_MENULIST_SetColors, BMP_MENULIST_SetOverrideColors, BMP_MENULIST_GetListIndex, BMP_MENULIST_GetPos, BMP_MENULIST_GetCursorY, BMP_MENULIST_GetRowY, BMP_MENULIST_GetItemValue, BMP_MENULIST_GetAttr, BMP_MENULIST_PrintItem, BMP_MENULIST_DrawItems, BMP_MENULIST_DrawCursor, BMP_MENULIST_EraseCursor, BMP_MENULIST_StepCursor, BMP_MENULIST_ScrollRows, BMP_MENULIST_MoveCursor, BMP_MENULIST_NotifyCursor, BMP_MENULIST_ShiftChars4bpp, BMP_MENULIST_ShiftChars8bpp, BMP_MENULIST_ShiftWindow, BMP_MENULIST_ResetCursorTile, BMP_MENULIST_GetUserData, BMP_MENULIST_SetCancelDisabled
  * address:  0x0201FF30
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from bmp_menulist.c by tools/splitfile.py.
  *
  * symbols:
  *   BMP_MENULIST_FILE_NAME     0x020A7390  data  a1
@@ -29,54 +29,21 @@
  *   BMP_GetHeight  0x020437E4  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_GetField16  0x0204169C  arm
- *   BMP_CURSOR_FILE_NAME     0x020A73A0  data
- *   STRBUF_Delete  0x02045808  arm
- *   BMP_Delete  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
- *   PRINTSYS_PrintQue  0x0201C6FC  thumb
- *   BMP_Blit  0x020439A0  arm
- *   BMP_CURSOR_TileData     0x0209E8CC  data
- *   func_0200575C  0x0200575C  thumb
- *   FS_InitFile  0x020788AC  arm
- *   FS_OpenFile  0x02078C18  arm
- *   FILE_UTIL_FILE_NAME     0x020A73B0  data
- *   FS_CloseFile   0x02078A80  arm
- *   FS_SeekFile    0x02078B44  arm
- *   FS_ReadFile    0x02078B70  arm
- *   FS_GetLength   0x02078C28  arm
  *   func_02030734   0x02030734  arm
- *   func_0202F170       0x0202F170  thumb
- *   func_020490F4       0x020490F4  arm
- *   ARC_TOOL_LoadHandleMember       0x02049250  arm
- *   ARC_TOOL_LoadMember       0x02048F60  arm
- *   item_gfx_member     0x0209EB6C  data
- *   item_gfx_member_x   0x0209E9E8  data
- *   func_02045B38  0x02045B38  arm
- *   MSGDATA_ReadString  0x02045CAC  arm
- *   MSGDATA_Delete  0x02045C04  arm
- *   g_0209EAA0     0x0209EAA0  data
- *   g_0209E8EC     0x0209E8EC  data
- *   BMP_CreateFromBuffer  0x020436FC  arm
+ *   BMP_CURSOR_Create 0x02020D18 thumb arm9
+ *   BMP_CURSOR_Delete 0x02020D3C thumb arm9
+ *   BMP_CURSOR_Draw 0x02020D5C thumb arm9
+ *   BMP_CURSOR_SetTileBitmap 0x02020DC8 thumb arm9
  */
+#include "bmp_menulist_shared_types.h"
+
 #define COLOR(l, s, b) ((u16)((((l) & 0x1f) << 10) | (((s) & 0x1f) << 5) | ((b) & 0x1f)))
+
 #define MENULIST_SEPARATOR ((u32)-3)
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
 
 typedef signed int     s32;
 
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-struct Bmp;
-struct BmpWin;
-struct MsgBank;
-struct ArcFile;
 struct BmpMenuList;
 
 /*
@@ -103,19 +70,6 @@ struct MenuFlags {
     u16 pageKeys : 2;
     u16 mode6 : 6;
     u16 cursorOff : 1;
-};
-
-/* Print target of a menu window: the window and a dirty flag. */
-struct MenuTarget {
-    struct BmpWin *win;
-    u8             dirty;
-};
-
-/* The cursor object: 12 bytes. */
-struct MenuCursor {
-    u32         mode;
-    void       *aux;
-    struct Bmp *tile;
 };
 
 struct BmpMenuList {
@@ -162,199 +116,101 @@ struct BmpMenuList {
     u8 noCancel;
 };
 
-struct FSFile {
-    u8 raw[0x48];
-};
-
-struct ItemGfxMember {
-    u16 lo;
-    u16 hi;
-};
-
-/* The extension record at +0x10 of the item record: packed fields. */
-struct ItemExt {
-    u8 cureSleep : 1;
-    u8 curePoison : 1;
-    u8 cureBurn : 1;
-    u8 cureFreeze : 1;
-    u8 cureParalysis : 1;
-    u8 cureConfusion : 1;
-    u8 cureInfatuation : 1;
-    u8 guardSpec : 1;
-
-    u8 revive : 1;
-    u8 reviveAll : 1;
-    u8 levelUp : 1;
-    u8 evolve : 1;
-    u8 atkStage : 4;
-
-    u8 defStage : 4;
-    u8 spAtkStage : 4;
-
-    u8 spDefStage : 4;
-    u8 accStage : 4;
-
-    u8 critStage : 4;
-    u8 ppRestoreKind : 2;
-    u8 ppUp : 1;
-    u8 ppUpMax : 1;
-
-    u8 ppRestore : 1;
-    u8 ppRestoreAll : 1;
-    u8 hpRestore : 1;
-    u8 hpEvUp : 1;
-    u8 atkEvUp : 1;
-    u8 defEvUp : 1;
-    u8 speedEvUp : 1;
-    u8 spAtkEvUp : 1;
-
-    u8 spDefEvUp : 1;
-    u8 friendshipLow : 1;
-    u8 friendshipMid : 1;
-    u8 friendshipHigh : 1;
-    u8 evLimitIgnore : 1;
-
-    s8 hpEv;
-    s8 atkEv;
-    s8 defEv;
-    s8 speedEv;
-    s8 spAtkEv;
-    s8 spDefEv;
-    u8 hpRestoreAmount;
-    u8 ppRestoreAmount;
-    s8 friendshipDeltaLow;
-    s8 friendshipDeltaMid;
-    s8 friendshipDeltaHigh;
-};
-
-/* The item data record header. */
-struct ItemRecord {
-    u16 price;
-    u8  holdEffect;
-    u8  holdEffectParam;
-    u8  pluckEffect;
-    u8  flingEffect;
-    u8  flingPower;
-    u8  naturalGiftPower;
-    u16 naturalGiftType  : 5;
-    u16 preventToss  : 1;
-    u16 selectable  : 1;
-    u16 pocket  : 4;
-    u16 sortGroup : 5;
-    u8  fieldUse;
-    u8  battleUse;
-    u8  extType;
-    u8  partyUse;
-    u8  partyUseParam;
-    u8  partyUseOption;
-    union {
-        u8              f10;
-        struct ItemExt  ext;
-    } u;
-};
-
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
+
 extern u32  KEY_GetTrg(void);
+
 extern unsigned int KEY_GetRepeat(void);
+
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+
 extern u32 func_020307B0(void *block);
+
 extern void PRINTSYS_PrintQueColor(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
+
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
+
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u32 h, u32 color);
+
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
+
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
+
 extern void *BMP_GetPixels(const struct Bmp *bmp);
+
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
+
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+
 extern u8 BG_SYS_GetField16(int channel);
-extern void STRBUF_Delete(void *res);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void PRINTSYS_PrintQue(void *printer, struct Bmp *bmp, u32 x, u32 y, void *text, u32 param);
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 key);
-extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 widthTiles, u32 heightTiles, u32 sizeBytes, u16 heap);
-extern void *func_0200575C(u32 archiveId);
-extern void  FS_InitFile(struct FSFile *file);
-extern void  FS_OpenFile(struct FSFile *file, void *path);
-extern void  FS_CloseFile(struct FSFile *file);
-extern u32   FS_SeekFile(struct FSFile *file, int offset, u32 origin);
-extern u32   FS_ReadFile(struct FSFile *file, void *dst, u32 size);
-extern u32   FS_GetLength(struct FSFile *file);
-extern u32   func_0202F170(u32 item);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
-extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dst);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
+
 struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
+
 s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
+
 void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
+
 void BMP_MENULIST_Redraw(struct BmpMenuList *menu);
+
 void BMP_MENULIST_SetColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow);
+
 void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow);
+
 void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex);
+
 void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
+
 u16 BMP_MENULIST_GetCursorY(struct BmpMenuList *menu);
+
 u16 BMP_MENULIST_GetRowY(struct BmpMenuList *menu, u32 row);
+
 u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index);
+
 u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
+
 void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u32 y, u32 queued);
+
 void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 numRows, u32 scrollFirst);
+
 void BMP_MENULIST_DrawCursor(struct BmpMenuList *menu);
+
 void BMP_MENULIST_EraseCursor(struct BmpMenuList *menu, u32 row);
+
 u8 BMP_MENULIST_StepCursor(struct BmpMenuList *menu, u8 dir);
+
 void BMP_MENULIST_ScrollRows(struct BmpMenuList *menu, u16 numRows, u32 fromBottom);
+
 u32 BMP_MENULIST_MoveCursor(struct BmpMenuList *menu, u8 redraw, u8 steps, u8 dir);
+
 void BMP_MENULIST_NotifyCursor(struct BmpMenuList *menu, void *arg);
+
 void BMP_MENULIST_ShiftChars4bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fillColor, u16 sizeBytes);
+
 void BMP_MENULIST_ShiftChars8bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fillColor, u16 sizeBytes);
+
 void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillColor, u16 tiles);
+
 void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
+
 u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
+
 void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
+
 struct MenuCursor *BMP_CURSOR_Create(u32 heap);
+
 void BMP_CURSOR_Delete(struct MenuCursor *cursor);
+
 void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, void *printer, u32 param);
+
 void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap);
-void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId);
-void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size);
-u32 FILE_UTIL_Get(u32 item, u32 which);
-u32 func_02020F08(void);
-u32 func_02020F0C(void);
-u32 func_02020F10(void);
-void *FILE_UTIL_Create_0F14(u32 heap);
-void *func_02020F20(struct ArcFile *arc, u32 item, u32 heap);
-void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
-void func_02020F84(void *dst, u32 entry, u32 heap);
-void func_02020FB4(void *dst, u32 entry, u32 heap);
-u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap);
-u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop);
-int func_020210C8(struct ItemExt *ext, u32 prop);
-u32 FILE_UTIL_Check1288(u32 id);
-u16 FILE_UTIL_Get_12B0(u16 machineId);
-u32 FILE_UTIL_Check12E4(u16 moveId);
-u32 FILE_UTIL_GetId(u32 machineId);
-u8 func_02021350(u16 machineId);
-u32 FILE_UTIL_Check136C(u16 itemId);
-u8 func_0202138C(u16 itemId);
-u16 func_020213AC(u32 idx);
+
 extern const char BMP_MENULIST_FILE_NAME[];
-extern const char BMP_CURSOR_FILE_NAME[];
-extern const u8 BMP_CURSOR_TileData[];
-extern const char FILE_UTIL_FILE_NAME[];
-extern struct ItemGfxMember item_gfx_member[];
-extern struct ItemGfxMember item_gfx_member_x[];
-extern const u16 g_0209EAA0[];
-extern const u16 g_0209E8EC[];
-
-
-
-
-
-
 
 struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap)
 {
@@ -393,11 +249,6 @@ struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 s
     BMP_MENULIST_NotifyCursor(menu, (void *)1);
     return menu;
 }
-
-
-
-
-
 
 /*
  * The per-frame key handler of the menu-cursor object built by
@@ -487,12 +338,6 @@ s32 BMP_MENULIST_Main(struct BmpMenuList *menu)
     return -1;
 }
 
-
-
-
-
-
-
 void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
 {
     if (outScroll != 0) {
@@ -505,11 +350,6 @@ void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
     func_020307B0(menu);
 }
 
-
-
-
-
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BMP_MENULIST_Redraw.c \
@@ -521,12 +361,6 @@ void BMP_MENULIST_Redraw(struct BmpMenuList *menu)
     BMP_MENULIST_DrawItems(menu, menu->scroll, 0, menu->rows, 1);
     BMP_MENULIST_DrawCursor(menu);
 }
-
-
-
-
-
-
 
 /*
  * Verified with:
@@ -562,10 +396,6 @@ void BMP_MENULIST_SetColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shado
     menu->shadowColor = shadow;
 }
 
-
-
-
-
 void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow)
 {
     menu->ovLetter = letter;
@@ -574,18 +404,10 @@ void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 letter, u8 bg, 
     menu->useOverride = 1;
 }
 
-
-
-
-
 void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex)
 {
     *outIndex = menu->scroll + menu->row;
 }
-
-
-
-
 
 void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
 {
@@ -597,38 +419,20 @@ void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
     }
 }
 
-
-
-
-
-
-
 u16 BMP_MENULIST_GetCursorY(struct BmpMenuList *menu)
 {
     return BMP_MENULIST_GetRowY(menu, menu->row);
 }
-
-
-
-
 
 u16 BMP_MENULIST_GetRowY(struct BmpMenuList *menu, u32 row)
 {
     return (u16)(menu->originY + row * (u8)(menu->rowH + menu->flags.lineGap));
 }
 
-
-
-
-
 u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index)
 {
     return menu->items[index].value;
 }
-
-
-
-
 
 u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr)
 {
@@ -655,11 +459,6 @@ u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr)
     }
     return -1;
 }
-
-
-
-
-
 
 /*
  * Verified with:
@@ -712,10 +511,6 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
         }
     }
 }
-
-
-
-
 
 /*
  * Verified with:
@@ -778,10 +573,6 @@ void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 
     }
 }
 
-
-
-
-
 /*
  * The two redraw entry points of the menu-cursor block, BMP_MENULIST_DrawCursor and
  * BMP_MENULIST_EraseCursor, folded into one translation unit so 0x020206C0..0x0202077E
@@ -815,9 +606,6 @@ void BMP_MENULIST_DrawCursor(struct BmpMenuList *menu)
     }
 }
 
-
-
-
 void BMP_MENULIST_EraseCursor(struct BmpMenuList *menu, u32 row)
 {
     switch (menu->flags.cursorOff) {
@@ -835,10 +623,6 @@ void BMP_MENULIST_EraseCursor(struct BmpMenuList *menu, u32 row)
         break;
     }
 }
-
-
-
-
 
 /*
  * Verified with:
@@ -931,10 +715,6 @@ u8 BMP_MENULIST_StepCursor(struct BmpMenuList *menu, u8 dir)
     return 2;
 }
 
-
-
-
-
 void BMP_MENULIST_ScrollRows(struct BmpMenuList *menu, u16 numRows, u32 fromBottom)
 {
     u8 rowStep;
@@ -956,10 +736,6 @@ void BMP_MENULIST_ScrollRows(struct BmpMenuList *menu, u16 numRows, u32 fromBott
         BMP_MENULIST_DrawItems(menu, (u16)(menu->scroll + (menu->rows - numRows)), (u16)(menu->rows - numRows), numRows, 0);
     }
 }
-
-
-
-
 
 /*
  * Verified with:
@@ -1031,20 +807,12 @@ u32 BMP_MENULIST_MoveCursor(struct BmpMenuList *menu, u8 redraw, u8 steps, u8 di
     return 0;
 }
 
-
-
-
-
 void BMP_MENULIST_NotifyCursor(struct BmpMenuList *menu, void *arg)
 {
     if (menu->onCursor != 0) {
         menu->onCursor(menu, menu->items[menu->scroll + menu->row].value, arg);
     }
 }
-
-
-
-
 
 void BMP_MENULIST_ShiftChars4bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fillColor, u16 sizeBytes)
 {
@@ -1104,10 +872,6 @@ void BMP_MENULIST_ShiftChars4bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fi
         break;
     }
 }
-
-
-
-
 
 void BMP_MENULIST_ShiftChars8bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fillColor, u16 sizeBytes)
 {
@@ -1188,11 +952,6 @@ void BMP_MENULIST_ShiftChars8bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fi
     }
 }
 
-
-
-
-
-
 /*
  * UNBLOCKED 2026-09-21: the two THM_CALL sites at +0x36 and +0x4e now
  * attest `matched` off src/matched/BMP_MENULIST_ShiftChars4bpp.c and the newly filed
@@ -1226,11 +985,6 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
         BMP_MENULIST_ShiftChars8bpp(bmp, dir, start, fillColor, (u16)(tiles << 6));
 }
 
-
-
-
-
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -1260,797 +1014,12 @@ void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap)
     BMP_MENULIST_DrawCursor(menu);
 }
 
-
-
 u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu)
 {
     return menu->userData;
 }
 
-
-
-
-
-
 void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled)
 {
     menu->noCancel = disabled;
-}
-
-
-
-
-
-
-struct MenuCursor *BMP_CURSOR_Create(u32 heap)
-{
-    struct MenuCursor *cursor = func_02030734((u16)heap, 0xc, 1, BMP_CURSOR_FILE_NAME, 0x3a);
-
-    if (cursor != 0) {
-        cursor->mode = 0;
-    }
-    return cursor;
-}
-
-
-
-
-
-
-/*
- * A destructor: frees two owned sub-objects at +4 and +8 if present, then
- * hands the object itself to a common finalizer.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BMP_CURSOR_Delete.c \
- *       --func BMP_CURSOR_Delete --addr 0x02020D3C --cc 1.1p1 --thumb
- */
-void BMP_CURSOR_Delete(struct MenuCursor *cursor)
-{
-    if (cursor->aux != 0) {
-        STRBUF_Delete(cursor->aux);
-    }
-    if (cursor->tile != 0) {
-        BMP_Delete(cursor->tile);
-    }
-    func_020307B0(cursor);
-}
-
-
-
-
-/*
- * Blits one cursor/icon out of its cell holder, choosing between two
- * targets by the descriptor's mode word: mode 1 draws through the
- * 0x0201C6FC window path and latches a "drawn" flag on the caller's
- * handle, anything else falls back to the plain 8x8 palette-0xf blit
- * at 0x020439A0 when a surface is configured, and releases the cell
- * afterwards.
- */
-void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target,
-                   void *printer, u32 param)
-{
-    if (cursor->mode == 1) {
-        PRINTSYS_PrintQue(printer, BMP_WIN_GetBmp(target->win), (s16)x, (s16)y, cursor->aux, param);
-        target->dirty = 1;
-    } else if (cursor->tile != 0) {
-        BMP_Blit(cursor->tile, BMP_WIN_GetBmp(target->win), 0, 0,
-                      x + 2, y + 2, 8, 8, 0xf);
-        BMP_WIN_TransferChars(target->win);
-    }
-}
-
-
-
-
-void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap)
-{
-    cursor->tile = BMP_CreateFromBuffer(BMP_CURSOR_TileData, 1, 1, 0x20, heap);
-}
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_OpenById.c \
- *       --func FILE_UTIL_OpenById --addr 0x02020DEC --cc 1.1p1 --thumb
- */
-void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId)
-{
-    void *path;
-
-    path = func_0200575C(archiveId);
-    FS_InitFile(file);
-    FS_OpenFile(file, path);
-}
-
-
-
-
-
-/*
- * "Read a byte range out of a whole file, by archive id", the raw-file
- * counterpart to the arc_tool.c NARC member API.  FILE_UTIL_OpenById (already
- * EXACT) opens the file whose path is name-table entry `archiveId`; this
- * function then seeks to `offset`, allocates `size` bytes on `heap` and
- * reads them in.  A zero `size` means "the whole file", which is why the
- * FS_GetLength call is guarded rather than unconditional.
- *
- * FILE_UTIL_FILE_NAME is the __FILE__ argument of the allocation site.  Its bytes
- * spell "file_util.c", and the run is fixed from outside this function by
- * the terminator of "bmp_cursor.c" immediately before it
- * (docs/idioms/file-string-is-an-abs32-into-the-string-area.md), so the
- * enclosing translation unit for both this function and FILE_UTIL_OpenById is
- * file_util.c.
- *
- * The only caller in the image is ZONEDATA_CreateAreaData, the a/0/1/3 record reader
- * (src/matched/ZONEDATA_CreateAreaData.c), which passes archiveId 13 with size 10:
- * a/0/1/3 is a flat 2820-byte file, not a NARC, so it cannot go through
- * the member API at all.  See the "Archive readers traced by call graph"
- * section of docs/ASSETS.md.
- *
- * `size` has to stay live in its own local across the guarded call: the
- * compiler keeps r5 as both the parameter and the FS_GetLength result, so
- * writing the length into a fresh variable and selecting afterwards costs
- * an extra move.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_LoadRange.c \
- *       --func FILE_UTIL_LoadRange --addr 0x02020E08 --cc 1.1p1 --thumb
- */
-void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
-{
-    struct FSFile file;
-    void *data;
-
-    FILE_UTIL_OpenById(&file, archiveId);
-    if (size == 0) {
-        size = FS_GetLength(&file);
-    }
-    data = func_02030734(heap, size, 0, FILE_UTIL_FILE_NAME, 0xAC);
-    FS_SeekFile(&file, offset, 0);
-    FS_ReadFile(&file, data, size);
-    FS_CloseFile(&file);
-    return data;
-}
-
-
-
-
-/*
- * The item archive's own accessor block: 0x02020E60..0x02020F84, seven
- * functions, five of them unlabelled leaves that print as a `.word`/`.byte`
- * run in the listing (see docs/idioms/unlabelled-leaf-functions-hide-in-
- * word-runs.md).
- *
- * This is the file that closes the item chain
- * FILE_UTIL_Get_1014 <- FILE_UTIL_Get_0FE4 <- FILE_UTIL_CreateArcTool0F34: three separate functions
- * here name the item archive id 0x18 as a plain immediate
- * (FILE_UTIL_Create_0F14's handle open, FILE_UTIL_CreateArcTool0F34's one-shot member read) and
- * two name the item graphics archive 0x19 (func_02020F08 answers it as a
- * constant, FILE_UTIL_CreateArcTool0F34 reads members of it).  Archive ids are the
- * decimal spelling of the a/X/Y/Z path, so 0x18 = 24 = a/0/2/4 and
- * 0x19 = 25 = a/0/2/5.
- *
- * 626 is the last item id: a/0/2/4 has 627 members, 0..626.  Both bounds
- * checks in this file clamp an out of range id to 0 rather than rejecting.
- *
- * Blocked at MATCH, not EXACT: three relocation sites have no witness
- * outside this range.
- *   - item_gfx_member_x (0x0209E9E8) and func_0202F170 (0x0202F170) are
- *     named only from here anywhere in the image.
- *   - item_gfx_member (0x0209EB6C) has exactly one literal witness,
- *     0x02020F7C, which is FILE_UTIL_CreateArcTool0F34's own pool and therefore inside
- *     this range.  FILE_UTIL_Get's copy of the same word sits at
- *     0x02020EF4 but is not indexed as a literal pool by disasm.py: that
- *     pool is inside the `.byte` run this unit's leaf functions live in.
- *     Splitting FILE_UTIL_Get and FILE_UTIL_CreateArcTool0F34 into two files does not
- *     fix it either: verified separately, the split leaves
- *     FILE_UTIL_Get attested (literal 0x02020F7C, now outside its range)
- *     and FILE_UTIL_CreateArcTool0F34 still not, since its only witness is its own
- *     pool word.  `tu --suggest-split` agrees and leaves both out.
- *
- * The middle piece that --suggest-split does keep, the five leaf
- * accessors 0x02020F08..0x02020F34, is filed EXACT on its own as
- * src/matched/unit_02020F08.c; this file stays as the whole-range record.
- *
- * Every concrete byte of this range is reproduced; only the relocation
- * fields above stay wildcarded.
- *
- * Verified with:
- *   python tools/match.py tu --src src/pending/unit_02020E60.c \
- *       --addr 0x02020E60 --thumb
- */
-u32 FILE_UTIL_Get(u32 item, u32 which)
-{
-    if (item > 626) {
-        item = 0;
-    }
-
-    switch (which) {
-    case 0:
-        if (item == 0 || item == 0xFFFF) {
-            break;
-        }
-        return item;
-    case 1:
-        if (item == 0) {
-            return 1001;
-        }
-        if (item == 0xFFFF) {
-            return 1003;
-        }
-        return item_gfx_member[item].lo;
-    case 2:
-        if (item == 0) {
-            return 1002;
-        }
-        if (item == 0xFFFF) {
-            return 1004;
-        }
-        return item_gfx_member[item].hi;
-    case 3:
-        return item_gfx_member_x[func_0202F170(item)].lo;
-    case 4:
-        return item_gfx_member_x[func_0202F170(item)].hi;
-    }
-
-    return 0;
-}
-
-
-
-
-u32 func_02020F08(void)
-{
-    return 0x19;
-}
-
-
-
-
-u32 func_02020F0C(void)
-{
-    return 1;
-}
-
-
-
-
-u32 func_02020F10(void)
-{
-    return 0;
-}
-
-
-
-
-void *FILE_UTIL_Create_0F14(u32 heap)
-{
-    return func_020490F4(0x18, heap);
-}
-
-
-
-
-void *func_02020F20(struct ArcFile *arc, u32 item, u32 heap)
-{
-    if (item > 626) {
-        item = 0;
-    }
-
-    return ARC_TOOL_LoadHandleMember(arc, item, heap);
-}
-
-
-
-
-void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap)
-{
-    if (item > 626) {
-        item = 0;
-    }
-
-    switch (which) {
-    case 0:
-        return ARC_TOOL_LoadMember(0x18, item, heap);
-    case 1:
-        return ARC_TOOL_LoadMember(0x19, item_gfx_member[item].lo, heap);
-    case 2:
-        return ARC_TOOL_LoadMember(0x19, item_gfx_member[item].hi, heap);
-    }
-
-    return 0;
-}
-
-
-
-
-
-/*
- * One of a pair of near-identical entry points (func_02020F84 uses table 0x36,
- * func_02020FB4 table 0x35) that open a message archive, read one entry into
- * the caller's buffer and close it again.  An out-of-range entry index falls
- * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_Check1288
- * accepts, which is why it is a pool word rather than a folded immediate.
- *
- * The heap argument stays in r3 across the guard because it is the fourth
- * argument of the archive open, not a leftover: the ARM callee clobbers r0-r3,
- * so a value still in r3 at the second call could not have survived the first
- * (docs/idioms/a-loop-carried-value-in-a-callees-argument-register-names-the-
- * arity.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02020F84.c  *       --func func_02020F84 --addr 0x02020F84 --cc 1.1p1 --thumb
- */
-void func_02020F84(void *dst, u32 entry, u32 heap)
-{
-    void *bank;
-
-    if (entry > 0x272) {
-        entry = 0;
-    }
-    bank = func_02045B38(0, 2, 0x36, heap);
-    MSGDATA_ReadString(bank, entry, dst);
-    MSGDATA_Delete(bank);
-}
-
-
-
-
-
-/*
- * One of a pair of near-identical entry points (func_02020F84 uses table 0x36,
- * func_02020FB4 table 0x35) that open a message archive, read one entry into
- * the caller's buffer and close it again.  An out-of-range entry index falls
- * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_Check1288
- * accepts, which is why it is a pool word rather than a folded immediate.
- *
- * The heap argument stays in r3 across the guard because it is the fourth
- * argument of the archive open, not a leftover: the ARM callee clobbers r0-r3,
- * so a value still in r3 at the second call could not have survived the first
- * (docs/idioms/a-loop-carried-value-in-a-callees-argument-register-names-the-
- * arity.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02020FB4.c  *       --func func_02020FB4 --addr 0x02020FB4 --cc 1.1p1 --thumb
- */
-void func_02020FB4(void *dst, u32 entry, u32 heap)
-{
-    void *bank;
-
-    if (entry > 0x272) {
-        entry = 0;
-    }
-    bank = func_02045B38(0, 2, 0x35, heap);
-    MSGDATA_ReadString(bank, entry, dst);
-    MSGDATA_Delete(bank);
-}
-
-
-
-
-
-/*
- * One-shot wrapper over the record getter of src/matched/unit_02021014.c:
- * build a temporary record for the id (with bit 15 forced on and the rest of
- * the id masked to fifteen bits), read one property out of it, free it, and
- * answer the property.
- *
- * 0x8000 costs no second pool word: the compiler keeps 0x7FFF in r3 for the
- * mask and derives the set bit from it with `adds r2, r3, #1`.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Get_0FE4.c \
- *       --func FILE_UTIL_Get_0FE4 --addr 0x02020FE4 --cc 1.1p1 --thumb
- */
-u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap)
-{
-    struct ItemRecord *record;
-    u32   value;
-
-    record = FILE_UTIL_CreateArcTool0F34(item, 0, (u16)((heap & 0x7FFF) | 0x8000));
-    value = FILE_UTIL_Get_1014(record, sel);
-    func_020307B0(record);
-    return value;
-}
-
-
-
-
-
-/*
- * A whole translation unit range, matched as one byte range.
- *
- * The two halves of one property-getter interface over a packed record: a
- * caller hands in a record pointer and a property id, and gets an unsigned
- * quantity back.  Ids 0..0x11 are answered by FILE_UTIL_Get_1014 out of the record
- * header; anything above that is delegated, for one of the two header layouts,
- * to func_020210C8 on the sub-record at +0x10, which answers ids 0x12..0x3E out
- * of a seventeen-byte bitfield block.
- *
- * The two are one file rather than two because FILE_UTIL_Get_1014's call to
- * func_020210C8 is the only branch to that address anywhere in the image: as
- * separate files neither can attest the other and both cap at MATCH, while in
- * one translation unit the call is `local` and needs no image evidence at all
- * (docs/AGENT-BRIEF.md section 5, the `local` class).
- *
- * Two shape findings, both of which cost real bytes:
- *
- *  - FILE_UTIL_Get_1014's dispatch runs in r2, not in the switch value's own r1
- *    (docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md: the
- *    index register is the switch value's register only when that register is
- *    dead across the arms).  Here it is not dead, and the reason is the
- *    delegation: func_020210C8 takes the property id as its second argument,
- *    which is already sitting in r1, so the call site sets only r0 and r1 stays
- *    live to the end of the function.  Declaring func_020210C8 as a one
- *    argument function is byte for byte right everywhere else and wrong in
- *    those nine bytes.  func_020210C8's own `subs r1, #0x12` is the independent
- *    confirmation that its second parameter is the same id.
- *  - the fall-through of FILE_UTIL_Get_1014 is a two-case `switch` on the header
- *    byte at +0xC, not a chain of `if`s: the switch form emits
- *    cmp/beq, cmp/beq, b-to-default, the `if` chain emits the inverted
- *    bne-over form and is two bytes shorter.
- *
- * The `ldrsb r0, [r0, r1]` arms of func_020210C8 are the signedness evidence
- * for the six plain fields at +7..+0xC and the three at +0xF..+0x11: there is
- * no immediate-offset `ldrsb`, so a signed byte load has to materialise its
- * offset in a register (docs/idioms/ldrsh-register-offset-is-signedness.md).
- * +0xD and +0xE load with a plain `ldrb` and are unsigned, which is why the
- * declared return type has to be signed for the rest to sign-extend.
- *
- * Addresses are Black-image addresses.  The bitfield block's contents are
- * content data, not code shape: if Pokemon White sizes this record
- * differently, the field list here is the thing to re-derive, not the dispatch.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02021014.c \
- *       --addr 0x02021014 --thumb
- */
-u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop)
-{
-    switch (prop) {
-    case 0:
-        return record->price * 10;
-    case 1:
-        return record->holdEffect;
-    case 2:
-        return record->holdEffectParam;
-    case 3:
-        return record->preventToss;
-    case 4:
-        return record->selectable;
-    case 5:
-        return record->pocket;
-    case 6:
-        return record->fieldUse;
-    case 7:
-        return record->battleUse;
-    case 8:
-        return record->pluckEffect;
-    case 9:
-        return record->flingEffect;
-    case 10:
-        return record->flingPower;
-    case 11:
-        return record->naturalGiftPower;
-    case 12:
-        return record->naturalGiftType;
-    case 13:
-        return record->sortGroup;
-    case 14:
-        return record->extType;
-    case 15:
-        return record->partyUse;
-    case 16:
-        return record->partyUseParam;
-    case 17:
-        return record->partyUseOption;
-    }
-
-    switch (record->extType) {
-    case 0:
-        return record->u.f10;
-    case 1:
-        return func_020210C8(&record->u.ext, prop);
-    }
-    return 0;
-}
-
-
-
-int func_020210C8(struct ItemExt *ext, u32 prop)
-{
-    switch (prop) {
-    case 0x12:
-        return ext->cureSleep;
-    case 0x13:
-        return ext->curePoison;
-    case 0x14:
-        return ext->cureBurn;
-    case 0x15:
-        return ext->cureFreeze;
-    case 0x16:
-        return ext->cureParalysis;
-    case 0x17:
-        return ext->cureConfusion;
-    case 0x18:
-        return ext->cureInfatuation;
-    case 0x19:
-        return ext->guardSpec;
-    case 0x1A:
-        return ext->revive;
-    case 0x1B:
-        return ext->reviveAll;
-    case 0x1C:
-        return ext->levelUp;
-    case 0x1D:
-        return ext->evolve;
-    case 0x1E:
-        return ext->atkStage;
-    case 0x1F:
-        return ext->defStage;
-    case 0x20:
-        return ext->spAtkStage;
-    case 0x21:
-        return ext->spDefStage;
-    case 0x22:
-        return ext->accStage;
-    case 0x23:
-        return ext->critStage;
-    case 0x24:
-        return ext->ppRestoreKind;
-    case 0x25:
-        return ext->ppUp;
-    case 0x26:
-        return ext->ppUpMax;
-    case 0x27:
-        return ext->ppRestore;
-    case 0x28:
-        return ext->ppRestoreAll;
-    case 0x29:
-        return ext->hpRestore;
-    case 0x2A:
-        return ext->hpEvUp;
-    case 0x2B:
-        return ext->atkEvUp;
-    case 0x2C:
-        return ext->defEvUp;
-    case 0x2D:
-        return ext->speedEvUp;
-    case 0x2E:
-        return ext->spAtkEvUp;
-    case 0x2F:
-        return ext->spDefEvUp;
-    case 0x30:
-        return ext->friendshipLow;
-    case 0x31:
-        return ext->friendshipMid;
-    case 0x32:
-        return ext->friendshipHigh;
-    case 0x33:
-        return ext->evLimitIgnore;
-    case 0x34:
-        return ext->hpEv;
-    case 0x35:
-        return ext->atkEv;
-    case 0x36:
-        return ext->defEv;
-    case 0x37:
-        return ext->speedEv;
-    case 0x38:
-        return ext->spAtkEv;
-    case 0x39:
-        return ext->spDefEv;
-    case 0x3A:
-        return ext->hpRestoreAmount;
-    case 0x3B:
-        return ext->ppRestoreAmount;
-    case 0x3C:
-        return ext->friendshipDeltaLow;
-    case 0x3D:
-        return ext->friendshipDeltaMid;
-    case 0x3E:
-        return ext->friendshipDeltaHigh;
-    }
-    return 0;
-}
-
-
-
-
-/*
- * The membership test for the two id windows this file's tables are indexed
- * by: 0x148..0x1A9 and 0x26A..0x26C.  Written as one disjunction so that both
- * true arms share the single `movs r0, #1` exit and both false arms the single
- * `movs r0, #0` (docs/idioms/disjunction-must-be-one-expression-to-share-its-
- * exit.md); as two separate `if` statements each window grows its own return.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Check1288.c \
- *       --func FILE_UTIL_Check1288 --addr 0x02021288 --cc 1.1p1 --thumb
- */
-u32 FILE_UTIL_Check1288(u32 id)
-{
-    if ((id >= 0x148 && id <= 0x1A9) || (id >= 0x26A && id <= 0x26C)) {
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-/*
- * Halfword lookup keyed by one of the two id windows FILE_UTIL_Check1288 accepts:
- * 0x148..0x1A9 maps to entries 0..0x61 of the table at 0x0209EAA0 and
- * 0x26A..0x26C continues at 0x62..0x64, which is why the second window's
- * subtrahend is 0x208 rather than its own start.  Ids outside both windows
- * answer 0.
- *
- * The two subtrahends are one constant: the compiler keeps 0x26A in r0 for the
- * window test and derives 0x208 from it with `subs r0, #0x62` rather than
- * spending a second pool word.
- *
- * The id parameter is `u16` and the subtraction is written back into it, not
- * into a fresh local.  That is what puts the index in r4, the parameter's own
- * callee-saved home, and leaves r0 free for the table base: with a separate
- * `u16 i` local the narrowed index is a dead temporary, lands in r0, and the
- * last three instructions come out in the other order, five bytes wrong.  A
- * `u32` parameter with an explicit `(u16)` cast is the same five bytes wrong,
- * so the `u16` parameter type is real evidence and not a spelling choice.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Get_12B0.c \
- *       --func FILE_UTIL_Get_12B0 --addr 0x020212B0 --cc 1.1p1 --thumb
- */
-u16 FILE_UTIL_Get_12B0(u16 machineId)
-{
-    if (FILE_UTIL_Check1288(machineId) == 0) {
-        return 0;
-    }
-    if (machineId >= 0x26A) {
-        machineId -= 0x208;
-    } else {
-        machineId -= 0x148;
-    }
-    return g_0209EAA0[machineId];
-}
-
-
-
-
-
-/*
- * Linear search of the six-entry tail of the same halfword table
- * FILE_UTIL_Get_12B0 indexes, entries 0x5C..0x61.  The 0xB8 byte offset is kept out
- * of the `ldrh` encoding because it is past the halfword load's +62 reach
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md), so the address comes
- * out as base, plus the scaled index, plus a separate `adds r1, #0xb8`.
- *
- * The counter is a `u8`: the increment is `adds`/`lsls #0x18`/`lsrs #0x18`
- * through a scratch register, which a `u32` counter does not produce.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Check12E4.c \
- *       --func FILE_UTIL_Check12E4 --addr 0x020212E4 --cc 1.1p1 --thumb
- */
-u32 FILE_UTIL_Check12E4(u16 moveId)
-{
-    u8 idx;
-
-    for (idx = 0; idx < 6; idx++) {
-        if (moveId == g_0209EAA0[0x5C + idx]) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-
-
-
-
-/*
- * Maps an id in one of FILE_UTIL_Check1288's two accepted windows onto a byte-wide
- * slot number, in three ranges with three different subtrahends: 0x26A.. off
- * 0x20E, 0x1A4..0x269 off 0x145, and the rest off 0x148.  Ids the window test
- * rejects answer 0xFF.
- *
- * Only two pool words: 0x26A is loaded once and 0x1A4 derived from it with
- * `subs r0, #0xc6`, the same constant-sharing FILE_UTIL_Get_12B0 does.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_GetId.c \
- *       --func FILE_UTIL_GetId --addr 0x0202130C --cc 1.1p1 --thumb
- */
-u32 FILE_UTIL_GetId(u32 machineId)
-{
-    if (FILE_UTIL_Check1288(machineId) == 0) {
-        return 0xFF;
-    }
-    if (machineId >= 0x26A) {
-        return (u8)(machineId - 0x20E);
-    }
-    if (machineId >= 0x1A4) {
-        return (u8)(machineId - 0x145);
-    }
-    return (u8)(machineId - 0x148);
-}
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02021350.c  *       --func func_02021350 --addr 0x02021350 --cc 1.1p1 --thumb
- */
-u8 func_02021350(u16 machineId)
-{
-    if (machineId >= 0x1A4 && machineId <= 0x1A9) {
-        return (u8)(machineId - 0x1A4);
-    }
-    return 0xFF;
-}
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Check136C.c  *       --func FILE_UTIL_Check136C --addr 0x0202136C --cc 1.1p1 --thumb
- */
-u32 FILE_UTIL_Check136C(u16 itemId)
-{
-    u32 idx;
-
-    for (idx = 0; idx < 0xC; idx++) {
-        if (itemId == g_0209E8EC[idx]) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202138C.c  *       --func func_0202138C --addr 0x0202138C --cc 1.1p1 --thumb
- */
-u8 func_0202138C(u16 itemId)
-{
-    u32 idx;
-
-    for (idx = 0; idx < 0xC; idx++) {
-        if (itemId == g_0209E8EC[idx]) {
-            return (u8)idx;
-        }
-    }
-    return 0;
-}
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020213AC.c  *       --func func_020213AC --addr 0x020213AC --cc 1.1p1 --thumb
- */
-u16 func_020213AC(u32 idx)
-{
-    if (idx >= 0xC) {
-        return 0;
-    }
-    return g_0209E8EC[idx];
 }

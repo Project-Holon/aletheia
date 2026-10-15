@@ -1,5 +1,5 @@
 /*
- * function: func_021C9BC4
+ * function: WF2DMAP_TOUCH_ClearTrainerScreens
  * address: 0x021C9BC4
  * packet: pkt_ov128_021C9BC4
  * region: ov128
@@ -19,4 +19,4 @@ struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
-void func_021C9BC4(u32 p) { int i;void *q;for(i=0;i<10;i++) {q=*(void **)(p+296+i*8);BMP_WIN_ClearScreen(q);func_02041B6C(BMP_WIN_GetBgLayer(q));}}
+void WF2DMAP_TOUCH_ClearTrainerScreens(u32 p) { int i;void *q;for(i=0;i<10;i++) {q=*(void **)(p+296+i*8);BMP_WIN_ClearScreen(q);func_02041B6C(BMP_WIN_GetBgLayer(q));}}

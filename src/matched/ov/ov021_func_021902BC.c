@@ -13,7 +13,7 @@
  *   func_020307B0  0x020307B0  arm
  *   TALKMSGWIN_Delete  0x02194798  thumb  ov021
  *   TCBL_Destroy  0x02031140  arm
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   func_020403F4  0x020403F4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -53,7 +53,7 @@ struct S02031140;
 struct U16Vec;
 extern void TALKMSGWIN_Delete(unsigned char *a);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_02040DA8(u32 a, u32 b, u32 c);
+extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 i);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -77,7 +77,7 @@ void FIELD_MSGBG_Delete(Obj *o)
         TCBL_Destroy((struct S02031140 *)(((u32 *)o)[0x59]));
     }
     if (o->f02 != 0xff) {
-        func_02040DA8(o->f02, 1, 0);
+        BG_SYS_SetTileUnit(o->f02, 1, 0);
         func_020403F4((u8)o->f02);
     }
     if (o->f04 != 0xff) {

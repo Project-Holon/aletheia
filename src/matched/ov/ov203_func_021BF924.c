@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BE9E8 0x021BE9E8 thumb ov203
+ *   DEMO3D_DATA_DeleteCapture 0x021BE9E8 thumb ov203
  *   TCBL_DeleteAllTasks 0x0203115C arm
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
@@ -21,7 +21,7 @@
 typedef unsigned int   u32;
 struct S02031140;
 struct Tcbl;
-extern void func_021BE9E8(int);
+extern void DEMO3D_DATA_DeleteCapture(int);
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void GFL_USE_SetBgmPlayerParam(void *);
 extern void GFL_USE_FadeInBgmFull(u32 a);
@@ -31,7 +31,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern int GFL_USE_PopBgm(void);
 void func_021BF924(char *p)
 {
-    if(((struct Obj02250 *)p)->f2C) func_021BE9E8(((struct Obj02250 *)p)->f2C);
+    if(((struct Obj02250 *)p)->f2C) DEMO3D_DATA_DeleteCapture(((struct Obj02250 *)p)->f2C);
     TCBL_DeleteAllTasks(((struct Obj02250 *)p)->f20);
     if(((struct Obj02250 *)p)->f19) {
         GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(60);

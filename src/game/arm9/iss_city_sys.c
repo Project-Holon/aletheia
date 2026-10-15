@@ -17,7 +17,7 @@
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_SetNature  0x020185B0  thumb
  *   POKE_TOOL_SetAbility  0x02018A00  thumb
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  *   func_02030734  0x02030734  arm
@@ -90,7 +90,7 @@ extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 field, u32 index);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 field, u32 value);
 extern void POKE_TOOL_SetNature(void *mon, u32 nature);
 extern void POKE_TOOL_SetAbility(void *mon, u32 species, u32 form);
-extern u32  func_02019C90(u32 species, u16 form, u32 personalField);
+extern u32  POKE_TOOL_GetPersonalParam(u32 species, u16 form, u32 personalField);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
 extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size);
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
@@ -199,7 +199,7 @@ void func_0202A994(u32 species, u32 form, int adjustFlags, u32 *personalityLow, 
  * tr_tool.c: finish one trainer party member.  Field 9 (friendship) is
  * 0xFF unless one of the four moves (fields 0x36..0x39) is 0xDA, then 0;
  * field 0x6F takes form; the 0xF0 nibble of abilityFlags selects the ability
- * path (0x30: POKE_TOOL_SetAbility, otherwise func_02019C90 with field 0x1A or
+ * path (0x30: POKE_TOOL_SetAbility, otherwise POKE_TOOL_GetPersonalParam with field 0x1A or
  * 0x1B); two trainer/species pairs force a fixed nature, the rest take
  * (personality >> 8) % 25.
  *
@@ -235,10 +235,10 @@ void func_0202A9F4(u32 trainerId, void *mon, u32 form, u32 abilityFlags)
     } else if (abilityMode != 0) {
         abilityField = 0x1a;
         abilityField2 = 0x1b;
-        if (func_02019C90(species, (u16)form, 0x1b) != 0 && abilityMode == 0x20) {
+        if (POKE_TOOL_GetPersonalParam(species, (u16)form, 0x1b) != 0 && abilityMode == 0x20) {
             abilityField = abilityField2;
         }
-        POKE_TOOL_SetPartyValue(mon, 0xa, func_02019C90(species, (u16)form, abilityField));
+        POKE_TOOL_SetPartyValue(mon, 0xa, POKE_TOOL_GetPersonalParam(species, (u16)form, abilityField));
     }
 
     trainerIdBase = 0x24a;
@@ -626,7 +626,7 @@ void ISS_CITY_SYS_SetFadeLevel(struct IssCitySys *sys, u32 fadeLevel)
 
 
 /*
- * closed:   blocker func_02020F0C.c is now a manifest entry (matched class)
+ * closed:   blocker FILE_UTIL_GetBankCount.c is now a manifest entry (matched class)
  *
  * Plain field read: the word at 0xc.
  *

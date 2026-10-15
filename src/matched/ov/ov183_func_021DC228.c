@@ -1,5 +1,5 @@
 /*
- * function: func_021DC228
+ * function: BR_CODEIN_RecordStepReceive
  * address: 0x021DC228
  * packet: pkt_ov183_021DC228
  * region: ov183
@@ -35,11 +35,11 @@
  * symbols:
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021DCE28 0x021DCE28 thumb ov183
- *   func_021DCE48 0x021DCE48 thumb ov183
- *   func_021DD054 0x021DD054 thumb ov183
- *   func_021DD0AC 0x021DD0AC thumb ov183
- *   func_021DD0F4 0x021DD0F4 thumb ov183
+ *   BR_CODEIN_RecordDeleteProfileScreen 0x021DCE28 thumb ov183
+ *   BR_CODEIN_RecordDeleteActors 0x021DCE48 thumb ov183
+ *   BR_CODEIN_RecordDeleteButtons 0x021DD054 thumb ov183
+ *   BR_CODEIN_RecordCreateTextWin 0x021DD0AC thumb ov183
+ *   BR_CODEIN_RecordDeleteTextWin 0x021DD0F4 thumb ov183
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
@@ -57,7 +57,7 @@
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DBC68 0x021DBC68 thumb ov183
+ *   BR_CODEIN_RecordStepCreateProfile 0x021DBC68 thumb ov183
  */
 typedef unsigned int u32;
 typedef unsigned long long u64;
@@ -66,8 +66,8 @@ typedef unsigned char  u8;
 struct Big;
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
-extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD054(char *,char *);
-extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
+extern void BR_CODEIN_RecordDeleteProfileScreen(char *,char *),BR_CODEIN_RecordDeleteActors(char *,char *),BR_CODEIN_RecordDeleteButtons(char *,char *);
+extern void BR_CODEIN_RecordCreateTextWin(char *,char *),BR_CODEIN_RecordDeleteTextWin(char *,char *);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void MI_CpuFill8(void *,int,u32);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
@@ -85,8 +85,8 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern int BR_UTIL_ClearTaskStep(int *a);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021DBC68(int a, int b, char *p);
-void func_021DC228(int *a,int *state,char *p)
+extern void BR_CODEIN_RecordStepCreateProfile(int a, int b, char *p);
+void BR_CODEIN_RecordStepReceive(int *a,int *state,char *p)
 {
     u64 t;
     int message;
@@ -98,10 +98,10 @@ void func_021DC228(int *a,int *state,char *p)
     case 0: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=1;break;
     case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
     case 2:
-        if(*(int *)(p+0xb0)) func_021DCE28(p,*(char **)(p+0xd0));
-        else func_021DCE48(p,*(char **)(p+0xd0));
-        func_021DD054(p,*(char **)(p+0xd0));
-        func_021DD0AC(p,*(char **)(p+0xd0));
+        if(*(int *)(p+0xb0)) BR_CODEIN_RecordDeleteProfileScreen(p,*(char **)(p+0xd0));
+        else BR_CODEIN_RecordDeleteActors(p,*(char **)(p+0xd0));
+        BR_CODEIN_RecordDeleteButtons(p,*(char **)(p+0xd0));
+        BR_CODEIN_RecordCreateTextWin(p,*(char **)(p+0xd0));
         BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
         *state=3;break;
     case 3: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
@@ -140,10 +140,10 @@ void func_021DC228(int *a,int *state,char *p)
     case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
     case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
-        if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_ClearTaskStep((int *)(*(int *)(p+8)));}
+        if(!GFL_USE_IsSeqPlaying(0x701)) {BR_CODEIN_RecordDeleteTextWin(p,*(char **)(p+0xd0));BR_UTIL_ClearTaskStep((int *)(*(int *)(p+8)));}
         break;
     case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
-    case 14: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)func_021DBC68);break;
+    case 14: BR_CODEIN_RecordDeleteTextWin(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)BR_CODEIN_RecordStepCreateProfile);break;
     }
 }

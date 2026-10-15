@@ -1,5 +1,5 @@
 /*
- * function: func_021DE7C0
+ * function: BR_CODEIN_ResultSetupButtons
  * address: 0x021DE7C0
  * packet: pkt_ov183_021DE7C0
  * region: ov183
@@ -41,7 +41,7 @@
  * };
  * 
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+ * extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
  * extern void func_020307B0(void *p);
  * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
@@ -79,7 +79,7 @@
  *         void *buf;
  * 
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000), size,
  *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -108,8 +108,8 @@
  *   func_02012944 0x02012944 thumb
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   func_02045CAC 0x02045CAC arm
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   STRBUF_Delete 0x02045808 arm
  *   d_021E351C 0x021E351C data a4
@@ -134,11 +134,11 @@ extern struct U16Vec *STRBUF_Create(u32,u32);
 extern u8 *func_02012944(void *p);
 extern void *BR_UTIL_Create(u16,u32,u16,u16,u8,u8,void *,u16);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
-extern void func_0201F02C(struct WordSet *,u32,void *);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *);
-void func_021DE7C0(char *p,char *q)
+void BR_CODEIN_ResultSetupButtons(char *p,char *q)
 {
     int font,words,bank,i;
     Config config;
@@ -165,8 +165,8 @@ void func_021DE7C0(char *p,char *q)
         *(void **)(slot+0x10)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x6c));
         if(i==0) {
             func_02045CAC((struct MsgBank *)bank,rec->value,base);
-            func_0201F02C((struct WordSet *)words,0,value);
-            func_0201F250((struct WordSet *)words,text,base);
+            WORDSET_SetSlotMyStatus((struct WordSet *)words,0,value);
+            WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
         } else func_02045CAC((struct MsgBank *)bank,rec->value,text);
         BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x10),text,(void *)font,0x3da0);
     }

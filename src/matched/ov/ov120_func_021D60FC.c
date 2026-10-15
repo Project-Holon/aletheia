@@ -1,5 +1,5 @@
 /*
- * function: func_021D60FC
+ * function: GTSNEGO_DISP_GetUnit
  * address: 0x021D60FC
  * packet: pkt_ov120_021D60FC
  * region: ov120
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u32 func_021D60FC(u8 *p){return ((struct Obj22838 *)p)->f10;}
+u32 GTSNEGO_DISP_GetUnit(u8 *p){return ((struct Obj22838 *)p)->f10;}

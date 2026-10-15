@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   gBtlvEff     0x0220AF20  data   ov094
  *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
@@ -45,7 +45,7 @@ typedef struct {
 extern Work *gBtlvEff;
 extern const char gBtlvEffectFileName[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern int BTLV_EFFECT_IsBusy(void);
 extern void BTLV_EFFVM_StartScript(void *h, int a, u32 b, u16 c, void *d);
@@ -62,7 +62,7 @@ void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c)
         gBtlvEff->f1e8 = 1;
         return;
     }
-    o = sub_02030734(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x249);
+    o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x249);
     o->f4 = a;
     o->f8 = b;
     o->fc = c;

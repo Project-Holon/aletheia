@@ -1,5 +1,5 @@
 /*
- * function: func_0215A014
+ * function: MAP_REPLACE_SetArriveFlag
  * address: 0x0215A014
  * packet: pkt_ov010_0215A014
  * region: ov010
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void ZONEDATA_SetEventFlag(char *, int);
-void func_0215A014(void *a, int b) {
+void MAP_REPLACE_SetArriveFlag(void *a, int b) {
  unsigned i;
  Ent *p;
  for(i=0; i<17; i++) {

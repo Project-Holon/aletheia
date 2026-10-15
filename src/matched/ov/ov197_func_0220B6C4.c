@@ -1,5 +1,5 @@
 /*
- * function: func_0220B6C4
+ * function: B_BAG_MAIN_DrawInfoBox
  * address: 0x0220B6C4
  * packet: pkt_ov197_0220B6C4
  * region: ov197
@@ -22,7 +22,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void B_BAG_MAIN_PrintLabel(char *,int,int,int,unsigned short);
-void func_0220B6C4(char *p)
+void B_BAG_MAIN_DrawInfoBox(char *p)
 {
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00314 *)p)->f110)),0);
     if(((struct Obj25004 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f8!=1) {

@@ -19,29 +19,29 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021BB33C 0x021BB33C data a4
  *   d_021BB1C8 0x021BB1C8 data a4
  *   func_02030EAC 0x02030EAC arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BB17C 0x021BB17C data a4
  *   d_021BB1F8 0x021BB1F8 data a4
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
@@ -54,7 +54,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021BAABC 0x021BAABC thumb ov213
+ *   COMM_BTL_DEMO_MAIN_Init3dSystem 0x021BAABC thumb ov213
  *   d_021BB158 0x021BB158 data a4
  *   d_021BB164 0x021BB164 data a4
  *   d_021BB170 0x021BB170 data a4
@@ -91,25 +91,25 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *p,unsigned value,unsigned size);
 extern void BG_SYS_ClearGraphicsMemory(unsigned mode);
 extern void BG_SYS_SetVramBanks(const struct DispVram *p);
-extern void func_0204363C(unsigned swap);
+extern void BMP_SetDisplaySwap(unsigned swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void *func_020056A0(void *callback,void *ctx,int priority);
 extern void func_02030EAC(struct Node *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(unsigned char);
+extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -119,7 +119,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-extern void func_021BAABC(void);
+extern void COMM_BTL_DEMO_MAIN_Init3dSystem(void);
 extern void G3D_SYSTEM_Init(u32 a,u32 b,u32 c,u32 d,u16 fifo,unsigned heap,void (*setup)(void));
 extern u32 *G3D_CAMERA_Create(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,Vec3 *i,Vec3 *j,Vec3 *k,unsigned heap);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -169,11 +169,11 @@ void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&d_021BB1C8);
-    func_0204363C(mode);
+    BMP_SetDisplaySwap(mode);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     COMM_BTL_DEMO_GRAPHIC_InitBg(p,heap);
     COMM_BTL_DEMO_GRAPHIC_InitClact((void **)(p+4),(int)&d_021BB1C8,heap);
     COMM_BTL_DEMO_GRAPHIC_InitG3d((unsigned **)(p+8),heap);
@@ -188,7 +188,7 @@ void COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *p)
     COMM_BTL_DEMO_GRAPHIC_DeleteG3d((int *)(p + 8));
     COMM_BTL_DEMO_GRAPHIC_DeleteClact(p + 4);
     COMM_BTL_DEMO_GRAPHIC_DeleteBg(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
@@ -224,12 +224,12 @@ void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap)
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28(&d_021BB17C);
+    BG_SYS_SetGraphicsMode(&d_021BB17C);
     for (i = 0; i < 6; i++) {
         row = d_021BB1F8[i];
         layer = row[0];
         BG_SYS_InitBgLayer((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
-        func_020414AC(layer);
+        BG_SYS_FreeSlot(layer);
         func_02040588(layer, row[10]);
     }
 }
@@ -244,7 +244,7 @@ void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p){unsigned i;for(i=0;i<6;i++)func_020
 void COMM_BTL_DEMO_GRAPHIC_Noop(void *a0){}
 
 
-void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *a0){func_020419E4();}
+void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *a0){BG_SYS_Update();}
 
 
 
@@ -281,7 +281,7 @@ void *COMM_BTL_DEMO_GRAPHIC_GetClactBank(void **p){return *p;}
 void COMM_BTL_DEMO_GRAPHIC_InitG3d(u32 **p,unsigned heap)
 {
     Vec3 copy;
-    G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021BAABC);
+    G3D_SYSTEM_Init(0,1,0,1,0,heap,COMM_BTL_DEMO_MAIN_Init3dSystem);
     copy=d_021BB158;
     *p=G3D_CAMERA_Create(0,*(const short *)(d_020A1EB8+12),*(const short *)(d_020A1EB8+14),0x1555,0,0x1000,0x400000,0,&d_021BB170,&copy,&d_021BB164,heap);
 }

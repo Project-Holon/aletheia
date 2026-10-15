@@ -1,5 +1,5 @@
 /*
- * function: func_021BC800
+ * function: ZKNSEARCH_MAIN_DeletePaletteAnim
  * address:  0x021BC800
  * packet:   pkt_ov210_021BC800
  * region:   ov210
@@ -26,7 +26,7 @@ struct PalAnmSlot;
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 
-void func_021BC800(u8 *p)
+void ZKNSEARCH_MAIN_DeletePaletteAnim(u8 *p)
 {
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 0);
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 1);

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204EA0C 0x0204EA0C arm
+ *   DOUBLE3DDISP_Exit 0x0204EA0C arm
  */
 typedef unsigned short u16;
-extern int func_0204EA0C(void);
-void HALL_OF_FAME_ExitParticleHeap(void) {func_0204EA0C();}
+extern int DOUBLE3DDISP_Exit(void);
+void HALL_OF_FAME_ExitParticleHeap(void) {DOUBLE3DDISP_Exit();}

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02057830",
+   "name": "SPL_EMITTER_TransformVec",
    "address": "0x02057830",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02057AB8",
+   "name": "SPL_EMITTER_ClampU16",
    "address": "0x02057AB8",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02057B10",
+   "name": "SPL_EMITTER_ClampShort",
    "address": "0x02057B10",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02057E68",
+   "name": "SPL_EMITTER_EvalCurve",
    "address": "0x02057E68",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02057EF8",
+   "name": "SPL_EMITTER_LerpVec",
    "address": "0x02057EF8",
    "kind": "game",
    "region": "arm9",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02058180",
+   "name": "SPL_EMITTER_AddScaledVec",
    "address": "0x02058180",
    "kind": "game",
    "region": "arm9",
@@ -84,7 +84,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02058204",
+   "name": "SPL_EMITTER_UpdateNode",
    "address": "0x02058204",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02058300",
+   "name": "SPL_EMITTER_FreeNode",
    "address": "0x02058300",
    "kind": "game",
    "region": "arm9",
@@ -108,7 +108,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02058380",
+   "name": "SPL_EMITTER_AllocNode",
    "address": "0x02058380",
    "kind": "game",
    "region": "arm9",

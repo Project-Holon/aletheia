@@ -15,7 +15,7 @@
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   ServerBrowserCount  0x0219F068  arm  ov009
  *   ServerBrowserGetServer  0x0219F058  arm  ov009
- *   func_0219E120  0x0219E120  arm  ov009
+ *   SBServerGetIntValueA  0x0219E120  arm  ov009
  *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm  ov009
  *   ServerBrowserRemoveServer  0x0219EFA8  arm  ov009
  *   func_021685CC  0x021685CC  arm  ov009
@@ -42,7 +42,7 @@ extern int ServerBrowserCount(void *sb);
 extern void *ServerBrowserGetServer(void *sb, int index);
 struct SBServer;
 struct ServerBrowser;
-extern int func_0219E120(struct SBServer *server, char *key, int idefault);
+extern int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault);
 extern char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
 extern void ServerBrowserRemoveServer(struct ServerBrowser *sb, struct SBServer *server);
 extern unsigned long func_021685CC(unsigned long max);
@@ -61,7 +61,7 @@ static int func_02174790(int sort)
     for (i = 0; i < ServerBrowserCount(((DWCstMatchControl *)func_02175F3C())->sb); i++) {
         server = ServerBrowserGetServer(((DWCstMatchControl *)func_02175F3C())->sb, i);
         if (((DWCstMatchControl *)func_02175F3C())->qr2IsReserved == 0) {
-            profileID = func_0219E120(server, "dwc_pid", 0);
+            profileID = SBServerGetIntValueA(server, "dwc_pid", 0);
             localDelete = 0;
             if (DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID)) {
                 ServerBrowserRemoveServer(((DWCstMatchControl *)func_02175F3C())->sb, server);

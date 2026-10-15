@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1C8
+ * function: COMM_BTL_DEMO_MAIN_SetRowActorAnim
  * address: 0x021BA1C8
  * packet: pkt_ov213_021BA1C8
  * region: ov213
@@ -10,7 +10,7 @@
  * symbols:
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_021B9EB0 0x021B9EB0 thumb ov213
+ *   COMM_BTL_DEMO_MAIN_TypeToFrame 0x021B9EB0 thumb ov213
  *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
  */
 #include "../include/Obj25696.h"
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern int func_021B9EB0(void *,u32);
+extern int COMM_BTL_DEMO_MAIN_TypeToFrame(void *,u32);
 struct Obj;
 extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
-void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)POKEPARTY_GetCount(list))entry=POKEPARTY_GetMember(((struct Obj25696 *)p)->f0,index);value=func_021B9EB0(entry,flags[index]);CLACT_ChangeActorAnimSeq((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
+void COMM_BTL_DEMO_MAIN_SetRowActorAnim(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)POKEPARTY_GetCount(list))entry=POKEPARTY_GetMember(((struct Obj25696 *)p)->f0,index);value=COMM_BTL_DEMO_MAIN_TypeToFrame(entry,flags[index]);CLACT_ChangeActorAnimSeq((struct Obj *)(*(u32 *)(p+12+index*4)),value);}

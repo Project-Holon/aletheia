@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
-void PLIST_MESSAGE_LoadWindowFrame(unsigned short *a, u32 b) {func_0201F5BC(0,1,12,0,*a);}
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
+void PLIST_MESSAGE_LoadWindowFrame(unsigned short *a, u32 b) {BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*a);}

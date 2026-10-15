@@ -1,5 +1,5 @@
 /*
- * function: func_02208514
+ * function: SHINKA_DEMO_VIEW_FreeQuad
  * address: 0x02208514
  * packet: pkt_ov195_02208514
  * region: ov195
@@ -14,4 +14,4 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_02208514(void *p,int n){func_020307B0(p);}
+void SHINKA_DEMO_VIEW_FreeQuad(void *p,int n){func_020307B0(p);}

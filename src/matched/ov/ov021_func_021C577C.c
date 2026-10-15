@@ -14,7 +14,7 @@
  *   BMP_MENULIST_GetCursorY 0x02020314 thumb
  *   BMP_MENULIST_GetRowY 0x02020324 thumb
  *   BMP_MENULIST_GetPos 0x020202FC thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  *   SHORTCUT_MENU_SetActorsY 0x021C59F8 thumb ov021
  */
@@ -29,7 +29,7 @@ extern u32 BMP_MENULIST_GetAttr(struct Obj *obj, u32 what);
 extern u16 BMP_MENULIST_GetCursorY(struct Obj *obj);
 extern u16 BMP_MENULIST_GetRowY(struct Obj *obj, u32 n);
 extern void BMP_MENULIST_GetPos(struct Obj *obj, u16 *a, u16 *b);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 extern void SHORTCUT_MENU_SetActorsY(char *w, int b);
 
@@ -48,19 +48,19 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list)
     x = BMP_MENULIST_GetCursorY(list) >> 3;
     y = BMP_MENULIST_GetAttr(list, 9) >> 3;
     if (((struct Obj04282 *)w)->f24 == 0) {
-        func_020413B0(1, 1, 12, 30, 12, 11);
-        func_020413B0(1, 1, x + 12, 30, y, 12);
-        func_020413B0(1, 0, 11, 32, 1, 10);
+        BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
+        BG_SYS_FillTileMap(1, 1, x + 12, 30, y, 12);
+        BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
         func_02041B6C(1);
     } else if (((struct Obj04282 *)w)->f24 == 1) {
-        func_020413B0(1, 1, 12, 30, 12, 11);
+        BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
         BMP_MENULIST_GetPos(list, &v[1], &v[0]);
         s = BMP_MENULIST_GetAttr(list, 8);
         t = BMP_MENULIST_GetAttr(list, 9);
         d = ((struct Obj04282 *)w)->f1E + ((struct Obj04282 *)w)->f1C - v[1];
         s = s + d * t;
-        func_020413B0(1, 1, (s >> 3) + 12, 30, y, 12);
-        func_020413B0(1, 0, 11, 32, 1, 10);
+        BG_SYS_FillTileMap(1, 1, (s >> 3) + 12, 30, y, 12);
+        BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
         func_02041B6C(1);
     }
     if (((struct Obj04282 *)w)->f40 == 1) {

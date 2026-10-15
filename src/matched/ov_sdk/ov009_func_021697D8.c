@@ -14,7 +14,7 @@
  * symbols:
  *   g_021AA860   0x021AA860  data
  *   gDwcFriendGetInfoFlags   0x021A200C  data
- *   func_02185D04  0x02185D04  arm
+ *   gpSendBuddyRequestA  0x02185D04  arm
  *   DWCi_HandleGPError  0x021698C0  arm
  */
 
@@ -22,14 +22,14 @@
 
 extern struct FriendGlobal g_021AA860;
 extern char gDwcFriendGetInfoFlags[];
-extern int func_02185D04(void **connection, int profile, char *reason);
+extern int gpSendBuddyRequestA(void **connection, int profile, char *reason);
 extern int DWCi_HandleGPError(int result);
 
 int DWCi_GPSendBuddyRequest(int profileID)
 {
     int gpResult;
 
-    gpResult = func_02185D04(*(void ***)(*(char **)(((char *)&g_021AA860) + 0xc) + 4), profileID, gDwcFriendGetInfoFlags);
+    gpResult = gpSendBuddyRequestA(*(void ***)(*(char **)(((char *)&g_021AA860) + 0xc) + 4), profileID, gDwcFriendGetInfoFlags);
     DWCi_HandleGPError(gpResult);
     return gpResult;
 }

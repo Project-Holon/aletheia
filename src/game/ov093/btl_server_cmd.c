@@ -74,8 +74,8 @@
  *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
- *   sub_02008DF0 0x02008DF0 thumb
- *   sub_02008DAC 0x02008DAC thumb
+ *   RECORD_AddOne 0x02008DF0 thumb
+ *   RECORD_AddCounter 0x02008DAC thumb
  *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  *   NATSUKI_CalcParty 0x0201B818 thumb
@@ -108,7 +108,7 @@
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
  *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   BTL_REC_InitPacket 0x021EE8B4 thumb ov093
  *   BTL_REC_MakeSkipPacket 0x021EE8D8 thumb ov093
  *   BTL_REC_AddRecord  0x021EE8F4  thumb  ov093
@@ -293,7 +293,7 @@
  *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
  *   BTL_EVENT_RemoveDeadFactors 0x021D701C thumb ov093
  *   BTL_MAIN_GetPmsWork 0x021B8630 thumb ov093
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
  *   COMM_PLAYER_SUPPORT_SavePreviousAndSuspend 0x0202E7E4 thumb
@@ -399,7 +399,7 @@
  *   FX_Sqrt  0x0207C7B4  arm
  *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  *   gEffortValueStatTable      0x021EFDC0  data  ov093
- *   func_02019C90   0x02019C90  thumb arm9
+ *   POKE_TOOL_GetPersonalParam   0x02019C90  thumb arm9
  *   POKE_TOOL_DecodePartyParam   0x02017D30  thumb arm9
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   gBagItemEffectTable 0x021EFDE4 data a4

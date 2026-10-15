@@ -1,5 +1,5 @@
 /*
- * function: func_021C7130
+ * function: VIEWER_TEXT_LoadResources
  * address:  0x021C7130
  * packet:   pkt_ov111_021C7130
  * region:   ov111
@@ -18,10 +18,10 @@
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Create  0x0201EC74  thumb
  *   func_020056A0  0x020056A0  thumb
- *   func_021C70EC  0x021C70EC  thumb
- *   func_021C80B4  0x021C80B4  thumb
+ *   VIEWER_TEXT_VBlank  0x021C70EC  thumb
+ *   VIEWER_ACTOR_SetPageCount  0x021C80B4  thumb
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
- *   func_021C8208  0x021C8208  thumb
+ *   VIEWER_ACTOR_GetRtcDate  0x021C8208  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -98,12 +98,12 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), Work *p, int pri);
-extern void func_021C70EC(void *unused, Work *p);
-extern void func_021C80B4(Work *p);
+extern void VIEWER_TEXT_VBlank(void *unused, Work *p);
+extern void VIEWER_ACTOR_SetPageCount(Work *p);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
-extern void func_021C8208(Work *p);
+extern void VIEWER_ACTOR_GetRtcDate(Work *p);
 
-void func_021C7130(Work *p, Parent *parent)
+void VIEWER_TEXT_LoadResources(Work *p, Parent *parent)
 {
     int i;
 
@@ -117,10 +117,10 @@ void func_021C7130(Work *p, Parent *parent)
     }
     p->f28 = STRBUF_Create(0x68, 0x27);
     p->f24 = WORDSET_Create(8, 0x40, 0x27);
-    p->fF4 = func_020056A0(func_021C70EC, p, 0);
+    p->fF4 = func_020056A0(VIEWER_TEXT_VBlank, p, 0);
     p->f118 = 8;
     p->f144 = -1;
-    func_021C80B4(p);
+    VIEWER_ACTOR_SetPageCount(p);
     p->f184 = GAME_DATA_GetSaveBlock21(p->f108->f4);
-    func_021C8208(p);
+    VIEWER_ACTOR_GetRtcDate(p);
 }

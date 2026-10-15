@@ -1,5 +1,5 @@
 /*
- * function: func_021B9794
+ * function: COMM_BTL_DEMO_MAIN_LoadGraphics
  * address: 0x021B9794
  * packet: pkt_ov213_021B9794
  * region: ov213
@@ -25,7 +25,7 @@ extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021B9794(int a,u16 heap,int index)
+void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index)
 {
     void *p;
     p=func_020490F4(181,heap);

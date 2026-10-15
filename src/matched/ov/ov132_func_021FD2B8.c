@@ -1,5 +1,5 @@
 /*
- * function: func_021FD2B8
+ * function: MUS_COMM_FUNC_ReceiveBoxData
  * address: 0x021FD2B8
  * packet: pkt_ov132_021FD2B8
  * region: ov132
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 extern int MYSTATUS_GetSize(void);
 extern int func_020084BC(const u16 *values);
 extern void MI_CpuCopy8(void *,void *,u32);
-void func_021FD2B8(int a,int b,int c,char *p)
+void MUS_COMM_FUNC_ReceiveBoxData(int a,int b,int c,char *p)
 {
     u8 i;
     int n;

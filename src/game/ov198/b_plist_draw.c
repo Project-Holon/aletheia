@@ -1,7 +1,7 @@
 /*
  * file:     b_plist_draw.c
  * unit:     yes
- * function: func_0220BC70, func_0220BD34, func_0220BD84, func_0220BDA0, func_0220BDD4, func_0220BE04, func_0220BE2C, func_0220BEB8, func_0220C0D0, func_0220C16C, func_0220C2F8, func_0220C398, func_0220C42C, func_0220C4DC, func_0220C5AC, func_0220C60C, func_0220C67C, func_0220C688, func_0220C694, func_0220C714, func_0220C8F0, func_0220C9F0, func_0220CAF0, func_0220CBF0, func_0220CCF0, func_0220CDF0, func_0220CFC4, func_0220D034, func_0220D090, func_0220D1BC, func_0220D218, func_0220D348, func_0220D3B4, func_0220D418, func_0220D494, func_0220D628, func_0220D6AC, func_0220D6DC, func_0220D884, func_0220D920, func_0220D988, func_0220D9B4, func_0220DA6C, func_0220DC04, func_0220DCA8, func_0220DD78, func_0220DE4C, func_0220DF20, func_0220E088, func_0220E13C, func_0220E168, func_0220E1D4, func_0220E22C, func_0220E25C, func_0220E27C, func_0220E2B4, func_0220E2F8, func_0220E340, func_0220E3F0, func_0220E460, func_0220E518, func_0220E584, func_0220E5FC, func_0220E684, func_0220E6E0, func_0220E74C, func_0220E7CC, func_0220E7E4, func_0220E82C, func_0220E8B4, func_0220E974, func_0220E9A0, func_0220EA30, func_0220EA68, func_0220EAF0, func_0220EBCC, func_0220EC2C, func_0220ECCC, func_0220ED54, func_0220EE44, func_0220EECC, func_0220EFD8
+ * function: B_PLIST_DRAW_CreateStateWindows, B_PLIST_DRAW_ToggleAuxWindow, B_PLIST_DRAW_DeleteAuxWindow, B_PLIST_DRAW_ClearWindowBitmaps, B_PLIST_DRAW_DeleteStateWindows, B_PLIST_DRAW_DeleteAllWindows, B_PLIST_DRAW_DrawModePage, B_PLIST_DRAW_PrintRowName, B_PLIST_DRAW_PrintSlotValue, B_PLIST_DRAW_PrintNameWithValues, B_PLIST_DRAW_FillTypeBar, B_PLIST_DRAW_PrintRowValue, B_PLIST_DRAW_PrintItemOrName, B_PLIST_DRAW_PrintNumberAt, B_PLIST_DRAW_PrintTextAt, B_PLIST_DRAW_PrintHeader, B_PLIST_DRAW_PrintHeader9, B_PLIST_DRAW_PrintHeader10, B_PLIST_DRAW_PrintCenteredText, B_PLIST_DRAW_PrintStatsFields, B_PLIST_DRAW_PrintStatRow0, B_PLIST_DRAW_PrintStatRow1, B_PLIST_DRAW_PrintStatRow2, B_PLIST_DRAW_PrintStatRow3, B_PLIST_DRAW_PrintStatRow4, B_PLIST_DRAW_PrintDualValue, B_PLIST_DRAW_PrintBankEntry, B_PLIST_DRAW_PrintSlotLabelA, B_PLIST_DRAW_PrintSlotValueA, B_PLIST_DRAW_PrintSlotLabelB, B_PLIST_DRAW_PrintSlotValueB, B_PLIST_DRAW_PrintSlotLabelC, B_PLIST_DRAW_PrintSlotLabelD, B_PLIST_DRAW_PrintSlotLabelBySelector, B_PLIST_DRAW_PrintCenterPair, B_PLIST_DRAW_PrintMoveRowLabel, B_PLIST_DRAW_PrintWordAndRefresh, B_PLIST_DRAW_PrintMoveRowValues, B_PLIST_DRAW_DrawRows, B_PLIST_DRAW_DrawRowValueBars, B_PLIST_DRAW_PrintValueIfUnset, B_PLIST_DRAW_DrawMode1, B_PLIST_DRAW_DrawRowCenteredName, B_PLIST_DRAW_DrawMode3, B_PLIST_DRAW_DrawMode2, B_PLIST_DRAW_DrawMode4, B_PLIST_DRAW_DrawMode6, B_PLIST_DRAW_DrawMode7, B_PLIST_DRAW_DrawMode5, B_PLIST_DRAW_ClearAndPrintStream, B_PLIST_DRAW_PrintStream, B_PLIST_DRAW_FormatRowWord, B_PLIST_DRAW_UpdateToolWindows, B_PLIST_DRAW_ShowToolWindows, B_PLIST_DRAW_ShowSubWindow, B_PLIST_DRAW_Init, B_PLIST_DRAW_ClearIds, B_PLIST_DRAW_RegisterRowCharacters, B_PLIST_DRAW_RegisterIconSet1, B_PLIST_DRAW_RegisterIconSet2, B_PLIST_DRAW_RegisterIconSet3, B_PLIST_DRAW_RegisterIconSet4, B_PLIST_DRAW_RegisterIconSet5, B_PLIST_DRAW_CreateActorFromParams, B_PLIST_DRAW_CreateActors, B_PLIST_DRAW_DeleteActors, B_PLIST_DRAW_PlaceActor, B_PLIST_DRAW_ApplyActorPalettes, B_PLIST_DRAW_TransferCharacter, B_PLIST_DRAW_TransferCharacterToggle, B_PLIST_DRAW_SetActorAnim, B_PLIST_DRAW_SwapActorPair, B_PLIST_DRAW_SetActorAnimByMode, B_PLIST_DRAW_LayoutActors, B_PLIST_DRAW_LayoutMode0, B_PLIST_DRAW_LayoutMode1, B_PLIST_DRAW_LayoutMode2, B_PLIST_DRAW_LayoutMode3, B_PLIST_DRAW_LayoutMode4, B_PLIST_DRAW_LayoutMode6, B_PLIST_DRAW_LayoutMode7, B_PLIST_DRAW_LayoutMode5
  * address:  0x0220BC70
  * region:   ov198
  * compiler: dsi/1.1p1
@@ -26,29 +26,29 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_GetPalette 0x02045778 arm
- *   func_022110D4 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   func_0201D304 0x0201D304 thumb
  *   d_02211B68 0x02211B68 data ov198 a4
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201EF8C 0x0201EF8C thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
  *   func_0202D01C 0x0202D01C thumb
  *   func_0202D034 0x0202D034 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   func_0201EF34 0x0201EF34 thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020276C4  0x020276C4  thumb
  *   d_02211AFF  0x02211AFF  data  a1
  *   d_02211AF4 0x02211AF4 data a1
- *   func_02210DA8 0x02210DA8 thumb ov198
+ *   B_PLIST_MAIN_GetRowStatus 0x02210DA8 thumb ov198
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -63,14 +63,14 @@
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   d_02211AF9 0x02211AF9 data a1
  *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   B_APP_TOOL_Update 0x0220B0B0 thumb ov196
  *   B_APP_TOOL_ShowWindows 0x0220B094 thumb ov196
  *   B_APP_TOOL_ShowWindow 0x0220B07C thumb ov196
- *   func_0220F1F4 0x0220F1F4 thumb ov198
+ *   B_PLIST_MAIN_CreateToolActors 0x0220F1F4 thumb ov198
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_020490F4  0x020490F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
@@ -118,7 +118,7 @@
  *   d_02211DCC 0x02211DCC data a2
  *   d_02211DE4 0x02211DE4 data a2
  *   d_02211D34 0x02211D34 data a2
- *   func_0220F060 0x0220F060 thumb ov198
+ *   B_PLIST_MAIN_SyncMoveActors 0x0220F060 thumb ov198
  *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  */
 #include "../../matched/include/Obj25130.h"
@@ -359,26 +359,26 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
-extern int func_022110D4(u8 *, int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, s16 b, s16 c, void *d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 extern u8 func_0202D01C(u32,u32,u32);
 extern int func_0202D034(u32,u32);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int func_020276C4(int a0);
-extern int func_02210DA8(u8 *p);
+extern int B_PLIST_MAIN_GetRowStatus(u8 *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
@@ -386,14 +386,14 @@ extern void func_02041B6C(unsigned);
 extern unsigned WAZA_TOOL_GetParam(u16,unsigned);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern unsigned GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
 extern int MSG_SPEED_GetWait(unsigned);
 extern int PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 extern void B_APP_TOOL_Update(struct Entry *,int,u32);
 extern void B_APP_TOOL_ShowWindows(char *,u8 *);
 extern void B_APP_TOOL_ShowWindow(void *);
-extern void func_0220F1F4(u8 *p);
+extern void B_PLIST_MAIN_CreateToolActors(u8 *p);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *p);
@@ -436,89 +436,89 @@ extern u8 func_020275EC(int i);
 extern u8 func_02027604(u8 i);
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32),CLACT_SetActorAnimSeq(struct Obj *,u32);
 extern u32 FILE_UTIL_Check136C(u32);
-extern void func_0220F060(u8 *p);
-void func_0220BC70(u8 *p,u32 state);
-void func_0220BD34(u8 *p);
-void func_0220BD84(u8 *p);
-void func_0220BDA0(u8 *p);
-void func_0220BDD4(char *p);
-void func_0220BE04(u8 *p);
-void func_0220BE2C(char *a, int idx);
-void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra);
-void func_0220C0D0(u8 *p,int slot,int index,s16 value,u8 extra);
-void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra);
-void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra);
-void func_0220C398(u8 *p,int slot,int index);
-void func_0220C42C(char *p, int i, int index);
-void func_0220C4DC(char *p,int value,int slot,int id,u16 x,s16 y,u32 color);
-void func_0220C5AC(char *p, int i, s16 x, s16 y);
-void func_0220C60C(char *p, int id);
-void func_0220C67C(char *p);
-void func_0220C688(char *p);
-void func_0220C694(char *p, int i, int id);
-void func_0220C714(u8 *p,int index);
-void func_0220C8F0(char *obj, int i);
-void func_0220C9F0(char *p, int i);
-void func_0220CAF0(char *p, int i);
-void func_0220CBF0(char *p, int i);
-void func_0220CCF0(char *p, int i);
-void func_0220CDF0(u8 *p,int index);
-void func_0220CFC4(char *p, int index);
-void func_0220D034(char *p, int i);
-void func_0220D090(char *p, int a1, int a2);
-void func_0220D1BC(char *p, int i);
-void func_0220D218(char *p, int a1, u32 a2);
-void func_0220D348(char *p, int i, int id);
-void func_0220D3B4(char *p, int i);
-void func_0220D418(char *p, int i, int selector);
-void func_0220D494(u8 *p, int slot, int a2, int a3);
-void func_0220D628(char *p, int i);
-void func_0220D6AC(u8 *p);
-void func_0220D6DC(char *p,u8 *record,int slot);
-void func_0220D884(u8 *p);
-void func_0220D920(u8 *p, int i);
-void func_0220D988(u8 *p,int a);
-void func_0220D9B4(char *p);
-void func_0220DA6C(u8 *p, int idx);
-void func_0220DC04(char *p);
-void func_0220DCA8(char *p);
-void func_0220DD78(char *p);
-void func_0220DE4C(char *p);
-void func_0220DF20(char *p);
-void func_0220E088(char *p);
-void func_0220E13C(u8 *p);
-void func_0220E168(char *p);
-void func_0220E1D4(u8 *p);
-void func_0220E22C(u8 *p);
-void func_0220E25C(u8 *p);
-void func_0220E27C(u8 *p);
-void func_0220E2B4(char *p);
-void func_0220E2F8(char *p);
-void func_0220E340(u8 *p);
-void func_0220E3F0(char *p);
-void func_0220E460(char *p);
-void func_0220E518(char *p);
-void func_0220E584(char *p);
-void func_0220E5FC(char *p);
-unsigned func_0220E684(char *p,const int *q);
-void func_0220E6E0(char *p);
-void func_0220E74C(char *p);
-void func_0220E7CC(u8 *p, u32 b);
-void func_0220E7E4(Record_0220D9B4 *records);
-void func_0220E82C(char *p,void *obj,int index,int which);
-void func_0220E8B4(char *p,int first,int index,int which);
-void func_0220E974(int mode,u8 *p,const struct Vec2 *q);
-void func_0220E9A0(char *p,u8 *q,const Pair *pos);
-void func_0220EA30(u32 mode,u8 *p,const struct Vec2 *q);
-void func_0220EA68(char *p,unsigned mode);
-void func_0220EAF0(Record_0220EAF0 *records);
-void func_0220EBCC(Record_0220EAF0 *records);
-void func_0220EC2C(u8 *p);
-void func_0220ECCC(u8 *p);
-void func_0220ED54(u8 *p);
-void func_0220EE44(u8 *p);
-void func_0220EECC(u8 *p);
-void func_0220EFD8(u8 *p);
+extern void B_PLIST_MAIN_SyncMoveActors(u8 *p);
+void B_PLIST_DRAW_CreateStateWindows(u8 *p,u32 state);
+void B_PLIST_DRAW_ToggleAuxWindow(u8 *p);
+void B_PLIST_DRAW_DeleteAuxWindow(u8 *p);
+void B_PLIST_DRAW_ClearWindowBitmaps(u8 *p);
+void B_PLIST_DRAW_DeleteStateWindows(char *p);
+void B_PLIST_DRAW_DeleteAllWindows(u8 *p);
+void B_PLIST_DRAW_DrawModePage(char *a, int idx);
+void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra);
+void B_PLIST_DRAW_PrintSlotValue(u8 *p,int slot,int index,s16 value,u8 extra);
+void B_PLIST_DRAW_PrintNameWithValues(u8 *p, int slot, int index, u8 x0, u8 extra);
+void B_PLIST_DRAW_FillTypeBar(u8 *p,int slot,int index,u16 value,u8 extra);
+void B_PLIST_DRAW_PrintRowValue(u8 *p,int slot,int index);
+void B_PLIST_DRAW_PrintItemOrName(char *p, int i, int index);
+void B_PLIST_DRAW_PrintNumberAt(char *p,int value,int slot,int id,u16 x,s16 y,u32 color);
+void B_PLIST_DRAW_PrintTextAt(char *p, int i, s16 x, s16 y);
+void B_PLIST_DRAW_PrintHeader(char *p, int id);
+void B_PLIST_DRAW_PrintHeader9(char *p);
+void B_PLIST_DRAW_PrintHeader10(char *p);
+void B_PLIST_DRAW_PrintCenteredText(char *p, int i, int id);
+void B_PLIST_DRAW_PrintStatsFields(u8 *p,int index);
+void B_PLIST_DRAW_PrintStatRow0(char *obj, int i);
+void B_PLIST_DRAW_PrintStatRow1(char *p, int i);
+void B_PLIST_DRAW_PrintStatRow2(char *p, int i);
+void B_PLIST_DRAW_PrintStatRow3(char *p, int i);
+void B_PLIST_DRAW_PrintStatRow4(char *p, int i);
+void B_PLIST_DRAW_PrintDualValue(u8 *p,int index);
+void B_PLIST_DRAW_PrintBankEntry(char *p, int index);
+void B_PLIST_DRAW_PrintSlotLabelA(char *p, int i);
+void B_PLIST_DRAW_PrintSlotValueA(char *p, int a1, int a2);
+void B_PLIST_DRAW_PrintSlotLabelB(char *p, int i);
+void B_PLIST_DRAW_PrintSlotValueB(char *p, int a1, u32 a2);
+void B_PLIST_DRAW_PrintSlotLabelC(char *p, int i, int id);
+void B_PLIST_DRAW_PrintSlotLabelD(char *p, int i);
+void B_PLIST_DRAW_PrintSlotLabelBySelector(char *p, int i, int selector);
+void B_PLIST_DRAW_PrintCenterPair(u8 *p, int slot, int a2, int a3);
+void B_PLIST_DRAW_PrintMoveRowLabel(char *p, int i);
+void B_PLIST_DRAW_PrintWordAndRefresh(u8 *p);
+void B_PLIST_DRAW_PrintMoveRowValues(char *p,u8 *record,int slot);
+void B_PLIST_DRAW_DrawRows(u8 *p);
+void B_PLIST_DRAW_DrawRowValueBars(u8 *p, int i);
+void B_PLIST_DRAW_PrintValueIfUnset(u8 *p,int a);
+void B_PLIST_DRAW_DrawMode1(char *p);
+void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx);
+void B_PLIST_DRAW_DrawMode3(char *p);
+void B_PLIST_DRAW_DrawMode2(char *p);
+void B_PLIST_DRAW_DrawMode4(char *p);
+void B_PLIST_DRAW_DrawMode6(char *p);
+void B_PLIST_DRAW_DrawMode7(char *p);
+void B_PLIST_DRAW_DrawMode5(char *p);
+void B_PLIST_DRAW_ClearAndPrintStream(u8 *p);
+void B_PLIST_DRAW_PrintStream(char *p);
+void B_PLIST_DRAW_FormatRowWord(u8 *p);
+void B_PLIST_DRAW_UpdateToolWindows(u8 *p);
+void B_PLIST_DRAW_ShowToolWindows(u8 *p);
+void B_PLIST_DRAW_ShowSubWindow(u8 *p);
+void B_PLIST_DRAW_Init(char *p);
+void B_PLIST_DRAW_ClearIds(char *p);
+void B_PLIST_DRAW_RegisterRowCharacters(u8 *p);
+void B_PLIST_DRAW_RegisterIconSet1(char *p);
+void B_PLIST_DRAW_RegisterIconSet2(char *p);
+void B_PLIST_DRAW_RegisterIconSet3(char *p);
+void B_PLIST_DRAW_RegisterIconSet4(char *p);
+void B_PLIST_DRAW_RegisterIconSet5(char *p);
+unsigned B_PLIST_DRAW_CreateActorFromParams(char *p,const int *q);
+void B_PLIST_DRAW_CreateActors(char *p);
+void B_PLIST_DRAW_DeleteActors(char *p);
+void B_PLIST_DRAW_PlaceActor(u8 *p, u32 b);
+void B_PLIST_DRAW_ApplyActorPalettes(Record_0220D9B4 *records);
+void B_PLIST_DRAW_TransferCharacter(char *p,void *obj,int index,int which);
+void B_PLIST_DRAW_TransferCharacterToggle(char *p,int first,int index,int which);
+void B_PLIST_DRAW_SetActorAnim(int mode,u8 *p,const struct Vec2 *q);
+void B_PLIST_DRAW_SwapActorPair(char *p,u8 *q,const Pair *pos);
+void B_PLIST_DRAW_SetActorAnimByMode(u32 mode,u8 *p,const struct Vec2 *q);
+void B_PLIST_DRAW_LayoutActors(char *p,unsigned mode);
+void B_PLIST_DRAW_LayoutMode0(Record_0220EAF0 *records);
+void B_PLIST_DRAW_LayoutMode1(Record_0220EAF0 *records);
+void B_PLIST_DRAW_LayoutMode2(u8 *p);
+void B_PLIST_DRAW_LayoutMode3(u8 *p);
+void B_PLIST_DRAW_LayoutMode4(u8 *p);
+void B_PLIST_DRAW_LayoutMode6(u8 *p);
+void B_PLIST_DRAW_LayoutMode7(u8 *p);
+void B_PLIST_DRAW_LayoutMode5(u8 *p);
 extern Item d_02211BDA[],d_02211B80[],d_02211CB0[],d_02211BFE[],d_02211C24[],d_02211B98[],d_02211BB6[],d_02211C68[];
 extern u32 d_02211B68[];
 extern u8 d_02211AFF[];
@@ -561,12 +561,12 @@ extern Pair d_02211D34[27];
  * with state-byte2180 stores0/4/6. C88 stores its bounded state at2177+9.
  * Domain and decoded-call audit: Wave30 S26/BC70-domain-review.md.
  */
-void func_0220BC70(u8 *p,u32 state)
+void B_PLIST_DRAW_CreateStateWindows(u8 *p,u32 state)
 {
     Item *s;
     u32 i;
-    func_0220BD84(p);
-    func_0220BD34(p);
+    B_PLIST_DRAW_DeleteAuxWindow(p);
+    B_PLIST_DRAW_ToggleAuxWindow(p);
     switch(state) {
     case 0: case 8: s=d_02211BDA; p[0x2174]=6; break;
     case 1: s=d_02211B80; p[0x2174]=4; break;
@@ -592,7 +592,7 @@ void func_0220BC70(u8 *p,u32 state)
 
 
 
-void func_0220BD34(u8 *p)
+void B_PLIST_DRAW_ToggleAuxWindow(u8 *p)
 {
     if (((Bits_0220BC70 *)(p+0x2175))->low == 1)
         ((struct Obj25130 *)p)->f2170=(void *)BMP_WIN_Create(5,0,0,32,16,0,1);
@@ -614,7 +614,7 @@ void func_0220BD34(u8 *p)
 /*
  * Addresses are Black-image addresses.
  */
-void func_0220BD84(u8 *p)
+void B_PLIST_DRAW_DeleteAuxWindow(u8 *p)
 {
     u32 t = ((struct Obj14554 *)p)->f2170;
 
@@ -635,7 +635,7 @@ void func_0220BD84(u8 *p)
 
 
 
-void func_0220BDA0(u8 *p){u32 i;for(i=0;i<p[0x2174];i++)BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+i*8+0x1f70)),0);}
+void B_PLIST_DRAW_ClearWindowBitmaps(u8 *p){u32 i;for(i=0;i<p[0x2174];i++)BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+i*8+0x1f70)),0);}
 
 
 
@@ -649,7 +649,7 @@ void func_0220BDA0(u8 *p){u32 i;for(i=0;i<p[0x2174];i++)BMP_Clear(BMP_WIN_GetBmp
 
 
 
-void func_0220BDD4(char *p)
+void B_PLIST_DRAW_DeleteStateWindows(char *p)
 {
     unsigned int i;
     for (i = 0; i < ((struct Obj25132 *)p)->f2174; i++)
@@ -669,7 +669,7 @@ void func_0220BDD4(char *p)
 
 
 
-void func_0220BE04(u8 *p){u32 i;func_0220BDD4((char *)p);for(i=0;i<2;i++)BMP_WIN_Delete(*(struct Descriptor **)(p+i*8+0x1f60));func_0220BD84(p);}
+void B_PLIST_DRAW_DeleteAllWindows(u8 *p){u32 i;B_PLIST_DRAW_DeleteStateWindows((char *)p);for(i=0;i<2;i++)BMP_WIN_Delete(*(struct Descriptor **)(p+i*8+0x1f60));B_PLIST_DRAW_DeleteAuxWindow(p);}
 
 
 
@@ -683,45 +683,45 @@ void func_0220BE04(u8 *p){u32 i;func_0220BDD4((char *)p);for(i=0;i<2;i++)BMP_WIN
 
 
 
-void func_0220BE2C(char *a, int idx)
+void B_PLIST_DRAW_DrawModePage(char *a, int idx)
 {
     switch (idx) {
     case 0: {
         unsigned char c;
-        func_0220D884((u8 *)a);
+        B_PLIST_DRAW_DrawRows((u8 *)a);
         c = *(unsigned char *)(*(int *)&((struct Obj00507 *)a)->f0 + 0x1f);
         if (c == 3)
-            func_0220C60C(a, 7);
+            B_PLIST_DRAW_PrintHeader(a, 7);
         else if (c == 2)
-            func_0220C60C(a, 9);
+            B_PLIST_DRAW_PrintHeader(a, 9);
         else
-            func_0220C60C(a, 6);
+            B_PLIST_DRAW_PrintHeader(a, 6);
         break;
     }
     case 8:
-        func_0220D884((u8 *)a);
-        func_0220C60C(a, 0xa);
+        B_PLIST_DRAW_DrawRows((u8 *)a);
+        B_PLIST_DRAW_PrintHeader(a, 0xa);
         break;
     case 1:
-        func_0220D9B4(a);
+        B_PLIST_DRAW_DrawMode1(a);
         break;
     case 2:
-        func_0220DCA8(a);
+        B_PLIST_DRAW_DrawMode2(a);
         break;
     case 3:
-        func_0220DC04(a);
+        B_PLIST_DRAW_DrawMode3(a);
         break;
     case 4:
-        func_0220DD78(a);
+        B_PLIST_DRAW_DrawMode4(a);
         break;
     case 5:
-        func_0220E088(a);
+        B_PLIST_DRAW_DrawMode5(a);
         break;
     case 6:
-        func_0220DE4C(a);
+        B_PLIST_DRAW_DrawMode6(a);
         break;
     case 7:
-        func_0220DF20(a);
+        B_PLIST_DRAW_DrawMode7(a);
         break;
     }
 }
@@ -747,7 +747,7 @@ void func_0220BE2C(char *a, int idx)
  *   0x31A0 for b0 == 1 in both k arms (the draft had it per k); (5) a2 as u16 (the matched caller passes
  *   `(u16)i`), which puts the a2 spill store first at entry.
  */
-void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
+void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
 {
     u32 w2;
     u32 w;
@@ -774,14 +774,14 @@ void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     tab = p + 0x1F70;
     handle = *(void **)(tab + slot);
     k = BMP_WIN_GetPalette(handle);
-    n = func_022110D4(p, a2);
+    n = B_PLIST_MAIN_GetOrderIndex(p, a2);
     base = p + 4;
     off = n * 0x4C;
     rec = (struct R *)(base + off);
     vec = STRBUF_Create(12, P->hdr->f10);
     msg = func_02045EC0(P->f1EA0, d_02211B68[a2]);
-    func_0201EEF4(P->f1EA4, 0, *(void **)rec);
-    func_0201F250(P->f1EA4, vec, msg);
+    WORDSET_SetSlotMonSpecies(P->f1EA4, 0, *(void **)rec);
+    WORDSET_CopyTaggedText(P->f1EA4, vec, msg);
     if (k == 9) {
         u32 h9 = P->f1EAC;
         ex = extra;
@@ -836,14 +836,14 @@ void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
 
 
 
-void func_0220C0D0(u8 *p,int slot,int index,s16 value,u8 extra)
+void B_PLIST_DRAW_PrintSlotValue(u8 *p,int slot,int index,s16 value,u8 extra)
 {
-    char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
+    char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     void *text=func_02045EC0(((struct Obj04598 *)p)->f1EA0,11);
     u32 context;
     u32 surface;
-    func_0201EFA4(((struct Obj04598 *)p)->f1EA4,0,((Bits_0220C0D0 *)(elem+0x16))->low,3,0,1);
-    func_0201F250(((struct Obj04598 *)p)->f1EA4,(void *)(((struct Obj04598 *)p)->f1EA8),text);
+    WORDSET_SetSlotNumber(((struct Obj04598 *)p)->f1EA4,0,((Bits_0220C0D0 *)(elem+0x16))->low,3,0,1);
+    WORDSET_CopyTaggedText(((struct Obj04598 *)p)->f1EA4,(void *)(((struct Obj04598 *)p)->f1EA8),text);
     context=((struct Obj04598 *)p)->f1EAC;
     surface=(u32)BMP_WIN_GetBmp(*(void **)(p+slot*8+0x1F70));
     PRINTSYS_PrintQueColor((void *)context,surface,value,extra,(void *)((struct Obj04598 *)p)->f1EA8,((struct Obj04598 *)p)->f1E9C,0x3DC0);
@@ -1002,7 +1002,7 @@ static inline u32 half(u32 w) { return w >> 1; }
  *   parameter `index` reused for n as short/u16/u8 (40) or int/u32 (376). None keeps the n reload below the
  *   outgoing stack stores.
  */
-void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
+void B_PLIST_DRAW_PrintNameWithValues(u8 *p, int slot, int index, u8 x0, u8 extra)
 {
     char *elem;
     void *text;
@@ -1018,7 +1018,7 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     u32 ctx3;
     u32 A;
     void *B;
-    elem = (char *)(p + 4) + func_022110D4(p, index) * 0x4C;
+    elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex(p, index) * 0x4C;
     text = func_02045EC0(P->f1EA0, 12);
     n = func_0201D304(text, P->f1E9C, 0);
     x0 = x0 - half(n);
@@ -1031,8 +1031,8 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     fl[slot] = 1;
     STRBUF_Delete(text);
     text2 = func_02045EC0(P->f1EA0, 13);
-    func_0201EFA4(P->f1EA4, 0, *(u16 *)(elem + 0x10), 3, 0, 1);
-    func_0201F250(P->f1EA4, P->f1EA8, text2);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, *(u16 *)(elem + 0x10), 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, P->f1EA8, text2);
     A = P->f1E9C;
     B = P->f1EA8;
     y = x0 - func_0201D304(B, A, 0);
@@ -1041,8 +1041,8 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     fl[slot] = 1;
     STRBUF_Delete(text2);
     text3 = func_02045EC0(P->f1EA0, 13);
-    func_0201EFA4(P->f1EA4, 0, *(u16 *)(elem + 0x12), 3, 0, 1);
-    func_0201F250(P->f1EA4, P->f1EA8, text3);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, *(u16 *)(elem + 0x12), 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, P->f1EA8, text3);
     ctx3 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx3, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x0 + n, ex, P->f1EA8, P->f1E9C, 0x3DC0);
     fl[slot] = 1;
@@ -1097,9 +1097,9 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
 /*
  * lever: u16 value and u8 width/return preserve stack-store scheduling.
  */
-void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
+void B_PLIST_DRAW_FillTypeBar(u8 *p,int slot,int index,u16 value,u8 extra)
 {
-    char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
+    char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     u8 color=1;
     u8 width=func_0202D01C(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12,48);
     switch(func_0202D034(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12)) {
@@ -1121,15 +1121,15 @@ void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
 
 
 
-void func_0220C398(u8 *p,int slot,int index)
+void B_PLIST_DRAW_PrintRowValue(u8 *p,int slot,int index)
 {
-    char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
+    char *elem=(char *)(p+4)+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     u32 buf=(u32)STRBUF_Create(16,((struct Obj25133 *)(*(char * *)&((struct Obj05523 *)p)->f0))->f10);
     void *text=func_02045EC0(((struct Obj05523 *)p)->f1EA0,14);
     u32 context;
     u32 surface;
-    func_0201EF8C(((struct Obj05523 *)p)->f1EA4,0,((struct Obj25134 *)elem)->f18);
-    func_0201F250(((struct Obj05523 *)p)->f1EA4,(void *)buf,text);
+    WORDSET_SetSlotFromMsgB6(((struct Obj05523 *)p)->f1EA4,0,((struct Obj25134 *)elem)->f18);
+    WORDSET_CopyTaggedText(((struct Obj05523 *)p)->f1EA4,(void *)buf,text);
     context=((struct Obj05523 *)p)->f1EAC;
     surface=(u32)BMP_WIN_GetBmp(*(void **)(p+slot*8+0x1F70));
     PRINTSYS_PrintQueColor((void *)context,surface,0,0,(void *)buf,((struct Obj25135 *)(*(char * *)&((struct Obj05523 *)p)->f0))->fC,0x3DC0);
@@ -1146,20 +1146,20 @@ void func_0220C398(u8 *p,int slot,int index)
 
 
 
-void func_0220C42C(char *p, int i, int index)
+void B_PLIST_DRAW_PrintItemOrName(char *p, int i, int index)
 {
     char *elem;
     void *t;
     void *format;
     void *f;
-    elem = p + 4 + func_022110D4((u8 *)p, index) * 0x4C;
+    elem = p + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)p, index) * 0x4C;
     if (((struct Obj14555 *)elem)->f1A == 0)
         t = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 0x1E);
     else {
         t = (void *)STRBUF_Create(0x12, ((struct Obj25136 *)(*(char * *)&((struct Obj04599 *)p)->f0))->f10);
         format = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 15);
         WORDSET_Callback_EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
-        func_0201F250(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
+        WORDSET_CopyTaggedText(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
         STRBUF_Delete(format);
     }
     f = ((struct Obj04599 *)p)->f1EAC;
@@ -1176,7 +1176,7 @@ void func_0220C42C(char *p, int i, int index)
 
 
 
-void func_0220C4DC(char *p,int value,int slot,int id,u16 x,s16 y,u32 color)
+void B_PLIST_DRAW_PrintNumberAt(char *p,int value,int slot,int id,u16 x,s16 y,u32 color)
 {
     void *handle;
     void *buf;
@@ -1186,8 +1186,8 @@ void func_0220C4DC(char *p,int value,int slot,int id,u16 x,s16 y,u32 color)
     handle=*(void **)(p+0x1F70+slot*8);
     buf=STRBUF_Create(16,((struct Obj25138 *)(*(char * *)&((struct Obj04600 *)p)->f0))->f10);
     text=func_02045EC0(((struct Obj04600 *)p)->f1EA0,id);
-    func_0201EF34(((struct Obj04600 *)p)->f1EA4,0,value);
-    func_0201F250(((struct Obj04600 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotFromMsgCB(((struct Obj04600 *)p)->f1EA4,0,value);
+    WORDSET_CopyTaggedText(((struct Obj04600 *)p)->f1EA4,buf,text);
     if (x==0xFFFF) {
         width=BMP_WIN_GetWidth(handle);
         x=((width<<3)-func_0201D304(buf,((struct Obj25139 *)(*(char * *)&((struct Obj04600 *)p)->f0))->fC,0))>>1;
@@ -1207,7 +1207,7 @@ void func_0220C4DC(char *p,int value,int slot,int id,u16 x,s16 y,u32 color)
 
 
 
-void func_0220C5AC(char *p, int i, s16 x, s16 y)
+void B_PLIST_DRAW_PrintTextAt(char *p, int i, s16 x, s16 y)
 {
     void *t;
     void *f;
@@ -1226,7 +1226,7 @@ void func_0220C5AC(char *p, int i, s16 x, s16 y)
 
 
 
-void func_0220C60C(char *p, int id)
+void B_PLIST_DRAW_PrintHeader(char *p, int id)
 {
     void *t;
     void *f;
@@ -1247,7 +1247,7 @@ void func_0220C60C(char *p, int id)
 
 
 
-void func_0220C67C(char *p){func_0220C60C(p,9);}
+void B_PLIST_DRAW_PrintHeader9(char *p){B_PLIST_DRAW_PrintHeader(p,9);}
 
 
 
@@ -1257,7 +1257,7 @@ void func_0220C67C(char *p){func_0220C60C(p,9);}
 
 
 
-void func_0220C688(char *p){func_0220C60C(p,10);}
+void B_PLIST_DRAW_PrintHeader10(char *p){B_PLIST_DRAW_PrintHeader(p,10);}
 
 
 
@@ -1267,7 +1267,7 @@ void func_0220C688(char *p){func_0220C60C(p,10);}
 
 
 
-void func_0220C694(char *p, int i, int id)
+void B_PLIST_DRAW_PrintCenteredText(char *p, int i, int id)
 {
     void *t;
     void *handle;
@@ -1294,7 +1294,7 @@ void func_0220C694(char *p, int i, int id)
 
 
 
-void func_0220C714(u8 *p,int index)
+void B_PLIST_DRAW_PrintStatsFields(u8 *p,int index)
 {
     u8 *elem;
     void *text;
@@ -1304,7 +1304,7 @@ void func_0220C714(u8 *p,int index)
     void *thirdContext;
     u32 width;
     u16 x;
-    elem=p+4+func_022110D4(p,index)*0x4C;
+    elem=p+4+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     text=func_02045EC0(((struct Obj00508 *)p)->f1EA0,0x21);
     context=((struct Obj00508 *)p)->f1EAC;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct Obj00508 *)p)->f2008),0,0,text,((struct Obj25145 *)(*(u8 * *)&((struct Obj00508 *)p)->f0))->fC,0x3DC0);
@@ -1312,8 +1312,8 @@ void func_0220C714(u8 *p,int index)
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj00508 *)p)->f1EA0,0x22);
     buf=STRBUF_Create(8,((struct Obj25146 *)(*(u8 * *)&((struct Obj00508 *)p)->f0))->f10);
-    func_0201EFA4(((struct Obj00508 *)p)->f1EA4,0,((struct Bits7 *)(elem+0x16))->value,3,0,1);
-    func_0201F250(((struct Obj00508 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotNumber(((struct Obj00508 *)p)->f1EA4,0,((struct Bits7 *)(elem+0x16))->value,3,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00508 *)p)->f1EA4,buf,text);
     secondContext=((struct Obj00508 *)p)->f1EAC;
     PRINTSYS_PrintQueColor(secondContext,(u32)BMP_WIN_GetBmp(((struct Obj00508 *)p)->f1FC8),0,0,buf,((struct Obj25147 *)(*(u8 * *)&((struct Obj00508 *)p)->f0))->fC,0x3DC0);
     ((struct Obj00508 *)p)->f1FCC=1;
@@ -1327,11 +1327,11 @@ void func_0220C714(u8 *p,int index)
     text=func_02045EC0(((struct Obj00508 *)p)->f1EA0,0x24);
     buf=STRBUF_Create(14,((struct Obj25149 *)(*(u8 * *)&((struct Obj00508 *)p)->f0))->f10);
     if (((struct Bits7 *)(elem+0x16))->value<100) {
-        func_0201EFA4(((struct Obj00508 *)p)->f1EA4,0,((struct Obj14556 *)elem)->f24-((struct Obj14556 *)elem)->f1C,6,1,1);
+        WORDSET_SetSlotNumber(((struct Obj00508 *)p)->f1EA4,0,((struct Obj14556 *)elem)->f24-((struct Obj14556 *)elem)->f1C,6,1,1);
     } else {
-        func_0201EFA4(((struct Obj00508 *)p)->f1EA4,0,0,6,1,1);
+        WORDSET_SetSlotNumber(((struct Obj00508 *)p)->f1EA4,0,0,6,1,1);
     }
-    func_0201F250(((struct Obj00508 *)p)->f1EA4,buf,text);
+    WORDSET_CopyTaggedText(((struct Obj00508 *)p)->f1EA4,buf,text);
     width=BMP_WIN_GetWidth(((struct Obj00508 *)p)->f1FD0);
     x=(width<<3)-func_0201D304(buf,((struct Obj25150 *)(*(u8 * *)&((struct Obj00508 *)p)->f0))->fC,0);
     context=((struct Obj00508 *)p)->f1EAC;
@@ -1367,10 +1367,10 @@ static inline void put(Big *a0, int win, int sel, s16 x, int h, int color)
 /*
  * lever: both 0201C724 calls are one static inline helper; the centred x is a u8 local declared after v
  */
-void func_0220C8F0(char *obj, int i)
+void B_PLIST_DRAW_PrintStatRow0(char *obj, int i)
 {
     Big *a0 = (Big *)obj;
-    char *entry = (char *)a0 + 4 + func_022110D4((u8 *)a0, i) * 0x4c;
+    char *entry = (char *)a0 + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)a0, i) * 0x4c;
     int h1;
     int h2;
     int p;
@@ -1384,8 +1384,8 @@ void func_0220C8F0(char *obj, int i)
 
     h2 = (int)func_02045EC0((struct MsgBank *)a0->f1ea0, 0x2b);
     p = (int)STRBUF_Create(8, a0->f0->f10);
-    func_0201EFA4((struct WordSet *)a0->f1ea4, 0, *(unsigned short *)(entry + 6), 3, 0, 1);
-    func_0201F250((struct WordSet *)a0->f1ea4, (void *)p, (void *)h2);
+    WORDSET_SetSlotNumber((struct WordSet *)a0->f1ea4, 0, *(unsigned short *)(entry + 6), 3, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)a0->f1ea4, (void *)p, (void *)h2);
 
     v = (unsigned char)func_0201D304((struct StrObj *)p, a0->f0->fc, 0);
     x = (BMP_WIN_GetWidth((struct Descriptor *)a0->f1f98) << 3) - v;
@@ -1404,7 +1404,7 @@ void func_0220C8F0(char *obj, int i)
 
 
 
-void func_0220C9F0(char *p, int i)
+void B_PLIST_DRAW_PrintStatRow1(char *p, int i)
 {
     char *elem;
     void *t;
@@ -1417,7 +1417,7 @@ void func_0220C9F0(char *p, int i)
     u32 e;
     u32 x;
 
-    elem = (char *)(p + 4) + func_022110D4((u8 *)p, i) * 0x4c;
+    elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
     t = func_02045EC0(((struct Obj01579 *)p)->f1EA0, 0x2c);
     x = ((struct Obj01579 *)p)->f1EAC;
     y = (u32)BMP_WIN_GetBmp(((struct Obj01579 *)p)->f1FE8);
@@ -1426,8 +1426,8 @@ void func_0220C9F0(char *p, int i)
     STRBUF_Delete(t);
     t2 = func_02045EC0(((struct Obj01579 *)p)->f1EA0, 0x2d);
     h = (u32)STRBUF_Create(8, *(u16 *)(((struct Obj01579 *)p)->f0 + 0x10));
-    func_0201EFA4(((struct Obj01579 *)p)->f1EA4, 0, ((struct Obj25152 *)elem)->f8, 3, 0, 1);
-    func_0201F250(((struct Obj01579 *)p)->f1EA4, (void *)h, t2);
+    WORDSET_SetSlotNumber(((struct Obj01579 *)p)->f1EA4, 0, ((struct Obj25152 *)elem)->f8, 3, 0, 1);
+    WORDSET_CopyTaggedText(((struct Obj01579 *)p)->f1EA4, (void *)h, t2);
     b = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj01579 *)p)->f0 + 0xc), 0);
     c = (BMP_WIN_GetWidth(((struct Obj01579 *)p)->f1FA0) << 3) - b;
     d = ((struct Obj01579 *)p)->f1EAC;
@@ -1447,7 +1447,7 @@ void func_0220C9F0(char *p, int i)
 
 
 
-void func_0220CAF0(char *p, int i)
+void B_PLIST_DRAW_PrintStatRow2(char *p, int i)
 {
     char *elem;
     void *t;
@@ -1460,7 +1460,7 @@ void func_0220CAF0(char *p, int i)
     u32 e;
     u32 x;
 
-    elem = (char *)(p + 4) + func_022110D4((u8 *)p, i) * 0x4c;
+    elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
     t = func_02045EC0(((struct Obj01580 *)p)->f1EA0, 0x32);
     x = ((struct Obj01580 *)p)->f1EAC;
     y = (u32)BMP_WIN_GetBmp(((struct Obj01580 *)p)->f1FF0);
@@ -1469,8 +1469,8 @@ void func_0220CAF0(char *p, int i)
     STRBUF_Delete(t);
     t2 = func_02045EC0(((struct Obj01580 *)p)->f1EA0, 0x33);
     h = (u32)STRBUF_Create(8, *(u16 *)(((struct Obj01580 *)p)->f0 + 0x10));
-    func_0201EFA4(((struct Obj01580 *)p)->f1EA4, 0, ((struct Obj25153 *)elem)->fA, 3, 0, 1);
-    func_0201F250(((struct Obj01580 *)p)->f1EA4, (void *)h, t2);
+    WORDSET_SetSlotNumber(((struct Obj01580 *)p)->f1EA4, 0, ((struct Obj25153 *)elem)->fA, 3, 0, 1);
+    WORDSET_CopyTaggedText(((struct Obj01580 *)p)->f1EA4, (void *)h, t2);
     b = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj01580 *)p)->f0 + 0xc), 0);
     c = (BMP_WIN_GetWidth(((struct Obj01580 *)p)->f1FA8) << 3) - b;
     d = ((struct Obj01580 *)p)->f1EAC;
@@ -1490,7 +1490,7 @@ void func_0220CAF0(char *p, int i)
 
 
 
-void func_0220CBF0(char *p, int i)
+void B_PLIST_DRAW_PrintStatRow3(char *p, int i)
 {
     char *elem;
     void *t;
@@ -1503,7 +1503,7 @@ void func_0220CBF0(char *p, int i)
     u32 e;
     u32 x;
 
-    elem = (char *)(p + 4) + func_022110D4((u8 *)p, i) * 0x4c;
+    elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
     t = func_02045EC0(((struct Obj01581 *)p)->f1EA0, 0x2e);
     x = ((struct Obj01581 *)p)->f1EAC;
     y = (u32)BMP_WIN_GetBmp(((struct Obj01581 *)p)->f1FF8);
@@ -1512,8 +1512,8 @@ void func_0220CBF0(char *p, int i)
     STRBUF_Delete(t);
     t2 = func_02045EC0(((struct Obj01581 *)p)->f1EA0, 0x2f);
     h = (u32)STRBUF_Create(8, *(u16 *)(((struct Obj01581 *)p)->f0 + 0x10));
-    func_0201EFA4(((struct Obj01581 *)p)->f1EA4, 0, ((struct Obj25154 *)elem)->fC, 3, 0, 1);
-    func_0201F250(((struct Obj01581 *)p)->f1EA4, (void *)h, t2);
+    WORDSET_SetSlotNumber(((struct Obj01581 *)p)->f1EA4, 0, ((struct Obj25154 *)elem)->fC, 3, 0, 1);
+    WORDSET_CopyTaggedText(((struct Obj01581 *)p)->f1EA4, (void *)h, t2);
     b = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj01581 *)p)->f0 + 0xc), 0);
     c = (BMP_WIN_GetWidth(((struct Obj01581 *)p)->f1FB0) << 3) - b;
     d = ((struct Obj01581 *)p)->f1EAC;
@@ -1533,7 +1533,7 @@ void func_0220CBF0(char *p, int i)
 
 
 
-void func_0220CCF0(char *p, int i)
+void B_PLIST_DRAW_PrintStatRow4(char *p, int i)
 {
     char *elem;
     void *t;
@@ -1546,7 +1546,7 @@ void func_0220CCF0(char *p, int i)
     u32 e;
     u32 x;
 
-    elem = (char *)(p + 4) + func_022110D4((u8 *)p, i) * 0x4c;
+    elem = (char *)(p + 4) + B_PLIST_MAIN_GetOrderIndex((u8 *)p, i) * 0x4c;
     t = func_02045EC0(((struct Obj01582 *)p)->f1EA0, 0x30);
     x = ((struct Obj01582 *)p)->f1EAC;
     y = (u32)BMP_WIN_GetBmp(((struct Obj01582 *)p)->f2000);
@@ -1555,8 +1555,8 @@ void func_0220CCF0(char *p, int i)
     STRBUF_Delete(t);
     t2 = func_02045EC0(((struct Obj01582 *)p)->f1EA0, 0x31);
     h = (u32)STRBUF_Create(8, *(u16 *)(((struct Obj01582 *)p)->f0 + 0x10));
-    func_0201EFA4(((struct Obj01582 *)p)->f1EA4, 0, ((struct Obj25155 *)elem)->fE, 3, 0, 1);
-    func_0201F250(((struct Obj01582 *)p)->f1EA4, (void *)h, t2);
+    WORDSET_SetSlotNumber(((struct Obj01582 *)p)->f1EA4, 0, ((struct Obj25155 *)elem)->fE, 3, 0, 1);
+    WORDSET_CopyTaggedText(((struct Obj01582 *)p)->f1EA4, (void *)h, t2);
     b = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj01582 *)p)->f0 + 0xc), 0);
     c = (BMP_WIN_GetWidth(((struct Obj01582 *)p)->f1FB8) << 3) - b;
     d = ((struct Obj01582 *)p)->f1EAC;
@@ -1575,7 +1575,7 @@ void func_0220CCF0(char *p, int i)
 
 
 
-void func_0220CDF0(u8 *p,int index)
+void B_PLIST_DRAW_PrintDualValue(u8 *p,int index)
 {
     u8 *elem;
     void *text;
@@ -1585,7 +1585,7 @@ void func_0220CDF0(u8 *p,int index)
     u32 width;
     u32 otherWidth;
     u16 x;
-    elem=p+4+func_022110D4(p,index)*0x4C;
+    elem=p+4+B_PLIST_MAIN_GetOrderIndex(p,index)*0x4C;
     text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x26);
     context=((struct Obj00509 *)p)->f1EAC;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct Obj00509 *)p)->f1FD8),0,0,text,((struct Obj25156 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x3DC0);
@@ -1600,8 +1600,8 @@ void func_0220CDF0(u8 *p,int index)
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x27);
     buf=STRBUF_Create(8,((struct Obj25159 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
-    func_0201EFA4(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f10,3,0,1);
-    func_0201F250(((struct Obj00509 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotNumber(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f10,3,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00509 *)p)->f1EA4,buf,text);
     otherWidth=func_0201D304(buf,((struct Obj25160 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0);
     context=((struct Obj00509 *)p)->f1EAC;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct Obj00509 *)p)->f1F90),(x-otherWidth),0,buf,((struct Obj25161 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
@@ -1610,8 +1610,8 @@ void func_0220CDF0(u8 *p,int index)
     STRBUF_Delete(buf);
     text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x28);
     buf=STRBUF_Create(8,((struct Obj25162 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
-    func_0201EFA4(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f12,3,0,1);
-    func_0201F250(((struct Obj00509 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotNumber(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f12,3,0,1);
+    WORDSET_CopyTaggedText(((struct Obj00509 *)p)->f1EA4,buf,text);
     context=((struct Obj00509 *)p)->f1EAC;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(((struct Obj00509 *)p)->f1F90),(x+width),0,buf,((struct Obj25163 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
     ((struct Obj00509 *)p)->f1F94=1;
@@ -1627,13 +1627,13 @@ void func_0220CDF0(u8 *p,int index)
 
 
 
-void func_0220CFC4(char *p, int index)
+void B_PLIST_DRAW_PrintBankEntry(char *p, int index)
 {
     char *elem;
     void *bank;
     void *t;
     void *f;
-    elem = p + 4 + func_022110D4((u8 *)p, index) * 0x4C;
+    elem = p + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)p, index) * 0x4C;
     bank = func_02045B38(0, 2, 0xB7, ((struct Obj25164 *)(*(char * *)&((struct Obj06650 *)p)->f0))->f10);
     t = func_02045EC0(bank, ((struct Obj25165 *)elem)->f18);
     f = ((struct Obj06650 *)p)->f1EAC;
@@ -1651,7 +1651,7 @@ void func_0220CFC4(char *p, int index)
 
 
 
-void func_0220D034(char *p, int i)
+void B_PLIST_DRAW_PrintSlotLabelA(char *p, int i)
 {
     void *t;
     void *f;
@@ -1671,7 +1671,7 @@ void func_0220D034(char *p, int i)
 
 
 
-void func_0220D090(char *p, int a1, int a2)
+void B_PLIST_DRAW_PrintSlotValueA(char *p, int a1, int a2)
 {
     u32 handle;
     void *t;
@@ -1699,8 +1699,8 @@ void func_0220D090(char *p, int a1, int a2)
 
         t2 = func_02045EC0(((struct Obj02533 *)p)->f1EA0, 0x3e);
         h = (u32)STRBUF_Create(8, *(u16 *)(((struct Obj02533 *)p)->f0 + 0x10));
-        func_0201EFA4(((struct Obj02533 *)p)->f1EA4, 0, a2, 3, 0, 1);
-        func_0201F250(((struct Obj02533 *)p)->f1EA4, (void *)h, t2);
+        WORDSET_SetSlotNumber(((struct Obj02533 *)p)->f1EA4, 0, a2, 3, 0, 1);
+        WORDSET_CopyTaggedText(((struct Obj02533 *)p)->f1EA4, (void *)h, t2);
         w0 = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj02533 *)p)->f0 + 0xc), 0);
         w2 = (BMP_WIN_GetWidth((void *)handle) << 3) - w0;
         f = ((struct Obj02533 *)p)->f1EAC;
@@ -1721,7 +1721,7 @@ void func_0220D090(char *p, int a1, int a2)
 
 
 
-void func_0220D1BC(char *p, int i)
+void B_PLIST_DRAW_PrintSlotLabelB(char *p, int i)
 {
     void *t;
     void *f;
@@ -1741,7 +1741,7 @@ void func_0220D1BC(char *p, int i)
 
 
 
-void func_0220D218(char *p, int a1, u32 a2)
+void B_PLIST_DRAW_PrintSlotValueB(char *p, int a1, u32 a2)
 {
     u32 handle;
     void *t;
@@ -1769,8 +1769,8 @@ void func_0220D218(char *p, int a1, u32 a2)
 
         t2 = func_02045EC0(((struct Obj02534 *)p)->f1EA0, 0x3b);
         h = (u32)STRBUF_Create(8, *(u16 *)(((struct Obj02534 *)p)->f0 + 0x10));
-        func_0201EFA4(((struct Obj02534 *)p)->f1EA4, 0, a2, 3, 0, 1);
-        func_0201F250(((struct Obj02534 *)p)->f1EA4, (void *)h, t2);
+        WORDSET_SetSlotNumber(((struct Obj02534 *)p)->f1EA4, 0, a2, 3, 0, 1);
+        WORDSET_CopyTaggedText(((struct Obj02534 *)p)->f1EA4, (void *)h, t2);
         w0 = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj02534 *)p)->f0 + 0xc), 0);
         w2 = (BMP_WIN_GetWidth((void *)handle) << 3) - w0;
         f = ((struct Obj02534 *)p)->f1EAC;
@@ -1791,7 +1791,7 @@ void func_0220D218(char *p, int a1, u32 a2)
 
 
 
-void func_0220D348(char *p, int i, int id)
+void B_PLIST_DRAW_PrintSlotLabelC(char *p, int i, int id)
 {
     void *bank;
     void *t;
@@ -1813,7 +1813,7 @@ void func_0220D348(char *p, int i, int id)
 
 
 
-void func_0220D3B4(char *p, int i)
+void B_PLIST_DRAW_PrintSlotLabelD(char *p, int i)
 {
     void *t;
     void *f;
@@ -1839,7 +1839,7 @@ void func_0220D3B4(char *p, int i)
  *   image does. The earlier `default: return;` spelling was a guard the
  *   original lacks.
  */
-void func_0220D418(char *p, int i, int selector)
+void B_PLIST_DRAW_PrintSlotLabelBySelector(char *p, int i, int selector)
 {
     struct U16Vec *t;
     void *f;
@@ -1876,7 +1876,7 @@ void func_0220D418(char *p, int i, int selector)
  * Re-verified (DIFF fixer): still 391 concrete bytes; all 15 relocations
  * resolve, so it is a frame-packing/allocation residue, not evidence.
  */
-void func_0220D494(u8 *p, int slot, int a2, int a3)
+void B_PLIST_DRAW_PrintCenterPair(u8 *p, int slot, int a2, int a3)
 {
     u8 *tab;
     void *handle;
@@ -1906,8 +1906,8 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     STRBUF_Delete(text);
     text2 = func_02045EC0(P->f1EA0, 0x36);
     h2 = STRBUF_Create(6, P->hdr->f10);
-    func_0201EFA4(P->f1EA4, 0, a2, 3, 0, 1);
-    func_0201F250(P->f1EA4, h2, text2);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, a2, 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, h2, text2);
     w2 = func_0201D304(h2, P->hdr->font, 0);
     ctx2 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx2, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (x - w2), 0, h2, P->hdr->font, (u32)0x3DC0);
@@ -1916,8 +1916,8 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     STRBUF_Delete(h2);
     text3 = func_02045EC0(P->f1EA0, 0x37);
     h3 = STRBUF_Create(6, P->hdr->f10);
-    func_0201EFA4(P->f1EA4, 0, a3, 3, 0, 1);
-    func_0201F250(P->f1EA4, h3, text3);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, a3, 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, h3, text3);
     ctx3 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx3, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (x + w1), 0, h3, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
@@ -1933,7 +1933,7 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
 
 
 
-void func_0220D628(char *p, int i)
+void B_PLIST_DRAW_PrintMoveRowLabel(char *p, int i)
 {
     void *t;
     void *f;
@@ -1957,7 +1957,7 @@ void func_0220D628(char *p, int i)
 
 
 
-void func_0220D6AC(u8 *p){void *s=func_02045EC0(*(struct MsgBank * *)&((struct Obj02247 *)p)->f1EA0,70);func_0201F250(*(struct WordSet * *)&((struct Obj02247 *)p)->f1EA4,((struct Obj02247 *)p)->f1EA8,s);STRBUF_Delete(s);func_0220E13C(p);}
+void B_PLIST_DRAW_PrintWordAndRefresh(u8 *p){void *s=func_02045EC0(*(struct MsgBank * *)&((struct Obj02247 *)p)->f1EA0,70);WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct Obj02247 *)p)->f1EA4,((struct Obj02247 *)p)->f1EA8,s);STRBUF_Delete(s);B_PLIST_DRAW_ClearAndPrintStream(p);}
 
 
 
@@ -1967,7 +1967,7 @@ void func_0220D6AC(u8 *p){void *s=func_02045EC0(*(struct MsgBank * *)&((struct O
 
 
 
-void func_0220D6DC(char *p,u8 *record,int slot)
+void B_PLIST_DRAW_PrintMoveRowValues(char *p,u8 *record,int slot)
 {
     void *buf;
     void *text;
@@ -1988,16 +1988,16 @@ void func_0220D6DC(char *p,u8 *record,int slot)
     *(u8 *)(p+0x1F74+slot*8)=1;
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x37);
-    func_0201EFA4(((struct Obj01077 *)p)->f1EA4,0,record[3],2,0,1);
-    func_0201F250(((struct Obj01077 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotNumber(((struct Obj01077 *)p)->f1EA4,0,record[3],2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj01077 *)p)->f1EA4,buf,text);
     context=((struct Obj01077 *)p)->f1EAC;
     width+=80;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),width,24,buf,((struct Obj25180 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x36);
-    func_0201EFA4(((struct Obj01077 *)p)->f1EA4,0,record[2],2,0,1);
-    func_0201F250(((struct Obj01077 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotNumber(((struct Obj01077 *)p)->f1EA4,0,record[2],2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj01077 *)p)->f1EA4,buf,text);
     otherWidth=func_0201D304(buf,((struct Obj25181 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0);
     context=((struct Obj01077 *)p)->f1EAC;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),(80-otherWidth),24,buf,((struct Obj25182 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);
@@ -2014,7 +2014,7 @@ void func_0220D6DC(char *p,u8 *record,int slot)
 
 
 
-void func_0220D884(u8 *p)
+void B_PLIST_DRAW_DrawRows(u8 *p)
 {
     s16 i;
     int idx;
@@ -2022,16 +2022,16 @@ void func_0220D884(u8 *p)
     *(void **)(p + 0x253C) = d_02211AFF;
     for (i = 0; i < 6; i++) {
         BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(*(struct Descriptor **)(p + i * 8 + 0x1F70)), 0);
-        idx = func_022110D4(p, i);
+        idx = B_PLIST_MAIN_GetOrderIndex(p, i);
         if (((Rec *)p)[idx].cnt == 0) {
             *(u8 *)(p + i * 8 + 0x1F74) = 1;
         } else {
-            func_0220BEB8(p, i, (u16)i, 0x20, 7);
+            B_PLIST_DRAW_PrintRowName(p, i, (u16)i, 0x20, 7);
             if (!((Rec *)p)[idx].fl.high) {
-                func_0220D920(p, (u8)i);
+                B_PLIST_DRAW_DrawRowValueBars(p, (u8)i);
             }
             if (func_020276C4((int)(((Rec *)p)[idx].obj)) == 8) {
-                func_0220D988(p, (u8)i);
+                B_PLIST_DRAW_PrintValueIfUnset(p, (u8)i);
             }
         }
     }
@@ -2045,14 +2045,14 @@ void func_0220D884(u8 *p)
 
 
 
-void func_0220D920(u8 *p, int i)
+void B_PLIST_DRAW_DrawRowValueBars(u8 *p, int i)
 {
     char *base;
     base = (char *)p + 0x1f70;
     BMP_FillRect(BMP_WIN_GetBmp(*(void **)(base + i * 8)), 92, 32, 24, 8, 0);
     BMP_FillRect(BMP_WIN_GetBmp(*(void **)(base + i * 8)), 64, 24, 64, 8, 0);
-    func_0220C16C(p, i, i, 92, 32);
-    func_0220C2F8(p, i, i, 64, 24);
+    B_PLIST_DRAW_PrintNameWithValues(p, i, i, 92, 32);
+    B_PLIST_DRAW_FillTypeBar(p, i, i, 64, 24);
 }
 
 
@@ -2063,7 +2063,7 @@ void func_0220D920(u8 *p, int i)
 
 
 
-void func_0220D988(u8 *p,int a){if(((Bits *)(p+(u32)func_022110D4(p,a)*76+0x1b))->high==0)func_0220C0D0(p,a,a,8,32);}
+void B_PLIST_DRAW_PrintValueIfUnset(u8 *p,int a){if(((Bits *)(p+(u32)B_PLIST_MAIN_GetOrderIndex(p,a)*76+0x1b))->high==0)B_PLIST_DRAW_PrintSlotValue(p,a,a,8,32);}
 
 
 
@@ -2076,24 +2076,24 @@ void func_0220D988(u8 *p,int a){if(((Bits *)(p+(u32)func_022110D4(p,a)*76+0x1b))
 
 
 
-void func_0220D9B4(char *p)
+void B_PLIST_DRAW_DrawMode1(char *p)
 {
     int state, id, i;
     void *obj;
     *(u8 * *)&((struct Obj00507 *)p)->f253C = d_02211AF4;
-    func_0220BDA0((u8 *)p);
-    func_0220DA6C((u8 *)p, (*(u8 **)p)[32]);
-    state = func_02210DA8((u8 *)p);
+    B_PLIST_DRAW_ClearWindowBitmaps((u8 *)p);
+    B_PLIST_DRAW_DrawRowCenteredName((u8 *)p, (*(u8 **)p)[32]);
+    state = B_PLIST_MAIN_GetRowStatus((u8 *)p);
     if (state == 2) id = 26;
     else if (state == 3) id = 27;
     else if (state == 4) id = 28;
     else if (state == 1) id = 29;
     else id = 21;
-    func_0220C694(p,1,id);
-    i = func_022110D4((u8 *)p, (*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintCenteredText(p,1,id);
+    i = B_PLIST_MAIN_GetOrderIndex((u8 *)p, (*(u8 **)p)[32]);
     if (((Flags_0220D9B4 *)(p + i * 76 + 27))->high == 0) {
-        func_0220C694(p,2,24);
-        func_0220C694(p,3,25);
+        B_PLIST_DRAW_PrintCenteredText(p,2,24);
+        B_PLIST_DRAW_PrintCenteredText(p,3,25);
         return;
     }
     obj = ((struct Obj00507 *)p)->f1F80;
@@ -2161,7 +2161,7 @@ static inline void put_slot(u8 *p, void *win, void *sel, short x, u32 y, void *h
  *   in r5 across the arms and frees the msg2 arms for cross-jumping. (3) a short (not u8) half takes its
  *   declaration slot 0x18 above the window temps; a u8 half takes the lowest slot. Before: DIFF 153.
  */
-void func_0220DA6C(u8 *p, int idx)
+void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx)
 {
     void *msg;
     u32 off;
@@ -2177,15 +2177,15 @@ void func_0220DA6C(u8 *p, int idx)
     int n;
 
     o = *(void **)(p + 0x1F70);
-    n = func_022110D4(p, idx);
+    n = B_PLIST_MAIN_GetOrderIndex(p, idx);
     base = p + 4;
     off = n * 0x4c;
     rec = (struct R *)(base + off);
     vec = STRBUF_Create(12, *(u16 *)(*(u8 **)p + 0x10));
     msg = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), d_02211B68[idx]);
-    func_0201EEF4(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
+    WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
     msg2 = 0;
-    func_0201F250(*(struct WordSet **)(p + 0x1EA4), vec, msg);
+    WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1EA4), vec, msg);
     STRBUF_Delete(msg);
     if (!rec->a1 && !rec->b2) {
         if (rec->b0 == 0) {
@@ -2226,26 +2226,26 @@ void func_0220DA6C(u8 *p, int idx)
 
 
 
-void func_0220DC04(char *p)
+void B_PLIST_DRAW_DrawMode3(char *p)
 {
     long i;
     int index, offset;
     char *base, *rec;
     u16 value;
     *(u8 * *)&((struct Obj00507 *)p)->f253C = d_02211B06;
-    func_0220BDA0((u8 *)p);
-    func_0220BEB8((u8 *)p,0,(*(u8 **)p)[32],0,0);
+    B_PLIST_DRAW_ClearWindowBitmaps((u8 *)p);
+    B_PLIST_DRAW_PrintRowName((u8 *)p,0,(*(u8 **)p)[32],0,0);
     base = (char *)p + 0x30;
     for (i=0; i<4u; i++) {
         offset = i * 8;
-        value = ((u16 *)(rec = base + func_022110D4((u8 *)p,(*(u8 **)p)[32]) * 76))[i * 4];
+        value = ((u16 *)(rec = base + B_PLIST_MAIN_GetOrderIndex((u8 *)p,(*(u8 **)p)[32]) * 76))[i * 4];
         if (value == 0) *(u8 *)(p + offset + 0x1f7c) = 1;
         else {
-            func_0220C4DC((char *)p,value,i+1,d_02211B3C[i],65535,7,0x3dc0);
-            func_0220D6DC((char *)p,(u8 *)(rec+offset),i+1);
+            B_PLIST_DRAW_PrintNumberAt((char *)p,value,i+1,d_02211B3C[i],65535,7,0x3dc0);
+            B_PLIST_DRAW_PrintMoveRowValues((char *)p,(u8 *)(rec+offset),i+1);
         }
     }
-    func_0220C694((char *)p,5,24);
+    B_PLIST_DRAW_PrintCenteredText((char *)p,5,24);
 }
 
 
@@ -2259,23 +2259,23 @@ void func_0220DC04(char *p)
 
 
 
-void func_0220DCA8(char *p) {
+void B_PLIST_DRAW_DrawMode2(char *p) {
     *(u8 * *)&((struct Obj00507 *)p)->f253C=d_02211B50;
-    func_0220BDA0((u8 *)p);
-    func_0220BEB8((u8 *)p,0,(*(u8 **)p)[32],0,0);
-    func_0220CDF0((u8 *)p,(*(u8 **)p)[32]);
-    func_0220C2F8((u8 *)p,10,(*(u8 **)p)[32],0,0);
+    B_PLIST_DRAW_ClearWindowBitmaps((u8 *)p);
+    B_PLIST_DRAW_PrintRowName((u8 *)p,0,(*(u8 **)p)[32],0,0);
+    B_PLIST_DRAW_PrintDualValue((u8 *)p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_FillTypeBar((u8 *)p,10,(*(u8 **)p)[32],0,0);
     BMP_WIN_TransferChars(((struct Obj00507 *)p)->f1FC0);
-    func_0220C714((u8 *)p,(*(u8 **)p)[32]);
-    func_0220C8F0(p,(*(u8 **)p)[32]);
-    func_0220C9F0(p,(*(u8 **)p)[32]);
-    func_0220CAF0(p,(*(u8 **)p)[32]);
-    func_0220CBF0(p,(*(u8 **)p)[32]);
-    func_0220CCF0(p,(*(u8 **)p)[32]);
-    func_0220C398((u8 *)p,1,(*(u8 **)p)[32]);
-    func_0220C42C(p,3,(*(u8 **)p)[32]);
-    func_0220CFC4(p,(*(u8 **)p)[32]);
-    func_0220C694(p,21,25);
+    B_PLIST_DRAW_PrintStatsFields((u8 *)p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintStatRow0(p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintStatRow1(p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintStatRow2(p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintStatRow3(p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintStatRow4(p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintRowValue((u8 *)p,1,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintItemOrName(p,3,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintBankEntry(p,(*(u8 **)p)[32]);
+    B_PLIST_DRAW_PrintCenteredText(p,21,25);
 }
 
 
@@ -2289,27 +2289,27 @@ void func_0220DCA8(char *p) {
 
 
 
-void func_0220DD78(char *p) {
+void B_PLIST_DRAW_DrawMode4(char *p) {
     u8 *owner;
     char *base,*rec;
     unsigned offset;
     *(u8 * *)&((struct Obj00507 *)p)->f253C=d_02211B20;
-    func_0220BDA0((u8 *)p);
+    B_PLIST_DRAW_ClearWindowBitmaps((u8 *)p);
     owner=*(u8 * *)&((struct Obj00507 *)p)->f0;
-    base=p+0x30+func_022110D4((u8 *)p,owner[32])*76;
+    base=p+0x30+B_PLIST_MAIN_GetOrderIndex((u8 *)p,owner[32])*76;
     offset=owner[0x4b]*8;
     rec=base+offset;
-    func_0220BEB8((u8 *)p,6,owner[32],0,0);
-    func_0220C5AC(p,7,0,0);
-    func_0220C4DC(p,*(u16 *)(base+offset),0,d_02211B3C[(*(u8 **)p)[0x4b]],0,0,0x3dc0);
-    func_0220D034(p,8);
-    func_0220D090(p,2,(u8)rec[6]);
-    func_0220D1BC(p,9);
-    func_0220D218(p,3,(u8)rec[7]);
-    func_0220D348(p,4,*(u16 *)(base+offset));
-    func_0220D3B4(p,10);
-    func_0220D418(p,5,(u8)rec[5]);
-    func_0220D494((u8 *)p,1,(u8)rec[2],(u8)rec[3]);
+    B_PLIST_DRAW_PrintRowName((u8 *)p,6,owner[32],0,0);
+    B_PLIST_DRAW_PrintTextAt(p,7,0,0);
+    B_PLIST_DRAW_PrintNumberAt(p,*(u16 *)(base+offset),0,d_02211B3C[(*(u8 **)p)[0x4b]],0,0,0x3dc0);
+    B_PLIST_DRAW_PrintSlotLabelA(p,8);
+    B_PLIST_DRAW_PrintSlotValueA(p,2,(u8)rec[6]);
+    B_PLIST_DRAW_PrintSlotLabelB(p,9);
+    B_PLIST_DRAW_PrintSlotValueB(p,3,(u8)rec[7]);
+    B_PLIST_DRAW_PrintSlotLabelC(p,4,*(u16 *)(base+offset));
+    B_PLIST_DRAW_PrintSlotLabelD(p,10);
+    B_PLIST_DRAW_PrintSlotLabelBySelector(p,5,(u8)rec[5]);
+    B_PLIST_DRAW_PrintCenterPair((u8 *)p,1,(u8)rec[2],(u8)rec[3]);
 }
 
 
@@ -2323,29 +2323,29 @@ void func_0220DD78(char *p) {
 
 
 
-void func_0220DE4C(char *p) {
+void B_PLIST_DRAW_DrawMode6(char *p) {
     long i;
     int offset;
     char *base,*rec;
     u16 value;
     u8 local[8];
     *(u8 * *)&((struct Obj00507 *)p)->f253C=d_02211B0D;
-    func_0220BDA0((u8 *)p);
-    func_0220BEB8((u8 *)p,0,(*(u8 **)p)[32],0,0);
+    B_PLIST_DRAW_ClearWindowBitmaps((u8 *)p);
+    B_PLIST_DRAW_PrintRowName((u8 *)p,0,(*(u8 **)p)[32],0,0);
     base=p+0x30;
     for(i=0;i<4u;i++) {
         offset=i*8;
-        value=((u16 *)(rec=base+func_022110D4((u8 *)p,(*(u8 **)p)[32])*76))[i*4];
+        value=((u16 *)(rec=base+B_PLIST_MAIN_GetOrderIndex((u8 *)p,(*(u8 **)p)[32])*76))[i*4];
         if(value==0) *(u8 *)(p+offset+0x1f7c)=1;
         else {
-            func_0220C4DC(p,value,i+1,d_02211B3C[i],65535,7,0x3dc0);
-            func_0220D6DC(p,(u8 *)(rec+offset),i+1);
+            B_PLIST_DRAW_PrintNumberAt(p,value,i+1,d_02211B3C[i],65535,7,0x3dc0);
+            B_PLIST_DRAW_PrintMoveRowValues(p,(u8 *)(rec+offset),i+1);
         }
     }
-    func_0220C4DC(p,((struct Obj25183 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5,0x53,65535,7,0x3dc0);
+    B_PLIST_DRAW_PrintNumberAt(p,((struct Obj25183 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5,0x53,65535,7,0x3dc0);
     local[2]=WAZA_TOOL_GetParam(((struct Obj25184 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
     local[3]=local[2];
-    func_0220D6DC(p,(u8 *)local,5);
+    B_PLIST_DRAW_PrintMoveRowValues(p,(u8 *)local,5);
 }
 
 
@@ -2359,38 +2359,38 @@ void func_0220DE4C(char *p) {
 
 
 
-void func_0220DF20(char *p) {
+void B_PLIST_DRAW_DrawMode7(char *p) {
     unsigned index,offset,type;
     char *base,*rec;
     *(u8 * *)&((struct Obj00507 *)p)->f253C=d_02211B2C;
-    func_0220BDA0((u8 *)p);
-    func_0220BEB8((u8 *)p,0,(*(u8 **)p)[32],0,0);
-    func_0220C5AC(p,2,0,0);
-    func_0220D034(p,4);
-    func_0220D1BC(p,5);
-    func_0220D3B4(p,9);
+    B_PLIST_DRAW_ClearWindowBitmaps((u8 *)p);
+    B_PLIST_DRAW_PrintRowName((u8 *)p,0,(*(u8 **)p)[32],0,0);
+    B_PLIST_DRAW_PrintTextAt(p,2,0,0);
+    B_PLIST_DRAW_PrintSlotLabelA(p,4);
+    B_PLIST_DRAW_PrintSlotLabelB(p,5);
+    B_PLIST_DRAW_PrintSlotLabelD(p,9);
     index=(*(u8 **)p)[0x4b];
     if(index<4) {
-        base=p+0x30+func_022110D4((u8 *)p,(*(u8 **)p)[32])*76;
+        base=p+0x30+B_PLIST_MAIN_GetOrderIndex((u8 *)p,(*(u8 **)p)[32])*76;
         offset=index*8;
         rec=base+offset;
-        func_0220C4DC(p,*(u16 *)(base+offset),1,d_02211B3C[index],0,0,0x3dc0);
-        func_0220D090(p,6,(u8)rec[6]);
-        func_0220D218(p,7,(u8)rec[7]);
-        func_0220D348(p,8,*(u16 *)(base+offset));
-        func_0220D418(p,10,(u8)rec[5]);
-        func_0220D494((u8 *)p,3,(u8)rec[2],(u8)rec[3]);
+        B_PLIST_DRAW_PrintNumberAt(p,*(u16 *)(base+offset),1,d_02211B3C[index],0,0,0x3dc0);
+        B_PLIST_DRAW_PrintSlotValueA(p,6,(u8)rec[6]);
+        B_PLIST_DRAW_PrintSlotValueB(p,7,(u8)rec[7]);
+        B_PLIST_DRAW_PrintSlotLabelC(p,8,*(u16 *)(base+offset));
+        B_PLIST_DRAW_PrintSlotLabelBySelector(p,10,(u8)rec[5]);
+        B_PLIST_DRAW_PrintCenterPair((u8 *)p,3,(u8)rec[2],(u8)rec[3]);
     } else {
         type=WAZA_TOOL_GetParam(((struct Obj25185 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
-        func_0220C4DC(p,((struct Obj25186 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,1,0x53,0,0,0x3dc0);
-        func_0220D348(p,8,((struct Obj25187 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26);
-        if(WAZA_TOOL_IsAlwaysHit(((struct Obj25188 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26)==1) func_0220D090(p,6,0);
-        else func_0220D090(p,6,WAZA_TOOL_GetParam(((struct Obj25189 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,4));
-        func_0220D218(p,7,WAZA_TOOL_GetParam(((struct Obj25190 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,3));
-        func_0220D418(p,10,WAZA_TOOL_GetParam(((struct Obj25191 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,2));
-        func_0220D494((u8 *)p,3,type,type);
+        B_PLIST_DRAW_PrintNumberAt(p,((struct Obj25186 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,1,0x53,0,0,0x3dc0);
+        B_PLIST_DRAW_PrintSlotLabelC(p,8,((struct Obj25187 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26);
+        if(WAZA_TOOL_IsAlwaysHit(((struct Obj25188 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26)==1) B_PLIST_DRAW_PrintSlotValueA(p,6,0);
+        else B_PLIST_DRAW_PrintSlotValueA(p,6,WAZA_TOOL_GetParam(((struct Obj25189 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,4));
+        B_PLIST_DRAW_PrintSlotValueB(p,7,WAZA_TOOL_GetParam(((struct Obj25190 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,3));
+        B_PLIST_DRAW_PrintSlotLabelBySelector(p,10,WAZA_TOOL_GetParam(((struct Obj25191 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,2));
+        B_PLIST_DRAW_PrintCenterPair((u8 *)p,3,type,type);
     }
-    func_0220D628(p,11);
+    B_PLIST_DRAW_PrintMoveRowLabel(p,11);
 }
 
 
@@ -2404,27 +2404,27 @@ void func_0220DF20(char *p) {
 
 
 
-void func_0220E088(char *p)
+void B_PLIST_DRAW_DrawMode5(char *p)
 {
     long i;
     int index, offset;
     char *base, *rec;
     u16 value;
     *(u8 * *)&((struct Obj00507 *)p)->f253C = d_02211AF9;
-    func_0220BDA0((u8 *)p);
-    func_0220BEB8((u8 *)p,0,(*(u8 **)p)[32],0,0);
+    B_PLIST_DRAW_ClearWindowBitmaps((u8 *)p);
+    B_PLIST_DRAW_PrintRowName((u8 *)p,0,(*(u8 **)p)[32],0,0);
     base = (char *)p + 0x30;
     for (i=0; i<4u; i++) {
         offset = i * 8;
-        value = ((u16 *)(rec = base + func_022110D4((u8 *)p,(*(u8 **)p)[32]) * 76))[i * 4];
+        value = ((u16 *)(rec = base + B_PLIST_MAIN_GetOrderIndex((u8 *)p,(*(u8 **)p)[32]) * 76))[i * 4];
         if (value == 0) *(u8 *)(p + offset + 0x1f7c) = 1;
         else {
-            func_0220C4DC((char *)p,value,i+1,d_02211B3C[i],65535,7,0x3dc0);
-            func_0220D6DC((char *)p,(u8 *)(rec+offset),i+1);
+            B_PLIST_DRAW_PrintNumberAt((char *)p,value,i+1,d_02211B3C[i],65535,7,0x3dc0);
+            B_PLIST_DRAW_PrintMoveRowValues((char *)p,(u8 *)(rec+offset),i+1);
         }
     }
     if (FILE_UTIL_Get_0FE4((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)
-        func_0220C60C((char *)p,104);
+        B_PLIST_DRAW_PrintHeader((char *)p,104);
 }
 
 
@@ -2438,7 +2438,7 @@ void func_0220E088(char *p)
 
 
 
-void func_0220E13C(u8 *p){func_0201F73C(((struct Obj02247 *)p)->f1F68,2,1,14);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02247 *)p)->f1F68),15);func_0220E168((char *)p);}
+void B_PLIST_DRAW_ClearAndPrintStream(u8 *p){BMP_MENUWORK_DrawWindow(((struct Obj02247 *)p)->f1F68,2,1,14);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02247 *)p)->f1F68),15);B_PLIST_DRAW_PrintStream((char *)p);}
 
 
 
@@ -2454,7 +2454,7 @@ void func_0220E13C(u8 *p){func_0201F73C(((struct Obj02247 *)p)->f1F68,2,1,14);BM
 /*
  * volatile: global pointer re-read at 0220E17C and 0220E196 before PRINTSYS_PrintStream.
  */
-void func_0220E168(char *p)
+void B_PLIST_DRAW_PrintStream(char *p)
 {
     int v;
     void *obj;
@@ -2484,15 +2484,15 @@ void func_0220E168(char *p)
  *   address only at its use (the earlier note's base + i) left t in r7 and
  *   rematerialised p + 4 after the call (DIFF 16).
  */
-void func_0220E1D4(u8 *p)
+void B_PLIST_DRAW_FormatRowWord(u8 *p)
 {
     u8 *row;
     void *t;
-    row = p + 4 + func_022110D4(p, (*(u8 **)p)[32]) * 0x4c;
+    row = p + 4 + B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[32]) * 0x4c;
     t = func_02045EC0(*(struct MsgBank **)(p + 0x1ea0), 105);
-    func_0201EEF4(*(struct WordSet **)(p + 0x1ea4), 0, *(void **)row);
-    func_0201EF34(*(struct WordSet **)(p + 0x1ea4), 1, 373);
-    func_0201F250(*(struct WordSet **)(p + 0x1ea4), *(void **)(p + 0x1ea8), t);
+    WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1ea4), 0, *(void **)row);
+    WORDSET_SetSlotFromMsgCB(*(struct WordSet **)(p + 0x1ea4), 1, 373);
+    WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1ea4), *(void **)(p + 0x1ea8), t);
     STRBUF_Delete(t);
 }
 
@@ -2510,7 +2510,7 @@ void func_0220E1D4(u8 *p)
 /*
  * evidence: enum offset k retained across the call; j saves k+0x10 before k-=0xb4. Parenthesised offsets and the sequenced local match the 48-byte original.
  */
-void func_0220E22C(u8 *p){enum{K=0x1f60}k=K;u32 j;B_APP_TOOL_Update((struct Entry *)(p+k),*(int *)(p+(k-0xb4)),2);j=k+0x10;k-=0xb4;B_APP_TOOL_Update((struct Entry *)(p+j),*(int *)(p+k),p[0x2174]);}
+void B_PLIST_DRAW_UpdateToolWindows(u8 *p){enum{K=0x1f60}k=K;u32 j;B_APP_TOOL_Update((struct Entry *)(p+k),*(int *)(p+(k-0xb4)),2);j=k+0x10;k-=0xb4;B_APP_TOOL_Update((struct Entry *)(p+j),*(int *)(p+k),p[0x2174]);}
 
 
 
@@ -2523,7 +2523,7 @@ void func_0220E22C(u8 *p){enum{K=0x1f60}k=K;u32 j;B_APP_TOOL_Update((struct Entr
 
 
 
-void func_0220E25C(u8 *p){B_APP_TOOL_ShowWindows((char *)p+0x1f70,*(u8 * *)&((struct Obj03351 *)p)->f253C);func_0220E27C(p);}
+void B_PLIST_DRAW_ShowToolWindows(u8 *p){B_APP_TOOL_ShowWindows((char *)p+0x1f70,*(u8 * *)&((struct Obj03351 *)p)->f253C);B_PLIST_DRAW_ShowSubWindow(p);}
 
 
 
@@ -2536,7 +2536,7 @@ void func_0220E25C(u8 *p){B_APP_TOOL_ShowWindows((char *)p+0x1f70,*(u8 * *)&((st
 
 
 
-void func_0220E27C(u8 *p){if(((Bits4 *)(p+0x2177))->hi==1){func_0201F73C(((struct Obj25197 *)p)->f1F60,2,1,14);B_APP_TOOL_ShowWindow(p+0x1f60);((Bits4 *)(p+0x2177))->hi=0;}}
+void B_PLIST_DRAW_ShowSubWindow(u8 *p){if(((Bits4 *)(p+0x2177))->hi==1){BMP_MENUWORK_DrawWindow(((struct Obj25197 *)p)->f1F60,2,1,14);B_APP_TOOL_ShowWindow(p+0x1f60);((Bits4 *)(p+0x2177))->hi=0;}}
 
 
 
@@ -2552,17 +2552,17 @@ void func_0220E27C(u8 *p){if(((Bits4 *)(p+0x2177))->hi==1){func_0201F73C(((struc
 /*
  * extent: 0220E2F6 alignment padding.
  */
-void func_0220E2B4(char *p)
+void B_PLIST_DRAW_Init(char *p)
 {
-    func_0220E2F8(p);
-    func_0220E340((u8 *)p);
-    func_0220E3F0(p);
-    func_0220E518(p);
-    func_0220E460(p);
-    func_0220E584(p);
-    func_0220E5FC(p);
-    func_0220E6E0(p);
-    func_0220F1F4((u8 *)p);
+    B_PLIST_DRAW_ClearIds(p);
+    B_PLIST_DRAW_RegisterRowCharacters((u8 *)p);
+    B_PLIST_DRAW_RegisterIconSet1(p);
+    B_PLIST_DRAW_RegisterIconSet3(p);
+    B_PLIST_DRAW_RegisterIconSet2(p);
+    B_PLIST_DRAW_RegisterIconSet4(p);
+    B_PLIST_DRAW_RegisterIconSet5(p);
+    B_PLIST_DRAW_CreateActors(p);
+    B_PLIST_MAIN_CreateToolActors((u8 *)p);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
@@ -2577,7 +2577,7 @@ void func_0220E2B4(char *p)
 
 
 
-void func_0220E2F8(char *p)
+void B_PLIST_DRAW_ClearIds(char *p)
 {
     unsigned int i;
     for (i = 0; i < 26; i++) *(int *)(p + i * 4 + 0x24a4) = -1;
@@ -2604,7 +2604,7 @@ void func_0220E2F8(char *p)
  *   `icons + i * 4` style). Either part alone stays at 9 bytes (named arr in both arms, or the integer
  *   address with one join store). EXACT in --lang c99 and --lang c.
  */
-void func_0220E340(u8 *p)
+void B_PLIST_DRAW_RegisterRowCharacters(u8 *p)
 {
     void *arc;
     u16 i;
@@ -2634,7 +2634,7 @@ void func_0220E340(u8 *p)
 
 
 
-void func_0220E3F0(char *p)
+void B_PLIST_DRAW_RegisterIconSet1(char *p)
 {
     void *owner;
     owner = func_020490F4(83,(u16)((((struct Obj25198 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10 & 0x7fff) | 0x8000));
@@ -2655,7 +2655,7 @@ void func_0220E3F0(char *p)
 
 
 
-void func_0220E460(char *p)
+void B_PLIST_DRAW_RegisterIconSet2(char *p)
 {
     void *owner;
     unsigned i;
@@ -2680,7 +2680,7 @@ void func_0220E460(char *p)
 
 
 
-void func_0220E518(char *p)
+void B_PLIST_DRAW_RegisterIconSet3(char *p)
 {
     void *owner;
     owner = func_020490F4(83,(u16)((((struct Obj25208 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10 & 0x7fff) | 0x8000));
@@ -2701,7 +2701,7 @@ void func_0220E518(char *p)
 
 
 
-void func_0220E584(char *p)
+void B_PLIST_DRAW_RegisterIconSet4(char *p)
 {
     void *owner;
     owner=func_020490F4(11,(u16)((((struct Obj25212 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000));
@@ -2722,7 +2722,7 @@ void func_0220E584(char *p)
 
 
 
-void func_0220E5FC(char *p)
+void B_PLIST_DRAW_RegisterIconSet5(char *p)
 {
     void *owner;
     int first;
@@ -2745,7 +2745,7 @@ void func_0220E5FC(char *p)
 
 
 
-unsigned func_0220E684(char *p,const int *q)
+unsigned B_PLIST_DRAW_CreateActorFromParams(char *p,const int *q)
 {
     Point point;
     point.x=0;
@@ -2767,14 +2767,14 @@ unsigned func_0220E684(char *p,const int *q)
 
 
 
-void func_0220E6E0(char *p)
+void B_PLIST_DRAW_CreateActors(char *p)
 {
     unsigned i;
     ((struct Obj00172 *)p)->f1EB8=(unsigned int)CLACT_CreateUnit((unsigned)45,(unsigned)0,(u16)((((struct Obj25221 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000));
-    for(i=0;i<41;i++) *(unsigned *)(p+i*4+0x1ebc)=func_0220E684(p,d_02211DFC[i]);
+    for(i=0;i<41;i++) *(unsigned *)(p+i*4+0x1ebc)=B_PLIST_DRAW_CreateActorFromParams(p,d_02211DFC[i]);
     GFL_NET_RestartWithDefaultTimeout(0,((struct Obj25222 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)(((struct Obj00172 *)p)->f1D8),(int)3,(int)0,(int)0x1e0);
-    func_0220E7E4((Record_0220D9B4 *)p);
+    B_PLIST_DRAW_ApplyActorPalettes((Record_0220D9B4 *)p);
 }
 
 
@@ -2788,7 +2788,7 @@ void func_0220E6E0(char *p)
 
 
 
-void func_0220E74C(char *p)
+void B_PLIST_DRAW_DeleteActors(char *p)
 {
     unsigned i;
     for(i=0;i<41;i++) CLACT_DeleteActor(*(void **)(p+i*4+0x1ebc));
@@ -2813,7 +2813,7 @@ void func_0220E74C(char *p)
 /*
  * Addresses are Black-image addresses.
  */
-void func_0220E7CC(u8 *p, u32 b)
+void B_PLIST_DRAW_PlaceActor(u8 *p, u32 b)
 {
     CLACT_SetActorDrawEnable((struct Obj *)p, 1);
     CLACT_AddActorSurfacePos((struct Obj *)p, (const struct Vec2 *)b, 1);
@@ -2829,7 +2829,7 @@ void func_0220E7CC(u8 *p, u32 b)
 
 
 
-void func_0220E7E4(Record_0220D9B4 *records)
+void B_PLIST_DRAW_ApplyActorPalettes(Record_0220D9B4 *records)
 {
     char *p=(char *)records;
     char *flags;
@@ -2861,7 +2861,7 @@ void func_0220E7E4(Record_0220D9B4 *records)
  * extern const u8 _PokeTypePltOffset[];
  * unsigned func_020275EC(u8 index){return _PokeTypePltOffset[index];}
  */
-void func_0220E82C(char *p,void *obj,int index,int which)
+void B_PLIST_DRAW_TransferCharacter(char *p,void *obj,int index,int which)
 {
     void *owner,*data;
     struct Sub0204A9D0 *out;
@@ -2889,7 +2889,7 @@ void func_0220E82C(char *p,void *obj,int index,int which)
  * extern const u8 _WazaKindPltOffset[];
  * unsigned func_02027604(u8 index){return _WazaKindPltOffset[index];}
  */
-void func_0220E8B4(char *p,int first,int index,int which)
+void B_PLIST_DRAW_TransferCharacterToggle(char *p,int first,int index,int which)
 {
     void *owner,*data;
     struct Sub0204A9D0 *out;
@@ -2916,7 +2916,7 @@ void func_0220E8B4(char *p,int first,int index,int which)
 
 
 
-void func_0220E974(int mode,u8 *p,const struct Vec2 *q) { if(mode==8)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {CLACT_SetActorAnimSeq((struct Obj *)p,mode);func_0220E7CC(p,(u32)q);} }
+void B_PLIST_DRAW_SetActorAnim(int mode,u8 *p,const struct Vec2 *q) { if(mode==8)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {CLACT_SetActorAnimSeq((struct Obj *)p,mode);B_PLIST_DRAW_PlaceActor(p,(u32)q);} }
 
 
 
@@ -2927,18 +2927,18 @@ void func_0220E974(int mode,u8 *p,const struct Vec2 *q) { if(mode==8)CLACT_AddAc
 
 
 
-void func_0220E9A0(char *p,u8 *q,const Pair *pos)
+void B_PLIST_DRAW_SwapActorPair(char *p,u8 *q,const Pair *pos)
 {
     int first,index;
     char *base;
     if(((Flags_0220E9A0 *)(p+0x2175))->flip==0){first=25;index=8;}
     else{first=27;index=10;}
     base=p+0x1ebc;
-    func_0220E82C(p,*(void **)(base+first*4),index,q[20]);
-    func_0220E7CC(*(u8 **)(base+first*4),(unsigned)pos);
+    B_PLIST_DRAW_TransferCharacter(p,*(void **)(base+first*4),index,q[20]);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(base+first*4),(unsigned)pos);
     if(q[20]!=q[21]){
-        func_0220E82C(p,*(void **)(p+0x1ebc+(first+1)*4),index+1,q[21]);
-        func_0220E7CC(*(u8 **)(p+0x1ebc+(first+1)*4),(unsigned)(pos+1));
+        B_PLIST_DRAW_TransferCharacter(p,*(void **)(p+0x1ebc+(first+1)*4),index+1,q[21]);
+        B_PLIST_DRAW_PlaceActor(*(u8 **)(p+0x1ebc+(first+1)*4),(unsigned)(pos+1));
     }
     ((Flags_0220E9A0 *)(p+0x2175))->flip^=1;
 }
@@ -2952,7 +2952,7 @@ void func_0220E9A0(char *p,u8 *q,const Pair *pos)
 
 
 
-void func_0220EA30(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {if(FILE_UTIL_Check136C(mode)==1)CLACT_SetActorAnimSeq((struct Obj *)p,1);else CLACT_SetActorAnimSeq((struct Obj *)p,0);func_0220E7CC(p,(u32)q);} }
+void B_PLIST_DRAW_SetActorAnimByMode(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {if(FILE_UTIL_Check136C(mode)==1)CLACT_SetActorAnimSeq((struct Obj *)p,1);else CLACT_SetActorAnimSeq((struct Obj *)p,0);B_PLIST_DRAW_PlaceActor(p,(u32)q);} }
 
 
 
@@ -2961,19 +2961,19 @@ void func_0220EA30(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)CLACT_AddAc
 
 
 
-void func_0220EA68(char *p,unsigned mode)
+void B_PLIST_DRAW_LayoutActors(char *p,unsigned mode)
 {
     unsigned i;
     for(i=0;i<41;i++)CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x1ebc),0);
     switch(mode){
-    case 0: case 8: func_0220EAF0((Record_0220EAF0 *)p);return;
-    case 1: func_0220EBCC((Record_0220EAF0 *)p);return;
-    case 2: func_0220EC2C((u8 *)p);return;
-    case 3: func_0220ECCC((u8 *)p);return;
-    case 4: func_0220ED54((u8 *)p);return;
-    case 5: func_0220EFD8((u8 *)p);return;
-    case 6: func_0220EE44((u8 *)p);return;
-    case 7: func_0220EECC((u8 *)p);return;
+    case 0: case 8: B_PLIST_DRAW_LayoutMode0((Record_0220EAF0 *)p);return;
+    case 1: B_PLIST_DRAW_LayoutMode1((Record_0220EAF0 *)p);return;
+    case 2: B_PLIST_DRAW_LayoutMode2((u8 *)p);return;
+    case 3: B_PLIST_DRAW_LayoutMode3((u8 *)p);return;
+    case 4: B_PLIST_DRAW_LayoutMode4((u8 *)p);return;
+    case 5: B_PLIST_DRAW_LayoutMode5((u8 *)p);return;
+    case 6: B_PLIST_DRAW_LayoutMode6((u8 *)p);return;
+    case 7: B_PLIST_DRAW_LayoutMode7((u8 *)p);return;
     }
 }
 
@@ -2988,23 +2988,23 @@ void func_0220EA68(char *p,unsigned mode)
  * lever: the final pointer-table subscript preserves the unscaled index
  * spill and its fresh shift. Byte-offset pointer arithmetic CSEs that shift.
  */
-void func_0220EAF0(Record_0220EAF0 *records) {
+void B_PLIST_DRAW_LayoutMode0(Record_0220EAF0 *records) {
     u8 *p=(u8 *)records;
     short i;
     int index,offset;
     Pair pair;
     for(i=0;i<6;i++) {
-        index=func_022110D4(p,i);
+        index=B_PLIST_MAIN_GetOrderIndex(p,i);
         offset=index*76;
         if(*(u16 *)((char *)records+offset+8)!=0) {
-            func_0220E7CC(*(u8 **)(p+index*4+0x1ed8),(unsigned)&d_02211DB4[i]);
-            func_0220E974(((Bits *)(p+0x1b))[offset].kind,*(u8 **)(p+index*4+0x1ef0),(const struct Vec2 *)(&d_02211DCC[i]));
+            B_PLIST_DRAW_PlaceActor(*(u8 **)(p+index*4+0x1ed8),(unsigned)&d_02211DB4[i]);
+            B_PLIST_DRAW_SetActorAnim(((Bits *)(p+0x1b))[offset].kind,*(u8 **)(p+index*4+0x1ef0),(const struct Vec2 *)(&d_02211DCC[i]));
             if(((Bits *)(p+0x1b))[offset].high==0)
-                func_0220E7CC(*(u8 **)(p+index*4+0x1f08),(unsigned)&d_02211DE4[i]);
+                B_PLIST_DRAW_PlaceActor(*(u8 **)(p+index*4+0x1f08),(unsigned)&d_02211DE4[i]);
             pair=d_02211DB4[i];
             pair.x+=8;
             pair.y+=8;
-            func_0220EA30(*(u16 *)((char *)records+offset+0x1e),((u8 **)(p+0x1ebc))[index],(const struct Vec2 *)(&pair));
+            B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)((char *)records+offset+0x1e),((u8 **)(p+0x1ebc))[index],(const struct Vec2 *)(&pair));
         }
     }
 }
@@ -3020,59 +3020,59 @@ void func_0220EAF0(Record_0220EAF0 *records) {
  * lever: a char cast only on the later resource access prevents CSE of
  * the base-plus-index sum, preserving the byte-offset spill across E7CC.
  */
-void func_0220EBCC(Record_0220EAF0 *records)
+void B_PLIST_DRAW_LayoutMode1(Record_0220EAF0 *records)
 {
     u8 *p=(u8 *)records;
     int i;
     Pair pair;
-    i=func_022110D4(p,(*(u8 **)p)[0x20]);
+    i=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
     pair=d_02211D34[0];
-    func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(unsigned)&pair);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p+i*4+0x1ed8),(unsigned)&pair);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(p+i*0x4c+0x1e),*(u8 **)((char *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
+    B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)(p+i*0x4c+0x1e),*(u8 **)((char *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
 }
 
 
 
 
 
-void func_0220EC2C(u8 *p)
+void B_PLIST_DRAW_LayoutMode2(u8 *p)
 {
     int i;
     u8 *rec;
     Pair pair;
-    i=func_022110D4(p,(*(u8 **)p)[0x20]);
+    i=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
     rec=p+4+i*0x4c;
     pair=d_02211D34[4];
-    func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(unsigned)&pair);
-    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[13]));
-    func_0220E9A0((char *)p,rec,&d_02211D34[25]);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p+i*4+0x1ed8),(unsigned)&pair);
+    B_PLIST_DRAW_SetActorAnim(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[13]));
+    B_PLIST_DRAW_SwapActorPair((char *)p,rec,&d_02211D34[25]);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
-    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 * *)&((struct Obj10847 *)p)->f1ED4,(const struct Vec2 *)(&d_02211D34[1]));
-    func_0220E7CC(*(u8 * *)&((struct Obj10847 *)p)->f1F08,(unsigned)&d_02211D34[16]);
+    B_PLIST_DRAW_SetActorAnimByMode(((struct Obj14560 *)rec)->f1A,*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
+    B_PLIST_DRAW_SetActorAnimByMode(((struct Obj14560 *)rec)->f1A,*(u8 * *)&((struct Obj10847 *)p)->f1ED4,(const struct Vec2 *)(&d_02211D34[1]));
+    B_PLIST_DRAW_PlaceActor(*(u8 * *)&((struct Obj10847 *)p)->f1F08,(unsigned)&d_02211D34[16]);
 }
 
 
 
 
-void func_0220ECCC(u8 *p)
+void B_PLIST_DRAW_LayoutMode3(u8 *p)
 {
     int i;
     u8 *rec;
     Pair pair;
-    i = func_022110D4(p, (*(u8 **)p)[0x20]);
+    i = B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[0x20]);
     rec = p + 4 + i * 0x4c;
     pair = d_02211D34[15];
-    func_0220E7CC(*(u8 **)(p + i * 4 + 0x1ed8), (u32)&pair);
-    func_0220E974(((Bits *)(rec + 0x17))->kind, *(u8 **)((char *)p + i * 4 + 0x1ef0), (const struct Vec2 *)&d_02211D34[14]);
-    func_0220E9A0((char *)p, rec, &d_02211D34[17]);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p + i * 4 + 0x1ed8), (u32)&pair);
+    B_PLIST_DRAW_SetActorAnim(((Bits *)(rec + 0x17))->kind, *(u8 **)((char *)p + i * 4 + 0x1ef0), (const struct Vec2 *)&d_02211D34[14]);
+    B_PLIST_DRAW_SwapActorPair((char *)p, rec, &d_02211D34[17]);
     pair.x += 8;
     pair.y += 8;
-    func_0220EA30(*(u16 *)(rec + 0x1a), *(u8 **)((const u8 *)p + i * 4 + 0x1ebc), (const struct Vec2 *)&pair);
-    func_0220F060(p);
+    B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)(rec + 0x1a), *(u8 **)((const u8 *)p + i * 4 + 0x1ebc), (const struct Vec2 *)&pair);
+    B_PLIST_MAIN_SyncMoveActors(p);
 }
 
 
@@ -3082,30 +3082,30 @@ void func_0220ECCC(u8 *p)
  * note 2026-10-05 (wD6 lane16): EXACT. The 0x1ebc call is written in each arm of the idx if/else (tail-merged), so the
  *   0x1ED8 pool word stays CSE-live into it; the 0x1F58/0x1F5C read is a ternary of two loads; rec + k*8 + 0x31 as pointer adds.
  */
-void func_0220ED54(u8 *p)
+void B_PLIST_DRAW_LayoutMode4(u8 *p)
 {
     int i;
     u8 *rec;
     Pair pair;
     int idx;
-    i=func_022110D4(p,(*(u8 **)p)[0x20]);
+    i=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
     rec=p+4+i*0x4c;
     pair=d_02211D34[12];
-    func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
-    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[11]));
-    func_0220E9A0((char *)p,rec,&d_02211D34[21]);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
+    B_PLIST_DRAW_SetActorAnim(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[11]));
+    B_PLIST_DRAW_SwapActorPair((char *)p,rec,&d_02211D34[21]);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
+    B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
     if (((Flag *)(p+0x2175))->bit==0) {
         idx=(*(u8 **)p)[0x4b]+0x22;
-        func_0220E7CC(*(u8 **)(p+idx*4+0x1ebc),(u32)&d_02211D34[9]);
+        B_PLIST_DRAW_PlaceActor(*(u8 **)(p+idx*4+0x1ebc),(u32)&d_02211D34[9]);
     } else {
         idx=(*(u8 **)p)[0x4b]+0x1d;
-        func_0220E7CC(*(u8 **)(p+idx*4+0x1ebc),(u32)&d_02211D34[9]);
+        B_PLIST_DRAW_PlaceActor(*(u8 **)(p+idx*4+0x1ebc),(u32)&d_02211D34[9]);
     }
-    func_0220E7CC(((Flag *)(p+0x2175))->high==0?((u8 **)p)[0x7d6]:((u8 **)p)[0x7d7],(u32)&d_02211D34[5]);
-    func_0220E8B4((char *)p,0x27,0x16,*(rec+(*(u8 **)p)[0x4b]*8+0x31));
+    B_PLIST_DRAW_PlaceActor(((Flag *)(p+0x2175))->high==0?((u8 **)p)[0x7d6]:((u8 **)p)[0x7d7],(u32)&d_02211D34[5]);
+    B_PLIST_DRAW_TransferCharacterToggle((char *)p,0x27,0x16,*(rec+(*(u8 **)p)[0x4b]*8+0x31));
 }
 
 
@@ -3114,61 +3114,61 @@ void func_0220ED54(u8 *p)
 /*
  * lever: d_02211D34 is a non-const Pair array (a const one reorders the schedule).
  */
-void func_0220EE44(u8 *p)
+void B_PLIST_DRAW_LayoutMode6(u8 *p)
 {
     int i;
     u8 *rec;
     Pair pair;
-    i=func_022110D4(p,(*(u8 **)p)[0x20]);
+    i=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
     rec=p+4+i*0x4c;
     pair=d_02211D34[7];
-    func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
-    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[6]));
-    func_0220E9A0((char *)p,rec,&d_02211D34[19]);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
+    B_PLIST_DRAW_SetActorAnim(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[6]));
+    B_PLIST_DRAW_SwapActorPair((char *)p,rec,&d_02211D34[19]);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
-    func_0220F060(p);
+    B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
+    B_PLIST_MAIN_SyncMoveActors(p);
 }
 
 
-void func_0220EECC(u8 *p)
+void B_PLIST_DRAW_LayoutMode7(u8 *p)
 {
     int i;
     u8 *rec;
     Pair pair;
     unsigned n;
-    i=func_022110D4(p,(*(u8 **)p)[0x20]);
+    i=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
     rec=p+4+i*0x4c;
     pair=d_02211D34[8];
-    func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
-    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[2]));
-    func_0220E9A0((char *)p,rec,&d_02211D34[23]);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
+    B_PLIST_DRAW_SetActorAnim(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[2]));
+    B_PLIST_DRAW_SwapActorPair((char *)p,rec,&d_02211D34[23]);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
-    if(((Fl *)(p+0x2175))->a==0) func_0220E7CC(*(u8 **)(p+((*(u8 **)p)[0x4b]+0x22)*4+0x1ebc),(u32)&d_02211D34[3]);
-    else func_0220E7CC(*(u8 **)(p+((*(u8 **)p)[0x4b]+0x1d)*4+0x1ebc),(u32)&d_02211D34[3]);
-    if(((Fl *)(p+0x2175))->b==0) func_0220E7CC(*(u8 **)(p+0x1F58),(u32)&d_02211D34[10]);
-    else func_0220E7CC(*(u8 **)(p+0x1F5C),(u32)&d_02211D34[10]);
+    B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
+    if(((Fl *)(p+0x2175))->a==0) B_PLIST_DRAW_PlaceActor(*(u8 **)(p+((*(u8 **)p)[0x4b]+0x22)*4+0x1ebc),(u32)&d_02211D34[3]);
+    else B_PLIST_DRAW_PlaceActor(*(u8 **)(p+((*(u8 **)p)[0x4b]+0x1d)*4+0x1ebc),(u32)&d_02211D34[3]);
+    if(((Fl *)(p+0x2175))->b==0) B_PLIST_DRAW_PlaceActor(*(u8 **)(p+0x1F58),(u32)&d_02211D34[10]);
+    else B_PLIST_DRAW_PlaceActor(*(u8 **)(p+0x1F5C),(u32)&d_02211D34[10]);
     n=(*(u8 **)p)[0x4b];
-    if(n<4) func_0220E8B4((char *)p,0x27,0x16,(rec+n*8)[0x31]);
-    else func_0220E8B4((char *)p,0x27,0x16,WAZA_TOOL_GetParam(*(u16 *)(*(u8 **)p+0x26),2));
+    if(n<4) B_PLIST_DRAW_TransferCharacterToggle((char *)p,0x27,0x16,(rec+n*8)[0x31]);
+    else B_PLIST_DRAW_TransferCharacterToggle((char *)p,0x27,0x16,WAZA_TOOL_GetParam(*(u16 *)(*(u8 **)p+0x26),2));
 }
 
-void func_0220EFD8(u8 *p)
+void B_PLIST_DRAW_LayoutMode5(u8 *p)
 {
     int i;
     u8 *rec;
     Pair pair;
-    i=func_022110D4(p,(*(u8 **)p)[0x20]);
+    i=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
     rec=p+4+i*0x4c;
     pair=d_02211D34[7];
-    func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
-    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[6]));
-    func_0220E9A0((char *)p,rec,&d_02211D34[19]);
+    B_PLIST_DRAW_PlaceActor(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
+    B_PLIST_DRAW_SetActorAnim(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D34[6]));
+    B_PLIST_DRAW_SwapActorPair((char *)p,rec,&d_02211D34[19]);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
-    func_0220F060(p);
+    B_PLIST_DRAW_SetActorAnimByMode(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
+    B_PLIST_MAIN_SyncMoveActors(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A7B88
+ * function: FIELD_GROUND_ANIME_SetupStepsA
  * address:  0x021A7B88
  * packet:   pkt_ov021_021A7B88
  * region:   ov021
@@ -13,8 +13,8 @@
  * object reports.
  *
  * symbols:
- *   func_021A8268  0x021A8268  thumb  ov021
- *   func_021A80FC  0x021A80FC  thumb  ov021
+ *   FIELD_GROUND_ANIME_HasBuildModel  0x021A8268  thumb  ov021
+ *   FIELD_GROUND_ANIME_GetPlayerMoveMode  0x021A80FC  thumb  ov021
  *   EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange  0x02162370  thumb  ov010
  */
 
@@ -44,19 +44,19 @@ typedef struct Work {
 } Work;
 
 typedef unsigned int   u32;
-extern int func_021A8268(u32 a);
-extern int func_021A80FC(u32 a);
+extern int FIELD_GROUND_ANIME_HasBuildModel(u32 a);
+extern int FIELD_GROUND_ANIME_GetPlayerMoveMode(u32 a);
 extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a);
 
-void func_021A7B88(Work *w)
+void FIELD_GROUND_ANIME_SetupStepsA(Work *w)
 {
     Args *a;
     void *o;
 
     a = w->f00;
     o = a->f0C;
-    if (func_021A8268((u32)w) != 0) {
-        switch (func_021A80FC((u32)o)) {
+    if (FIELD_GROUND_ANIME_HasBuildModel((u32)w) != 0) {
+        switch (FIELD_GROUND_ANIME_GetPlayerMoveMode((u32)o)) {
         case 0:
         case 1:
         default:
@@ -91,7 +91,7 @@ void func_021A7B88(Work *w)
         w->step[4] = 8;
         return;
     } else {
-        switch (func_021A80FC((u32)o)) {
+        switch (FIELD_GROUND_ANIME_GetPlayerMoveMode((u32)o)) {
         case 0:
         case 1:
         default:

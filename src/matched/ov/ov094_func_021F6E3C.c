@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   BTLV_CAMERA_SyncOrbitFromCamera  0x021F73A4  thumb  ov094
@@ -43,7 +43,7 @@ extern char gBtlvCameraInitEye[];
 extern char gBtlvCameraInitUp[];
 extern char gBtlvCameraInitTarget[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
@@ -52,7 +52,7 @@ extern void BTLV_CAMERA_GetDefaultEyeAndTarget(VecFx32 *a, VecFx32 *b);
 
 Obj *BTLV_CAMERA_Create(int a, u16 b)
 {
-    Obj *o = sub_02030734(b, 0xb8, 1, gBtlvCameraFileName, 0x56);
+    Obj *o = GFL_HEAP_Alloc(b, 0xb8, 1, gBtlvCameraFileName, 0x56);
 
     o->hb4 = b;
     o->f0 = a;

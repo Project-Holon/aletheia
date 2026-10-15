@@ -1,5 +1,5 @@
 /*
- * function: func_0220D3B0
+ * function: B_BAG_MAIN_StateExit
  * address: 0x0220D3B0
  * packet: pkt_ov197_0220D3B0
  * region: ov197
@@ -14,13 +14,13 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   WIPE_SYS_ExeEnd 0x020221B8 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_0220BD14 0x0220BD14 thumb ov197
- *   func_0220C448 0x0220C448 thumb ov197
+ *   B_BAG_MAIN_DeleteFrames 0x0220BD14 thumb ov197
+ *   B_BAG_MAIN_DeleteItemGraphics 0x0220C448 thumb ov197
  *   B_BAG_MAIN_ExitWindows 0x0220B1A0 thumb ov197
- *   func_0220D7D0 0x0220D7D0 thumb ov197
- *   func_0220D6B8 0x0220D6B8 thumb ov197
+ *   B_BAG_MAIN_DeleteText 0x0220D7D0 thumb ov197
+ *   B_BAG_MAIN_ExitBg 0x0220D6B8 thumb ov197
  *   TCBL_Destroy 0x02031140 arm
- *   func_0220D914 0x0220D914 thumb ov197
+ *   B_BAG_MAIN_DeleteCursor 0x0220D914 thumb ov197
  *   B_APP_TOOL_Delete 0x0220AF64 thumb ov196
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
@@ -41,18 +41,18 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern unsigned WIPE_SYS_EndCheck(void);
 extern void WIPE_SYS_ExeEnd(void);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
-extern void func_0220BD14(char *);
-extern void func_0220C448(char *);
+extern void B_BAG_MAIN_DeleteFrames(char *);
+extern void B_BAG_MAIN_DeleteItemGraphics(char *);
 extern void B_BAG_MAIN_ExitWindows(char *);
-extern void func_0220D7D0(char *);
-extern void func_0220D6B8(void);
+extern void B_BAG_MAIN_DeleteText(char *);
+extern void B_BAG_MAIN_ExitBg(void);
 extern void TCBL_Destroy(struct S02031140 *);
-extern unsigned func_0220D914(u8 *);
+extern unsigned B_BAG_MAIN_DeleteCursor(u8 *);
 extern void B_APP_TOOL_Delete(void *);
 extern void func_02030EAC(struct Node *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-int func_0220D3B0(struct Node *task, char *p)
+int B_BAG_MAIN_StateExit(struct Node *task, char *p)
 {
     if (((struct Obj00846 *)p)->f5A0 == 1) {
         if (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18) == 0) {
@@ -64,13 +64,13 @@ int func_0220D3B0(struct Node *task, char *p)
             else return 0;
         }
         if (*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C) PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C);
-        func_0220BD14(p);
-        func_0220C448(p);
+        B_BAG_MAIN_DeleteFrames(p);
+        B_BAG_MAIN_DeleteItemGraphics(p);
         B_BAG_MAIN_ExitWindows(p);
-        func_0220D7D0(p);
-        func_0220D6B8();
+        B_BAG_MAIN_DeleteText(p);
+        B_BAG_MAIN_ExitBg();
         TCBL_Destroy(*(struct S02031140 * *)&((struct Obj00846 *)p)->f4);
-        func_0220D914((u8 *)p);
+        B_BAG_MAIN_DeleteCursor((u8 *)p);
         B_APP_TOOL_Delete(((struct Obj00846 *)p)->f148);
         if (((struct Obj00846 *)p)->f598 == 1) {
             **(u8 * *)&((struct Obj25093 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f2C = 1;

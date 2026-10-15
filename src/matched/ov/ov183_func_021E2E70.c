@@ -1,5 +1,5 @@
 /*
- * function: func_021E2E70
+ * function: BR_CODEIN_SoclSetupText
  * address: 0x021E2E70
  * packet: pkt_ov183_021E2E70
  * region: ov183
@@ -14,8 +14,8 @@
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BR_UTIL_SetWindowTextBuf 0x021FD19C thumb ov186
  *   STRBUF_Delete 0x02045808 arm
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
@@ -35,15 +35,15 @@ extern unsigned BR_RES_GetFont(char *p);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern void *BR_UTIL_Create(u16, unsigned, u16, u16, unsigned char, unsigned char, void *, u16);
 extern void BR_UTIL_SetTextFromMessage(char *p, void *a, void *b, void *font, unsigned short value);
 extern const unsigned char d_021E3928[];
-void func_021E2E70(char *p, const char *q)
+void BR_CODEIN_SoclSetupText(char *p, const char *q)
 {
   void *a;
   void *s;
@@ -65,8 +65,8 @@ void func_021E2E70(char *p, const char *q)
   index = *((unsigned *) (p + 0x10));
   index = index * 4;
   base = *((unsigned *) (q + 0x18));
-  func_0201EE0C(a, 0, (const void *)(*((unsigned *) ((base + index) + 0x14))), *((unsigned *) ((((unsigned) base) + index) + 0x24)), 1, 2);
-  func_0201F250(a, b, s);
+  WORDSET_SetSlotTag(a, 0, (const void *)(*((unsigned *) ((base + index) + 0x14))), *((unsigned *) ((((unsigned) base) + index) + 0x24)), 1, 2);
+  WORDSET_CopyTaggedText(a, b, s);
   BR_UTIL_SetWindowTextBuf(*((void **) (p + 8)), (void *)(*((int *) (q + 8))), b);
   STRBUF_Delete(b);
   STRBUF_Delete(s);

@@ -19,9 +19,9 @@
  *   FADE_IsActive  0x0204E804  arm
  *   func_0208068C  0x0208068C  arm
  *   OS_WaitVBlankIntr  0x02087AE4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   SYMBOL_MAP_StartBg2Scale  0x02166B0C  thumb  ov010
  *   sCaptureDispConfig     0x021D9F50  data  ov021  a4
@@ -174,9 +174,9 @@ extern void FADE_Start(u32 fadeKind, s32 startLevel, s32 endLevel, s32 speed);
 extern int FADE_IsActive(void);
 extern void func_0208068C(u32 vramBanks);
 extern void OS_WaitVBlankIntr(void);
-extern void func_0203FC28(const DispConfig *config);
+extern void BG_SYS_SetGraphicsMode(const DispConfig *config);
 extern void func_0207FDCC(u32 vramBanks);
-extern void func_0204047C(int index, unsigned short value);
+extern void BG_SYS_SetVisibleLayer(int index, unsigned short value);
 extern void func_02040588(unsigned char plane, unsigned char enable);
 extern void SYMBOL_MAP_StartBg2Scale(void);
 extern void FIELDMAP_SetUpdateStopped(FieldMap *fieldMap, int stopped);
@@ -693,10 +693,10 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFa
         OS_WaitVBlankIntr();
         OS_WaitVBlankIntr();
         dispConfig = sCaptureDispConfig;
-        func_0203FC28(&dispConfig);
+        BG_SYS_SetGraphicsMode(&dispConfig);
         REG_BG2CNT = 0x4084 | (REG_BG2CNT & 0x43);
         func_0207FDCC(8);
-        func_0204047C(2, 0);
+        BG_SYS_SetVisibleLayer(2, 0);
         func_02040588(2, 1);
         SYMBOL_MAP_StartBg2Scale();
         return EVENT_FIELDMAP_CONTROL_FINISHED;
@@ -716,8 +716,8 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFad
     case DEFAULT_FADE_IN_STEP_START:
         FIELDMAP_SetUpdateStopped(work->fieldMap, 1);
         work->blendStep = FADE_LEVEL_MAX;
-        func_0204047C(2, 0);
-        func_0204047C(0, 1);
+        BG_SYS_SetVisibleLayer(2, 0);
+        BG_SYS_SetVisibleLayer(0, 1);
         func_02040588(0, 1);
         func_0207D63C(REG_BLDCNT_ADDR, 4, 1, work->blendStep, 0);
         FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);

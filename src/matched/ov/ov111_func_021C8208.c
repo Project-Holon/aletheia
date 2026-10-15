@@ -1,5 +1,5 @@
 /*
- * function: func_021C8208
+ * function: VIEWER_ACTOR_GetRtcDate
  * address:  0x021C8208
  * packet:   pkt_ov111_021C8208
  * region:   ov111
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
- *   sub_02008A44  0x02008A44  thumb
- *   sub_02008ACC  0x02008ACC  thumb
+ *   TRCARD_SIGN_GetLastBadgeTime  0x02008A44  thumb
+ *   TRCARD_SIGN_GetBadgeTimer  0x02008ACC  thumb
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   _ll_sdiv  0x0209BE5C  arm
@@ -91,10 +91,10 @@ extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 struct Sub020089A8Obj;
-extern unsigned long long sub_02008A44(const struct Sub020089A8Obj *obj);
-extern u16 sub_02008ACC(const struct Sub020089A8Obj *obj, u32 i);
+extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(const struct Sub020089A8Obj *obj);
+extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 
-void func_021C8208(Work *p)
+void VIEWER_ACTOR_GetRtcDate(Work *p)
 {
     RTCDate date;
     RTCDate date2;
@@ -104,7 +104,7 @@ void func_021C8208(Work *p)
     s64 hours;
     int i;
 
-    saved = sub_02008A44(p->f184);
+    saved = TRCARD_SIGN_GetLastBadgeTime(p->f184);
     RTC_ConvertSecondToDateTime(&date2, &time2, saved);
     GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     hours = (RTC_ConvertDateTimeToSecond(&date, &time) - saved) / 3600;
@@ -112,7 +112,7 @@ void func_021C8208(Work *p)
         hours = 0;
     }
     for (i = 0; i < 8; i++) {
-        p->f188[i] = sub_02008ACC(p->f184, i);
+        p->f188[i] = TRCARD_SIGN_GetBadgeTimer(p->f184, i);
         p->f188[i] -= hours * 2;
         if (p->f188[i] < 0) {
             p->f188[i] = 0;

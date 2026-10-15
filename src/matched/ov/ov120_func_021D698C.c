@@ -1,5 +1,5 @@
 /*
- * function: func_021D698C
+ * function: GTSNEGO_DISP_DeleteTouchbar
  * address:  0x021D698C
  * packet:   pkt_021D698C
  * region:   ov120
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void TOUCHBAR_Delete(u8 *p);
 
-void func_021D698C(u8 *p)
+void GTSNEGO_DISP_DeleteTouchbar(u8 *p)
 {
     if (((struct Obj10392 *)p)->fC) {
         TOUCHBAR_Delete(((struct Obj10392 *)p)->fC);

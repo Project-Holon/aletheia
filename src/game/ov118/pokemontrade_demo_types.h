@@ -1,11 +1,11 @@
 /*
- * pokemontrade_demo_up.h: the work object shared by the pokemontrade demo
+ * pokemontrade_demo_types.h: the work object shared by the pokemontrade demo
  * files of ov117 and ov118 (pokemontrade_demo_common.c, pokemontrade_ircdemo.c
  * in ov117; pokemontrade_demo_common.c, pokemontrade_demo_middle.c and
  * pokemontrade_demo_up.c in ov118). One struct per object, fields by offset.
  */
-#ifndef POKEMONTRADE_DEMO_UP_H
-#define POKEMONTRADE_DEMO_UP_H
+#ifndef POKEMONTRADE_DEMO_TYPES_H
+#define POKEMONTRADE_DEMO_TYPES_H
 
 typedef struct {
     int x, y, z;
@@ -15,8 +15,8 @@ typedef struct {
  * pointer at 0xC. It holds the particle ids, the slot-3 transform, the CLACT
  * actor handle and the heap id used to build the block. */
 typedef struct PokeTradeAnimWork {
-    unsigned int   particleId[6];        /* 0x00 */
-    unsigned char  pad_18[0x48 - 0x18];
+    unsigned int   particleId[9];        /* 0x00 */
+    unsigned char  pad_24[0x48 - 0x24];
     Vec            position;             /* 0x48 */
     Vec            scale;                /* 0x54 */
     unsigned char  pad_60[0xB0 - 0x60];
@@ -70,5 +70,19 @@ typedef struct PokeTradeDemoWork {
     unsigned char       enemySpecialMon; /* 0x11EF */
     unsigned char       ownSpecialMon;   /* 0x11F0 */
 } PokeTradeDemoWork;
+
+/* Button-emitter user data reached through BUTTON_MAN_GetUserData. The object
+ * holds a pointer at 0xC to the emitter's ICA animation record, whose anime
+ * handle sits at 0x98 and whose second handle sits at 0x9C. */
+typedef struct {
+    unsigned char pad_0[0x98];
+    void         *anime;                 /* 0x98 */
+    void         *animeB;                /* 0x9C */
+} PokeTradeButtonAnim;
+
+typedef struct {
+    unsigned char        pad_0[0xC];
+    PokeTradeButtonAnim *anim;           /* 0x0C */
+} PokeTradeButtonData;
 
 #endif

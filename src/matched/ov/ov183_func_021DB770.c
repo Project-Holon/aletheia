@@ -1,5 +1,5 @@
 /*
- * function: func_021DB770
+ * function: BR_CODEIN_ButtonMain
  * address: 0x021DB770
  * packet: pkt_ov183_021DB770
  * region: ov183
@@ -22,7 +22,7 @@
  *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
  *   BR_FADE_SetBlendColor 0x021FE7F4 thumb ov186
  *   BR_UTIL_RunHandles 0x021FD854 thumb ov186
- *   func_021DB924 0x021DB924 thumb ov183
+ *   BR_CODEIN_ButtonLoadFadePalettes 0x021DB924 thumb ov183
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020056A0 0x020056A0 thumb
@@ -43,14 +43,14 @@ extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
 extern int BR_RES_GetPalSet(char *),BR_RES_GetCurrentSetParam(char *);
 extern void BR_RES_SetPalSet(char *,int),BR_FADE_SetBlendColor(int *,int);
 extern void BR_UTIL_RunHandles(char *);
-extern void func_021DB924(int a0, char *p);
+extern void BR_CODEIN_ButtonLoadFadePalettes(int a0, char *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 struct Node;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *func_020056A0(void (*)(void),void *,int);
 extern void func_02030EAC(struct Node *n);
 extern int d_021E3280[];
-int func_021DB770(int *task,int *state,char *p,char *q)
+int BR_CODEIN_ButtonMain(int *task,int *state,char *p,char *q)
 {
     u32 x,y;
     switch(*state) {
@@ -82,7 +82,7 @@ int func_021DB770(int *task,int *state,char *p,char *q)
         BR_FADE_Start(*(int *)&((struct Obj01004 *)p)->f10,3,3,1);*state=7;break;
     }
     case 7: if(BR_FADE_GetResult(*(int * *)&((struct Obj01004 *)p)->f10))*state=8;break;
-    case 8: ((struct Obj02891 *)q)->f8=func_020056A0((void (*)(void))func_021DB924,q,0);((struct Obj02891 *)q)->f10=0;*state=9;break;
+    case 8: ((struct Obj02891 *)q)->f8=func_020056A0((void (*)(void))BR_CODEIN_ButtonLoadFadePalettes,q,0);((struct Obj02891 *)q)->f10=0;*state=9;break;
     case 9: if(((struct Obj02891 *)q)->f10) {func_02030EAC(((struct Obj02891 *)q)->f8);*state=10;}break;
     case 10: BR_FADE_Start(*(int *)&((struct Obj01004 *)p)->f10,3,3,0);*state=11;break;
     case 11: if(BR_FADE_GetResult(*(int * *)&((struct Obj01004 *)p)->f10))*state=2;break;

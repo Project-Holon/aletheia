@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201F31C, func_0201F344
+ * function: WORDSET_ClearAllSlots, WORDSET_LoadSpeciesNameBank
  *
  * symbols:
  *   gSpeciesNameBank   0x020A7370  data
@@ -19,7 +19,7 @@
  * by WORDSET_Callback in src/matched/unit_0201ED04.c and by seven functions
  * outside this region, so the `literal` class has witnesses to spare.
  *
- * func_0201F344 takes its heap id as a u16: the 4th argument of
+ * WORDSET_LoadSpeciesNameBank takes its heap id as a u16: the 4th argument of
  * func_02045B38 is a u16 and the original passes the incoming register
  * straight through with no `lsls`/`lsrs` truncation pair, which a u32
  * parameter would have cost.
@@ -43,7 +43,7 @@ extern void *gSpeciesNameBank;
 struct Entry { u8 tag[5]; void *str; };
 struct WordSet { u32 count; u32 heap; struct Entry *entries; void *buf; };
 
-void func_0201F31C(struct WordSet *p)
+void WORDSET_ClearAllSlots(struct WordSet *p)
 {
     u32 i;
 
@@ -52,7 +52,7 @@ void func_0201F31C(struct WordSet *p)
     }
 }
 
-void func_0201F344(u16 heap)
+void WORDSET_LoadSpeciesNameBank(u16 heap)
 {
     gSpeciesNameBank = func_02045B38(0, 2, 0x46, heap);
 }

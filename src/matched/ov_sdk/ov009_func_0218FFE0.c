@@ -1,5 +1,5 @@
 /*
- * function: func_0218FFE0
+ * function: gpiProfileMapCallback
  * address:  0x0218FFE0
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-void func_0218FFE0(int a, int *p)
+void gpiProfileMapCallback(int a, int *p)
 {
     ((void (*)(int, int, int))p[1])(p[0], a, p[2]);
 }

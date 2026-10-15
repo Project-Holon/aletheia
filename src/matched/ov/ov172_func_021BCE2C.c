@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE2C
+ * function: CTVT_CALL_PlaceCursor
  * address:  0x021BCE2C
  * packet:   pkt_ov172_021BCE2C
  * region:   ov172
@@ -35,7 +35,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021BCE2C(void *ctx, char *list, char *cur, u8 idx)
+void CTVT_CALL_PlaceCursor(void *ctx, char *list, char *cur, u8 idx)
 {
     struct SpritePos pos;
     s16 y;

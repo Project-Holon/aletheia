@@ -1,5 +1,5 @@
 /*
- * function: func_0218BB70
+ * function: gpiIntToDate
  * address:  0x0218BB70
  * packet:   pkt_ov009_0218BB70
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      gpiIntToDate (gpiinfo.o)
  *
  * symbols:
- *   func_0218BA10  0x0218BA10  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
+ *   gpiIsValidDate  0x0218BA10  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
  *   g_021A4A98     0x021A4A98  data  ov009
  */
 
-extern int func_0218BA10(int day, int month, int year);
-extern void func_02193734(int *p, int b);
+extern int gpiIsValidDate(int day, int month, int year);
+extern void gpiSetErrorString(int *p, int b);
 extern char g_021A4A98[];
 
-int func_0218BB70(void **connection, int date, int *day, int *month, int *year)
+int gpiIntToDate(void **connection, int date, int *day, int *month, int *year)
 {
     int d;
     int m;
@@ -30,8 +30,8 @@ int func_0218BB70(void **connection, int date, int *day, int *month, int *year)
     d = (date >> 24) & 0xFF;
     m = (date >> 16) & 0xFF;
     y = date & 0xFFFF;
-    if (!func_0218BA10(d, m, y)) {
-        func_02193734((int *)connection, (int)g_021A4A98);
+    if (!gpiIsValidDate(d, m, y)) {
+        gpiSetErrorString((int *)connection, (int)g_021A4A98);
         return 2;
     }
     *day = d;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A50
+ * function: WIFIBATTLEMATCH_NET_CopyCompBox
  * address: 0x021D9A50
  * packet: pkt_ov175_021D9A50
  * region: ov175
@@ -30,7 +30,7 @@ extern int POKE_REGULATION_GetDataSize(void *);
 extern void MI_CpuCopy8(const void *, void *, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021D9A50(char *dest, char *ctx)
+void WIFIBATTLEMATCH_NET_CopyCompBox(char *dest, char *ctx)
 {
     void *records;
     MI_CpuFill8(dest, 0, 212);

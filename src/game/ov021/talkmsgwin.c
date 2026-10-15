@@ -66,7 +66,7 @@
  *   func_0207FADC  0x0207FADC  arm
  *   sTalkMsgWinTexture     0x021DDA84  data  a4
  *   sTalkMsgWinPalette     0x021DDAA4  data  a4
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  */
@@ -134,7 +134,7 @@ extern void func_0207FA0C(void);
 extern void func_0207FA40(void *src, u32 offset, u32 size);
 extern void func_0207FADC(void);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
-extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
+extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
 extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
 
 TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param);
@@ -1159,60 +1159,60 @@ void TALKMSGWIN_DrawSimpleFrame(const TalkMsgWinParam *style, struct BmpWin *bmp
 
     if (!topClip) {
         if (!leftClip)
-            func_02041300(bgLayer, (baseTile + 1) | palBits, x - 1, y - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 1) | palBits, x - 1, y - 1, 1, 1, 0x11);
         top = y - 1;
-        func_02041300(bgLayer, (baseTile + 3) | palBits, x, top, w, 1, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, (baseTile + 3) | palBits, x, top, w, 1, 0x11);
         if (!rightClip)
-            func_02041300(bgLayer, (baseTile + 0x401) | palBits, right, top, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x401) | palBits, right, top, 1, 1, 0x11);
     }
     if (!leftClip)
-        func_02041300(bgLayer, (baseTile + 4) | palBits, x - 1, y, 1, h, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, (baseTile + 4) | palBits, x - 1, y, 1, h, 0x11);
     if (!rightClip)
-        func_02041300(bgLayer, (baseTile + 0x404) | palBits, right, y, 1, h, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x404) | palBits, right, y, 1, h, 0x11);
     if (!bottomClip) {
         if (!leftClip)
-            func_02041300(bgLayer, (baseTile + 0x801) | palBits, x - 1, bottom, 1, 1, 0x11);
-        func_02041300(bgLayer, (baseTile + 0x803) | palBits, x, bottom, w, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x801) | palBits, x - 1, bottom, 1, 1, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x803) | palBits, x, bottom, w, 1, 0x11);
         if (!rightClip)
-            func_02041300(bgLayer, (baseTile + 0xC01) | palBits, right, bottom, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0xC01) | palBits, right, bottom, 1, 1, 0x11);
     }
 
     notchTile = (baseTile + 2) | palBits;
     switch (tailSide) {
     case TALKMSGWIN_TAIL_SIDE_TOP:
         if (!topClip)
-            func_02041300(bgLayer, notchTile, x + ((u32)w >> 1) - 1, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile, x + ((u32)w >> 1) - 1, y - 1, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_BOTTOM:
         if (!bottomClip)
-            func_02041300(bgLayer, notchTile | 0x800, x + ((u32)w >> 1) - 1, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile | 0x800, x + ((u32)w >> 1) - 1, bottom, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_LEFT:
         if (!leftClip)
-            func_02041300(bgLayer, (baseTile + 5) | palBits, x - 1, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 5) | palBits, x - 1, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_RIGHT:
         if (!rightClip)
-            func_02041300(bgLayer, (baseTile + 5) | palBits, right, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 5) | palBits, right, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_TOP_LEFT:
         if (!topClip)
-            func_02041300(bgLayer, notchTile, x + 7, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile, x + 7, y - 1, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_BOTTOM_LEFT:
         if (!topClip)
-            func_02041300(bgLayer, notchTile | 0x800, x + 7, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile | 0x800, x + 7, bottom, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_TOP_RIGHT:
         if (!bottomClip) {
             right -= 9;
-            func_02041300(bgLayer, notchTile, right, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile, right, y - 1, 2, 1, 0x11);
         }
         break;
     case TALKMSGWIN_TAIL_SIDE_BOTTOM_RIGHT:
         if (!bottomClip) {
             right -= 9;
-            func_02041300(bgLayer, notchTile | 0x800, right, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile | 0x800, right, bottom, 2, 1, 0x11);
         }
         break;
     }
@@ -1271,40 +1271,40 @@ void TALKMSGWIN_DrawCorneredFrame(const TalkMsgWinParam *style, struct BmpWin *b
 
     if (!topClip) {
         if (!leftClip) {
-            func_02041300(bgLayer, (baseTile + 9) | palBits, x - 1, y - 1, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 10) | palBits, x, y - 1, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 11) | palBits, x - 1, y, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 9) | palBits, x - 1, y - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 10) | palBits, x, y - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 11) | palBits, x - 1, y, 1, 1, 0x11);
         }
-        func_02041300(bgLayer, (baseTile + 6) | palBits, x + 1, y - 1, w - 1, 1, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, (baseTile + 6) | palBits, x + 1, y - 1, w - 1, 1, 0x11);
         if (!rightClip) {
-            func_02041300(bgLayer, (baseTile + 0x409) | palBits, x + w, y - 1, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 0x40A) | palBits, x + w - 1, y - 1, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 0x40B) | palBits, x + w, y, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x409) | palBits, x + w, y - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x40A) | palBits, x + w - 1, y - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x40B) | palBits, x + w, y, 1, 1, 0x11);
         }
     }
     if (!leftClip) {
         if (!topClip)
-            func_02041300(bgLayer, (baseTile + 7) | palBits, x - 1, y + 1, 1, h - 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 7) | palBits, x - 1, y + 1, 1, h - 1, 0x11);
         else
-            func_02041300(bgLayer, (baseTile + 7) | palBits, x - 1, y, 1, h, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 7) | palBits, x - 1, y, 1, h, 0x11);
     }
     if (!rightClip) {
         if (!topClip)
-            func_02041300(bgLayer, (baseTile + 0x407) | palBits, right, y + 1, 1, h - 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x407) | palBits, right, y + 1, 1, h - 1, 0x11);
         else
-            func_02041300(bgLayer, (baseTile + 0x407) | palBits, right, y, 1, h, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x407) | palBits, right, y, 1, h, 0x11);
     }
     if (!bottomClip) {
         if (!leftClip) {
-            func_02041300(bgLayer, (baseTile + 0x809) | palBits, x - 1, y + h, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 0x80A) | palBits, x, y + h, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 0x80B) | palBits, x - 1, y + h - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x809) | palBits, x - 1, y + h, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x80A) | palBits, x, y + h, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x80B) | palBits, x - 1, y + h - 1, 1, 1, 0x11);
         }
-        func_02041300(bgLayer, (baseTile + 0x806) | palBits, x + 1, bottom, w - 1, 1, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, (baseTile + 0x806) | palBits, x + 1, bottom, w - 1, 1, 0x11);
         if (!rightClip) {
-            func_02041300(bgLayer, (baseTile + 0xC09) | palBits, x + w, y + h, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 0xC0A) | palBits, x + w - 1, y + h, 1, 1, 0x11);
-            func_02041300(bgLayer, (baseTile + 0xC0B) | palBits, x + w, y + h - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0xC09) | palBits, x + w, y + h, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0xC0A) | palBits, x + w - 1, y + h, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 0xC0B) | palBits, x + w, y + h - 1, 1, 1, 0x11);
         }
     }
 
@@ -1312,38 +1312,38 @@ void TALKMSGWIN_DrawCorneredFrame(const TalkMsgWinParam *style, struct BmpWin *b
     switch (tailSide) {
     case TALKMSGWIN_TAIL_SIDE_TOP:
         if (!topClip)
-            func_02041300(bgLayer, notchTile, x + ((u32)w >> 1) - 1, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile, x + ((u32)w >> 1) - 1, y - 1, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_BOTTOM:
         if (!bottomClip)
-            func_02041300(bgLayer, notchTile | 0x800, x + ((u32)w >> 1) - 1, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile | 0x800, x + ((u32)w >> 1) - 1, bottom, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_LEFT:
         if (!leftClip)
-            func_02041300(bgLayer, (baseTile + 5) | palBits, x - 1, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 5) | palBits, x - 1, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_RIGHT:
         if (!rightClip)
-            func_02041300(bgLayer, (baseTile + 5) | palBits, right, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, (baseTile + 5) | palBits, right, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_TOP_LEFT:
         if (!topClip)
-            func_02041300(bgLayer, notchTile, x + 7, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile, x + 7, y - 1, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_BOTTOM_LEFT:
         if (!topClip)
-            func_02041300(bgLayer, notchTile | 0x800, x + 7, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile | 0x800, x + 7, bottom, 2, 1, 0x11);
         break;
     case TALKMSGWIN_TAIL_SIDE_TOP_RIGHT:
         if (!bottomClip) {
             right -= 9;
-            func_02041300(bgLayer, notchTile, right, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile, right, y - 1, 2, 1, 0x11);
         }
         break;
     case TALKMSGWIN_TAIL_SIDE_BOTTOM_RIGHT:
         if (!bottomClip) {
             right -= 9;
-            func_02041300(bgLayer, notchTile | 0x800, right, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, notchTile | 0x800, right, bottom, 2, 1, 0x11);
         }
         break;
     }
@@ -1420,22 +1420,22 @@ void TALKMSGWIN_ClearFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin)
 
     if (!topClip) {
         if (!leftClip)
-            func_02041300(bgLayer, 0, x - 1, y - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, 0, x - 1, y - 1, 1, 1, 0x11);
         top = y - 1;
-        func_02041300(bgLayer, 0, x, top, w, 1, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, 0, x, top, w, 1, 0x11);
         if (!rightClip)
-            func_02041300(bgLayer, 0, right, top, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, 0, right, top, 1, 1, 0x11);
     }
     if (!leftClip)
-        func_02041300(bgLayer, 0, x - 1, y, 1, h, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, 0, x - 1, y, 1, h, 0x11);
     if (!rightClip)
-        func_02041300(bgLayer, 0, right, y, 1, h, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, 0, right, y, 1, h, 0x11);
     if (!bottomClip) {
         if (!leftClip)
-            func_02041300(bgLayer, 0, x - 1, bottom, 1, 1, 0x11);
-        func_02041300(bgLayer, 0, x, bottom, w, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, 0, x - 1, bottom, 1, 1, 0x11);
+        BG_SYS_SetTileEntry(bgLayer, 0, x, bottom, w, 1, 0x11);
         if (!rightClip)
-            func_02041300(bgLayer, 0, right, bottom, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bgLayer, 0, right, bottom, 1, 1, 0x11);
     }
     func_020409B4(bgLayer);
 }

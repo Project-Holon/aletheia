@@ -12,7 +12,7 @@
  *
  * symbols:
  *   DWCi_GetFriendBuddyStatus  0x0216980C  arm  ov009
- *   func_021684CC  0x021684CC  arm  ov009
+ *   DWC_GetCommonValueString  0x021684CC  arm  ov009
  *   strtoul        0x02095EAC  arm
  *   strcpy         0x02094798  arm
  *   DWCi_IsLockedBuddyStatus  0x02176984  arm  ov009
@@ -37,11 +37,11 @@
  *   func_02059F54  0x02059F54  arm
  *   DWCi_IsServerUpdating  0x02168D7C  arm
  *   DWCi_CloseFriendProcess  0x02169294  arm
- *   func_02185BD8  0x02185BD8  arm
+ *   gpGetInfo  0x02185BD8  arm
  *   DWCi_GPGetInfoCallback_RecvAuthMessage  0x02169E18  arm
  *   func_021861A8  0x021861A8  arm  ov009
  *   func_020870D0  0x020870D0  arm
- *   func_0218627C  0x0218627C  arm  ov009
+ *   gpSetStatusA  0x0218627C  arm  ov009
  *   DWC_GetFriendStatus  0x0216870C  arm  ov009
  *   func_02185948  0x02185948  arm  ov009
  *   gpGetNumBuddies                  0x02185fa4 arm
@@ -62,7 +62,7 @@
  *   DWCi_GetProfileIDFromList  0x02168FF0  arm  ov009
  *   DWCi_DeleteFriendFromList  0x0216959C  arm  ov009
  *   gDwcFriendGetInfoFlags   0x021A200C  data
- *   func_02185D04  0x02185D04  arm
+ *   gpSendBuddyRequestA  0x02185D04  arm
  *   DWCi_StopFriendProcess  0x02168E50  arm
  *   DWCi_SetReverseBuddyFlag         0x02059240 arm
  *   strcmp                           0x020948E0 arm
@@ -194,7 +194,7 @@ typedef struct RecvArg {
     int index;
 } RecvArg;
 
-extern int func_021684CC(char *key, char *value, char *string, char separator);
+extern int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
 extern unsigned long strtoul(const char *s, char **end, int base);
 extern int DWCi_IsLockedBuddyStatus(GPBuddyStatus *status);
 extern int DWC_Base64Decode(const char *src, u32 srclen, char *dst, u32 dstlen);
@@ -216,12 +216,12 @@ extern int DWC_GetGsProfileId(DWCstAccUserData *userdata, DWCstAccFriendData *fr
 extern int gpGetReversBuddiesList(void **connection, int *targets, int numOfTargets, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern void func_02059F54(int error, int errorCode);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
-extern int func_02185BD8(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern int gpGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_021861A8(void **connection, int profile);
 extern int gpDeleteBuddy(void **connection, int profile);
 extern int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status);
 extern u64 func_020870D0(void);
-extern int func_0218627C(void **connection, int status, const char *statusString, const char *locationString);
+extern int gpSetStatusA(void **connection, int status, const char *statusString, const char *locationString);
 extern int func_02185948(void *conn);
 extern int gpGetNumBuddies(void **connection, int *numBuddies);
 extern int DWCi_IsBuddyFriendData(DWCstAccFriendData *frienddata);
@@ -236,7 +236,7 @@ extern int gpProfileSearchA(void **connection, char *nick, char *uniquenick, cha
                             char *firstname, char *lastname, int icquin, int blocking,
                             void (*callback)(void **, void *, void *), void *param);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_02185D04(void **connection, int profile, char *reason);
+extern int gpSendBuddyRequestA(void **connection, int profile, char *reason);
 extern void DWCi_SetReverseBuddyFlag(DWCstAccFriendData *frienddata, int setflag);
 extern int gpAuthBuddyRequest(void **connection, int profile);
 extern int gpDenyBuddyRequest(void **connection, int profile);
@@ -311,14 +311,14 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
     if (DWCi_GetFriendBuddyStatus(friendData, &status)) {
         if (status.status == 6) {
             if (maxEntry) {
-                len = func_021684CC(gDwcFriendMaxEntryKey, valueStr, status.statusString, '/');
+                len = DWC_GetCommonValueString(gDwcFriendMaxEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
                     *maxEntry = strtoul(valueStr, 0, 10);
                 else
                     *maxEntry = 0;
             }
             if (numEntry) {
-                len = func_021684CC(gDwcFriendNumEntryKey, valueStr, status.statusString, '/');
+                len = DWC_GetCommonValueString(gDwcFriendNumEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
                     *numEntry = strtoul(valueStr, 0, 10);
                 else
@@ -605,7 +605,7 @@ void DWCi_StopFriendProcess(int error, int errorCode)
 void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg)
 {
     if (stpFriendCnt->friendList == 0) return;
-    func_02185BD8(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
+    gpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
 }
 
 
@@ -614,7 +614,7 @@ void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg)
  */
 int DWCi_GPRecvBuddyAuthCallback(void **connection, int *arg)
 {
-    func_02185BD8(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
+    gpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
     return 1;
 }
 
@@ -705,7 +705,7 @@ int DWCi_SetGPStatus(int status, const char *statusString, const char *locString
     if (locString == 0) {
         locString = ((GPConnObj *)*stpFriendCnt->connection)->locationString;
     }
-    return func_0218627C(stpFriendCnt->connection, status, statusString, locString);
+    return gpSetStatusA(stpFriendCnt->connection, status, statusString, locString);
 }
 
 
@@ -919,7 +919,7 @@ int DWCi_GPSendBuddyRequest(int profileID)
 {
     int gpResult;
 
-    gpResult = func_02185D04(stpFriendCnt->connection, profileID, gDwcFriendGetInfoFlags);
+    gpResult = gpSendBuddyRequestA(stpFriendCnt->connection, profileID, gDwcFriendGetInfoFlags);
     DWCi_HandleGPError(gpResult);
     return gpResult;
 }

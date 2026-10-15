@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   ZUKAN_SAVE_GetSize  0x0200C9EC  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   d_021E8130     0x021E8130  data  ov119
+ *   gSaveControlAllocTag     0x021E8130  data  ov119
  *
  * Addresses are Black-image addresses.
  */
@@ -22,12 +22,12 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern u32 ZUKAN_SAVE_GetSize(void);
 extern void *ZUKAN_SAVE_GetFromGameData(void *p);
-extern const char d_021E8130[];
+extern const char gSaveControlAllocTag[];
 
 static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 {
@@ -36,7 +36,7 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 
 void *POKETRADE_SAVE_BackupZukan(void *src, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, ZUKAN_SAVE_GetSize(), 0, d_021E8130, 0x1BD);
+    void *buf = GFL_HEAP_Alloc(heapId, ZUKAN_SAVE_GetSize(), 0, gSaveControlAllocTag, 0x1BD);
 
     GFL_STD_MemCopy(ZUKAN_SAVE_GetFromGameData(src), buf, ZUKAN_SAVE_GetSize());
     return buf;

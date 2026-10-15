@@ -1,5 +1,5 @@
 /*
- * function: func_021F48C0
+ * function: MUSICAL_MCSS_CreateActorPool
  * address: 0x021F48C0
  * packet: pkt_ov112_021F48C0
  * region: ov112
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021F4F14 0x021F4F14 thumb ov112
+ *   MUSICAL_MCSS_LoadActorData 0x021F4F14 thumb ov112
  *   d_021F83A4 0x021F83A4 data a1
  */
 typedef unsigned char u8;
@@ -19,8 +19,8 @@ typedef struct Record { u16 active:1; u16 enabled:1; u16 rest:14; u8 data[34]; }
 typedef struct Object { u16 heap; u16 pad; u32 owner; Record *records; void *resource; u16 count; u16 slots[16]; } Object;
 extern char d_021F83A4[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 *func_021F4F14(int heap);
-Object *func_021F48C0(u32 owner,int count,u16 heap)
+extern u32 *MUSICAL_MCSS_LoadActorData(int heap);
+Object *MUSICAL_MCSS_CreateActorPool(u32 owner,int count,u16 heap)
 {
     int i=0;
     Object *p;
@@ -34,7 +34,7 @@ Object *func_021F48C0(u32 owner,int count,u16 heap)
         p->records[i].active=0;
         p->records[i].enabled=0;
     }
-    p->resource=func_021F4F14(heap);
+    p->resource=MUSICAL_MCSS_LoadActorData(heap);
     for(j=0;j<16;j++) p->slots[j]=0x5a56;
     return p;
 }

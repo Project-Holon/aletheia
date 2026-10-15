@@ -15,7 +15,7 @@
  *   func_0203133C 0x0203133C arm
  *   PROCSYS_Push 0x02031348 arm
  *   func_020355C4 0x020355C4 arm
- *   func_021C8DA0 0x021C8DA0 thumb ov128
+ *   WF2DMAP_TOUCH_CreateNameEntry 0x021C8DA0 thumb ov128
  *   func_021C6390 0x021C6390 thumb ov128
  *   func_021C6360 0x021C6360 thumb ov128
  *   func_021C6438 0x021C6438 thumb ov128
@@ -49,7 +49,7 @@ extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
 extern void PROCSYS_Push(void *, u32, void *, void *);
 extern u8 func_020355C4(void);
-extern char *func_021C8DA0(void *unused, char *q, int mode, int heap);
+extern char *WF2DMAP_TOUCH_CreateNameEntry(void *unused, char *q, int mode, int heap);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void func_0202E54C(struct Obj0202E54C *p);
 extern void func_021C6390(u8 *);
@@ -65,7 +65,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
     switch (b[8]) {
     case 0:
         func_02034A5C((u32)id67);
-        p[1] = func_021C8DA0(p, (char *)b, 1, heap);
+        p[1] = WF2DMAP_TOUCH_CreateNameEntry(p, (char *)b, 1, heap);
         sizes[0] = 4; sizes[1] = 4; sizes[2] = 4;
         p[2] = CODEIN_PARAM_Create(heap, 0, 0, 12, sizes);
         func_021C6390(a);
@@ -101,7 +101,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         return 1;
     case 4:
         func_02034A5C((u32)id67);
-        p[1] = func_021C8DA0(p, (char *)b, 0, heap);
+        p[1] = WF2DMAP_TOUCH_CreateNameEntry(p, (char *)b, 0, heap);
         func_021C6390(a);
         p[0] = PROCSYS_Create(heap);
         PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);

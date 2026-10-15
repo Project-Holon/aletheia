@@ -14,7 +14,7 @@
  * +0x88 transition word with 2.
  *
  * symbols:
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -41,7 +41,7 @@ void SHINKA_DEMO_SetupMessageBox(int a, int *p, int flag)
     if (flag != 0) {
         int *q;
 
-        func_0201F73C((void *)p[0x1b], 0, (unsigned short)p[0x1d], 2);
+        BMP_MENUWORK_DrawWindow((void *)p[0x1b], 0, (unsigned short)p[0x1d], 2);
         BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)p[0x1b])), 0xf);
         q = (int *)p[0x1b];
         BMP_WIN_TransferChars((struct Descriptor *)q);

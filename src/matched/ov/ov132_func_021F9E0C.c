@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021F4F10 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
  */
 #include "../include/Obj10534.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021F4F10(u8 *);
-u32 STA_ACTING_GetActorCount(u8 *p) { return func_021F4F10(*(u8 * *)&((struct Obj10534 *)p)->f38); }
+extern u32 MUSICAL_MCSS_NoOp5(u8 *);
+u32 STA_ACTING_GetActorCount(u8 *p) { return MUSICAL_MCSS_NoOp5(*(u8 * *)&((struct Obj10534 *)p)->f38); }

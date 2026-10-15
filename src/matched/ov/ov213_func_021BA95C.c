@@ -1,5 +1,5 @@
 /*
- * function: func_021BA95C
+ * function: COMM_BTL_DEMO_MAIN_LoadObject
  * address: 0x021BA95C
  * packet: pkt_ov213_021BA95C
  * region: ov213
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA9AC 0x021BA9AC thumb ov213
+ *   COMM_BTL_DEMO_MAIN_UnloadObject 0x021BA9AC thumb ov213
  *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   func_02048A18 0x02048A18 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
@@ -24,16 +24,16 @@ struct G3dSys;
 extern const Setup d_021BB0F8[];
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021BA9AC(char *p);
+extern void COMM_BTL_DEMO_MAIN_UnloadObject(char *p);
 extern u16 G3D_UTIL_AddUnit(Util *util, const Setup *setup);
 extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-void func_021BA95C(unsigned char *p, int index)
+void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index)
 {
     int *object;
     int i, count;
-    if (p[15]) func_021BA9AC((char *)p);
+    if (p[15]) COMM_BTL_DEMO_MAIN_UnloadObject((char *)p);
     ((struct Obj02551 *)p)->fC=G3D_UTIL_AddUnit(*(Util * *)&((struct Obj02551 *)p)->f8, &d_021BB0F8[index]);
     p[15]=1;
     object=(int *)func_02048A18((u8 *)(*(Util * *)&((struct Obj02551 *)p)->f8), ((struct Obj02551 *)p)->fC);

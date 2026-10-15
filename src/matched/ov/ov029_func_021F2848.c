@@ -33,7 +33,7 @@
  *   C_GEAR_ChangeStep  0x021EFEF8  thumb  ov029
  *   C_GEAR_StepClose  0x021F2370  thumb  ov029
  *   C_GEAR_StepIdle  0x021F2180  thumb  ov029
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  */
 #include "../include/Obj00761.h"
 
@@ -64,7 +64,7 @@ extern void C_GEAR_InitTabTimersPowerOn(u8 *p);
 extern void C_GEAR_ChangeStep(char *p, void (*f)(void), int line);
 extern void C_GEAR_StepClose(char *p);
 extern void C_GEAR_StepIdle(char *p);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 
 void C_GEAR_Update(u8 *p, u8 v)
 {
@@ -123,5 +123,5 @@ void C_GEAR_Update(u8 *p, u8 v)
     if (*(void (**)(u8 *))p != 0)
         (*(void (**)(u8 *))p)(p);
     if (((struct Obj00761 *)p)->f204 != 0)
-        func_02030D28((struct Ctx *)(((struct Obj00761 *)p)->f204));
+        TCB_Main((struct Ctx *)(((struct Obj00761 *)p)->f204));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD6C
+ * function: CTVT_CALL_UpdateMemberWindows
  * address: 0x021BDD6C
  * packet: pkt_ov172_021BDD6C
  * region: ov172
@@ -13,7 +13,7 @@
  *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
  *   CTVT_CAMVIEW_IsWindowMoving 0x021B7B30 thumb ov172
  *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
- *   func_021BDEF0 0x021BDEF0 thumb ov172
+ *   CTVT_CALL_DrawMemberName 0x021BDEF0 thumb ov172
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -34,7 +34,7 @@ extern u32 CTVT_COMM_IsSlotActive(int unused, char *base, int i);
 extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
 extern u32 CTVT_CAMVIEW_IsWindowMoving(int unused, char *base, int i);
 extern char *CTVT_COMM_GetSlotParam(int unused, char *base, int i);
-extern void func_021BDEF0(u8 *p, char *a, u32 b);
+extern void CTVT_CALL_DrawMemberName(u8 *p, char *a, u32 b);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
@@ -44,7 +44,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
 extern void COMM_TVT_SYS_PlaceSlotMarker(u8 *p, u32 v);
-void func_021BDD6C(u8 *p)
+void CTVT_CALL_UpdateMemberWindows(u8 *p)
 {
     u8 i;
     u32 found;
@@ -70,7 +70,7 @@ void func_021BDD6C(u8 *p)
             } else {
                 b = i;
             }
-            func_021BDEF0(p, k, *(u32 *)(p + b * 4 + 0x1b8));
+            CTVT_CALL_DrawMemberName(p, k, *(u32 *)(p + b * 4 + 0x1b8));
         }
         p[0x1b4] += (u8)m;
         p[0x1b5] += (u8)(1 << b);

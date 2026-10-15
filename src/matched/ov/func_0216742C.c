@@ -1,5 +1,5 @@
 /*
- * function: func_0216742C
+ * function: COMM_PLAYER_GetListPage0First
  * address:  0x0216742C
  * packet:   pkt_0216742C
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021673E0  0x021673E0  thumb  ov010
+ *   COMM_PLAYER_CopyListRange  0x021673E0  thumb  ov010
  */
 #include "../include/Obj17732.h"
 
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Entry32;
-extern u8 func_021673E0(struct Entry32 *list, struct Entry32 *out, u32 cap, u32 start, int count);
+extern u8 COMM_PLAYER_CopyListRange(struct Entry32 *list, struct Entry32 *out, u32 cap, u32 start, int count);
 
-u16 func_0216742C(int a0, int a1, int a2, int a3)
+u16 COMM_PLAYER_GetListPage0First(int a0, int a1, int a2, int a3)
 {
     unsigned char fr[4];
     int t4;
@@ -30,7 +30,7 @@ t4 = a3 + 0;
 a3 = 0xa;
     o4 = a3;
 a3 = 0;
-    a0 = func_021673E0((struct Entry32 *)a0, (struct Entry32 *)a1, a2, a3, o4);
+    a0 = COMM_PLAYER_CopyListRange((struct Entry32 *)a0, (struct Entry32 *)a1, a2, a3, o4);
 loc_0216743C:
 ((struct Obj17732 *)((char *)t4))->f0 = a0;
 a0 = 0;

@@ -13,7 +13,7 @@
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
- *   func_0203F328  0x0203F328  arm
+ *   GF_STANDARD_Shuffle  0x0203F328  arm
  *   DELIVERY_IRC_SetStepAtLine  0x02157960  thumb  ov010
  *   DELIVERY_IRC_StepEnd  0x021579AC  thumb  ov010
  */
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern int GFL_NET_GetRunState(void);
 extern void MI_CpuCopy8(void *, void *, u32);
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
-extern void func_0203F328(u16 *p, u32 size, u32 seed);
+extern void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
 extern void DELIVERY_IRC_SetStepAtLine(int a, int b, int c);
 extern void DELIVERY_IRC_StepEnd(void);
 
@@ -42,7 +42,7 @@ void DELIVERY_IRC_StepFinish(u8 *p)
             MI_CpuCopy8(p + 0x7C, ((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8);
             if (((struct Obj01335 *)p)->f672 != GF_STANDARD_SetupCalc(*(const u8 * *)&((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8))
                 p[0x674] = 2;
-            func_0203F328(((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8, ((struct Obj01335 *)p)->f668);
+            GF_STANDARD_Shuffle(((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8, ((struct Obj01335 *)p)->f668);
         }
     } else {
         if (p[0x676] == 1)

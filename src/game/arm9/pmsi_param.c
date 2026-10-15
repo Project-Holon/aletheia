@@ -26,9 +26,9 @@
  *   Table_0209F724   0x0209F724  data
  *   GF_FONT_Create_EC64    0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
- *   func_0201EFC8    0x0201EFC8  thumb
- *   func_0201EFFC    0x0201EFFC  thumb
- *   func_0201F250    0x0201F250  thumb
+ *   WORDSET_SetSlotPmsWord    0x0201EFC8  thumb
+ *   WORDSET_SetSlotMarkerFlag    0x0201EFFC  thumb
+ *   WORDSET_CopyTaggedText    0x0201F250  thumb
  *   STRBUF_Create    0x020457B0  arm
  *   STRBUF_Delete    0x02045808  arm
  *   func_02045B38    0x02045B38  arm
@@ -96,9 +96,9 @@ extern u32 unit_020355C4(void);
 extern void func_020355D8(void *);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern void func_0201EFC8(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void  *STRBUF_Create(u32 size, u16 heap);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -562,18 +562,18 @@ void *PMSI_PARAM_ToStringWords(const struct PmsData *sentence, u32 heapId, int w
 
         if (word != 0xffff) {
             if ((word >> 11) & 1) {
-                func_0201EFFC(wordSet, i, word & 0x7ff);
+                WORDSET_SetSlotMarkerFlag(wordSet, i, word & 0x7ff);
             } else {
-                func_0201EFC8(wordSet, i, word);
+                WORDSET_SetSlotPmsWord(wordSet, i, word);
             }
         } else {
-            func_0201EFFC(wordSet, i, 1);
+            WORDSET_SetSlotMarkerFlag(wordSet, i, 1);
         }
     }
     bank = func_02045B38(0, 2, Table_0209F724[sentence->sentenceType], (u16)heapId);
     buffer = STRBUF_Create(0x100, (u16)heapId);
     message = func_02045EC0(bank, sentence->sentenceId);
-    func_0201F250(wordSet, buffer, message);
+    WORDSET_CopyTaggedText(wordSet, buffer, message);
     STRBUF_Delete(message);
     MSGDATA_Delete(bank);
     WORDSET_DeleteStrbufED04(wordSet);
@@ -929,7 +929,7 @@ done:
  * second, exactly as the original's single `blt` past the clamp and the
  * clamp's own fallthrough both land on one `adds r0, r2, #0; bx lr`.
  *
- * This is wordset.c's normaliser: src/pending/func_0201EFFC.c calls it and
+ * This is wordset.c's normaliser: src/pending/WORDSET_SetSlotMarkerFlag.c calls it and
  * is promoted alongside this file.
  *
  * Verified with:

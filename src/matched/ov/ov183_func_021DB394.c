@@ -1,5 +1,5 @@
 /*
- * function: func_021DB394
+ * function: BR_CODEIN_SidebarMain
  * address: 0x021DB394
  * packet: pkt_ov183_021DB394
  * region: ov183
@@ -23,4 +23,4 @@ extern void BR_UTIL_RunTask(u8 *p);
 extern void BR_UTIL_RunHandles(char *);
 extern int BR_UTIL_IsTaskIdle(int *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
-int func_021DB394(int a,int b,int c,char *p) { BR_UTIL_RunTask((u8 *)(*(int *)&((struct Obj06595 *)p)->f0)); PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj06595 *)p)->fC); BR_UTIL_RunHandles(*(char * *)&((struct Obj06595 *)p)->f14); BR_UTIL_RunHandles(*(char * *)&((struct Obj06595 *)p)->f18); if(BR_UTIL_IsTaskIdle(*(int * *)&((struct Obj06595 *)p)->f0)) return 1; return 0; }
+int BR_CODEIN_SidebarMain(int a,int b,int c,char *p) { BR_UTIL_RunTask((u8 *)(*(int *)&((struct Obj06595 *)p)->f0)); PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj06595 *)p)->fC); BR_UTIL_RunHandles(*(char * *)&((struct Obj06595 *)p)->f14); BR_UTIL_RunHandles(*(char * *)&((struct Obj06595 *)p)->f18); if(BR_UTIL_IsTaskIdle(*(int * *)&((struct Obj06595 *)p)->f0)) return 1; return 0; }

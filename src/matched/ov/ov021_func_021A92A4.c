@@ -20,7 +20,7 @@
  *   func_02049658  0x02049658  arm
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
@@ -44,7 +44,7 @@ extern void func_02049B68(void *o, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_02049658(void *o, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *o, u32 a, u32 b, void **out, u32 e);
 extern void ARC_TOOL_DeleteHandle(void *o);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u8 a);
 extern u32 func_020307B0(void *p);
 
@@ -65,7 +65,7 @@ void FIELD_MENU_LoadScreen(u32 a, u32 b)
     for (i = 0; i < 0x300; i++) {
         d[i] = (d[i] + 0x80) | 0x3000;
     }
-    func_020410D0((u8)b, 0, 0x15, 0x20, (u32)3, (u32)ptr->data, (u32)0, (u32)0x15, (u32)0x20, (u32)0x18);
+    BG_SYS_DrawTileEx((u8)b, 0, 0x15, 0x20, (u32)3, (u32)ptr->data, (u32)0, (u32)0x15, (u32)0x20, (u32)0x18);
     func_02041B6C(b);
     func_020307B0(h);
 }

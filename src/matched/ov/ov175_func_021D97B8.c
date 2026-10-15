@@ -1,5 +1,5 @@
 /*
- * function: func_021D97B8
+ * function: WIFIBATTLEMATCH_NET_IsTradeIconReady
  * address:  0x021D97B8
  * packet:   pkt_021D97B8
  * region:   ov175
@@ -13,7 +13,7 @@
  *   func_021E64C8  0x021E64C8  thumb  ov177
  *
  * Thunk: hands the +0x1c block to 0x021E64C8 and returns its result; the
- *     poll func_021D97D0 spins on.
+ *     poll WIFIBATTLEMATCH_NET_SetupTradeIconAndWait spins on.
  */
 #include "../include/Obj24302.h"
 
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 
 extern u32 func_021E64C8(u32 p);
 
-u32 func_021D97B8(char *obj)
+u32 WIFIBATTLEMATCH_NET_IsTradeIconReady(char *obj)
 {
     return func_021E64C8(((struct Obj24302 *)obj)->f1C);
 }

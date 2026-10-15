@@ -1,5 +1,5 @@
 /*
- * function: func_02164474
+ * function: FIELD_MAP_CHANGE_MoveActiveEntries
  * address:  0x02164474
  * packet:   pkt_ov010_02164474
  * region:   ov010
@@ -18,7 +18,7 @@
 
 void MOVE_POKEMON_MoveActiveEntries(void *a);
 
-void func_02164474(int a, int b)
+void FIELD_MAP_CHANGE_MoveActiveEntries(int a, int b)
 {
     MOVE_POKEMON_MoveActiveEntries((void *)a);
 }

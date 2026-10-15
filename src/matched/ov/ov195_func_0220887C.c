@@ -1,5 +1,5 @@
 /*
- * function: func_0220887C
+ * function: SHINKA_DEMO_EFFECT_CreateParticle
  * address:  0x0220887C
  * packet:   pkt_0220887C
  * region:   ov195
@@ -82,7 +82,7 @@ extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern u16 BUTTON_MAN_GetResourceType(void *res);
 extern void PARTICLE_SetupSystem(void *spl, u32 res, u32 a2, u32 a3);
 
-Ptc *func_0220887C(u16 heap, u16 a, void *b)
+Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 a, void *b)
 {
     VecFx32 v1 = d_02208F24;
     VecFx32 v2 = d_02208F30;

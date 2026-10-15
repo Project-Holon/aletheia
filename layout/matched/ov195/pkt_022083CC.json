@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022083CC",
+   "name": "SHINKA_DEMO_VIEW_IsGridState0",
    "address": "0x022083CC",
    "kind": "game",
    "region": "ov195",

@@ -1,5 +1,5 @@
 /*
- * function: func_0220BB1C
+ * function: B_BAG_MAIN_BuildOtherList
  * address: 0x0220BB1C
  * packet: pkt_ov197_0220BB1C
  * region: ov197
@@ -15,7 +15,7 @@
 #include "../include/Obj25011.h"
 extern unsigned func_0202F114(const unsigned char *,unsigned);
 extern unsigned short func_0202F138(unsigned);
-void func_0220BB1C(char *p)
+void B_BAG_MAIN_BuildOtherList(char *p)
 {
     unsigned i;
     for(i=0;i<46;i++) {

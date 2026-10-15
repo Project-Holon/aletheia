@@ -8,13 +8,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203FC28 0x0203FC28 arm
- *   d_021E7D20 0x021E7D20 data a4
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
+ *   gDisplayConfig 0x021E7D20 data a4
  */
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
-extern const char d_021E7D20[];
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
+extern const char gDisplayConfig[];
 void POKETRADE_2D_SetDisplayConfig(int i)
 {
-    func_0203FC28((struct DispConfig *)(d_021E7D20 + i * 16));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(gDisplayConfig + i * 16));
 }

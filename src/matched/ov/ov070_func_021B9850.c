@@ -24,16 +24,16 @@
  *   FILE_UTIL_Get_12B0  0x020212B0  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   ITEMMENU_PrintToWindow  0x021BB6E0  thumb  ov070
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02021350  0x02021350  thumb
+ *   FILE_UTIL_GetMachineIndex  0x02021350  thumb
  *   FILE_UTIL_GetId  0x0202130C  thumb
- *   func_0201EF34  0x0201EF34  thumb
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
  *   ITEMMENU_PrintMoveInfoText  0x021BAB04  thumb  ov070
- *   func_02020FB4  0x02020FB4  thumb
+ *   FILE_UTIL_ReadStringAlt  0x02020FB4  thumb
  *   ITEMMENU_FlushWindowAt  0x021BB724  thumb  ov070
  *   ITEMMENU_CreateMovingCursor  0x021B9E14  thumb  ov070
  */
@@ -58,16 +58,16 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u16 FILE_UTIL_Get_12B0(u16 id);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_PrintToWindow(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02021350(u16 id);
+extern u8 FILE_UTIL_GetMachineIndex(u16 id);
 extern u32 FILE_UTIL_GetId(u32 id);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern void ITEMMENU_PrintMoveInfoText(u8 *p, int x);
-extern void func_02020FB4(void *dst, u32 entry, u32 heap);
+extern void FILE_UTIL_ReadStringAlt(void *dst, u32 entry, u32 heap);
 extern void ITEMMENU_FlushWindowAt(void **p);
 extern void ITEMMENU_CreateMovingCursor(char *p, int id);
 
@@ -97,33 +97,33 @@ void ITEMMENU_DrawMoveInfo(char *p)
     if (kind == 0) {
         MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x86, (void *)(((struct Obj00002 *)p)->f524));
         ITEMMENU_RegisterItemName((u8 *)p, 0, *e);
-        func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
+        WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
         ITEMMENU_PrintToWindow((int)p, (u32 *)(p + 0x73C), *(u32 *)&((struct Obj00002 *)p)->f528, 0, 4, 0x3DC0);
         if (((struct Obj00002 *)p)->f80C != 4) {
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x83, (void *)(((struct Obj00002 *)p)->f524));
-            func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, e[1], 3, 0, 1);
-            func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
+            WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, e[1], 3, 0, 1);
+            WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
             ITEMMENU_PrintToWindow((int)p, (u32 *)(p + 0x744), *(u32 *)&((struct Obj00002 *)p)->f528, 0, 4, 0x3DC0);
         } else {
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00002 *)p)->f744);
         }
         BMP_WIN_ClearScreen((struct Descriptor *)(*(u32 *)&((struct Obj00002 *)p)->f734));
     } else {
-        n = func_02021350(*e);
+        n = FILE_UTIL_GetMachineIndex(*e);
         if (n == 0xFF) {
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x45, (void *)(((struct Obj00002 *)p)->f524));
-            func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, FILE_UTIL_GetId(*e) + 1, 2, 2, 1);
+            WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, FILE_UTIL_GetId(*e) + 1, 2, 2, 1);
         } else {
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x47, (void *)(((struct Obj00002 *)p)->f524));
-            func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, n + 1, 2, 2, 1);
+            WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, n + 1, 2, 2, 1);
         }
-        func_0201EF34((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 1, kind);
-        func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
+        WORDSET_SetSlotFromMsgCB((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 1, kind);
+        WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
         ITEMMENU_PrintToWindow((int)p, (u32 *)(p + 0x73C), *(u32 *)&((struct Obj00002 *)p)->f528, 0, 4, 0x3DC0);
         ITEMMENU_PrintMoveInfoText((u8 *)p, kind);
         BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00002 *)p)->f744);
     }
-    func_02020FB4((void *)(((struct Obj00002 *)p)->f524), *e, ((struct Obj00002 *)p)->f544);
+    FILE_UTIL_ReadStringAlt((void *)(((struct Obj00002 *)p)->f524), *e, ((struct Obj00002 *)p)->f544);
     ITEMMENU_PrintToWindow((int)p, (u32 *)(p + 0x74C), ((struct Obj00002 *)p)->f524, 0, 4, 0x3DC0);
     ITEMMENU_FlushWindowAt((void **)(p + 0x73C));
     ITEMMENU_FlushWindowAt((void **)(p + 0x744));

@@ -1,5 +1,5 @@
 /*
- * function: func_02063078
+ * function: NNS_G2dInitOamManagerModule
  * address:  0x02063078
  * packet:   pkt_02063000
  * region:   arm9
@@ -13,7 +13,7 @@
  * 0x540-byte bank records of g_02146BC8 -- the OAM mirror at +0x100 (0x400
  * bytes, fill 0xC0) and the two free-slot tables, slotsA at +0x000 (0x100
  * bytes) and slotsB at +0x500 (0x40 bytes), both filled with the 0xFFFF
- * free sentinel that func_02063138 tests for.
+ * free sentinel that NNSi_G2dReserveOamManagerSpan tests for.
  *
  * COMPILER PIN, ../2.0/sp2, the cluster's "kept constants" tell.  The image
  * rematerialises each call's fill value and size into r0/r2 at every one of
@@ -28,8 +28,8 @@
  * mismatches on the first compile.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02063078.c \
- *       --func func_02063078 --addr 0x02063078 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNS_G2dInitOamManagerModule.c \
+ *       --func NNS_G2dInitOamManagerModule --addr 0x02063078 --cc ../2.0/sp2 --arm
  *
  * symbols:
  *   MIi_CpuClear16  0x02082A48  arm
@@ -51,7 +51,7 @@ struct Bank {
 extern struct Bank g_02146BC8[];
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
 
-void func_02063078(void)
+void NNS_G2dInitOamManagerModule(void)
 {
     MIi_CpuClear16(0xC0, g_02146BC8[0].oam, 0x400);
     MIi_CpuClear16(0xC0, g_02146BC8[1].oam, 0x400);

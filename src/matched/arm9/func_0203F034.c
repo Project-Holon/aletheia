@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203F034
+ * function: GF_STANDARD_RandSeed
  * address:  0x0203F034
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -20,8 +20,8 @@
  * `mla` because the index is the addend.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F034.c \
- *       --func func_0203F034 --addr 0x0203F034 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_RandSeed.c \
+ *       --func GF_STANDARD_RandSeed --addr 0x0203F034 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct Mt {
 
 extern struct Mt *g_021469F8;
 
-void func_0203F034(u32 seed)
+void GF_STANDARD_RandSeed(u32 seed)
 {
     g_021469F8->mt[0] = seed;
     for (g_021469F8->index = 1; g_021469F8->index < 624;

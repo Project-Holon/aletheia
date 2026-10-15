@@ -17,7 +17,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_0204363C  0x0204363C  arm
+ *   BMP_SetDisplaySwap  0x0204363C  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -48,10 +48,10 @@
  *   GPOWER_FreePowerTable  0x02010F8C  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_02082A7C  0x02082A7C  arm
  *   d_021BA7D4     0x021BA7D4  data  ov071  a4
  *   d_021BA764     0x021BA764  data  a4
@@ -64,7 +64,7 @@
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_02040588  0x02040588  arm
  *   d_021BA794     0x021BA794  data  a4
  *   d_021BA7B4     0x021BA7B4  data  a4
@@ -118,7 +118,7 @@
  *   BMP_OAM_Create  0x020255A0  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   d_021BA80C     0x021BA80C  data  a2
@@ -153,7 +153,7 @@
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   func_02030734  0x02030734  arm
- *   func_02041090  0x02041090  arm
+ *   BG_SYS_DrawTile  0x02041090  arm
  *   d_021BABE4     0x021BABE4  data  a1
  *   d_021BA8A0     0x021BA8A0  data  a4
  *   INTRUDE_COMM_HasUnlockFlags 0x02158590 thumb ov010
@@ -175,13 +175,13 @@
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   d_021BA8DC     0x021BA8DC  data  a4
  *   d_021BA8FC     0x021BA8FC  data  a4
- *   func_0201F554  0x0201F554  thumb
- *   func_0201F548  0x0201F548  thumb
+ *   BMP_MENUWORK_LoadChar  0x0201F554  thumb
+ *   BMP_MENUWORK_GetPlttFileId  0x0201F548  thumb
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
@@ -193,7 +193,7 @@
  *   func_020084F4  0x020084F4  thumb
  *   STRBUF_SetStringN  0x02045994  arm
  *   func_02008550  0x02008550  thumb
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   d_021BA928 0x021BA928 data a4
  *   d_021BA948     0x021BA948  data  a4
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
@@ -213,10 +213,10 @@
  *   d_021BAAB8     0x021BAAB8  data  ov071  a4
  *   d_021BAAD8     0x021BAAD8  data  ov071  a4
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   _ll_sdiv       0x0209BE5C  arm
  *   TOWN_MAP_SPOT_CountVisited  0x0216FEAC  thumb  ov010
- *   func_0201F184 0x0201F184 thumb
+ *   WORDSET_SetSlotFromMsgA0 0x0201F184 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
@@ -238,13 +238,13 @@
  *   d_021BAB28     0x021BAB28  data  ov071  a4
  *   d_021BAB48     0x021BAB48  data  ov071  a4
  *   d_021BAB68     0x021BAB68  data  a4
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   TOWN_MAP_SPOT_Classify  0x0216FE2C  thumb  ov010
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   d_021BAAF8     0x021BAAF8  data  a2
  *   gMonolithRowGridParam     0x021BAB10  data  a4
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BMP_OAM_SetPos  0x0202590C  thumb
@@ -402,7 +402,7 @@ extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
-extern void func_0204363C(u32 a);
+extern void BMP_SetDisplaySwap(u32 a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
@@ -432,10 +432,10 @@ extern void func_02030EAC(struct Node *n);
 extern void GPOWER_FreePowerTable(void *p);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern void func_020315D4(struct Proc *p);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_02082A7C(int, int, int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *, u32);
 extern u32 PALANM_Delete(void *a0);
@@ -475,7 +475,7 @@ extern struct Actor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int
 extern struct BmpOamGrid *BMP_OAM_Create(struct Sys *sys, const struct MonolithToolGridParam *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQue(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct Strbuf *text, u32 font);
 extern void STRBUF_Delete(struct Strbuf *vec);
 extern void CLACT_DeleteActor(struct Actor *);
@@ -506,7 +506,7 @@ extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern unsigned int PALANM_SetAutoTransfer(struct PalAnmSlot *slots, int v);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02041300(u32 a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g);
+extern void BG_SYS_SetTileEntry(u32 a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
@@ -524,7 +524,7 @@ extern u32 ACTOR_TOOL_LoadCharSimplePalAnm(u32 a0, u32 a1, u32 a2, u32 a3, u32 a
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern int INTRUDE_COMM_HasUnlockFlags(void *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
@@ -538,13 +538,13 @@ extern u8 INTRUDE_COMM_TakeJoinReply(char *p);
 extern int INTRUDE_CMD_SendJoinRequest(char *a, int b);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
-extern u8 func_0201F548(int i);
+extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
+extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern void BMP_Clear(struct Bitmap *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u32 a8, u32 a9);
 extern s32 func_02028484(struct Blk *blk, void *h);
@@ -555,18 +555,18 @@ extern u8 func_020355C4(void);
 extern const void *func_020084F4(const void *p);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
 extern void INTRUDE_COMM_SetWordSetRequest(MonolithToolSlotInfo *, void *, void *, int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int TOWN_MAP_SPOT_CountVisited(MonolithEntry *table, MonolithCounts *counts, u8 *rankData);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetCont(void);
-extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern int INTRUDE_COMM_SendPairMessage(int,...);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int GFL_USE_IsBgmFading(void);
@@ -581,11 +581,11 @@ extern u16 *INTRUDE_GetFromSave(void *sys);
 extern void INTRUDE_SetMonolithLevel(struct Rec1B0 *p, u32 v);
 extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void GAME_COMM_PushPairMessage(u32,u32,u32);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern int TOWN_MAP_SPOT_Classify(MonolithEntry *table, int index, MonolithCounts *counts, u8 *rankData);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
-extern void func_020413B0(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 palette);
+extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 palette);
 extern void func_02041B6C(u32 layerBit);
 extern void BG_SYS_ResetSlot(unsigned layer, unsigned axis, unsigned offset);
 extern void BMP_OAM_SetPos(struct BmpOamGrid *grid, s16 x, s16 y);
@@ -835,7 +835,7 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     func_0207D63C(0x04000050, 4, 8, 0xF, 0xF);
     func_0207D63C(0x04001050, 4, 8, 0xF, 0xF);
-    func_0204363C(1);
+    BMP_SetDisplaySwap(1);
     GFL_HEAP_CreateChildHeap(1, 0x61, 0x70000);
     work = PROCSYS_AllocProcWork(ctx, sizeof(MonolithToolWork), 0x61);
     MI_CpuFill8(work, 0, sizeof(MonolithToolWork));
@@ -974,7 +974,7 @@ int MONOLITH_TOOL_Exit(int a, int b, int c, MonolithToolWork *work)
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     func_020315D4((struct Proc *)a);
-    func_020306F0(0x61);
+    GFL_HEAP_DeleteChecked(0x61);
     return 1;
 }
 
@@ -983,7 +983,7 @@ void MONOLITH_TOOL_InitDisplay(void)
 
     BG_SYS_SetVramBanks((const struct DispVram *)(&d_021BA7D4));
     BG_SYS_Create(0x61);
-    func_0203FC28((struct DispConfig *)(&d_021BA764));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&d_021BA764));
     func_02082A7C(0, 0x06000000, 0x80000);
     func_02082A7C(0, 0x06200000, 0x20000);
     func_02082A7C(0, 0x06400000, 0x40000);
@@ -1049,8 +1049,8 @@ void MONOLITH_TOOL_InitBackgrounds(void)
 
     BG_SYS_InitBgLayer((int)3, (const struct BgTemplate *)(&d_021BA794), (int)0);
     BG_SYS_InitBgLayer((int)7, (const struct BgTemplate *)(&d_021BA7B4), (int)0);
-    func_02041300(3, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(7, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(3, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(7, 0, 0, 0, 0x20, 0x20, 0x11);
     for (i = 0; i <= 7; i++) {
         func_02040588((u8)i, (int)0);
     }
@@ -1330,7 +1330,7 @@ void MONOLITH_TOOL_CreateButton(MonolithToolWork *work, MonolithToolButton *butt
     text = func_02045EC0(work->msgBank[3], msgId);
     if (wordSet) {
         expanded = STRBUF_Create(0x80, 0x61);
-        func_0201F250(wordSet, expanded, text);
+        WORDSET_CopyTaggedText(wordSet, expanded, text);
         PRINTSYS_PrintQue(work->printSys, button->bitmap, 0, 0, expanded, (u32)work->font);
         STRBUF_Delete(expanded);
     } else {
@@ -1625,7 +1625,7 @@ void MONOLITH_TOOL_CreateLabel(MonolithToolWork *work, MonolithToolLabel *label,
     text = func_02045EC0(work->msgBank[3], msgId);
     if (wordSet) {
         expanded = STRBUF_Create(0x80, 0x61);
-        func_0201F250(wordSet, expanded, text);
+        WORDSET_CopyTaggedText(wordSet, expanded, text);
         PRINTSYS_PrintQue(work->printSys, label->bitmap, 0, 0, expanded, (u32)work->font);
         STRBUF_Delete(expanded);
     } else {
@@ -1978,7 +1978,7 @@ void func_021B7234(void *a, int flag, int bg)
     for (i = 0; i < 30; i++) {
         buf[i] |= 0x1000;
     }
-    func_02041090((u8)bg, (u32)buf, (u8)1, (u8)y, 30, 1);
+    BG_SYS_DrawTile((u8)bg, (u32)buf, (u8)1, (u8)y, 30, 1);
     func_020307B0(buf);
 }
 
@@ -2175,8 +2175,8 @@ void MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds(void)
 {
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021BA8DC, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021BA8FC, 0);
-    func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02040588(5, 0);
 }
 
@@ -2199,12 +2199,12 @@ void MONOLITH_TOOL_SLOT_SELECT_LoadGraphics(MonolithToolProcArgs *args, Monolith
 
 void MONOLITH_TOOL_SLOT_SELECT_InitMsgWindow(MonolithToolSlotSelect *screen, MonolithToolWork *work)
 {
-    func_0201F554(5, 1, 0, 0x61);
-    PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    BMP_MENUWORK_LoadChar(5, 1, 0, 0x61);
+    PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, BMP_MENUWORK_GetPlttFileId(0), 0x61, 1, 0x20, 0xb0, 0);
     screen->msgWindow = (void *)BMP_WIN_Create(5, 1, 0x13, 0x1e, 4, 0xd, 1);
     BMP_Clear(BMP_WIN_GetBmp(screen->msgWindow), 0xff);
     BMP_WIN_MakeScreen(screen->msgWindow);
-    func_0201F73C(screen->msgWindow, 0, 1, 0xb);
+    BMP_MENUWORK_DrawWindow(screen->msgWindow, 0, 1, 0xb);
 }
 
 
@@ -2442,7 +2442,7 @@ int MONOLITH_TOOL_TITLE_Init(void *ctx, int *state, MonolithToolProcArgs *args)
         species = (int)MONOLITH_TOOL_GetTitleSpecies(args);
         name = STRBUF_Create(8, 0x61);
         STRBUF_SetStringN(name, func_020084F4((const void *)species), 8);
-        func_0201EE0C((struct WordSet *)args->work->wordSet, 0, name, func_02008550((const struct Sub0200852CObj *)species), 1, 2);
+        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, func_02008550((const struct Sub0200852CObj *)species), 1, 2);
         STRBUF_Delete(name);
         MONOLITH_TOOL_CreateLabel(args->work, &screen->nameLabel, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)args->work->wordSet);
         MONOLITH_TOOL_TITLE_CreateSlotIcons(screen, args);
@@ -2486,7 +2486,7 @@ int MONOLITH_TOOL_TITLE_Exit(void *proc,int unused,MonolithToolProcArgs *args,Mo
 
 
 
-void MONOLITH_TOOL_TITLE_InitBackgrounds(void) { BG_SYS_InitBgLayer(2,(const struct BgTemplate *)d_021BA928,0); func_02041300(2,0,0,0,0x20,0x20,0x11); }
+void MONOLITH_TOOL_TITLE_InitBackgrounds(void) { BG_SYS_InitBgLayer(2,(const struct BgTemplate *)d_021BA928,0); BG_SYS_SetTileEntry(2,0,0,0,0x20,0x20,0x11); }
 
 
 
@@ -2815,7 +2815,7 @@ void func_021B82FC(MonolithToolMenu *screen)
 
 
 
-void func_021B8308(void) { BG_SYS_InitBgLayer(5,(const struct BgTemplate *)d_021BA984,0); func_02041300(5,0,0,0,0x20,0x20,0x11); func_02040588(5,0); }
+void func_021B8308(void) { BG_SYS_InitBgLayer(5,(const struct BgTemplate *)d_021BA984,0); BG_SYS_SetTileEntry(5,0,0,0,0x20,0x20,0x11); func_02040588(5,0); }
 
 
 
@@ -2835,12 +2835,12 @@ void func_021B833C(void) { func_02040588(5, 0); func_020403F4(5); }
 void func_021B8350(MonolithToolMenu *screen, MonolithToolWork *work)
 {
 
-    func_0201F554(5, 1, 0, 0x61);
-    PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    BMP_MENUWORK_LoadChar(5, 1, 0, 0x61);
+    PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, BMP_MENUWORK_GetPlttFileId(0), 0x61, 1, 0x20, 0xb0, 0);
     screen->window = (void *)BMP_WIN_Create(5, 1, 0x13, 0x1e, 4, 0xd, 1);
     BMP_Clear((struct Bitmap *)((int)BMP_WIN_GetBmp((struct BmpWin *)screen->window)), 0xff);
     BMP_WIN_MakeScreen(screen->window);
-    func_0201F73C(screen->window, 0, 1, 0xb);
+    BMP_MENUWORK_DrawWindow(screen->window, 0, 1, 0xb);
 }
 
 
@@ -3029,8 +3029,8 @@ void func_021B8650(void)
 
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)d_021BAA64, 0);
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)d_021BAA84, 0);
-    func_02041300(0, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(2, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(0, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
 }
 
 
@@ -3132,7 +3132,7 @@ void func_021B8798(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithT
     labelText = func_02045EC0(work->msgBank[0], info->labelId);
     detailText = func_02045EC0(work->msgBank[0], detailId);
     INTRUDE_COMM_SetWordSetRequest(info, src, work->wordSet, 0x61);
-    func_0201F250(work->wordSet, numberText, detailText);
+    WORDSET_CopyTaggedText(work->wordSet, numberText, detailText);
     printSys = work->printSys;
     PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(screen->text[0].window), 0, 4, labelText, (u32)work->font);
     screen->text[0].on = 1;
@@ -3271,8 +3271,8 @@ void func_021B8A70(void)
 {
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)d_021BAAB8, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021BAAD8, 0);
-    func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
 }
 
 
@@ -3370,18 +3370,18 @@ void func_021B8C0C(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithT
     drawText(work, screen->text[0].window, 0, 4, labelText);
     screen->text[0].on = 1;
     func_02045CAC(work->msgBank[3], 5, labelText);
-    func_0201EFA4(work->wordSet, 0, counts->limit + counts->current, 5, 0, 1);
-    func_0201F250(work->wordSet, lineText, labelText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit + counts->current, 5, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[1].window, 0, 0, lineText);
     screen->text[1].on = 1;
     func_02045CAC(work->msgBank[3], 9, labelText);
-    func_0201EFA4(work->wordSet, 0, counts->limit, 4, 0, 1);
-    func_0201F250(work->wordSet, lineText, labelText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit, 4, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[2].window, 0, 0, lineText);
     screen->text[2].on = 1;
     func_02045CAC(work->msgBank[3], 8, labelText);
-    func_0201EFA4(work->wordSet, 0, counts->current, 4, 0, 1);
-    func_0201F250(work->wordSet, lineText, labelText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, counts->current, 4, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[2].window, 0x78, 0, lineText);
     screen->text[2].on = 1;
     seconds = args->setup->playSeconds;
@@ -3394,19 +3394,19 @@ void func_021B8C0C(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithT
         minutes = seconds / 60;
     }
     func_02045CAC(work->msgBank[3], 0xb, labelText);
-    func_0201EFA4(work->wordSet, 0, hours, 3, 1, 1);
-    func_0201EFA4(work->wordSet, 1, minutes, 2, 2, 1);
-    func_0201F250(work->wordSet, lineText, labelText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, hours, 3, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, minutes, 2, 2, 1);
+    WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[3].window, 0, 0, lineText);
     screen->text[3].on = 1;
     func_02045CAC(work->msgBank[3], 0xc, labelText);
-    func_0201EFA4(work->wordSet, 0, args->setup->recordCount, 5, 0, 1);
-    func_0201F250(work->wordSet, lineText, labelText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, args->setup->recordCount, 5, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[4].window, 0, 0, lineText);
     screen->text[4].on = 1;
     func_02045CAC(work->msgBank[3], 0xa, labelText);
-    func_0201EFA4(work->wordSet, 0, TOWN_MAP_SPOT_CountVisited(work->entryTable, MONOLITH_TOOL_GetSlotIconStates(args), args->setup->rankData), 4, 0, 1);
-    func_0201F250(work->wordSet, lineText, labelText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, TOWN_MAP_SPOT_CountVisited(work->entryTable, MONOLITH_TOOL_GetSlotIconStates(args), args->setup->rankData), 4, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[5].window, 0, 0, lineText);
     screen->text[5].on = 1;
     STRBUF_Delete(labelText);
@@ -3635,7 +3635,7 @@ selected:
         break;
     case 8:
         if (func_021B6C74(args, 1) != 2 && func_021B6C74(args, 3) != 2) {
-            func_0201F184(args->work->wordSet, 0, work->entryIds[work->chosenEntry]);
+            WORDSET_SetSlotFromMsgA0(args->work->wordSet, 0, work->entryIds[work->chosenEntry]);
             MONOLITH_TOOL_LIST_ShowFormattedMessage(work, args->work, 0x23);
             *state = 9;
         }
@@ -3748,9 +3748,9 @@ void MONOLITH_TOOL_LIST_InitBackgrounds(void)
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)d_021BAB28, 0);
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021BAB48, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)((char *)&d_021BAB68), 0);
-    func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
 }
 
 
@@ -3797,8 +3797,8 @@ void MONOLITH_TOOL_LIST_FreeBgChar(MonolithListWork *work) { BG_SYS_DeleteHalf(5
 
 void MONOLITH_TOOL_LIST_InitWindows(MonolithListWork *work, MonolithToolWork *toolWork)
 {
-    func_0201F554(4, 1, 0, 0x61);
-    PALANM_LoadArcPaletteToSlotAt(toolWork->palAnm, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    BMP_MENUWORK_LoadChar(4, 1, 0, 0x61);
+    PALANM_LoadArcPaletteToSlotAt(toolWork->palAnm, 5, BMP_MENUWORK_GetPlttFileId(0), 0x61, 1, 0x20, 0xb0, 0);
     work->messageWindow = BMP_WIN_Create(4, 1, 0x13, 0x1e, 4, 0xd, 1);
     BMP_Clear(BMP_WIN_GetBmp(work->messageWindow), 0xff);
     work->titleWindow = BMP_WIN_Create(4, 0, 0, 0x20, 3, 0xd, 1);
@@ -3845,7 +3845,7 @@ void MONOLITH_TOOL_LIST_ShowMessage(MonolithListWork *work, MonolithToolWork *to
     work->messageText = func_02045EC0(toolWork->msgBank[3], msgId);
     work->messagePrinter = PRINTSYS_PrintStream(work->messageWindow, 0, 0, work->messageText, (u32)toolWork->font, MSG_SPEED_GetWait(), toolWork->taskList, 0xa, 0x61, 0xf);
     BMP_WIN_MakeScreen(work->messageWindow);
-    func_0201F73C(work->messageWindow, 1, 1, 0xb);
+    BMP_MENUWORK_DrawWindow(work->messageWindow, 1, 1, 0xb);
 }
 
 
@@ -3861,11 +3861,11 @@ void MONOLITH_TOOL_LIST_ShowFormattedMessage(MonolithListWork *work, MonolithToo
     GF_FONT_SetTextColor(1, 2, 0xf);
     format = func_02045EC0(toolWork->msgBank[3], msgId);
     work->messageText = STRBUF_Create(0x100, 0x61);
-    func_0201F250(toolWork->wordSet, work->messageText, format);
+    WORDSET_CopyTaggedText(toolWork->wordSet, work->messageText, format);
     STRBUF_Delete(format);
     work->messagePrinter = PRINTSYS_PrintStream(work->messageWindow, 0, 0, work->messageText, (u32)toolWork->font, MSG_SPEED_GetWait(), toolWork->taskList, 0xa, 0x61, 0xf);
     BMP_WIN_MakeScreen(work->messageWindow);
-    func_0201F73C(work->messageWindow, 1, 1, 0xb);
+    BMP_MENUWORK_DrawWindow(work->messageWindow, 1, 1, 0xb);
 }
 
 
@@ -3894,7 +3894,7 @@ void MONOLITH_TOOL_LIST_HideMessage(MonolithListWork *work)
     work->messagePrinter = 0;
     STRBUF_Delete(work->messageText);
     work->messageText = 0;
-    func_0201F7A8(work->messageWindow, 0);
+    BMP_MENUWORK_DrawWindowBorder(work->messageWindow, 0);
     BMP_Clear(bitmap, 0xff);
     BMP_WIN_TransferChars(work->messageWindow);
     GF_FONT_SetTextColor(0xf, 2, 0);
@@ -3912,7 +3912,7 @@ void MONOLITH_TOOL_LIST_FitBackground(MonolithListWork *work)
     count = work->entryCount;
     if (count - 2 < 7) {
         offset = (count - 1) * 32 / 8;
-        func_02041300(6, 0, 0, (u8)offset, 0x20, 0x20 - offset, 0x11);
+        BG_SYS_SetTileEntry(6, 0, 0, (u8)offset, 0x20, 0x20 - offset, 0x11);
         func_020409B4(6);
     }
 }
@@ -4246,7 +4246,7 @@ void MONOLITH_TOOL_SetRowHighlight(MonolithListWork *work, int index, int palett
         bgOffset = scrollPixels % 64;
         rowOnScreen = index - firstRow;
         if (rowOnScreen >= 0 && rowOnScreen < firstRow + MONOLITH_ROW_GRIDS) {
-            func_020413B0(6, 3, ((rowOnScreen * MONOLITH_ROW_HEIGHT + bgOffset - rowOffset) % 256) / 8, 0x19, 4, palette);
+            BG_SYS_FillTileMap(6, 3, ((rowOnScreen * MONOLITH_ROW_HEIGHT + bgOffset - rowOffset) % 256) / 8, 0x19, 4, palette);
         }
     }
 }
@@ -4459,8 +4459,8 @@ void MONOLITH_TOOL_SetupInfoBgs(void)
 {
     BG_SYS_InitBgLayer(0, &gMonolithInfoBgTemplate0, 0);
     BG_SYS_InitBgLayer(2, &gMonolithInfoBgTemplate2, 0);
-    func_02041300(0, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(2, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(0, 0, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
 }
 
 void MONOLITH_TOOL_HideInfoBgs(void)
@@ -4570,11 +4570,11 @@ void MONOLITH_TOOL_DrawSelectedEntry(MonolithToolProcArgs *args, MonolithToolWor
     BMP_Clear(BMP_WIN_GetBmp(work->windows[2]), 0);
     if (selected != MONOLITH_ENTRY_NONE) {
         if (args->param->mode == 0) {
-            func_0201EFA4(toolWork->wordSet, 0, toolWork->entryTable[selected].number, 4, 0, 1);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 0, toolWork->entryTable[selected].number, 4, 0, 1);
             desc = func_02045EC0(toolWork->msgBank[2], toolWork->entryTable[selected].descMsgId);
             format = func_02045EC0(toolWork->msgBank[3], 0x28);
             line = STRBUF_Create(0x40, 0x61);
-            func_0201F250(toolWork->wordSet, line, format);
+            WORDSET_CopyTaggedText(toolWork->wordSet, line, format);
             PrintText(toolWork, work->slots[2].window, 0, 4, desc);
             work->slots[2].pending = 1;
             PrintText(toolWork, work->slots[2].window, 0x70, 0x34, line);
@@ -4591,12 +4591,12 @@ void MONOLITH_TOOL_DrawSelectedEntry(MonolithToolProcArgs *args, MonolithToolWor
                 cost = toolWork->entryTable[selected].costB;
                 msgId = 0x2a;
             }
-            func_0201EFA4(toolWork->wordSet, 0, cost, 3, 0, 1);
-            func_0201EFA4(toolWork->wordSet, 1, counts->current, 3, 0, 1);
-            func_0201EFA4(toolWork->wordSet, 2, counts->limit, 3, 0, 1);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 0, cost, 3, 0, 1);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 1, counts->current, 3, 0, 1);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 2, counts->limit, 3, 0, 1);
             format = func_02045EC0(toolWork->msgBank[3], msgId);
             line = STRBUF_Create(0x80, 0x61);
-            func_0201F250(toolWork->wordSet, line, format);
+            WORDSET_CopyTaggedText(toolWork->wordSet, line, format);
             PrintText(toolWork, work->slots[2].window, 0, 4, line);
             work->slots[2].pending = 1;
             STRBUF_Delete(line);

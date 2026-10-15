@@ -31,7 +31,7 @@
  *   FIELD_RAIL_ProjectOnSegment  0x021BAE7C  thumb  ov021
  *   func_0207C768  0x0207C768  arm
  *   VEC_Distance  0x0207CF3C  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   _u32_div_f     0x0209C2B0  arm
  * Addresses are Black-image addresses.
  */
@@ -61,7 +61,7 @@ int FIELD_RAIL_ProjectOnSegment(int *e0, int *e1, const V *pos, V *a, int *b, V 
 typedef signed int     s32;
 u32 func_0207C768(u32 a, u32 b);
 int VEC_Distance(const V *a, const V *b);
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 int FIELD_RAIL_LINEFUNC_Straight(int a, void *p, const V *pos, Rec *out, int arg)
 {
@@ -123,7 +123,7 @@ int FIELD_RAIL_LINEFUNC_Straight(int a, void *p, const V *pos, Rec *out, int arg
         out->f6 = FIELD_RAIL_RoundToGrid(diff);
         FIELD_RAIL_ClampLocation(p, out, &buf);
         FIELD_RAIL_GetLocationPos(p, &buf, arg);
-        if (func_0203EFC8((const u8 *)out, (const u8 *)(&buf), 8) == 0) {
+        if (GF_STANDARD_CompareBytes((const u8 *)out, (const u8 *)(&buf), 8) == 0) {
             return 1;
         }
         return 0;

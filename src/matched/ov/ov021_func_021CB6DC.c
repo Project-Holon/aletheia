@@ -1,5 +1,5 @@
 /*
- * function: func_021CB6DC
+ * function: BSUBWAY_SCR_WaitCommSend
  * address:  0x021CB6DC
  * packet:   pkt_ov021_021CB6DC
  * region:   ov021
@@ -29,7 +29,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
 extern int BSUBWAY_COMM_SendData(struct Obj *o);
 
-int func_021CB6DC(void *task, void *p)
+int BSUBWAY_SCR_WaitCommSend(void *task, void *p)
 {
     if (BSUBWAY_COMM_SendData(GAME_DATA_GetCurrentEvent(GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(p))))) == 1)
         return 1;

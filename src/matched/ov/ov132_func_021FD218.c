@@ -1,5 +1,5 @@
 /*
- * function: func_021FD218
+ * function: MUS_COMM_FUNC_ClearEntryFlag
  * address: 0x021FD218
  * packet: pkt_ov132_021FD218
  * region: ov132
@@ -16,11 +16,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 w[12]; } E;
 typedef struct { u8 pad[0x60]; E e[4]; } T;
-u32 func_021FD218(int i, T *p);
+u32 MUS_COMM_FUNC_ClearEntryFlag(int i, T *p);
 
 #pragma opt_common_subs off
 #pragma opt_common_subs reset
 #pragma opt_loop_invariants off
 #pragma opt_loop_invariants reset
 
-u32 func_021FD218(int i, T *p) { p->e[i].w[2] = 0; return p->e[i].w[11]; }
+u32 MUS_COMM_FUNC_ClearEntryFlag(int i, T *p) { p->e[i].w[2] = 0; return p->e[i].w[11]; }

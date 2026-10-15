@@ -1,5 +1,5 @@
 /*
- * function: func_02014910
+ * function: FIELD_STATUS_CreateSubProcListEvent
  * address:  0x02014910
  * packet:   pkt_02014628
  * region:   arm9
@@ -25,7 +25,7 @@ struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern u32 func_02014878(u32 a0, u32 *mode, u32 *p);
 
-void *func_02014910(char *a0, int a1, int a2, int a3)
+void *FIELD_STATUS_CreateSubProcListEvent(char *a0, int a1, int a2, int a3)
 {
     void *r = func_020122C0(a0, 0, (void *)((int)func_02014878), 0x10);
     u32 *p = func_020124E8(r);

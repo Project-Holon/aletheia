@@ -26,7 +26,7 @@
  *   IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   PROCSYS_Create 0x02031324 arm
  *   func_0203133C 0x0203133C arm
@@ -117,7 +117,7 @@ extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 extern int GFL_USE_PopBgm(void);
 extern void func_020315D4(struct Proc *proc);
-extern void func_020306F0(u32 heapId);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
 extern int GFL_USE_IsBgmFading(void);
 extern void *PROCSYS_Create(int heapId);
 extern unsigned int PROCSYS_Main(void *queue);
@@ -202,7 +202,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
 
 
 int IRC_COMPATIBLE_ProcExit(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work) {
- GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); COMPATIBLE_IRC_SYS_Delete(work->view); IRC_COMPATIBLE_StepRunnerExit(&work->runner); func_020307B0(work->partnerProfile); func_020315D4(proc); func_020306F0(IRC_COMPATIBLE_HEAP_ID); return 1;
+ GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); COMPATIBLE_IRC_SYS_Delete(work->view); IRC_COMPATIBLE_StepRunnerExit(&work->runner); func_020307B0(work->partnerProfile); func_020315D4(proc); GFL_HEAP_DeleteChecked(IRC_COMPATIBLE_HEAP_ID); return 1;
 }
 
 

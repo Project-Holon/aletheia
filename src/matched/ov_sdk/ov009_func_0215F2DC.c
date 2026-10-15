@@ -1,5 +1,5 @@
 /*
- * function: func_0215F2DC
+ * function: SOCLi_SocketRegister
  * address:  0x0215F2DC
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern char g_021AA4B4[];
 extern void func_0215F2F4(char *p, int a);
 
-void func_0215F2DC(int a)
+void SOCLi_SocketRegister(int a)
 {
     func_0215F2F4(g_021AA4B4, a);
 }

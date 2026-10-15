@@ -1,5 +1,5 @@
 /*
- * function: func_0220CBB4
+ * function: B_BAG_MAIN_StateWaitPrintWipe
  * address: 0x0220CBB4
  * packet: pkt_ov197_0220CBB4
  * region: ov197
@@ -16,4 +16,4 @@
 struct PrintSys;
 extern unsigned PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
-int func_0220CBB4(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj14547 *)p)->f18)==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj25065 *)(*(char * *)&((struct Obj14547 *)p)->f0))->fC);return 3;}return 2;}
+int B_BAG_MAIN_StateWaitPrintWipe(char *p){if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj14547 *)p)->f18)==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj25065 *)(*(char * *)&((struct Obj14547 *)p)->f0))->fC);return 3;}return 2;}

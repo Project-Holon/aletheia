@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070F2C",
+   "name": "NNSi_G3dTexMtxScaleRotTrans4x4",
    "address": "0x02070F2C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02071034",
+   "name": "NNSi_G3dTexMtxRotTrans4x4",
    "address": "0x02071034",
    "kind": "game",
    "region": "arm9",

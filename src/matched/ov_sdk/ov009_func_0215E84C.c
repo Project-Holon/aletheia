@@ -1,5 +1,5 @@
 /*
- * function: func_0215E84C
+ * function: SOCL_Close
  * address:  0x0215E84C
  * packet:   pkt_ov009_0215E84C
  * region:   ov009
@@ -13,14 +13,14 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_0215F404  0x0215F404  arm  ov009
+ *   SOCL_SocketIsInTrash  0x0215F404  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   SOCLi_SendCommandPacketToCtrlPipe  0x0215CEFC  arm  ov009
  *   g_021AA4AC     0x021AA4AC  data
- *   func_0215E980  0x0215E980  arm  ov009
+ *   SOCLi_CloseCallBack  0x0215E980  arm  ov009
  */
 
 #include "../include/G_SOCLResource.h"
@@ -43,14 +43,14 @@ extern struct SOCLResource g_021AA4AC;
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern int func_0215F404(int b);
+extern int SOCL_SocketIsInTrash(int b);
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int SOCLi_SendCommandPacket(int a0, char *a1);
 extern struct SOCLCommand *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
-extern int func_0215E980(void *arg);
+extern int SOCLi_CloseCallBack(void *arg);
 
-int func_0215E84C(int s)
+int SOCL_Close(int s)
 {
 	struct SOCLSocket *socket = (struct SOCLSocket *)s;
 	struct SOCLCommand *command;
@@ -60,7 +60,7 @@ int func_0215E84C(int s)
 	if (s <= 0)
 		return -0x1c;
 	enable = OS_DisableInterrupts();
-	if (func_0215F404((int)socket) != 0) {
+	if (SOCL_SocketIsInTrash((int)socket) != 0) {
 		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
@@ -96,7 +96,7 @@ int func_0215E84C(int s)
 			g_021AA4AC.a--;
 		}
 	}
-	command = func_0215CE3C(func_0215E980, socket, 1);
+	command = func_0215CE3C(SOCLi_CloseCallBack, socket, 1);
 	command->field8 = result;
 	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
 	return result;

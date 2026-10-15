@@ -13,7 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0207D63C 0x0207D63C arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_021E6940 0x021E6940 thumb ov177
@@ -40,7 +40,7 @@ extern const char d_021E8DBC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void func_0207D63C(void *, int, int, int, int);
-extern void func_020413B0(u8, u8, u8, u8, u8, u8);
+extern void BG_SYS_FillTileMap(u8, u8, u8, u8, u8, u8);
 extern void func_020409B4(u32);
 extern void func_021E6940(Work *, u32, const Info *, void *, int, void *, void *, void *, u16);
 extern void func_021E6F20(Work *, void *, void *, u16);
@@ -82,14 +82,14 @@ char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c,
   switch (*((u16 *) (info + 0xaa)))
   {
     case 0:
-      func_020413B0(layer, 0, 0, 32, 5, 1);
-      func_020413B0(layer, 0, 5, 32, 18, 3);
+      BG_SYS_FillTileMap(layer, 0, 0, 32, 5, 1);
+      BG_SYS_FillTileMap(layer, 0, 5, 32, 18, 3);
       func_020409B4((u8) layer);
       break;
 
     case 1:
-      func_020413B0(layer, 0, 0, 32, 5, 1);
-      func_020413B0(layer, 0, 5, 32, 18, 7);
+      BG_SYS_FillTileMap(layer, 0, 0, 32, 5, 1);
+      BG_SYS_FillTileMap(layer, 0, 5, 32, 18, 7);
       func_020409B4((u8) layer);
       break;
 

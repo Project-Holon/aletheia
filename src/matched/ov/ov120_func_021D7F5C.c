@@ -1,5 +1,5 @@
 /*
- * function: func_021D7F5C
+ * function: GTSNEGO_MSG_PrintTooltip
  * address: 0x021D7F5C
  * packet: pkt_ov120_021D7F5C
  * region: ov120
@@ -34,7 +34,7 @@ typedef signed short   s16;
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-void func_021D7F5C(char *p,u16 n)
+void GTSNEGO_MSG_PrintTooltip(char *p,u16 n)
 {
     void *q;
     MSGDATA_ReadString(((struct Obj00131 *)p)->fC,n,(void *)(*(int *)&((struct Obj00131 *)p)->f18));

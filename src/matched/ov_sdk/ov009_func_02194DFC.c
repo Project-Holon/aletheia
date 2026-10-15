@@ -1,5 +1,5 @@
 /*
- * function: func_02194DFC
+ * function: gti2BufferWriteUShort
  * address:  0x02194DFC
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-void func_02194DFC(int *p, int v)
+void gti2BufferWriteUShort(int *p, int v)
 {
     ((unsigned char *)p[0])[p[2]++] = v >> 8;
     ((unsigned char *)p[0])[p[2]++] = v;

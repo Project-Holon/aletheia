@@ -13,8 +13,8 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_TogglePeerFlags  0x0215839C  thumb  ov010
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   EVENT_COMM_COMMON_InitMsgBox  0x0217F2B4  thumb
  *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
@@ -101,8 +101,8 @@ void *GAME_EVENT_GetGameSystem(struct Obj *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 int INTRUDE_COMM_TogglePeerFlags(u8 *p, int m, int a2);
-void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void EVENT_COMM_COMMON_InitMsgBox(Ov018Obj *p, void *);
 void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, u16 a);
@@ -151,8 +151,8 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(void *a, int *state, Ov018Outer *c)
     }
     switch (*state) {
     case 0:
-        func_0201F02C(c->obj.f00, 0, c->f78);
-        func_0201EFA4(c->obj.f00, 1, c->fA1, 3, 0, 1);
+        WORDSET_SetSlotMyStatus(c->obj.f00, 0, c->f78);
+        WORDSET_SetSlotNumber(c->obj.f00, 1, c->fA1, 3, 0, 1);
         EVENT_COMM_COMMON_PrintMsg(&c->obj, c->fA4 == 0 ? d_021838C4[c->f42] : d_021838CE[c->f42]);
         (*state)++;
         break;

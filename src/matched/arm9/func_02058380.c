@@ -1,5 +1,5 @@
 /*
- * function: func_02058380
+ * function: SPL_EMITTER_AllocNode
  * address:  0x02058380
  * packet:   pkt_02057830
  * region:   arm9
@@ -21,7 +21,7 @@ struct List {
     struct Node * volatile tail;
 };
 
-struct Node *func_02058380(struct List *list)
+struct Node *SPL_EMITTER_AllocNode(struct List *list)
 {
     struct Node *ret;
     struct Node *head;

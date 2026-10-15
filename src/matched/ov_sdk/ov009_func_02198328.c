@@ -1,5 +1,5 @@
 /*
- * function: func_02198328
+ * function: gti2SocketSend
  * address:  0x02198328
  * packet:   pkt_ov009_02198328
  * region:   ov009
@@ -20,7 +20,7 @@
  *   gti2HandleHostUnreachable  0x021971BC  arm  ov009
  *   func_021985E4  0x021985E4  arm  ov009
  *   func_02197D5C  0x02197D5C  arm  ov009
- *   func_02195408  0x02195408  arm  ov009
+ *   gti2DumpCallback  0x02195408  arm  ov009
  */
 
 struct DArrayImplementation;
@@ -113,10 +113,10 @@ extern int gti2HandleConnectionReset(struct GTI2Socket *socket, unsigned int ip,
 extern int gti2HandleHostUnreachable(struct Sock *sock, unsigned int ip, unsigned short port, int send);
 extern void func_021985E4(struct GTI2Socket *socket);
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern int func_02195408(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
+extern int gti2DumpCallback(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
 
-int func_02198328(struct GTI2Socket *socket, unsigned int ip, unsigned short port, unsigned char *message, int len)
+int gti2SocketSend(struct GTI2Socket *socket, unsigned int ip, unsigned short port, unsigned char *message, int len)
 {
     int rcode;
 
@@ -154,7 +154,7 @@ int func_02198328(struct GTI2Socket *socket, unsigned int ip, unsigned short por
         }
     } else {
         if (socket->sendDumpCallback) {
-            if (!func_02195408(socket, func_02197D5C(socket, ip, port), ip, port, 0, message, len, 1))
+            if (!gti2DumpCallback(socket, func_02197D5C(socket, ip, port), ip, port, 0, message, len, 1))
                 return 0;
         }
     }

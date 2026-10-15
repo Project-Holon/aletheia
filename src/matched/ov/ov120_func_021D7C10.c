@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C10
+ * function: GTSNEGO_MSG_UpdateButtons
  * address: 0x021D7C10
  * packet: pkt_ov120_021D7C10
  * region: ov120
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 typedef signed int     s32;
 struct Ctx;
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
-int func_021D7C10(char *p) { return BUTTON_MAN_UpdateSlots(((struct Obj22844 *)p)->f8); }
+int GTSNEGO_MSG_UpdateButtons(char *p) { return BUTTON_MAN_UpdateSlots(((struct Obj22844 *)p)->f8); }

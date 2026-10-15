@@ -8,16 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201F41C, WORDSET_CheckF448
+ * function: WORDSET_CopyString, WORDSET_CheckF448
  *
- * Two wide-string helpers.  func_0201F41C is a bounded copy that always
+ * Two wide-string helpers.  WORDSET_CopyString is a bounded copy that always
  * terminates the destination; WORDSET_CheckF448 is an equality test.  Both read
  * the terminator character from STRBUF_GetEosChar rather than from a constant,
  * and both hold it in a named local, which is what puts the call result in
- * the left slot of func_0201F41C's `cmp r0, r1`
+ * the left slot of WORDSET_CopyString's `cmp r0, r1`
  * (docs/idioms/cmp-operand-order-names-the-temporary.md).
  *
- * The last store of func_0201F41C is `*(dst + n - 1) = eos`, not
+ * The last store of WORDSET_CopyString is `*(dst + n - 1) = eos`, not
  * `dst[n - 1] = eos`.  The two are the same value and different code: the
  * subscript form folds the subtraction into the index and scales once
  * (`subs`/`lsls`/`strh` with a register offset), while the pointer form
@@ -40,7 +40,7 @@ typedef unsigned int   u32;
 
 extern u16 STRBUF_GetEosChar(void);
 
-void func_0201F41C(const u16 *src, u16 *dst, u32 n)
+void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n)
 {
     u16 eos = STRBUF_GetEosChar();
     u32 i;

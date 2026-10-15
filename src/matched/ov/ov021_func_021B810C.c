@@ -20,7 +20,7 @@
  *   FIELD_RAIL_WORK_Advance  0x021B88DC  thumb  ov021
  *   FIELD_RAIL_WORK_DebugCheck  0x021B977C  thumb  ov021
  *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb  ov021
- *   func_021B9238  0x021B9238  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLocationFromSpot  0x021B9238  thumb  ov021
  *   gRailStepSizes     0x021DE298  data
  */
 
@@ -68,7 +68,7 @@ extern int FIELD_RAIL_WORK_IsActive(u32 a);
 extern int FIELD_RAIL_WORK_Advance(Sub *p, int dir, int d);
 extern void FIELD_RAIL_WORK_DebugCheck(u8 *p);
 extern void FIELD_RAIL_WORK_GetSpotPos(Sub *p, V3 *out);
-extern void func_021B9238(Sub *p, Out *out);
+extern void FIELD_RAIL_WORK_GetLocationFromSpot(Sub *p, Out *out);
 
 void FIELD_RAIL_WORK_UpdateStep(Sub *o)
 {
@@ -107,7 +107,7 @@ void FIELD_RAIL_WORK_UpdateStep(Sub *o)
     o->f2C = 0;
     o->f74 = 0;
     o->f64 = o->f5C;
-    func_021B9238(o, &o->f5C);
+    FIELD_RAIL_WORK_GetLocationFromSpot(o, &o->f5C);
     o->f44 = o->f38;
     rem = o->fC % 16;
     if (rem == 0)

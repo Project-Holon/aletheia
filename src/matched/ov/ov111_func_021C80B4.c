@@ -1,5 +1,5 @@
 /*
- * function: func_021C80B4
+ * function: VIEWER_ACTOR_SetPageCount
  * address:  0x021C80B4
  * packet:   pkt_ov111_021C80B4
  * region:   ov111
@@ -59,7 +59,7 @@ typedef struct {
     u8 f17C[8];
 } Work;
 
-void func_021C80B4(Work *p)
+void VIEWER_ACTOR_SetPageCount(Work *p)
 {
     p->f114 = 0;
     p->f116 = p->f118 / 10;

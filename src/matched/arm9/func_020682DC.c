@@ -1,5 +1,5 @@
 /*
- * function: func_020682DC
+ * function: NNSi_G2dGetOamShapeCode
  * address:  0x020682DC
  * packet:   pkt_02067F78
  * region:   arm9
@@ -22,8 +22,8 @@
  * `lsl #2` inside the load's addressing mode.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020682DC.c \
- *       --func func_020682DC --addr 0x020682DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/NNSi_G2dGetOamShapeCode.c \
+ *       --func NNSi_G2dGetOamShapeCode --addr 0x020682DC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ typedef unsigned int  u32;
 
 extern u32 g_020A1914[][4];
 
-u32 func_020682DC(u8 *p)
+u32 NNSi_G2dGetOamShapeCode(u8 *p)
 {
     return g_020A1914[p[1]][p[0]];
 }

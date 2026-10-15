@@ -1,5 +1,5 @@
 /*
- * function: func_02206E2C
+ * function: SHINKA_DEMO_VIEW_SetupGridCells
  * address:  0x02206E2C
  * packet:   pkt_ov195_02206E2C
  * region:   ov195
@@ -57,7 +57,7 @@ typedef struct Grid {
     u8 count;
 } Grid;
 
-void func_02206E2C(Grid *p, u16 heap)
+void SHINKA_DEMO_VIEW_SetupGridCells(Grid *p, u16 heap)
 {
     int i;
     float a0, b, c, d;

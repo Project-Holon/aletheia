@@ -1,5 +1,5 @@
 /*
- * function: func_020580A8
+ * function: SPL_EMITTER_BuildFrame
  * address:  0x020580A8
  * packet:   pkt_02057F8C
  * region:   arm9
@@ -45,7 +45,7 @@ extern void func_0207AF1C(u8 *buf, int a, int b);
 extern void func_0207AF38(u8 *buf, int a, int b);
 extern void MTX_MultVec33(u8 *a, u8 *b, u8 *c);
 
-void func_020580A8(struct Obj *o, u8 *dst)
+void SPL_EMITTER_BuildFrame(struct Obj *o, u8 *dst)
 {
     u8 buf[0x28];
     int idx;

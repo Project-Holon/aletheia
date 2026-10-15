@@ -17,14 +17,14 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
- *   func_0201F158 0x0201F158 thumb
+ *   WORDSET_SetSlotFromMsg59 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   BEACON_CountFlags 0x0200C258 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
@@ -90,17 +90,17 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int RTC_GetDate(struct RTCDate *date);
 extern int RTC_GetTime(struct RTCTime *time);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32);
-extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 BEACON_CountFlags(struct Blk34 *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
@@ -150,51 +150,51 @@ void REPORT_InitWindows(u8 *p)
     ctx=GAMESYSTEM_GetGameData(((struct Obj00166 *)p)->f0);
     ctrl=GAME_DATA_GetSaveControl(ctx);
     s0=func_02045EC0(bank,0);
-    func_0201F02C(ws,0,GAME_DATA_GetMyStatus(ctx));
-    func_0201F250(ws,dst,s0);
+    WORDSET_SetSlotMyStatus(ws,0,GAME_DATA_GetMyStatus(ctx));
+    WORDSET_CopyTaggedText(ws,dst,s0);
     print_record(p,0,dst,s0,4,0x3580,one);
     s1=func_02045EC0(bank,1);
     RTC_GetDate((struct RTCDate *)date);
-    func_0201EFA4(ws,0,date[0],2,2,one);
-    func_0201EFA4(ws,one,date[1],2,0,one);
-    func_0201EFA4(ws,2,date[2],2,0,one);
-    func_0201F250(ws,dst,s1);
+    WORDSET_SetSlotNumber(ws,0,date[0],2,2,one);
+    WORDSET_SetSlotNumber(ws,one,date[1],2,0,one);
+    WORDSET_SetSlotNumber(ws,2,date[2],2,0,one);
+    WORDSET_CopyTaggedText(ws,dst,s1);
     print_record(p,1,dst,s1,0,0x3DC0,one);
     s2=func_02045EC0(bank,2);
     RTC_GetTime((struct RTCTime *)clock);
-    func_0201EFA4(ws,0,clock[0],2,0,one);
-    func_0201EFA4(ws,one,clock[1],2,2,one);
-    func_0201F250(ws,dst,s2);
+    WORDSET_SetSlotNumber(ws,0,clock[0],2,0,one);
+    WORDSET_SetSlotNumber(ws,one,clock[1],2,2,one);
+    WORDSET_CopyTaggedText(ws,dst,s2);
     print_record(p,2,dst,s2,0,0x3DC0,one);
     s3=func_02045EC0(bank,3);
-    func_0201F158(ws,0,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(((struct Obj00166 *)p)->f0))));
-    func_0201F250(ws,dst,s3);
+    WORDSET_SetSlotFromMsg59(ws,0,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(((struct Obj00166 *)p)->f0))));
+    WORDSET_CopyTaggedText(ws,dst,s3);
     print_record(p,3,dst,s3,0,0x3DC0,one);
     s4=func_02045EC0(bank,4);
-    func_0201EFA4(ws,0,BEACON_CountFlags(GAME_DATA_GetMiscSave(ctx)),2,0,1);
-    func_0201F250(ws,dst,s4);
+    WORDSET_SetSlotNumber(ws,0,BEACON_CountFlags(GAME_DATA_GetMiscSave(ctx)),2,0,1);
+    WORDSET_CopyTaggedText(ws,dst,s4);
     print_record(p,4,dst,s4,0,0x3DC0,one);
     if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(((struct Obj00166 *)p)->f0)),0x962)==1) {
         s5=func_02045EC0(bank,5);
-        func_0201EFA4(ws,0,ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(ctx),((struct Obj00166 *)p)->f12C),3,0,1);
-        func_0201F250(ws,dst,s5);
+        WORDSET_SetSlotNumber(ws,0,ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(ctx),((struct Obj00166 *)p)->f12C),3,0,1);
+        WORDSET_CopyTaggedText(ws,dst,s5);
         print_record(p,5,dst,s5,0,0x3DC0,one);
     }
     s6=func_02045EC0(bank,6);
     time=(void *)GAME_DATA_GetPlayTime((u32)ctx);
-    func_0201EFA4(ws,0,func_0200864C(time),3,0,1);
-    func_0201EFA4(ws,1,func_02008650(time),2,2,1);
-    func_0201F250(ws,dst,s6);
+    WORDSET_SetSlotNumber(ws,0,func_0200864C(time),3,0,1);
+    WORDSET_SetSlotNumber(ws,1,func_02008650(time),2,2,1);
+    WORDSET_CopyTaggedText(ws,dst,s6);
     print_record(p,6,dst,s6,0,0x3DC0,one);
     if(func_020071F0(ctrl)==0 && func_020071EC(ctrl)==1) {
         t=func_02008748(ctrl);
         s7=func_02045EC0(bank,7);
-        func_0201EFA4(ws,0,func_020086C8(t),2,2,1);
-        func_0201EFA4(ws,1,func_020086D0(t),2,0,1);
-        func_0201EFA4(ws,2,func_020086D8(t),2,0,1);
-        func_0201EFA4(ws,3,func_020086E0(t),2,0,1);
-        func_0201EFA4(ws,4,func_020086E8(t),2,2,1);
-        func_0201F250(ws,dst,s7);
+        WORDSET_SetSlotNumber(ws,0,func_020086C8(t),2,2,1);
+        WORDSET_SetSlotNumber(ws,1,func_020086D0(t),2,0,1);
+        WORDSET_SetSlotNumber(ws,2,func_020086D8(t),2,0,1);
+        WORDSET_SetSlotNumber(ws,3,func_020086E0(t),2,0,1);
+        WORDSET_SetSlotNumber(ws,4,func_020086E8(t),2,2,1);
+        WORDSET_CopyTaggedText(ws,dst,s7);
         print_record(p,7,dst,s7,4,0x3580,one);
     } else BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00166 *)p)->f44);
     STRBUF_Delete(dst);

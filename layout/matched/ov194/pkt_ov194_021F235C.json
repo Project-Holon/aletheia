@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F235C",
+   "name": "NAMEIN_GRAPHIC_CommitSecondary",
    "address": "0x021F235C",
    "kind": "game",
    "region": "ov194",

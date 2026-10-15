@@ -1,7 +1,7 @@
 /*
  * file:     dwc_reliable.c
  * unit:     yes
- * function: func_02176B68, func_02176B80, func_02176BE4, func_02176C00, func_02176C14, func_02176CF8
+ * function: func_02176B68, DWCi_CleanupReliableQueue, DWCi_IsReliableQueueFree, DWCi_ProcessReliableQueue, DWCi_ProcessReliableQueueEx, DWCi_InsertReliableQueue
  * address:  0x02176B68
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -40,11 +40,11 @@ extern void func_02195CC0(void);
 extern void *DWC_Alloc(int kind, int size);
 extern void MIi_CpuCopy32(void *src, void *dst, int size);
 void func_02176B68(void);
-void func_02176B80(char *p);
-int func_02176BE4(void);
-int func_02176C00(void);
-int func_02176C14(int (*func)(void *, unsigned char *, int, int));
-int func_02176CF8(void *connection, unsigned char *buffer, int size);
+void DWCi_CleanupReliableQueue(char *p);
+int DWCi_IsReliableQueueFree(void);
+int DWCi_ProcessReliableQueue(void);
+int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int));
+int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size);
 extern QueueInfo g_021AB178;
 extern SendQueue *g_021AB178_head;
 
@@ -62,7 +62,7 @@ void func_02176B68(void)
 }
 
 
-void func_02176B80(char *p)
+void DWCi_CleanupReliableQueue(char *p)
 {
     SendQueue *it;
 
@@ -82,15 +82,15 @@ void func_02176B80(char *p)
 /*
  * Set while the word at +4 of the state object is under 0x6000.
  */
-int func_02176BE4(void)
+int DWCi_IsReliableQueueFree(void)
 {
     return g_021AB178.total < 0x6000;
 }
 
 
-int func_02176C00(void)
+int DWCi_ProcessReliableQueue(void)
 {
-    return func_02176C14((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
+    return DWCi_ProcessReliableQueueEx((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
 }
 
 
@@ -98,7 +98,7 @@ int func_02176C00(void)
 /*
  * sdk:      DWCi_ProcessReliableQueueEx (libdwcmatch.TWL.HYB.a dwc_reliable.o)
  */
-int func_02176C14(int (*func)(void *, unsigned char *, int, int))
+int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
 {
     SendQueue *it;
     int retrycount;
@@ -146,9 +146,9 @@ int func_02176C14(int (*func)(void *, unsigned char *, int, int))
  * compiler CSEs them into r6 and the function is 8 bytes short.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02176CF8.c  *       --func func_02176CF8 --addr 0x02176CF8 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02176CF8.c  *       --func DWCi_InsertReliableQueue --addr 0x02176CF8 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
-int func_02176CF8(void *connection, unsigned char *buffer, int size)
+int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
 {
     SendQueue *it;
     SendQueue **target = &g_021AB178_head;

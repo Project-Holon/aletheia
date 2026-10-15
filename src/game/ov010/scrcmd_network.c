@@ -39,7 +39,7 @@
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  *   SCRIPT_WORK_ResetCheckFlag   0x02159168  thumb  ov010
- *   func_0201214C  0x0201214C  thumb
+ *   ICA_ANIME_IsConfigFlagSet  0x0201214C  thumb
  *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   SCRIPT_WORK_SetReturnFlag 0x02159114 thumb ov010
@@ -47,14 +47,14 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetField158  0x02012844  thumb
- *   func_0215A480  0x0215A480  thumb  ov010
+ *   EVENT_POKE_STATUS_AddMs3000  0x0215A480  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcEventId  0x02162788  thumb  ov010
- *   func_0215A490  0x0215A490  thumb  ov010
+ *   EVENT_POKE_STATUS_AddMs5000  0x0215A490  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcObjCode  0x02162774  thumb  ov010
  *   SCRIPT_WORK_GetGameSystem 0x02158F54 thumb ov010
- *   func_0215A500 0x0215A500 thumb ov010
+ *   EVENT_POKE_STATUS_ResetFlag 0x0215A500 thumb ov010
  *   func_020056EC  0x020056EC  thumb
- *   func_02159F80 0x02159F80 thumb ov010
+ *   MAP_REPLACE_GetDefaultWarpId 0x02159F80 thumb ov010
  *   GAME_DATA_GetSituationWarpId 0x02012914 thumb
  *   BRIGHTNESS_Set  0x02023F60  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
@@ -123,7 +123,7 @@
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
  *   FIELD_SUBSCREEN_ClearPanelResult  0x021A0FA8  thumb  ov021
  *   FIELD_SUBSCREEN_GetMenuSelectedButton  0x021A12A4  thumb  ov021
- *   func_021945A4  0x021945A4  thumb  ov021
+ *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent  0x021945A4  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   MOVE_POKEMON_InitSkillInfo  0x0215E840  thumb  ov010
@@ -331,10 +331,10 @@ extern void SCRIPT_WORK_SetReturnFlag(struct ScriptCtl *scriptCtl, void *table);
 extern void *SCRIPT_WORK_GetReturnFlag(struct ScriptCtl *scriptCtl);
 extern void SCRIPT_WORK_SetCheckFlag(int flagNo);
 extern void SCRIPT_WORK_ResetCheckFlag(int flagNo);
-extern void func_0215A500(struct EventWork *eventWork, unsigned eventKey);
-extern u16 func_0215A480(unsigned eventKey);
-extern u16 func_0215A490(unsigned eventKey);
-extern int func_02159F80(void);
+extern void EVENT_POKE_STATUS_ResetFlag(struct EventWork *eventWork, unsigned eventKey);
+extern u16 EVENT_POKE_STATUS_AddMs3000(unsigned eventKey);
+extern u16 EVENT_POKE_STATUS_AddMs5000(unsigned eventKey);
+extern int MAP_REPLACE_GetDefaultWarpId(void);
 extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u32 scriptId, u32 targetObj, u32 param, u32 mode);
 extern void SCRIPT_SYS_RunRecoverScript(struct GameSystem *gameSystem, int value);
 extern int INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
@@ -356,7 +356,7 @@ extern struct GameData *ICA_ANIME_GetField1C(struct GameSystem *gameSystem);
 extern struct FieldMap *ICA_ANIME_GetField20(struct GameSystem *gameSystem);
 extern struct GameComm *ICA_ANIME_GetField24(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 commBlocked);
-extern u32 func_0201214C(struct GameSystem *gameSystem);
+extern u32 ICA_ANIME_IsConfigFlagSet(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, u32 alwaysNet);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const void *procData, void *procArg);
@@ -431,7 +431,7 @@ extern int FIELD_SUBSCREEN_GetPanelResult(struct FieldCommLink *link);
 extern void FIELD_SUBSCREEN_ClearPanelResult(struct FieldCommLink *link);
 extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(struct FieldCommLink *link);
 extern void FIELD_SUBSCREEN_SetMenuSelectedButton(struct FieldCommLink *link, int frameRate);
-extern struct GameEvent *func_021945A4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 linkMode);
+extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 linkMode);
 extern void FLDMMDL_SysPauseMove(struct MoveModelSys *moveModelSys);
 extern u32 *FLDMMDL_SysResumeMove(struct MoveModelSys *moveModelSys);
 extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *info);
@@ -620,7 +620,7 @@ int SCRCMD_NETWORK_CmdGetAlwaysNet(ScriptVm *vm, struct ScriptWork *scriptWork)
 
     gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    *resultVar = func_0201214C(gameSystem);
+    *resultVar = ICA_ANIME_IsConfigFlagSet(gameSystem);
     return 0;
 }
 
@@ -669,7 +669,7 @@ int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScriptWork *scri
     eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     eventKey = table[(u16)SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB)].eventKey;
-    EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlot, func_0215A480(eventKey));
+    EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlot, EVENT_POKE_STATUS_AddMs3000(eventKey));
     return 0;
 }
 
@@ -689,8 +689,8 @@ int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScriptWork *
     eventData = GAME_DATA_GetField158(SCRCMD_WORK_GetGameData(scriptWork));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     index = SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB);
-    EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlotA, func_0215A480(table[index].eventKey));
-    EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlotB, func_0215A490(table[index].eventKey));
+    EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlotA, EVENT_POKE_STATUS_AddMs3000(table[index].eventKey));
+    EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlotB, EVENT_POKE_STATUS_AddMs5000(table[index].eventKey));
     return 0;
 }
 
@@ -711,9 +711,9 @@ int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScriptWork *scr
     EVENTDATA_SYSTEM_SetNpcObjCode(eventData, slot0, table[row0].objCode);
     EVENTDATA_SYSTEM_SetNpcObjCode(eventData, slot1, table[row1].objCode);
     EVENTDATA_SYSTEM_SetNpcObjCode(eventData, slot2, table[row2].objCode);
-    EVENTDATA_SYSTEM_SetNpcEventId(eventData, slot0, func_0215A480(table[row0].eventKey));
-    EVENTDATA_SYSTEM_SetNpcEventId(eventData, slot1, func_0215A480(table[row1].eventKey));
-    EVENTDATA_SYSTEM_SetNpcEventId(eventData, slot2, func_0215A480(table[row2].eventKey));
+    EVENTDATA_SYSTEM_SetNpcEventId(eventData, slot0, EVENT_POKE_STATUS_AddMs3000(table[row0].eventKey));
+    EVENTDATA_SYSTEM_SetNpcEventId(eventData, slot1, EVENT_POKE_STATUS_AddMs3000(table[row1].eventKey));
+    EVENTDATA_SYSTEM_SetNpcEventId(eventData, slot2, EVENT_POKE_STATUS_AddMs3000(table[row2].eventKey));
     return 0;
 }
 
@@ -729,7 +729,7 @@ int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScriptWork *scrip
     eventWork = GAME_DATA_GetEventWork(ICA_ANIME_GetField1C(SCRIPT_WORK_GetGameSystem(scriptCtl)));
     table = SCRIPT_WORK_GetReturnFlag(scriptCtl);
     for (i = 0; i < NPC_TABLE_ROW_COUNT; i++)
-        func_0215A500(eventWork, table[i].eventKey);
+        EVENT_POKE_STATUS_ResetFlag(eventWork, table[i].eventKey);
     return 0;
 }
 
@@ -807,7 +807,7 @@ int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB)
 /* TRUE when the situation warp id differs from the current one. */
 BOOL SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData)
 {
-    int currentWarpId = func_02159F80();
+    int currentWarpId = MAP_REPLACE_GetDefaultWarpId();
 
     if (currentWarpId == GAME_DATA_GetSituationWarpId(gameData))
         return FALSE;
@@ -1373,7 +1373,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(struct GameEvent *event, u32 *seq, 
     case 3:
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         if (work->request.result != 1 && work->request.result != 4) {
-            GAME_EVENT_ChangeEvent(event, func_021945A4(GAME_EVENT_GetGameSystem(event), work->fieldMap, work->linkMode));
+            GAME_EVENT_ChangeEvent(event, FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(GAME_EVENT_GetGameSystem(event), work->fieldMap, work->linkMode));
             return 0;
         }
         return 1;

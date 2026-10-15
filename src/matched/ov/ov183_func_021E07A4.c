@@ -1,5 +1,5 @@
 /*
- * function: func_021E07A4
+ * function: BR_CODEIN_ProfileCreateObject
  * address: 0x021E07A4
  * packet: pkt_ov183_021E07A4
  * region: ov183
@@ -18,7 +18,7 @@ struct Object { int capacity; int entries[4]; int unused; void *vector; void *a;
 extern char d_021E3968[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *STRBUF_Create(u32, u16);
-struct Object *func_021E07A4(int heap, int n, void *a, void *b, void *c, int *entries)
+struct Object *BR_CODEIN_ProfileCreateObject(int heap, int n, void *a, void *b, void *c, int *entries)
 {
     int i;
     struct Object *p;

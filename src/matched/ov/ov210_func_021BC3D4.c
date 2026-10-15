@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3D4
+ * function: ZKNSEARCH_SYS_SetVramBanks
  * address:  0x021BC3D4
  * packet:   pkt_ov210_021BC3D4
  * region:   ov210
@@ -27,7 +27,7 @@ extern void BG_SYS_ClearGraphicsMemory(u32 a);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-void func_021BC3D4(void)
+void ZKNSEARCH_SYS_SetVramBanks(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C0754);

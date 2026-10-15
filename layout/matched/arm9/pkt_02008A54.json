@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02008A54",
+   "name": "TRCARD_SIGN_GetBadgeDate",
    "address": "0x02008A54",
    "kind": "game",
    "region": "arm9",

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ typedef struct Ring {
 
 Entry *UNION_CHAT_LOG_GetLine(Ring *r, int i);
 typedef signed int     s32;
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 /* A u16 `c` (not int/u32) is what stores c's spill before b's. */
 int UNION_CHAT_LOG_IsNew(Ring *r, const void *b, u16 c)
@@ -47,7 +47,7 @@ int UNION_CHAT_LOG_IsNew(Ring *r, const void *b, u16 c)
     for (i = r->count; i > r->count - 30; i--) {
         if (i < 0) return 1;
         p = UNION_CHAT_LOG_GetLine(r, i);
-        if (p != 0 && func_0203EFC8(p->key, b, 6) == 0) {
+        if (p != 0 && GF_STANDARD_CompareBytes(p->key, b, 6) == 0) {
             if (p->h != c) return 1;
             return 0;
         }

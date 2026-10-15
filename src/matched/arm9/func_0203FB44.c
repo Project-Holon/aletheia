@@ -18,7 +18,7 @@
  *
  * TU: bg_sys.c.
  *
- * Release half of the pair whose reserve half is sub_02042FF8: same arena
+ * Release half of the pair whose reserve half is BG_SYS_SetupLayer: same arena
  * selection by layer index (0-3 at +0x168, 4-7 at +0x16c, anything else a
  * no-op) and the same round-up of a byte length to arena units, but the unit
  * here is the layer's own tile stride from sub_020416B8 rather than the

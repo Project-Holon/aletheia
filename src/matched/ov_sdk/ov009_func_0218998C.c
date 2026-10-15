@@ -1,5 +1,5 @@
 /*
- * function: func_0218998C
+ * function: gpiSendFromBuffer
  * address:  0x0218998C
  * packet:   pkt_0219091C
  * region:   ov009
@@ -15,7 +15,7 @@
  * memmoved out and len shrinks; otherwise pos advances.  Publishes the new
  * len/pos and, when connClosed is non-NULL, the closed flag.
  *
- * GPIBuffer here is DWC's field order {buffer, size, len, pos}: func_0218934C
+ * GPIBuffer here is DWC's field order {buffer, size, len, pos}: gpiAppendCharToBuffer
  * treats +4 as size and +8 as len, while this routine reads len at +8 and
  * pos at +0xc.
  *
@@ -35,7 +35,7 @@ extern int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
                          int *closed, int *sent, char *id);
 extern void *memmove(void *dest, const void *src, unsigned int n);
 
-int func_0218998C(int *connection, int sock, GPIBuffer *outputBuffer,
+int gpiSendFromBuffer(int *connection, int sock, GPIBuffer *outputBuffer,
                   int *connClosed, int clipSentData, char *id)
 {
     int closed;

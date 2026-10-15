@@ -1,5 +1,5 @@
 /*
- * function: func_022107A8
+ * function: B_PLIST_MAIN_ReadSummary
  * address: 0x022107A8
  * packet: pkt_ov198_022107A8
  * region: ov198
@@ -52,7 +52,7 @@ extern u32 func_02018584(u16,u16,u16);
 extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
 extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16);
-void func_022107A8(void *unused,void *mon,struct Summary *p)
+void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
 {
     u32 exp;
     unsigned i;

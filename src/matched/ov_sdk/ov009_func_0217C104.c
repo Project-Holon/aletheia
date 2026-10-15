@@ -1,5 +1,5 @@
 /*
- * function: func_0217C104
+ * function: DWC_Svl_Cleanup
  * address:  0x0217C104
  * packet:   pkt_ov009_0217C104
  * region:   ov009
@@ -25,7 +25,7 @@ typedef struct {
 extern struct Svl *g_021ACEF4;
 extern void DWC_Http_Destroy(char *http);
 
-void func_0217C104(void)
+void DWC_Svl_Cleanup(void)
 {
     if (g_021ACEF4 == 0) {
         return;

@@ -12,7 +12,7 @@
  * sdk:      ghiDoConnecting (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   SetSockBlocking  0x0217EE50  arm  ov009
@@ -70,7 +70,7 @@ struct GHIConnection {
     GHIEncryptor encryptor;     /* 0x194 */
 };
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int GOAGetLastError(int socket);
 extern int SetSockBlocking(int sock, int isblocking);
@@ -91,7 +91,7 @@ void ghiDoConnecting(GHIConnection *connection)
     int writeFlag;
     int exceptFlag;
 
-    func_0217D254(8, (char *)3, 0x10, sGhttpConnecting);
+    gsDebugFormat(8, (char *)3, 0x10, sGhttpConnecting);
 
     if (connection->socket == -1)
     {

@@ -30,7 +30,7 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
- *   func_02030DA4  0x02030DA4  arm
+ *   TCB_Noop  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -57,7 +57,7 @@ extern void GFL_NET_RestartNoTimeout(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
-extern void func_02030DA4(int a);
+extern void TCB_Noop(int a);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
@@ -83,7 +83,7 @@ void C_GEAR_Cleanup(char *p)
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3);
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1);
     PALANM_Delete((void *)(*(int *)(p + 0x210)));
-    func_02030DA4(*(int *)(p + 0x204));
+    TCB_Noop(*(int *)(p + 0x204));
     func_020307B0((void *)(*(int *)(p + 0x20c)));
     func_02030EAC((struct Node *)(*(int *)(p + 0x208)));
     if (*(int *)(p + 0x218) != 5) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6FC4
+ * function: VIEWER_TEXT_Create
  * address:  0x021C6FC4
  * packet:   pkt_ov111_021C6FC4
  * region:   ov111
@@ -13,17 +13,17 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_021C7130  0x021C7130  thumb
- *   func_021C7208  0x021C7208  thumb
- *   func_021C7228  0x021C7228  thumb
- *   func_021C72FC  0x021C72FC  thumb
- *   func_021C7504  0x021C7504  thumb
- *   func_021C75E4  0x021C75E4  thumb
- *   func_021C76A4  0x021C76A4  thumb
- *   func_021C7744  0x021C7744  thumb
- *   func_021C78C4  0x021C78C4  thumb
- *   func_021C7934  0x021C7934  thumb
- *   func_021C81A4  0x021C81A4  thumb
+ *   VIEWER_TEXT_LoadResources  0x021C7130  thumb
+ *   VIEWER_TEXT_InitVram  0x021C7208  thumb
+ *   VIEWER_TEXT_InitBg  0x021C7228  thumb
+ *   VIEWER_TEXT_LoadBgResources  0x021C72FC  thumb
+ *   VIEWER_TEXT_InitClact  0x021C7504  thumb
+ *   VIEWER_ACTOR_CreateObjects  0x021C75E4  thumb
+ *   VIEWER_ACTOR_Init3D  0x021C76A4  thumb
+ *   VIEWER_ACTOR_CreateModel  0x021C7744  thumb
+ *   VIEWER_ACTOR_InitBgWindow  0x021C78C4  thumb
+ *   VIEWER_ACTOR_CreateFont  0x021C7934  thumb
+ *   VIEWER_ACTOR_SetSelection  0x021C81A4  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *
@@ -108,38 +108,38 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MIi_CpuClearFast(int v, void *p, int size);
-extern void func_021C7130(Work *p, void *parent);
-extern void func_021C7208(void);
-extern void func_021C7228(Work *p);
-extern void func_021C72FC(Work *p);
-extern void func_021C7504(Work *p);
-extern void func_021C75E4(Work *p);
-extern void func_021C76A4(Work *p);
-extern void func_021C7744(Work *p);
-extern void func_021C78C4(Work *p);
-extern void func_021C7934(Work *p);
-extern void func_021C81A4(Work *p, u16 v);
+extern void VIEWER_TEXT_LoadResources(Work *p, void *parent);
+extern void VIEWER_TEXT_InitVram(void);
+extern void VIEWER_TEXT_InitBg(Work *p);
+extern void VIEWER_TEXT_LoadBgResources(Work *p);
+extern void VIEWER_TEXT_InitClact(Work *p);
+extern void VIEWER_ACTOR_CreateObjects(Work *p);
+extern void VIEWER_ACTOR_Init3D(Work *p);
+extern void VIEWER_ACTOR_CreateModel(Work *p);
+extern void VIEWER_ACTOR_InitBgWindow(Work *p);
+extern void VIEWER_ACTOR_CreateFont(Work *p);
+extern void VIEWER_ACTOR_SetSelection(Work *p, u16 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-int func_021C6FC4(void *proc, int *seq, void *parent)
+int VIEWER_TEXT_Create(void *proc, int *seq, void *parent)
 {
     Work *p;
 
     GFL_HEAP_CreateChildHeap(1, 0x27, 0x20000);
     p = PROCSYS_AllocProcWork(proc, 0x1C8, 0x27);
     MIi_CpuClearFast(0, p, 0x1C8);
-    func_021C7130(p, parent);
-    func_021C7208();
-    func_021C7228(p);
-    func_021C72FC(p);
-    func_021C7504(p);
-    func_021C75E4(p);
-    func_021C76A4(p);
-    func_021C7744(p);
-    func_021C78C4(p);
-    func_021C7934(p);
-    func_021C81A4(p, p->f114);
+    VIEWER_TEXT_LoadResources(p, parent);
+    VIEWER_TEXT_InitVram();
+    VIEWER_TEXT_InitBg(p);
+    VIEWER_TEXT_LoadBgResources(p);
+    VIEWER_TEXT_InitClact(p);
+    VIEWER_ACTOR_CreateObjects(p);
+    VIEWER_ACTOR_Init3D(p);
+    VIEWER_ACTOR_CreateModel(p);
+    VIEWER_ACTOR_InitBgWindow(p);
+    VIEWER_ACTOR_CreateFont(p);
+    VIEWER_ACTOR_SetSelection(p, p->f114);
     GFL_NET_RestartWithDefaultTimeout(1, 0x27);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x27);
     return 1;

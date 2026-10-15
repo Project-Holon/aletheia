@@ -79,7 +79,7 @@
  *   as u8 locals assigned b, g, r and passed r, g, b (keeps col in r0, the
  *   image's r2-first order, and with it q r6 / i*8 r7, the 0x224/0x22c hoist
  *   slot order and the w/2 spill in the third print); (2) `const Slots *q`
- *   (q + i formed before the stack-argument stores of both func_0201EFA4
+ *   (q + i formed before the stack-argument stores of both WORDSET_SetSlotNumber
  *   calls); (3) the enum VRAM_BASE local of the EXACT sibling BTLV_INPUT_CreateBackActor
  *   for the 0x06600000 + buf operand order. Measured inert or worse:
  *   opt_lifetimes off (alone 713, with CSE off no change), optimization_level
@@ -113,6 +113,9 @@
  *   MIi_CpuCopy16  0x02082A60  arm  arm9
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj21781.h"
 #include "../include/Obj21782.h"
@@ -164,9 +167,9 @@ extern void MIi_CpuCopy16(const void *, void *, int);
 extern u32 func_020307B0(void *p);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
@@ -252,13 +255,13 @@ void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
             func_020307B0(chr);
             GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
             GF_FONT_SetTextColor(1, 2, 0);
-            func_0201EF34((struct WordSet *)font, 0, q->id[i]);
-            func_0201F250((struct WordSet *)font, str1, m0);
+            WORDSET_SetSlotFromMsgCB((struct WordSet *)font, 0, q->id[i]);
+            WORDSET_CopyTaggedText((struct WordSet *)font, str1, m0);
             BTLV_INPUT_GetTextBlockSize(str1, (int)p->fnt, &w, &h);
             PRINTSYS_Print(p->win, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, p->fnt);
-            func_0201EFA4((struct WordSet *)font, 0, q->a[i], 2, 1, 1);
-            func_0201EFA4((struct WordSet *)font, 1, q->b[i], 2, 1, 1);
-            func_0201F250((struct WordSet *)font, str2, m2);
+            WORDSET_SetSlotNumber((struct WordSet *)font, 0, q->a[i], 2, 1, 1);
+            WORDSET_SetSlotNumber((struct WordSet *)font, 1, q->b[i], 2, 1, 1);
+            WORDSET_CopyTaggedText((struct WordSet *)font, str2, m2);
             col = BTLV_INPUT_GetNeighbourIndex(q->a[i], q->b[i]);
             cb = (u8)(col & 0x1f);
             cg = (u8)((col >> 5) & 0x1f);

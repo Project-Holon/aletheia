@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3E8
+ * function: ZKNSEARCH_SYS_GetVramBanks
  * address:  0x021BC3E8
  * packet:   pkt_ov210_021BC3E8
  * region:   ov210
@@ -22,7 +22,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern u8 d_021C0754[];
 
-void *func_021BC3E8(void)
+void *ZKNSEARCH_SYS_GetVramBanks(void)
 {
     return d_021C0754;
 }

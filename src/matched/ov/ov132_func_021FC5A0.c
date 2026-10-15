@@ -1,5 +1,5 @@
 /*
- * function: func_021FC5A0
+ * function: SCRIPT_COMMAND_CmdInstallBgm
  * address:  0x021FC5A0
  * packet:   pkt_021FC5A0
  * region:   ov132
@@ -23,7 +23,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void STA_ACTING_InstallBgm(char *p, int a);
 
-int func_021FC5A0(int a, char **pp)
+int SCRIPT_COMMAND_CmdInstallBgm(int a, char **pp)
 {
     char *p = *pp;
     int x = VM_GetU32((struct Cursor *)(((struct Obj14122 *)pp)->f4));

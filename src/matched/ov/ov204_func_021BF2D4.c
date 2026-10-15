@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  */
 #include "../include/Obj25385.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0201F7A8(void*,u32);
-void func_021BF2D4(u8*p){func_0201F7A8(*(void* *)&((struct Obj25385 *)p)->f1C,0);}
+extern void BMP_MENUWORK_DrawWindowBorder(void*,u32);
+void func_021BF2D4(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((struct Obj25385 *)p)->f1C,0);}

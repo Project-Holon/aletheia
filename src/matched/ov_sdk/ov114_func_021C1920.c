@@ -12,8 +12,8 @@
  * sdk:      ghiEncryptorSslInitFunc (libdwcgsghttp.TWL.HYB.a ghttpencryption.o)
  *
  * symbols:
- *   func_0217D254  0x0217d254  arm   ov009
- *   func_0217EAB0  0x0217eab0  arm   ov009
+ *   gsDebugFormat  0x0217d254  arm   ov009
+ *   gsimalloc  0x0217eab0  arm   ov009
  *   ghiTwlSSLInit  0x021c1804  arm   ov114
  *   sGhttpEncryptionFileName     0x021ce7b0  data
  *   sFuncNameGhiEncryptorSslInitFunc     0x021ce696  data
@@ -44,8 +44,8 @@ typedef struct GHIEncryptor {
     int field1C;
 } GHIEncryptor;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void *func_0217EAB0(unsigned long);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void *gsimalloc(unsigned long);
 struct CPSSslConnection;
 extern struct CPSSslConnection *ghiTwlSSLInit(char *url);
 extern char sGhttpEncryptionFileName[];
@@ -59,10 +59,10 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
 {
     GsTwlSslInterface *sslInterface;
 
-    func_0217D254(8, (char *)4, 0xf, sGhttpEncryptionLocationFormat, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x417);
-    theEncryptor->engine = func_0217EAB0(8);
+    gsDebugFormat(8, (char *)4, 0xf, sGhttpEncryptionLocationFormat, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x417);
+    theEncryptor->engine = gsimalloc(8);
     if (theEncryptor->engine == 0) {
-        func_0217D254(8, (char *)2, 2, sGhttpFailedToAllocateSslInterface, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x425, 8);
+        gsDebugFormat(8, (char *)2, 2, sGhttpFailedToAllocateSslInterface, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x425, 8);
         return 3;
     }
     {
@@ -80,7 +80,7 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
     sslInterface->sslCon = ghiTwlSSLInit(connection->url);
     sslInterface->field4 = 0;
     if (sslInterface->sslCon == 0) {
-        func_0217D254(8, (char *)4, 0xf, sGhttpGamespySslTwlCertificateIs, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x431);
+        gsDebugFormat(8, (char *)4, 0xf, sGhttpGamespySslTwlCertificateIs, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x431);
         return 3;
     }
     theEncryptor->field8 = 1;
@@ -89,6 +89,6 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
     theEncryptor->field14 = 0;
     theEncryptor->field18 = 1;
     theEncryptor->field1C = 1;
-    func_0217D254(8, (char *)4, 0xf, sGhttpGamespySslTwlEngineInitialized, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x43d);
+    gsDebugFormat(8, (char *)4, 0xf, sGhttpGamespySslTwlEngineInitialized, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x43d);
     return 1;
 }

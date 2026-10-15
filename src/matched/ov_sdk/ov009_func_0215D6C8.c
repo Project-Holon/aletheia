@@ -1,5 +1,5 @@
 /*
- * function: func_0215D6C8
+ * function: SOCL_ReadFrom
  * address:  0x0215D6C8
  * packet:   pkt_ov009_0215D6C8
  * region:   ov009
@@ -16,7 +16,7 @@
  *   func_020879EC  0x020879EC  arm
  *   OS_TryLockMutex  0x020860D0  arm
  *   OS_LockMutex  0x02086028  arm
- *   func_0215D7FC  0x0215D7FC  arm  ov009
+ *   SOCLi_ReadAndConsumeBuffer  0x0215D7FC  arm  ov009
  *   func_02086078  0x02086078  arm
  *
  * The second state test is a volatile load: the image reloads socket->state between the two bit tests.
@@ -40,7 +40,7 @@ extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int func_020879EC(void);
 extern int OS_TryLockMutex(void *mutex);
 extern void OS_LockMutex(void *mutex);
-extern int func_0215D7FC(char *a, int b, int c, int d, int e, int f, int g);
+extern int SOCLi_ReadAndConsumeBuffer(char *a, int b, int c, int d, int e, int f, int g);
 extern void func_02086078(void *mutex);
 
 static inline int isNotReady(struct SOCLSocket *socket)
@@ -59,7 +59,7 @@ static inline int isStream(signed char m)
     return r;
 }
 
-int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip,
+int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip,
                   int flags)
 {
     struct SOCLiSocketRecvCommandPipe *recv_pipe;
@@ -89,7 +89,7 @@ int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_po
     } else {
         OS_LockMutex(recv_pipe->mutex);
     }
-    result = func_0215D7FC((char *)socket, (int)buffer, buffer_len, (int)remote_port, (int)remote_ip, flag_block, flags);
+    result = SOCLi_ReadAndConsumeBuffer((char *)socket, (int)buffer, buffer_len, (int)remote_port, (int)remote_ip, flag_block, flags);
     func_02086078(recv_pipe->mutex);
     return result;
 }

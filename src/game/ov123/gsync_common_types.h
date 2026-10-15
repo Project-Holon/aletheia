@@ -66,13 +66,13 @@ struct GsyncSlotPos {
     s32 mode;   /* 0x08, copied to the actor position mode byte */
 };
 
-/* Palette file record returned through func_02049F78 and func_02062A98. */
+/* Palette file record returned through func_02049F78 and NNS_G2dGetUnpackedPaletteData. */
 typedef struct GsyncPaletteData {
     u8 unknown_00[12];      /* 0x00 */
     void *rawData;          /* 0x0C */
 } GsyncPaletteData;
 
-/* Nitro sub-file record returned through func_02062A4C. */
+/* Nitro sub-file record returned through NNS_G2dGetUnpackedCharacterDataEx. */
 typedef struct GsyncGfxData {
     u8 unknown_00[20];      /* 0x00 */
     void *rawData;          /* 0x14 */
@@ -95,7 +95,7 @@ typedef struct GsyncDispParticle {
     u16 age;                /* 0x0C */
     u16 active;             /* 0x0E, set when the particle is spawned */
     u16 species;            /* 0x10, icon species of the row */
-    u16 formArg;            /* 0x12, second argument of func_02019D30 */
+    u16 formArg;            /* 0x12, second argument of POKE_TOOL_NormalizeForm */
     u16 gender;             /* 0x14 */
     u16 finished;           /* 0x16, set when the actor is gone */
 } GsyncDispParticle;

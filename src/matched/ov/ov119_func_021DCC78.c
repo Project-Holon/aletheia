@@ -12,14 +12,14 @@
  *   POKETRADE_PROC_InitTradeWork 0x021DC894 thumb ov119
  *   POKETRADE_PROC_SetupMcssPokemon 0x021DCBA4 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021D59B0 0x021D59B0 thumb ov118
+ *   POKETRADE_DEMO_UP_StepStartDownScene 0x021D59B0 thumb ov118
  */
 #include "../include/Obj01728.h"
 extern void *POKETRADE_PROC_AllocTradeWork(void *, int);
 extern int POKETRADE_PROC_InitTradeWork(int a, int b, char *q, char *p, int n);
 extern void POKETRADE_PROC_SetupMcssPokemon(char *a, char *p);
 extern void POKETRADE_PROC_SetStep(void *, int);
-extern void func_021D59B0(unsigned char *);
+extern void POKETRADE_DEMO_UP_StepStartDownScene(unsigned char *);
 int POKETRADE_PROC_StartRequest7(void *a, int b, char *c)
 {
     void *p;
@@ -28,6 +28,6 @@ int POKETRADE_PROC_StartRequest7(void *a, int b, char *c)
     ((struct Obj01728 *)c)->f14 = ((struct Obj01728 *)c)->f30;
     r = POKETRADE_PROC_InitTradeWork((int)a, b, c, p, 7);
     POKETRADE_PROC_SetupMcssPokemon(c, p);
-    POKETRADE_PROC_SetStep(p, (int)func_021D59B0);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_UP_StepStartDownScene);
     return r;
 }

@@ -13,7 +13,7 @@
  *   GF_FONT_GetLineHeight 0x0201DC80 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02184EAC 0x02184EAC thumb ov219
  */
@@ -25,7 +25,7 @@ extern unsigned GF_FONT_GetLineHeight(struct Font *);
 typedef unsigned int   u32;
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
-extern void func_0201F73C(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void BMP_WIN_TransferChars(struct Descriptor *),func_02184EAC(int,int,int);
 void func_02184FC8(char *p,const struct Src *source,unsigned count)
 {
@@ -43,6 +43,6 @@ void func_02184FC8(char *p,const struct Src *source,unsigned count)
     cfg.w[12]=*(unsigned *)&((struct Obj01013 *)p)->fC06C;
     *(struct Obj * *)&((struct Obj01013 *)p)->fC04C=BMP_MENULIST_Create(&cfg,0,0,(u16)((struct Obj01013 *)p)->f0);
     BMP_MENULIST_ResetCursorTile(*(struct Obj * *)&((struct Obj01013 *)p)->fC04C,((struct Obj01013 *)p)->f0);
-    func_0201F73C(((struct Obj01013 *)p)->fC018,0,34,7);
+    BMP_MENUWORK_DrawWindow(((struct Obj01013 *)p)->fC018,0,34,7);
     BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj01013 *)p)->fC018);
 }

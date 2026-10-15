@@ -16,7 +16,7 @@
  *   func_021F055C  0x021F055C  thumb  ov032
  *   GAME_BEACON_ACCESSOR_TableGetRingIndex  0x021659F0  thumb  ov010
  *   func_021F0F44  0x021F0F44  thumb  ov032
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   BEACON_VIEW_SetPrintQueueLimit  0x021F029C  thumb  ov032
  *   func_021F18C4  0x021F18C4  thumb  ov032
  *   GAME_BEACON_SEARCH_SetThanks  0x021657E8  thumb  ov010
@@ -35,7 +35,7 @@ extern int func_021F055C(u8 *p);
 extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 extern u8 *func_021F0F44(u8 *p, int a);
 struct WordSet;
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void BEACON_VIEW_SetPrintQueueLimit(char *p, int flag);
 extern void func_021F18C4(char *p, int b);
 extern void GAME_BEACON_SEARCH_SetThanks(void *a, u16 b);
@@ -69,7 +69,7 @@ int func_021F0438(u8 *p)
     case 4:
         s = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)(((struct Obj00007 *)p)->f3C), p[0x7E] + p[0x7C]);
         e = func_021F0F44(p, s);
-        func_0201EE0C(((struct Obj00007 *)p)->f110, 0, ((struct Obj09795 *)e)->f24, e[4], 1, 2);
+        WORDSET_SetSlotTag(((struct Obj00007 *)p)->f110, 0, ((struct Obj09795 *)e)->f24, e[4], 1, 2);
         BEACON_VIEW_SetPrintQueueLimit((char *)p, 1);
         func_021F18C4((char *)p, 3);
         GAME_BEACON_SEARCH_SetThanks((void *)(*(int *)&((struct Obj00007 *)p)->f4), ((struct Obj09795 *)e)->f6);

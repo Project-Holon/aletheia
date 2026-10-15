@@ -1,5 +1,5 @@
 /*
- * function: func_0220D370
+ * function: B_BAG_MAIN_StateFadeOut
  * address: 0x0220D370
  * packet: pkt_ov197_0220D370
  * region: ov197
@@ -15,4 +15,4 @@
 typedef unsigned short u16;typedef unsigned char u8;typedef short s16;typedef struct PalAnmObj PalAnmObj;
 extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
-int func_0220D370(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
+int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}

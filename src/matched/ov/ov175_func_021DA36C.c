@@ -1,5 +1,5 @@
 /*
- * function: func_021DA36C
+ * function: WIFIBATTLEMATCH_NET_DisconnectWifi
  * address:  0x021DA36C
  * packet:   pkt_021DA36C
  * region:   ov175
@@ -24,7 +24,7 @@ extern void GFL_NET_SetLoginOption(u8 a0);
 typedef unsigned int   u32;
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 
-void func_021DA36C(void)
+void WIFIBATTLEMATCH_NET_DisconnectWifi(void)
 {
     GFL_NET_SetAutoExit(0);
     GFL_NET_SetLoginOption(0);

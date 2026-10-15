@@ -15,7 +15,7 @@
  *   DWCi_Acc_LoginIdToUserName  0x02059474  arm
  *   func_02185CB4  0x02185CB4  arm  ov009
  *   DWCi_HandleGPError  0x0216A460  arm  ov009
- *   func_02185BD8  0x02185BD8  arm  ov009
+ *   gpGetInfo  0x02185BD8  arm  ov009
  *   func_02185ACC  0x02185ACC  arm  ov009
  *   DWCi_RemoteLogin  0x0216A6F4  arm  ov009
  *   strcmp         0x020948E0  arm
@@ -64,7 +64,7 @@ struct DWCstAccUserData;
 extern void DWCi_Acc_LoginIdToUserName(struct DWCstAccLoginId *loginid, unsigned long gamecode, char *username);
 extern int func_02185CB4(void **connection, int info, char *value);
 extern int DWCi_HandleGPError(int result);
-extern int func_02185BD8(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern int gpGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern void func_02185ACC(void **connection);
 extern int DWCi_RemoteLogin(void);
 extern int strcmp(const char *a, const char *b);
@@ -90,7 +90,7 @@ void DWCi_GPGetInfoCallback(void **pconnection, GPGetInfoResponseArg *arg)
             if (DWCi_HandleGPError(gpResult))
                 return;
             gDwcLoginControl->state = 4;
-            gpResult = func_02185BD8(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))DWCi_GPGetInfoCallback, 0);
+            gpResult = gpGetInfo(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))DWCi_GPGetInfoCallback, 0);
             DWCi_HandleGPError(gpResult);
         } else {
             func_02185ACC(pconnection);
@@ -105,7 +105,7 @@ void DWCi_GPGetInfoCallback(void **pconnection, GPGetInfoResponseArg *arg)
             func_02185ACC(pconnection);
             DWCi_GPConnect(DWCi_GPConnectCallback, 2);
         } else {
-            gpResult = func_02185BD8(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))DWCi_GPGetInfoCallback, 0);
+            gpResult = gpGetInfo(pconnection, arg->profile, 0, 0, (void (*)(void **, void *, void *))DWCi_GPGetInfoCallback, 0);
             DWCi_HandleGPError(gpResult);
         }
     }

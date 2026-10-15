@@ -22,7 +22,7 @@
  *   DWCi_NodeInfoList_Clear                0x0217601C arm   ov009
  *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
  *   DWCi_CloseMatch                0x0216F6C0 arm   ov009
- *   func_02195DE4                0x02195DE4 arm   ov009
+ *   gt2CloseAllConnectionsHard                0x02195DE4 arm   ov009
  *   DWCi_NodeInfoList_GetNodeInfoForIndex                0x0217637C arm   ov009
  *   DWCi_GT2ClosedProcess                0x0216C230 arm   ov009
  *   DWC_GetState                0x0216B994 arm   ov009
@@ -68,7 +68,7 @@ extern void DWCi_ClearQR2Key(void);
 extern void DWCi_NodeInfoList_Clear(void);
 extern void DWCi_SetMatchStatus(int state);
 extern void DWCi_CloseMatch(void);
-extern void func_02195DE4(int *p);
+extern void gt2CloseAllConnectionsHard(int *p);
 extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 extern int DWC_GetState(void);
@@ -103,7 +103,7 @@ int DWC_CloseAllConnectionsHard(void)
         return 1;
     }
     ((struct DWCControl *)g_021AA878.st)->f2d = 1;
-    func_02195DE4((int *)((struct DWCControl *)g_021AA878.st)->socket);
+    gt2CloseAllConnectionsHard((int *)((struct DWCControl *)g_021AA878.st)->socket);
     while (DWCi_NodeInfoList_GetCount() > 1) {
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
             pNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Rebuilds one multi-cell node's SRT block from its current NANR frame record.
- * The node record comes through func_02062D40 and its descriptor through
- * func_020629E8; the frame's kind byte (a word masked with 0xff, not a ldrb)
+ * The node record comes through NNSi_G2dGetCellAnimationCurrentSequence and its descriptor through
+ * NNS_G2dGetMultiCellDataByIdx; the frame's kind byte (a word masked with 0xff, not a ldrb)
  * selects the arm: 0 does nothing, 2 is translation-only, anything else is the
  * full SRT form (scale, rotation, translation).  The walk finishes by handing
  * the descriptor and the node's own u16 counter at +0x30 to NNSi_G2dSetMCDataToMCInstanceImpl.
@@ -26,8 +26,8 @@
  * Under the pin this SAME C is 184 bytes, 0 mismatches, all 9 sites by label.
  *
  * symbols:
- *   func_020629E8   0x020629E8  arm
- *   func_02062D40   0x02062D40  arm
+ *   NNS_G2dGetMultiCellDataByIdx   0x020629E8  arm
+ *   NNSi_G2dGetCellAnimationCurrentSequence   0x02062D40  arm
  *   NNS_G2dSetCellAnimationBank   0x02062FF0  arm
  *   NNS_G2dSetSRTTranslate   0x020640DC  arm
  *   NNS_G2dSetSRTRotate   0x02064100  arm
@@ -82,10 +82,10 @@ struct Obj0206469C {
 struct CellAnim;
 struct O02064140;
 extern void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
-extern void *func_02062D40(struct CellAnim *anim);
+extern void *NNSi_G2dGetCellAnimationCurrentSequence(struct CellAnim *anim);
 struct MultiCellBank;
 struct MultiCellData;
-extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
+extern struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx);
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern void NNS_G2dSetSRTTranslate(struct Srt0206469C *srt, s16 x, s16 y);
 struct Obj02064100;
@@ -107,8 +107,8 @@ void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank)
         return;
     }
 
-    p = func_02062D40((struct CellAnim *)o);
-    r = (u32)func_020629E8(o->unk_44, p->unk_00);
+    p = NNSi_G2dGetCellAnimationCurrentSequence((struct CellAnim *)o);
+    r = (u32)NNS_G2dGetMultiCellDataByIdx(o->unk_44, p->unk_00);
     k = o->unk_1c->kind & 0xff;
 
     NNSi_G2dSrtcInitControl((struct O02064140 *)(&o->unk_48), 1);

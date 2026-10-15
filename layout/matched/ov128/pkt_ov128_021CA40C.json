@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA40C",
+   "name": "WF2DMAP_TOUCH_SetActorAnimSeq",
    "address": "0x021CA40C",
    "kind": "game",
    "region": "ov128",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFF18
+ * function: ZKNSEARCH_MAIN_DeleteCursorMove
  * address:  0x021BFF18
  * packet:   pkt_ov210_021BFF18
  * region:   ov210
@@ -16,7 +16,7 @@
 
 extern void CURSOR_MOVE_Delete(void);
 
-void func_021BFF18(int p)
+void ZKNSEARCH_MAIN_DeleteCursorMove(int p)
 {
     int *q = (int *)p;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C79B8
+ * function: VIEWER_ACTOR_IsWipeEnded
  * address:  0x021C79B8
  * packet:   pkt_ov111_021C79B8
  * region:   ov111
@@ -23,7 +23,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021C79B8(Work *p)
+int VIEWER_ACTOR_IsWipeEnded(Work *p)
 {
     if (WIPE_SYS_EndCheck()) {
         p->state = 1;

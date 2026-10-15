@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217CF5C",
+   "name": "gsCryptRSAVerifySignedHash",
    "address": "0x0217CF5C",
    "kind": "sdk",
    "region": "ov009",

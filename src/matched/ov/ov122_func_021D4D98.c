@@ -28,6 +28,8 @@
  *   data_021D5710 0x021D5710 data a4
  *   GAME_BEACON_GetNextNewLogIndex  0x02026CA0  thumb  arm9
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj00265.h"
 typedef unsigned char u8;
@@ -43,14 +45,14 @@ extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetRequestState(int);
 extern int GAME_BEACON_GetNextNewLogIndex(int *);
 extern void INTRUDE_COMM_VIEW_DrawRowText(int, int, int, int, void *);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void INTRUDE_COMM_VIEW_DeleteRowSlot(u32 i, u32 p);
 extern int INTRUDE_COMM_CountEventPeers(void *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void INTRUDE_COMM_VIEW_ResetRowSlot(u32 i, u32 p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void INTRUDE_COMM_VIEW_RebuildRow(int, void *, Row *, const int *, const int *);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern int INTRUDE_COMM_GetRequesterStatus(int, int);
 extern void func_02041B6C(u32 bit);
 void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
@@ -70,7 +72,7 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
     INTRUDE_COMM_VIEW_DrawRowText(6, 4, 0, 0, p);
     INTRUDE_COMM_VIEW_DrawRowText(8, 12, 0, 0, p);
     if (mode == 0) {
-        func_0201EFA4(((struct Obj00265 *)p)->f48, 0, ((struct Obj00265 *)p)->f36C, 2, 0, 1);
+        WORDSET_SetSlotNumber(((struct Obj00265 *)p)->f48, 0, ((struct Obj00265 *)p)->f36C, 2, 0, 1);
         INTRUDE_COMM_VIEW_DrawRowText(5, 3, force, 1, p);
         if (((struct Obj00265 *)p)->f364 & 32) INTRUDE_COMM_VIEW_DrawRowText(7, 5, force, 1, p);
         else INTRUDE_COMM_VIEW_DrawRowText(7, 6, force, 1, p);
@@ -99,9 +101,9 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
             ((struct Obj00265 *)p)->f128 = count;
             CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 0);
             INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
-            func_0201EFA4(((struct Obj00265 *)p)->f48, 0, count, 1, 0, 1);
+            WORDSET_SetSlotNumber(((struct Obj00265 *)p)->f48, 0, count, 1, 0, 1);
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 16, ((struct Obj00265 *)p)->f50);
-            func_0201F250(((struct Obj00265 *)p)->f48, ((struct Obj00265 *)p)->f54, ((struct Obj00265 *)p)->f50);
+            WORDSET_CopyTaggedText(((struct Obj00265 *)p)->f48, ((struct Obj00265 *)p)->f54, ((struct Obj00265 *)p)->f50);
             INTRUDE_COMM_VIEW_RebuildRow(0, p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 3:

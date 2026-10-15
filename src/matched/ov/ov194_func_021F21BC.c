@@ -1,5 +1,5 @@
 /*
- * function: func_021F21BC
+ * function: NAMEIN_GRAPHIC_AppendCandidate
  * address:  0x021F21BC
  * packet:   pkt_021F21BC
  * region:   ov194
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_021F23FC 0x021F23FC thumb
+ *   NAMEIN_GRAPHIC_PickCandidate 0x021F23FC thumb
  */
 #include "../include/Obj01574.h"
 
 extern unsigned short STRBUF_GetEosChar(void);
 typedef unsigned char  u8;
-extern int func_021F23FC(u8 *p, int direction);
+extern int NAMEIN_GRAPHIC_PickCandidate(u8 *p, int direction);
 
-int func_021F21BC(unsigned char *p, unsigned short a, unsigned short b)
+int NAMEIN_GRAPHIC_AppendCandidate(unsigned char *p, unsigned short a, unsigned short b)
 {
     if (((struct Obj01574 *)p)->f1E < ((struct Obj01574 *)p)->f22 &&
         ((struct Obj01574 *)p)->f20 < 3) {
@@ -27,7 +27,7 @@ int func_021F21BC(unsigned char *p, unsigned short a, unsigned short b)
         ((struct Obj01574 *)p)->f20 += 1;
         *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) =
             STRBUF_GetEosChar();
-        func_021F23FC(p, b);
+        NAMEIN_GRAPHIC_PickCandidate(p, b);
         ((struct Obj01574 *)p)->f28 = 1;
         return 1;
     }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020524C8",
+   "name": "SPL_EMITTER_FreeResourceList",
    "address": "0x020524C8",
    "kind": "game",
    "region": "arm9",

@@ -16,7 +16,7 @@
  *   func_021BEF74 0x021BEF74 thumb ov204
  *   func_021BDCF0 0x021BDCF0 thumb ov204
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
@@ -32,7 +32,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021BEF74(u8 *p);
 extern void func_021BDCF0(unsigned char *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 typedef signed int     s32;
 extern void func_02034A5C(s32 handle);
 extern const char ov067_id[];
@@ -48,7 +48,7 @@ int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
     func_021BDCF0(*(unsigned char * *)&((struct Obj03918 *)p)->f8);
     heap = ((struct Obj03918 *)p)->f0;
     func_020315D4(owner);
-    func_020306F0((unsigned)heap);
+    GFL_HEAP_DeleteChecked((unsigned)heap);
     func_02034A5C((unsigned)ov067_id);
     return 1;
 }

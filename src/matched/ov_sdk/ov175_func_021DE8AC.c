@@ -5,7 +5,7 @@
  * region:   ov175
  * status:   EXACT
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm
+ *   gsifree  0x0217EAE0  arm
  */
 typedef struct {
     int f0;
@@ -14,7 +14,7 @@ typedef struct {
     int f12;
 } Ent;
 
-void func_0217EAE0(void *p);
+void gsifree(void *p);
 
 void sakeiFreeOutputRecords(int a, int b, Ent **arr)
 {
@@ -27,12 +27,12 @@ void sakeiFreeOutputRecords(int a, int b, Ent **arr)
             continue;
         for (j = 0; j < a; j++) {
             if (arr[i][j].type == 8 && arr[i][j].p8 != 0)
-                func_0217EAE0(arr[i][j].p8);
+                gsifree(arr[i][j].p8);
             if (arr[i][j].type == 5)
-                func_0217EAE0(arr[i][j].p8);
+                gsifree(arr[i][j].p8);
         }
-        func_0217EAE0(arr[i]);
+        gsifree(arr[i]);
         arr[i] = 0;
     }
-    func_0217EAE0(arr);
+    gsifree(arr);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CB700
+ * function: BSUBWAY_SCR_WaitTimingSync
  * address:  0x021CB700
  * packet:   pkt_ov021_021CB700
  * region:   ov021
@@ -34,7 +34,7 @@ extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 extern u32 func_0200FB24(void);
 extern int BSUBWAY_COMM_CheckTimingSync(int a0);
 
-int func_021CB700(u32 unused, u32 a)
+int BSUBWAY_SCR_WaitTimingSync(u32 unused, u32 a)
 {
     void *t;
     u8 *p;

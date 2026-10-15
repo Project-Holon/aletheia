@@ -1,7 +1,7 @@
 /*
  * file:     sb_queryengine.c
  * unit:     yes
- * function: FIFOAddRear, FIFOAddFront, FIFOGetFirst, FIFORemove, FIFOClear, QEStartQuery, SBQueryEngineInit, func_0219D8D8, SBEngineHaltUpdates, SBEngineCleanup, SBQueryEngineUpdateServer, ParseSingleQR2Reply, ParseSingleGOAReply, ParseSingleICMPReply, ProcessIncomingReplies, TimeoutOldQueries, QueueNextQueries, SBQueryEngineThink, SBQueryEngineAddQueryKey, SBQueryEngineRemoveServerFromFIFOs
+ * function: FIFOAddRear, FIFOAddFront, FIFOGetFirst, FIFORemove, FIFOClear, QEStartQuery, SBQueryEngineInit, SBQueryEngineSetPublicIP, SBEngineHaltUpdates, SBEngineCleanup, SBQueryEngineUpdateServer, ParseSingleQR2Reply, ParseSingleGOAReply, ParseSingleICMPReply, ProcessIncomingReplies, TimeoutOldQueries, QueueNextQueries, SBQueryEngineThink, SBQueryEngineAddQueryKey, SBQueryEngineRemoveServerFromFIFOs
  * address:  0x0219D4B4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -34,11 +34,11 @@
  *   atoi  0x020964E0  arm
  *   FIFORemove  0x0219D544  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
- *   func_0219D114  0x0219D114  arm  ov009
+ *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   strncmp  0x020949F4  arm
- *   func_0219E5B8  0x0219E5B8  arm  ov009
- *   func_0219E3CC  0x0219E3CC  arm  ov009
+ *   SBServerParseQR2FullKeysSplit  0x0219E5B8  arm  ov009
+ *   SBServerParseQR2FullKeysSingle  0x0219E3CC  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   strstr                   0x02094b20  arm
  *   SBServerParseKeyVals     0x0219e33c  arm
@@ -72,11 +72,11 @@ extern void QEStartQuery(SBQueryEngine *engine, SBServer *server);
 extern int atoi(u32 a0);
 int FIFORemove(SBServerFIFO *fifo, SBServer *server);
 extern int NTSLengthSB(char *buf, int len);
-extern int func_0219D114(char *keyname);
+extern int qr2_internal_is_master_only_key(char *keyname);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern void func_0219E5B8(SBServer *server, char *data, int len);
-extern void func_0219E3CC(SBServer *server, char *data, int len);
+extern void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len);
+extern void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len);
 extern char *strstr(const char *haystack, const char *needle);
 extern void SBServerParseKeyVals(SBServer *server, char *keyvals);
 extern int CanReceiveOnSocket(int sock);
@@ -87,7 +87,7 @@ extern void ParseSingleQR2Reply(SBQueryEngine *engine,
 void FIFOAddFront(SBServerFIFO *fifo, SBServer *server);
 SBServer *FIFOGetFirst(SBServerFIFO *fifo);
 void SBQueryEngineInit(SBQueryEngine *engine, int maxupdates, int queryversion, int lanBrowse, SBEngineCB callback, void *instance);
-void func_0219D8D8(SBQueryEngine *engine, unsigned int publicip);
+void SBQueryEngineSetPublicIP(SBQueryEngine *engine, unsigned int publicip);
 void SBEngineHaltUpdates(SBQueryEngine *engine);
 void SBEngineCleanup(SBQueryEngine *engine);
 void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
@@ -311,7 +311,7 @@ void SBQueryEngineInit(SBQueryEngine *engine, int maxupdates,
 }
 
 
-void func_0219D8D8(SBQueryEngine *engine, unsigned int publicip)
+void SBQueryEngineSetPublicIP(SBQueryEngine *engine, unsigned int publicip)
 {
     engine->mypublicip = publicip;
 }
@@ -399,7 +399,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
             dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 break;
-            if (!func_0219D114(g_021A7C90[engine->serverkeys[i]]))
+            if (!qr2_internal_is_master_only_key(g_021A7C90[engine->serverkeys[i]]))
                 func_0219E01C(server, g_021A7C90[engine->serverkeys[i]], data);
             data += dlen;
             len -= dlen;
@@ -407,12 +407,12 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
         server->state |= 0x01 | 0x40;
     } else {
         if (*data && strncmp((const u8 *)g_021A8104, (const u8 *)data, 8) == 0) {
-            func_0219E5B8(server, data, len);
+            SBServerParseQR2FullKeysSplit(server, data, len);
             if (server->splitResponseBitmap != 0xFF)
                 return;
             server->state |= 0x02 | 0x01 | 0x40;
         } else {
-            func_0219E3CC(server, data, len);
+            SBServerParseQR2FullKeysSingle(server, data, len);
             server->state |= 0x02 | 0x01 | 0x40;
         }
     }

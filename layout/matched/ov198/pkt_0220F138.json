@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220F138",
+   "name": "B_PLIST_MAIN_SetActorAnimSeq",
    "address": "0x0220F138",
    "kind": "game",
    "region": "ov198",

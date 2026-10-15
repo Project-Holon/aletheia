@@ -13,10 +13,10 @@
  * POKE_TOOL_Dummy and POKE_TOOL_GetBoxParam are a bare `bx lr` padded to four bytes,
  * which is `void f(void) {}`: a hook that was never filled in.  Neither
  * carries a label in the generated listing.  POKE_TOOL_Dummy is reached from
- * func_02019B58, which is what attests the pair's addresses.
+ * POKE_TOOL_SetDefaultName, which is what attests the pair's addresses.
  *
  * symbols:
- *   func_02019C54  0x02019C54  thumb
+ *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
  */
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Personal;
-extern void *func_02019C54(u32 a, u32 b);
+extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern u32  POKE_PERSONAL_IsPlaceholderAbility(u32 n);
 
@@ -42,7 +42,7 @@ void *POKE_TOOL_GetBoxParam(void *p)
 u32 POKE_TOOL_GetGenderRatioClass(int a, int b, int c)
 {
     u32 r = 8;
-    u8 n = (u8)POKE_PERSONAL_GetParam(func_02019C54(a, b), 0x14);
+    u8 n = (u8)POKE_PERSONAL_GetParam(POKE_TOOL_GetPersonalData(a, b), 0x14);
 
     if (POKE_PERSONAL_IsPlaceholderAbility(n) != 1) {
         if (c == 0) {

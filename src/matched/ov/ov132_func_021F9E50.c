@@ -1,5 +1,5 @@
 /*
- * function: func_021F9E50
+ * function: STA_ACT_EFFECT_Create
  * address: 0x021F9E50
  * packet: pkt_ov132_021F9E50
  * region: ov132
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 extern void PARTICLE_InitManager(unsigned);
 extern const char d_021FDCB0[];
-char *func_021F9E50(unsigned heap)
+char *STA_ACT_EFFECT_Create(unsigned heap)
 {
     u8 i = 0;
     char *p = func_02030734(heap, 0x24244, 0, d_021FDCB0, 76);

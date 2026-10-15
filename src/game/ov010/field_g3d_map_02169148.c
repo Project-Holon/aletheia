@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   d_02172A40     0x02172A40  data
  *   NNS_GfdDefaultFuncAllocTexVram     0x020A8140  data
@@ -77,7 +77,7 @@ typedef struct FieldG3dMapGlbState {
 } FieldG3dMapGlbState;
 
 extern u32 func_020307B0(void *p);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern ArcFile *func_020490F4(unsigned int id, unsigned int heapId);
 extern void ARC_TOOL_DeleteHandle(ArcFile *archive);
@@ -177,20 +177,20 @@ FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId)
     FieldG3dMap *map;
     u32 recordSize;
 
-    map = sub_02030734(heapId, sizeof(FieldG3dMap), 1, d_02172A40, 0x6E);
+    map = GFL_HEAP_Alloc(heapId, sizeof(FieldG3dMap), 1, d_02172A40, 0x6E);
     recordSize = G3D_SYSTEM_GetResourceSize();
     map->placementCountA = cfg->placementCountA;
     map->placementCountB = cfg->placementCountB;
     map->extraParam0 = cfg->extraParam0;
     map->extraParam1 = cfg->extraParam1;
     if (map->placementCountA != 0)
-        map->placementsA = sub_02030734(heapId, cfg->placementCountA * 20, 1, d_02172A40, 0x77);
+        map->placementsA = GFL_HEAP_Alloc(heapId, cfg->placementCountA * 20, 1, d_02172A40, 0x77);
     if (map->placementCountB != 0)
-        map->placementsB = sub_02030734(heapId, cfg->placementCountB * 20, 1, d_02172A40, 0x7A);
+        map->placementsB = GFL_HEAP_Alloc(heapId, cfg->placementCountB * 20, 1, d_02172A40, 0x7A);
     FIELD_G3D_MAP_Reset(map);
     map->typeTable = cfg->typeTable;
     map->bufferSize = cfg->bufferSize;
-    map->buffer = sub_02030734(heapId, cfg->bufferSize, 1, d_02172A40, 0x86);
+    map->buffer = GFL_HEAP_Alloc(heapId, cfg->bufferSize, 1, d_02172A40, 0x86);
     if (cfg->chunkSize == 0)
         map->chunkSize = 0x800;
     else
@@ -199,8 +199,8 @@ FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId)
     map->renderObjRef = &map->renderObj;
     map->renderObjRef->model = 0;
     map->archive = 0;
-    map->modelRes = sub_02030734(heapId, recordSize, 1, d_02172A40, 0x97);
-    map->textureRes = sub_02030734(heapId, recordSize, 1, d_02172A40, 0x9A);
+    map->modelRes = GFL_HEAP_Alloc(heapId, recordSize, 1, d_02172A40, 0x97);
+    map->textureRes = GFL_HEAP_Alloc(heapId, recordSize, 1, d_02172A40, 0x9A);
     map->altTextureRes = 0;
     if (cfg->texVramSize != 0) {
         map->texVramSize = cfg->texVramSize;

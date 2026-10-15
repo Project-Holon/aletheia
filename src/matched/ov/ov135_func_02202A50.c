@@ -12,8 +12,8 @@
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
@@ -48,8 +48,8 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -65,8 +65,8 @@ void WORLDTRADE_ADAPTER_PrintNumber(Ctx *ctx, u32 num, u32 digits, u32 mode, voi
     str = STRBUF_Create(0x20, ctx->heap);
     fmt = STRBUF_Create(0x20, ctx->heap);
     MSGDATA_ReadString(ctx->bank, 0xFD, fmt);
-    func_0201EFA4(ctx->words, 0, num, digits, mode, 1);
-    func_0201F250(ctx->words, str, fmt);
+    WORDSET_SetSlotNumber(ctx->words, 0, num, digits, mode, 1);
+    WORDSET_CopyTaggedText(ctx->words, str, fmt);
     for (i = 0; i < 8; i++) {
         if (ctx->used[i] == 0) {
             ctx->slot[i].win = win;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEF8
+ * function: CTVT_CALL_UpdatePrompt
  * address:  0x021BCEF8
  * packet:   pkt_ov172_021BCEF8
  * region:   ov172
@@ -16,12 +16,12 @@
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_021BD0C4  0x021BD0C4  thumb  ov172
+ *   CTVT_CALL_PrintMessage  0x021BD0C4  thumb  ov172
  *
  * Keeps the button prompt (+0x1c, kind at +0x18) in step with the selection: a fourth selected slot shows prompt 0x13 (kind 2), any selected slot shows prompt 0x12 (kind 1), none removes the prompt (kind 0) and reprints message 0x11 when the mode byte at +0x14 is set.
  */
@@ -47,12 +47,12 @@ struct U16Vec;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021BD0C4(void *a0, char *a1, int a2);
+extern void CTVT_CALL_PrintMessage(void *a0, char *a1, int a2);
 
 static inline u8 func_021BCEF8_show(u32 win)
 {
@@ -60,7 +60,7 @@ static inline u8 func_021BCEF8_show(u32 win)
     return BMP_WIN_GetBgLayer((struct Descriptor *)win);
 }
 
-void func_021BCEF8(void *ctx, u8 *st)
+void CTVT_CALL_UpdatePrompt(void *ctx, u8 *st)
 {
     u8 n = 0;
     u8 i;
@@ -77,7 +77,7 @@ void func_021BCEF8(void *ctx, u8 *st)
             struct Prompt p = {0};
 
             func_02041B6C(func_021BCEF8_show(((struct Obj00543 *)st)->f2C));
-            func_0201F7A8((void *)(((struct Obj00543 *)st)->f2C), 1);
+            BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj00543 *)st)->f2C), 1);
             if (((struct Obj00543 *)st)->f1C != 0) {
                 APP_TASKMENU_WIN_Delete((u8 *)(((struct Obj00543 *)st)->f1C));
                 ((struct Obj00543 *)st)->f1C = 0;
@@ -94,7 +94,7 @@ void func_021BCEF8(void *ctx, u8 *st)
             struct Prompt p = {0};
 
             func_02041B6C(func_021BCEF8_show(((struct Obj00543 *)st)->f2C));
-            func_0201F7A8((void *)(((struct Obj00543 *)st)->f2C), 1);
+            BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj00543 *)st)->f2C), 1);
             if (((struct Obj00543 *)st)->f1C != 0) {
                 APP_TASKMENU_WIN_Delete((u8 *)(((struct Obj00543 *)st)->f1C));
                 ((struct Obj00543 *)st)->f1C = 0;
@@ -112,7 +112,7 @@ void func_021BCEF8(void *ctx, u8 *st)
             ((struct Obj00543 *)st)->f1C = 0;
         }
         if (st[0x14] != 0)
-            func_021BD0C4(ctx, (char *)st, 0x11);
+            CTVT_CALL_PrintMessage(ctx, (char *)st, 0x11);
         ((struct Obj00543 *)st)->f18 = 0;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02025B64
+ * function: BMP_OAM_GetRecordValue
  * address:  0x02025B64
  * packet:   pkt_02025B64
  * region:   arm9
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern u8 g_0209FA34[];
 extern u8 g_0209FA3D[];
 
-u8 func_02025B64(u32 v)
+u8 BMP_OAM_GetRecordValue(u32 v)
 {
     u32 i;
 

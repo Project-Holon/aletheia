@@ -38,8 +38,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
- *   func_02030D28 0x02030D28 arm
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Main 0x02030D28 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_020355C4 0x020355C4 arm
@@ -61,7 +61,7 @@
  *   ov198_id 0x000000C6 data a1
  *   SHINKA_DEMO_PrintStreamCallback 0x02205360 thumb ov195
  *   d_02208F40 0x02208F40 data a4
- *   func_0220F3E8 0x0220F3E8 thumb ov198
+ *   B_PLIST_MAIN_Create 0x0220F3E8 thumb ov198
  *   SHINKA_DEMO_SetupScene 0x02204C24 thumb ov195
  *   SHINKA_DEMO_DeleteScene 0x02204D5C thumb ov195
  *   SHINKA_DEMO_UpdateBgm 0x02204DE0 thumb ov195
@@ -96,24 +96,24 @@
  *   SHINKA_DEMO_GRAPHIC_SetupSubBg 0x02205A34 thumb ov195
  *   SHINKA_DEMO_GRAPHIC_ReleaseSubBg 0x02205A84 thumb ov195
  *   SHINKA_DEMO_VIEW_Main 0x02205D50 thumb ov195
- *   func_0220602C 0x0220602C thumb ov195
- *   func_02206044 0x02206044 thumb ov195
- *   func_0220604C 0x0220604C thumb ov195
- *   func_02206050 0x02206050 thumb ov195
- *   func_02206058 0x02206058 thumb ov195
- *   func_0220605C 0x0220605C thumb ov195
- *   func_02206064 0x02206064 thumb ov195
- *   func_0220606C 0x0220606C thumb ov195
- *   func_02206070 0x02206070 thumb ov195
- *   func_02206074 0x02206074 thumb ov195
- *   func_02206078 0x02206078 thumb ov195
- *   func_0220878C 0x0220878C thumb ov195
- *   func_02208804 0x02208804 thumb ov195
- *   func_02208814 0x02208814 thumb ov195
- *   func_0220882C 0x0220882C thumb ov195
- *   func_02208844 0x02208844 thumb ov195
- *   func_02208850 0x02208850 thumb ov195
- *   func_02208860 0x02208860 thumb ov195
+ *   SHINKA_DEMO_VIEW_Draw 0x0220602C thumb ov195
+ *   SHINKA_DEMO_VIEW_RequestStart 0x02206044 thumb ov195
+ *   SHINKA_DEMO_VIEW_IsStartDone 0x0220604C thumb ov195
+ *   SHINKA_DEMO_VIEW_RequestConfirm 0x02206050 thumb ov195
+ *   SHINKA_DEMO_VIEW_IsConfirmDone 0x02206058 thumb ov195
+ *   SHINKA_DEMO_VIEW_RequestEvolve 0x0220605C thumb ov195
+ *   SHINKA_DEMO_VIEW_RequestFadeOut 0x02206064 thumb ov195
+ *   SHINKA_DEMO_VIEW_IsEvolveReady 0x0220606C thumb ov195
+ *   SHINKA_DEMO_VIEW_IsEvolveStarted 0x02206070 thumb ov195
+ *   SHINKA_DEMO_VIEW_IsEvolveDone 0x02206074 thumb ov195
+ *   SHINKA_DEMO_VIEW_TrySecondForm 0x02206078 thumb ov195
+ *   SHINKA_DEMO_EFFECT_Main 0x0220878C thumb ov195
+ *   SHINKA_DEMO_EFFECT_Draw 0x02208804 thumb ov195
+ *   SHINKA_DEMO_EFFECT_Trigger 0x02208814 thumb ov195
+ *   SHINKA_DEMO_EFFECT_StartIntro 0x0220882C thumb ov195
+ *   SHINKA_DEMO_EFFECT_AdvanceState 0x02208844 thumb ov195
+ *   SHINKA_DEMO_EFFECT_IsState4 0x02208850 thumb ov195
+ *   SHINKA_DEMO_EFFECT_IsCameraReady 0x02208860 thumb ov195
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -159,8 +159,8 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
 extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_02030D28(struct Ctx *c);
-extern void func_02030DA4(void *);
+extern void TCB_Main(struct Ctx *c);
+extern void TCB_Noop(void *);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern u8 func_020355C4(void);
@@ -178,7 +178,7 @@ extern int YESNO_MENU_GetAnswer(struct S *p);
 extern u8 gPokeStatusProcData[],d_02208F40[];
 extern const char ov131_id[],ov196_id[],ov198_id[];
 extern int SHINKA_DEMO_PrintStreamCallback(int);
-extern void func_0220F3E8(u8 *);
+extern void B_PLIST_MAIN_Create(u8 *);
 extern void SHINKA_DEMO_SetupScene(struct App *a, struct Scene *s);
 extern void SHINKA_DEMO_DeleteScene(int a, int *p);
 extern void SHINKA_DEMO_UpdateBgm(char *,char *);
@@ -211,25 +211,25 @@ extern void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a);
 extern void SHINKA_DEMO_GRAPHIC_SetupSubBg(void *);
 extern void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0);
 extern void SHINKA_DEMO_VIEW_Main(char *p);
-extern void func_0220602C(struct Owner *o);
+extern void SHINKA_DEMO_VIEW_Draw(struct Owner *o);
 extern int SHINKA_DEMO_GRAPHIC_GetCamera(char *a);
-extern void func_02206044(int *p);
-extern void func_02206050(int *p);
-extern void func_0220605C(int *p);
-extern void func_02206064(int *p);
-extern void func_0220878C(struct Anim *p);
-extern void func_02208804(char *a);
-extern void func_02208814(char *a);
-extern void func_0220882C(int *p);
-extern void func_02208844(int *p);
-extern int func_0220604C(int *p);
-extern int func_02206058(int *p);
-extern int func_0220606C(int *p);
-extern int func_02206070(int *p);
-extern int func_02206074(int *p);
-extern int func_02206078(int *p);
-extern int func_02208850(int *p);
-extern int func_02208860(int *p);
+extern void SHINKA_DEMO_VIEW_RequestStart(int *p);
+extern void SHINKA_DEMO_VIEW_RequestConfirm(int *p);
+extern void SHINKA_DEMO_VIEW_RequestEvolve(int *p);
+extern void SHINKA_DEMO_VIEW_RequestFadeOut(int *p);
+extern void SHINKA_DEMO_EFFECT_Main(struct Anim *p);
+extern void SHINKA_DEMO_EFFECT_Draw(char *a);
+extern void SHINKA_DEMO_EFFECT_Trigger(char *a);
+extern void SHINKA_DEMO_EFFECT_StartIntro(int *p);
+extern void SHINKA_DEMO_EFFECT_AdvanceState(int *p);
+extern int SHINKA_DEMO_VIEW_IsStartDone(int *p);
+extern int SHINKA_DEMO_VIEW_IsConfirmDone(int *p);
+extern int SHINKA_DEMO_VIEW_IsEvolveReady(int *p);
+extern int SHINKA_DEMO_VIEW_IsEvolveStarted(int *p);
+extern int SHINKA_DEMO_VIEW_IsEvolveDone(int *p);
+extern int SHINKA_DEMO_VIEW_TrySecondForm(int *p);
+extern int SHINKA_DEMO_EFFECT_IsState4(int *p);
+extern int SHINKA_DEMO_EFFECT_IsCameraReady(int *p);
 #define W(n) (*(u32 *)(s+(n)))
 #define P(n) (*(void **)(s+(n)))
 #define H(n) (*(u16 *)(s+(n)))
@@ -249,24 +249,24 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 2:if(!SHINKA_DEMO_IsBgmState1((int)a,(int *)s)&&SHINKA_DEMO_AreActorAnimsDone((int)a,(int *)s)){if(W(0x8c))W(0x28)=4;else{W(0x28)=3;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}}break;
     case 3:W(0x88)=1;W(0x28)=4;break;
     case 4:SHINKA_DEMO_PrintText(s,W(0x78),0,0,2,W(0x10),4,0);W(0x28)=5;break;
-    case 5:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s)){SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,0);W(0x28)=6;func_02206044(P(0x104));}break;
-    case 6:if(func_0220604C(P(0x104))){W(0x28)=7;SHINKA_DEMO_PlayEvolutionBgm((int)a,(int *)s);}break;
-    case 7:if(!SHINKA_DEMO_IsBgmState2((int)a,(int *)s)){W(0x28)=8;func_02206050(P(0x104));func_0220882C(P(0x108));GFL_USE_PlaySeDefaultVolume(0x7dc);W(0x10c)=1;W(0x2c)=0;}break;
+    case 5:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s)){SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,0);W(0x28)=6;SHINKA_DEMO_VIEW_RequestStart(P(0x104));}break;
+    case 6:if(SHINKA_DEMO_VIEW_IsStartDone(P(0x104))){W(0x28)=7;SHINKA_DEMO_PlayEvolutionBgm((int)a,(int *)s);}break;
+    case 7:if(!SHINKA_DEMO_IsBgmState2((int)a,(int *)s)){W(0x28)=8;SHINKA_DEMO_VIEW_RequestConfirm(P(0x104));SHINKA_DEMO_EFFECT_StartIntro(P(0x108));GFL_USE_PlaySeDefaultVolume(0x7dc);W(0x10c)=1;W(0x2c)=0;}break;
     case 8:
         keys=KEY_GetTrg();
-        if(func_0220606C(P(0x104))){if(W(0x24))W(0x28)=13;else W(0x28)=9;break;}
-        if(func_02206070(P(0x104)))SHINKA_DEMO_StartEvolutionBgm((int)a,s);
-        if(func_02206074(P(0x104)))SHINKA_DEMO_PushBgm((int)a,(int *)s);
-        if(func_02206058(P(0x104))){func_02208844(P(0x108));if(!W(0x110)){GFL_USE_PlaySeDefaultVolume(0x7df);W(0x10c)=0;W(0x110)=1;}}
-        if(func_02208850(P(0x108)))func_0220605C(P(0x104));
-        if(func_02208860(P(0x108))){func_02206064(P(0x104));if(!W(0x114)){if(!W(0x24))W(0x10c)=1;W(0x114)=1;}}
+        if(SHINKA_DEMO_VIEW_IsEvolveReady(P(0x104))){if(W(0x24))W(0x28)=13;else W(0x28)=9;break;}
+        if(SHINKA_DEMO_VIEW_IsEvolveStarted(P(0x104)))SHINKA_DEMO_StartEvolutionBgm((int)a,s);
+        if(SHINKA_DEMO_VIEW_IsEvolveDone(P(0x104)))SHINKA_DEMO_PushBgm((int)a,(int *)s);
+        if(SHINKA_DEMO_VIEW_IsConfirmDone(P(0x104))){SHINKA_DEMO_EFFECT_AdvanceState(P(0x108));if(!W(0x110)){GFL_USE_PlaySeDefaultVolume(0x7df);W(0x10c)=0;W(0x110)=1;}}
+        if(SHINKA_DEMO_EFFECT_IsState4(P(0x108)))SHINKA_DEMO_VIEW_RequestEvolve(P(0x104));
+        if(SHINKA_DEMO_EFFECT_IsCameraReady(P(0x108))){SHINKA_DEMO_VIEW_RequestFadeOut(P(0x104));if(!W(0x114)){if(!W(0x24))W(0x10c)=1;W(0x114)=1;}}
         if(W(0x10c)){
             if(!W(0x118)&&W(0x2c)>=90){if(SHINKA_DEMO_IsBgmState4((int)a,(int *)s)){GFL_USE_PlaySeDefaultVolume(0x7dd);W(0x118)=1;}}
             else if(W(0x2c)==0x212||W(0x2c)==0x249||W(0x2c)==0x280||W(0x2c)==0x2b7)GFL_USE_PlaySeDefaultVolume(0x7de);
             else if(W(0x2c)==0x2e4)GFL_USE_PlaySeDefaultVolume(0x7e0);
             W(0x2c)++;
         }
-        if(A(0x10)&&SHINKA_DEMO_IsBgmState4((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&func_02206078(P(0x104))){W(0x24)=1;func_020355D8(0);func_02208814(P(0x108));}break;
+        if(A(0x10)&&SHINKA_DEMO_IsBgmState4((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&SHINKA_DEMO_VIEW_TrySecondForm(P(0x104))){W(0x24)=1;func_020355D8(0);SHINKA_DEMO_EFFECT_Trigger(P(0x108));}break;
     case 9:
         POKE_TOOL_ChangeSpecies(P(0x10),AH(8));
         if(A(0)){v=ZUKAN_SAVE_GetFromGameData((void *)A(0));ZUKAN_SAVE_RegisterSeen(v,P(0x10));ZUKAN_SAVE_RegisterCaught(v,P(0x10));}
@@ -309,11 +309,11 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         MI_CpuFill8(P(0xa4),0,func_02030CB0(8));P(0xa0)=func_02030CBC(8,P(0xa4));P(0xa8)=PALANM_Create(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
         PALANM_AllocSlotBuffers(P(0xa8),1,0x1e0,H(0));PALANM_AllocSlotBuffers(P(0xa8),3,0x1e0,H(0));
         W(0xb0)=A(0);W(0xb4)=A(4);W(0xbc)=W(8);H(0xc0)=H(0);B(0xcf)=4;B(0xfc)=0;B(0xd0)=AB(0xa);H(0xd6)=H(0x1c);W(0xc4)=0;P(0xf4)=s+0xac;W(0xd8)=W(0xa0);W(0xdc)=W(0xa8);W(0xf0)=1;
-        func_02034AC4((int)ov196_id);func_02034AC4((int)ov198_id);func_0220F3E8((u8 *)(s+0xb0));FADE_Start(2,16,0,0);break;
-    case 28:func_02030D28(P(0xa0));if(B(0xfc)){W(0x28)=29;FADE_Start(2,0,16,0);}break;
+        func_02034AC4((int)ov196_id);func_02034AC4((int)ov198_id);B_PLIST_MAIN_Create((u8 *)(s+0xb0));FADE_Start(2,16,0,0);break;
+    case 28:TCB_Main(P(0xa0));if(B(0xfc)){W(0x28)=29;FADE_Start(2,0,16,0);}break;
     case 29:
         if(FADE_IsActive())break;
-        W(0x28)=30;func_02034A5C((int)ov196_id);func_02034A5C((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));func_02030DA4(P(0xa0));func_020307B0(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
+        W(0x28)=30;func_02034A5C((int)ov196_id);func_02034A5C((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));TCB_Noop(P(0xa0));func_020307B0(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
         SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
@@ -341,7 +341,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     SHINKA_DEMO_UpdateBgm(a,s);
     if(W(0x28)!=24&&W(0x28)!=25){
         if(P(0x9c))YESNO_MENU_Update(P(0x9c));
-        SHINKA_DEMO_UpdateWindows((int)a,s);PRINTSYS_QUE_Main(P(0xc));SHINKA_DEMO_VIEW_Main(P(0x104));func_0220878C(P(0x108));SHINKA_DEMO_GRAPHIC_Draw(P(4));SHINKA_DEMO_GRAPHIC_Update(P(4));func_02208804(P(0x108));func_0220602C(P(0x104));SHINKA_DEMO_GRAPHIC_DrawEnd(P(4));
+        SHINKA_DEMO_UpdateWindows((int)a,s);PRINTSYS_QUE_Main(P(0xc));SHINKA_DEMO_VIEW_Main(P(0x104));SHINKA_DEMO_EFFECT_Main(P(0x108));SHINKA_DEMO_GRAPHIC_Draw(P(4));SHINKA_DEMO_GRAPHIC_Update(P(4));SHINKA_DEMO_EFFECT_Draw(P(0x108));SHINKA_DEMO_VIEW_Draw(P(0x104));SHINKA_DEMO_GRAPHIC_DrawEnd(P(4));
     }
     return 0;
 }

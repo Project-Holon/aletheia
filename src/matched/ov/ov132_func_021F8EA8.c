@@ -13,12 +13,12 @@
  *   void G3D_CAMERA_SetEye(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
  *   void G3D_CAMERA_SetUp(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
  * symbols:
- *   func_021F8044 0x021F8044 thumb ov112
- *   func_021F6F04 0x021F6F04 thumb ov112
- *   func_021F7098 0x021F7098 thumb ov112
- *   func_021F75DC 0x021F75DC thumb ov112
+ *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
+ *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
+ *   STA_ACT_LIGHT_SetModelFrame 0x021F7098 thumb ov112
+ *   STA_ACT_LIGHT_SetElemFrame 0x021F75DC thumb ov112
  *   STA_ACT_OBJ_SetCount 0x021F6AF0 thumb ov112
- *   func_021FA57C 0x021FA57C thumb ov132
+ *   STA_ACT_AUDIENCE_SetBgScroll 0x021FA57C thumb ov132
  *   KEY_GetCont 0x0203630C arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_SetUp 0x02048B44 arm
@@ -41,13 +41,13 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 extern const Vec d_021FDBEC;
 extern u32 KEY_GetCont(void);
-extern void func_021F8044(void *unused, u32 *p, u32 *q);
-extern void func_021F6F04(void *, void *, Vec *);
+extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
+extern void STA_ACT_LIGHT_GetElemPos(void *, void *, Vec *);
 struct Light;
-extern void func_021F7098(u8 *p, u16 v);
-extern void func_021F75DC(u8 *p, u16 v);
+extern void STA_ACT_LIGHT_SetModelFrame(u8 *p, u16 v);
+extern void STA_ACT_LIGHT_SetElemFrame(u8 *p, u16 v);
 extern void STA_ACT_OBJ_SetCount(void *, u16);
-extern void func_021FA57C(void *unused, int x);
+extern void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x);
 extern void G3D_CAMERA_SetEye(void *, const Vec *);
 extern void G3D_CAMERA_SetUp(void *, const Vec *);
 extern void G3D_CAMERA_Reset(struct Light *l);
@@ -71,11 +71,11 @@ void STA_ACTING_UpdateCamera(u8 *p)
             index = *(u8 *)(p + 0xF1);
             if (index == 4) index = *(u8 *)(p + 0xA);
             if (*(void **)(p + 0x44 + index * 4)) {
-                func_021F8044(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
+                STA_ACT_LIGHT_ElemOpA(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
                 target = (float)v.x / 4096.0f - 128.0f;
             }
         } else {
-            func_021F6F04(*(void **)(p + 0x90), *(void **)(p + 0x94 + *(u8 *)(p + 0xF2) * 4), &v);
+            STA_ACT_LIGHT_GetElemPos(*(void **)(p + 0x90), *(void **)(p + 0x94 + *(u8 *)(p + 0xF2) * 4), &v);
             target = (float)v.x / 4096.0f - 128.0f;
         }
         if (target > 256) target = 256;
@@ -98,10 +98,10 @@ void STA_ACTING_UpdateCamera(u8 *p)
         G3D_CAMERA_SetUp(*(void **)(p + 0xA8), &translation);
         G3D_CAMERA_Reset(*(void **)(p + 0xA8));
         func_02040618(2, 0, *(u16 *)(p + 4));
-        func_021F7098(*(void **)(p + 0x3C), *(u16 *)(p + 4));
-        func_021F75DC(*(void **)(p + 0x40), *(u16 *)(p + 4));
+        STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));
+        STA_ACT_LIGHT_SetElemFrame(*(void **)(p + 0x40), *(u16 *)(p + 4));
         STA_ACT_OBJ_SetCount(*(void **)(p + 0x54), *(u16 *)(p + 4));
-        func_021FA57C(*(void **)(p + 0xB8), *(u16 *)(p + 4));
+        STA_ACT_AUDIENCE_SetBgScroll(*(void **)(p + 0xB8), *(u16 *)(p + 4));
     }
     if (*(u16 *)(p + 8) == 224) *(int *)(p + 0xC) = 0;
     func_02040618(2, 3, *(u16 *)(p + 8));

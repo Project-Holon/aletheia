@@ -14,7 +14,7 @@
  * symbols:
  *   g_021F6FA0  0x021F6FA0  data
  *   func_021F2EE8  0x021F2EE8  arm  ov107
- *   func_021F1D58  0x021F1D58  thumb  ov107
+ *   func_021F1D58  0x021F1D58  arm  ov107
  */
 
 extern char *g_021F6FA0;

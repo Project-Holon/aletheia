@@ -1,5 +1,5 @@
 /*
- * function: func_0220C5AC
+ * function: B_PLIST_DRAW_PrintTextAt
  * address: 0x0220C5AC
  * packet: pkt_ov198_0220C5AC
  * region: ov198
@@ -25,7 +25,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_0220C5AC(char *p, int i, u16 x, u16 y)
+void B_PLIST_DRAW_PrintTextAt(char *p, int i, u16 x, u16 y)
 {
     void *t;
     void *f;

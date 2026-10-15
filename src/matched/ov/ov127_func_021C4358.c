@@ -1,5 +1,5 @@
 /*
- * function: func_021C4358
+ * function: WIFI_2DCHAR_IsBmpCellEnabled
  * address: 0x021C4358
  * packet: pkt_ov127_021C4358
  * region: ov127
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 
-int func_021C4358(int a0, int a1) { return 1; }
+int WIFI_2DCHAR_IsBmpCellEnabled(int a0, int a1) { return 1; }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DE9A0",
+   "name": "BR_CODEIN_StatCreate",
    "address": "0x021DE9A0",
    "kind": "game",
    "region": "ov183",

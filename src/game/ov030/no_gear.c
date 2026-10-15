@@ -27,8 +27,8 @@
  *   gNoGearCharFileIds     0x021F0140  data  ov030  a4
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_0204047C  0x0204047C  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   gNoGearBgTemplateMain     0x021F014C  data  ov030  a4
  *   gNoGearBgTemplateMid     0x021F016C  data  ov030  a4
@@ -91,8 +91,8 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
 extern void func_02040588(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void func_0204047C(int bgId, unsigned short priority);
-extern void func_02041300(u32 bgId, int a1, int a2, int a3, u8 width, u8 height, u8 mode);
+extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
+extern void BG_SYS_SetTileEntry(u32 bgId, int a1, int a2, int a3, u8 width, u8 height, u8 mode);
 extern void func_020409B4(u32 bgId);
 extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
 extern void func_020403F4(u32 bgId);
@@ -167,24 +167,24 @@ void NO_GEAR_SetupBackgrounds(void)
         struct BgTemplate template = gNoGearBgTemplateMain;
         BG_SYS_InitBgLayer(6, &template, 0);
         func_02040588((u8)6, 1);
-        func_0204047C(6, 3);
-        func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(6, 3);
+        BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(6);
     }
     {
         struct BgTemplate template = gNoGearBgTemplateMid;
         BG_SYS_InitBgLayer(5, &template, 0);
         func_02040588((u8)5, 1);
-        func_0204047C(5, 1);
-        func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(5, 1);
+        BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(5);
     }
     {
         struct BgTemplate template = gNoGearBgTemplateBack;
         BG_SYS_InitBgLayer(4, &template, 0);
         func_02040588((u8)4, 1);
-        func_0204047C(4, 2);
-        func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
+        BG_SYS_SetVisibleLayer(4, 2);
+        BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(4);
     }
 }

@@ -12,7 +12,7 @@
  * sdk:      ghiDoPosting (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
  *   GSISocketSelect  0x0217ED64  arm   ov009
  *   ghiPostDoPosting  0x021C3834  arm   ov114
  *   ghiPostCleanupState  0x021C2BB0  arm   ov114
@@ -33,7 +33,7 @@ typedef struct GHIConnection {
     int f184;
 } GHIConnection;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int GSISocketSelect(int, int *, int *, int *);
 extern int ghiPostDoPosting(GHIConnection *);
 extern void ghiPostCleanupState(GHIConnection *);
@@ -48,7 +48,7 @@ void ghiDoPosting(GHIConnection *connection)
     int rcode;
     int readFlag;
 
-    func_0217D254(8, (char *)3, 16, sGhttpPosting);
+    gsDebugFormat(8, (char *)3, 16, sGhttpPosting);
     oldBytesPosted = connection->f170;
     result = ghiPostDoPosting(connection);
     if (result == 0) {

@@ -15,7 +15,7 @@
  *   IRC_RESULT_ExitScreen 0x021B78A0 thumb ov105
  *   IRC_RESULT_ExitTextSystem 0x021B7C6C thumb ov105
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj22237.h"
 typedef unsigned char u8;
@@ -26,10 +26,10 @@ extern void IRC_RESULT_ExitScreen(unsigned char *p);
 extern void IRC_RESULT_ExitTextSystem(unsigned char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 int IRC_RESULT_Exit(int a,int b,int c,u8 *p) {
  IRC_RESULT_ExitRankFade(p+0x128); IRC_RESULT_ExitTextWindow(p+0xd4);
  IRC_APPBAR_Delete((void *)(((struct Obj22237 *)p)->f188)); IRC_RESULT_ExitTextWindow(p+0xc0);
  IRC_RESULT_ExitScreen(p); IRC_RESULT_ExitTextSystem(p+0xb0);
- func_020315D4((struct S020315D4 *)a); func_020306F0(60); return 1;
+ func_020315D4((struct S020315D4 *)a); GFL_HEAP_DeleteChecked(60); return 1;
 }

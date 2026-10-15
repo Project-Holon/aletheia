@@ -13,8 +13,8 @@
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
- *   func_02184200                  0x02184200  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
+ *   ArrayLength                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   g_021A3868                     0x021A3868  data
  */
@@ -41,8 +41,8 @@ typedef struct GSUdpEngineObject {
     void *userData;
 } GSUdpEngineObject;
 extern void *gsUdpEngineContext(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_02184200(const int *p);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 
 extern char g_021A3868[];
@@ -55,10 +55,10 @@ void gsUdpSocketError(void)
     GSUdpMsgHandler *aMsgHandler;
 
     aUdp = gsUdpEngineContext();
-    func_0217D254(12, 0, 16, g_021A3868);
+    gsDebugFormat(12, 0, 16, g_021A3868);
     if (aUdp->socketErrorCB != 0)
         aUdp->socketErrorCB(3, aUdp->userData);
-    len = func_02184200(aUdp->handlers);
+    len = ArrayLength(aUdp->handlers);
     for (i = 0; i < len; i++) {
         aMsgHandler = (GSUdpMsgHandler *)func_02184208(aUdp->handlers, i);
         if (aMsgHandler->errCB != 0)

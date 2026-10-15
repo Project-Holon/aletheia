@@ -1,5 +1,5 @@
 /*
- * function: func_021C6804
+ * function: VIEWER_TEXT_SetScrollParam
  * address:  0x021C6804
  * packet:   pkt_ov111_021C6804
  * region:   ov111
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C67E8  0x021C67E8  thumb  ov111
+ *   VIEWER_TEXT_SetScroll  0x021C67E8  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -27,29 +27,29 @@ typedef struct {
     u32 b4 : 1;
 } Info;
 
-extern void func_021C67E8(void *p, int v);
+extern void VIEWER_TEXT_SetScroll(void *p, int v);
 
-void func_021C6804(void *p, Info *info)
+void VIEWER_TEXT_SetScrollParam(void *p, Info *info)
 {
     int i;
 
     for (i = 0; i < 13; i++) {
-        func_021C67E8(p, i);
+        VIEWER_TEXT_SetScroll(p, i);
     }
     if (info->b0) {
-        func_021C67E8(p, 14);
-        func_021C67E8(p, 13);
+        VIEWER_TEXT_SetScroll(p, 14);
+        VIEWER_TEXT_SetScroll(p, 13);
     }
     if (info->b1) {
-        func_021C67E8(p, 15);
+        VIEWER_TEXT_SetScroll(p, 15);
     }
     if (info->b2) {
-        func_021C67E8(p, 16);
+        VIEWER_TEXT_SetScroll(p, 16);
     }
     if (info->b3) {
-        func_021C67E8(p, 17);
+        VIEWER_TEXT_SetScroll(p, 17);
     }
     if (info->b4) {
-        func_021C67E8(p, 18);
+        VIEWER_TEXT_SetScroll(p, 18);
     }
 }

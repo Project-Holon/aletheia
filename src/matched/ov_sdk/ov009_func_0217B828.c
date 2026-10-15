@@ -1,5 +1,5 @@
 /*
- * function: func_0217B828
+ * function: DWCi_CheckProfanityAsync
  * address:  0x0217B828
  * packet:   pkt_ov009_0217B828
  * region:   ov009
@@ -19,8 +19,8 @@
  *   strstr  0x02094B20  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   DWC_Http_Create  0x0217956C  arm  ov009
- *   func_02178F4C  0x02178F4C  arm  ov009
- *   func_02179218  0x02179218  arm  ov009
+ *   DWC_Auth_GetCalInfoFromNVRAM  0x02178F4C  arm  ov009
+ *   DWC_Auth_SetCalInfoToHttp  0x02179218  arm  ov009
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
  *   DWC_Http_Add_Body  0x0217A044  arm  ov009
  *   wcscpy  0x02096594  arm
@@ -121,8 +121,8 @@ extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern char *strstr(const char *s1, const char *s2);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern int func_02178F4C(void *cal);
-extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
+extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
+extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int DWC_Http_Add_Body(char *http, char *data);
 extern unsigned short *wcscpy(unsigned short *dst, const unsigned short *src);
@@ -147,7 +147,7 @@ extern char g_021A2808[];
 extern char g_021A2810[];
 extern OSThreadInfo gMslRefToken;
 
-int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int timeout,
+int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserved, int timeout,
                   char *result, int *badwordsnum, char *region)
 {
     DWCHttpParam httpparam;
@@ -203,9 +203,9 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
         goto error;
     g_021ACEF0->http_initialized = 1;
 
-    if (!func_02178F4C(&calinfo))
+    if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo))
         goto error;
-    if (!func_02179218(&g_021ACEF0->http, &calinfo, g_021ACE70))
+    if (!DWC_Auth_SetCalInfoToHttp(&g_021ACEF0->http, &calinfo, g_021ACE70))
         goto error;
     if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A27E4, region, 1) != 0)
         goto error;

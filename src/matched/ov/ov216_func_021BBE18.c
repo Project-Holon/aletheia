@@ -18,7 +18,7 @@
  *   BEACON_DETAIL_GRA_Delete 0x021BC0B4 thumb ov216
  *   func_021BC9D0 0x021BC9D0 thumb ov216
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov072_id 0x00000048 data
  *   ov067_id 0x00000043 data
@@ -36,7 +36,7 @@ extern void func_021BC178(char *);
 extern void BEACON_DETAIL_GRA_Delete(char *);
 extern void func_021BC9D0(unsigned *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int);
 int BEACON_DETAIL_GRA_Exit(struct S020315D4 *heap,int unused1,int unused2,char *p)
 {
@@ -50,7 +50,7 @@ int BEACON_DETAIL_GRA_Exit(struct S020315D4 *heap,int unused1,int unused2,char *
     BEACON_DETAIL_GRA_Delete(p);
     func_021BC9D0(*(unsigned * *)&((struct Obj01437 *)p)->f50);
     func_020315D4(heap);
-    func_020306F0(119);
+    GFL_HEAP_DeleteChecked(119);
     func_02034A5C((int)ov072_id);
     func_02034A5C((int)ov067_id);
     return 1;

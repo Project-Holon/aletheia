@@ -38,6 +38,10 @@
  *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
  *   GX_GetBankForOBJExtPltt  0x02080C34  arm
  *   GX_GetBankForSubOBJExtPltt  0x02080C74  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
+ *   NNSi_G2dInitVramHandleEx  0x020637D4  arm
+ *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
  */
 
 typedef unsigned char  u8;
@@ -50,11 +54,11 @@ struct Holder { u8 pad_00[0xc]; struct Ent *ents; };
 
 typedef signed int     s32;
 struct NitroFileHeader;
-extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_020637D4(u32 *p);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern u32 CLACT_IsVramTypeCompatible(u32 a, u32 b);
-extern void func_02063E54(struct Surf *s, u32 size, int mode,
+extern void NNSi_G2dLoadVramResourceBySel(struct Surf *s, u32 size, int mode,
                          struct Ent *ent);
 extern u16 GX_GetBankForOBJExtPltt(void);
 extern u16 GX_GetBankForSubOBJExtPltt(void);
@@ -87,11 +91,11 @@ void CLACT_TransferPaletteData(struct Holder *h, int idx, void *src, void *sel,
         limit = 0x200;
     }
 
-    func_02062AD4(src, &tmp);
-    if (!func_02062A98(src, (void **)(&surf))) {
+    NNS_G2dGetUnpackedPaletteCompressInfo(src, &tmp);
+    if (!NNS_G2dGetUnpackedPaletteData(src, (void **)(&surf))) {
         return;
     }
-    func_020637D4((u32 *)(ents + off));
+    NNSi_G2dInitVramHandleEx((u32 *)(ents + off));
 
     if (head != 0) {
         unsigned long long ofs = head * 32;
@@ -116,13 +120,13 @@ void CLACT_TransferPaletteData(struct Holder *h, int idx, void *src, void *sel,
     if (CLACT_IsVramTypeCompatible((u32)sel, 0)) {
         saved = GX_GetBankForOBJExtPltt();
         if (flag) func_0208068C();
-        func_02063E54(surf, size, 1, (struct Ent *)(ents + off));
+        NNSi_G2dLoadVramResourceBySel(surf, size, 1, (struct Ent *)(ents + off));
         if (flag) GX_SetBankForOBJExtPltt(saved);
     }
     if (CLACT_IsVramTypeCompatible((u32)sel, 1)) {
         saved = GX_GetBankForSubOBJExtPltt();
         if (flag) func_0208068C();
-        func_02063E54(surf, size, 2, (struct Ent *)(ents + off));
+        NNSi_G2dLoadVramResourceBySel(surf, size, 2, (struct Ent *)(ents + off));
         if (flag) GX_SetBankForSubOBJExtPltt(saved);
     }
 

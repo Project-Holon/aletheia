@@ -1,5 +1,5 @@
 /*
- * function: func_021BEC60
+ * function: ZKNSEARCH_MAIN_PrintListRow
  * address:  0x021BEC60
  * packet:   pkt_ov210_021BEC60
  * region:   ov210
@@ -26,7 +26,7 @@ extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, 
 struct Descriptor;
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 
-void func_021BEC60(int p, int *a, u32 b)
+void ZKNSEARCH_MAIN_PrintListRow(int p, int *a, u32 b)
 {
     u32 x = FRAME_LIST_GetPrinter(*(char * *)&((struct Obj04620 *)p)->f1E0);
 

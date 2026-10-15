@@ -13,7 +13,7 @@
  *
  * symbols:
  *   current_time  0x0217F264  arm   ov009
- *   func_0217D254  0x0217D254  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
  *   send_heartbeat  0x0219CE58  arm   ov009
  *   send_keepalive  0x0219CDBC  arm   ov009
  *   g_021A7564     0x021A7564  data
@@ -76,7 +76,7 @@ typedef struct qr2_implementation_s {
 
 
 extern unsigned int current_time(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void send_heartbeat(qr2_implementation_s *qrec, int statechanged);
 extern void send_keepalive(qr2_implementation_s *qrec);
 extern char g_021A7564[];
@@ -88,12 +88,12 @@ void qr2_check_send_heartbeat(qr2_implementation_s *qrec)
     unsigned int tc = current_time();
 
     if (qrec->hbsock == -1) {
-        func_0217D254(3, 0, 2, g_021A7564);
+        gsDebugFormat(3, 0, 2, g_021A7564);
         return;
     }
     if (qrec->listed_state > 0 && tc - qrec->lastheartbeat > 10000) {
         if (qrec->listed_state >= 4) {
-            func_0217D254(3, 0, 1, g_021A7578);
+            gsDebugFormat(3, 0, 1, g_021A7578);
             qrec->listed_state = 0;
             qrec->adderror_callback(5, g_021A75B8, qrec->udata);
             return;

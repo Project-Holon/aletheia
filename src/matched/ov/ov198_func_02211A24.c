@@ -1,5 +1,5 @@
 /*
- * function: func_02211A24
+ * function: B_PLIST_MAIN_LayoutCursorActors
  * address:  0x02211A24
  * packet:   pkt_02211A24
  * region:   ov198
@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
 extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
 
-void func_02211A24(u8 *p, u32 idx)
+void B_PLIST_MAIN_LayoutCursorActors(u8 *p, u32 idx)
 {
     void *t = CURSOR_MOVE_GetEntry(*(void ** *)&((struct Obj10855 *)p)->f2184, idx);
 

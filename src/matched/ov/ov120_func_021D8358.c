@@ -1,5 +1,5 @@
 /*
- * function: func_021D8358
+ * function: GTSNEGO_MSG_OpenMenuB
  * address: 0x021D8358
  * packet: pkt_ov120_021D8358
  * region: ov120
@@ -26,7 +26,7 @@ struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void *func_021D8358(char *p,int n)
+void *GTSNEGO_MSG_OpenMenuB(char *p,int n)
 {
     TextConfig config;
     void *result;

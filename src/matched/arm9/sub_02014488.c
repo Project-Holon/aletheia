@@ -19,7 +19,7 @@
  *           0x02188BD8 nor 0x0215FA44 is a function start in ANY candidate
  *           overlay, so no `thumb ovNNN` region hint on the symbols: line
  *           can resolve them.  0x02188BD8 falls mid-instruction in ov009
- *           (inside `bl func_02193734`) and in ov096, and lands on plain
+ *           (inside `bl gpiSetErrorString`) and in ov096, and lands on plain
  *           .word data in ov021 and ov230; 0x0215FA44 falls inside a `str`
  *           in ov009 and on .word data in ov010.  A region hint only picks
  *           between labelled candidates; it cannot create a label.  This

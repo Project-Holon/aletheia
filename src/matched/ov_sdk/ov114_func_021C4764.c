@@ -12,7 +12,7 @@
  * sdk:      ghiDoWaiting (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm   ov009
+ *   gsDebugFormat  0x0217D254  arm   ov009
  *   GSISocketSelect  0x0217ED64  arm   ov009
  *   GOAGetLastError  0x0217ED54  arm   ov009
  *   ghiCallProgressCallback  0x021C02C8  arm   ov114
@@ -31,7 +31,7 @@ typedef struct GHIConnection {
     int f124;
 } GHIConnection;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int GSISocketSelect(int, int *, int *, int *);
 extern int GOAGetLastError(int sock);
 extern void ghiCallProgressCallback(GHIConnection *, char *, int);
@@ -43,7 +43,7 @@ void ghiDoWaiting(GHIConnection *connection)
     int readFlag;
     int exceptFlag;
 
-    func_0217D254(8, (char *)3, 16, sGhttpWaiting);
+    gsDebugFormat(8, (char *)3, 16, sGhttpWaiting);
     rcode = GSISocketSelect(connection->f50, &readFlag, 0, &exceptFlag);
     if (rcode == -1 || (rcode == 1 && exceptFlag)) {
         connection->f124 = 1;

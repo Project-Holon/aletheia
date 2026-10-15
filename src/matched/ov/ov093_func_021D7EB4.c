@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   _u32_div_f     0x0209C2B0  arm
  */
 
@@ -26,13 +26,13 @@ typedef signed int s32;
 struct QF;
 u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern int func_021D59B4(u8 *p, int k);
-u32 func_02019C90(u16 a, u16 b, u32 k);
+u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 
 u32 BTL_CALC_CalcDefeatExp(void *a)
 {
     int s = BTL_POKEPARAM_GetSpecies(a);
     u16 x = func_021D59B4(a, 0x13);
     u16 y = func_021D59B4(a, 0xf);
-    u32 v = func_02019C90(s, x, 9);
+    u32 v = POKE_TOOL_GetPersonalParam(s, x, 9);
     return (v * y) / 5;
 }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020419E4",
+   "name": "BG_SYS_Update",
    "address": "0x020419E4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02041A1C",
+   "name": "BG_SYS_CommitLayers",
    "address": "0x02041A1C",
    "kind": "game",
    "region": "arm9",

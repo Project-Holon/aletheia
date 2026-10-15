@@ -1,5 +1,5 @@
 /*
- * function: func_021C06F8
+ * function: ZKNSEARCH_RESULT_Noop6
  * address: 0x021C06F8
  * packet: pkt_ov210_021C06F8
  * region: ov210
@@ -13,6 +13,6 @@
  */
 
 /* Empty callback. */
-void func_021C06F8(void)
+void ZKNSEARCH_RESULT_Noop6(void)
 {
 }

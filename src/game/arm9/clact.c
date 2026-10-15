@@ -15,26 +15,26 @@
  * symbols:
  *   g_ClactSystem     0x02146A74  data
  *   s_clact_c      0x020A7F74  data
- *   sub_02030734   0x02030734  arm
- *   sub_020307B0   0x020307B0  arm
- *   func_02066998 0x02066998 arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
+ *   NNS_G2dUpdateCellTransferStateManager 0x02066998 arm
  *   g_ClactEmptyCharTemplate     0x020A1430  data
  *   VMAN_IsHandleInvalid  0x02034640  arm
  *   VMAN_Free  0x020346B8  arm
- *   func_020637BC   0x020637BC  arm
- *   func_020637B4   0x020637B4  arm
+ *   NNSi_G2dIsVramHandleSet   0x020637BC  arm
+ *   NNSi_G2dGetVramHandleValue   0x020637B4  arm
  *   func_0207E780   0x0207E780  arm
  *   func_0207E804   0x0207E804  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
- *   func_0206380C  0x0206380C  arm
- *   func_02063800  0x02063800  arm
+ *   NNSi_G2dIsVramHandleSetEx  0x0206380C  arm
+ *   NNSi_G2dGetVramHandleEx  0x02063800  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   func_0207E5D0  0x0207E5D0  arm
- *   sub_02062F1C   0x02062F1C  arm
+ *   NNSi_G2dGetCellAnimFrameIdx   0x02062F1C  arm
  *   g_020A7F3C     0x020A7F3C  data
- *   func_02063078  0x02063078  arm
- *   func_0206343C  0x0206343C  arm
- *   func_02063640  0x02063640  arm
+ *   NNS_G2dInitOamManagerModule  0x02063078  arm
+ *   NNS_G2dApplyOamManagerToHW  0x0206343C  arm
+ *   NNS_G2dResetOamManagerBuffer  0x02063640  arm
  *   NNS_G2dInitRenderer   0x02065AA8  arm
  *   NNS_G2dSetRendererTargetSurface   0x02065B64  arm
  *   NNS_G2dInitRenderSurface  0x02065B74  arm
@@ -42,8 +42,8 @@
  *   g_ClactSurfaceModeTable     0x020A13F4  data
  *   g_ClactSurfaceTypeTable     0x020A1388  data
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_02063294  0x02063294  arm
- *   func_02063378  0x02063378  arm
+ *   NNSi_G2dEntryOamManagerOam  0x02063294  arm
+ *   NNS_G2dEntryOamManagerAffine  0x02063378  arm
  *   NNSi_objSizeHTbl   0x020A17D8  data
  *   NNSi_objSizeWTbl   0x020A17F0  data
  *   NNS_G2dInitCellTransferStateManager  0x02066934  arm
@@ -65,7 +65,7 @@
  *   g_ClactAnimFuncTable  0x020A1394  data
  *   sub_020627D8  0x020627D8  arm
  *   sub_0206428C  0x0206428C  arm
- *   func_02066AE0  0x02066AE0  arm
+ *   NNSi_G2dGetCellTransferStateIndex  0x02066AE0  arm
  *   NNS_G2dInitCellAnimationVramTransfered  0x020642C8  arm
  *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
  *   NNS_G2dInitMCAnimation  0x02064754  arm
@@ -87,24 +87,24 @@
  *   VMAN_Delete  0x020345DC  arm
  *   MI_UncompressLZ8  0x020834C0  arm
  *   VMAN_InvalidateHandle  0x02034630  arm
- *   func_02063790    0x02063790  arm
+ *   NNSi_G2dInitVramHandle    0x02063790  arm
  *   VMAN_Alloc    0x02034660  arm
  *   func_020346D8    0x020346D8  arm
- *   func_02063828    0x02063828  arm
- *   func_02063A54    0x02063A54  arm
- *   func_02063C80    0x02063C80  arm
- *   func_02062AD4  0x02062AD4  arm
- *   func_02062A98  0x02062A98  arm
- *   func_020637D4  0x020637D4  arm
- *   func_02063F4C  0x02063F4C  arm
+ *   NNSi_G2dLoadVramResourceMain    0x02063828  arm
+ *   NNSi_G2dLoadVramResourceSub    0x02063A54  arm
+ *   NNSi_G2dSetupVramResource    0x02063C80  arm
+ *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   NNSi_G2dInitVramHandleEx  0x020637D4  arm
+ *   NNSi_G2dLoadVramResourceList  0x02063F4C  arm
  *   GX_GetBankForOBJExtPltt  0x02080C34  arm
  *   GX_GetBankForSubOBJExtPltt  0x02080C74  arm
  *   func_0208068C  0x0208068C  arm
  *   GX_SetBankForOBJExtPltt  0x020801F8  arm
  *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
- *   func_02062820  0x02062820  arm
- *   func_02062670  0x02062670  arm
- *   func_02062A00  0x02062A00  arm
+ *   NNS_G2dGetUnpackedCellBank  0x02062820  arm
+ *   NNS_G2dGetUnpackedAnimBankEx  0x02062670  arm
+ *   NNS_G2dGetUnpackedCharacterData  0x02062A00  arm
  *   SYSTEMFONT_Load  0x020461F4  arm
  *   NNSi_G2dSetMCInstanceCurrentFrameZero  0x02064C10  arm
  *   NNS_G2dBeginRendering  0x02065BD0  arm
@@ -112,6 +112,8 @@
  *   NNSi_G2dRendererDrawCellZOffset  0x02065CE4  arm
  *   NNSi_G2dRendererDrawCellTransformedZOffset  0x02065D4C  arm
  *   NNSi_G2dRendererDrawMultiCellTransformed  0x02066080  arm
+ *   NNSi_G2dReserveOamManagerSpan  0x02063138  arm
+ *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
  */
 
 #define CONV(d, v) do { s32 _t = (s16)(v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
@@ -554,38 +556,38 @@ struct CompHeader {
     u32 header;
 };
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  MI_CpuFill8(void *dst, int fill, u32 size);
-extern u32 sub_020307B0(void *p);
-extern void func_02066998(void);
+extern u32 GFL_HEAP_Free(void *p);
+extern void NNS_G2dUpdateCellTransferStateManager(void);
 extern int VMAN_IsHandleInvalid(struct VramBlock *p);
 extern void VMAN_Free(struct VramAllocator *owner, struct VramBlock *p);
-extern int func_020637BC(const u32 *p, u32 i);
-extern int func_020637B4(int *p, int i);
+extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
+extern int NNSi_G2dGetVramHandleValue(int *p, int i);
 extern void DC_FlushRange(void *a, u32 b);
 extern void func_0207E780(void *a, void *b, u32 c);
 extern void func_0207E804(void *a, void *b, u32 c);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
-extern int func_0206380C(char *p, int i);
-extern int func_02063800(char *p, int i);
+extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
+extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 extern void GX_LoadOBJPltt(void *dest, void *src, u32 size);
 extern void func_0207E5D0(void *dest, void *src, u32 size);
-extern u16 sub_02062F1C(const struct AnimCtrl *n);
-extern void func_02063078(void);
-extern unsigned int func_02063138(void *p, int a, int b, int which);
-extern void func_0206343C(struct OamManager *pMan, u32 bound);
-extern void func_02063640(struct OamManager *pMan);
+extern u16 NNSi_G2dGetCellAnimFrameIdx(const struct AnimCtrl *n);
+extern void NNS_G2dInitOamManagerModule(void);
+extern unsigned int NNSi_G2dReserveOamManagerSpan(void *p, int a, int b, int which);
+extern void NNS_G2dApplyOamManagerToHW(struct OamManager *pMan, u32 bound);
+extern void NNS_G2dResetOamManagerBuffer(struct OamManager *pMan);
 extern void NNS_G2dInitRenderer(struct Renderer *o);
 extern void NNS_G2dSetRendererTargetSurface(struct Renderer *p0, struct Surface *p1);
 extern void NNS_G2dInitRenderSurface(struct Surface *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32  func_02063294(struct OamManager *win, struct OamEntry *entry, u32 mode);
-extern void func_02063378(struct OamManager *a0, u32 a1);
+extern u32  NNSi_G2dEntryOamManagerOam(struct OamManager *win, struct OamEntry *entry, u32 mode);
+extern void NNS_G2dEntryOamManagerAffine(struct OamManager *a0, u32 a1);
 extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, u32 n, void *cb);
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
-extern void func_02063790(u32 *p);
-extern void func_020637D4(u32 *p);
+extern void NNSi_G2dInitVramHandle(u32 *p);
+extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern void func_02066748(int *a0, int a1, int a2);
 extern void NNS_G2dBeginRendering(struct Renderer *obj);
 extern void NNS_G2dEndRendering();
@@ -599,7 +601,7 @@ extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
 extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellAnim *c);
 extern struct AnimSequence *sub_020627D8(struct G2dDataBank *bank, u32 idx);
 extern void sub_0206428C(char *self, int a1, struct G2dDataBank *c);
-extern int func_02066AE0(void);
+extern int NNSi_G2dGetCellTransferStateIndex(void);
 extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
 extern int NNS_G2dGetMCWorkAreaSize(struct G2dDataBank *mc_bank, u32 b);
 extern void NNS_G2dInitMCAnimation(char *o, void *buf, void *set, void *a3, struct G2dDataBank *bank, int kind);
@@ -622,22 +624,22 @@ extern void MI_UncompressLZ8(const void *src, void *dest);
 extern void  VMAN_InvalidateHandle(struct VramBlock *p);
 extern int VMAN_Alloc(u8 *p, u32 a, void **out);
 extern u32 func_020346D8(struct VramAllocator *a, u32 *b);
-extern void func_02063828(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
-extern void func_02063A54(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
-extern void func_02063C80(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
-extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_02063E54(struct PaletteData *s, u32 size, int mode,
+extern void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
+extern void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
+extern void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+extern void NNSi_G2dLoadVramResourceBySel(struct PaletteData *s, u32 size, int mode,
                          struct PlttSlot *ent);
 extern u16 GX_GetBankForOBJExtPltt(void);
 extern u16 GX_GetBankForSubOBJExtPltt(void);
 extern void func_0208068C(void);
 extern void GX_SetBankForOBJExtPltt(int objExtPltt);
 extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
-extern void func_02063F4C(struct PaletteData *self, struct PaletteCompInfo *list, u32 base, int sel, struct PaletteProxy *out);
-extern int func_02062820(int a, struct G2dDataBank **out);
-extern s32 func_02062670(void *handle, struct G2dDataBank **slot);
-extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
+extern void NNSi_G2dLoadVramResourceList(struct PaletteData *self, struct PaletteCompInfo *list, u32 base, int sel, struct PaletteProxy *out);
+extern int NNS_G2dGetUnpackedCellBank(int a, struct G2dDataBank **out);
+extern s32 NNS_G2dGetUnpackedAnimBankEx(void *handle, struct G2dDataBank **slot);
+extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 extern void  SYSTEMFONT_Load(u32 a);
 void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
 void CLACT_ExitSystem(void);
@@ -906,7 +908,7 @@ void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_c
     u16 dims[6];
     int i;
 
-    g_ClactSystem = sub_02030734(heapId, sizeof(struct Sys), 0, s_clact_c, 0x28f);
+    g_ClactSystem = GFL_HEAP_Alloc(heapId, sizeof(struct Sys), 0, s_clact_c, 0x28f);
     MI_CpuFill8(g_ClactSystem, 0, sizeof(struct Sys));
 
     dims[0] = cfg->n_chars;
@@ -966,7 +968,7 @@ void CLACT_ExitSystem(void)
     CLACT_ExitRenderer(&g_ClactSystem->renderer);
     CLACT_ExitTransferPool(&g_ClactSystem->transfer);
     CLACT_ExitResources((struct Res *)((u8 *)g_ClactSystem + 0x104));
-    sub_020307B0(g_ClactSystem);
+    GFL_HEAP_Free(g_ClactSystem);
     g_ClactSystem = 0;
 }
 
@@ -989,7 +991,7 @@ void CLACT_DrawSystem(void)
 
     sys = g_ClactSystem;
     if (sys->transfer.ready != 0) {
-        func_02066998();
+        NNS_G2dUpdateCellTransferStateManager();
     }
 
     CLACT_SetSystemActive(1);
@@ -1091,7 +1093,7 @@ found:
         file = (u32)CLACT_LoadArchiveData(archive, file_idx, compressed, (u16)((heap_id & 0x7fff) | 0x8000));
 
         CLACT_SetupCharacter(&g_ClactSystem->res, i, file, vram_mode, 0);
-        sub_020307B0((void *)file);
+        GFL_HEAP_Free((void *)file);
 
         slot->data = 0;
         slot->data_shared = 0;
@@ -1107,7 +1109,7 @@ found:
  * +0x104, like its sibling CLACT_RegisterCharacter, but builds a fresh character
  * record: the 0x18-byte template at 0x020A1430 is copied to the stack, the
  * DISPCNT OBJ-mapping bits and the size patched in, and the sixth word
- * holds a scratch block from sub_02030734 (clact.c, line 0x3c8) that is
+ * holds a scratch block from GFL_HEAP_Alloc (clact.c, line 0x3c8) that is
  * registered through CLACT_SetupCharacterVram and freed at the end.  Returns the cell
  * index, or -1 when none is found.
  *
@@ -1150,14 +1152,14 @@ found:
         char_data = g_ClactEmptyCharTemplate;
         char_data.mapping = *(volatile u32 *)0x04000000 & 0x00300010;
         char_data.size = size;
-        char_data.raw = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
+        char_data.raw = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
 
         CLACT_SetupCharacterVram((struct Res *)(&g_ClactSystem->res), i, (struct CharData *)(&char_data), 0, vram_mode);
 
         slot->free = 0;
         slot->data = 0;
         slot->data_shared = 0;
-        sub_020307B0(char_data.raw);
+        GFL_HEAP_Free(char_data.raw);
         return i;
     }
     return -1;
@@ -1177,7 +1179,7 @@ found:
  * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md read from
  * the other side, the same shape as src/matched/CLACT_ReleasePalette.c).  The payload
  * pointer is the one exception: it is bound to a local, which is why the `bl`
- * to sub_020307B0 needs no load in front of it.
+ * to GFL_HEAP_Free needs no load in front of it.
  *
  * +0x3c is a bitfield word, not a mask word.  The evidence is the guard:
  * `lsl #31` / `lsrs #31` to read bit 0, where a plain `x & 1` compiles to
@@ -1210,7 +1212,7 @@ void CLACT_ReleaseCharacter(u32 idx)
     payload = g_ClactSystem->res.chars[idx].data;
     if (payload != 0) {
         if (g_ClactSystem->res.chars[idx].data_shared == 0) {
-            sub_020307B0(payload);
+            GFL_HEAP_Free(payload);
         } else {
             g_ClactSystem->res.chars[idx].data_shared = 0;
         }
@@ -1225,15 +1227,15 @@ void CLACT_ReleaseCharacter(u32 idx)
 
 void CLACT_TransferCharacter(int idx, struct CharData *char_data)
 {
-    if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
-        void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
+    if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
+        void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
         DC_FlushRange((void *)char_data->raw, char_data->size);
         func_0207E780((void *)char_data->raw, vram_addr, char_data->size);
     }
-    if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
+    if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
         return;
     {
-        void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
+        void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
         DC_FlushRange((void *)char_data->raw, char_data->size);
         func_0207E804((void *)char_data->raw, vram_addr, char_data->size);
     }
@@ -1244,17 +1246,17 @@ void CLACT_TransferCharacter(int idx, struct CharData *char_data)
 void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target)
 {
     if (target == 0 || target == 2) {
-        if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
-            void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
+        if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
+            void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
             DC_FlushRange(src, size);
             func_0207E780(src, (char *)vram_addr + offset, size);
         }
     }
     if (target == 1 || target == 2) {
-        if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
+        if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
             return;
         {
-            void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
+            void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
             DC_FlushRange(src, size);
             func_0207E804(src, (char *)vram_addr + offset, size);
         }
@@ -1280,7 +1282,7 @@ void CLACT_GetCharacterProxy(u32 idx, struct ImageProxy *out)
 
 /*
  * Snapshot one actor record into a local 36-byte buffer and hand it to
- * func_020637B4 with mode 1, or mode 2 when the second argument is set.
+ * NNSi_G2dGetVramHandleValue with mode 1, or mode 2 when the second argument is set.
  */
 int CLACT_GetCharacterVramAddress(u32 idx, u32 flag)
 {
@@ -1291,7 +1293,7 @@ int CLACT_GetCharacterVramAddress(u32 idx, u32 flag)
         mode = 2;
     }
     CLACT_GetCharacterProxy(idx, &buf);
-    return func_020637B4((int *)(&buf), mode);
+    return NNSi_G2dGetVramHandleValue((int *)(&buf), mode);
 }
 
 
@@ -1347,7 +1349,7 @@ found:
     file = (u32)ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
 
     CLACT_TransferPaletteData((struct Res *)(&g_ClactSystem->res), i, (void *)file, (void *)vram_mode, vram_offset, first_color, color_count);
-    sub_020307B0((void *)file);
+    GFL_HEAP_Free((void *)file);
 
     return i;
 }
@@ -1405,7 +1407,7 @@ found:
         return (int)i;
     file = ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
     CLACT_TransferPaletteDataEx((struct Res *)(&g_ClactSystem->res), i, file, (void *)vram_mode, vram_offset);
-    sub_020307B0(file);
+    GFL_HEAP_Free(file);
     return (int)i;
 }
 
@@ -1444,7 +1446,7 @@ void CLACT_ReleasePalette(u32 idx)
 /*
  * Flush both halves of one slot of the 0x18-byte-stride table at +0x110 of
  * the singleton behind 0x02146A74 into the destination the caller supplies.
- * Each half is guarded by func_0206380C, fetched with func_02063800 and
+ * Each half is guarded by NNSi_G2dIsVramHandleSetEx, fetched with NNSi_G2dGetVramHandleEx and
  * written through GX_LoadOBJPltt (selector 1) or func_0207E5D0 (selector 2),
  * with DC_FlushRange invalidating the destination first.
  *
@@ -1470,15 +1472,15 @@ void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 siz
         size = dest->size;
     }
 
-    if (func_0206380C((char *)(&g_ClactSystem->res.pltts[idx]), 1) != 0) {
-        void *src = (void *)func_02063800((char *)(&g_ClactSystem->res.pltts[idx]), 1);
+    if (NNSi_G2dIsVramHandleSetEx((char *)(&g_ClactSystem->res.pltts[idx]), 1) != 0) {
+        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)(&g_ClactSystem->res.pltts[idx]), 1);
 
         DC_FlushRange((void *)dest->raw, size);
         GX_LoadOBJPltt((void *)dest->raw, src, size);
     }
 
-    if (func_0206380C((char *)(&g_ClactSystem->res.pltts[idx]), 2) != 0) {
-        void *src = (void *)func_02063800((char *)(&g_ClactSystem->res.pltts[idx]), 2);
+    if (NNSi_G2dIsVramHandleSetEx((char *)(&g_ClactSystem->res.pltts[idx]), 2) != 0) {
+        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)(&g_ClactSystem->res.pltts[idx]), 2);
 
         DC_FlushRange((void *)dest->raw, size);
         func_0207E5D0((void *)dest->raw, src, size);
@@ -1494,7 +1496,7 @@ void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 siz
  * a trailing word, which is what a whole-struct assignment of this size
  * compiles to (docs/idioms/aggregate-assignment-is-ldm-stm.md).
  * CLACT_GetPaletteVramAddress takes that copy on its own stack and submits it to
- * func_02063800 under selector 1 or 2.
+ * NNSi_G2dGetVramHandleEx under selector 1 or 2.
  *
  * Kept as one unit so the `bl` at CLACT_GetPaletteVramAddress+0x1c is `local`:
  * CLACT_GetPaletteVramAddress is CLACT_GetPaletteProxy's only caller image-wide, so split into two
@@ -1518,7 +1520,7 @@ int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
     }
 
     CLACT_GetPaletteProxy(idx, &record);
-    return func_02063800((char *)(&record), selector);
+    return NNSi_G2dGetVramHandleEx((char *)(&record), selector);
 }
 
 
@@ -1609,11 +1611,11 @@ void CLACT_ReleaseCellAnim(u32 idx)
     struct CellSlot *slot = &g_ClactSystem->res.cells[idx];
 
     if (slot->cell_file != 0) {
-        sub_020307B0(slot->cell_file);
+        GFL_HEAP_Free(slot->cell_file);
         slot->cell_file = 0;
     }
     if (slot->anim_file != 0) {
-        sub_020307B0(slot->anim_file);
+        GFL_HEAP_Free(slot->anim_file);
         slot->anim_file = 0;
     }
     slot->free = 1;
@@ -1638,7 +1640,7 @@ void CLACT_ReleaseCellAnim(u32 idx)
  */
 struct Renderer *CLACT_CreateRenderer(const struct SurfaceInit *inits, u32 count, u32 heap_id)
 {
-    struct Renderer *renderer = sub_02030734(heap_id, sizeof(struct Renderer), 0, s_clact_c, 0x633);
+    struct Renderer *renderer = GFL_HEAP_Alloc(heap_id, sizeof(struct Renderer), 0, s_clact_c, 0x633);
 
     CLACT_InitRenderer(renderer, inits, count, heap_id);
     return renderer;
@@ -1649,7 +1651,7 @@ struct Renderer *CLACT_CreateRenderer(const struct SurfaceInit *inits, u32 count
 void CLACT_DeleteRenderer(struct Renderer *renderer)
 {
     CLACT_ExitRenderer(renderer);
-    sub_020307B0(renderer);
+    GFL_HEAP_Free(renderer);
 }
 
 
@@ -1733,10 +1735,10 @@ struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId)
     struct Unit *unit;
     int          i;
 
-    unit = sub_02030734(heapId, sizeof(struct Unit), 0, s_clact_c, 0x6eb);
+    unit = GFL_HEAP_Alloc(heapId, sizeof(struct Unit), 0, s_clact_c, 0x6eb);
     MI_CpuFill8(unit, 0, sizeof(struct Unit));
 
-    unit->actors = sub_02030734(heapId, count * sizeof(struct Actor), 0,
+    unit->actors = GFL_HEAP_Alloc(heapId, count * sizeof(struct Actor), 0,
                                 s_clact_c, 0x6ef);
     unit->count = count;
     unit->priority = priority;
@@ -1781,8 +1783,8 @@ u32 CLACT_DeleteUnit(struct Unit *unit)
         }
     }
 
-    sub_020307B0(unit->actors);
-    return sub_020307B0(unit);
+    GFL_HEAP_Free(unit->actors);
+    return GFL_HEAP_Free(unit);
 }
 
 
@@ -2491,8 +2493,8 @@ u32 CLACT_GetActorPaletteOffset(struct Actor *actor)
  */
 void CLACT_SetActorPaletteProxy(struct Actor *actor, const struct PaletteProxy *proxy)
 {
-    func_0206380C((char *)proxy, 1);
-    func_0206380C((char *)proxy, 2);
+    NNSi_G2dIsVramHandleSetEx((char *)proxy, 1);
+    NNSi_G2dIsVramHandleSetEx((char *)proxy, 2);
     actor->palette = *proxy;
 }
 
@@ -2544,8 +2546,8 @@ void CLACT_GetActorPaletteProxy(const char *actor_base, struct PaletteProxy *dst
 void CLACT_SetActorImageProxy(char *actor_base, const struct ImageProxy *proxy)
 {
     struct ImageProxy copy;
-    func_020637BC((void *)proxy, 1);
-    func_020637BC((void *)proxy, 2);
+    NNSi_G2dIsVramHandleSet((void *)proxy, 1);
+    NNSi_G2dIsVramHandleSet((void *)proxy, 2);
     copy = *proxy;
     *(struct ImageProxy *)(actor_base + 0x1c) = copy;
 }
@@ -2770,10 +2772,10 @@ void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx)
 
 /*
  * Hand the record CLACT_GetAnimObject returns for the sub-object at +0x68
- * straight to sub_02062F1C: a plain forwarding call whose argument is
+ * straight to NNSi_G2dGetCellAnimFrameIdx: a plain forwarding call whose argument is
  * already in r0
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
- * sub_02062F1C is the one call this family makes outside the 0x0204Cxxx
+ * NNSi_G2dGetCellAnimFrameIdx is the one call this family makes outside the 0x0204Cxxx
  * / 0x0204Dxxx layer.
  *
  * Byte-correct, capped at MATCH: 0x02062F1C is called from this one site
@@ -2785,7 +2787,7 @@ void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx)
  */
 u16 CLACT_GetActorAnimSeqCount(struct Actor *actor)
 {
-    return sub_02062F1C(CLACT_GetAnimObject(&actor->ctl));
+    return NNSi_G2dGetCellAnimFrameIdx(CLACT_GetAnimObject(&actor->ctl));
 }
 
 
@@ -3029,7 +3031,7 @@ void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 he
 
 /*
  * Record the two VRAM base offsets of a cell-actor resource set in the
- * singleton: func_02063800 returns a byte address per bank selector, the
+ * singleton: NNSi_G2dGetVramHandleEx returns a byte address per bank selector, the
  * halfword fields at +0xf0 and +0xf2 hold it in 32-byte units, and the
  * caller's bias is then folded into both.
  *
@@ -3049,8 +3051,8 @@ void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 he
  */
 void CLACT_SetOamOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
 {
-    g_ClactSystem->pltt_base[0] = (u32)func_02063800((char *)pltt_proxy, (u32)1) >> 5;
-    g_ClactSystem->pltt_base[1] = (u32)func_02063800((char *)pltt_proxy, (u32)2) >> 5;
+    g_ClactSystem->pltt_base[0] = (u32)NNSi_G2dGetVramHandleEx((char *)pltt_proxy, (u32)1) >> 5;
+    g_ClactSystem->pltt_base[1] = (u32)NNSi_G2dGetVramHandleEx((char *)pltt_proxy, (u32)2) >> 5;
 
     g_ClactSystem->pltt_base[0] += base_offset;
     g_ClactSystem->pltt_base[1] += base_offset;
@@ -3304,12 +3306,12 @@ void CLACT_UnlinkUnit(struct Unit *unit)
 
 /*
  * Blocked at MATCH: all 68 concrete bytes are correct and the call to
- * func_02063078 resolves off the second call site in
+ * NNS_G2dInitOamManagerModule resolves off the second call site in
  * src/matched/CLACT_ExitOamManagers.c, but the two PC24 sites at +0x0028 and +0x003C
  * (the calls to CLACT_InitOamManager) have no witness outside this range: those two
  * calls are the only branch references to 0x0204BD3C image wide.  No cut frees
  * them, and src/pending/CLACT_InitOamManager.c cannot supply a `matched` entry
- * because it is itself capped at MATCH by func_02063138, a fan-in-1 extern.
+ * because it is itself capped at MATCH by NNSi_G2dReserveOamManagerSpan, a fan-in-1 extern.
  *
  * Bind both of a cell actor's 0x20-byte OAM sub-records to their hardware
  * spans: flush first, then the low record with span (base, count) and
@@ -3329,7 +3331,7 @@ void CLACT_UnlinkUnit(struct Unit *unit)
  */
 void CLACT_InitOamManagers(struct OamManagers *oam_managers, u32 main_base, u32 main_count, u32 sub_base, u8 sub_count)
 {
-    func_02063078();
+    NNS_G2dInitOamManagerModule();
     CLACT_InitOamManager(&oam_managers->mgr[0], main_base, main_count, 0);
     CLACT_InitOamManager(&oam_managers->mgr[1], sub_base, sub_count, 1);
 }
@@ -3353,7 +3355,7 @@ void CLACT_ExitOamManagers(struct OamManagers *oam_managers)
 {
     CLACT_ResetOamManagers(oam_managers);
     CLACT_ApplyOamManagers(oam_managers);
-    func_02063078();
+    NNS_G2dInitOamManagerModule();
 }
 
 
@@ -3404,7 +3406,7 @@ void CLACT_InitOamManager(struct OamManager *oam_manager, int base, int count, i
         oam_manager->bound = 0;
         return;
     }
-    func_02063138(oam_manager, base, count, screen);
+    NNSi_G2dReserveOamManagerSpan(oam_manager, base, count, screen);
     oam_manager->bound = 1;
 }
 
@@ -3413,7 +3415,7 @@ void CLACT_InitOamManager(struct OamManager *oam_manager, int base, int count, i
 
 /*
  * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
- * (the call to func_0206343C) has no witness of any class.  0x0206343C has
+ * (the call to NNS_G2dApplyOamManagerToHW) has no witness of any class.  0x0206343C has
  * exactly one branch reference image wide and it is that call, so no cut frees
  * it; the only unblock is a `matched` entry at 0x0206343C, a 508-byte function
  * in pkt_02063078, claimed by lane-C and far outside this lane.
@@ -3428,7 +3430,7 @@ void CLACT_ApplyOamManager(struct OamManager *oam_manager)
         return;
     }
 
-    func_0206343C(oam_manager, oam_manager->bound);
+    NNS_G2dApplyOamManagerToHW(oam_manager, oam_manager->bound);
 }
 
 
@@ -3436,7 +3438,7 @@ void CLACT_ApplyOamManager(struct OamManager *oam_manager)
 
 /*
  * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
- * (the call to func_02063640) has no witness of any class.  0x02063640 has
+ * (the call to NNS_G2dResetOamManagerBuffer) has no witness of any class.  0x02063640 has
  * exactly one branch reference image wide and it is that call; the only unblock
  * is a `matched` entry at 0x02063640, a 316-byte function in pkt_02063640,
  * claimed by lane-C.
@@ -3445,7 +3447,7 @@ void CLACT_ApplyOamManager(struct OamManager *oam_manager)
  * flag at +0x1c is the same one CLACT_InitOamManager sets, and an unbound record is
  * an early return predicated onto the compare (`popeq`).  The r1 read at the
  * call is a leftover, not an argument: 0x02063640 overwrites r1 at +0x1C with
- * `ldrh r1, [r5, #8]` before any use (docs/notes/func_02063640.c.txt).
+ * `ldrh r1, [r5, #8]` before any use (docs/notes/NNS_G2dResetOamManagerBuffer.c.txt).
  */
 void CLACT_ResetOamManager(struct OamManager *oam_manager)
 {
@@ -3453,7 +3455,7 @@ void CLACT_ResetOamManager(struct OamManager *oam_manager)
         return;
     }
 
-    func_02063640(oam_manager);
+    NNS_G2dResetOamManagerBuffer(oam_manager);
 }
 
 
@@ -3478,7 +3480,7 @@ void CLACT_InitRenderer(struct Renderer *renderer, const struct SurfaceInit *ini
 
     NNS_G2dInitRenderer(renderer);
     renderer->active = 1;
-    renderer->surfaces = sub_02030734(heap_id, count * sizeof(struct Surface), 0, s_clact_c, 0xfc7);
+    renderer->surfaces = GFL_HEAP_Alloc(heap_id, count * sizeof(struct Surface), 0, s_clact_c, 0xfc7);
     renderer->n_surfaces = count;
     for (i = 0; i < count; i++) {
         CLACT_InitSurface(&renderer->surfaces[i], &inits[i]);
@@ -3488,7 +3490,7 @@ void CLACT_InitRenderer(struct Renderer *renderer, const struct SurfaceInit *ini
 
 
 
-void CLACT_ExitRenderer(struct Renderer *renderer){ sub_020307B0(renderer->surfaces); }
+void CLACT_ExitRenderer(struct Renderer *renderer){ GFL_HEAP_Free(renderer->surfaces); }
 
 
 
@@ -3626,7 +3628,7 @@ void CLACT_SetSurfaceType(struct Surface *surface, u32 idx)
  * the 4-bit palette in bits 12..15 of the attribute halfword at +4 is either
  * BIASED by `pal` (mode 0) or REPLACED with it (mode 1); any other mode leaves
  * the entry alone.  The rewritten copy, not the caller's, is what reaches
- * func_02063294.
+ * NNSi_G2dEntryOamManagerOam.
  *
  * The bias arm is written as a store through a pointer to the halfword's word
  * (`add r2, sp, #4` then `ldr`/`str` through r2), which is what makes the
@@ -3637,11 +3639,11 @@ void CLACT_SetSurfaceType(struct Surface *surface, u32 idx)
  * Signature pinned from src/matched/CLACT_EntryOamMain.c, the one filed caller.
  *
  * BYTE-CORRECT, PARKED, NOT FILED.  132 bytes, 0 concrete mismatches; the sole
- * unresolved site is the PC24 to func_02063294 at +0x78.  Blocking evidence
+ * unresolved site is the PC24 to NNSi_G2dEntryOamManagerOam at +0x78.  Blocking evidence
  * class: `label` -- 0x02063294 has no branch anywhere in the image outside
  * 0x0204BF40..0x0204BFC4, and there is no `matched` entry for it
  * (docs/notes/pkt_02063078.c.txt records it as a DIFF, 228 bytes).  Filing
- * func_02063294 unblocks this file with no change to the C_0204BE38.
+ * NNSi_G2dEntryOamManagerOam unblocks this file with no change to the C_0204BE38.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_EntryOam.c \
@@ -3664,7 +3666,7 @@ void CLACT_EntryOam(struct OamManager *oam_manager, struct OamEntry *src_entry, 
                                (pltt_offset << 28 >> 16);
     }
 
-    func_02063294(oam_manager, &entry_copy, mode);
+    NNSi_G2dEntryOamManagerOam(oam_manager, &entry_copy, mode);
 }
 
 
@@ -3720,7 +3722,7 @@ void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode)
  */
 void CLACT_SetOamManagerMainParam(u32 value)
 {
-    func_02063378(&g_ClactSystem->oam_mgrs.mgr[0], value);
+    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[0], value);
 }
 
 
@@ -3740,7 +3742,7 @@ void CLACT_SetOamManagerMainParam(u32 value)
  */
 void CLACT_SetOamManagerSubParam(u32 value)
 {
-    func_02063378(&g_ClactSystem->oam_mgrs.mgr[1], value);
+    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[1], value);
 }
 
 
@@ -4089,7 +4091,7 @@ void CLACT_InitTransferPool(struct TransferPool *pool, u8 count, u32 heapId)
     }
 
     pool->count = count;
-    tasks = sub_02030734(heapId, count * sizeof(struct VramTransferTask), 0, s_clact_c, 0x1337);
+    tasks = GFL_HEAP_Alloc(heapId, count * sizeof(struct VramTransferTask), 0, s_clact_c, 0x1337);
     pool->tasks = tasks;
 
     NNS_G2dInitCellTransferStateManager(tasks, count, CLACT_RequestTransfer);
@@ -4124,7 +4126,7 @@ void CLACT_ExitTransferPool(struct TransferPool *pool)
         return;
     }
 
-    sub_020307B0(pool->tasks);
+    GFL_HEAP_Free(pool->tasks);
     pool->tasks = 0;
     CLACT_FreeTransferEntries((struct TransferPool *)pool);
     pool->ready = 0;
@@ -4156,7 +4158,7 @@ void CLACT_AllocTransferEntries(struct TransferPool *pool, u32 count, u32 heapId
 {
     u32 i;
 
-    pool->entries = sub_02030734(heapId, count * sizeof(struct TransferEntry), 0, s_clact_c,
+    pool->entries = GFL_HEAP_Alloc(heapId, count * sizeof(struct TransferEntry), 0, s_clact_c,
                            0x137b);
 
     for (i = 0; i < pool->count; i++) {
@@ -4178,7 +4180,7 @@ void CLACT_AllocTransferEntries(struct TransferPool *pool, u32 count, u32 heapId
  */
 void CLACT_FreeTransferEntries(struct TransferPool *pool)
 {
-    sub_020307B0(pool->entries);
+    GFL_HEAP_Free(pool->entries);
     pool->entries = 0;
 }
 
@@ -4619,8 +4621,8 @@ void CLACT_ClearActor(struct Actor *actor)
 {
     MI_CpuFill8(actor, 0, 0xe4);
     actor->auto_anim_speed = 0x1000;
-    func_02063790(actor->image.raw);
-    func_020637D4(actor->palette.raw);
+    NNSi_G2dInitVramHandle(actor->image.raw);
+    NNSi_G2dInitVramHandleEx(actor->palette.raw);
     actor->scale.x = 0x1000;
     actor->scale.y = 0x1000;
     actor->mode |= 1;
@@ -5217,12 +5219,12 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
         anim_ctl->cell_bank = cell_bank;
         anim_ctl->anim_bank = anim_bank;
     }
-    anim_ctl->xfer_handle = func_02066AE0();
+    anim_ctl->xfer_handle = NNSi_G2dGetCellTransferStateIndex();
     chars = req->xfer_chars;
     anim_data = (u32)sub_020627D8(anim_ctl->anim_bank, zero);
-    main_vram_addr = func_020637B4((int *)req->char_slot, 1);
+    main_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, 1);
     two = 2;
-    sub_vram_addr = func_020637B4((int *)req->char_slot, two);
+    sub_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, two);
     NNS_G2dInitCellAnimationVramTransfered((char *)anim_ctl->anim, anim_data, anim_ctl->cell_bank, anim_ctl->xfer_handle,
                   two - 3, main_vram_addr, sub_vram_addr, (int)chars->raw, zero, chars->size);
 }
@@ -5257,7 +5259,7 @@ void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req,
     anim_ctl->mc_bank = req->mc_bank;
     anim_ctl->mc_anim_bank = req->mc_anim_bank;
 
-    anim_ctl->mc_work = sub_02030734(heap_id, NNS_G2dGetMCWorkAreaSize(req->mc_bank, 1), 0, s_clact_c, 0x171d);
+    anim_ctl->mc_work = GFL_HEAP_Alloc(heap_id, NNS_G2dGetMCWorkAreaSize(req->mc_bank, 1), 0, s_clact_c, 0x171d);
     NNS_G2dInitMCAnimation((char *)anim_ctl->anim, anim_ctl->mc_work, anim_ctl->anim_bank, anim_ctl->cell_bank, anim_ctl->mc_bank, 1);
     sub_0206469C((struct MultiCellAnim *)anim_ctl->anim, sub_020627D8(anim_ctl->mc_anim_bank, 0));
 }
@@ -5327,7 +5329,7 @@ void CLACT_ExitMultiCellAnimCtl(struct AnimCtl *anim_ctl)
  */
 void CLACT_ExitVramAnimCtl(struct AnimCtl *anim_ctl)
 {
-    sub_020307B0(anim_ctl->mc_work);
+    GFL_HEAP_Free(anim_ctl->mc_work);
     MI_CpuFill8(anim_ctl, 0, 0x7c);
 }
 
@@ -6366,9 +6368,9 @@ void *CLACT_LoadArchiveData(void *archive, u32 file_idx, u32 compressed, u32 hea
     if (compressed != 0) {
         packed = (struct CompHeader *)ARC_TOOL_LoadHandleMember(archive, file_idx,
                   (u16)((heapId & 0x7fff) | 0x8000));
-        out = sub_02030734(heapId, packed->header >> 8, 0, s_clact_c, 0x1ba5);
+        out = GFL_HEAP_Alloc(heapId, packed->header >> 8, 0, s_clact_c, 0x1ba5);
         MI_UncompressLZ8(packed, out);
-        sub_020307B0(packed);
+        GFL_HEAP_Free(packed);
     } else {
         out = ARC_TOOL_LoadHandleMember(archive, file_idx,
                   (u16)((heapId & 0x7fff) | 0x8000));
@@ -6408,7 +6410,7 @@ void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
     u32 i;
     struct CharSlot *slots;
 
-    slots = sub_02030734(heapId, count << 6, 0, s_clact_c, 0x1bbe);
+    slots = GFL_HEAP_Alloc(heapId, count << 6, 0, s_clact_c, 0x1bbe);
 
     for (i = 0; i < count; i++) {
         struct CharSlot *slot = &slots[i];
@@ -6436,7 +6438,7 @@ void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
  * fourth argument supplies an override key: when it is null the key comes
  * from the sink's +0x10 field and the "overridden" flag stays clear;
  * otherwise it is the first word of the override's +0x0C block, with the
- * flag set. func_02063790 resets the cell's three-word handle triple, then
+ * flag set. NNSi_G2dInitVramHandle resets the cell's three-word handle triple, then
  * each half (the +0x2C descriptor against bank +0x00 and kind 1, the +0x34
  * descriptor against bank +0x04 and kind 2) is uploaded only when
  * CLACT_IsVramTypeCompatible admits the mode pair and VMAN_Alloc finds the resource:
@@ -6467,7 +6469,7 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
         has_override = 1;
     }
 
-    func_02063790((u32 *)slot);
+    NNSi_G2dInitVramHandle((u32 *)slot);
 
     if (CLACT_IsVramTypeCompatible(vram_mode, 0) != 0) {
         if (VMAN_Alloc((u8 *)res->vram_main, vram_size, (void **)&slot->main_block) != 0) {
@@ -6475,11 +6477,11 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
             vram_kind = 1;
             CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {
-                func_02063C80((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dSetupVramResource((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             } else if (char_data->mapping != 0) {
-                func_02063828((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceMain((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             } else {
-                func_02063A54((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceSub((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             }
         }
     }
@@ -6490,11 +6492,11 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
             vram_kind = 2;
             CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {
-                func_02063C80((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dSetupVramResource((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             } else if (char_data->mapping != 0) {
-                func_02063828((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceMain((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             } else {
-                func_02063A54((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceSub((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             }
         }
     }
@@ -6517,7 +6519,7 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
 
 void CLACT_FreeCharacterTable(void *chars)
 {
-    sub_020307B0(chars);
+    GFL_HEAP_Free(chars);
 }
 
 
@@ -6571,7 +6573,7 @@ void *CLACT_AllocPaletteTable(u32 heapId, u32 count)
     u32 i;
     struct PlttSlot *slots;
 
-    slots = sub_02030734(heapId, count * sizeof(struct PlttSlot), 0, s_clact_c, 0x1c58);
+    slots = GFL_HEAP_Alloc(heapId, count * sizeof(struct PlttSlot), 0, s_clact_c, 0x1c58);
 
     for (i = 0; i < count; i++) {
         slots[i].free = 1;
@@ -6637,11 +6639,11 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
         byte_limit = 0x200;
     }
 
-    func_02062AD4(file, &pltt_hdr);
-    if (!func_02062A98(file, (void **)(&pltt_data))) {
+    NNS_G2dGetUnpackedPaletteCompressInfo(file, &pltt_hdr);
+    if (!NNS_G2dGetUnpackedPaletteData(file, (void **)(&pltt_data))) {
         return;
     }
-    func_020637D4((u32 *)(slots + slot_off));
+    NNSi_G2dInitVramHandleEx((u32 *)(slots + slot_off));
 
     if (first_color != 0) {
         unsigned long long skip_bytes = first_color * 32;
@@ -6666,13 +6668,13 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = GX_GetBankForOBJExtPltt();
         if (extended) func_0208068C();
-        func_02063E54(pltt_data, vram_offset, 1, (struct PlttSlot *)(slots + slot_off));
+        NNSi_G2dLoadVramResourceBySel(pltt_data, vram_offset, 1, (struct PlttSlot *)(slots + slot_off));
         if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = GX_GetBankForSubOBJExtPltt();
         if (extended) func_0208068C();
-        func_02063E54(pltt_data, vram_offset, 2, (struct PlttSlot *)(slots + slot_off));
+        NNSi_G2dLoadVramResourceBySel(pltt_data, vram_offset, 2, (struct PlttSlot *)(slots + slot_off));
         if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }
 
@@ -6693,11 +6695,11 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
 /*
  * The one-surface sibling of CLACT_TransferPaletteData (same entry table, same 0x200
  * large-layer split, same bracketed double upload through CLACT_IsVramTypeCompatible's
- * engine select), uploading through func_02063F4C instead of func_02063E54.
+ * engine select), uploading through NNSi_G2dLoadVramResourceList instead of NNSi_G2dLoadVramResourceBySel.
  * Returns nothing: the trailing read-modify-write leaves r0 as garbage.
  *
  * Levers, all measured (wave 10): the two out-locals are declared `pltt_data` then
- * `pltt_hdr` (func_02062A98's out first), which puts `pltt_hdr` at sp+4 as the image has
+ * `pltt_hdr` (NNS_G2dGetUnpackedPaletteData's out first), which puts `pltt_hdr` at sp+4 as the image has
  * it; and the 0x200 test is written small-arm-first
  * (`if (size < 0x200) flag = 0; else {...}`), which is what orders the
  * predicated `movlo sl,#0` before `movhs sl,#1`.  Either alone leaves 4-6
@@ -6722,22 +6724,22 @@ void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vra
         extended = 1;
     }
 
-    func_02062AD4(file, &pltt_hdr);
-    if (!func_02062A98(file, &pltt_data)) {
+    NNS_G2dGetUnpackedPaletteCompressInfo(file, &pltt_hdr);
+    if (!NNS_G2dGetUnpackedPaletteData(file, &pltt_data)) {
         return;
     }
-    func_020637D4((u32 *)slot);
+    NNSi_G2dInitVramHandleEx((u32 *)slot);
 
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = GX_GetBankForOBJExtPltt();
         if (extended) func_0208068C();
-        func_02063F4C(pltt_data, pltt_hdr, vram_offset, 1, (struct PaletteProxy *)slot);
+        NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 1, (struct PaletteProxy *)slot);
         if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = GX_GetBankForSubOBJExtPltt();
         if (extended) func_0208068C();
-        func_02063F4C(pltt_data, pltt_hdr, vram_offset, 2, (struct PaletteProxy *)slot);
+        NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 2, (struct PaletteProxy *)slot);
         if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }
 
@@ -6753,7 +6755,7 @@ void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vra
 
 void CLACT_FreePaletteTable(void *pltts)
 {
-    sub_020307B0(pltts);
+    GFL_HEAP_Free(pltts);
 }
 
 
@@ -6784,7 +6786,7 @@ struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count)
     u32 i;
 
     i = 0;
-    slots = (struct CellSlot *)sub_02030734(heap_id,
+    slots = (struct CellSlot *)GFL_HEAP_Alloc(heap_id,
                                             count * sizeof(struct CellSlot), i,
                                             s_clact_c, 7494);
 
@@ -6829,8 +6831,8 @@ s32 CLACT_LoadCellAnimBanks(struct Res *res, s32 idx, void *cell_file, void *ani
 {
     struct CellSlot *slot = &res->cells[idx];
 
-    if (func_02062820((int)cell_file, &slot->cell_bank) != 0) {
-        if (func_02062670(anim_file, &slot->anim_bank) != 0) {
+    if (NNS_G2dGetUnpackedCellBank((int)cell_file, &slot->cell_bank) != 0) {
+        if (NNS_G2dGetUnpackedAnimBankEx(anim_file, &slot->anim_bank) != 0) {
             slot->free = 0;
             return 1;
         }
@@ -6847,7 +6849,7 @@ s32 CLACT_LoadCellAnimBanks(struct Res *res, s32 idx, void *cell_file, void *ani
 
 void CLACT_FreeCellAnimTable(void *cells)
 {
-    sub_020307B0(cells);
+    GFL_HEAP_Free(cells);
 }
 
 
@@ -6858,7 +6860,7 @@ void CLACT_FreeCellAnimTable(void *cells)
 
 
 /*
- * Resolve a handle through func_02062A00 into a stack temporary and, only
+ * Resolve a handle through NNS_G2dGetUnpackedCharacterData into a stack temporary and, only
  * on success, hand it to CLACT_SetupCharacterVram together with the two stacked
  * arguments, then clear bit 31 of +0x3c in the 0x40-byte slot `idx` of the
  * table at `res->chars`.
@@ -6887,7 +6889,7 @@ void CLACT_SetupCharacter(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u
     u32 char_data_addr;
     struct CharSlot *slot;
 
-    if (func_02062A00((struct NitroFileHeader *)handle, (void **)(&char_data_addr)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterData((struct NitroFileHeader *)handle, (void **)(&char_data_addr)) != 0) {
         CLACT_SetupCharacterVram((struct Res *)res, idx, (struct CharData *)char_data_addr, (struct CharXferInfo *)xfer_info, vram_mode);
         slot = &res->chars[idx];
         slot->free = 0;

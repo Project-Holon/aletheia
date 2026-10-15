@@ -34,7 +34,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021DBF10 0x021DBF10 thumb ov121
@@ -238,7 +238,7 @@ extern void *func_020490F4(unsigned int arcId, unsigned int heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 palOffset, u32 size, u16 heapId);
 extern u32 func_02049658(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 x, u32 y, u16 heapId);
 extern void func_020498F4(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 x, u32 y, u16 heapId);
-extern void func_020413B0(u8 bgLayer, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 bgLayer);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void *func_021DBF10(void *album,u16 heapId);
@@ -305,7 +305,7 @@ void MYSTERY_ALBUM_LoadBgWithTilemap(const MysteryAlbumBgSetup *bgSetup,MysteryA
     ARC_UTIL_UploadPaletteFromHandle(arc,4,screenOffset,imageId*32,bgSetup->paletteNumber*32,32,heapId);
     func_02049658(arc,13,bgSetup->bgLayer,0,0,0,heapId);
     func_020498F4(arc,(u16)tilemapFile,bgSetup->bgLayer,0,0,0,heapId);
-    func_020413B0((u8)bgSetup->bgLayer,0,0,34,24,bgSetup->paletteNumber);
+    BG_SYS_FillTileMap((u8)bgSetup->bgLayer,0,0,34,24,bgSetup->paletteNumber);
     func_020409B4((u8)bgSetup->bgLayer);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -326,7 +326,7 @@ void MYSTERY_ALBUM_LoadBgPalette(MysteryAlbumBgSetup *bgSetup,MysteryAlbum *albu
     imageId=func_021DC064(album);
     arc=func_020490F4(34,heapId);
     ARC_UTIL_UploadPaletteFromHandle(arc,4,screenOffset,imageId*32,bgSetup->paletteNumber*32,32,heapId);
-    func_020413B0((u8)bgSetup->bgLayer,0,0,34,24,bgSetup->paletteNumber);
+    BG_SYS_FillTileMap((u8)bgSetup->bgLayer,0,0,34,24,bgSetup->paletteNumber);
     func_020409B4((u8)bgSetup->bgLayer);
     ARC_TOOL_DeleteHandle(arc);
 }

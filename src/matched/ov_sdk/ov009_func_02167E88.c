@@ -1,5 +1,5 @@
 /*
- * function: func_02167E88
+ * function: DWCi_Np_GetConsoleId
  * address:  0x02167E88
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Zero, in both halves of the 64-bit result register pair.
  */
 
-long long func_02167E88(void)
+long long DWCi_Np_GetConsoleId(void)
 {
     return 0;
 }

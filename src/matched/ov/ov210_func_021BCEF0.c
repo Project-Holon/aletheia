@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEF0
+ * function: ZKNSEARCH_MAIN_GetListIndexB
  * address:  0x021BCEF0
  * packet:   pkt_ov210_021BCEF0
  * region:   ov210
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-u32 func_021BCEF0(u32 a, u32 b)
+u32 ZKNSEARCH_MAIN_GetListIndexB(u32 a, u32 b)
 {
     return b;
 }

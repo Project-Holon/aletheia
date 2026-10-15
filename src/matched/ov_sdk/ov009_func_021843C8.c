@@ -1,5 +1,5 @@
 /*
- * function: func_021843C8
+ * function: ArraySort
  * address:  0x021843C8
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 
 extern void qsort(int a, int b, int c, int d);
 
-void func_021843C8(int *p, int b)
+void ArraySort(int *p, int b)
 {
     qsort(p[5], p[0], p[2], b);
 }

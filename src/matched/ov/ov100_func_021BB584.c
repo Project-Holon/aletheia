@@ -28,7 +28,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj02805.h"
 typedef unsigned char u8;
@@ -50,7 +50,7 @@ extern void CLACT_ExitSystem(void);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 enum Offset { Words=0x28c };
 enum Zero { Clear=0 };
 enum PrintOffset { PrintBase=0xcb4 };
@@ -83,6 +83,6 @@ int IRCBATTLEMATCH_ProcExit(struct S020315D4 *a,int b,int c,u8 *p)
         clearNode(p,off,zero);
     }
     func_020315D4(a);
-    func_020306F0(31);
+    GFL_HEAP_DeleteChecked(31);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02194D74
+ * function: gti2CheckResponse
  * address:  0x02194D74
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-int func_02194D74(unsigned char *p, unsigned char *q)
+int gti2CheckResponse(unsigned char *p, unsigned char *q)
 {
     int i;
 

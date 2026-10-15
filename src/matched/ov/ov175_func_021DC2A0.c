@@ -1,5 +1,5 @@
 /*
- * function: func_021DC2A0
+ * function: WIFIBATTLEMATCH_NET_TakeRegFlag
  * address:  0x021DC2A0
  * packet:   pkt_021DC2A0
  * region:   ov175
@@ -12,7 +12,7 @@
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
  *
- * Sibling of func_021DC240 on the +0x148 block: take-and-clear, and when
+ * Sibling of WIFIBATTLEMATCH_NET_TakeRegBuffer on the +0x148 block: take-and-clear, and when
  *     it was live, feed the object's +0x218 port block, the caller's argument
  *     and the literal 4 to 0x02082D44.
  */
@@ -22,7 +22,7 @@ typedef unsigned long u32;
 
 extern void MI_CpuCopy8(char *dst, u32 arg, u32 n);
 
-u32 func_021DC2A0(char *obj, u32 arg)
+u32 WIFIBATTLEMATCH_NET_TakeRegFlag(char *obj, u32 arg)
 {
     u32 v = ((struct Obj14346 *)obj)->f148;
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C428C",
+   "name": "WIFI_2DCHAR_SetSubActorPos",
    "address": "0x021C428C",
    "kind": "game",
    "region": "ov127",

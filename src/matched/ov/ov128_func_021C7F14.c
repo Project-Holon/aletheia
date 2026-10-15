@@ -14,7 +14,7 @@
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C7E78 0x021C7E78 thumb ov128
- *   func_021CA2C4 0x021CA2C4 thumb ov128
+ *   WF2DMAP_TOUCH_SetItemHighlight 0x021CA2C4 thumb ov128
  */
 #include "../include/Obj03810.h"
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ extern u32 KEY_GetRepeat(void);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021C7E78(s16 *,u8 *,void *,int);
-extern void func_021CA2C4(u8 *,int,int);
+extern void WF2DMAP_TOUCH_SetItemHighlight(u8 *,int,int);
 int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
 {
     u16 old;
@@ -46,7 +46,7 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
     if(((struct Obj03810 *)a)->f0==1) {
         if(KEY_GetTrg() & 0xcf3) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021CA2C4(ctx,p[2],p[2]);
+            WF2DMAP_TOUCH_SetItemHighlight(ctx,p[2],p[2]);
             func_020355D8(0);
             ((struct Obj03810 *)a)->f0=0;
         }
@@ -104,7 +104,7 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
     }
     if(moved==1) {
         GFL_USE_PlaySeDefaultVolume(0x548);
-        func_021CA2C4(ctx,p[2],old);
+        WF2DMAP_TOUCH_SetItemHighlight(ctx,p[2],old);
         p[3]=old;
     }
     return 0;

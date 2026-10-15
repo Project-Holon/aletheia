@@ -42,7 +42,7 @@
  *
  * symbols:
  *   MIi_CpuClear32  0x02082A7C  arm
- *   func_0203F2FC   0x0203F2FC  arm
+ *   GF_STANDARD_Checksum   0x0203F2FC  arm
  *   pBattleRec   0x0214616C  data
  *   BATTLE_REC_Decode  0x0200B900  thumb
  *   BATTLE_REC_Encode  0x0200B908  thumb
@@ -53,7 +53,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern u32 func_0203F2FC(const u8 *p, u32 len);
+extern u32 GF_STANDARD_Checksum(const u8 *p, u32 len);
 extern void BATTLE_REC_Decode(void *a, u32 b, u32 c);
 extern void BATTLE_REC_Encode(void *a, u32 b, u32 c);
 
@@ -78,7 +78,7 @@ void BATTLE_REC_Clear(struct BattleRec *p)
 
 u32 BATTLE_REC_IsDataExist(void)
 {
-    if (func_0203F2FC((const u8 *)(&pBattleRec->unkC4), sizeof(pBattleRec->unkC4))
+    if (GF_STANDARD_Checksum((const u8 *)(&pBattleRec->unkC4), sizeof(pBattleRec->unkC4))
         != 0) {
         return 1;
     }

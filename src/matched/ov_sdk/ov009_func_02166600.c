@@ -1,5 +1,5 @@
 /*
- * function: func_02166600
+ * function: WCMi_MergeToBuffer
  * address:  0x02166600
  * packet:   pkt_ov009_02166600
  * region:   ov009
@@ -24,7 +24,7 @@
 
 extern void MI_CpuCopy(void *src, void *dst, unsigned long size);
 
-unsigned long func_02166600(unsigned char deviceId, unsigned short *sendBuf, void *header, unsigned long headerLen, void *body, unsigned long bodyLen)
+unsigned long WCMi_MergeToBuffer(unsigned char deviceId, unsigned short *sendBuf, void *header, unsigned long headerLen, void *body, unsigned long bodyLen)
 {
     void *copyDest;
     unsigned long totalLen;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4E0C
+ * function: VIEWER_MAIN_UpdateWindows
  * address:  0x021C4E0C
  * packet:   pkt_ov111_021C4E0C
  * region:   ov111
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4B74  0x021C4B74  thumb
- *   func_021C4D48  0x021C4D48  thumb
+ *   VIEWER_MAIN_UpdateRows  0x021C4B74  thumb
+ *   VIEWER_MAIN_SetWindowPlane  0x021C4D48  thumb
  *
  * note 2026-10-05 (wave D4 lane 02): case 0 writes both stores (0x304C and 0x3050) in each
  * if/else arm. The compiler sinks the common stores into the join block and keeps the 0x305C
@@ -20,9 +20,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C4B74(char *p, int flag);
-extern void func_021C4D48(int side);
-int func_021C4E0C(char *p)
+extern void VIEWER_MAIN_UpdateRows(char *p, int flag);
+extern void VIEWER_MAIN_SetWindowPlane(int side);
+int VIEWER_MAIN_UpdateWindows(char *p)
 {
     switch (*(u8 *)(p + 0x32C6)) {
     case 0:
@@ -48,8 +48,8 @@ int func_021C4E0C(char *p)
         break;
     case 2:
         *(u16 *)(p + 0x305E) = 1;
-        func_021C4B74(p, *(int *)(p + 0x3034));
-        func_021C4D48(*(u16 *)(p + 0x305C));
+        VIEWER_MAIN_UpdateRows(p, *(int *)(p + 0x3034));
+        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
         return 1;
     case 3:
         *(u8 *)(p + 0x32C6) = 4;
@@ -67,8 +67,8 @@ int func_021C4E0C(char *p)
         *(int *)(p + 0x304C) = 0x80;
         *(int *)(p + 0x3050) = 0x60;
         *(u16 *)(p + 0x305E) = 0;
-        func_021C4B74(p, *(int *)(p + 0x3034));
-        func_021C4D48(-1);
+        VIEWER_MAIN_UpdateRows(p, *(int *)(p + 0x3034));
+        VIEWER_MAIN_SetWindowPlane(-1);
         return 1;
     case 6:
         *(u8 *)(p + 0x32C6) = 7;
@@ -82,7 +82,7 @@ int func_021C4E0C(char *p)
         break;
     case 8:
         *(u16 *)(p + 0x305C) ^= 1;
-        func_021C4D48(*(u16 *)(p + 0x305C));
+        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
         return 1;
     case 9:
         *(u8 *)(p + 0x32C6) = 10;
@@ -96,7 +96,7 @@ int func_021C4E0C(char *p)
         break;
     case 11:
         *(u16 *)(p + 0x305C) ^= 1;
-        func_021C4D48(*(u16 *)(p + 0x305C));
+        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
         return 1;
     }
     *(u8 *)(p + 0x32CA) |= 4;

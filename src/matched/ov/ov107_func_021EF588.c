@@ -20,7 +20,7 @@
  *   MB_UTIL_MSG_GetWordSet 0x021F1B00 thumb ov107
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetChars 0x02045A90 arm
@@ -68,7 +68,7 @@ extern u32 MB_UTIL_MSG_GetMsgData(u8 *p);
 extern u32 MB_UTIL_MSG_GetWordSet(u8 *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 typedef signed int     s32;
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -106,7 +106,7 @@ void MB_COMM_SYS_BuildGameStrings(u8 *p)
     else
         m = func_02045EC0((struct MsgBank *)MB_UTIL_MSG_GetMsgData(w->f68), 0xF);
     a = STRBUF_Create(0x100, w->f0);
-    func_0201F250((struct WordSet *)MB_UTIL_MSG_GetWordSet(w->f68), a, m);
+    WORDSET_CopyTaggedText((struct WordSet *)MB_UTIL_MSG_GetWordSet(w->f68), a, m);
     STRBUF_Delete((struct U16Vec *)m);
     if (w->f28 == 0)
         m = func_02045EC0((struct MsgBank *)MB_UTIL_MSG_GetMsgData(w->f68), 0xD);

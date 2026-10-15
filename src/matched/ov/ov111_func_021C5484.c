@@ -1,5 +1,5 @@
 /*
- * function: func_021C5484
+ * function: VIEWER_MAIN_HandleRowKey
  * address:  0x021C5484
  * packet:   pkt_ov111_021C5484
  * region:   ov111
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021C513C  0x021C513C  thumb  ov111
+ *   VIEWER_MAIN_ToggleFavorite  0x021C513C  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -64,16 +64,16 @@ typedef struct {
     u8 b32F6;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021C513C(Work *p);
+extern void VIEWER_MAIN_ToggleFavorite(Work *p);
 
-int func_021C5484(Work *p, int hit)
+int VIEWER_MAIN_HandleRowKey(Work *p, int hit)
 {
     switch (hit) {
     case 4:
         if (p->f3034 != 0) {
-            func_021C6FA0(&p->anim, 4, 0x15, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x15, 1);
             GFL_USE_PlaySeDefaultVolume(0x649);
             p->b32C6 = 3;
             return 8;
@@ -82,12 +82,12 @@ int func_021C5484(Work *p, int hit)
     case 5:
         if (p->f3034 != 0) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021C6FA0(&p->anim, 5, 9 - p->b32F6 * 2, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }
         break;
     case 6:
-        func_021C513C(p);
+        VIEWER_MAIN_ToggleFavorite(p);
         break;
     case 10:
         if (p->h305C == 0) {

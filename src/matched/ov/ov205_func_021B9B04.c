@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B04
+ * function: SAVE_SCREEN_SaveFieldClock
  * address: 0x021B9B04
  * packet: pkt_ov205_021B9B04
  * region: ov205
@@ -18,4 +18,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sub02008C20Obj;extern void *GAME_DATA_GetTrainerRecord(int *);extern u32 func_02008DFC(struct Sub02008C20Obj *,int);extern void FIELD_CLOCK_SaveTimestamp(void *);
-void func_021B9B04(char *p) { if(func_02008DFC(GAME_DATA_GetTrainerRecord(*(int * *)&((struct Obj14633 *)p)->f4),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&((struct Obj14633 *)p)->f4); }
+void SAVE_SCREEN_SaveFieldClock(char *p) { if(func_02008DFC(GAME_DATA_GetTrainerRecord(*(int * *)&((struct Obj14633 *)p)->f4),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&((struct Obj14633 *)p)->f4); }

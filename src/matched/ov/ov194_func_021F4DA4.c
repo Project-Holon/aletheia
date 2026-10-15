@@ -1,5 +1,5 @@
 /*
- * function: func_021F4DA4
+ * function: NAMEIN_GRAPHIC_GetGridCell
  * address:  0x021F4DA4
  * packet:   pkt_021F4DA4
  * region:   ov194
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4D9C  0x021F4D9C  thumb  ov194
+ *   NAMEIN_GRAPHIC_GetGridWidth  0x021F4D9C  thumb  ov194
  * Addresses are Black-image addresses.
  */
 
@@ -19,10 +19,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u16 func_021F4D9C(const u16 *p);
+extern u16 NAMEIN_GRAPHIC_GetGridWidth(const u16 *p);
 
-u32 func_021F4DA4(u8 *p, u16 a, u16 b)
+u32 NAMEIN_GRAPHIC_GetGridCell(u8 *p, u16 a, u16 b)
 {
-    return *(u16 *)(p + ((a + b * func_021F4D9C((const u16 *)p)) << 1) + 4);
+    return *(u16 *)(p + ((a + b * NAMEIN_GRAPHIC_GetGridWidth((const u16 *)p)) << 1) + 4);
 }
 

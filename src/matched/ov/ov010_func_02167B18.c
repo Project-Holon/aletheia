@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf, blocker of ov021 func_021CB8AC: tail call of GFL_NET_COMMAND_DeleteCommandTable(0x2C00); the argument is ignored.
+ * Unlabelled leaf, blocker of ov021 BSUBWAY_SCR_CommShutdownMain: tail call of GFL_NET_COMMAND_DeleteCommandTable(0x2C00); the argument is ignored.
  * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,
  * ov010 holds this Thumb routine, and the ov021 callers already name ov010
  * (ov010 is the overlay resident with ov021).

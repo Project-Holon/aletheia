@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BED94",
+   "name": "DEMO3D_DATA_UpdateSeFade",
    "address": "0x021BED94",
    "kind": "game",
    "region": "ov203",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3F0
+ * function: ZKNSEARCH_MAIN_InitBackgrounds
  * address: 0x021BC3F0
  * packet: pkt_ov210_021BC3F0
  * region: ov210
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
@@ -39,19 +39,19 @@ extern const struct BgTemplate g_07D4;
 extern const struct BgTemplate g_07B4;
 extern const struct BgTemplate g_0794;
 extern void BG_SYS_Create(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32);
 extern void func_02041B6C(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
-void func_021BC3F0(void)
+void ZKNSEARCH_MAIN_InitBackgrounds(void)
 {
     BG_SYS_Create(0x7B);
     {
         struct DispConfig d = g_0784;
-        func_0203FC28(&d);
+        BG_SYS_SetGraphicsMode(&d);
     }
     {
         struct BgTemplate t = g_0814;

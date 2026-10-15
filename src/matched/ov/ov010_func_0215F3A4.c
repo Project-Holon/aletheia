@@ -16,8 +16,8 @@
  *   GAME_DATA_GetEventData  0x02012844  thumb
  *   SCRIPT_WORK_GetReturnFlag  0x0215911C  thumb  ov010
  *   SCRCMD_NETWORK_FindNpcTableRow  0x0215F608  thumb  ov010
- *   func_0215A480  0x0215A480  thumb  ov010
- *   func_0215A490  0x0215A490  thumb  ov010
+ *   EVENT_POKE_STATUS_AddMs3000  0x0215A480  thumb  ov010
+ *   EVENT_POKE_STATUS_AddMs5000  0x0215A490  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcEventId  0x02162788  thumb  ov010
  */
 
@@ -32,8 +32,8 @@ struct BigObj;
 extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
 extern u32 SCRIPT_WORK_GetReturnFlag(void *p);
 extern int SCRCMD_NETWORK_FindNpcTableRow();
-extern u16 func_0215A480(unsigned a);
-extern u16 func_0215A490(unsigned a);
+extern u16 EVENT_POKE_STATUS_AddMs3000(unsigned a);
+extern u16 EVENT_POKE_STATUS_AddMs5000(unsigned a);
 extern void EVENTDATA_SYSTEM_SetNpcEventId(char *p, unsigned i, u16 v);
 
 int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(int a, int b)
@@ -51,7 +51,7 @@ int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(int a, int b)
     base = (u8 *)SCRIPT_WORK_GetReturnFlag(x);
     e = base + 6;
     h = SCRCMD_NETWORK_FindNpcTableRow(base, y0, y3);
-    EVENTDATA_SYSTEM_SetNpcEventId((char *)r, y1, func_0215A480(*(u16 *)(e + h * 8)));
-    EVENTDATA_SYSTEM_SetNpcEventId((char *)r, y2, func_0215A490(*(u16 *)(e + h * 8)));
+    EVENTDATA_SYSTEM_SetNpcEventId((char *)r, y1, EVENT_POKE_STATUS_AddMs3000(*(u16 *)(e + h * 8)));
+    EVENTDATA_SYSTEM_SetNpcEventId((char *)r, y2, EVENT_POKE_STATUS_AddMs5000(*(u16 *)(e + h * 8)));
     return 0;
 }

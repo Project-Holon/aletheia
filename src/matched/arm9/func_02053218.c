@@ -1,5 +1,5 @@
 /*
- * function: func_02053218
+ * function: SPL_EMITTER_UpdateParticles
  * address:  0x02053218
  * packet:   pkt_02052F58
  * region:   arm9
@@ -32,9 +32,9 @@
  * status:   EXACT
  *
  * SPLEmitter_Update: the per-frame emitter step.  Emits new particles on the
- * emission interval (func_020569A4), collects the enabled animation
- * functions (func_02057E68 scale, func_02057C9C colour, func_02057BC0
- * alpha, func_02057B5C texture; children func_02057B10 / func_02057AB8),
+ * emission interval (SPL_EMITTER_LoadResource), collects the enabled animation
+ * functions (SPL_EMITTER_EvalCurve scale, SPL_EMITTER_EvalKey colour, SPL_EMITTER_UpdateRecord
+ * alpha, SPL_EMITTER_UpdateList texture; children SPL_EMITTER_ClampShort / SPL_EMITTER_ClampU16),
  * then integrates every particle and child particle (behaviours, air
  * resistance, velocity, polygon ID, age), erasing the dead ones back to the
  * manager free list, with the pre/post update callback around it all.
@@ -691,7 +691,7 @@ extern void SPLAnim_ChildScale(SPLParticle *ptcl, SPLResource *res, int lifeRate
 extern void SPLAnim_ChildAlpha(SPLParticle *ptcl, SPLResource *res, int lifeRate);
 extern void SPLEmitter_EmitParticles(SPLEmitter *emtr, SPLParticleList *list);
 extern void SPLEmitter_EmitChildren(SPLParticle *ptcl, SPLEmitter *emtr, SPLParticleList *list);
-void func_02053218(SPLManager *mgr, SPLEmitter *emtr)
+void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr)
 {
     SPLParticle *ptcl;
     SPLParticle *next;

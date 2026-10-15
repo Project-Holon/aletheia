@@ -1,7 +1,7 @@
 /*
  * file:     sha1.c
  * unit:     yes
- * function: func_02163558, func_0216359C, func_021635E0, func_02163628, func_02163C9C, func_02163CF0, func_02163DA8, func_02163E10
+ * function: func_02163558, func_0216359C, func_021635E0, CPSi_sha1_block, func_02163C9C, func_02163CF0, func_02163DA8, CPSi_sha1_result_prng
  * address:  0x02163558
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -56,16 +56,15 @@ extern void long_from_char(u32_02163628 *d, u8 *s, u32_02163628 len);
 extern u32_02163628 R(int t, u32_02163628 *w);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void CPSi_sha1_block(CPSSha1Ctx_02163C9C *ctx, unsigned char *m);
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_0216359C(unsigned char *d, unsigned long *s, unsigned int len);
 unsigned long func_02163558(int t, unsigned long *w);
 void func_021635E0(u32_021635E0 *dst, const u8 *src, u32_021635E0 count);
-void func_02163628(CPSSha1Ctx_02163558 *ctx, u8 *m);
+void CPSi_sha1_block(CPSSha1Ctx_02163C9C *ctx, u8 *m);
 void CPSi_sha1_init(CPSSha1Ctx_02163C9C *ctx);
 void CPSi_sha1_calc(CPSSha1Ctx_02163C9C *ctx, void *data0, int datalen);
 void CPSi_sha1_result(CPSSha1Ctx_02163C9C *ctx, unsigned char *digest);
-void func_02163E10(void *ctx, unsigned char *digest);
+void CPSi_sha1_result_prng(void *ctx, unsigned char *digest);
 extern unsigned char padding[64];
 extern unsigned char g_021A1F28[64];
 
@@ -125,7 +124,7 @@ void func_021635E0(u32_021635E0 *dst, const u8 *src, u32_021635E0 count)
  * rotated the {c, d, w, temp} colouring (142 -> 18 B). F3 is the majority
  * function spelled (b & (c | d)) | (c & d), as the image evaluates it (18 -> 0).
  */
-void func_02163628(CPSSha1Ctx_02163558 *ctx, u8 *m)
+void CPSi_sha1_block(CPSSha1Ctx_02163C9C *ctx, u8 *m)
 {
     u32_02163628 w[16];
     u32_02163628 a, b, c, d, e;
@@ -248,7 +247,7 @@ void CPSi_sha1_result(CPSSha1Ctx_02163C9C *ctx, unsigned char *digest)
  * note: the pool word is padding+1 (0x021A1F29); the extern is the padding
  *   array itself and the call passes its second byte.
  */
-void func_02163E10(void *ctx, unsigned char *digest)
+void CPSi_sha1_result_prng(void *ctx, unsigned char *digest)
 {
 	func_02163CF0(ctx, g_021A1F28 + 1, 44);
 	func_0216359C(digest, ctx, 20);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A0
+ * function: CHIHOU_ZUKAN_AWARD_Init
  * address: 0x021B95A0
  * packet: pkt_ov221_021B95A0
  * region: ov221
@@ -26,7 +26,7 @@
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_Create 0x021B9E78 thumb ov221
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
  *   CHIHOU_ZUKAN_AWARD_Task 0x021B98FC thumb ov221
  *   CHIHOU_ZUKAN_AWARD_LoadBgAssets 0x021B9900 thumb ov221
@@ -38,7 +38,7 @@
  *   func_0207D518 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_020490F4 0x020490F4 arm
@@ -70,7 +70,7 @@ extern void *CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void *func_020056A0(u32,void*,u32);
 extern void CHIHOU_ZUKAN_AWARD_Task(void);
 extern void CHIHOU_ZUKAN_AWARD_LoadBgAssets(u8*);
@@ -81,7 +81,7 @@ extern char *func_02012944(void*);
 typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -91,7 +91,7 @@ extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
 extern void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p);
 extern void FADE_Start(u32,int,int,int),func_020409B4(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
-int func_021B95A0(void *owner,void *unused,void *input)
+int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
 {
  char *p,*settings;
  BGMode i;
@@ -109,7 +109,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  *(void**)(p+8)=CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
  *(u32*)(p+16)=PRINTSYS_QUE_Create((void*)*(u16*)p);
- func_0204047C(1,1);func_0204047C(2,0);
+ BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(2,0);
  *(void**)(p+20)=func_020056A0((u32)CHIHOU_ZUKAN_AWARD_Task,p,1);
  CHIHOU_ZUKAN_AWARD_LoadBgAssets((u8*)p);CHIHOU_ZUKAN_AWARD_SetupWindows((struct Obj *)p);CHIHOU_ZUKAN_AWARD_SetupTiles(p);CHIHOU_ZUKAN_AWARD_CreateActor((u8*)p);
  settings=func_02012944(*(void**)(*(char**)(p+4)));
@@ -119,7 +119,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  BG_SYS_ClearSubPlanes();func_0207D518(i);BG_SYS_ClearSubBgPlanes();
  do {
   row=&tbl_021BA148[i];id=row->id;
-  BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
+  BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);BG_SYS_FreeSlot(id);func_02040588(id,row->enable);
   i++;
  } while((u32)i<1u);
  BG_SYS_SetSubPlaneVisible(16,1);

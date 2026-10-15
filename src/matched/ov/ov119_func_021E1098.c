@@ -11,7 +11,7 @@
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj00001.h"
@@ -21,6 +21,6 @@ extern void TIME_ICON_Delete(u8 *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void POKETRADE_SAVE_CloseMessageWindowClear(char *p) { if(*(int *)&((struct Obj00001 *)p)->f5F0) {TIME_ICON_Delete((u8 *)(*(int *)&((struct Obj00001 *)p)->f5F0));*(int *)&((struct Obj00001 *)p)->f5F0=0;} if(*(int *)&((struct Obj00001 *)p)->f71C) {BMP_WIN_ClearScreen((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f71C));func_02041B6C(6);func_0201F7A8((void *)(*(int *)&((struct Obj00001 *)p)->f71C),2);BMP_WIN_Delete((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f71C));*(int *)&((struct Obj00001 *)p)->f71C=0;} }
+void POKETRADE_SAVE_CloseMessageWindowClear(char *p) { if(*(int *)&((struct Obj00001 *)p)->f5F0) {TIME_ICON_Delete((u8 *)(*(int *)&((struct Obj00001 *)p)->f5F0));*(int *)&((struct Obj00001 *)p)->f5F0=0;} if(*(int *)&((struct Obj00001 *)p)->f71C) {BMP_WIN_ClearScreen((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f71C));func_02041B6C(6);BMP_MENUWORK_DrawWindowBorder((void *)(*(int *)&((struct Obj00001 *)p)->f71C),2);BMP_WIN_Delete((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f71C));*(int *)&((struct Obj00001 *)p)->f71C=0;} }

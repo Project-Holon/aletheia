@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB4C
+ * function: BR_CODEIN_StatSetup
  * address: 0x021DEB4C
  * packet: pkt_ov183_021DEB4C
  * region: ov183
@@ -20,9 +20,9 @@
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
  *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
- *   func_021DF1DC 0x021DF1DC thumb ov183
+ *   BR_CODEIN_SearchCreateList 0x021DF1DC thumb ov183
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DED14 0x021DED14 thumb ov183
+ *   BR_CODEIN_StatStepFadeIn 0x021DED14 thumb ov183
  *   d_021E3964 0x021E3964 data a1
  */
 #include "../include/Obj00364.h"
@@ -54,11 +54,11 @@ extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,
 extern void *BR_UTIL_Create(u16,u32,u16,u16,u8,u8,void *,u16);
 extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,u16);
 extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021DF1DC(char *,char *,char *,int,void *,void *,u16 *,u32);
+extern void BR_CODEIN_SearchCreateList(char *,char *,char *,int,void *,void *,u16 *,u32);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021DED14(int *a, int *state, char *p);
+extern void BR_CODEIN_StatStepFadeIn(int *a, int *state, char *p);
 extern const char d_021E3964[];
-void func_021DEB4C(int *task,int *state,char *p)
+void BR_CODEIN_StatSetup(int *task,int *state,char *p)
 {
     int font,bank;
     Config config;
@@ -82,7 +82,7 @@ void func_021DEB4C(int *task,int *state,char *p)
     ((struct Obj00364 *)p)->fC=BR_UTIL_Create(1,3,3,26,4,14,((struct Obj00364 *)p)->f14,((struct Obj00364 *)p)->f18);
     BR_UTIL_SetTextLayout(((struct Obj00364 *)p)->fC,0,1,0);
     BR_UTIL_SetTextFromMessage(*(char * *)&((struct Obj00364 *)p)->fC,(void *)bank,(void *)(**(int * *)&((struct Obj00364 *)p)->f108+0x57),(void *)font,0x3da0);
-    func_021DF1DC(p+0x28,*(char * *)&((struct Obj24595 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f1C,*(char * *)&((struct Obj24596 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10,((struct Obj24597 *)(*(char * *)&((struct Obj00364 *)p)->f108))->fC,((struct Obj00364 *)p)->f1C,((struct Obj00364 *)p)->f20,*(u16 * *)&((struct Obj24598 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f28,((struct Obj00364 *)p)->f18);
+    BR_CODEIN_SearchCreateList(p+0x28,*(char * *)&((struct Obj24595 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f1C,*(char * *)&((struct Obj24596 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10,((struct Obj24597 *)(*(char * *)&((struct Obj00364 *)p)->f108))->fC,((struct Obj00364 *)p)->f1C,((struct Obj00364 *)p)->f20,*(u16 * *)&((struct Obj24598 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f28,((struct Obj00364 *)p)->f18);
     ((struct Obj00364 *)p)->f100=1;
-    BR_UTIL_SetTaskStep(task,(int)func_021DED14);
+    BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_StatStepFadeIn);
 }

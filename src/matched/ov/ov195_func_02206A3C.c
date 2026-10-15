@@ -1,5 +1,5 @@
 /*
- * function: func_02206A3C
+ * function: SHINKA_DEMO_VIEW_DeleteGrid
  * address:  0x02206A3C
  * packet:   pkt_02206A3C
  * region:   ov195
@@ -20,7 +20,7 @@ extern void BMP_Delete(struct Obj020437AC *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02206A3C(char *p, int a1)
+void SHINKA_DEMO_VIEW_DeleteGrid(char *p, int a1)
 {
     BMP_Delete(((struct Obj10827 *)p)->f10);
     func_020307B0(((struct Obj10827 *)p)->f8);

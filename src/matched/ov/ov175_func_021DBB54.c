@@ -1,5 +1,5 @@
 /*
- * function: func_021DBB54
+ * function: WIFIBATTLEMATCH_NET_GdbCopyFieldD
  * address: 0x021DBB54
  * packet: pkt_ov175_021DBB54
  * region: ov175
@@ -16,7 +16,7 @@ struct Field {const char *name;unsigned long type;void *value;unsigned long size
 extern int GF_STANDARD_CompareString(const char *,const char *);
 extern void MI_CpuCopy8(const void *,void *,unsigned long);
 extern const char d_021E2F8C[];
-void func_021DBB54(int count,struct Field **recs,void *dst,int nfields)
+void WIFIBATTLEMATCH_NET_GdbCopyFieldD(int count,struct Field **recs,void *dst,int nfields)
 {
     int i,j;
     struct Field *f;

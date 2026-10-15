@@ -45,7 +45,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -78,7 +78,7 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_020409B4 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -87,7 +87,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -146,9 +146,9 @@
  *   _DebugMovesArray 0x021DC144 data a2
  *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   P_STA_SUB_Create 0x021D65D8 thumb ov131
  *   P_STA_SUB_Delete 0x021D6608 thumb ov131
  *   P_STA_SUB_Main 0x021D6614 thumb ov131
@@ -307,7 +307,7 @@ extern void WIPE_SetBrightnessFadeOut(u32,u32);
 extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void func_02040588(unsigned int which, unsigned char enable);
 extern void func_0207D63C(u32 *,u32,u32,u32,u32);
 extern void CLACT_InitSystem(const struct ClactSysSetup *cfg, u32 arg, u32 heapId);
@@ -332,7 +332,7 @@ extern void func_020403F4(unsigned int);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u32);
+extern void BG_SYS_FreeSlot(u32);
 extern void func_020409B4(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
@@ -341,7 +341,7 @@ extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020275E4(void);
 extern u32 func_020275E8(void);
@@ -409,7 +409,7 @@ extern void STRBUF_Delete(struct StrBuf *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct HeapSys *obj, u32 size, u32 heap);
@@ -428,7 +428,7 @@ extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_Create(u16);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct SaveData *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int P_STATUS_InitWork(PStatusWork *wk);
 int P_STATUS_ExitWork(PStatusWork *wk);
 int P_STATUS_MainSeq(PStatusWork *wk);
@@ -832,7 +832,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks(&_VramBankConfig);
     BG_SYS_Create(wk->heapId);BMP_WIN_Init(wk->heapId);
-    func_0203FC28(&_DispConfig);
+    BG_SYS_SetGraphicsMode(&_DispConfig);
     P_STATUS_InitBgLayer(&_BgSetups[6],1,0);P_STATUS_InitBgLayer(&_BgSetups[4],2,0);P_STATUS_InitBgLayer(&_BgSetups[0],3,0);
     func_02040588(0,1);
     P_STATUS_InitBgLayer(&_BgSetups[1],4,0);P_STATUS_InitBgLayer(&_BgSetups[2],5,0);P_STATUS_InitBgLayer(&_BgSetups[3],6,0);P_STATUS_InitBgLayer(&_BgSetups[5],7,0);
@@ -912,7 +912,7 @@ void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
 {
     BG_SYS_InitBgLayer(bg,(const struct BgTemplate *)cfg,mode);
     func_02040588(bg,1);
-    func_020414AC(bg);
+    BG_SYS_FreeSlot(bg);
     func_020409B4(bg);
 }
 
@@ -969,7 +969,7 @@ void P_STATUS_LoadObjResource(PStatusWork *wk)
     func_02049B68(commonArc,func_02027624(),0,0x120,32,wk->heapId);
     func_02049658(commonArc,func_02027628(),1,0,0,0,wk->heapId);
     func_020498F4(commonArc,func_0202762C(),1,0,0,0,wk->heapId);
-    func_020413B0(1,0,21,32,3,9);
+    BG_SYS_FillTileMap(1,0,21,32,3,9);
     func_02049B68(commonArc,0,4,0x1a0,32,wk->heapId);
     wk->objRes[PSTATUS_RES_PLTT_START + 5]=CLACT_RegisterPaletteEx(commonArc,1,1,0x100,0,1,wk->heapId);
     wk->objRes[PSTATUS_RES_CHR_START + 7]=CLACT_RegisterCharacter(commonArc,2,0,1,wk->heapId);
@@ -1946,7 +1946,7 @@ void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId
 {
  void *str=STRBUF_Create(16,wk->heapId);
  void *fmt=func_02045EC0(wk->msgData,msgId);
- func_0201F250(wordSet,str,fmt);
+ WORDSET_CopyTaggedText(wordSet,str,fmt);
  PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)x,(short)y,(u32)str,(int)wk->font,color);
  STRBUF_Delete(fmt);
  STRBUF_Delete(str);
@@ -1980,7 +1980,7 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
  void *str=STRBUF_Create(16,wk->heapId);
  void *fmt=func_02045EC0(wk->msgData,msgId);
  int width;
- func_0201F250(wordSet,str,fmt);
+ WORDSET_CopyTaggedText(wordSet,str,fmt);
  width=func_0201D304(str,(int)wk->font,0);
  PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)(x-width),(short)y,(u32)str,(int)wk->font,color);
  STRBUF_Delete(fmt);
@@ -2193,7 +2193,7 @@ int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk
         func_020307B0(mywk->param);
     }
     func_020315D4(proc);
-    func_020306F0(0x42);
+    GFL_HEAP_DeleteChecked(0x42);
     return 1;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D72A0
+ * function: GTSNEGO_MSG_FillListRange
  * address: 0x021D72A0
  * packet: pkt_ov120_021D72A0
  * region: ov120
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4F70 0x021D4F70 thumb ov120
- *   func_021D71B8 0x021D71B8 thumb ov120
+ *   GTSNEGO_DISP_GetEntry 0x021D4F70 thumb ov120
+ *   GTSNEGO_MSG_SetListEntry 0x021D71B8 thumb ov120
  */
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void *func_021D4F70(void **p, int i);
-extern void func_021D71B8(u8 *, void *, int);
-void func_021D72A0(u8 *p, void *container, int offset)
+extern void *GTSNEGO_DISP_GetEntry(void **p, int i);
+extern void GTSNEGO_MSG_SetListEntry(u8 *, void *, int);
+void GTSNEGO_MSG_FillListRange(u8 *p, void *container, int offset)
 {
     int i;
     void *entry;
     for (i = 0; i < 6; i++) {
         if ((int)((u32)i + (u32)offset) >= 0) {
-            entry = func_021D4F70(container, (int)((u32)i + (u32)offset));
-            if (entry != 0) func_021D71B8(p, entry, i);
+            entry = GTSNEGO_DISP_GetEntry(container, (int)((u32)i + (u32)offset));
+            if (entry != 0) GTSNEGO_MSG_SetListEntry(p, entry, i);
         }
     }
 }

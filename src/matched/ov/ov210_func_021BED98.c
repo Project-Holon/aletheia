@@ -1,5 +1,5 @@
 /*
- * function: func_021BED98
+ * function: ZKNSEARCH_MAIN_SetActorAnim
  * address:  0x021BED98
  * packet:   pkt_021BED98
  * region:   ov210
@@ -20,7 +20,7 @@ struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021BED98(char *p, int idx, int v)
+void ZKNSEARCH_MAIN_SetActorAnim(char *p, int idx, int v)
 {
     CLACT_SetActorAnimFrame(*(void **)(p + 0x28 + idx * 4), 0);
     CLACT_SetActorAnimSeq(*(void **)(p + 0x28 + idx * 4), (unsigned short)v);

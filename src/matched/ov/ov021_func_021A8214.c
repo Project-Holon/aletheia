@@ -1,5 +1,5 @@
 /*
- * function: func_021A8214
+ * function: FIELD_GROUND_ANIME_CreateBuildModel
  * address:  0x021A8214
  * packet:   pkt_ov021_021A8214
  * region:   ov021
@@ -33,7 +33,7 @@ extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
 extern int FIELD_BUILDMODEL_CreateNodeNearPos(void *p, int b, int c);
 
-void func_021A8214(S *s)
+void FIELD_GROUND_ANIME_CreateBuildModel(S *s)
 {
     s->f28 = FIELD_BUILDMODEL_CreateNodeNearPos((void *)FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((u8 *)s->f0->fc)), 1, (int)s->f1c);
 }

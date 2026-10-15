@@ -16,7 +16,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  */
 
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_020409B4(u32 index);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 int FIELD_MSGBG_CreateWindow(int a, int unused, int b, int c, u16 d, u16 e, u16 f)
 {
@@ -48,6 +48,6 @@ int FIELD_MSGBG_CreateWindow(int a, int unused, int b, int c, u16 d, u16 e, u16 
     if (f != 0xe) {
         k = 0xa;
     }
-    func_0201F73C((void *)r, 0, 1, k & 0xff);
+    BMP_MENUWORK_DrawWindow((void *)r, 0, 1, k & 0xff);
     return r;
 }

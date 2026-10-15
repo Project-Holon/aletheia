@@ -16,7 +16,7 @@
  *   SCRIPT_WORK_GetReturnFlag  0x0215911C  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcObjCode  0x02162774  thumb  ov010
  *   EVENTDATA_SYSTEM_SetNpcEventId  0x02162788  thumb  ov010
- *   func_0215A480  0x0215A480  thumb  ov010
+ *   EVENT_POKE_STATUS_AddMs3000  0x0215A480  thumb  ov010
  *   GAME_DATA_GetEventData  0x02012844  thumb
  */
 
@@ -37,7 +37,7 @@ extern u32 SCRIPT_WORK_GetReturnFlag(void *p);
 extern void EVENTDATA_SYSTEM_SetNpcObjCode(char *p, unsigned i, u16 v);
 extern void EVENTDATA_SYSTEM_SetNpcEventId(char *p, unsigned i, u16 v);
 struct BigObj;
-extern u16 func_0215A480(unsigned a);
+extern u16 EVENT_POKE_STATUS_AddMs3000(unsigned a);
 extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
 
 int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(int a0, int a1)
@@ -54,8 +54,8 @@ int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(int a0, int a1)
     EVENTDATA_SYSTEM_SetNpcObjCode((char *)obj, s0, t[i0].f04);
     EVENTDATA_SYSTEM_SetNpcObjCode((char *)obj, s1, t[i1].f04);
     EVENTDATA_SYSTEM_SetNpcObjCode((char *)obj, s2, t[i2].f04);
-    EVENTDATA_SYSTEM_SetNpcEventId((char *)obj, s0, func_0215A480(t[i0].f06));
-    EVENTDATA_SYSTEM_SetNpcEventId((char *)obj, s1, func_0215A480(t[i1].f06));
-    EVENTDATA_SYSTEM_SetNpcEventId((char *)obj, s2, func_0215A480(t[i2].f06));
+    EVENTDATA_SYSTEM_SetNpcEventId((char *)obj, s0, EVENT_POKE_STATUS_AddMs3000(t[i0].f06));
+    EVENTDATA_SYSTEM_SetNpcEventId((char *)obj, s1, EVENT_POKE_STATUS_AddMs3000(t[i1].f06));
+    EVENTDATA_SYSTEM_SetNpcEventId((char *)obj, s2, EVENT_POKE_STATUS_AddMs3000(t[i2].f06));
     return 0;
 }

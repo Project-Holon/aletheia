@@ -10,7 +10,7 @@
  * volatile: 021EE030,021EE050,021EE05E,021EE08E,021EE0AE,021EE0BC reread counters after stores; 021EDFFC,021EE0D2 hardware registers.
  * symbols:
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02040B1C 0x02040B1C arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 static inline void G2_BG2Mosaic(int enable)
@@ -57,7 +57,7 @@ int BTLV_SCU_ProcNamePlateMosaic(u8 *p)
         }
         break;
     case 2:
-        func_02040B1C(p[0xb], BMP_GetPixels(((struct Obj00623 *)p)->f4), 0x900, ((struct Obj00623 *)p)->f1C);
+        BG_SYS_LoadTileData(p[0xb], BMP_GetPixels(((struct Obj00623 *)p)->f4), 0x900, ((struct Obj00623 *)p)->f1C);
         p[0xd]++;
         break;
     case 3:

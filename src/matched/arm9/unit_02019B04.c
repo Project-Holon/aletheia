@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02019B04
+ * function: POKE_TOOL_ApplyNatureModifier
  *
  * Scales b by a per (a, n) table entry of -1, 0 or 1; the multipliers are
  * 0x5A and 0x6E, which are 90 and 110 percent. Both arms are written out in
@@ -38,7 +38,7 @@ typedef signed char    s8;
 
 extern const s8 func_02019B04_Table[][5];
 
-u32 func_02019B04(u32 a, u32 b, u32 n)
+u32 POKE_TOOL_ApplyNatureModifier(u32 a, u32 b, u32 n)
 {
     s8 v;
 

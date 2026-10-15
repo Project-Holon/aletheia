@@ -1,5 +1,5 @@
 /*
- * function: func_021C513C
+ * function: VIEWER_MAIN_ToggleFavorite
  * address:  0x021C513C
  * packet:   pkt_ov111_021C513C
  * region:   ov111
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
@@ -56,23 +56,23 @@ typedef struct {
     Anim anim;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
-void func_021C513C(Work *p)
+void VIEWER_MAIN_ToggleFavorite(Work *p)
 {
     int v;
 
     GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->f3034 == 0) {
         v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
-        func_021C6FA0(&p->anim, 7, v + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
         GAME_DATA_SetSaveFlag(p->args->f4, 0x15, v);
     } else {
         v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) ^ 1;
-        func_021C6FA0(&p->anim, 7, v + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
         GAME_DATA_SetSaveFlag(p->args->f4, 0x16, v);
     }
 }

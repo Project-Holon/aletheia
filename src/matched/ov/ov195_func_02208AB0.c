@@ -1,5 +1,5 @@
 /*
- * function: func_02208AB0
+ * function: SHINKA_DEMO_EFFECT_SetupNode
  * address:  0x02208AB0
  * packet:   pkt_02208AB0
  * region:   ov195
@@ -16,7 +16,7 @@
  *
  * symbols:
  *   d_02208EC0 0x02208EC0 data
- *   func_022086C8 0x022086C8 thumb ov195
+ *   SHINKA_DEMO_EFFECT_CreateNodes 0x022086C8 thumb ov195
  *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   func_020489F4 0x020489F4 arm
  *   func_02048A18 0x02048A18 arm
@@ -53,7 +53,7 @@ typedef struct Anim {
 } Anim;
 
 extern char d_02208EC0[];
-extern Node *func_022086C8(u16 heap, u16 n);
+extern Node *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n);
 extern u16 G3D_UTIL_AddUnit(void *res, void *name);
 struct G3dSys;
 extern u32 func_020489F4(u8 *a0, int i);
@@ -62,7 +62,7 @@ extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 struct AnmCtl;
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 
-void func_02208AB0(Anim *p)
+void SHINKA_DEMO_EFFECT_SetupNode(Anim *p)
 {
     u32 x;
     void *q;
@@ -72,7 +72,7 @@ void func_02208AB0(Anim *p)
 
     p->f18 = G3D_UTIL_AddUnit(p->res, d_02208EC0);
     p->count = 1;
-    p->nodes = func_022086C8(p->heap, p->count);
+    p->nodes = SHINKA_DEMO_EFFECT_CreateNodes(p->heap, p->count);
     id = func_020489F4(p->res, p->f18);
     n = p->nodes;
     p->f1a = 0;

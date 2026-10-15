@@ -1,5 +1,5 @@
 /*
- * function: func_02155A4C
+ * function: IRC_BATTLE_ENTRY_FreeParties
  * address:  0x02155A4C
  * packet:   pkt_ov010_02155A4C
  * region:   ov010
@@ -26,7 +26,7 @@ struct Ctx {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02155A4C(struct Ctx *ctx)
+void IRC_BATTLE_ENTRY_FreeParties(struct Ctx *ctx)
 {
     int i;
 

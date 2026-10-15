@@ -1,7 +1,7 @@
 /*
  * file:     socl_startup.c
  * unit:     yes
- * function: func_0215CA8C, func_0215CAE4, SOCLi_StartupCPS, func_0215CCA0, SOCLi_DhcpTimeout, func_0215CD24
+ * function: SOCL_Startup, SOCLi_StartupSOCL, SOCLi_StartupCPS, SOCLi_SetMyIP, SOCLi_DhcpTimeout, SOCL_LinkIsOn
  * address:  0x0215CA8C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -13,11 +13,11 @@
  * symbols:
  *   .bss           0x021AA440  data
  *   OSi_ReferSymbol  0x02004EB0  arm
- *   func_0215F0D4  0x0215F0D4  arm  ov009
- *   func_0215EC90  0x0215EC90  arm  ov009
+ *   SOCLi_InitResource  0x0215F0D4  arm  ov009
+ *   SOCLi_CleanupCPS  0x0215EC90  arm  ov009
  *   SOCLi_StartupCommandPacketQueue  0x0215CD3C  arm  ov009
  *   func_0215D070  0x0215D070  arm  ov009
- *   func_02166384  0x02166384  arm  ov009
+ *   WCM_GetApMacAddress  0x02166384  arm  ov009
  *   g_020050C4  0x020050C4  data
  *   g_021A1D14  0x021A1D14  data
  *   g_021A827C  0x021A827C  data
@@ -45,7 +45,9 @@
  *   g_021A1CFC                  0x021A1CFC data
  *   g_021A82BC                  0x021A82BC data
  */
-#include "../../matched/include/G_SOCLSocketParam.h"
+typedef struct SoclSocketParam {
+    unsigned long word[16];
+} SoclSocketParam;
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -100,7 +102,7 @@ static u32 SOCLiRequestedIP = 0;
 static void *SOCLiUDPSendSocket = 0;
 static u32 SOCLiYieldWait = 0;
 
-extern struct SOCLSocketParam g_021A1CFC;
+extern SoclSocketParam g_021A1CFC;
 extern u32 g_021A82BC;
 
 void MI_CpuFill8(void *dstp, u8 data, u32 size);
@@ -116,27 +118,27 @@ void CPSi_RecvCallbackFunc(u8 *, u8 *, u8 *, long);
 void SOCLi_TrashSocket(void);
 int SOCLi_CheckNConfig(void);
 extern void OSi_ReferSymbol(const void *symbol);
-extern void func_0215F0D4(void);
-extern void func_0215EC90(void);
+extern void SOCLi_InitResource(void);
+extern void SOCLi_CleanupCPS(void);
 extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
 extern void *func_0215D070(void *param);
-extern unsigned char *func_02166384(void);
+extern unsigned char *WCM_GetApMacAddress(void);
 extern char g_020050C4[42];
 extern int g_021A1D14;
 extern u32 g_021A827C;
 extern u32 g_021A8298;
 extern u32 g_021A82DC[2];
-int func_0215CA8C(SOCLConfig *socl_config);
-int func_0215CAE4(void);
-void func_0215CCA0(void);
-int func_0215CD24(void);
+int SOCL_Startup(SOCLConfig *socl_config);
+int SOCLi_StartupSOCL(void);
+void SOCLi_SetMyIP(void);
+int SOCL_LinkIsOn(void);
 static void SOCLi_StartupCPS(void);
 
 
 /*
  * sdk:      SOCL_Startup (libsoc.TWL.HYB.a(socl_startup.o))
  */
-int func_0215CA8C(SOCLConfig *socl_config)
+int SOCL_Startup(SOCLConfig *socl_config)
 {
 	int result;
 
@@ -144,12 +146,12 @@ int func_0215CA8C(SOCLConfig *socl_config)
 	if (SOCLiConfigPtr != 0) {
 		return 0;
 	}
-	func_0215F0D4();
+	SOCLi_InitResource();
 	SOCLiConfigPtr = socl_config;
 	SOCLi_StartupCPS();
-	result = func_0215CAE4();
+	result = SOCLi_StartupSOCL();
 	if (result < 0) {
-		func_0215EC90();
+		SOCLi_CleanupCPS();
 		SOCLiConfigPtr = 0;
 	}
 	return result;
@@ -159,7 +161,7 @@ int func_0215CA8C(SOCLConfig *socl_config)
 /*
  * sdk:      SOCLi_StartupSOCL (libsoc.TWL.HYB.a(socl_startup.o))
  */
-int func_0215CAE4(void)
+int SOCLi_StartupSOCL(void)
 {
 	int r;
 
@@ -225,7 +227,7 @@ static void SOCLi_StartupCPS(void)
 /*
  * sdk:      SOCLi_SetMyIP (libsoc.TWL.HYB.a(socl_startup.o))
  */
-void func_0215CCA0(void)
+void SOCLi_SetMyIP(void)
 {
 	g_021A82BC = SOCLiConfigPtr->host_ip.addr;
 	g_021A827C = SOCLiConfigPtr->host_ip.mask;
@@ -243,7 +245,7 @@ void SOCLi_DhcpTimeout(void)
 /*
  * Non-zero test on the word call.
  */
-int func_0215CD24(void)
+int SOCL_LinkIsOn(void)
 {
-    return func_02166384() != 0;
+    return WCM_GetApMacAddress() != 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215EE98
+ * function: SOCL_InetAtoH
  * address:  0x0215EE98
  * packet:   pkt_ov009_0215EE98
  * region:   ov009
@@ -23,7 +23,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long CPS_Resolve(char *name);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-unsigned long func_0215EE98(char *hostname)
+unsigned long SOCL_InetAtoH(char *hostname)
 {
     unsigned long hostip;
     unsigned long enable;

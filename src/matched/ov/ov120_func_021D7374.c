@@ -1,5 +1,5 @@
 /*
- * function: func_021D7374
+ * function: GTSNEGO_MSG_SetIconYClamped
  * address: 0x021D7374
  * packet: pkt_ov120_021D7374
  * region: ov120
@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_021D72E8 0x021D72E8 thumb ov120
+ *   GTSNEGO_MSG_GetListRowYF 0x021D72E8 thumb ov120
  */
 #include "../include/Obj10400.h"
 typedef unsigned char u8;
@@ -26,5 +26,5 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern int func_021D72E8(void *,int,int);
-int func_021D7374(char *p,int y,int count) { Pt pt; int result; result=0; if(((struct Obj10400 *)p)->f140) { CLACT_GetActorSurfacePos(((struct Obj10400 *)p)->f140,(struct PtS *)&pt,1); pt.y=y; CLACT_AddActorSurfacePos(((struct Obj10400 *)p)->f140,(const struct Vec2 *)(&pt),1); result=func_021D72E8(p,y,count); } return result; }
+extern int GTSNEGO_MSG_GetListRowYF(void *,int,int);
+int GTSNEGO_MSG_SetIconYClamped(char *p,int y,int count) { Pt pt; int result; result=0; if(((struct Obj10400 *)p)->f140) { CLACT_GetActorSurfacePos(((struct Obj10400 *)p)->f140,(struct PtS *)&pt,1); pt.y=y; CLACT_AddActorSurfacePos(((struct Obj10400 *)p)->f140,(const struct Vec2 *)(&pt),1); result=GTSNEGO_MSG_GetListRowYF(p,y,count); } return result; }

@@ -19,6 +19,9 @@
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -57,9 +60,9 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void *STRBUF_Create(unsigned, u16);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *, void *, s16, s16, void *, int, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021E6718(Work *w, unsigned a1, const Info *info, void *a3, int a4, void *a5, void *a6, void *a7, int a8, HeapArg h)
@@ -99,8 +102,8 @@ void func_021E6718(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
             break;
         case 2:
             MSGDATA_ReadString(a6, 7, s1);
-            func_0201F02C(a7, 0, a3);
-            func_0201F250(a7, s2, s1);
+            WORDSET_SetSlotMyStatus(a7, 0, a3);
+            WORDSET_CopyTaggedText(a7, s2, s1);
             color = 0x3c40;
             break;
         case 3:
@@ -112,8 +115,8 @@ void func_021E6718(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
         case 4:
             if (a1) {
                 MSGDATA_ReadString(a6, 9, s1);
-                func_0201EFA4(a7, 0, info->h4, 4, 1, 1);
-                func_0201F250(a7, s2, s1);
+                WORDSET_SetSlotNumber(a7, 0, info->h4, 4, 1, 1);
+                WORDSET_CopyTaggedText(a7, s2, s1);
             } else {
                 draw = 0;
             }
@@ -123,24 +126,24 @@ void func_021E6718(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
             break;
         case 6:
             MSGDATA_ReadString(a6, 11, s1);
-            func_0201EFA4(a7, 0, info->fC, 6, 1, 1);
-            func_0201F250(a7, s2, s1);
+            WORDSET_SetSlotNumber(a7, 0, info->fC, 6, 1, 1);
+            WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 7:
             MSGDATA_ReadString(a6, 12, s2);
             break;
         case 8:
             MSGDATA_ReadString(a6, 13, s1);
-            func_0201EFA4(a7, 0, info->h10, 5, 1, 1);
-            func_0201F250(a7, s2, s1);
+            WORDSET_SetSlotNumber(a7, 0, info->h10, 5, 1, 1);
+            WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 9:
             MSGDATA_ReadString(a6, 14, s2);
             break;
         case 10:
             MSGDATA_ReadString(a6, 15, s1);
-            func_0201EFA4(a7, 0, info->h12, 5, 1, 1);
-            func_0201F250(a7, s2, s1);
+            WORDSET_SetSlotNumber(a7, 0, info->h12, 5, 1, 1);
+            WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         }
         if (draw) {

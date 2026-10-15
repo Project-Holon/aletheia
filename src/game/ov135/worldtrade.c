@@ -24,7 +24,7 @@
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   DPW_TR_Main 0x021C7C1C arm ov114
  *   PROCSYS_Main 0x02031330 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   WORLDTRADE_ADAPTER_UpdatePrinter 0x02202770 thumb ov135
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   WORLDTRADE_SUBLCD_CreateActors 0x021FF6A4 thumb ov135
@@ -32,12 +32,12 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   d_02203A80 0x02203A80 data a4
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0203133C 0x0203133C arm
  *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   str_02203B08  0x02203B08  data  a1
  *   func_020490F4  0x020490F4  arm
@@ -86,7 +86,7 @@
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_0200F7C0   0x0200F7C0  thumb
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_02030734 0x02030734 arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -132,13 +132,13 @@
  *   WORDSET_Create  0x0201EC74  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj00018.h"
 
 #define ASSERT(x) if (!(x)) func_02034714(str_02203B08, 0, str_02203B08)
 
-struct Obj0203159C;
+struct ProcSystem;
 
 struct S020314B8;
 
@@ -190,7 +190,7 @@ extern int func_02034AC4(s32 handle);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -226,7 +226,7 @@ extern void DPW_TR_Main(void);
 
 extern u32 PROCSYS_Main(void *);
 
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 
 extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *);
 
@@ -242,7 +242,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 
 extern u32 func_020307B0(void *p);
 
@@ -252,11 +252,11 @@ extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
 
 extern void func_020315D4(struct S020315D4 *p);
 
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 extern void func_02034A5C(s32 handle);
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -354,7 +354,7 @@ extern void BG_SYS_Create(u16 heapId);
 
 extern void BMP_WIN_Init(u16 heapId);
 
-extern void func_0203FC28(struct DispConfig_021F4580 *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig_021F4580 *cfg);
 
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 
@@ -503,7 +503,7 @@ int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, Work *p)
     }
     DPW_TR_Main();
     p->busy_u = PROCSYS_Main(p->f12F0);
-    func_02030D28(p->rec_p);
+    TCB_Main(p->rec_p);
     WORLDTRADE_ADAPTER_UpdatePrinter((u8 *)p + 0xfa0);
     switch (*state) {
     case 0:
@@ -549,13 +549,13 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, Work *p)
     MSGDATA_Delete(p->bank);
     MSGDATA_Delete(p->msg_p);
     WORDSET_DeleteStrbufED04(p->words);
-    func_02030DA4(p->rec_p);
+    TCB_Noop(p->rec_p);
     func_020307B0(p->recMem);
     func_0203133C(p->f12F0);
     func_020307B0(p->fEA8);
     WORLDTRADE_ADAPTER_ExitPrinter((u8 *)p + 0xfa0);
     func_020315D4(ctx);
-    func_020306F0(0x48);
+    GFL_HEAP_DeleteChecked(0x48);
     func_02034A5C((unsigned int)ov067_id);
     func_02034A5C((unsigned int)ov114_id);
     return 1;
@@ -563,7 +563,7 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, Work *p)
 
 void WORLDTRADE_VBlankTask(void *unused, Work *p)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     if (p->once != 0) {
         p->once(p);
@@ -988,7 +988,7 @@ void WORLDTRADE_ClearAndShowPlanes(Work *p)
     {
         struct DispConfig_021F4580 c = tbl_02202BB8;
 
-        func_0203FC28(&c);
+        BG_SYS_SetGraphicsMode(&c);
     }
     WORLDTRADE_SetupWindowPlanes();
     *(vu16_021F5074 *)0x04000050 = 0;

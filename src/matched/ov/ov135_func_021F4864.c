@@ -11,6 +11,7 @@
  *
  * symbols:
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 
 typedef signed char s8;
@@ -28,12 +29,12 @@ typedef struct {
     Cb every;
 } Work;
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 
 void WORLDTRADE_VBlankTask(void *unused, Work *p)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     if (p->once != 0) {
         p->once(p);

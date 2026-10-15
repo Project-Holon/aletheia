@@ -1,5 +1,5 @@
 /*
- * function: func_021E0D00
+ * function: BR_CODEIN_ProfileSetActorPos
  * address: 0x021E0D00
  * packet: pkt_ov183_021E0D00
  * region: ov183
@@ -21,4 +21,4 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021E0D00(char *p,int i){short pos[2];void *obj;obj=*(void **)(p+i*28+12);((struct Obj02895 *)p)->f188=i;CLACT_GetActorSurfacePos(obj,(struct PtS *)pos,1);pos[1]+=16;CLACT_AddActorSurfacePos(((struct Obj02895 *)p)->f194,(const struct Vec2 *)pos,1);}
+void BR_CODEIN_ProfileSetActorPos(char *p,int i){short pos[2];void *obj;obj=*(void **)(p+i*28+12);((struct Obj02895 *)p)->f188=i;CLACT_GetActorSurfacePos(obj,(struct PtS *)pos,1);pos[1]+=16;CLACT_AddActorSurfacePos(((struct Obj02895 *)p)->f194,(const struct Vec2 *)pos,1);}

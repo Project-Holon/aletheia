@@ -1,5 +1,5 @@
 /*
- * function: func_0215F500
+ * function: SOC_RecvFrom
  * address:  0x0215F500
  * packet:   pkt_02156B70
  * region:   ov009
@@ -9,24 +9,27 @@
  * isa:      arm
  * status:   EXACT
  *
- * Ask func_0215D6C8 for a two-word header into locals; on success and with a
+ * Ask SOCL_ReadFrom for a two-word header into locals; on success and with a
  * non-null destination object, write the byte-swapped halfword to +2 and the
  * byte-swapped word to +4.  Returns the callee's result.
+ *
+ * symbols:
+ *   SOCL_ReadFrom  0x0215D6C8  arm
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip, int flags);
+extern int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip, int flags);
 
-int func_0215F500(int a0, int a1, int a2, int a3, u8 *out)
+int SOC_RecvFrom(int a0, int a1, int a2, int a3, u8 *out)
 {
     u16 h;
     u32 w;
     int r;
 
-    r = func_0215D6C8(a0, (void *)a1, a2, &h, (long unsigned int *)(&w), a3);
+    r = SOCL_ReadFrom(a0, (void *)a1, a2, &h, (long unsigned int *)(&w), a3);
     if (r < 0)
         return r;
     if (out == 0)

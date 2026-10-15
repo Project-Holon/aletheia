@@ -1,5 +1,5 @@
 /*
- * function: func_0215DAA8
+ * function: SOCLi_ExecReadCommand
  * address:  0x0215DAA8
  * packet:   pkt_ov009_0215DAA8
  * region:   ov009
@@ -36,7 +36,7 @@ extern int SOCLi_ExecCommandPacketInRecvPipe(Socket *socket, Command *command);
 extern int SOCLi_ReadCallBack(void *arg);
 extern int SOCLi_ReadSSLNblockCallBack(void *arg);
 
-int func_0215DAA8(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ExecReadCommand(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, long flag_block)
 {
     Command *command;

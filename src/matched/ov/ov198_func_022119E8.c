@@ -1,5 +1,5 @@
 /*
- * function: func_022119E8
+ * function: B_PLIST_MAIN_DeleteCursor
  * address:  0x022119E8
  * packet:   pkt_022119E8
  * region:   ov198
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 CURSOR_MOVE_Delete(void *a0);
 
-u32 func_022119E8(u8 *p)
+u32 B_PLIST_MAIN_DeleteCursor(u8 *p)
 {
     return CURSOR_MOVE_Delete((void *)(((struct Obj25290 *)p)->f2184));
 }

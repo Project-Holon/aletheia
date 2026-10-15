@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B64
+ * function: TH_AWARD_CreateBgActors
  * address: 0x021B9B64
  * packet: pkt_ov220_021B9B64
  * region: ov220
@@ -40,7 +40,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj*,u32);
-void func_021B9B64(char *p)
+void TH_AWARD_CreateBgActors(char *p)
 {
     void *owner;
     struct Param param;

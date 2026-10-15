@@ -21,6 +21,7 @@
  *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
  *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
  *   BMP_MENULIST_Create  0x0201FF30  thumb  arm9
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "../include/Obj01542.h"
 #include "../include/Obj01731.h"
@@ -38,7 +39,7 @@ extern void MI_CpuFill8(void *,int,u32);
 struct Slot;
 struct Src;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -58,7 +59,7 @@ void *func_021DA038(const u8 *p,u16 heap)
     MI_CpuFill8(out,0,24);
     ((struct Obj01731 *)out)->f4=((struct Obj01542 *)p)->f8;
     ((struct Obj01731 *)out)->f0=(void *)BMP_WIN_Create((u8)(((struct Obj01542 *)p)->f1C),(u16)19,(u16)((u8)(17-(u8)(((struct Obj01542 *)p)->f18*2))),(u8)12,(u8)(((struct Obj01542 *)p)->f18*2),((struct Obj01542 *)p)->f1E,1);
-    func_0201F73C(((struct Obj01731 *)out)->f0,2,((struct Obj01542 *)p)->f22,(u8)(((struct Obj01542 *)p)->f20));
+    BMP_MENUWORK_DrawWindow(((struct Obj01731 *)out)->f0,2,((struct Obj01542 *)p)->f22,(u8)(((struct Obj01542 *)p)->f20));
     q=((struct Obj01731 *)out)->f0;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);

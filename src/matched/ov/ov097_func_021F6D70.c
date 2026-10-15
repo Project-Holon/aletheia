@@ -22,8 +22,8 @@
  *   func_0201D304  0x0201D304  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  */
 
 typedef unsigned char  u8;
@@ -43,8 +43,8 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 static inline u8 center_x(u32 w)
 {
@@ -79,8 +79,8 @@ void VS_MULTI_LIST_PrintHp(char *p, int idx)
     STRBUF_Delete(t1);
 
     t2 = func_02045EC0(*(void **)(p + 0x14), 0xd);
-    func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x18)), 0, POKE_TOOL_GetPartyValue((void *)(*(u32 *)(p + 0xf8 + idx * 4)), 0xa0, 0), 3, 0, 1);
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x18)), buf, t2);
+    WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)(p + 0x18)), 0, POKE_TOOL_GetPartyValue((void *)(*(u32 *)(p + 0xf8 + idx * 4)), 0xa0, 0), 3, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)(p + 0x18)), buf, t2);
     {
         u32 y;
         h = *(u32 *)(p + 0x10);
@@ -93,8 +93,8 @@ void VS_MULTI_LIST_PrintHp(char *p, int idx)
     STRBUF_Delete(t2);
 
     t3 = func_02045EC0(*(void **)(p + 0x14), 0xd);
-    func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x18)), 0, POKE_TOOL_GetPartyValue((void *)(*(u32 *)(p + 0xf8 + idx * 4)), 0xa1, 0), 3, 0, 1);
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x18)), buf, t3);
+    WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)(p + 0x18)), 0, POKE_TOOL_GetPartyValue((void *)(*(u32 *)(p + 0xf8 + idx * 4)), 0xa1, 0), 3, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)(p + 0x18)), buf, t3);
     {
         u32 y;
         f3 = *(u32 *)(p + 0x1c);

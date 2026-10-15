@@ -20,9 +20,9 @@
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F158  0x0201F158  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_GetLength  0x020458F8  arm
  */
@@ -44,9 +44,9 @@ extern int GAME_DATA_GetIntrudeIdByte(int a);
 extern int GAME_DATA_GetMyStatusByNetId(int a, int b);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 
@@ -69,9 +69,9 @@ void FIELD_PLACE_NAME_LoadMessage(int *p)
         r7 = GAME_DATA_GetMyStatusByNetId(p[1], GAME_DATA_GetIntrudeIdByte(p[1]));
         r6 = (int)func_02045EC0((struct MsgBank *)p[5], 3);
         MSGDATA_ReadString((struct MsgBank *)p[5], r4, (void *)p[7]);
-        func_0201F02C((struct WordSet *)p[2], 0, (void *)r7);
-        func_0201F158((struct WordSet *)p[2], 1, r4);
-        func_0201F250((struct WordSet *)p[2], (void *)p[7], (void *)r6);
+        WORDSET_SetSlotMyStatus((struct WordSet *)p[2], 0, (void *)r7);
+        WORDSET_SetSlotFromMsg59((struct WordSet *)p[2], 1, r4);
+        WORDSET_CopyTaggedText((struct WordSet *)p[2], (void *)p[7], (void *)r6);
         STRBUF_Delete((struct U16Vec *)r6);
     } else {
         MSGDATA_ReadString((struct MsgBank *)p[5], r4, (void *)p[7]);

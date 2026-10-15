@@ -1,5 +1,5 @@
 /*
- * function: func_021C4268
+ * function: WIFI_2DCHAR_GetActorCellArgB
  * address: 0x021C4268
  * packet: pkt_ov127_021C4268
  * region: ov127
@@ -12,7 +12,7 @@
 #include "../include/Obj23017.h"
 #include "../include/Obj23018.h"
 typedef unsigned char u8;
-void *func_021C4268(u8 *p)
+void *WIFI_2DCHAR_GetActorCellArgB(u8 *p)
 {
     return ((struct Obj23018 *)(*(u8 * *)&((struct Obj23017 *)p)->f0))->f10;
 }

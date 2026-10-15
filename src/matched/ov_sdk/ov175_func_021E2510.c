@@ -13,7 +13,7 @@
  *
  * symbols:
  *   wsiServiceAvailable  0x021E2290  arm  ov175
- *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
  *   gsXmlCreateStreamWriter  0x021819B0  arm  ov009
  *   gsXmlWriteOpenTag  0x021829AC  arm  ov009
  *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
@@ -21,8 +21,8 @@
  *   gsXmlWriteCloseTag  0x02182A2C  arm  ov009
  *   gsXmlCloseWriter  0x02181DE8  arm  ov009
  *   gsXmlFreeWriter  0x02181D84  arm  ov009
- *   func_0217FD7C  0x0217FD7C  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsiExecuteSoap  0x0217FD7C  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   wsLoginRemoteAuthCallback  0x021E2354  arm  ov175
  *   gWsSoapNamespaces  0x021E49A4  data
  *   sWsNamespaceNs1  0x021E4A58  data
@@ -42,7 +42,7 @@ typedef struct {
 } WSIRequestData;
 
 extern int wsiServiceAvailable(void);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *gsXmlCreateStreamWriter(const char **namespaces, int count);
 extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
@@ -50,8 +50,8 @@ extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag,
 extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlCloseWriter(void *stream);
 extern void gsXmlFreeWriter(void **p);
-extern void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap, void *theCallbackFunc, void *theUserData);
-extern void func_0217EAE0(void *ptr);
+extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, void *theCallbackFunc, void *theUserData);
+extern void gsifree(void *ptr);
 extern void wsLoginRemoteAuthCallback(int theResult, void *theRequestXml, void *theResponseXml, void *theRequestData);
 extern char *gWsSoapNamespaces[];
 extern char sWsNamespaceNs1[];
@@ -72,7 +72,7 @@ int wsLoginRemoteAuth(int partnerCode, int namespaceId, char *authtoken, char *p
 
     if (!wsiServiceAvailable())
         return 0x6a;
-    requestData = (WSIRequestData *)func_0217EAB0(sizeof(WSIRequestData));
+    requestData = (WSIRequestData *)gsimalloc(sizeof(WSIRequestData));
     if (requestData == 0)
         return 0x68;
     requestData->mUserCallback = userCallback;
@@ -91,10 +91,10 @@ int wsLoginRemoteAuth(int partnerCode, int namespaceId, char *authtoken, char *p
         gsXmlFreeWriter(writer);
         return 0x68;
     }
-    aTask = func_0217FD7C(gWsAuthServiceUrl, sWsSoapActionLoginRemoteAuth, writer, wsLoginRemoteAuthCallback, requestData);
+    aTask = gsiExecuteSoap(gWsAuthServiceUrl, sWsSoapActionLoginRemoteAuth, writer, wsLoginRemoteAuthCallback, requestData);
     if (aTask == 0) {
         gsXmlFreeWriter(writer);
-        func_0217EAE0(requestData);
+        gsifree(requestData);
         return 0x68;
     }
     return 0;

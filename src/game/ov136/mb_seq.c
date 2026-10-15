@@ -25,7 +25,7 @@
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
  *   func_0203084C 0x0203084C arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02008F84 0x02008F84 thumb
@@ -68,10 +68,10 @@
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
@@ -83,8 +83,8 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021C77C4 0x021C77C4 data a1
- *   func_0203FC28 0x0203FC28 arm
- *   func_0204363C 0x0204363C arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -92,7 +92,7 @@
  *   g_7804 0x021C7804 data
  *   func_020403F4 0x020403F4 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -101,13 +101,13 @@
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
- *   func_0201F548 0x0201F548 thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   BMP_MENUWORK_GetPlttFileId 0x0201F548 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   PALANM_Delete 0x02021540 thumb
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -155,15 +155,15 @@
  *   BGWINFRM_HideFrame 0x0202CC70 thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   g_7A20 0x021C7A20 data
  *   BMP_CreateFromBuffer 0x020436FC arm
  *   BMP_Blit 0x020439A0 arm
  *   func_02008F9C 0x02008F9C thumb
  *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   BMP_Delete 0x020437AC arm
- *   func_0201F250     0x0201F250  thumb
- *   func_0201F73C   0x0201F73C  thumb
+ *   WORDSET_CopyTaggedText     0x0201F250  thumb
+ *   BMP_MENUWORK_DrawWindow   0x0201F73C  thumb
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021C7BBC 0x021C7BBC data ov136 a4
  *   d_021C7BA0 0x021C7BA0 data a4
@@ -231,7 +231,7 @@
  *   MB_SEQ_PrintDetailMessage 0x021C6284 thumb
  *   MB_SEQ_ShowMessageWindow 0x021C62BC thumb
  *   MB_SEQ_OpenFourEntryMenu  0x021C5AEC  thumb
- *   func_020213AC 0x020213AC thumb
+ *   FILE_UTIL_GetItemId 0x020213AC thumb
  *   MB_SEQ_CloseMenu 0x021C5B30 thumb
  *   MB_SEQ_EmptyHookDetailClose 0x021C61CC thumb
  *   MB_SEQ_HideMessageWindow 0x021C62F4 thumb
@@ -247,7 +247,7 @@
  *   func_0200902C 0x0200902C thumb
  *   ov091_id 0x0000005B data
  *   gPartyListProcData 0x021BED00 data ov091 a4
- *   func_0202138C  0x0202138C  thumb
+ *   FILE_UTIL_GetItemSlot  0x0202138C  thumb
  *   MAILTOOL_CreateWriteArgs  0x021C3CC0  thumb
  *   d_021C7D5C 0x021C7D5C data a4
  *   MAILTOOL_HasMail 0x021C3E00 thumb ov136
@@ -271,6 +271,7 @@
  *   MAILSYS_OnTouchMode 0x021C4528 thumb ov136
  *   MAILSYS_OnKeyModeNoOp 0x021C4534 thumb ov136
  *   MAILVIEW_SetVramBanks 0x021C4DD4 thumb ov136
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  */
 #include "mail_types.h"
 #include "../ov091/pokelist_types.h"
@@ -373,7 +374,7 @@ extern u32 func_020307B0(void *p);
 
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 
-extern void func_020306F0(u32);
+extern void GFL_HEAP_DeleteChecked(u32);
 
 extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
 
@@ -446,7 +447,7 @@ extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
 
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern void BMP_WIN_ClearScreen(struct BmpWin *d);
 
@@ -462,7 +463,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -486,9 +487,9 @@ extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -500,7 +501,7 @@ extern void func_020403F4(u32 bgId);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -518,13 +519,13 @@ extern void PALANM_LoadHandlePaletteToSlot(struct PalAnm *slots, void *arc, u32 
 
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnm *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
-extern u8 func_0201F548(int i);
+extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
+extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 
 extern void func_02041B6C(u32);
 
@@ -532,7 +533,7 @@ extern void PALANM_FreeSlotBuffers(struct PalAnm *slots, u32 idx);
 
 extern u32 PALANM_Delete(void *a0);
 
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 
 extern void func_0207D63C(void *, int, int, int, int);
 
@@ -614,9 +615,9 @@ void MAILVIEW_InitBgs(struct MailEditProc *proc)
     MAILVIEW_SetVramBanks();
     {
         struct DispConfig d = g_77F4;
-        func_0203FC28(&d);
+        BG_SYS_SetGraphicsMode(&d);
     }
-    func_0204363C(0);
+    BMP_SetDisplaySwap(0);
     {
         struct BgSet s = g_7804;
         BG_SYS_InitBgLayer(0, &s.t[0], 0);
@@ -644,7 +645,7 @@ void MAILVIEW_FreeBgs(struct MailEditProc *proc)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0204363C(1);
+    BMP_SetDisplaySwap(1);
 }
 
 /*
@@ -659,8 +660,8 @@ void MAILVIEW_LoadGraphics(struct MailEditProc *proc)
     u32 pal;
     u32 chr;
 
-    func_0201F5BC(0, 1, 4, 0, (u16)proc->heapId);
-    func_0201F5BC(0, 0xD, 6, 0, (u16)proc->heapId);
+    BMP_MENUWORK_LoadCharAndPltt(0, 1, 4, 0, (u16)proc->heapId);
+    BMP_MENUWORK_LoadCharAndPltt(0, 0xD, 6, 0, (u16)proc->heapId);
     pal = design + 0xC;
     func_02049658(arc, pal, 3, 0, 0, 1, (u16)proc->heapId);
     func_02049658(arc, pal, 4, 0, 0, 1, (u16)proc->heapId);
@@ -675,11 +676,11 @@ void MAILVIEW_LoadGraphics(struct MailEditProc *proc)
     PALANM_LoadHandlePaletteToSlot(proc->palAnm, arc, design, (u16)proc->heapId, 0, 0x60, 0);
     PALANM_LoadArcPaletteToSlot(proc->palAnm, 0x17, 7, (u16)proc->heapId, 0, 0x20, 0x30);
     PALANM_LoadArcPaletteToSlot(proc->palAnm, 0x17, 5, (u16)proc->heapId, 0, 0x20, 0x50);
-    PALANM_LoadArcPaletteToSlot(proc->palAnm, 5, func_0201F548(0), (u16)proc->heapId, 0, 0x20, 0x40);
-    PALANM_LoadArcPaletteToSlot(proc->palAnm, 5, func_0201F548(1), (u16)proc->heapId, 0, 0x20, 0x60);
-    func_0201DD68();
+    PALANM_LoadArcPaletteToSlot(proc->palAnm, 5, BMP_MENUWORK_GetPlttFileId(0), (u16)proc->heapId, 0, 0x20, 0x40);
+    PALANM_LoadArcPaletteToSlot(proc->palAnm, 5, BMP_MENUWORK_GetPlttFileId(1), (u16)proc->heapId, 0, 0x20, 0x60);
+    GF_FONT_SetDefaultTextColor();
     ARC_TOOL_DeleteHandle(arc);
-    func_02041300(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
+    BG_SYS_SetTileEntry(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
     func_02041B6C(4);
     BG_SYS_SetMainPlaneVisible(1, 1);
     BG_SYS_SetMainPlaneVisible(2, 1);
@@ -700,7 +701,7 @@ void MAILVIEW_FreeGraphics(struct MailEditProc *proc)
     PALANM_Delete(proc->palAnm);
     proc->palAnm = 0;
     func_02030EAC(proc->blinkTask);
-    func_02030DA4(proc->blinkTaskList);
+    TCB_Noop(proc->blinkTaskList);
     func_020307B0(proc->blinkTaskMem);
     func_0207D63C((void *)0x04000050, 0, 0, 31, 0);
 }
@@ -845,13 +846,13 @@ int MB_SEQ_ProcExit(void *procSys, void *state, void *unused, struct MailBoxProc
     func_0203133C(p->procSys);
     func_020315D4(procSys);
     func_0203084C(0x65);
-    func_020306F0(0x65);
+    GFL_HEAP_DeleteChecked(0x65);
     return 1;
 }
 
 void MB_SEQ_VBlankTask(void *unused)
 {
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
 }
 
@@ -939,7 +940,7 @@ void MB_SEQ_InitBgs(struct MailBoxProc *p)
     BG_SYS_Create(0x66);
     {
         struct DispConfig d = g_7910;
-        func_0203FC28(&d);
+        BG_SYS_SetGraphicsMode(&d);
     }
     {
         struct BgTemplate t = g_79E0;
@@ -1033,7 +1034,7 @@ void MB_SEQ_LoadFrameCharData(struct MailBoxProc *p)
 
 void MB_SEQ_LoadMiscGraphics(struct MailBoxProc *p)
 {
-    func_0201F5BC(0,994,13,0,102);
+    BMP_MENUWORK_LoadCharAndPltt(0,994,13,0,102);
     func_02049B40(23,5,0,448,32,102);
     func_02049B40(23,5,4,480,32,102);
     func_02049B40(23,5,0,480,32,102);
@@ -1148,7 +1149,7 @@ extern void BGWINFRM_ShowFrame(struct BgWinFrm *mgr, u32 idx);
 
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 v, u32 flag);
 
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern u32 func_0201D304(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
@@ -1162,11 +1163,11 @@ extern void BGWINFRM_PutBmpWin(struct BgWinFrm *mgr, u32 idx, struct BmpWin *win
 
 extern void BMP_Delete(struct Bmp *bmp);
 
-extern void func_0201EE0C(struct WordSet *wordSet, u32 i, struct Strbuf *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 i, struct Strbuf *src, u32 n, u32 f, u32 c);
 
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 v);
 
@@ -1366,7 +1367,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
         if (flash->isWindow == 0) {
             CLACT_SetActorPaletteOffset(p->view->actor[flash->target], flash->paletteFirst, 1);
         } else {
-            func_020413B0(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteFirst);
+            BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteFirst);
             func_02041B6C(flash->target);
         }
         flash->state++;
@@ -1377,7 +1378,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
             if (flash->isWindow == 0) {
                 CLACT_SetActorPaletteOffset(p->view->actor[flash->target], flash->paletteSecond, 1);
             } else {
-                func_020413B0(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteSecond);
+                BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteSecond);
                 func_02041B6C(flash->target);
             }
             flash->count = 0;
@@ -1551,7 +1552,7 @@ void MB_SEQ_SetWriterWord(struct MailBoxProc *p, u32 a1)
     func_02008F84(mail);
     STRBUF_SetString(text, func_02008F84(mail));
     n = func_02008F9C(mail);
-    func_0201EE0C(p->view->wordSet, 0, text, n, 1, 2);
+    WORDSET_SetSlotTag(p->view->wordSet, 0, text, n, 1, 2);
     STRBUF_Delete(text);
 }
 
@@ -1569,7 +1570,7 @@ void MB_SEQ_PrintDetailMessage(struct MailBoxProc *p)
     struct Strbuf *text;
     MB_SEQ_SetWriterWord(p, 0);
     text = func_02045EC0(p->view->msgData, 9);
-    func_0201F250(p->view->wordSet, p->view->msgBuf, text);
+    WORDSET_CopyTaggedText(p->view->wordSet, p->view->msgBuf, text);
     STRBUF_Delete(text);
     MB_SEQ_StartMessagePrint(p);
 }
@@ -1577,7 +1578,7 @@ void MB_SEQ_PrintDetailMessage(struct MailBoxProc *p)
 void MB_SEQ_ShowMessageWindow(struct MailBoxProc *p)
 {
     struct BmpWin *win;
-    func_0201F73C(p->view->win[25], 2, 0x3E2, 0xD);
+    BMP_MENUWORK_DrawWindow(p->view->win[25], 2, 0x3E2, 0xD);
     win = p->view->win[25];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
@@ -1586,7 +1587,7 @@ void MB_SEQ_ShowMessageWindow(struct MailBoxProc *p)
 
 void MB_SEQ_HideMessageWindow(struct MailBoxProc *p)
 {
-    func_0201F7A8(p->view->win[25], 2);
+    BMP_MENUWORK_DrawWindowBorder(p->view->win[25], 2);
     func_02041B6C(0);
 }
 
@@ -1904,7 +1905,7 @@ extern u8 CURSOR_MOVE_GetCurrent(struct TouchSelect *select);
 
 int MB_SEQ_IsXPressed(void);
 
-extern u16 func_020213AC(u32);
+extern u16 FILE_UTIL_GetItemId(u32);
 
 extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 
@@ -1928,7 +1929,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
 
 extern void PROCSYS_Push(void *, u32, const void *, void *);
 
-extern u8 func_0202138C(u16 v);
+extern u8 FILE_UTIL_GetItemSlot(u16 v);
 
 extern struct MailArgs *MAILTOOL_CreateWriteArgs(struct GameData *gameData, unsigned b, unsigned c, unsigned d, unsigned heap);
 
@@ -2141,7 +2142,7 @@ u32 MB_SEQ_StateExit(struct MailBoxProc *p)
     BG_SYS_SetSubVisiblePlanes(0);
     func_020307B0(p->view);
     p->view = 0;
-    func_020306F0(102);
+    GFL_HEAP_DeleteChecked(102);
     return p->nextState;
 }
 
@@ -2363,7 +2364,7 @@ int MB_SEQ_StateActionMenu(struct MailBoxProc *p)
         u8 mailIndex;
         MB_SEQ_CloseMenu(p);
         mailIndex = p->selectedMail;
-        MB_SEQ_CreatePartyListArgs(p, 0xE, func_020213AC(func_02008FA4(p->view->mails[mailIndex])), mailIndex);
+        MB_SEQ_CreatePartyListArgs(p, 0xE, FILE_UTIL_GetItemId(func_02008FA4(p->view->mails[mailIndex])), mailIndex);
         p->childIndex = 0;
         p->nextState = 6;
         return MB_SEQ_StartFadeOut(p, 1);
@@ -2617,7 +2618,7 @@ void MB_SEQ_ClearMailDetailText(struct MailBoxProc *p)
 void MB_SEQ_CheckBagForItem(struct MailBoxProc *p)
 {
     void *bag = GAME_DATA_GetMyItem(p->args->gameData);
-    p->itemId = func_020213AC(func_02008FA4(p->view->mails[p->selectedMail]));
+    p->itemId = FILE_UTIL_GetItemId(func_02008FA4(p->view->mails[p->selectedMail]));
     if (func_02007E50(bag, p->itemId, 1, 0x66) == 1) {
         p->bagFull = 0;
         return;
@@ -2678,7 +2679,7 @@ int MB_SEQ_FinishChildFreeB(struct MailBoxProc *p)
 
 int MB_SEQ_PushMailTool(struct MailBoxProc *p)
 {
-    p->childArgs = MAILTOOL_CreateWriteArgs(p->args->gameData, 2, p->partyIndex, func_0202138C(p->itemId), 0x65);
+    p->childArgs = MAILTOOL_CreateWriteArgs(p->args->gameData, 2, p->partyIndex, FILE_UTIL_GetItemSlot(p->itemId), 0x65);
     PROCSYS_Push(p->procSys, (u32)-1, &d_021C7D5C, p->childArgs);
     return 0;
 }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02057EF8  0x02057EF8  arm
- *   func_02057F8C  0x02057F8C  arm
- *   func_020580A8  0x020580A8  arm
- *   func_02058180  0x02058180  arm
- *   func_02058204  0x02058204  arm
- *   func_020582CC  0x020582CC  arm
+ *   SPL_EMITTER_LerpVec  0x02057EF8  arm
+ *   SPL_EMITTER_InterpTarget  0x02057F8C  arm
+ *   SPL_EMITTER_BuildFrame  0x020580A8  arm
+ *   SPL_EMITTER_AddScaledVec  0x02058180  arm
+ *   SPL_EMITTER_UpdateNode  0x02058204  arm
+ *   SPL_EMITTER_AddVec  0x020582CC  arm
  *
  * Linear search of the block at obj+0x20 for the first 8-byte entry whose
  * first word is the handler address selected by `kind`, returning that
@@ -57,12 +57,12 @@ struct C;
 struct Obj;
 struct S;
 struct Src;
-extern void func_02057EF8(struct A *a, struct B *b);
-extern void func_02057F8C(struct A *a, struct S *s, int unused, struct C *c);
-extern void func_020580A8(struct Obj *o, u8 *dst);
-extern void func_02058180(struct A *a, struct B *b, volatile int *c);
-extern void func_02058204(struct Obj *o, struct Src *s, int *dst);
-extern void func_020582CC(struct Obj *o, void *s, int *dst);
+extern void SPL_EMITTER_LerpVec(struct A *a, struct B *b);
+extern void SPL_EMITTER_InterpTarget(struct A *a, struct S *s, int unused, struct C *c);
+extern void SPL_EMITTER_BuildFrame(struct Obj *o, u8 *dst);
+extern void SPL_EMITTER_AddScaledVec(struct A *a, struct B *b, volatile int *c);
+extern void SPL_EMITTER_UpdateNode(struct Obj *o, struct Src *s, int *dst);
+extern void SPL_EMITTER_AddVec(struct Obj *o, void *s, int *dst);
 
 void *BUTTON_MAN_FindRowData(void *obj, int kind)
 {
@@ -79,27 +79,27 @@ void *BUTTON_MAN_FindRowData(void *obj, int kind)
             continue;
         switch (kind) {
         case 0:
-            if (e->fn == (void *)func_020582CC)
+            if (e->fn == (void *)SPL_EMITTER_AddVec)
                 return e->data;
             break;
         case 1:
-            if (e->fn == (void *)func_02058204)
+            if (e->fn == (void *)SPL_EMITTER_UpdateNode)
                 return e->data;
             break;
         case 2:
-            if (e->fn == (void *)func_02058180)
+            if (e->fn == (void *)SPL_EMITTER_AddScaledVec)
                 return e->data;
             break;
         case 3:
-            if (e->fn == (void *)func_020580A8)
+            if (e->fn == (void *)SPL_EMITTER_BuildFrame)
                 return e->data;
             break;
         case 4:
-            if (e->fn == (void *)func_02057F8C)
+            if (e->fn == (void *)SPL_EMITTER_InterpTarget)
                 return e->data;
             break;
         case 5:
-            if (e->fn == (void *)func_02057EF8)
+            if (e->fn == (void *)SPL_EMITTER_LerpVec)
                 return e->data;
             break;
         default:

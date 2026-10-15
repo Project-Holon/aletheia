@@ -22,7 +22,7 @@
  *   PRINTSYS_QUE_Create   0x0201C440  thumb
  *   BMP_MENU_Add   0x0201F9D0  thumb
  *   BMP_WIN_MakeScreen   0x02045374  arm
- *   func_0201F73C   0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow   0x0201F73C  thumb
  *   BMP_WIN_GetBgLayer   0x02045730  arm
  *   func_020409B4   0x020409B4  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -108,7 +108,7 @@ extern u32 GF_FONT_GetField58(struct Font *p);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern BmpMenu *BMP_MENU_Add(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void  func_020409B4(u32 layer);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -158,7 +158,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winDat, u16 base, u8 pal, u8 pos, u1
 
     m = BMP_MENU_Add(&hdr, 0xE, 0, pos, heap, 2);
     BMP_WIN_MakeScreen(hdr.win);
-    func_0201F73C(hdr.win, 0, base, pal);
+    BMP_MENUWORK_DrawWindow(hdr.win, 0, base, pal);
     func_020409B4(BMP_WIN_GetBgLayer(hdr.win));
     BMP_WIN_TransferChars(hdr.win);
     return m;

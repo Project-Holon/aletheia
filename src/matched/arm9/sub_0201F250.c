@@ -1,5 +1,5 @@
 /*
- * function: func_0201F250
+ * function: WORDSET_CopyTaggedText
  * address:  0x0201F250
  * packet:   pkt_0201F250
  * region:   arm9
@@ -16,9 +16,9 @@
  * replaced by the stored word itself.
  *
  * The tag primitives it calls are the seven of src/matched/unit_0201D5C4.c:
- * func_0201D5C4 is the 0xF000 marker, GF_FONT_CheckD5CC says whether the tag is a
- * word reference, func_0201D670 reads parameter 0 (the word index),
- * func_0201D60C writes a new tag, and func_0201D688 steps the cursor past a
+ * GF_FONT_GetTagChar is the 0xF000 marker, GF_FONT_CheckD5CC says whether the tag is a
+ * word reference, GF_FONT_GetTagParam reads parameter 0 (the word index),
+ * GF_FONT_AppendTag writes a new tag, and GF_FONT_SkipTag steps the cursor past a
  * tag.  The word table hangs off the object at +8 and its entries are 0xC
  * bytes: a flag at +4 and the word's own message at +8.  When the flag is set
  * the expansion is bracketed by two freshly built 0xBD tags, kinds 6 and 4,
@@ -32,7 +32,7 @@
  *     flag test and the first write, and the buffer has its address taken, so
  *     re-reading `ws->unk08` after them costs a reload the original does not
  *     have.  Binding it for the *second* write as well is four bytes too long
- *     the other way: the local would then be live across func_0201D60C and the
+ *     the other way: the local would then be live across GF_FONT_AppendTag and the
  *     index has to be spilled.  The original recomputes the address from the
  *     two callee-saved registers it already holds, which is what writing the
  *     expression out gives.
@@ -51,7 +51,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201F250.c \
- *       --func func_0201F250 --addr 0x0201F250 --cc 1.1p1 --thumb
+ *       --func WORDSET_CopyTaggedText --addr 0x0201F250 --cc 1.1p1 --thumb
  *
  * symbols:
  *   STRBUF_Clear  0x0204581C  arm
@@ -59,6 +59,11 @@
  *   STRBUF_AppendChar  0x02045AFC  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
+ *   GF_FONT_GetTagChar  0x0201D5C4  thumb
+ *   GF_FONT_AppendTag  0x0201D60C  thumb
+ *   GF_FONT_GetTagParam  0x0201D670  thumb
+ *   GF_FONT_SkipTag  0x0201D688  thumb
+ *   WORDSET_ParsePackedLimits  0x0201F4A0  thumb
  */
 
 typedef unsigned char  u8;
@@ -83,14 +88,14 @@ extern void STRBUF_Clear(struct U16Vec *vec);
 extern u16  STRBUF_GetEosChar(void);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
-extern u32   func_0201D5C4(void);
+extern u32   GF_FONT_GetTagChar(void);
 extern u32   GF_FONT_CheckD5CC(const u16 *p);
-extern void  func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr);
-extern u32   func_0201D670(const u16 *p, u32 i);
-extern u16  *func_0201D688(u16 *p);
-extern void  func_0201F4A0(void *dst, void *src);
+extern void  GF_FONT_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
+extern u32   GF_FONT_GetTagParam(const u16 *p, u32 i);
+extern u16  *GF_FONT_SkipTag(u16 *p);
+extern void  WORDSET_ParsePackedLimits(void *dst, void *src);
 
-void func_0201F250(struct WordSet *ws, void *dst, void *src)
+void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src)
 {
     u16 buf[2];
     u32 term;
@@ -103,23 +108,23 @@ void func_0201F250(struct WordSet *ws, void *dst, void *src)
     p = STRBUF_GetChars(src);
     STRBUF_Clear(dst);
     term = STRBUF_GetEosChar();
-    marker = func_0201D5C4();
+    marker = GF_FONT_GetTagChar();
     while (p[0] != term) {
         if (p[0] == marker) {
             if (GF_FONT_CheckD5CC(p) != 0) {
-                i = func_0201D670(p, 0);
+                i = GF_FONT_GetTagParam(p, 0);
                 e = &ws->unk08[i];
                 if (e->unk04 != 0) {
                     buf[1] = (u16)i;
                     buf[0] = 0x54;
-                    func_0201D60C(e->unk08, 0xBD, 6, 1, &buf[1]);
-                    func_0201D60C(ws->unk08[i].unk08, 0xBD, 4, 1, &buf[0]);
+                    GF_FONT_AppendTag(e->unk08, 0xBD, 6, 1, &buf[1]);
+                    GF_FONT_AppendTag(ws->unk08[i].unk08, 0xBD, 4, 1, &buf[0]);
                 }
-                func_0201F4A0(dst, ws->unk08[i].unk08);
-                p = func_0201D688(p);
+                WORDSET_ParsePackedLimits(dst, ws->unk08[i].unk08);
+                p = GF_FONT_SkipTag(p);
             } else {
                 q = p;
-                p = func_0201D688(p);
+                p = GF_FONT_SkipTag(p);
                 while (q < p) {
                     STRBUF_AppendChar(dst, *q++);
                 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_02019D00  0x02019D00  thumb
+ *   POKE_TOOL_GetBoxParamIndex  0x02019D00  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  */
 
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern u32 func_02019D00(u32 id);
+extern u32 POKE_TOOL_GetBoxParamIndex(u32 id);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 
 void PLIST_MENU_ApplyGenesectDriveForm(int unused, int a, int b)
@@ -27,7 +27,7 @@ void PLIST_MENU_ApplyGenesectDriveForm(int unused, int a, int b)
     int r;
     if (POKE_TOOL_GetPartyValue((void *)a, 5, 0) == 0x289) {
         t = POKE_TOOL_GetPartyValue((void *)a, 0x6f, t);
-        r = func_02019D00(b);
+        r = POKE_TOOL_GetBoxParamIndex(b);
         if (t != r) {
             POKE_TOOL_ChangeForm((void *)a, (u16)r);
         }

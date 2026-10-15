@@ -1,5 +1,5 @@
 /*
- * function: func_021DE084
+ * function: BR_CODEIN_ListCreateActor
  * address: 0x021DE084
  * packet: pkt_ov183_021DE084
  * region: ov183
@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
- *   func_021DE15C 0x021DE15C thumb ov183
+ *   BR_CODEIN_ListSetActorAnim 0x021DE15C thumb ov183
  */
 #include "../include/Obj05472.h"
 #include "../include/Obj14427.h"
@@ -33,8 +33,8 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void func_021DE15C(char *, unsigned int);
-void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap)
+extern void BR_CODEIN_ListSetActorAnim(char *, unsigned int);
+void BR_CODEIN_ListCreateActor(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap)
 {
     Position pos;
     int base;
@@ -56,5 +56,5 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
         ((struct Obj14428 *)slot)->f4 = CLACT_CreateActor(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
         CLACT_SetActorObjMode(((struct Obj14428 *)slot)->f4, 1);
     }
-    func_021DE15C(p, value);
+    BR_CODEIN_ListSetActorAnim(p, value);
 }

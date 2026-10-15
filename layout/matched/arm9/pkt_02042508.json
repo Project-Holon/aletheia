@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02042508",
+   "name": "BG_SYS_LoadTileDataEx",
    "address": "0x02042508",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1FB4
+ * function: NAMEIN_GRAPHIC_RefreshInputField
  * address: 0x021F1FB4
  * packet: pkt_ov194_021F1FB4
  * region: ov194
@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: load window in each print arm; p+i*4+0x44 preserves per-element bases and constant registers.
  * symbols:
- *   func_0201F41C 0x0201F41C thumb
+ *   WORDSET_CopyString 0x0201F41C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_GetEosChar 0x02045A98 arm
@@ -21,13 +21,13 @@
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021F22E8 0x021F22E8 thumb ov194
+ *   NAMEIN_GRAPHIC_IsFieldDrawDone 0x021F22E8 thumb ov194
  */
 #include "../include/Obj00418.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
-extern void func_0201F41C(const u16 *,u16 *,u32);
+extern void WORDSET_CopyString(const u16 *,u16 *,u32);
 struct CharBuf;
 struct Descriptor;
 struct StrObj;
@@ -46,16 +46,16 @@ extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
-extern int func_021F22E8(u8 *);
-int func_021F1FB4(u8 *p)
+extern int NAMEIN_GRAPHIC_IsFieldDrawDone(u8 *);
+int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
 {
  u16 table[14];
  u16 pair[2];
  int i,x;
  void *window;
  if(((struct Obj00418 *)p)->f28){
-  if(((struct Obj00418 *)p)->f1E)func_0201F41C((u16 *)p,table,((struct Obj00418 *)p)->f1E+1);
-  if(((struct Obj00418 *)p)->f20)func_0201F41C((u16 *)(p+0x16),table+((struct Obj00418 *)p)->f1E,((struct Obj00418 *)p)->f20+1);
+  if(((struct Obj00418 *)p)->f1E)WORDSET_CopyString((u16 *)p,table,((struct Obj00418 *)p)->f1E+1);
+  if(((struct Obj00418 *)p)->f20)WORDSET_CopyString((u16 *)(p+0x16),table+((struct Obj00418 *)p)->f1E,((struct Obj00418 *)p)->f20+1);
   if(((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20>0){
    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00418 *)p)->f40),0);
    for(i=0;i<((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20;i++){
@@ -86,5 +86,5 @@ int func_021F1FB4(u8 *p)
   CLACT_SetActorAnimSeq(*(void **)(p+0x44+((struct Obj00418 *)p)->f1E*4),0);
   ((struct Obj00418 *)p)->f28=0;
  }
- return func_021F22E8(p);
+ return NAMEIN_GRAPHIC_IsFieldDrawDone(p);
 }

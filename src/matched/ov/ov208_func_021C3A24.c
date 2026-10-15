@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   BMP_WIN_GetCharOffset 0x02045768 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj06685.h"
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
-extern void func_02041090(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
+extern void BG_SYS_DrawTile(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
 extern void BMP_WIN_TransferChars(struct Descriptor *p);
 void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heap,u8 *p,int key)
 {
@@ -37,7 +37,7 @@ void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heap,u8 *p,int key)
             index++;
         }
     }
-    func_02041090(3,((struct Obj06685 *)p)->f14,1,2,31,15);
+    BG_SYS_DrawTile(3,((struct Obj06685 *)p)->f14,1,2,31,15);
     ((struct Obj06685 *)p)->f1C=1;
     BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj06685 *)p)->f20);
 }

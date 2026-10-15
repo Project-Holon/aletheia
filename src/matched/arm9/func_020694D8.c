@@ -1,5 +1,5 @@
 /*
- * function: func_020694D8
+ * function: NNSi_G2dDrawTextLine
  * address:  0x020694D8
  * packet:   pkt_020694D8
  * region:   arm9
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02068EA0    0x02068EA0  arm
+ *   NNSi_G2dCharCanvasDrawChar    0x02068EA0  arm
  *
  * The innermost draw step of the text renderer, the function
- * src/matched/func_0206958C.c calls once per line as
- * `func_020694D8(ctx, px, py, w2, cur, &cur, st)`.  It walks one LINE of the
+ * src/matched/NNSi_G2dDrawTextRotated.c calls once per line as
+ * `NNSi_G2dDrawTextLine(ctx, px, py, w2, cur, &cur, st)`.  It walks one LINE of the
  * string: a character iterator is fetched out of the font object
  * (`ctx->f04`, callback at +4, taking a `const void **` cursor and returning
- * the character code), each character is drawn with func_02068EA0, and the
+ * the character code), each character is drawn with NNSi_G2dCharCanvasDrawChar, and the
  * pen is stepped along the step vector by the glyph's advance plus the
  * inter-character gap `ctx->f08`.  The walk stops at NUL or at '\n' (0xa),
  * and the `last` out-parameter receives the cursor position when the stop was
  * a newline and 0 when it was the end of the string -- the identical tail
- * func_02068030 (the measure-one-line sibling at 0x02068030) carries at
+ * NNS_G2dFontGetStringWidth (the measure-one-line sibling at 0x02068030) carries at
  * 0x020680AC..0x020680C0, which is what fixes the polarity here.
  *
  * TWO C LEVERS, both needed, both found by measurement:
@@ -51,12 +51,12 @@
  *    to after them.  The explicit two-label form below keeps them apart.
  *
  * The compiler pin is the cluster's, `../2.0/sp2`, shared with its packet
- * mates func_0206958C, func_020696F4 and func_02069AC4; see the "kept
+ * mates NNSi_G2dDrawTextRotated, NNSi_G2dCalcTextBox and NNSi_G2dFontFixupSections; see the "kept
  * branches" tell in docs/FRONTEND-PINS.md.  Under dsi/1.1p1 this same source
  * loses the 0x10 frame and the ten-register push.
  *
  * The two trailing `signed char`s are ONE 2-byte struct passed by value, the
- * same Step the whole cluster forwards (see func_02069818's header).
+ * same Step the whole cluster forwards (see NNSi_G2dAlignTextVertical's header).
  */
 
 typedef signed int s32;
@@ -77,9 +77,9 @@ typedef struct {
 
 typedef s32 (*NextFn)(const void **cursor);
 
-extern s32 func_02068EA0(void *a, void *b, s32 x, s32 y, s32 w2, s32 c);
+extern s32 NNSi_G2dCharCanvasDrawChar(void *a, void *b, s32 x, s32 y, s32 w2, s32 c);
 
-void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2,
+void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2,
                    const void *s, const void **last, Step st)
 {
     const void *cur;
@@ -101,7 +101,7 @@ void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2,
     dx = st.dx;
 loop:
     if (c == 0xa) goto done;
-    adv = gap + func_02068EA0(ctx->f00, fnt, x, y, w2, c);
+    adv = gap + NNSi_G2dCharCanvasDrawChar(ctx->f00, fnt, x, y, w2, c);
     x = x + adv * dx;
     y = y + adv * dy;
     c = next(&cur);

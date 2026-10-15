@@ -1,5 +1,5 @@
 /*
- * function: func_02210220
+ * function: B_PLIST_MAIN_ApplyMode6
  * address:  0x02210220
  * packet:   pkt_02210220
  * region:   ov198
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02210C88  0x02210C88  thumb  ov198
+ *   B_PLIST_MAIN_ApplyMode  0x02210C88  thumb  ov198
  * Addresses are Black-image addresses.
  */
 
@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_02210C88(u8 *p, unsigned mode);
+extern int B_PLIST_MAIN_ApplyMode(u8 *p, unsigned mode);
 
-u32 func_02210220(u32 a)
+u32 B_PLIST_MAIN_ApplyMode6(u32 a)
 {
-    if (func_02210C88((u8 *)a, 6) == 0) {
+    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 6) == 0) {
         return 0x10;
     }
     return 0x19;

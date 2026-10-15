@@ -11,14 +11,14 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_021F4300 0x021F4300 thumb ov112
+ *   MUSICAL_MCSS_Delete 0x021F4300 thumb ov112
  *   MUSICAL_SHOT_SYS_DeleteScene 0x021F3BF0 thumb ov112
  *   MUSICAL_SHOT_SYS_ExitGraphics 0x021F3AE0 thumb ov112
  *   func_02030EAC 0x02030EAC arm
  *   func_02034A5C 0x02034A5C arm
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ov_abs_84 0x00000084 data
  */
 #include "../include/Obj05308.h"
@@ -32,7 +32,7 @@ struct Node;
 struct S020315D4;
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void func_021F4300(u8 *);
+extern void MUSICAL_MCSS_Delete(u8 *);
 extern void MUSICAL_SHOT_SYS_DeleteScene(u8 *);
 extern void MUSICAL_SHOT_SYS_ExitGraphics(void *);
 extern void func_02030EAC(struct Node *n);
@@ -40,13 +40,13 @@ extern void func_02034A5C(int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     if (!WIPE_SYS_EndCheck()) return 0;
     GXx_SetMasterBrightness_((void *)0x0400006c,-16);
     GXx_SetMasterBrightness_((void *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
-    func_021F4300(*(u8 * *)&((struct Obj05308 *)p)->f10);
+    MUSICAL_MCSS_Delete(*(u8 * *)&((struct Obj05308 *)p)->f10);
     MUSICAL_SHOT_SYS_DeleteScene(*(u8 * *)&((struct Obj05308 *)p)->fC);
     MUSICAL_SHOT_SYS_ExitGraphics(p);
     func_02030EAC(((struct Obj05308 *)p)->f4);
@@ -57,6 +57,6 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
         func_02034A5C((int)ov_abs_84);
     }
     func_020315D4(owner);
-    func_020306F0(74);
+    GFL_HEAP_DeleteChecked(74);
     return 1;
 }

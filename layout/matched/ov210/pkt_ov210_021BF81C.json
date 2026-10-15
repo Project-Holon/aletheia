@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF81C",
+   "name": "ZKNSEARCH_MAIN_HideColumnActors",
    "address": "0x021BF81C",
    "kind": "game",
    "region": "ov210",

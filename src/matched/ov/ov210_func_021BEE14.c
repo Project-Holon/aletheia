@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021BEE14, func_021BEE38, func_021BEE58
+ * function: ZKNSEARCH_MAIN_SetActorObjMode, ZKNSEARCH_MAIN_SetActorSurfacePos, ZKNSEARCH_MAIN_GetActorSurfacePos
  * address:  0x021BEE14
  * packet:   pkt_021BEE14
  * region:   ov210
@@ -26,7 +26,7 @@ struct Actor; struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-void func_021BEE14(char *p, int idx, int flag)
+void ZKNSEARCH_MAIN_SetActorObjMode(char *p, int idx, int flag)
 {
     if (flag == 1)
     {
@@ -38,7 +38,7 @@ void func_021BEE14(char *p, int idx, int flag)
     }
 }
 
-void func_021BEE38(char *p, int idx, int a, short b, unsigned short c)
+void ZKNSEARCH_MAIN_SetActorSurfacePos(char *p, int idx, int a, short b, unsigned short c)
 {
     unsigned short buf[2];
     buf[0] = a;
@@ -46,7 +46,7 @@ void func_021BEE38(char *p, int idx, int a, short b, unsigned short c)
     CLACT_AddActorSurfacePos(*(void **)(p + idx * 4 + 0x28), (const struct Vec2 *)buf, c);
 }
 
-void func_021BEE58(char *p, int idx, short *outA, short *outB, unsigned short in)
+void ZKNSEARCH_MAIN_GetActorSurfacePos(char *p, int idx, short *outA, short *outB, unsigned short in)
 {
     short buf[2];
     CLACT_GetActorSurfacePos(*(void **)(p + idx * 4 + 0x28), (struct PtS *)buf, in);

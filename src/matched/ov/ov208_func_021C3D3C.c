@@ -14,8 +14,8 @@
  *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
  *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
  *   func_02040618  0x02040618  arm
- *   func_020414AC  0x020414AC  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   ov208_func_021BDCA4  0x021BDCA4  thumb  ov208
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ov208_func_021BCF58  0x021BCF58  thumb  ov208
@@ -60,7 +60,7 @@
  *   ov208_func_021C51A0  0x021C51A0  thumb  ov208
  *   ov208_func_021C4FDC  0x021C4FDC  thumb  ov208
  *   ov208_func_021BCF6C  0x021BCF6C  thumb  ov208
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Main  0x02030D28  arm
  *   MCSS_Main  0x02014C08  thumb
  *   ZUKAN_DETAIL_FORM_StopModelAnim  0x021C5214  thumb  ov208
  *   ZUKAN_DETAIL_FORM_UpdateArrowAnim  0x021C692C  thumb  ov208
@@ -83,8 +83,8 @@ extern void *ov208_func_021BC3A8(int key);
 extern void *ov208_func_021BC3B4(int key);
 extern void *ov208_func_021BC3B8(int key);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
-extern void func_020414AC(u32 bgId);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_FreeSlot(u32 bgId);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void ov208_func_021BDCA4(void *s, u8 v);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void ov208_func_021BCF58(void *s, int x);
@@ -133,7 +133,7 @@ extern void ov208_func_021BC508(int flag, int *p);
 extern void ov208_func_021C51A0(u8 *mdl, u32 sys);
 extern void ov208_func_021C4FDC(u16 *heap, u8 *p, int key);
 extern void ov208_func_021BCF6C(void *s);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern void MCSS_Main(char *self);
 extern void ZUKAN_DETAIL_FORM_StopModelAnim(u8 *mdl);
 extern void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, u8 *p, int key);
@@ -170,15 +170,15 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
             if (i != 1 && i != 5) {
                 func_02040618(i, 0, 0);
                 func_02040618(i, 3, 0);
-                func_020414AC(i);
+                BG_SYS_FreeSlot(i);
             }
         }
-        func_0204047C(0, 0);
-        func_0204047C(2, 2);
-        func_0204047C(3, 3);
-        func_0204047C(6, 1);
-        func_0204047C(4, 3);
-        func_0204047C(7, 2);
+        BG_SYS_SetVisibleLayer(0, 0);
+        BG_SYS_SetVisibleLayer(2, 2);
+        BG_SYS_SetVisibleLayer(3, 3);
+        BG_SYS_SetVisibleLayer(6, 1);
+        BG_SYS_SetVisibleLayer(4, 3);
+        BG_SYS_SetVisibleLayer(7, 2);
         ov208_func_021BDCA4(scene, 2);
         GX_SetGraphicsMode(1, 0, 1);
         ov208_func_021BCF58(res, *heap);
@@ -318,7 +318,7 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         return 1;
     }
     if (W(8) != 0) {
-        func_02030D28((struct Ctx *)W(0x120));
+        TCB_Main((struct Ctx *)W(0x120));
         MCSS_Main((char *)W(8));
         for (i = 0; i < 4; i++)
             ZUKAN_DETAIL_FORM_StopModelAnim(p + 0xc + i * 0x44);

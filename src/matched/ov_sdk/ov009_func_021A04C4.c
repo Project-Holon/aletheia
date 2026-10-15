@@ -12,14 +12,14 @@
  * sdk:      AllKeysPresent (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
  */
 
 struct KeyEnt { int a; int type; };
 struct SBL { char pad0[8]; void *keys; };
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *a, int n);
 extern int NTSLengthSB(char *buf, int len);
 int AllKeysPresent(struct SBL *slist, char *buf, int len)
@@ -27,7 +27,7 @@ int AllKeysPresent(struct SBL *slist, char *buf, int len)
 	int numkeys;
 	int i;
 	int strindex;
-	numkeys = func_02184200(slist->keys);
+	numkeys = ArrayLength(slist->keys);
 	for (i = 0; i < numkeys; i++) {
 		switch (((struct KeyEnt *)func_02184208(slist->keys, i))->type) {
 		case 1:

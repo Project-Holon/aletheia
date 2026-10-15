@@ -10,12 +10,12 @@
  * status: EXACT*
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  */
 #include "../include/Obj00007.h"
 typedef unsigned int   u32;
 struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_021F0A98(char *p,unsigned a) { MSGDATA_ReadString(((struct Obj00007 *)p)->f114,a,((struct Obj00007 *)p)->f118); func_0201F250(((struct Obj00007 *)p)->f110,((struct Obj00007 *)p)->f11C,((struct Obj00007 *)p)->f118); }
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+void func_021F0A98(char *p,unsigned a) { MSGDATA_ReadString(((struct Obj00007 *)p)->f114,a,((struct Obj00007 *)p)->f118); WORDSET_CopyTaggedText(((struct Obj00007 *)p)->f110,((struct Obj00007 *)p)->f11C,((struct Obj00007 *)p)->f118); }

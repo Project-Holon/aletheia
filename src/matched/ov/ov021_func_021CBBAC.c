@@ -1,5 +1,5 @@
 /*
- * function: func_021CBBAC
+ * function: BSUBWAY_SCR_IsNpcEntryAvailable
  * address:  0x021CBBAC
  * packet:   pkt_ov021_021CBBAC
  * region:   ov021
@@ -29,7 +29,7 @@ typedef struct {
 
 extern const Entry data_021DAEBC[];
 
-u32 func_021CBBAC(u8 *p, u32 idx)
+u32 BSUBWAY_SCR_IsNpcEntryAvailable(u8 *p, u32 idx)
 {
     const Entry *e = &data_021DAEBC[idx];
 

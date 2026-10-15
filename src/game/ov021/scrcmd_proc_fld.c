@@ -70,10 +70,10 @@
  *   TCBL_Main  0x020310C4  arm
  *   d_021D9440     0x021D9440  data   ov021  a4
  *   FILE_UTIL_Check1288  0x02021288  thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   FILE_UTIL_Get_12B0 0x020212B0 thumb
- *   func_0201EF34 0x0201EF34 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   func_02045B38 0x02045B38 arm
@@ -99,9 +99,9 @@
  *   func_02049658 0x02049658 arm
  *   func_02049990 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -132,7 +132,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   d_021D945C    0x021D945C data a4
  *   BMP_MENUWORK_CountItems 0x0201F91C thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
@@ -144,12 +144,12 @@
  *   func_020202FC 0x020202FC thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BMP_MENULIST_Delete  0x0202020C  thumb
- *   func_0201EF6C  0x0201EF6C  thumb
- *   func_0201F14C  0x0201F14C  thumb
+ *   WORDSET_SetSlotFromBank  0x0201EF6C  thumb
+ *   WORDSET_SetSlotFromMsg37  0x0201F14C  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   KEY_GetRepeat 0x0203633C arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   d_021D9654     0x021D9654  data  a4
  *   ICA_ANIME_GetField24  0x02012138  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
@@ -221,7 +221,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   FIELD_CAMERA_PushState  0x0218F818  thumb  ov021
  *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
- *   func_02011330  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   VM_GetU32  0x0201134C  thumb
  *   FIELD_CAMERA_StartMove  0x0218F900  thumb  ov021
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
@@ -427,10 +427,10 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 FILE_UTIL_Check1288(u32 id);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int FILE_UTIL_Get_12B0(u32 a);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -451,9 +451,9 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -477,7 +477,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern u32 BMP_MENUWORK_CountItems(struct Slot *s);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -488,12 +488,12 @@ extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
-extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
-extern void func_0201F14C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
+extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
+extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 extern int FIELDMAP_GetCommKind(void *p);
@@ -554,7 +554,7 @@ extern void SCRIPT_WORK_SetCheckFlag(int n);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void FIELD_CAMERA_PushState(u8 *a);
 extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
-extern u16 func_02011330(struct ScriptVm *vm);
+extern u16 VM_ReadU16(struct ScriptVm *vm);
 extern u32 VM_GetU32(struct ScriptVm *vm);
 extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
@@ -1117,9 +1117,9 @@ u32 SCRCMD_PROC_FLD_LoadItemRows(ShopItem *items, int count)
 void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, int itemId, int msgBank)
 {
     if (isTmShop == 1) {
-        func_0201EFA4(shop->wordSet, 0, itemId - 327, 2, 2, 1);
-        func_0201EF34(shop->wordSet, 1, FILE_UTIL_Get_12B0((u16)itemId));
-        func_0201F250(shop->wordSet, shop->textBuffer, shop->cancelText);
+        WORDSET_SetSlotNumber(shop->wordSet, 0, itemId - 327, 2, 2, 1);
+        WORDSET_SetSlotFromMsgCB(shop->wordSet, 1, FILE_UTIL_Get_12B0((u16)itemId));
+        WORDSET_CopyTaggedText(shop->wordSet, shop->textBuffer, shop->cancelText);
         BMP_MENUWORK_AddStrItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), (u32)(shop->textBuffer), slotIndex, shop->heapId);
     } else {
         BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), msgBank, itemId, slotIndex, shop->heapId);
@@ -1297,9 +1297,9 @@ void SCRCMD_PROC_FLD_InitShopGraphics(ShopWork *shop)
     func_02049658(archive, 0, 2, 100, 0, 0, shop->heapId);
     func_02049990(archive, 2, 2, 0, 100, 0, 0, shop->heapId);
     ARC_TOOL_DeleteHandle(archive);
-    func_0201F5BC(1, 228, 9, 0, shop->heapId);
+    BMP_MENUWORK_LoadCharAndPltt(1, 228, 9, 0, shop->heapId);
     BG_SYS_ClearSlot(1);
-    func_0204047C(2, 1);
+    BG_SYS_SetVisibleLayer(2, 1);
 }
 
 
@@ -1313,7 +1313,7 @@ void SCRCMD_PROC_FLD_ExitShopGraphics(ShopWork *shop)
 {
     BG_SYS_ClearSlot(1);
     BG_SYS_ClearSlot(2);
-    func_0204047C(2, 0);
+    BG_SYS_SetVisibleLayer(2, 0);
     FIELD_MSGBG_SetBlendThunk(1);
 }
 
@@ -1511,13 +1511,13 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
     if (shop->usesBattlePoints == 1) {
         formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x16);
         expandedText = (u32)STRBUF_Create(10, shop->heapId);
-        func_0201EFA4((struct WordSet *)(shop->wordSet), 0, func_0200DABC((struct Blk1AC *)(shop->battlePointData)), 4, 1, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, func_0200DABC((struct Blk1AC *)(shop->battlePointData)), 4, 1, 1);
     } else {
         formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x15);
         expandedText = (u32)STRBUF_Create(10, shop->heapId);
-        func_0201EFA4((struct WordSet *)(shop->wordSet), 0, BEACON_GetPoints((struct Blk34 *)(shop->moneyData)), 7, 1, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, BEACON_GetPoints((struct Blk34 *)(shop->moneyData)), 7, 1, 1);
     }
-    func_0201F250((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
+    WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
     bitmap = (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_MONEY]);
     BMP_Clear((struct CharBuf *)bitmap, 0);
     PRINTSYS_PrintColor((void *)bitmap, 0, 0, (void *)expandedText, (void *)(shop->fontInfo), 0x3C4F);
@@ -1548,9 +1548,9 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId)
 
     formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x17);
     expandedText = (u32)STRBUF_Create(0x14, shop->heapId);
-    func_0201F73C((void *)(shop->windows[SHOP_WIN_OWNED]), 2, 0xE4, 9);
-    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, func_02007FB8((u8 *)(shop->bagData), itemId, shop->heapId), 3, 0, 1);
-    func_0201F250((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
+    BMP_MENUWORK_DrawWindow((void *)(shop->windows[SHOP_WIN_OWNED]), 2, 0xE4, 9);
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, func_02007FB8((u8 *)(shop->bagData), itemId, shop->heapId), 3, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
     bitmap = (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_OWNED]);
     BMP_Clear((struct CharBuf *)bitmap, 0xF);
     PRINTSYS_PrintColor((void *)bitmap, 0, 0, (void *)expandedText, (void *)(shop->fontInfo), 0x44F);
@@ -1602,12 +1602,12 @@ void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *shop, u32 quantity, u32 price
     text = (u32)STRBUF_Create(0x14, shop->heapId);
     bitmap = (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_QUANTITY]);
     BMP_Clear((struct CharBuf *)bitmap, 0xF);
-    func_0201F73C((void *)(shop->windows[SHOP_WIN_QUANTITY]), 2, 0xE4, 9);
-    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, quantity, 2, 0, 1);
-    func_0201F250((struct WordSet *)(shop->wordSet), (void *)text, (void *)quantityFormat);
+    BMP_MENUWORK_DrawWindow((void *)(shop->windows[SHOP_WIN_QUANTITY]), 2, 0xE4, 9);
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, quantity, 2, 0, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)text, (void *)quantityFormat);
     PRINTSYS_PrintColor((void *)bitmap, 0, 0, (void *)text, (void *)(shop->fontInfo), 0x44F);
-    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, quantity * price, 7, 1, 1);
-    func_0201F250((struct WordSet *)(shop->wordSet), (void *)text, (void *)totalFormat);
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, quantity * price, 7, 1, 1);
+    WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)text, (void *)totalFormat);
     if (shop->usesBattlePoints == 0) {
         PRINTSYS_PrintColor((void *)bitmap, 0x23, 0, (void *)text, (void *)(shop->fontInfo), 0x44F);
     } else {
@@ -1703,8 +1703,8 @@ void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *listMenu, int row, u8 y)
 
     shop = (ShopWork *)func_02020D0C(listMenu);
     if (row != -2) {
-        func_0201EFA4((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 0, 1);
-        func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
+        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 0, 1);
+        WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
         textWidth = func_0201D304((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
         windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
         SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
@@ -1736,8 +1736,8 @@ void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 listMenu, int row, u8 y)
             SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
                           (u32)shop->soldOutText, shop->fontInfo, 0x31A0);
         } else {
-            func_0201EFA4((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 1, 1);
-            func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
+            WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 1, 1);
+            WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
             textWidth = func_0201D304((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
             windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
             SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
@@ -1814,11 +1814,11 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
     else
         isPlural = 0;
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_MESSAGE])), 0xf);
-    func_0201F73C((void *)(shop->windows[SHOP_WIN_MESSAGE]), 0, 0xe4, 9);
-    func_0201EF6C((struct WordSet *)(shop->wordSet), 0, itemId, isPlural, 0);
-    func_0201F14C((struct WordSet *)(shop->wordSet), 1, FILE_UTIL_Get_0FE4((void *)itemId, 5, shop->heapId));
+    BMP_MENUWORK_DrawWindow((void *)(shop->windows[SHOP_WIN_MESSAGE]), 0, 0xe4, 9);
+    WORDSET_SetSlotFromBank((struct WordSet *)(shop->wordSet), 0, itemId, isPlural, 0);
+    WORDSET_SetSlotFromMsg37((struct WordSet *)(shop->wordSet), 1, FILE_UTIL_Get_0FE4((void *)itemId, 5, shop->heapId));
     messageText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), messageId);
-    func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
+    WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct U16Vec *)messageText);
     shop->messagePrinter = PRINTSYS_PrintStreamCallBack(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
                                         shop->fontInfo, MSG_SPEED_GetWait(),
@@ -1862,7 +1862,7 @@ void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *shop, u32 isTmShop)
 void SCRCMD_PROC_FLD_PrepareMessageWindow(u32 window)
 {
 BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)window)), 15);
-    func_0201F73C((void *)window, 0, 228, 9);
+    BMP_MENUWORK_DrawWindow((void *)window, 0, 228, 9);
 }
 
 
@@ -1874,7 +1874,7 @@ void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
     u32 window;
 
     messageText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), messageId);
-    func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
+    WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct U16Vec *)messageText);
     shop->messagePrinter = PRINTSYS_PrintStreamCallBack(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
                                         shop->fontInfo, MSG_SPEED_GetWait(), (u32)shop->tcbList, 0,
@@ -1898,9 +1898,9 @@ void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
 void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u32 price, u16 quantity)
 {
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
-    func_0201EF6C((struct WordSet *)(shop->wordSet), 0, itemId, 0, 0);
-    func_0201EFA4((struct WordSet *)(shop->wordSet), 1, quantity, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)(shop->wordSet), 2, quantity * price, 7, 0, 1);
+    WORDSET_SetSlotFromBank((struct WordSet *)(shop->wordSet), 0, itemId, 0, 0);
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, quantity, 2, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 2, quantity * price, 7, 0, 1);
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);
 }
 
@@ -1910,9 +1910,9 @@ void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u
 void SCRCMD_PROC_FLD_ShowTmBuyConfirm(ShopWork *shop, u32 messageId, u32 itemId, u32 price)
 {
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
-    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, itemId - 327, 2, 2, 1);
-    func_0201EF34((struct WordSet *)(shop->wordSet), 1, FILE_UTIL_Get_12B0(itemId));
-    func_0201EFA4((struct WordSet *)(shop->wordSet), 2, price, 5, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, itemId - 327, 2, 2, 1);
+    WORDSET_SetSlotFromMsgCB((struct WordSet *)(shop->wordSet), 1, FILE_UTIL_Get_12B0(itemId));
+    WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 2, price, 5, 0, 1);
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);
 }
 
@@ -1993,13 +1993,13 @@ int SCRCMD_PROC_FLD_StepQuantitySelect(ShopWork *shop)
  * d_021D9654 is a const table of 16-byte {x, y, w, h} records (two of them
  * in the listing: {0,12,32,12}, {0,12,32,6}). Without const the loads for
  * the register arguments cannot pass the first stack-argument store and
- * are issued after it; func_02041300's u8 parameters follow the ldrb reads
- * of its stack arguments (as in src/matched/arm9/func_0201F628.c).
+ * are issued after it; BG_SYS_SetTileEntry's u8 parameters follow the ldrb reads
+ * of its stack arguments (as in src/matched/arm9/BMP_MENUWORK_DrawFrame.c).
  * Addresses are Black-image addresses.
  */
 void SCRCMD_PROC_FLD_SetQuantityMask(int i)
 {
-    func_02041300(1, 0, d_021D9654[i].x, d_021D9654[i].y, d_021D9654[i].w, d_021D9654[i].h, 0);
+    BG_SYS_SetTileEntry(1, 0, d_021D9654[i].x, d_021D9654[i].y, d_021D9654[i].w, d_021D9654[i].h, 0);
 }
 
 
@@ -2544,8 +2544,8 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct ScriptVm *vm, struct ScrcmdW
     void *fieldRegion;
 
     fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
-    param.areaWidth = func_02011330(vm);
-    param.areaHeight = func_02011330(vm);
+    param.areaWidth = VM_ReadU16(vm);
+    param.areaHeight = VM_ReadU16(vm);
     param.areaFlags = VM_GetU32(vm);
     param.origin.x = VM_GetU32(vm);
     param.origin.y = VM_GetU32(vm);
@@ -2556,7 +2556,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct ScriptVm *vm, struct ScrcmdW
     param.layers.flag[3] = 1;
     param.layers.flag[4] = 0;
     param.layers.flag[5] = 1;
-    FIELD_CAMERA_StartMove(fieldRegion, &param, func_02011330(vm));
+    FIELD_CAMERA_StartMove(fieldRegion, &param, VM_ReadU16(vm));
     return 0;
 }
 
@@ -2572,8 +2572,8 @@ int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(struct ScriptVm *vm, struct Scrcmd
     int regionIndex;
 
     fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
-    memberIndex = func_02011330(vm);
-    regionIndex = func_02011330(vm);
+    memberIndex = VM_ReadU16(vm);
+    regionIndex = VM_ReadU16(vm);
     ARC_TOOL_ReadMember(&record, 0xa3, memberIndex);
     param.areaWidth = record.areaWidth;
     param.areaHeight = record.areaHeight;
@@ -2591,7 +2591,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdW
 {
     LayerFlags layers;
     void *fieldRegion = FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork)));
-    u16 regionIndex = func_02011330(vm);
+    u16 regionIndex = VM_ReadU16(vm);
 
     layers.flag[0] = 1;
     layers.flag[1] = 1;
@@ -2608,7 +2608,7 @@ int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(struct ScriptVm *vm, struct ScrcmdW
 
 int SCRCMD_PROC_FLD_SetFieldRegionValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))), func_02011330(vm));
+FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(ICA_ANIME_GetField20(SCRCMD_WORK_GetGameSystem(cmdWork))), VM_ReadU16(vm));
 return 0;
 }
 

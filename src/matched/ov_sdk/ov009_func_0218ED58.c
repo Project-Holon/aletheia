@@ -13,9 +13,9 @@
  *
  * symbols:
  *   current_time  0x0217F264  arm  ov009
- *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_02189DFC  0x02189DFC  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsimalloc  0x0217EAB0  arm  ov009
+ *   gpiAddCallback  0x02189DFC  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   gpiPeerRemoveOp  0x0218F900  arm  ov009
  *   g_021A4F30  0x021A4F30  data
  */
@@ -50,9 +50,9 @@ struct GetBuddyStatusInfoKeysArg {
 };
 
 extern unsigned int current_time(void);
-extern void *func_0217EAB0(unsigned long size);
-extern int func_02189DFC(void **connection, struct GPICallback callback, void *arg, void *operation, int type);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void *gsimalloc(unsigned long size);
+extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, void *operation, int type);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation);
 extern char g_021A4F30[];
 
@@ -72,16 +72,16 @@ void gpiCheckTimedOutPeerOperations(void **connection, struct GPIPeer *peer)
         if (anIterator->callback == 0)
             continue;
         if (anIterator->state == 0x68) {
-            arg = (struct GetBuddyStatusInfoKeysArg *)func_0217EAB0(sizeof(struct GetBuddyStatusInfoKeysArg));
+            arg = (struct GetBuddyStatusInfoKeysArg *)gsimalloc(sizeof(struct GetBuddyStatusInfoKeysArg));
             callback.callback = anIterator->callback;
             callback.param = anIterator->param;
             arg->a = 0;
             arg->c = 0;
             arg->b = 0;
             arg->profileid = peer->profile;
-            func_02189DFC(connection, callback, arg, 0, 0);
+            gpiAddCallback(connection, callback, arg, 0, 0);
         }
-        func_0217D254(1, (char *)4, 8, g_021A4F30);
+        gsDebugFormat(1, (char *)4, 8, g_021A4F30);
         gpiPeerRemoveOp(peer, anIterator);
     }
 }

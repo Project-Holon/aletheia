@@ -1,5 +1,5 @@
 /*
- * function: func_021BDA40
+ * function: DEMO3D_Init
  * address: 0x021BDA40
  * packet: pkt_ov203_021BDA40
  * region: ov203
@@ -22,10 +22,10 @@
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_021BE160 0x021BE160 thumb ov203
- *   func_021BDCC0 0x021BDCC0 thumb ov203
+ *   DEMO3D_CreateContext 0x021BDCC0 thumb ov203
  *   func_021BE62C 0x021BE62C thumb ov203
  *   func_021BE948 0x021BE948 thumb ov203
- *   func_021BDC20 0x021BDC20 thumb ov203
+ *   DEMO3D_StartWipe 0x021BDC20 thumb ov203
  *   ov067_id 0x00000043 data a1
  */
 #include "../include/Obj06663.h"
@@ -48,12 +48,12 @@ extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 struct Cfg;
 struct Ctx;
 extern struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap);
-extern void *func_021BDCC0(int, void *, void *, unsigned);
+extern void *DEMO3D_CreateContext(int, void *, void *, unsigned);
 extern u32 func_021BE62C(char *p);
 extern void func_021BE948(void *, int, u8 *, u8 *);
-extern int func_021BDC20(u8, unsigned, unsigned);
+extern int DEMO3D_StartWipe(u8, unsigned, unsigned);
 extern const char ov067_id[];
-int func_021BDA40(void *manager, int unused, u8 *p)
+int DEMO3D_Init(void *manager, int unused, u8 *p)
 {
     Work *w;
     u8 width, height;
@@ -77,9 +77,9 @@ int func_021BDA40(void *manager, int unused, u8 *p)
     BG_SYS_SetMainPlaneVisible(0x10, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
     w->model = func_021BE160(w->view, (struct Cfg *)p, w->heap);
-    w->ctx = func_021BDCC0(*(int *)&((struct Obj06663 *)p)->f4, w->view, w->model, w->heap);
+    w->ctx = DEMO3D_CreateContext(*(int *)&((struct Obj06663 *)p)->f4, w->view, w->model, w->heap);
     delta = func_021BE62C(w->model) - ((struct Obj06663 *)p)->f8;
     func_021BE948(((struct Obj06663 *)p)->f4, 0, &width, &height);
-    if (delta > height) func_021BDC20(*(unsigned *)&((struct Obj06663 *)p)->f4, one, w->heap);
+    if (delta > height) DEMO3D_StartWipe(*(unsigned *)&((struct Obj06663 *)p)->f4, one, w->heap);
     return 1;
 }

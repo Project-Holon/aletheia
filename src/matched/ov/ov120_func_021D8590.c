@@ -1,5 +1,5 @@
 /*
- * function: func_021D8590
+ * function: GTSNEGO_MSG_CreateConfirmUi
  * address: 0x021D8590
  * packet: pkt_ov120_021D8590
  * region: ov120
@@ -12,9 +12,9 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_020355C4 0x020355C4 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_021D7710 0x021D7710 thumb ov120
+ *   GTSNEGO_MSG_DeleteButtons 0x021D7710 thumb ov120
  *   BUTTON_MAN_Create 0x02051B84 arm
- *   d_021D8AF0 0x021D8AF0 data a4
+ *   gGtsnegoButtonConfirm 0x021D8AF0 data a4
  *   APP_TASKMENU_WIN_CreateEx  0x0202800C  thumb  arm9
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb  arm9
  */
@@ -31,10 +31,10 @@ extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 
 extern u8 func_020355C4(void);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021D7710(u8 *);
+extern void GTSNEGO_MSG_DeleteButtons(u8 *);
 extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
-extern const int d_021D8AF0[];
-void func_021D8590(u8 *p, int a, int b)
+extern const int gGtsnegoButtonConfirm[];
+void GTSNEGO_MSG_CreateConfirmUi(u8 *p, int a, int b)
 {
     void *q = STRBUF_Create(100, ((struct Obj02175 *)p)->fC8);
     ((struct Obj02175 *)p)->fA8 = q;
@@ -44,6 +44,6 @@ void func_021D8590(u8 *p, int a, int b)
     ((struct Obj02175 *)p)->fC4 = APP_TASKMENU_WIN_CreateEx((u32)(((struct Obj02175 *)p)->fC0), (u32)(p + 0xa8), 10, 21, 12, 3, 0, 1, ((struct Obj02175 *)p)->fC8);
     if (!func_020355C4()) APP_TASKMENU_WIN_SetActive(((struct Obj02175 *)p)->fC4, 1);
     STRBUF_Delete(((struct Obj02175 *)p)->fA8);
-    func_021D7710(p);
-    ((struct Obj02175 *)p)->f8 = BUTTON_MAN_Create((u8 *)d_021D8AF0, a, b, ((struct Obj02175 *)p)->fC8);
+    GTSNEGO_MSG_DeleteButtons(p);
+    ((struct Obj02175 *)p)->f8 = BUTTON_MAN_Create((u8 *)gGtsnegoButtonConfirm, a, b, ((struct Obj02175 *)p)->fC8);
 }

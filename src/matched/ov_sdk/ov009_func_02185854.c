@@ -1,5 +1,5 @@
 /*
- * function: func_02185854
+ * function: GSMD5Print
  * address:  0x02185854
  * packet:   pkt_ov009_02185854
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021A1A40[];
 
-void func_02185854(unsigned char * digest, char * output)
+void GSMD5Print(unsigned char * digest, char * output)
 {
     unsigned int i;
 

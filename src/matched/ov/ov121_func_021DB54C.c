@@ -68,7 +68,7 @@
  *   both /3 and %3 are hoisted (84); `(u8)k` inline, `cols = 3` local did not stop the hoist.
  * note pass 2 2026-10-06 P2L41: EXACT (c99 and c). Closed with `#pragma opt_lifetimes off` (beside
  *   opt_loop_invariants off), one tile local per loop (tile, tile2, tile3, like y/y2/y3), x declared
- *   before rx, int ry passed straight to func_020413B0 with the u32 x/y prototype used by matched
+ *   before rx, int ry passed straight to BG_SYS_FillTileMap with the u32 x/y prototype used by matched
  *   callers (ov217 021BA284, ov088 021BB810). Under lifetimes off the colour order follows degree
  *   then declaration order: per-loop tiles make the tiles drop out first, then rx, then x, giving
  *   x r4, rx r5, tile r6. Passing ry (not r.b[1]) keeps ry itself as the spilled web, so it takes
@@ -86,8 +86,8 @@
  *   func_021DC004 0x021DC004 thumb ov121
  *   func_021DC024 0x021DC024 thumb ov121
  *   func_021DC03C 0x021DC03C thumb ov121
- *   func_02041300 0x02041300 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -114,8 +114,8 @@ extern const Rect d_021DF86E[];
 extern const u8 d_021DF86F[];
 struct Descriptor;
 struct CharBuf;
-extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
-extern void func_020413B0(u32,u32,u32,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
+extern void BG_SYS_FillTileMap(u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -181,7 +181,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         yy = ry + y;
         tile = y * 32 + ((m % 3) * 64 + 0x58 + (m / 3) * 2);
         do {
-            func_02041300(3, (u16)(x + tile), (u8)(rx + x - 2), (u8)yy, 1, 1, 3);
+            BG_SYS_SetTileEntry(3, (u16)(x + tile), (u8)(rx + x - 2), (u8)yy, 1, 1, 3);
             x++;
         } while (x < 2);
         y++;
@@ -193,7 +193,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
             yy = ry + y2;
             tile2 = y2 * 32 + 384;
             do {
-                func_02041300(3, (u16)(x + tile2), (u8)(rx + x), (u8)yy, 1, 1, 3);
+                BG_SYS_SetTileEntry(3, (u16)(x + tile2), (u8)(rx + x), (u8)yy, 1, 1, 3);
                 x++;
             } while (x < 12);
             y2++;
@@ -208,12 +208,12 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         yy = ry + y3;
         tile3 = y3 * 32 + 0x40;
         do {
-            func_02041300(3, (u16)(x + tile3), (u8)(rx + x), (u8)yy, 1, 1, 5);
+            BG_SYS_SetTileEntry(3, (u16)(x + tile3), (u8)(rx + x), (u8)yy, 1, 1, 5);
             x++;
         } while (x < 12);
         y3++;
     } while (y3 < 7);
-    func_020413B0(3, r.b[0], ry, 12, 7, (u8)func_021DC03C(tab + off));
+    BG_SYS_FillTileMap(3, r.b[0], ry, 12, 7, (u8)func_021DC03C(tab + off));
     dsc = func_021DBF08(tab + off);
     BMP_CopyPixels(dsc, BMP_WIN_GetBmp(*(void **)(p + 0xb08 + idx * 4)));
     BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));

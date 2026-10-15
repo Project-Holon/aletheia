@@ -35,19 +35,19 @@
  *   func_020403F4  0x020403F4  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_02062A4C  0x02062A4C  arm
- *   func_02062B30  0x02062B30  arm
- *   func_02062A98  0x02062A98  arm
- *   func_02040B1C  0x02040B1C  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
- *   func_02040E78  0x02040E78  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   gFldFaceupBgTemplate     0x021F58F4  data  a4
  *   func_02030EAC  0x02030EAC  arm
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
  *   BG_SYS_Get 0x020416D4 arm
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
@@ -128,18 +128,18 @@ extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
 extern void func_020403F4(u32 bgId);
 extern void BG_SYS_InitBgLayer(u32 bgId, const FaceupBgTemplate *bgTemplate, u32 type);
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
-extern s32 func_02062A4C(void *file, UnpackedCharData **out);
-extern int func_02062B30(void *file, UnpackedScreenData **out);
-extern s32 func_02062A98(void *file, UnpackedPaletteData **out);
-extern void func_02040B1C(int bgId, const void *src, u32 size, u32 tileOffset);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(void *file, UnpackedCharData **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, UnpackedScreenData **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(void *file, UnpackedPaletteData **out);
+extern void BG_SYS_LoadTileData(int bgId, const void *src, u32 size, u32 tileOffset);
 extern void BG_SYS_PushTileSource(u32 bgId, const void *src, u32 size, u32 mapOffset);
-extern void func_02040E78(u32 bgId, void *src, u32 size, u32 offset);
+extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 func_020307B0(void *work);
-extern void func_0204047C(int bgId, unsigned short priority);
+extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
 extern void func_02040588(unsigned char bgId, unsigned char enable);
 extern void func_02030EAC(void *tcb);
 extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void func_020414AC(int bgId);
+extern void BG_SYS_FreeSlot(int bgId);
 extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
 extern u8 BG_SYS_Get(u32 bgId);
 u32 BG_SYS_GetMainVisiblePlanes(void);
@@ -304,29 +304,29 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
         facePaletteIndex = 2;
     }
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceCharIndex, FACEUP_BG_HEAP_ID);
-    func_02062A4C(file, &faceChar);
-    func_02040B1C(2, faceChar->data, faceChar->size, 0);
+    NNS_G2dGetUnpackedCharacterDataEx(file, &faceChar);
+    BG_SYS_LoadTileData(2, faceChar->data, faceChar->size, 0);
     func_020307B0(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceScreenIndex, FACEUP_BG_HEAP_ID);
-    func_02062B30(file, &faceScreen);
+    NNS_G2dGetUnpackedScreenData(file, &faceScreen);
     BG_SYS_PushTileSource(2, faceScreen->data, faceScreen->size, 0);
     func_020307B0(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, facePaletteIndex, FACEUP_BG_HEAP_ID);
-    func_02062A98(file, &facePalette);
-    func_02040E78(2, facePalette->data, 0x140, 0);
+    NNS_G2dGetUnpackedPaletteData(file, &facePalette);
+    BG_SYS_LoadPltt(2, facePalette->data, 0x140, 0);
     func_020307B0(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 7, FACEUP_BG_HEAP_ID);
-    func_02062A4C(file, &partsChar);
-    func_02040B1C(3, partsChar->data, partsChar->size, 0);
+    NNS_G2dGetUnpackedCharacterDataEx(file, &partsChar);
+    BG_SYS_LoadTileData(3, partsChar->data, partsChar->size, 0);
     func_020307B0(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 11, FACEUP_BG_HEAP_ID);
-    func_02062B30(file, &partsScreen);
+    NNS_G2dGetUnpackedScreenData(file, &partsScreen);
     BG_SYS_PushTileSource(3, partsScreen->data, partsScreen->size, 0);
     func_020307B0(file);
-    func_0204047C(0, 3);
-    func_0204047C(1, 0);
-    func_0204047C(2, 2);
-    func_0204047C(3, 1);
+    BG_SYS_SetVisibleLayer(0, 3);
+    BG_SYS_SetVisibleLayer(1, 0);
+    BG_SYS_SetVisibleLayer(2, 2);
+    BG_SYS_SetVisibleLayer(3, 1);
     func_02040588(2, 1);
     func_02040588(3, 1);
 }
@@ -425,7 +425,7 @@ void FLD_FACEUP_Release(struct FieldMap *fieldMap, FaceupWork *work)
 {
     struct FieldPlaceName *placeName = FIELDMAP_GetPlaceName(fieldMap);
 
-    func_020414AC(2);
+    BG_SYS_FreeSlot(2);
     G2_SetBG3ControlText(work->savedBg3Control.bits.screenSize, work->savedBg3Control.bits.colorMode,
                          work->savedBg3Control.bits.screenBase, work->savedBg3Control.bits.charBase);
     FIELD_PLACE_NAME_RestoreWindow(placeName);
@@ -471,7 +471,7 @@ void FLD_FACEUP_RestoreBgPriorities(FaceupWork *work)
     int bgId;
 
     for (bgId = 0; bgId < 4; bgId++)
-        func_0204047C((u8)bgId, work->savedBgPriority[bgId]);
+        BG_SYS_SetVisibleLayer((u8)bgId, work->savedBgPriority[bgId]);
 }
 
 

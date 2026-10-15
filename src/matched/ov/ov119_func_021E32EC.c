@@ -20,8 +20,8 @@
  *   PARTICLE_UpdateAllSystems  0x02051574  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   ICA_ANIME_IncFrameLoop  0x02011590  thumb
- *   d_021E7AC8  0x021E7AC8  data a4
- *   d_021E8144  0x021E8144  data a4
+ *   g3dSceneHandlers  0x021E7AC8  data a4
+ *   gAnimeFrameCfg  0x021E8144  data a4
  */
 #include "../include/Obj00907.h"
 
@@ -48,8 +48,8 @@ typedef struct {
     int aAC;            /* 0x0AC */
 } Sub;
 
-extern const Handler d_021E7AC8[];
-extern Cfg d_021E8144;
+extern const Handler g3dSceneHandlers[];
+extern Cfg gAnimeFrameCfg;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
@@ -78,13 +78,13 @@ void POKETRADE_3D_Draw3DScene(char *p)
     idx = ((struct Obj00907 *)p)->f109C;
     if (idx == -1)
         return;
-    if (d_021E7AC8[idx].fn != 0)
-        d_021E7AC8[idx].fn(p, buf);
+    if (g3dSceneHandlers[idx].fn != 0)
+        g3dSceneHandlers[idx].fn(p, buf);
     if (((struct Obj00907 *)p)->f824 != 0xFFFF) {
         q = (void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824);
         n = G3D_SYSTEM_GetObjectAnimeCount(q);
         for (i = 0; i < n; i++)
-            G3D_SYSTEM_LoopObjectAnimeFrame(q, (u16)i, d_021E8144.amount);
+            G3D_SYSTEM_LoopObjectAnimeFrame(q, (u16)i, gAnimeFrameCfg.amount);
     }
     G3D_SYSTEM_DrawStart();
     G3D_CAMERA_Reset(((struct Obj00907 *)p)->f83C);
@@ -98,13 +98,13 @@ void POKETRADE_3D_Draw3DScene(char *p)
     if (*(Sub * *)&((struct Obj00907 *)p)->fC != 0) {
         if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90 != 0) {
             if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 == 0)
-                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 = ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90), d_021E8144.amount);
+                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 = ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90), gAnimeFrameCfg.amount);
             if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC == 0)
-                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC = ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a94), d_021E8144.amount);
+                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC = ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a94), gAnimeFrameCfg.amount);
         }
         if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C != 0)
-            ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C), d_021E8144.amount);
+            ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C), gAnimeFrameCfg.amount);
         if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98 != 0)
-            ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98), d_021E8144.amount);
+            ICA_ANIME_IncFrameLoop((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98), gAnimeFrameCfg.amount);
     }
 }

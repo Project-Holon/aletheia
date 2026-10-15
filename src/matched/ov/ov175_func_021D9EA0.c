@@ -1,5 +1,5 @@
 /*
- * function: func_021D9EA0
+ * function: WIFIBATTLEMATCH_NET_DeleteNetContext
  * address: 0x021D9EA0
  * packet: pkt_ov175_021D9EA0
  * region: ov175
@@ -21,4 +21,4 @@ extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern void DWC_RAP_SetErrorCallback(int,int);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern u32 func_020307B0(void *p);
-void func_021D9EA0(u8 *p) { DWC_RAP_SetErrorHookCallback(0,0); DWC_RAP_SetErrorCallback(0,0); GFL_NET_COMMAND_DeleteCommandTable(0x2400); func_020307B0(((struct Obj24326 *)p)->f190); func_020307B0(p); }
+void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p) { DWC_RAP_SetErrorHookCallback(0,0); DWC_RAP_SetErrorCallback(0,0); GFL_NET_COMMAND_DeleteCommandTable(0x2400); func_020307B0(((struct Obj24326 *)p)->f190); func_020307B0(p); }

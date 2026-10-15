@@ -42,8 +42,8 @@
  *    single-call arm as the `else`.  Written as `a != 0 && b != 0` the
  *    compiler fuses the pair into `cmp`/`cmpne` and loses four bytes.
  *
- * Decompiled to unstick src/pending/func_020306F0.c (fan-in 121), whose
- * only unresolved relocation was this address: func_020306F0 is this
+ * Decompiled to unstick src/pending/GFL_HEAP_DeleteChecked.c (fan-in 121), whose
+ * only unresolved relocation was this address: GFL_HEAP_DeleteChecked is this
  * function's only caller image-wide, so class `label` was unavailable and
  * the two are not contiguous, so no unit could make the site `local`.
  *

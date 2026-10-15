@@ -18,7 +18,7 @@
  * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
  * into the ring: when the module is not busy and the flags nibble in the byte
  * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
- * GF_FONT_CopyStrbufD6D8 provided the request fits in the free space func_0201D6C4
+ * GF_FONT_CopyStrbufD6D8 provided the request fits in the free space GF_FONT_GetQueueLength
  * reports.
  *
  * Why it is capped: the `bl` at 0x0201C79C is the only branch to GF_FONT_CopyStrbufD6D8
@@ -53,6 +53,8 @@
  *   PRINTSYS_RunJob  0x0201C8BC  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GF_FONT_CopyStrbufD6D8  0x0201D6D8  thumb
+ *   GF_FONT_GetAllocSize  0x0201D6B8  thumb
+ *   GF_FONT_GetQueueLength  0x0201D6C4  thumb
  */
 
 #include "../include/G_Scratch.h"
@@ -98,10 +100,10 @@ struct PrintSys {
 extern struct Scratch _PrintJobWork;
 
 extern int GFL_NET_GetNegotiationNum(void);
-extern u32   func_0201D6B8(void *s);
+extern u32   GF_FONT_GetAllocSize(void *s);
 struct Rec2;
 struct Ring;
-extern u32 func_0201D6C4(const struct Ring *p);
+extern u32 GF_FONT_GetQueueLength(const struct Ring *p);
 extern void  GF_FONT_CopyStrbufD6D8(struct PrintSys *p, void *a, void *b);
 
 extern void PRINTSYS_SetupJob(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
@@ -133,8 +135,8 @@ void PRINTSYS_SubmitJob(struct PrintSys *p, struct PrintCtx *c, void *s)
         PRINTSYS_RunJob((u8 *)c, (int)s);
         return;
     }
-    need = func_0201D6B8(s);
-    if (need <= func_0201D6C4((const struct Ring *)p)) {
+    need = GF_FONT_GetAllocSize(s);
+    if (need <= GF_FONT_GetQueueLength((const struct Ring *)p)) {
         GF_FONT_CopyStrbufD6D8(p, c, s);
     }
 }

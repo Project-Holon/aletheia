@@ -10,7 +10,7 @@
  * symbols:
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   IRCBATTLEMATCH_FreeMessageWindows 0x021BA5F4 thumb ov100
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -27,7 +27,7 @@ struct TaskMenuState;
 struct U16Vec;
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void IRCBATTLEMATCH_FreeMessageWindows(unsigned a);
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -39,7 +39,7 @@ extern void IRCBATTLEMATCH_ExitWindowSystem(int);
 void IRCBATTLEMATCH_ExitScreen(int a) {
  GF_FONT_SetDefaultTextColor();
  IRCBATTLEMATCH_FreeMessageWindows(a);
- func_02040DA8(5,1,0);
+ BG_SYS_SetTileUnit(5,1,0);
  {
   unsigned int v=((struct Obj05267 *)a)->f304;
   unsigned int w=v>>16;

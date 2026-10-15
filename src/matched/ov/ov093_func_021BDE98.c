@@ -35,7 +35,7 @@
  *   func_021BE338 0x021BE338 thumb ov093
  *   func_021BE348 0x021BE348 thumb ov093
  *   func_021BE358 0x021BE358 thumb ov093
- *   func_021BE368 0x021BE368 thumb ov093
+ *   ZKNSEARCH_MAIN_InitBmpWindows 0x021BE368 thumb ov093
  *   ZUKAN_DETAIL_TOUCHBAR_GetRightPalette 0x021BE378 thumb ov093
  *   func_021BE388 0x021BE388 thumb ov093
  *   func_021BE398 0x021BE398 thumb ov093
@@ -105,7 +105,7 @@ extern int BTL_SERVER_FLOW_CheckMoveRestricted(u8 *, u8 *, u16 *);
 extern void func_021BE338(void *);
 extern void func_021BE348(void *);
 extern u32 func_021BE358(void *);
-extern void func_021BE368(void *);
+extern void ZKNSEARCH_MAIN_InitBmpWindows(void *);
 extern void ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(void *, void *);
 extern void func_021BE388(void *, u32);
 extern void func_021BE398(void *, u16, u32, u32);
@@ -212,7 +212,7 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
     BTL_SERVER_FLOW_DecideMoveTargets(p, a, sel, F(0x1ab0), F(0x850));
     {
         u32 v = (u8)func_021BE358(F(0x850));
-        func_021BE368(F(0x850));
+        ZKNSEARCH_MAIN_InitBmpWindows(F(0x850));
         ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(F(0x850), F(0x854));
         func_021BE388(F(0x854), v);
     }

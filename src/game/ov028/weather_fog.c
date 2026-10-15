@@ -17,7 +17,7 @@
  *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
  *   WEATHER_TASK_InitFog 0x021A22E0 thumb ov021
  *   WEATHER_TASK_ChangeFog  0x021A232C  thumb  ov021
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  *   WEATHER_TASK_FadeLight  0x021A2108  thumb  ov021
  *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  *   WEATHER_TASK_SetLight 0x021A2114 thumb ov021
@@ -44,7 +44,7 @@ int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
 void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
 void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
 int WEATHER_TASK_GetCameraState(WeatherTaskSys *task);
-u16 func_02014A10(u32 weatherId);
+u16 ZONEDATA_GetLightTableMember(u32 weatherId);
 
 /* Weather id 9 (fixed fog). */
 int WEATHER_FOG_BeginFixed(WeatherTaskSys *task, int variant);
@@ -89,7 +89,7 @@ int WEATHER_FOG_BeginParticlesFixed(WeatherTaskSys *task, int variant)
 
     if (work->fogChangeStarted == 0) {
         WEATHER_TASK_ChangeFog(task, work->fogSlope, work->fogOffset, FOG_CHANGE_FRAMES, variant);
-        WEATHER_TASK_FadeLight(task, FOG_LIGHT_ARC_ID, func_02014A10(9));
+        WEATHER_TASK_FadeLight(task, FOG_LIGHT_ARC_ID, ZONEDATA_GetLightTableMember(9));
         work->fogChangeStarted = work->fogChangeStarted - 1;
     } else if (WEATHER_TASK_IsFogIdle(task) != 0) {
         return 1;
@@ -103,7 +103,7 @@ int WEATHER_FOG_BeginPlainFixed(WeatherTaskSys *task, int variant)
     FogFixedWork *work;
     work = WEATHER_TASK_GetWorkBuffer(task);
     WEATHER_TASK_InitFog(task, work->fogSlope, work->fogOffset, variant);
-    WEATHER_TASK_SetLight(task, 62, func_02014A10(9));
+    WEATHER_TASK_SetLight(task, 62, ZONEDATA_GetLightTableMember(9));
     return 1;
 }
 
@@ -226,7 +226,7 @@ int WEATHER_FOG_BeginParticles(WeatherTaskSys *task, int variant)
 
     if (work->fogChangeStarted == 0) {
         WEATHER_TASK_ChangeFog(task, work->fogSlope, work->fogOffset, FOG_CHANGE_FRAMES, variant);
-        WEATHER_TASK_FadeLight(task, FOG_LIGHT_ARC_ID, func_02014A10(work->weatherId));
+        WEATHER_TASK_FadeLight(task, FOG_LIGHT_ARC_ID, ZONEDATA_GetLightTableMember(work->weatherId));
         work->fogChangeStarted = work->fogChangeStarted - 1;
     } else if (WEATHER_TASK_IsFogIdle(task) != 0) {
         return 1;
@@ -240,7 +240,7 @@ int WEATHER_FOG_BeginPlain(WeatherTaskSys *task, int variant)
     FogCameraWork *work;
     work = WEATHER_TASK_GetWorkBuffer(task);
     WEATHER_TASK_InitFog(task, work->fogSlope, work->fogOffset, variant);
-    WEATHER_TASK_SetLight(task, 62, func_02014A10(work->weatherId));
+    WEATHER_TASK_SetLight(task, 62, ZONEDATA_GetLightTableMember(work->weatherId));
     return 1;
 }
 

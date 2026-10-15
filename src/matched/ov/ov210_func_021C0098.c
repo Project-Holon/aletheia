@@ -1,5 +1,5 @@
 /*
- * function: func_021C0098
+ * function: ZKNSEARCH_MAIN_DeselectCursor
  * address:  0x021C0098
  * packet:   pkt_ov210_021C0098
  * region:   ov210
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BFF30 0x021BFF30 thumb ov210
+ *   ZKNSEARCH_MAIN_SetCursorTile 0x021BFF30 thumb ov210
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BFF30(int p, unsigned a, unsigned b);
+extern void ZKNSEARCH_MAIN_SetCursorTile(int p, unsigned a, unsigned b);
 
-void func_021C0098(int p, unsigned a, unsigned b)
+void ZKNSEARCH_MAIN_DeselectCursor(int p, unsigned a, unsigned b)
 {
-    func_021BFF30(p, b, 1);
-    func_021BFF30(p, a, 1);
+    ZKNSEARCH_MAIN_SetCursorTile(p, b, 1);
+    ZKNSEARCH_MAIN_SetCursorTile(p, a, 1);
 }

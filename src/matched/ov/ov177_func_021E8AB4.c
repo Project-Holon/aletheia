@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Field setter after func_021E8AA8's pool: stores the second argument at
- * +0xc. Called from the ov175 root func_021D7E18 (0x021D7EF6, 0x021D8060,
+ * +0xc. Called from the ov175 root WIFIBATTLEMATCH_NET_CompStepF (0x021D7EF6, 0x021D8060,
  * 0x021D8550).
  */
 #include "../include/Obj24454.h"

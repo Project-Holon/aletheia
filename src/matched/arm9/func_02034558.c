@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   sub_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   VMAN_GetBankSetSize  0x02034520  arm
  *   VMAN_GetUnitSize  0x020345F8  arm
  *   AREAMAN_Create  0x02033C00  arm
@@ -36,7 +36,7 @@ struct Bank {
 };
 
 struct AreaMan;
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   VMAN_GetBankSetSize(u32 flags);
 extern u32   VMAN_GetUnitSize(u32 b);
 extern struct AreaMan *AREAMAN_Create(u32 size, u32 heap);
@@ -47,7 +47,7 @@ struct Bank *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b)
     struct Bank *bank;
     u32 size;
 
-    bank = sub_02030734(heapId, 8, 0, s_clact_c, 0x7a);
+    bank = GFL_HEAP_Alloc(heapId, 8, 0, s_clact_c, 0x7a);
     size = VMAN_GetBankSetSize(flags) - base;
     if (kind == 1)
         bank->height = VMAN_GetUnitSize(b);

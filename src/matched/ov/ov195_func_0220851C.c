@@ -1,5 +1,5 @@
 /*
- * function: func_0220851C
+ * function: SHINKA_DEMO_VIEW_UpdateQuadVerts
  * address:  0x0220851C
  * packet:   pkt_0220851C
  * region:   ov195
@@ -50,7 +50,7 @@ extern const u8 d_02208E38[];
 
 #define FX_F32_TO_FX32(x)     ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-void func_0220851C(Quad *p, u16 heap)
+void SHINKA_DEMO_VIEW_UpdateQuadVerts(Quad *p, u16 heap)
 {
     u8 i = p->f4e;
     u8 b;

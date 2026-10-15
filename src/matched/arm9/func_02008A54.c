@@ -1,5 +1,5 @@
 /*
- * function: sub_02008A54
+ * function: TRCARD_SIGN_GetBadgeDate
  * address:  0x02008A54
  * packet:   pkt_02008A54
  * region:   arm9
@@ -35,7 +35,7 @@ struct Sub02008A54Obj {
     struct Sub02008A54Rec unk604[8];
 };
 
-struct Sub02008A54Rec sub_02008A54(struct Sub02008A54Obj *obj, int i)
+struct Sub02008A54Rec TRCARD_SIGN_GetBadgeDate(struct Sub02008A54Obj *obj, int i)
 {
     return obj->unk604[i];
 }

@@ -31,8 +31,8 @@
  * sdk:      qr_process_client_message (libdwcgsqr2.TWL.HYB.a qr2.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_021803BC  0x021803BC  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   gsiSafeStrcpyA  0x021803BC  arm  ov009
  *   NNBeginNegotiationWithSocket  0x02199DFC  arm  ov009
  *   NatNegCompletedCallback  0x0219BA58  arm  ov009
  *   NatNegProgressCallback  0x0219BA54  arm  ov009
@@ -117,8 +117,8 @@ typedef struct qr2_implementation_s {
     void *udata;                                             /* 0x114 */
 } *qr2_t;
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
-extern unsigned long func_021803BC(char *dst, const char *src, unsigned long size);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern unsigned long gsiSafeStrcpyA(char *dst, const char *src, unsigned long size);
 extern int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
                          void (*progresscallback)(int, void *),
                          void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata);
@@ -136,7 +136,7 @@ void qr_process_client_message(qr2_t qrec, char *buf, int len)
     int isnatneg = 1;
     int cookie;
 
-    func_0217D254(3, 4, 8, g_021A7858);
+    gsDebugFormat(3, 4, 8, g_021A7858);
 
     if (len >= 10) {
         for (i = 0; i < 6; i++) {
@@ -155,7 +155,7 @@ void qr_process_client_message(qr2_t qrec, char *buf, int len)
         if (qrec->cc_callback) {
             if (gGsAvailabilityState != 1) {
                 gGsAvailabilityState = 1;
-                func_021803BC(gGsAvailabilityGameName, qrec->gamename, 64);
+                gsiSafeStrcpyA(gGsAvailabilityGameName, qrec->gamename, 64);
             }
             NNBeginNegotiationWithSocket(qrec->hbsock, cookie, 1, NatNegProgressCallback, NatNegCompletedCallback, qrec);
         } else if (qrec->nn_callback)

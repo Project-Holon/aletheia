@@ -1,5 +1,5 @@
 /*
- * function: func_021C63B8
+ * function: VIEWER_TEXT_DrawRow
  * address:  0x021C63B8
  * packet:   pkt_ov111_021C63B8
  * region:   ov111
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_0201D304  0x0201D304  thumb
- *   func_021C6380  0x021C6380  thumb  ov111
- *   func_021C68F0  0x021C68F0  thumb  ov111
- *   func_021C69D4  0x021C69D4  thumb  ov111
- *   func_021C6A84  0x021C6A84  thumb  ov111
- *   func_021C6C7C  0x021C6C7C  thumb  ov111
+ *   VIEWER_TEXT_PrintColorAt  0x021C6380  thumb  ov111
+ *   VIEWER_TEXT_PrintNumber  0x021C68F0  thumb  ov111
+ *   VIEWER_TEXT_PrintString  0x021C69D4  thumb  ov111
+ *   VIEWER_TEXT_PrintStringClipped  0x021C6A84  thumb  ov111
+ *   VIEWER_TEXT_PrintRow  0x021C6C7C  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -63,13 +63,13 @@ typedef struct {
 
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_021C6380(void *a, Work *p, int x, int y, void *s, int idx);
-extern void func_021C68F0(Work *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx);
-extern void func_021C69D4(Work *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx);
-extern void func_021C6A84(Work *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx);
-extern void func_021C6C7C(Work *p, void *a, int y, const Info *info, void *s, int idx);
+extern void VIEWER_TEXT_PrintColorAt(void *a, Work *p, int x, int y, void *s, int idx);
+extern void VIEWER_TEXT_PrintNumber(Work *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx);
+extern void VIEWER_TEXT_PrintString(Work *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx);
+extern void VIEWER_TEXT_PrintStringClipped(Work *p, void *a, int x, int dx, int y, void *s, u32 mode, int idx);
+extern void VIEWER_TEXT_PrintRow(Work *p, void *a, int y, const Info *info, void *s, int idx);
 
-void func_021C63B8(Work *p, void *a, u32 sel, int y, int idx)
+void VIEWER_TEXT_DrawRow(Work *p, void *a, u32 sel, int y, int idx)
 {
     void *s = p->f3214;
     Info *info = p->info;
@@ -77,81 +77,81 @@ void func_021C63B8(Work *p, void *a, u32 sel, int y, int idx)
 
     switch (sel) {
     case 0:
-        func_021C6380(a, p, 0, y, p->win[0], idx);
-        func_021C68F0(p, a, 0x60, 0, y, s, info->h28, 5, 2, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[0], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0x60, 0, y, s, info->h28, 5, 2, idx);
         break;
     case 1:
-        func_021C6380(a, p, 0, y, p->win[1], idx);
-        func_021C6C7C(p, a, y, p->info, p->f3208, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[1], idx);
+        VIEWER_TEXT_PrintRow(p, a, y, p->info, p->f3208, idx);
         break;
     case 2:
-        func_021C6380(a, p, 0, y, p->win[2], idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[2], idx);
         break;
     case 3:
-        func_021C69D4(p, a, 0xD8, 0, y, s, 0, idx);
+        VIEWER_TEXT_PrintString(p, a, 0xD8, 0, y, s, 0, idx);
         break;
     case 4:
-        func_021C6380(a, p, 0, y, p->win[3], idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[3], idx);
         break;
     case 5:
         if (info->b33 != 0) {
-            func_021C6A84(p, a, 0xD8, 0, y, s, 0, idx);
+            VIEWER_TEXT_PrintStringClipped(p, a, 0xD8, 0, y, s, 0, idx);
         } else {
             w = func_0201D304(p->f328C, (u32)p->f31FC, 0);
-            func_021C6380(a, p, 0xD8 - w, y, p->f328C, idx);
+            VIEWER_TEXT_PrintColorAt(a, p, 0xD8 - w, y, p->f328C, idx);
         }
         break;
     case 6:
-        func_021C6380(a, p, 0, y, p->win[4], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f38, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[4], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f38, 9, 1, idx);
         break;
     case 7:
-        func_021C6380(a, p, 0, y, p->win[5], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f3C, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[5], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f3C, 9, 1, idx);
         break;
     case 8:
-        func_021C6380(a, p, 0, y, p->win[6], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f40, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[6], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f40, 9, 1, idx);
         break;
     case 9:
-        func_021C6380(a, p, 0, y, p->win[7], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f44, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[7], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f44, 9, 1, idx);
         break;
     case 10:
-        func_021C6380(a, p, 0, y, p->win[8], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f4C, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[8], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f4C, 9, 1, idx);
         break;
     case 11:
-        func_021C6380(a, p, 0, y, p->win[9], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f50, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[9], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f50, 9, 1, idx);
         break;
     case 12:
-        func_021C6380(a, p, 0, y, p->win[10], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f54, 9, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[10], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f54, 9, 1, idx);
         break;
     case 13:
-        func_021C6380(a, p, 0, y, p->win[11], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->f58, 5, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[11], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->f58, 5, 1, idx);
         break;
     case 14:
-        func_021C6380(a, p, 0, y, p->win[12], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->h5C, 4, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[12], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->h5C, 4, 1, idx);
         break;
     case 15:
-        func_021C6380(a, p, 0, y, p->win[13], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->h5E, 2, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[13], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->h5E, 2, 1, idx);
         break;
     case 16:
-        func_021C6380(a, p, 0, y, p->win[14], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->h60, 4, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[14], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->h60, 4, 1, idx);
         break;
     case 17:
-        func_021C6380(a, p, 0, y, p->win[15], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->h62, 3, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[15], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->h62, 3, 1, idx);
         break;
     case 18:
-        func_021C6380(a, p, 0, y, p->win[16], idx);
-        func_021C68F0(p, a, 0xD8, 8, y, s, info->h64, 4, 1, idx);
+        VIEWER_TEXT_PrintColorAt(a, p, 0, y, p->win[16], idx);
+        VIEWER_TEXT_PrintNumber(p, a, 0xD8, 8, y, s, info->h64, 4, 1, idx);
         break;
     }
 }

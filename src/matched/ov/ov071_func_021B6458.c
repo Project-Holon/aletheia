@@ -28,7 +28,7 @@
  *   func_021B6524  0x021B6524  thumb  ov071
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 
 typedef unsigned int   u32;
@@ -51,7 +51,7 @@ int MONOLITH_TOOL_Exit(int a, int b, int c, int *w)
     void func_021B6524(void);
     void ARC_TOOL_DeleteHandle(int);
     void func_020315D4(struct S020315D4 *p);
-    void func_020306F0(u32 heap);
+    void GFL_HEAP_DeleteChecked(u32 heap);
 
     func_0203133C((struct S020314B8 *)w[0x12c / 4]);
     func_0203133C((struct S020314B8 *)w[0x130 / 4]);
@@ -69,6 +69,6 @@ int MONOLITH_TOOL_Exit(int a, int b, int c, int *w)
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     func_020315D4((struct S020315D4 *)a);
-    func_020306F0(0x61);
+    GFL_HEAP_DeleteChecked(0x61);
     return 1;
 }

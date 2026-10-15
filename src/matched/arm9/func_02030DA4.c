@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02030DA4
+ * function: TCB_Noop
  * address:  0x02030DA4
  * packet:   pkt_02030D28
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_02030DA4(void){ }
+void TCB_Noop(void){ }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022102A8",
+   "name": "B_PLIST_MAIN_ClearPrintStream",
    "address": "0x022102A8",
    "kind": "game",
    "region": "ov198",

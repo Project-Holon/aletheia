@@ -1,5 +1,5 @@
 /*
- * function: func_0201F35C
+ * function: WORDSET_FormatNumber
  * address:  0x0201F35C
  * packet:   pkt_0201F35C
  * region:   arm9
@@ -36,7 +36,7 @@ extern u16  g_0209E784[];
 extern u16  g_0209E758[];
 extern u32  g_0209E838[];
 
-void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
+void WORDSET_FormatNumber(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
 {
     u16 *tbl;
     u32 d;
@@ -102,6 +102,6 @@ void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
  * `n - q * d` (docs/idioms/commutative-operand-order-names-the-temporary.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201F35C.c \
- *       --func func_0201F35C --addr 0x0201F35C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/WORDSET_FormatNumber.c \
+ *       --func WORDSET_FormatNumber --addr 0x0201F35C --cc 1.1p1 --thumb
  */

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE274
+ * function: BR_CODEIN_ResultMain
  * address: 0x021DE274
  * packet: pkt_ov183_021DE274
  * region: ov183
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE940 0x021DE940 thumb ov183
- *   func_021DE780 0x021DE780 thumb ov183
- *   func_021DE404 0x021DE404 thumb ov183
- *   func_021DE55C 0x021DE55C thumb ov183
- *   func_021DE66C 0x021DE66C thumb ov183
+ *   BR_CODEIN_ResultHitButton 0x021DE940 thumb ov183
+ *   BR_CODEIN_ResultTeardown 0x021DE780 thumb ov183
+ *   BR_CODEIN_ResultSetupRowA 0x021DE404 thumb ov183
+ *   BR_CODEIN_ResultSetupRowB 0x021DE55C thumb ov183
+ *   BR_CODEIN_ResultSetupRowC 0x021DE66C thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
@@ -31,10 +31,10 @@ struct Pair { int x,y; };
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int func_021DE940(char *,int,int);
+extern int BR_CODEIN_ResultHitButton(char *,int,int);
 extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 extern void BR_UTIL_StartEffect(int,int,struct Pair *);
-extern void func_021DE780(char *,char *),func_021DE404(char *,char *),func_021DE55C(char *,char *),func_021DE66C(char *,char *);
+extern void BR_CODEIN_ResultTeardown(char *,char *),BR_CODEIN_ResultSetupRowA(char *,char *),BR_CODEIN_ResultSetupRowB(char *,char *),BR_CODEIN_ResultSetupRowC(char *,char *);
 typedef unsigned char  u8;
 struct PrintSys;
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
@@ -42,7 +42,7 @@ extern int BR_UTIL_FlushText(u8 *p);
 extern void BR_UTIL_RunHandles(char *p);
 extern void BR_UTIL_FlushWindow(void *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-int func_021DE274(void *unused,u32 *state,char *q,char *p)
+int BR_CODEIN_ResultMain(void *unused,u32 *state,char *q,char *p)
 {
  int x,y,i;
  struct Pair pair;
@@ -51,7 +51,7 @@ int func_021DE274(void *unused,u32 *state,char *q,char *p)
  case 1:if(BR_FADE_GetResult(*(int * *)&((struct Obj00440 *)q)->f4)) *state=2;break;
  case 2:
   if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
-   ((struct Obj00785 *)p)->f68=func_021DE940(p,x,y);
+   ((struct Obj00785 *)p)->f68=BR_CODEIN_ResultHitButton(p,x,y);
    if(((struct Obj00785 *)p)->f68) *state=3;
    if(BR_BTN_HitTestWithSound((unsigned int *)(((struct Obj00785 *)p)->fC),x,y)){
     pair.x=x;pair.y=y;
@@ -62,11 +62,11 @@ int func_021DE274(void *unused,u32 *state,char *q,char *p)
  case 3:BR_FADE_Start(*(int *)&((struct Obj00440 *)q)->f4,2,1,1);++*state;break;
  case 4:if(BR_FADE_GetResult(*(int * *)&((struct Obj00440 *)q)->f4)) ++*state;break;
  case 5:
-  func_021DE780(p,q);
+  BR_CODEIN_ResultTeardown(p,q);
   switch(*(u32 *)&((struct Obj00785 *)p)->f68){
-  case 1:func_021DE404(p,q);break;
-  case 2:func_021DE55C(p,q);break;
-  case 3:func_021DE66C(p,q);break;
+  case 1:BR_CODEIN_ResultSetupRowA(p,q);break;
+  case 2:BR_CODEIN_ResultSetupRowB(p,q);break;
+  case 3:BR_CODEIN_ResultSetupRowC(p,q);break;
   }
   BR_FADE_Start(*(int *)&((struct Obj00440 *)q)->f4,2,1,0);++*state;break;
  case 6:if(BR_FADE_GetResult(*(int * *)&((struct Obj00440 *)q)->f4)) *state=2;break;

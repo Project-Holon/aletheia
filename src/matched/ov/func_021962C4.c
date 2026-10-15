@@ -13,7 +13,7 @@
  *
  * symbols:
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02041B6C  0x02041B6C  arm
  * Addresses are Black-image addresses.
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void TIME_ICON_Delete(u8 *p);
 extern u32 func_02041B6C(u32);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
@@ -36,7 +36,7 @@ if (*(u32 *)((u8 *)(a) + ((186 << 2))) != 0) {
     TIME_ICON_Delete((u8 *)(*(u32 *)((u8 *)(a) + ((186 << 2)))));
     *(u32 *)((u8 *)(a) + ((186 << 2))) = 0;
 }
-func_0201F7A8((void *)(*(u32 *)((u8 *)(a) + ((43 << 4)))), 2);
+BMP_MENUWORK_DrawWindowBorder((void *)(*(u32 *)((u8 *)(a) + ((43 << 4)))), 2);
 BMP_WIN_ClearScreen((struct Descriptor *)(*(u32 *)((u8 *)(a) + ((43 << 4)))));
 return func_02041B6C(5);
 }

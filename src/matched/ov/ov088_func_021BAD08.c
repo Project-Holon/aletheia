@@ -28,10 +28,10 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
- *   func_0201F158  0x0201F158  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
+ *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   func_02008550  0x02008550  thumb
  *   ZONEDATA_Init  0x020139B0  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
@@ -95,10 +95,10 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void ZONEDATA_Init(u32 heap);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
@@ -138,8 +138,8 @@ void STARTMENU_CreateRowWindows(struct Menu *p)
     STRBUF_Delete(a);
 
     a = func_02045EC0(p->f5c, 12);
-    func_0201F02C(p->f60, 0, p->f04);
-    func_0201F250(p->f60, p->f64, a);
+    WORDSET_SetSlotMyStatus(p->f60, 0, p->f04);
+    WORDSET_CopyTaggedText(p->f60, p->f64, a);
     if (func_02008550(p->f04) == 0) {
         bg = p->f68;
         PRINTSYS_PrintQueColor(bg, (u32)BMP_WIN_GetBmp(p->slot[1].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0xC80);
@@ -160,8 +160,8 @@ void STARTMENU_CreateRowWindows(struct Menu *p)
         s = (void *)ZONEDATA_GetPlaceNameId(buf[0]);
     }
     ZONEDATA_Exit();
-    func_0201F158(p->f60, 0, (u32)s);
-    func_0201F250(p->f60, p->f64, a);
+    WORDSET_SetSlotFromMsg59(p->f60, 0, (u32)s);
+    WORDSET_CopyTaggedText(p->f60, p->f64, a);
     bg = p->f68;
     PRINTSYS_PrintQueColor(bg, (u32)BMP_WIN_GetBmp(p->slot[2].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
     p->slot[2].on = 1;
@@ -169,9 +169,9 @@ void STARTMENU_CreateRowWindows(struct Menu *p)
 
     a = func_02045EC0(p->f5c, 9);
     b = func_02008748(p->f00);
-    func_0201EFA4(p->f60, 0, func_0200864C(b), 3, 0, 1);
-    func_0201EFA4(p->f60, 1, func_02008650(b), 2, 2, 1);
-    func_0201F250(p->f60, p->f64, a);
+    WORDSET_SetSlotNumber(p->f60, 0, func_0200864C(b), 3, 0, 1);
+    WORDSET_SetSlotNumber(p->f60, 1, func_02008650(b), 2, 2, 1);
+    WORDSET_CopyTaggedText(p->f60, p->f64, a);
     bg = p->f68;
     PRINTSYS_PrintQueColor(bg, (u32)BMP_WIN_GetBmp(p->slot[3].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
     p->slot[3].on = 1;
@@ -179,8 +179,8 @@ void STARTMENU_CreateRowWindows(struct Menu *p)
 
     if (ZONEDATA_CheckEventFlag(p->f10, 0x962) == 1) {
         a = func_02045EC0(p->f5c, 10);
-        func_0201EFA4(p->f60, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetBlock(p->f00), 11), 3, 0, 1);
-        func_0201F250(p->f60, p->f64, a);
+        WORDSET_SetSlotNumber(p->f60, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetBlock(p->f00), 11), 3, 0, 1);
+        WORDSET_CopyTaggedText(p->f60, p->f64, a);
         bg = p->f68;
         PRINTSYS_PrintQueColor(bg, (u32)BMP_WIN_GetBmp(p->slot[4].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
         p->slot[4].on = 1;
@@ -188,8 +188,8 @@ void STARTMENU_CreateRowWindows(struct Menu *p)
     }
 
     a = func_02045EC0(p->f5c, 11);
-    func_0201EFA4(p->f60, 0, BEACON_CountFlags(BEACON_GetBlock(p->f00)), 2, 0, 1);
-    func_0201F250(p->f60, p->f64, a);
+    WORDSET_SetSlotNumber(p->f60, 0, BEACON_CountFlags(BEACON_GetBlock(p->f00)), 2, 0, 1);
+    WORDSET_CopyTaggedText(p->f60, p->f64, a);
     bg = p->f68;
     PRINTSYS_PrintQueColor(bg, (u32)BMP_WIN_GetBmp(p->slot[5].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
     p->slot[5].on = 1;

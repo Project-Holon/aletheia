@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DED64",
+   "name": "BR_CODEIN_StatStepFadeOut",
    "address": "0x021DED64",
    "kind": "game",
    "region": "ov183",

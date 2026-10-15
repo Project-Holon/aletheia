@@ -10,16 +10,19 @@
  * status:   EXACT
  *
  * Restores the four saved layer priorities (EXACT*: unlabelled follower).
+ *
+ * symbols:
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm  arm9
  */
 
 typedef unsigned char u8;
 
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
 void FLD3D_CI_RestoreLayerPriorities(u8 *p)
 {
     int i;
 
     for (i = 0; i < 4; i++)
-        func_0204047C((u8)i, p[0x6C + i]);
+        BG_SYS_SetVisibleLayer((u8)i, p[0x6C + i]);
 }

@@ -458,7 +458,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215CD24",
+   "name": "SOCL_LinkIsOn",
    "address": "0x0215CD24",
    "kind": "sdk",
    "region": "ov009",
@@ -535,7 +535,7 @@
    }
   },
   {
-   "name": "func_0215F080",
+   "name": "SOCLi_GetReadBufferOccpiedSize",
    "address": "0x0215F080",
    "kind": "sdk",
    "region": "ov009",
@@ -547,7 +547,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215F0D4",
+   "name": "SOCLi_InitResource",
    "address": "0x0215F0D4",
    "kind": "sdk",
    "region": "ov009",
@@ -564,7 +564,7 @@
    }
   },
   {
-   "name": "func_0215F2DC",
+   "name": "SOCLi_SocketRegister",
    "address": "0x0215F2DC",
    "kind": "sdk",
    "region": "ov009",
@@ -584,7 +584,7 @@
    }
   },
   {
-   "name": "func_0215F304",
+   "name": "SOCLi_SocketRegisterTrash",
    "address": "0x0215F304",
    "kind": "sdk",
    "region": "ov009",
@@ -604,7 +604,7 @@
    }
   },
   {
-   "name": "func_0215F31C",
+   "name": "SOCLi_SocketUnregister",
    "address": "0x0215F31C",
    "kind": "sdk",
    "region": "ov009",
@@ -624,7 +624,7 @@
    }
   },
   {
-   "name": "func_0215F3B8",
+   "name": "SOCLi_SocketUnregisterTrash",
    "address": "0x0215F3B8",
    "kind": "sdk",
    "region": "ov009",
@@ -644,7 +644,7 @@
    }
   },
   {
-   "name": "func_0215F404",
+   "name": "SOCL_SocketIsInTrash",
    "address": "0x0215F404",
    "kind": "sdk",
    "region": "ov009",
@@ -791,7 +791,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02163F24",
+   "name": "count_digits",
    "address": "0x02163F24",
    "kind": "sdk",
    "region": "ov009",
@@ -803,7 +803,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021641C4",
+   "name": "CPSi_big_compare",
    "address": "0x021641C4",
    "kind": "sdk",
    "region": "ov009",
@@ -815,7 +815,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02164484",
+   "name": "get48bits_1",
    "address": "0x02164484",
    "kind": "sdk",
    "region": "ov009",
@@ -907,7 +907,7 @@
    }
   },
   {
-   "name": "func_021665E4",
+   "name": "WCM_GetMacAddress",
    "address": "0x021665E4",
    "kind": "sdk",
    "region": "ov009",
@@ -924,7 +924,7 @@
    }
   },
   {
-   "name": "func_02166680",
+   "name": "WcmCompareMemory",
    "address": "0x02166680",
    "kind": "sdk",
    "region": "ov009",
@@ -936,7 +936,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021666B8",
+   "name": "WCM_CompareBssID",
    "address": "0x021666B8",
    "kind": "sdk",
    "region": "ov009",
@@ -953,7 +953,7 @@
    }
   },
   {
-   "name": "func_02167E88",
+   "name": "DWCi_Np_GetConsoleId",
    "address": "0x02167E88",
    "kind": "sdk",
    "region": "ov009",
@@ -982,7 +982,7 @@
    }
   },
   {
-   "name": "func_02168040",
+   "name": "DWC_SVLProcess",
    "address": "0x02168040",
    "kind": "sdk",
    "region": "ov009",
@@ -999,7 +999,7 @@
    }
   },
   {
-   "name": "func_021686E0",
+   "name": "DWCi_WStrLen",
    "address": "0x021686E0",
    "kind": "sdk",
    "region": "ov009",
@@ -1709,7 +1709,7 @@
    }
   },
   {
-   "name": "func_02176BE4",
+   "name": "DWCi_IsReliableQueueFree",
    "address": "0x02176BE4",
    "kind": "sdk",
    "region": "ov009",
@@ -1726,7 +1726,7 @@
    }
   },
   {
-   "name": "func_02176C00",
+   "name": "DWCi_ProcessReliableQueue",
    "address": "0x02176C00",
    "kind": "sdk",
    "region": "ov009",
@@ -2068,7 +2068,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217D188",
+   "name": "gsiDebugCallback",
    "address": "0x0217D188",
    "kind": "sdk",
    "region": "ov009",
@@ -2092,7 +2092,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217EAB0",
+   "name": "gsimalloc",
    "address": "0x0217EAB0",
    "kind": "sdk",
    "region": "ov009",
@@ -2109,7 +2109,7 @@
    }
   },
   {
-   "name": "func_0217EAC8",
+   "name": "gsirealloc",
    "address": "0x0217EAC8",
    "kind": "sdk",
    "region": "ov009",
@@ -2126,7 +2126,7 @@
    }
   },
   {
-   "name": "func_0217EAE0",
+   "name": "gsifree",
    "address": "0x0217EAE0",
    "kind": "sdk",
    "region": "ov009",
@@ -2471,7 +2471,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02184200",
+   "name": "ArrayLength",
    "address": "0x02184200",
    "kind": "game",
    "region": "ov009",
@@ -2483,7 +2483,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02184234",
+   "name": "ArrayAppend",
    "address": "0x02184234",
    "kind": "sdk",
    "region": "ov009",
@@ -2495,7 +2495,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218437C",
+   "name": "ArrayDeleteAt",
    "address": "0x0218437C",
    "kind": "sdk",
    "region": "ov009",
@@ -2507,7 +2507,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021843C8",
+   "name": "ArraySort",
    "address": "0x021843C8",
    "kind": "sdk",
    "region": "ov009",
@@ -2543,7 +2543,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218592C",
+   "name": "gpDestroy",
    "address": "0x0218592C",
    "kind": "sdk",
    "region": "ov009",
@@ -2567,7 +2567,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218E2DC",
+   "name": "gpiOperationsAreBlocking",
    "address": "0x0218E2DC",
    "kind": "sdk",
    "region": "ov009",
@@ -2603,7 +2603,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218F9F8",
+   "name": "gpiProfilesTableHash",
    "address": "0x0218F9F8",
    "kind": "sdk",
    "region": "ov009",
@@ -2615,7 +2615,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218FF24",
+   "name": "gpiRemoveProfile",
    "address": "0x0218FF24",
    "kind": "sdk",
    "region": "ov009",
@@ -2627,7 +2627,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218FFE0",
+   "name": "gpiProfileMapCallback",
    "address": "0x0218FFE0",
    "kind": "sdk",
    "region": "ov009",
@@ -2639,7 +2639,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02190140",
+   "name": "gpiCanFreeProfile",
    "address": "0x02190140",
    "kind": "sdk",
    "region": "ov009",
@@ -2651,7 +2651,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219327C",
+   "name": "strzcpy",
    "address": "0x0219327C",
    "kind": "sdk",
    "region": "ov009",
@@ -2663,7 +2663,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193734",
+   "name": "gpiSetErrorString",
    "address": "0x02193734",
    "kind": "sdk",
    "region": "ov009",
@@ -2675,7 +2675,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193BD8",
+   "name": "bint",
    "address": "0x02193BD8",
    "kind": "sdk",
    "region": "ov009",
@@ -2693,7 +2693,7 @@
    }
   },
   {
-   "name": "func_02193BF0",
+   "name": "bfloat",
    "address": "0x02193BF0",
    "kind": "sdk",
    "region": "ov009",
@@ -2711,7 +2711,7 @@
    }
   },
   {
-   "name": "func_02193CB0",
+   "name": "DoGet",
    "address": "0x02193CB0",
    "kind": "sdk",
    "region": "ov009",
@@ -2772,7 +2772,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02194D74",
+   "name": "gti2CheckResponse",
    "address": "0x02194D74",
    "kind": "sdk",
    "region": "ov009",
@@ -2784,7 +2784,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02194DD4",
+   "name": "gti2GetBufferFreeSpace",
    "address": "0x02194DD4",
    "kind": "sdk",
    "region": "ov009",
@@ -2796,7 +2796,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02194DE4",
+   "name": "gti2BufferWriteByte",
    "address": "0x02194DE4",
    "kind": "sdk",
    "region": "ov009",
@@ -2808,7 +2808,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02194DFC",
+   "name": "gti2BufferWriteUShort",
    "address": "0x02194DFC",
    "kind": "sdk",
    "region": "ov009",
@@ -2820,7 +2820,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195AD8",
+   "name": "gt2CloseSocket",
    "address": "0x02195AD8",
    "kind": "sdk",
    "region": "ov009",
@@ -2866,7 +2866,7 @@
    }
   },
   {
-   "name": "func_02195DC4",
+   "name": "gt2CloseConnectionHard",
    "address": "0x02195DC4",
    "kind": "sdk",
    "region": "ov009",
@@ -2883,7 +2883,7 @@
    }
   },
   {
-   "name": "func_02195DE4",
+   "name": "gt2CloseAllConnectionsHard",
    "address": "0x02195DE4",
    "kind": "sdk",
    "region": "ov009",
@@ -2901,7 +2901,7 @@
    }
   },
   {
-   "name": "func_02195E00",
+   "name": "gt2GetConnectionState",
    "address": "0x02195E00",
    "kind": "sdk",
    "region": "ov009",
@@ -2973,7 +2973,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E50",
+   "name": "gt2GetOutgoingBufferFreeSpace",
    "address": "0x02195E50",
    "kind": "sdk",
    "region": "ov009",
@@ -3116,7 +3116,7 @@
    }
   },
   {
-   "name": "func_02198028",
+   "name": "gti2CreateConnectionObject",
    "address": "0x02198028",
    "kind": "sdk",
    "region": "ov009",
@@ -3282,7 +3282,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E1F4",
+   "name": "SBServerGetPublicQueryPort",
    "address": "0x0219E1F4",
    "kind": "sdk",
    "region": "ov009",
@@ -3306,7 +3306,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E220",
+   "name": "SBServerHasPrivateAddress",
    "address": "0x0219E220",
    "kind": "sdk",
    "region": "ov009",
@@ -3330,7 +3330,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E240",
+   "name": "SBServerGetPrivateQueryPort",
    "address": "0x0219E240",
    "kind": "sdk",
    "region": "ov009",
@@ -3390,7 +3390,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E9B4",
+   "name": "SBServerSetPrivateAddr",
    "address": "0x0219E9B4",
    "kind": "sdk",
    "region": "ov009",
@@ -3438,7 +3438,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E9D8",
+   "name": "SBIsNullServer",
    "address": "0x0219E9D8",
    "kind": "sdk",
    "region": "ov009",

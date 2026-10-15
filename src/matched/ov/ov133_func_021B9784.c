@@ -11,7 +11,7 @@
  * extent: 148-byte lead; unlabelled follower 021B9818 is parked at docs/notes/pkt_ov133_021B9818.c.txt.
  * symbols:
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj06500.h"
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned);
 void func_021B9784(u8 *p)
 {
@@ -38,6 +38,6 @@ void func_021B9784(u8 *p)
     CLACT_AddActorSurfacePos(((struct Obj06500 *)p)->f1850,(const struct Vec2 *)(&pos),0);
     pal=p[0x18c0]*24/60+4;
     if(pal>=11) pal=3;
-    func_020413B0(2,10,44,12,12,pal);
+    BG_SYS_FillTileMap(2,10,44,12,12,pal);
     func_02041B6C(2);
 }

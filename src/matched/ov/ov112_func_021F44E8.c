@@ -1,5 +1,5 @@
 /*
- * function: func_021F44E8
+ * function: MUSICAL_MCSS_NoOp2
  * address: 0x021F44E8
  * packet: pkt_ov112_021F44E8
  * region: ov112
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_021F44E8(u32 *p) { if(p[1]==7) return 1; return 0; }
+int MUSICAL_MCSS_NoOp2(u32 *p) { if(p[1]==7) return 1; return 0; }

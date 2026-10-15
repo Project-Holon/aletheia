@@ -1,5 +1,5 @@
 /*
- * function: func_021C4494
+ * function: WIFI_2DCHAR_RegisterBmpHandles
  * address: 0x021C4494
  * packet: pkt_ov127_021C4494
  * region: ov127
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two zero alignment bytes at 0x021C4512 follow the return.
  * symbols:
- *   func_021C447C 0x021C447C thumb ov127
+ *   WIFI_2DCHAR_IsCellUsed 0x021C447C thumb ov127
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -18,20 +18,20 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021C447C(char *p, int i);
+extern int WIFI_2DCHAR_IsCellUsed(char *p, int i);
 extern signed int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-void func_021C4494(u8 *p, u32 a, u32 heap)
+void WIFI_2DCHAR_RegisterBmpHandles(u8 *p, u32 a, u32 heap)
 {
     int i;
     i = 16;
-    if (func_021C447C((char *)p, 16) == 1) {
+    if (WIFI_2DCHAR_IsCellUsed((char *)p, 16) == 1) {
         ((struct Obj03277 *)p)->f330 = i;
     } else {
         i = 17;
-        if (func_021C447C((char *)p, 17) == 1)
+        if (WIFI_2DCHAR_IsCellUsed((char *)p, 17) == 1)
         ((struct Obj03277 *)p)->f330 = i;
     }
     ((struct Obj03277 *)p)->f2E8 = (u32)CLACT_RegisterCellAnim((void *)(((struct Obj03277 *)p)->f2F8), 9, 8, (u16)heap);

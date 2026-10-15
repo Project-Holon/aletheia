@@ -12,11 +12,11 @@
  * symbols:
  *   func_0200E918  0x0200E918  thumb
  *   func_0200E938  0x0200E938  thumb
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *
  * Linear search over up to 10 stored 6-byte keys: func_0200E918(base, 0)
  * gives the stored count (capped at 10), func_0200E938 copies the i'th key
- * into a stack buffer, and func_0203EFC8 (DWC's own key comparator)
+ * into a stack buffer, and GF_STANDARD_CompareBytes (DWC's own key comparator)
  * compares it against the caller's key. Returns 1 on the first match, 0
  * if none of the stored keys match.
  *
@@ -37,7 +37,7 @@ typedef unsigned int u32;
 typedef signed int     s32;
 extern u8 func_0200E918(const u8 *base, u32 idx);
 extern void func_0200E938(u8 *obj, u32 id, void *dest);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 u32 MISC_SAVEDATA_FindKey(void *base, void *key)
 {
@@ -51,7 +51,7 @@ u32 MISC_SAVEDATA_FindKey(void *base, void *key)
 
     for (i = 0; i < count; i++) {
         func_0200E938(base, i, buf);
-        if (func_0203EFC8(key, buf, 6) == 0) {
+        if (GF_STANDARD_CompareBytes(key, buf, 6) == 0) {
             return 1;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8364
+ * function: VIEWER_ACTOR_RefreshRows
  * address:  0x021C8364
  * packet:   pkt_ov111_021C8364
  * region:   ov111
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C829C  0x021C829C  thumb
- *   func_021C82C0  0x021C82C0  thumb
- *   func_021C832C  0x021C832C  thumb
+ *   VIEWER_ACTOR_LoadPalette  0x021C829C  thumb
+ *   VIEWER_ACTOR_LoadTexture  0x021C82C0  thumb
+ *   VIEWER_ACTOR_SetRowActorDrawEnable  0x021C832C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -90,11 +90,11 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void func_021C829C(Work *p, int idx, int k);
-extern void func_021C82C0(Work *p, int idx, int k);
-extern void func_021C832C(Work *p, int row, int n);
+extern void VIEWER_ACTOR_LoadPalette(Work *p, int idx, int k);
+extern void VIEWER_ACTOR_LoadTexture(Work *p, int idx, int k);
+extern void VIEWER_ACTOR_SetRowActorDrawEnable(Work *p, int row, int n);
 
-void func_021C8364(Work *p)
+void VIEWER_ACTOR_RefreshRows(Work *p)
 {
     int i;
 
@@ -104,9 +104,9 @@ void func_021C8364(Work *p)
             p->f1A8[i] = 5;
         }
         if (p->f1A8[i] != p->f1B0[i]) {
-            func_021C829C(p, i, p->f1A8[i]);
-            func_021C82C0(p, i, p->f1A8[i]);
-            func_021C832C(p, i, p->f1A8[i]);
+            VIEWER_ACTOR_LoadPalette(p, i, p->f1A8[i]);
+            VIEWER_ACTOR_LoadTexture(p, i, p->f1A8[i]);
+            VIEWER_ACTOR_SetRowActorDrawEnable(p, i, p->f1A8[i]);
         }
         p->f1B0[i] = p->f1A8[i];
     }

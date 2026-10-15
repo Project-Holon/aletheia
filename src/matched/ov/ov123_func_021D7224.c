@@ -19,6 +19,7 @@
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
+ *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb  arm9
  */
 #include "../include/Obj01736.h"
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern void MI_CpuCopy8(void *,void *,int);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void func_02019CA0(void *p, u32 v);
+extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 struct Sub02007454Entry;
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
@@ -66,7 +67,7 @@ void GSYNC_STATE_LoadReceivedMon(char *p)
             } else {
                 n+=((struct Obj01736 *)p)->f6C;
             }
-            func_02019CA0(q,n);
+            POKE_TOOL_SetLevelAndRecalc(q,n);
         }
         func_020074D8(((struct Obj01736 *)p)->f24,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(q)));
         ((struct Obj01736 *)p)->fC=q;

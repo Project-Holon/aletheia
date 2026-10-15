@@ -1,5 +1,5 @@
 /*
- * function: func_021C43E4
+ * function: WIFI_2DCHAR_RegisterCharCell
  * address: 0x021C43E4
  * packet: pkt_ov127_021C43E4
  * region: ov127
@@ -17,7 +17,7 @@ typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 typedef struct { u32 mode, handle, owner, a, b; } Entry;
 typedef struct { u8 pad[16]; Entry entries[18]; u8 gap[380]; u32 owner; u32 gap2; u32 source; } Context;
-void func_021C43E4(u8 *p, int i, u32 a, u32 b, u32 c)
+void WIFI_2DCHAR_RegisterCharCell(u8 *p, int i, u32 a, u32 b, u32 c)
 {
     Context *ctx;
     ctx = (Context *)p;

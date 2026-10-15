@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02197D5C  0x02197D5C  arm  ov009
- *   func_02195408  0x02195408  arm  ov009
+ *   gti2DumpCallback  0x02195408  arm  ov009
  *   func_02195EC4  0x02195EC4  arm  ov009
  */
 
@@ -25,7 +25,7 @@ typedef struct Sock {
 } Sock;
 
 extern Conn *func_02197D5C(Sock *sock, unsigned int ip, unsigned short port);
-extern int func_02195408(Sock *sock, Conn *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send);
+extern int gti2DumpCallback(Sock *sock, Conn *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send);
 extern int func_02195EC4(Conn *c, int result, int reason);
 
 int gti2HandleHostUnreachable(Sock *sock, unsigned int ip, unsigned short port, int send)
@@ -34,7 +34,7 @@ int gti2HandleHostUnreachable(Sock *sock, unsigned int ip, unsigned short port, 
 
 	c = func_02197D5C(sock, ip, port);
 	if (sock->dump) {
-		if (!func_02195408(sock, c, ip, port, 1, 0, 0, send))
+		if (!gti2DumpCallback(sock, c, ip, port, 1, 0, 0, send))
 			return 0;
 	}
 	if (!c)

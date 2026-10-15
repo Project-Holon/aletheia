@@ -14,7 +14,7 @@
  *   BMP_WIN_Delete   0x020452E8  arm
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   unit_02045730  0x02045730  arm
- *   sub_020409B4   0x020409B4  arm
+ *   BG_SYS_PushTile   0x020409B4  arm
  *
  * Tears down the p+0xd90 array of sixteen window handles, each a 020456F8/
  * 02045730/020409B4/020452E8 group, plus the two p+0xd50/p+0xd54 handles
@@ -33,7 +33,7 @@ struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 unit_02045730(u32 a);
-extern void sub_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void WORLDTRADE_LIST_DeleteWindows(u8 *p)
 {
@@ -45,17 +45,17 @@ void WORLDTRADE_LIST_DeleteWindows(u8 *p)
     if (((struct Obj03069 *)p)->f12FC == 0) {
         h = ((struct Obj03069 *)p)->fD54;
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        sub_020409B4(unit_02045730(h));
+        BG_SYS_PushTile(unit_02045730(h));
         h = ((struct Obj03069 *)p)->fD50;
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        sub_020409B4(unit_02045730(h));
+        BG_SYS_PushTile(unit_02045730(h));
         BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD54));
         BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD50));
     }
     for (i = 0; i < 0x10; i++) {
         h = *(u32 *)(p + i * 4 + 0xd90);
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        sub_020409B4(unit_02045730(h));
+        BG_SYS_PushTile(unit_02045730(h));
         BMP_WIN_Delete((struct Descriptor *)(*(u32 *)(p + i * 4 + 0xd90)));
     }
 }

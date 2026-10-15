@@ -1,5 +1,5 @@
 /*
- * function: func_021888C0
+ * function: gpiSendServerBuddyMessage
  * address:  0x021888C0
  * packet:   pkt_ov009_021888C0
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      gpiSendServerBuddyMessage (gpibuddy.o)
  *
  * symbols:
- *   func_0219327C  0x0219327C  arm   ov009
- *   func_0218946C  0x0218946C  arm   ov009
- *   func_0218949C  0x0218949C  arm   ov009
+ *   strzcpy  0x0219327C  arm   ov009
+ *   gpiAppendStringToBuffer  0x0218946C  arm   ov009
+ *   gpiAppendIntToBuffer  0x0218949C  arm   ov009
  *   g_021A4278     0x021A4278  data  ov009
  *   g_021A424C     0x021A424C  data  ov009
  *   g_021A4464     0x021A4464  data  ov009
@@ -29,30 +29,30 @@ typedef struct GPIConnection {
     unsigned char outputBuffer[0x10];
 } GPIConnection;
 
-extern void func_0219327C(char *p, int b, int n);
-extern int func_0218946C(int *connection, int *buffer, const char *string);
-extern int func_0218949C(int *connection, int *buffer, int value);
+extern void strzcpy(char *p, int b, int n);
+extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
+extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 extern char g_021A4278[];
 extern char g_021A424C[];
 extern char g_021A4464[];
 extern char g_021A42CC[];
 extern char g_021A4270[];
 
-int func_021888C0(void **connection, int profileid, int type, char *message)
+int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message)
 {
     GPIConnection *iconnection;
     char buffer[3501];
 
     iconnection = (GPIConnection *)*connection;
-    func_0219327C(buffer, (int)message, 3501);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4278);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), type);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A424C);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->f198);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4464);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), profileid);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A42CC);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), buffer);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4270);
+    strzcpy(buffer, (int)message, 3501);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4278);
+    gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), type);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A424C);
+    gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->f198);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4464);
+    gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), profileid);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A42CC);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), buffer);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4270);
     return 0;
 }

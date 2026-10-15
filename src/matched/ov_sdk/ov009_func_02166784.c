@@ -1,5 +1,5 @@
 /*
- * function: func_02166784
+ * function: WCMi_GetRssiAverage
  * address:  0x02166784
  * packet:   pkt_ov009_02166784
  * region:   ov009
@@ -23,7 +23,7 @@ extern unsigned char g_021AA814;
 extern unsigned char g_021AA815[16];
 extern void _s32_div_f();
 
-unsigned char func_02166784(void)
+unsigned char WCMi_GetRssiAverage(void)
 {
     long sum;
     long i;

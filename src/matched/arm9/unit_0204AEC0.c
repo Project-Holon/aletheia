@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_ClactSystem     0x02146A74  data
- *   func_02063800  0x02063800  arm
+ *   NNSi_G2dGetVramHandleEx  0x02063800  arm
  *
  * A getter and its one caller.  CLACT_GetPaletteProxy copies the 0x14-byte record
  * out of slot `idx` of the 0x18-byte-stride table at +0x110 of the
@@ -20,7 +20,7 @@
  * a trailing word, which is what a whole-struct assignment of this size
  * compiles to (docs/idioms/aggregate-assignment-is-ldm-stm.md).
  * CLACT_GetPaletteVramAddress takes that copy on its own stack and submits it to
- * func_02063800 under selector 1 or 2.
+ * NNSi_G2dGetVramHandleEx under selector 1 or 2.
  *
  * Kept as one unit so the `bl` at CLACT_GetPaletteVramAddress+0x1c is `local`:
  * CLACT_GetPaletteVramAddress is CLACT_GetPaletteProxy's only caller image-wide, so split into two
@@ -47,7 +47,7 @@ struct Slot {
 
 extern struct Mgr *g_ClactSystem;
 
-extern int func_02063800(char *p, int i);
+extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 
 void CLACT_GetPaletteProxy(u32 idx, struct Record *dest)
 {
@@ -65,5 +65,5 @@ int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
     }
 
     CLACT_GetPaletteProxy(idx, &record);
-    return func_02063800((char *)(&record), selector);
+    return NNSi_G2dGetVramHandleEx((char *)(&record), selector);
 }

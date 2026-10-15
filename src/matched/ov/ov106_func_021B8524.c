@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   IRC_RANKING_RowDraw 0x021B8A28 thumb ov106
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_02041300(u32,int,int,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct CharBuf;
@@ -26,8 +26,8 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void IRC_RANKING_RowDraw(u32 *,u32,u32,u16);
 void IRC_RANKING_ListDrawRows(u8 *p) {
     int i, y;
-    func_02041300(p[0x548],0,0,0,32,24,0);
-    func_02041300(p[0x54a],0,0,0,32,24,0);
+    BG_SYS_SetTileEntry(p[0x548],0,0,0,32,24,0);
+    BG_SYS_SetTileEntry(p[0x54a],0,0,0,32,24,0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01390 *)p)->f568)),0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01390 *)p)->f56C)),0);
     for (i=((struct Obj01390 *)p)->f55C-1; i<((struct Obj01390 *)p)->f55C+10; i++) {

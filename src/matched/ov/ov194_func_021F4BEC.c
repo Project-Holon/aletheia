@@ -1,5 +1,5 @@
 /*
- * function: func_021F4BEC
+ * function: NAMEIN_GRAPHIC_GetDisplayHandle
  * address: 0x021F4BEC
  * packet: pkt_ov194_021F4BEC
  * region: ov194
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F4D1C 0x021F4D1C thumb ov194
+ *   NAMEIN_GRAPHIC_LoadWord 0x021F4D1C thumb ov194
  */
-extern unsigned func_021F4D1C(const unsigned *);
-unsigned func_021F4BEC(unsigned char *p){return func_021F4D1C((const unsigned *)(p+4));}
+extern unsigned NAMEIN_GRAPHIC_LoadWord(const unsigned *);
+unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p){return NAMEIN_GRAPHIC_LoadWord((const unsigned *)(p+4));}

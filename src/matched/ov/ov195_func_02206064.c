@@ -1,5 +1,5 @@
 /*
- * function: func_02206064
+ * function: SHINKA_DEMO_VIEW_RequestFadeOut
  * address:  0x02206064
  * packet:   pkt_ov195_022040E0
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * Setter for the +0x30 flag word of the ov195 scene object (unlabelled leaf).
  */
-void func_02206064(int *p)
+void SHINKA_DEMO_VIEW_RequestFadeOut(int *p)
 {
     p[12] = 1;
 }

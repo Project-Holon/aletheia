@@ -12,7 +12,7 @@
  * symbols:
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_GetPixels  0x020437D4  arm
- *   func_02040B1C  0x02040B1C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 
@@ -40,13 +40,13 @@ struct Bmp;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void func_02041B6C(u32 layer);
 
 void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p)
 {
     if (p->f30 != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->f2c, (void *)p->f18) == 0) {
-        func_02040B1C(5, BMP_GetPixels((const struct Bmp *)p->f18), p->f20, p->f1c);
+        BG_SYS_LoadTileData(5, BMP_GetPixels((const struct Bmp *)p->f18), p->f20, p->f1c);
         func_02041B6C(5);
         p->f30 = 0;
     }

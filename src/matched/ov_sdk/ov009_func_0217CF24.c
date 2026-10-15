@@ -12,7 +12,7 @@
  * sdk:      gsiCoreCreateTask (gscore.o)
  *
  * symbols:
- *   func_0217EAB0                  0x0217EAB0  arm ov009
+ *   gsimalloc                  0x0217EAB0  arm ov009
  *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  */
 
@@ -22,12 +22,12 @@ typedef struct GSTask {
     char pad10[0x38 - 0x10];
 } GSTask;
 
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
 
 GSTask *gsiCoreCreateTask(void)
 {
-    GSTask *aTask = (GSTask *)func_0217EAB0(sizeof(GSTask));
+    GSTask *aTask = (GSTask *)gsimalloc(sizeof(GSTask));
     if (aTask == 0)
         return 0;
     MSL_C_LIB_MemsetPtr(aTask, 0, sizeof(GSTask));

@@ -11,6 +11,7 @@
  * symbols:
  *   func_02008FA4 0x02008FA4 thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb  arm9
+ *   FILE_UTIL_GetItemId  0x020213AC  thumb  arm9
  */
 #include "../include/Obj00127.h"
 typedef unsigned char u8;
@@ -21,12 +22,12 @@ struct BigObj;
 struct Sub02008F80Obj;
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
-extern u16 func_020213AC(u32);
+extern u16 FILE_UTIL_GetItemId(u32);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 void MB_SEQ_CheckBagForItem(u8 *p)
 {
     void *q = GAME_DATA_GetMyItem(**(void ** *)&((struct Obj00127 *)p)->f4);
-    ((struct Obj00127 *)p)->f22 = func_020213AC(func_02008FA4(*(void **)(*(u8 * *)&((struct Obj00127 *)p)->f8 + p[0x1F]*4 + 0x298)));
+    ((struct Obj00127 *)p)->f22 = FILE_UTIL_GetItemId(func_02008FA4(*(void **)(*(u8 * *)&((struct Obj00127 *)p)->f8 + p[0x1F]*4 + 0x298)));
     if (func_02007E50(q, ((struct Obj00127 *)p)->f22, 1, 0x66) == 1) {
         ((struct Flags *)(p + 0x21))->flag = 0;
         return;

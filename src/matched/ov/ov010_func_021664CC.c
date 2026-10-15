@@ -19,10 +19,10 @@
  * heap id is u16 in this function and in the allocator prototype (both sides, as in the
  * ov010 and SDK callers that declare u16 heap). Plain literals 0x1DC and 530 already
  * derive 530 from the held 0x1DC; a constant local did not change the schedule.
- * Twin search: grep -rl -E "func_0216749C|func_021673C4|func_021673A8" src/matched src/pending
+ * Twin search: grep -rl -E "COMM_PLAYER_GetListPage|COMM_PLAYER_GetState849|COMM_PLAYER_GetState848" src/matched src/pending
  * (hits ov010 02166434, 021673C4, 021673A8, 0216749C, ov011 02174D5C); ov010 02166434 has
  * the same front half and was the shape source. Callees return real types: INTRUDE_COMM_GetPartnerSlot u8,
- * GAME_DATA_GetSymbolMapFlag int, func_0216749C u16, func_021673C4/A8 u8, func_02030734 void *.
+ * GAME_DATA_GetSymbolMapFlag int, COMM_PLAYER_GetListPage u16, COMM_PLAYER_GetState849/A8 u8, func_02030734 void *.
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -31,9 +31,9 @@
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  *   func_02030734  0x02030734  arm
- *   func_0216749C  0x0216749C  thumb  ov010
- *   func_021673C4  0x021673C4  thumb  ov010
- *   func_021673A8  0x021673A8  thumb  ov010
+ *   COMM_PLAYER_GetListPage  0x0216749C  thumb  ov010
+ *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
+ *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
  *   MI_CpuCopy8    0x02082D44  arm
@@ -68,9 +68,9 @@ extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *field, void *p);
 extern int GAME_DATA_GetSymbolMapFlag(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
-extern u8 func_021673C4(u8 *st);
-extern u8 func_021673A8(u8 *st);
+extern u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
+extern u8 COMM_PLAYER_GetState849(u8 *st);
+extern u8 COMM_PLAYER_GetState848(u8 *st);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *link);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -92,10 +92,10 @@ LinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heap, void *sys, u32 *start)
     if (INTRUDE_COMM_GetPartnerSlot(field, p) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(p);
         rec = func_02030734(heap, sizeof(LinkRecord), 1, g_SymbolMapFileName, 0x1C9);
-        *start = func_0216749C(st, rec->list, 20, page, &n);
+        *start = COMM_PLAYER_GetListPage(st, rec->list, 20, page, &n);
         rec->count = n;
-        rec->st849 = func_021673C4(st);
-        rec->st848 = func_021673A8(st);
+        rec->st849 = COMM_PLAYER_GetState849(st);
+        rec->st848 = COMM_PLAYER_GetState848(st);
         rec->kind = 4;
         rec->page = page;
         return rec;

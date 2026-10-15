@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4BC
+ * function: COMM_BTL_DEMO_MAIN_SetActorAnimKind
  * address: 0x021BA4BC
  * packet: pkt_ov213_021BA4BC
  * region: ov213
@@ -13,7 +13,7 @@
 typedef unsigned int   u32;
 struct Sub02008C20Obj;
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-void func_021BA4BC(void *p,int kind,int variant)
+void COMM_BTL_DEMO_MAIN_SetActorAnimKind(void *p,int kind,int variant)
 {
     switch(kind) {
     case 13:

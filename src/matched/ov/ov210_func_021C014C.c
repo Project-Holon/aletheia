@@ -1,5 +1,5 @@
 /*
- * function: func_021C014C
+ * function: ZKNSEARCH_MAIN_PollListInput
  * address: 0x021C014C
  * packet: pkt_ov210_021C014C
  * region: ov210
@@ -25,7 +25,7 @@ extern u32 KEY_GetTrg(void);
 extern unsigned char func_020355C4(void);
 struct S;
 extern void FRAME_LIST_ShowCursor(struct S *s);
-int func_021C014C(char *ctx)
+int ZKNSEARCH_MAIN_PollListInput(char *ctx)
 {
     int result = TOUCHPANEL_HitTrg(d_021C0B3C);
     if (result != -1) {

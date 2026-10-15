@@ -18,7 +18,7 @@
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
  *   func_02045EC0 0x02045EC0 arm
@@ -92,7 +92,7 @@ extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
-extern void func_020413B0(u32 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
+extern void BG_SYS_FillTileMap(u32 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern u32 func_0201D304(struct StrObj *text, u32 font, u32 spacing);
 
@@ -192,7 +192,7 @@ void BgTextLabel_SetPalette(struct BgTextLabel *label, u8 palette)
     y = BMP_WIN_GetPosY(label->window);
     width = BMP_WIN_GetDispWidth(label->window);
     height = BMP_WIN_GetDispHeight(label->window);
-    func_020413B0(bgLayer, x, y, width, height, palette);
+    BG_SYS_FillTileMap(bgLayer, x, y, width, height, palette);
     if (label->visible != 0) func_02041B6C(BMP_WIN_GetBgLayer(label->window));
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02166594
+ * function: WCMi_CpsifUnlockMutexInIRQ
  * address:  0x02166594
  * packet:   pkt_ov009_02166594
  * region:   ov009
@@ -28,7 +28,7 @@ typedef struct OSMutex {
 extern int OS_IrqHandler;
 extern void OS_WakeupThread(void *queue);
 
-void func_02166594(OSMutex *mutex)
+void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex)
 {
     if (mutex->thread == (void *)&OS_IrqHandler) {
         if (--mutex->count == 0) {

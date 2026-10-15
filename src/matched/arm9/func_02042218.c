@@ -1,5 +1,5 @@
 /*
- * function: func_02042218
+ * function: BG_SYS_ResolveScroll
  * address:  0x02042218
  * packet:   pkt_02041FF4
  * region:   arm9
@@ -17,11 +17,11 @@
  * last arm if-converted too.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02042218.c \
- *       --func func_02042218 --addr 0x02042218 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ResolveScroll.c \
+ *       --func BG_SYS_ResolveScroll --addr 0x02042218 --cc 1.1p1 --arm
  */
 
-int func_02042218(int a0, int a1)
+int BG_SYS_ResolveScroll(int a0, int a1)
 {
     switch (a1) {
     case 0:

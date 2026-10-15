@@ -1,5 +1,5 @@
 /*
- * function: func_021F7048
+ * function: STA_ACT_LIGHT_FreeModel
  * address: 0x021F7048
  * packet: pkt_ov112_021F7048
  * region: ov112
@@ -25,7 +25,7 @@ extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
 extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
 extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
-void func_021F7048(Cleanup *p) {
+void STA_ACT_LIGHT_FreeModel(Cleanup *p) {
     u8 i;
     G3D_SYSTEM_DeleteObject((struct Rec *)p->d);
     for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteAnime((struct Rec *)p->c[i]);

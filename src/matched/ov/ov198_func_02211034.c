@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_02211034,func_022110A4
+ * function: B_PLIST_MAIN_InitOrder,B_PLIST_MAIN_SwapOrder
  * address: 0x02211034
  * packet: pkt_ov198_02211034
  * region: ov198
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_02212138[][6];
-void func_02211034(u8 *p)
+void B_PLIST_MAIN_InitOrder(u8 *p)
 {
     unsigned i;
     if(((struct Obj25276 *)(*(u8 * *)&((struct Obj14569 *)p)->f0))->f18==1) {
@@ -33,7 +33,7 @@ void func_02211034(u8 *p)
         *(u16 *)(p+i*4+0x249E)=255;
     }
 }
-void func_022110A4(u8 *p, int a, int b)
+void B_PLIST_MAIN_SwapOrder(u8 *p, int a, int b)
 {
     u8 *q=p+0x1CC;
     u8 t=q[a];

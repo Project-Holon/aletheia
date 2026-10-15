@@ -1,5 +1,5 @@
 /*
- * function: func_02198620
+ * function: gt2AddressToString
  * address:  0x02198620
  * packet:   pkt_ov009_02198620
  * region:   ov009
@@ -33,7 +33,7 @@ extern char g_021A594C[];
 extern char g_021A5954[];
 extern char g_021A5958[];
 
-char *func_02198620(unsigned int ip, unsigned short port, char *string)
+char *gt2AddressToString(unsigned int ip, unsigned short port, char *string)
 {
 	char *strAddress;
 	SOCInAddr inAddr;

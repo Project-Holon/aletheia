@@ -1,5 +1,5 @@
 /*
- * function: func_0220672C
+ * function: SHINKA_DEMO_VIEW_BeginIntro
  * address:  0x0220672C
  * packet:   pkt_0220672C
  * region:   ov195
@@ -26,7 +26,7 @@ typedef struct Owner {
     Work *work;
 } Owner;
 
-void func_0220672C(Owner *o)
+void SHINKA_DEMO_VIEW_BeginIntro(Owner *o)
 {
     Work *w = o->work;
 

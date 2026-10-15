@@ -23,12 +23,12 @@
  *   gNHTTPSslSeed  0x021CF964  data
  *   SOC_Close 0x0215F644 arm
  *   OS_Sleep 0x02085A38 arm
- *   func_0215EBB4 0x0215EBB4 arm
+ *   SOCLi_TrashSocket 0x0215EBB4 arm
  *   NHTTPi_free 0x021BA850 arm ov114
  *   func_0215F480 0x0215F480 arm
  *   NHTTPi_alloc 0x021BA820 arm ov114
  *   NHTTPi_memclr 0x021BA13C arm ov114
- *   func_0215FC80 0x0215FC80 arm
+ *   SOCL_EnableSsl 0x0215FC80 arm
  *   NHTTPi_CpsAuthCallback 0x021B9C6C arm ov114
  *   func_0215F4DC 0x0215F4DC arm
  *   NHTTPi_memcpy 0x021BA100 arm ov114
@@ -66,12 +66,12 @@ extern int func_0215F4DC(int, int *, int, int);
 extern void func_0215F428(int, int, int);
 extern int SOC_Close(int socket);
 extern void OS_Sleep(unsigned long msec);
-extern void func_0215EBB4(void);
+extern void SOCLi_TrashSocket(void);
 extern void NHTTPi_free(void *ptr_p);
 extern int func_0215F480(int s, void *sockAddr);
 extern void *NHTTPi_alloc(unsigned long size, int align);
 extern void NHTTPi_memclr(void *dst_p, int size);
-extern int func_0215FC80(int s, NHTTPSslCon *con);
+extern int SOCL_EnableSsl(int s, NHTTPSslCon *con);
 extern int NHTTPi_CpsAuthCallback(int result);
 extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
 NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
@@ -158,7 +158,7 @@ int NHTTPi_SocClose(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket)
     if (error == 0 || error == -26) {
         for (elapsed = 0; (error = SOC_Close(socket)) == -26 && elapsed <= 10000; elapsed += 500) {
             OS_Sleep(500);
-            func_0215EBB4();
+            SOCLi_TrashSocket();
         }
     }
     if (error != -26 && req_p != 0 && req_p->sslCon_p != 0) {
@@ -221,7 +221,7 @@ int NHTTPi_SocSSLConnect(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInf
     } else {
         sslCon_p->authCallback = (void *)NHTTPi_CpsAuthCallback;
     }
-    if (func_0215FC80(socket, sslCon_p) < 0) {
+    if (SOCL_EnableSsl(socket, sslCon_p) < 0) {
         return -1001;
     }
     NHTTPi_SetSSLseed();

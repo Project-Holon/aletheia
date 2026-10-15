@@ -1,5 +1,5 @@
 /*
- * function: func_020681E4
+ * function: NNSi_G2dCalcRectMask
  * address:  0x020681E4
  * packet:   pkt_02067FE4
  * region:   arm9
@@ -37,7 +37,7 @@ struct Shift
 };
 extern const u8 g_020A18F4[4][4][2];
 
-int func_020681E4(int x, int y, int w, int h, struct Shift s)
+int NNSi_G2dCalcRectMask(int x, int y, int w, int h, struct Shift s)
 {
   int base = 0;
   int sh;

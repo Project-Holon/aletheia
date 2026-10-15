@@ -1,5 +1,5 @@
 /*
- * function: func_02054A68
+ * function: SPL_EMITTER_UpdateFrameA68
  * address:  0x02054A68
  * packet:   pkt_0205429C
  * region:   arm9
@@ -27,12 +27,12 @@
  * register `blx rN` these bytes contain.  EXACT at 848/848 under
  * `compiler: ../1.2/sp2`, `flags: -O4,p -proc arm946e`.
  *
- * Twin of func_02054718: the prologue, the frames and the arm bodies are
+ * Twin of SPL_EMITTER_UpdateFrameA68Ex: the prologue, the frames and the arm bodies are
  * byte-identical; it differs in the hook selector (bits 17..18 of
  * SubC.f00 rather than the u16 at SubX+0x14), in the MTX_Concat43 argument
  * order, and in a four-argument final hook.
  *
- * The same four source shapes that close func_02054718 close this row; see
+ * The same four source shapes that close SPL_EMITTER_UpdateFrameA68Ex close this row; see
  * its header for the measurements (the 0x040004A4 `|` chain order, the
  * `(s64)a * res->f30` operand order, `x` before `y` in case 0, and the three
  * 0x04000470 stores through locals loaded in reverse field order).
@@ -149,7 +149,7 @@ extern void func_0207B9F0(const void *, const void *, void *);
 extern void func_0207D8E0(const void *);
 extern void func_0207D918(const void *);
 
-void func_02054A68(struct Obj *obj, struct S *s)
+void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S *s)
 {
     struct Frame f;
     struct SubC *p;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218A1D0
+ * function: randomString
  * address:  0x0218A1D0
  * packet:   pkt_ov009_0218A1D0
  * region:   ov009
@@ -19,7 +19,7 @@
 extern unsigned int func_02094694();
 extern char g_021A4618[];
 
-void func_0218A1D0(char *buffer, int numChars)
+void randomString(char *buffer, int numChars)
 {
     int i;
 

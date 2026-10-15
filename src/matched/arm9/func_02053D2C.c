@@ -1,5 +1,5 @@
 /*
- * function: func_02053D2C
+ * function: SPL_EMITTER_Noop
  * address:  0x02053D2C
  * packet:   pkt_02053218
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * A do-nothing handler row of the 3D rig: four bytes, a bare `bx lr` and no
- * frame at all.  It is one of the table rows that src/pending/func_02053044.c
- * and src/pending/func_0205312C.c name in their pool words, which is why it
+ * frame at all.  It is one of the table rows that src/pending/SPL_EMITTER_UpdateSubX.c
+ * and src/pending/SPL_EMITTER_UpdateSubB.c name in their pool words, which is why it
  * is reached only through a pool word and never by a direct branch.
  *
  * The -proc arm7tdmi in flags: is the documented hint for this packet
@@ -21,6 +21,6 @@
  * than re-measured here.
  */
 
-void func_02053D2C(void)
+void SPL_EMITTER_Noop(void)
 {
 }

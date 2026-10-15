@@ -1,5 +1,5 @@
 /*
- * function: func_020696F4
+ * function: NNSi_G2dCalcTextBox
  * address:  0x020696F4
  * packet:   pkt_020694D8
  * region:   arm9
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02068150    0x02068150  arm
- *   func_0206958C    0x0206958C  arm
+ *   NNS_G2dFontGetTextRect    0x02068150  arm
+ *   NNSi_G2dDrawTextRotated    0x0206958C  arm
  *
  * The block-alignment pre-pass, the two-dimensional counterpart of
- * func_02069818's single-line one. It measures the whole multi-line extent
- * with func_02068150 into a two-word local, copies that pair into a second
+ * NNSi_G2dAlignTextVertical's single-line one. It measures the whole multi-line extent
+ * with NNS_G2dFontGetTextRect into a two-word local, copies that pair into a second
  * local (the one the caller-visible {w,h} box keeps), and then backs the pen
  * off along the step vector according to two pairs of flag bits:
  *   0x10 centre vertically, 0x20 bottom-align (measured width, +0x18)
  *   0x02 centre horizontally, 0x04 right-align (box height, +0x24)
- * Everything is then forwarded verbatim to func_0206958C, the same Step
- * struct by value that func_02069818 forwards.
+ * Everything is then forwarded verbatim to NNSi_G2dDrawTextRotated, the same Step
+ * struct by value that NNSi_G2dAlignTextVertical forwards.
  *
  * Per-file compiler pin, the "kept branches" tell (docs/FRONTEND-PINS.md).
  * The image keeps `tst r4, #0x20` at 0x02069768 (`20 00 14 e3`) and
@@ -35,7 +35,7 @@
  * the same C is 292 bytes, 0 mismatches.
  *
  * The three {w,h} pairs at sp+0x10, sp+0x18 and sp+0x20 are three distinct
- * stack objects: the out buffer func_02068150 fills and two copies of it,
+ * stack objects: the out buffer NNS_G2dFontGetTextRect fills and two copies of it,
  * only one of which is read again. Both copies must be `volatile` or 1.1p1
  * and 2.0 alike dead-store-eliminate them and the frame comes out 0x18.
  */
@@ -61,11 +61,11 @@ typedef struct {
     s32 h;
 } Ext;
 
-extern void func_02068150(Ext *out, void *a, void *b, void *c, u32 s);
-extern void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
+extern void NNS_G2dFontGetTextRect(Ext *out, void *a, void *b, void *c, u32 s);
+extern void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
                           u32 a4, u32 a5, u32 a6, Step st);
 
-void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w,
                    u32 flags, u32 s, Step st)
 {
     volatile Ext box2;
@@ -73,7 +73,7 @@ void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
     volatile Ext box;
     s32 d;
 
-    func_02068150(&e, ctx->f04, ctx->f08, ctx->f0C, s);
+    NNS_G2dFontGetTextRect(&e, ctx->f04, ctx->f08, ctx->f0C, s);
     box.w = e.w;
     box.h = e.h;
     box2.w = e.w;
@@ -99,5 +99,5 @@ void func_020696F4(Ctx *ctx, s32 x, s32 y, s32 w,
         y = y + d * st.dx;
     }
 
-    func_0206958C(ctx, x, y, box2.w, w, flags, s, st);
+    NNSi_G2dDrawTextRotated(ctx, x, y, box2.w, w, flags, s, st);
 }

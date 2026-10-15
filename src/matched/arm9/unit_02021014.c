@@ -10,17 +10,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: FILE_UTIL_Get_1014, func_020210C8
+ * function: FILE_UTIL_Get_1014, FILE_UTIL_GetMonProp
  *
  * The two halves of one property-getter interface over a packed record: a
  * caller hands in a record pointer and a property id, and gets an unsigned
  * quantity back.  Ids 0..0x11 are answered by FILE_UTIL_Get_1014 out of the record
  * header; anything above that is delegated, for one of the two header layouts,
- * to func_020210C8 on the sub-record at +0x10, which answers ids 0x12..0x3E out
+ * to FILE_UTIL_GetMonProp on the sub-record at +0x10, which answers ids 0x12..0x3E out
  * of a seventeen-byte bitfield block.
  *
  * The two are one file rather than two because FILE_UTIL_Get_1014's call to
- * func_020210C8 is the only branch to that address anywhere in the image: as
+ * FILE_UTIL_GetMonProp is the only branch to that address anywhere in the image: as
  * separate files neither can attest the other and both cap at MATCH, while in
  * one translation unit the call is `local` and needs no image evidence at all
  * (docs/AGENT-BRIEF.md section 5, the `local` class).
@@ -31,18 +31,18 @@
  *    (docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md: the
  *    index register is the switch value's register only when that register is
  *    dead across the arms).  Here it is not dead, and the reason is the
- *    delegation: func_020210C8 takes the property id as its second argument,
+ *    delegation: FILE_UTIL_GetMonProp takes the property id as its second argument,
  *    which is already sitting in r1, so the call site sets only r0 and r1 stays
- *    live to the end of the function.  Declaring func_020210C8 as a one
+ *    live to the end of the function.  Declaring FILE_UTIL_GetMonProp as a one
  *    argument function is byte for byte right everywhere else and wrong in
- *    those nine bytes.  func_020210C8's own `subs r1, #0x12` is the independent
+ *    those nine bytes.  FILE_UTIL_GetMonProp's own `subs r1, #0x12` is the independent
  *    confirmation that its second parameter is the same id.
  *  - the fall-through of FILE_UTIL_Get_1014 is a two-case `switch` on the header
  *    byte at +0xC, not a chain of `if`s: the switch form emits
  *    cmp/beq, cmp/beq, b-to-default, the `if` chain emits the inverted
  *    bne-over form and is two bytes shorter.
  *
- * The `ldrsb r0, [r0, r1]` arms of func_020210C8 are the signedness evidence
+ * The `ldrsb r0, [r0, r1]` arms of FILE_UTIL_GetMonProp are the signedness evidence
  * for the six plain fields at +7..+0xC and the three at +0xF..+0x11: there is
  * no immediate-offset `ldrsb`, so a signed byte load has to materialise its
  * offset in a register (docs/idioms/ldrsh-register-offset-is-signedness.md).
@@ -142,7 +142,7 @@ struct Rec {
     u8  f10;
 };
 
-int func_020210C8(struct Sub *q, u32 sel);
+int FILE_UTIL_GetMonProp(struct Sub *q, u32 sel);
 
 u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel)
 {
@@ -189,12 +189,12 @@ u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel)
     case 0:
         return p->f10;
     case 1:
-        return func_020210C8((struct Sub *)&p->f10, sel);
+        return FILE_UTIL_GetMonProp((struct Sub *)&p->f10, sel);
     }
     return 0;
 }
 
-int func_020210C8(struct Sub *q, u32 sel)
+int FILE_UTIL_GetMonProp(struct Sub *q, u32 sel)
 {
     switch (sel) {
     case 0x12:

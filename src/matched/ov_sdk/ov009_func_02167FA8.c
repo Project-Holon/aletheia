@@ -1,5 +1,5 @@
 /*
- * function: func_02167FA8
+ * function: DWC_SVLGetTokenAsync
  * address:  0x02167FA8
  * packet:   pkt_ov009_02167FA8
  * region:   ov009
@@ -13,10 +13,10 @@
  *
  * symbols:
  *   DWC_Auth_GetId  0x02058FB4  arm
- *   func_0217C070  0x0217C070  arm  ov009
+ *   DWC_Svl_Init  0x0217C070  arm  ov009
  *   strlen  0x0209477C  arm
- *   func_0217C144  0x0217C144  arm  ov009
- *   func_0217C104  0x0217C104  arm  ov009
+ *   DWC_Svl_GetTokenAsync  0x0217C144  arm  ov009
+ *   DWC_Svl_Cleanup  0x0217C104  arm  ov009
  *   DWC_Alloc      0x0205A16C  arm
  *   DWC_Free       0x0205A1B0  arm
  *   g_021A1F6C     0x021A1F6C  data
@@ -28,17 +28,17 @@ typedef struct AuthId {
 } AuthId;
 
 extern void DWC_Auth_GetId(AuthId *id);
-extern int func_0217C070(void *alloc, void *free);
+extern int DWC_Svl_Init(void *alloc, void *free);
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 struct DWCSvlResult;
-extern int func_0217C144(char *svc, struct DWCSvlResult *result);
-extern void func_0217C104(void);
+extern int DWC_Svl_GetTokenAsync(char *svc, struct DWCSvlResult *result);
+extern void DWC_Svl_Cleanup(void);
 extern void DWC_Alloc(void);
 extern void DWC_Free(void);
 extern char g_021A1F6C[];
 
-int func_02167FA8(char *svl, void *result)
+int DWC_SVLGetTokenAsync(char *svl, void *result)
 {
     AuthId id;
     int flag;
@@ -46,14 +46,14 @@ int func_02167FA8(char *svl, void *result)
     DWC_Auth_GetId(&id);
     if (id.f10 == 0)
         return 0;
-    if (func_0217C070(DWC_Alloc, DWC_Free) == 0)
+    if (DWC_Svl_Init(DWC_Alloc, DWC_Free) == 0)
         return 0;
     if (strlen((const u8 *)svl) == 0)
-        flag = func_0217C144(g_021A1F6C, result);
+        flag = DWC_Svl_GetTokenAsync(g_021A1F6C, result);
     else
-        flag = func_0217C144(svl, result);
+        flag = DWC_Svl_GetTokenAsync(svl, result);
     if (flag != 0)
         return 1;
-    func_0217C104();
+    DWC_Svl_Cleanup();
     return 0;
 }

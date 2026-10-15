@@ -14,7 +14,7 @@
  *   COMM_TVT_SYS_GetMsgData  0x021BE03C  thumb  ov172
  *   COMM_TVT_SYS_GetPrintQue  0x021BE044  thumb  ov172
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -40,7 +40,7 @@ struct MsgBank;
 struct PrintSys;
 struct U16Vec;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -74,7 +74,7 @@ void CTVT_DRAW_ShowHelp(void *ctx, u8 *p, int k)
     old = ((struct Obj00836 *)p)->f48;
     if (old != 0) {
         PRINTSYS_QUE_Clear(h44);
-        func_0201F7A8(((struct Obj00836 *)p)->f48, 2);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj00836 *)p)->f48, 2);
         BMP_WIN_ClearScreen(((struct Obj00836 *)p)->f48);
     }
     ((struct Obj00836 *)p)->f3C = k;

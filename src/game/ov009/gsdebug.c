@@ -1,7 +1,7 @@
 /*
  * file:     gsdebug.c
  * unit:     yes
- * function: func_0217D188, func_0217D19C, func_0217D254, func_0217D280, func_0217D32C
+ * function: gsiDebugCallback, gsDebugVaList, gsDebugFormat, HexEncode16, gsDebugBinary
  * address:  0x0217D188
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0218402C  0x0218402C  arm
+ *   VPrintf  0x0218402C  arm
  *   gsiInitializeCriticalSection  0x0217F0FC  arm  ov009
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
@@ -34,17 +34,17 @@ typedef struct {
     int initialized;
 } GSIDebugState;
 
-extern void func_0218402C(char *format, char *args);
+extern void VPrintf(char *format, char *args);
 extern void gsiInitializeCriticalSection(void *mutex);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-void func_0217D188(int a, int b, int c, int d, int e);
-void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args);
-void func_0217D254(int cat, int type, int level, const char *fmt, ...);
-void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen);
-void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
+void gsiDebugCallback(int a, int b, int c, int d, int e);
+void gsDebugVaList(int cat, int type, int level, const char *fmt, va_list args);
+void gsDebugFormat(int cat, int type, int level, const char *fmt, ...);
+void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen);
+void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
 extern GSIDebugState g_021AD000;
 extern int g_021AD008[];
 extern unsigned char g_021AD020[][5];
@@ -54,16 +54,16 @@ extern char g_021A3718[];
 
 
 
-void func_0217D188(int a, int b, int c, int d, int e)
+void gsiDebugCallback(int a, int b, int c, int d, int e)
 {
-    func_0218402C((char *)d, (char *)e);
+    VPrintf((char *)d, (char *)e);
 }
 
 
 
 /*
  * gsDebugVaList: the filtering dispatcher behind gsDebugFormat
- * (func_0217D254).  Lazily initialise the debug lock, take it, test the
+ * (gsDebugFormat).  Lazily initialise the debug lock, take it, test the
  * category/type level byte and dispatch to the registered callback (or the
  * default va_list printer), then release the lock.
  *
@@ -72,7 +72,7 @@ void func_0217D188(int a, int b, int c, int d, int e)
  * relocation.  The level table at 0x021AD020 is indexed [cat][type] with a
  * 5-byte row stride.
  */
-void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args)
+void gsDebugVaList(int cat, int type, int level, const char *fmt, va_list args)
 {
     unsigned char enabled;
 
@@ -86,7 +86,7 @@ void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args)
         if (g_021AD000.callback != 0)
             g_021AD000.callback(cat, type, level, fmt, args);
         else
-            func_0217D188(cat, type, level, (int)fmt, (int)args);
+            gsiDebugCallback(cat, type, level, (int)fmt, (int)args);
     }
     gsiLeaveCriticalSection(g_021AD008);
 }
@@ -96,15 +96,15 @@ void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args)
 /*
  * Variadic logging thunk: capture the anonymous arguments with va_start and
  * forward (index, table, mask, fmt, args) to the filtering dispatcher
- * func_0217D19C.  Callers use it as a printf-style logger over one of the
+ * gsDebugVaList.  Callers use it as a printf-style logger over one of the
  * DWC category tables.
  */
-void func_0217D254(int cat, int type, int level, const char *fmt, ...)
+void gsDebugFormat(int cat, int type, int level, const char *fmt, ...)
 {
     va_list args;
 
     va_start(args, fmt);
-    func_0217D19C(cat, type, level, fmt, args);
+    gsDebugVaList(cat, type, level, fmt, args);
 }
 
 
@@ -123,7 +123,7 @@ static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61D
  * or open-coded ternary gives r7. DWARF has no aRowWidth/aReplaceChar/
  * aTextOffSet locals, so they are literals; theInStream is plain `char *`.
  */
-void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen)
+void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen)
 {
     char *aTextOutStream = theOutStream + 41;
     unsigned int aWriteBit = theInLen & 1;
@@ -150,7 +150,7 @@ void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen)
 /*
  * sdk:      gsDebugBinary (gsdebug.o)
  */
-void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength)
+void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength)
 {
     char aHexStr[80];
     char *aReadPos;
@@ -163,8 +163,8 @@ void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuf
         n = aBytesLeft;
         if (n >= 16)
             n = 16;
-        func_0217D280(aReadPos, aHexStr, n);
-        func_0217D254(theCat, theType, theLevel, g_021A3718, aHexStr);
+        HexEncode16(aReadPos, aHexStr, n);
+        gsDebugFormat(theCat, theType, theLevel, g_021A3718, aHexStr);
         aBytesLeft -= n;
         aReadPos += n;
     }

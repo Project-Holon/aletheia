@@ -12,7 +12,7 @@
  * sdk:      ghiDoSendingRequest (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
  *   ghiAppendHeaderToBuffer  0x021BFF7C  arm  ov114
  *   ghiAppendCharToBuffer  0x021C0004  arm  ov114
@@ -88,7 +88,7 @@ typedef struct {
     int sessionEstablished;     /* 0x1A8 */
 } GHIConnection;
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 typedef unsigned char  u8;
 struct Conn;
 struct Ctx;
@@ -129,7 +129,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
     GHIBuffer *writeBuffer;
     char *requestType;
 
-    func_0217D254(8, (char *)3, 0x10, sGhttpSendingRequest);
+    gsDebugFormat(8, (char *)3, 0x10, sGhttpSendingRequest);
 
     if (connection->sendBuffer.len == 0)
     {

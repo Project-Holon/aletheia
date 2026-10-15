@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BBE5C",
+   "name": "CTVT_CALL_Exit",
    "address": "0x021BBE5C",
    "kind": "game",
    "region": "ov172",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD0C4",
+   "name": "CTVT_CALL_PrintMessage",
    "address": "0x021BD0C4",
    "kind": "game",
    "region": "ov172",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BD7D0",
+   "name": "CTVT_CALL_ExitDisplay",
    "address": "0x021BD7D0",
    "kind": "game",
    "region": "ov172",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C41BC
+ * function: WIFI_2DCHAR_DeleteActor
  * address: 0x021C41BC
  * packet: pkt_ov127_021C41BC
  * region: ov127
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *);
 extern void MI_CpuFill8(void *, int, int);
-void func_021C41BC(u8 *p)
+void WIFI_2DCHAR_DeleteActor(u8 *p)
 {
     if (((struct Obj10462 *)p)->f8 != 0) CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10462 *)p)->f8);
     CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10462 *)p)->f4);

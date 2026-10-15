@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8BC
+ * function: COMM_BTL_DEMO_MAIN_DeleteEffect
  * address: 0x021BA8BC
  * packet: pkt_ov213_021BA8BC
  * region: ov213
@@ -20,4 +20,4 @@ typedef short s16;
 typedef unsigned int u32;
 extern void PARTICLE_KillAllEffects(u8 *);
 extern void PARTICLE_DeleteSystem(u8 *);
-void func_021BA8BC(char *p, int object) { PARTICLE_KillAllEffects(*(u8 * *)&((struct Obj10930 *)p)->f10); PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }
+void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object) { PARTICLE_KillAllEffects(*(u8 * *)&((struct Obj10930 *)p)->f10); PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }

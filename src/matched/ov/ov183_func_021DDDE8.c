@@ -1,5 +1,5 @@
 /*
- * function: func_021DDDE8
+ * function: BR_CODEIN_ListTeardown
  * address: 0x021DDDE8
  * packet: pkt_ov183_021DDDE8
  * region: ov183
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE12C 0x021DE12C thumb ov183
+ *   BR_CODEIN_ListDeleteActor 0x021DE12C thumb ov183
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
@@ -17,15 +17,15 @@
 #include "../include/Obj10733.h"
 #include "../include/Obj10734.h"
 typedef unsigned char  u8;
-extern void func_021DE12C(char *p);
+extern void BR_CODEIN_ListDeleteActor(char *p);
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_UTIL_DeleteTextWin(void *, int);
-void func_021DDDE8(char *p, char *q)
+void BR_CODEIN_ListTeardown(char *p, char *q)
 {
     int i;
     char *slot;
-    func_021DE12C(p + 8);
+    BR_CODEIN_ListDeleteActor(p + 8);
     for (i = 0; i < 16; i++) {
         slot = p + i * 4;
         if (((struct Obj10734 *)slot)->f34) {

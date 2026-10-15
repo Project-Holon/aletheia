@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02042E34
+ * function: BG_SYS_BlitPixelsEx
  * address:  0x02042E34
  * packet:   pkt_02042B24
  * region:   arm9
@@ -12,16 +12,16 @@
  *
  * symbols:
  *   func_020422D4  0x020422D4  arm
- *   func_02040EE0  0x02040EE0  arm
+ *   BG_SYS_GetTileMapEntry  0x02040EE0  arm
  *
- * The 8bpp-screen fill of the three blitters func_02041300 dispatches to on
+ * The 8bpp-screen fill of the three blitters BG_SYS_SetTileEntry dispatches to on
  * the bit-depth byte at +0x1c of the 0x2c-byte slot.  It takes the slot's
  * sub-object (slot + 8) rather than the slot index, so the buffer pointer is
  * at +0x00 and the screen-size code at +0x15, which are slot +0x08 and
- * +0x1d, the same two fields src/matched/func_020413B0.c reaches through the
+ * +0x1d, the same two fields src/matched/BG_SYS_FillTileMap.c reaches through the
  * table.
  *
- * Same clip-and-scan shape as func_020413B0, and the same two loop-shape
+ * Same clip-and-scan shape as BG_SYS_FillTileMap, and the same two loop-shape
  * rules apply here: the y bound is only the `for` condition (the compiler's
  * loop-rotation entry test is the guard), and the x bound stays the
  * expression `x < x0 + w` so that it is hoisted into the outer preheader,
@@ -33,8 +33,8 @@
  * store through the buffer pointer may alias it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02042E34.c \
- *       --func func_02042E34 --addr 0x02042E34 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_BlitPixelsEx.c \
+ *       --func BG_SYS_BlitPixelsEx --addr 0x02042E34 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -48,9 +48,9 @@ struct Surface {
 
 typedef unsigned short u16;
 extern void func_020422D4(u32 mode, u8 *a, u8 *b);
-extern u16 func_02040EE0(int x, int y, u32 code);
+extern u16 BG_SYS_GetTileMapEntry(int x, int y, u32 code);
 
-void func_02042E34(struct Surface *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
+void BG_SYS_BlitPixelsEx(struct Surface *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
 {
     u8  width;
     u8  height;
@@ -75,7 +75,7 @@ void func_02042E34(struct Surface *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
             if (x >= width) {
                 break;
             }
-            pixels[func_02040EE0(x, y0, s->size_code)] = value;
+            pixels[BG_SYS_GetTileMapEntry(x, y0, s->size_code)] = value;
         }
     }
 }

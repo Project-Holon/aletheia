@@ -12,8 +12,8 @@
  *   func_021BA258 0x021BA258 thumb ov133
  *   func_021BA218 0x021BA218 thumb ov133
  *   func_021BA228 0x021BA228 thumb ov133
- *   func_021F5450 0x021F5450 thumb ov112
- *   func_021F4ED4 0x021F4ED4 thumb ov112
+ *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
+ *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   func_0207CFB8 0x0207CFB8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _fflt 0x0209BDBC arm
@@ -32,8 +32,8 @@ typedef short s16;
 extern u32 func_021BA258(char *p);
 extern u32 func_021BA218(u8 *p);
 extern u8 *func_021BA228(u8 *p);
-extern u8 *func_021F5450(u8 *,int);
-extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
+extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
 extern u16 func_0207CFB8(long,long);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 static inline int fx(int x)
@@ -49,7 +49,7 @@ void func_021B95AC(u8 *p)
     int dx,dy,stride,absval,y;
     s16 old,adjust;
     index=func_021BA258((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
-    rec=func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
+    rec=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
     func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
     xy=(u32 *)func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
     y=xy[1];
@@ -69,7 +69,7 @@ void func_021B95AC(u8 *p)
             ((struct Obj00004 *)p)->f18C4=0;
             GFL_USE_PlaySeDefaultVolume(1577);
         }
-        func_021F4ED4((u32)(((struct Obj00004 *)p)->f1884),func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
+        MUSICAL_MCSS_SetElemField((u32)(((struct Obj00004 *)p)->f1884),func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
         *(s16 *)(*(u8 * *)&((struct Obj23323 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4+stride+0x16)=adjust;
     }
     ((struct Obj00004 *)p)->f2C=angle;

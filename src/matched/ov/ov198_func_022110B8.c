@@ -1,5 +1,5 @@
 /*
- * function: func_022110B8
+ * function: B_PLIST_MAIN_IsInSelection
  * address:  0x022110B8
  * packet:   pkt_022110B8
  * region:   ov198
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u32 func_022110B8(u8 **p, u32 c)
+u32 B_PLIST_MAIN_IsInSelection(u8 **p, u32 c)
 {
     u32 i;
 

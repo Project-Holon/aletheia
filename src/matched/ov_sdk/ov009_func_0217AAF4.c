@@ -1,5 +1,5 @@
 /*
- * function: func_0217AAF4
+ * function: DWCi_Netcheck_StartThread
  * address:  0x0217AAF4
  * packet:   pkt_ov009_0217AAF4
  * region:   ov009
@@ -31,7 +31,7 @@ extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void 
 extern void OS_WakeupThreadDirect(void *thread);
 extern void func_0217AB78(void *arg);
 
-void func_0217AAF4(void)
+void DWCi_Netcheck_StartThread(void)
 {
     if (*(int *)(g_021ACE5C.nc + 0x1188) != 0 &&
         !OS_IsThreadTerminated(g_021ACE5C.nc + 0x111c)) {

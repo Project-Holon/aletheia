@@ -1,5 +1,5 @@
 /*
- * function: func_021F4300
+ * function: MUSICAL_MCSS_Delete
  * address: 0x021F4300
  * packet: pkt_ov112_021F4300
  * region: ov112
@@ -14,7 +14,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_021F4748 0x021F4748 thumb ov112
+ *   MUSICAL_MCSS_DeleteWindows 0x021F4748 thumb ov112
  *   func_020403F4 0x020403F4 arm
  *   func_020307B0 0x020307B0 arm
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
@@ -31,10 +31,10 @@ extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void func_021F4748(u8 *);
+extern void MUSICAL_MCSS_DeleteWindows(u8 *);
 extern void func_020403F4(u32 i);
 extern u32 func_020307B0(void *p);
-void func_021F4300(u8 *p)
+void MUSICAL_MCSS_Delete(u8 *p)
 {
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)(((struct Obj04456 *)p)->f40));
     if (((struct Obj04456 *)p)->fC==0) {
@@ -44,7 +44,7 @@ void func_021F4300(u8 *p)
         CLACT_DeleteActor((struct Obj *)(((struct Obj04456 *)p)->f58));
     }
     CLACT_DeleteUnit((struct Bank *)(((struct Obj04456 *)p)->f48));
-    func_021F4748(p);
+    MUSICAL_MCSS_DeleteWindows(p);
     func_020403F4(4);
     func_020403F4(6);
     func_020403F4(7);

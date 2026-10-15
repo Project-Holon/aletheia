@@ -1,5 +1,5 @@
 /*
- * function: func_021C4224
+ * function: WIFI_2DCHAR_GetActorDrawPriority
  * address:  0x021C4224
  * packet:   pkt_ov127_021C4224
  * region:   ov127
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 extern int CLACT_GetActorDrawPriority(int a0);
 
-int func_021C4224(u8 *p)
+int WIFI_2DCHAR_GetActorDrawPriority(u8 *p)
 {
     return CLACT_GetActorDrawPriority((int)(((struct Obj23015 *)p)->f4));
 }

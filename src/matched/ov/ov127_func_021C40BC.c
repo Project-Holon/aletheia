@@ -1,5 +1,5 @@
 /*
- * function: func_021C40BC
+ * function: WIFI_2DCHAR_SpawnActor
  * address:  0x021C40BC
  * packet:   pkt_ov127_021C40BC
  * region:   ov127
@@ -14,12 +14,12 @@
  *   the pos[3] offset constant; const pos lets the pos[3] load schedule above the e[1] store; off = 0x2E0 local.
  *
  * symbols:
- *   func_021C4604  0x021C4604  thumb ov127
- *   func_021C4354  0x021C4354  thumb ov127
+ *   WIFI_2DCHAR_FindFreeActor  0x021C4604  thumb ov127
+ *   WIFI_2DCHAR_GetCellIndex  0x021C4354  thumb ov127
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   func_021C4550  0x021C4550  thumb ov127
+ *   WIFI_2DCHAR_IsHandleValid  0x021C4550  thumb ov127
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,19 +35,19 @@ typedef struct {
     Rec res[1];         /* +0x188, indexed by idx */
 } Own;
 struct Obj;
-extern void *func_021C4604(u8 *p);
-extern int func_021C4354(int);
+extern void *WIFI_2DCHAR_FindFreeActor(u8 *p);
+extern int WIFI_2DCHAR_GetCellIndex(int);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorBgPriority(u32, u32);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-extern int func_021C4550(int *p);
-u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
+extern int WIFI_2DCHAR_IsHandleValid(int *p);
+u32 *WIFI_2DCHAR_SpawnActor(Own *owner, const s16 *pos, int idx, u32 heap)
 {
-    u32 *e = func_021C4604((u8 *)owner);
+    u32 *e = WIFI_2DCHAR_FindFreeActor((u8 *)owner);
     Pos l;
     int off;
     int ta;
-    idx = func_021C4354(idx);
+    idx = WIFI_2DCHAR_GetCellIndex(idx);
     l.x = pos[0];
     l.y = pos[1];
     ta = pos[2];
@@ -66,7 +66,7 @@ u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
     e[4] = 1;
     e[0] = (u32)&owner->rec[idx];
     off = 0x2E0;
-    if (func_021C4550((int *)((u8 *)owner + off))) {
+    if (WIFI_2DCHAR_IsHandleValid((int *)((u8 *)owner + off))) {
         l.x = pos[0];
         l.y = pos[1];
         l.z = 0;

@@ -16,11 +16,11 @@
  *   EVENT_RESEARCH_RADAR_GetReportNumberB  0x021672F8  thumb  ov010
  *   EVENT_RESEARCH_RADAR_GetReportMessageId  0x0216730C  thumb  ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201F02C  0x0201F02C  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
- *   func_0201F31C  0x0201F31C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
+ *   WORDSET_ClearAllSlots  0x0201F31C  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -52,11 +52,11 @@ extern int EVENT_RESEARCH_RADAR_GetReportNumberA(int a0);
 extern int EVENT_RESEARCH_RADAR_GetReportNumberB(int a0);
 extern int EVENT_RESEARCH_RADAR_GetReportMessageId(unsigned int n);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201F31C(struct WordSet *p);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_ClearAllSlots(struct WordSet *p);
 extern int FIELD_MSGBG_MsgWinPrintStr(u32 a, u32 b, u32 c, u32 d);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(u8 *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -76,12 +76,12 @@ void EVENT_RESEARCH_RADAR_PrintReport(struct O *o)
     s8 = EVENT_RESEARCH_RADAR_GetReportNumberA((int)o);
     sc = EVENT_RESEARCH_RADAR_GetReportNumberB((int)o);
     r7 = EVENT_RESEARCH_RADAR_GetReportMessageId(r7);
-    func_0201F02C((struct WordSet *)o->f1c, 0, GAME_DATA_GetMyStatus((void *)o->f8));
-    func_0201EFA4((struct WordSet *)o->f1c, 1, s8, 5, 1, 1);
-    func_0201EFA4((struct WordSet *)o->f1c, 2, sc, 5, 1, 1);
+    WORDSET_SetSlotMyStatus((struct WordSet *)o->f1c, 0, GAME_DATA_GetMyStatus((void *)o->f8));
+    WORDSET_SetSlotNumber((struct WordSet *)o->f1c, 1, s8, 5, 1, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)o->f1c, 2, sc, 5, 1, 1);
     MSGDATA_ReadString((struct MsgBank *)o->f18, r7, r4);
-    func_0201F250((struct WordSet *)o->f1c, r6, r4);
-    func_0201F31C((struct WordSet *)o->f1c);
+    WORDSET_CopyTaggedText((struct WordSet *)o->f1c, r6, r4);
+    WORDSET_ClearAllSlots((struct WordSet *)o->f1c);
     FIELD_MSGBG_MsgWinPrintStr(o->f14, 8, 0, (u32)r6);
     func_020409B4(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin((u8 *)o->f14)));
     STRBUF_Delete(r4);

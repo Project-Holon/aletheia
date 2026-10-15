@@ -13,7 +13,7 @@
  *   KEY_GetCont 0x0203630C arm
  *   KEY_GetRepeat 0x0203633C arm
  *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  */
 #include "../include/Obj05294.h"
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern unsigned int KEY_GetRepeat(void);
 typedef signed int     s32;
 struct Ctx;
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 int PMS_INPUT_ProcMain(void *a,int b,int c,u8 *p) {
     int result;
     int x;
@@ -37,6 +37,6 @@ int PMS_INPUT_ProcMain(void *a,int b,int c,u8 *p) {
         (*(void (**)(u8 *,void *))(p+0x30))(p,p+0x2c);
         result=0;
     } else result=(*(int (**)(u8 *,void *))(p+0x24))(p,p+0x20);
-    func_02030D28(((struct Obj05294 *)p)->f7C);
+    TCB_Main(((struct Obj05294 *)p)->f7C);
     return result;
 }

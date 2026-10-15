@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BG_SYS_ResetSlot  0x02041EE4  arm
- *   func_02041FB0  0x02041FB0  arm
- *   func_02041F6C  0x02041F6C  arm
+ *   BG_SYS_SetAffine  0x02041FB0  arm
+ *   BG_SYS_SetScrollY  0x02041F6C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,8 +34,8 @@ typedef struct {
 } W;
 
 extern void BG_SYS_ResetSlot(u32, u32, u32);
-extern void func_02041FB0(u32, u32, u16);
-extern void func_02041F6C(u32, u32, u32);
+extern void BG_SYS_SetAffine(u32, u32, u16);
+extern void BG_SYS_SetScrollY(u32, u32, u32);
 
 void TOWNMAP_ApplyScroll(W *p, const int *v)
 {
@@ -44,14 +44,14 @@ void TOWNMAP_ApplyScroll(W *p, const int *v)
 
     BG_SYS_ResetSlot(p->f0, 0, p->f20);
     BG_SYS_ResetSlot(p->f0, 3, p->f24);
-    func_02041FB0(p->f0, 9, 0x80);
-    func_02041FB0(p->f0, 12, 0x60);
-    func_02041F6C(p->f0, 3, p->f14);
-    func_02041F6C(p->f0, 6, p->f14);
+    BG_SYS_SetAffine(p->f0, 9, 0x80);
+    BG_SYS_SetAffine(p->f0, 12, 0x60);
+    BG_SYS_SetScrollY(p->f0, 3, p->f14);
+    BG_SYS_SetScrollY(p->f0, 6, p->f14);
     BG_SYS_ResetSlot(p->f1, 0, p->f20);
     BG_SYS_ResetSlot(p->f1, 3, p->f24);
-    func_02041FB0(p->f1, 9, 0x80);
-    func_02041FB0(p->f1, 12, 0x60);
-    func_02041F6C(p->f1, 3, p->f14);
-    func_02041F6C(p->f1, 6, p->f14);
+    BG_SYS_SetAffine(p->f1, 9, 0x80);
+    BG_SYS_SetAffine(p->f1, 12, 0x60);
+    BG_SYS_SetScrollY(p->f1, 3, p->f14);
+    BG_SYS_SetScrollY(p->f1, 6, p->f14);
 }

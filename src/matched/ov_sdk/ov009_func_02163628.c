@@ -1,5 +1,5 @@
 /*
- * function: func_02163628
+ * function: CPSi_sha1_block
  * address:  0x02163628
  * packet:   pkt_ov009_02163628
  * region:   ov009
@@ -40,7 +40,7 @@ extern u32 R(int t, u32 *w);
     e += ROL(a, 5) + f(b, c, d) + (x) + (k); \
     b = ROL(b, 30);
 
-void func_02163628(CPSSha1Ctx *ctx, u8 *m)
+void CPSi_sha1_block(CPSSha1Ctx *ctx, u8 *m)
 {
     u32 w[16];
     u32 a, b, c, d, e;

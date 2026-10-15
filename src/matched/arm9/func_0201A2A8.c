@@ -18,7 +18,7 @@
  *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_REGULATION_AdjustLevel   0x0201A26C  thumb
- *   func_02019CA0   0x02019CA0  thumb
+ *   POKE_TOOL_SetLevelAndRecalc   0x02019CA0  thumb
  *
  * Sweeps the records of the second argument and rewrites those whose 0xA9
  * flag is set and whose recomputed value disagrees with what the first
@@ -38,7 +38,7 @@ extern u32  POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32  POKE_REGULATION_AdjustLevel(void *a0, u32 a1);
-extern void func_02019CA0(void *p, u32 v);
+extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 
 void POKE_REGULATION_AdjustPartyLevels(void *a0, void *a1)
 {
@@ -52,7 +52,7 @@ void POKE_REGULATION_AdjustPartyLevels(void *a0, void *a1)
             u32 w = POKE_TOOL_GetPartyValue(e, 0x9E, 0);
 
             if (POKE_REGULATION_AdjustLevel(a0, w) != w)
-                func_02019CA0(e, v);
+                POKE_TOOL_SetLevelAndRecalc(e, v);
         }
     }
 }

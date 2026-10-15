@@ -14,7 +14,7 @@
  * symbols:
  *   func_02164CC4  0x02164CC4  arm  ov009
  *   enter_computebound  0x0216009C  arm  ov009
- *   func_0216469C  0x0216469C  arm  ov009
+ *   CPSi_big_power  0x0216469C  arm  ov009
  *   exit_computebound  0x021600E4  arm  ov009
  *   func_02164D20  0x02164D20  arm  ov009
  *   func_020923F0  0x020923F0  arm
@@ -47,7 +47,7 @@ extern void (*CPSiFree)(void *p);
 
 extern void func_02164CC4(unsigned short *d, unsigned char *s, int numbytes, int digits);
 extern unsigned long enter_computebound(void);
-extern void func_0216469C(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
+extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           unsigned short *n);
 extern void exit_computebound(unsigned long old_priority);
 extern void func_02164D20(unsigned char *d, unsigned short *s, int numbytes, int digits);
@@ -80,7 +80,7 @@ static int func_02160764(CPSSslConnection *con, SOCLCaInfo *ca)
     func_02164CC4(c, ca->exponent, ca->exponent_len, digits);
     func_02164CC4(n, ca->modulo, ca->modulo_len, digits);
     old_priority = enter_computebound();
-    func_0216469C(tmp_var, b, c, digits, n);
+    CPSi_big_power(tmp_var, b, c, digits, n);
     exit_computebound(old_priority);
     s = (unsigned char *)b;
     func_02164D20(s, tmp_var, ca->modulo_len, digits);

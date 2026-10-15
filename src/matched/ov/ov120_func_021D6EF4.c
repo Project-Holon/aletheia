@@ -1,5 +1,5 @@
 /*
- * function: func_021D6EF4
+ * function: GTSNEGO_MSG_CreateIconActors
  * address: 0x021D6EF4
  * packet: pkt_ov120_021D6EF4
  * region: ov120
@@ -9,10 +9,10 @@
  * status: EXACT
  * lever: declarations x,y,z,b reproduce the descending stack slots; p+i*4+offset keeps the per-element pointer.
  * symbols:
- *   d_021D892C 0x021D892C data a2
- *   d_021D8924 0x021D8924 data a2
- *   d_021D893C 0x021D893C data a2
- *   d_021D8934 0x021D8934 data a2
+ *   gGtsnegoIconX 0x021D892C data a2
+ *   gGtsnegoIconY 0x021D8924 data a2
+ *   gGtsnegoIconZ 0x021D893C data a2
+ *   gGtsnegoIconW 0x021D8934 data a2
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -23,18 +23,18 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Triple { u16 a[3]; } Triple;
 typedef struct Record { u16 x,y,z; u8 a,b; } Record;
-extern const Triple d_021D892C,d_021D8924,d_021D893C,d_021D8934;
+extern const Triple gGtsnegoIconX,gGtsnegoIconY,gGtsnegoIconZ,gGtsnegoIconW;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021D6EF4(u8 *p,int flag)
+void GTSNEGO_MSG_CreateIconActors(u8 *p,int flag)
 {
     Record r;
-    Triple x=d_021D892C;
-    Triple y=d_021D8924;
-    Triple z=d_021D893C;
-    Triple b=d_021D8934;
+    Triple x=gGtsnegoIconX;
+    Triple y=gGtsnegoIconY;
+    Triple z=gGtsnegoIconZ;
+    Triple b=gGtsnegoIconW;
     int i;
     for(i=0;i<3;i++) {
         if(flag || i!=0) {

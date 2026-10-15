@@ -1,5 +1,5 @@
 /*
- * function: func_0219F054
+ * function: FIELD_RAIL_LOADER_EmptyProc3
  * address: 0x0219F054
  * packet: pkt_ov021_0219F054
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/fldmmdl_blact_p14.c and filed here.
  */
 
-void func_0219F054(void)
+void FIELD_RAIL_LOADER_EmptyProc3(void)
 {
 }

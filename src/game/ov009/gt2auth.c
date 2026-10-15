@@ -1,7 +1,7 @@
 /*
  * file:     gt2auth.c
  * unit:     yes
- * function: func_02194AD8, func_02194B74, func_02194C6C, func_02194D74
+ * function: gti2VerifyChallenge, gti2GetChallenge, gti2GetResponse, gti2CheckResponse
  * address:  0x02194AD8
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -29,10 +29,10 @@ extern int rand();
 extern int strlen();
 extern int gti2VerifyChallenge();
 extern int abs();
-int func_02194AD8(unsigned char *buffer);
-unsigned char *func_02194B74(unsigned char *buffer);
-unsigned char *func_02194C6C(unsigned char *buffer, unsigned char *challenge);
-int func_02194D74(unsigned char *p, unsigned char *q);
+int gti2VerifyChallenge(unsigned char *buffer);
+unsigned char *gti2GetChallenge(unsigned char *buffer);
+unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge);
+int gti2CheckResponse(unsigned char *p, unsigned char *q);
 extern char g_021A591C[];
 
 /*
@@ -41,7 +41,7 @@ extern char g_021A591C[];
  * The two comparisons are written as `? 1 : 0` conditional expressions (w6_nm);
  * as plain comparisons the last two eor operands come out swapped.
  */
-int func_02194AD8(unsigned char *buffer)
+int gti2VerifyChallenge(unsigned char *buffer)
 {
     int oddmode;
     int i;
@@ -63,9 +63,9 @@ int func_02194AD8(unsigned char *buffer)
  * the odd/even parity fix-up driven by the vendor CALCULATEODDMODE macro.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02194B74.c  *       --func func_02194B74 --addr 0x02194B74 --region ov009 --arm --cc 1.1p1 --lang c99
+ *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02194B74.c  *       --func gti2GetChallenge --addr 0x02194B74 --region ov009 --arm --cc 1.1p1 --lang c99
  */
-unsigned char *func_02194B74(unsigned char *buffer)
+unsigned char *gti2GetChallenge(unsigned char *buffer)
 {
 	int i;
 	int oddmode;
@@ -90,7 +90,7 @@ unsigned char *func_02194B74(unsigned char *buffer)
 /*
  * sdk:      gti2GetResponse (libdwcgsgt2.TWL.HYB.a(gt2auth.o))
  */
-unsigned char *func_02194C6C(unsigned char *buffer, unsigned char *challenge)
+unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge)
 {
     int i;
     int valid;
@@ -124,7 +124,7 @@ unsigned char *func_02194C6C(unsigned char *buffer, unsigned char *challenge)
  * Compares 0x20 bytes, skipping the first and the 0xdth: 0 at the first
  * difference, 1 when the rest agree.
  */
-int func_02194D74(unsigned char *p, unsigned char *q)
+int gti2CheckResponse(unsigned char *p, unsigned char *q)
 {
     int i;
 

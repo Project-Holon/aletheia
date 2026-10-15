@@ -15,7 +15,7 @@
  *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
  *   BTL_SERVER_FLOW_GetCaptureDexFactor 0x021CBCF4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
- *   func_02019C90 0x02019C90 thumb
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
  *   BTL_SERVER_FLOW_GetBallCatchRate 0x021CBD48 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   GPOWER_ApplyCaptureRate 0x020111BC thumb
@@ -41,7 +41,7 @@ struct Unk021D62A8;
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern u32 BTL_SERVER_FLOW_GetCaptureDexFactor(u8 *p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 extern int BTL_SERVER_FLOW_GetBallCatchRate(u8 *, void *, void *, int);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern int GPOWER_ApplyCaptureRate(int);
@@ -66,7 +66,7 @@ int BTL_SERVER_FLOW_CalcCaptureShakes(u8 *p, void *q, void *m, u16 mode, u8 *out
     }
     species = BTL_POKEPARAM_GetSpecies((void *)m);
     form = func_021D59B4((void *)m, 19);
-    v *= (u16)func_02019C90(species, form, 8);
+    v *= (u16)POKE_TOOL_GetPersonalParam(species, form, 8);
     factor = BTL_SERVER_FLOW_GetBallCatchRate(p, q, (void *)m, mode);
     v = ((s64)v * factor + 0x800) >> 12;
     v = (u32)v / a;

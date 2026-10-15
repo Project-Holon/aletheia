@@ -1,5 +1,5 @@
 /*
- * function: func_021C4464
+ * function: WIFI_2DCHAR_ReleaseCellChar
  * address:  0x021C4464
  * packet:   pkt_021C4464
  * region:   ov127
@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
-void func_021C4464(u8 *p, int i)
+void WIFI_2DCHAR_ReleaseCellChar(u8 *p, int i)
 {
     u32 *tbl = (u32 *)(p + 0x14 + i * 20);
     CLACT_ReleaseCharacter((u32)((void *)*tbl));

@@ -1,5 +1,5 @@
 /*
- * function: func_0219834C
+ * function: FLDMMDL_ACMD_StayWalkMove
  * address:  0x0219834C
  * packet:   pkt_ov021_0219834C
  * region:   ov021
@@ -28,7 +28,7 @@ extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-int func_0219834C(u32 a)
+int FLDMMDL_ACMD_StayWalkMove(u32 a)
 {
     s16 *p;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_020698F8
+ * function: NNS_G2dFontLoad
  * address:  0x020698F8
  * packet:   pkt_020694D8
  * region:   arm9
@@ -23,13 +23,13 @@
  * bytes); `if (r == 0) return 0; return cond;` gives movhs/movlo (122 out).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020698F8.c \
- *       --func func_020698F8 --addr 0x020698F8 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G2dFontLoad.c \
+ *       --func NNS_G2dFontLoad --addr 0x020698F8 --arm --cc ../2.0/sp2
  *   EXACT, 460 bytes, 3 of 3 relocation sites resolved.
  *   ../2.0/sp2p2: EXACT as well; dsi/1.1p1: 452 bytes, DIFF.
  *
  * symbols:
- *   func_02069AC4  0x02069AC4  arm
+ *   NNSi_G2dFontFixupSections  0x02069AC4  arm
  *   NNS_G2dFindBinaryBlock  0x02062B64  arm
  *   OS_Terminate  0x02088234  arm
  */
@@ -44,7 +44,7 @@ typedef struct {
     u16 ver;
 } Res;
 
-extern void func_02069AC4(Res *base);
+extern void NNSi_G2dFontFixupSections(Res *base);
 struct NitroFileHeader;
 extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
 extern void OS_Terminate(void);
@@ -68,7 +68,7 @@ static inline BOOL IsValid(const Res *r, u16 v)
     return r != 0 ? (IsNftr(r) && VerAtLeast(r, v)) : 0;
 }
 
-u32 func_020698F8(Res *res, void **out)
+u32 NNS_G2dFontLoad(Res *res, void **out)
 {
     BOOL legacy = 0;
     u8 *finf;
@@ -78,7 +78,7 @@ u32 func_020698F8(Res *res, void **out)
             OS_Terminate();
         legacy = 1;
     }
-    func_02069AC4(res);
+    NNSi_G2dFontFixupSections(res);
     finf = NNS_G2dFindBinaryBlock((struct NitroFileHeader *)res, 0x46494e46u);
     if (finf == 0) {
         *out = 0;

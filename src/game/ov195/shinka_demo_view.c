@@ -1,8 +1,8 @@
 /*
  * file:     shinka_demo_view.c
  * unit:     yes
- * function: SHINKA_DEMO_GRAPHIC_Create, SHINKA_DEMO_GRAPHIC_Destroy, SHINKA_DEMO_GRAPHIC_Draw, SHINKA_DEMO_GRAPHIC_Update, SHINKA_DEMO_GRAPHIC_DrawEnd, SHINKA_DEMO_GRAPHIC_GetCamera, SHINKA_DEMO_GRAPHIC_SetupSubBg, SHINKA_DEMO_GRAPHIC_ReleaseSubBg, SHINKA_DEMO_GRAPHIC_VBlank, SHINKA_DEMO_GRAPHIC_SetupMainBg, SHINKA_DEMO_GRAPHIC_ReleaseMainBg, SHINKA_DEMO_GRAPHIC_Noop, SHINKA_DEMO_GRAPHIC_UpdateSubBg, SHINKA_DEMO_GRAPHIC_InitClact, SHINKA_DEMO_GRAPHIC_ExitClact, SHINKA_DEMO_GRAPHIC_DrawClact, SHINKA_DEMO_GRAPHIC_VBlankClact, SHINKA_DEMO_GRAPHIC_GetCameraId, SHINKA_DEMO_GRAPHIC_Init3d, SHINKA_DEMO_GRAPHIC_Exit3d, SHINKA_DEMO_GRAPHIC_Update3d, SHINKA_DEMO_GRAPHIC_Draw3dEnd, SHINKA_DEMO_VIEW_Create, SHINKA_DEMO_VIEW_Destroy, SHINKA_DEMO_VIEW_Main, func_0220602C, func_02206044, func_0220604C, func_02206050, func_02206058, func_0220605C, func_02206064, func_0220606C, func_02206070, func_02206074, func_02206078, func_0220609C, func_022060BC, func_022060C8, func_02206108, func_0220623C, func_02206264, func_02206274, func_022063AC, func_022063E0, func_022065C8, func_02206604, func_02206664, func_0220672C, func_0220673C, func_02206750, func_02206768, func_022067B0, func_022067BC, func_022067FC, func_0220682C, func_0220685C, func_02206A3C, func_02206A5C, func_02206E2C, func_02207510, func_022076A0, func_02207868, func_022081A4, func_0220826C, func_0220827C, func_022082DC, func_022083CC, func_022083DC, func_022083EC, func_02208410, func_02208420, func_02208430, func_02208478, func_02208514, func_0220851C, func_02208570, func_022086BC, func_022086C8, func_02208714, func_0220871C, func_02208770, func_0220878C, func_02208804, func_02208814, func_0220882C, func_02208844, func_02208850, func_02208860, func_0220887C, func_02208994, func_022089A4, func_02208A24, func_02208A2C, func_02208A38, func_02208A48, func_02208A54, func_02208A6C, func_02208A78, func_02208AB0, func_02208B54, func_02208B6C, func_02208C10, func_02208C18, func_02208C28, func_02208C30
- * address:  0x022058F8
+ * function: SHINKA_DEMO_VIEW_Create, SHINKA_DEMO_VIEW_Destroy, SHINKA_DEMO_VIEW_Main, SHINKA_DEMO_VIEW_Draw, SHINKA_DEMO_VIEW_RequestStart, SHINKA_DEMO_VIEW_IsStartDone, SHINKA_DEMO_VIEW_RequestConfirm, SHINKA_DEMO_VIEW_IsConfirmDone, SHINKA_DEMO_VIEW_RequestEvolve, SHINKA_DEMO_VIEW_RequestFadeOut, SHINKA_DEMO_VIEW_IsEvolveReady, SHINKA_DEMO_VIEW_IsEvolveStarted, SHINKA_DEMO_VIEW_IsEvolveDone, SHINKA_DEMO_VIEW_TrySecondForm, SHINKA_DEMO_VIEW_InitMcss, SHINKA_DEMO_VIEW_ExitMcss, SHINKA_DEMO_VIEW_GetModelOffset, SHINKA_DEMO_VIEW_CreateModels, SHINKA_DEMO_VIEW_DeleteModels, SHINKA_DEMO_VIEW_OtherSlot, SHINKA_DEMO_VIEW_UpdateModelOffsets, SHINKA_DEMO_VIEW_SetModelPosX, SHINKA_DEMO_VIEW_CreateWork, SHINKA_DEMO_VIEW_DeleteWork, SHINKA_DEMO_VIEW_Update, SHINKA_DEMO_VIEW_Draw3d, SHINKA_DEMO_VIEW_BeginIntro, SHINKA_DEMO_VIEW_IsMenuReady, SHINKA_DEMO_VIEW_ShowMenu, SHINKA_DEMO_VIEW_SetModelsPos, SHINKA_DEMO_VIEW_SetModelOffset, SHINKA_DEMO_VIEW_StartFadeOut, SHINKA_DEMO_VIEW_AreModelsState0, SHINKA_DEMO_VIEW_AreModelsState4, SHINKA_DEMO_VIEW_CreateGrid, SHINKA_DEMO_VIEW_DeleteGrid, SHINKA_DEMO_VIEW_InitGrid, SHINKA_DEMO_VIEW_SetupGridCells, SHINKA_DEMO_VIEW_DrawGrid, SHINKA_DEMO_VIEW_DrawGridRotated, SHINKA_DEMO_VIEW_InitGridFromPokemon, SHINKA_DEMO_VIEW_StartGridFade, SHINKA_DEMO_VIEW_IsGridFadeDone, SHINKA_DEMO_VIEW_StepGridFade, SHINKA_DEMO_VIEW_ApplyGridPalette, SHINKA_DEMO_VIEW_IsGridState0, SHINKA_DEMO_VIEW_IsGridState1, SHINKA_DEMO_VIEW_StartGridFadeOut, SHINKA_DEMO_VIEW_IsGridState3, SHINKA_DEMO_VIEW_IsGridState4, SHINKA_DEMO_VIEW_UpdateGridFade, SHINKA_DEMO_VIEW_CreateQuad, SHINKA_DEMO_VIEW_FreeQuad, SHINKA_DEMO_VIEW_UpdateQuadVerts, SHINKA_DEMO_VIEW_DrawQuad, SHINKA_DEMO_VIEW_SetQuadOffset
+ * address:  0x02205C74
  * region:   ov195
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,62 +10,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from shinka_demo_view.c by tools/splitfile.py.
  *
  * symbols:
- *   d_02208F50 0x02208F50 data a4
- *   d_02208CEC 0x02208CEC data a4
  *   func_02030734 0x02030734 arm
- *   MI_CpuFill8 0x02082BCC arm
- *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BG_SYS_SetLcdSwap 0x0204363C arm
- *   BG_SYS_ResetSubDisplay 0x0204361C arm
- *   BG_SYS_ClearMainPlanes 0x020434CC arm
- *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   GF_FONT_ResetTextColor 0x0201DD60 thumb
- *   func_020056A0 0x020056A0 thumb
- *   func_02030EAC 0x02030EAC arm
- *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
- *   d_02208CA0 0x02208CA0 data a4
- *   d_02208D1C 0x02208D1C data a4
- *   func_0203FC6C 0x0203FC6C arm
- *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
- *   func_02040588 0x02040588 arm
- *   func_020403F4 0x020403F4 arm
- *   BG_SYS_Create 0x0203F8F4 arm
- *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
- *   BMP_WIN_Exit 0x020450C8 arm
- *   BG_SYS_Delete 0x0203F9B4 arm
- *   func_020419E4 0x020419E4 arm
- *   CLACT_InitSystem 0x0204A48C arm
- *   CLACT_CreateUnit 0x0204B100 arm
- *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
- *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   CLACT_DeleteUnit 0x0204B1CC arm
- *   CLACT_ExitSystem 0x0204A5AC arm
- *   CLACT_DrawSystem 0x0204A600 arm
- *   CLACT_VBlankSystem 0x0204A648 arm
- *   d_020A1EB8 0x020A1EB8 data a4
- *   d_02208C88 0x02208C88 data a4
- *   d_02208C7C 0x02208C7C data a4
- *   d_02208C94 0x02208C94 data a4
- *   SHINKA_DEMO_Setup3d 0x02205854 thumb ov195
- *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
- *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_02047964 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
- *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   d_02208F68 0x02208F68 data
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02019CE0 0x02019CE0 thumb
+ *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   PM_VOICE_Play 0x02006984 thumb
@@ -88,19 +44,14 @@
  *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
  *   MCSS_SetScale 0x02015CAC thumb
- *   _fgr 0x0209BBB0 arm
  *   _fmul 0x0209C77C arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
- *   _ffix 0x0209C494 arm
  *   MCSS_Del 0x02015BA4 thumb
  *   MCSS_GetSizeY 0x02015F0C thumb
  *   MCSS_GetOfsY 0x02015F1C thumb
  *   MCSS_GetOfsX 0x02015F14 thumb
  *   MCSS_SetOfsPosition 0x02015C78 thumb
- *   _ffltu 0x0209BE04 arm
- *   _fflt 0x0209BDBC arm
- *   _fdiv 0x0209CE10 arm
  *   MCSS_GetPosition 0x02015C30 thumb
  *   MCSS_SetPosition 0x02015C48 thumb
  *   d_02208E74 0x02208E74 data
@@ -131,7 +82,6 @@
  *   BMP_ConvertToLinear 0x02044F64 arm
  *   func_02061CA4 0x02061CA4 arm
  *   BMP_Delete 0x020437AC arm
- *   _s32_div_f 0x0209C0A4 arm
  *   _ll_mul 0x0209C054 arm
  *   FX_Sqrt 0x0207C7B4 arm
  *   func_0207C768 0x0207C768 arm
@@ -140,145 +90,79 @@
  *   FX_InvSqrt 0x0207C7E8 arm
  *   d_02208E4C 0x02208E4C data
  *   d_02208E38 0x02208E38 data
- *   d_02208F7C 0x02208F7C data
- *   d_02208ED0 0x02208ED0 data
- *   func_02208C30 0x02208C30 thumb ov195
- *   d_02208F24 0x02208F24 data
- *   d_02208F30 0x02208F30 data
- *   d_02208E9C 0x02208E9C data
- *   PARTICLE_InitManager 0x02050B80 arm
- *   PARTICLE_CreateSystem 0x02050C30 arm
- *   PARTICLE_ReleaseCamera 0x02051758 arm
- *   PARTICLE_InitCamera 0x02051648 arm
- *   PARTICLE_LoadArchiveMember 0x0205121C arm
- *   BUTTON_MAN_GetResourceType 0x02051B04 arm
- *   PARTICLE_SetupSystem 0x02051230 arm
- *   PARTICLE_ExitManager 0x02050ED4 arm
- *   PARTICLE_StartEffect 0x020515B4 arm
- *   PARTICLE_KillAllEffects 0x02051620 arm
- *   PARTICLE_Main 0x02050BE8 arm
- *   G3D_UTIL_Create 0x02047CFC arm
- *   G3D_UTIL_Delete 0x02047E54 arm
- *   func_02048A18 0x02048A18 arm
- *   G3D_SYSTEM_DrawObject 0x02047A60 arm
- *   d_02208EC0 0x02208EC0 data
- *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_020489F4 0x020489F4 arm
- *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
- *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
- *   G3D_UTIL_RemoveUnit 0x020480E4 arm
- *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
- *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  */
-#include "../../matched/include/Obj24951.h"
-#include "../../matched/include/Obj24952.h"
-#include "../../matched/include/Obj14529.h"
-#include "../../matched/include/Obj24953.h"
-#include "../../matched/include/Obj24957.h"
-#include "../../matched/include/Obj02911.h"
-#include "../../matched/include/Obj08349.h"
-#include "../../matched/include/Obj10822.h"
-#include "../../matched/include/Obj10824.h"
-#include "../../matched/include/Obj08348.h"
-#include "../../matched/include/Obj24968.h"
-#include "../../matched/include/Obj00300.h"
-#include "../../matched/include/Obj14534.h"
-#include "../../matched/include/Obj10826.h"
-#include "../../matched/include/Obj10827.h"
-#include "../../matched/include/Obj24975.h"
-#include "../../matched/include/Obj24976.h"
-#include "../../matched/include/Obj24977.h"
-#include "../../matched/include/Obj24978.h"
-#include "../../matched/include/Obj24979.h"
-#include "../../matched/include/Obj10829.h"
-#include "../../matched/include/Obj05518.h"
-#include "../../matched/include/Obj08350.h"
-#include "../../matched/include/Obj10830.h"
-#include "../../matched/include/Obj24981.h"
-#include "../../matched/include/Obj14537.h"
-#include "../../matched/include/Obj00687.h"
-#include "../../matched/include/Obj00789.h"
+#include "shinka_demo_graphic_shared_types.h"
+#include "shinka_demo_view_shared_types.h"
 
 #define W(n) (*(u32 *)(p+(n)))
+
 #define P(n) (*(void **)(p+(n)))
+
 #define B(n) (*(u8 *)(p+(n)))
+
 #define NODE(i) (*(void **)(p+0x50+(u32)(i)*4))
+
 #define REG_MTX_MODE     (*(vu32 *)0x04000440)
+
 #define REG_MTX_IDENTITY (*(vu32 *)0x04000454)
+
 #define REG_DIF_AMB      (*(vu32 *)0x040004C0)
+
 #define REG_SPE_EMI      (*(vu32 *)0x040004C4)
+
 #define REG_MTX_PUSH       (*(vu32 *)0x04000444)
+
 #define REG_MTX_POP        (*(vu32 *)0x04000448)
+
 #define REG_MTX_TRANS      (*(vu32 *)0x04000470)
+
 #define REG_NORMAL         (*(vu32 *)0x04000484)
+
 #define REG_TEXCOORD       (*(vu32 *)0x04000488)
+
 #define REG_VTX_16         (*(vu32 *)0x0400048C)
+
 #define REG_POLYGON_ATTR   (*(vu32 *)0x040004A4)
+
 #define REG_TEXIMAGE_PARAM (*(vu32 *)0x040004A8)
+
 #define REG_TEXPLTT_BASE   (*(vu32 *)0x040004AC)
+
 #define REG_BEGIN_VTXS     (*(vu32 *)0x04000500)
+
 #define REG_END_VTXS       (*(vu32 *)0x04000504)
+
 #define G(n) (*(u32 *)(p+(n)))
+
 #define Q(n) (*(int *)(q+(n)))
-#define H(n) (*(s16_02207868 *)(p+(n)))
+
+#define H(n) (*(s16 *)(p+(n)))
+
 #define V(n) (*(Vec *)(q+(n)))
+
 #define REG_MTX_SCALE      (*(vu32 *)0x0400046C)
-struct DispVram;
-struct Node;
-struct BgTemplate;
-struct BgVramReq;
-struct DispConfig;
-struct Cfg;
-struct Bank;
+
 struct RecDC;
+
 struct McssFade;
+
 struct Obj;
+
 struct Owner;
+
 struct McssSys;
+
 struct Quad;
-struct Light;
+
 struct Fade;
+
 struct Grid;
+
 struct Bmp;
+
 struct Obj020437AC;
-struct Ptc;
-struct Anim;
-struct Dst648;
-struct Src648;
-struct Rec;
-struct Transform;
-struct Arg;
-struct G3dSys;
-struct AnmCtl;
-struct Ctx;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef unsigned char u8;
-
-typedef struct {
-    u32 id;
-    u8 data[0x20];
-    u32 len;
-    u32 mode;
-} Entry;
-
-typedef signed short s16;
-
-typedef signed int     s32;
-
-typedef int fx32_02205AC0;
-
-typedef s32 fx32_02206108;
-
-typedef s32 fx32;
 
 typedef s16 fx16;
-
-typedef struct VecFx32 {
-    fx32 x, y, z;
-} VecFx32;
 
 typedef struct Cell {
     u32 f00;
@@ -382,10 +266,6 @@ typedef struct Owner {
 
 typedef volatile u32 vu32;
 
-typedef struct MtxFx33 {
-    fx32 m[3][3];
-} MtxFx33;
-
 typedef struct GlbState {
     u8 pad00[0x3c];
     MtxFx33 baseRot;
@@ -393,765 +273,272 @@ typedef struct GlbState {
     u32 flag;
 } GlbState;
 
-typedef signed char s8;
-
 typedef struct SC {s16 s;s16 c;} SC;
 
-typedef signed short s16_022076A0;
+typedef struct {fx32 x,y,z;} Vec;
 
-typedef short s16_02207868;
-
-typedef long fx32_02207868;
-
-typedef struct {fx32_02207868 x,y,z;} Vec;
-
-typedef struct {fx32_02207868 a[12];} Matrix;
-
-typedef signed short s16_022081A4;
-
-typedef signed short s16_0220826C;
-
-typedef struct Node {
-    u16 f00;
-    u16 pad02;
-    fx32 tx, ty, tz;
-    fx32 sx, sy, sz;
-    u8 mtx[0x24];
-    u8 pad40[4];
-} Node;
-
-typedef struct Anim_0220871C {
-    u16 heap;
-    u16 pad02;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    void *ptc;
-    void *res;
-    u16 f18;
-    u16 f1a;
-    u16 count;
-    u16 pad1e;
-    void *nodes;
-    u32 f24;
-    u32 f28;
-} Anim_0220871C;
-
-typedef struct Anim_0220878C {
-    u16 heap;
-    u16 pad02;
-    u32 f04;
-    u32 state;
-    u32 wait;
-    void *ptc;
-} Anim_0220878C;
-
-typedef struct EmitParam {
-    u32 f00;
-    fx32 f04;
-    fx32 f08;
-    u32 f0c;
-    u32 f10;
-    fx32 f14;
-    u32 f18;
-    u32 f1c;
-} EmitParam;
-
-typedef struct Ptc {
-    u16 f00;
-    u16 f02;
-    u16 f04;
-    u16 pad06;
-    void *f08;
-    u8 work[0x4800];
-    void *spl;
-    u8 f4810;
-    u8 pad4811[3];
-    u32 f4814;
-    s32 f4818;
-} Ptc;
-
-typedef signed short s16_022089A4;
-
-typedef struct Cue {
-    u16 frame;
-    u8 emit;
-    u8 id;
-} Cue;
-
-typedef struct Emit {
-    u8 work[0x4800];
-    void *spl;
-    u8 res;
-    u8 pad[3];
-} Emit;
-
-typedef struct Ptc_022089A4 {
-    u16 frame;
-    u16 cue;
-    u16 ncue;
-    u16 pad06;
-    Cue *cues;
-    Emit emit[1];
-    u32 active;
-    s32 timer;
-} Ptc_022089A4;
-
-typedef short s16_02208A38;
-
-typedef struct Ptc_02208A48 {
-    u16 frame;
-    u16 cue;
-    u16 ncue;
-    u16 pad06;
-    void *cues;
-    Emit emit[1];
-    u32 active;
-    s32 timer;
-} Ptc_02208A48;
-
-typedef short s16_02208A6C;
-
-typedef short s16_02208A78;
-
-typedef struct Node_02208A78 {u16 id,pad02;int tx,ty,tz,sx,sy,sz;u8 mtx[0x24];u32 f40;} Node_02208A78;
-
-typedef struct Anim_02208A78 {u16 heap;u8 pad02[0x12];void *res;u16 f18,f1a,count,pad1e;Node_02208A78 *nodes;u32 f24,f28;} Anim_02208A78;
-
-typedef struct Node_02208AB0 {
-    u16 id;
-    u16 pad02;
-    fx32 tx, ty, tz;
-    fx32 sx, sy, sz;
-    u8 mtx[0x24];
-    u32 f40;
-} Node_02208AB0;
-
-typedef struct Anim_02208AB0 {
-    u16 heap;
-    u8 pad02[0x12];
-    void *res;
-    u16 f18;
-    u16 f1a;
-    u16 count;
-    u16 pad1e;
-    Node_02208AB0 *nodes;
-    u32 f24;
-    u32 f28;
-} Anim_02208AB0;
-
-typedef struct Anim_02208C10 {
-    u8 pad00[0x28];
-    int state;
-} Anim_02208C10;
-
-typedef struct Anim_02208C18 {
-    u8 pad00[0x28];
-    int state;
-} Anim_02208C18;
-
-typedef struct Anim_02208C28 {
-    u8 pad00[0x28];
-    int state;
-} Anim_02208C28;
+typedef struct {fx32 a[12];} Matrix;
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void MI_CpuFill8(void *, int, int);
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_SetLcdSwap(u32);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_ResetTextColor(void);
-extern u32 func_020056A0(void *, void *, int);
-extern void func_02030EAC(struct Node *n);
-extern void GF_FONT_SetDefaultTextColor(void);
+
 extern u32 func_020307B0(void *p);
-extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
-extern void func_02040588(u8, u8);
-extern void func_020403F4(u32 i);
-extern void BG_SYS_Create(void *);
-extern void BMP_WIN_Init(void *);
-extern void func_0203FC28(struct DispConfig *cfg);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void func_020419E4(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(int);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
-extern void SHINKA_DEMO_Setup3d(void);
-extern void G3D_SYSTEM_Init(int, int, int, int, int, void *, void *);
+
 extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, void *);
+
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(int);
-extern void func_02047964(void);
+
 extern void G3D_CAMERA_Reset(struct Light *l);
+
 extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void G3D_SYSTEM_DrawEnd(void);
+
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+
+extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
+
 extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
+
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
+
 extern int PM_VOICE_IsAnyActive(void);
+
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+
 extern void MCSS_SetAnmStopFlag(void *);
+
 extern int MCSS_CheckPaletteFade(void *);
+
 extern void *MCSS_GetAnimCtrl(void *);
+
 extern void NNS_G2dRestartMCAnimation(struct Obj *);
+
 extern void MCSS_ResetVanishFlag(void *);
+
 extern void MCSS_SetVanishFlag(void *);
+
 extern void MCSS_ResetAnmStopFlag(void *);
+
 extern void MCSS_Main(char *);
+
 extern void MCSS_Draw(struct McssSys *sys);
+
 extern void *MCSS_Init(u32 id, void *heap);
+
 extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
+
 extern void MCSS_SetOrthoMode(void *obj);
+
 extern void MCSS_Exit(u8 *a0);
+
 extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
+
 extern void MCSS_SetShadowVanishFlag(char *p, int v);
+
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
+
 extern void MCSS_SetScale(void *p, u32 *src);
+
 extern void MCSS_Del(void *sys, void *obj);
+
 extern u16 MCSS_GetSizeY(void *p);
+
 extern s16 MCSS_GetOfsY(void *p);
+
 extern s16 MCSS_GetOfsX(void *p);
+
 extern void MCSS_SetOfsPosition(void *p, u32 *src);
+
 extern void MCSS_GetPosition(void *p, u32 *out);
+
 extern void MCSS_SetPosition(void *p, u32 *src);
+
 extern u8 POKE_TOOL_GetGender(void *p);
+
 extern u32 func_02017EAC(void *p);
+
 extern void G3D_SYSTEM_GetProjection(int p0);
+
 extern void G3D_SYSTEM_GetLookAt(u8 *dst);
+
 extern void MTX_Identity33_(MtxFx33 *m);
+
 extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
+
 extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
+
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
+
 extern void NNS_G3dGeFlushBuffer(void);
+
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
+
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
+
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+
 extern int POKEGRA_GetArcID(void);
+
 extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+
 extern void *BMP_GetPixels(const struct Bmp *bmp);
+
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
+
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
+
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+
 extern void BMP_Delete(struct Obj020437AC *p);
+
 extern int FX_Sqrt(int);
+
 extern u32 func_0207C768(u32 a, u32 b);
-extern void MTX_RotY43_(Matrix *,fx32_02207868,fx32_02207868);
+
+extern void MTX_RotY43_(Matrix *,fx32,fx32);
+
 extern void MTX_MultVec43(const Vec *,const Matrix *,Vec *);
-extern fx32_02207868 FX_InvSqrt(fx32_02207868);
-extern int func_02208C30(Anim_02208C28 *p);
-extern void PARTICLE_InitManager(u32 heap);
-extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
-extern int PARTICLE_ReleaseCamera(int a0);
-extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
-extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
-extern u16 BUTTON_MAN_GetResourceType(void *res);
-extern void PARTICLE_SetupSystem(void *spl, u32 res, u32 a2, u32 a3);
-extern void PARTICLE_ExitManager(void);
-extern int PARTICLE_StartEffect(void *p, int b, int c);
-extern void PARTICLE_KillAllEffects(void *spl);
-extern void PARTICLE_Main(void);
-extern int G3D_UTIL_Create(int, int, int);
-extern void G3D_UTIL_Delete(struct Rec *);
-extern u32 func_02048A18(u8 *a0, int i);
-extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
-extern u16 G3D_UTIL_AddUnit(void *res, void *name);
-extern u32 func_020489F4(u8 *a0, int i);
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
-extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
-char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
-void SHINKA_DEMO_GRAPHIC_Destroy(char *p);
-void SHINKA_DEMO_GRAPHIC_Draw(char *a);
-void SHINKA_DEMO_GRAPHIC_Update(char *a);
-void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a);
-int SHINKA_DEMO_GRAPHIC_GetCamera(char *a);
-void SHINKA_DEMO_GRAPHIC_SetupSubBg(void);
-void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0);
-void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b);
-void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b);
-void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *p);
-void SHINKA_DEMO_GRAPHIC_Noop(void *a0);
-void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *a0);
-void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
-void SHINKA_DEMO_GRAPHIC_ExitClact(char *a);
-void SHINKA_DEMO_GRAPHIC_DrawClact(void *a0);
-void SHINKA_DEMO_GRAPHIC_VBlankClact(void *a0);
-int SHINKA_DEMO_GRAPHIC_GetCameraId(int *p);
-void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, void *b);
-void SHINKA_DEMO_GRAPHIC_Exit3d(int *p);
-void SHINKA_DEMO_GRAPHIC_Update3d(char *a);
-void SHINKA_DEMO_GRAPHIC_Draw3dEnd(void *p);
+
+extern fx32 FX_InvSqrt(fx32);
+
 Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c);
+
 void SHINKA_DEMO_VIEW_Destroy(char *p);
+
 void SHINKA_DEMO_VIEW_Main(char *p);
-void func_0220602C(Owner *o);
-void func_02206044(int *p);
-int func_0220604C(int *p);
-void func_02206050(int *p);
-int func_02206058(int *p);
-void func_0220605C(int *p);
-void func_02206064(int *p);
-int func_0220606C(int *p);
-int func_02206070(int *p);
-int func_02206074(int *p);
-int func_02206078(int *p);
-void func_0220609C(char *a);
-void func_022060BC(char *p);
-fx32_02205AC0 func_022060C8(void *p);
-void func_02206108(Owner *o);
-void func_0220623C(Owner *o);
-u8 func_02206264(u8 i);
-void func_02206274(Owner *o);
-void func_022063AC(char *a, u32 v);
-void func_022063E0(Owner *o);
-void func_022065C8(char *p);
-void func_02206604(Owner *o);
-void func_02206664(Owner *o);
-void func_0220672C(Owner *o);
-int func_0220673C(int *p);
-void func_02206750(int *p);
-void func_02206768(char *a, u32 x, u32 y, u32 z);
-void func_022067B0(char *a, int b, int c, int d, int e);
-void func_022067BC(Owner *o);
-int func_022067FC(char *a);
-int func_0220682C(char *a);
-Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap);
-void func_02206A3C(char *p, int a1);
-void func_02206A5C(Grid *p, u16 heap);
-void func_02206E2C(Grid *p, u16 heap);
-void func_02207510(Grid *w, u16 heap);
-void func_022076A0(Owner *o);
-void func_02207868(char *p,u16 heap);
-void func_022081A4(Grid *p, int unused, u16 color, s16_022081A4 cur, s16_022081A4 end, s16_022081A4 wait, s16_022081A4 step);
-int func_0220826C(Grid *p, int x);
-void func_0220827C(Grid *p, int x);
-void func_022082DC(Grid *p, int x);
-int func_022083CC(char *p, u16 a1);
-int func_022083DC(char *p, u16 heap);
-void func_022083EC(Grid *p, int x);
-int func_02208410(char *p, u16 heap);
-int func_02208420(char *p, u16 heap);
-void func_02208430(Grid *p, int x);
-Quad *func_02208478(u32 tex, u32 pltt, u16 heap);
-void func_02208514(void *p,int n);
-void func_0220851C(Quad *p, u16 heap);
-void func_02208570(Quad *p, u16 heap);
-void func_022086BC(char *a, int b, int c, int d, int e);
-Node *func_022086C8(u16 heap, u16 n);
-void func_02208714(void *p);
-Anim_0220871C *func_0220871C(u16 heap, u32 x);
-void func_02208770(char *a);
-void func_0220878C(Anim_0220878C *p);
-void func_02208804(char *a);
-void func_02208814(char *a);
-void func_0220882C(int *p);
-void func_02208844(int *p);
-int func_02208850(int *p);
-int func_02208860(int *p);
-Ptc *func_0220887C(u16 heap, u16 a, void *b);
-void func_02208994(char *a);
-void func_022089A4(Ptc_022089A4 *p);
-void func_02208A24(int a0);
-void func_02208A2C(char *p);
-void func_02208A38(char *p,u32 v);
-void func_02208A48(Ptc_02208A48 *p, s32 timer);
-void func_02208A54(char *a);
-void func_02208A6C(char *p);
-void func_02208A78(Anim_02208A78 *p);
-void func_02208AB0(Anim_02208AB0 *p);
-void func_02208B54(char *a);
-void func_02208B6C(char *p);
-void func_02208C10(Anim_02208C10 *p);
-int func_02208C18(Anim_02208C18 *p);
-void func_02208C28(Anim_02208C28 *p);
-extern u32 d_02208F50[];
-extern u32 d_02208CEC[];
-extern u8 d_02208CA0[];
-extern Entry d_02208D1C[];
-extern const s16 d_020A1EB8[];
-extern u32 d_02208C88[];
-extern u32 d_02208C7C[];
-extern u32 d_02208C94[];
+
+void SHINKA_DEMO_VIEW_Draw(Owner *o);
+
+void SHINKA_DEMO_VIEW_RequestStart(int *p);
+
+int SHINKA_DEMO_VIEW_IsStartDone(int *p);
+
+void SHINKA_DEMO_VIEW_RequestConfirm(int *p);
+
+int SHINKA_DEMO_VIEW_IsConfirmDone(int *p);
+
+void SHINKA_DEMO_VIEW_RequestEvolve(int *p);
+
+void SHINKA_DEMO_VIEW_RequestFadeOut(int *p);
+
+int SHINKA_DEMO_VIEW_IsEvolveReady(int *p);
+
+int SHINKA_DEMO_VIEW_IsEvolveStarted(int *p);
+
+int SHINKA_DEMO_VIEW_IsEvolveDone(int *p);
+
+int SHINKA_DEMO_VIEW_TrySecondForm(int *p);
+
+void SHINKA_DEMO_VIEW_InitMcss(char *a);
+
+void SHINKA_DEMO_VIEW_ExitMcss(char *p);
+
+fx32 SHINKA_DEMO_VIEW_GetModelOffset(void *p);
+
+void SHINKA_DEMO_VIEW_CreateModels(Owner *o);
+
+void SHINKA_DEMO_VIEW_DeleteModels(Owner *o);
+
+u8 SHINKA_DEMO_VIEW_OtherSlot(u8 i);
+
+void SHINKA_DEMO_VIEW_UpdateModelOffsets(Owner *o);
+
+void SHINKA_DEMO_VIEW_SetModelPosX(char *a, u32 v);
+
+void SHINKA_DEMO_VIEW_CreateWork(Owner *o);
+
+void SHINKA_DEMO_VIEW_DeleteWork(char *p);
+
+void SHINKA_DEMO_VIEW_Update(Owner *o);
+
+void SHINKA_DEMO_VIEW_Draw3d(Owner *o);
+
+void SHINKA_DEMO_VIEW_BeginIntro(Owner *o);
+
+int SHINKA_DEMO_VIEW_IsMenuReady(int *p);
+
+void SHINKA_DEMO_VIEW_ShowMenu(int *p);
+
+void SHINKA_DEMO_VIEW_SetModelsPos(char *a, u32 x, u32 y, u32 z);
+
+void SHINKA_DEMO_VIEW_SetModelOffset(char *a, int b, int c, int d, int e);
+
+void SHINKA_DEMO_VIEW_StartFadeOut(Owner *o);
+
+int SHINKA_DEMO_VIEW_AreModelsState0(char *a);
+
+int SHINKA_DEMO_VIEW_AreModelsState4(char *a);
+
+Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap);
+
+void SHINKA_DEMO_VIEW_DeleteGrid(char *p, int a1);
+
+void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap);
+
+void SHINKA_DEMO_VIEW_SetupGridCells(Grid *p, u16 heap);
+
+void SHINKA_DEMO_VIEW_DrawGrid(Grid *w, u16 heap);
+
+void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o);
+
+void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap);
+
+void SHINKA_DEMO_VIEW_StartGridFade(Grid *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
+
+int SHINKA_DEMO_VIEW_IsGridFadeDone(Grid *p, int x);
+
+void SHINKA_DEMO_VIEW_StepGridFade(Grid *p, int x);
+
+void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x);
+
+int SHINKA_DEMO_VIEW_IsGridState0(char *p, u16 a1);
+
+int SHINKA_DEMO_VIEW_IsGridState1(char *p, u16 heap);
+
+void SHINKA_DEMO_VIEW_StartGridFadeOut(Grid *p, int x);
+
+int SHINKA_DEMO_VIEW_IsGridState3(char *p, u16 heap);
+
+int SHINKA_DEMO_VIEW_IsGridState4(char *p, u16 heap);
+
+void SHINKA_DEMO_VIEW_UpdateGridFade(Grid *p, int x);
+
+Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap);
+
+void SHINKA_DEMO_VIEW_FreeQuad(void *p,int n);
+
+void SHINKA_DEMO_VIEW_UpdateQuadVerts(Quad *p, u16 heap);
+
+void SHINKA_DEMO_VIEW_DrawQuad(Quad *p, u16 heap);
+
+void SHINKA_DEMO_VIEW_SetQuadOffset(char *a, int b, int c, int d, int e);
+
 extern char d_02208F68[];
+
 extern const VecFx32 d_02208E74;
+
 extern const VecFx32 d_02208E80;
+
 extern const s16 FX_SinCosTable_[];
+
 extern const VecFx32 d_02208E8C;
+
 extern GlbState d_02148BCC;
+
 extern const s16 d_02208E4C[];
+
 extern const u8 d_02208E38[];
-extern char d_02208F7C[];
-extern char d_02208ED0[];
-extern const VecFx32 d_02208F24;
-extern const VecFx32 d_02208F30;
-extern const u32 d_02208E9C[2];
-extern char d_02208EC0[];
-
-
-
-
-
-
-
-char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b)
-{
-    char *p = func_02030734(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
-
-    MI_CpuFill8(p, 0, 0x10);
-    *(volatile u16 *)0x04000050 = 0;
-    *(volatile u16 *)0x04001050 = 0;
-    *(volatile u32 *)0x04000000 &= 0xffff1fff;
-    *(volatile u32 *)0x04001000 &= 0xffff1fff;
-    BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks((const struct DispVram *)d_02208CEC);
-    BG_SYS_SetLcdSwap(a);
-    BG_SYS_ResetSubDisplay();
-    BG_SYS_ClearMainPlanes();
-    BG_SYS_ClearSubPlanes();
-    GF_FONT_ResetTextColor();
-    SHINKA_DEMO_GRAPHIC_SetupMainBg(p, (void *)b);
-    SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, b);
-    SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), (void *)b);
-    ((struct Obj24951 *)p)->fC = func_020056A0(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
-    return p;
-}
-
-
-
-
-
-
-/*
- * volatile: hardware 04000050/04001050 writes and 04000000/04001000 read/write at 022059C2-022059DC.
- */
-void SHINKA_DEMO_GRAPHIC_Destroy(char *p)
-{
-    func_02030EAC(((struct Obj24952 *)p)->fC);
-    SHINKA_DEMO_GRAPHIC_Exit3d((int *)(p + 8));
-    SHINKA_DEMO_GRAPHIC_ExitClact(p + 4);
-    SHINKA_DEMO_GRAPHIC_ReleaseMainBg(p);
-    GF_FONT_SetDefaultTextColor();
-    *(volatile unsigned short *)0x04000050 = 0;
-    *(volatile unsigned short *)0x04001050 = 0;
-    *(volatile unsigned *)0x04000000 &= ~0xe000;
-    *(volatile unsigned *)0x04001000 &= ~0xe000;
-    MI_CpuFill8(p, 0, 0x10);
-    func_020307B0(p);
-}
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_Draw(char *a)
-{
-    SHINKA_DEMO_GRAPHIC_DrawClact(a + 4);
-    SHINKA_DEMO_GRAPHIC_Noop(a);
-}
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_Update(char *a)
-{
-    SHINKA_DEMO_GRAPHIC_Update3d(a + 8);
-}
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a)
-{
-    SHINKA_DEMO_GRAPHIC_Draw3dEnd(a + 8);
-}
-
-
-
-
-
-
-
-int SHINKA_DEMO_GRAPHIC_GetCamera(char *a)
-{
-    return SHINKA_DEMO_GRAPHIC_GetCameraId((int *)(a + 4));
-}
-
-
-
-
-
-
-/*
- * The `(int)i` cast on the id read (permuter, seed 6401) keeps the id load
- * and the element address separate values, so `adds r6, r7, r0` is emitted
- * inside the guarded block instead of hoisted above the `cmp`.
- */
-void SHINKA_DEMO_GRAPHIC_SetupSubBg(void)
-{
-    u32 i;
-
-    func_0203FC6C((const struct BgVramReq *)d_02208CA0, (int)1);
-    for (i = 0; i < 6; i++) {
-        u32 v = d_02208D1C[(int)i].id;
-        if (v >= 4) {
-            Entry *e = &d_02208D1C[i];
-            BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
-            func_020414AC(v);
-            func_02040588(v, e->mode);
-        }
-    }
-}
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0)
-{
-    unsigned int i;
-    for (i = 0; i < 6; i++)
-    {
-        unsigned int v = d_02208D1C[i].id;
-        if (v >= 4)
-        {
-            func_020403F4(v & 0xff);
-        }
-    }
-}
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b)
-{
-    SHINKA_DEMO_GRAPHIC_UpdateSubBg(b);
-    SHINKA_DEMO_GRAPHIC_VBlankClact(b + 4);
-}
-
-
-
 
 #define FX_F32_TO_FX32(x) \
-    ((fx32_02206108)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
-
-
-
-
-
-
-
-
-
-/*
- * Twin of SHINKA_DEMO_GRAPHIC_SetupSubBg: the `(int)i` cast on the id read keeps the element
- * address from being hoisted above the guard.
- */
-void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b)
-{
-    u32 i;
-
-    MI_CpuFill8(a, 0, 4);
-    BG_SYS_Create(b);
-    BMP_WIN_Init(b);
-    func_0203FC28((struct DispConfig *)d_02208CA0);
-    for (i = 0; i < 6; i++) {
-        u32 v = d_02208D1C[(int)i].id;
-        if (v <= 3) {
-            Entry *e = &d_02208D1C[i];
-            BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
-            func_020414AC(v);
-            func_02040588(v, e->mode);
-        }
-    }
-}
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(id<=3)func_020403F4((u8)id);}BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
-
-
-
-
-
-
-
-
-
-/*
- * extent: two trailing bytes of zero alignment padding.
- */
-void SHINKA_DEMO_GRAPHIC_Noop(void *a0) {}
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *a0){func_020419E4();}
-
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b)
-{
-    MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x02208CB0, a, b);
-    ((struct Obj14529 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct Obj14529 *)p)->f0);
-    BG_SYS_SetMainPlaneVisible(0x10, 1);
-    BG_SYS_SetSubPlaneVisible(0x10, 1);
-}
-
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_ExitClact(char *a)
-{
-    CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj24953 *)a)->f0)));
-    MI_CpuFill8(a, 0, 4);
-}
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
-
-
-
-
-
-
-
-
-int SHINKA_DEMO_GRAPHIC_GetCameraId(int *p)
-{
-    return *p;
-}
-
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, void *b)
-{
-    G3D_SYSTEM_Init(0, 2, 0, 1, 0, b, SHINKA_DEMO_Setup3d);
-    *a = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
-                       d_02208C88, d_02208C7C, d_02208C94, b);
-}
-
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_Exit3d(int *p)
-{
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
-}
-
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_Update3d(char *a)
-{
-    func_02047964();
-    G3D_CAMERA_Reset((struct Light *)((struct Obj24957 *)a)->f0);
-    G3D_SYSTEM_ApplyLookAt();
-}
-
-
-
-
-
-
-
-
-
-void SHINKA_DEMO_GRAPHIC_Draw3dEnd(void *p)
-{
-    G3D_SYSTEM_DrawEnd();
-}
-
-
-
-
-
-
-
-
+    ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
 Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
 {
@@ -1164,7 +551,7 @@ Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
     o->res1 = 0;
     if (f08 == 0) {
         o->res1 = func_02030734(o->heap, POKE_TOOL_GetPartyParamSize(), 1, d_02208F68, 0x213);
-        func_02019CE0(o->res0, o->res1);
+        POKE_TOOL_CopyPartyPokemon(o->res0, o->res1);
         POKE_TOOL_ChangeSpecies(o->res1, o->f0c);
     }
     if (o->f08 == 0)
@@ -1184,28 +571,14 @@ Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c)
         o->f48 = 0;
     else
         o->f48 = 1;
-    func_0220609C((char *)o);
-    func_02206108((Owner *)o);
-    func_022063E0((Owner *)o);
+    SHINKA_DEMO_VIEW_InitMcss((char *)o);
+    SHINKA_DEMO_VIEW_CreateModels((Owner *)o);
+    SHINKA_DEMO_VIEW_CreateWork((Owner *)o);
     o->f5c = 1;
     return o;
 }
 
-
-
-
-
-
-
-
-void SHINKA_DEMO_VIEW_Destroy(char *p){func_022065C8(p);func_0220623C((Owner *)((Owner *)p));func_022060BC(p);if(((struct Obj02911 *)p)->f10)func_020307B0(((struct Obj02911 *)p)->f10);func_020307B0(p);}
-
-
-
-
-
-
-
+void SHINKA_DEMO_VIEW_Destroy(char *p){SHINKA_DEMO_VIEW_DeleteWork(p);SHINKA_DEMO_VIEW_DeleteModels((Owner *)((Owner *)p));SHINKA_DEMO_VIEW_ExitMcss(p);if(((Owner *)p)->res1)func_020307B0(((Owner *)p)->res1);func_020307B0(p);}
 
 void SHINKA_DEMO_VIEW_Main(char *p)
 {
@@ -1226,7 +599,7 @@ void SHINKA_DEMO_VIEW_Main(char *p)
     case 3:
         W(0x14)=4;
         MCSS_SetPaletteFade((struct McssFade *)NODE(B(0x48)),0,16,0,0x7fff);
-        MCSS_SetPaletteFade((struct McssFade *)NODE(func_02206264(B(0x48))),16,16,0,0x7fff);
+        MCSS_SetPaletteFade((struct McssFade *)NODE(SHINKA_DEMO_VIEW_OtherSlot(B(0x48))),16,16,0,0x7fff);
         MCSS_SetAnmStopFlag(NODE(B(0x48)));
         break;
     case 4:if(!MCSS_CheckPaletteFade(NODE(B(0x48))))W(0x14)=5;break;
@@ -1236,8 +609,8 @@ void SHINKA_DEMO_VIEW_Main(char *p)
         break;
     case 6:
         W(0x14)=8;
-        func_022063AC(p,0x100000);
-        func_02206768(p,0,0xfffff800,0);
+        SHINKA_DEMO_VIEW_SetModelPosX(p,0x100000);
+        SHINKA_DEMO_VIEW_SetModelsPos(p,0,0xfffff800,0);
         W(0x5c)=0;
         NNS_G2dRestartMCAnimation((struct Obj *)MCSS_GetAnimCtrl(NODE(B(0x48))));
         break;
@@ -1245,28 +618,28 @@ void SHINKA_DEMO_VIEW_Main(char *p)
         if(W(0x18)>=1){W(0x14)=8;W(0x18)=0;}
         else W(0x18)++;
         break;
-    case 8:W(0x14)=9;func_022067BC((Owner *)((struct Owner *)p));break;
+    case 8:W(0x14)=9;SHINKA_DEMO_VIEW_StartFadeOut((Owner *)((struct Owner *)p));break;
     case 9:
-        if(func_022067FC(p)){W(0x14)=10;W(0x38)=1;func_0220672C((Owner *)((struct Owner *)p));}
+        if(SHINKA_DEMO_VIEW_AreModelsState0(p)){W(0x14)=10;W(0x38)=1;SHINKA_DEMO_VIEW_BeginIntro((Owner *)((struct Owner *)p));}
         break;
-    case 10:if(func_0220682C(p))W(0x14)=11;break;
+    case 10:if(SHINKA_DEMO_VIEW_AreModelsState4(p))W(0x14)=11;break;
     case 11:
         if(W(0x18)>=30){W(0x14)=13;W(0x18)=0;W(0x3c)=1;W(0x28)=1;}
         else W(0x18)++;
         break;
-    case 12:if(func_0220682C(p)){W(0x14)=13;W(0x3c)=1;W(0x28)=1;}break;
+    case 12:if(SHINKA_DEMO_VIEW_AreModelsState4(p)){W(0x14)=13;W(0x3c)=1;W(0x28)=1;}break;
     case 13:if(W(0x2c))W(0x14)=14;break;
     case 14:
         W(0x14)=15;
         if(W(0x40))W(0x18)=0;
         else {
-            B(0x48)=func_02206264(B(0x48));
+            B(0x48)=SHINKA_DEMO_VIEW_OtherSlot(B(0x48));
             MCSS_ResetVanishFlag(NODE(B(0x48)));
-            MCSS_SetVanishFlag(NODE(func_02206264(B(0x48))));
+            MCSS_SetVanishFlag(NODE(SHINKA_DEMO_VIEW_OtherSlot(B(0x48))));
             W(0x18)=30;
         }
-        func_022063AC(p,0);
-        func_02206768(p,0x100000,0xfffff800,0);
+        SHINKA_DEMO_VIEW_SetModelPosX(p,0);
+        SHINKA_DEMO_VIEW_SetModelsPos(p,0x100000,0xfffff800,0);
         W(0x5c)=1;
         break;
     case 15:if(W(0x30))W(0x14)=16;break;
@@ -1296,216 +669,128 @@ void SHINKA_DEMO_VIEW_Main(char *p)
     case 21:case 22:break;
     }
     if(W(0x5c))MCSS_Main(P(0x4c));
-    func_02206604((Owner *)((struct Owner *)p));
+    SHINKA_DEMO_VIEW_Update((Owner *)((struct Owner *)p));
 }
 
-
-
-
-
-
-
-
-
-void func_0220602C(Owner *o)
+void SHINKA_DEMO_VIEW_Draw(Owner *o)
 {
     if (o->f5c != 0)
         MCSS_Draw(o->sys);
     else
-        func_02206664(o);
+        SHINKA_DEMO_VIEW_Draw3d(o);
 }
-
-
-
-
-
-
 
 /*
  * Setter for the +0x1c flag word of the ov195 scene object driven by
  * SHINKA_DEMO_Main.  Unlabelled in the listing (a leaf that saves no lr, so it
  * prints inside a .word run); region-qualified because ov094 overlaps.
  */
-void func_02206044(int *p)
+void SHINKA_DEMO_VIEW_RequestStart(int *p)
 {
     p[7] = 1;
 }
 
-
-
-
-
-
-
 /*
  * Getter for the +0x20 word of the ov195 scene object (unlabelled leaf).
  */
-int func_0220604C(int *p)
+int SHINKA_DEMO_VIEW_IsStartDone(int *p)
 {
     return p[8];
 }
 
-
-
-
-
-
-
 /*
  * Setter for the +0x24 flag word of the ov195 scene object (unlabelled leaf).
  */
-void func_02206050(int *p)
+void SHINKA_DEMO_VIEW_RequestConfirm(int *p)
 {
     p[9] = 1;
 }
 
-
-
-
-
-
-
 /*
  * Getter for the +0x28 word of the ov195 scene object (unlabelled leaf).
  */
-int func_02206058(int *p)
+int SHINKA_DEMO_VIEW_IsConfirmDone(int *p)
 {
     return p[10];
 }
 
-
-
-
-
-
-
 /*
  * Setter for the +0x2c flag word of the ov195 scene object (unlabelled leaf).
  */
-void func_0220605C(int *p)
+void SHINKA_DEMO_VIEW_RequestEvolve(int *p)
 {
     p[11] = 1;
 }
 
-
-
-
-
-
-
 /*
  * Setter for the +0x30 flag word of the ov195 scene object (unlabelled leaf).
  */
-void func_02206064(int *p)
+void SHINKA_DEMO_VIEW_RequestFadeOut(int *p)
 {
     p[12] = 1;
 }
 
-
-
-
-
-
-
 /*
  * Getter for the +0x34 word of the ov195 scene object (unlabelled leaf).
  */
-int func_0220606C(int *p)
+int SHINKA_DEMO_VIEW_IsEvolveReady(int *p)
 {
     return p[13];
 }
 
-
-
-
-
-
-
 /*
  * Getter for the +0x38 word of the ov195 scene object (unlabelled leaf).
  */
-int func_02206070(int *p)
+int SHINKA_DEMO_VIEW_IsEvolveStarted(int *p)
 {
     return p[14];
 }
 
-
-
-
-
-
-
 /*
  * Getter for the +0x3c word of the ov195 scene object (unlabelled leaf).
  */
-int func_02206074(int *p)
+int SHINKA_DEMO_VIEW_IsEvolveDone(int *p)
 {
     return p[15];
 }
 
-
-
-
-
-
-
 /*
- * Leaf of the SHINKA_DEMO_Main dependency tree: on a positive func_0220673C
+ * Leaf of the SHINKA_DEMO_Main dependency tree: on a positive SHINKA_DEMO_VIEW_IsMenuReady
  * probe it sets the +0x40 word and the +0x14 state word of the scene object
- * and notifies func_02206750; returns 1, else 0.
+ * and notifies SHINKA_DEMO_VIEW_ShowMenu; returns 1, else 0.
  */
-int func_02206078(int *p)
+int SHINKA_DEMO_VIEW_TrySecondForm(int *p)
 {
-    int func_0220673C(int *);
-    void func_02206750(int *);
+    int SHINKA_DEMO_VIEW_IsMenuReady(int *);
+    void SHINKA_DEMO_VIEW_ShowMenu(int *);
 
-    if (func_0220673C(p) != 0) {
+    if (SHINKA_DEMO_VIEW_IsMenuReady(p) != 0) {
         p[0x10] = 1;
         p[5] = 0xc;
-        func_02206750(p);
+        SHINKA_DEMO_VIEW_ShowMenu(p);
         return 1;
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * 0x02016020 (arm9 Thumb leaf `str r1,[r0,#0x30]; bx lr`) resolves as label
  * since its function_starts seed (2026-09-27). EXACT*: the listing extent
  * includes the 2 bytes of alignment padding at 0x022060BA.
  */
-void func_0220609C(char *a)
+void SHINKA_DEMO_VIEW_InitMcss(char *a)
 {
-    ((struct Obj08349 *)a)->f4C = (u32)MCSS_Init(2, (void *)(((struct Obj08349 *)a)->f0));
-    MCSS_SetTextureTransAdrs((void *)(((struct Obj08349 *)a)->f4C), 0x30000);
-    MCSS_SetOrthoMode((void *)(((struct Obj08349 *)a)->f4C));
+    ((Owner *)a)->sys = (void *)(u32)MCSS_Init(2, (void *)(((Owner *)a)->heap));
+    MCSS_SetTextureTransAdrs((void *)(((Owner *)a)->sys), 0x30000);
+    MCSS_SetOrthoMode((void *)(((Owner *)a)->sys));
 }
 
+void SHINKA_DEMO_VIEW_ExitMcss(char *p){MCSS_Exit(((Owner *)p)->sys);}
 
-
-
-
-
-
-void func_022060BC(char *p){MCSS_Exit(((struct Obj02911 *)p)->f4C);}
-
-
-
-
-
-
-
-
-fx32_02205AC0 func_022060C8(void *p)
+fx32 SHINKA_DEMO_VIEW_GetModelOffset(void *p)
 {
     int v = POKE_TOOL_GetPartyValue(p, 5, 0);
-    fx32_02205AC0 r = -0x12000;
+    fx32 r = -0x12000;
 
     switch (v) {
     case 0x260:
@@ -1521,18 +806,12 @@ fx32_02205AC0 func_022060C8(void *p)
     return r;
 }
 
-
-
-
-
-
-
 /*
  * mwccarm calls the add helper (0x0209C95C) _fadd and the subtract helper
  * (0x0209CB8C) _fsub, as layout/runtime_arm9.txt now does (swapped there
  * until 2026-09-28).
  */
-void func_02206108(Owner *o)
+void SHINKA_DEMO_VIEW_CreateModels(Owner *o)
 {
     u8 i;
     VecFx32 scale;
@@ -1545,9 +824,9 @@ void func_02206108(Owner *o)
     if (o->f08 == 0) {
         for (i = 0; i < 2; i++) {
             if (i == 0)
-                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
+                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res0), 0);
             else
-                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res1, 0, 0, func_022060C8(o->res1), 0);
+                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res1, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res1), 0);
             MCSS_SetShadowVanishFlag(o->obj[i], 1);
             MCSS_TOOL_SetAnimeStopCallback((int)o->obj[i]);
             MCSS_SetScale(o->obj[i], (u32 *)(&scale));
@@ -1557,21 +836,15 @@ void func_02206108(Owner *o)
             }
         }
     } else {
-        o->obj[1] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
+        o->obj[1] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res0), 0);
         MCSS_SetShadowVanishFlag(o->obj[1], 1);
         MCSS_TOOL_SetAnimeStopCallback((int)o->obj[1]);
         MCSS_SetScale(o->obj[1], (u32 *)(&scale));
     }
-    func_02206274((Owner *)o);
+    SHINKA_DEMO_VIEW_UpdateModelOffsets((Owner *)o);
 }
 
-
-
-
-
-
-
-void func_0220623C(Owner *o)
+void SHINKA_DEMO_VIEW_DeleteModels(Owner *o)
 {
     u8 i;
 
@@ -1583,17 +856,11 @@ void func_0220623C(Owner *o)
     }
 }
 
-
-
-
-
-
-
 /*
  * Unlabelled Thumb leaf (saves no lr), seeded by address: flips a 0/1
  * slot index.
  */
-u8 func_02206264(u8 i)
+u8 SHINKA_DEMO_VIEW_OtherSlot(u8 i)
 {
     u8 r;
 
@@ -1604,15 +871,9 @@ u8 func_02206264(u8 i)
     return r;
 }
 
-
-
-
 #undef FX_F32_TO_FX32
 
-
-
 #undef FX_F32_TO_FX32
-
 
 #undef FX_F32_TO_FX32
 
@@ -1621,12 +882,7 @@ u8 func_02206264(u8 i)
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-
-
-
-
-
-void func_02206274(Owner *o)
+void SHINKA_DEMO_VIEW_UpdateModelOffsets(Owner *o)
 {
     u8 i;
     float w, h, d;
@@ -1653,52 +909,32 @@ void func_02206274(Owner *o)
     }
 }
 
-
-
-
-
-
-void func_022063AC(char *a, u32 v)
+void SHINKA_DEMO_VIEW_SetModelPosX(char *a, u32 v)
 {
     u32 buf[3];
     u8 i;
 
     for (i = 0; i < 2; i++) {
         char *p = a + i * 4;
-        if (((struct Obj10822 *)p)->f50 != 0) {
-            MCSS_GetPosition((void *)(((struct Obj10822 *)p)->f50), buf);
+        if (((Owner *)p)->obj[0] != 0) {
+            MCSS_GetPosition((void *)(((Owner *)p)->obj[0]), buf);
             buf[0] = v;
-            MCSS_SetPosition((void *)(((struct Obj10822 *)p)->f50), buf);
+            MCSS_SetPosition((void *)(((Owner *)p)->obj[0]), buf);
         }
     }
 }
-
-
-
-
-
 
 static inline fx32 FX_SinIdx(int idx)
 {
     return FX_SinCosTable_[idx * 2];
 }
 
-
-
-
-
-
 static inline fx32 FX_CosIdx(int idx)
 {
     return FX_SinCosTable_[idx * 2 + 1];
 }
 
-
-
-
-
-
-void func_022063E0(Owner *o)
+void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 {
     Work *w = func_02030734(o->heap, sizeof(Work), 1, d_02208F68, 0x54c);
     Grid *g;
@@ -1716,23 +952,23 @@ void func_022063E0(Owner *o)
     a = POKE_TOOL_GetPartyValue(o->res0, 5, 0);
     b = POKE_TOOL_GetPartyValue(o->res0, 0x6f, 0);
     c = POKE_TOOL_GetGender(o->res0);
-    g = w->grid[0] = func_0220685C(a, b, c, func_02017EAC(o->res0), 0, 0, 0x26000, 0x960, o->heap);
+    g = w->grid[0] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, func_02017EAC(o->res0), 0, 0, 0x26000, 0x960, o->heap);
     if (o->f08 == 0) {
-        func_02206A5C(g, o->heap);
+        SHINKA_DEMO_VIEW_InitGrid(g, o->heap);
         g->state = 3;
-        func_022081A4((Grid *)((struct Fade *)g), o->heap, 0x7fff, 31, 31, 0, 31);
+        SHINKA_DEMO_VIEW_StartGridFade((Grid *)((struct Fade *)g), o->heap, 0x7fff, 31, 31, 0, 31);
     } else {
-        func_02206E2C(g, o->heap);
+        SHINKA_DEMO_VIEW_SetupGridCells(g, o->heap);
     }
 
     if (o->f08 == 0) {
         a = POKE_TOOL_GetPartyValue(o->res1, 5, 0);
         b = POKE_TOOL_GetPartyValue(o->res1, 0x6f, 0);
         c = POKE_TOOL_GetGender(o->res1);
-        g = w->grid[1] = func_0220685C(a, b, c, func_02017EAC(o->res1), 0, 0, 0x28000, 0x980, o->heap);
-        func_02206A5C(g, o->heap);
+        g = w->grid[1] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, func_02017EAC(o->res1), 0, 0, 0x28000, 0x980, o->heap);
+        SHINKA_DEMO_VIEW_InitGrid(g, o->heap);
         g->state = 3;
-        func_022081A4((Grid *)((struct Fade *)g), o->heap, 0x7fff, 31, 31, 0, 31);
+        SHINKA_DEMO_VIEW_StartGridFade((Grid *)((struct Fade *)g), o->heap, 0x7fff, 31, 31, 0, 31);
         for (j = 0; j < 0x12; j++) {
             for (k = 0; k < 0x12; k++)
                 g->row[j].cell[k].visible = 0;
@@ -1740,9 +976,9 @@ void func_022063E0(Owner *o)
     }
 
     if (o->f08 == 0)
-        w->quad = (struct Quad *)func_02208478(0x26000, 0x960, o->heap);
+        w->quad = (struct Quad *)SHINKA_DEMO_VIEW_CreateQuad(0x26000, 0x960, o->heap);
     o->work = w;
-    func_02206768((char *)o, 0x100000, -0x800, 0);
+    SHINKA_DEMO_VIEW_SetModelsPos((char *)o, 0x100000, -0x800, 0);
     {
         VecFx32 v1 = d_02208E74;
         VecFx32 v2 = d_02208E80;
@@ -1752,27 +988,16 @@ void func_022063E0(Owner *o)
     }
 }
 
-
 #undef FX_F32_TO_FX32
 
 #undef FX_F32_TO_FX32
+
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
+void SHINKA_DEMO_VIEW_DeleteWork(char *p){char *q;u8 i;q=*(char * *)&((Owner *)p)->work;G3D_CAMERA_Delete((void *)(((Work *)q)->camera));if(((Work *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((Work *)q)->quad,((Owner *)p)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)p)->heap);}func_020307B0(q);}
 
-
-
-
-
-void func_022065C8(char *p){char *q;u8 i;q=*(char * *)&((struct Obj02911 *)p)->f58;G3D_CAMERA_Delete((void *)(((struct Obj10824 *)q)->f4));if(((struct Obj10824 *)q)->f10)func_02208514(((struct Obj10824 *)q)->f10,((struct Obj02911 *)p)->f0);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))func_02206A3C(*(char **)(q+i*4+8),((struct Obj02911 *)p)->f0);}func_020307B0(q);}
-
-
-
-
-
-
-
-void func_02206604(Owner *o)
+void SHINKA_DEMO_VIEW_Update(Owner *o)
 {
     Work *w = o->work;
     u16 heap = o->heap;
@@ -1783,7 +1008,7 @@ void func_02206604(Owner *o)
     case 0:
         break;
     case 1:
-        func_022076A0(o);
+        SHINKA_DEMO_VIEW_DrawGridRotated(o);
         break;
     case 2:
     case 3:
@@ -1792,20 +1017,14 @@ void func_02206604(Owner *o)
     for (i = 0; i < 2; i++) {
         g = w->grid[i];
         if (g != 0) {
-            if (o->f40 != 0 && func_02208410((char *)g, heap))
+            if (o->f40 != 0 && SHINKA_DEMO_VIEW_IsGridState3((char *)g, heap))
                 g->state = 4;
-            func_02208430((Grid *)((struct Fade *)g), heap);
+            SHINKA_DEMO_VIEW_UpdateGridFade((Grid *)((struct Fade *)g), heap);
         }
     }
 }
 
-
-
-
-
-
-
-void func_02206664(Owner *o)
+void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
 {
     u8 save0[0x20];
     u8 save1[0x24];
@@ -1835,26 +1054,20 @@ void func_02206664(Owner *o)
     REG_SPE_EMI = 0x7fff7fff;
     for (i = 0; i < 2; i++) {
         if (w->grid[i] != 0)
-            func_02207510((Grid *)(w->grid[i]), o->heap);
+            SHINKA_DEMO_VIEW_DrawGrid((Grid *)(w->grid[i]), o->heap);
     }
     if (w->quad != 0)
-        func_02208570((Quad *)w->quad, o->heap);
+        SHINKA_DEMO_VIEW_DrawQuad((Quad *)w->quad, o->heap);
     G3D_SYSTEM_SetProjection((const u32 *)save0);
     G3D_SYSTEM_SetLookAt(save1);
     G3D_SYSTEM_ApplyLookAt();
     NNS_G3dGeFlushBuffer();
 }
 
-
-
-
-
-
-
 /*
  * Unlabelled Thumb leaf (saves no lr), seeded by address.
  */
-void func_0220672C(Owner *o)
+void SHINKA_DEMO_VIEW_BeginIntro(Owner *o)
 {
     Work *w = o->work;
 
@@ -1862,29 +1075,17 @@ void func_0220672C(Owner *o)
         w->f00 = 1;
 }
 
-
-
-
-
-
-
-int func_0220673C(int *p)
+int SHINKA_DEMO_VIEW_IsMenuReady(int *p)
 {
-    int v = **(int * *)&((struct Obj08348 *)p)->f58;
+    int v = **(int * *)&((Owner *)p)->work;
 
     return v != 0 && v != 4;
 }
 
-
-
-
-
-
-
-void func_02206750(int *p)
+void SHINKA_DEMO_VIEW_ShowMenu(int *p)
 {
-    char *q = *(char * *)&((struct Obj08348 *)p)->f58;
-    int *r = *(int * *)&((struct Obj24968 *)q)->f8;
+    char *q = *(char * *)&((Owner *)p)->work;
+    int *r = *(int * *)&((Work *)q)->grid[0];
     int v = r[0x28 / 4];
 
     if (v == 1) return;
@@ -1893,45 +1094,27 @@ void func_02206750(int *p)
     r[0x28 / 4] = 1;
 }
 
-
-
-
-
-
-
-void func_02206768(char *a, u32 x, u32 y, u32 z)
+void SHINKA_DEMO_VIEW_SetModelsPos(char *a, u32 x, u32 y, u32 z)
 {
-    char *t = *(char * *)&((struct Obj00300 *)a)->f58;
+    char *t = *(char * *)&((Owner *)a)->work;
     u8 i;
 
     for (i = 0; i < 2; i++) {
         if (*(void **)(t + i * 4 + 8) != 0)
-            func_022067B0(*(void **)(t + i * 4 + 8), ((struct Obj00300 *)a)->f0, x, y, z);
+            SHINKA_DEMO_VIEW_SetModelOffset(*(void **)(t + i * 4 + 8), ((Owner *)a)->heap, x, y, z);
     }
-    if (((struct Obj14534 *)t)->f10 != 0)
-        func_022086BC(((struct Obj14534 *)t)->f10, ((struct Obj00300 *)a)->f0, x, y, z);
+    if (((Work *)t)->quad != 0)
+        SHINKA_DEMO_VIEW_SetQuadOffset((char *)((Work *)t)->quad, ((Owner *)a)->heap, x, y, z);
 }
 
-
-
-
-
-
-
-void func_022067B0(char *a, int b, int c, int d, int e)
+void SHINKA_DEMO_VIEW_SetModelOffset(char *a, int b, int c, int d, int e)
 {
-    ((struct Obj10826 *)a)->f1C = c;
-    *(int *)(a + 0x1c + 4) = d;
-    *(int *)(a + 0x1c + 8) = e;
+    ((Grid *)a)->v.x = c;
+    ((Grid *)a)->v.y = d;
+    ((Grid *)a)->v.z = e;
 }
 
-
-
-
-
-
-
-void func_022067BC(Owner *o)
+void SHINKA_DEMO_VIEW_StartFadeOut(Owner *o)
 {
     int heap = o->heap;
     Work *w = o->work;
@@ -1942,58 +1125,40 @@ void func_022067BC(Owner *o)
         g = w->grid[i];
         if (g != 0) {
             g->state = 5;
-            func_022081A4((Grid *)((struct Fade *)g), heap, 0x7fff, 31, 0, 0, -1);
+            SHINKA_DEMO_VIEW_StartGridFade((Grid *)((struct Fade *)g), heap, 0x7fff, 31, 0, 0, -1);
         }
     }
 }
 
-
-
-
-
-
-
-int func_022067FC(char *a)
+int SHINKA_DEMO_VIEW_AreModelsState0(char *a)
 {
-    u16 id = ((struct Obj00300 *)a)->f0;
-    char *t = *(char * *)&((struct Obj00300 *)a)->f58;
+    u16 id = ((Owner *)a)->heap;
+    char *t = *(char * *)&((Owner *)a)->work;
     int r = 1;
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        if (*(char **)(t + i * 4 + 8) != 0 && func_022083CC(*(char **)(t + i * 4 + 8), id) == 0)
+        if (*(char **)(t + i * 4 + 8) != 0 && SHINKA_DEMO_VIEW_IsGridState0(*(char **)(t + i * 4 + 8), id) == 0)
             r = 0;
     }
     return r;
 }
 
-
-
-
-
-
-
-int func_0220682C(char *a)
+int SHINKA_DEMO_VIEW_AreModelsState4(char *a)
 {
-    u16 id = ((struct Obj00300 *)a)->f0;
-    char *t = *(char * *)&((struct Obj00300 *)a)->f58;
+    u16 id = ((Owner *)a)->heap;
+    char *t = *(char * *)&((Owner *)a)->work;
     int r = 1;
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        if (*(char **)(t + i * 4 + 8) != 0 && func_02208420(*(char **)(t + i * 4 + 8), id) == 0)
+        if (*(char **)(t + i * 4 + 8) != 0 && SHINKA_DEMO_VIEW_IsGridState4(*(char **)(t + i * 4 + 8), id) == 0)
             r = 0;
     }
     return r;
 }
 
-
-
-
-
-
-
-Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
+Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
 {
     Grid *g = func_02030734(heap, sizeof(Grid), 1, d_02208F68, 0x720);
     u32 chrFile;
@@ -2046,37 +1211,23 @@ Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32
     return g;
 }
 
-
-
-
-
-
-
-void func_02206A3C(char *p, int a1)
+void SHINKA_DEMO_VIEW_DeleteGrid(char *p, int a1)
 {
-    BMP_Delete(((struct Obj10827 *)p)->f10);
-    func_020307B0(((struct Obj10827 *)p)->f8);
-    func_020307B0(((struct Obj10827 *)p)->fC);
+    BMP_Delete(((Grid *)p)->canvas);
+    func_020307B0(((Grid *)p)->chrRes);
+    func_020307B0(((Grid *)p)->plttRes);
     func_020307B0(p);
 }
-
-
-
-
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
     return (fx32)(((long long)a * b + 0x800) >> 12);
 }
 
-
-
-
-
 /*
  * 2026-10-05 (wave P2 lane Q1b, pengy share): EXACT* (974 B compiled, the
  * listing extent is 976 B with the trailing pad). Written bottom-up from the
- * matched twin func_02206E2C (same Grid/Ent, 18 x 18 entries of 0x80 bytes).
+ * matched twin SHINKA_DEMO_VIEW_SetupGridCells (same Grid/Ent, 18 x 18 entries of 0x80 bytes).
  * What closed the dx/dy/dz block: fx64 (long long) locals lx, ly, lz assigned
  * in the loop body (lz, then lx, then ly) and multiplied directly; LICM hoists
  * their sign words above the first _ll_mul and spills them, which gives the
@@ -2085,7 +1236,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
  * (0x3E0B0FCE) replaces the earlier 0.13636364f guess. Tried before: static
  * inline FX_Mul with long long parameters (966 B, no change).
  */
-void func_02206A5C(Grid *p, u16 heap)
+void SHINKA_DEMO_VIEW_InitGrid(Grid *p, u16 heap)
 {
     u8 i;
     u8 q;
@@ -2100,7 +1251,7 @@ void func_02206A5C(Grid *p, u16 heap)
     Cell *row;
     long long lx, ly, lz;
 
-    func_02206E2C((Grid *)p, heap);
+    SHINKA_DEMO_VIEW_SetupGridCells((Grid *)p, heap);
     p->state = 0;
     for (i = 0; i < 16; i++)
         p->pal[i] = 0x7FFF;
@@ -2176,17 +1327,13 @@ void func_02206A5C(Grid *p, u16 heap)
     }
 }
 
-
-
-
-
 /*
  * Builds a 18 x 18 grid of 0x80-byte entries: each gets two rounded fx32
  * corner sets, a position (cur) and its copy (org). The 0.0f offsets and the
  * 16/3 step are locals (z, k): the compiler propagates them only after folding,
  * so `z * (A / k)` stays a _fmul and `(float)r * k` keeps k as the second operand.
  */
-void func_02206E2C(Grid *p, u16 heap)
+void SHINKA_DEMO_VIEW_SetupGridCells(Grid *p, u16 heap)
 {
     int i;
     float a0, b, c, d;
@@ -2234,10 +1381,6 @@ void func_02206E2C(Grid *p, u16 heap)
     }
 }
 
-
-
-
-
 static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
 {
     REG_MTX_TRANS = (u32)x;
@@ -2245,18 +1388,10 @@ static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
     REG_MTX_TRANS = (u32)z;
 }
 
-
-
-
-
 static inline void G3_TexCoord(fx32 s, fx32 t)
 {
     REG_TEXCOORD = (u32)(u16)(s16)(s >> 8) | ((u32)(u16)(s16)(t >> 8) << 16);
 }
-
-
-
-
 
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
 {
@@ -2264,15 +1399,11 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
     REG_VTX_16 = (u32)(u16)z;
 }
 
-
-
-
-
 /*
  * Grid of textured quads, rows of 0x12 cells of 0x80 bytes, one push /
  * translate / quad / pop per visible cell.
  */
-void func_02207510(Grid *w, u16 heap)
+void SHINKA_DEMO_VIEW_DrawGrid(Grid *w, u16 heap)
 {
     int j;
     int i;
@@ -2309,13 +1440,10 @@ void func_02207510(Grid *w, u16 heap)
 }
 
 #undef FX_F32_TO_FX32
+
 #define FX_F32_TO_FX32(x)     ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-
-
-
-
-void func_022076A0(Owner *o)
+void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o)
 {
     Work *w = o->work;
     u16 heap = o->heap;
@@ -2323,14 +1451,14 @@ void func_022076A0(Owner *o)
     Grid *d;
     u8 j;
     u8 i;
-    s16_022076A0 x;
-    s16_022076A0 y;
+    s16 x;
+    s16 y;
     int flag;
 
     if (w->f00 != 1)
         return;
 
-    func_02207868((char *)w->grid[0], heap);
+    SHINKA_DEMO_VIEW_InitGridFromPokemon((char *)w->grid[0], heap);
     s = w->grid[0];
     d = w->grid[1];
     d->f68 = s->f68;
@@ -2383,34 +1511,22 @@ void func_022076A0(Owner *o)
     s = w->grid[0];
     d = w->grid[1];
     d->state = s->state;
-    if (func_022083DC((char *)s, heap)) {
-        func_022083EC(s, heap);
-        func_022083EC(d, heap);
+    if (SHINKA_DEMO_VIEW_IsGridState1((char *)s, heap)) {
+        SHINKA_DEMO_VIEW_StartGridFadeOut(s, heap);
+        SHINKA_DEMO_VIEW_StartGridFadeOut(d, heap);
     }
-    func_02208420((char *)s, heap);
+    SHINKA_DEMO_VIEW_IsGridState4((char *)s, heap);
     if (w->quad != 0) {
         w->quad->f4e = w->grid[0]->rows;
-        func_0220851C((Quad *)w->quad, heap);
+        SHINKA_DEMO_VIEW_UpdateQuadVerts((Quad *)w->quad, heap);
     }
 }
 
-
-
-
 static inline int mul(int a,int b){return (int)(((long long)a*b+2048)>>12);}
-
-
-
 
 static inline int sub(int a,int b){return (int)((u32)a-(u32)b);}
 
-
-
-
 static inline int add(int a,int b){return (int)((u32)a+(u32)b);}
-
-
-
 
 /*
  * checks: 1 own matrix/vec/invsqrt bodies and matched callers confirm signatures; original explicitly forwards heap in r1 to 08410; 2 06274/063E0/06604/0685C no complete motion twin; 3 Boolean first/second, Boolean done and _Bool smallH/smallV each DIFF597; after stop s16 first/second DIFF599; writable p retained; 4 case2 cursor cache DIFF600 and case3 shared done-zero DIFF597, scheduling cap used, branch/stack idioms read; 5 refreshed unfiltered idioms and matched neighbours, declared-stack-struct idiom read.
@@ -2427,7 +1543,7 @@ static inline int add(int a,int b){return (int)((u32)a+(u32)b);}
  *   loop block list, so LICM hoists the 2048 constants in text order (K1..K5).
  * extent: handed2340 ends at 0220818C before pop02208190; pools through022081A0; next genuine022081A4. Full extent2364 proved by explicit show.
  */
-void func_02207868(char *p,u16 heap)
+void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
 {
     int first,second,done;
     int angle,dx,dy,dz,horiz,vert,inv,vx,vy,vz,smallH,smallV;
@@ -2443,7 +1559,7 @@ void func_02207868(char *p,u16 heap)
     int first3,second3,done3;
     int horiz1,horiz2,vert1,vert2;
     int nx,ny,nz;
-    s16_02207868 i,j;
+    s16 i,j;
     G(0x68)+=G(0x6c);
     if((int)G(0x68)>=65536)G(0x68)-=65536;
     for(i=0;i<18;i++)for(j=0;j<18;j++){
@@ -2501,7 +1617,7 @@ void func_02207868(char *p,u16 heap)
             source2.x=Q(0x50);source2.y=0;source2.z=0;
             MTX_MultVec43(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
         }
-        if(func_02208410(p,heap)&&G(0x70)>=30){
+        if(SHINKA_DEMO_VIEW_IsGridState3(p,heap)&&G(0x70)>=30){
             j=H(0x5a);i=H(0x5c);
             if(i>=0&&j>=0){
                 *(u8 *)(p+i*0x900+0x88+j*0x80)=0;
@@ -2558,13 +1674,9 @@ void func_02207868(char *p,u16 heap)
     }
 }
 
-
-
-
-
-void func_022081A4(Grid *p, int unused, u16 color, s16_022081A4 cur, s16_022081A4 end, s16_022081A4 wait, s16_022081A4 step)
+void SHINKA_DEMO_VIEW_StartGridFade(Grid *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step)
 {
-    s16_022081A4 v;
+    s16 v;
 
     p->color = color;
     p->fcur = cur;
@@ -2605,24 +1717,17 @@ void func_022081A4(Grid *p, int unused, u16 color, s16_022081A4 cur, s16_022081A
 
     p->flevel = p->fcur;
     p->fcount = p->fwait;
-    func_022082DC(p, unused);
+    SHINKA_DEMO_VIEW_ApplyGridPalette(p, unused);
 }
 
-
-
-
-
-int func_0220826C(Grid *p, int x)
+int SHINKA_DEMO_VIEW_IsGridFadeDone(Grid *p, int x)
 {
     if (p->fstep == 0)
         return 1;
     return 0;
 }
 
-
-
-
-void func_0220827C(Grid *p, int x)
+void SHINKA_DEMO_VIEW_StepGridFade(Grid *p, int x)
 {
     s16 step = p->fstep;
     s16 v;
@@ -2644,19 +1749,12 @@ void func_0220827C(Grid *p, int x)
         p->fstep = 0;
     else
         p->fcount = p->fwait;
-    func_022082DC(p, x);
+    SHINKA_DEMO_VIEW_ApplyGridPalette(p, x);
 }
 
-
-
-
-
-
-
-
-void func_022082DC(Grid *p, int x)
+void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x)
 {
-    u16 *src = *(u16 * *)&((struct Obj24975 *)(p->pltt))->fC;
+    u16 *src = *(u16 * *)&((PlttData *)(p->pltt))->raw;
     u8 i;
     s16 tr, tg, tb;
     s16 r, g, b;
@@ -2688,100 +1786,54 @@ void func_022082DC(Grid *p, int x)
     func_02061CA4((void *)1, p->plttAddr, (u32)p->pal, 0x20);
 }
 
-
-
-
-
-
-
-
-int func_022083CC(char *p, u16 a1)
+int SHINKA_DEMO_VIEW_IsGridState0(char *p, u16 a1)
 {
-    return ((struct Obj24976 *)p)->f28 == 0;
+    return ((Grid *)p)->state == 0;
 }
 
-
-
-
-
-
-
-
-int func_022083DC(char *p, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState1(char *p, u16 heap)
 {
-    return ((struct Obj24977 *)p)->f28 == 1;
+    return ((Grid *)p)->state == 1;
 }
 
-
-
-
-
-
-
-
-void func_022083EC(Grid *p, int x)
+void SHINKA_DEMO_VIEW_StartGridFadeOut(Grid *p, int x)
 {
     p->state = 2;
-    func_022081A4(p, x, 0x7fff, 0, 31, 0, 1);
+    SHINKA_DEMO_VIEW_StartGridFade(p, x, 0x7fff, 0, 31, 0, 1);
 }
 
-
-
-
-
-
-
-
-int func_02208410(char *p, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState3(char *p, u16 heap)
 {
-    return ((struct Obj24978 *)p)->f28 == 3;
+    return ((Grid *)p)->state == 3;
 }
 
-
-
-
-
-
-
-int func_02208420(char *p, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState4(char *p, u16 heap)
 {
-    return ((struct Obj24979 *)p)->f28 == 4;
+    return ((Grid *)p)->state == 4;
 }
 
-
-
-
-
-
-
-void func_02208430(Grid *p, int x)
+void SHINKA_DEMO_VIEW_UpdateGridFade(Grid *p, int x)
 {
     switch (p->state) {
     case 0:
     case 1:
         break;
     case 2:
-        if (func_0220826C((Grid *)p, x))
+        if (SHINKA_DEMO_VIEW_IsGridFadeDone((Grid *)p, x))
             p->state = 3;
         break;
     case 3:
     case 4:
         break;
     case 5:
-        if (func_0220826C((Grid *)p, x))
+        if (SHINKA_DEMO_VIEW_IsGridFadeDone((Grid *)p, x))
             p->state = 0;
         break;
     }
-    func_0220827C((Grid *)p, x);
+    SHINKA_DEMO_VIEW_StepGridFade((Grid *)p, x);
 }
 
-
-
-
-
-
-
-Quad *func_02208478(u32 tex, u32 pltt, u16 heap)
+Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap)
 {
     Quad *p = func_02030734(heap, sizeof(Quad), 1, d_02208F68, 0xd31);
 
@@ -2815,18 +1867,7 @@ Quad *func_02208478(u32 tex, u32 pltt, u16 heap)
     return p;
 }
 
-
-
-
-
-
-void func_02208514(void *p,int n){func_020307B0(p);}
-
-
-
-
-
-
+void SHINKA_DEMO_VIEW_FreeQuad(void *p,int n){func_020307B0(p);}
 
 /*
  * The rounding is the SDK FX_F32_TO_FX32 shape applied to an integer
@@ -2835,7 +1876,7 @@ void func_02208514(void *p,int n){func_020307B0(p);}
  * (0x0209CB8C) as _fsub, as layout/runtime_arm9.txt now does (swapped
  * there until 2026-09-28).
  */
-void func_0220851C(Quad *p, u16 heap)
+void SHINKA_DEMO_VIEW_UpdateQuadVerts(Quad *p, u16 heap)
 {
     u8 i = p->f4e;
     u8 b;
@@ -2846,24 +1887,12 @@ void func_0220851C(Quad *p, u16 heap)
     p->t0 = FX_F32_TO_FX32(b);
 }
 
-
-
-
-
-
-
 static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
 {
     REG_MTX_SCALE = (u32)x;
     REG_MTX_SCALE = (u32)y;
     REG_MTX_SCALE = (u32)z;
 }
-
-
-
-
-
-
 
 /*
  * One textured quad in immediate geometry: texture image and palette base,
@@ -2886,7 +1915,7 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
  * same place folds to ldrh (81 bytes); the local read before G3_TexCoord gives the
  * ldrsh but schedules it into the texcoord block (29 bytes).
  */
-void func_02208570(Quad *p, u16 heap)
+void SHINKA_DEMO_VIEW_DrawQuad(Quad *p, u16 heap)
 {
     int z;
 
@@ -2913,460 +1942,9 @@ void func_02208570(Quad *p, u16 heap)
     }
 }
 
-
-
-
-
-
-
-void func_022086BC(char *a, int b, int c, int d, int e)
+void SHINKA_DEMO_VIEW_SetQuadOffset(char *a, int b, int c, int d, int e)
 {
-    ((struct Obj10829 *)a)->f8 = c;
-    *(int *)(a + 8 + 4) = d;
-    *(int *)(a + 8 + 8) = e;
-}
-
-
-
-
-
-
-Node *func_022086C8(u16 heap, u16 n)
-{
-    Node *p = func_02030734(heap, n * sizeof(Node), 1, d_02208F7C, 0xe8);
-    u16 i;
-
-    for (i = 0; i < n; i++) {
-        p[i].tx = 0;
-        p[i].ty = 0;
-        p[i].tz = 0;
-        p[i].sx = 0x1000;
-        p[i].sy = 0x1000;
-        p[i].sz = 0x1000;
-        MTX_Identity33_((MtxFx33 *)p[i].mtx);
-    }
-    return p;
-}
-
-
-
-
-
-void func_02208714(void *p){func_020307B0(p);}
-
-
-
-
-
-
-Anim_0220871C *func_0220871C(u16 heap, u32 x)
-{
-    Anim_0220871C *p = func_02030734(heap, sizeof(Anim_0220871C), 1, d_02208F7C, 0x150);
-
-    p->heap = heap;
-    p->f04 = x;
-    if (x == 0)
-        p->f08 = 0;
-    else
-        p->f08 = 7;
-    p->f0c = 0;
-    p->ptc = func_0220887C(p->heap, 9, d_02208ED0);
-    func_02208A54((char *)p);
-    func_02208AB0((Anim_02208AB0 *)p);
-    return p;
-}
-
-
-
-
-
-
-void func_02208770(char *a)
-{
-    func_02208B54(a);
-    func_02208A6C(a);
-    func_02208994((char *)(((struct Obj05518 *)a)->f10));
-    func_020307B0(a);
-}
-
-
-
-
-
-
-void func_0220878C(Anim_0220878C *p)
-{
-    switch (p->state) {
-    case 0:
-    case 1:
-        break;
-    case 2:
-        func_02208C10((Anim_02208C10 *)p);
-        p->state = 3;
-        break;
-    case 3:
-        if (func_02208C18((Anim_02208C18 *)p)) {
-            p->state = 4;
-            p->wait = 3;
-            func_02208A48((Ptc_02208A48 *)p->ptc, 0);
-        }
-        break;
-    case 4:
-        if (p->wait == 0) {
-            func_02208C28((Anim_02208C28 *)p);
-            p->state = 5;
-        } else {
-            p->wait = p->wait - 1;
-        }
-        break;
-    case 5:
-        if (func_02208C30((Anim_02208C28 *)p))
-            p->state = 6;
-        break;
-    case 6:
-    case 7:
-        break;
-    }
-    func_02208B6C((char *)p);
-    func_022089A4((Ptc_022089A4 *)p->ptc);
-}
-
-
-
-
-
-
-void func_02208804(char *a)
-{
-    func_02208A78((Anim_02208A78 *)((struct Anim *)a));
-    func_02208A24(((struct Obj08350 *)a)->f10);
-}
-
-
-
-
-
-
-void func_02208814(char *a)
-{
-    func_02208A38((char *)(((struct Obj10830 *)a)->f10), 0x1e);
-    if (((struct Obj10830 *)a)->f8 == 1)
-        ((struct Obj10830 *)a)->f8 = 2;
-}
-
-
-
-
-
-/*
- * Move the ov195 scene object to state 1 with a 0x26c timer.  Labelled leaf.
- */
-void func_0220882C(int *p)
-{
-    void func_02208A2C(char *p);
-
-    func_02208A2C((char *)p[4]);
-    p[2] = 1;
-    p[3] = 0x26c;
-}
-
-
-
-
-
-/*
- * Flag bump on the ov195 scene object (+8 == 1 -> 2); unlabelled leaf.
- */
-void func_02208844(int *p)
-{
-    if (p[2] == 1)
-        p[2] = 2;
-}
-
-
-
-
-
-/*
- * True when the ov195 scene object's +8 state is 4; unlabelled leaf.
- */
-int func_02208850(int *p)
-{
-    if (p[2] == 4)
-        return 1;
-    return 0;
-}
-
-
-
-
-
-/*
- * Camera-state predicate on the ov195 scene object's +8/+0xc words:
- * state 4 with +0xc <= 1, or state 5.  Unlabelled leaf.
- */
-int func_02208860(int *p)
-{
-    if (p[2] == 4 && (unsigned)p[3] <= 1)
-        return 1;
-    if (p[2] == 5)
-        return 1;
-    return 0;
-}
-
-
-
-
-
-
-/*
- * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
- *   call at +0xD8 to the unlabelled ARM leaf 0x02051B04, closed when that
- *   leaf was seeded in layout/function_starts.txt and matched
- *   (src/matched/BUTTON_MAN_GetResourceType.c); all 13 relocations resolve.
- */
-Ptc *func_0220887C(u16 heap, u16 a, void *b)
-{
-    VecFx32 v1 = d_02208F24;
-    VecFx32 v2 = d_02208F30;
-    VecFx32 v3 = {0, 0, 0};
-    EmitParam prm;
-    Ptc *p;
-    u32 res;
-
-    prm.f00 = 0;
-    prm.f04 = FX_SinCosTable_[0xe3 * 2];
-    prm.f08 = FX_SinCosTable_[0xe3 * 2 + 1];
-    prm.f0c = 0x1555;
-    prm.f10 = 0;
-    prm.f14 = 0x1000;
-    prm.f18 = 0x400000;
-    prm.f1c = 0;
-
-    p = func_02030734(heap, sizeof(Ptc), 1, d_02208F7C, 0x2e5);
-    p->f00 = 0;
-    p->f02 = 0;
-    p->f04 = a;
-    p->f08 = b;
-    p->f4814 = 0;
-    p->f4818 = -1;
-    PARTICLE_InitManager(heap);
-    p->spl = PARTICLE_CreateSystem((u32)p->work, sizeof(p->work), 1, 5, 6, 0x3b, heap);
-    PARTICLE_ReleaseCamera((int)p->spl);
-    PARTICLE_InitCamera(p->spl, (struct Src648 *)(&prm), 0x2000, (int *)(&v1), (int *)(&v2), (int *)(&v3), heap);
-    res = PARTICLE_LoadArchiveMember(d_02208E9C[0], d_02208E9C[1], heap);
-    p->f4810 = BUTTON_MAN_GetResourceType((void *)res);
-    PARTICLE_SetupSystem(p->spl, res, 1, 0);
-    return p;
-}
-
-
-
-
-
-
-void func_02208994(char *a)
-{
-    PARTICLE_ExitManager();
-    func_020307B0(a);
-}
-
-
-
-
-
-void func_022089A4(Ptc_022089A4 *p)
-{
-    if (p->active != 0) {
-        VecFx32 v = {0, 0, 0};
-        Cue *c;
-
-        for (; p->cue < p->ncue; p->cue++) {
-            if (p->frame != p->cues[(int)p->cue].frame)
-                break;
-            c = &p->cues[p->cue];
-            PARTICLE_StartEffect(p->emit[c->emit].spl, c->id, (int)(&v));
-        }
-        p->frame++;
-    }
-    if (p->timer >= 0) {
-        if (p->timer == 0)
-            PARTICLE_KillAllEffects(p->emit[0].spl);
-        p->timer--;
-    }
-}
-
-
-
-
-void func_02208A24(int a0){PARTICLE_Main();}
-
-
-
-
-
-void func_02208A2C(char *p){((struct Obj24981 *)p)->f4814=1;}
-
-
-
-
-void func_02208A38(char *p,u32 v) { ((struct Obj14537 *)p)->f4814=0; ((struct Obj14537 *)p)->f4818=v; }
-
-
-
-
-
-void func_02208A48(Ptc_02208A48 *p, s32 timer)
-{
-    p->timer = timer;
-}
-
-
-
-
-
-void func_02208A54(char *a)
-{
-    *(int *)&((struct Obj00687 *)a)->f14 = G3D_UTIL_Create(4, 1, ((struct Obj00687 *)a)->f0);
-    ((struct Obj00687 *)a)->f1C = 0;
-}
-
-
-
-
-void func_02208A6C(char *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj05518 *)p)->f14); }
-
-
-
-
-void func_02208A78(Anim_02208A78 *p) { u16 i; Node_02208A78 *n; for(i=0;i<p->count;i++) { n=p->nodes+i; if(n->f40) G3D_SYSTEM_DrawObject((void *)func_02048A18(p->res,n->id),(struct Arg *)((struct Transform *)&n->tx)); } }
-
-
-
-
-
-/*
- * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
- *   two calls to the unlabelled ARM leaf 0x0204784C (sites +0x8E, +0x98),
- *   closed when that leaf was seeded in layout/function_starts.txt and
- *   matched (src/matched/G3D_SYSTEM_SetObjectAnimeFrame.c); all 11 relocations resolve.
- */
-void func_02208AB0(Anim_02208AB0 *p)
-{
-    u32 x;
-    void *q;
-    u16 i;
-    Node_02208AB0 *n;
-    u16 id;
-
-    p->f18 = G3D_UTIL_AddUnit(p->res, d_02208EC0);
-    p->count = 1;
-    p->nodes = (Node_02208AB0 *)func_022086C8(p->heap, p->count);
-    id = func_020489F4(p->res, p->f18);
-    n = p->nodes;
-    p->f1a = 0;
-    n->id = id;
-    n->tx = 0;
-    n->ty = 0;
-    n->tz = 0;
-    n->f40 = 1;
-    for (i = 0; i < p->count; i++)
-        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(p->res, p->nodes[i].id), 0);
-    p->f24 = 0;
-    q = (void *)func_02048A18(p->res, p->nodes[p->f1a].id);
-    x = 0;
-    p->f28 = 0;
-    G3D_SYSTEM_EnableObjectAnime(q, 1);
-    G3D_SYSTEM_EnableObjectAnime(q, 2);
-    G3D_SYSTEM_SetObjectAnimeFrame(q, 1, (s32 *)(&x));
-    G3D_SYSTEM_SetObjectAnimeFrame(q, 2, (s32 *)(&x));
-}
-
-
-
-
-
-void func_02208B54(char *a)
-{
-    G3D_UTIL_RemoveUnit((struct Ctx *)(*(int *)&((struct Obj05518 *)a)->f14), ((struct Obj05518 *)a)->f18);
-    func_02208714((void *)(((struct Obj05518 *)a)->f20));
-    ((struct Obj05518 *)a)->f1C = 0;
-}
-
-
-
-
-
-/*
- * blocker resolved: 0x02047910 and 0x020478B8 were matched in arm9
- *           (src/matched/G3D_SYSTEM_LoopObjectAnimeFrame.c, src/matched/G3D_SYSTEM_IncObjectAnimeFrame.c;
- *           shards pkt_02047910 and pkt_020478B8), so their call sites now
- *           attest as `matched`.  0x02048A18 already resolved via matched;
- *           all 164 bytes are correct.
- */
-void func_02208B6C(char *p)
-{
-    unsigned short i;
-    int j = 0;
-    int v2;
-
-    for (i = 0; i < ((struct Obj00789 *)p)->f1C; i++) {
-        unsigned short v = *(unsigned short *)(((struct Obj00789 *)p)->f20 + i * 0x44);
-        int x = func_02048A18((u8 *)(((struct Obj00789 *)p)->f14), v);
-
-        G3D_SYSTEM_LoopObjectAnimeFrame((void *)x, j, 0x1000);
-    }
-    ((struct Obj00789 *)p)->f24 = ((struct Obj00789 *)p)->f24 + 1;
-    v2 = func_02048A18((u8 *)(((struct Obj00789 *)p)->f14),
-                       *(unsigned short *)(((struct Obj00789 *)p)->f20 +
-                                           ((struct Obj00789 *)p)->f1A * 0x44));
-    if (((struct Obj00789 *)p)->f28 == 1) {
-        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 1, 0x5000);
-        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 2, 0x5000);
-
-        if (a == 0 && b == 0)
-            ((struct Obj00789 *)p)->f28 = 2;
-    } else if (((struct Obj00789 *)p)->f28 == 3) {
-        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 1, -0x2000);
-        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)v2, 2, -0x2000);
-
-        if (a == 0 && b == 0)
-            ((struct Obj00789 *)p)->f28 = 0;
-    }
-}
-
-
-
-
-
-void func_02208C10(Anim_02208C10 *p)
-{
-    p->state = 1;
-}
-
-
-
-
-
-int func_02208C18(Anim_02208C18 *p)
-{
-    if (p->state == 2)
-        return 1;
-    return 0;
-}
-
-
-
-
-
-void func_02208C28(Anim_02208C28 *p)
-{
-    p->state = 3;
-}
-
-int func_02208C30(Anim_02208C28 *p)
-{
-    if (p->state == 0)
-        return 1;
-    return 0;
+    ((Quad *)a)->tx = c;
+    ((Quad *)a)->ty = d;
+    ((Quad *)a)->tz = e;
 }

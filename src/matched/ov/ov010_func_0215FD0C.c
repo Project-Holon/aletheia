@@ -22,7 +22,7 @@
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
  *   FIELD_SUBSCREEN_ClearPanelResult  0x021A0FA8  thumb  ov021
  *   FIELD_SUBSCREEN_GetMenuSelectedButton  0x021A12A4  thumb  ov021
- *   func_021945A4  0x021945A4  thumb  ov021
+ *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent  0x021945A4  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   SCRCMD_NETWORK_GetRecordKindByFrameRate  0x0215FEC8  thumb  ov010
@@ -86,7 +86,7 @@ extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
 extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
 extern void FIELD_SUBSCREEN_ClearPanelResult(int *p);
 extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(void *link);
-extern void *func_021945A4(void *a, u32 b, u32 c);
+extern void *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(void *a, u32 b, u32 c);
 extern void FLDMMDL_SysPauseMove(void *map);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
 extern u32 SCRCMD_NETWORK_GetRecordKindByFrameRate(u32 n);
@@ -145,7 +145,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, Ctx *c)
     case 3:
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(c->field));
         if (c->f40 != 1 && c->f40 != 4) {
-            GAME_EVENT_ChangeEvent(task, func_021945A4(GAME_EVENT_GetGameSystem(task), (u32)c->field, c->f18));
+            GAME_EVENT_ChangeEvent(task, FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(GAME_EVENT_GetGameSystem(task), (u32)c->field, c->f18));
             return 0;
         }
         return 1;

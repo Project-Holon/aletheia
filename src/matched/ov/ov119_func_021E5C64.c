@@ -21,7 +21,7 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   d_021E81D4 0x021E81D4 data a4
+ *   gSubScreenWindowPos 0x021E81D4 data a4
  */
 #include "../include/Obj01055.h"
 typedef unsigned short u16;
@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef short s16;
 typedef struct { u32 x, y; } Pos;
-extern Pos d_021E81D4[26];
+extern Pos gSubScreenWindowPos[26];
 struct Cfg;
 struct Descriptor;
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -60,7 +60,7 @@ void POKETRADE_2D_LoadSubScreenGfx(char *p)
     ARC_TOOL_DeleteHandle(h);
     GF_FONT_SetTextColor(1, 2, 15);
     for (i = 0; i < 26; i++) {
-        *(void **)(p + i * 4 + 0x750) = (void *)BMP_WIN_Create(6, (u8)d_021E81D4[i].x, (u8)d_021E81D4[i].y, 2, 2, 14, 0);
+        *(void **)(p + i * 4 + 0x750) = (void *)BMP_WIN_Create(6, (u8)gSubScreenWindowPos[i].x, (u8)gSubScreenWindowPos[i].y, 2, 2, 14, 0);
         MSGDATA_ReadString((struct MsgBank *)(((struct Obj01055 *)p)->f720), i + 0x35, (void *)(*(int *)&((struct Obj01055 *)p)->f730));
         PRINTSYS_Print(BMP_WIN_GetBmp(*(void **)(p + i * 4 + 0x750)), 0, 0, ((struct Obj01055 *)p)->f730, ((struct Obj01055 *)p)->f728);
         BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0x750));

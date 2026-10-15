@@ -1,5 +1,5 @@
 /*
- * function: func_02198E80
+ * function: DetermineNatType
  * address:  0x02198E80
  * packet:   pkt_ov009_02198E80
  * region:   ov009
@@ -45,7 +45,7 @@ typedef struct _NAT {
 
 extern int abs(int x) __attribute__((const));
 
-int func_02198E80(NAT *nat)
+int DetermineNatType(NAT *nat)
 {
     nat->natType = unknown;
     nat->promiscuity = promiscuity_not_applicable;

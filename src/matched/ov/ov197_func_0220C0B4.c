@@ -1,5 +1,5 @@
 /*
- * function: func_0220C0B4
+ * function: B_BAG_MAIN_RegisterItemChars
  * address: 0x0220C0B4
  * packet: pkt_ov197_0220C0B4
  * region: ov197
@@ -14,13 +14,13 @@
  *   its own sub_0202F138 returns u16, which removed the observed shifts.
  * symbols:
  *   func_0202F138 0x0202F138 thumb
- *   func_02020F08 0x02020F08 thumb
+ *   FILE_UTIL_GetItemCount 0x02020F08 thumb
  *   func_020490F4 0x020490F4 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_02020F0C 0x02020F0C thumb
- *   func_02020F10 0x02020F10 thumb
+ *   FILE_UTIL_GetBankCount 0x02020F0C thumb
+ *   FILE_UTIL_GetBaseIndex 0x02020F10 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
@@ -33,15 +33,15 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u16 func_0202F138(u32 i);
-extern unsigned func_02020F08(void),FILE_UTIL_Get(unsigned,unsigned);
+extern unsigned FILE_UTIL_GetItemCount(void),FILE_UTIL_Get(unsigned,unsigned);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_02020F0C(void),func_02020F10(void);
+extern int FILE_UTIL_GetBankCount(void),FILE_UTIL_GetBaseIndex(void);
 extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_0220C0B4(char *p)
+void B_BAG_MAIN_RegisterItemChars(char *p)
 {
     u16 item,i;
     void *arc;
@@ -49,12 +49,12 @@ void func_0220C0B4(char *p)
     int a;
     if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=(unsigned)func_0202F138(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
-    arc=func_020490F4(func_02020F08(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
+    arc=func_020490F4(FILE_UTIL_GetItemCount(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     for(i=0;i<7;i++) {
         *(int *)(p+i*4+0x544)=CLACT_RegisterCharacter(arc,FILE_UTIL_Get(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
         *(int *)(p+i*4+0x568)=CLACT_RegisterPalette(arc,FILE_UTIL_Get(item,second),1,(u16)(i*32),((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     }
-    a=func_02020F0C();
-    ((struct Obj00315 *)p)->f58C=CLACT_RegisterCellAnim(arc,a,func_02020F10(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    a=FILE_UTIL_GetBankCount();
+    ((struct Obj00315 *)p)->f58C=CLACT_RegisterCellAnim(arc,a,FILE_UTIL_GetBaseIndex(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     ARC_TOOL_DeleteHandle(arc);
 }

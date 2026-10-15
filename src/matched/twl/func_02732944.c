@@ -14,8 +14,8 @@
  *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_021659B4  0x021659B4  arm  ov009
  *   func_020862B8  0x020862B8  arm  twl
- *   func_02166804  0x02166804  arm  ov009
- *   func_02166358  0x02166358  arm  ov009
+ *   WCMi_ShelterRssi  0x02166804  arm  ov009
+ *   WCMi_CpsifRecvCallback  0x02166358  arm  ov009
  *   WcmNwmReset  0x02731F14  arm  twl
  *   NWM_Connect  0x027032E0  arm  twl
  *   WcmNwmcbConnect  0x02732648  arm  twl
@@ -46,8 +46,8 @@ extern NetWork *WCMi_GetSystemWork(void);
 extern void WCMi_SetPhase(u8 phase);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 line);
 extern void func_020862B8(void *buf, u32 len);
-extern void func_02166804(u8 v);
-extern void func_02166358(u8 *a, u8 *b, u8 *c, u32 len);
+extern void WCMi_ShelterRssi(u8 v);
+extern void WCMi_CpsifRecvCallback(u8 *a, u8 *b, u8 *c, u32 len);
 extern void WcmNwmReset(void);
 extern int NWM_Connect(void *cb, u8 flag, void *buf);
 extern void WcmNwmcbConnect(void *arg);
@@ -86,8 +86,8 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
         if (lv > 0x100) {
             lv = 0xff;
         }
-        func_02166804(lv);
-        func_02166358(p->data + 6, p->data, p->data + 14, p->len - 14);
+        WCMi_ShelterRssi(lv);
+        WCMi_CpsifRecvCallback(p->data + 6, p->data, p->data + 14, p->len - 14);
         return;
     }
 }

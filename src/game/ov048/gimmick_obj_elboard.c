@@ -20,8 +20,8 @@
  *   func_021F3D24  0x021F3D24  thumb
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   RTC_GetDate  0x02088864  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F230  0x0201F230  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMonth  0x0201F230  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
  *   WORDSET_Create  0x0201EC74  thumb
@@ -29,8 +29,8 @@
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201EE0C  0x0201EE0C  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   gElboardLabelMsgId     0x021F5124  data  a4
@@ -41,7 +41,7 @@
  *   FIELD_GIMMICK_GATE_ReadSaveBlockValues  0x021F3B64  thumb  ov048
  *   WORDSET_Callback  0x0201EE60  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   FIELD_GIMMICK_GATE_FindNewsEntry 0x021F3C2C thumb ov048
  *   gElboardLayoutAnimIndex     0x021F50C4  data  a2
  *   gElboardLayoutTextureName     0x021F50EC  data  a4
@@ -244,16 +244,16 @@ extern int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work);
 extern int func_021F3D24(GateWork *work);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern int RTC_GetDate(RtcDate *date);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
-extern void func_0201F230(struct WordSet *wordSet, u32 index, u32 month);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
+extern void WORDSET_SetSlotMonth(struct WordSet *wordSet, u32 index, u32 month);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct WordSet *WORDSET_Create(u32 wordMax, u32 bufLen, u16 heapId);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 ZONEDATA_GetPlaceNameId(u32 placeId);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const struct Strbuf *str, u32 sex, u32 singular, u32 lang);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *str, u32 sex, u32 singular, u32 lang);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u16 FIELD_ENCOUNT_GetSwarmZoneId(struct GameData *gameData);
@@ -263,7 +263,7 @@ extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(GateWork *work, u32 *outIds, 
 extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *outIds, int *outCount);
 extern void WORDSET_Callback(struct WordSet *wordSet, u32 index, u16 value);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern void func_0201F02C(struct WordSet *wordSet, u32 index, void *myStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindListNewsEntry(GateWork *work);
 extern int FIELDMAP_QueryIssSwitch(struct FieldMap *fieldMap, int placeId);
@@ -458,9 +458,9 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
 
     wordSet = GF_FONT_Create_EC64(work->heapId);
     RTC_GetDate(&locals.date);
-    func_0201EFA4(wordSet, 2, locals.date.year, 2, 2, 1);
-    func_0201F230(wordSet, 0, locals.date.month);
-    func_0201EFA4(wordSet, 1, locals.date.day, 2, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, locals.date.year, 2, 2, 1);
+    WORDSET_SetSlotMonth(wordSet, 0, locals.date.month);
+    WORDSET_SetSlotNumber(wordSet, 1, locals.date.day, 2, 0, 1);
     locals.msg.animIndex = gElboardLayout.animIndex[0];
     locals.msg.textureName = gElboardLayout.textureName[0];
     locals.msg.paletteName = gElboardLayout.paletteName[0];
@@ -518,12 +518,12 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
         pairWords = WORDSET_Create(2, bufLen, work->heapId);
         pairTemplate = func_02045EC0(boardText, 0xc0);
         pairText = STRBUF_Create(0x40, work->heapId);
-        func_0201EE0C(pairWords, 0, placeName, 0, 1, 0);
-        func_0201EE0C(pairWords, 1, labelText, 0, 1, 0);
-        func_0201F250(pairWords, pairText, pairTemplate);
+        WORDSET_SetSlotTag(pairWords, 0, placeName, 0, 1, 0);
+        WORDSET_SetSlotTag(pairWords, 1, labelText, 0, 1, 0);
+        WORDSET_CopyTaggedText(pairWords, pairText, pairTemplate);
         STRBUF_Delete(pairTemplate);
         WORDSET_DeleteStrbufED04(pairWords);
-        func_0201EE0C(words, i, pairText, 0, 1, 0);
+        WORDSET_SetSlotTag(words, i, pairText, 0, 1, 0);
         STRBUF_Delete(placeName);
         STRBUF_Delete(labelText);
         STRBUF_Delete(pairText);
@@ -575,7 +575,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
     words = GF_FONT_Create_EC64(work->heapId);
     placeNames = func_02045B38(0, 2, 0x59, work->heapId);
     placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(placeId));
-    func_0201EE0C(words, 0, placeName, 0, 1, 0);
+    WORDSET_SetSlotTag(words, 0, placeName, 0, 1, 0);
     STRBUF_Delete(placeName);
     MSGDATA_Delete(placeNames);
     msg.animIndex = gElboardLayout.animIndex[2];
@@ -720,7 +720,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     }
     for (i = 0; i < savedCount; i++)
         WORDSET_Callback(words, i, savedIds[i]);
-    func_0201F02C(words, 6, GAME_DATA_GetMyStatus(work->gameData));
+    WORDSET_SetSlotMyStatus(words, 6, GAME_DATA_GetMyStatus(work->gameData));
     msg.animIndex = gElboardLayout.animIndex[3];
     msg.textureName = gElboardLayout.textureName[3];
     msg.paletteName = gElboardLayout.paletteName[3];
@@ -1110,7 +1110,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
     if (msg->wordSet != 0) {
         str = STRBUF_Create(0xC0, board->heapId);
         tmp = func_02045EC0(msgData, msg->msgId);
-        func_0201F250(msg->wordSet, str, tmp);
+        WORDSET_CopyTaggedText(msg->wordSet, str, tmp);
         func_020307B0(tmp);
     } else {
         str = func_02045EC0(msgData, msg->msgId);

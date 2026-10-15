@@ -44,9 +44,9 @@
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_0201EE0C 0x0201EE0C thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
@@ -105,8 +105,8 @@
  *   func_0200D774 0x0200D774 thumb
  *   func_0200D810 0x0200D810 thumb
  *   func_0200D820 0x0200D820 thumb
- *   func_0201F230 0x0201F230 thumb
- *   func_0201F048 0x0201F048 thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
+ *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0201BC40 0x0201BC40 thumb
@@ -137,17 +137,6 @@
  *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  */
-#include "../../matched/include/Obj01571.h"
-#include "../../matched/include/Obj14467.h"
-#include "../../matched/include/Obj10793.h"
-#include "../../matched/include/Obj24845.h"
-#include "../../matched/include/Obj02236.h"
-#include "../../matched/include/Obj24846.h"
-#include "../../matched/include/Obj24847.h"
-#include "../../matched/include/Obj06632.h"
-#include "../../matched/include/Obj01284.h"
-#include "../../matched/include/Obj10797.h"
-#include "../../matched/include/Obj02904.h"
 #include "br_types.h"
 
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
@@ -174,7 +163,7 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -235,21 +224,67 @@ typedef struct {u8 x,y,w,h;u32 msg;} Ent;
 
 typedef void (*Callback)(u8 *,int *,u32);
 
-typedef struct {char pad[0xC];int index;int task;char *resources;char pad18[0x1E0];int handles[12];} Handles;
+/* The effect object created by BR_UTIL_CreateHandles, 0x264 bytes. */
+typedef struct BrUtilEffect {
+    int x;                      /* 0x00 origin x */
+    int y;                      /* 0x04 origin y */
+    const Pair *target;         /* 0x08 target position */
+    int index;                  /* 0x0C sprite index */
+    int *task;                  /* 0x10 effect task */
+    char *resources;            /* 0x14 resource base */
+    char record[12][32];        /* 0x18 motion records */
+    Pair positions[12];         /* 0x198 handle positions */
+    void *handles[12];          /* 0x1F8 actors */
+    int timer;                  /* 0x228 effect step counter */
+    int flag;                   /* 0x22C effect finished flag */
+    int done[12];               /* 0x230 per-handle done flags */
+    char pad260[4];             /* 0x260 trailing */
+} BrUtilEffect;
+
+/* The task object created by BR_UTIL_CreateTask, 16 bytes. */
+typedef struct BrUtilTask {
+    Callback step;              /* 0x00 step function */
+    int state;                  /* 0x04 step state, passed by address */
+    int payload;                /* 0x08 object the step runs on */
+    int unusedC;                /* 0x0C */
+} BrUtilTask;
+
+/* An orbit motion record, 28 bytes. */
+typedef struct BrUtilOrbit {
+    int x;                      /* 0x00 start x */
+    int y;                      /* 0x04 start y */
+    int posX;                   /* 0x08 current x */
+    int posY;                   /* 0x0C current y */
+    u16 radius;                 /* 0x10 start radius */
+    u16 targetRadius;           /* 0x12 end radius */
+    u16 angle;                  /* 0x14 start angle */
+    u16 targetAngle;            /* 0x16 end angle */
+    int duration;               /* 0x18 steps */
+} BrUtilOrbit;
+
+/* A spiral motion record, 24 bytes. */
+typedef struct BrUtilSpiral {
+    int x;                      /* 0x00 origin x */
+    int y;                      /* 0x04 origin y */
+    int posX;                   /* 0x08 current x */
+    int posY;                   /* 0x0C current y */
+    u16 radius;                 /* 0x10 */
+    u16 angle;                  /* 0x12 start angle */
+    int duration;               /* 0x14 */
+} BrUtilSpiral;
+
+/* A follow motion record, 20 bytes. */
+typedef struct BrUtilFollow {
+    int *target;                /* 0x00 target position */
+    int posX;                   /* 0x04 current x, 20.12 fixed point */
+    int posY;                   /* 0x08 current y, 20.12 fixed point */
+    int unusedC;                /* 0x0C */
+    int speed;                  /* 0x10 step fraction */
+} BrUtilFollow;
 
 typedef struct {short x,y;} ShortPair;
 
-typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[6][32];char padD8[0x120];void *handles[12];int timer;} BrUtilMotion6;
-
-typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[12][32];Pair positions[12];void *handles[12];int timer,flag,done[12];} BrUtilMotion12;
-
 typedef struct {Pair first,second,third;} Table;
-
-typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[12][32];Pair positions[12];void *handles[12];int timer,flag,done[12];} Motion;
-
-typedef struct {int x,y;char pad8[4];int heap;char pad10[8];char record[6][32];char padD8[0x120];int handles[12];int timer;} BrUtilMotionA;
-
-typedef struct {int x,y;int target;int heap;char pad10[8];char record[6][32];char padD8[0xC0];int positions[12][2];void *handles[12];int timer;} BrUtilMotionB;
 
 typedef struct {long x,y,z;} VecFx32;
 
@@ -359,11 +394,11 @@ extern u32 func_0200D820(struct GdsProfile *p);
 
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
-extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 
-extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 
@@ -493,19 +528,19 @@ void BR_UTIL_SetHandlesAnimSeq(u8 *p,u32 value);
 
 void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p);
 
-void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilMotion6 *p);
+void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilEffect *p);
 
-void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilMotion12 *p);
+void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilEffect *p);
 
-void BR_UTIL_EffectFollow6(int unused,int *state,Motion *p);
+void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p);
 
-void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilMotionA *p);
+void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilEffect *p);
 
-void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilMotionA *p);
+void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilEffect *p);
 
 void BR_UTIL_EffectNoop(void);
 
-void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilMotionB *p);
+void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p);
 
 void BR_UTIL_EffectToPoint(int *task,int *state,char *p);
 
@@ -717,17 +752,17 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
 void BR_UTIL_DeleteListMenu(char *p)
 {
     int i;
-    if(((struct Obj01571 *)p)->f1C) BR_UTIL_StartEffect((char *)((struct Obj01571 *)p)->f1C,0,0);
+    if(((BrUtilListMenu *)p)->cfg.cursor) BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.cursor,0,0);
     for(i=0;i<4;i++) CLACT_DeleteActor((struct Actor *)(*(int *)(p+0x28+i*4)));
-    for(i=0;(unsigned)i<((struct Obj01571 *)p)->f4;i++) {
-        if(*(int *)(p+0x8C+i*4) && *(int *)(((struct Obj01571 *)p)->f0+i*8)) BMP_Delete((struct Obj020437AC *)(*(int *)(p+0x8C+i*4)));
+    for(i=0;(unsigned)i<((BrUtilListMenu *)p)->cfg.count;i++) {
+        if(((BrUtilListMenu *)p)->bitmaps[i] && ((BrUtilListMenu *)p)->cfg.list[i].text) BMP_Delete((struct Obj020437AC *)((BrUtilListMenu *)p)->bitmaps[i]);
     }
-    BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj01571 *)p)->f38));BMP_WIN_Delete((struct Descriptor *)(((struct Obj01571 *)p)->f38));
-    if(((struct Obj01571 *)p)->fD<4) BR_RES_ReleaseSprite((char *)(((struct Obj01571 *)p)->f14),7);
-    else BR_RES_ReleaseSprite((char *)(((struct Obj01571 *)p)->f14),8);
-    if(((struct Obj01571 *)p)->f24) {
-        *(unsigned short *)(((struct Obj01571 *)p)->f24)=((struct Obj01571 *)p)->f42;
-        *(unsigned short *)(((struct Obj01571 *)p)->f24+2)=((struct Obj01571 *)p)->f40;
+    BMP_WIN_ClearScreen((struct Descriptor *)((BrUtilListMenu *)p)->descriptor);BMP_WIN_Delete((struct Descriptor *)((BrUtilListMenu *)p)->descriptor);
+    if(((BrUtilListMenu *)p)->cfg.bg<4) BR_RES_ReleaseSprite(((BrUtilListMenu *)p)->cfg.resources,7);
+    else BR_RES_ReleaseSprite(((BrUtilListMenu *)p)->cfg.resources,8);
+    if(((BrUtilListMenu *)p)->cfg.selection) {
+        ((BrUtilListMenu *)p)->cfg.selection[0]=((BrUtilListMenu *)p)->start;
+        ((BrUtilListMenu *)p)->cfg.selection[1]=((BrUtilListMenu *)p)->index;
     }
     func_020307B0(p);
 }
@@ -1254,8 +1289,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             text=STRBUF_Create(0x80,(u16)heap);
             name=GDS_PROFILE_CreateNameStr(prof,heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201EE0C(words,0,name,func_0200D6EC(prof),1,2);
-            func_0201F250(words,text,msg);
+            WORDSET_SetSlotTag(words,0,name,func_0200D6EC(prof),1,2);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(name);
             STRBUF_Delete(msg);
             break;
@@ -1267,8 +1302,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             v=func_0200D810(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201F230(words,0,v);
-            func_0201F250(words,text,msg);
+            WORDSET_SetSlotMonth(words,0,v);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             break;
             }
@@ -1279,8 +1314,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             v=func_0200D74C(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            func_0201F048(words,0,v);
-            func_0201F250(words,text,msg);
+            WORDSET_SetSlotFromMsgE7(words,0,v);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;
@@ -1294,7 +1329,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_DeleteMsgdataF094(words,0,v,w);
-            func_0201F250(words,text,msg);
+            WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;
@@ -1422,7 +1457,7 @@ void BR_UTIL_DeleteTask(void *p)
 
 void BR_UTIL_RunTask(u8 *p)
 {
-    if(*(Callback *)&((struct Obj14467 *)p)->f0!=0)(*(Callback *)p)(p,(int *)(p+4),((struct Obj14467 *)p)->f8);
+    if(((BrUtilTask *)p)->step!=0)((BrUtilTask *)p)->step(p,(int *)(p+4),((BrUtilTask *)p)->payload);
 }
 
 /*
@@ -1460,17 +1495,17 @@ char *BR_UTIL_CreateHandles(unsigned owner,char *resources,int index,int heap)
     int i;
     p=func_02030734(heap,0x264,0,d_02200D5C,0x7CA);
     MI_CpuFill8(p,0,0x264);
-    ((Handles *)p)->resources=resources;((Handles *)p)->index=index;
-    ((Handles *)p)->task=(int)BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
-    BR_RES_LoadSprite(((Handles *)p)->resources,index+9,heap);
+    ((BrUtilEffect *)p)->resources=resources;((BrUtilEffect *)p)->index=index;
+    ((BrUtilEffect *)p)->task=BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
+    BR_RES_LoadSprite(((BrUtilEffect *)p)->resources,index+9,heap);
     MI_CpuFill8(&pair,0,8);
-    if(!BR_RES_GetSprite(((Handles *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite(((BrUtilEffect *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);
     i=0;
     res=index;
     for(;i<12;i++) {
-        ((Handles *)p)->handles[i]=(int)CLACT_CreateActor((void *)owner,triple.y,triple.z,triple.x,&pair,res,heap);
-        CLACT_SetActorDrawEnable((struct Actor *)((Handles *)p)->handles[i],0);
-        CLACT_SetActorObjMode((struct Actor *)(((Handles *)p)->handles[i]),1);
+        ((BrUtilEffect *)p)->handles[i]=CLACT_CreateActor((void *)owner,triple.y,triple.z,triple.x,&pair,res,heap);
+        CLACT_SetActorDrawEnable((struct Actor *)((BrUtilEffect *)p)->handles[i],0);
+        CLACT_SetActorObjMode((struct Actor *)(((BrUtilEffect *)p)->handles[i]),1);
     }
     return p;
 }
@@ -1483,14 +1518,14 @@ void BR_UTIL_DeleteHandles(char *r5)
     int i;
     for (i = 0; i < 0xC; i++)
         CLACT_DeleteActor((struct Actor *)(*(int *)(r5 + 0x1F8 + i * 4)));
-    BR_RES_ReleaseSprite((char *)(((struct Obj10793 *)r5)->f14), ((struct Obj10793 *)r5)->fC + 9);
-    BR_UTIL_DeleteTask((void *)(((struct Obj10793 *)r5)->f10));
+    BR_RES_ReleaseSprite(((BrUtilEffect *)r5)->resources, ((BrUtilEffect *)r5)->index + 9);
+    BR_UTIL_DeleteTask((void *)((BrUtilEffect *)r5)->task);
     func_020307B0((int *)r5);
 }
 
 void BR_UTIL_RunHandles(char *p)
 {
-    BR_UTIL_RunTask((u8 *)(((struct Obj24845 *)p)->f10));
+    BR_UTIL_RunTask((u8 *)((BrUtilEffect *)p)->task);
 }
 
 /*
@@ -1500,24 +1535,24 @@ void BR_UTIL_StartEffect(char *p,u32 mode,const Pair *pair)
 {
     if(pair) {
         *(Pair *)p=*pair;
-        *(const Pair * *)&((struct Obj02236 *)p)->f8=pair;
+        *(const Pair * *)&((BrUtilEffect *)p)->target=pair;
     }
-    ((struct Obj02236 *)p)->f22C=0;
-    if(mode==0 && BR_UTIL_IsTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyIn)) GFL_USE_PlaySeDefaultVolume(0x701);
+    ((BrUtilEffect *)p)->flag=0;
+    if(mode==0 && BR_UTIL_IsTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFlyIn)) GFL_USE_PlaySeDefaultVolume(0x701);
     switch(mode) {
-    case 0: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectIdle);break;
-    case 1: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectSpiral);break;
-    case 2: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFollow12);break;
-    case 3: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFollow6);break;
-    case 4: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyIn);break;
-    case 5: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyInSlow);break;
-    case 6: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectNoop);break;
-    case 7: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectToTarget);break;
-    case 8: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectToPoint);break;
+    case 0: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectIdle);break;
+    case 1: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectSpiral);break;
+    case 2: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFollow12);break;
+    case 3: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFollow6);break;
+    case 4: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFlyIn);break;
+    case 5: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFlyInSlow);break;
+    case 6: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectNoop);break;
+    case 7: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectToTarget);break;
+    case 8: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectToPoint);break;
     }
 }
 
-int BR_UTIL_IsEffectDone(char *p){return ((struct Obj24846 *)p)->f22C;}
+int BR_UTIL_IsEffectDone(char *p){return ((BrUtilEffect *)p)->flag;}
 
 /*
  * lever: Set the counter before narrowing value; its initialization splits the two shifts.
@@ -1537,14 +1572,14 @@ void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
     switch(*state) {
     case 0:
         for(i=0;i<12;i++)CLACT_SetActorDrawEnable(*(struct Actor **)((u32)p+(u32)i*4+0x1f8),0);
-        ((struct Obj24847 *)p)->f22C=1;
+        ((BrUtilEffect *)p)->flag=1;
         *state=1;
         break;
     case 1:break;
     }
 }
 
-void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilMotion6 *p)
+void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilEffect *p)
 {
     Pair full;
     ShortPair pos;
@@ -1563,7 +1598,7 @@ void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilMotion6 *p)
         for(i=0;i<6;i++) {
             BR_UTIL_StepOrbit(p->record[i],(int *)&full,p->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->index);
         }
         if(p->timer++>15) *state=2;
         break;
@@ -1576,7 +1611,7 @@ void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilMotion6 *p)
 /*
  * lever: ShortPair declared before Pair gives +2C and +24 stack objects; initialize reused i=1 before FE478 so the call precedes its loop without relocating movs.
  */
-void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilMotion12 *p)
+void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilEffect *p)
 {
     ShortPair pos;
     Pair initial;
@@ -1600,7 +1635,7 @@ void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilMotion12 *p)
         for(;i<12;i++) done&=BR_UTIL_StepFollow((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<12;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->index);
         }
         p->timer++;
         if(done) *state=2;
@@ -1609,7 +1644,7 @@ void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilMotion12 *p)
     }
 }
 
-void BR_UTIL_EffectFollow6(int unused,int *state,Motion *p)
+void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p)
 {
     ShortPair pos;
     ShortPair pos2;
@@ -1631,7 +1666,7 @@ void BR_UTIL_EffectFollow6(int unused,int *state,Motion *p)
         for(i=1;i<6;i++) p->done[i+1]=BR_UTIL_StepFollow((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<6;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->index);
         }
         p->timer++;
         if(p->done[1]) {CLACT_SetActorDrawEnable(p->handles[0],0);*state=2;}
@@ -1651,7 +1686,7 @@ void BR_UTIL_EffectFollow6(int unused,int *state,Motion *p)
         }
         for(i=0;i<12;i++) {
             pos2.x=p->positions[i].x;pos2.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos2,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos2,p->index);
         }
         p->flag=1;
         p->timer++;
@@ -1659,7 +1694,7 @@ void BR_UTIL_EffectFollow6(int unused,int *state,Motion *p)
     }
 }
 
-void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilMotionA *p)
+void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilEffect *p)
 {
     Pair full;
     ShortPair pos;
@@ -1677,7 +1712,7 @@ void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilMotionA *p)
         for(i=0;i<6;i++) {
             BR_UTIL_StepSpiral(p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->heap);
+            CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->index);
         }
         p->timer++;
         break;
@@ -1687,7 +1722,7 @@ void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilMotionA *p)
 /*
  * follower: empty return at 021FDFF0; trailing two zero alignment bytes excluded.
  */
-void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilMotionA *p)
+void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilEffect *p)
 {
     Pair full;
     ShortPair pos;
@@ -1704,7 +1739,7 @@ void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilMotionA *p)
         for(i=0;i<6;i++) {
             BR_UTIL_StepSpiral(p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->heap);
+            CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->index);
         }
         p->timer++;
         break;
@@ -1715,7 +1750,7 @@ void BR_UTIL_EffectNoop(void)
 {
 }
 
-void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilMotionB *p)
+void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p)
 {
     ShortPair pos;
     ShortPair pos2;
@@ -1731,9 +1766,9 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilMotionB *p)
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            BR_UTIL_StepOrbit(p->record[i],p->positions[i],p->timer);
-            pos.x=p->positions[i][0];pos.y=p->positions[i][1];
-            CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos), p->heap);
+            BR_UTIL_StepOrbit(p->record[i],(int *)&p->positions[i],p->timer);
+            pos.x=p->positions[i].x;pos.y=p->positions[i].y;
+            CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos), p->index);
         }
         if(p->timer++>16) *state=2;
         break;
@@ -1742,14 +1777,14 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilMotionB *p)
         break;
     case 3:
         for(i=0;i<6;i++)
-            BR_UTIL_Init((int *)p->record[i],p->target,p->positions[i],0x4000-(i*0x99A)/2);
+            BR_UTIL_Init((int *)p->record[i],(int)p->target,(const int *)&p->positions[i],0x4000-(i*0x99A)/2);
         *state=4;
     case 4:
         all=1;
         for(i=0;i<6;i++) {
-            all&=BR_UTIL_StepFollow(p->record[i],p->positions[i]);
-            pos2.x=p->positions[i][0];pos2.y=p->positions[i][1];
-            CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos2), p->heap);
+            all&=BR_UTIL_StepFollow(p->record[i],(int *)&p->positions[i]);
+            pos2.x=p->positions[i].x;pos2.y=p->positions[i].y;
+            CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos2), p->index);
         }
         if(all) *state=5;
         break;
@@ -1783,11 +1818,11 @@ void BR_UTIL_EffectToPoint(int *task,int *state,char *p)
         offset=0x1f8;
         for(i=6;i<12;i++) {
             u16 angle;
-            angle=*(u16 *)(p+i*32+0x2a)+((struct Obj06632 *)p)->f228/ *(int *)(p+i*32+0x2c);
+            angle=*(u16 *)(p+i*32+0x2a)+((BrUtilEffect *)p)->timer/ *(int *)(p+i*32+0x2c);
             BR_UTIL_InitOrbit((unsigned char *)(start+i*32),(void *)d_02200AD8,15,1,angle,angle+0xf000,30);
             CLACT_SetActorObjMode(*(void **)(p+i*4+offset),0);
         }
-        ((struct Obj06632 *)p)->f228=0;
+        ((BrUtilEffect *)p)->timer=0;
         *state=1;
     }
     case 1: {
@@ -1795,11 +1830,11 @@ void BR_UTIL_EffectToPoint(int *task,int *state,char *p)
         int offset;
         offset=0x228;start=p;i=6;start=p+0x18;offset=0x1f8;
         for(;i<12;i++) {
-            BR_UTIL_StepOrbit(start+i*32,(int *)&full,((struct Obj06632 *)p)->f228);
+            BR_UTIL_StepOrbit(start+i*32,(int *)&full,((BrUtilEffect *)p)->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos((void *)((int)(*(void **)(p+i*4+offset))), (const ShortPair *)((ShortPair *)&pos), ((struct Obj06632 *)p)->fC);
+            CLACT_AddActorSurfacePos((void *)((int)(*(void **)(p+i*4+offset))), (const ShortPair *)((ShortPair *)&pos), ((BrUtilEffect *)p)->index);
         }
-        if((((struct Obj06632 *)p)->f228)++>60)*state=2;
+        if((((BrUtilEffect *)p)->timer)++>60)*state=2;
         break;
     }
     case 2:BR_UTIL_SetTaskStep(task,(int)BR_UTIL_EffectIdle);break;
@@ -1813,14 +1848,14 @@ int BR_UTIL_InitOrbit(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int durat
 {
     int x;
     MI_CpuFill8(p,0,28);
-    ((struct Obj01284 *)p)->f10=a;
-    ((struct Obj01284 *)p)->f12=b;
-    ((struct Obj01284 *)p)->f14=c;
+    ((BrUtilOrbit *)p)->radius=a;
+    ((BrUtilOrbit *)p)->targetRadius=b;
+    ((BrUtilOrbit *)p)->angle=c;
     x=origin->x;
-    ((struct Obj01284 *)p)->f16=d;
-    ((struct Obj01284 *)p)->f0=x;
-    ((struct Obj01284 *)p)->f18=duration;
-    ((struct Obj01284 *)p)->f4=origin->y;
+    ((BrUtilOrbit *)p)->targetAngle=d;
+    ((BrUtilOrbit *)p)->x=x;
+    ((BrUtilOrbit *)p)->duration=duration;
+    ((BrUtilOrbit *)p)->y=origin->y;
     return BR_UTIL_StepOrbit((char *)p,(int *)(p+8),0);
 }
 
@@ -1834,24 +1869,24 @@ int BR_UTIL_StepOrbit(char *p, int *out, int step)
     unsigned short initial_radius;
     int radius_delta;
     int radius, x, y;
-    initial_angle = ((struct Obj01284 *)p)->f14;
-    angle_delta = ((struct Obj01284 *)p)->f16 - initial_angle;
-    initial_radius = ((struct Obj01284 *)p)->f10;
-    radius_delta = (short)(*(short *)&((struct Obj01284 *)p)->f12 - (short)initial_radius);
+    initial_angle = ((BrUtilOrbit *)p)->angle;
+    angle_delta = ((BrUtilOrbit *)p)->targetAngle - initial_angle;
+    initial_radius = ((BrUtilOrbit *)p)->radius;
+    radius_delta = (short)(*(short *)&((BrUtilOrbit *)p)->targetRadius - (short)initial_radius);
     direction = radius_delta / (radius_delta < 0 ? -radius_delta : radius_delta);
-    duration = ((struct Obj01284 *)p)->f18;
+    duration = ((BrUtilOrbit *)p)->duration;
     angle = (unsigned short)(initial_angle + angle_delta * step / duration);
     if (radius_delta < 0) radius_delta = -radius_delta;
     radius = initial_radius + direction * (step * radius_delta / duration);
     if (radius < 0) radius = 0;
     x = (FX_SinCosTable_[(angle >> 4) * 2 + 1] * radius) >> 12;
     y = (FX_SinCosTable_[(angle >> 4) * 2] * radius) >> 12;
-    x += ((struct Obj01284 *)p)->f0;
-    y += ((struct Obj01284 *)p)->f4;
-    ((struct Obj01284 *)p)->f8 = x;
-    ((struct Obj01284 *)p)->fC = y;
+    x += ((BrUtilOrbit *)p)->x;
+    y += ((BrUtilOrbit *)p)->y;
+    ((BrUtilOrbit *)p)->posX = x;
+    ((BrUtilOrbit *)p)->posY = y;
     if (out) { out[0] = x; out[1] = y; }
-    return step == ((struct Obj01284 *)p)->f18;
+    return step == ((BrUtilOrbit *)p)->duration;
 }
 
 /*
@@ -1861,9 +1896,9 @@ int BR_UTIL_InitSpiral(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
 {
     MI_CpuFill8(p,0,24);
     *(Pair *)p=*origin;
-    ((struct Obj10797 *)p)->f14=duration;
-    ((struct Obj10797 *)p)->f10=a;
-    ((struct Obj10797 *)p)->f12=b;
+    ((BrUtilSpiral *)p)->duration=duration;
+    ((BrUtilSpiral *)p)->radius=a;
+    ((BrUtilSpiral *)p)->angle=b;
     return BR_UTIL_StepSpiral((char *)p,0,0);
 }
 
@@ -1952,18 +1987,18 @@ int BR_UTIL_StepFollow(char *p,int *out)
 {
     VecFx32 delta;
     int length,x,y;
-    delta.x=roundFixed((*(int **)p)[0])-((struct Obj02904 *)p)->f4;
-    delta.y=roundFixed((*(int **)p)[1])-((struct Obj02904 *)p)->f8;
+    delta.x=roundFixed(((BrUtilFollow *)p)->target[0])-((BrUtilFollow *)p)->posX;
+    delta.y=roundFixed(((BrUtilFollow *)p)->target[1])-((BrUtilFollow *)p)->posY;
     delta.z=0;
     length=VEC_Mag(&delta);
     if(length) {
-        x=func_0207C768((int)(((long long)delta.x* ((struct Obj02904 *)p)->f10+2048)>>12),length);
-        y=func_0207C768((int)(((long long)delta.y* ((struct Obj02904 *)p)->f10+2048)>>12),length);
-        if((delta.x<0?-delta.x:delta.x)>(x<0?-x:x))((struct Obj02904 *)p)->f4+=x;
-        else ((struct Obj02904 *)p)->f4=roundFixed((*(int **)p)[0]);
-        if((delta.y<0?-delta.y:delta.y)>(y<0?-y:y))((struct Obj02904 *)p)->f8+=y;
-        else ((struct Obj02904 *)p)->f8=roundFixed((*(int **)p)[1]);
+        x=func_0207C768((int)(((long long)delta.x* ((BrUtilFollow *)p)->speed+2048)>>12),length);
+        y=func_0207C768((int)(((long long)delta.y* ((BrUtilFollow *)p)->speed+2048)>>12),length);
+        if((delta.x<0?-delta.x:delta.x)>(x<0?-x:x))((BrUtilFollow *)p)->posX+=x;
+        else ((BrUtilFollow *)p)->posX=roundFixed(((BrUtilFollow *)p)->target[0]);
+        if((delta.y<0?-delta.y:delta.y)>(y<0?-y:y))((BrUtilFollow *)p)->posY+=y;
+        else ((BrUtilFollow *)p)->posY=roundFixed(((BrUtilFollow *)p)->target[1]);
     }
-    if(out){out[0]=((struct Obj02904 *)p)->f4>>12;out[1]=((struct Obj02904 *)p)->f8>>12;}
+    if(out){out[0]=((BrUtilFollow *)p)->posX>>12;out[1]=((BrUtilFollow *)p)->posY>>12;}
     return length==0;
 }

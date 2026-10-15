@@ -1,5 +1,5 @@
 /*
- * function: func_021DDCCC
+ * function: BR_CODEIN_ListSetupRowD
  * address: 0x021DDCCC
  * packet: pkt_ov183_021DDCCC
  * region: ov183
@@ -18,12 +18,12 @@
  *   func_0200DC08 0x0200DC08 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0200DABC 0x0200DABC thumb
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   func_021DE084 0x021DE084 thumb ov183
+ *   BR_CODEIN_ListCreateActor 0x021DE084 thumb ov183
  *   d_021E338C 0x021E338C data a4
  */
 #include "../include/Obj00363.h"
@@ -51,12 +51,12 @@ extern u8 func_0200DC08(struct Blk1AC *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int BR_RES_GetSprite(int,int,struct Triple *);
-extern void func_021DE084(char *,void *,const char *,unsigned,short,short,u16);
-void func_021DDCCC(char *p,char *q)
+extern void BR_CODEIN_ListCreateActor(char *,void *,const char *,unsigned,short,short,u16);
+void BR_CODEIN_ListSetupRowD(char *p,char *q)
 {
  int first,second,third,v,text;
  void *obj;
@@ -75,8 +75,8 @@ void func_021DDCCC(char *p,char *q)
    v=func_0200DC08((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
    text=(int)func_02045EC0((struct MsgBank *)second,rec->value);
    obj=STRBUF_Create(0x80,((struct Obj00731 *)p)->f7C);
-   func_0201EFA4((void *)third,0,v,2,1,1);
-   func_0201F250((void *)third,obj,(void *)text);
+   WORDSET_SetSlotNumber((void *)third,0,v,2,1,1);
+   WORDSET_CopyTaggedText((void *)third,obj,(void *)text);
    STRBUF_Delete((struct U16Vec *)text);
   }else obj=(void *)func_02045EC0((struct MsgBank *)second,rec->value);
   BR_UTIL_SetTextFromBuffer(*(char * *)&((struct Obj14425 *)slot)->f34,obj,(void *)first,0x3da0);
@@ -84,5 +84,5 @@ void func_021DDCCC(char *p,char *q)
  }
  v=func_0200DABC((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
  BR_RES_GetSprite(*(int *)&((struct Obj00363 *)q)->f8,13,&triple);
- func_021DE084(p+8,((struct Obj00363 *)q)->f4,(const char *)&triple,v,0xa0,0x20,((struct Obj00731 *)p)->f7C);
+ BR_CODEIN_ListCreateActor(p+8,((struct Obj00363 *)q)->f4,(const char *)&triple,v,0xa0,0x20,((struct Obj00731 *)p)->f7C);
 }

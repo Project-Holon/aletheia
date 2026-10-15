@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EDC4",
+   "name": "BILLBOARD_SetImagePosition",
    "address": "0x0204EDC4",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EDD0",
+   "name": "BILLBOARD_GetImageSizeFromFlags",
    "address": "0x0204EDD0",
    "kind": "game",
    "region": "arm9",

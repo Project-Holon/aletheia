@@ -13,14 +13,14 @@
  *
  * symbols:
  *   func_0205B264 0x0205B264 arm
- *   func_0217AA20 0x0217AA20 arm
- *   func_0217A950 0x0217A950 arm
+ *   DWC_Netcheck_Abort 0x0217AA20 arm
+ *   DWC_Netcheck_Destroy 0x0217A950 arm
  *   CloseSocket 0x0205B2F8 arm
  */
 
 extern int func_0205B264(void);
-extern void func_0217AA20(void);
-extern void func_0217A950(void);
+extern void DWC_Netcheck_Abort(void);
+extern void DWC_Netcheck_Destroy(void);
 extern int CloseSocket(void);
 
 int DWCi_AC_CloseNetwork(unsigned char *phase)
@@ -37,8 +37,8 @@ int DWCi_AC_CloseNetwork(unsigned char *phase)
             return 1;
         }
     } else if (*phase == 14) {
-        func_0217AA20();
-        func_0217A950();
+        DWC_Netcheck_Abort();
+        DWC_Netcheck_Destroy();
         *phase = 12;
     } else if (*phase < 0x12) {
         if (CloseSocket() == 1)

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5A60
+ * function: POKETRADE_DEMO_DOWN_StepSetup
  * address:  0x021D5A60
  * packet:   pkt_ov118_021D5A60
  * region:   ov118
@@ -23,10 +23,10 @@
  *   POKETRADE_3D_InitParticleSystems  0x021E2F34  thumb
  *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb
  *   POKETRADE_3D_SetupParticleSystemsLow  0x021E2FB0  thumb ov119
- *   func_021D56E4  0x021D56E4  thumb
+ *   POKETRADE_DEMO_UP_SetFrame  0x021D56E4  thumb
  *   POKETRADE_NEGO_PlaySeByKeyA  0x021DFA60  thumb ov119
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb
- *   func_021D5B74  0x021D5B74  thumb
+ *   POKETRADE_DEMO_DOWN_StepSetupParticles  0x021D5B74  thumb
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   d_021D82A4  0x021D82A4  data
  *
@@ -52,10 +52,10 @@ extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_3D_InitParticleSystems(void *w);
 extern void POKETRADE_3D_CreateIcaStreamsForMode(void *w, int a);
 extern void POKETRADE_3D_SetupParticleSystemsLow(char *p);
-extern void func_021D56E4(u8 *p, u32 v);
+extern void POKETRADE_DEMO_UP_SetFrame(u8 *p, u32 v);
 extern void POKETRADE_NEGO_PlaySeByKeyA(u32 a);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern void func_021D5B74(u8 *p);
+extern void POKETRADE_DEMO_DOWN_StepSetupParticles(u8 *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern const char d_021D82A4[];
 
@@ -63,7 +63,7 @@ extern const char d_021D82A4[];
 #define OBJ(i) (((u32 *)(p + 0x844))[i])
 #define WORK (*(u8 **)(p + 0xc))
 
-void func_021D5A60(u8 *p)
+void POKETRADE_DEMO_DOWN_StepSetup(u8 *p)
 {
     POKETRADE_PROC_DeleteAllResources(p);
     CLACT_ExitSystem();
@@ -85,8 +85,8 @@ void func_021D5A60(u8 *p)
     POKETRADE_3D_InitParticleSystems(WORK);
     POKETRADE_3D_CreateIcaStreamsForMode(WORK, 3);
     POKETRADE_3D_SetupParticleSystemsLow((char *)WORK);
-    func_021D56E4(p, 0x2B5);
+    POKETRADE_DEMO_UP_SetFrame(p, 0x2B5);
     POKETRADE_NEGO_PlaySeByKeyA(((struct Obj13878 *)p)->fF2C);
-    POKETRADE_PROC_SetStep(p, (int)func_021D5B74);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_DOWN_StepSetupParticles);
     BG_SYS_SetSubVisiblePlanes(0x18);
 }

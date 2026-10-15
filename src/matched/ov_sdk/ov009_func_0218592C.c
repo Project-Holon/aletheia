@@ -1,5 +1,5 @@
 /*
- * function: func_0218592C
+ * function: gpDestroy
  * address:  0x0218592C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,15 +12,15 @@
  * Calls the release helper when the pointer and its block are both there.
  *
  * symbols:
- *   func_02186788  0x02186788  arm  ov009
+ *   gpiDestroy  0x02186788  arm  ov009
  */
 
-extern void func_02186788(void **connection);
+extern void gpiDestroy(void **connection);
 
-void func_0218592C(int **p)
+void gpDestroy(int **p)
 {
     if (p && *p) {
-        func_02186788((void **)p);
+        gpiDestroy((void **)p);
     }
 }
 

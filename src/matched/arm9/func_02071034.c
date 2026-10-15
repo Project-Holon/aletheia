@@ -1,5 +1,5 @@
 /*
- * function: func_02071034
+ * function: NNSi_G3dTexMtxRotTrans4x4
  * address:  0x02071034
  * packet:   pkt_02070DDC
  * region:   arm9
@@ -60,7 +60,7 @@ struct Dst71034 {
 extern void FX_DivAsync(s32 num, s32 den);
 extern s32  FX_GetDivResult(void);
 
-void func_02071034(struct Dst71034 *d, struct Src71034 *s)
+void NNSi_G3dTexMtxRotTrans4x4(struct Dst71034 *d, struct Src71034 *s)
 {
     s32 c = (u16)s->f2c << 12;
     s32 e = (u16)s->f2e << 12;

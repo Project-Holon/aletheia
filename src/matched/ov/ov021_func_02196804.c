@@ -11,7 +11,7 @@
  *
  * symbols:
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   func_02155A90  0x02155A90  thumb  ov010
+ *   IRC_BATTLE_ENTRY_GetGameSys  0x02155A90  thumb  ov010
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 struct Ctx;
 struct Comm;
-extern u32 func_02155A90(u8 *p);
+extern u32 IRC_BATTLE_ENTRY_GetGameSys(u8 *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
@@ -39,8 +39,8 @@ void IRCBATTLEMENU_SeqStartFadeOut(u8 *p)
     p[0x306] = 1;
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, ((struct Obj05988 *)p)->f10);
     if (((struct Obj05988 *)p)->f8 != 0xC) {
-        if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)func_02155A90((u8 *)((struct Obj05988 *)p)->f2E4))) != 0) {
-            GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm((const struct Ctx *)func_02155A90((u8 *)((struct Obj05988 *)p)->f2E4)));
+        if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)IRC_BATTLE_ENTRY_GetGameSys((u8 *)((struct Obj05988 *)p)->f2E4))) != 0) {
+            GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm((const struct Ctx *)IRC_BATTLE_ENTRY_GetGameSys((u8 *)((struct Obj05988 *)p)->f2E4)));
         }
     }
     IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqWaitFadeEnd, 0x37C);

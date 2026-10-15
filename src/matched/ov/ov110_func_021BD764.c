@@ -20,7 +20,7 @@
  *   PMSI_PARAM_SetUiInputMode 0x02024224 thumb
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   PMS_INPUT_VIEW_Delete 0x021B9B20 thumb ov110
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021B95F4 0x021B95F4 thumb ov110
  *   PMSI_SEARCH_Delete 0x021BAF4C thumb ov110
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 extern void PMSI_PARAM_SetUiInputMode(void *,void *);
 extern void BUTTON_MAN_Delete(void *);
 extern void PMS_INPUT_VIEW_Delete(u8 *);
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 extern u32 func_020307B0(void *p);
 extern void func_021B95F4(char *);
 extern void PMSI_SEARCH_Delete(unsigned);
@@ -45,7 +45,7 @@ void PMS_INPUT_Destroy(u8 *p,void *a)
     PMSI_PARAM_SetUiInputMode(*(void **)p,*(void **)(p+0x70));
     BUTTON_MAN_Delete(*(void **)(p+0x44));
     PMS_INPUT_VIEW_Delete(*(u8 **)(p+0x14));
-    func_02030DA4(*(void **)(p+0x7c));
+    TCB_Noop(*(void **)(p+0x7c));
     func_020307B0(*(void **)(p+0x78));
     func_021B95F4(*(char **)(p+0x18));
     PMSI_SEARCH_Delete(*(u32 *)(p+0x1c));

@@ -1,5 +1,5 @@
 /*
- * function: func_022060C8
+ * function: SHINKA_DEMO_VIEW_GetModelOffset
  * address:  0x022060C8
  * packet:   pkt_022060C8
  * region:   ov195
@@ -18,7 +18,7 @@ typedef int fx32;
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-fx32 func_022060C8(void *p)
+fx32 SHINKA_DEMO_VIEW_GetModelOffset(void *p)
 {
     int v = POKE_TOOL_GetPartyValue(p, 5, 0);
     fx32 r = -0x12000;

@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_020409B4  0x020409B4  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetDispWidth  0x02045748  arm
  *   BMP_WIN_GetDispHeight  0x02045750  arm
@@ -44,7 +44,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
+extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
 extern void func_020409B4(u32 index);
 
 void TALKMSGWIN_DrawSimpleFrame(struct FrameStyle *style, void *win, int deco)
@@ -92,60 +92,60 @@ void TALKMSGWIN_DrawSimpleFrame(struct FrameStyle *style, void *win, int deco)
 
     if (!topClip) {
         if (!leftClip)
-            func_02041300(bg, (tile + 1) | pal, x - 1, y - 1, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, (tile + 1) | pal, x - 1, y - 1, 1, 1, 0x11);
         top = y - 1;
-        func_02041300(bg, (tile + 3) | pal, x, top, w, 1, 0x11);
+        BG_SYS_SetTileEntry(bg, (tile + 3) | pal, x, top, w, 1, 0x11);
         if (!rightClip)
-            func_02041300(bg, (tile + 0x401) | pal, right, top, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, (tile + 0x401) | pal, right, top, 1, 1, 0x11);
     }
     if (!leftClip)
-        func_02041300(bg, (tile + 4) | pal, x - 1, y, 1, h, 0x11);
+        BG_SYS_SetTileEntry(bg, (tile + 4) | pal, x - 1, y, 1, h, 0x11);
     if (!rightClip)
-        func_02041300(bg, (tile + 0x404) | pal, right, y, 1, h, 0x11);
+        BG_SYS_SetTileEntry(bg, (tile + 0x404) | pal, right, y, 1, h, 0x11);
     if (!bottomClip) {
         if (!leftClip)
-            func_02041300(bg, (tile + 0x801) | pal, x - 1, bottom, 1, 1, 0x11);
-        func_02041300(bg, (tile + 0x803) | pal, x, bottom, w, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, (tile + 0x801) | pal, x - 1, bottom, 1, 1, 0x11);
+        BG_SYS_SetTileEntry(bg, (tile + 0x803) | pal, x, bottom, w, 1, 0x11);
         if (!rightClip)
-            func_02041300(bg, (tile + 0xC01) | pal, right, bottom, 1, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, (tile + 0xC01) | pal, right, bottom, 1, 1, 0x11);
     }
 
     t2 = (tile + 2) | pal;
     switch (deco) {
     case 1:
         if (!topClip)
-            func_02041300(bg, t2, x + ((u32)w >> 1) - 1, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, t2, x + ((u32)w >> 1) - 1, y - 1, 2, 1, 0x11);
         break;
     case 2:
         if (!bottomClip)
-            func_02041300(bg, t2 | 0x800, x + ((u32)w >> 1) - 1, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, t2 | 0x800, x + ((u32)w >> 1) - 1, bottom, 2, 1, 0x11);
         break;
     case 3:
         if (!leftClip)
-            func_02041300(bg, (tile + 5) | pal, x - 1, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
+            BG_SYS_SetTileEntry(bg, (tile + 5) | pal, x - 1, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
         break;
     case 4:
         if (!rightClip)
-            func_02041300(bg, (tile + 5) | pal, right, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
+            BG_SYS_SetTileEntry(bg, (tile + 5) | pal, right, y + ((u32)h >> 1) - 1, 1, 2, 0x11);
         break;
     case 5:
         if (!topClip)
-            func_02041300(bg, t2, x + 7, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, t2, x + 7, y - 1, 2, 1, 0x11);
         break;
     case 7:
         if (!topClip)
-            func_02041300(bg, t2 | 0x800, x + 7, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, t2 | 0x800, x + 7, bottom, 2, 1, 0x11);
         break;
     case 6:
         if (!bottomClip) {
             right -= 9;
-            func_02041300(bg, t2, right, y - 1, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, t2, right, y - 1, 2, 1, 0x11);
         }
         break;
     case 8:
         if (!bottomClip) {
             right -= 9;
-            func_02041300(bg, t2 | 0x800, right, bottom, 2, 1, 0x11);
+            BG_SYS_SetTileEntry(bg, t2 | 0x800, right, bottom, 2, 1, 0x11);
         }
         break;
     }

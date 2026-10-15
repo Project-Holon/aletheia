@@ -16,7 +16,7 @@
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
@@ -43,7 +43,7 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void APP_TASKMENU_UpdateMenu(void *p);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 typedef unsigned short u16;
 struct Cfg;
 struct Descriptor;
@@ -95,7 +95,7 @@ void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
         }
     } else {
         q[0] = 5;
-        func_0201F7A8((void *)q[0x1F], 1);
+        BMP_MENUWORK_DrawWindowBorder((void *)q[0x1F], 1);
         BMP_WIN_ClearScreen((struct Descriptor *)q[0x1F]);
         BMP_WIN_MakeScreen((struct Cfg *)q[0xB]);
         func_020409B4(4);

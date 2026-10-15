@@ -1,5 +1,5 @@
 /*
- * function: func_021F6744
+ * function: MUSICAL_MCSS_GetMonValue
  * address: 0x021F6744
  * packet: pkt_ov112_021F6744
  * region: ov112
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-int func_021F6744(void *p) {int r; r=0;if(POKE_TOOL_GetPartyValue(p,170,0)!=1)r=1;return r;}
+int MUSICAL_MCSS_GetMonValue(void *p) {int r; r=0;if(POKE_TOOL_GetPartyValue(p,170,0)!=1)r=1;return r;}

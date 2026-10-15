@@ -1,5 +1,5 @@
 /*
- * function: func_021FD470
+ * function: MUS_COMM_FUNC_ReceiveRecordBlock
  * address: 0x021FD470
  * packet: pkt_ov132_021FD470
  * region: ov132
@@ -22,7 +22,7 @@ extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuCopy8(const void *,void *,u32);
 /* The callback owner is the 0x1ac-byte allocation in 021FC644. */
 typedef struct {u8 pad[0x128];char *buffer;u8 tail[0x80];} Owner;
-void func_021FD470(int a,int b,int c,const Owner *p)
+void MUS_COMM_FUNC_ReceiveRecordBlock(int a,int b,int c,const Owner *p)
 {
     u8 i;
     char *s;

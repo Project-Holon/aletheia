@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_02041B6C 0x02041B6C arm
  *   B_PLIST_ANM_ApplyTilePalette 0x0220B5AC thumb ov198
  *   d_02211A74 0x02211A74 data a4
@@ -27,7 +27,7 @@ extern const Rect d_02211A74[];
 extern char d_02212540[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
-extern void func_02041090(u32,u32,u32,u32,u8,u8);
+extern void BG_SYS_DrawTile(u32,u32,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
 extern void B_PLIST_ANM_ApplyTilePalette(u8 *,void *,u8,u8,u8);
 void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode)
@@ -37,7 +37,7 @@ void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode)
     u32 w=((const u8 *)d_02211A74)[off+2];
     void *buf=func_02030734((u16)((((struct Obj25126 *)(*(char * *)&((struct Obj25125 *)p)->f0))->f10&0x7FFF)|0x8000),w*h*2,0,d_02212540,0x205);
     B_PLIST_ANM_ApplyTilePalette(p,buf,state,flag,mode);
-    func_02041090(6,(u32)buf,((const u8 *)d_02211A74)[off],((const u8 *)d_02211A74)[off+1],w,h);
+    BG_SYS_DrawTile(6,(u32)buf,((const u8 *)d_02211A74)[off],((const u8 *)d_02211A74)[off+1],w,h);
     func_02041B6C(6);
     func_020307B0(buf);
 }

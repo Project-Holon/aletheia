@@ -1,5 +1,5 @@
 /*
- * function: func_021D49C4
+ * function: POKETRADE_DEMO_UP_StepEndScene
  * address:  0x021D49C4
  * packet:   pkt_ov118_021D49C4
  * region:   ov118
@@ -32,7 +32,7 @@ extern u32 func_020307B0(void *p);
 extern void POKETRADE_PROC_SetStep(void *, int);
 extern void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p);
 
-void func_021D49C4(void *p)
+void POKETRADE_DEMO_UP_StepEndScene(void *p)
 {
     POKETRADE_DEMO_COMMON_ReleaseUnit(p);
     POKETRADE_3D_ExitParticleManager(((struct Obj01723 *)p)->fC, 6);

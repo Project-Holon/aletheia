@@ -1,5 +1,5 @@
 /*
- * function: func_021C43C4
+ * function: VIEWER_MAIN_ClearBgSlot
  * address:  0x021C43C4
  * packet:   pkt_ov111_021C43C4
  * region:   ov111
@@ -26,7 +26,7 @@ typedef struct {
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern const u32 d_021C86E8[][2];
 
-void func_021C43C4(Work *p, int k)
+void VIEWER_MAIN_ClearBgSlot(Work *p, int k)
 {
     func_02049B40(0x29, d_021C86E8[k][1], 4, 0x80, 0x20, p->heap);
 }

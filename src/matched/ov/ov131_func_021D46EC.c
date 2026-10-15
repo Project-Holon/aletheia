@@ -24,7 +24,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   P_STATUS_InitBgLayer 0x021D4940 thumb ov131
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
@@ -70,7 +70,7 @@ extern void WIPE_SetBrightnessFadeOut(u32,u32);
 extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void P_STATUS_InitBgLayer(struct BgConfig *,u32,u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32 *,u32,u32,u32,u32);
@@ -107,7 +107,7 @@ void P_STATUS_InitGraphics(char *p)
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks(&g_C0E4);
     BG_SYS_Create(((struct Obj01739 *)p)->f0);BMP_WIN_Init(((struct Obj01739 *)p)->f0);
-    func_0203FC28(&g_BFF4);
+    BG_SYS_SetGraphicsMode(&g_BFF4);
     P_STATUS_InitBgLayer(&g_C004[6],1,0);P_STATUS_InitBgLayer(&g_C004[4],2,0);P_STATUS_InitBgLayer(&g_C004[0],3,0);
     func_02040588(0,1);
     P_STATUS_InitBgLayer(&g_C004[1],4,0);P_STATUS_InitBgLayer(&g_C004[2],5,0);P_STATUS_InitBgLayer(&g_C004[3],6,0);P_STATUS_InitBgLayer(&g_C004[5],7,0);

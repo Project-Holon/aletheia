@@ -138,10 +138,10 @@
  *   func_021BA218 0x021BA218 thumb ov133
  *   func_021BA21C 0x021BA21C thumb ov133
  *   func_021BA244 0x021BA244 thumb ov133
- *   func_021F4E8C 0x021F4E8C thumb ov112
- *   func_021F4ED4 0x021F4ED4 thumb ov112
- *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_021F4E6C 0x021F4E6C thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_SetElemVisible 0x021F4E6C thumb ov112
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   BILLBOARD_SetElemScale 0x0204F684 arm
@@ -171,10 +171,10 @@ extern void func_021BA210(u8 *p, u32 v);
 extern u32 func_021BA218(u8 *p);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern void func_021BA244(u8 *p, u32 v);
-extern void func_021F4E8C(int, int, Vec *);
-extern void func_021F4ED4(u32 unused, u32 p, u16 v);
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
+extern void MUSICAL_MCSS_SetElemPos(int, int, Vec *);
+extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
+extern void MUSICAL_MCSS_SetElemVisible(u8 *p, u8 *e, u32 value);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern void BILLBOARD_SetElemScale(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14);
@@ -253,26 +253,26 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
         v.x = sx + offx;
         v.y = sy + offy;
         v.z = (h - a) + 0x14000;
-        func_021F4E8C(*(int *)(p + 0x1884), (int)spr, &v);
-        func_021F4ED4(*(int *)(p + 0x1884), (int)spr, rot);
+        MUSICAL_MCSS_SetElemPos(*(int *)(p + 0x1884), (int)spr, &v);
+        MUSICAL_MCSS_SetElemField(*(int *)(p + 0x1884), (int)spr, rot);
         func_021BA21C(e, (const u8 *)(&pos));
         if (a < (h >> 1)) {
             sc = h >> 3;
-            func_021F4EB4(*(int *)(p + 0x1884), (int)spr, h >> 3, h >> 3);
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, h >> 3, h >> 3);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, h >> 3);
         } else if (a < 0x6E00) {
             sc = ((u16)(0x6E00 - a) << 11) / 0x2E00 + (h >> 4);
-            func_021F4EB4(*(int *)(p + 0x1884), (int)spr, sc, sc);
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, sc);
         } else if (a < 0x78E0) {
             sc = ((u16)(0x78E0 - a) << 11) / 0xAE0;
-            func_021F4EB4(*(int *)(p + 0x1884), (int)spr, sc, sc);
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, sc);
         } else {
-            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 0);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 0);
             func_021BA244(e, 0);
             sc = 0;
         }

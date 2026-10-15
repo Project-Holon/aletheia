@@ -1,5 +1,5 @@
 /*
- * function: func_021F732C
+ * function: STA_ACT_LIGHT_SetSpritePos
  * address: 0x021F732C
  * packet: pkt_ov112_021F732C
  * region: ov112
@@ -8,18 +8,18 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note 2026-10-05 (wD7 lane15): closed. The else arm of func_021F4B24 writes the whole v3.z store in
+ * note 2026-10-05 (wD7 lane15): closed. The else arm of MUSICAL_MCSS_GetFlagA writes the whole v3.z store in
  *   each arm of the k - 7 test (q+0x20 plus 0xA000 or 0x5000, minus EA[4] << 11). The zz local that
  *   merged at the join was what swapped off (r4) and t (r6); tail merging rebuilds the shared add.
  * symbols:
- *   func_021F5450 0x021F5450 thumb ov112
- *   func_021F545C 0x021F545C thumb ov112
- *   func_021F4B30 0x021F4B30 thumb ov112
- *   func_021F4B24 0x021F4B24 thumb ov112
- *   func_021F4E8C 0x021F4E8C thumb ov112
- *   func_021F4ED4 0x021F4ED4 thumb ov112
- *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_021F4E6C 0x021F4E6C thumb ov112
+ *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
+ *   MUSICAL_MCSS_GetRenderFlags 0x021F545C thumb ov112
+ *   MUSICAL_MCSS_GetFlagB 0x021F4B30 thumb ov112
+ *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_SetElemVisible 0x021F4E6C thumb ov112
  *   func_0207AF38 0x0207AF38 thumb
  *   MTX_MultVec33 0x0207B51C arm
  *   VEC_Subtract 0x0207CA00 arm
@@ -37,15 +37,15 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 typedef struct { int m[9]; } Mtx;
 extern s16 table[];
-extern u8 *func_021F5450(u8 *, int);
-extern u8 *func_021F545C(u8 *);
-extern int func_021F4B30(u8 *);
-extern int func_021F4B24(u8 *);
-extern void func_021F4E8C(u32, u8 *, const Vec *);
+extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *, int);
+extern u8 *MUSICAL_MCSS_GetRenderFlags(u8 *);
+extern int MUSICAL_MCSS_GetFlagB(u8 *);
+extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern void MUSICAL_MCSS_SetElemPos(u32, u8 *, const Vec *);
 struct Trip;
-extern void func_021F4ED4(u32 unused, u32 p, u16 v);
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4E6C(u8 *, u8 *, u32);
+extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
+extern void MUSICAL_MCSS_SetElemVisible(u8 *, u8 *, u32);
 extern void func_0207AF38(Mtx *, int, int);
 extern void MTX_MultVec33(const Vec *, const Mtx *, Vec *);
 extern void VEC_Subtract(const Vec *, const Vec *, Vec *);
@@ -55,7 +55,7 @@ extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 #define EA (*(u8 **)(q + off + 0xA8))
 #define FXR(x) ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-void func_021F732C(u8 *self, u8 *q)
+void STA_ACT_LIGHT_SetSpritePos(u8 *self, u8 *q)
 {
     Vec v3;
     Mtx mtx;
@@ -87,19 +87,19 @@ void func_021F732C(u8 *self, u8 *q)
         off = i * 4;
         if (E != 0 && *(int *)(q + off + 0xCC) == 1) {
             if (*(int *)(q + 0xC) == 1 && *(int *)(q + 8) == 1) {
-                t = func_021F5450(*(u8 **)(q + 0x58), k);
+                t = MUSICAL_MCSS_GetRenderElem(*(u8 **)(q + 0x58), k);
                 if (*(int *)t == 1) {
                     neg = (*(int *)(t + 0x1C) < 0) ? 1 : 0;
                     ang0 = (u16)(0x10000 - *(u16 *)(t + 0x34));
                     ang2 = (u16)((0x10000 + *(u16 *)(t + 0x36) + *(s16 *)(EA + 2)) % 0x10000);
-                    func_021F545C(*(u8 **)(q + 0x58));
+                    MUSICAL_MCSS_GetRenderFlags(*(u8 **)(q + 0x58));
                     z = *(int *)(t + 0x1C);
                     func_0207AF38(&mtx, -table[(ang0 >> 4) * 2], table[(ang0 >> 4) * 2 + 1]);
                     MTX_MultVec33((Vec *)(t + 0x10), &mtx, &v1);
                     if (neg == 1) {
                         ang2 = (u16)(0x10000 - ang2);
                     }
-                    if (func_021F4B30(E) == 0 && neg == 1) {
+                    if (MUSICAL_MCSS_GetFlagB(E) == 0 && neg == 1) {
                         z = -z;
                     }
                     MTX_MultVec33((Vec *)(t + 0x28), &mtx, &v2);
@@ -107,7 +107,7 @@ void func_021F732C(u8 *self, u8 *q)
                     h = *(u16 *)(self + 0x434);
                     v3.x = *(int *)(t + 4) + v1.x + 0x80000 + FXR(h);
                     v3.y = *(int *)(t + 8) + v1.y + 0x60000;
-                    if (func_021F4B24(E) == 1) {
+                    if (MUSICAL_MCSS_GetFlagA(E) == 1) {
                         v3.z = *(int *)(q + 0x20) - 0x14000;
                     } else {
                         if (k - 7 <= 1u) {
@@ -116,17 +116,17 @@ void func_021F732C(u8 *self, u8 *q)
                             v3.z = *(int *)(q + 0x20) + 0x5000 - (*(u8 *)(EA + 4) << 11);
                         }
                     }
-                    func_021F4E8C(*(u32 *)(self + 0x10), E, &v3);
-                    func_021F4ED4(*(u32 *)(self + 0x10), (u32)E, (u16)(ang2 - ang0));
-                    func_021F4EB4(*(u32 *)(self + 0x10), (u32)E, (s16)(z / 16 / 4), (s16)(*(int *)(t + 0x20) / 16 / 4));
-                    func_021F4E6C(*(u8 **)(self + 0x10), E, 1);
+                    MUSICAL_MCSS_SetElemPos(*(u32 *)(self + 0x10), E, &v3);
+                    MUSICAL_MCSS_SetElemField(*(u32 *)(self + 0x10), (u32)E, (u16)(ang2 - ang0));
+                    MUSICAL_MCSS_SetElemRotZ(*(u32 *)(self + 0x10), (u32)E, (s16)(z / 16 / 4), (s16)(*(int *)(t + 0x20) / 16 / 4));
+                    MUSICAL_MCSS_SetElemVisible(*(u8 **)(self + 0x10), E, 1);
                 }
             } else {
-                func_021F4E6C(*(u8 **)(self + 0x10), E, 0);
+                MUSICAL_MCSS_SetElemVisible(*(u8 **)(self + 0x10), E, 0);
             }
         }
     }
-    func_021F545C(*(u8 **)(q + 0x58));
+    MUSICAL_MCSS_GetRenderFlags(*(u8 **)(q + 0x58));
     v3.x = *(int *)(q + 0x18) / 16;
     v3.y = (0xC0000 - *(int *)(q + 0x1C)) / 16;
     v3.z = 0x32;

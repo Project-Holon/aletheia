@@ -1,5 +1,5 @@
 /*
- * function: func_021641C4
+ * function: CPSi_big_compare
  * address:  0x021641C4
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-int func_021641C4(unsigned short *a, unsigned short *b, int n)
+int CPSi_big_compare(unsigned short *a, unsigned short *b, int n)
 {
     int i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02194E80
+ * function: gti2BufferShorten
  * address:  0x02194E80
  * packet:   pkt_ov009_02194E80
  * region:   ov009
@@ -23,7 +23,7 @@ typedef struct {
 
 extern void *memmove(void *dest, const void *src, unsigned int n);
 
-void func_02194E80(GTI2Buffer *buffer, int start, int shortenBy)
+void gti2BufferShorten(GTI2Buffer *buffer, int start, int shortenBy)
 {
     if (start == -1)
         start = buffer->length - shortenBy;

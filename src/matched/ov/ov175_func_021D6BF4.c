@@ -1,5 +1,5 @@
 /*
- * function: func_021D6BF4
+ * function: WIFIBATTLEMATCH_NET_CompStepA
  * address: 0x021D6BF4
  * packet: pkt_ov175_021D6BF4
  * region: ov175
@@ -9,30 +9,30 @@
  * status: EXACT
  * symbols:
  *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_021DA36C 0x021DA36C thumb ov175
- *   func_021D97D0 0x021D97D0 thumb ov175
- *   func_021D6C54 0x021D6C54 thumb ov175
- *   func_021D8904 0x021D8904 thumb ov175
- *   func_021D8BC4 0x021D8BC4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DisconnectWifi 0x021DA36C thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupTradeIconAndWait 0x021D97D0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepB 0x021D6C54 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepG 0x021D8904 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepH 0x021D8BC4 thumb ov175
  */
 #include "../include/Obj14328.h"
 typedef unsigned int u32;
 extern void func_021E8AA0(int *p, int v);
-extern void func_021DA36C(u32);
-extern void func_021D97D0(char *);
-extern void func_021D6C54(u32 sys, int *state, u32 *p);
-extern void func_021D8904(u32 sys, int *state, char *p);
-extern void func_021D8BC4(int *a, int *state, char *ctx);
-void func_021D6BF4(u32 sys,void *unused,char *p)
+extern void WIFIBATTLEMATCH_NET_DisconnectWifi(u32);
+extern void WIFIBATTLEMATCH_NET_SetupTradeIconAndWait(char *);
+extern void WIFIBATTLEMATCH_NET_CompStepB(u32 sys, int *state, u32 *p);
+extern void WIFIBATTLEMATCH_NET_CompStepG(u32 sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_CompStepH(int *a, int *state, char *ctx);
+void WIFIBATTLEMATCH_NET_CompStepA(u32 sys,void *unused,char *p)
 {
     switch (((u32 *)((struct Obj14328 *)p)->f104)[3]) {
-    case 0: func_021E8AA0((int *)sys,(int)func_021D6C54); break;
+    case 0: func_021E8AA0((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepB); break;
     case 2:
-        func_021DA36C(((struct Obj14328 *)p)->f34);
+        WIFIBATTLEMATCH_NET_DisconnectWifi(((struct Obj14328 *)p)->f34);
     case 1:
-        func_021D97D0(p);
-        func_021E8AA0((int *)sys,(int)func_021D8904);
+        WIFIBATTLEMATCH_NET_SetupTradeIconAndWait(p);
+        func_021E8AA0((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepG);
         break;
-    case 3: func_021D97D0(p); func_021E8AA0((int *)sys,(int)func_021D8BC4); break;
+    case 3: WIFIBATTLEMATCH_NET_SetupTradeIconAndWait(p); func_021E8AA0((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepH); break;
     }
 }

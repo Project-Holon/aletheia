@@ -1,5 +1,5 @@
 /*
- * function: func_021D4240
+ * function: GTSNEGO_DISP_SetCallback
  * address: 0x021D4240
  * packet: pkt_ov120_021D4240
  * region: ov120
@@ -10,4 +10,4 @@
  * status: EXACT
  * Unlabelled store-and-return blocker of 021D4244.
  */
-void func_021D4240(int *p,int v) { *p=v; }
+void GTSNEGO_DISP_SetCallback(int *p,int v) { *p=v; }

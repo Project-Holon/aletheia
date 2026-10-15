@@ -1,5 +1,5 @@
 /*
- * function: func_0219E9D8
+ * function: SBIsNullServer
  * address:  0x0219E9D8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021AEAF8[];
 
-int func_0219E9D8(int v)
+int SBIsNullServer(int v)
 {
     return v == *(int *)(g_021AEAF8 + 0x8);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MSGDATA_AllocSite     0x020A7E8C  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MSGDATA_LoadFileHeader  0x02046084  arm
  *   MSGDATA_LoadBank  0x02046110  arm
  *   func_020461B8  0x020461B8  arm
@@ -80,7 +80,7 @@ struct MsgBank {
 };
 
 extern char MSGDATA_AllocSite[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
@@ -97,7 +97,7 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
     struct MsgBank *bank;
     u32 origin;
 
-    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, MSGDATA_AllocSite, 0x68);
+    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, 0x1c, 0, MSGDATA_AllocSite, 0x68);
     bank->heapId = (u16)heapId;
     bank->stream = func_020490F4(arcId, heapId);
     origin = ARC_TOOL_GetHandleMemberOffset(bank->stream, fileId);
@@ -107,7 +107,7 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
     bank->langIndex = func_020461B8((struct Header *)bank->file);
 
     if (bank->resident != 0) {
-        bank->base = sub_02030734(bank->heapId, bank->file->size, 0,
+        bank->base = GFL_HEAP_Alloc(bank->heapId, bank->file->size, 0,
                                   MSGDATA_AllocSite, 0x7b);
         MSGDATA_LoadBank((struct MsgData *)bank);
     } else {

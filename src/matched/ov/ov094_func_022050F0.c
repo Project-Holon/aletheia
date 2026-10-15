@@ -14,8 +14,8 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   STRBUF_Delete  0x02045808  arm
@@ -73,8 +73,8 @@ struct PalAnmSlot;
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
@@ -112,8 +112,8 @@ void BTLV_INPUT_DrawTargetButtons(char *s, Out *out, const Info *p)
     for (i = 0; i < n; i++) {
         if (p->e[i].show != 0) {
             w = func_02045EC0(((struct Obj01909 *)s)->f5C, p->e[i].kind + 3);
-            func_0201EEF4((void *)h, 0, p->e[i].text);
-            func_0201F250((struct WordSet *)h, v, w);
+            WORDSET_SetSlotMonSpecies((void *)h, 0, p->e[i].text);
+            WORDSET_CopyTaggedText((struct WordSet *)h, v, w);
             BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, ((struct Obj01909 *)s)->f224, &ww, &hh);
             PRINTSYS_Print((void *)(((struct Obj01909 *)s)->f22C), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, (void *)(((struct Obj01909 *)s)->f224));
             STRBUF_Delete(w);

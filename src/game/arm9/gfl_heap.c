@@ -488,8 +488,8 @@ int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size)
  *    single-call arm as the `else`.  Written as `a != 0 && b != 0` the
  *    compiler fuses the pair into `cmp`/`cmpne` and loses four bytes.
  *
- * Decompiled to unstick src/pending/func_020306F0.c (fan-in 121), whose
- * only unresolved relocation was this address: func_020306F0 is this
+ * Decompiled to unstick src/pending/GFL_HEAP_DeleteChecked.c (fan-in 121), whose
+ * only unresolved relocation was this address: GFL_HEAP_DeleteChecked is this
  * function's only caller image-wide, so class `label` was unavailable and
  * the two are not contiguous, so no unit could make the site `local`.
  *
@@ -544,7 +544,7 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
 
 /*
  * The raw allocator: the only function in the image that actually takes
- * memory from a heap. sub_02030734, the 1163-caller allocation entry
+ * memory from a heap. GFL_HEAP_Alloc, the 1163-caller allocation entry
  * point, is a wrapper around this.
  *
  *   void *sub_02030098(u32 heapId, u32 size)
@@ -561,7 +561,7 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
  * header's first halfword and the pointer is advanced past the header in
  * one instruction. The header's second halfword is a constant 0x194E
  * signature. The rest of the header is the provenance record stamped
- * later by sub_02030880 (name[0x12] at +4, u16 tag at +0x16), which is
+ * later by GFL_HEAP_StampAllocSite (name[0x12] at +4, u16 tag at +0x16), which is
  * what sub_020304C0's `p - 0x1c + 4` is addressing.
  *
  * The module global at 0x02146954, already named gHeapManager by
@@ -809,7 +809,7 @@ fail:
  * resolves fine. No cut exists inside a single function section, so
  * --suggest-split offers nothing. An EXACT entry for 0x02060CD0 promotes
  * this file unchanged, and promoting it in turn unblocks
- * src/pending/sub_020307E0.c, whose only unresolved site is this function.
+ * src/pending/GFL_HEAP_CheckAllocator.c, whose only unresolved site is this function.
  *
  * Resize in place: the realloc of this heap layer.
  *
@@ -930,7 +930,7 @@ fail:
 /*
  * Checked heap-id lookup handing the arena to sub_02060E94 with a mode of
  * 4; see src/matched/sub_02030428.c for the shared preamble this family
- * has in common. The same (arena, 4) pair appears in sub_02030958, the
+ * has in common. The same (arena, 4) pair appears in GFL_HEAP_ReportOutOfMemory, the
  * out-of-memory reporter, so mode 4 is the heap-layer's own dump mode.
  *
  *   void *sub_0203038C(u32 heapId)
@@ -1147,7 +1147,7 @@ void *sub_020304C0(void *mem)
  * of range and 2 for an id that maps to no live heap, exactly the codes
  * sub_02030098 uses, and returns 0; success writes 0 and returns 1. The
  * callers treat the return as a pointer-ish truth value (see
- * src/pending/sub_0203084C.c), but the code here materialises a plain 1.
+ * src/pending/GFL_HEAP_GetHeapHeadChecked.c), but the code here materialises a plain 1.
  *
  * Shape notes:
  *
@@ -1290,7 +1290,7 @@ BOOL GFL_HEAP_InitSystemHeap(u32 size)
  * a pure tail call, so disasm.py's lr-saving prologue sweep never labelled
  * it, and nothing in arm9 branches to it: its only reference anywhere in
  * the image is the pool word at 0x02030BC4, read by the veneer-shaped tail
- * call at 0x02030BBC (src/pending/sub_02030BBC.c, whose single unresolved
+ * call at 0x02030BBC (src/pending/GFL_HEAP_AllocSystemChecked.c, whose single unresolved
  * relocation this file closes). It is now seeded in
  * layout/function_starts.txt, which is what splits 0x02030534's extent.
  *

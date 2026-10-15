@@ -23,10 +23,10 @@
  *   d_02200D28 0x02200D28 data a1
  *   d_02200D38 0x02200D38 data a1
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EE0C 0x0201EE0C thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  */
 #include "br_types.h"
@@ -49,13 +49,13 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 extern struct WordSet *GF_FONT_Create_EC64(unsigned int heapId);
 
-extern void func_0201EE0C(struct WordSet *p, unsigned int i, const void *src, unsigned int n, unsigned int f, unsigned int c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, unsigned int i, const void *src, unsigned int n, unsigned int f, unsigned int c);
 
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -155,10 +155,10 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
     if(hasWordSet){
         if((*wordSetSrc)[index]!=0){
             wordSet=GF_FONT_Create_EC64((unsigned short)((heapId&0x7fff)|0x8000));
-            func_0201EE0C(wordSet,0,(const void *)((*wordSetSrc+index)[4]),(*wordSetSrc+index)[8],1,2);
+            WORDSET_SetSlotTag(wordSet,0,(const void *)((*wordSetSrc+index)[4]),(*wordSetSrc+index)[8],1,2);
             src=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
-            func_0201F250(wordSet,result,src);
+            WORDSET_CopyTaggedText(wordSet,result,src);
             WORDSET_DeleteStrbufED04(wordSet);
             STRBUF_Delete(src);
         }else{

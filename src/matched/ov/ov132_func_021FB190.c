@@ -1,5 +1,5 @@
 /*
- * function: func_021FB190
+ * function: SCRIPT_COMMAND_TaskCameraTarget
  * address: 0x021FB190
  * packet: pkt_ov132_021FB190
  * region: ov132
@@ -8,26 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FAE1C 0x021FAE1C thumb ov132
+ *   STA_ACT_SCRIPT_StepTaskInt 0x021FAE1C thumb ov132
  *   STA_ACTING_SetCameraTarget 0x021F9E08 thumb ov132
- *   func_021F9E40 0x021F9E40 thumb ov132
- *   func_021FADF8 0x021FADF8 thumb ov132
+ *   STA_ACT_EFFECT_SetSceneField14 0x021F9E40 thumb ov132
+ *   STA_ACT_SCRIPT_RemoveTask 0x021FADF8 thumb ov132
  */
 #include "../include/Obj08161.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021FAE1C(char *, int *);
+extern int STA_ACT_SCRIPT_StepTaskInt(char *, int *);
 typedef unsigned int   u32;
 extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
-extern void func_021F9E40(u8 *p, u32 v);
-extern void func_021FADF8(char *, char *);
-void func_021FB190(void *unused, char *p)
+extern void STA_ACT_EFFECT_SetSceneField14(u8 *p, u32 v);
+extern void STA_ACT_SCRIPT_RemoveTask(char *, char *);
+void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p)
 {
     int v;
-    int done = func_021FAE1C(p, &v);
+    int done = STA_ACT_SCRIPT_StepTaskInt(p, &v);
     STA_ACTING_SetCameraTarget(((struct Obj08161 *)p)->f0, v);
     if (done == 1) {
-        func_021F9E40(((struct Obj08161 *)p)->f0, 0);
-        func_021FADF8(*(char * *)&((struct Obj08161 *)p)->f10, *(char * *)&((struct Obj08161 *)p)->f14);
+        STA_ACT_EFFECT_SetSceneField14(((struct Obj08161 *)p)->f0, 0);
+        STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct Obj08161 *)p)->f10, *(char * *)&((struct Obj08161 *)p)->f14);
     }
 }

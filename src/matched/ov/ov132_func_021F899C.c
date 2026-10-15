@@ -29,7 +29,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   BG_SYS_SetLowBit 0x0204044C arm
@@ -94,7 +94,7 @@ struct Light;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void STA_ACTING_SetupBg(const struct BgTemplate *p, u32 id, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
@@ -128,7 +128,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     GX_SetDispSelect(SUB_MAIN);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021FDBA0);
     BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((struct DispConfig *)d_021FDAA0);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021FDAA0);
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB40,1,0);
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB60,2,0);
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB80,3,0);

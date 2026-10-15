@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
@@ -69,7 +69,7 @@ struct MsgBank;
 struct U16Vec;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
 struct PrintSys;
@@ -89,7 +89,7 @@ void REPORT_EVENT_QueueMessage(Work *w, u32 msg)
     void *p;
 
     BMP_Clear(BMP_WIN_GetBmp(w->f18->f08), 15);
-    func_0201F73C(w->f18->f08, 2, 1, 13);
+    BMP_MENUWORK_DrawWindow(w->f18->f08, 2, 1, 13);
     str = func_02045EC0(w->f18->f04, msg);
     a = FIELD_MSGBG_GetFont(w->f0C);
     s = (Slot *)&w->f18->f08;

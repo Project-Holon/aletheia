@@ -22,11 +22,11 @@
  *   func_020307B0   0x020307B0  arm
  *   pBattleRec   0x0214616C  data
  *   MIi_CpuClear32  0x02082A7C  arm
- *   func_0203F2FC   0x0203F2FC  arm
+ *   GF_STANDARD_Checksum   0x0203F2FC  arm
  *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
  *   MI_CpuFill8          0x02082BCC  arm
- *   func_0203F37C  0x0203F37C  arm
- *   func_0203F328  0x0203F328  arm
+ *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
+ *   GF_STANDARD_Shuffle  0x0203F328  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   BattleRecModeTable 0x0209DDCC data
@@ -219,10 +219,10 @@ extern void func_0200734C(struct SaveControl *save, u32 id);
 extern void *func_020073D8(struct SaveControl *save, u32 id, u32 arg);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *mem);
-extern u32 func_0203F2FC(const u8 *data, u32 size);
+extern u32 GF_STANDARD_Checksum(const u8 *data, u32 size);
 extern u16 GF_STANDARD_SetupCalc(const u8 *data, u32 size);
-extern void func_0203F328(void *data, u32 size, u32 code);
-extern void func_0203F37C(void *data, u32 size, u32 code);
+extern void GF_STANDARD_Shuffle(void *data, u32 size, u32 code);
+extern void GF_STANDARD_ShuffleEx(void *data, u32 size, u32 code);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
 extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
@@ -778,7 +778,7 @@ void BATTLE_REC_Clear(struct BattleRecSave *rec)
 
 u32 BATTLE_REC_IsDataExist(void)
 {
-    if (func_0203F2FC((const u8 *)(&pBattleRec->body), sizeof(pBattleRec->body))
+    if (GF_STANDARD_Checksum((const u8 *)(&pBattleRec->body), sizeof(pBattleRec->body))
         != 0) {
         return 1;
     }
@@ -1322,7 +1322,7 @@ u32 BATTLE_REC_IsValid(struct SaveControl *save, struct BattleRecSave *rec)
  */
 void BATTLE_REC_Decode(void *data, u32 size, u32 code)
 {
-    func_0203F37C(data, size, code);
+    GF_STANDARD_ShuffleEx(data, size, code);
 }
 
 
@@ -1333,7 +1333,7 @@ void BATTLE_REC_Decode(void *data, u32 size, u32 code)
 
 void BATTLE_REC_Encode(void *data, u32 size, u32 code)
 {
-    func_0203F328(data, size, code);
+    GF_STANDARD_Shuffle(data, size, code);
 }
 
 

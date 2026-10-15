@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
- *   func_021A7B20  0x021A7B20  thumb  ov021
+ *   FIELD_GROUND_ANIME_CreateA  0x021A7B20  thumb  ov021
  *   EVENT_ENTRANCE_OUT_ShowPlaceName  0x021BDC80  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  * Addresses are Black-image addresses.
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Args;
 struct Evt;
 extern void *FIELDMAP_GetCamera(void *p);
-extern void *func_021A7B20(struct Args *a);
+extern void *FIELD_GROUND_ANIME_CreateA(struct Args *a);
 extern void EVENT_ENTRANCE_OUT_ShowPlaceName(u32 *);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
@@ -35,7 +35,7 @@ u32 EVENT_ENTRANCE_OUT_RunCamera(u32 a, int *st, u32 *ctx)
     FIELDMAP_GetCamera((void *)p[3]);
     switch (*st) {
     case 0:
-        GAME_EVENT_CallEvent((struct Evt *)a, func_021A7B20((struct Args *)((u32)p)));
+        GAME_EVENT_CallEvent((struct Evt *)a, FIELD_GROUND_ANIME_CreateA((struct Args *)((u32)p)));
         (*st)++;
         break;
     case 1:

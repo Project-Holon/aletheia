@@ -1,5 +1,5 @@
 /*
- * function: func_021D72C8
+ * function: GTSNEGO_MSG_GetListRowY
  * address: 0x021D72C8
  * packet: pkt_ov120_021D72C8
  * region: ov120
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int _s32_div_f(int, int);
-int func_021D72C8(u8 *p, int index, int count)
+int GTSNEGO_MSG_GetListRowY(u8 *p, int index, int count)
 {
     if (index == 0) return 0;
     count = (int)((u32)count - 1);

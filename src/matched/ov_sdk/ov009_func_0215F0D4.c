@@ -1,5 +1,5 @@
 /*
- * function: func_0215F0D4
+ * function: SOCLi_InitResource
  * address:  0x0215F0D4
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 extern struct SOCLResource g_021AA4AC;
 extern void MI_CpuFill8(void *p, int v, int n);
 
-void func_0215F0D4(void)
+void SOCLi_InitResource(void)
 {
     MI_CpuFill8(((char *)&g_021AA4AC), 0, 8);
 }

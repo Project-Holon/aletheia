@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   g_020A0058     0x020A0058  data
  *
  * The clipped blit of one window record. `mgr->wins` is an array of 16-byte
@@ -19,7 +19,7 @@
  * clip rectangle as four `s8` bounds at +0xc..+0xf. The function parks the
  * requested position in the record, rejects the four fully-outside cases,
  * then narrows the copy on each of the four edges before handing the result
- * to src/matched/func_020410D0.c with its ten arguments (destination x/y,
+ * to src/matched/BG_SYS_DrawTileEx.c with its ten arguments (destination x/y,
  * width/height, source pointer, source x/y offset, source width/height).
  * The trailing indirect call dispatches on `mgr->mode` through the table at
  * 0x020A0058; the pool word for that table is attested by the second copy of
@@ -80,7 +80,7 @@ struct WinMgr {
     u16 unk06_15:1;
 };
 
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void (*g_020A0058[])(u32);
 
@@ -132,7 +132,7 @@ void sub_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y)
         oh = oh - (u8)(y1 - win->ymax);
     }
 
-    func_020410D0(win->bg, sx, sy, ow, oh, win->tiles, ox, oy, win->w, win->h);
+    BG_SYS_DrawTileEx(win->bg, sx, sy, ow, oh, win->tiles, ox, oy, win->w, win->h);
     g_020A0058[mgr->mode](win->bg);
     win->dirty = 0;
 }

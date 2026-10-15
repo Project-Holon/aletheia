@@ -1,5 +1,5 @@
 /*
- * function: func_0220E2F8
+ * function: B_PLIST_DRAW_ClearIds
  * address: 0x0220E2F8
  * packet: pkt_ov198_0220E2F8
  * region: ov198
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-void func_0220E2F8(char *p)
+void B_PLIST_DRAW_ClearIds(char *p)
 {
     unsigned int i;
     for (i = 0; i < 26; i++) *(int *)(p + i * 4 + 0x24a4) = -1;

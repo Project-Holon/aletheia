@@ -8,20 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02019B58, func_02019B64, func_02019B94, func_02019BA4,
- *           func_02019BBC
+ * function: POKE_TOOL_SetDefaultName, POKE_TOOL_SetNameFromSpecies, POKE_TOOL_LoadExpTable, POKE_TOOL_GetExpValue,
+ *           POKE_TOOL_GetPlateType
  *
- * The first five of the seven functions between func_02019ABC and the cache
+ * The first five of the seven functions between POKE_TOOL_IsDefaultName and the cache
  * helper at 0x02019C54.  The range stops at 0x02019C38 on purpose: the two
- * functions after it, func_02019C38 and func_02019C54, each reach a data
+ * functions after it, POKE_TOOL_GetBoxSubstruct and POKE_TOOL_GetPersonalData, each reach a data
  * object through a pool word that is the object's only reference in the whole
  * image (0x0209E3A4 at 0x02019C50 and 0x02146274 at 0x02019C78), so the
  * `literal` class has no outside witness for either and both cap at MATCH
  * however they are written.  Cutting in front of them leaves these five
  * clean.
  *
- * func_02019B58 reaches POKE_TOOL_Dummy, which src/matched/unit_020185F0.c
- * proves is an empty `bx lr`, and then calls func_02019B64 with whatever r0
+ * POKE_TOOL_SetDefaultName reaches POKE_TOOL_Dummy, which src/matched/unit_020185F0.c
+ * proves is an empty `bx lr`, and then calls POKE_TOOL_SetNameFromSpecies with whatever r0
  * holds, with no register saved across the first call.  That only compiles
  * from a declaration in which POKE_TOOL_Dummy returns a value, so this unit
  * declares it `void *POKE_TOOL_Dummy(void)` and passes the result straight on;
@@ -30,18 +30,18 @@
  * and the image cannot say which one the original header carried, because an
  * empty function's return value is unobservable.
  *
- * func_02019B94 is docs/idioms/tail-call-is-a-pool-word-and-bx.md: it permutes
+ * POKE_TOOL_LoadExpTable is docs/idioms/tail-call-is-a-pool-word-and-bx.md: it permutes
  * three arguments into an ARM callee at 0x02048F4C and has no prologue at all.
  *
- * func_02019BBC is the plate-to-type table of ids 0xAE and 0xAF of
+ * POKE_TOOL_GetPlateType is the plate-to-type table of ids 0xAE and 0xAF of
  * POKE_TOOL_GetBoxValueRaw: sixteen consecutive item ids from 0x12A map to sixteen type
  * ids and everything else to 0.  The switch value arrives as a pool word
  * rather than a `subs` immediate only because 0x12A does not fit the eight bit
  * form, so it is an ordinary constant and not the linker symbol of
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  *
- * VERSION SENSITIVITY: func_02019BBC's sixteen case labels are item ids and
- * its sixteen results are type ids, and func_02019B64 passes id 5 (species)
+ * VERSION SENSITIVITY: POKE_TOOL_GetPlateType's sixteen case labels are item ids and
+ * its sixteen results are type ids, and POKE_TOOL_SetNameFromSpecies passes id 5 (species)
  * and id 0x74 (the name) of the record.  None of them is a version flag and
  * there is no exclusive-species table here, but the item ids 0x12A..0x139 are
  * content numbering and are the values to re-read first for a White build.
@@ -74,15 +74,15 @@ extern void *gSpeciesNameBank;
 extern u16   gNameBuf[];
 extern u32   gExpTableBuf[];
 
-void func_02019B64(void *p);
-void func_02019B94(u32 a, void *b);
+void POKE_TOOL_SetNameFromSpecies(void *p);
+void POKE_TOOL_LoadExpTable(u32 a, void *b);
 
-void func_02019B58(void *p)
+void POKE_TOOL_SetDefaultName(void *p)
 {
-    func_02019B64(POKE_TOOL_Dummy());
+    POKE_TOOL_SetNameFromSpecies(POKE_TOOL_Dummy());
 }
 
-void func_02019B64(void *p)
+void POKE_TOOL_SetNameFromSpecies(void *p)
 {
     u32 s = func_02017E88(p, 5, 0);
 
@@ -90,18 +90,18 @@ void func_02019B64(void *p)
     POKE_TOOL_SetBoxValue(p, 0x74, (u32)gNameBuf);
 }
 
-void func_02019B94(u32 a, void *b)
+void POKE_TOOL_LoadExpTable(u32 a, void *b)
 {
     ARC_TOOL_ReadMember(b, 0x11, a);
 }
 
-u32 func_02019BA4(u32 a, u32 i)
+u32 POKE_TOOL_GetExpValue(u32 a, u32 i)
 {
-    func_02019B94(a, gExpTableBuf);
+    POKE_TOOL_LoadExpTable(a, gExpTableBuf);
     return gExpTableBuf[i];
 }
 
-u32 func_02019BBC(u32 item)
+u32 POKE_TOOL_GetPlateType(u32 item)
 {
     switch (item) {
     case 0x12A: return 9;

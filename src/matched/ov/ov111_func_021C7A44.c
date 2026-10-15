@@ -1,5 +1,5 @@
 /*
- * function: func_021C7A44
+ * function: VIEWER_ACTOR_StartWipe
  * address:  0x021C7A44
  * packet:   pkt_ov111_021C7A44
  * region:   ov111
@@ -41,7 +41,7 @@ typedef struct {
 
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-int func_021C7A44(Work *p)
+int VIEWER_ACTOR_StartWipe(Work *p)
 {
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x27);
     p->state = 4;

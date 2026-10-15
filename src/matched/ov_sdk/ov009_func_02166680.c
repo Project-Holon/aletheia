@@ -1,5 +1,5 @@
 /*
- * function: func_02166680
+ * function: WcmCompareMemory
  * address:  0x02166680
  * packet:   pkt_02155168
  * region:   ov009
@@ -16,7 +16,7 @@
 
  */
 
-int func_02166680(unsigned char *a, unsigned char *b, unsigned int n)
+int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n)
 {
     unsigned int i;
 

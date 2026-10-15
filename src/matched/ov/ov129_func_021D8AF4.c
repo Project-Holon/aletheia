@@ -1,5 +1,5 @@
 /*
- * function: func_021D8AF4
+ * function: WF2DMAP_SCENE_ResetState
  * address:  0x021D8AF4
  * packet:   pkt_021D8AF4
  * region:   ov129
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021D8AF4(char *p, int v)
+void WF2DMAP_SCENE_ResetState(char *p, int v)
 {
     ((struct Obj08136 *)p)->f22C = v;
     ((struct Obj08136 *)p)->f230 = 0;

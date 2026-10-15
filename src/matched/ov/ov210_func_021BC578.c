@@ -1,5 +1,5 @@
 /*
- * function: func_021BC578
+ * function: ZKNSEARCH_MAIN_DeleteBackgrounds
  * address:  0x021BC578
  * packet:   pkt_ov210_021BC578
  * region:   ov210
@@ -28,7 +28,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 a, u32 b);
 extern void func_020403F4(u32 a);
 extern void BG_SYS_Delete(void);
 
-void func_021BC578(u32 a0)
+void ZKNSEARCH_MAIN_DeleteBackgrounds(u32 a0)
 {
     BG_SYS_SetMainPlaneVisible(15, 0);
     BG_SYS_SetSubPlaneVisible(15, 0);

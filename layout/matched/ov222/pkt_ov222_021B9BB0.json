@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B9BB0",
-    "func_021B9BFC"
+    "ZENKOKU_ZUKAN_AWARD_FlushWindows",
+    "ZENKOKU_ZUKAN_AWARD_IsWindowsReady"
+   ],
+   "addresses": [
+    "0x021B9BB0",
+    "0x021B9BFC"
    ]
   }
  ]

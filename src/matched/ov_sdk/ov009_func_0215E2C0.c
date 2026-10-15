@@ -1,5 +1,5 @@
 /*
- * function: func_0215E2C0
+ * function: SOCLi_GetWriteBufferFreeSize
  * address:  0x0215E2C0
  * packet:   pkt_ov009_0215E2C0
  * region:   ov009
@@ -27,7 +27,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0215E2C0.c \
- *       --func func_0215E2C0 --addr 0x0215E2C0 --region ov009 --arm --cc 1.1p1 \
+ *       --func SOCLi_GetWriteBufferFreeSize --addr 0x0215E2C0 --region ov009 --arm --cc 1.1p1 \
  *       --lang c99 --diff
  */
 
@@ -54,7 +54,7 @@ typedef struct {
 	SendPipe *send_pipe;
 } Sock;
 
-long func_0215E2C0(Sock *socket)
+long SOCLi_GetWriteBufferFreeSize(Sock *socket)
 {
 	SendPipe *send_pipe = socket->send_pipe;
 	long wrtbuf_size = send_pipe->buffer.area.size;

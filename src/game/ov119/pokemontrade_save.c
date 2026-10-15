@@ -60,8 +60,8 @@
  *   POKETRADE_SAVE_OpenSummaryScreen 0x021E1D68 thumb ov119
  *   POKETRADE_SAVE_CloseTaskMenu 0x021E12F8 thumb ov119
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
- *   func_0201EEF4 0x0201EEF4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   POKETRADE_SAVE_OpenTaskMenu 0x021E1410 thumb ov119
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
@@ -112,7 +112,7 @@
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -126,13 +126,13 @@
  *   STRBUF_Delete 0x02045808 arm
  *   POKETRADE_PROC_StepBeginWipeOut 0x021D9434 thumb ov119
  *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MCSS_SetPosition   0x02015C48  thumb
  *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   func_0200960C 0x0200960C thumb
  *   GAME_SYNC_GetBlockSize  0x02009454  thumb
- *   d_021E8130     0x021E8130  data  ov119
+ *   gSaveControlAllocTag     0x021E8130  data  ov119
  *   ZUKAN_SAVE_GetSize  0x0200C9EC  thumb
  *   TRADE_HISTORY_GetSize  0x02009D9C  thumb
  *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
@@ -151,7 +151,7 @@
  *   PERAPVOICE_ClearRecorded   0x02007B54  thumb
  *   MAIL_GetBoxSize   0x02008FFC  thumb
  *   MAIL_GetBox   0x02008FEC  thumb
- *   sub_02008C20   0x02008C20  thumb
+ *   RECORD_GetSize   0x02008C20  thumb
  *   PLAYTIME_GetStamp   0x020086F0  thumb
  *   BOX_SAVEDATA_GetUsableBoxCount   0x020076A4  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
@@ -164,7 +164,7 @@
  *   WIFI_HISTORY_SetCountryRegionState   0x020094D8  thumb
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   func_0202F190  0x0202F190  thumb
- *   sub_02008DF0   0x02008DF0  thumb
+ *   RECORD_AddOne   0x02008DF0  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   TRADE_HISTORY_IncrementTradeCount   0x02009EB0  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
@@ -173,8 +173,8 @@
  *   sub_0201283C   0x0201283C  thumb
  *   WIFILIST_AddFriendBattleRecord   0x02009BB8  thumb
  *   WIFILIST_FindFriendByStatus   0x02009D1C  thumb
- *   d_021E8108     0x021E8108  data  ov119
- *   d_021E811C     0x021E811C  data  ov119
+ *   gSaveBufferAllocTag     0x021E8108  data  ov119
+ *   gMailBufferAllocTag     0x021E811C  data  ov119
  *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
@@ -202,10 +202,10 @@
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_02028470 0x02028470 thumb
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -226,47 +226,47 @@
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   func_02028484 0x02028484 thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
- *   func_0201EE84 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   d_021E7984 0x021E7984 data a4
- *   d_021E7934 0x021E7934 data a4
- *   d_021E7914 0x021E7914 data a4
- *   d_021E794C 0x021E794C data a4
+ *   gStatValueLabels 0x021E7984 data a4
+ *   gOfferCardWindowPosA 0x021E7934 data a4
+ *   gOfferCardWindowPosB 0x021E7914 data a4
+ *   gOfferCardWindowPosC 0x021E794C data a4
  *   POKETRADE_PROC_IsWifiMode 0x021D8ADC thumb ov119
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   POKETRADE_2D_DeleteTouchbarActors  0x021E5BE4  thumb  ov119
  *   POKETRADE_2D_DeleteSummaryIcons  0x021E625C  thumb  ov119
  *   POKETRADE_2D_LoadMainPalette 0x021E5958 thumb ov119
  *   POKETRADE_2D_CreateTouchbarActors 0x021E5998 thumb ov119
- *   d_021E7944 0x021E7944 data a4
- *   d_021E793C 0x021E793C data a4
+ *   gSummaryPagePosA 0x021E7944 data a4
+ *   gSummaryPagePosB 0x021E793C data a4
  *   POKETRADE_2D_UploadWindowPalette 0x021E6294 thumb ov119
  *   POKETRADE_2D_CreateMarkingIcon 0x021E5DFC thumb ov119
  *   POKETRADE_2D_CreatePokerusIcon 0x021E5F14 thumb ov119
- *   d_021E7954 0x021E7954 data a4
- *   d_021E7964 0x021E7964 data a4
+ *   gTypeIconSetA 0x021E7954 data a4
+ *   gTypeIconSetB 0x021E7964 data a4
  *   MCSS_ResetVanishFlag 0x02015EB0 thumb
  *   POKETRADE_2D_CreateSummaryIcons 0x021E60BC thumb ov119
  *   POKETRADE_2D_CreateOfferWindows 0x021E6CB8 thumb ov119
  *   POKETRADE_2D_UpdateOfferWindowActors 0x021E6E7C thumb ov119
  *   POKETRADE_2D_DeleteOfferWindowActors 0x021E6DEC thumb
- *   d_021E7924 0x021E7924 data a4
- *   d_021E791C 0x021E791C data a4
- *   d_021E7974 0x021E7974 data a4
- *   d_021E790C 0x021E790C data a4
+ *   gPartnerOfferCardPosA 0x021E7924 data a4
+ *   gPartnerOfferCardPosB 0x021E791C data a4
+ *   gPartnerOfferColors 0x021E7974 data a4
+ *   gPartnerOfferCardPosC 0x021E790C data a4
  *   APP_TASKMENU_WIN_CreateEx 0x0202800C thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   POKETRADE_NEGO_HasOffer 0x021DD2F4 thumb ov119
- *   d_021E792C 0x021E792C data
+ *   gOutsideAreaHitRect 0x021E792C data
  *   func_02048BC4 0x02048BC4 arm
  *   func_02048C58 0x02048C58 arm
  *   G3D_SYSTEM_SetProjection 0x02046858 arm
- *   d_021E799C 0x021E799C data a4
- *   d_021F4560 0x021F4560 data a4
- *   d_021E7B1C 0x021E7B1C data a4
- *   d_020A1DF8 0x020A1DF8 data a2
+ *   gLightSet 0x021E799C data a4
+ *   gLightSetHandle 0x021F4560 data a4
+ *   gProjectionConfig 0x021E7B1C data a4
+ *   gProjectionParams 0x020A1DF8 data a2
  *   func_02048C4C 0x02048C4C arm
  *   func_02048AFC 0x02048AFC arm
  *   func_02048B44 0x02048B44 arm
@@ -281,7 +281,7 @@
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   ICA_ANIME_Get 0x02011610 thumb
  *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
- *   d_021E79C8 0x021E79C8 data a4
+ *   gDrawLightTable 0x021E79C8 data a4
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   POKETRADE_3D_AddPokemonMcss 0x021E35A0 thumb ov119
  *   POKETRADE_3D_DrawRotatingCube 0x021E3A40 thumb ov119
@@ -292,6 +292,8 @@
  *   POKETRADE_2D_ExitSummaryBgs 0x021E53CC thumb ov119
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
+ *   WORDSET_SetSlotFromMsgB6  0x0201EF8C  thumb  arm9
  */
 #include "pokemontrade_types.h"
 
@@ -329,7 +331,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 
@@ -531,7 +533,7 @@ extern void func_02041B6C(u32 bit);
 
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MCSS_SetPosition(void *p, u32 *src);
 
@@ -543,13 +545,13 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void *POKETRADE_PROC_GetSideMon(void *,int);
 
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern u8 *func_02012944(void *p);
 
@@ -605,7 +607,7 @@ extern u32 MAIL_GetBoxSize(void);
 
 extern struct Sub02008F80Obj *MAIL_GetBox(void *sys);
 
-extern u32 sub_02008C20(void);
+extern u32 RECORD_GetSize(void);
 
 extern void PLAYTIME_GetStamp(const struct PlayTime *p, struct PlayTimeStamp *out);
 
@@ -635,7 +637,7 @@ extern void POKE_TOOL_HealFull(void *mon);
 
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 
@@ -729,7 +731,7 @@ extern void func_02028470(u8 *,u32);
 
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
@@ -739,7 +741,7 @@ extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 
@@ -781,21 +783,21 @@ extern int func_02028484(struct Blk *blk, void *h);
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
-extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
 
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 extern void PRINTSYS_PrintColor(void *,short,short,int,int,int);
 
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 
 extern u8 func_02018598(void *p);
 
-extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 
 extern int POKETRADE_PROC_IsWifiMode(char *p);
 
@@ -1083,41 +1085,41 @@ void POKETRADE_2D_CreateBoxIconActors(char *p);
 
 void POKETRADE_2D_ExitSummaryBgs(int p);
 
-extern const char d_021E8130[];
+extern const char gSaveControlAllocTag[];
 
-extern const char d_021E8108[];
+extern const char gSaveBufferAllocTag[];
 
-extern const char d_021E811C[];
+extern const char gMailBufferAllocTag[];
 
-extern const T5 d_021E7984;
+extern const T5 gStatValueLabels;
 
-extern const IntPair d_021E7934,d_021E7914,d_021E794C;
+extern const IntPair gOfferCardWindowPosA,gOfferCardWindowPosB,gOfferCardWindowPosC;
 
-extern const IntVec2 d_021E7944, d_021E793C;
+extern const IntVec2 gSummaryPagePosA, gSummaryPagePosB;
 
-extern const IntQuad d_021E7954,d_021E7964;
+extern const IntQuad gTypeIconSetA,gTypeIconSetB;
 
-extern const Pair d_021E7924,d_021E791C,d_021E790C;
+extern const Pair gPartnerOfferCardPosA,gPartnerOfferCardPosB,gPartnerOfferCardPosC;
 
-extern const U32Quad d_021E7974;
+extern const U32Quad gPartnerOfferColors;
 
-extern const char d_021E792C[];
+extern const char gOutsideAreaHitRect[];
 
-extern const IntOctet d_021E7B1C;
+extern const IntOctet gProjectionConfig;
 
-extern char d_021E799C[];
+extern char gLightSet[];
 
-extern void *d_021F4560;
+extern void *gLightSetHandle;
 
-extern short d_020A1DF8[];
+extern short gProjectionParams[];
 
-extern char d_021E79C8[];
+extern char gDrawLightTable[];
 
 #define I(p, o) (*(void **)((p) + (o)))
 
 void POKETRADE_SAVE_FreeIfSet(u32 *p) { if (p) { func_020307B0((void *)((u32)p)); } }
 
-void POKETRADE_SAVE_SetWaitCounter(u8 *p, u32 v) { (*(unsigned int *)&((TradeWork *)p)->fF2C) = v; }
+void POKETRADE_SAVE_SetWaitCounter(u8 *p, u32 v) { (*(unsigned int *)&((TradeWork *)p)->waitCounter) = v; }
 
 /*
  * Decrement the +0x11f8 guard byte (both its condition and the store use
@@ -1173,7 +1175,7 @@ void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p)
     CLACT_ExitSystem();
     POKETRADE_2D_InitClactSystemSub(p);
     (*(void * *)&((TradeWork *)b)->clactSystem) = CLACT_CreateUnit(0x154, 0, ((TradeWork *)b)->heapId);
-    st = ((TradeWork *)b)->f118C;
+    st = ((TradeWork *)b)->tradeState;
     if (st == 5) {
         POKETRADE_SAVE_PopBgmFadeIn60(p);
         ((TradeWork *)b)->request->state = 3;
@@ -1188,7 +1190,7 @@ void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p)
         GFL_USE_PushBgm();
         (((TradeWork *)b)->sceneState)++;
         GFL_USE_FadeOutBgm(6);
-        ((TradeWork *)b)->fF2C = 0;
+        ((TradeWork *)b)->waitCounter = 0;
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_StepEventMessage1);
     }
 }
@@ -1200,25 +1202,25 @@ void POKETRADE_SAVE_StepEventMessage1(char *p)
 {
     void *mon;
     int z,state;
-    if(((TradeWork *)p)->fF2C<6) return;
+    if(((TradeWork *)p)->waitCounter<6) return;
     GFL_USE_CancelChangeAndPlayBgm(0x518,0xffff);
     GFL_USE_FadeInBgmFull(6);
-    state=((TradeWork *)p)->f118C;
-    if(state==7) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),153,(void *)((*(int *)&((TradeWork *)p)->f73C)));
-    else if(state==8) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),156,(void *)((*(int *)&((TradeWork *)p)->f73C)));
-    else if(((TradeWork *)p)->f11EE) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),131,(void *)((*(int *)&((TradeWork *)p)->f73C)));
-    else func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),48,(void *)((*(int *)&((TradeWork *)p)->f73C)));
+    state=((TradeWork *)p)->tradeState;
+    if(state==7) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),153,(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));
+    else if(state==8) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),156,(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));
+    else if(((TradeWork *)p)->offlineFlag) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),131,(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));
+    else func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),48,(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));
     if(POKETRADE_PROC_IsHostSide(p)) mon=POKETRADE_PROC_GetSideMon(p,0);
     else mon=POKETRADE_PROC_GetSideMon(p,1);
-    func_0201EEF4((*(void * *)&((TradeWork *)p)->f724),1,mon);
+    WORDSET_SetSlotMonSpecies((*(void * *)&((TradeWork *)p)->wordSet),1,mon);
     z=0;
-    func_0201F02C((struct WordSet *)(((TradeWork *)p)->f724),0,(void *)(((TradeWork *)p)->f834));
-    func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f738),(void *)((*(int *)&((TradeWork *)p)->f73C)));
-    (*(int *)&((TradeWork *)p)->f644)=(int)func_0201F5DC((void *)6,15,0,((TradeWork *)p)->heapId);
+    WORDSET_SetSlotMyStatus((struct WordSet *)(((TradeWork *)p)->wordSet),0,(void *)(((TradeWork *)p)->playerStatus));
+    WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->messageText),(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));
+    (*(int *)&((TradeWork *)p)->fontBgHandle)=(int)BMP_MENUWORK_LoadFrameGfx((void *)6,15,0,((TradeWork *)p)->heapId);
     POKETRADE_SAVE_OpenMessageWindowAtPos(p,1,0);
     POKETRADE_SAVE_SetWaitCounter((u8 *)p,0);
     func_02040588(6,1);
-    ((TradeWork *)p)->fF2C=z;
+    ((TradeWork *)p)->waitCounter=z;
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepEventMessage2);
 }
 
@@ -1230,7 +1232,7 @@ void POKETRADE_SAVE_StepEventMessage1(char *p)
 void POKETRADE_SAVE_StepEventMessage2(char *p)
 {
     void *a;
-    if (((TradeWork *)p)->fF2C < 0xC8) {
+    if (((TradeWork *)p)->waitCounter < 0xC8) {
         return;
     }
     if (POKETRADE_PROC_IsHostSide(p)) {
@@ -1238,16 +1240,16 @@ void POKETRADE_SAVE_StepEventMessage2(char *p)
     } else {
         a = POKETRADE_PROC_GetSideMon(p, 1);
     }
-    func_0201EEF4((*(void * *)&((TradeWork *)p)->f724), 1, a);
-    func_0201F02C((*(void * *)&((TradeWork *)p)->f724), 0, (void *)(((TradeWork *)p)->f834));
-    if (((TradeWork *)p)->f118C != 7 && ((TradeWork *)p)->f118C != 8) {
-        if (((TradeWork *)p)->f11EE) {
-            func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank), 0x84, ((TradeWork *)p)->f73C);
-            func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f738), ((TradeWork *)p)->f73C);
+    WORDSET_SetSlotMonSpecies((*(void * *)&((TradeWork *)p)->wordSet), 1, a);
+    WORDSET_SetSlotMyStatus((*(void * *)&((TradeWork *)p)->wordSet), 0, (void *)(((TradeWork *)p)->playerStatus));
+    if (((TradeWork *)p)->tradeState != 7 && ((TradeWork *)p)->tradeState != 8) {
+        if (((TradeWork *)p)->offlineFlag) {
+            func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank), 0x84, ((TradeWork *)p)->messageTemplate);
+            WORDSET_CopyTaggedText((*(void * *)&((TradeWork *)p)->wordSet), (*(void * *)&((TradeWork *)p)->messageText), ((TradeWork *)p)->messageTemplate);
             POKETRADE_SAVE_OpenMessageWindowAtPos(p, 1, 0);
         } else {
-            func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank), 0x31, ((TradeWork *)p)->f73C);
-            func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f738), ((TradeWork *)p)->f73C);
+            func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank), 0x31, ((TradeWork *)p)->messageTemplate);
+            WORDSET_CopyTaggedText((*(void * *)&((TradeWork *)p)->wordSet), (*(void * *)&((TradeWork *)p)->messageText), ((TradeWork *)p)->messageTemplate);
             POKETRADE_SAVE_OpenMessageWindowAtPos(p, 1, 0);
         }
     }
@@ -1256,7 +1258,7 @@ void POKETRADE_SAVE_StepEventMessage2(char *p)
 
 void POKETRADE_SAVE_StepWaitFade1(char *p)
 {
-    if (((TradeWork *)p)->fF2C >= 0x10e) {
+    if (((TradeWork *)p)->waitCounter >= 0x10e) {
         POKETRADE_SAVE_PopBgmFadeIn24(p);
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_StepWaitFade2);
     }
@@ -1264,7 +1266,7 @@ void POKETRADE_SAVE_StepWaitFade1(char *p)
 
 void POKETRADE_SAVE_StepWaitFade2(char *p)
 {
-    if (((TradeWork *)p)->fF2C >= 0x1a4) {
+    if (((TradeWork *)p)->waitCounter >= 0x1a4) {
         POKETRADE_SAVE_SetWaitCounter((u8 *)p, 0);
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_StepAfterTrade);
     }
@@ -1281,7 +1283,7 @@ void POKETRADE_SAVE_SendTradeSummary(char *p)
 {
     struct Packet packet;
     void *saved,*first,*second;
-    saved=func_02009470(GAME_DATA_GetSaveControl(((TradeWork *)p)->f82C));
+    saved=func_02009470(GAME_DATA_GetSaveControl(((TradeWork *)p)->gameData));
     if(POKETRADE_PROC_IsHostSide(p)) {
         first=POKETRADE_PROC_GetSideMon(p,0);
         second=POKETRADE_PROC_GetSideMon(p,1);
@@ -1289,7 +1291,7 @@ void POKETRADE_SAVE_SendTradeSummary(char *p)
         first=POKETRADE_PROC_GetSideMon(p,1);
         second=POKETRADE_PROC_GetSideMon(p,0);
     }
-    MYSTATUS_Copy(func_02012944(((TradeWork *)p)->f82C),&packet);
+    MYSTATUS_Copy(func_02012944(((TradeWork *)p)->gameData),&packet);
     packet.first=func_02017E1C(first,5,0);
     packet.second=func_02017E1C(second,5,0);
     packet.a=func_02009628(saved);
@@ -1312,7 +1314,7 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 void *POKETRADE_SAVE_BackupSaveControl(void *sys, u16 heapId)
 {
     void *h = GAME_DATA_GetSaveControl(sys);
-    void *buf = sub_02030734(heapId, GAME_SYNC_GetBlockSize(), 0, d_021E8130, 0x1A0);
+    void *buf = GFL_HEAP_Alloc(heapId, GAME_SYNC_GetBlockSize(), 0, gSaveControlAllocTag, 0x1A0);
 
     GFL_STD_MemCopy(func_02009470(h), buf, GAME_SYNC_GetBlockSize());
     return buf;
@@ -1327,7 +1329,7 @@ void POKETRADE_SAVE_RestoreSaveControl(void *sys, void *buf)
 
 void *POKETRADE_SAVE_BackupZukan(void *src, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, ZUKAN_SAVE_GetSize(), 0, d_021E8130, 0x1BD);
+    void *buf = GFL_HEAP_Alloc(heapId, ZUKAN_SAVE_GetSize(), 0, gSaveControlAllocTag, 0x1BD);
 
     GFL_STD_MemCopy(ZUKAN_SAVE_GetFromGameData(src), buf, ZUKAN_SAVE_GetSize());
     return buf;
@@ -1342,7 +1344,7 @@ void POKETRADE_SAVE_RestoreZukan(void *h, void *buf)
 
 void *POKETRADE_SAVE_BackupBlock1F(void *sys, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, TRADE_HISTORY_GetSize(), 0, d_021E8130, 0x1DA);
+    void *buf = GFL_HEAP_Alloc(heapId, TRADE_HISTORY_GetSize(), 0, gSaveControlAllocTag, 0x1DA);
 
     GFL_STD_MemCopy(GAME_DATA_GetSaveBlock1F(sys), buf, TRADE_HISTORY_GetSize());
     return buf;
@@ -1358,13 +1360,13 @@ void POKETRADE_SAVE_RestoreBlock1F(void **h, void *dst)
 void POKETRADE_SAVE_FreeBackups(char *p)
 {
     int zero;
-    if (((TradeWork *)p)->f60C) func_020307B0(((TradeWork *)p)->f60C);
-    if (((TradeWork *)p)->f610) func_020307B0(((TradeWork *)p)->f610);
-    if (((TradeWork *)p)->f614) func_020307B0(((TradeWork *)p)->f614);
-    if (((TradeWork *)p)->f618) func_020307B0(((TradeWork *)p)->f618);
-    if (((TradeWork *)p)->f61C) func_020307B0(((TradeWork *)p)->f61C);
-    if (((TradeWork *)p)->f620) func_020307B0(((TradeWork *)p)->f620);
-    if (((TradeWork *)p)->f624) func_020307B0(((TradeWork *)p)->f624);
+    if (((TradeWork *)p)->saveControlBackup) func_020307B0(((TradeWork *)p)->saveControlBackup);
+    if (((TradeWork *)p)->trainerRecordBackup) func_020307B0(((TradeWork *)p)->trainerRecordBackup);
+    if (((TradeWork *)p)->savedSaveControl) func_020307B0(((TradeWork *)p)->savedSaveControl);
+    if (((TradeWork *)p)->savedZukan) func_020307B0(((TradeWork *)p)->savedZukan);
+    if (((TradeWork *)p)->savedBlock1F) func_020307B0(((TradeWork *)p)->savedBlock1F);
+    if (((TradeWork *)p)->partyBackup) func_020307B0(((TradeWork *)p)->partyBackup);
+    if (((TradeWork *)p)->boxBackup) func_020307B0(((TradeWork *)p)->boxBackup);
     zero=0;
     MI_CpuFill8(p+0x60c,zero,36);
     p[0x11f7]=zero;
@@ -1374,38 +1376,38 @@ void POKETRADE_SAVE_RestoreBackups(char *p)
 {
     void *dest,*src;
     u32 n;
-    dest=((TradeWork *)p)->f60C;
+    dest=((TradeWork *)p)->saveControlBackup;
     if(dest) {
-        src=((TradeWork *)p)->f82C;
+        src=((TradeWork *)p)->gameData;
         GAME_DATA_GetSaveControl(src);
         src=func_02008FEC(src);
         n=func_02008FFC();
         MI_CpuCopy8(dest,src,n);
         func_020307B0(dest);
     }
-    dest=((TradeWork *)p)->f610;
+    dest=((TradeWork *)p)->trainerRecordBackup;
     if(dest) {
-        src=GAME_DATA_GetTrainerRecord(((TradeWork *)p)->f82C);
+        src=GAME_DATA_GetTrainerRecord(((TradeWork *)p)->gameData);
         n=func_02008C20();
         MI_CpuCopy8(dest,src,n);
         func_020307B0(dest);
     }
-    if(((TradeWork *)p)->f614) POKETRADE_SAVE_RestoreSaveControl(((TradeWork *)p)->f82C,((TradeWork *)p)->f614);
-    if(((TradeWork *)p)->f618) POKETRADE_SAVE_RestoreZukan(((TradeWork *)p)->f82C,((TradeWork *)p)->f618);
-    if(((TradeWork *)p)->f61C) POKETRADE_SAVE_RestoreBlock1F(((TradeWork *)p)->f82C,((TradeWork *)p)->f61C);
-    if(((TradeWork *)p)->f620) {
-        POKEPARTY_Copy(((TradeWork *)p)->f620,((TradeWork *)p)->f838);
-        func_020086F8((void *)GAME_DATA_GetPlayTime((int)(((TradeWork *)p)->f82C)),(const struct PlayTimeStamp *)(p+0x628));
-        func_020307B0(((TradeWork *)p)->f620);
-        *(int *)&((TradeWork *)p)->f620=0;
+    if(((TradeWork *)p)->savedSaveControl) POKETRADE_SAVE_RestoreSaveControl(((TradeWork *)p)->gameData,((TradeWork *)p)->savedSaveControl);
+    if(((TradeWork *)p)->savedZukan) POKETRADE_SAVE_RestoreZukan(((TradeWork *)p)->gameData,((TradeWork *)p)->savedZukan);
+    if(((TradeWork *)p)->savedBlock1F) POKETRADE_SAVE_RestoreBlock1F(((TradeWork *)p)->gameData,((TradeWork *)p)->savedBlock1F);
+    if(((TradeWork *)p)->partyBackup) {
+        POKEPARTY_Copy(((TradeWork *)p)->partyBackup,((TradeWork *)p)->partyData);
+        func_020086F8((void *)GAME_DATA_GetPlayTime((int)(((TradeWork *)p)->gameData)),(const struct PlayTimeStamp *)(p+0x628));
+        func_020307B0(((TradeWork *)p)->partyBackup);
+        *(int *)&((TradeWork *)p)->partyBackup=0;
     }
-    if(((TradeWork *)p)->f624) {
+    if(((TradeWork *)p)->boxBackup) {
         n=func_02007AEC();
-        src=func_02007AF4((*(void * *)&((TradeWork *)p)->gameData),((TradeWork *)p)->request->box);
-        MI_CpuCopy8(((TradeWork *)p)->f624,src,n);
-        func_020307B0(((TradeWork *)p)->f624);
+        src=func_02007AF4((*(void * *)&((TradeWork *)p)->boxManager),((TradeWork *)p)->request->box);
+        MI_CpuCopy8(((TradeWork *)p)->boxBackup,src,n);
+        func_020307B0(((TradeWork *)p)->boxBackup);
     }
-    if(((TradeWork *)p)->f62C) func_02007B5C((struct PerapVoice *)GAME_DATA_GetBoxSave(((TradeWork *)p)->f82C));
+    if(((TradeWork *)p)->boxSaveDirty) func_02007B5C((struct PerapVoice *)GAME_DATA_GetBoxSave(((TradeWork *)p)->gameData));
     MI_CpuFill8(p+0x60c,0,0x24);
 }
 
@@ -1413,7 +1415,7 @@ int POKETRADE_SAVE_ConsumePerapVoice(char *p, void *party, int idx)
 {
     int count = 0;
     int i, n;
-    void *voice = GAME_DATA_GetBoxSave(((TradeWork *)p)->f82C);
+    void *voice = GAME_DATA_GetBoxSave(((TradeWork *)p)->gameData);
 
     if (!PERAPVOICE_IsRecorded(voice))
         return count;
@@ -1434,7 +1436,7 @@ int POKETRADE_SAVE_ConsumePerapVoice(char *p, void *party, int idx)
 
 static inline void *copy_a(void *sys, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, MAIL_GetBoxSize(), 0, d_021E811C, 0x163);
+    void *buf = GFL_HEAP_Alloc(heapId, MAIL_GetBoxSize(), 0, gMailBufferAllocTag, 0x163);
 
     GFL_STD_MemCopy(MAIL_GetBox(sys), buf, MAIL_GetBoxSize());
     return buf;
@@ -1442,9 +1444,9 @@ static inline void *copy_a(void *sys, u16 heapId)
 
 static inline void *copy_b(void *sys, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, sub_02008C20(), 0, d_021E8108, 0x182);
+    void *buf = GFL_HEAP_Alloc(heapId, RECORD_GetSize(), 0, gSaveBufferAllocTag, 0x182);
 
-    GFL_STD_MemCopy(GAME_DATA_GetTrainerRecord(sys), buf, sub_02008C20());
+    GFL_STD_MemCopy(GAME_DATA_GetTrainerRecord(sys), buf, RECORD_GetSize());
     return buf;
 }
 
@@ -1480,7 +1482,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
             POKEPARTY_Copy(I(p, 0x838), I(p, 0x620));
             W(p, 0x62C) = POKETRADE_SAVE_ConsumePerapVoice(p, I(p, 0x838), T(p)->slot);
         } else {
-            I(p, 0x624) = sub_02030734(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, d_021E8130, 0x271);
+            I(p, 0x624) = GFL_HEAP_Alloc(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, gSaveControlAllocTag, 0x271);
             GFL_STD_MemCopy(BOX_SAVEDATA_GetBoxPokemon(I(p, 0x828), T(p)->box), I(p, 0x624), BOX_SAVEDATA_GetBoxPageSize());
         }
     } else {
@@ -1544,13 +1546,13 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     switch (W(p, 0x118C)) {
     case 2:
     case 3:
-        sub_02008DF0(obj, 0x10);
+        RECORD_AddOne(obj, 0x10);
         break;
     case 1:
-        sub_02008DF0(obj, 0xC);
+        RECORD_AddOne(obj, 0xC);
         break;
     case 0:
-        sub_02008DF0(obj, 0x24);
+        RECORD_AddOne(obj, 0x24);
         break;
     }
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);
@@ -1586,7 +1588,7 @@ void POKETRADE_SAVE_StepAfterTrade(char *p)
     int state;
     POKETRADE_3D_DeleteMcssSlot(p,0);POKETRADE_3D_DeleteMcssSlot(p,1);
     POKETRADE_3D_DeleteMcssSlot(p,2);POKETRADE_3D_DeleteMcssSlot(p,3);
-    state=((TradeWork *)p)->f118C;
+    state=((TradeWork *)p)->tradeState;
     if(state==4 || (unsigned)(state-7)<=1) {
         ((TradeWork *)p)->request->state=3;
         POKETRADE_SAVE_PopBgmFadeIn60(p);
@@ -1604,7 +1606,7 @@ void POKETRADE_SAVE_StepAfterTrade(char *p)
 
 void POKETRADE_SAVE_StepWaitEvolutionMessage(char *p)
 {
-    if (POKETRADE_SAVE_IsMessagePrintDone(p) && ((TradeWork *)p)->fF2C > 0xB4) {
+    if (POKETRADE_SAVE_IsMessagePrintDone(p) && ((TradeWork *)p)->waitCounter > 0xB4) {
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_StepCheckEvolution);
     }
 }
@@ -1616,7 +1618,7 @@ void POKETRADE_SAVE_StepRegisterReceived(char *p)
     int z;
     struct TradeRequest *t;
     if(POKETRADE_PROC_IsHostSide(p)) {
-        i=((TradeWork *)p)->fFA0%3;
+        i=((TradeWork *)p)->offerCount%3;
         mon=POKETRADE_PROC_GetSideMon(p,0);
         ((TradeWork *)p)->request->box=((TradeWork *)p)->offerBox[0][i];
         ((TradeWork *)p)->request->slot=((TradeWork *)p)->offerSlot[0][i];
@@ -1627,15 +1629,15 @@ void POKETRADE_SAVE_StepRegisterReceived(char *p)
     }
     POKEPARTY_InitEx(((TradeWork *)p)->request->party,6);
     POKEPARTY_Add(((TradeWork *)p)->request->party,mon);
-    ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(((TradeWork *)p)->f82C),mon);
+    ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(((TradeWork *)p)->gameData),mon);
     t=((TradeWork *)p)->request;
-    if(t->box!=func_020076A4((*(void * *)&((TradeWork *)p)->gameData))) {
+    if(t->box!=func_020076A4((*(void * *)&((TradeWork *)p)->boxManager))) {
         z=0;
         if(FILE_UTIL_Check136C(func_02017E1C(POKEPARTY_GetMember(t->party,0),6,0))) {
-            func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),106,(void *)(((TradeWork *)p)->f738));
+            func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),106,(void *)(((TradeWork *)p)->messageText));
             POKETRADE_SAVE_OpenMessageWindowTop(p);
             POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitEvolutionMessage);
-            ((TradeWork *)p)->fF2C=z;
+            ((TradeWork *)p)->waitCounter=z;
             return;
         }
     }
@@ -1649,7 +1651,7 @@ void POKETRADE_SAVE_StepCheckEvolution(char *p)
 {
     void *a,*b;
     u32 out,result;
-    if(*(int *)&((TradeWork *)p)->f82C==0) {
+    if(*(int *)&((TradeWork *)p)->gameData==0) {
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginWipeOut);
         goto exit;
     }
@@ -1657,7 +1659,7 @@ void POKETRADE_SAVE_StepCheckEvolution(char *p)
     if(*(int *)&((TradeWork *)p)->request!=0) {
         if(POKETRADE_PROC_IsHostSide(p)) {a=POKETRADE_PROC_GetSideMon(p,0);b=POKETRADE_PROC_GetSideMon(p,1);}
         else {a=POKETRADE_PROC_GetSideMon(p,1);b=POKETRADE_PROC_GetSideMon(p,0);}
-        result=SHINKA_CHECK_CheckEvolution(0,a,1,(u32)b,GAME_DATA_GetSeason(((TradeWork *)p)->f82C),&out,((TradeWork *)p)->heapId);
+        result=SHINKA_CHECK_CheckEvolution(0,a,1,(u32)b,GAME_DATA_GetSeason(((TradeWork *)p)->gameData),&out,((TradeWork *)p)->heapId);
         if(result) {
             ((TradeWork *)p)->request->state=1;
             ((TradeWork *)p)->request->evolveResult=result;
@@ -1667,7 +1669,7 @@ void POKETRADE_SAVE_StepCheckEvolution(char *p)
             return;
         }
     }
-    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),50,(void *)(((TradeWork *)p)->f738));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),50,(void *)(((TradeWork *)p)->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginSyncRange24);
     }
@@ -1675,7 +1677,7 @@ exit:
     POKETRADE_SAVE_PopBgmFadeIn60(p);
 }
 
-void POKETRADE_SAVE_StepSaveCancelNotice(char *p) {POKETRADE_SAVE_CreateMessageResources(p);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),50,(void *)(((TradeWork *)p)->f738));*(int *)&((TradeWork *)p)->f644=(int)func_0201F5DC((void *)6,15,0,((TradeWork *)p)->heapId);POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);POKETRADE_SAVE_SetWaitCounter((u8 *)p,0);func_02040588(6,1);GFL_NET_RestartWithDefaultTimeout(1,((TradeWork *)p)->heapId);FADE_Start(3,16,0,2);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginSyncRange24);}
+void POKETRADE_SAVE_StepSaveCancelNotice(char *p) {POKETRADE_SAVE_CreateMessageResources(p);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),50,(void *)(((TradeWork *)p)->messageText));*(int *)&((TradeWork *)p)->fontBgHandle=(int)BMP_MENUWORK_LoadFrameGfx((void *)6,15,0,((TradeWork *)p)->heapId);POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);POKETRADE_SAVE_SetWaitCounter((u8 *)p,0);func_02040588(6,1);GFL_NET_RestartWithDefaultTimeout(1,((TradeWork *)p)->heapId);FADE_Start(3,16,0,2);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginSyncRange24);}
 
 void POKETRADE_SAVE_StepBeginSyncRange24(void *p)
 {
@@ -1690,7 +1692,7 @@ void POKETRADE_SAVE_StepWaitSyncRange24(void *p)
     }
 }
 
-void POKETRADE_SAVE_StepStartSave(char *p) {if(POKETRADE_SAVE_IsMessagePrintDone(p)) {if(POKETRADE_PROC_IsNetSession(p)) {POKETRADE_SAVE_ApplyTradeResult(p);((TradeWork *)p)->fEF8=(int)GFL_NET_SAVE_CreateWithCallback(((TradeWork *)p)->heapId,*(int *)&((TradeWork *)p)->f82C,(u32)POKETRADE_SAVE_FreeBackups,(u32)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitSaveDone);return;}POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginWipeOut);}}
+void POKETRADE_SAVE_StepStartSave(char *p) {if(POKETRADE_SAVE_IsMessagePrintDone(p)) {if(POKETRADE_PROC_IsNetSession(p)) {POKETRADE_SAVE_ApplyTradeResult(p);((TradeWork *)p)->netSave=(int)GFL_NET_SAVE_CreateWithCallback(((TradeWork *)p)->heapId,*(int *)&((TradeWork *)p)->gameData,(u32)POKETRADE_SAVE_FreeBackups,(u32)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitSaveDone);return;}POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginWipeOut);}}
 
 /*
  * 2026-10-02: byte-correct; the call to the tail-call stub 0x02010934 (inside
@@ -1698,21 +1700,21 @@ void POKETRADE_SAVE_StepStartSave(char *p) {if(POKETRADE_SAVE_IsMessagePrintDone
  */
 void POKETRADE_SAVE_StepWaitSaveDone(char *p)
 {
-    if (GFL_NET_SAVE_CheckFinished((*(void * *)&((TradeWork *)p)->fEF8))) {
+    if (GFL_NET_SAVE_CheckFinished((*(void * *)&((TradeWork *)p)->netSave))) {
         POKETRADE_SAVE_RestoreBackups(p);
-        GFL_NET_SAVE_Delete((*(void * *)&((TradeWork *)p)->fEF8));
-        ((TradeWork *)p)->fEF8 = 0;
+        GFL_NET_SAVE_Delete((*(void * *)&((TradeWork *)p)->netSave));
+        ((TradeWork *)p)->netSave = 0;
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_StepBeginWipeOut);
     }
 }
 
-void POKETRADE_SAVE_StepBeginWipeOut(char *p) {int z;WIPE_SYS_Start(0,0,0,0,6,1,((TradeWork *)p)->heapId);z=0;((TradeWork *)p)->fF2C=z;p[0x11f7]=z;POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepRebuildSceneAfterWipe);}
+void POKETRADE_SAVE_StepBeginWipeOut(char *p) {int z;WIPE_SYS_Start(0,0,0,0,6,1,((TradeWork *)p)->heapId);z=0;((TradeWork *)p)->waitCounter=z;p[0x11f7]=z;POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepRebuildSceneAfterWipe);}
 
 void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
 {
-    if(((TradeWork *)p)->fF2C>=6 && WIPE_SYS_EndCheck()) {
-        if(((TradeWork *)p)->f644) BG_SYS_DeleteHalf((int)6,(u16)(((TradeWork *)p)->f644),(u16)(((TradeWork *)p)->f644>>16));
-        *(int *)&((TradeWork *)p)->f644=0;
+    if(((TradeWork *)p)->waitCounter>=6 && WIPE_SYS_EndCheck()) {
+        if(((TradeWork *)p)->fontBgHandle) BG_SYS_DeleteHalf((int)6,(u16)(((TradeWork *)p)->fontBgHandle),(u16)(((TradeWork *)p)->fontBgHandle>>16));
+        *(int *)&((TradeWork *)p)->fontBgHandle=0;
         BG_SYS_SetMainVisiblePlanes((int)0);BG_SYS_SetSubVisiblePlanes((int)0);
         CLACT_DeleteUnit((*(void * *)&((TradeWork *)p)->clactSystem));
         (*(void * *)&((TradeWork *)p)->clactSystem)=CLACT_CreateUnit(0x154,0,((TradeWork *)p)->heapId);
@@ -1722,7 +1724,7 @@ void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
         POKETRADE_2D_CreateFontResource(p);POKETRADE_2D_LoadMainGfxAndMessageWindow(p);POKETRADE_3D_AddUnitAndInit(p,0);
         BG_SYS_SetMainVisiblePlanes((int)31);BG_SYS_SetSubVisiblePlanes((int)30);POKETRADE_3D_CreateTouchbar(p);
         GFL_NET_RestartWithDefaultTimeout(1,((TradeWork *)p)->heapId);
-        ((TradeWork *)p)->f11FA=0;
+        ((TradeWork *)p)->netExitCount=0;
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetForNewRound);
     }
 }
@@ -1762,16 +1764,16 @@ void POKETRADE_SAVE_OpenMessageWindow(char *p,int flag,int x,int y,int w,int h)
     POKETRADE_SAVE_CloseMessageWindow(p);
     func_02049B40(23,5,4,448,32,((TradeWork *)p)->heapId);
     v=(void *)BMP_WIN_Create(6,(u8)x,(u8)y,(u8)w,h,(u32)14,(u32)0);
-    (*(void * *)&((TradeWork *)p)->f71C)=v;
+    (*(void * *)&((TradeWork *)p)->messageWin)=v;
     BMP_Clear(BMP_WIN_GetBmp(v),15);
     GF_FONT_SetTextColor(1,2,15);
     if(flag==0) {
-        (*(unsigned int *)&((TradeWork *)p)->printStream)=PRINTSYS_PrintStream((u32)v,0,0,*(u32 *)&((TradeWork *)p)->f738,*(u32 *)&((TradeWork *)p)->f728,MSG_SPEED_GetWait(),(*(unsigned int *)&((TradeWork *)p)->f744),2,((TradeWork *)p)->heapId,15);
+        (*(unsigned int *)&((TradeWork *)p)->printStream)=PRINTSYS_PrintStream((u32)v,0,0,*(u32 *)&((TradeWork *)p)->messageText,*(u32 *)&((TradeWork *)p)->font,MSG_SPEED_GetWait(),(*(unsigned int *)&((TradeWork *)p)->tcbl),2,((TradeWork *)p)->heapId,15);
         func_02028470((u8 *)p+0x11d4,2);
     } else {
-        PRINTSYS_Print(BMP_WIN_GetBmp(v),0,0,(*(void * *)&((TradeWork *)p)->f738),((TradeWork *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp(v),0,0,(*(void * *)&((TradeWork *)p)->messageText),((TradeWork *)p)->font);
     }
-    func_0201F73C(v,1,(u16)(((TradeWork *)p)->f644),15);
+    BMP_MENUWORK_DrawWindow(v,1,(u16)(((TradeWork *)p)->fontBgHandle),15);
     BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);func_02041B6C(6);
 }
 
@@ -1792,7 +1794,7 @@ void POKETRADE_SAVE_ShowTimeIcon(char *p)
         TIME_ICON_Delete(((TradeWork *)p)->timeIcon);
         ((TradeWork *)p)->timeIcon = 0;
     }
-    ((TradeWork *)p)->timeIcon = TIME_ICON_CreateNode((u32)(((TradeWork *)p)->f744), (*(void * *)&((TradeWork *)p)->f71C), 0xF, 0x10, ((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->timeIcon = TIME_ICON_CreateNode((u32)(((TradeWork *)p)->tcbl), (*(void * *)&((TradeWork *)p)->messageWin), 0xF, 0x10, ((TradeWork *)p)->heapId);
 }
 
 void POKETRADE_SAVE_CloseMessageWindow(char *p)
@@ -1801,58 +1803,58 @@ void POKETRADE_SAVE_CloseMessageWindow(char *p)
         TIME_ICON_Delete(((TradeWork *)p)->timeIcon);
         ((TradeWork *)p)->timeIcon = 0;
     }
-    if ((*(void * *)&((TradeWork *)p)->f71C)) {
-        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->f71C));
-        (*(void * *)&((TradeWork *)p)->f71C) = 0;
+    if ((*(void * *)&((TradeWork *)p)->messageWin)) {
+        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->messageWin));
+        (*(void * *)&((TradeWork *)p)->messageWin) = 0;
     }
 }
 
-void POKETRADE_SAVE_CloseMessageWindowClear(char *p) { if(*(int *)&((TradeWork *)p)->timeIcon) {TIME_ICON_Delete((u8 *)(*(int *)&((TradeWork *)p)->timeIcon));*(int *)&((TradeWork *)p)->timeIcon=0;} if(((TradeWork *)p)->f71C) {BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->f71C));func_02041B6C(6);func_0201F7A8((void *)(((TradeWork *)p)->f71C),2);BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->f71C));((TradeWork *)p)->f71C=0;} }
+void POKETRADE_SAVE_CloseMessageWindowClear(char *p) { if(*(int *)&((TradeWork *)p)->timeIcon) {TIME_ICON_Delete((u8 *)(*(int *)&((TradeWork *)p)->timeIcon));*(int *)&((TradeWork *)p)->timeIcon=0;} if(((TradeWork *)p)->messageWin) {BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->messageWin));func_02041B6C(6);BMP_MENUWORK_DrawWindowBorder((void *)(((TradeWork *)p)->messageWin),2);BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->messageWin));((TradeWork *)p)->messageWin=0;} }
 
 void POKETRADE_SAVE_CreateMessageResources(char *p)
 {
-    (*(void * *)&((TradeWork *)p)->f724)=GF_FONT_Create_EC64(((TradeWork *)p)->heapId);
+    (*(void * *)&((TradeWork *)p)->wordSet)=GF_FONT_Create_EC64(((TradeWork *)p)->heapId);
     (*(void * *)&((TradeWork *)p)->messageBank)=func_02045B38(0,2,159,((TradeWork *)p)->heapId);
-    ((TradeWork *)p)->f728=GF_FONT_Create(23,0,0,0,((TradeWork *)p)->heapId);
-    (*(void * *)&((TradeWork *)p)->f730)=STRBUF_Create(128,((TradeWork *)p)->heapId);
-    (*(void * *)&((TradeWork *)p)->f734)=STRBUF_Create(128,((TradeWork *)p)->heapId);
-    (*(void * *)&((TradeWork *)p)->f738)=STRBUF_Create(128,((TradeWork *)p)->heapId);
-    ((TradeWork *)p)->f73C=STRBUF_Create(128,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->font=GF_FONT_Create(23,0,0,0,((TradeWork *)p)->heapId);
+    (*(void * *)&((TradeWork *)p)->infoTextOut)=STRBUF_Create(128,((TradeWork *)p)->heapId);
+    (*(void * *)&((TradeWork *)p)->infoTextIn)=STRBUF_Create(128,((TradeWork *)p)->heapId);
+    (*(void * *)&((TradeWork *)p)->messageText)=STRBUF_Create(128,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->messageTemplate=STRBUF_Create(128,((TradeWork *)p)->heapId);
     ((TradeWork *)p)->printQueue=(void *)PRINTSYS_QUE_Create((void *)(((TradeWork *)p)->heapId));
     GF_FONT_SetTextColor(1,2,15);
-    ((TradeWork *)p)->f744=TCBL_Create(((TradeWork *)p)->heapId,((TradeWork *)p)->heapId,2,0);
+    ((TradeWork *)p)->tcbl=TCBL_Create(((TradeWork *)p)->heapId,((TradeWork *)p)->heapId,2,0);
     ((TradeWork *)p)->keyCursor=func_02028590(15,1,0,((TradeWork *)p)->heapId);
-    ((TradeWork *)p)->taskMenuRes=APP_TASKMENU_RES_Create(6,9,*(u32 *)&((TradeWork *)p)->f728,*(u32 *)&((TradeWork *)p)->printQueue,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->taskMenuRes=APP_TASKMENU_RES_Create(6,9,*(u32 *)&((TradeWork *)p)->font,*(u32 *)&((TradeWork *)p)->printQueue,((TradeWork *)p)->heapId);
 }
 
 void POKETRADE_SAVE_DeleteMessageResources(char *p)
 {
     int i;
     func_0200566C();
-    if(*(int *)&((TradeWork *)p)->f744) {
+    if(*(int *)&((TradeWork *)p)->tcbl) {
         APP_KEYCURSOR_Delete((int)(((TradeWork *)p)->keyCursor));
         POKETRADE_SAVE_CloseMessageWindow(p);
         POKETRADE_SAVE_CloseTaskMenu(p);
         if(((TradeWork *)p)->printStream) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((TradeWork *)p)->printStream));((TradeWork *)p)->printStream=0;}
         if(((TradeWork *)p)->taskMenuWindow) {APP_TASKMENU_WIN_Delete(((TradeWork *)p)->taskMenuWindow);((TradeWork *)p)->taskMenuWindow=0;}
         if(((TradeWork *)p)->taskMenuRes) {APP_TASKMENU_RES_Delete(((TradeWork *)p)->taskMenuRes);((TradeWork *)p)->taskMenuRes=0;}
-        if((*(void * *)&((TradeWork *)p)->f6B4)) {BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->f6B4));(*(void * *)&((TradeWork *)p)->f6B4)=0;}
+        if((*(void * *)&((TradeWork *)p)->subWin)) {BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->subWin));(*(void * *)&((TradeWork *)p)->subWin)=0;}
         for(i=0;i<2;i++) {if(*(void **)(p+i*4+0x5bc)) {BMP_WIN_Delete(*(void **)(p+i*4+0x5bc));*(void **)(p+i*4+0x5bc)=0;}}
-        WORDSET_DeleteStrbufED04((*(void * *)&((TradeWork *)p)->f724));
+        WORDSET_DeleteStrbufED04((*(void * *)&((TradeWork *)p)->wordSet));
         MSGDATA_Delete((*(void * *)&((TradeWork *)p)->messageBank));
-        GF_FONT_Delete(((TradeWork *)p)->f728);
-        STRBUF_Delete((*(void * *)&((TradeWork *)p)->f730));
-        STRBUF_Delete((*(void * *)&((TradeWork *)p)->f734));
-        STRBUF_Delete((*(void * *)&((TradeWork *)p)->f738));
-        STRBUF_Delete(((TradeWork *)p)->f73C);
+        GF_FONT_Delete(((TradeWork *)p)->font);
+        STRBUF_Delete((*(void * *)&((TradeWork *)p)->infoTextOut));
+        STRBUF_Delete((*(void * *)&((TradeWork *)p)->infoTextIn));
+        STRBUF_Delete((*(void * *)&((TradeWork *)p)->messageText));
+        STRBUF_Delete(((TradeWork *)p)->messageTemplate);
         PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->printQueue));
         PRINTSYS_QUE_Delete((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->printQueue));
-        TCBL_Destroy(((TradeWork *)p)->f744);
-        *(int *)&((TradeWork *)p)->f744=0;
+        TCBL_Destroy(((TradeWork *)p)->tcbl);
+        *(int *)&((TradeWork *)p)->tcbl=0;
     }
 }
 
-int POKETRADE_SAVE_IsMessagePrintDone(char *p) {int v=1;if(((TradeWork *)p)->printStream) {if(((TradeWork *)p)->f71C)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((TradeWork *)p)->keyCursor),(void *)(((TradeWork *)p)->printStream),(void *)(((TradeWork *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((TradeWork *)p)->printStream));if(v) {if(((TradeWork *)p)->printStream) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((TradeWork *)p)->printStream));((TradeWork *)p)->printStream=0;}}}return v;}
+int POKETRADE_SAVE_IsMessagePrintDone(char *p) {int v=1;if(((TradeWork *)p)->printStream) {if(((TradeWork *)p)->messageWin)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((TradeWork *)p)->keyCursor),(void *)(((TradeWork *)p)->printStream),(void *)(((TradeWork *)p)->messageWin));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((TradeWork *)p)->printStream));if(v) {if(((TradeWork *)p)->printStream) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((TradeWork *)p)->printStream));((TradeWork *)p)->printStream=0;}}}return v;}
 
 void POKETRADE_SAVE_CloseTaskMenu(char *p)
 {
@@ -1892,65 +1894,65 @@ void POKETRADE_SAVE_OpenTaskMenu(void *p, int *ids, int count)
     POKETRADE_SAVE_OpenTaskMenuAt(p, ids, count, 0x20, 0x18);
 }
 
-void POKETRADE_SAVE_PrintNickname(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),28,(void *)(((TradeWork *)p)->f734));func_0201EE84((*(void * *)&((TradeWork *)p)->f724),0,a);}else {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),29,(void *)(((TradeWork *)p)->f734));func_0201EEF4((*(void * *)&((TradeWork *)p)->f724),0,a);}func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));}else {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),105,(void *)(((TradeWork *)p)->f730));}PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}
+void POKETRADE_SAVE_PrintNickname(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),28,(void *)(((TradeWork *)p)->infoTextIn));WORDSET_SetSlotMonName((*(void * *)&((TradeWork *)p)->wordSet),0,a);}else {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),29,(void *)(((TradeWork *)p)->infoTextIn));WORDSET_SetSlotMonSpecies((*(void * *)&((TradeWork *)p)->wordSet),0,a);}WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));}else {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),105,(void *)(((TradeWork *)p)->infoTextOut));}PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->infoTextOut),(void *)(*(int *)&((TradeWork *)p)->font));}
 
-void POKETRADE_SAVE_PrintDexNumber(void *a,void *b,int x,int y,int flag,char *p) {int v;u16 *t;if(!flag) {v=func_02017E1C(a,171,0);if(!((TradeWork *)p)->nationalDexEnabled) {t=POKE_PERSONAL_LoadFormTable(((TradeWork *)p)->heapId,0);v=t[v];func_020307B0(t);}if(v==999) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),162,(void *)(((TradeWork *)p)->f730));}else {func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),1,v,3,1,1);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),27,(void *)(((TradeWork *)p)->f734));func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));}PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}}
+void POKETRADE_SAVE_PrintDexNumber(void *a,void *b,int x,int y,int flag,char *p) {int v;u16 *t;if(!flag) {v=func_02017E1C(a,171,0);if(!((TradeWork *)p)->nationalDexEnabled) {t=POKE_PERSONAL_LoadFormTable(((TradeWork *)p)->heapId,0);v=t[v];func_020307B0(t);}if(v==999) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),162,(void *)(((TradeWork *)p)->infoTextOut));}else {WORDSET_SetSlotNumber((struct WordSet *)(((TradeWork *)p)->wordSet),1,v,3,1,1);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),27,(void *)(((TradeWork *)p)->infoTextIn));WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));}PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->infoTextOut),(void *)(*(int *)&((TradeWork *)p)->font));}}
 
-void POKETRADE_SAVE_PrintSpeciesName(void *a,void *b,int x,int y,int flag,char *p) {if(!flag) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),28,(void *)(((TradeWork *)p)->f734));func_0201EE84((*(void * *)&((TradeWork *)p)->f724),0,a);func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}}
+void POKETRADE_SAVE_PrintSpeciesName(void *a,void *b,int x,int y,int flag,char *p) {if(!flag) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),28,(void *)(((TradeWork *)p)->infoTextIn));WORDSET_SetSlotMonName((*(void * *)&((TradeWork *)p)->wordSet),0,a);WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->infoTextOut),(void *)(*(int *)&((TradeWork *)p)->font));}}
 
-void POKETRADE_SAVE_PrintLevel(void *a,void *b,int x,int y,char *p) {func_02017E1C(a,171,0);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),18,(void *)(((TradeWork *)p)->f734));func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),0,func_02017E1C(a,158,0),3,1,1);func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}
+void POKETRADE_SAVE_PrintLevel(void *a,void *b,int x,int y,char *p) {func_02017E1C(a,171,0);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),18,(void *)(((TradeWork *)p)->infoTextIn));WORDSET_SetSlotNumber((struct WordSet *)(((TradeWork *)p)->wordSet),0,func_02017E1C(a,158,0),3,1,1);WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));PRINTSYS_Print(b,x,y,(void *)(((TradeWork *)p)->infoTextOut),(void *)(*(int *)&((TradeWork *)p)->font));}
 
-void POKETRADE_SAVE_PrintGender(void *a,void *b,int x,int y,char *p,int mode,int guard) {int v,w,id,color;v=func_02017E1C(a,110,0);w=func_02017E1C(a,173,0);id=func_02017E1C(a,5,0);if(v<=1 && w!=0 && !(guard && id==29) && !(guard && id==32)) {if(mode) {if(v==1)color=0x31a0;else color=0x39e0;}else {if(v==1)color=0xc80;else color=0x14c0;}func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),v+46,(void *)(((TradeWork *)p)->f730));PRINTSYS_PrintColor(b,x,y,((TradeWork *)p)->f730,*(int *)&((TradeWork *)p)->f728,color);}}
+void POKETRADE_SAVE_PrintGender(void *a,void *b,int x,int y,char *p,int mode,int guard) {int v,w,id,color;v=func_02017E1C(a,110,0);w=func_02017E1C(a,173,0);id=func_02017E1C(a,5,0);if(v<=1 && w!=0 && !(guard && id==29) && !(guard && id==32)) {if(mode) {if(v==1)color=0x31a0;else color=0x39e0;}else {if(v==1)color=0xc80;else color=0x14c0;}func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),v+46,(void *)(((TradeWork *)p)->infoTextOut));PRINTSYS_PrintColor(b,x,y,((TradeWork *)p)->infoTextOut,*(int *)&((TradeWork *)p)->font,color);}}
 
 void POKETRADE_SAVE_PrintStatLabels(int a,int b,int x,int y,char *p)
 {
     int i;
     for(i=0;i<6;i++) {
-        func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),30+i,(void *)(((TradeWork *)p)->f730));
-        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+        func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),30+i,(void *)(((TradeWork *)p)->infoTextOut));
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->infoTextOut),((TradeWork *)p)->font);
     }
 }
 
 void POKETRADE_SAVE_PrintHeldItem(int a,int b,int x,int y,char *p)
 {
     int v;
-    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),43,(void *)(((TradeWork *)p)->f734));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),43,(void *)(((TradeWork *)p)->infoTextIn));
     v=func_02017E1C((void *)a,6,0);
     if(v) {
-        WORDSET_Callback_EF40((struct WordSet *)(((TradeWork *)p)->f724),0,v);
-        func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+        WORDSET_Callback_EF40((struct WordSet *)(((TradeWork *)p)->wordSet),0,v);
+        WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->infoTextOut),((TradeWork *)p)->font);
     }
 }
 
 void POKETRADE_SAVE_PrintHpValues(int a,int b,int x,int y,char *p)
 {
     int v,w;
-    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),39,(void *)(((TradeWork *)p)->f734));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),39,(void *)(((TradeWork *)p)->infoTextIn));
     v=func_02017E1C((void *)a,160,0);
     w=func_02017E1C((void *)a,161,0);
-    func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),0,v,3,1,1);
-    func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),1,w,3,1,1);
-    func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    WORDSET_SetSlotNumber((struct WordSet *)(((TradeWork *)p)->wordSet),0,v,3,1,1);
+    WORDSET_SetSlotNumber((struct WordSet *)(((TradeWork *)p)->wordSet),1,w,3,1,1);
+    WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->infoTextOut),((TradeWork *)p)->font);
 }
 
 void POKETRADE_SAVE_PrintStatValues(int a, int b, int c, int d, char *p)
 {
     int i = 0;
-    T5 t = d_021E7984;
+    T5 t = gStatValueLabels;
     for (; i < 5; i++) {
-        func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank), 0x28, (*(void * *)&((TradeWork *)p)->f734));
-        func_0201EFA4((*(void * *)&((TradeWork *)p)->f724), 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
-        func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f730), (*(void * *)&((TradeWork *)p)->f734));
-        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b), (short)c, (short)(d + i * 16), (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
+        func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank), 0x28, (*(void * *)&((TradeWork *)p)->infoTextIn));
+        WORDSET_SetSlotNumber((*(void * *)&((TradeWork *)p)->wordSet), 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
+        WORDSET_CopyTaggedText((*(void * *)&((TradeWork *)p)->wordSet), (*(void * *)&((TradeWork *)p)->infoTextOut), (*(void * *)&((TradeWork *)p)->infoTextIn));
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b), (short)c, (short)(d + i * 16), (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
     }
 }
 
 void POKETRADE_SAVE_PrintAbilityLabel(int a,int b,int x,int y,char *p)
 {
-    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),44,(void *)(((TradeWork *)p)->f730));
-    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),44,(void *)(((TradeWork *)p)->infoTextOut));
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->infoTextOut),((TradeWork *)p)->font);
 }
 
 void POKETRADE_SAVE_PrintMoveNames(int a,int b,int x,int y,char *p)
@@ -1959,10 +1961,10 @@ void POKETRADE_SAVE_PrintMoveNames(int a,int b,int x,int y,char *p)
     for(i=0;i<4;i++) {
         v=func_02017E1C((void *)a,54+i,0);
         if(v) {
-            func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),45,(void *)(((TradeWork *)p)->f734));
-            func_0201EF34((struct WordSet *)(((TradeWork *)p)->f724),0,v);
-            func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-            PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+            func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),45,(void *)(((TradeWork *)p)->infoTextIn));
+            WORDSET_SetSlotFromMsgCB((struct WordSet *)(((TradeWork *)p)->wordSet),0,v);
+            WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));
+            PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->infoTextOut),((TradeWork *)p)->font);
         }
     }
 }
@@ -1971,19 +1973,19 @@ void POKETRADE_SAVE_PrintNatureName(int a,int b,int x,int y,char *p)
 {
     int s;
     s=(int)func_02045B38(0,2,24,((TradeWork *)p)->heapId);
-    func_02045CAC((struct MsgBank *)s,func_02018598((void *)a),(void *)(((TradeWork *)p)->f730));
-    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    func_02045CAC((struct MsgBank *)s,func_02018598((void *)a),(void *)(((TradeWork *)p)->infoTextOut));
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->infoTextOut),((TradeWork *)p)->font);
     MSGDATA_Delete((struct Rec *)s);
 }
 
 void POKETRADE_SAVE_PrintExperience(int a,int b,int x,int y,char *p)
 {
     int v;
-    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),42,(void *)(((TradeWork *)p)->f734));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),42,(void *)(((TradeWork *)p)->infoTextIn));
     v=func_02017E1C((void *)a,10,0);
-    func_0201EF8C((struct WordSet *)(((TradeWork *)p)->f724),0,v);
-    func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    WORDSET_SetSlotFromMsgB6((struct WordSet *)(((TradeWork *)p)->wordSet),0,v);
+    WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->infoTextOut),(void *)(((TradeWork *)p)->infoTextIn));
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->infoTextOut),((TradeWork *)p)->font);
 }
 
 /*
@@ -1993,9 +1995,9 @@ void POKETRADE_SAVE_PrintExperience(int a,int b,int x,int y,char *p)
  */
 void POKETRADE_SAVE_DrawOfferCardWindow(char *p,int i,void *mon)
 {
-    IntPair a=d_021E7934;
-    IntPair b=d_021E7914;
-    IntPair c=d_021E794C;
+    IntPair a=gOfferCardWindowPosA;
+    IntPair b=gOfferCardWindowPosB;
+    IntPair c=gOfferCardWindowPosC;
     u32 flag;
     const char *old;
     u32 index;
@@ -2068,9 +2070,9 @@ void POKETRADE_SAVE_CloseSummaryPage(void *p, int a1)
     POKETRADE_2D_DeleteTouchbarActors((int)p);
     POKETRADE_3D_DeleteMcssSlot(p, 0);
     POKETRADE_3D_DeleteMcssSlot(p, 1);
-    BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->f6B4));
-    BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->f6B4));
-    ((TradeWork *)p)->f6B4 = 0;
+    BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->subWin));
+    BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->subWin));
+    ((TradeWork *)p)->subWin = 0;
     POKETRADE_2D_NoOp(p);
 }
 
@@ -2122,8 +2124,8 @@ void POKETRADE_SAVE_OpenSummaryScreen(char *p,void *a)
  */
 void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon)
 {
-    IntVec2 a=d_021E7944;
-    IntVec2 b=d_021E793C;
+    IntVec2 a=gSummaryPagePosA;
+    IntVec2 b=gSummaryPagePosB;
     int side=0;
     u32 flag;
     if(I(0xf54)<128) side=1;
@@ -2172,8 +2174,8 @@ void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon)
 void POKETRADE_SAVE_PrepareSummaryWindow(char *p, void *a, int b, int a3)
 {
     POKETRADE_3D_DeleteMcssSlot(p, b);
-    if ((*(void * *)&((TradeWork *)p)->f6B4)) {
-        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->f6B4));
+    if ((*(void * *)&((TradeWork *)p)->subWin)) {
+        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->subWin));
     }
 }
 
@@ -2195,16 +2197,16 @@ void POKETRADE_SAVE_CreateTypeIcons(char *p,void *mon,IntQuad *t)
 
 void POKETRADE_SAVE_ToggleTypeIconSet(char *p,int a)
 {
-    if(((TradeWork *)p)->f1098) {
+    if(((TradeWork *)p)->summaryFlag) {
         IntQuad t;
-        t=d_021E7954;
+        t=gTypeIconSetA;
         POKETRADE_SAVE_CreateTypeIcons((char *)p, (void *)a, &t);
-        ((TradeWork *)p)->f1098=0;
+        ((TradeWork *)p)->summaryFlag=0;
     } else {
         IntQuad t;
-        t=d_021E7964;
+        t=gTypeIconSetB;
         POKETRADE_SAVE_CreateTypeIcons((char *)p, (void *)a, &t);
-        ((TradeWork *)p)->f1098=1;
+        ((TradeWork *)p)->summaryFlag=1;
     }
 }
 
@@ -2298,14 +2300,14 @@ void POKETRADE_SAVE_CloseSummaryWindow(char *p,int a)
     POKETRADE_2D_DeleteMarkingIcon(p+0x950);
     POKETRADE_2D_DeleteMarkingIcon(p+0x964);
     POKETRADE_2D_DeleteMarkingIcon(p+0x978);
-    if (((TradeWork *)p)->f6B4) {
-        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((TradeWork *)p)->f6B4),0);
+    if (((TradeWork *)p)->subWin) {
+        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((TradeWork *)p)->subWin),0);
         if(a) {
-            BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->f6B4));
-            BMP_WIN_TransferChars((struct Descriptor *)((TradeWork *)p)->f6B4);
+            BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->subWin));
+            BMP_WIN_TransferChars((struct Descriptor *)((TradeWork *)p)->subWin);
         }
-        BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->f6B4));
-        ((TradeWork *)p)->f6B4=0;
+        BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->subWin));
+        ((TradeWork *)p)->subWin=0;
     }
 }
 
@@ -2326,8 +2328,8 @@ void POKETRADE_SAVE_DrawOfferListWindows(char *p, int a1)
     GF_FONT_SetTextColor(15,2,0);
     for(j=0;j<2;j++) {
         func_02045CAC(P(0x720),128,P(0x734));
-        func_0201F02C(P(0x724),0,arr[j]);
-        func_0201F250(P(0x724),P(0x730),P(0x734));
+        WORDSET_SetSlotMyStatus(P(0x724),0,arr[j]);
+        WORDSET_CopyTaggedText(P(0x724),P(0x730),P(0x734));
         PRINTSYS_Print(*(void **)(p+j*16+0x10f4),0,0,P(0x730),P(0x728));
     }
     k=0;
@@ -2357,9 +2359,9 @@ void POKETRADE_SAVE_DeleteOfferListWindows(char *p)
     int i;
     for (i=0;i<4;i++) {
         char *q = p+i*4;
-        if (((TradeWork *)q)->f1038) {
-            BMP_WIN_Delete(((TradeWork *)q)->f1038);
-            ((TradeWork *)q)->f1038=0;
+        if (((TradeWork *)q)->windowF) {
+            BMP_WIN_Delete(((TradeWork *)q)->windowF);
+            ((TradeWork *)q)->windowF=0;
         }
     }
     POKETRADE_2D_DeleteOfferWindowActors((int)p);
@@ -2391,10 +2393,10 @@ void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0)
  */
 void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon)
 {
-    Pair a=d_021E7924;
-    Pair b=d_021E791C;
-    U32Quad colors=d_021E7974;
-    Pair c=d_021E790C;
+    Pair a=gPartnerOfferCardPosA;
+    Pair b=gPartnerOfferCardPosB;
+    U32Quad colors=gPartnerOfferColors;
+    Pair c=gPartnerOfferCardPosC;
     u32 flag;
     int layer,idx2;
     u32 col,col2;
@@ -2459,18 +2461,18 @@ void *POKETRADE_SAVE_OpenTaskMenuWindow(char *p,int a) {
     t=STRBUF_Create(100,((TradeWork *)p)->heapId);
     ((TradeWork *)p)->messageBuffer=t;
     func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank),a,t);
-    ((TradeWork *)p)->f654=0x39e3;
-    ((TradeWork *)p)->f658=0;
+    ((TradeWork *)p)->magicValue=0x39e3;
+    ((TradeWork *)p)->magicValue2=0;
     ((TradeWork *)p)->taskMenuWindow=APP_TASKMENU_WIN_CreateEx((u32)(((TradeWork *)p)->taskMenuRes),(u32)(p+0x650),8,21,16,3,0,1,((TradeWork *)p)->heapId);
     STRBUF_Delete(((TradeWork *)p)->messageBuffer);
-    CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF04),0);
+    CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->cursorActor),0);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),8,0);
     return ((TradeWork *)p)->taskMenuWindow;
 }
 
 void POKETRADE_SAVE_CloseTaskMenuWindow(char *p,int a,int b) {
     if (!PRINTSYS_QUE_IsFinished(((TradeWork *)p)->printQueue)) PRINTSYS_QUE_Clear(((TradeWork *)p)->printQueue);
-    if(a) CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF04),1);
+    if(a) CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->cursorActor),1);
     if(b) TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),8,POKETRADE_NEGO_HasOffer(p));
     if(((TradeWork *)p)->taskMenuWindow) {
         APP_TASKMENU_WIN_Delete(((TradeWork *)p)->taskMenuWindow);
@@ -2481,7 +2483,7 @@ void POKETRADE_SAVE_CloseTaskMenuWindow(char *p,int a,int b) {
 
 int POKETRADE_SAVE_IsTouchOutsideArea(void *a0)
 {
-    if (TOUCHPANEL_HitTrg(d_021E792C) == 0) return 1;
+    if (TOUCHPANEL_HitTrg(gOutsideAreaHitRect) == 0) return 1;
     return 0;
 }
 
@@ -2531,16 +2533,16 @@ void POKETRADE_SAVE_VBlankSetupWindowRegs(void *a,char *p) {
 
 void POKETRADE_SAVE_Init3DProjection(int a) {
     IntOctet c;
-    d_021F4560=func_02048BC4((const struct LightSet *)d_021E799C,a);
-    func_02048C58(d_021F4560);
-    c=d_021E7B1C;
-    c.b=d_020A1DF8[12]; c.c=d_020A1DF8[13];
+    gLightSetHandle=func_02048BC4((const struct LightSet *)gLightSet,a);
+    func_02048C58(gLightSetHandle);
+    c=gProjectionConfig;
+    c.b=gProjectionParams[12]; c.c=gProjectionParams[13];
     G3D_SYSTEM_SetProjection((const u32 *)(&c));
 }
 
 void POKETRADE_SAVE_Free3DLightSet(void)
 {
-    func_02048C4C(d_021F4560);
+    func_02048C4C(gLightSetHandle);
 }
 
 void POKETRADE_SAVE_SetCameraSummary(char *p) {
@@ -2607,7 +2609,7 @@ void POKETRADE_SAVE_Setup3DDrawState(DrawState3D *w, Transform *t)
     G3X_SetFog(1, 0, 0, 0);
     G3X_SetClearColor(0, 0, 0x7fff, 0x3f, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
-    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((u8)i, (const u16 *)(d_021E79C8 + i * 8));
+    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((u8)i, (const u16 *)(gDrawLightTable + i * 8));
     if (w->sub != 0) {
         if (w->sub->objA0 != 0) {
             ICA_ANIME_Get((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);

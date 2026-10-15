@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B84
+ * function: ZENKOKU_ZUKAN_AWARD_DeleteWindows
  * address: 0x021B9B84
  * packet: pkt_ov222_021B9B84
  * region: ov222
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Descriptor;struct Rec;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021B9B84(char *p) { u8 i;for(i=0;i<5;i++){struct Descriptor *q=*(struct Descriptor **)((u32)p+(u32)i*4+28);if(q)BMP_WIN_Delete(q);}if(*(struct Rec * *)&((struct Obj02559 *)p)->f18)MSGDATA_Delete(*(struct Rec * *)&((struct Obj02559 *)p)->f18); }
+void ZENKOKU_ZUKAN_AWARD_DeleteWindows(char *p) { u8 i;for(i=0;i<5;i++){struct Descriptor *q=*(struct Descriptor **)((u32)p+(u32)i*4+28);if(q)BMP_WIN_Delete(q);}if(*(struct Rec * *)&((struct Obj02559 *)p)->f18)MSGDATA_Delete(*(struct Rec * *)&((struct Obj02559 *)p)->f18); }

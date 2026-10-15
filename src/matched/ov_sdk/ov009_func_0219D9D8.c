@@ -18,11 +18,11 @@
  *   FIFORemove  0x0219D544  arm  ov009
  *   QEStartQuery  0x0219D5C4  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
- *   func_0219D114  0x0219D114  arm  ov009
+ *   qr2_internal_is_master_only_key  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   strncmp  0x020949F4  arm
- *   func_0219E5B8  0x0219E5B8  arm  ov009
- *   func_0219E3CC  0x0219E3CC  arm  ov009
+ *   SBServerParseQR2FullKeysSplit  0x0219E5B8  arm  ov009
+ *   SBServerParseQR2FullKeysSingle  0x0219E3CC  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *
  * The split and single branches each carry their own state |= 0x43; the compiler
@@ -72,12 +72,12 @@ extern int atoi(u32 a0);
 extern void FIFORemove(_SBServerFIFO *fifo, _SBServer *server);
 extern void QEStartQuery(_SBQueryEngine *engine, _SBServer *server);
 extern int NTSLengthSB(char *buf, int len);
-extern int func_0219D114(char *keyname);
+extern int qr2_internal_is_master_only_key(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
 typedef unsigned char  u8;
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern void func_0219E5B8(_SBServer *server, char *data, int len);
-extern void func_0219E3CC(_SBServer *server, char *data, int len);
+extern void SBServerParseQR2FullKeysSplit(_SBServer *server, char *data, int len);
+extern void SBServerParseQR2FullKeysSingle(_SBServer *server, char *data, int len);
 extern unsigned int current_time(void);
 
 void ParseSingleQR2Reply(_SBQueryEngine *engine, _SBServer *server, char *data, int len)
@@ -103,7 +103,7 @@ void ParseSingleQR2Reply(_SBQueryEngine *engine, _SBServer *server, char *data, 
             dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 break;
-            if (!func_0219D114(g_021A7C90[engine->serverkeys[i]]))
+            if (!qr2_internal_is_master_only_key(g_021A7C90[engine->serverkeys[i]]))
                 func_0219E01C(server, g_021A7C90[engine->serverkeys[i]], data);
             data += dlen;
             len -= dlen;
@@ -111,12 +111,12 @@ void ParseSingleQR2Reply(_SBQueryEngine *engine, _SBServer *server, char *data, 
         server->state |= 0x01 | 0x40;
     } else {
         if (*data && strncmp((const u8 *)g_021A8104, (const u8 *)data, 8) == 0) {
-            func_0219E5B8(server, data, len);
+            SBServerParseQR2FullKeysSplit(server, data, len);
             if (server->splitResponseBitmap != 0xFF)
                 return;
             server->state |= 0x02 | 0x01 | 0x40;
         } else {
-            func_0219E3CC(server, data, len);
+            SBServerParseQR2FullKeysSingle(server, data, len);
             server->state |= 0x02 | 0x01 | 0x40;
         }
     }

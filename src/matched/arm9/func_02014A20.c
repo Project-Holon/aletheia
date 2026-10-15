@@ -1,5 +1,5 @@
 /*
- * function: func_02014A20
+ * function: ZONEDATA_LoadLightTable
  * address:  0x02014A20
  * packet:   pkt_02014808
  * region:   arm9
@@ -23,8 +23,8 @@
  * before the count is returned.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02014A20.c \
- *       --func func_02014A20 --addr 0x02014A20 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_LoadLightTable.c \
+ *       --func ZONEDATA_LoadLightTable --addr 0x02014A20 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -35,7 +35,7 @@ extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
 extern u32   _u32_div_f(u32 a, u32 b);
 extern void  VEC_Fx16Normalize(void *dest, const void *src);
 
-void *func_02014A20(u32 archive, u32 member, u32 *count_out, u32 heap)
+void *ZONEDATA_LoadLightTable(u32 archive, u32 member, u32 *count_out, u32 heap)
 {
     u32 n;
     u32 i;

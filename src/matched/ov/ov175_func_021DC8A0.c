@@ -1,5 +1,5 @@
 /*
- * function: func_021DC8A0
+ * function: WIFIBATTLEMATCH_NET_GetRapPair
  * address: 0x021DC8A0
  * packet: pkt_ov175_021DC8A0
  * region: ov175
@@ -14,7 +14,7 @@
 typedef unsigned int u32;
 typedef struct { char pad[0x1220]; u32 a,b; } Obj;
 typedef struct {u32 a,b;} Pair;
-void func_021DC8A0(const Obj *p,Pair *out)
+void WIFIBATTLEMATCH_NET_GetRapPair(const Obj *p,Pair *out)
 {
     *out=*(const Pair *)((const char *)p+0x1220);
 }

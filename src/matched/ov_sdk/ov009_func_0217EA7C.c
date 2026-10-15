@@ -1,5 +1,5 @@
 /*
- * function: func_0217EA7C
+ * function: _gsi_memalign
  * address:  0x0217EA7C
  * packet:   pkt_ov009_0217EA7C
  * region:   ov009
@@ -18,7 +18,7 @@
 
 extern void *MSL_C_LIB_Calloc(unsigned long n, unsigned long size);
 
-void *func_0217EA7C(unsigned long boundary, unsigned long size)
+void *_gsi_memalign(unsigned long boundary, unsigned long size)
 {
     void *ptr = MSL_C_LIB_Calloc(size / boundary, boundary);
     return ptr;

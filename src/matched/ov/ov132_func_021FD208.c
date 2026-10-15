@@ -1,5 +1,5 @@
 /*
- * function: func_021FD208
+ * function: MUS_COMM_FUNC_SetEntryFlag
  * address: 0x021FD208
  * packet: pkt_ov132_021FD208
  * region: ov132
@@ -16,11 +16,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 w[12]; } E;
 typedef struct { u8 pad[0x60]; E e[4]; } T;
-void func_021FD208(int i, int b, int c, T *p);
+void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, T *p);
 
 #pragma opt_common_subs off
 #pragma opt_common_subs reset
 #pragma opt_loop_invariants off
 #pragma opt_loop_invariants reset
 
-void func_021FD208(int i, int b, int c, T *p) { p->e[i].w[2] = 1; p->e[i].w[0] = 1; }
+void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, T *p) { p->e[i].w[2] = 1; p->e[i].w[0] = 1; }

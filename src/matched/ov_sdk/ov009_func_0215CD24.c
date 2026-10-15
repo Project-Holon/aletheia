@@ -1,5 +1,5 @@
 /*
- * function: func_0215CD24
+ * function: SOCL_LinkIsOn
  * address:  0x0215CD24
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Non-zero test on the word call.
  *
  * symbols:
- *   func_02166384  0x02166384  arm  ov009
+ *   WCM_GetApMacAddress  0x02166384  arm  ov009
  */
 
-extern unsigned char *func_02166384(void);
+extern unsigned char *WCM_GetApMacAddress(void);
 
-int func_0215CD24(void)
+int SOCL_LinkIsOn(void)
 {
-    return func_02166384() != 0;
+    return WCM_GetApMacAddress() != 0;
 }
 

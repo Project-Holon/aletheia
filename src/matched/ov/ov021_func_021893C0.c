@@ -21,7 +21,7 @@
  *   EVENTDATA_SYSTEM_Clear  0x021623DC  thumb  ov010
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   EVENTDATA_SYSTEM_LoadEventData  0x0216242C  thumb  ov010
- *   func_021643AC  0x021643AC  thumb  ov010
+ *   FIELD_MAP_CHANGE_ApplyZoneHeader  0x021643AC  thumb  ov010
  *   FIELDMAP_ChangeZoneSound  0x02189518  thumb  ov021
  *   FIELDMAP_ChangeZoneFog  0x0218958C  thumb  ov021
  *   FIELDMAP_ChangeZoneWeather  0x02189560  thumb  ov021
@@ -31,7 +31,7 @@
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   FIELD_PLACE_NAME_OnZoneChange  0x021BC550  thumb  ov021
  *   GAME_BEACON_SetZone  0x0202735C  thumb
- *   func_0215A014  0x0215A014  thumb  ov010
+ *   MAP_REPLACE_SetArriveFlag  0x0215A014  thumb  ov010
  *   SCRIPT_SYS_RunZoneChangeScript  0x02158AE0  thumb  ov010
  *   FIELDMAP_AddZoneNpcs  0x021894E0  thumb  ov021
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
@@ -65,7 +65,7 @@ extern void FLDMMDL_SysDeleteZoneChangeMmdl(u32 a);
 extern void EVENTDATA_SYSTEM_Clear(char *p);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern void EVENTDATA_SYSTEM_LoadEventData(void *a0, u16 a1, u8 a2);
-extern void func_021643AC(void *a, void *b);
+extern void FIELD_MAP_CHANGE_ApplyZoneHeader(void *a, void *b);
 extern void FIELDMAP_ChangeZoneSound(char *p, unsigned int idx);
 extern void FIELDMAP_ChangeZoneFog(unsigned char *p, int id);
 extern void FIELDMAP_ChangeZoneWeather(int *p, int b);
@@ -75,7 +75,7 @@ extern void FIELDMAP_SetupSceneArea(char *p, unsigned int id);
 extern int GAMESYSTEM_IsEventActive(char *p);
 extern void FIELD_PLACE_NAME_OnZoneChange(void *p, int v);
 extern void GAME_BEACON_SetZone(u32 a0, u32 a1);
-extern void func_0215A014(void *a, int b);
+extern void MAP_REPLACE_SetArriveFlag(void *a, int b);
 extern void SCRIPT_SYS_RunZoneChangeScript(void *a0, void *a1);
 extern void FIELDMAP_AddZoneNpcs(int a, int b, int c, int d);
 struct Ctx;
@@ -104,7 +104,7 @@ void FIELDMAP_ChangeZone(u8 *p)
     EVENTDATA_SYSTEM_Clear((char *)s4);
     EVENTDATA_SYSTEM_LoadEventData((void *)s4, v, GAME_DATA_GetSeason(sys));
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_021643AC(sys, p);
+    FIELD_MAP_CHANGE_ApplyZoneHeader(sys, p);
     FIELDMAP_ChangeZoneSound((char *)p, v);
     FIELDMAP_ChangeZoneFog(p, v);
     FIELDMAP_ChangeZoneWeather((int *)p, (u32)v);
@@ -115,7 +115,7 @@ void FIELDMAP_ChangeZone(u8 *p)
         FIELD_PLACE_NAME_OnZoneChange((void *)(((struct Obj03104 *)p)->f30), v);
     ((struct Obj05698 *)q)->f4 = v;
     GAME_BEACON_SetZone((u16)v, (u32)sys);
-    func_0215A014(sys, v);
+    MAP_REPLACE_SetArriveFlag(sys, v);
     SCRIPT_SYS_RunZoneChangeScript((void *)(((struct Obj03104 *)p)->f4), (void *)4);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     FIELDMAP_AddZoneNpcs((int)sys, s0, s4, v);

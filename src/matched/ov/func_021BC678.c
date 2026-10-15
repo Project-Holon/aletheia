@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *
  * Releases +0 and re-checks the handle at +8 for the two armed states at +0x10.
@@ -20,12 +20,12 @@
 
 typedef unsigned int   u32;
 struct Ctx;
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(char *p)
 {
-    func_02030D28((struct Ctx *)(((struct Obj04893 *)p)->f0));
+    TCB_Main((struct Ctx *)(((struct Obj04893 *)p)->f0));
     switch (((struct Obj04893 *)p)->f10) {
     case 0:
     case 1:

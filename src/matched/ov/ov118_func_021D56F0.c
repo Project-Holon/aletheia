@@ -1,5 +1,5 @@
 /*
- * function: func_021D56F0
+ * function: POKETRADE_DEMO_UP_SetFinishFlag
  * address:  0x021D56F0
  * packet:   pkt_ov118_021D56F0
  * region:   ov118
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D56F0(u8 *p) { ((struct Obj22674 *)p)->f1094 = 1; }
+void POKETRADE_DEMO_UP_SetFinishFlag(u8 *p) { ((struct Obj22674 *)p)->f1094 = 1; }

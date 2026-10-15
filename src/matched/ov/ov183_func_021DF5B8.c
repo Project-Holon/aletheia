@@ -1,5 +1,5 @@
 /*
- * function: func_021DF5B8
+ * function: BR_CODEIN_SearchDeleteActor
  * address: 0x021DF5B8
  * packet: pkt_ov183_021DF5B8
  * region: ov183
@@ -23,7 +23,7 @@ extern void CLACT_ReleasePalette(unsigned int);
 extern void CLACT_ReleaseCharacter(unsigned int);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021DF5B8(char *p)
+void BR_CODEIN_SearchDeleteActor(char *p)
 {
     int i, j;
     CLACT_ReleaseCellAnim(((struct Obj02522 *)p)->f16);

@@ -37,8 +37,8 @@
  *   gFieldEffectResourceDefs  0x021D8F60  data  a4
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
- *   func_02030DA4  0x02030DA4  arm
- *   func_02030D28  0x02030D28  arm
+ *   TCB_Noop  0x02030DA4  arm
+ *   TCB_Main  0x02030D28  arm
  *   PALANM_ConvertGrayTable  0x02022040  thumb
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm  arm9
  *   NNS_G3dGetTex  0x0206E964  arm  arm9
@@ -72,8 +72,8 @@ extern void BILLBOARD_SetField24(u8 *dst, u8 *src);
 extern u32 FIELDMAP_GetG3dObjCtrl(u8 *p);
 extern u32 func_02030CB0(u32 idx);
 extern int func_02030CBC(u32 capacity, void *buffer);
-extern void func_02030DA4(int a);
-extern void func_02030D28(int taskSys);
+extern void TCB_Noop(int a);
+extern void TCB_Main(int taskSys);
 extern void *func_02030DA8(u32 taskSys, void (*cb)(void), void *arg, u32 pri);
 extern void func_02030EAC(void *tcb);
 extern void *G3D_SYSTEM_GetResourceFile(void *p);
@@ -311,7 +311,7 @@ void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys)
 {
     if (sys->objMgr != 0) {
         FIELD_EFFECT_DeleteObjectMgr(sys->objMgr);
-        func_02030DA4(sys->taskSys);
+        TCB_Noop(sys->taskSys);
         func_020307B0(sys->taskBuffer);
     }
 }
@@ -319,7 +319,7 @@ void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys)
 void FIELD_EFFECT_RunTasks(FieldEffectSys *sys)
 {
     if (sys->taskSys != 0) {
-        func_02030D28(sys->taskSys);
+        TCB_Main(sys->taskSys);
     }
 }
 

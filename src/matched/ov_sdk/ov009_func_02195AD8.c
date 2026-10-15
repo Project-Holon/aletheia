@@ -1,5 +1,5 @@
 /*
- * function: func_02195AD8
+ * function: gt2CloseSocket
  * address:  0x02195AD8
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,16 +12,16 @@
  * Calls the two helpers on the argument.
  *
  * symbols:
- *   func_02195DE4  0x02195DE4  arm  ov009
+ *   gt2CloseAllConnectionsHard  0x02195DE4  arm  ov009
  *   func_02197FDC  0x02197FDC  arm  ov009
  */
 
-extern void func_02195DE4(int *p);
+extern void gt2CloseAllConnectionsHard(int *p);
 extern void func_02197FDC(void *p);
 
-void func_02195AD8(void *p)
+void gt2CloseSocket(void *p)
 {
-    func_02195DE4(p);
+    gt2CloseAllConnectionsHard(p);
     func_02197FDC(p);
 }
 

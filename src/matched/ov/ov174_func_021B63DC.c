@@ -29,7 +29,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   LOCAL_TVT_SYS_SetupBgLayer 0x021B6538 thumb ov174
  *   func_02082A7C 0x02082A7C arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -60,7 +60,7 @@ extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 struct BgTemplate;
 extern void LOCAL_TVT_SYS_SetupBgLayer(const struct BgTemplate *p, int i, int type);
 extern void func_02082A7C(int,int,u32);
@@ -89,7 +89,7 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B7450);
     BG_SYS_Create(*(u16 *)p);
     BMP_WIN_Init(*(u16 *)p);
-    func_0203FC28((void *)d_021B7388);
+    BG_SYS_SetGraphicsMode((void *)d_021B7388);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73D0,0,0);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73B0,1,0);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7410,2,2);

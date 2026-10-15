@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC610",
+   "name": "WIFIBATTLEMATCH_NET_DownloadError",
    "address": "0x021DC610",
    "kind": "game",
    "region": "ov175",

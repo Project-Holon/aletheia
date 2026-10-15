@@ -1,5 +1,5 @@
 /*
- * function: func_021E0080
+ * function: BR_CODEIN_CodeClosePokeSearch
  * address: 0x021E0080
  * packet: pkt_ov183_021E0080
  * region: ov183
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern void BR_POKESEARCH_Close(char *p);
 extern void BR_POKESEARCH_Destroy(char *p);
 extern void func_020409B4(u32 index);
-int func_021E0080(char *p)
+int BR_CODEIN_CodeClosePokeSearch(char *p)
 {
     BR_POKESEARCH_Close(((struct Obj14434 *)p)->f1C);
     BR_POKESEARCH_Destroy(((struct Obj14434 *)p)->f1C);

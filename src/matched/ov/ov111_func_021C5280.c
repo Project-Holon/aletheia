@@ -1,5 +1,5 @@
 /*
- * function: func_021C5280
+ * function: VIEWER_MAIN_HandleRowTouch
  * address:  0x021C5280
  * packet:   pkt_ov111_021C5280
  * region:   ov111
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5264  0x021C5264  thumb  ov111
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
+ *   VIEWER_MAIN_HitRow  0x021C5264  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_021C51E4  0x021C51E4  thumb  ov111
- *   func_021C4754  0x021C4754  thumb  ov111
- *   func_021C523C  0x021C523C  thumb  ov111
- *   func_021C513C  0x021C513C  thumb  ov111
+ *   VIEWER_MAIN_SetRowDrawEnable  0x021C51E4  thumb  ov111
+ *   VIEWER_MAIN_SetBgSlotKind  0x021C4754  thumb  ov111
+ *   VIEWER_MAIN_DrawRowBg  0x021C523C  thumb  ov111
+ *   VIEWER_MAIN_ToggleFavorite  0x021C513C  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -69,58 +69,58 @@ typedef struct {
     u8 b32F6;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int func_021C5264(Work *p, int hit);
+extern int VIEWER_MAIN_HitRow(Work *p, int hit);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern void func_021C51E4(Work *p, int flag);
-extern void func_021C4754(Work *p, int kind);
-extern void func_021C523C(Work *p, int flag);
-extern void func_021C513C(Work *p);
+extern void VIEWER_MAIN_SetRowDrawEnable(Work *p, int flag);
+extern void VIEWER_MAIN_SetBgSlotKind(Work *p, int kind);
+extern void VIEWER_MAIN_DrawRowBg(Work *p, int flag);
+extern void VIEWER_MAIN_ToggleFavorite(Work *p);
 
-int func_021C5280(Work *p, int hit)
+int VIEWER_MAIN_HandleRowTouch(Work *p, int hit)
 {
-    if (func_021C5264(p, hit) == 1) {
+    if (VIEWER_MAIN_HitRow(p, hit) == 1) {
         return 0;
     }
     switch (hit) {
     case 0:
-        func_021C6FA0(&p->anim, 0, 9, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 9, 1);
         GFL_USE_PlaySeDefaultVolume(0x551);
         func_020355D8(1);
         return 4;
     case 1:
-        func_021C6FA0(&p->anim, 1, 8, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 1, 8, 1);
         GFL_USE_PlaySeDefaultVolume(0x556);
         return 5;
     case 2:
         TOUCHPANEL_GetPointCont(&p->f32D8, &p->f32DC);
-        func_021C6FA0(&p->anim, 6, 0x17, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x17, 1);
         return 3;
     case 3:
         if (p->f3034 != 0) {
             if (p->args->info->f4_6) {
-                func_021C51E4(p, p->info->f4_4);
+                VIEWER_MAIN_SetRowDrawEnable(p, p->info->f4_4);
                 p->info->f4_4 ^= 1;
-                func_021C4754(p, p->info->kind);
-                func_021C523C(p, p->info->f4_4);
+                VIEWER_MAIN_SetBgSlotKind(p, p->info->kind);
+                VIEWER_MAIN_DrawRowBg(p, p->info->f4_4);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
         } else {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021C6FA0(&p->anim, 2, 0x11, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x11, 1);
             return 10;
         }
         break;
     case 4:
         if (p->f3034 != 0 && !p->info->f4_4 && p->args->info->f4_6) {
             if (p->h305E == 0) {
-                func_021C6FA0(&p->anim, 4, 0x13, 1);
+                VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x13, 1);
                 GFL_USE_PlaySeDefaultVolume(0x648);
                 p->b32C6 = 0;
             } else {
-                func_021C6FA0(&p->anim, 4, 0x15, 1);
+                VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x15, 1);
                 GFL_USE_PlaySeDefaultVolume(0x649);
                 p->b32C6 = 3;
             }
@@ -130,12 +130,12 @@ int func_021C5280(Work *p, int hit)
     case 5:
         if (p->f3034 != 0 && p->args->info->f4_6 && !p->info->f4_4) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021C6FA0(&p->anim, 5, 9 - p->b32F6 * 2, 1);
+            VIEWER_TEXT_SetActorAnim(&p->anim, 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }
         break;
     case 6:
-        func_021C513C(p);
+        VIEWER_MAIN_ToggleFavorite(p);
         break;
     case 7:
         if (p->f3034 == 0) {

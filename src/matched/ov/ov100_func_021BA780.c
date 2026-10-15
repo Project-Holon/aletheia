@@ -23,7 +23,7 @@
  *   func_02049740 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   FADE_Start 0x0204E720 arm
  *   IRCBATTLEMATCH_PrintWaitingMessage 0x021BA668 thumb ov100
  *   CLACT_InitSystem 0x0204A48C arm
@@ -72,7 +72,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern int func_020056A0(u32,u32,u32);
 extern u32 PRINTSYS_QUE_Create(void *p);
@@ -109,7 +109,7 @@ void IRCBATTLEMATCH_InitScreen(char *p) {
  func_02049B68(owner,1,4,0,0,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f308=(int)func_02049740(owner,4,4,0,0,((struct Obj00178 *)p)->f278);
  ARC_UTIL_UploadBgPaletteAddFromHandle(owner,9,4,0,(u16)(((struct Obj00178 *)p)->f308),0,0,((struct Obj00178 *)p)->f278);ARC_TOOL_DeleteHandle(owner);
- ((struct Obj00178 *)p)->f304=(int)func_0201F5DC((void *)5,14,0,((struct Obj00178 *)p)->f278);
+ ((struct Obj00178 *)p)->f304=(int)BMP_MENUWORK_LoadFrameGfx((void *)5,14,0,((struct Obj00178 *)p)->f278);
  FADE_Start(3,16,0,2);IRCBATTLEMATCH_PrintWaitingMessage((int)p);
  CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)gIrcBattleMatchVramBanks,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f2B4=(int)CLACT_CreateUnit(40,0,((struct Obj00178 *)p)->f278);

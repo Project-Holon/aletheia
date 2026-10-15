@@ -28,6 +28,9 @@
  *   WORDSET_Create  0x0201EC74  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   GF_FONT_CountLine  0x0201D2C8  thumb  arm9
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01547.h"
@@ -52,9 +55,9 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_CountLine(struct StrObj *s);
 extern void *P_STA_INFO_GetPlaceName(void *, u8 *, u32);
@@ -203,18 +206,18 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     }
     s68 = P_STA_INFO_GetPlaceName(a, p, v20);
     s6c = P_STA_INFO_GetPlaceName(a, p, f96);
-    func_0201EFA4(ws, 0, v3c, 2, 2, 1);
+    WORDSET_SetSlotNumber(ws, 0, v3c, 2, 2, 1);
     best = 0;
-    func_0201EFA4(ws, 1, v38, 2, best, 1);
-    func_0201EFA4(ws, 2, v34, 2, best, 1);
-    func_0201EFA4(ws, 3, v30, 3, best, 1);
-    func_0201EE0C(ws, 4, s6c, 0, 1, 2);
-    func_0201EFA4(ws, 5, v48, 2, 2, 1);
-    func_0201EFA4(ws, 6, v44, 2, best, 1);
-    func_0201EFA4(ws, 7, v40, 2, best, 1);
-    func_0201EE0C(ws, 8, s68, best, 1, 2);
+    WORDSET_SetSlotNumber(ws, 1, v38, 2, best, 1);
+    WORDSET_SetSlotNumber(ws, 2, v34, 2, best, 1);
+    WORDSET_SetSlotNumber(ws, 3, v30, 3, best, 1);
+    WORDSET_SetSlotTag(ws, 4, s6c, 0, 1, 2);
+    WORDSET_SetSlotNumber(ws, 5, v48, 2, 2, 1);
+    WORDSET_SetSlotNumber(ws, 6, v44, 2, best, 1);
+    WORDSET_SetSlotNumber(ws, 7, v40, 2, best, 1);
+    WORDSET_SetSlotTag(ws, 8, s68, best, 1, 2);
     t = func_02045EC0(((struct Obj01547 *)p)->f38, msg);
-    func_0201F250(ws, str, t);
+    WORDSET_CopyTaggedText(ws, str, t);
     PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)BMP_WIN_GetBmp(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
     WORDSET_DeleteStrbufED04(ws);
     y += GF_FONT_CountLine(str) << 4;

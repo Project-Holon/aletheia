@@ -1,5 +1,5 @@
 /*
- * function: func_021F1780
+ * function: NAMEIN_GRAPHIC_LoadBgPalette
  * address: 0x021F1780
  * packet: pkt_ov194_021F1780
  * region: ov194
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: Two trailing zero alignment bytes at 021F1876; existing func_021F1878 begins immediately afterward.
+ * extent: Two trailing zero alignment bytes at 021F1876; existing NAMEIN_GRAPHIC_UpdateBg begins immediately afterward.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -16,7 +16,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Init 0x02040C14 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  */
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, unsigned int heap);
@@ -27,8 +27,8 @@ typedef unsigned int   u32;
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_Init(unsigned,unsigned,unsigned,unsigned);
-extern void func_0201F5BC(unsigned,unsigned,unsigned,unsigned,u16);
-void func_021F1780(int unused,u16 heap)
+extern void BMP_MENUWORK_LoadCharAndPltt(unsigned,unsigned,unsigned,unsigned,u16);
+void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap)
 {
     void *p;
     p=func_020490F4(118,heap);
@@ -46,5 +46,5 @@ void func_021F1780(int unused,u16 heap)
     func_02049B68(p,6,4,480,32,heap);
     ARC_TOOL_DeleteHandle(p);
     BG_SYS_Init(4,0,1,0);
-    func_0201F5BC(4,1,14,0,heap);
+    BMP_MENUWORK_LoadCharAndPltt(4,1,14,0,heap);
 }

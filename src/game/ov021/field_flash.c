@@ -1,7 +1,7 @@
 /*
  * file:     field_flash.c
  * unit:     yes
- * function: FIELD_TASK_MANAGER_SetSlot, FIELD_TASK_MANAGER_FreeSlot, FIELD_TASK_MANAGER_UpdateSlot, FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone, FIELD_TASK_MANAGER_FreeSlotIfFinished, FIELD_TASK_CreateCameraDistanceTween, FIELD_TASK_UpdateCameraDistanceTween, FIELD_TASK_CreateCameraYawTween, FIELD_TASK_CreateCameraPitchTween, FIELD_TASK_InitCameraAngleTween, FIELD_TASK_StepCameraAngleTween, FIELD_TASK_UpdateCameraAngleTween, FIELD_TASK_CreatePlayerSpinLinear, FIELD_TASK_CreateMmdlSpinLinear, FIELD_TASK_CreatePlayerSpinEaseIn, FIELD_TASK_CreatePlayerSpinEaseOut, FIELD_TASK_GetSpinAcmdLinear, FIELD_TASK_GetSpinAcmdEaseIn, FIELD_TASK_GetSpinAcmdEaseOut, FIELD_TASK_UpdateSpinLinear, FIELD_TASK_UpdateSpinEaseIn, FIELD_TASK_UpdateSpinEaseOut, FIELD_TASK_CreatePlayerPosTween, FIELD_TASK_UpdatePlayerPosTween, FIELD_TASK_CreatePlayerDrop, FIELD_TASK_CalcDropOffset, FIELD_TASK_UpdatePlayerDrop, func_021C77D8, FIELD_TASK_CreateFade, FIELD_TASK_UpdateFade, FIELD_TASK_CreatePlayerDrawOffsetTween, FIELD_TASK_CreateMmdlDrawOffsetTween, FIELD_TASK_CreateMmdlPosOffsetTween, FIELD_TASK_CalcOffsetByProgress, FIELD_TASK_UpdateMmdlDrawOffsetTween, FIELD_TASK_UpdateMmdlPosOffsetTween, FIELD_TASK_CreateCameraTargetTween, FIELD_TASK_UpdateCameraTargetTween, FIELD_TASK_CreateCameraLerp, FIELD_TASK_UpdateCameraLerp, FIELD_TASK_CreateRepeatPlayerEffect, FIELD_TASK_UpdateRepeatPlayerEffect, FIELD_FLASH_Create, FIELD_FLASH_Delete, FIELD_FLASH_Update, FIELD_FLASH_Apply, FIELD_FLASH_SetPendingCommand, FIELD_FLASH_GetState, FIELD_FLASH_InitTween, FIELD_FLASH_ClearTween, FIELD_FLASH_StartTween, FIELD_FLASH_StepTween, FIELD_FLASH_GetTweenSize, FIELD_FLASH_SetTweenSize, FIELD_FLASH_GetTweenAlpha, FIELD_FLASH_SetTweenAlpha, FIELD_FLASH_CmdInit, FIELD_FLASH_CmdExpand, func_021C7F44, FIELDSKILL_MAPEFF_Create, FIELDSKILL_MAPEFF_Delete, FIELDSKILL_MAPEFF_Update, FIELDSKILL_MAPEFF_Apply, FIELDSKILL_MAPEFF_GetFlash, FIELDSKILL_MAPEFF_InitFlash, FIELDSKILL_MAPEFF_FreeFlash, FIELDSKILL_MAPEFF_UpdateFlash, FIELDSKILL_MAPEFF_ApplyFlash, FLD_WIPE_3DOBJ_Create, FLD_WIPE_3DOBJ_Delete, FLD_WIPE_3DOBJ_Draw, SCRCMD_StartFld3dCi, SCRCMD_StartFld3dCiByVar, SCRCMD_RunFld3dCiMain, SCRCMD_StartFld3dCiByTable, FLD_WIPE_3DOBJ_CreateMapChangeEvent, FLD_WIPE_3DOBJ_MapChangeEventMain, FLD_WIPE_3DOBJ_FadeOutEventMain, PLEASURE_BOAT_Create, PLEASURE_BOAT_AckEvent, PLEASURE_BOAT_Update, PLEASURE_BOAT_AdvanceTime, PLEASURE_BOAT_GetStat
+ * function: FIELD_TASK_MANAGER_SetSlot, FIELD_TASK_MANAGER_FreeSlot, FIELD_TASK_MANAGER_UpdateSlot, FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone, FIELD_TASK_MANAGER_FreeSlotIfFinished, FIELD_TASK_CreateCameraDistanceTween, FIELD_TASK_UpdateCameraDistanceTween, FIELD_TASK_CreateCameraYawTween, FIELD_TASK_CreateCameraPitchTween, FIELD_TASK_InitCameraAngleTween, FIELD_TASK_StepCameraAngleTween, FIELD_TASK_UpdateCameraAngleTween, FIELD_TASK_CreatePlayerSpinLinear, FIELD_TASK_CreateMmdlSpinLinear, FIELD_TASK_CreatePlayerSpinEaseIn, FIELD_TASK_CreatePlayerSpinEaseOut, FIELD_TASK_GetSpinAcmdLinear, FIELD_TASK_GetSpinAcmdEaseIn, FIELD_TASK_GetSpinAcmdEaseOut, FIELD_TASK_UpdateSpinLinear, FIELD_TASK_UpdateSpinEaseIn, FIELD_TASK_UpdateSpinEaseOut, FIELD_TASK_CreatePlayerPosTween, FIELD_TASK_UpdatePlayerPosTween, FIELD_TASK_CreatePlayerDrop, FIELD_TASK_CalcDropOffset, FIELD_TASK_UpdatePlayerDrop, FIELD_TASK_CreateWait, FIELD_TASK_CreateFade, FIELD_TASK_UpdateFade, FIELD_TASK_CreatePlayerDrawOffsetTween, FIELD_TASK_CreateMmdlDrawOffsetTween, FIELD_TASK_CreateMmdlPosOffsetTween, FIELD_TASK_CalcOffsetByProgress, FIELD_TASK_UpdateMmdlDrawOffsetTween, FIELD_TASK_UpdateMmdlPosOffsetTween, FIELD_TASK_CreateCameraTargetTween, FIELD_TASK_UpdateCameraTargetTween, FIELD_TASK_CreateCameraLerp, FIELD_TASK_UpdateCameraLerp, FIELD_TASK_CreateRepeatPlayerEffect, FIELD_TASK_UpdateRepeatPlayerEffect, FIELD_FLASH_Create, FIELD_FLASH_Delete, FIELD_FLASH_Update, FIELD_FLASH_Apply, FIELD_FLASH_SetPendingCommand, FIELD_FLASH_GetState, FIELD_FLASH_InitTween, FIELD_FLASH_ClearTween, FIELD_FLASH_StartTween, FIELD_FLASH_StepTween, FIELD_FLASH_GetTweenSize, FIELD_FLASH_SetTweenSize, FIELD_FLASH_GetTweenAlpha, FIELD_FLASH_SetTweenAlpha, FIELD_FLASH_CmdInit, FIELD_FLASH_CmdExpand, FIELD_FLASH_ShowExpanded, FIELDSKILL_MAPEFF_Create, FIELDSKILL_MAPEFF_Delete, FIELDSKILL_MAPEFF_Update, FIELDSKILL_MAPEFF_Apply, FIELDSKILL_MAPEFF_GetFlash, FIELDSKILL_MAPEFF_InitFlash, FIELDSKILL_MAPEFF_FreeFlash, FIELDSKILL_MAPEFF_UpdateFlash, FIELDSKILL_MAPEFF_ApplyFlash, FLD_WIPE_3DOBJ_Create, FLD_WIPE_3DOBJ_Delete, FLD_WIPE_3DOBJ_Draw, SCRCMD_StartFld3dCi, SCRCMD_StartFld3dCiByVar, SCRCMD_RunFld3dCiMain, SCRCMD_StartFld3dCiByTable, FLD_WIPE_3DOBJ_CreateMapChangeEvent, FLD_WIPE_3DOBJ_MapChangeEventMain, FLD_WIPE_3DOBJ_FadeOutEventMain, PLEASURE_BOAT_Create, PLEASURE_BOAT_AckEvent, PLEASURE_BOAT_Update, PLEASURE_BOAT_AdvanceTime, PLEASURE_BOAT_GetStat
  * address:  0x021C6E5C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -99,7 +99,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
- *   func_02011330  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   FLD3D_CI_StartSequence  0x021C1CB0  thumb  ov021
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
@@ -135,7 +135,7 @@
  *   EVENT_MAPCHANGE_CreateWarpEventToLocation  0x021854CC  thumb  ov020
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
- *   func_02043658  0x02043658  arm
+ *   BMP_GetVisiblePlane  0x02043658  arm
  *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
@@ -504,7 +504,7 @@ extern void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *work);
 extern FieldMap *ICA_ANIME_GetField20(GameSystem *gameSystem);
 extern Fld3dCi *FIELDMAP_GetFld3dCi(FieldMap *fieldMap);
-extern u16 func_02011330(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern ScriptSystem *SCRCMD_WORK_GetScriptWork(ScrCmdWork *work);
 extern GameEvent *FLD3D_CI_StartSequence(GameSystem *gameSystem, Fld3dCi *ci, int id);
 extern void SCRIPT_SYS_CallEvent(ScriptSystem *scriptSys, GameEvent *event);
@@ -538,7 +538,7 @@ extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(GameSystem *gameSyst
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, ZoneStartLocation *location, u16 flag);
 extern void *FIELDMAP_GetPlaceName(FieldMap *fieldMap);
 extern int FIELD_PLACE_NAME_Cancel(void *msgBg);
-extern u32 func_02043658(void);
+extern u32 BMP_GetVisiblePlane(void);
 extern void FIELDMAP_SetBgMode(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
@@ -594,7 +594,7 @@ int FIELD_TASK_UpdatePlayerPosTween(PosTween *tween);
 FieldTask *FIELD_TASK_CreatePlayerDrop(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
 void FIELD_TASK_CalcDropOffset(VecFx32 *out, float frame, float frames, float height);
 int FIELD_TASK_UpdatePlayerDrop(PlayerDropTask *task);
-FieldTask *func_021C77D8(FieldMap *fieldMap, u16 frames);
+FieldTask *FIELD_TASK_CreateWait(FieldMap *fieldMap, u16 frames);
 int FIELD_TASK_UpdateWait(WaitTask *task);
 FieldTask *FIELD_TASK_CreateFade(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
 int FIELD_TASK_UpdateFade(FadeTask *task);
@@ -626,8 +626,8 @@ u8 FIELD_FLASH_GetTweenAlpha(FlashTween *tween);
 FlashTween *FIELD_FLASH_SetTweenAlpha(FlashTween *tween, u8 alpha);
 void FIELD_FLASH_CmdInit(FieldFlash *flash);
 void FIELD_FLASH_CmdExpand(FieldFlash *flash);
-void func_021C7F44(FieldFlash *flash);
-void func_021C7F60(FieldFlash *flash);
+void FIELD_FLASH_ShowExpanded(FieldFlash *flash);
+void FIELD_FLASH_HideMask(FieldFlash *flash);
 FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(u32 flags, u32 heapId);
 void FIELDSKILL_MAPEFF_Delete(FieldSkillMapEff *mapEff);
 void FIELDSKILL_MAPEFF_Update(FieldSkillMapEff *mapEff);
@@ -1102,7 +1102,7 @@ int FIELD_TASK_UpdatePlayerDrop(PlayerDropTask *task)
     return 0;
 }
 
-FieldTask *func_021C77D8(FieldMap *fieldMap, u16 frames)
+FieldTask *FIELD_TASK_CreateWait(FieldMap *fieldMap, u16 frames)
 {
     FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 4, FIELD_TASK_UpdateWait);
     WaitTask *wait = (WaitTask *)FIELD_TASK_GetWork(task);
@@ -1502,7 +1502,7 @@ void FIELD_FLASH_CmdExpand(FieldFlash *flash)
 }
 
 /* Command 2: show the expanded lit area at once (flash was already active). */
-void func_021C7F44(FieldFlash *flash)
+void FIELD_FLASH_ShowExpanded(FieldFlash *flash)
 {
     flash->state = FLASH_STATE_EXPANDED;
     FIELD_FLASH_SetTweenSize(&flash->tween, 0xaa00);
@@ -1510,7 +1510,7 @@ void func_021C7F44(FieldFlash *flash)
 }
 
 /* Command 3: hide the mask. */
-void func_021C7F60(FieldFlash *flash)
+void FIELD_FLASH_HideMask(FieldFlash *flash)
 {
     flash->state = FLASH_STATE_OFF;
     FIELD_FLASH_SetTweenSize(&flash->tween, 0);
@@ -1640,7 +1640,7 @@ int SCRCMD_StartFld3dCi(ScriptVm *vm, ScrCmdWork *work)
     GameEvent *event;
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     ci = FIELDMAP_GetFld3dCi(ICA_ANIME_GetField20(gameSystem));
-    ciId = func_02011330(vm);
+    ciId = VM_ReadU16(vm);
     scriptSys = SCRCMD_WORK_GetScriptWork(work);
     event = FLD3D_CI_StartSequence(gameSystem, ci, (unsigned char)ciId);
     if (event) {
@@ -1846,7 +1846,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         if (FIELD_CAMERA_IsMoving(camera) != 0)
             break;
         FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 1);
-        visiblePlanes = func_02043658();
+        visiblePlanes = BMP_GetVisiblePlane();
         FIELDMAP_SetBgMode();
         BG_SYS_SetMainVisiblePlanes(visiblePlanes);
         FIELDMAP_ResetBgAffineShowMsg(fieldMap);

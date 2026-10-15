@@ -25,7 +25,7 @@
  * symbols:
  *   strlen                           0x0209477C arm
  *   gsXmlWriterGetDataLength                    0x02181E20 arm  ov009
- *   func_021803BC                    0x021803BC arm  ov009
+ *   gsiSafeStrcpyA                    0x021803BC arm  ov009
  *   OS_SPrintf                       0x02084F40 arm
  *   ghiEncryptDataToBuffer                    0x021BFDEC arm  ov114
  *   ghiSendBufferedData                    0x021C011C arm  ov114
@@ -127,7 +127,7 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int gsXmlWriterGetDataLength(void *stream);
-extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
+extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern GHTTPBool ghiEncryptDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
 extern GHTTPBool ghiSendBufferedData(GHIConnection *connection);
@@ -196,7 +196,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                     memcpy(&buffer[writePos], &header, sizeof(GSIDimeHeader));
                     writePos += sizeof(GSIDimeHeader);
 
-                    writen = func_021803BC(&buffer[writePos], sGhttpCidId, sizeof(buffer) - writePos);
+                    writen = gsiSafeStrcpyA(&buffer[writePos], sGhttpCidId, sizeof(buffer) - writePos);
                     padBytes = (int)(4 - (writen % 4));
                     writePos += writen;
                     if (padBytes != 4)
@@ -205,7 +205,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                             buffer[writePos++] = '\0';
                     }
 
-                    writen = func_021803BC(&buffer[writePos], sGhttpHttpSchemasXmlsoapOrgSoap, sizeof(buffer) - writePos);
+                    writen = gsiSafeStrcpyA(&buffer[writePos], sGhttpHttpSchemasXmlsoapOrgSoap, sizeof(buffer) - writePos);
                     padBytes = (int)(4 - (writen % 4));
                     writePos += writen;
                     if (padBytes != 4)
@@ -260,7 +260,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                     memcpy(&buffer[writePos], &header, sizeof(GSIDimeHeader));
                     writePos += sizeof(GSIDimeHeader);
 
-                    writen = func_021803BC(&buffer[writePos], state->data->name, sizeof(buffer) - writePos);
+                    writen = gsiSafeStrcpyA(&buffer[writePos], state->data->name, sizeof(buffer) - writePos);
                     padBytes = (int)(4 - (writen % 4));
                     writePos += writen;
                     if (padBytes != 4)
@@ -269,7 +269,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                             buffer[writePos++] = '\0';
                     }
 
-                    writen = func_021803BC(&buffer[writePos], contentType, sizeof(buffer) - writePos);
+                    writen = gsiSafeStrcpyA(&buffer[writePos], contentType, sizeof(buffer) - writePos);
                     padBytes = (int)(4 - (writen % 4));
                     writePos += writen;
                     if (padBytes != 4)

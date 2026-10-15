@@ -1,5 +1,5 @@
 /*
- * function: func_021D9DC8
+ * function: WIFIBATTLEMATCH_NET_CreateNetContext
  * address: 0x021D9DC8
  * packet: pkt_ov175_021D9DC8
  * region: ov175
@@ -28,13 +28,13 @@
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
- *   func_021DC5C8 0x021DC5C8 thumb ov175
- *   func_021DC5F8 0x021DC5F8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CleanupDownload 0x021DC5C8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_GetDownloadSize 0x021DC5F8 thumb ov175
  *   d_021E2EE0 0x021E2EE0 data a4
  *   d_021E2EF8 0x021E2EF8 data a4
  *   d_021E2C90 0x021E2C90 data a4
   *
- * note 2026-10-04 (lane 20, D2): leaf func_021DC5F8 is now filed EXACT as
+ * note 2026-10-04 (lane 20, D2): leaf WIFIBATTLEMATCH_NET_GetDownloadSize is now filed EXACT as
  * src/matched/ov/ov175_func_021DC5F8.c (24 bytes). The tool still says "no witness" for it until
  * the integrator runs the manifest. The other blocker, ARM9 GFL_NET_SetWaitMode (veneer-like 12-byte
  * tail call), is the arm9 label lane's. Body is byte-correct; expect EXACT after manifest + label.
@@ -56,11 +56,11 @@ extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_NET_SetWaitMode(int);
 extern void DWC_RAP_SetErrorCallback(int, int);
 extern void DWC_RAP_SetErrorHookCallback(int, int);
-extern void func_021DC5C8(void *, int, int);
-extern u32 func_021DC5F8(char *p, int a, int kind);
+extern void WIFIBATTLEMATCH_NET_CleanupDownload(void *, int, int);
+extern u32 WIFIBATTLEMATCH_NET_GetDownloadSize(char *p, int a, int kind);
 extern const char d_021E2EE0[], d_021E2EF8[];
 extern const u32 d_021E2C90[];
-char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
+char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 a, void *save, u32 b, u16 heap) {
     char *p;
     p = func_02030734(heap, 0x149c, 0, d_021E2EE0, 0x2b0);
     MI_CpuFill8(p, 0, 0x149c);
@@ -76,7 +76,7 @@ char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
     if (!GFL_NET_GetRunState()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
     GFL_NET_COMMAND_AddCommandTable(0x2400, (u32)d_021E2C90, 6, (u32)p);
     GFL_NET_SetWaitMode(0);
-    DWC_RAP_SetErrorCallback((int)func_021DC5C8, (int)p);
-    DWC_RAP_SetErrorHookCallback((int)func_021DC5F8, (int)p);
+    DWC_RAP_SetErrorCallback((int)WIFIBATTLEMATCH_NET_CleanupDownload, (int)p);
+    DWC_RAP_SetErrorHookCallback((int)WIFIBATTLEMATCH_NET_GetDownloadSize, (int)p);
     return p;
 }

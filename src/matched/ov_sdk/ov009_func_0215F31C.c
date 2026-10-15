@@ -1,5 +1,5 @@
 /*
- * function: func_0215F31C
+ * function: SOCLi_SocketUnregister
  * address:  0x0215F31C
  * packet:   pkt_02155168
  * region:   ov009
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   g_021AA4B4  0x021AA4B4  data
- *   func_0215F334  0x0215F334  arm  ov009
+ *   SOCLi_SocketUnregisterList  0x0215F334  arm  ov009
  */
 
 extern char g_021AA4B4[];
 struct Sock;
-extern void func_0215F334(struct Sock **next, struct Sock *socket);
+extern void SOCLi_SocketUnregisterList(struct Sock **next, struct Sock *socket);
 
-void func_0215F31C(int a)
+void SOCLi_SocketUnregister(int a)
 {
-    func_0215F334((struct Sock **)g_021AA4B4, (struct Sock *)a);
+    SOCLi_SocketUnregisterList((struct Sock **)g_021AA4B4, (struct Sock *)a);
 }
 

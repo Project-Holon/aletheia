@@ -21,15 +21,15 @@
     "INTRUDE_UpdatePlaySeconds",
     "BEACON_GetSize"
    ],
+   "addresses": [
+    "0x0200BFA4",
+    "0x0200C054"
+   ],
    "evidence": {
     "sole-ref": [
      "self:0x02146170"
     ]
-   },
-   "addresses": [
-    "0x0200BFA4",
-    "0x0200C054"
-   ]
+   }
   },
   {
    "name": "BEACON_Init",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219E900",
+   "name": "SBAllocServer",
    "address": "0x0219E900",
    "kind": "sdk",
    "region": "ov009",

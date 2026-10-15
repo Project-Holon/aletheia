@@ -13,8 +13,8 @@
  *   POKETRADE_2D_SetDisplayConfig 0x021E57E8 thumb
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   d_021E7D40 0x021E7D40 data a4
- *   d_021E7CC8 0x021E7CC8 data a4
+ *   gClactInitData 0x021E7D40 data a4
+ *   gClactConfigSub 0x021E7CC8 data a4
  */
 #include "../include/Obj22814.h"
 struct DispVram;
@@ -25,12 +25,12 @@ extern void POKETRADE_2D_SetDisplayConfig(int);
 typedef unsigned int   u32;
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern const char d_021E7D40[];
-extern const char d_021E7CC8[];
+extern const char gClactInitData[];
+extern const char gClactConfigSub[];
 void POKETRADE_2D_InitDisplayAndClact(char *p)
 {
-    BG_SYS_SetVramBanks((const struct DispVram *)d_021E7D40);
-    CLACT_InitSystem((const struct Cfg *)d_021E7CC8, (unsigned int)d_021E7D40, ((struct Obj22814 *)p)->f5F4);
+    BG_SYS_SetVramBanks((const struct DispVram *)gClactInitData);
+    CLACT_InitSystem((const struct Cfg *)gClactConfigSub, (unsigned int)gClactInitData, ((struct Obj22814 *)p)->f5F4);
     POKETRADE_2D_SetDisplayConfig(0);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);

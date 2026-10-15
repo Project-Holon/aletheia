@@ -13,7 +13,7 @@
  *   SHINKA_DEMO_GRAPHIC_Exit3d 0x02205C48 thumb ov195
  *   SHINKA_DEMO_GRAPHIC_ExitClact 0x02205BAC thumb ov195
  *   SHINKA_DEMO_GRAPHIC_ReleaseMainBg 0x02205B24 thumb ov195
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -23,7 +23,7 @@ extern void func_02030EAC(struct Node *n);
 extern void SHINKA_DEMO_GRAPHIC_Exit3d(int *);
 extern void SHINKA_DEMO_GRAPHIC_ExitClact(char *);
 extern void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *, int, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -33,7 +33,7 @@ void SHINKA_DEMO_GRAPHIC_Destroy(char *p)
     SHINKA_DEMO_GRAPHIC_Exit3d((int *)(p + 8));
     SHINKA_DEMO_GRAPHIC_ExitClact(p + 4);
     SHINKA_DEMO_GRAPHIC_ReleaseMainBg(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;

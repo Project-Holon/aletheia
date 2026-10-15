@@ -1,7 +1,7 @@
 /*
  * file:     socl_ssl.c
  * unit:     yes
- * function: func_0215FC80, func_0215FD00, func_0215FD40
+ * function: SOCL_EnableSsl, SOCLi_ExecEnableSslCommand, SOCLi_EnableSslCallBack
  * address:  0x0215FC80
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -59,9 +59,9 @@ extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
 extern void OS_LockMutex(void *mutex);
 extern void CPS_SetSsl(int mode);
 extern void func_02086078(void *mutex);
-int func_0215FC80(int s, void *con);
-int func_0215FD00(void *socket, void *con);
-int func_0215FD40(void *arg);
+int SOCL_EnableSsl(int s, void *con);
+int SOCLi_ExecEnableSslCommand(void *socket, void *con);
+int SOCLi_EnableSslCallBack(void *arg);
 
 
 static inline int isReady(Sock_0215FC80 *s)
@@ -81,7 +81,7 @@ static inline int isOpen(Sock_0215FC80 *s)
 /*
  * sdk:      SOCL_EnableSsl (libsoc.TWL.HYB.a(socl_ssl.o))
  */
-int func_0215FC80(int s, void *con)
+int SOCL_EnableSsl(int s, void *con)
 {
 	Sock_0215FC80 *socket = (Sock_0215FC80 *)s;
 
@@ -97,18 +97,18 @@ int func_0215FC80(int s, void *con)
 	if (socket->state & 2) {
 		return -28;
 	}
-	return func_0215FD00(socket, con);
+	return SOCLi_ExecEnableSslCommand(socket, con);
 }
 
 
 /*
  * sdk:      SOCLi_ExecEnableSslCommand (libsoc.TWL.HYB.a(socl_ssl.o))
  */
-int func_0215FD00(void *socket, void *con)
+int SOCLi_ExecEnableSslCommand(void *socket, void *con)
 {
 	int *command;
 
-	command = func_0215CE3C(func_0215FD40, socket, 1);
+	command = func_0215CE3C(SOCLi_EnableSslCallBack, socket, 1);
 	if (command == 0) {
 		return -33;
 	}
@@ -120,7 +120,7 @@ int func_0215FD00(void *socket, void *con)
 /*
  * sdk:      SOCLi_EnableSslCallBack (libsoc.TWL.HYB.a(socl_ssl.o))
  */
-int func_0215FD40(void *arg)
+int SOCLi_EnableSslCallBack(void *arg)
 {
 	Cmd *cpacket = (Cmd *)arg;
 	Sock_0215FD40 *socket = cpacket->socket;

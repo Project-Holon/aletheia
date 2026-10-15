@@ -14,22 +14,22 @@
  *
  * symbols:
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   func_0201D5C4  0x0201D5C4  thumb
+ *   GF_FONT_GetTagChar  0x0201D5C4  thumb
  *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
- *   func_0201D670  0x0201D670  thumb
- *   func_0201D5F4  0x0201D5F4  thumb
- *   func_0201D658  0x0201D658  thumb
- *   func_0201D688  0x0201D688  thumb
+ *   GF_FONT_GetTagParam  0x0201D670  thumb
+ *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
+ *   GF_FONT_GetTagKind  0x0201D658  thumb
+ *   GF_FONT_SkipTag  0x0201D688  thumb
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u16 STRBUF_GetEosChar(void);
-extern u32 func_0201D5C4(void);
+extern u32 GF_FONT_GetTagChar(void);
 extern u32 GF_FONT_CheckD5CC(const u16 *p);
-extern u32 func_0201D670(const u16 *p, u32 i);
-extern u32 func_0201D5F4(const u16 *p);
-extern u32 func_0201D658(const u16 *p);
-extern u16 *func_0201D688(u16 *p);
+extern u32 GF_FONT_GetTagParam(const u16 *p, u32 i);
+extern u32 GF_FONT_GetTagGroup(const u16 *p);
+extern u32 GF_FONT_GetTagKind(const u16 *p);
+extern u16 *GF_FONT_SkipTag(u16 *p);
 
 u16 *BTL_MSG_FindWordTag(u16 *p, u32 *o1, u16 *o2, u8 *o3)
 {
@@ -38,16 +38,16 @@ u16 *BTL_MSG_FindWordTag(u16 *p, u32 *o1, u16 *o2, u8 *o3)
 
     if (p != 0) {
         end = STRBUF_GetEosChar();
-        tag = func_0201D5C4();
+        tag = GF_FONT_GetTagChar();
         while (*p != end) {
             if (*p == tag) {
                 if (GF_FONT_CheckD5CC(p) != 0) {
-                    *o3 = func_0201D670(p, 0);
-                    *o1 = func_0201D5F4(p);
-                    *o2 = func_0201D658(p);
-                    return func_0201D688(p);
+                    *o3 = GF_FONT_GetTagParam(p, 0);
+                    *o1 = GF_FONT_GetTagGroup(p);
+                    *o2 = GF_FONT_GetTagKind(p);
+                    return GF_FONT_SkipTag(p);
                 }
-                p = func_0201D688(p);
+                p = GF_FONT_SkipTag(p);
             } else {
                 p = p + 1;
             }

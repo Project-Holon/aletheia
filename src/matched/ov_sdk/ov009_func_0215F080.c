@@ -1,5 +1,5 @@
 /*
- * function: func_0215F080
+ * function: SOCLi_GetReadBufferOccpiedSize
  * address:  0x0215F080
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 
  */
 
-int func_0215F080(char *p)
+int SOCLi_GetReadBufferOccpiedSize(char *p)
 {
     char *q = *(char **)(p + 0xa0);
     int r = 0;

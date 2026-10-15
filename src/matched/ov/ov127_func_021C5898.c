@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled: forwards a by-value {s16 x, y} pair to func_021C428C with the
+ * Unlabelled: forwards a by-value {s16 x, y} pair to WIFI_2DCHAR_SetSubActorPos with the
  * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
  *
  * symbols:
- *   func_021C428C  0x021C428C  thumb  ov127
+ *   WIFI_2DCHAR_SetSubActorPos  0x021C428C  thumb  ov127
  */
 #include "../include/Obj23053.h"
 
@@ -24,9 +24,9 @@ typedef struct {
     s16 y;
 } P2;
 
-extern void func_021C428C(char *p, int x, int y);
+extern void WIFI_2DCHAR_SetSubActorPos(char *p, int x, int y);
 
 void WF2DMAP_OBJDRAW_SetActorPos2(char *p, P2 v)
 {
-    func_021C428C(((struct Obj23053 *)p)->f4, v.x, v.y);
+    WIFI_2DCHAR_SetSubActorPos(((struct Obj23053 *)p)->f4, v.x, v.y);
 }

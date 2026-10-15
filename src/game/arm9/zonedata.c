@@ -38,7 +38,7 @@
  *   g_ZoneDataMgr  0x02146264  data
  *   _ZoneSecondSpecialKindTable  0x0209DFC8  data
  *   FILE_UTIL_LoadRange  0x02020E08  thumb
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sub_02082BCC  0x02082BCC  arm
  *   _EventTempFlags  0x02146268  data
  *   ZONEDATA_ResetEventFlagRange  0x02014368  thumb
@@ -1958,7 +1958,7 @@ void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season)
  *           ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor
  *
  * alias: ZONEDATA_DeleteAreaData is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
+ * GFL_HEAP_Free: the compiler cannot tell caller and callee interwork, so
  * it always spends a pool word and `bx` rather than ever emitting a direct
  * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
  * wrapper's own body is otherwise empty.
@@ -2912,7 +2912,7 @@ u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs)
  *           0x02188BD8 nor 0x0215FA44 is a function start in ANY candidate
  *           overlay, so no `thumb ovNNN` region hint on the symbols: line
  *           can resolve them.  0x02188BD8 falls mid-instruction in ov009
- *           (inside `bl func_02193734`) and in ov096, and lands on plain
+ *           (inside `bl gpiSetErrorString`) and in ov096, and lands on plain
  *           .word data in ov021 and ov230; 0x0215FA44 falls inside a `str`
  *           in ov009 and on .word data in ov010.  A region hint only picks
  *           between labelled candidates; it cannot create a label.  This

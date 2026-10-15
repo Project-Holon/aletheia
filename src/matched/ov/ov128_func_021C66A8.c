@@ -10,10 +10,10 @@
  * calls: Heap arguments are full-width here: the caller does not truncate.
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   func_0204152C 0x0204152C arm
+ *   BG_SYS_ClearLayer 0x0204152C arm
  *   func_02040588 0x02040588 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -31,10 +31,10 @@ extern const u8 d_021CA718[][32];
 extern void BG_SYS_Create(u32);
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_InitRun(u8,u32,u32,u32);
-extern void func_0204152C(int channel, u16 val);
+extern void BG_SYS_ClearLayer(int channel, u16 val);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B68(void *,u32,u32,u32,u32,u32);
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u32);
@@ -45,11 +45,11 @@ void func_021C66A8(char *p,int heap)
     int i;
     BG_SYS_Create(heap);
     config=d_021CA664;
-    func_0203FC28((struct DispConfig *)(&config));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&config));
     for(i=0;i<5;i++) {
         BG_SYS_InitBgLayer((u8)i,(const struct BgTemplate *)d_021CA718[i],0);
         BG_SYS_InitRun(i,32,0,heap);
-        func_0204152C((u8)i,0);
+        BG_SYS_ClearLayer((u8)i,0);
         func_02040588(i,1);
     }
     func_02049B68(((struct Obj04504 *)p)->f8,0,0,0,192,heap);

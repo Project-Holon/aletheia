@@ -26,7 +26,7 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   func_02030734 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -46,7 +46,7 @@
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BMP_Clear  0x02043B5C  arm
@@ -121,7 +121,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, short b, short c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -141,7 +141,7 @@ extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -315,7 +315,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     cell->levelWindow = BMP_WIN_Create(4, (u8)cellX, (u8)cellY + 3, 6, 1, 14, 1);
     if (isEgg == 0) {
         wordSet = (u32)GF_FONT_Create_EC64(work->heapId);
-        func_0201EFA4((struct WordSet *)wordSet, 0, level, 3, 0, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)wordSet, 0, level, 3, 0, 1);
         POKELIST_PrintExpandedTextSub(work, cell->levelWindow, (void *)wordSet, 2, (s16)xShift, (s16)0, 0x3c40);
         WORDSET_DeleteStrbufED04((struct WordSet *)wordSet);
     }
@@ -424,14 +424,14 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
         words = GF_FONT_Create_EC64(work->heapId);
         if (minute == 0) {
             text = func_02045EC0(work->msgBank, 175);
-            func_0201EFA4(words, 1, second, 2, 1, 1);
+            WORDSET_SetSlotNumber(words, 1, second, 2, 1, 1);
         } else {
             text = func_02045EC0(work->msgBank, 174);
-            func_0201EFA4(words, 0, minute, 2, 1, 1);
-            func_0201EFA4(words, 1, second, 2, 2, 1);
+            WORDSET_SetSlotNumber(words, 0, minute, 2, 1, 1);
+            WORDSET_SetSlotNumber(words, 1, second, 2, 2, 1);
         }
         BMP_Clear(BMP_WIN_GetBmp(work->timerValueWindow), 0);
-        func_0201F250(words, buf, text);
+        WORDSET_CopyTaggedText(words, buf, text);
         width = func_0201D304((struct StrObj *)buf, (u32)work->fontMain, 0);
         PRINTSYS_PrintQueColor(work->printSys, (u32)BMP_WIN_GetBmp(work->timerValueWindow), (s16)(36 - width), 4, (u32)buf, (u32)work->fontMain, 0x3c40);
         WORDSET_DeleteStrbufED04(words);

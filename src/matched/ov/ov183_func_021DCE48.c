@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE48
+ * function: BR_CODEIN_RecordDeleteActors
  * address: 0x021DCE48
  * packet: pkt_ov183_021DCE48
  * region: ov183
@@ -31,7 +31,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void func_020409B4(u32 index);
-void func_021DCE48(char *p,char *q)
+void BR_CODEIN_RecordDeleteActors(char *p,char *q)
 {
     int i;
     char *slot;

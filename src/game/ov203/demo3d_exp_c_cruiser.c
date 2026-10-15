@@ -1,7 +1,7 @@
 /*
  * file:     demo3d_exp_c_cruiser.c
  * unit:     yes
- * function: func_021BF9D0, func_021BFA20, func_021BFAE4, DEMO3D_EXP_C_CRUISER_DeleteActorGfx
+ * function: DEMO3D_EXP_C_CRUISER_LoadTextures, DEMO3D_EXP_C_CRUISER_Create, DEMO3D_EXP_C_CRUISER_Update, DEMO3D_EXP_C_CRUISER_DeleteActorGfx
  * address:  0x021BF9D0
  * region:   ov203
  * compiler: dsi/1.1p1
@@ -33,9 +33,6 @@
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb
  *   func_020307B0 0x020307B0 arm
  */
-#include "../../matched/include/Obj04607.h"
-#include "../../matched/include/Obj14600.h"
-#include "../../matched/include/Obj14601.h"
 
 struct Obj;
 typedef unsigned short u16;
@@ -44,9 +41,36 @@ typedef unsigned int   u32;
 
 struct Vec2 { short x, y; };
 
-typedef struct { int f0, f4, f8, fC; } Out;
+typedef struct Demo3dCruiserActorGfx { int id; int resource; int palette; int frame; } Demo3dCruiserActorGfx;
 
-typedef struct { int f0; unsigned f4; int f8, fC, f10, f14, f18; unsigned char b1c, b1d, b1e; } In;
+typedef struct Demo3dCruiserActorConfig {
+    int mode;
+    unsigned flags;
+    int modelId;
+    int size;
+    int scaleX;
+    int scaleY;
+    int scaleZ;
+    unsigned char alpha;
+    unsigned char flip;
+    unsigned char visible;
+} Demo3dCruiserActorConfig;
+
+typedef struct Demo3dCruiserWork {
+    unsigned short heapId;
+    unsigned char pad2[2];
+    void *view;
+    void *model;
+    unsigned char padC[4];
+    void *gfx;
+} Demo3dCruiserWork;
+
+typedef struct Demo3dCruiserGfx {
+    unsigned char step;
+    unsigned char pad1[3];
+    Demo3dCruiserActorGfx actorGfx;
+    struct Obj *actor;
+} Demo3dCruiserGfx;
 
 typedef unsigned char u8;
 
@@ -58,8 +82,8 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern int func_021BE620(char *p);
 extern int func_021BDF30(char *p);
-extern void UI_SCENE_LoadActorGfx(Out *, In *, int, unsigned short);
-extern int UI_SCENE_CreateActor(Out *, int, unsigned char, unsigned char, unsigned char, unsigned short);
+extern void UI_SCENE_LoadActorGfx(Demo3dCruiserActorGfx *, Demo3dCruiserActorConfig *, int, unsigned short);
+extern int UI_SCENE_CreateActor(Demo3dCruiserActorGfx *, int, unsigned char, unsigned char, unsigned char, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -67,15 +91,15 @@ extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
 extern void UI_SCENE_FreeActorGfx(void *);
 extern u32 func_020307B0(void *p);
-void func_021BF9D0(unsigned short heap);
-void func_021BFA20(char *p);
-void func_021BFAE4(char *p);
-void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(char *arg0);
+void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap);
+void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p);
+void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p);
+void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *arg0);
 extern const char d_021C3D5C[];
 extern const struct Vec2 d_021C3BD0[];
 
 
-void func_021BF9D0(unsigned short heap)
+void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
 {
     void *h = func_020490F4(85, heap);
     func_02049B68(h, 3, 4, 0, 0, heap);
@@ -88,45 +112,45 @@ void func_021BF9D0(unsigned short heap)
 /*
  * note: 2026-10-05 wave P13 lane B1: closed from the 6 B DIFF draft (movs r7,#0 sat after movs r1,#0x14 instead of before str r1,[sp,#0x1c]). The store `config.f4 = 0;` moves to between f10 and f14; the other constant stores keep the listing order. 4 compiles. Callee shapes follow the matched ov203 siblings (021BF9D0, 021BDF30, 021BE620, 021BFAE4). The d_021C3BD2 pool word is the .y field of d_021C3BD0 (struct Vec2 array), folded by the compiler. The volatile read at 021BFA50 rereads the byte just stored at 021BFA4E, the same form as matched sibling 021BFAE4 (volatile: 021BFB12). No constant locals. EXACT in c99 and c.
  */
-void func_021BFA20(char *p)
+void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
 {
-    unsigned char *a;
+    Demo3dCruiserGfx *a;
     int resource;
-    In config;
-    a = func_02030734(*(unsigned short *)p, 24, 1, d_021C3D5C, 0xB3);
-    *(unsigned char **)(p + 0x10) = a;
-    func_021BF9D0(*(unsigned short *)p);
-    *a = (func_021BE620(*(void **)(p + 8)) >> 12) / 100;
-    if (*(volatile unsigned char *)a >= 54) *a = 53;
-    resource = func_021BDF30(*(void **)(p + 4));
-    config.f0 = 1;
-    config.f8 = 85;
-    config.fC = 4;
-    config.f10 = 10;
-    config.f4 = 0;
-    config.f14 = 13;
-    config.f18 = 20;
-    config.b1c = 0;
-    config.b1d = 0;
-    config.b1e = 1;
-    UI_SCENE_LoadActorGfx((Out *)(a + 4), &config, resource, *(unsigned short *)p);
-    *(int *)(a + 0x14) = UI_SCENE_CreateActor((Out *)(a + 4), resource, d_021C3BD0[*a].x, d_021C3BD0[*a].y, 0, *(unsigned short *)p);
-    CLACT_SetActorDrawEnable(*(struct Obj **)(a + 0x14), 1);
-    CLACT_SetActorAutoAnim(*(struct Obj **)(a + 0x14), 1);
+    Demo3dCruiserActorConfig config;
+    a = (Demo3dCruiserGfx *)func_02030734(p->heapId, 24, 1, d_021C3D5C, 0xB3);
+    p->gfx = a;
+    DEMO3D_EXP_C_CRUISER_LoadTextures(p->heapId);
+    a->step = (func_021BE620(p->model) >> 12) / 100;
+    if (*(volatile unsigned char *)&a->step >= 54) a->step = 53;
+    resource = func_021BDF30(p->view);
+    config.mode = 1;
+    config.modelId = 85;
+    config.size = 4;
+    config.scaleX = 10;
+    config.flags = 0;
+    config.scaleY = 13;
+    config.scaleZ = 20;
+    config.alpha = 0;
+    config.flip = 0;
+    config.visible = 1;
+    UI_SCENE_LoadActorGfx(&a->actorGfx, &config, resource, p->heapId);
+    a->actor = (struct Obj *)UI_SCENE_CreateActor(&a->actorGfx, resource, d_021C3BD0[a->step].x, d_021C3BD0[a->step].y, 0, p->heapId);
+    CLACT_SetActorDrawEnable(a->actor, 1);
+    CLACT_SetActorAutoAnim(a->actor, 1);
     func_02040588(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
 
-void func_021BFAE4(char *p)
+void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
 {
-    unsigned char *a = *(unsigned char * *)&((struct Obj14600 *)p)->f10;
-    int progress = func_021BE620(((struct Obj14600 *)p)->f8) >> 12;
-    if (*a < 54 && *a * 100 <= progress) {
-        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj04607 *)a)->f14, d_021C3BD0 + *a, 1);
-        ++*a;
-        if (*(volatile unsigned char *)&((struct Obj04607 *)a)->f0 == 54)
-            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj04607 *)a)->f14, 0);
+    Demo3dCruiserGfx *a = p->gfx;
+    int progress = func_021BE620(p->model) >> 12;
+    if (a->step < 54 && a->step * 100 <= progress) {
+        CLACT_AddActorSurfacePos(a->actor, d_021C3BD0 + a->step, 1);
+        ++a->step;
+        if (*(volatile unsigned char *)&a->step == 54)
+            CLACT_SetActorDrawEnable(a->actor, 0);
     }
 }
 
@@ -136,10 +160,8 @@ void func_021BFAE4(char *p)
 #pragma thumb on
 
 
-void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(char *arg0)
+void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *arg0)
 {
-    char *ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
-    UI_SCENE_FreeActorGfx(ptr + 4);
-    ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
-    func_020307B0(ptr);
+    UI_SCENE_FreeActorGfx(&((Demo3dCruiserGfx *)arg0->gfx)->actorGfx);
+    func_020307B0(arg0->gfx);
 }

@@ -15,7 +15,7 @@
  *   DWCi_GetFriendListIndex  0x02169038  arm  ov009
  *   func_021861A8  0x021861A8  arm  ov009
  *   func_02186220  0x02186220  arm  ov009
- *   func_02185FD4  0x02185FD4  arm  ov009
+ *   gpGetBuddyStatus  0x02185FD4  arm  ov009
  *   g_021AA860  0x021AA860  data
  */
 
@@ -49,7 +49,7 @@ extern int DWCi_GetFriendListIndex(int profileID);
 extern int func_021861A8(void **connection, int profile);
 extern int func_02186220(void **connection, int profile);
 struct GPBuddyStatus;
-extern int func_02185FD4(void **connection, int index, struct GPBuddyStatus *status);
+extern int gpGetBuddyStatus(void **connection, int index, struct GPBuddyStatus *status);
 
 void DWCi_GPRecvBuddyStatusCallback(void **connection, RecvArg *arg)
 {
@@ -64,6 +64,6 @@ void DWCi_GPRecvBuddyStatusCallback(void **connection, RecvArg *arg)
 	}
 	if (((FriendCtl *)g_021AA860.ctl)->statusCallback == 0)
 		return;
-	func_02185FD4(connection, arg->index, (struct GPBuddyStatus *)(&status));
+	gpGetBuddyStatus(connection, arg->index, (struct GPBuddyStatus *)(&status));
 	((FriendCtl *)g_021AA860.ctl)->statusCallback(friendIdx, status.status, status.locationString, ((FriendCtl *)g_021AA860.ctl)->statusParam);
 }

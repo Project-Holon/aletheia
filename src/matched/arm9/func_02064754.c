@@ -12,10 +12,10 @@
  * symbols:
  *   NNS_G2dGetMCBankNumCellAnimRequired  0x02064648  arm
  *   NNS_G2dGetMCBankNumNodesRequired  0x020648E0  arm
- *   func_020627D8  0x020627D8  arm
+ *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
  *   NNS_G2dInitCellAnimation  0x0206428C  arm
  *   NNSi_G2dInitMCNode  0x02064178  arm
- *   func_02062F38  0x02062F38  arm
+ *   NNS_G2dInitAnimCtrl  0x02062F38  arm
  *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *
  * Build a multi-cell animation's cell array (docs/families/cluster_020640DC.h,
@@ -48,10 +48,10 @@ struct AnimSequence;
 struct MultiCellBank;
 extern u16 NNS_G2dGetMCBankNumCellAnimRequired(struct MultiCellBank *bank);
 extern u16 NNS_G2dGetMCBankNumNodesRequired(struct MultiCellBank *bank);
-extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
+extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
 extern void NNS_G2dInitCellAnimation(char *self, int a1, char *c);
 extern void NNSi_G2dInitMCNode(char *o, u32 a);
-extern int func_02062F38(int a0);
+extern int NNS_G2dInitAnimCtrl(int a0);
 struct O02064140;
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 void NNS_G2dInitMCAnimation(char *o, char *buf, void *set, int a3, void *bank, int kind)
@@ -69,7 +69,7 @@ void NNS_G2dInitMCAnimation(char *o, char *buf, void *set, int a3, void *bank, i
     for (i = 0; i < n; i++)
     {
       char *cell = cells + i * 0x5c;
-      NNS_G2dInitCellAnimation(cell, (int)func_020627D8(set, 0), (char *)a3);
+      NNS_G2dInitCellAnimation(cell, (int)NNS_G2dGetAnimSequenceByIdx(set, 0), (char *)a3);
       *((int *) (cell + 0x58)) = 1;
     }
   }
@@ -91,14 +91,14 @@ void NNS_G2dInitMCAnimation(char *o, char *buf, void *set, int a3, void *bank, i
       NNSi_G2dInitMCNode(hdr, 1);
       cell = base + i * 0x58;
       *((char **) hdr) = cell;
-      NNS_G2dInitCellAnimation(cell, (int)func_020627D8(set, 0), (char *)a3);
+      NNS_G2dInitCellAnimation(cell, (int)NNS_G2dGetAnimSequenceByIdx(set, 0), (char *)a3);
     }
-    func_02062F38((int)o);
+    NNS_G2dInitAnimCtrl((int)o);
     *((void **) (o + 0x44)) = bank;
     NNSi_G2dSrtcInitControl((struct O02064140 *)(o + 0x48), 1);
     *((u16 *) (o + 0x30)) = 0;
   }
-  func_02062F38((int)o);
+  NNS_G2dInitAnimCtrl((int)o);
   *((void **) (o + 0x44)) = bank;
   NNSi_G2dSrtcInitControl((struct O02064140 *)(o + 0x48), 1);
   *((u16 *) (o + 0x30)) = 0;

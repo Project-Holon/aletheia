@@ -12,16 +12,17 @@
  * Saves the word at +4, calls the helper and returns it.
  *
  * symbols:
+ *   gsifree  0x0217EAE0  arm
 
  */
 
-extern void func_0217EAE0(void *p);
+extern void gsifree(void *p);
 
 int gsiGetResolvedIP(int *p)
 {
     int v = p[1];
 
-    func_0217EAE0(p);
+    gsifree(p);
 
     return v;
 }

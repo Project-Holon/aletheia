@@ -12,8 +12,8 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -36,8 +36,8 @@ extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
@@ -52,8 +52,8 @@ void func_021DA578(void *p,int a,void *b,u32 c)
     void *bank=func_02045B38(0,2,25,50);
     void *msg=func_02045EC0(bank,a);
     void *out=STRBUF_Create(88,50);
-    func_0201EFA4(ws,0,c,2,2,1);
-    func_0201F250(ws,out,msg);
+    WORDSET_SetSlotNumber(ws,0,c,2,2,1);
+    WORDSET_CopyTaggedText(ws,out,msg);
     BMP_Clear(BMP_WIN_GetBmp(p),15);
     PRINTSYS_Print(BMP_WIN_GetBmp(p),0,0,out,b);
     STRBUF_Delete(out);

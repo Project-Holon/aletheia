@@ -13,13 +13,13 @@
  * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   sub_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02030EAC 0x02030EAC arm
  *   func_02030DA8  0x02030DA8  arm
  *   TCBL_GetTaskUserData   0x02030EE8  arm
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   FX_Div  0x0207C768  arm
  *   func_02030734  0x02030734  arm
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
@@ -34,7 +34,7 @@
  *   MCSS_Draw  0x02014D2C  thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
- *   func_02019C90 0x02019C90 thumb
+ *   POKE_TOOL_GetPersonalParam 0x02019C90 thumb
  *   func_0202D034 0x0202D034 thumb
  *   MCSS_Add 0x020159C8 thumb
  *   MCSS_SetShadowAlpha 0x02015FD4 thumb
@@ -224,7 +224,7 @@ extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct TcblTask *task);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 priority);
 extern void *TCBL_GetTaskUserData(struct TcblTask *task);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern u32 FX_Div(u32 a, u32 b);
 extern void GFL_USE_StopSeSlot(int slot);
 extern void GFL_USE_PlaySeInSlot(u32 seNo, int slot);
@@ -300,7 +300,7 @@ extern int POKEGRA_GetArcID(void);
 /* Pokemon data, voices, battle */
 extern u32 POKE_TOOL_GetPartyValue(void *pp, u32 id, u32 arg);
 extern u32 func_02017EAC(void *pp);
-extern u32 func_02019C90(u16 species, u16 form, u32 paramId);
+extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 extern int func_0202D034(u32 hp, u32 maxHp);
 extern int BTL_MAIN_GetVoiceOfSlot(void *main, int pos, u32 *out);
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 voiceId, u32 chorus, u32 chorusParamA, u32 chorusParamB, u32 chorusParamC, u32 *voiceOut);
@@ -520,7 +520,7 @@ void BTLV_MCSS_Update(BtlvMcssWork *w)
         for (pos = 0; pos < BTLV_MCSS_POKE_POS_COUNT; pos++) {
             /* 1 in 100 frames: start an eye blink */
             if (BTLV_MCSS_IsSpriteLoaded(w, pos)
-                && (u32)(((u64)func_0203F0A8() * 100) >> 32) == 0
+                && (u32)(((u64)GF_STANDARD_Rand() * 100) >> 32) == 0
                 && (BTLV_EFFECT_GetBitMask(pos) & w->blinkTaskMask) == 0
                 && BTLV_MCSS_IsAnimStopped(w, pos) == 0)
                 BTLV_MCSS_StartBlinkTask(w, pos, 2, 4, 1);
@@ -651,7 +651,7 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos)
         BTLV_MCSS_SetSpriteWorkFlagForRule(w, pos, 1);
         w->sprites[i].identity.species = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_SPECIES, 0);
         w->sprites[i].identity.form = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_FORM, 0);
-        w->sprites[i].identity.personalParam26 = func_02019C90(w->sprites[i].identity.species, w->sprites[i].identity.form, 0x26);
+        w->sprites[i].identity.personalParam26 = POKE_TOOL_GetPersonalParam(w->sprites[i].identity.species, w->sprites[i].identity.form, 0x26);
         hp = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0);
         maxHp = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0);
         w->sprites[i].identity.hpState = func_0202D034(hp, maxHp);
@@ -1266,7 +1266,7 @@ void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *w, int pos, void *pp)
         return;
     w->sprites[idx].identity.species = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_SPECIES, 0);
     w->sprites[idx].identity.form = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_FORM, 0);
-    w->sprites[idx].identity.personalParam26 = func_02019C90(w->sprites[idx].identity.species, w->sprites[idx].identity.form, 0x26);
+    w->sprites[idx].identity.personalParam26 = POKE_TOOL_GetPersonalParam(w->sprites[idx].identity.species, w->sprites[idx].identity.form, 0x26);
     w->sprites[idx].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
     w->sprites[idx].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
     if (func_02017EAC(pp) == 1)
@@ -1308,7 +1308,7 @@ int BTLV_MCSS_HasPersonalParam10(BtlvMcssWork *w, int pos)
         return 0;
     if (w->sprites[idx].mcss == 0)
         return 0;
-    if (func_02019C90(w->sprites[idx].identity.species, w->sprites[idx].identity.form, 0x10))
+    if (POKE_TOOL_GetPersonalParam(w->sprites[idx].identity.species, w->sprites[idx].identity.form, 0x10))
         return 1;
     return 0;
 }
@@ -2221,7 +2221,7 @@ void BTLV_MCSS_AnimWatchTaskMain(void *task, void *arg)
         MCSS_GetAnimCtrl(*(struct McssSprite **)(e + off))->active = 0;
         MCSS_SetCellCallback(*(struct McssSprite **)(e + off), i | 0x80000000, BTLV_MCSS_CellCallbackCheckStopCell);
         q->state++;
-        q->wait = gBtlvMcssIdleWaitFrames[(u32)(((u64)func_0203F0A8() * 3) >> 32)];
+        q->wait = gBtlvMcssIdleWaitFrames[(u32)(((u64)GF_STANDARD_Rand() * 3) >> 32)];
         return;
     case 1:
         q->wait--;
@@ -2347,7 +2347,7 @@ void BTLV_MCSS_IdleAnimCallback(int pos)
     }
     n = w->sprites[pos].flags.idleCounter;
     w->sprites[pos].flags.idleCounter = n - 1;
-    draw = func_0203F0A8();
+    draw = GF_STANDARD_Rand();
     if ((u32)(((u64)draw * n) >> 32) != 0) return;
     w->sprites[pos].flags.idleCounter = 3;
     watch = func_02030734((u16)((w->heapId & 0x7fff) | 0x8000), 12, 1, gBtlvMcssSourceFileName, 0xd5e);

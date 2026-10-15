@@ -16,11 +16,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   SHINKA_DEMO_GRAPHIC_SetupMainBg 0x02205AC0 thumb ov195
  *   SHINKA_DEMO_GRAPHIC_InitClact 0x02205B6C thumb ov195
  *   SHINKA_DEMO_GRAPHIC_Init3d 0x02205BDC thumb ov195
@@ -39,11 +39,11 @@ extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32);
+extern void BMP_SetDisplaySwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b);
 extern void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
 extern void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, void *b);
@@ -61,11 +61,11 @@ char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b)
     *(volatile u32 *)0x04001000 &= 0xffff1fff;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_02208CEC);
-    func_0204363C(a);
+    BMP_SetDisplaySwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     SHINKA_DEMO_GRAPHIC_SetupMainBg(p, (void *)b);
     SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, b);
     SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), (void *)b);

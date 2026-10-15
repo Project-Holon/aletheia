@@ -1,5 +1,5 @@
 /*
- * function: func_02025BD0
+ * function: BMP_OAM_GetRecordParam
  * address: 0x02025BD0
  * packet: pkt_02025BD0
  * region: arm9
@@ -12,7 +12,7 @@
  */
 typedef unsigned int u32;
 extern const unsigned char d_0209FA35[];
-u32 func_02025BD0(u32 i)
+u32 BMP_OAM_GetRecordParam(u32 i)
 {
     if (i < 19)
         return d_0209FA35[i * 12];

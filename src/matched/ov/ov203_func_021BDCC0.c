@@ -1,5 +1,5 @@
 /*
- * function: func_021BDCC0
+ * function: DEMO3D_CreateContext
  * address: 0x021BDCC0
  * packet: pkt_ov203_021BDCC0
  * region: ov203
@@ -18,7 +18,7 @@ struct Context { unsigned short heap, pad; void *a, *b; const Methods *methods; 
 extern const char d_021C3CC0[];
 extern const Methods d_021C3BC4;
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-Context *func_021BDCC0(int mode, void *a, void *b, unsigned heap)
+Context *DEMO3D_CreateContext(int mode, void *a, void *b, unsigned heap)
 {
     Context *ctx;
     ctx = func_02030734(heap, 24, 1, d_021C3CC0, 0x1e1);

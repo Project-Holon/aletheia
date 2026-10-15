@@ -9,19 +9,19 @@
  * status: EXACT
  * symbols:
  *   POKETRADE_2D_GetScrollColumn 0x021E4DBC thumb ov119
- *   d_021E7FE0 0x021E7FE0 data ov119 a4
+ *   gScrollSnapPos 0x021E7FE0 data ov119 a4
  */
 #include "../include/Obj03257.h"
 extern int POKETRADE_2D_GetScrollColumn(char *);
-extern const int d_021E7FE0[];
+extern const int gScrollSnapPos[];
 void POKETRADE_PROC_ClampScrollColumn(char *p, int flag)
 {
     int n;
     if (flag) {
         n = POKETRADE_2D_GetScrollColumn(p) + 2;
         if (n >= ((struct Obj03257 *)p)->f634) n -= ((struct Obj03257 *)p)->f634;
-        if (((struct Obj03257 *)p)->f107C == d_021E7FE0[0]) n = 2;
-        else if (((struct Obj03257 *)p)->f107C == d_021E7FE0[((struct Obj03257 *)p)->f630]) {
+        if (((struct Obj03257 *)p)->f107C == gScrollSnapPos[0]) n = 2;
+        else if (((struct Obj03257 *)p)->f107C == gScrollSnapPos[((struct Obj03257 *)p)->f630]) {
             n = 0;
             if (((struct Obj03257 *)p)->fF78 >= 3) ((struct Obj03257 *)p)->fF78 = 2;
         }

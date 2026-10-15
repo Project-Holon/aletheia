@@ -1,5 +1,5 @@
 /*
- * function: func_0203F4FC
+ * function: GF_STANDARD_GetTime
  * address:  0x0203F4FC
  * packet:   pkt_0203F4FC
  * region:   arm9
@@ -22,13 +22,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203F4FC.c \
- *       --func func_0203F4FC --addr 0x0203F4FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetTime.c \
+ *       --func GF_STANDARD_GetTime --addr 0x0203F4FC --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
-u32 func_0203F4FC(void)
+u32 GF_STANDARD_GetTime(void)
 {
     u32 *p = (u32 *)(0x2146A1C);
 

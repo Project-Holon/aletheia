@@ -1,5 +1,5 @@
 /*
- * function: func_02068670
+ * function: NNSi_G2dCharCanvasDrawText
  * address:  0x02068670
  * packet:   pkt_020682DC
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02068430  0x02068430  arm
+ *   NNSi_G2dBlitCharData  0x02068430  arm
  *
  * NitroSystem g2d_CharCanvas.c DrawGlyphLine(pCC, pFont, x, y, cl, pGlyph):
  * the BG / OBJ-2D-rect glyph draw.  Clip the glyph to the canvas in whole
  * 8x8 characters, then walk the covered characters row by row on the
  * canvas's linear character grid (pCC->param = characters per row),
- * handing each to LetterChar (func_02068430) with an LC_INFO on the stack.
+ * handing each to LetterChar (NNSi_G2dBlitCharData) with an LC_INFO on the stack.
  * pCC is NNSG2dCharCanvas { charBase, areaWidth, areaHeight, u8 dstBpp,
  * param, vtable } (the "Surface" of docs/families/cluster_020682DC.h);
  * cell width / height / bpp come from pFont->pRes->pGlyph (FGLP).
@@ -99,7 +99,7 @@ typedef struct NNSG2dCharCanvas {
     const void *vtable;
 } NNSG2dCharCanvas;
 
-extern void func_02068430(LC_INFO *i);      /* LetterChar */
+extern void NNSi_G2dBlitCharData(LC_INFO *i);      /* LetterChar */
 
 static inline int GetCharacterSize(const NNSG2dCharCanvas *pCC)
 {
@@ -120,7 +120,7 @@ static inline u8 NNS_G2dFontGetBpp(const NNSG2dFont *pFont)
 {
     return pFont->pRes->pGlyph->bpp;
 }
-void func_02068670(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
+void NNSi_G2dCharCanvasDrawText(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
 {
     int ofs_x_base;
     int ofs_x;
@@ -204,7 +204,7 @@ void func_02068670(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x
             for (ofs_x = ofs_x_base; ofs_x > ofs_x_end; ofs_x -= 8) {
                 i.dst = pChar;
                 i.ofs_x = ofs_x;
-                func_02068430(&i);
+                NNSi_G2dBlitCharData(&i);
                 pChar += charSize;
             }
             pChar += nextLineOffset;

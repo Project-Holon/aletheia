@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FAF1C",
+   "name": "STA_ACT_SCRIPT_SkipArg",
    "address": "0x021FAF1C",
    "kind": "game",
    "region": "ov132",

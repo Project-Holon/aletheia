@@ -12,12 +12,12 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   PDC_GetMon  0x021B6140  thumb  ov098
- *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PDC_MSG_StartPrint  0x021B6B8C  thumb  ov098
  *   STRBUF_Delete  0x02045808  arm
  *   PDC_GetMyStatus  0x021B6148  thumb  ov098
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  */
 #include "../include/Obj07932.h"
 #include "../include/Obj07933.h"
@@ -37,9 +37,9 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern int PDC_GetMon(void *p);
 extern u32 PDC_GetMyStatus(u8 *p);
 struct WordSet;
-extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PDC_MSG_StartPrint(char *a, int b);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -48,8 +48,8 @@ void PDC_MSG_PrintMessage0(int a, int b) {
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07932 *)a)->f20), 0);
     t = PDC_GetMon((void *)b);
-    func_0201EEF4(((struct Obj07932 *)a)->f30, 0, (void *)t);
-    func_0201F250((struct WordSet *)(*(int *)&((struct Obj07932 *)a)->f30), (void *)(((struct Obj07932 *)a)->f2C), (void *)r);
+    WORDSET_SetSlotMonSpecies(((struct Obj07932 *)a)->f30, 0, (void *)t);
+    WORDSET_CopyTaggedText((struct WordSet *)(*(int *)&((struct Obj07932 *)a)->f30), (void *)(((struct Obj07932 *)a)->f2C), (void *)r);
     PDC_MSG_StartPrint((char *)a, 0x50);
     STRBUF_Delete((struct U16Vec *)r);
 }
@@ -59,8 +59,8 @@ void PDC_MSG_PrintMessage3(int a, int b) {
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07933 *)a)->f20), 3);
     t = PDC_GetMyStatus((u8 *)b);
-    func_0201F02C((struct WordSet *)(((struct Obj07933 *)a)->f30), 0, (void *)t);
-    func_0201F250((struct WordSet *)(((struct Obj07933 *)a)->f30), (void *)(((struct Obj07933 *)a)->f2C), (void *)r);
+    WORDSET_SetSlotMyStatus((struct WordSet *)(((struct Obj07933 *)a)->f30), 0, (void *)t);
+    WORDSET_CopyTaggedText((struct WordSet *)(((struct Obj07933 *)a)->f30), (void *)(((struct Obj07933 *)a)->f2C), (void *)r);
     PDC_MSG_StartPrint((char *)a, 0);
     STRBUF_Delete((struct U16Vec *)r);
 }
@@ -70,8 +70,8 @@ void PDC_MSG_PrintMessage1(int a, int b) {
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07934 *)a)->f20), 1);
     t = PDC_GetMon((void *)b);
-    func_0201EEF4(((struct Obj07934 *)a)->f30, 0, (void *)t);
-    func_0201F250((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);
+    WORDSET_SetSlotMonSpecies(((struct Obj07934 *)a)->f30, 0, (void *)t);
+    WORDSET_CopyTaggedText((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);
     PDC_MSG_StartPrint((char *)a, 0x50);
     STRBUF_Delete((struct U16Vec *)r);
 }
@@ -81,8 +81,8 @@ void IRC_COMPATIBLE_ProcExit(int a, int b) {
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07934 *)a)->f20), 2);
     t = PDC_GetMon((void *)b);
-    func_0201EEF4(((struct Obj07934 *)a)->f30, 0, (void *)t);
-    func_0201F250((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);
+    WORDSET_SetSlotMonSpecies(((struct Obj07934 *)a)->f30, 0, (void *)t);
+    WORDSET_CopyTaggedText((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);
     PDC_MSG_StartPrint((char *)a, 0x50);
     STRBUF_Delete((struct U16Vec *)r);
 }

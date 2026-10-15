@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB0DC",
+   "name": "SCRIPT_COMMAND_TaskCameraPos",
    "address": "0x021FB0DC",
    "kind": "game",
    "region": "ov132",

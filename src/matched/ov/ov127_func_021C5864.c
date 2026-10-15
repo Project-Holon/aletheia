@@ -11,7 +11,7 @@
  *
  * symbols:
  *   WF2DMAP_OBJDRAW_SetFrame  0x021C5944  thumb
- *   func_021C42C4  0x021C42C4  thumb
+ *   WIFI_2DCHAR_StepActorAnim  0x021C42C4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void WF2DMAP_OBJDRAW_SetFrame(u8 *p, int n, int a);
-extern void func_021C42C4(u8 *p);
+extern void WIFI_2DCHAR_StepActorAnim(u8 *p);
 
 void WF2DMAP_OBJDRAW_SetFrameZero(u8 *p, int b)
 {
     WF2DMAP_OBJDRAW_SetFrame(p, 0, b);
-    func_021C42C4(((struct Obj00328 *)p)->f4);
+    WIFI_2DCHAR_StepActorAnim(((struct Obj00328 *)p)->f4);
 }

@@ -15,7 +15,7 @@
  *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
  *   UNION_APP_Close  0x02184114  thumb  ov022
  *   OEKAKI_SetQuitButtonPressed  0x021852F4  thumb  ov023
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   OEKAKI_OpenGroup  0x02184560  thumb  ov023
  *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 extern void OEKAKI_SetNextScene(char *p, u32 v);
 extern int UNION_APP_Close(unsigned char *p);
 extern void OEKAKI_SetQuitButtonPressed(void *p, int flag);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void OEKAKI_OpenGroup(char *p, int a);
 extern void OEKAKI_ApplyRemoteStrokes(char *p);
@@ -52,7 +52,7 @@ int OEKAKI_StepFinishMenuResult(char *p, int x)
     case 1:
         OEKAKI_SetNextScene(p, 4);
         OEKAKI_SetQuitButtonPressed((void *)(((struct Obj05108 *)p)->f100), 0);
-        func_0201F7A8((void *)(((struct Obj05108 *)p)->f11C), 2);
+        BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj05108 *)p)->f11C), 2);
         if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             OEKAKI_OpenGroup(p, 1);
             ((struct Obj05108 *)p)->f9E6C = 1;

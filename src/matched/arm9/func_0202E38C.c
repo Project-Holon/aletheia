@@ -15,7 +15,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   sub_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Verified with:
@@ -44,7 +44,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void sub_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
@@ -58,7 +58,7 @@ void PMS_DRAW_ClearElem(struct Obj0202E38C *obj, u32 a1)
         BMP_WIN_TransferChars((struct Descriptor *)obj->f00);
         h = obj->f00;
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        sub_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     }
     for (i = 0; i < 2; i++) {
         CLACT_SetActorDrawEnable((struct Obj *)obj->f08[i], 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4608
+ * function: NAMEIN_GRAPHIC_ClearCallback
  * address: 0x021F4608
  * packet: pkt_ov194_021F4608
  * region: ov194
@@ -12,4 +12,4 @@
  *   MI_CpuFill8 0x02082BCC arm
  */
 extern void MI_CpuFill8(void *,int,int);
-void func_021F4608(void *p){MI_CpuFill8(p,0,16);}
+void NAMEIN_GRAPHIC_ClearCallback(void *p){MI_CpuFill8(p,0,16);}

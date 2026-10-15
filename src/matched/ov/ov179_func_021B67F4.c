@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204047C  0x0204047C  arm
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  */
 #include "../include/Obj14396.h"
 
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
 int CDEMO_SCENE_CmdSetBg(int a, int *q)
 {
-    func_0204047C((unsigned char)((struct Obj14396 *)q)->f4,
+    BG_SYS_SetVisibleLayer((unsigned char)((struct Obj14396 *)q)->f4,
                   (unsigned char)((struct Obj14396 *)q)->f8);
     return 1;
 }

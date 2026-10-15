@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Bottom-up unblocker for the last unresolved site of
- * src/pending/func_021BD3AC.c.  Thumb tail-call veneer into the ARM9
+ * src/pending/ZKNSEARCH_MAIN_UpdateSearchEngine.c.  Thumb tail-call veneer into the ARM9
  * func_020307B0 (the image is `ldr r3,[pc,#0]; bx r3; .word 0x020307B0`);
  * disasm emits it as an unlabelled `.word` run, so no listing class attests
  * it.  Addresses are Black-image addresses.

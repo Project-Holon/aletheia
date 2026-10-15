@@ -1,5 +1,5 @@
 /*
- * function: func_021C43E8
+ * function: VIEWER_MAIN_InitBg
  * address:  0x021C43E8
  * packet:   pkt_ov111_021C43E8
  * region:   ov111
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_02040588  0x02040588  arm
  *   d_021C85C8     0x021C85C8  data  a4
  *   d_021C85E8     0x021C85E8  data  a4
@@ -39,9 +39,9 @@ struct BgTemplatePair {
     struct BgTemplate t[2];
 };
 
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u32 bgId);
+extern void BG_SYS_FreeSlot(u32 bgId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern const struct DispConfig d_021C85C8;
@@ -51,44 +51,44 @@ extern const struct BgTemplate d_021C8628;
 extern const struct BgTemplate d_021C8648;
 extern const struct BgTemplatePair d_021C8668;
 
-void func_021C43E8(void)
+void VIEWER_MAIN_InitBg(void)
 {
     *(volatile u16 *)0x04000304 |= 0x8000;
     {
         struct DispConfig disp = d_021C85C8;
-        func_0203FC28(&disp);
+        BG_SYS_SetGraphicsMode(&disp);
     }
     {
         struct BgTemplate t = d_021C85E8;
         BG_SYS_InitBgLayer(7, &t, 2);
-        func_020414AC(7);
+        BG_SYS_FreeSlot(7);
         func_02040588(7, 1);
     }
     {
         struct BgTemplatePair t = d_021C8668;
         BG_SYS_InitBgLayer(4, &t.t[0], 0);
-        func_020414AC(4);
+        BG_SYS_FreeSlot(4);
         func_02040588(4, 1);
         BG_SYS_InitBgLayer(5, &t.t[1], 0);
-        func_020414AC(5);
+        BG_SYS_FreeSlot(5);
         func_02040588(5, 1);
     }
     {
         struct BgTemplate t = d_021C8608;
         BG_SYS_InitBgLayer(6, &t, 2);
-        func_020414AC(6);
+        BG_SYS_FreeSlot(6);
         func_02040588(6, 1);
     }
     {
         struct BgTemplate t = d_021C8628;
         BG_SYS_InitBgLayer(2, &t, 0);
-        func_020414AC(2);
+        BG_SYS_FreeSlot(2);
         func_02040588(2, 0);
     }
     {
         struct BgTemplate t = d_021C8648;
         BG_SYS_InitBgLayer(3, &t, 0);
-        func_020414AC(3);
+        BG_SYS_FreeSlot(3);
         func_02040588(3, 1);
     }
 }

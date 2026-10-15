@@ -1,5 +1,5 @@
 /*
- * function: func_021D5694
+ * function: POKETRADE_DEMO_UP_ReleaseUnit
  * address:  0x021D5694
  * packet:   pkt_ov118_021D5694
  * region:   ov118
@@ -18,7 +18,7 @@
  * Teardown of the three sub-buffers at +0x8a8/+0x88c/+0x8bc (their base
  * 0x8a8 is the single pool word) plus the +0xb0 pointer hung off the +0xc
  * record; every slot clears to zero. Non-SDK deps are the matched ov118
- * func_021D5694 callers' targets; this is the first callee of POKETRADE_DEMO_MIDDLE_StepEndScene.
+ * POKETRADE_DEMO_UP_ReleaseUnit callers' targets; this is the first callee of POKETRADE_DEMO_MIDDLE_StepEndScene.
  *
  * Addresses are Black-image addresses.
  */
@@ -36,7 +36,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-void func_021D5694(void *p)
+void POKETRADE_DEMO_UP_ReleaseUnit(void *p)
 {
     u8 *b = p;
 

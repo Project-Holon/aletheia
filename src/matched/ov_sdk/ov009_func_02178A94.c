@@ -14,8 +14,8 @@
  * symbols:
  *   strlen  0x0209477C  arm
  *   DWC_Http_Add_PostBase64Item  0x02179F3C  arm  ov009
- *   func_02178F78  0x02178F78  arm  ov009
- *   func_02179218  0x02179218  arm  ov009
+ *   DWC_Auth_GetCalInfoFromWiFiInfo  0x02178F78  arm  ov009
+ *   DWC_Auth_SetCalInfoToHttp  0x02179218  arm  ov009
  *   wcslen  0x02096578  arm
  *   gDwcAuthGlobal  0x021AB184  data  ov009
  *   g_021A23E8  0x021A23E8  data  ov009
@@ -45,8 +45,8 @@ struct DWCWiFiInfo;
 extern int strlen(const u8 *s);
 typedef unsigned short u16;
 extern int DWC_Http_Add_PostBase64Item(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_02178F78(struct DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
-extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
+extern int DWC_Auth_GetCalInfoFromWiFiInfo(struct DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
+extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int wcslen(const u16 *s);
 
 extern struct DWCWFCUtil gDwcAuthGlobal;
@@ -77,9 +77,9 @@ int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ing
             return 8;
     }
 
-    if (!func_02178F78(&calinfo, (struct DWCWiFiInfo *)gDwcWiFiInfo))
+    if (!DWC_Auth_GetCalInfoFromWiFiInfo(&calinfo, (struct DWCWiFiInfo *)gDwcWiFiInfo))
         return 5;
-    if (!func_02179218(http, &calinfo, g_021ACE70))
+    if (!DWC_Auth_SetCalInfoToHttp(http, &calinfo, g_021ACE70))
         return 8;
 
     if (gDwcAuthGlobal.f0 == 1)

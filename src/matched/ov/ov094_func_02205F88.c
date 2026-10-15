@@ -15,8 +15,8 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   func_0201EF34  0x0201EF34  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
@@ -62,8 +62,8 @@ extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
@@ -102,8 +102,8 @@ void BTLV_INPUT_CreateBackActor(char *p)
     BMP_Clear(bmp, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(0xe, 0xa, 0);
-    func_0201EF34((struct WordSet *)font, 0, 0xa5);
-    func_0201F250((struct WordSet *)font, str, msg);
+    WORDSET_SetSlotFromMsgCB((struct WordSet *)font, 0, 0xa5);
+    WORDSET_CopyTaggedText((struct WordSet *)font, str, msg);
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)str, (int)(((struct Obj01384 *)p)->f224), &w, &h);
     PRINTSYS_Print(bmp, 0x38 - w / 2, 8, str, ((struct Obj01384 *)p)->f224);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);

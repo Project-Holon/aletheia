@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B9B30",
-    "func_021B9B38"
+    "MANUAL_GRAPHIC_VBlankClactUnit",
+    "MANUAL_GRAPHIC_GetUnitHandle"
+   ],
+   "addresses": [
+    "0x021B9B30",
+    "0x021B9B38"
    ]
   }
  ]

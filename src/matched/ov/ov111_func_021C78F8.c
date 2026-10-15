@@ -1,5 +1,5 @@
 /*
- * function: func_021C78F8
+ * function: VIEWER_ACTOR_DeleteBgWindow
  * address:  0x021C78F8
  * packet:   pkt_ov111_021C78F8
  * region:   ov111
@@ -44,7 +44,7 @@ struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 
-void func_021C78F8(Work *p)
+void VIEWER_ACTOR_DeleteBgWindow(Work *p)
 {
     BMP_WIN_Delete(p->f8);
     BMP_WIN_Exit();

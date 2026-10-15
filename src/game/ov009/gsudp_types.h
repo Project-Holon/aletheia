@@ -54,13 +54,13 @@ typedef struct GT2ConnectionCallbacks {
 
 /* shared callees, named by address */
 extern GSUdpEngineObject *gsUdpEngineContext(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void ArrayFree(void *array);
-extern int func_02184200(void *array);
+extern int ArrayLength(void *array);
 extern void *func_02184208(void *array, int n);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void func_02184234(void *array, void *newElem);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
+extern void ArrayAppend(void *array, void *newElem);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 
 extern char g_021A3B9C[];
 

@@ -1,5 +1,5 @@
 /*
- * function: func_022081A4
+ * function: SHINKA_DEMO_VIEW_StartGridFade
  * address:  0x022081A4
  * packet:   pkt_022081A4
  * region:   ov195
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022082DC 0x022082DC thumb ov195
+ *   SHINKA_DEMO_VIEW_ApplyGridPalette 0x022082DC thumb ov195
  */
 
 typedef unsigned char u8;
@@ -31,9 +31,9 @@ typedef struct Fade {
     s16 count;
 } Fade;
 
-extern void func_022082DC(Fade *p, int x);
+extern void SHINKA_DEMO_VIEW_ApplyGridPalette(Fade *p, int x);
 
-void func_022081A4(Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step)
+void SHINKA_DEMO_VIEW_StartGridFade(Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step)
 {
     s16 v;
 
@@ -76,5 +76,5 @@ void func_022081A4(Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s
 
     p->level = p->cur;
     p->count = p->wait;
-    func_022082DC(p, unused);
+    SHINKA_DEMO_VIEW_ApplyGridPalette(p, unused);
 }

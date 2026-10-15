@@ -21,6 +21,9 @@
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_SetSlotMonth  0x0201F230  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -65,9 +68,9 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Strbuf;
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void func_02008500(void *, void *);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct PrintSys;
 extern void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap);
@@ -108,13 +111,13 @@ void func_021E6BE8(Work *w, const Info *info, void *a3, int a4, void *a5, void *
             d1 = info->date1;
             d2 = info->date2;
             MSGDATA_ReadString(a6, 0x10, s1);
-            func_0201EFA4(a7, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
-            func_0201F230(a7, 1, (u8)(d1 >> 16));
-            func_0201EFA4(a7, 2, (u8)(d1 >> 8), 2, 0, 1);
-            func_0201EFA4(a7, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
-            func_0201F230(a7, 4, (u8)(d2 >> 16));
-            func_0201EFA4(a7, 5, (u8)(d2 >> 8), 2, 0, 1);
-            func_0201F250(a7, s2, s1);
+            WORDSET_SetSlotNumber(a7, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotMonth(a7, 1, (u8)(d1 >> 16));
+            WORDSET_SetSlotNumber(a7, 2, (u8)(d1 >> 8), 2, 0, 1);
+            WORDSET_SetSlotNumber(a7, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotMonth(a7, 4, (u8)(d2 >> 16));
+            WORDSET_SetSlotNumber(a7, 5, (u8)(d2 >> 8), 2, 0, 1);
+            WORDSET_CopyTaggedText(a7, s2, s1);
             color = 0x3c40;
             break;
         case 2:
@@ -126,16 +129,16 @@ void func_021E6BE8(Work *w, const Info *info, void *a3, int a4, void *a5, void *
             break;
         case 4:
             MSGDATA_ReadString(a6, 13, s1);
-            func_0201EFA4(a7, 0, info->hA0, 5, 1, 1);
-            func_0201F250(a7, s2, s1);
+            WORDSET_SetSlotNumber(a7, 0, info->hA0, 5, 1, 1);
+            WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 5:
             MSGDATA_ReadString(a6, 14, s2);
             break;
         case 6:
             MSGDATA_ReadString(a6, 15, s1);
-            func_0201EFA4(a7, 0, info->hA2, 5, 1, 1);
-            func_0201F250(a7, s2, s1);
+            WORDSET_SetSlotNumber(a7, 0, info->hA2, 5, 1, 1);
+            WORDSET_CopyTaggedText(a7, s2, s1);
             break;
         case 7:
             MSGDATA_ReadString(a6, 10, s2);

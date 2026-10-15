@@ -10,7 +10,7 @@
  * symbols:
  *   WORLDTRADE_INPUT_MenuUpdate 0x021F99F0 thumb ov135
  *   WORLDTRADE_SEARCH_SetBlendEffect 0x021FF570 thumb ov135
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -28,7 +28,7 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 extern void WORLDTRADE_SEARCH_SetBlendEffect(u32 v);
-extern void func_0201F7A8(void *, unsigned);
+extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -44,7 +44,7 @@ int WORLDTRADE_SEARCH_StateGenderMenuInput(char *p)
     switch (r) {
     case -2:
         WORLDTRADE_SEARCH_SetBlendEffect(0);
-        func_0201F7A8(((struct Obj02861 *)p)->fD40, 0);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj02861 *)p)->fD40, 0);
         w = ((struct Obj02861 *)p)->fD40;
         BMP_WIN_TransferChars(w);
         BMP_WIN_MakeScreen(w);

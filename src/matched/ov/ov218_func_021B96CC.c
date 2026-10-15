@@ -18,7 +18,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
- *   func_02040B1C 0x02040B1C arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
@@ -30,7 +30,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 void func_021B96CC(u8 *p, u16 heap)
@@ -70,9 +70,9 @@ void func_021B96CC(u8 *p, u16 heap)
             buf[off + 7] = 0xff;
         }
     }
-    func_02040B1C(7, *(void **)(o1 + 0x14), *(u32 *)(o1 + 0x10), 0);
+    BG_SYS_LoadTileData(7, *(void **)(o1 + 0x14), *(u32 *)(o1 + 0x10), 0);
     func_020307B0(w1);
-    func_02040B1C(3, *(void **)(o2 + 0x14), *(u32 *)(o2 + 0x10), 0);
+    BG_SYS_LoadTileData(3, *(void **)(o2 + 0x14), *(u32 *)(o2 + 0x10), 0);
     func_020307B0(w2);
     ARC_TOOL_DeleteHandle(h);
 }

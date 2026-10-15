@@ -31,7 +31,7 @@
  *   PDW_POSTMAN_GetUnreceivableItem  0x021B7740  thumb  ov021
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
- *   func_0201EF5C  0x0201EF5C  thumb
+ *   WORDSET_SetSlotFromMsg118  0x0201EF5C  thumb
  */
 
 typedef unsigned char u8;
@@ -59,7 +59,7 @@ extern void PDW_POSTMAN_ReceiveItems(void *a0, int a1, int a2);
 extern void *PDW_POSTMAN_GetUnreceivableItem(void *p, int key, void *q, int idx);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
-extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg118(struct WordSet *p, u32 i, u32 v);
 
 int SCRCMD_MUSICAL_WifiListCommand(void *c, void *vm)
 {
@@ -103,7 +103,7 @@ int SCRCMD_MUSICAL_WifiListCommand(void *c, void *vm)
         break;
     case 5:
         ws = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(vm));
-        func_0201EF5C(ws, 0, (u32)PDW_POSTMAN_GetUnreceivableItem(x, v, blk, *dst));
+        WORDSET_SetSlotFromMsg118(ws, 0, (u32)PDW_POSTMAN_GetUnreceivableItem(x, v, blk, *dst));
         break;
     case 4:
         *dst = PDW_POSTMAN_CountUnreceivable(x, v, blk);

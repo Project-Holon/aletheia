@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A0
+ * function: SAVE_SCREEN_Init
  * address: 0x021B95A0
  * packet: pkt_ov205_021B95A0
  * region: ov205
@@ -31,7 +31,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
-int func_021B95A0(void *owner,int unused,void **args)
+int SAVE_SCREEN_Init(void *owner,int unused,void **args)
 {
     void *context;
     char *p;

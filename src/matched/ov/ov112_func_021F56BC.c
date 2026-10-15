@@ -1,5 +1,5 @@
 /*
- * function: func_021F56BC
+ * function: MUSICAL_MCSS_DrawMC
  * address:  0x021F56BC
  * packet:   pkt_ov112_021F56BC
  * region:   ov112
@@ -16,9 +16,9 @@
  *   Shape: G3 setup (push, mode 0, store 0, mode 3, identity, mode 2); camera pick by
  *   p->f8 bit 0; outer loop i < p[0] over p[1][i] objects, skip null or (fEC >> 2) & 1;
  *   per object a 16-byte pose rec at sp+0x244 filled by kind 0/1/2 of
- *   obj+0x28 -> [0x1c] -> f4; translation/rotation/scale writes; func_021F65EC;
+ *   obj+0x28 -> [0x1c] -> f4; translation/rotation/scale writes; MUSICAL_MCSS_SetupG3;
  *   polygon attr word built from bitfields at obj+0x90; inner loop j over parts of
- *   p->f6C->f4[rec.id]; second pose rec at sp+0x234; two func_021F5EDC calls;
+ *   p->f6C->f4[rec.id]; second pose rec at sp+0x234; two MUSICAL_MCSS_DrawSprite calls;
  *   innermost k < 8 over bytes ent[0x30+k] != 0xFF with s64 fixed point math and
  *   an indirect call through p->fF8.
  *   Known hard parts: the compiler derives small constants from register-held I/O
@@ -33,7 +33,7 @@
  *   relocations resolved. Prologue already differs (push r3 extra, frame 0x198 vs 0x254):
  *   the original keeps more stack locals (spilled invariants at sp+0x80..0xAC, s64 halves
  *   at sp+0x68..0x74, sub-pose rec at sp+0x234, 0x5C-byte source records).
- *   Siblings: func_021F5EDC (callee, 13 args, see 021F5B6A..021F5BCC for the stack layout).
+ *   Siblings: MUSICAL_MCSS_DrawSprite (callee, 13 args, see 021F5B6A..021F5BCC for the stack layout).
  *
  * note (2026-10-05, wave D4 lane 06): p->f8 bit 0 is now read through a one-bit bitfield
  *   (Bits.b0): the camera pick now gives the original lsls #0x1f; lsrs #0x1f test (1623 -> 1611
@@ -44,7 +44,7 @@
  * note (2026-10-05, wave D5 lane 06): body rewritten from a fresh reading of the listing
  *   (the code after the mid pool needs `show --addr 0x021F5A5C --size 0x480 --thumb`, the
  *   default show desyncs at 021F5A44).  Fixes: r4 is obj for the whole loop, so the j/k loops
- *   read obj+0x6C/0x68/0x20/0x24/0xF8, func_021F5EDC takes obj (not p) and &cb.z (sp+0xB8,
+ *   read obj+0x6C/0x68/0x20/0x24/0xF8, MUSICAL_MCSS_DrawSprite takes obj (not p) and &cb.z (sp+0xB8,
  *   zeroed per object), and the indirect call goes through the second parameter `arg`
  *   (`arg((u8)pt->f4, &cb.pos, obj->fF8)`); a 0x3C-byte callback record at sp+0xB4 (w out
  *   word, z, pos with y negated, x2/y2 scaled by obj->fD4/16 and fD8/16, z, obj+0xD4 vec,
@@ -53,7 +53,7 @@
  *   pose*sub scale, then the table entry (x, z at +2/+4) plus pose.dx/dz by pose.rot scaled by
  *   pose.sx/sy), operand order (s64)vec * scale.  Else-branch: a local 4x4 matrix filled with
  *   constants at sp+0x114, MTX_Copy43To44_(&d_02148B98, &m4), func_0207BE14(&m4, &d_02148B54,
- *   &m4), second func_021F660C uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
+ *   &m4), second MUSICAL_MCSS_CalcMatrix uses that matrix.  Sub-pose kind 0 leaves dz unset.  obj skip
  *   test reads p[1][i] twice and bit 2 of obj->fEC as a bitfield; obj+0x90 and obj+0x68 are
  *   loop-level pointer locals (sp+0x5C, sp+0x50).  Result: compiled 1996 vs 2080 (was 1684),
  *   frame 0x248 vs 0x254, prologue and the obj test now line up modulo slot numbers.
@@ -77,7 +77,7 @@
  *   sp+0x5C and reloads it three times for the attr word (021F59EE, 021F59F0, 021F5A00); r5 is a
  *   short-lived temp there (0x10C offset at 021F59A6). So the original has more long-lived values than
  *   ours; the 8 missing frame bytes are likely two more spilled locals. Also: the callback arg is
- *   ov112 func_021F546C (mode = (u8)pt->f4, in = &cb.pos, p = obj->fF8), see that draft for the
+ *   ov112 MUSICAL_MCSS_SetMatrix (mode = (u8)pt->f4, in = &cb.pos, p = obj->fF8), see that draft for the
  *   0x38-byte slot layout of obj->fF8.
  * note (2026-10-05, wave D8 lane 01): three local shape fixes from the listing at 021F58C4..021F591E.
  *   (1) The pos and (ox, oy, 0) MTX_TRANS writes are a G3_Translate(x, y, z) static inline: the
@@ -95,7 +95,7 @@
  *   `lsls r2,r6,#0xa`), ours does the same from r7. The k-loop past 021F5A5C was not re-checked.
  * note (2026-10-05, wave D9 lane 04): six fixes from a fresh reading of the j/k loops (compiled 2064 vs
  *   2080; on a register-blind instruction diff 94 lines differ, was 210).  (1) obj->f6C has one more
- *   level: the record table is at obj->f6C->f4 (as in matched func_021F5EDC, struct H/E1/E2), both in
+ *   level: the record table is at obj->f6C->f4 (as in matched MUSICAL_MCSS_DrawSprite, struct H/E1/E2), both in
  *   the j-loop test and for the entry reads.  (2) The sub-pose uses the same LoadPose switch: kind 0
  *   also zeroes dz, by cross-jumping into the kind 2 tail (listing 021F5AE6 b 021F5B1A).  The entry
  *   te and the part pt are not locals: j*8 and b*0x14 are spilled CSE values and every read is
@@ -107,7 +107,7 @@
  *   gives the original registers in both rotations; the attr word is written right-nested
  *   a7 | (0xF0000 | (a4 | (a3 | (a5 | a0 | 0x40000000)))) to get the original OR order.
  *   Still open: frame 0x250 + push r3 vs 0x254. The original spills attr (obj+0x90) to sp+0x5C and
- *   keeps &pos in r7 across the two func_021F660C calls; ours keeps attr in r5 and rematerialises
+ *   keeps &pos in r7 across the two MUSICAL_MCSS_CalcMatrix calls; ours keeps attr in r5 and rematerialises
  *   &pos.  Tried without effect: attr declaration position, block scope, a struct type, a PolyAttr
  *   inline, a Persp inline and a `Vec *pp` local for the 660C calls.  A separate `int w` local (not
  *   cb.w) gives the 0x254 frame but puts w at sp+0xB0, not 0xB4, so it is not the answer.  The k-loop
@@ -118,7 +118,7 @@
  *   (1) The 0x040004A8 word is the SDK inline G3_TexImageParam with enum parameter types, as in the
  *   matched sibling arm9 MCSS_Draw (same renderer: same matrix calls, Pose switch, TexInfo record
  *   at obj+0x90 with addr/s/t/fmt/pltt0 at 0/0xC/0x10/0x14/0x1C).  With it, attr spills to sp+0x5C and
- *   &pos stays in r7 across the func_021F660C calls; the frame is 0x254 and the push has no r3.
+ *   &pos stays in r7 across the MUSICAL_MCSS_CalcMatrix calls; the frame is 0x254 and the push has no r3.
  *   (2) attr, srcs and a new ctrl (obj+0x28) are plain assignments in the order attr, ctrl, srcs (the
  *   accessor inlines are gone; they made no difference once attr spills).  (3) Declaration order
  *   ent, attr, i, j, srcs, k gives the original slots.  (4) for (j = 0; ...) without the early
@@ -161,7 +161,7 @@
  *   original reverse).  New tries, each a real compile: FxMul with int (fx32) parameters as in the twin's
  *   FX_MUL, with s64 or int psx/psy (89 B, worse); cos(pr) as an int-typed value ((int) cast at both uses,
  *   or an int-returning CosI() inline; same 5 B); 5EDC prototype and Ent fields as int, as in the matched
- *   func_021F5EDC, and 660C with its matched const int / u32 parameters (same 5 B); `int b` for the part
+ *   MUSICAL_MCSS_DrawSprite, and 660C with its matched const int / u32 parameters (same 5 B); `int b` for the part
  *   byte (same 5 B); s16 (fx16) locals for s2, for c/s, or for all three (508 to 728 B, worse); named c2 in
  *   three placements (430+ B, adds a copy); mixed spellings for the X/Z reads (index for one, byte offset
  *   for the other: 870 B; `(ents + j)->x` for X only: same 5 B).  Diagnostics: `int pr` swaps the pr and
@@ -366,7 +366,7 @@
  *   spill webs, not CSE timing.  Measured with the temp tracer: named locals take spill slots in declaration order,
  *   above all compiler temps.  Three changes together give the original slots (flag 3C, pr 38, j*8 34, cos 30):
  *   (1) `long j` (NitroSDK s32): j*8 becomes a first-run CSE temp at the k preheader, above cos;
- *   (2) the func_021F5EDC prototype takes the flag as `u8` (the matched callee is EXACT with `u8 mode` as well),
+ *   (2) the MUSICAL_MCSS_DrawSprite prototype takes the flag as `u8` (the matched callee is EXACT with `u8 mode` as well),
  *   so the u8 flag is passed without a widening cast and keeps its own named web (no CAST(flag) temp);
  *   (3) C89-style function-scope declarations: the k-loop ints (ang, fx, ... rz) before `u8 flag`, then `int pr`.
  *   With int pr and the u8 flag named, declaration order places ang/fx/X, flag, pr in the original order.
@@ -388,9 +388,9 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   _ll_mul 0x0209C054 arm
- *   func_021F660C 0x021F660C thumb ov112
- *   func_021F65EC 0x021F65EC thumb ov112
- *   func_021F5EDC 0x021F5EDC thumb ov112
+ *   MUSICAL_MCSS_CalcMatrix 0x021F660C thumb ov112
+ *   MUSICAL_MCSS_SetupG3 0x021F65EC thumb ov112
+ *   MUSICAL_MCSS_DrawSprite 0x021F5EDC thumb ov112
  *   d_02148D8C 0x02148D8C data
  *   d_02148D98 0x02148D98 data
  *   d_02148DA4 0x02148DA4 data
@@ -482,9 +482,9 @@ extern void G3_RotZ(int s, int c);
 extern void func_0207AF38(Mtx33 *m, int s, int c);
 extern void MTX_MultVec33(void *v, Mtx33 *m, void *out);
 extern void VEC_Subtract(void *a, void *b, void *c);
-extern void func_021F660C(const int *p, const int *m, u32 *out, u32 *w);
-extern void func_021F65EC(void);
-extern void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, struct S *s, u16 *pa, int a9, int flag, int *pz, u8 mode);
+extern void MUSICAL_MCSS_CalcMatrix(const int *p, const int *m, u32 *out, u32 *w);
+extern void MUSICAL_MCSS_SetupG3(void);
+extern void MUSICAL_MCSS_DrawSprite(char *p, int a1, int a2, int a3, int a4, int a5, int a6, struct S *s, u16 *pa, int a9, int flag, int *pz, u8 mode);
 
 typedef struct { u32 b0 : 1; u32 rest : 31; } Bits;
 typedef struct { u32 b0 : 1; u32 b1 : 1; u32 b2 : 1; u32 rest : 29; } Bits3;
@@ -558,7 +558,7 @@ static inline void G3_Scale(int x, int y, int z)
     REG(0x0400046C) = (u32)y;
     REG(0x0400046C) = (u32)z;
 }
-void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
+void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(u8, Vec *, u32))
 {
     Pose pose;
     Pose sub;
@@ -632,10 +632,10 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             proj.m[15] = (int)0xFFFFF000;
             MTX_Copy43To44_(&d_02148B98, &m4);
             func_0207BE14(&m4, &d_02148B54, &m4);
-            func_021F660C((const int *)(&pos), (const int *)(&m4), (u32 *)(&pos), (u32 *)(&cb.w));
+            MUSICAL_MCSS_CalcMatrix((const int *)(&pos), (const int *)(&m4), (u32 *)(&pos), (u32 *)(&cb.w));
             pos.x = func_0207C768(pos.x, cb.w);
             pos.y = func_0207C768(pos.y, cb.w);
-            func_021F660C((const int *)(&pos), (const int *)(&proj), (u32 *)(&pos), (u32 *)(&cb.w));
+            MUSICAL_MCSS_CalcMatrix((const int *)(&pos), (const int *)(&proj), (u32 *)(&pos), (u32 *)(&cb.w));
             ox = RoundF(pose.dx);
             oy = RoundF(-pose.dz);
         }
@@ -666,7 +666,7 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             *(int *)(obj + 0x110) = func_0207C768(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
         }
         REG(0x0400044C) = 0x1D;
-        func_021F65EC();
+        MUSICAL_MCSS_SetupG3();
         {
             G3_TexImageParam(attr->fmt, GX_TEXGEN_TEXCOORD, attr->s, attr->t, GX_TEXREPEAT_ST, GX_TEXFLIP_ST, attr->pltt0, attr->addr);
         }
@@ -677,13 +677,13 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             ent = (Ent *)(*(char **)(obj + 0x20) + 4 + sub.id * 0x38);
             if (ent->f20 != 0) {
                 if (((Bits *)(obj + 0xEC))->b0)
-                    func_021F5EDC(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
+                    MUSICAL_MCSS_DrawSprite(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
                                   ent->f2C + ent->f24, (struct S *)(&sub), (u16 *)(&pose), j, ((Bits *)&p[2])->b0, &cb.z, flag);
                 else
-                    func_021F5EDC(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
+                    MUSICAL_MCSS_DrawSprite(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
                                   ent->f2C, (struct S *)(&sub), (u16 *)(&pose), j, ((Bits *)&p[2])->b0, &cb.z, flag);
             }
-            func_021F5EDC(obj, ent->f0, ent->f4, ent->f8, ent->fC, ent->f10, ent->f14,
+            MUSICAL_MCSS_DrawSprite(obj, ent->f0, ent->f4, ent->f8, ent->fC, ent->f10, ent->f14,
                           (struct S *)(&sub), (u16 *)(&pose), j, ((Bits *)&p[2])->b0, &cb.z, flag);
             for (k = 0; k < 8; k++) {
                 u8 b = ent->parts[k];

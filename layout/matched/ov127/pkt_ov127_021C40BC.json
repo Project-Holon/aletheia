@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C40BC",
+   "name": "WIFI_2DCHAR_SpawnActor",
    "address": "0x021C40BC",
    "kind": "game",
    "region": "ov127",

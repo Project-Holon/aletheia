@@ -1,5 +1,5 @@
 /*
- * function: func_021D9ED0
+ * function: WIFIBATTLEMATCH_NET_Noop
  * address:  0x021D9ED0
  * packet:   pkt_021D9ED0
  * region:   ov175
@@ -12,12 +12,12 @@
  * symbols:
  *   (none)
  *
- * Empty stub sitting between the func_021D9EA0 teardown and
- *     func_021D9ED4; nothing calls into it, disasm.py labelled it from its
+ * Empty stub sitting between the WIFIBATTLEMATCH_NET_DeleteNetContext teardown and
+ *     WIFIBATTLEMATCH_NET_SetTimingSyncRange; nothing calls into it, disasm.py labelled it from its
  *     alignment padding.
  */
 
-void func_021D9ED0(int a0)
+void WIFIBATTLEMATCH_NET_Noop(int a0)
 {
 }
 

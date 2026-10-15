@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0A4
+ * function: CTVT_CALL_CheckJoinRequest
  * address:  0x021BD0A4
  * packet:   pkt_ov172_021BD0A4
  * region:   ov172
@@ -25,7 +25,7 @@ extern u32 COMM_TVT_SYS_GetLaunchParams(void *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int func_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id, u32 kind, u32 *out);
 
-int func_021BD0A4(void *ctx, u32 unused, u32 a, u32 b, u32 c)
+int CTVT_CALL_CheckJoinRequest(void *ctx, u32 unused, u32 a, u32 b, u32 c)
 {
     return func_02009D50((struct Sub020097BCObj *)GAME_DATA_GetWifiList((const struct BigObj *)(*((u32 *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)a, b, c, 0);
 }

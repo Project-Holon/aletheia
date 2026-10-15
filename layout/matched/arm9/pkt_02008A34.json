@@ -18,19 +18,34 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020089A8",
-    "sub_020089B0",
-    "sub_020089C0",
-    "sub_020089CC",
-    "sub_020089D0",
-    "sub_020089F4",
-    "sub_02008A00",
-    "sub_02008A0C",
-    "sub_02008A14",
-    "sub_02008A1C",
-    "sub_02008A28",
-    "sub_02008A34",
-    "sub_02008A44"
+    "TRCARD_SIGN_GetSize",
+    "TRCARD_SIGN_Init",
+    "TRCARD_SIGN_GetFromSave",
+    "TRCARD_SIGN_GetBitmap",
+    "TRCARD_SIGN_HasAnySignature",
+    "TRCARD_SIGN_GetSeenBefore",
+    "TRCARD_SIGN_SetSeenBefore",
+    "TRCARD_SIGN_GetColor",
+    "TRCARD_SIGN_SetColor",
+    "TRCARD_SIGN_SetStyle",
+    "TRCARD_SIGN_GetStyle",
+    "TRCARD_SIGN_SetLastBadgeTime",
+    "TRCARD_SIGN_GetLastBadgeTime"
+   ],
+   "addresses": [
+    "0x020089A8",
+    "0x020089B0",
+    "0x020089C0",
+    "0x020089CC",
+    "0x020089D0",
+    "0x020089F4",
+    "0x02008A00",
+    "0x02008A0C",
+    "0x02008A14",
+    "0x02008A1C",
+    "0x02008A28",
+    "0x02008A34",
+    "0x02008A44"
    ]
   },
   {
@@ -45,13 +60,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008A7C",
-    "sub_02008ACC",
-    "sub_02008ADC"
+    "TRCARD_SIGN_SetBadgeDate",
+    "TRCARD_SIGN_GetBadgeTimer",
+    "TRCARD_SIGN_SetBadgeTimer"
+   ],
+   "addresses": [
+    "0x02008A7C",
+    "0x02008ACC",
+    "0x02008ADC"
    ]
   },
   {
-   "name": "sub_02008AEC",
+   "name": "CONSOLE_STAMP_GetSize",
    "address": "0x02008AEC",
    "kind": "game",
    "region": "arm9",
@@ -74,9 +94,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008B08",
-    "sub_02008B14",
-    "sub_02008B20"
+    "CONSOLE_STAMP_GetFromSave",
+    "CONSOLE_STAMP_GetDailyClock",
+    "CONSOLE_STAMP_SetIdentity"
+   ],
+   "addresses": [
+    "0x02008B08",
+    "0x02008B14",
+    "0x02008B20"
    ]
   },
   {
@@ -91,18 +116,28 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008B4C",
-    "sub_02008B78",
-    "sub_02008B94",
-    "sub_02008B98",
-    "sub_02008B9C",
-    "sub_02008BD0",
-    "sub_02008BE0",
-    "sub_02008C00"
+    "CONSOLE_STAMP_IsThisConsole",
+    "CONSOLE_STAMP_IsRtcOffsetCurrent",
+    "CONSOLE_STAMP_GetBirthdayMonth",
+    "CONSOLE_STAMP_GetBirthdayDay",
+    "DAILY_CLOCK_Init",
+    "DAILY_CLOCK_HasAllowance",
+    "DAILY_CLOCK_Spend",
+    "DAILY_CLOCK_Refill"
+   ],
+   "addresses": [
+    "0x02008B4C",
+    "0x02008B78",
+    "0x02008B94",
+    "0x02008B98",
+    "0x02008B9C",
+    "0x02008BD0",
+    "0x02008BE0",
+    "0x02008C00"
    ]
   },
   {
-   "name": "sub_02008C20",
+   "name": "RECORD_GetSize",
    "address": "0x02008C20",
    "kind": "game",
    "region": "arm9",
@@ -125,11 +160,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008C58",
-    "sub_02008C64",
-    "sub_02008C94",
-    "sub_02008CB4",
-    "sub_02008CD4"
+    "RECORD_GetFromSave",
+    "RECORD_Seal",
+    "RECORD_Unseal",
+    "RECORD_GetCounter",
+    "RECORD_SetCounter"
+   ],
+   "addresses": [
+    "0x02008C58",
+    "0x02008C64",
+    "0x02008C94",
+    "0x02008CB4",
+    "0x02008CD4"
    ]
   },
   {

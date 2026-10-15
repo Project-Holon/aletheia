@@ -17,7 +17,7 @@
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
@@ -43,7 +43,7 @@ extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern u32 PRINTSYS_PrintStreamGetState(void *h);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void APP_TASKMENU_UpdateMenu(void *p);
-extern void func_0201F7A8(void *p, u32 a);
+extern void BMP_MENUWORK_DrawWindowBorder(void *p, u32 a);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
@@ -87,7 +87,7 @@ int MAILSYS_StepQuitConfirm(u8 *p)
         r = MAILSYS_PollConfirmMenu(p);
         if (r < 0)
             return 0;
-        func_0201F7A8(((struct Obj00275 *)p)->f5C, 2);
+        BMP_MENUWORK_DrawWindowBorder(((struct Obj00275 *)p)->f5C, 2);
         w = ((struct Obj00275 *)p)->f5C;
         BMP_WIN_ClearScreen(w);
         func_020409B4(BMP_WIN_GetBgLayer(w));

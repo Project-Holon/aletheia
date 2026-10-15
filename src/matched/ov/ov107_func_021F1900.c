@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0201EFA4  0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  */
 
 typedef struct {
@@ -19,9 +19,9 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct WordSet;
-void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 void MB_UTIL_MSG_SetNumberLeft(Ov107Ctx *p, int a, int b, int c)
 {
-    func_0201EFA4(p->f24, a, b, c, 0, 1);
+    WORDSET_SetSlotNumber(p->f24, a, b, c, 0, 1);
 }

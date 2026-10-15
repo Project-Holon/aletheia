@@ -1,5 +1,5 @@
 /*
- * function: func_021F3ED0
+ * function: NAMEIN_GRAPHIC_DeleteTcbl
  * address: 0x021F3ED0
  * packet: pkt_ov194_021F3ED0
  * region: ov194
@@ -15,4 +15,4 @@
  */
 #include "../include/Obj10810.h"
 struct S02031140;extern void PRINTSYS_PrintStreamDelete(int);extern void TCBL_Destroy(struct S02031140 *);extern void MI_CpuFill8(void *,int,int);
-void func_021F3ED0(unsigned char *p){if(((struct Obj10810 *)p)->f0)PRINTSYS_PrintStreamDelete(((struct Obj10810 *)p)->f0);TCBL_Destroy(*(struct S02031140 * *)&((struct Obj10810 *)p)->f4);MI_CpuFill8(p,0,16);}
+void NAMEIN_GRAPHIC_DeleteTcbl(unsigned char *p){if(((struct Obj10810 *)p)->f0)PRINTSYS_PrintStreamDelete(((struct Obj10810 *)p)->f0);TCBL_Destroy(*(struct S02031140 * *)&((struct Obj10810 *)p)->f4);MI_CpuFill8(p,0,16);}

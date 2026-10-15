@@ -13,8 +13,8 @@
  *
  * symbols:
  *   gti2ConnectionCommunicationError  0x02195F5C  arm  ov009
- *   func_02194C6C  0x02194C6C  arm  ov009
- *   func_02194B74  0x02194B74  arm  ov009
+ *   gti2GetResponse  0x02194C6C  arm  ov009
+ *   gti2GetChallenge  0x02194B74  arm  ov009
  *   gti2SendServerChallenge  0x02197678  arm  ov009
  */
 
@@ -26,8 +26,8 @@ typedef struct Conn {
 } Conn;
 
 extern int gti2ConnectionCommunicationError(Conn *c);
-extern unsigned char *func_02194C6C(unsigned char *buffer, unsigned char *challenge);
-extern unsigned char *func_02194B74(unsigned char *buffer);
+extern unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge);
+extern unsigned char *gti2GetChallenge(unsigned char *buffer);
 extern int gti2SendServerChallenge(Conn *c, char *response, char *challenge);
 
 int gti2HandleClientChallenge(Conn *c, unsigned char *message, int len)
@@ -45,9 +45,9 @@ int gti2HandleClientChallenge(Conn *c, unsigned char *message, int len)
 			return 1;
 		return 0;
 	}
-	func_02194C6C((unsigned char *)response, message);
-	func_02194B74((unsigned char *)challenge);
-	func_02194C6C(c->response, (unsigned char *)challenge);
+	gti2GetResponse((unsigned char *)response, message);
+	gti2GetChallenge((unsigned char *)challenge);
+	gti2GetResponse(c->response, (unsigned char *)challenge);
 	if (!gti2SendServerChallenge(c, response, challenge))
 		return 0;
 	c->state = 3;

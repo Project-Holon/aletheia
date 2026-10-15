@@ -68,7 +68,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   gCrowdChatterSlotX 0x021F45E0 data a1
  *   gCrowdChatterSlotY 0x021F45D0 data a1
- *   func_02191870  0x02191870  thumb  ov021
+ *   FIELD_MSGBG_AddSubMsgWinMsg  0x02191870  thumb  ov021
  *   FIELD_MSGBG_DeleteSubMsgWin  0x0219196C  thumb  ov021
  *   CROWD_ClearChatterSlot  0x021F459C  thumb  ov055
  */
@@ -247,7 +247,7 @@ extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void CROWD_CloseChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern void func_02191870(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 windowId, u8 x, u8 y, u8 width, u8 height);
+extern void FIELD_MSGBG_AddSubMsgWinMsg(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 windowId, u8 x, u8 y, u8 width, u8 height);
 extern void FIELD_MSGBG_DeleteSubMsgWin(struct FieldMsgBg *msgBg, u32 windowId);
 void CROWD_Init(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
 void CROWD_Exit(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
@@ -902,7 +902,7 @@ void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, str
     u32 rand = func_020056EC(0);
     slot->isOpen = 1;
     slot->frames = 0;
-    func_02191870(msgBg, msgData, msgFirst + rand % msgCount, slot->windowId, slot->x, slot->y, 8, 2);
+    FIELD_MSGBG_AddSubMsgWinMsg(msgBg, msgData, msgFirst + rand % msgCount, slot->windowId, slot->x, slot->y, 8, 2);
 }
 
 /*

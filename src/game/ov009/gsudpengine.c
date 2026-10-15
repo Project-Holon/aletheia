@@ -16,15 +16,15 @@
  *   ArrayFree                    0x021841B0  arm
  *   func_020923F0                0x020923F0  arm
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
- *   func_02184200                  0x02184200  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
+ *   ArrayLength                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   g_021A3868                     0x021A3868  data
  *   gt2GetRemoteIP                  0x02195E28  arm ov009
  *   gt2GetRemotePort                  0x02195E30  arm ov009
- *   func_02198620                  0x02198620  arm ov009
+ *   gt2AddressToString                  0x02198620  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
- *   func_0218437C                  0x0218437C  arm ov009
+ *   ArrayDeleteAt                  0x0218437C  arm ov009
  *   func_02180474                  0x02180474  arm ov009
  *   g_021A38A8                     0x021A38A8  data
  *   g_021A38D0                     0x021A38D0  data
@@ -39,7 +39,7 @@
  *   func_02180430                  0x02180430  arm ov009
  *   g_021A3A30                     0x021A3A30  data
  *   g_021A3A54                     0x021A3A54  data
- *   func_02184234                  0x02184234  arm ov009
+ *   ArrayAppend                  0x02184234  arm ov009
  *   gt2Accept                  0x02195B2C  arm ov009
  *   gt2Reject                  0x02195B38  arm ov009
  *   func_02184324                  0x02184324  arm ov009
@@ -47,7 +47,7 @@
  *   g_021A3A8C                     0x021A3A8C  data
  *   g_021A3AB8                     0x021A3AB8  data
  *   g_021A3AFC                     0x021A3AFC  data
- *   func_02195AB4                  0x02195AB4  arm ov009
+ *   gt2CreateSocket                  0x02195AB4  arm ov009
  *   func_02184144                  0x02184144  arm ov009
  *   gt2SetUnrecognizedMessageCallback                  0x02195E68  arm ov009
  *   gt2Listen                  0x02195B20  arm ov009
@@ -56,24 +56,24 @@
  *   func_02180410                  0x02180410  arm ov009
  *   g_021A3B44                     0x021A3B44  data
  *   g_021A3B7C                     0x021A3B7C  data
- *   func_02195E00                  0x02195E00  arm ov009
+ *   gt2GetConnectionState                  0x02195E00  arm ov009
  *   g_021A3B9C                     0x021A3B9C  data
- *   func_02195B44                  0x02195B44  arm ov009
+ *   gt2Connect                  0x02195B44  arm ov009
  *   g_021A3BC4                     0x021A3BC4  data
  *   g_021A3BF8                     0x021A3BF8  data
  *   gt2GetOutgoingBufferSize                  0x02195E48  arm ov009
- *   func_0217EAB0                  0x0217EAB0  arm ov009
+ *   gsimalloc                  0x0217EAB0  arm ov009
  *   memcpy                         0x02092344  arm
  *   func_02195CC0                  0x02195CC0  arm ov009
- *   func_0217EAE0                  0x0217EAE0  arm ov009
+ *   gsifree                  0x0217EAE0  arm ov009
  *   g_021A3C34                     0x021A3C34  data
  *   g_021A3C68                     0x021A3C68  data
  *   func_02195AF0                         0x02195af0 arm
- *   func_02195AD8                   0x02195ad8 arm
+ *   gt2CloseSocket                   0x02195ad8 arm
  *   g_021A3CA0                     0x021A3CA0  data
  *   g_021A3CC4                     0x021A3CC4  data
  *   g_021A3CE4               0x021A3CE4 data
- *   func_02195E50                  0x02195E50  arm ov009
+ *   gt2GetOutgoingBufferFreeSpace                  0x02195E50  arm ov009
  */
 #include "gsudp_types.h"
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -81,8 +81,8 @@
 extern int func_020923F0(const void *a, const void *b, int n);
 extern int gt2GetRemoteIP(const int *p);
 extern unsigned short gt2GetRemotePort(const unsigned short *p);
-extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern void func_0218437C(int a, int b);
+extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+extern void ArrayDeleteAt(int a, int b);
 extern int func_02180474(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180430(void *theFirstHandler, void *theSecondHandler);
@@ -90,25 +90,25 @@ extern int gt2Accept(void *connection, GT2ConnectionCallbacks *callbacks);
 extern void gt2Reject(void *connection, unsigned char *message, int len);
 extern void func_02184324(void *array, int n);
 extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
-extern int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback);
+extern int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void gt2SetUnrecognizedMessageCallback(int *p, int v);
 extern void gt2Listen(int *p, int v);
 extern int gt2GetLocalIP(const int *p);
 extern unsigned short gt2GetLocalPort(const unsigned short *p);
 extern void func_02180410(void *theMsgHandler);
-extern int func_02195E00(const int *p);
-extern int func_02195B44(void *socket, void **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
+extern int gt2GetConnectionState(const int *p);
+extern int gt2Connect(void *socket, void **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
 extern int gt2GetOutgoingBufferSize(const int *p);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern int func_02195CC0(void *connection, unsigned char *message, int len, int reliable);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 extern void func_02195AF0(void *socket);
-extern void func_02195AD8(void *socket);
+extern void gt2CloseSocket(void *socket);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *memcpy(void *dst, const void *src, unsigned long n);
-extern int func_02184200(void *array);
-extern int func_02195E50(const int *p);
+extern int ArrayLength(void *array);
+extern int gt2GetOutgoingBufferFreeSpace(const int *p);
 void gsUdpMsgHandlerFree(GSUdpMsgHandler *theHandler);
 int gsUdpMsgHandlerCompare(void *theFirst, void *theSecond);
 int gsUdpMsgHandlerCompare2(void *theFirst, void *theSecond);
@@ -208,10 +208,10 @@ void gsUdpSocketError(void)
     GSUdpMsgHandler *aMsgHandler;
 
     aUdp = gsUdpEngineContext();
-    func_0217D254(12, 0, 16, g_021A3868);
+    gsDebugFormat(12, 0, 16, g_021A3868);
     if (aUdp->mAppNetworkError != 0)
         aUdp->mAppNetworkError(3, aUdp->mAppUserData);
-    len = func_02184200(aUdp->mMsgHandlers);
+    len = ArrayLength(aUdp->mMsgHandlers);
     for (i = 0; i < len; i++) {
         aMsgHandler = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, i);
         if (aMsgHandler->mNetworkError != 0)
@@ -241,20 +241,20 @@ void gsUdpClosedRoutingCB(void *theConnection, int reason)
     else
         aReason = reason;
 
-    func_0217D254(12, 0, 16, g_021A38A8,
-        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
+    gsDebugFormat(12, 0, 16, g_021A38A8,
+        gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
-    len = func_02184200(aUdp->mMsgHandlers);
+    len = ArrayLength(aUdp->mMsgHandlers);
     for (index = 0; index < len; index++) {
         aHandler = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
         if (aHandler->mClosed) {
-            func_0217D254(12, 0, 16, g_021A38D0);
+            gsDebugFormat(12, 0, 16, g_021A38D0);
             aHandler->mClosed(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), aReason, aHandler->mUserData);
         }
     }
 
     if (aUdp->mAppClosed) {
-        func_0217D254(12, 0, 16, g_021A390C);
+        gsDebugFormat(12, 0, 16, g_021A390C);
         aUdp->mAppClosed(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), aReason, aUdp->mAppUserData);
     }
 
@@ -262,7 +262,7 @@ void gsUdpClosedRoutingCB(void *theConnection, int reason)
     index = func_021843E8(aUdp->mRemotePeers, &aRemotePeer, func_02180474, 0, 0);
     if (index == -1)
         return;
-    func_0218437C((int)aUdp->mRemotePeers, index);
+    ArrayDeleteAt((int)aUdp->mRemotePeers, index);
 }
 
 
@@ -304,13 +304,13 @@ void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
         aRemotePeer.mPort = gt2GetRemotePort(theConnection);
         aRemotePeerIdx = func_021843E8(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
         if (aRemotePeerIdx != -1) {
-            func_0217D254(12, 0, 16, g_021A393C,
-                func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
-            func_0218437C((int)aUdp->mRemotePeers, aRemotePeerIdx);
+            gsDebugFormat(12, 0, 16, g_021A393C,
+                gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
+            ArrayDeleteAt((int)aUdp->mRemotePeers, aRemotePeerIdx);
         }
     }
 
-    len = func_02184200(aUdp->mMsgHandlers);
+    len = ArrayLength(aUdp->mMsgHandlers);
     for (aIndex = 0; aIndex < len; aIndex++) {
         int aRemotePeerIdx;
         GSUdpRemotePeer aRemotePeer;
@@ -322,18 +322,18 @@ void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
         aRemotePeerIdx = func_021843E8(aTempHandler->mPendingConnections, &aRemotePeer, func_02180448, 0, 0);
         if (aRemotePeerIdx != -1) {
             if (aTempHandler->mConnected) {
-                func_0217D254(12, 0, 16, g_021A3964);
+                gsDebugFormat(12, 0, 16, g_021A3964);
                 aTempHandler->mConnected(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                     aCode, (theResult == 2) ? 1 : 0, aTempHandler->mUserData);
             }
-            func_0218437C((int)aTempHandler->mPendingConnections, aRemotePeerIdx);
+            ArrayDeleteAt((int)aTempHandler->mPendingConnections, aRemotePeerIdx);
             return;
         }
     }
 
     if (aUdp->mAppPendingConnections > 0) {
         if (aUdp->mAppConnected) {
-            func_0217D254(12, 0, 16, g_021A399C);
+            gsDebugFormat(12, 0, 16, g_021A399C);
             aUdp->mAppConnected(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                 aCode, (theResult == 2) ? 1 : 0, aUdp->mAppUserData);
         }
@@ -352,21 +352,21 @@ void gsUdpPingRoutingCB(void *theConnection, int theLatency)
 
     aUdp = gsUdpEngineContext();
 
-    func_0217D254(12, 0, 16, g_021A39C8,
-        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
+    gsDebugFormat(12, 0, 16, g_021A39C8,
+        gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
-    len = func_02184200(aUdp->mMsgHandlers);
+    len = ArrayLength(aUdp->mMsgHandlers);
     for (index = 0; index < len; index++) {
         aHandler = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
         if (aHandler->mPingReply) {
-            func_0217D254(12, 0, 16, g_021A39EC);
+            gsDebugFormat(12, 0, 16, g_021A39EC);
             aHandler->mPingReply(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), theLatency, aHandler->mUserData);
             return;
         }
     }
 
     if (aUdp->mAppPingReply) {
-        func_0217D254(12, 0, 16, g_021A3A14);
+        gsDebugFormat(12, 0, 16, g_021A3A14);
         aUdp->mAppPingReply(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), theLatency, aUdp->mAppUserData);
     }
 }
@@ -393,8 +393,8 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
     GSUdpMsgHandler *aHandlerFound;
 
     aUdp = gsUdpEngineContext();
-    func_0217D254(12, 0, 16, g_021A3A30,
-        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
+    gsDebugFormat(12, 0, 16, g_021A3A30,
+        gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
     if (theMessageLen >= 16) {
         memcpy(&aHandler.mHeader, theMessage, sizeof(aHandler.mHeader));
@@ -402,7 +402,7 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
         if (index != -1) {
             aHandlerFound = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
             if (aHandlerFound->mReceived) {
-                func_0217D254(12, 0, 16, g_021A39EC);
+                gsDebugFormat(12, 0, 16, g_021A39EC);
                 aHandlerFound->mReceived(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                     theMessage + 16, theMessageLen - 16, reliable, aHandlerFound->mUserData);
                 return;
@@ -411,7 +411,7 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
     }
 
     if (aUdp->mAppRecvData) {
-        func_0217D254(12, 0, 16, g_021A3A14);
+        gsDebugFormat(12, 0, 16, g_021A3A14);
         aUdp->mAppRecvData(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
             theMessage, theMessageLen, reliable, aUdp->mAppUserData);
     }
@@ -426,7 +426,7 @@ int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short t
 
     aUdp = gsUdpEngineContext();
     if (aUdp->mAppUnknownMessage != 0) {
-        func_0217D254(12, 0, 16, g_021A3A54, func_02198620(theIp, thePort, anAddr));
+        gsDebugFormat(12, 0, 16, g_021A3A54, gt2AddressToString(theIp, thePort, anAddr));
         aRet = aUdp->mAppUnknownMessage(theIp, thePort, theMessage, theMsgLen, aUdp->mAppUserData);
         if (aRet != 0)
             return 1;
@@ -446,14 +446,14 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
     GT2ConnectionCallbacks aCallbacks;
 
     aUdp = gsUdpEngineContext();
-    func_0217D254(12, 0, 16, g_021A3A8C, func_02198620(ip, port, anAddr));
+    gsDebugFormat(12, 0, 16, g_021A3A8C, gt2AddressToString(ip, port, anAddr));
 
     if (len >= 16) {
         memcpy(&aHandler.mInitialMsg, message, sizeof(aHandler.mInitialMsg));
         aRemotePeer.mAddr = ip;
         aRemotePeer.mPort = port;
         aRemotePeer.mConnection = connection;
-        func_02184234(aUdp->mRemotePeers, &aRemotePeer);
+        ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
         if (index != -1) {
             aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
@@ -461,19 +461,19 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
             aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
             aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
             gt2Accept(aRemotePeer.mConnection, &aCallbacks);
-            func_0217D254(12, 0, 16, g_021A3AB8);
+            gsDebugFormat(12, 0, 16, g_021A3AB8);
             return;
         }
     }
 
     if (aUdp->mAppConnAttempt) {
-        func_0217D254(12, 0, 16, g_021A3AFC, func_02198620(ip, port, anAddr));
+        gsDebugFormat(12, 0, 16, g_021A3AFC, gt2AddressToString(ip, port, anAddr));
         aUdp->mAppConnAttempt(ip, port, latency, message, len, aUdp->mAppUserData);
         return;
     }
 
     gt2Reject(connection, 0, 0);
-    func_02184324(aUdp->mRemotePeers, func_02184200(aUdp->mRemotePeers) - 1);
+    func_02184324(aUdp->mRemotePeers, ArrayLength(aUdp->mRemotePeers) - 1);
 }
 
 
@@ -511,22 +511,22 @@ int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int th
     aUdp->mAppConnAttempt = theAppConnectAttempt;
 
 
-    func_02198620(0, thePort, anAddr);
-    aGt2Result = func_02195AB4(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, gsUdpSocketError);
+    gt2AddressToString(0, thePort, anAddr);
+    aGt2Result = gt2CreateSocket(&aUdp->mSocket, anAddr, theOutgoingBufSize, theIncomingBufSize, gsUdpSocketError);
     if (aGt2Result != 0) {
-        func_0217D254(12, 0, 2, g_021A3B44, aGt2Result);
+        gsDebugFormat(12, 0, 2, g_021A3B44, aGt2Result);
         return 3;
     }
 
     aUdp->mRemotePeers = func_02184144(12, 1, 0);
     if (aUdp->mRemotePeers == 0) {
-        func_0217D254(12, 2, 1, g_021A3B7C);
+        gsDebugFormat(12, 2, 1, g_021A3B7C);
         return 1;
     }
 
     aUdp->mMsgHandlers = func_02184144(60, 1, func_02180410);
     if (aUdp->mMsgHandlers == 0) {
-        func_0217D254(12, 2, 1, g_021A3B7C);
+        gsDebugFormat(12, 2, 1, g_021A3B7C);
         return 1;
     }
 
@@ -553,7 +553,7 @@ int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *the
 
     aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0) {
-        func_0217D254(12, 3, 15, g_021A3B9C);
+        gsDebugFormat(12, 3, 15, g_021A3B9C);
         *thePeerState = 3;
         return 11;
     }
@@ -565,7 +565,7 @@ int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *the
         return 0;
     }
     aPeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, index);
-    *thePeerState = func_02195E00(aPeerFound->mConnection);
+    *thePeerState = gt2GetConnectionState(aPeerFound->mConnection);
     return 0;
 }
 
@@ -584,11 +584,11 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
 
     aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 3;
     }
     if (theIp == 0 || thePort == 0) {
-        func_0217D254(12, 0, 15, g_021A3BC4);
+        gsDebugFormat(12, 0, 15, g_021A3BC4);
         return 10;
     }
 
@@ -600,9 +600,9 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
         int aState;
 
         aPeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, index);
-        aState = func_02195E00(aPeerFound->mConnection);
+        aState = gt2GetConnectionState(aPeerFound->mConnection);
         if (aState == 1) {
-            func_0217D254(12, 0, 15, g_021A3BF8);
+            gsDebugFormat(12, 0, 15, g_021A3BF8);
             return 5;
         }
         if (aState == 0) {
@@ -612,28 +612,28 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
             index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
             if (index != -1) {
                 aHandlerFound = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
-                func_02184234(aHandlerFound->mPendingConnections, aPeerFound);
+                ArrayAppend(aHandlerFound->mPendingConnections, aPeerFound);
             }
         }
     } else {
         GSUdpMsgHandler *aHandlerFound;
         GSUdpRemotePeer *aRemotePeerPtr;
 
-        func_02198620(theIp, thePort, anAddr);
+        gt2AddressToString(theIp, thePort, anAddr);
         aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
         aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
         aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
         aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
-        func_02195B44(aUdp->mSocket, &aRemotePeer.mConnection, anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
-        func_02184234(aUdp->mRemotePeers, &aRemotePeer);
+        gt2Connect(aUdp->mSocket, &aRemotePeer.mConnection, anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
+        ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;
         index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);
         if (index == -1) {
             aUdp->mAppPendingConnections++;
         } else {
-            aRemotePeerPtr = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, func_02184200(aUdp->mRemotePeers) - 1);
+            aRemotePeerPtr = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, ArrayLength(aUdp->mRemotePeers) - 1);
             aHandlerFound = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
-            func_02184234(aHandlerFound->mPendingConnections, &aRemotePeerPtr);
+            ArrayAppend(aHandlerFound->mPendingConnections, &aRemotePeerPtr);
         }
     }
     return 0;
@@ -656,7 +656,7 @@ int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *the
 
     aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 3;
     }
 
@@ -669,22 +669,22 @@ int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *the
     aRemotePeer.mPort = thePort;
     index = func_021843E8(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
     if (index == -1) {
-        func_02198620(theIp, thePort, anAddr);
-        func_0217D254(12, 0, 2, g_021A3C34, anAddr);
+        gt2AddressToString(theIp, thePort, anAddr);
+        gsDebugFormat(12, 0, 2, g_021A3C34, anAddr);
         return 4;
     }
 
     aRemotePeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, index);
     if (aTotalMessageLen > gt2GetOutgoingBufferSize(aRemotePeerFound->mConnection) && theReliable) {
-        func_0217D254(12, 0, 2, g_021A3C68);
+        gsDebugFormat(12, 0, 2, g_021A3C68);
         return 12;
     }
 
-    fullMessage = (unsigned char *)func_0217EAB0(aTotalMessageLen);
+    fullMessage = (unsigned char *)gsimalloc(aTotalMessageLen);
     *(GSUdpHdr *)fullMessage = *(GSUdpHdr *)theHeader;
     memcpy(fullMessage + 16, theMsg, theMsgLen);
     aResult = func_02195CC0(aRemotePeerFound->mConnection, fullMessage, aTotalMessageLen, theReliable);
-    func_0217EAE0(fullMessage);
+    gsifree(fullMessage);
     if (aResult != 0)
         return 8;
     return 0;
@@ -696,7 +696,7 @@ int gsUdpEngineThink(void)
     GSUdpEngineObject *aUdp = gsUdpEngineContext();
 
     if (aUdp->mInitialized == 0) {
-        func_0217D254(0xc, 0, 0xf, g_021A3B9C);
+        gsDebugFormat(0xc, 0, 0xf, g_021A3B9C);
         return 3;
     }
     func_02195AF0(aUdp->mSocket);
@@ -709,10 +709,10 @@ int gsUdpEngineShutdown(void)
     GSUdpEngineObject *aUdp = gsUdpEngineContext();
 
     if (aUdp->mInitialized == 0) {
-        func_0217D254(0xc, 0, 0xf, g_021A3B9C);
+        gsDebugFormat(0xc, 0, 0xf, g_021A3B9C);
         return 3;
     }
-    func_02195AD8(aUdp->mSocket);
+    gt2CloseSocket(aUdp->mSocket);
     ArrayFree(aUdp->mMsgHandlers);
     ArrayFree(aUdp->mRemotePeers);
     aUdp->mInitialized = 0;
@@ -725,7 +725,7 @@ unsigned short gsUdpEngineGetLocalPort(void)
     GSUdpEngineObject *aUdp = gsUdpEngineContext();
 
     if (aUdp->mInitialized == 0) {
-        func_0217D254(0xc, 0, 1, g_021A3B9C);
+        gsDebugFormat(0xc, 0, 1, g_021A3B9C);
         return 0;
     }
     return aUdp->mLocalPort;
@@ -745,15 +745,15 @@ int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader,
 
     aUdp = gsUdpEngineContext();
     if (!aUdp->mInitialized) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 3;
     }
     if (theInitMsg[0] == 0) {
-        func_0217D254(12, 0, 15, g_021A3CA0);
+        gsDebugFormat(12, 0, 15, g_021A3CA0);
         return 10;
     }
     if (theHeader[0] == 0) {
-        func_0217D254(12, 0, 15, g_021A3CC4);
+        gsDebugFormat(12, 0, 15, g_021A3CC4);
         return 10;
     }
 
@@ -767,11 +767,11 @@ int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader,
 
     aMsgHandler.mPendingConnections = func_02184144(4, 1, 0);
     if (aMsgHandler.mPendingConnections == 0) {
-        func_0217D254(12, 2, 1, g_021A3B7C);
+        gsDebugFormat(12, 2, 1, g_021A3B7C);
         return 1;
     }
     aMsgHandler.mUserData = theUserData;
-    func_02184234(aUdp->mMsgHandlers, &aMsgHandler);
+    ArrayAppend(aUdp->mMsgHandlers, &aMsgHandler);
     return 0;
 }
 
@@ -785,18 +785,18 @@ int gsUdpEngineRemoveMsgHandler(char *theHeader)
     aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0)
     {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 3;
     }
     if (theHeader == 0 || theHeader[0] == 0)
     {
-        func_0217D254(12, 0, 15, g_021A3CE4);
+        gsDebugFormat(12, 0, 15, g_021A3CE4);
         return 10;
     }
     *(GSUdpHdr *)aHandler.mHeader = *(GSUdpHdr *)theHeader;
     index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180430, 0, 0);
     if (index != -1)
-        func_0218437C((int)aUdp->mMsgHandlers, index);
+        ArrayDeleteAt((int)aUdp->mMsgHandlers, index);
     return 0;
 }
 
@@ -806,10 +806,10 @@ int gsUdpEngineNoMoreMsgHandlers(void)
     GSUdpEngineObject *aUdp = gsUdpEngineContext();
 
     if (aUdp->mInitialized == 0) {
-        func_0217D254(0xc, 0, 0xf, g_021A3B9C);
+        gsDebugFormat(0xc, 0, 0xf, g_021A3B9C);
         return 1;
     }
-    return func_02184200(aUdp->mMsgHandlers) == 0;
+    return ArrayLength(aUdp->mMsgHandlers) == 0;
 }
 
 
@@ -818,7 +818,7 @@ int gsUdpEngineNoApp(void)
     GSUdpEngineObject *aUdp = gsUdpEngineContext();
 
     if (aUdp->mInitialized == 0) {
-        func_0217D254(0xc, 0, 0xf, g_021A3B9C);
+        gsDebugFormat(0xc, 0, 0xf, g_021A3B9C);
         return 1;
     }
     if (aUdp->mAppClosed != 0 || aUdp->mAppConnAttempt != 0 || aUdp->mAppConnected != 0 ||
@@ -838,7 +838,7 @@ int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short theP
 
     aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 0;
     }
     aRemotePeer.mAddr = theIp;
@@ -847,5 +847,5 @@ int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short theP
     if (index == -1)
         return 0;
     aRemotePeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, index);
-    return func_02195E50(aRemotePeerFound->mConnection);
+    return gt2GetOutgoingBufferFreeSpace(aRemotePeerFound->mConnection);
 }

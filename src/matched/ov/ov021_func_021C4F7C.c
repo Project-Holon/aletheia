@@ -21,7 +21,7 @@
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   func_020490F4  0x020490F4  arm
@@ -31,7 +31,7 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -68,7 +68,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *p, int v, int n);
 struct BgTemplate;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(int);
+extern void BG_SYS_FreeSlot(int);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 struct Bank;
 struct GfFont;
@@ -81,7 +81,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
@@ -114,7 +114,7 @@ char *SHORTCUT_MENU_Create(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
     ((struct Obj00960 *)p)->f78 = 25;
     *(const u16 * *)&((struct Obj00960 *)p)->f7C = a2;
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)gShortcutMenuBgTemplate, 0);
-    func_020414AC(1);
+    BG_SYS_FreeSlot(1);
     BG_SYS_Init(1, 0, 1, 0);
     ((struct Obj00960 *)p)->f4C = (u32)CLACT_CreateUnit(8, 0, heap);
     x = 0x80;
@@ -127,7 +127,7 @@ char *SHORTCUT_MENU_Create(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
     func_02049B68(arc, 6, 0, x, 0x20, heap);
     func_02049658(arc, 5, 1, 0, 0, 0, heap);
     func_020498F4(arc, 7, 1, 0, 0, 0, heap);
-    func_020413B0(1, 0, 11, 32, 1, 10);
+    BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&pos, 0, 8);
     pos.y = 0x60;

@@ -12,7 +12,7 @@
  * Two-step state machine on *st: step 0 registers a callback, step 1 polls.
  *
  * symbols:
- *   func_02030B50  0x02030B50  arm
+ *   GFL_HEAP_DumpReport  0x02030B50  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
  *   GAME_BEACON_SEARCH_NetInit     0x02171C30  data  ov010  a4
  *   GAME_BEACON_SEARCH_OnSessionStarted  0x02164C04  thumb ov010
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Req;
-extern void func_02030B50(void *p);
+extern void GFL_HEAP_DumpReport(void *p);
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern u8 GAME_BEACON_SEARCH_NetInit[];
 extern void GAME_BEACON_SEARCH_OnSessionStarted(u8 *p);
@@ -34,7 +34,7 @@ int GAME_BEACON_SEARCH_InitWait(int *st, int unused, int *q)
 {
     switch (*st) {
     case 0:
-        func_02030B50((void *)12);
+        GFL_HEAP_DumpReport((void *)12);
         GFL_NET_StartSession((struct Req *)GAME_BEACON_SEARCH_NetInit, (u32)GAME_BEACON_SEARCH_OnSessionStarted, (u32)q);
         (*st)++;
         break;

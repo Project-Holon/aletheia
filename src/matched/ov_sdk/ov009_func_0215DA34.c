@@ -1,5 +1,5 @@
 /*
- * function: func_0215DA34
+ * function: SOCLi_ReadCPSBuffer
  * address:  0x0215DA34
  * packet:   pkt_ov009_0215DA34
  * region:   ov009
@@ -41,7 +41,7 @@ typedef struct {
     RecvPipe *recv_pipe;
 } Socket;
 
-unsigned char *func_0215DA34(Socket *socket, long *buffer_len, unsigned short *local_port,
+unsigned char *SOCLi_ReadCPSBuffer(Socket *socket, long *buffer_len, unsigned short *local_port,
                              unsigned short *remote_port, unsigned long *remote_ip)
 {
     RecvPipe *recv_pipe;

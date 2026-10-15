@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Field copy after func_021E8AB4: the word at +0xc is stored to +4.
- * Called from ov175 at 0x021D5550 and from the root func_021D7E18
+ * Called from ov175 at 0x021D5550 and from the root WIFIBATTLEMATCH_NET_CompStepF
  * (0x021D8858).
  */
 #include "../include/Obj08290.h"

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D48
+ * function: GTSNEGO_MSG_TeardownActorList
  * address: 0x021D6D48
  * packet: pkt_ov120_021D6D48
  * region: ov120
@@ -11,9 +11,9 @@
  *   func_020490F4 0x020490F4 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021D698C 0x021D698C thumb ov120
- *   func_021D692C 0x021D692C thumb ov120
- *   func_021D6ED8 0x021D6ED8 thumb ov120
+ *   GTSNEGO_DISP_DeleteTouchbar 0x021D698C thumb ov120
+ *   GTSNEGO_DISP_CreateTouchbar 0x021D692C thumb ov120
+ *   GTSNEGO_MSG_DeleteCursorActor 0x021D6ED8 thumb ov120
  */
 #include "../include/Obj00199.h"
 typedef unsigned char u8;
@@ -23,10 +23,10 @@ extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_021D698C(u8 *);
-extern void func_021D692C(u8 *, int);
-extern void func_021D6ED8(u8 *);
-void func_021D6D48(u8 *p)
+extern void GTSNEGO_DISP_DeleteTouchbar(u8 *);
+extern void GTSNEGO_DISP_CreateTouchbar(u8 *, int);
+extern void GTSNEGO_MSG_DeleteCursorActor(u8 *);
+void GTSNEGO_MSG_TeardownActorList(u8 *p)
 {
     void *t = func_020490F4(144, ((struct Obj00199 *)p)->fF4);
     int i;
@@ -36,8 +36,8 @@ void func_021D6D48(u8 *p)
             *(void **)(p + i * 4 + 0x14c) = 0;
         }
     }
-    func_021D698C(p);
-    func_021D692C(p, 0);
-    func_021D6ED8(p);
+    GTSNEGO_DISP_DeleteTouchbar(p);
+    GTSNEGO_DISP_CreateTouchbar(p, 0);
+    GTSNEGO_MSG_DeleteCursorActor(p);
     ARC_TOOL_DeleteHandle(t);
 }

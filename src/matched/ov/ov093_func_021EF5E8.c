@@ -15,7 +15,7 @@
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   gBtlMsgState     0x021F6398  data   a4
  */
 
@@ -47,7 +47,7 @@ extern void *BTL_MAIN_GetCompetitor(void ***p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct WordSet;
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern D gBtlMsgState;
 
 void BTL_MSG_BuildItemUse(u32 a, u8 b, u16 c)
@@ -67,5 +67,5 @@ void BTL_MSG_BuildItemUse(u32 a, u8 b, u16 c)
     BTL_MSG_SetPokeName(b, 0);
     t = c * 3;
     MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.f18, (u16)(t + k), (void *)gBtlMsgState.fc);
-    func_0201F250((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
+    WORDSET_CopyTaggedText((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
 }

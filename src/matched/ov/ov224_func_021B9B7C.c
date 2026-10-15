@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B7C
+ * function: SUBWAY_MAP_GRAPHIC_CreateCamera
  * address: 0x021B9B7C
  * packet: pkt_ov224_021B9B7C
  * region: ov224
@@ -13,7 +13,7 @@
  * symbols:
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021B989C 0x021B989C thumb ov224
+ *   SUBWAY_MAP_GRAPHIC_Setup3d 0x021B989C thumb ov224
  *   vecA 0x021B9C3C data
  *   vecB 0x021B9C30 data
  *   vecC 0x021B9C48 data
@@ -23,12 +23,12 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern const s16 cfg[];
 extern u32 vecA[],vecB[],vecC[];
-extern void func_021B989C(void);
+extern void SUBWAY_MAP_GRAPHIC_Setup3d(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,unsigned short,u32,void(*)(void));
 extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,void *,void *,void *,u32);
-void func_021B9B7C(void **p,u32 heap)
+void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap)
 {
-    G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021B989C);
+    G3D_SYSTEM_Init(0,1,0,1,0,heap,SUBWAY_MAP_GRAPHIC_Setup3d);
     *p = G3D_CAMERA_Create(0,cfg[6],cfg[7],0x1555,0,0x1000,0x400000,0,
         vecA,vecB,vecC,heap);
 }

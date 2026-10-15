@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -18,15 +18,15 @@
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 
 void INTRUDE_SUBDISP_SetBgPalette(int *p, int x)
 {
-    func_020413B0(7, 0, 2, 0x20, 0x10, (u8)(x + 5));
-    func_020413B0(6, 0, 2, 0x20, 0x10, (u8)(x + 1));
+    BG_SYS_FillTileMap(7, 0, 2, 0x20, 0x10, (u8)(x + 5));
+    BG_SYS_FillTileMap(6, 0, 2, 0x20, 0x10, (u8)(x + 1));
     if (p[0x44 / 4] != 0) {
         BMP_WIN_MakeScreen((struct Cfg *)p[0x44 / 4]);
         BMP_WIN_MakeScreen((struct Cfg *)p[0x4c / 4]);

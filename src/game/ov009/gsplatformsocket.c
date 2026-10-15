@@ -25,7 +25,7 @@
  *   SOC_InetAtoN  0x0215FAD0  arm  ov009
  *   SOC_Poll  0x0215FBCC  arm  ov009
  *   SOC_Fcntl  0x0215F854  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A3740     0x021A3740  data
  *   g_021A374C     0x021A374C  data
  *   g_021A375C     0x021A375C  data
@@ -82,7 +82,7 @@ extern int SOC_Accept(int s, void * sockAddr);
 extern int SOC_InetAtoN(char *cp, unsigned long *inp);
 extern int SOC_Poll(GSPollFd *fds, int nfds, int timeout, int flags);
 extern int SOC_Fcntl(int sock, int cmd, int arg);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int setsockopt(int s, int level, int optname, void * optval, int optlen);
 extern int GSISocketSelect(int theSocket, int * theReadFlag, int * theWriteFlag, int * theExceptFlag);
 extern unsigned long func_0215EF48(void);
@@ -371,10 +371,10 @@ int SetSockBlocking(int sock, int isblocking)
         val |= 4;
     rcode = SOC_Fcntl(sock, 4, val);
     if (rcode == 0) {
-        func_0217D254(12, 0, 0x10, g_021A375C, sock, isblocking ? g_021A3740 : g_021A374C);
+        gsDebugFormat(12, 0, 0x10, g_021A375C, sock, isblocking ? g_021A3740 : g_021A374C);
         return 1;
     }
-    func_0217D254(12, 0, 0x10, g_021A3784, sock, isblocking ? g_021A3740 : g_021A374C);
+    gsDebugFormat(12, 0, 0x10, g_021A3784, sock, isblocking ? g_021A3740 : g_021A374C);
     return 0;
 }
 

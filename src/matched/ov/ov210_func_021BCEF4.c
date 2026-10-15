@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEF4
+ * function: ZKNSEARCH_MAIN_LookupEntryId
  * address:  0x021BCEF4
  * packet:   pkt_ov210_021BCEF4
  * region:   ov210
@@ -22,7 +22,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern u16 d_021C072E[];
 
-u16 func_021BCEF4(int a0, int a1)
+u16 ZKNSEARCH_MAIN_LookupEntryId(int a0, int a1)
 {
     (void)a0;
     return d_021C072E[a1];

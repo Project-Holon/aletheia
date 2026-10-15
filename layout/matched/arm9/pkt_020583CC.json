@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020583CC",
+   "name": "SPL_EMITTER_ClearNodeList",
    "address": "0x020583CC",
    "kind": "game",
    "region": "arm9",

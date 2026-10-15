@@ -1,5 +1,5 @@
 /*
- * function: func_0220602C
+ * function: SHINKA_DEMO_VIEW_Draw
  * address:  0x0220602C
  * packet:   pkt_0220602C
  * region:   ov195
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MCSS_Draw 0x02014D2C thumb
- *   func_02206664 0x02206664 thumb ov195
+ *   SHINKA_DEMO_VIEW_Draw3d 0x02206664 thumb ov195
  */
 
 typedef unsigned char u8;
@@ -28,12 +28,12 @@ typedef struct Owner {
 
 struct McssSys;
 extern void MCSS_Draw(struct McssSys *sys);
-extern void func_02206664(Owner *o);
+extern void SHINKA_DEMO_VIEW_Draw3d(Owner *o);
 
-void func_0220602C(Owner *o)
+void SHINKA_DEMO_VIEW_Draw(Owner *o)
 {
     if (o->f5c != 0)
         MCSS_Draw(o->mcss);
     else
-        func_02206664(o);
+        SHINKA_DEMO_VIEW_Draw3d(o);
 }

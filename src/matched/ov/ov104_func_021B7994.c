@@ -12,9 +12,9 @@
  * symbols:
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -42,9 +42,9 @@ extern const struct BgTemplate sRhythmBackgroundTemplates[];
 extern const u32 sRhythmBackgroundTypes[];
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -58,11 +58,11 @@ void IRC_RHYTHM_InitBackgrounds(void *p,u16 heap) {
  int i; BgId bg; void *archive;
  BG_SYS_Create(heap);
  BMP_WIN_Init(heap);
- func_0203FC28(&sRhythmDisplayConfig);
+ BG_SYS_SetGraphicsMode(&sRhythmDisplayConfig);
  for(i=0;i<7;i++) {
   bg=sRhythmBackgroundLayers[i];
   BG_SYS_InitBgLayer((u8)bg,&sRhythmBackgroundTemplates[i],(u8)sRhythmBackgroundTypes[i]);
-  func_020414AC(bg);
+  BG_SYS_FreeSlot(bg);
   func_02040588(bg,1);
  }
  archive=func_020490F4(0x5e,heap);

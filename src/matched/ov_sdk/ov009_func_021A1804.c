@@ -15,8 +15,8 @@
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  *   SBServerListFindServerByIP  0x0219F6C8  arm  ov009
- *   func_0219E900  0x0219E900  arm  ov009
- *   func_0219E9D8  0x0219E9D8  arm  ov009
+ *   SBAllocServer  0x0219E900  arm  ov009
+ *   SBIsNullServer  0x0219E9D8  arm  ov009
  *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   SBServerListAppendServer  0x0219F638  arm  ov009
  *   current_time  0x0217F264  arm  ov009
@@ -46,8 +46,8 @@ extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 struct SBL;
 extern int SBServerListFindServerByIP(struct SBL *slist, unsigned int ip, unsigned short port);
-extern struct SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
-extern int func_0219E9D8(int v);
+extern struct SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport);
+extern int SBIsNullServer(int v);
 extern void SBServerSetFlags(unsigned char *p, unsigned char v);
 extern void SBServerListAppendServer(struct SBServerList *slist, struct SBServer *server);
 extern unsigned int current_time(void);
@@ -71,8 +71,8 @@ int ProcessLanData(SBServerList *slist)
         foundexisting = SBServerListFindServerByIP((struct SBL *)slist, saddr.addr, saddr.port);
         if (foundexisting != -1)
             continue;
-        server = func_0219E900((int)slist, saddr.addr, saddr.port);
-        if (func_0219E9D8((int)server))
+        server = SBAllocServer((int)slist, saddr.addr, saddr.port);
+        if (SBIsNullServer((int)server))
             return 5;
         SBServerSetFlags((unsigned char *)server, 0x11);
         SBServerListAppendServer(slist, server);

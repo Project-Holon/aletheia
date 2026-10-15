@@ -13,7 +13,7 @@
  *
  * symbols:
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   d_021C2E30     0x021C2E30  data  ov217  a4
@@ -26,7 +26,7 @@ extern void BG_SYS_Create(unsigned short heapId);
 typedef unsigned int   u32;
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern int d_021C2E30;
@@ -37,7 +37,7 @@ extern int d_021C2E80;
 void RESEARCH_TOP_InitBackgrounds(unsigned short heapId)
 {
     BG_SYS_Create(heapId);
-    func_0203FC28((struct DispConfig *)(&d_021C2E30));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&d_021C2E30));
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&d_021C2E60), 0);
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&d_021C2E40), 0);
     func_02040588(4, 1);

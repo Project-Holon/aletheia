@@ -22,6 +22,9 @@
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../include/Obj00436.h"
 #include "../include/Obj01546.h"
@@ -35,15 +38,15 @@ struct WordSet;
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 func_02017E88(void *,u32,u32);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcBoxLevel(void *);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
 {
@@ -52,9 +55,9 @@ void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
     buf=STRBUF_Create(32,((struct Obj00436 *)p)->f0);
     name=STRBUF_Create(32,((struct Obj00436 *)p)->f0);
     func_02017E88(mon,115,(u32)name);
-    func_0201EE0C(ws,0,name,0,1,2);
+    WORDSET_SetSlotTag(ws,0,name,0,1,2);
     text=func_02045EC0(((struct Obj00436 *)p)->f7C,0);
-    func_0201F250(ws,buf,text);
+    WORDSET_CopyTaggedText(ws,buf,text);
     PRINTSYS_PrintQueColor(((struct Obj00436 *)p)->f84,(u32)BMP_WIN_GetBmp(((struct Obj01546 *)q)->f18),25,1,(u32)buf,((struct Obj00436 *)p)->f80,1088);
     STRBUF_Delete(name);STRBUF_Delete(text);STRBUF_Delete(buf);WORDSET_DeleteStrbufED04(ws);
     if(((struct Obj00436 *)p)->f38==0 && func_02017E88(mon,173,0)==1){
@@ -72,9 +75,9 @@ void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
     if(((struct Obj00436 *)p)->f38==0){
         void *text2;
         ws=GF_FONT_Create_EC64(((struct Obj00436 *)p)->f0);buf=STRBUF_Create(16,((struct Obj00436 *)p)->f0);
-        func_0201EFA4(ws,0,POKE_TOOL_CalcBoxLevel(mon),3,0,1);
+        WORDSET_SetSlotNumber(ws,0,POKE_TOOL_CalcBoxLevel(mon),3,0,1);
         text2=func_02045EC0(((struct Obj00436 *)p)->f7C,3);
-        func_0201F250(ws,buf,text2);
+        WORDSET_CopyTaggedText(ws,buf,text2);
         PRINTSYS_PrintQueColor(((struct Obj00436 *)p)->f84,(u32)BMP_WIN_GetBmp(((struct Obj01546 *)q)->f18),9,17,(u32)buf,((struct Obj00436 *)p)->f80,1088);
         STRBUF_Delete(text2);STRBUF_Delete(buf);WORDSET_DeleteStrbufED04(ws);
     }
@@ -86,7 +89,7 @@ void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
         ws=GF_FONT_Create_EC64(((struct Obj00436 *)p)->f0);buf=STRBUF_Create(16,((struct Obj00436 *)p)->f0);
         WORDSET_Callback_EF40(ws,0,func_02017E88(mon,6,0));
         text3=func_02045EC0(((struct Obj00436 *)p)->f7C,5);
-        func_0201F250(ws,buf,text3);
+        WORDSET_CopyTaggedText(ws,buf,text3);
         PRINTSYS_PrintQueColor(((struct Obj00436 *)p)->f84,(u32)BMP_WIN_GetBmp(((struct Obj01546 *)q)->f1C),6,17,(u32)buf,((struct Obj00436 *)p)->f80,1088);
         STRBUF_Delete(text3);STRBUF_Delete(buf);WORDSET_DeleteStrbufED04(ws);
     }

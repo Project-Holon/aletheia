@@ -1,5 +1,5 @@
 /*
- * function: func_02063E54
+ * function: NNSi_G2dLoadVramResourceBySel
  * address:  0x02063E54
  * packet:   pkt_0206380C
  * status:   EXACT
@@ -16,7 +16,7 @@
  *   func_0207FA0C  0x0207FA0C  arm
  *   func_0207FA40  0x0207FA40  arm
  *   func_0207FADC  0x0207FADC  arm
- *   func_020637F4  0x020637F4  arm
+ *   NNSi_G2dSetVramHandleEx  0x020637F4  arm
  */
 
 typedef unsigned int u32;
@@ -45,9 +45,9 @@ extern void func_0207E5D0(u32 a, u32 b, u32 c);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(u32 a, u32 b, u32 c);
 extern void func_0207FADC(void);
-extern void func_020637F4(UnkOut02063E54 *out, int sel, u32 a1);
+extern void NNSi_G2dSetVramHandleEx(UnkOut02063E54 *out, int sel, u32 a1);
 
-void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
+void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
 {
     u32 a = self->fC;
     u32 b = self->f8;
@@ -82,5 +82,5 @@ void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
 
     out->f0 = self->f0;
     out->f4 = self->f4;
-    func_020637F4(out, sel, a1);
+    NNSi_G2dSetVramHandleEx(out, sel, a1);
 }

@@ -33,7 +33,7 @@
  *       }
  *   }
  * symbols:
- *   func_02167ED8 0x02167ED8 arm ov009
+ *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   func_0200DD28 0x0200DD28 thumb
  *   BSUBWAY_SAVEDATA_SetTrainers  0x0200DE6C  thumb  arm9
  */
@@ -45,14 +45,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02167ED8(void *, void *);
+extern int DWC_GetDateTime(void *, void *);
 struct RecSlot;
 extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
 void WIFI_BSUBWAY_SaveTrainers(u8 *p, void *q) {
     u32 time[3];
     u32 date[4];
-    func_02167ED8(date, time);
+    DWC_GetDateTime(date, time);
     BSUBWAY_SAVEDATA_SetTrainers(q, p + 14, *(u16 *)(p + 8), *(u16 *)(p + 10));
     func_0200DD28(q, *(u16 *)(p + 8), *(u16 *)(p + 10), date);
 }

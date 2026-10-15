@@ -17,9 +17,9 @@
  *   func_02008534 0x02008534 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02008500 0x02008500 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -47,9 +47,9 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02008500(void *,void *);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -73,9 +73,9 @@ int GURU2_RECEIPT_PrintMemberList(void *window,int unused,u16 color,Context *p) 
             value=func_02008534(p->entries[i].current);
             text=STRBUF_Create(16,0x72);
             func_02008500(p->entries[i].current,p->names[i]);
-            func_0201EFA4(p->formatter,0,value,5,2,1);
+            WORDSET_SetSlotNumber(p->formatter,0,value,5,2,1);
             format=func_02045EC0(p->bank,1);
-            func_0201F250(p->formatter,text,format);
+            WORDSET_CopyTaggedText(p->formatter,text,format);
             if (player==i) ink=0x860; else ink=color;
             y=18*i+1;
             PRINTSYS_PrintColor(BMP_WIN_GetBmp(window),5,18*i+1,p->names[i],p->font,ink);

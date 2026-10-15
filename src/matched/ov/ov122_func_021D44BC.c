@@ -19,6 +19,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb  arm9
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 #include "../include/Obj01404.h"
 typedef unsigned char u8;
@@ -32,7 +33,7 @@ struct CharBuf;
 struct Descriptor;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_0201F7A8(void *, unsigned);
+extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -48,7 +49,7 @@ void INTRUDE_COMM_VIEW_RebuildRow(int i, Object *p, Row *row, const int *xs, con
     int x, y;
     if (p->f10[i]) {
         BMP_WIN_ClearScreen(p->f10[i]);
-        func_0201F7A8(p->f10[i], 2);
+        BMP_MENUWORK_DrawWindowBorder(p->f10[i], 2);
         BMP_WIN_Delete(p->f10[i]);
         p->f10[i] = 0;
     }

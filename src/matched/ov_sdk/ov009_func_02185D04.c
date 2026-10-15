@@ -1,5 +1,5 @@
 /*
- * function: func_02185D04
+ * function: gpSendBuddyRequestA
  * address:  0x02185D04
  * packet:   pkt_ov009_02185D04
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      gpSendBuddyRequestA (gp.o)
  *
  * symbols:
- *   func_02193734  0x02193734  arm
- *   func_0219327C  0x0219327C  arm
- *   func_02189300  0x02189300  arm
- *   func_0218946C  0x0218946C  arm
- *   func_0218949C  0x0218949C  arm
+ *   gpiSetErrorString  0x02193734  arm
+ *   strzcpy  0x0219327C  arm
+ *   gpiBuddyDeletedLocally  0x02189300  arm
+ *   gpiAppendStringToBuffer  0x0218946C  arm
+ *   gpiAppendIntToBuffer  0x0218949C  arm
  *   g_021A4024     0x021A4024  data
  *   g_021A4054     0x021A4054  data
  *   g_021A4064     0x021A4064  data
@@ -28,11 +28,11 @@
 
 typedef struct GPIConnection GPIConnection;
 
-extern void func_02193734(int *p, int b);
-extern void func_0219327C(char *p, int b, int n);
-extern int func_02189300(void **connection, int id, int isDeleted);
-extern int func_0218946C(int *connection, int *buffer, const char *string);
-extern int func_0218949C(int *connection, int *buffer, int value);
+extern void gpiSetErrorString(int *p, int b);
+extern void strzcpy(char *p, int b, int n);
+extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
+extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
+extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
 extern char g_021A4024[];
 extern char g_021A4054[];
 extern char g_021A4064[];
@@ -41,7 +41,7 @@ extern char g_021A407C[];
 extern char g_021A408C[];
 extern char g_021A4098[];
 
-int func_02185D04(void **connection, int profile, char *reason)
+int gpSendBuddyRequestA(void **connection, int profile, char *reason)
 {
     int i;
     char reasonFixed[1025];
@@ -51,25 +51,25 @@ int func_02185D04(void **connection, int profile, char *reason)
     iconnection = (GPIConnection *)*connection;
     if (*(int *)((char *)iconnection + 0x108) != 0) return 0;
     if (*(int *)((char *)iconnection + 0x1f4) == 4) {
-        func_02193734((int *)connection, (int)g_021A4024);
+        gpiSetErrorString((int *)connection, (int)g_021A4024);
         return 2;
     }
     if (reason == 0) {
-        func_02193734((int *)connection, (int)g_021A4054);
+        gpiSetErrorString((int *)connection, (int)g_021A4054);
         return 2;
     }
-    func_0219327C(reasonFixed, (int)reason, 1025);
+    strzcpy(reasonFixed, (int)reason, 1025);
     for (i = 0; reasonFixed[i] != 0; i++) {
         if (reasonFixed[i] == '\\') reasonFixed[i] = '/';
     }
-    func_02189300(connection, profile, 0);
-    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4064);
-    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4070);
-    func_0218949C((int *)connection, (int *)((char *)iconnection + 0x210), *(int *)((char *)iconnection + 0x198));
-    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A407C);
-    func_0218949C((int *)connection, (int *)((char *)iconnection + 0x210), profile);
-    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A408C);
-    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), reasonFixed);
-    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4098);
+    gpiBuddyDeletedLocally(connection, profile, 0);
+    gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4064);
+    gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4070);
+    gpiAppendIntToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), *(int *)((char *)iconnection + 0x198));
+    gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), g_021A407C);
+    gpiAppendIntToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), profile);
+    gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), g_021A408C);
+    gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), reasonFixed);
+    gpiAppendStringToBuffer((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4098);
     return 0;
 }

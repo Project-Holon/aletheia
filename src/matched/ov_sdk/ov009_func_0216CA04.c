@@ -21,7 +21,7 @@
  *   func_0205A16C                0x0205A16C arm
  *   DWCi_StopMatch                0x0216EB68 arm   ov009
  *   strcpy                0x02094798 arm
- *   func_0219D158                0x0219D158 arm   ov009
+ *   qr2_register_keyA                0x0219D158 arm   ov009
  *   g_021AAA40                   0x021AAA40 data
  *   g_021AAA44                   0x021AAA44 data
  *   g_021AAA41                   0x021AAA41 data
@@ -153,7 +153,7 @@ extern int strlen(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern char *strcpy(char *dst, const char *src);
-extern void func_0219D158(int keyid, char *key);
+extern void qr2_register_keyA(int keyid, char *key);
 
 u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
 {
@@ -182,6 +182,6 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
     }
     strcpy(KEYSTR(index), keyString);
     KEYVAL(index) = valueSrc;
-    func_0219D158(keyID, KEYSTR(index));
+    qr2_register_keyA(keyID, KEYSTR(index));
     return keyID;
 }

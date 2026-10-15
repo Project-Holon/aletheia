@@ -1,5 +1,5 @@
 /*
- * function: func_02069AC4
+ * function: NNSi_G2dFontFixupSections
  * address:  0x02069AC4
  * packet:   pkt_020694D8
  * region:   arm9
@@ -52,7 +52,7 @@ typedef struct {
     u16 cnt0E;
 } Font;
 
-void func_02069AC4(Font *base)
+void NNSi_G2dFontFixupSections(Font *base)
 {
     Section *s;
     s32 i;

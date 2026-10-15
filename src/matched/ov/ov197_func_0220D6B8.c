@@ -1,5 +1,5 @@
 /*
- * function: func_0220D6B8
+ * function: B_BAG_MAIN_ExitBg
  * address:  0x0220D6B8
  * packet:   pkt_0220D6B8
  * region:   ov197
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020403F4(u32 i);
 
-void func_0220D6B8(void)
+void B_BAG_MAIN_ExitBg(void)
 {
     BG_SYS_SetSubPlaneVisible(0x1f, 0);
     func_020403F4(4);

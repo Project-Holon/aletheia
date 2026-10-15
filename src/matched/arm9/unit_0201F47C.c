@@ -10,7 +10,7 @@
  * status:   EXACT
  * function: WORDSET_CheckF47C
  *
- * "Is this string a packed nine-bit run", the predicate func_0201F4A0 tests
+ * "Is this string a packed nine-bit run", the predicate WORDSET_ParsePackedLimits tests
  * before unpacking.  A non-empty string whose first character is 0xF100 is
  * one; the marker is materialised as `movs r0, #0xF1` / `lsls r0, #8` rather
  * than from a pool word, so it is a plain constant.
@@ -21,9 +21,9 @@
  * written as two separate early returns the function grows a second epilogue.
  *
  * This is its own file rather than part of src/pending/sub_0201F4A0.c
- * because func_0201F4A0 holds the only call to it in the image.  Matched
+ * because WORDSET_ParsePackedLimits holds the only call to it in the image.  Matched
  * apart, that call is an ordinary `label` witness from outside this range,
- * and the `matched` class then carries the site in func_0201F4A0 itself.
+ * and the `matched` class then carries the site in WORDSET_ParsePackedLimits itself.
  *
  * Addresses are Black-image addresses.
  *

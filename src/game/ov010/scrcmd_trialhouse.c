@@ -39,7 +39,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
- *   func_02011400  0x02011400  thumb
+ *   VM_GetTimeZoneLight  0x02011400  thumb
  *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
@@ -73,7 +73,7 @@
  *   SYMBOL_SAVE_RemoveSlotAndCommit  0x0200E18C  thumb
  *   SYMBOL_MAP_MoveRecordToPairedBand  0x0216628C  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
- *   func_0201EE84  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonName  0x0201EE84  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  *   SYMBOL_MAP_IsHomeCell  0x02166618  thumb  ov010
@@ -259,9 +259,9 @@ extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 func_02017E1C(struct PokemonParam *mon, u32 paramId, void *buffer);
 extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form);
 extern u32 func_020173EC(void);
-extern u8 func_02011400(int season, int timeZone);
+extern u8 VM_GetTimeZoneLight(int season, int timeZone);
 extern u16 GF_STANDARD_SetupCalc(const void *src, u32 len);
-extern void func_0201EE84(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
+extern void WORDSET_SetSlotMonName(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void func_020307B0(void *block);
 
@@ -394,7 +394,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *work)
 #define SHAYMIN_FORM_SKY 1
 #define SHAYMIN_FORM_LAND 0
 
-/* Table columns of func_02011400: first hour of the day and first hour of the night. */
+/* Table columns of VM_GetTimeZoneLight: first hour of the day and first hour of the night. */
 #define TIME_ZONE_DAY_START 0
 #define TIME_ZONE_NIGHT_START 3
 
@@ -429,8 +429,8 @@ int FORMCHANGE_RevertShayminIfTimeOfDayChanged(struct GameData *gameData, struct
     int hour;
     int hoursSince;
 
-    nightStart = func_02011400(season, TIME_ZONE_NIGHT_START);
-    dayStart = func_02011400(season, TIME_ZONE_DAY_START);
+    nightStart = VM_GetTimeZoneLight(season, TIME_ZONE_NIGHT_START);
+    dayStart = VM_GetTimeZoneLight(season, TIME_ZONE_DAY_START);
     hour = time->hour;
     if (!((u32)hour < (u32)nightStart && (u32)hour >= (u32)dayStart)) {
         hoursSince = hour;
@@ -459,8 +459,8 @@ int FORMCHANGE_RevertShayminAtNight(struct GameData *gameData, struct Party *par
     u32 dayStart;
     int result;
 
-    nightStart = func_02011400(season, TIME_ZONE_NIGHT_START);
-    dayStart = func_02011400(season, TIME_ZONE_DAY_START);
+    nightStart = VM_GetTimeZoneLight(season, TIME_ZONE_NIGHT_START);
+    dayStart = VM_GetTimeZoneLight(season, TIME_ZONE_DAY_START);
     result = 0;
     if (!(*hour < nightStart && *hour >= dayStart)) {
         FORMCHANGE_RevertShayminAndRegister(gameData, party);
@@ -1013,7 +1013,7 @@ int SCRCMD_SYMBOL_SetObjectPokemonWord(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (mmdl != 0) {
         mon = SCRCMD_SYMBOL_CreateObjectPokemon(cmdWork, mmdl, SCRCMD_WORK_GetHeapId(cmdWork), &key);
         if (mon != 0) {
-            func_0201EE84(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork)), wordSetIndex, mon);
+            WORDSET_SetSlotMonName(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork)), wordSetIndex, mon);
             func_020307B0(mon);
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220D6DC
+ * function: B_PLIST_DRAW_PrintMoveRowValues
  * address: 0x0220D6DC
  * packet: pkt_ov198_0220D6DC
  * region: ov198
@@ -14,9 +14,10 @@
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetWidth  0x02045738  arm  arm9
+ *   B_PLIST_MAIN_GetOrderIndex  0x022110D4  thumb
  */
 #include "../include/Obj01077.h"
 #include "../include/Obj25176.h"
@@ -30,7 +31,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_022110D4(u8 *,int);
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 struct Descriptor;
 struct MsgBank;
 struct StrObj;
@@ -43,9 +44,9 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_0220D6DC(char *p,u8 *record,int slot)
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+void B_PLIST_DRAW_PrintMoveRowValues(char *p,u8 *record,int slot)
 {
     void *buf;
     void *text;
@@ -66,16 +67,16 @@ void func_0220D6DC(char *p,u8 *record,int slot)
     *(u8 *)(p+0x1F74+slot*8)=1;
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x37);
-    func_0201EFA4(((struct Obj01077 *)p)->f1EA4,0,record[3],2,0,1);
-    func_0201F250(((struct Obj01077 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotNumber(((struct Obj01077 *)p)->f1EA4,0,record[3],2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj01077 *)p)->f1EA4,buf,text);
     context=((struct Obj01077 *)p)->f1EAC;
     width+=80;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),(s16)width,24,(u32)buf,((struct Obj25180 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x36);
-    func_0201EFA4(((struct Obj01077 *)p)->f1EA4,0,record[2],2,0,1);
-    func_0201F250(((struct Obj01077 *)p)->f1EA4,buf,text);
+    WORDSET_SetSlotNumber(((struct Obj01077 *)p)->f1EA4,0,record[2],2,0,1);
+    WORDSET_CopyTaggedText(((struct Obj01077 *)p)->f1EA4,buf,text);
     otherWidth=func_0201D304(buf,((struct Obj25181 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0);
     context=((struct Obj01077 *)p)->f1EAC;
     PRINTSYS_PrintQueColor(context,(u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8)),(s16)(80-otherWidth),24,(u32)buf,((struct Obj25182 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);

@@ -13,10 +13,10 @@
  *   WF2DMAP_OBJDRAW_GetFrameValue 0x021C58F8 thumb ov127
  *   WF2DMAP_OBJDRAW_SetFrame 0x021C5944 thumb ov127
  *   WF2DMAP_OBJDRAW_GetOwnerPos 0x021C5914 thumb ov127
- *   func_021C41DC 0x021C41DC thumb ov127
+ *   WIFI_2DCHAR_SetActorPos 0x021C41DC thumb ov127
  *   WF2DMAP_OBJDRAW_GetDepth 0x021C5878 thumb ov127
- *   func_021C4214 0x021C4214 thumb ov127
- *   func_021C42C4 0x021C42C4 thumb ov127
+ *   WIFI_2DCHAR_SetActorDrawPriority 0x021C4214 thumb ov127
+ *   WIFI_2DCHAR_StepActorAnim 0x021C42C4 thumb ov127
  */
 #include "../include/Obj00328.h"
 typedef unsigned char u8;
@@ -27,10 +27,10 @@ extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 extern int WF2DMAP_OBJDRAW_GetFrameValue(char *p, int b);
 extern void WF2DMAP_OBJDRAW_SetFrame(u8 *p, int n, int a);
 extern void WF2DMAP_OBJDRAW_GetOwnerPos(char *p, short *x, short *y);
-extern void func_021C41DC(u8 *p, int x, int y);
+extern void WIFI_2DCHAR_SetActorPos(u8 *p, int x, int y);
 extern int WF2DMAP_OBJDRAW_GetDepth(int, int);
-extern void func_021C4214(u8 *p, u32 v);
-extern void func_021C42C4(u8 *p);
+extern void WIFI_2DCHAR_SetActorDrawPriority(u8 *p, u32 v);
+extern void WIFI_2DCHAR_StepActorAnim(u8 *p);
 void WF2DMAP_OBJDRAW_UpdateActor(u8 *p)
 {
     if (p[19]) {
@@ -45,9 +45,9 @@ void WF2DMAP_OBJDRAW_UpdateActor(u8 *p)
             WF2DMAP_OBJDRAW_SetFrame(p, WF2DMAP_OBJDRAW_GetFrameValue(((struct Obj00328 *)p)->f4, a), b);
         }
         WF2DMAP_OBJDRAW_GetOwnerPos((char *)p, &x, &y);
-        func_021C41DC(((struct Obj00328 *)p)->f4, x, y);
+        WIFI_2DCHAR_SetActorPos(((struct Obj00328 *)p)->f4, x, y);
         d = WF2DMAP_OBJDRAW_GetDepth(y, p[18]);
-        func_021C4214(((struct Obj00328 *)p)->f4, d);
-        func_021C42C4(((struct Obj00328 *)p)->f4);
+        WIFI_2DCHAR_SetActorDrawPriority(((struct Obj00328 *)p)->f4, d);
+        WIFI_2DCHAR_StepActorAnim(((struct Obj00328 *)p)->f4);
     }
 }

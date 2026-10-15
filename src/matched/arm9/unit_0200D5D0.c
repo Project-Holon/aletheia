@@ -55,6 +55,7 @@
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   BEACON_GetSelect  0x0200C164  thumb
+ *   WORDSET_CopyString  0x0201F41C  thumb
  */
 
 typedef unsigned char  u8;
@@ -80,7 +81,7 @@ extern void *func_0200E6E8(u32 a);
 struct Rec0200E6FC;
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern const void *func_020084F4(const void *p);
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
@@ -141,7 +142,7 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     BEACON_GetSelect(blk, &a, &b, &c, &d);
 
     MI_CpuFill8(p, 0, sizeof(struct GdsProfile));
-    func_0201F41C(func_020084F4(rec), (u16 *)p, 8);
+    WORDSET_CopyString(func_020084F4(rec), (u16 *)p, 8);
     p->unk10 = func_02008530(rec);
     p->unk14 = func_02008550(rec);
     p->unk1C = a;

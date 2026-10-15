@@ -41,7 +41,7 @@
  *   WIFI_BSUBWAY_OpenCodeIn 0x021D7278 thumb ov116
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_02167ED8 0x02167ED8 arm ov009
+ *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   WIFI_BSUBWAY_ClearTrainers 0x021D6998 thumb ov116
  *   func_02009860 0x02009860 thumb
  *   WIFILIST_GetGsProfileId 0x02009CC0 thumb
@@ -62,7 +62,7 @@
  *   WIFI_BSUBWAY_CheckFatalError 0x021D7200 thumb ov116
  *   WIFI_BSUBWAY_GetErrorState 0x021D7184 thumb ov116
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -80,7 +80,7 @@
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -100,7 +100,7 @@
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207D63C 0x0207D63C arm
  *   BG_SYS_CreateRun 0x0203FA08 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   PALANM_BlendColors 0x02021F64 thumb
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
@@ -108,7 +108,7 @@
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
@@ -116,7 +116,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   gWifiBsubwayCodeInParam 0x021D8560 data a4
  *   d_021D8560_menu 0x021D8560 data a4
@@ -129,19 +129,19 @@
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   d_021D858C 0x021D858C data a1
  *   d_021D83C0 0x021D83C0 data a4
  *   WIFI_BSUBWAY_GRAPHIC_Draw 0x021D839C thumb ov116
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021D83B0 0x021D83B0 data a4
  *   d_021D83F0 0x021D83F0 data a4
@@ -151,6 +151,7 @@
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   ov129_id 0x81 data
  *   ov115_id 0x73 data
+ *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 #include "../../matched/include/Obj13867.h"
 #include "../../matched/include/Obj22624.h"
@@ -296,7 +297,7 @@ extern void WIFI_BSUBWAY_SaveHistory(u8 *,void *);
 extern void WIFI_BSUBWAY_OpenCodeIn(u8 *,int);
 extern int FADE_IsActive(void);
 extern void FADE_Start(u32 a, s32_021D7550 b, s32_021D7550 c, s32_021D7550 d);
-extern int func_02167ED8(void *date, void *time);
+extern int DWC_GetDateTime(void *date, void *time);
 extern int func_0200DDD0(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
 extern void WIFI_BSUBWAY_ClearTrainers(void *a);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
@@ -318,7 +319,7 @@ extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
 extern int WIFI_BSUBWAY_CheckFatalError(int *p);
 extern int WIFI_BSUBWAY_GetErrorState(int *p);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -340,7 +341,7 @@ extern u32_021D7C58 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern u32_021D7C58 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
 extern void TCBL_Main(struct Tcbl *p);
 extern void *func_020490F4(u32_021D7D0C, u32_021D7D0C);
@@ -356,7 +357,7 @@ extern void *func_020056A0(void *, void *, int);
 extern void DWCi_ScreenDC_FlushRange(void *, u32_021D7D0C);
 extern void func_0207D63C(void *, int, int, int, int);
 extern u32_021D7D0C BG_SYS_CreateRun(u32_021D7D0C layer, u32_021D7D0C size, u32_021D7D0C top);
-extern void *func_0201F5DC(void *a0, u32_021D7D0C a1, u32_021D7D0C a2, u32_021D7D0C a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32_021D7D0C a1, u32_021D7D0C a2, u32_021D7D0C a3);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
 extern void GX_LoadBGPltt(void *,int,int);
 extern void func_0207E468(void *,int,int);
@@ -364,7 +365,7 @@ extern void func_02040618(u32_021D7F54 layer, u32_021D7F54 a, u32_021D7F54 b);
 extern void BG_SYS_DeleteHalf(u32_021D7FC4 layer, u32_021D7FC4 offset, u32_021D7FC4 size);
 extern void func_02030EAC(struct Node *n);
 extern void func_02045CAC(struct MsgBank *bank, u32_021D8010 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(u32_021D8010 r, u32_021D8010 g, u32_021D8010 b);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(u32_021D8010,int,int,u32_021D8010,u32_021D8010,u32_021D8010,u32_021D8010,int,u16,int);
@@ -372,7 +373,7 @@ extern u32_021D80CC PRINTSYS_PrintStreamGetState(void *p);
 extern u32_021D80CC KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
-extern void func_0201EFA4(struct WordSet *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b, u32_021D8118 c, u32_021D8118 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b, u32_021D8118 c, u32_021D8118 d);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
 extern u32_021D8168 BMP_MENU_ProcessYesNo(u8 *);
 extern u32_021D8190 func_020056BC(void);
@@ -383,17 +384,17 @@ extern int GAME_DATA_SaveMain(u8 *);
 extern void *func_02030734(u32_021D821C heapId, u32_021D821C size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32_021D821C swap);
+extern void BMP_SetDisplaySwap(u32_021D821C swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void WIFI_BSUBWAY_GRAPHIC_Draw(void *);
 extern void BG_SYS_Create(unsigned);
 extern void BMP_WIN_Init(unsigned);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32_021D8304 bgId, const struct BgTemplate *tmpl, u32_021D8304 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 void func_020403F4(u32_021D8364 i);
 void BMP_WIN_Exit(void);
@@ -580,7 +581,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,short heap)
     case 8:
         if(FADE_IsActive()==0) {
             box=WIFI_BSUBWAY_GetRoomNumber(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
-            func_02167ED8(record,extra);
+            DWC_GetDateTime(record,extra);
             if(n<1 || n>(u32)v) { ((struct Obj00494 *)p)->fB6C=16; break; }
             if(func_0200DDD0(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
             WIFI_BSUBWAY_StartPlayerDownload(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);
@@ -734,7 +735,7 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, short heap)
     ((struct Obj10342 *)p)->f4 = heap;
     WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(p, heap);
     P(0x97c) = (void *)BMP_WIN_Create(1, 1, 19, 30, 4, 12, 1);
-    func_0201F73C(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
+    BMP_MENUWORK_DrawWindow(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
     BMP_Clear(BMP_WIN_GetBmp(P(0x97c)), 15);
     BMP_WIN_MakeScreen(P(0x97c));
     BMP_WIN_TransferChars(P(0x97c));
@@ -769,7 +770,7 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p) {
         }
         BMP_WIN_Delete(((struct Obj01721 *)p)->f97C);
         WIFI_BSUBWAY_GRAPHIC_Delete(((struct Obj01721 *)p)->f8);
-        func_0201DD68();
+        GF_FONT_SetDefaultTextColor();
         MI_CpuFill8(p,0,0x9ac);
     }
 }
@@ -845,8 +846,8 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *p, short heap) {
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_CreateRun(1, 0x20, 0);
     BG_SYS_CreateRun(2, 0x20, 0);
-    *(void **)(p + 0x984) = func_0201F5DC((void *)1, 0xd, 0, heap);
-    *(void **)(p + 0x988) = func_0201F5DC((void *)2, 0xd, 0, heap);
+    *(void **)(p + 0x984) = BMP_MENUWORK_LoadFrameGfx((void *)1, 0xd, 0, heap);
+    *(void **)(p + 0x988) = BMP_MENUWORK_LoadFrameGfx((void *)2, 0xd, 0, heap);
     func_02049B40(0x17, 5, 0, 0x180, 0x20, heap);
 }
 
@@ -882,11 +883,11 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(u8 *p) {
 void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p,u32_021D8010 a) {
  if(I(0x9a4)!=0) {PRINTSYS_PrintStreamDelete((void *)I(0x9a4)); I(0x9a4)=0;}
  func_02045CAC((struct MsgBank *)I(0x990),a,(void *)I(0x99c));
- func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
+ WORDSET_CopyTaggedText((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
  BMP_Clear((struct CharBuf *)((u32_021D8010)BMP_WIN_GetBmp((struct Descriptor *)I(0x97c))),15);
  GF_FONT_SetTextColor(1,2,15);
  I(0x9a4)=(u32_021D8010)PRINTSYS_PrintStream(I(0x97c),0,0,I(0x9a0),I(0x998),MSG_SPEED_GetWait(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
- func_0201F73C((void *)I(0x97c),1,(u16)I(0x984),13);
+ BMP_MENUWORK_DrawWindow((void *)I(0x97c),1,(u16)I(0x984),13);
  BMP_WIN_TransferChars((struct Descriptor *)I(0x97c));
 }
 
@@ -903,7 +904,7 @@ int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *p) {
 
 void WIFI_BSUBWAY_GRAPHIC_SetWord(u8 *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b)
 {
-    func_0201EFA4(((struct Obj22631 *)p)->f994, i, a, b, 2, 1);
+    WORDSET_SetSlotNumber(((struct Obj22631 *)p)->f994, i, a, b, 2, 1);
 }
 
 
@@ -941,8 +942,8 @@ void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
  *(volatile unsigned *)0x04001000 &= 0xffff1fff;
 
- BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021D83C0); func_0204363C(a);
- BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes(); func_0201DD60();
+ BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021D83C0); BMP_SetDisplaySwap(a);
+ BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes(); GF_FONT_InitTextColor();
  WIFI_BSUBWAY_GRAPHIC_SetupBg(p,heap);
  ((struct Obj22632 *)p)->fC=func_020056A0((void *)WIFI_BSUBWAY_GRAPHIC_OnRedraw,p,0);
  return p;
@@ -950,7 +951,7 @@ void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
 
 
 void WIFI_BSUBWAY_GRAPHIC_Delete(void *p) {
- func_02030EAC(((struct Obj22633 *)p)->fC); WIFI_BSUBWAY_GRAPHIC_TeardownBg(p); func_0201DD68();
+ func_02030EAC(((struct Obj22633 *)p)->fC); WIFI_BSUBWAY_GRAPHIC_TeardownBg(p); GF_FONT_SetDefaultTextColor();
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
@@ -966,11 +967,11 @@ void WIFI_BSUBWAY_GRAPHIC_OnRedraw(void *a,void *b) {WIFI_BSUBWAY_GRAPHIC_Draw(b
 void WIFI_BSUBWAY_GRAPHIC_SetupBg(void *p,unsigned heap) {
  unsigned i; char *q; unsigned n;
  MI_CpuFill8(p,0,4);
- BG_SYS_Create(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021D83B0);
+ BG_SYS_Create(heap); BMP_WIN_Init(heap); BG_SYS_SetGraphicsMode((struct DispConfig *)d_021D83B0);
  for(i=0;i<8;i++) {
  q=d_021D83F0+i*44; n=((struct Obj10347 *)q)->f0;
  BG_SYS_InitBgLayer((u8)n,(const struct BgTemplate *)(q+4),(u8)(((struct Obj10347 *)q)->f24));
- func_020414AC(n); func_02040588(n,((struct Obj10347 *)q)->f28);
+ BG_SYS_FreeSlot(n); func_02040588(n,((struct Obj10347 *)q)->f28);
  }
 }
 
@@ -990,5 +991,5 @@ void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0)
 
 
 
-extern void func_020419E4(void *);
-void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { func_020419E4(p); }
+extern void BG_SYS_Update(void *);
+void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { BG_SYS_Update(p); }

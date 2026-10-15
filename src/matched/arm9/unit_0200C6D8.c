@@ -40,6 +40,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  */
 
 typedef unsigned char  u8;
@@ -47,7 +48,7 @@ typedef unsigned int   u32;
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 struct Blk2C {
     u8   unk00[0x20];
@@ -86,7 +87,7 @@ u32 MUSICAL_DIST_SAVE_IsFooterSet(struct Buf2000 *p)
     u32 r = 0;
 
     MI_CpuFill8(blank, 0, sizeof(blank));
-    if (func_0203EFC8(blank, p->unk1FE0, sizeof(blank)) != 0) {
+    if (GF_STANDARD_CompareBytes(blank, p->unk1FE0, sizeof(blank)) != 0) {
         r = 1;
     }
     return r;

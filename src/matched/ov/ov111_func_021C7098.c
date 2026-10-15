@@ -1,5 +1,5 @@
 /*
- * function: func_021C7098
+ * function: VIEWER_TEXT_Delete
  * address:  0x021C7098
  * packet:   pkt_ov111_021C7098
  * region:   ov111
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C795C  0x021C795C  thumb
- *   func_021C78F8  0x021C78F8  thumb
- *   func_021C7808  0x021C7808  thumb
- *   func_021C7730  0x021C7730  thumb
- *   func_021C7658  0x021C7658  thumb
- *   func_021C74D0  0x021C74D0  thumb
- *   func_021C72C8  0x021C72C8  thumb
- *   func_021C71CC  0x021C71CC  thumb
- *   func_021C81C0  0x021C81C0  thumb
+ *   VIEWER_ACTOR_DeleteFont  0x021C795C  thumb
+ *   VIEWER_ACTOR_DeleteBgWindow  0x021C78F8  thumb
+ *   VIEWER_ACTOR_DeleteModel  0x021C7808  thumb
+ *   VIEWER_ACTOR_Exit3D  0x021C7730  thumb
+ *   VIEWER_ACTOR_DeleteObjects  0x021C7658  thumb
+ *   VIEWER_TEXT_FreeBgResources  0x021C74D0  thumb
+ *   VIEWER_TEXT_ExitBg  0x021C72C8  thumb
+ *   VIEWER_TEXT_FreeResources  0x021C71CC  thumb
+ *   VIEWER_ACTOR_SetRtcDate  0x021C81C0  thumb
  *   func_020315D4  0x020315D4  arm
  *   func_0203084C  0x0203084C  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -99,33 +99,33 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void func_021C795C(Work *p);
-extern void func_021C78F8(Work *p);
-extern void func_021C7808(Work *p);
-extern void func_021C7730(Work *p);
-extern void func_021C7658(Work *p);
-extern void func_021C74D0(Work *p);
-extern void func_021C72C8(Work *p);
-extern void func_021C71CC(Work *p);
-extern void func_021C81C0(Work *p);
+extern void VIEWER_ACTOR_DeleteFont(Work *p);
+extern void VIEWER_ACTOR_DeleteBgWindow(Work *p);
+extern void VIEWER_ACTOR_DeleteModel(Work *p);
+extern void VIEWER_ACTOR_Exit3D(Work *p);
+extern void VIEWER_ACTOR_DeleteObjects(Work *p);
+extern void VIEWER_TEXT_FreeBgResources(Work *p);
+extern void VIEWER_TEXT_ExitBg(Work *p);
+extern void VIEWER_TEXT_FreeResources(Work *p);
+extern void VIEWER_ACTOR_SetRtcDate(Work *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void *func_0203084C(u32 heapId);
-extern void func_020306F0(u32 heap);
+extern void GFL_HEAP_DeleteChecked(u32 heap);
 
-int func_021C7098(void *proc, void *seq, int c, Work *p)
+int VIEWER_TEXT_Delete(void *proc, void *seq, int c, Work *p)
 {
-    func_021C795C(p);
-    func_021C78F8(p);
-    func_021C7808(p);
-    func_021C7730(p);
-    func_021C7658(p);
-    func_021C74D0(p);
-    func_021C72C8(p);
-    func_021C71CC(p);
-    func_021C81C0(p);
+    VIEWER_ACTOR_DeleteFont(p);
+    VIEWER_ACTOR_DeleteBgWindow(p);
+    VIEWER_ACTOR_DeleteModel(p);
+    VIEWER_ACTOR_Exit3D(p);
+    VIEWER_ACTOR_DeleteObjects(p);
+    VIEWER_TEXT_FreeBgResources(p);
+    VIEWER_TEXT_ExitBg(p);
+    VIEWER_TEXT_FreeResources(p);
+    VIEWER_ACTOR_SetRtcDate(p);
     func_020315D4(proc);
     func_0203084C(0x27);
-    func_020306F0(0x27);
+    GFL_HEAP_DeleteChecked(0x27);
     return 1;
 }

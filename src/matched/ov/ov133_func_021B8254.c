@@ -13,9 +13,9 @@
  *   func_021BA124 0x021BA124 thumb ov133
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
- *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_021F4EA4 0x021F4EA4 thumb ov112
- *   func_021F4E8C 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  */
 #include "../include/Obj00004.h"
 typedef unsigned char u8;
@@ -27,9 +27,9 @@ extern void func_021BA148(u8 *p, u8 *q);
 extern void func_021BA124(u8 *p, u8 *q);
 extern void *func_021BA184(char *p);
 extern u32 func_021BA208(u8 *p);
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4EA4(u32 unused, u32 p, u32 q);
-extern void func_021F4E8C(int, int, Vec *);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
+extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
+extern void MUSICAL_MCSS_SetElemPos(int, int, Vec *);
 void func_021B8254(u8 *p)
 {
     Vec v;
@@ -38,13 +38,13 @@ void func_021B8254(u8 *p)
     s = (u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA148(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA124(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
-    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884, (int)s, 4096, 4096);
+    MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj00004 *)p)->f1884, (int)s, 4096, 4096);
     e = func_021BA184(((struct Obj00004 *)p)->f1820);
     while (e) {
         s = (u8 *)func_021BA218(e);
-        func_021F4EA4(*(int *)(p + 0x1884), (int)s, (u32)(&v));
+        MUSICAL_MCSS_SetElemScale(*(int *)(p + 0x1884), (int)s, (u32)(&v));
         v.z = z;
-        func_021F4E8C(*(int *)(p + 0x1884), (int)s, &v);
+        MUSICAL_MCSS_SetElemPos(*(int *)(p + 0x1884), (int)s, &v);
         z -= 1024;
         e = (u8 *)func_021BA208(e);
     }

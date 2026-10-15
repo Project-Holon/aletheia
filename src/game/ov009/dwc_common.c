@@ -1,7 +1,7 @@
 /*
  * file:     dwc_common.c
  * unit:     yes
- * function: func_02168454, func_0216848C, func_021684CC, func_021685CC, func_021686E0
+ * function: DWC_SetCommonKeyValueString, DWC_AddCommonKeyValueString, DWC_GetCommonValueString, func_021685CC, DWCi_WStrLen
  * address:  0x02168454
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -45,11 +45,11 @@ typedef struct {
 extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
 extern void OS_GetMacAddress(u8 *macAddress);
 extern u64 OS_GetTick(void);
-/* * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length. */ int func_02168454(const char *key, const char *value, char *string, char sep);
-/* * DWC_AddCommonKeyValueString: appends one key-value pair and returns the whole string's length. */ int func_0216848C(const char *key, const char *value, char *string, char sep);
-int func_021684CC(char *key, char *value, char *string, char separator);
-/* * lane18 (2026-10-01): EXACT. dwc_common.o's stRandContext32 is a data-local static: * declared as a function-local static (non-aliasing in 1.1p1) with the SDK inlines * MATH_InitRand32/MATH_Rand32, the .bss pool word and the fresh x-store word both fall out. * * sdk: DWCi_GetMathRand32 (libdwcmatch.TWL.HYB.a(dwc_common.o)) */ u32 func_021685CC(u32 max);
-/* * Returns the index of the first zero halfword in the array. */ int func_021686E0(unsigned short *p);
+/* * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length. */ int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
+/* * DWC_AddCommonKeyValueString: appends one key-value pair and returns the whole string's length. */ int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep);
+int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
+/* * lane18 (2026-10-01): EXACT. dwc_common.o's stRandContext32 is a data-local static: * declared as a function-local static (non-aliasing in 1.1p1) with the SDK inlines * MATH_InitRand32/MATH_Rand32, the .bss pool word and the fresh x-store word both fall out. * * sdk: func_021685CC (libdwcmatch.TWL.HYB.a(dwc_common.o)) */ u32 func_021685CC(u32 max);
+/* * Returns the index of the first zero halfword in the array. */ int DWCi_WStrLen(unsigned short *p);
 extern char d_021A1FF8[];
 
 
@@ -58,7 +58,7 @@ extern char d_021A1FF8[];
 /*
  * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length.
  */
-int func_02168454(const char *key, const char *value, char *string, char sep)
+int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep)
 {
     OS_SNPrintf(string, 0x1000, d_021A1FF8, sep, key, sep, value);
     return strlen((const char *)string);
@@ -70,9 +70,9 @@ int func_02168454(const char *key, const char *value, char *string, char sep)
 /*
  * DWC_AddCommonKeyValueString: appends one key-value pair and returns the whole string's length.
  */
-int func_0216848C(const char *key, const char *value, char *string, char sep)
+int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep)
 {
-    func_02168454(key, value, strchr(string, 0), sep);
+    DWC_SetCommonKeyValueString(key, value, strchr(string, 0), sep);
     return strlen((const char *)string);
 }
 
@@ -81,7 +81,7 @@ int func_0216848C(const char *key, const char *value, char *string, char sep)
 /*
  * sdk:      DWC_GetCommonValueString (libdwcmatch.TWL.HYB.a(dwc_common.o))
  */
-int func_021684CC(char *key, char *value, char *string, char separator)
+int DWC_GetCommonValueString(char *key, char *value, char *string, char separator)
 {
     int len;
     char *pSrcEnd;
@@ -146,7 +146,7 @@ static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max)
  *   declared as a function-local static (non-aliasing in 1.1p1) with the SDK inlines
  *   MATH_InitRand32/MATH_Rand32, the .bss pool word and the fresh x-store word both fall out.
  *
- * sdk:      DWCi_GetMathRand32 (libdwcmatch.TWL.HYB.a(dwc_common.o))
+ * sdk:      func_021685CC (libdwcmatch.TWL.HYB.a(dwc_common.o))
  */
 u32 func_021685CC(u32 max)
 {
@@ -165,7 +165,7 @@ u32 func_021685CC(u32 max)
 /*
  * Returns the index of the first zero halfword in the array.
  */
-int func_021686E0(unsigned short *p)
+int DWCi_WStrLen(unsigned short *p)
 {
     int i = 0;
 

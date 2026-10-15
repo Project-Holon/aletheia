@@ -21,7 +21,7 @@
  *   func_02049B68  0x02049B68  arm
  *   func_02049740  0x02049740  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -35,10 +35,10 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_0201D304  0x0201D304  thumb
  *   d_021B9564     0x021B9564  data  a1
- *   func_020414AC  0x020414AC  arm
+ *   BG_SYS_FreeSlot  0x020414AC  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   func_020498F4  0x020498F4  arm
  *   func_02040588  0x02040588  arm
  *   func_02049B40  0x02049B40  arm
@@ -108,7 +108,7 @@ extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void func_02049B68(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
 extern u32 func_02049740(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_020413B0(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
+extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void func_020409B4(u8 layer);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 value);
 extern void CLACT_DeleteActor(struct Actor *actor);
@@ -121,10 +121,10 @@ extern void PRINTSYS_PrintQueColor(struct PrintSys *printer, struct CharBuf *cha
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
 extern u32 func_0201D304(struct StrBuf *text, u32 fontId, u32 spacing);
-extern void func_020414AC(u32 layer);
+extern void BG_SYS_FreeSlot(u32 layer);
 extern u32 ARC_TOOL_GetHandleMemberSize(void *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(void *arc, u32 member, void *dest);
-extern s32 func_02062A98(void *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(void *file, void **out);
 extern void func_020498F4(void *arc, u32 mapId, u32 layer, u32 tileOffset, u32 size, u32 blockOffset, u16 heapId);
 extern void func_02040588(unsigned char layer, unsigned char enable);
 extern void func_02049B40(u32 arcId, u32 plttId, u32 target, u32 offset, u32 size, u16 heapId);
@@ -195,15 +195,15 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
         isSubScreen = 1;
     menu->isSubScreen = isSubScreen;
     menu->actorPlttSlot = actorPlttSlot;
-    func_020414AC(menu->buttonBgLayer);
-    func_020414AC(menu->textBgLayer);
+    BG_SYS_FreeSlot(menu->buttonBgLayer);
+    BG_SYS_FreeSlot(menu->textBgLayer);
     menu->state = YESNO_MENU_STATE_IDLE;
     menu->answer = YESNO_MENU_ANSWER_PENDING;
     menu->cursorIndex = 0;
     arc = func_020490F4(0x53, menu->heapId);
     file = func_02030734(menu->heapId, ARC_TOOL_GetHandleMemberSize(arc, 0xa3), 0, d_021B9564, 0x10d);
     ARC_TOOL_ReadHandleMember(arc, 0xa3, file);
-    func_02062A98(file, (void **)(&plttFile));
+    NNS_G2dGetUnpackedPaletteData(file, (void **)(&plttFile));
     colors = plttFile->colors[0];
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 16; j++) {
@@ -214,8 +214,8 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     func_02049B68(arc, 0xa3, menu->plttTarget, menu->yesPlttSlot << 5, 0x40, menu->heapId);
     menu->buttonTileAlloc = func_02049740(arc, 0xa4, menu->buttonBgLayer, 0x1a0, 0, menu->heapId);
     func_020498F4(arc, 0xa5, menu->buttonBgLayer, (u16)menu->buttonTileAlloc, 0x600, 0, menu->heapId);
-    func_020413B0(menu->buttonBgLayer, 0, 0, 0x20, 0xb, menu->yesPlttSlot);
-    func_020413B0(menu->buttonBgLayer, 0, 0xb, 0x20, 0xd, menu->noPlttSlot);
+    BG_SYS_FillTileMap(menu->buttonBgLayer, 0, 0, 0x20, 0xb, menu->yesPlttSlot);
+    BG_SYS_FillTileMap(menu->buttonBgLayer, 0, 0xb, 0x20, 0xd, menu->noPlttSlot);
     func_020409B4(menu->buttonBgLayer);
     ARC_TOOL_DeleteHandle(arc);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->yesPlttSlot, menu->palette);

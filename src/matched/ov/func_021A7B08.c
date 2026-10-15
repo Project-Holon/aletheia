@@ -1,5 +1,5 @@
 /*
- * function: func_021A7B08
+ * function: FIELD_GROUND_ANIME_GetEntryPos
  * address:  0x021A7B08
  * packet:   pkt_021A7B08
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021A811C with no argument change.
+ * Tail-call thunk: forwards to FIELD_GROUND_ANIME_GetEntryPosByMapKind with no argument change.
  *
  * symbols:
- *   func_021A811C  0x021A811C  thumb
+ *   FIELD_GROUND_ANIME_GetEntryPosByMapKind  0x021A811C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A811C(u32 a, u32 b);
+extern int FIELD_GROUND_ANIME_GetEntryPosByMapKind(u32 a, u32 b);
 
 struct V3;
 
-void func_021A7B08(int a, struct V3 *b)
+void FIELD_GROUND_ANIME_GetEntryPos(int a, struct V3 *b)
 {
-    func_021A811C(a, (u32)b);
+    FIELD_GROUND_ANIME_GetEntryPosByMapKind(a, (u32)b);
 }

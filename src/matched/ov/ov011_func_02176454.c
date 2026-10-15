@@ -21,7 +21,7 @@
  *   POKEPARTY_IsMemberBattleReady  0x0201AB34  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   func_02019CA0  0x02019CA0  thumb
+ *   POKE_TOOL_SetLevelAndRecalc  0x02019CA0  thumb
  *   func_02034714  0x02034714  arm
  *   d_02177010     0x02177010  data  ov011  a1
  */
@@ -54,7 +54,7 @@ extern struct Party *POKEPARTY_Create(u32 heap);
 extern u32 POKEPARTY_IsMemberBattleReady(void *p, u32 idx);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void func_02019CA0(void *p, u32 v);
+extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int INTRUDE_COMM_PartyProcInit(struct Obj0203159C *a0, int a1, Arg *arg)
@@ -79,7 +79,7 @@ int INTRUDE_COMM_PartyProcInit(struct Obj0203159C *a0, int a1, Arg *arg)
         }
         if (POKEPARTY_IsMemberBattleReady(list, i) == 1) {
             POKEPARTY_Add(((struct Obj07335 *)w)->fF8, POKEPARTY_GetMember(list, i));
-            func_02019CA0(POKEPARTY_GetMember(((struct Obj07335 *)w)->fF8, cnt), arg->b5);
+            POKE_TOOL_SetLevelAndRecalc(POKEPARTY_GetMember(((struct Obj07335 *)w)->fF8, cnt), arg->b5);
             cnt++;
         }
     }

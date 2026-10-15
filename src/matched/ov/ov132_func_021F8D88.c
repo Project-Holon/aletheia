@@ -16,7 +16,7 @@
  *
  * symbols:
  *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
- *   func_021F6FB0  0x021F6FB0  thumb  ov112
+ *   STA_ACT_LIGHT_CreateModel  0x021F6FB0  thumb  ov112
  *
  * Addresses are Black-image addresses.
  */
@@ -29,10 +29,10 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
-extern void func_021F6FB0(void *, int);
+extern void STA_ACT_LIGHT_CreateModel(void *, int);
 
 void STA_ACTING_SetBaseProgram(u8 *p, u32 a1)
 {
     int v = MUSICAL_PROGRAM_GetBaseProgramId(((struct Obj23181 *)((u8 *)((struct Obj14083 *)p)->f30))->f14);
-    func_021F6FB0(((struct Obj14083 *)p)->f3C, v);
+    STA_ACT_LIGHT_CreateModel(((struct Obj14083 *)p)->f3C, v);
 }

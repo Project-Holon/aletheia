@@ -1,5 +1,5 @@
 /*
- * function: func_021D6788
+ * function: WIFIBATTLEMATCH_NET_SetWaitCallback
  * address:  0x021D6788
  * packet:   pkt_021D6788
  * region:   ov175
@@ -26,7 +26,7 @@ typedef unsigned long u32;
 
 extern void func_021E8AA0(u32 sys, void *fn);
 
-void func_021D6788(char *obj, void *fn)
+void WIFIBATTLEMATCH_NET_SetWaitCallback(char *obj, void *fn)
 {
     func_021E8AA0(((struct Obj01562 *)obj)->f38, fn);
     ((struct Obj01562 *)obj)->f3C = 0xFFFF;

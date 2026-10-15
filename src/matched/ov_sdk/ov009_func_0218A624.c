@@ -1,5 +1,5 @@
 /*
- * function: func_0218A624
+ * function: gpiConnect
  * address:  0x0218A624
  * packet:   pkt_ov009_0218A624
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      gpiConnect (gpiconnect.o)
  *
  * symbols:
- *   func_021867E8  0x021867E8  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
- *   func_0219327C  0x0219327C  arm   ov009
+ *   gpiReset  0x021867E8  arm   ov009
+ *   gpiSetErrorString  0x02193734  arm   ov009
+ *   strzcpy  0x0219327C  arm   ov009
  *   _strlwr  0x0217F21C  arm   ov009
- *   func_0217EAB0  0x0217EAB0  arm   ov009
+ *   gsimalloc  0x0217EAB0  arm   ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   func_0218E114  0x0218E114  arm   ov009
- *   func_0218A238  0x0218A238  arm   ov009
- *   func_0218DD88  0x0218DD88  arm   ov009
- *   func_0218B760  0x0218B760  arm   ov009
+ *   gpiStartConnect  0x0218A238  arm   ov009
+ *   gpiFailedOpCallback  0x0218DD88  arm   ov009
+ *   gpiDisconnect  0x0218B760  arm   ov009
  *   func_02186E9C  0x02186E9C  arm   ov009
  *   g_021A4818     0x021A4818  data
  *   g_021A482C     0x021A482C  data
@@ -66,21 +66,21 @@ typedef struct GPIConnection {
     int connectState;
 } GPIConnection;
 
-extern int func_021867E8(void **connection);
-extern void func_02193734(int *p, int b);
-extern void func_0219327C(char *p, int b, int n);
+extern int gpiReset(void **connection);
+extern void gpiSetErrorString(int *p, int b);
+extern void strzcpy(char *p, int b, int n);
 extern char *_strlwr(char *string);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern int func_0218A238(void **connection, GPIOperation *operation);
-extern int func_0218DD88(void **connection, const struct GPIOperation_s *operation);
-extern void func_0218B760(void **connection, int tellServer);
+extern int gpiStartConnect(void **connection, GPIOperation *operation);
+extern int gpiFailedOpCallback(void **connection, const struct GPIOperation_s *operation);
+extern void gpiDisconnect(void **connection, int tellServer);
 extern int func_02186E9C(void **connection, int blockingOperationID);
 extern char g_021A4818[];
 extern char g_021A482C[];
 
-int func_0218A624(void **connection, char *nick, char *uniquenick, char *email,
+int gpiConnect(void **connection, char *nick, char *uniquenick, char *email,
                   char *password, char *authtoken, char *partnerchallenge,
                   char *cdkey, int firewall, int newuser, int blocking,
                   void (*callback)(void **, void *, void *), void *param)
@@ -91,45 +91,45 @@ int func_0218A624(void **connection, char *nick, char *uniquenick, char *email,
     int result;
 
     if (iconnection->connectState == 4) {
-        int __result__ = func_021867E8(connection);
+        int __result__ = gpiReset(connection);
         if (__result__ != 0) return __result__;
     }
     if (iconnection->connectState != 0) {
-        func_02193734((int *)connection, (int)g_021A4818);
+        gpiSetErrorString((int *)connection, (int)g_021A4818);
         return 2;
     }
 
     iconnection->firewall = 1;
-    func_0219327C(iconnection->nick, (int)nick, 31);
-    func_0219327C(iconnection->uniquenick, (int)uniquenick, 21);
-    func_0219327C(iconnection->email, (int)email, 51);
-    func_0219327C(iconnection->password, (int)password, 31);
+    strzcpy(iconnection->nick, (int)nick, 31);
+    strzcpy(iconnection->uniquenick, (int)uniquenick, 21);
+    strzcpy(iconnection->email, (int)email, 51);
+    strzcpy(iconnection->password, (int)password, 31);
     _strlwr(iconnection->email);
 
-    data = (GPIConnectData *)func_0217EAB0(sizeof(GPIConnectData));
+    data = (GPIConnectData *)gsimalloc(sizeof(GPIConnectData));
     if (data == 0) {
-        func_02193734((int *)connection, (int)g_021A482C);
+        gpiSetErrorString((int *)connection, (int)g_021A482C);
         return 1;
     }
     MSL_C_LIB_MemsetPtr(data, 0, sizeof(GPIConnectData));
     data->newuser = newuser;
     if (authtoken[0] && partnerchallenge[0]) {
-        func_0219327C(data->authtoken, (int)authtoken, 256);
-        func_0219327C(data->partnerchallenge, (int)partnerchallenge, 256);
+        strzcpy(data->authtoken, (int)authtoken, 256);
+        strzcpy(data->partnerchallenge, (int)partnerchallenge, 256);
     }
     if (cdkey)
-        func_0219327C(data->cdkey, (int)cdkey, 65);
+        strzcpy(data->cdkey, (int)cdkey, 65);
 
     {
         int __result__ = func_0218E114(connection, 0, data, &operation, blocking, callback, param);
         if (__result__ != 0) return __result__;
     }
 
-    result = func_0218A238(connection, operation);
+    result = gpiStartConnect(connection, operation);
     if (result != 0) {
         operation->result = result;
-        func_0218DD88(connection, operation);
-        func_0218B760(connection, 0);
+        gpiFailedOpCallback(connection, operation);
+        gpiDisconnect(connection, 0);
         return result;
     }
 

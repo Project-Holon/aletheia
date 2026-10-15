@@ -1,5 +1,5 @@
 /*
- * function: func_02155A6C
+ * function: IRC_BATTLE_ENTRY_RestoreBgm
  * address:  0x02155A6C
  * packet:   pkt_ov010_02155A6C
  * region:   ov010
@@ -28,7 +28,7 @@ struct Ctx {
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u16 b);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-void func_02155A6C(struct Ctx *ctx)
+void IRC_BATTLE_ENTRY_RestoreBgm(struct Ctx *ctx)
 {
     if (ctx->f54 != 0) {
         GFL_USE_CancelChangeAndPlayBgm(ctx->f54, 0xFFFF);

@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_UnlinkUnit  0x0204BC40  arm
  *   CLACT_DeleteActor   0x0204B3B4  arm
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *
  * The inverse of src/matched/CLACT_CreateUnit.c: quiesce the cell-actor bank,
  * tear down every live actor record, then free the record array and the bank
@@ -48,7 +48,7 @@ extern void CLACT_UnlinkUnit(struct Bank *bank);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 u32 CLACT_DeleteUnit(struct Bank *bank)
 {
@@ -62,6 +62,6 @@ u32 CLACT_DeleteUnit(struct Bank *bank)
         }
     }
 
-    sub_020307B0(bank->actors);
-    return sub_020307B0(bank);
+    GFL_HEAP_Free(bank->actors);
+    return GFL_HEAP_Free(bank);
 }

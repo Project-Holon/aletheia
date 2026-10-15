@@ -70,8 +70,8 @@
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201F73C 0x0201F73C thumb
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
@@ -112,7 +112,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_020275E4 0x020275E4 thumb
  *   func_0202762C 0x0202762C thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   COMM_TVT_SYS_GetInputLocked 0x021BE0C8 thumb ov172
  */
@@ -132,13 +132,13 @@ extern u32 func_0202762C(void);
 extern struct ArcHandle *func_020490F4(u32 id, u32 heapId);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void BG_SYS_ResetSlot(u32 a, u32 b, u32 c);
 extern void func_02041B6C(u32 layer);
-extern void func_0201F73C(struct BmpWin *win, int a1, int a2, int a3);
-extern void func_0201F7A8(struct BmpWin *win, u32 kind);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
 
 /* Cell actors. */
@@ -277,7 +277,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     arc = func_020490F4(func_020275E4(), heapId);
     BG_SYS_ClearSlot(0);
     func_02049990(arc, func_0202762C(), 0, 0x60, 0, 0x600, 0, heapId);
-    func_020413B0(0, 0, 0x15, 0x20, 3, 0);
+    BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
     func_020409B4(0);
     func_02040618(0, 3, 0);
     ARC_TOOL_DeleteHandle(arc);
@@ -391,7 +391,7 @@ void CTVT_DRAW_Exit(CtvtWork *work, CtvtDrawScene *scene)
     }
     win = 0;
     GFL_NET_RestartWithDefaultTimeout(0, heapId);
-    func_0201F7A8(scene->helpWin, 0);
+    BMP_MENUWORK_DrawWindowBorder(scene->helpWin, 0);
     win = scene->helpWin;
     BMP_WIN_ClearScreen(win);
     func_020409B4(BMP_WIN_GetBgLayer(win));
@@ -569,7 +569,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     if (scene->helpPending == 1) {
         printQue = COMM_TVT_SYS_GetPrintQue(work);
         if (PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(scene->helpWin)) == 0) {
-            func_0201F73C(scene->helpWin, 2, 0x140, 9);
+            BMP_MENUWORK_DrawWindow(scene->helpWin, 2, 0x140, 9);
             BMP_WIN_TransferChars(scene->helpWin);
             BMP_WIN_MakeScreen(scene->helpWin);
             func_02041B6C(4);
@@ -991,7 +991,7 @@ void CTVT_DRAW_ShowHelp(CtvtWork *work, CtvtDrawScene *scene, int page)
     oldWin = scene->helpWin;
     if (oldWin != 0) {
         PRINTSYS_QUE_Clear(printQue);
-        func_0201F7A8(scene->helpWin, 2);
+        BMP_MENUWORK_DrawWindowBorder(scene->helpWin, 2);
         BMP_WIN_ClearScreen(scene->helpWin);
     }
     scene->helpPage = page;
@@ -1074,7 +1074,7 @@ void CTVT_DRAW_ShowMessage(CtvtWork *work, CtvtDrawScene *scene, int msgId)
     STRBUF_Delete(text);
     BMP_WIN_TransferChars(scene->messageWin);
     BMP_WIN_MakeScreen(scene->messageWin);
-    func_0201F73C(scene->messageWin, 1, 512, 9);
+    BMP_MENUWORK_DrawWindow(scene->messageWin, 1, 512, 9);
     scene->messagePending = 1;
 }
 

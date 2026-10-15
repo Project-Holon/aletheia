@@ -1,5 +1,5 @@
 /*
- * function: func_02198850
+ * function: AddressToString
  * address:  0x02198850
  * packet:   pkt_ov009_02198850
  * region:   ov009
@@ -38,7 +38,7 @@ extern char g_021A596C[];
 extern char *func_0215FA9C(SOCInAddr in);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 
-char *func_02198850(unsigned int ip, unsigned short port, char *string)
+char *AddressToString(unsigned int ip, unsigned short port, char *string)
 {
     SOCInAddr inAddr;
     char *strAddress;

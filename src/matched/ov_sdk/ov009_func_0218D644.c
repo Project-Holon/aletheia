@@ -1,5 +1,5 @@
 /*
- * function: func_0218D644
+ * function: gpiSetInfoCache
  * address:  0x0218D644
  * packet:   pkt_ov009_0218D644
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0218D71C  0x0218D71C  arm   ov009
- *   func_0217EAB0  0x0217EAB0  arm   ov009
+ *   gsimalloc  0x0217EAB0  arm   ov009
  *   goastrdup  0x0217F1E0  arm   ov009
  */
 
@@ -40,15 +40,15 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern void func_0218D71C(GPIProfile *profile);
-extern void *func_0217EAB0(unsigned long size);
+extern void *gsimalloc(unsigned long size);
 extern char *goastrdup(char *src);
 
-int func_0218D644(void **connection, GPIProfile *profile, GPIInfoCache *cache)
+int gpiSetInfoCache(void **connection, GPIProfile *profile, GPIInfoCache *cache)
 {
     if (((GPIConnection *)*connection)->f100 == 0)
         return 1;
     func_0218D71C(profile);
-    profile->cache = func_0217EAB0(sizeof(GPIInfoCache));
+    profile->cache = gsimalloc(sizeof(GPIInfoCache));
     if (profile->cache != 0) {
         *profile->cache = *cache;
         profile->cache->s0 = goastrdup(cache->s0);

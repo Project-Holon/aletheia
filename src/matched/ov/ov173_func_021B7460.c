@@ -10,7 +10,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   POKE_SUMMARY_MAIN_SetTextByKind 0x021B7378 thumb ov173
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStreamCallBack 0x0201CD10 thumb
@@ -32,7 +32,7 @@ struct Descriptor;
 struct Rec;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern void POKE_SUMMARY_MAIN_SetTextByKind(char *, u32);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
@@ -48,7 +48,7 @@ void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind)
     void *q;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj03858 *)p)->f20), 15);
     zero = 0;
-    func_0201F73C(((struct Obj03858 *)p)->f20, 0, 1, 13);
+    BMP_MENUWORK_DrawWindow(((struct Obj03858 *)p)->f20, 0, 1, 13);
     POKE_SUMMARY_MAIN_SetTextByKind(p, kind);
     speed = MSG_SPEED_GetWait();
     ((struct Obj03858 *)p)->f6C = PRINTSYS_PrintStreamCallBack(*(u32 *)&((struct Obj03858 *)p)->f20, 0, 0, ((struct Obj03858 *)p)->f4C, ((struct Obj03858 *)p)->f60, speed, ((struct Obj03858 *)p)->f64, zero, 0x4f, 0xffff, (u32)POKE_SUMMARY_MAIN_SoundStateCallback);

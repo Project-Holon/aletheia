@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   sub_02082BCC  0x02082BCC  arm
  *
  * The sibling of CLACT_ExitMultiCellAnimCtl: same destructor shape for the variant whose
@@ -32,11 +32,11 @@ struct Obj {
     void *unk_78;
 };
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void sub_02082BCC(void *dst, int value, u32 len);
 
 void CLACT_ExitVramAnimCtl(struct Obj *o)
 {
-    sub_020307B0(o->unk_78);
+    GFL_HEAP_Free(o->unk_78);
     sub_02082BCC(o, 0, 0x7c);
 }

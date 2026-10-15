@@ -1,5 +1,5 @@
 /*
- * function: func_0215E588
+ * function: SOCLi_GetOptimumSendBufLen
  * address:  0x0215E588
  * packet:   pkt_ov009_0215E588
  * region:   ov009
@@ -32,7 +32,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0215E588.c \
- *       --func func_0215E588 --addr 0x0215E588 --region ov009 --arm --cc 1.1p1 \
+ *       --func SOCLi_GetOptimumSendBufLen --addr 0x0215E588 --region ov009 --arm --cc 1.1p1 \
  *       --lang c99 --diff
  */
 
@@ -60,7 +60,7 @@ extern int func_0209C0A4(int a, int b);
 extern Info gMslRefToken;
 extern struct CPSConfig g_021AA450;
 
-int func_0215E588(int len)
+int SOCLi_GetOptimumSendBufLen(int len)
 {
 	Soc *soc;
 	int temp;

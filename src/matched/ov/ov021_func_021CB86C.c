@@ -1,5 +1,5 @@
 /*
- * function: func_021CB86C
+ * function: BSUBWAY_SCR_WaitCommRecvEnd
  * address:  0x021CB86C
  * packet:   pkt_ov021_021CB86C
  * region:   ov021
@@ -33,7 +33,7 @@ extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 struct Obj;
 extern int BSUBWAY_COMM_IsRecvEnd(struct Obj *o, u16 *out);
 
-int func_021CB86C(u32 unused, u32 a)
+int BSUBWAY_SCR_WaitCommRecvEnd(u32 unused, u32 a)
 {
     void *t;
     void *s;

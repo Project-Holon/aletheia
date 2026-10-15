@@ -16,7 +16,7 @@
  *   POKETRADE_PROC_GetSlotPosition 0x021DB4B4 thumb ov119
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   POKETRADE_PROC_RedrawAndSyncGrid 0x021DB7AC thumb ov119
- *   d_021E7FE0 0x021E7FE0 data a4
+ *   gScrollSnapPos 0x021E7FE0 data a4
  */
 #include "../include/Obj00130.h"
 extern unsigned int KEY_GetRepeat(void);
@@ -29,7 +29,7 @@ extern int POKETRADE_PROC_IsSlotVisible(char *, int);
 extern int POKETRADE_PROC_GetSlotPosition(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void POKETRADE_PROC_RedrawAndSyncGrid(char *, int, int);
-extern const int d_021E7FE0[];
+extern const int gScrollSnapPos[];
 void POKETRADE_PROC_PollGridKeys(char *p)
 {
     int changed = 0;
@@ -40,29 +40,29 @@ void POKETRADE_PROC_PollGridKeys(char *p)
     if (k & 0x100) {
         func_020355D8(0);
         for (i = 0; i < ((struct Obj00130 *)p)->f630 + 1; i++) {
-            if (d_021E7FE0[i] > ((struct Obj00130 *)p)->f107C) {
-                ((struct Obj00130 *)p)->f107C = d_021E7FE0[i];
+            if (gScrollSnapPos[i] > ((struct Obj00130 *)p)->f107C) {
+                ((struct Obj00130 *)p)->f107C = gScrollSnapPos[i];
                 changed = 1;
                 break;
             }
         }
         if (!changed) {
             changed = 1;
-            ((struct Obj00130 *)p)->f107C = d_021E7FE0[0];
+            ((struct Obj00130 *)p)->f107C = gScrollSnapPos[0];
         }
         POKETRADE_PROC_ClampScrollColumn(p, changed);
     } else if (k & 0x200) {
         func_020355D8(0);
         for (i = ((struct Obj00130 *)p)->f630; i >= 0; i--) {
-            if (d_021E7FE0[i] < ((struct Obj00130 *)p)->f107C) {
-                ((struct Obj00130 *)p)->f107C = d_021E7FE0[i];
+            if (gScrollSnapPos[i] < ((struct Obj00130 *)p)->f107C) {
+                ((struct Obj00130 *)p)->f107C = gScrollSnapPos[i];
                 changed = 1;
                 break;
             }
         }
         if (!changed) {
             changed = 1;
-            ((struct Obj00130 *)p)->f107C = d_021E7FE0[((struct Obj00130 *)p)->f630];
+            ((struct Obj00130 *)p)->f107C = gScrollSnapPos[((struct Obj00130 *)p)->f630];
         }
         POKETRADE_PROC_ClampScrollColumn(p, changed);
     } else if (KEY_GetRepeat() == 0x40) {

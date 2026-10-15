@@ -28,7 +28,7 @@
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *   MIi_CpuCopy16  0x02082A60  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   str_020A7888   0x020A7888  data  a1
  *   MI_CpuFill8    0x02082BCC  arm
  *   FLASH_ACCESS_Identify 0x02033534 arm
@@ -144,7 +144,7 @@ extern void  UI_SetKeepAwakeFlagsGlobal(u32 flag);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
 extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 size);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func);
 BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
@@ -1434,7 +1434,7 @@ u32 BACKUP_SYSTEM_CompareRecordStep(BackupSaveData *sv, u32 id, u32 area, u32 *r
             return 1;
         }
 
-        if (func_0203EFC8(sv->compare_buf, record + done, chunk) != 0) {
+        if (GF_STANDARD_CompareBytes(sv->compare_buf, record + done, chunk) != 0) {
             return 1;
         }
 

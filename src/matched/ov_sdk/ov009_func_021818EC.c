@@ -13,12 +13,13 @@
  *
  * symbols:
  *   gsUdpEngineContext                  0x02180404  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
+ *   gsDebugFormat                  0x0217D254  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
  *   func_02184208                  0x02184208  arm ov009
- *   func_02195E50                  0x02195E50  arm ov009
+ *   gt2GetOutgoingBufferFreeSpace                  0x02195E50  arm ov009
  *   func_02180448                  0x02180448  arm ov009
  *   g_021A3B9C                     0x021A3B9C  data
+ *   ArrayLength  0x02184200  arm
  */
 
 typedef void (*GSUdpErrCB)(int, void *);
@@ -43,12 +44,12 @@ typedef struct GSUdpEngineObject {
     void *userData;
 } GSUdpEngineObject;
 extern void *gsUdpEngineContext(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_02184200(const int *p);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern int func_02195E50(const int *p);
+extern int gt2GetOutgoingBufferFreeSpace(const int *p);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern char g_021A3B9C[];
 
@@ -61,7 +62,7 @@ int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short theP
 
     aUdp = gsUdpEngineContext();
     if (aUdp->initialized == 0) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 0;
     }
     aRemotePeer.ip = theIp;
@@ -70,5 +71,5 @@ int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short theP
     if (index == -1)
         return 0;
     aRemotePeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->peers, index);
-    return func_02195E50(aRemotePeerFound->connection);
+    return gt2GetOutgoingBufferFreeSpace(aRemotePeerFound->connection);
 }

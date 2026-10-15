@@ -15,6 +15,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  */
 #include "../include/Obj00001.h"
 typedef unsigned int   u32;
@@ -24,7 +25,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 void POKETRADE_2D_ClearSubScreen(char *p)
@@ -38,7 +39,7 @@ void POKETRADE_2D_ClearSubScreen(char *p)
     for (i = 0; i < 26; i++) {
         if (*(int *)(p + i * 4 + 0x750)) {
             BMP_WIN_ClearScreen((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
-            func_0201F7A8((void *)(*(int *)(p + i * 4 + 0x750)), 2);
+            BMP_MENUWORK_DrawWindowBorder((void *)(*(int *)(p + i * 4 + 0x750)), 2);
             BMP_WIN_Delete((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
             *(int *)(p + i * 4 + 0x750) = 0;
         }

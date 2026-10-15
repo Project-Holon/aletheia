@@ -1,7 +1,7 @@
 /*
  * file:     wcm_util.c
  * unit:     yes
- * function: func_02166680, func_021666B8, func_021666C8, func_02166710, func_02166784, func_02166804
+ * function: WcmCompareMemory, WCM_CompareBssID, WCM_GetLinkLevel, WCM_CalcLinkLevel, WCMi_GetRssiAverage, WCMi_ShelterRssi
  * address:  0x02166680
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -46,19 +46,19 @@ extern unsigned long OS_DisableInterrupts(void);
 extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void _s32_div_f();
-int func_02166680(unsigned char *a, unsigned char *b, unsigned int n);
-void func_021666B8(int a, int b);
-WMLinkLevel func_021666C8(void);
-WMLinkLevel func_02166710(unsigned char rssi);
-unsigned char func_02166784(void);
-void func_02166804(unsigned char rssi);
+int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n);
+void WCM_CompareBssID(int a, int b);
+WMLinkLevel WCM_GetLinkLevel(void);
+WMLinkLevel WCM_CalcLinkLevel(unsigned char rssi);
+unsigned char WCMi_GetRssiAverage(void);
+void WCMi_ShelterRssi(unsigned char rssi);
 extern unsigned char g_021AA814;
 extern unsigned char g_021AA815[16];
 
 /*
  * Byte compare over n units: 0 at the first difference, 1 when all agree.
  */
-int func_02166680(unsigned char *a, unsigned char *b, unsigned int n)
+int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n)
 {
     unsigned int i;
 
@@ -68,9 +68,9 @@ int func_02166680(unsigned char *a, unsigned char *b, unsigned int n)
 }
 
 
-void func_021666B8(int a, int b)
+void WCM_CompareBssID(int a, int b)
 {
-    func_02166680((unsigned char *)a, (unsigned char *)b, 6);
+    WcmCompareMemory((unsigned char *)a, (unsigned char *)b, 6);
 }
 
 
@@ -79,7 +79,7 @@ void func_021666B8(int a, int b)
  *
  * Returns the current link level from the averaged RSSI while connected, else level 0.
  */
-WMLinkLevel func_021666C8(void)
+WMLinkLevel WCM_GetLinkLevel(void)
 {
     unsigned long e;
     WCMWork_021666C8 *w;
@@ -89,7 +89,7 @@ WMLinkLevel func_021666C8(void)
     w = (WCMWork_021666C8 *)WCMi_GetSystemWork();
     ret = WM_LINK_LEVEL_0;
     if (w != 0 && w->phase == 9) {
-        ret = func_02166710(func_02166784());
+        ret = WCM_CalcLinkLevel(WCMi_GetRssiAverage());
     }
     OS_RestoreInterrupts(e);
     return ret;
@@ -101,7 +101,7 @@ WMLinkLevel func_021666C8(void)
  *
  * Maps an RSSI value to a link level, with per-device thresholds.
  */
-WMLinkLevel func_02166710(unsigned char rssi)
+WMLinkLevel WCM_CalcLinkLevel(unsigned char rssi)
 {
     WCMWork_02166710 *w;
 
@@ -139,7 +139,7 @@ WMLinkLevel func_02166710(unsigned char rssi)
  *
  * Averages the sheltered RSSI ring buffer: 16 samples once the ring is full, otherwise the samples stored so far.
  */
-unsigned char func_02166784(void)
+unsigned char WCMi_GetRssiAverage(void)
 {
     long sum;
     long i;
@@ -165,7 +165,7 @@ unsigned char func_02166784(void)
  *
  * Stores an RSSI sample into the ring buffer, converting the raw value first for device 1.
  */
-void func_02166804(unsigned char rssi)
+void WCMi_ShelterRssi(unsigned char rssi)
 {
     WCMWork_02166804 *w;
     int raw;

@@ -19,10 +19,10 @@
  *   GF_FONT_Create_EC64     0x0201EC64  thumb
  *   GF_FONT_Create     0x0201D7EC  thumb
  *   func_02045B38     0x02045B38  arm
- *   func_0201EFA4     0x0201EFA4  thumb
+ *   WORDSET_SetSlotNumber     0x0201EFA4  thumb
  *   func_02045EC0     0x02045EC0  arm
  *   STRBUF_Create     0x020457B0  arm
- *   func_0201F250     0x0201F250  thumb
+ *   WORDSET_CopyTaggedText     0x0201F250  thumb
  *   PRINTSYS_PrintColor     0x0201C7D0  thumb
  *   STRBUF_Delete     0x02045808  arm
  *   MSGDATA_Delete     0x02045C04  arm
@@ -67,10 +67,10 @@ extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 d
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -116,7 +116,7 @@ void GFL_NET_ERR_DrawWindow(u32 a0, u32 a1)
         u8 m = g[0x59];
 
         if (m == 1 || m == 2 || m == 6) {
-            func_0201EFA4(obj, 0, ((struct Obj04039 *)g)->f48, 5, 2, 1);
+            WORDSET_SetSlotNumber(obj, 0, ((struct Obj04039 *)g)->f48, 5, 2, 1);
             arc = func_02045B38(0, 2, 0xe8, 1);
             if (g[0x5a] != 0) {
                 idx = ((struct Obj04039 *)g)->f60;
@@ -125,7 +125,7 @@ void GFL_NET_ERR_DrawWindow(u32 a0, u32 a1)
                 idx = GFL_NET_ERR_GetMessageId(g + 0x48, ((struct Obj04039 *)g)->f60);
             }
         } else {
-            func_0201EFA4(obj, 0, g[0x58], 5, 2, 1);
+            WORDSET_SetSlotNumber(obj, 0, g[0x58], 5, 2, 1);
             arc = func_02045B38(0, 2, 0x52, 1);
             idx = 1;
             if (a0 != 1) {
@@ -136,7 +136,7 @@ void GFL_NET_ERR_DrawWindow(u32 a0, u32 a1)
 
     k = func_02045EC0(arc, idx);
     buf = STRBUF_Create(0x189, 1);
-    func_0201F250(obj, buf, k);
+    WORDSET_CopyTaggedText(obj, buf, k);
     PRINTSYS_PrintColor(surf, 0, 0, buf, pal, 0x1167);
     STRBUF_Delete(buf);
     STRBUF_Delete(k);

@@ -27,17 +27,17 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   func_02017E1C 0x02017E1C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
  *   PLIST_MESSAGE_CloseWindow 0x021BB7A4 thumb ov091
@@ -66,7 +66,7 @@ struct StrObj;
 struct U16Vec;
 struct WordSet;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -80,8 +80,8 @@ extern void PRINTSYS_PrintQueColor(u32,u32,s16,s16,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
@@ -90,7 +90,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
 extern void PLIST_MESSAGE_CloseWindow(void *p, u32 *s);
@@ -120,7 +120,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
         u16 width;
         flag=0;
         W(0x130)=BMP_WIN_Create(0,1,1,14,12,14,1);
-        func_0201F73C((void *)W(0x130),1,1,12);
+        BMP_MENUWORK_DrawWindow((void *)W(0x130),1,1,12);
         BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130))),15);
         q=W(0x130); BMP_WIN_TransferChars((struct Descriptor *)q); BMP_WIN_MakeScreen((struct Cfg *)q); func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)q));
         for(i=0;i<6;i++) {
@@ -131,7 +131,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
             STRBUF_Delete((struct U16Vec *)buf);
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)GF_FONT_Create_EC64(H(0));
-            func_0201EFA4((struct WordSet *)text,0,delta,3,0,1); func_0201F250((struct WordSet *)text,(void *)tmp,(void *)buf);
+            WORDSET_SetSlotNumber((struct WordSet *)text,0,delta,3,0,1); WORDSET_CopyTaggedText((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)y,tmp,W(0x138),0x440);
             STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); WORDSET_DeleteStrbufED04((struct WordSet *)text);
@@ -158,7 +158,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
         for(i=0;i<6;i++) {
             delta=func_02017E1C((void *)W(0x38),gPlistStatParamIds[i],0);
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)GF_FONT_Create_EC64(H(0));
-            func_0201EFA4((struct WordSet *)text,0,delta,3,0,1); func_0201F250((struct WordSet *)text,(void *)tmp,(void *)buf);
+            WORDSET_SetSlotNumber((struct WordSet *)text,0,delta,3,0,1); WORDSET_CopyTaggedText((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)(i<<4),tmp,W(0x138),0x440);
             STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); WORDSET_DeleteStrbufED04((struct WordSet *)text);
@@ -171,7 +171,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
         } break;
     case 5:
         if((KEY_GetTrg()&1)||(KEY_GetTrg()&2)||TOUCHPANEL_GetTrg()==1) {
-            p[0xe]=6; GFL_USE_PlaySeDefaultVolume(0x547); BMP_WIN_ClearScreen((struct Descriptor *)W(0x130)); func_0201F7A8((void *)W(0x130),1); BMP_WIN_Delete((struct Descriptor *)W(0x130)); W(0x130)=0;
+            p[0xe]=6; GFL_USE_PlaySeDefaultVolume(0x547); BMP_WIN_ClearScreen((struct Descriptor *)W(0x130)); BMP_MENUWORK_DrawWindowBorder((void *)W(0x130),1); BMP_WIN_Delete((struct Descriptor *)W(0x130)); W(0x130)=0;
         } break;
     case 6:
         result=POKE_TOOL_GetLevelUpMove((void *)W(0x38),(u32 *)(S+0x50),H(0)); PLIST_MESSAGE_CloseWindow(p,(u32 *)W(0x150));

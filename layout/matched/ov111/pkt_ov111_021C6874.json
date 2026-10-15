@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6874",
+   "name": "VIEWER_TEXT_DrawPage",
    "address": "0x021C6874",
    "kind": "game",
    "region": "ov111",

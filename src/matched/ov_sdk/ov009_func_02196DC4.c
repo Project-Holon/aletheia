@@ -13,9 +13,9 @@
  *
  * symbols:
  *   func_02197D5C  0x02197D5C  arm  ov009
- *   func_02195408  0x02195408  arm  ov009
+ *   gti2DumpCallback  0x02195408  arm  ov009
  *   func_020923F0  0x020923F0  arm
- *   func_021954F4  0x021954F4  arm  ov009
+ *   gti2UnrecognizedMessageCallback  0x021954F4  arm  ov009
  *   gti2SendClosedOnSocket  0x02197BD4  arm  ov009
  *   func_021955C0  0x021955C0  arm  ov009
  *   gti2SendClosed  0x02197BB8  arm  ov009
@@ -89,13 +89,13 @@ struct GTI2Socket {
 extern const char g_021A5948[];
 
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern int func_02195408(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
+extern int gti2DumpCallback(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
 typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 struct Conn;
 struct Sock;
-extern int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5);
+extern int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5);
 extern int gti2SendClosedOnSocket(struct Sock *sock, unsigned int ip, unsigned short port);
 extern int func_021955C0(struct GTI2Socket *socket, struct GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
@@ -120,14 +120,14 @@ int gti2HandleMessage(struct GTI2Socket *socket, unsigned char *message, int len
     connection = func_02197D5C(socket, ip, port);
 
     if (socket->dumpCallback) {
-        if (!func_02195408(socket, connection, ip, port, 0, message, len, 0))
+        if (!gti2DumpCallback(socket, connection, ip, port, 0, message, len, 0))
             return 0;
     }
 
     magicString = (actualLength > 2) && !func_020923F0(actualMessage, (const u8 *)g_021A5948, 2);
 
     if (!connection) {
-        if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
+        if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (int)message, len, &handled))
             return 0;
         if (handled)
             return 1;
@@ -170,7 +170,7 @@ int gti2HandleMessage(struct GTI2Socket *socket, unsigned char *message, int len
 
     if (!magicString) {
         if (connection->state < 5) {
-            if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
+            if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (int)message, len, &handled))
                 return 0;
         } else {
             if (!gti2HandleAppUnreliable((struct Conn *)connection, message, len))

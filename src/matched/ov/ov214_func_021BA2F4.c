@@ -12,7 +12,7 @@
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02030734 0x02030734 arm
- *   func_02040E78 0x02040E78 arm
+ *   BG_SYS_LoadPltt 0x02040E78 arm
  *   func_020307B0 0x020307B0 arm
  *   d_021BB658 0x021BB658 data a1
  */
@@ -24,7 +24,7 @@ extern unsigned BG_SYS_CreateRun(unsigned,unsigned,unsigned);
 extern void BG_SYS_DeleteHalf(unsigned,unsigned,unsigned);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void*func_02030734(unsigned,unsigned,int,const char*,u16);
-extern void func_02040E78(unsigned,void*,unsigned,unsigned);
+extern void BG_SYS_LoadPltt(unsigned,void*,unsigned,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BA2F4(int unused,char*p)
@@ -36,7 +36,7 @@ void func_021BA2F4(int unused,char*p)
     func_02049B40(0x17,5,0,0x160,0x20,((struct Obj04633 *)p)->f0);
     colors=func_02030734(((struct Obj04633 *)p)->f0,6,1,d_021BB658,0x6f9);
     colors[0]=0x294b;colors[1]=0x5694;colors[2]=0x7fff;
-    func_02040E78(2,colors,6,0x17a);
+    BG_SYS_LoadPltt(2,colors,6,0x17a);
     func_020307B0(colors);
     ((struct Obj04633 *)p)->f80=1;((struct Obj04633 *)p)->f81=0x18;((struct Obj04633 *)p)->f82=0xd;((struct Obj04633 *)p)->f83=0xb;
     ((struct Obj04633 *)p)->f84=off;

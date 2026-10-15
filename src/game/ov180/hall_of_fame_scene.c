@@ -17,10 +17,10 @@
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_0207D59C 0x0207D59C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_02041FB0 0x02041FB0 arm
+ *   BG_SYS_SetAffine 0x02041FB0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   gHallOfFameBgSetup 0x021B80E8 data ov180 a4
  *   func_020403F4 0x020403F4 arm
  *   func_020490F4  0x020490F4  arm
@@ -65,8 +65,8 @@
  *   DOUBLE3DDISP_GetField04 0x0204EA38 arm
  *   PARTICLE_Main 0x02050BE8 arm
  *   DOUBLE3DDISP_SetField08 0x0204EA4C arm
- *   func_0204E8C0 0x0204E8C0 arm
- *   func_0204EA0C 0x0204EA0C arm
+ *   DOUBLE3DDISP_Init 0x0204E8C0 arm
+ *   DOUBLE3DDISP_Exit 0x0204EA0C arm
  *   PARTICLE_InitManager 0x02050B80 arm
  *   PARTICLE_ExitManager 0x02050ED4 arm
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm
@@ -123,7 +123,7 @@
  *   HALL_OF_FAME_LoadUiPalette 0x021B7750 thumb ov180
  *   PM_VOICE_Start 0x02006A64 thumb
  *   PM_VOICE_IsSlotActive 0x02006BD0 thumb
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   HALL_OF_FAME_CreateTrainerSceneObjects 0x021B7D80 thumb ov180
  *   HALL_OF_FAME_AddVBlankTaskTrainer 0x021B6170 thumb ov180
  *   HALL_OF_FAME_DeleteTrainerSceneObjects 0x021B7F0C thumb ov180
@@ -137,7 +137,7 @@
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056EC 0x020056EC thumb
- *   func_02041F28  0x02041F28  arm
+ *   BG_SYS_SetScrollX  0x02041F28  arm
  *   gHallOfFameClactConfigMain 0x021B827C data a4
  *   gHallOfFameClactConfigSub 0x021B8298 data a4
  *   HALL_OF_FAME_GetVramBanksAddr 0x021B61FC thumb ov180
@@ -238,10 +238,10 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,HofMtx *,u32,u32,u32,u32);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
-extern void func_02041FB0(u32,u32,u16);
+extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void func_02040EBC(u32,u32);
+extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void func_020403F4(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -283,8 +283,8 @@ extern void G3D_SYSTEM_DrawEnd(void);
 extern unsigned DOUBLE3DDISP_GetField04(void);
 extern void PARTICLE_Main(void);
 extern void DOUBLE3DDISP_SetField08(void);
-extern void func_0204E8C0(u32 heap);
-extern int func_0204EA0C(void);
+extern void DOUBLE3DDISP_Init(u32 heap);
+extern int DOUBLE3DDISP_Exit(void);
 extern void PARTICLE_InitManager(u32);
 extern void PARTICLE_ExitManager(void);
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
@@ -317,7 +317,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int GFL_USE_IsSeqPlaying(u32);
 extern int PM_VOICE_Start(u32);
 extern u32 PM_VOICE_IsSlotActive(u32 i);
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int GFL_USE_IsBgmFading(void);
@@ -326,7 +326,7 @@ extern void GFL_USE_FadeOutBgm(u32);
 extern void MCSS_ResetAnmStopFlag(void *);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern unsigned func_020056EC(unsigned);
-extern void func_02041F28(u32 which, u32 op, u16 value);
+extern void BG_SYS_SetScrollX(u32 which, u32 op, u16 value);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
@@ -379,14 +379,14 @@ void HALL_OF_FAME_InitBackgrounds(void)
     BG_SYS_ResetSlot(3, 3, 112);
     BG_SYS_ResetSlot(7, 0, 160);
     BG_SYS_ResetSlot(7, 3, -152);
-    func_02041FB0(3, 9, 160);
-    func_02041FB0(3, 12, 160);
-    func_02041FB0(7, 9, 160);
-    func_02041FB0(7, 12, 160);
+    BG_SYS_SetAffine(3, 9, 160);
+    BG_SYS_SetAffine(3, 12, 160);
+    BG_SYS_SetAffine(7, 9, 160);
+    BG_SYS_SetAffine(7, 12, 160);
     BG_SYS_SetMainPlaneVisible(8, 1);
     BG_SYS_SetSubPlaneVisible(8, 1);
-    func_02040EBC(0, 0);
-    func_02040EBC(4, 0);
+    BG_SYS_LoadPlttEntry(0, 0);
+    BG_SYS_LoadPlttEntry(4, 0);
 }
 
 void HALL_OF_FAME_ExitBackgrounds(void)
@@ -544,12 +544,12 @@ void HALL_OF_FAME_DrawParticles(HallOfFameWork *work)
 
 void HALL_OF_FAME_InitParticleHeap(void)
 {
-    func_0204E8C0(HOF_HEAP_ID);
+    DOUBLE3DDISP_Init(HOF_HEAP_ID);
 }
 
 void HALL_OF_FAME_ExitParticleHeap(void)
 {
-    func_0204EA0C();
+    DOUBLE3DDISP_Exit();
 }
 
 void HALL_OF_FAME_InitParticleManager(void)
@@ -940,7 +940,7 @@ int HALL_OF_FAME_StateMonSequence(HallOfFameWork *work)
  */
 int HALL_OF_FAME_StateSetupTrainerScene(HallOfFameWork *work)
 {
-    func_0204363C(0);
+    BMP_SetDisplaySwap(0);
     HALL_OF_FAME_SetVramBanks(1);
     HALL_OF_FAME_SetupDisplay();
     HALL_OF_FAME_InitBackgrounds();
@@ -1132,8 +1132,8 @@ int HALL_OF_FAME_ApplyJitterStep(HallOfFameWork *work, int actor)
 
 void HALL_OF_FAME_EnableBgEffects(HallOfFameWork *work)
 {
-    func_02041F28(3, 1, 1);
-    func_02041F28(7, 1, 1);
+    BG_SYS_SetScrollX(3, 1, 1);
+    BG_SYS_SetScrollX(7, 1, 1);
 }
 
 void HALL_OF_FAME_InitActorSystem(HallOfFameWork *work, int subScreen)

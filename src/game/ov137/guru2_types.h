@@ -130,7 +130,7 @@ struct Guru2Spinner {
     int speedDelta;                   /* 0x44 */
     int unknown_48;                   /* 0x48 */
     unsigned short rotX;              /* 0x4C */
-    unsigned short rotY;              /* 0x4E */
+    short rotY;                       /* 0x4E */
     unsigned short rotZ;              /* 0x50 */
     unsigned char unknown_52[0x6A];   /* 0x52 */
     int g3dUnit;                      /* 0xBC */

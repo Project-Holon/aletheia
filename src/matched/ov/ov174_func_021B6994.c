@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: 0x021B6A02..0x021B6A04 is two zero alignment bytes.
  * symbols:
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct Rec3;
 struct U16Vec;
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -38,7 +38,7 @@ void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)
 {
  void *tmp; u8 i;
  if(((struct Obj02218 *)p)->f5C){
- func_0201F7A8(((struct Obj02218 *)p)->f5C,1);tmp=((struct Obj02218 *)p)->f5C;
+ BMP_MENUWORK_DrawWindowBorder(((struct Obj02218 *)p)->f5C,1);tmp=((struct Obj02218 *)p)->f5C;
  BMP_WIN_ClearScreen(tmp);func_02041B6C(BMP_WIN_GetBgLayer(tmp));
  BMP_WIN_Delete(((struct Obj02218 *)p)->f5C);((struct Obj02218 *)p)->f5C=0;
  }

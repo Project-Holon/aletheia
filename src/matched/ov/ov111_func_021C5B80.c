@@ -1,5 +1,5 @@
 /*
- * function: func_021C5B80
+ * function: VIEWER_MAIN_CheckTouch
  * address:  0x021C5B80
  * packet:   pkt_ov111_021C5B80
  * region:   ov111
@@ -34,7 +34,7 @@ extern int TOUCHPANEL_HitCont(const void *p);
 extern const u8 d_021C8534[];
 extern const u8 d_021C854C[];
 
-void func_021C5B80(Work *p)
+void VIEWER_MAIN_CheckTouch(Work *p)
 {
     if ((p->f3034 != 0 && p->h305E == 0 && TOUCHPANEL_HitCont(d_021C8534))
         || (p->h305E == 1 && TOUCHPANEL_HitCont(d_021C854C))) {

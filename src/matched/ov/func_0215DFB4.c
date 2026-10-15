@@ -15,7 +15,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   COMM_ENTRY_MENU_Main  0x021CD688  thumb
- *   func_021FC804  0x021FC804  thumb
+ *   MUS_COMM_FUNC_SetHostFlag  0x021FC804  thumb
  *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb
  */
 #include "../include/Obj02658.h"
@@ -28,7 +28,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern int GAME_DATA_GetExternalWork(char *base);
 extern int COMM_ENTRY_MENU_Main();
-extern int func_021FC804();
+extern int MUS_COMM_FUNC_SetHostFlag();
 extern int COMM_ENTRY_MENU_Delete();
 
 int SCRCMD_MUSICAL_WaitEntryMenuParent(int a0, int a1)
@@ -63,7 +63,7 @@ loc_0215DFE0:
 a0 = ((struct Obj02658 *)t4)->f30;
 ((struct Obj02658 *)((char *)a0))->f0 = t5;
 a0 = ((struct Obj02658 *)t4)->f4;
-    a0 = func_021FC804(a0);
+    a0 = MUS_COMM_FUNC_SetHostFlag(a0);
 loc_0215DFEA:
     goto loc_0215DFFA;
 loc_0215DFEC:

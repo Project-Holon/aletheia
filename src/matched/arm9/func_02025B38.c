@@ -1,5 +1,5 @@
 /*
- * function: func_02025B38
+ * function: BMP_OAM_GetNumRecords
  * address: 0x02025B38
  * packet: pkt_02025B38
  * region: arm9
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-int func_02025B38(void)
+int BMP_OAM_GetNumRecords(void)
 {
     return 19;
 }

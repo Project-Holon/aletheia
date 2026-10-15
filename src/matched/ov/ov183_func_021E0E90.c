@@ -1,5 +1,5 @@
 /*
- * function: func_021E0E90
+ * function: BR_CODEIN_ProfileSetActorAnimFrame
  * address: 0x021E0E90
  * packet: pkt_ov183_021E0E90
  * region: ov183
@@ -26,7 +26,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021E0E90(char *p,int animated) {
+void BR_CODEIN_ProfileSetActorAnimFrame(char *p,int animated) {
     int i,group;
     s16 pos;
     char *record,*special;

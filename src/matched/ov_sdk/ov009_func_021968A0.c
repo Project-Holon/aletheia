@@ -12,7 +12,7 @@
  * sdk:      gti2DeliverHoldMessages (libdwcgsgt2.TWL.HYB.a(gt2message.o))
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   gti2DeliverReliableMessage  0x02196558  arm  ov009
  *   gti2RemoveHoldMessage  0x0219681C  arm  ov009
@@ -34,7 +34,7 @@ typedef struct Conn {
 	unsigned short expectedId;
 } Conn;
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 extern void *func_02184208(void *array, int n);
 typedef unsigned char  u8;
 struct GTI2Connection;
@@ -47,7 +47,7 @@ int gti2DeliverHoldMessages(Conn *c)
 	Hold *m;
 
 again:
-	for (i = func_02184200(c->holds) - 1; i >= 0; i--) {
+	for (i = ArrayLength(c->holds) - 1; i >= 0; i--) {
 		m = (Hold *)func_02184208(c->holds, i);
 		if (m->id == c->expectedId) {
 			if (!gti2DeliverReliableMessage((struct GTI2Connection *)c, m->type, c->data + m->start, m->len))

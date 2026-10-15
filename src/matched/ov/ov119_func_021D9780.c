@@ -17,14 +17,14 @@
  *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
  *   POKETRADE_2D_PlaceTouchbarActors 0x021E5B6C thumb ov119
  *   POKETRADE_SAVE_ShowSummaryMon 0x021E219C thumb ov119
- *   d_021E7580 0x021E7580 data a2
- *   d_021E757C 0x021E757C data a2
+ *   gCursorIconPos0 0x021E7580 data a2
+ *   gCursorIconPos1 0x021E757C data a2
  */
 #include "../include/Obj05326.h"
 typedef unsigned short u16;
 typedef struct Pt { u16 x; u16 y; } Pt;
-extern const Pt d_021E7580;
-extern const Pt d_021E757C;
+extern const Pt gCursorIconPos0;
+extern const Pt gCursorIconPos1;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -40,10 +40,10 @@ void POKETRADE_PROC_PlaceCursorIcon(char *p, int a1, int a2)
 {
     Pt t0, t1;
     if (a1 == 0) {
-        t0 = d_021E7580;
+        t0 = gCursorIconPos0;
         CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t0), 1);
     } else {
-        t1 = d_021E757C;
+        t1 = gCursorIconPos1;
         CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t1), 1);
     }
     if (func_020355C4()) {

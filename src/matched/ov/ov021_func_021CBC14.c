@@ -1,5 +1,5 @@
 /*
- * function: func_021CBC14
+ * function: BSUBWAY_SCR_WaitBeginSave
  * address:  0x021CBC14
  * packet:   pkt_ov021_021CBC14
  * region:   ov021
@@ -33,7 +33,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
 extern u32 BATTLE_REC_Save(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
 
-int func_021CBC14(u32 unused, u32 a)
+int BSUBWAY_SCR_WaitBeginSave(u32 unused, u32 a)
 {
     void *t;
     u8 *p;

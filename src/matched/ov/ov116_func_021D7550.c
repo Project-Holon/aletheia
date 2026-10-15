@@ -37,7 +37,7 @@
  *   WIFI_BSUBWAY_GRAPHIC_UpdateSave 0x021D81EC thumb ov116
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_02167ED8 0x02167ED8 arm ov009
+ *   DWC_GetDateTime 0x02167ED8 arm ov009
  */
 #include "../include/Obj00494.h"
 typedef unsigned char u8;
@@ -65,7 +65,7 @@ extern void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(u8 *p);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p);
 extern void WIFI_BSUBWAY_GRAPHIC_StartSave(u8 *);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern int func_02167ED8(void *date, void *time);
+extern int DWC_GetDateTime(void *date, void *time);
 struct BlkB90;
 struct Stamp;
 extern int func_0200DDD0(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
@@ -89,7 +89,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,int heap)
     case 8:
         if(FADE_IsActive()==0) {
             box=WIFI_BSUBWAY_GetRoomNumber(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
-            func_02167ED8(record,extra);
+            DWC_GetDateTime(record,extra);
             if(n<1 || n>(u32)v) { ((struct Obj00494 *)p)->fB6C=16; break; }
             if(func_0200DDD0(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
             WIFI_BSUBWAY_StartPlayerDownload(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);

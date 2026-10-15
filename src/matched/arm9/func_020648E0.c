@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020629E8   0x020629E8  arm
+ *   NNS_G2dGetMultiCellDataByIdx   0x020629E8  arm
  *
  * Returns the largest node count among the multi-cell descriptors of the bank,
  * 0 for an empty bank.  The counter is a u16 (the `lsl #16` / `lsr #16` pair
@@ -37,7 +37,7 @@ struct MultiCellBank {
     struct MultiCellData *array;
 };
 
-extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
+extern struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx);
 
 u16 NNS_G2dGetMCBankNumNodesRequired(struct MultiCellBank *bank)
 {
@@ -45,7 +45,7 @@ u16 NNS_G2dGetMCBankNumNodesRequired(struct MultiCellBank *bank)
     u16 i;
 
     for (i = 0; i < bank->numMultiCell; i++) {
-        u16 n = func_020629E8(bank, i)->numNodes;
+        u16 n = NNS_G2dGetMultiCellDataByIdx(bank, i)->numNodes;
 
         if (n > max) {
             max = n;

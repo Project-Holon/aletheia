@@ -1,5 +1,5 @@
 /*
- * function: func_021D872C
+ * function: WF2DMAP_SCENE_Delete
  * address: 0x021D872C
  * packet: pkt_ov129_021D872C
  * region: ov129
@@ -23,7 +23,7 @@
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj04506.h"
 typedef unsigned int   u32;
@@ -45,8 +45,8 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void BUTTON_MAN_Delete(void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
-int func_021D872C(void *a,int b,int c,char *p)
+extern void GFL_HEAP_DeleteChecked(u32 heap);
+int WF2DMAP_SCENE_Delete(void *a,int b,int c,char *p)
 {
     func_02030EAC(((struct Obj04506 *)p)->f318);
     GF_FONT_Delete(((struct Obj04506 *)p)->f314);
@@ -63,6 +63,6 @@ int func_021D872C(void *a,int b,int c,char *p)
     BUTTON_MAN_Delete(((struct Obj04506 *)p)->f294);
     if(c==0) STRBUF_Delete(((struct Obj04506 *)p)->f348);
     func_020315D4(a);
-    func_020306F0(50);
+    GFL_HEAP_DeleteChecked(50);
     return 1;
 }

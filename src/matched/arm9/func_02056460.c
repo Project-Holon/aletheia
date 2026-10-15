@@ -1,5 +1,5 @@
 /*
- * function: func_02056460
+ * function: SPL_EMITTER_CalcRotMtx
  * address:  0x02056460
  * packet:   pkt_02052F58
  * region:   arm9
@@ -22,7 +22,7 @@
  * off-diagonals d-e and d+e, with the translation row left zero.
  *
  * Returns void, NOT u32: the sibling table rows are declared
- * `u32 (*const [])(s32, s32, void *)` in src/matched/func_02054718.c, but a
+ * `u32 (*const [])(s32, s32, void *)` in src/matched/SPL_EMITTER_UpdateFrameA68Ex.c, but a
  * `return 0` here costs the extra `mov r0, r4` and makes the function 176
  * bytes against 172.  The table is a mixed-prototype table.
  *
@@ -40,8 +40,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02056460.c \
- *       --func func_02056460 --addr 0x02056460 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_CalcRotMtx.c \
+ *       --func SPL_EMITTER_CalcRotMtx --addr 0x02056460 --arm --cc ../1.2/sp2
  */
 
 typedef signed int       s32;
@@ -54,7 +54,7 @@ static inline s32 FX_Mul(s32 a, s32 b)
     return (s32)(((s64)a * b + 0x800) >> 12);
 }
 
-void func_02056460(s32 sn, s32 cs, struct MtxFx43 *m)
+void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m)
 {
     s32 d = FX_Mul(0x1000 - cs, 0x555);
     s32 e = FX_Mul(sn, 0x93D);

@@ -14,8 +14,8 @@
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
- *   func_021CA154 0x021CA154 thumb ov128
- *   func_021CA184 0x021CA184 thumb ov128
+ *   WF2DMAP_TOUCH_SetTopHighlight1 0x021CA154 thumb ov128
+ *   WF2DMAP_TOUCH_SetTopHighlight 0x021CA184 thumb ov128
  */
 #include "../include/Obj00329.h"
 typedef unsigned char u8;
@@ -26,13 +26,13 @@ struct CodeIn;
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
-extern void func_021CA154(u8 *, int);
-extern void func_021CA184(u8 *, int, int);
+extern void WF2DMAP_TOUCH_SetTopHighlight1(u8 *, int);
+extern void WF2DMAP_TOUCH_SetTopHighlight(u8 *, int, int);
 int func_021C734C(u32 *p, int *q, u8 *ctx)
 {
     if (KEY_GetTrg() & 2) {
         GFL_USE_PlaySeDefaultVolume(0x551);
-        func_021CA154(ctx, *p);
+        WF2DMAP_TOUCH_SetTopHighlight1(ctx, *p);
         func_020355D8(0);
         *q = 0;
         *p = 3;
@@ -40,7 +40,7 @@ int func_021C734C(u32 *p, int *q, u8 *ctx)
     }
     if (KEY_GetTrg() & 1024) {
         GFL_USE_PlaySeDefaultVolume(0x556);
-        func_021CA154(ctx, *p);
+        WF2DMAP_TOUCH_SetTopHighlight1(ctx, *p);
         func_020355D8(0);
         *q = 0;
         *p = 4;
@@ -49,7 +49,7 @@ int func_021C734C(u32 *p, int *q, u8 *ctx)
     if (*q == 1) {
         if (KEY_GetTrg() & 0xcf3) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021CA184(ctx, *p, *p);
+            WF2DMAP_TOUCH_SetTopHighlight(ctx, *p, *p);
             func_020355D8(0);
             *q = 0;
         }
@@ -63,14 +63,14 @@ int func_021C734C(u32 *p, int *q, u8 *ctx)
     if (KEY_GetRepeat() & 64) {
         if (*p != 0) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021CA184(ctx, *p - 1, *p);
+            WF2DMAP_TOUCH_SetTopHighlight(ctx, *p - 1, *p);
             --*p;
             return 0;
         }
     } else if (KEY_GetRepeat() & 128) {
         if (*p < 2) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            func_021CA184(ctx, *p + 1, *p);
+            WF2DMAP_TOUCH_SetTopHighlight(ctx, *p + 1, *p);
             ++*p;
             return 0;
         }

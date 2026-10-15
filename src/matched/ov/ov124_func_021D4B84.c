@@ -12,7 +12,7 @@
  *   CG_HELP_Teardown 0x021D4280 thumb ov124
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj00991.h"
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ struct S020315D4;
 extern void CG_HELP_Teardown(char *);
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(u32);
-int CG_HELP_ProcExit(struct S020315D4 *task,int b,int keep,char *p) {CG_HELP_Teardown(p);if(keep==0){func_020307B0(**(void ** *)&((struct Obj00991 *)p)->f4);func_020307B0(((struct Obj00991 *)p)->f4);}func_020315D4(task);func_020306F0(0x8a);return 1;}
+extern void GFL_HEAP_DeleteChecked(u32);
+int CG_HELP_ProcExit(struct S020315D4 *task,int b,int keep,char *p) {CG_HELP_Teardown(p);if(keep==0){func_020307B0(**(void ** *)&((struct Obj00991 *)p)->f4);func_020307B0(((struct Obj00991 *)p)->f4);}func_020315D4(task);GFL_HEAP_DeleteChecked(0x8a);return 1;}

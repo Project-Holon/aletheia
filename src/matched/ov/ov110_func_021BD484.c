@@ -17,7 +17,7 @@
  *   PMS_INPUT_SetHandler 0x021BD7A0 thumb ov110
  *   PMS_INPUT_HandleMenu 0x021BD894 thumb ov110
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   d_00000043 0x00000043 data a1
  */
 #include "../include/Obj03242.h"
@@ -36,7 +36,7 @@ extern void PMS_INPUT_SetHandler(u8 *,int (*)(u8 *,void *));
 extern int PMS_INPUT_HandleMenu(u8 *,void *);
 extern const u8 d_00000043[];
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void func_02030D28(struct Ctx *c);
+extern void TCB_Main(struct Ctx *c);
 int PMS_INPUT_ProcInit(void *a,int *state,int c,void *p) {
     u8 *obj;
     switch(*state) {
@@ -66,6 +66,6 @@ int PMS_INPUT_ProcInit(void *a,int *state,int c,void *p) {
         }
         break;
     }
-    func_02030D28(((struct Obj03242 *)obj)->f7C);
+    TCB_Main(((struct Obj03242 *)obj)->f7C);
     return 0;
 }

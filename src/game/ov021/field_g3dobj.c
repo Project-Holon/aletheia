@@ -40,11 +40,11 @@
  *   FLD_VREQ_SetBgVisible  0x021D3244  thumb  ov021
  *   gSweetScentFadeBgPos     0x021DAAB4  data  a2
  *   func_02040588  0x02040588  arm
- *   func_02040E78  0x02040E78  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  *   BG_SYS_Init  0x02040C14  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02040DA8  0x02040DA8  arm
+ *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   func_02030734  0x02030734  arm
  *   gFieldG3dobjFileName     0x021DE4A8  data  ov021  a1
  *   func_020307B0  0x020307B0  arm
@@ -147,11 +147,11 @@ extern void FLD_VREQ_SetMainBlendAlphaEv(void *a, int b, int c);
 extern void FLD_VREQ_SetMainBlendAlpha(void *p, u32 a, u32 b, u32 c, u32 d);
 extern void FLD_VREQ_SetBgVisible(void *p, int i, u8 v);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
+extern void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void func_02041300(int, int, int, int, int, int, int);
+extern void BG_SYS_SetTileEntry(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
-extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern const BgPoint gSweetScentFadeBgPos;
 
 /* Field camera zoom task (021C6B18..021C6BB4)                          */
@@ -482,9 +482,9 @@ void SWEET_SCENT_FadeSetup(SweetScentFade *fade)
 
     pos = gSweetScentFadeBgPos;
     func_02040588(fade->bgLayer, 0);
-    func_02040E78(fade->bgLayer, &pos, 8, 0x20);
+    BG_SYS_LoadPltt(fade->bgLayer, &pos, 8, 0x20);
     BG_SYS_Init(fade->bgLayer, 1, 1, 0x100);
-    func_02041300(fade->bgLayer, 0x100, 0, 0, 0x20, 0x20, 1);
+    BG_SYS_SetTileEntry(fade->bgLayer, 0x100, 0, 0, 0x20, 0x20, 1);
     func_020409B4(fade->bgLayer);
     FLD_VREQ_SetMainBlendAlpha(fade->vreq, 8, 0x37, fade->level, 0x10 - fade->level);
     FLD_VREQ_SetBgVisible(fade->vreq, fade->bgLayer, 1);
@@ -494,10 +494,10 @@ void SWEET_SCENT_FadeCleanup(SweetScentFade *fade)
 {
     BgPoint pos = {0, 0};
 
-    func_02040E78(fade->bgLayer, &pos, 8, 0x20);
-    func_02041300(fade->bgLayer, 0, 0, 0, 0x20, 0x20, 1);
+    BG_SYS_LoadPltt(fade->bgLayer, &pos, 8, 0x20);
+    BG_SYS_SetTileEntry(fade->bgLayer, 0, 0, 0, 0x20, 0x20, 1);
     func_020409B4(fade->bgLayer);
-    func_02040DA8(fade->bgLayer, 1, 0x100);
+    BG_SYS_SetTileUnit(fade->bgLayer, 1, 0x100);
 }
 
 FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u32 heapId, u32 resCount, u32 objCount)

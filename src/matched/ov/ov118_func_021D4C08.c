@@ -1,5 +1,5 @@
 /*
- * function: func_021D4C08
+ * function: POKETRADE_DEMO_UP_StepParticleSystems
  * address:  0x021D4C08
  * packet:   pkt_ov118_021D4C08
  * region:   ov118
@@ -12,7 +12,7 @@
  * symbols:
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_3D_SetupParticleSystemsHigh  0x021E3004  thumb  ov119
- *   func_021D4C20  0x021D4C20  thumb  ov118
+ *   POKETRADE_DEMO_UP_StepAddUnit  0x021D4C20  thumb  ov118
  *
  * Addresses are Black-image addresses.
  */
@@ -24,10 +24,10 @@ typedef int s32;
 
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_3D_SetupParticleSystemsHigh(char *p);
-extern void func_021D4C20(u8 *p);
+extern void POKETRADE_DEMO_UP_StepAddUnit(u8 *p);
 
-void func_021D4C08(u8 *p)
+void POKETRADE_DEMO_UP_StepParticleSystems(u8 *p)
 {
     POKETRADE_3D_SetupParticleSystemsHigh(((struct Obj22663 *)p)->fC);
-    POKETRADE_PROC_SetStep(p, (int)func_021D4C20);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_UP_StepAddUnit);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC790
+ * function: ZKNSEARCH_MAIN_InitPaletteAnim
  * address: 0x021BC790
  * packet: pkt_ov210_021BC790
  * region: ov210
@@ -18,7 +18,7 @@ extern void *PALANM_Create(unsigned);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *,unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-void func_021BC790(char *p)
+void ZKNSEARCH_MAIN_InitPaletteAnim(char *p)
 {
     ((struct Obj03370 *)p)->fC=PALANM_Create(123);
     PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj03370 *)p)->fC,0,512,123);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A0
+ * function: TH_AWARD_Init
  * address: 0x021B95A0
  * packet: pkt_ov220_021B95A0
  * region: ov220
@@ -20,19 +20,19 @@
  * TH_AWARD_GRAPHIC_Create 0x021BA0D8 thumb ov220
  * GF_FONT_Create 0x0201D7EC thumb
  * PRINTSYS_QUE_Create 0x0201C440 thumb
- * func_0204047C 0x0204047C arm
+ * BG_SYS_SetVisibleLayer 0x0204047C arm
  * func_020056A0 0x020056A0 thumb
- * func_021B995C 0x021B995C thumb ov220
- * func_021BA068 0x021BA068 thumb ov220
- * func_021B9960 0x021B9960 thumb ov220
- * func_021B99DC 0x021B99DC thumb ov220
- * func_021B9B64 0x021B9B64 thumb ov220
- * func_021B9CBC 0x021B9CBC thumb ov220
+ * TH_AWARD_TaskNoop 0x021B995C thumb ov220
+ * TH_AWARD_GetLevelIndex 0x021BA068 thumb ov220
+ * TH_AWARD_LoadBgAssets 0x021B9960 thumb ov220
+ * TH_AWARD_CreateSpeciesActors 0x021B99DC thumb ov220
+ * TH_AWARD_CreateBgActors 0x021B9B64 thumb ov220
+ * TH_AWARD_SetupWindows 0x021B9CBC thumb ov220
  * BG_SYS_ClearSubPlanes 0x02043588 arm
  * func_0207D518 0x0207D518 arm
  * BG_SYS_ClearSubBgPlanes 0x02043558 arm
  * BG_SYS_InitBgLayer 0x0203FCA0 arm
- * func_020414AC 0x020414AC arm
+ * BG_SYS_FreeSlot 0x020414AC arm
  * func_02040588 0x02040588 arm
  * BG_SYS_SetSubPlaneVisible 0x02043598 arm
  * func_020490F4 0x020490F4 arm
@@ -65,17 +65,17 @@ extern void MI_CpuFill8(void*,u32,u32);
 extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void *func_020056A0(u32,u32,u32);
-extern void func_021B995C(void);
-extern u8 func_021BA068(u32);
-extern void func_021B9960(u16*);
-extern void func_021B99DC(char*);
-extern void func_021B9B64(char*);
-extern void func_021B9CBC(struct Obj *p);
+extern void TH_AWARD_TaskNoop(void);
+extern u8 TH_AWARD_GetLevelIndex(u32);
+extern void TH_AWARD_LoadBgAssets(u16*);
+extern void TH_AWARD_CreateSpeciesActors(char*);
+extern void TH_AWARD_CreateBgActors(char*);
+extern void TH_AWARD_SetupWindows(struct Obj *p);
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(int);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32),func_020409B4(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -84,7 +84,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
 extern void FADE_Start(u32,int,int,int);
-int func_021B95A0(void *host,void *unused,void *args)
+int TH_AWARD_Init(void *host,void *unused,void *args)
 {
     char *p;
     char *desc;
@@ -100,13 +100,13 @@ int func_021B95A0(void *host,void *unused,void *args)
     *(void **)(p+8)=TH_AWARD_GRAPHIC_Create(1,*(u16 *)p);
     *(void **)(p+0xC)=GF_FONT_Create(23,0,0,0,*(u16 *)p);
     *(u32 *)(p+0x10)=PRINTSYS_QUE_Create((void *)(u32)*(u16 *)p);
-    func_0204047C(1,2);func_0204047C(2,1);func_0204047C(3,0);
-    *(void **)(p+0x14)=func_020056A0((u32)func_021B995C,(u32)p,1);
+    BG_SYS_SetVisibleLayer(1,2);BG_SYS_SetVisibleLayer(2,1);BG_SYS_SetVisibleLayer(3,0);
+    *(void **)(p+0x14)=func_020056A0((u32)TH_AWARD_TaskNoop,(u32)p,1);
     if (*(u32 *)(*(char **)(p+4)+8)) desc=*(char **)(*(char **)(p+4)+4)+0x14;
     else desc=*(char **)(*(char **)(p+4)+4);
     if (!*(u8 *)desc) *(u32 *)(p+0xB0)=7;
-    else *(u32 *)(p+0xB0)=func_021BA068(*(u16 *)(desc+2));
-    func_021B9960((u16*)p);func_021B99DC(p);func_021B9B64(p);func_021B9CBC((struct Obj *)p);
+    else *(u32 *)(p+0xB0)=TH_AWARD_GetLevelIndex(*(u16 *)(desc+2));
+    TH_AWARD_LoadBgAssets((u16*)p);TH_AWARD_CreateSpeciesActors(p);TH_AWARD_CreateBgActors(p);TH_AWARD_SetupWindows((struct Obj *)p);
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |= 0x10000;
@@ -116,7 +116,7 @@ int func_021B95A0(void *host,void *unused,void *args)
         const struct Row *r=(const struct Row *)((u32)bgtable+i*44);
         u32 layer=r->id;
         BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate*)r->body,(u8)r->kind);
-        func_020414AC(layer);func_02040588(layer,r->on);
+        BG_SYS_FreeSlot(layer);func_02040588(layer,r->on);
     } while ((u32)++i<1);
     BG_SYS_SetSubPlaneVisible(16,1);
     heap=*(u16 *)p;

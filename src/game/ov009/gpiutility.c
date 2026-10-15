@@ -1,7 +1,7 @@
 /*
  * file:     gpiutility.c
  * unit:     yes
- * function: func_0219327C, func_0219329C, func_02193378, func_02193418, func_02193488, func_0219359C, func_02193710, func_02193734, func_02193748
+ * function: strzcpy, gpiCheckForError, gpiValueForKeyWithIndex, gpiValueForKey, gpiCheckSocketConnect, gpiReadKeyAndValue, gpiSetError, gpiSetErrorString, gpiEncodeString
  * address:  0x0219327C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,14 +16,14 @@
  *   strncmp  0x020949F4  arm
  *   atoi  0x020964E0  arm
  *   strstr  0x02094B20  arm
- *   func_02189D78  0x02189D78  arm  ov009
+ *   gpiCallErrorCallback  0x02189D78  arm  ov009
  *   g_021A5718     0x021A5718  data
  *   g_021A5720     0x021A5720  data
  *   g_021A5728     0x021A5728  data
  *   g_021A5734     0x021A5734  data
  *   strlen  0x0209477C  arm
  *   GSISocketSelect  0x0217ED64  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A573C     0x021A573C  data
  *   g_021A5750     0x021A5750  data
  *   g_021A5788     0x021A5788  data
@@ -42,22 +42,22 @@ extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
 extern int atoi(u32 a0);
 extern u8 *strstr(const u8 *s1, const u8 *s2);
-extern int func_02189D78(int *connection, int a1, int a2);
+extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern int strlen(const u8 *s);
 extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void Util_RandSeed(unsigned int v);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
-void func_0219327C(char *p, int b, int n);
-int func_0219329C(int *connection, const char *input, int fatal);
-int func_02193378(char *command, char *key, int *index, char *value, int len);
-int func_02193418(const char *command, const char *key, char *value, int valueLen);
-int func_02193488(int *connection, int sock, int *state);
-int func_0219359C(int *connection, const char *buffer, int *index, char *key, char *value);
-void func_02193710(int *connection, int result, int errorString);
-void func_02193734(int *p, int b);
-void func_02193748(const char *plaintext, char *encoded);
+void strzcpy(char *p, int b, int n);
+int gpiCheckForError(int *connection, const char *input, int fatal);
+int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len);
+int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
+int gpiCheckSocketConnect(int *connection, int sock, int *state);
+int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *key, char *value);
+void gpiSetError(int *connection, int result, int errorString);
+void gpiSetErrorString(int *p, int b);
+void gpiEncodeString(const char *plaintext, char *encoded);
 extern char g_021A5718[];
 extern char g_021A5720[];
 extern char g_021A5728[];
@@ -72,7 +72,7 @@ extern char g_021A57B8[];
 /*
  * Clears the byte one before the sum of the block and the count.
  */
-void func_0219327C(char *p, int b, int n)
+void strzcpy(char *p, int b, int n)
 {
     strncpy((u8 *)p, (const u8 *)b, n);
     *(char *)(p + n - 1) = 0;
@@ -90,7 +90,7 @@ void func_0219327C(char *p, int b, int n)
  *
  * Layout note that closed the old DIFF: the `\fatal\` branch's third
  * argument is written as a *double* boolean -- `int b = strstr(...)
- * != 0;` then `func_02189D78(connection, 4, b != 0);`.  `_Bool` is not a
+ * != 0;` then `gpiCallErrorCallback(connection, 4, b != 0);`.  `_Bool` is not a
  * keyword in this C99 front end (CCERR), and folding the two tests into one
  * loses four instructions (12 bytes).
  *
@@ -98,22 +98,22 @@ void func_0219327C(char *p, int b, int n)
  * from "\err\" via gpiValueForKey into a 0x10 stack buffer and atoi it into
  * iconnection+0x5b8; read the message from "\err\msg\" straight into the
  * connection's error string at +0 (and clear byte 0 if absent); on a fatal
- * request check for "\fatal\" and raise callback type 4 through func_02189D78.
+ * request check for "\fatal\" and raise callback type 4 through gpiCallErrorCallback.
  */
-int func_0219329C(int *connection, const char *input, int fatal)
+int gpiCheckForError(int *connection, const char *input, int fatal)
 {
     char value[0x10];
     int *ic = (int *)*connection;
 
     if (strncmp((const unsigned char *)input, (const unsigned char *)g_021A5718, 7) != 0)
         goto fail;
-    if (func_02193418(input, g_021A5720, value, 0x10))
+    if (gpiValueForKey(input, g_021A5720, value, 0x10))
         ic[0x5b8 / 4] = atoi((u32)value);
-    if (!func_02193418(input, g_021A5728, (char *)ic, 0x100))
+    if (!gpiValueForKey(input, g_021A5728, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
         int b = strstr((const u8 *)input, (const u8 *)g_021A5734) != 0;
-        func_02189D78(connection, 4, b != 0);
+        gpiCallErrorCallback(connection, 4, b != 0);
     }
     return 1;
 fail:
@@ -124,7 +124,7 @@ fail:
 /*
  * sdk:      gpiValueForKeyWithIndex (libdwcgsgp.TWL.HYB.a(gpiutility.o))
  */
-int func_02193378(char *command, char *key, int *index, char *value, int len)
+int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len)
 {
     char delimiter;
     char *start;
@@ -156,7 +156,7 @@ int func_02193378(char *command, char *key, int *index, char *value, int len)
  * compiler puts the register delimiter in `cmp`'s first slot instead of the
  * freshly loaded byte and the function is one instruction off.
  */
-int func_02193418(const char *command, const char *key, char *value, int valueLen)
+int gpiValueForKey(const char *command, const char *key, char *value, int valueLen)
 {
     char *p;
     int i;
@@ -183,7 +183,7 @@ int func_02193418(const char *command, const char *key, char *value, int valueLe
  * the two out-parameters decide between accepted (state 4) and rejected
  * (state 3).
  */
-int func_02193488(int *connection, int sock, int *state)
+int gpiCheckSocketConnect(int *connection, int sock, int *state)
 {
     int e[2];
     int r;
@@ -192,20 +192,20 @@ int func_02193488(int *connection, int sock, int *state)
     e[0] = 0;
     r = GSISocketSelect(sock, 0, &e[1], &e[0]);
     if (r == -1) {
-        func_0217D254(1, 0, 1, (const char *)((int)g_021A573C));
-        func_02193710(connection, 5, (int)g_021A5750);
-        func_02189D78(connection, 3, 1);
+        gsDebugFormat(1, 0, 1, (const char *)((int)g_021A573C));
+        gpiSetError(connection, 5, (int)g_021A5750);
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     if (r <= 0)
         goto zero;
     if (e[0] != 0) {
-        func_0217D254(1, 0, 1, (const char *)((int)g_021A5788));
+        gsDebugFormat(1, 0, 1, (const char *)((int)g_021A5788));
         *state = 4;
         return 0;
     }
     if (e[1] != 0) {
-        func_0217D254(1, 0, 8, (const char *)((int)g_021A57A0));
+        gsDebugFormat(1, 0, 8, (const char *)((int)g_021A57A0));
         *state = 3;
         return 0;
     }
@@ -221,13 +221,13 @@ zero:
  * with `start` taken before the leading backslash is consumed.  The four
  * malformed cases each inline their own CallbackFatalError tail (gpiSetError
  * with result 1 and the "Parse Error." string pinned at 0x021A57B8, then
- * func_02189D78 with callback type 3 and return 3); they are not a shared
+ * gpiCallErrorCallback with callback type 3 and return 3); they are not a shared
  * block.  The earlier DIFF was a register rotation caused by spelling the two
  * copies out of one pointer with separate key/value cursor locals; using the
  * public running-pointer form reproduces the original allocation (start in
  * lr, buffer/cursor in r1, c in r5 then r3, i in r6 then r5, value in ip).
  */
-int func_0219359C(int *connection, const char *buffer, int *index, char *key, char *value)
+int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *key, char *value)
 {
     int c;
     int i;
@@ -237,20 +237,20 @@ int func_0219359C(int *connection, const char *buffer, int *index, char *key, ch
     start = (char *)buffer;
 
     if (*buffer++ != '\\') {
-        func_02193710(connection, 1, (int)g_021A57B8);
-        func_02189D78(connection, 3, 1);
+        gpiSetError(connection, 1, (int)g_021A57B8);
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
 
     for (i = 0; (c = *buffer++) != '\\'; i++) {
         if (c == 0) {
-            func_02193710(connection, 1, (int)g_021A57B8);
-            func_02189D78(connection, 3, 1);
+            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         if (i == 0x1ff) {
-            func_02193710(connection, 1, (int)g_021A57B8);
-            func_02189D78(connection, 3, 1);
+            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         *key++ = (char)c;
@@ -259,8 +259,8 @@ int func_0219359C(int *connection, const char *buffer, int *index, char *key, ch
 
     for (i = 0; ((c = *buffer++) != '\\') && (c != 0); i++) {
         if (i == 0x1ff) {
-            func_02193710(connection, 1, (int)g_021A57B8);
-            func_02189D78(connection, 3, 1);
+            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         *value++ = (char)c;
@@ -276,11 +276,11 @@ int func_0219359C(int *connection, const char *buffer, int *index, char *key, ch
  * gpiSetError: copy the error string into the connection-owned buffer at
  * the head of the connection object and record the result word at +0x5b8.
  */
-void func_02193710(int *connection, int result, int errorString)
+void gpiSetError(int *connection, int result, int errorString)
 {
     char *iconnection = *(char **)connection;
 
-    func_0219327C(iconnection, errorString, 0x100);
+    strzcpy(iconnection, errorString, 0x100);
     *(int *)(iconnection + 0x5b8) = result;
 }
 
@@ -288,9 +288,9 @@ void func_02193710(int *connection, int result, int errorString)
 /*
  * Tail call on the word the pointer holds, with the constant third argument 0x100.
  */
-void func_02193734(int *p, int b)
+void gpiSetErrorString(int *p, int b)
 {
-    func_0219327C((char *)(*p), b, 0x100);
+    strzcpy((char *)(*p), b, 0x100);
 }
 
 
@@ -299,7 +299,7 @@ void func_02193734(int *p, int b)
  * XOR each plaintext byte with a random byte, then hand the temporary to
  * B64Encode with mode 1.
  */
-void func_02193748(const char *plaintext, char *encoded)
+void gpiEncodeString(const char *plaintext, char *encoded)
 {
     char temp[0x20];
     unsigned int i;

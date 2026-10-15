@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734        0x02030734  arm
+ *   GFL_HEAP_Alloc        0x02030734  arm
  *   _GameEventFileName   0x020A727C  data
  *
  * Constructor for a five-word descriptor: allocate the 0x14-byte header off
@@ -18,8 +18,8 @@
  * allocate the caller-sized payload off the same heap and hang it at +0xc,
  * and record the owner at +0x10.
  *
- * Both allocations go through sub_02030734, whose last two arguments are
- * the file/line debug site pair (see src/matched/sub_02030734.c).  The file
+ * Both allocations go through GFL_HEAP_Alloc, whose last two arguments are
+ * the file/line debug site pair (see src/matched/GFL_HEAP_Alloc.c).  The file
  * pointer is one pool word loaded twice, so it is a single ABS32 into the
  * packed string area and has to be declared as an extern pinned by address
  * (docs/idioms/file-string-is-an-abs32-into-the-string-area.md), never as a
@@ -48,7 +48,7 @@ struct Desc {
     void *unk_10;
 };
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern const char _GameEventFileName[];
 
@@ -56,11 +56,11 @@ struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size)
 {
     struct Desc *d;
 
-    d = sub_02030734(4, sizeof(struct Desc), 1, _GameEventFileName, 55);
+    d = GFL_HEAP_Alloc(4, sizeof(struct Desc), 1, _GameEventFileName, 55);
     d->unk_00 = a;
     d->unk_04 = b;
     d->unk_08 = 0;
-    d->unk_0c = sub_02030734(4, size, 1, _GameEventFileName, 59);
+    d->unk_0c = GFL_HEAP_Alloc(4, size, 1, _GameEventFileName, 59);
     d->unk_10 = owner;
     return d;
 }

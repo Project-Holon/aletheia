@@ -1,5 +1,5 @@
 /*
- * function: func_021C5BCC
+ * function: VIEWER_MAIN_HandleScrollTouch
  * address:  0x021C5BCC
  * packet:   pkt_ov111_021C5BCC
  * region:   ov111
@@ -61,7 +61,7 @@ extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern const u8 d_021C852C[];
 extern const u8 d_021C853C[];
 
-void func_021C5BCC(Work *p, int side)
+void VIEWER_MAIN_HandleScrollTouch(Work *p, int side)
 {
     u32 x, y;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3D70
+ * function: NAMEIN_GRAPHIC_PrintMsg
  * address: 0x021F3D70
  * packet: pkt_ov194_021F3D70
  * region: ov194
@@ -28,7 +28,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-void func_021F3D70(char *p,int value) {
+void NAMEIN_GRAPHIC_PrintMsg(char *p,int value) {
     int window;
     while (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj02239 *)p)->f10),(void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02239 *)p)->f14))))
         PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj02239 *)p)->f10));

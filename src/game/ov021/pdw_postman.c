@@ -30,8 +30,8 @@
  *   func_020307B0  0x020307B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   FIELD_MSGBG_CreateCursor  0x02192788  thumb  ov021
@@ -134,8 +134,8 @@ extern u32 MSGDATA_Delete(struct MsgBank *msgData);
 extern void MSGDATA_ReadString(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
-extern void func_0201F250(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *strBuf);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
@@ -231,8 +231,8 @@ void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin)
         MSGDATA_ReadString(itemNames, listWin->items[i].itemId, listWin->strBuf);
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0, i * PDW_POSTMAN_LINE_HEIGHT, listWin->strBuf);
         MSGDATA_ReadString(listWin->msgData, 5, listWin->strBuf);
-        func_0201EFA4(listWin->wordSet, 0, listWin->items[i].count, 2, 1, 1);
-        func_0201F250(listWin->wordSet, listWin->expandBuf, listWin->strBuf);
+        WORDSET_SetSlotNumber(listWin->wordSet, 0, listWin->items[i].count, 2, 1, 1);
+        WORDSET_CopyTaggedText(listWin->wordSet, listWin->expandBuf, listWin->strBuf);
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0x6c, i * PDW_POSTMAN_LINE_HEIGHT, listWin->expandBuf);
     }
     MSGDATA_Delete(itemNames);

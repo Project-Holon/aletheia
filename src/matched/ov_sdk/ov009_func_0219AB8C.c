@@ -13,7 +13,7 @@
  *
  * symbols:
  *   CheckMagic  0x02199284  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   FindNegotiatorForCookie  0x021990D4  arm  ov009
  *   ProcessConnectPacket  0x0219A620  arm  ov009
@@ -71,7 +71,7 @@ typedef struct _NatNegPacket {
 
 #include "../arm9_sdk/libc/string.h"
 extern int CheckMagic(char *data);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern char *func_0215FA9C(unsigned int in);
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
 extern void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
@@ -92,22 +92,22 @@ void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr)
     unsigned char ptype;
 
     if (!CheckMagic(data)) {
-        func_0217D254(7, 0, 4, gNatNegBadHeaderFmt);
+        gsDebugFormat(7, 0, 4, gNatNegBadHeaderFmt);
         return;
     }
 
     ptype = ((NatNegPacket *)data)->packettype;
-    func_0217D254(7, 0, 8, gNatNegPacketFmt, ptype, len, func_0215FA9C(fromaddr->addr), NN_NTOHS(fromaddr->port));
+    gsDebugFormat(7, 0, 8, gNatNegPacketFmt, ptype, len, func_0215FA9C(fromaddr->addr), NN_NTOHS(fromaddr->port));
 
     if (ptype == 5 || ptype == 7) {
         if (len < 20) {
-            func_0217D254(7, 0, 4, gNatNegConnectTooSmallFmt);
+            gsDebugFormat(7, 0, 4, gNatNegConnectTooSmallFmt);
             return;
         }
         memcpy(&p, data, 20);
         neg = FindNegotiatorForCookie(NN_NTOHL((unsigned int)p.cookie));
         if (neg == 0) {
-            func_0217D254(7, 0, 4, gNatNegNoNegotiatorFmt, NN_NTOHL((unsigned int)p.cookie));
+            gsDebugFormat(7, 0, 4, gNatNegNoNegotiatorFmt, NN_NTOHL((unsigned int)p.cookie));
             return;
         }
         if (ptype == 5)
@@ -124,13 +124,13 @@ void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr)
         ProcessPreinitAckPacket(neg, &p);
     } else {
         if (len < 21) {
-            func_0217D254(7, 0, 4, gNatNegPacketTooSmallFmt);
+            gsDebugFormat(7, 0, 4, gNatNegPacketTooSmallFmt);
             return;
         }
         memcpy(&p, data, 21);
         neg = FindNegotiatorForCookie(NN_NTOHL((unsigned int)p.cookie));
         if (neg == 0) {
-            func_0217D254(7, 0, 4, gNatNegNoNegotiatorFmt, NN_NTOHL((unsigned int)p.cookie));
+            gsDebugFormat(7, 0, 4, gNatNegNoNegotiatorFmt, NN_NTOHL((unsigned int)p.cookie));
             return;
         }
         ProcessInitPacket(neg, &p, fromaddr);

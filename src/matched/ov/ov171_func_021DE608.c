@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: mask each translated fixed point coordinate before shifting and narrowing.
  * symbols:
- *   func_0203F6D8 0x0203F6D8 arm
+ *   GF_STANDARD_Sin 0x0203F6D8 arm
  *   GF_STANDARD_Get_F684 0x0203F684 arm
  *   DENDOU_VIEW_MoveActor 0x021DE0C0 thumb ov171
  *   _ll_mul 0x0209C054 arm
@@ -17,14 +17,14 @@
 typedef unsigned short u16;
 typedef signed short   s16;
 typedef signed int     s32;
-extern s16 func_0203F6D8(s32 x);
+extern s16 GF_STANDARD_Sin(s32 x);
 extern short GF_STANDARD_Get_F684(unsigned short x);
 typedef unsigned char  u8;
 extern void DENDOU_VIEW_MoveActor(u8 *p, int i, int x, int y);
 void DENDOU_VIEW_PlaceActorOnEllipse(char *p, int i, int angle)
 {
     int x, y;
-    x = (int)(((long long)func_0203F6D8((u16)angle) * 0x64000 + 0x800) >> 12);
+    x = (int)(((long long)GF_STANDARD_Sin((u16)angle) * 0x64000 + 0x800) >> 12);
     y = (int)(((long long)GF_STANDARD_Get_F684((u16)angle) * 0x2c000 + 0x800) >> 12);
     x += 0x80000;
     y += 0x58000;

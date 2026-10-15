@@ -1,5 +1,5 @@
 /*
- * function: func_022063E0
+ * function: SHINKA_DEMO_VIEW_CreateWork
  * address:  0x022063E0
  * packet:   pkt_022063E0
  * region:   ov195
@@ -19,12 +19,12 @@
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   POKE_TOOL_IsShiny 0x02017EAC thumb
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_0220685C 0x0220685C thumb ov195
- *   func_02206A5C 0x02206A5C thumb ov195
- *   func_02206E2C 0x02206E2C thumb ov195
- *   func_022081A4 0x022081A4 thumb ov195
- *   func_02208478 0x02208478 thumb ov195
- *   func_02206768 0x02206768 thumb ov195
+ *   SHINKA_DEMO_VIEW_CreateGrid 0x0220685C thumb ov195
+ *   SHINKA_DEMO_VIEW_InitGrid 0x02206A5C thumb ov195
+ *   SHINKA_DEMO_VIEW_SetupGridCells 0x02206E2C thumb ov195
+ *   SHINKA_DEMO_VIEW_StartGridFade 0x022081A4 thumb ov195
+ *   SHINKA_DEMO_VIEW_CreateQuad 0x02208478 thumb ov195
+ *   SHINKA_DEMO_VIEW_SetModelsPos 0x02206768 thumb ov195
  */
 
 typedef unsigned char u8;
@@ -96,16 +96,16 @@ extern u32 POKE_TOOL_IsShiny(void *p);
 extern void *G3D_CAMERA_Create(u32 a0, fx32 sin, fx32 cos, fx32 aspect, u32 a4, fx32 a5,
                            fx32 a6, u32 a7, VecFx32 *a8, VecFx32 *a9, VecFx32 *a10,
                            u16 heap);
-extern Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7,
+extern Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7,
                            u16 heap);
-extern void func_02206A5C(Grid *g, u16 heap);
-extern void func_02206E2C(Grid *g, u16 heap);
+extern void SHINKA_DEMO_VIEW_InitGrid(Grid *g, u16 heap);
+extern void SHINKA_DEMO_VIEW_SetupGridCells(Grid *g, u16 heap);
 struct Fade;
-extern void func_022081A4(struct Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
-extern struct Quad *func_02208478(u32 tex, u32 pltt, u16 heap);
-extern void func_02206768(char *a, u32 x, u32 y, u32 z);
+extern void SHINKA_DEMO_VIEW_StartGridFade(struct Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
+extern struct Quad *SHINKA_DEMO_VIEW_CreateQuad(u32 tex, u32 pltt, u16 heap);
+extern void SHINKA_DEMO_VIEW_SetModelsPos(char *a, u32 x, u32 y, u32 z);
 
-void func_022063E0(Owner *o)
+void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 {
     Work *w = func_02030734(o->heap, sizeof(Work), 1, d_02208F68, 0x54c);
     Grid *g;
@@ -123,23 +123,23 @@ void func_022063E0(Owner *o)
     a = POKE_TOOL_GetPartyValue(o->res0, 5, 0);
     b = POKE_TOOL_GetPartyValue(o->res0, 0x6f, 0);
     c = POKE_TOOL_GetGender(o->res0);
-    g = w->grid[0] = func_0220685C(a, b, c, POKE_TOOL_IsShiny(o->res0), 0, 0, 0x26000, 0x960, o->heap);
+    g = w->grid[0] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, POKE_TOOL_IsShiny(o->res0), 0, 0, 0x26000, 0x960, o->heap);
     if (o->f08 == 0) {
-        func_02206A5C(g, o->heap);
+        SHINKA_DEMO_VIEW_InitGrid(g, o->heap);
         g->state = 3;
-        func_022081A4((struct Fade *)g, o->heap, 0x7fff, 31, 31, 0, 31);
+        SHINKA_DEMO_VIEW_StartGridFade((struct Fade *)g, o->heap, 0x7fff, 31, 31, 0, 31);
     } else {
-        func_02206E2C(g, o->heap);
+        SHINKA_DEMO_VIEW_SetupGridCells(g, o->heap);
     }
 
     if (o->f08 == 0) {
         a = POKE_TOOL_GetPartyValue(o->res1, 5, 0);
         b = POKE_TOOL_GetPartyValue(o->res1, 0x6f, 0);
         c = POKE_TOOL_GetGender(o->res1);
-        g = w->grid[1] = func_0220685C(a, b, c, POKE_TOOL_IsShiny(o->res1), 0, 0, 0x28000, 0x980, o->heap);
-        func_02206A5C(g, o->heap);
+        g = w->grid[1] = SHINKA_DEMO_VIEW_CreateGrid(a, b, c, POKE_TOOL_IsShiny(o->res1), 0, 0, 0x28000, 0x980, o->heap);
+        SHINKA_DEMO_VIEW_InitGrid(g, o->heap);
         g->state = 3;
-        func_022081A4((struct Fade *)g, o->heap, 0x7fff, 31, 31, 0, 31);
+        SHINKA_DEMO_VIEW_StartGridFade((struct Fade *)g, o->heap, 0x7fff, 31, 31, 0, 31);
         for (j = 0; j < 0x12; j++) {
             for (k = 0; k < 0x12; k++)
                 g->row[j].cell[k].visible = 0;
@@ -147,9 +147,9 @@ void func_022063E0(Owner *o)
     }
 
     if (o->f08 == 0)
-        w->quad = func_02208478(0x26000, 0x960, o->heap);
+        w->quad = SHINKA_DEMO_VIEW_CreateQuad(0x26000, 0x960, o->heap);
     o->work = w;
-    func_02206768((char *)o, 0x100000, -0x800, 0);
+    SHINKA_DEMO_VIEW_SetModelsPos((char *)o, 0x100000, -0x800, 0);
     {
         VecFx32 v1 = d_02208E74;
         VecFx32 v2 = d_02208E80;

@@ -15,7 +15,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -30,7 +30,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 void SCRCMD_POKE_ICON_InitWindow(u32 *p)
 {
@@ -38,5 +38,5 @@ void SCRCMD_POKE_ICON_InitWindow(u32 *p)
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[0])), 17);
     BMP_WIN_TransferChars((struct Descriptor *)p[0]);
     BMP_WIN_MakeScreen((struct Cfg *)p[0]);
-    func_0201F73C((void *)p[0], 1, 1, 13);
+    BMP_MENUWORK_DrawWindow((void *)p[0], 1, 1, 13);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7710
+ * function: GTSNEGO_MSG_DeleteButtons
  * address:  0x021D7710
  * packet:   pkt_021D7710
  * region:   ov120
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void BUTTON_MAN_Delete(void *);
 
-void func_021D7710(u8 *p)
+void GTSNEGO_MSG_DeleteButtons(u8 *p)
 {
     if (((struct Obj10401 *)p)->f8) {
         BUTTON_MAN_Delete(((struct Obj10401 *)p)->f8);

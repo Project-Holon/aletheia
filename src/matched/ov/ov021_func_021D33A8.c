@@ -16,7 +16,7 @@
  * it to FIELD_PALACE_SYS_SetupPalTable.
  *
  * symbols:
- *   sub_02030734    0x02030734  arm
+ *   GFL_HEAP_Alloc    0x02030734  arm
  *   FIELD_PALACE_SYS_SetupPalTable   0x021D33FC  thumb  ov021
  *
  * Addresses are Black-image addresses.
@@ -27,12 +27,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void FIELD_PALACE_SYS_SetupPalTable(u8 *a0, u16 a1, u16 a2);
 
 void *FIELD_PALACE_SYS_Create(u16 heapId, void *a1, void *a2, u16 a3)
 {
-    void *p = sub_02030734(heapId, 0xc, 1, (const char *)0x021DE6D4, 0x43);
+    void *p = GFL_HEAP_Alloc(heapId, 0xc, 1, (const char *)0x021DE6D4, 0x43);
 
     ((struct Obj09759 *)p)->f0 = (u32)a1;
     ((struct Obj09759 *)p)->f4 = (u32)a2;

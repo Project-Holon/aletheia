@@ -1,5 +1,5 @@
 /*
- * function: func_021DADAC
+ * function: WIFIBATTLEMATCH_NET_GetReportState
  * address: 0x021DADAC
  * packet: pkt_ov175_021DADAC
  * region: ov175
@@ -13,4 +13,4 @@
 #include "../include/Obj24330.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021DADAC(u8 *p) { return ((struct Obj24330 *)p)->f150; }
+u32 WIFIBATTLEMATCH_NET_GetReportState(u8 *p) { return ((struct Obj24330 *)p)->f150; }

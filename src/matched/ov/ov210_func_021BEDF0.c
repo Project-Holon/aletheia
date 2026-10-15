@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDF0
+ * function: ZKNSEARCH_MAIN_SetActorVisible
  * address:  0x021BEDF0
  * packet:   pkt_ov210_021BEDF0
  * region:   ov210
@@ -17,7 +17,7 @@
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void func_021BEDF0(int p, int i, int v)
+void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v)
 {
     int h = ((int *)(p + i * 4))[0xa];
 

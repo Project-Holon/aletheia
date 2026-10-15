@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F253C",
+   "name": "NAMEIN_GRAPHIC_HasNonSpace",
    "address": "0x021F253C",
    "kind": "game",
    "region": "ov194",

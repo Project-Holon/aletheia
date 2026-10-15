@@ -40,8 +40,8 @@
  *   func_021665CC     0x021665CC  arm  ov009
  *   NWM_SetPowerSaveMode     0x027035F4  arm  twl
  *   NWM_SetReceivingFrameBuffer     0x0270379C  arm  twl
- *   func_02166804  0x02166804  arm  ov009
- *   func_02166358  0x02166358  arm  ov009
+ *   WCMi_ShelterRssi  0x02166804  arm  ov009
+ *   WCMi_CpsifRecvCallback  0x02166358  arm  ov009
  *   NWM_Connect  0x027032E0  arm  twl
  *   WCM_UpdateOption  0x021656D0  arm  ov009
  *   WCMi_GetNextScanChannel  0x02165918  arm  ov009
@@ -50,7 +50,7 @@
  *   data_021A1990  0x021A1990  data ov009 a4
  *   func_02165AF4    0x02165AF4  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
- *   func_02166594  0x02166594  arm  ov009
+ *   WCMi_CpsifUnlockMutexInIRQ  0x02166594  arm  ov009
  *   WCMi_EntryApList  0x02165D04  arm  ov009
  */
 
@@ -157,8 +157,8 @@ extern void OS_GetMacAddress(void *mac);
 extern void func_021665CC(void *mac);
 extern u32 NWM_SetPowerSaveMode(void *arg, u32 b);
 extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
-extern void func_02166804(u8 v);
-extern void func_02166358(u8 *a, u8 *b, u8 *c, u32 len);
+extern void WCMi_ShelterRssi(u8 v);
+extern void WCMi_CpsifRecvCallback(u8 *a, u8 *b, u8 *c, u32 len);
 extern int NWM_Connect(void *cb, u8 flag, void *buf);
 extern unsigned long WCM_UpdateOption(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);
@@ -207,7 +207,7 @@ typedef struct WCMCpsifWork {
 } WCMCpsifWork;
 typedef struct NWMCallback { unsigned short apiid; unsigned short retcode; } NWMCallback;
 
-extern void func_02166594(OSMutex *mutex);
+extern void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex);
 
 u32 WCMi_NwmifStartupAsync(void)
 {
@@ -873,8 +873,8 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
         if (lv > 0x100) {
             lv = 0xff;
         }
-        func_02166804(lv);
-        func_02166358(p->data + 6, p->data, p->data + 14, p->len - 14);
+        WCMi_ShelterRssi(lv);
+        WCMi_CpsifRecvCallback(p->data + 6, p->data, p->data + 14, p->len - 14);
         return;
     }
 }
@@ -1007,7 +1007,7 @@ void WcmNwmcbSetDCFDataAsync(void *arg)
         }
         sendCallback = wcmiw->sendCallback;
         wcmiw->sendCallback = 0;
-        func_02166594(&wcmiw->sendMutex);
+        WCMi_CpsifUnlockMutexInIRQ(&wcmiw->sendMutex);
         sendCallback(wcmResult);
         break;
     }

@@ -26,7 +26,7 @@
  *   MYSTERY_NET_EndDownload 0x021DEDC8 thumb ov121
  *   MYSTERY_NET_IsZeroBlock 0x021DEF38 thumb ov121
  *   MYSTERY_NET_ParseHexValue 0x021DEEF8 thumb ov121
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   _ull_mul 0x0209C054 arm
  *   _u32_div_f 0x0209C2B0 arm
@@ -56,7 +56,7 @@ extern void MYSTERY_NET_SetHandler(u32 *p, void *f);
 extern void MYSTERY_NET_EndDownload(void *a, int *state, char *p);
 extern int MYSTERY_NET_IsZeroBlock(const unsigned *,unsigned);
 extern int MYSTERY_NET_ParseHexValue(const signed char *);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
 extern char d_021DFBD8[],d_021DFBD0[],d_021DFBF8[],d_021DFBEC[];
 extern int d_021DFC00[];
@@ -103,7 +103,7 @@ void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p)
         if(n==1) {
             for(i=0;i<10;i++) if(((Flag *)((u32)q+(u32)i*4))->flag) {Q(0x724)=i;break;}
         } else if(n>1) {
-            j=0;rnd=func_0203F0A8();
+            j=0;rnd=GF_STANDARD_Rand();
             if(n) rnd=(u32)(((u64)rnd*(u32)n)>>32);
             for(i=0;i<10;i++) {
                 if(((Flag *)((u32)q+(u32)i*4))->flag) {

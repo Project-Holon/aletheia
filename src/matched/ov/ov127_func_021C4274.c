@@ -1,5 +1,5 @@
 /*
- * function: func_021C4274
+ * function: WIFI_2DCHAR_SetActorAnimIndex
  * address: 0x021C4274
  * packet: pkt_ov127_021C4274
  * region: ov127
@@ -18,4 +18,4 @@ typedef signed short s16;
 typedef unsigned int u32;
 /* Callee and its forwarding target read only r0/r1; legacy r2/r3 inputs are unused. */
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-void func_021C4274(char *p,u32 a) { CLACT_SetActorAnimIndex(((struct Obj23020 *)p)->f4,a); }
+void WIFI_2DCHAR_SetActorAnimIndex(char *p,u32 a) { CLACT_SetActorAnimIndex(((struct Obj23020 *)p)->f4,a); }

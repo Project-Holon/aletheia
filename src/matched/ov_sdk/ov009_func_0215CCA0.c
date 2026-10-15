@@ -1,5 +1,5 @@
 /*
- * function: func_0215CCA0
+ * function: SOCLi_SetMyIP
  * address:  0x0215CCA0
  * packet:   pkt_ov009_0215CCA0
  * region:   ov009
@@ -29,7 +29,7 @@ extern unsigned long g_021A8298;
 extern unsigned long g_021A82DC[2];
 extern unsigned long g_021AA440[3];
 
-void func_0215CCA0(void)
+void SOCLi_SetMyIP(void)
 {
 	g_021A82BC = gSoclConfig->myIp;
 	g_021A827C = gSoclConfig->netMask;

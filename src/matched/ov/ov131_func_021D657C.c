@@ -12,7 +12,7 @@
  *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj01255.h"
 #include "../include/Obj23132.h"
@@ -23,7 +23,7 @@ extern void GAME_DATA_Delete(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int P_STATUS_ProcExit(struct S020315D4 *handle, int unused, int mode, char *p)
 {
     if (!P_STATUS_ExitWork(p)) return 0;
@@ -33,6 +33,6 @@ int P_STATUS_ProcExit(struct S020315D4 *handle, int unused, int mode, char *p)
         func_020307B0(((struct Obj01255 *)p)->f8);
     }
     func_020315D4(handle);
-    func_020306F0(0x42);
+    GFL_HEAP_DeleteChecked(0x42);
     return 1;
 }

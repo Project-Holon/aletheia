@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02040DA8 0x02040DA8 arm
+ *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   func_02040588 0x02040588 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
@@ -17,7 +17,7 @@
  *   d_021BFC24 0x021BFC24 data a4
  */
 extern const unsigned d_021BFC24[][11];
-extern void func_02040DA8(unsigned, unsigned, unsigned);
+extern void BG_SYS_SetTileUnit(unsigned, unsigned, unsigned);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
@@ -28,7 +28,7 @@ void func_021BE02C(void *ctx)
 {
     unsigned i = 0;
     unsigned layer;
-    func_02040DA8(1, 1, 0);
+    BG_SYS_SetTileUnit(1, 1, 0);
     for (; i < 4; i++) {
         layer = d_021BFC24[i][0];
         func_02040588((unsigned char)layer, 0);

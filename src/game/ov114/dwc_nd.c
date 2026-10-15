@@ -18,7 +18,7 @@
  *   func_02086078  0x02086078  arm
  *   gDwcNdState     0x021D3B68  data ov114
  *   gDwcNdMutex     0x021D3B84  data ov114
- *   func_02168040  0x02168040  arm  ov009
+ *   DWC_SVLProcess  0x02168040  arm  ov009
  *   strlen         0x0209477C  arm
  *   OS_SNPrintf  0x02084F80  arm
  *   DWC_Base64Encode  0x02059B40  arm
@@ -32,7 +32,7 @@
  *   OS_InitMutex  0x02086004  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   strncpy        0x02094860  arm
- *   func_02167FA8  0x02167FA8  arm
+ *   DWC_SVLGetTokenAsync  0x02167FA8  arm
  *   OS_CreateThread  0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   sDwcNdServiceLocatorPort     0x021CF370  data
@@ -57,7 +57,7 @@ extern void DWC_Free(int name, void *ptr, unsigned long size);
 void OS_JoinThread(void *thread);
 void OS_LockMutex(void *mutex);
 void OS_UnlockMutex(void *mutex);
-extern int func_02168040(void);
+extern int DWC_SVLProcess(void);
 extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int DWC_Base64Encode(char *src, u32 srclen, char *dst, u32 dstlen);
 extern int DWCi_NdStartup(void *(*alloc)(unsigned long, int), void (*free)(void *), char *url,
@@ -71,7 +71,7 @@ extern int DWCi_IsError(void);
 extern void OS_InitMutex(void *mutex);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
-extern int func_02167FA8(char *serviceName, DWCSvlResult *result);
+extern int DWC_SVLGetTokenAsync(char *serviceName, DWCSvlResult *result);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack,
                           unsigned long stackSize, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
@@ -139,7 +139,7 @@ static void DWCi_SVLTokenWaitThread(void *arg)
     int errorCode;
 
     while (1) {
-        switch (func_02168040()) {
+        switch (DWC_SVLProcess()) {
         case 3:
             if (strlen(gDwcNdState.param->svl.svlHost) + strlen("https:///download") > sizeof(url) - 1) {
                 func_021C58C8(0, 8, -1);
@@ -219,7 +219,7 @@ int DWC_NdInitAsync(NdCallback callback, char *gameCode, char *password)
     gDwcNdState.param->status = 0;
     strncpy(gDwcNdState.param->gameCode, gameCode, 31);
     strncpy(gDwcNdState.param->password, password, 31);
-    if (func_02167FA8(sDwcNdServiceLocatorPort, &gDwcNdState.param->svl) == 0) {
+    if (DWC_SVLGetTokenAsync(sDwcNdServiceLocatorPort, &gDwcNdState.param->svl) == 0) {
         DWCi_NdFree(gDwcNdState.param);
         gDwcNdState.param = 0;
         return 0;

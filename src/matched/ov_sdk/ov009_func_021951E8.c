@@ -1,5 +1,5 @@
 /*
- * function: func_021951E8
+ * function: gti2PingCallback
  * address:  0x021951E8
  * packet:   pkt_ov009_021951E8
  * region:   ov009
@@ -33,7 +33,7 @@ typedef struct Conn {
 
 extern void func_02197FDC(Sock *sock);
 
-int func_021951E8(Conn *c, int latency)
+int gti2PingCallback(Conn *c, int latency)
 {
 	if (!c)
 		return 1;

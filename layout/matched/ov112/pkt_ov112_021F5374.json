@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F5374",
+   "name": "MUSICAL_MCSS_SetRenderMode",
    "address": "0x021F5374",
    "kind": "game",
    "region": "ov112",

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Copies a 20-byte record, opens the 0x0AFC resource, and passes the record's
- * first 8 bytes on to func_0201EE0C.
+ * first 8 bytes on to WORDSET_SetSlotTag.
  *
  * symbols:
  *   SCRIPT_SYS_ChangeScriptEvent  0x021587B0  thumb  ov010
@@ -19,7 +19,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -40,7 +40,7 @@ struct Strbuf;
 extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
 extern void STRBUF_Delete(struct U16Vec *vec);
 struct WordSet;
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
 int INTRUDE_OfferEventMain(u32 a, u32 unused, const Rec *src)
 {
@@ -54,7 +54,7 @@ int INTRUDE_OfferEventMain(u32 a, u32 unused, const Rec *src)
     x = (u32)SCRIPT_WORK_GetWordSet((void *)h);
     buf = (u32)STRBUF_Create(8, 0x15);
     STRBUF_SetStringN((struct Strbuf *)buf, (const u16 *)&r, 8);
-    func_0201EE0C((struct WordSet *)x, 3, (const void *)buf, 1, 1, 2);
+    WORDSET_SetSlotTag((struct WordSet *)x, 3, (const void *)buf, 1, 1, 2);
     STRBUF_Delete((struct U16Vec *)buf);
     return 0;
 }

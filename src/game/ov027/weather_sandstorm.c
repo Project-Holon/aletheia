@@ -21,7 +21,7 @@
  *   WEATHER_TASK_PlaySe  0x021A25BC  thumb  ov021
  *   WEATHER_TASK_StepSpawner  0x021A223C  thumb  ov021
  *   WEATHER_TASK_ChangeFog  0x021A232C  thumb  ov021
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  *   WEATHER_TASK_FadeLight  0x021A2108  thumb  ov021
  *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  *   WEATHER_TASK_SetBillboardVisible  0x021A2160  thumb  ov021
@@ -79,7 +79,7 @@ void WEATHER_TASK_GetParticlePos(WeatherParticle *particle, WeatherScreenPos *ou
 void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, const WeatherScreenPos *pos);
 void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
 WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
-u16 func_02014A10(u32 weatherId);
+u16 ZONEDATA_GetLightTableMember(u32 weatherId);
 extern u32 func_020056EC(u32 range);
 /* Signed divide helper, called by name here (the result is the quotient). */
 extern int func_0209C0A4(int dividend, int divisor);
@@ -128,7 +128,7 @@ int WEATHER_SANDSTORM_BeginParticles(WeatherTaskSys *task, int variant, int heap
         work->startDelay = work->startDelay - 1;
         if (work->startDelay == 0) {
             WEATHER_TASK_ChangeFog(task, 8, 0x7f5e, 0x5a, variant);
-            WEATHER_TASK_FadeLight(task, 0x3e, func_02014A10(3));
+            WEATHER_TASK_FadeLight(task, 0x3e, ZONEDATA_GetLightTableMember(3));
         }
     } else if (WEATHER_TASK_IsFogIdle(task) != 0 && spawnerReady != 0) {
         WEATHER_TASK_SetBillboardVisible(task, 1, 0);
@@ -146,7 +146,7 @@ int WEATHER_SANDSTORM_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
     WEATHER_TASK_InitFog(task, 8, 0x7f5e, variant);
     WEATHER_TASK_PrewarmParticles(task, WEATHER_SANDSTORM_SpawnParticles, 24, 2, 2, heapId);
     WEATHER_TASK_SetBillboardVisible(task, 1, 0);
-    WEATHER_TASK_SetLight(task, 0x3e, func_02014A10(3));
+    WEATHER_TASK_SetLight(task, 0x3e, ZONEDATA_GetLightTableMember(3));
     return 1;
 }
 

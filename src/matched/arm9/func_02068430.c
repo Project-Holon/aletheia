@@ -1,5 +1,5 @@
 /*
- * function: func_02068430
+ * function: NNSi_G2dBlitCharData
  * address:  0x02068430
  * packet:   pkt_020682DC
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02069BA0  0x02069BA0  arm
+ *   NNSi_G2dBitReaderRead  0x02069BA0  arm
  *
  * NitroSystem g2d_CharCanvas.c LetterChar(LC_INFO *): blit one glyph's
  * bit-packed pixels into one 8x8 character, clipped to the character, at 4
  * or 8 bits per destination pixel, adding the colour base cl to every
  * non-zero source value.  Each row opens an NNSiG2dBitReader at
  * src + offset / 8 and discards offset % 8 bits first
- * (NNSi_G2dBitReaderRead = func_02069BA0).  The LC_INFO block is the
+ * (NNSi_G2dBitReaderRead = NNSi_G2dBitReaderRead).  The LC_INFO block is the
  * ten-word "Blit" struct of docs/families/cluster_020682DC.h.
  *
  * Closed in wave 13 on the first compile of the library body with the
@@ -51,7 +51,7 @@ typedef struct NNSiG2dBitReader {
 } NNSiG2dBitReader;
 
 struct BitReader;
-extern u32 func_02069BA0(struct BitReader *reader, int nBits);   /* NNSi_G2dBitReaderRead */
+extern u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits);   /* NNSi_G2dBitReaderRead */
 
 static inline int MATH_IMax(int a, int b)
 {
@@ -69,7 +69,7 @@ static inline void NNSi_G2dBitReaderInit(NNSiG2dBitReader *reader, const void *s
     reader->bits = 0;
 }
 
-void func_02068430(LC_INFO *i)
+void NNSi_G2dBlitCharData(LC_INFO *i)
 {
     const u8 *pSrc;
     u32 x_st;
@@ -111,10 +111,10 @@ void func_02068430(LC_INFO *i)
                 u32 out_line = *pDst;
 
                 NNSi_G2dBitReaderInit(&reader, pSrc + offset / 8);
-                (void)func_02069BA0((struct BitReader *)(&reader), (int)offset % 8);
+                (void)NNSi_G2dBitReaderRead((struct BitReader *)(&reader), (int)offset % 8);
 
                 for (x = x_st; x < x_ed; x += 4) {
-                    u32 bits = func_02069BA0((struct BitReader *)(&reader), srcBpp);
+                    u32 bits = NNSi_G2dBitReaderRead((struct BitReader *)(&reader), srcBpp);
 
                     if ( bits != 0 ) {
                         out_line = (out_line & ~(0xF << x)) | ((cl + bits) << x);
@@ -136,10 +136,10 @@ void func_02068430(LC_INFO *i)
                 u32 out_line_1 = *(pDst + 1);
 
                 NNSi_G2dBitReaderInit(&reader, pSrc + offset / 8);
-                (void)func_02069BA0((struct BitReader *)(&reader), (int)offset % 8);
+                (void)NNSi_G2dBitReaderRead((struct BitReader *)(&reader), (int)offset % 8);
 
                 for (x = x_st; x < x_ed; x += 8) {
-                    u32 bits = func_02069BA0((struct BitReader *)(&reader), srcBpp);
+                    u32 bits = NNSi_G2dBitReaderRead((struct BitReader *)(&reader), srcBpp);
 
                     if ( bits != 0 ) {
                         if ( x < 32 ) {

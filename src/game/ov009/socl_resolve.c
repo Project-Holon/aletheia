@@ -1,7 +1,7 @@
 /*
  * file:     socl_resolve.c
  * unit:     yes
- * function: func_0215EDD0, func_0215EE98, func_0215EEE0, func_0215EF48
+ * function: SOCL_Resolve, SOCL_InetAtoH, SOCL_SetResolver, func_0215EF48
  * address:  0x0215EDD0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   OS_GetProcMode     0x020879ec arm
  *   OS_Sleep           0x02085a38 arm
  */
-#include "../../matched/include/G_021A1CD8.h"
+#include "socl_command_types.h"
 
 typedef struct {
     unsigned char pad0[0x48];
@@ -50,11 +50,11 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned long func_0215EF48(void);
 extern int OS_GetProcMode(void);
 extern void OS_Sleep(unsigned long msec);
-unsigned long func_0215EDD0(char *hostname);
-unsigned long func_0215EE98(char *hostname);
-int func_0215EEE0(unsigned long dns1, unsigned long dns2);
+unsigned long SOCL_Resolve(char *hostname);
+unsigned long SOCL_InetAtoH(char *hostname);
+int SOCL_SetResolver(unsigned long dns1, unsigned long dns2);
 unsigned long SOCL_GetHostID(void);
-extern struct G_021A1CD8 *gSoclConfig;
+extern SoclConfig *gSoclConfig;
 extern unsigned long g_021A82DC[2];
 extern unsigned long g_021A8278;
 extern unsigned long CPSMyIp;
@@ -62,7 +62,7 @@ extern unsigned long SOCLiDhcpState;
 extern unsigned long SOCLiRequestedIP;
 
 
-unsigned long func_0215EDD0(char *hostname)
+unsigned long SOCL_Resolve(char *hostname)
 {
     unsigned char *buffers;
     CpsSoc soc;
@@ -91,7 +91,7 @@ unsigned long func_0215EDD0(char *hostname)
 /*
  * sdk:      SOCL_InetAtoH (libsoc.TWL.HYB.a(socl_resolve.o))
  */
-unsigned long func_0215EE98(char *hostname)
+unsigned long SOCL_InetAtoH(char *hostname)
 {
     unsigned long hostip;
     unsigned long enable;
@@ -114,7 +114,7 @@ unsigned long func_0215EE98(char *hostname)
 /*
  * sdk:      SOCL_SetResolver (libsoc.TWL.HYB.a(socl_resolve.o))
  */
-int func_0215EEE0(unsigned long dns1, unsigned long dns2)
+int SOCL_SetResolver(unsigned long dns1, unsigned long dns2)
 {
     if (func_0215EF48() == 0)
         return -0x27;

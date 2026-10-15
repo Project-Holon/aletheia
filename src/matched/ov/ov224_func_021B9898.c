@@ -1,5 +1,5 @@
 /*
- * function: func_021B9898
+ * function: SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets
  * address: 0x021B9898
  * packet: pkt_ov224_021B9898
  * region: ov224
@@ -10,4 +10,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021B9898(void) {}
+void SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(void) {}

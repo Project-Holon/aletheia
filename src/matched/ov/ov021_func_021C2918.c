@@ -24,7 +24,7 @@
  *   BMP_ConvertToLinear  0x02044F64  arm
  *   func_02061CA4  0x02061CA4  arm
  *   func_02030830  0x02030830  arm
- * Twin of ov195 func_0220685C (same tile-copy body). The far argument block
+ * Twin of ov195 SHINKA_DEMO_VIEW_CreateGrid (same tile-copy body). The far argument block
  * at +0x9C needs a local pointer (`a = p->args`), and the two size calls
  * must land in int locals before the (u16) << 3 conversions.
  */

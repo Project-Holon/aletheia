@@ -31,13 +31,13 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   d_021E8DD4     0x021E8DD4  data
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
@@ -209,7 +209,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
@@ -219,7 +219,7 @@ extern int APP_KEYCURSOR_Delete(int p);
 
 extern void TCBL_Destroy(struct S02031140 *p);
 
-extern void func_0201F7A8(void *p, unsigned kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *p, unsigned kind);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
@@ -350,12 +350,12 @@ extern const Config d_021E8D68;
  *   (145, heap is reloaded from the stack at each use). Left DIFF.
  * note 2026-10-05 (wD9r lane58): still 8 bytes, prologue only. New tries: the allocation and clear in a
  *   static inline Alloc(heap) helper (8, the inlined copy of heap is propagated), the last call in a static
- *   inline Frame(w, d, c) helper (27). Checked for a matched twin (callers of func_0201F73C and BMP_WIN_Create
+ *   inline Frame(w, d, c) helper (27). Checked for a matched twin (callers of BMP_MENUWORK_DrawWindow and BMP_WIN_Create
  *   in src/matched): none has this shape. Left DIFF.
  * note 2026-10-05 (wD9r lane68): EXACT. Fix: heap is a u16 parameter (it is stored with strh to f1e) with the
  *   house callee prototypes (func_02030734 u32 heap, u16 tag; STRBUF_Create u32, u32; TCBL_Create u32 heap,
  *   u16 tag, so heap goes to both), and d is a u16 parameter passed to the u16 third parameter of
- *   func_0201F73C. The u16 heap keeps the word ldr and moves it below the c home store (8 -> 6), and the u16 d
+ *   BMP_MENUWORK_DrawWindow. The u16 heap keeps the word ldr and moves it below the c home store (8 -> 6), and the u16 d
  *   moves its home store to the front (6 -> 0). See
  *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
  */
@@ -381,7 +381,7 @@ S_021E7CD0 *func_021E8568(int a, int b, unsigned short c, unsigned short d, int 
     BMP_WIN_MakeScreen((struct Cfg *)h);
     func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     w->fc = (int)TCBL_Create(heap, heap, 1, 0x20);
-    func_0201F73C((void *)w->f14, 0, d, (unsigned char)c);
+    BMP_MENUWORK_DrawWindow((void *)w->f14, 0, d, (unsigned char)c);
     return w;
 }
 
@@ -398,7 +398,7 @@ void func_021E8628(char *p)
     if (((struct Obj01960 *)p)->f34 != 0)
         APP_KEYCURSOR_Delete(((struct Obj01960 *)p)->f34);
     TCBL_Destroy(((struct Obj01960 *)p)->fC);
-    func_0201F7A8(((struct Obj01960 *)p)->f14, 0);
+    BMP_MENUWORK_DrawWindowBorder(((struct Obj01960 *)p)->f14, 0);
     BMP_WIN_Delete(((struct Obj01960 *)p)->f14);
     STRBUF_Delete(((struct Obj01960 *)p)->f18);
     PRINTSYS_QUE_Delete(((struct Obj01960 *)p)->f28);
@@ -542,7 +542,7 @@ MenuWork *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,int height,u16 heap)
     out->counter=p->kind;
     /* stand-in: *(u8 *)&height reads the low byte of the stack argument (ldrb); (u8)height and a u8 parameter both compile to lsls/lsrs */
     out->win=(void *)BMP_WIN_Create((u8)p->a,(u8)x,(u8)y,(u8)width,*(u8 *)&height,p->b,1);
-    func_0201F73C(out->win,2,p->d,(u8)p->c);
+    BMP_MENUWORK_DrawWindow(out->win,2,p->d,(u8)p->c);
     q=out->win;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
@@ -574,7 +574,7 @@ void func_021E89D0(S_021E89D0 *p)
 {
     BMP_MENULIST_Delete((struct Obj *)p->f10, 0, 0);
     BMP_MENUWORK_Delete((void *)p->f14);
-    func_0201F7A8((void *)p->f0, 0);
+    BMP_MENUWORK_DrawWindowBorder((void *)p->f0, 0);
     BMP_WIN_ClearScreen((struct Descriptor *)p->f0);
     BMP_WIN_Delete((struct Descriptor *)p->f0);
     func_020307B0(p);
@@ -641,7 +641,7 @@ void func_021E8AA0(int *p, int v)
 /*
  * Unlabelled ov177 thunk hidden in a word run: tail-calls func_021E8AA0 with
  * its second argument zeroed.  Matched to supply the `matched` witness for the
- * pending ov175 caller func_021D61CC.
+ * pending ov175 caller WIFIBATTLEMATCH_NET_TaskCleanupB.
  */
 void func_021E8AA8(int a)
 {
@@ -650,7 +650,7 @@ void func_021E8AA8(int a)
 
 /*
  * Field setter after func_021E8AA8's pool: stores the second argument at
- * +0xc. Called from the ov175 root func_021D7E18 (0x021D7EF6, 0x021D8060,
+ * +0xc. Called from the ov175 root WIFIBATTLEMATCH_NET_CompStepF (0x021D7EF6, 0x021D8060,
  * 0x021D8550).
  */
 void func_021E8AB4(u32 sys, u32 v)
@@ -660,7 +660,7 @@ void func_021E8AB4(u32 sys, u32 v)
 
 /*
  * Field copy after func_021E8AB4: the word at +0xc is stored to +4.
- * Called from ov175 at 0x021D5550 and from the root func_021D7E18
+ * Called from ov175 at 0x021D5550 and from the root WIFIBATTLEMATCH_NET_CompStepF
  * (0x021D8858).
  */
 void func_021E8AB8(u32 sys)

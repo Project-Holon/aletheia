@@ -1,5 +1,5 @@
 /*
- * function: func_021B98FC
+ * function: MANUAL_GRAPHIC_TaskNoop
  * address: 0x021B98FC
  * packet: pkt_ov225_021B98FC
  * region: ov225
@@ -15,6 +15,6 @@
  * The fallback64-byte show extent reaches existing owned9900 constructor;
  * only this two-byte empty callback belongs here. No ARM9 blocker.
  */
-void func_021B98FC(void *unused, char *work)
+void MANUAL_GRAPHIC_TaskNoop(void *unused, char *work)
 {
 }

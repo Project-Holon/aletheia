@@ -1,7 +1,7 @@
 /*
  * file:     natify.c
  * unit:     yes
- * function: func_02198850, func_021988F4, func_02198958, func_0219898C, func_02198A0C, NatifyThink, func_02198E80
+ * function: AddressToString, func_021988F4, func_02198958, OutputMapping, Think, NatifyThink, DetermineNatType
  * address:  0x02198850
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   getlocalhost  0x0217EFB8  arm  ov009
  *   func_0217F038  0x0217F038  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
- *   func_0217D254  0x0217D254  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
  *   g_021A5970  0x021A5970  data
  *   g_021A5994  0x021A5994  data
  *   func_0217EF50  0x0217EF50  arm  ov009
@@ -57,7 +57,7 @@
  *   abs  0x02091588  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
-#include "../../matched/include/G_Magic6.h"
+#include "ov009_globals.h"
 
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 #define NN_NTOHL(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
@@ -128,19 +128,19 @@ extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern SOCHostEnt *getlocalhost(void);
 extern int func_0217F038(SOCInAddr *addr);
 extern int func_0217ED0C(int sock, void *addr, int *len);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
 extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
 extern int abs(int x) __attribute__((const));
-char *func_02198850(unsigned int ip, unsigned short port, char *string);
+char *AddressToString(unsigned int ip, unsigned short port, char *string);
 unsigned int func_021988F4(void);
 unsigned short func_02198958(int sock);
-void func_0219898C(AddressMapping *theMap);
-int func_02198A0C(int sock, NAT *nat);
+void OutputMapping(AddressMapping *theMap);
+int Think(int sock, NAT *nat);
 int NatifyThink(int sock, void *nat);
-int func_02198E80(NAT *nat);
+int DetermineNatType(NAT *nat);
 extern char g_021A5960[];
 extern char g_021A5968[];
 extern char g_021A596C[];
@@ -148,7 +148,7 @@ extern char g_021A5970[];
 extern char g_021A5994[];
 extern char g_021AE498[];
 extern char g_021A59B4[];
-extern struct Magic6 gNatNegMagic;
+extern NatNegMagic gNatNegMagic;
 extern char g_021A59CC[];
 extern char g_021A59F0[];
 extern char g_021A5A20[];
@@ -188,7 +188,7 @@ static char strAddressArray[2][22] = {0};
 /*
  * sdk:      AddressToString (natify.o)
  */
-char *func_02198850(unsigned int ip, unsigned short port, char *string)
+char *AddressToString(unsigned int ip, unsigned short port, char *string)
 {
     SOCInAddr inAddr;
     char *strAddress;
@@ -269,18 +269,18 @@ unsigned short func_02198958(int sock)
 /*
  * sdk:      OutputMapping (natify.o)
  */
-void func_0219898C(AddressMapping *theMap)
+void OutputMapping(AddressMapping *theMap)
 {
     char *a;
     char *b;
 
     if (!theMap) {
-        func_0217D254(7, 0, 0x10, g_021A5970);
+        gsDebugFormat(7, 0, 0x10, g_021A5970);
         return;
     }
-    a = func_02198850(theMap->privateIp, theMap->privatePort, 0);
-    b = func_02198850(theMap->publicIp, theMap->publicPort, 0);
-    func_0217D254(7, 0, 0x10, g_021A5994, a, b);
+    a = AddressToString(theMap->privateIp, theMap->privatePort, 0);
+    b = AddressToString(theMap->publicIp, theMap->publicPort, 0);
+    gsDebugFormat(7, 0, 0x10, g_021A5994, a, b);
 }
 
 
@@ -340,7 +340,7 @@ void func_0219898C(AddressMapping *theMap)
  *           `data` stays extern: as a local static it joins .bss and moves
  *           the code (vendor keeps it in its own section).
  */
-int func_02198A0C(int sock, NAT *nat)
+int Think(int sock, NAT *nat)
 {
     int length;
     unsigned char ptype;
@@ -355,7 +355,7 @@ int func_02198A0C(int sock, NAT *nat)
     if (sock != -1 && func_0217EF50(sock)) do {
         length = func_0217EC60(sock, g_021AE498, 512, 0, &saddr, &saddrlen);
         if (length == -1) {
-            func_0217D254(7, 0, 8, g_021A59B4, GOAGetLastError(sock));
+            gsDebugFormat(7, 0, 8, g_021A59B4, GOAGetLastError(sock));
             break;
         }
 
@@ -373,17 +373,17 @@ int func_02198A0C(int sock, NAT *nat)
             switch (p.Packet.Init.porttype) {
             case 1:
                 gotERT1 = 1;
-                func_0217D254(7, 0, 16, g_021A59CC, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
+                gsDebugFormat(7, 0, 16, g_021A59CC, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
                 break;
             case 2:
                 nat->ipRestricted = 0;
                 gotERT2 = 1;
-                func_0217D254(7, 0, 16, g_021A59F0, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
+                gsDebugFormat(7, 0, 16, g_021A59F0, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
                 break;
             case 3:
                 nat->portRestricted = 0;
                 gotERT3 = 1;
-                func_0217D254(7, 0, 16, g_021A5A20, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
+                gsDebugFormat(7, 0, 16, g_021A5A20, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
                 break;
             }
         } else if (ptype == 11) {
@@ -409,8 +409,8 @@ int func_02198A0C(int sock, NAT *nat)
             nat->mappings[p.cookie].privatePort = NN_NTOHS(func_02198958(sock));
             nat->mappings[p.cookie].publicIp = p.Packet.Init.localip;
             nat->mappings[p.cookie].publicPort = NN_NTOHS(p.Packet.Init.localport);
-            func_0217D254(7, 0, 16, g_021A5A50, p.cookie, func_02198850(saddr.addr, NN_NTOHS(saddr.port), 0));
-            func_0219898C(&nat->mappings[p.cookie]);
+            gsDebugFormat(7, 0, 16, g_021A5A50, p.cookie, AddressToString(saddr.addr, NN_NTOHS(saddr.port), 0));
+            OutputMapping(&nat->mappings[p.cookie]);
         }
     } while (sock != -1 && func_0217EF50(sock));
 
@@ -420,7 +420,7 @@ int func_02198A0C(int sock, NAT *nat)
 
 int NatifyThink(int sock, void *nat)
 {
-    return func_02198A0C(sock, nat);
+    return Think(sock, nat);
 }
 
 
@@ -431,7 +431,7 @@ int NatifyThink(int sock, void *nat)
  * portRestricted in registers across every abs call, which a plain extern
  * prototype does not allow.
  */
-int func_02198E80(NAT *nat)
+int DetermineNatType(NAT *nat)
 {
     nat->natType = unknown;
     nat->promiscuity = promiscuity_not_applicable;

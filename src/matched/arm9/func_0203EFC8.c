@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203EFC8
+ * function: GF_STANDARD_CompareBytes
  * address:  0x0203EFC8
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -15,15 +15,15 @@
  * the `cmp` and the branch at the head and again in the loop's tail.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203EFC8.c \
- *       --func func_0203EFC8 --addr 0x0203EFC8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_CompareBytes.c \
+ *       --func GF_STANDARD_CompareBytes --addr 0x0203EFC8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
 
-s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n)
+s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n)
 {
     while (n-- != 0) {
         if (*a != *b) {

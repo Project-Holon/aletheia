@@ -1,5 +1,5 @@
 /*
- * function: func_021B9748
+ * function: CHIHOU_ZUKAN_AWARD_Exit
  * address: 0x021B9748
  * packet: pkt_ov221_021B9748
  * region: ov221
@@ -19,7 +19,7 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete 0x021B9F20 thumb ov221
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   d_021BA148 0x021BA148 data a4
  */
 #include "../include/Obj02557.h"
@@ -38,8 +38,8 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int);
-int func_021B9748(void *owner,void *unused1,void *unused2,char *p)
+extern void GFL_HEAP_DeleteChecked(unsigned int);
+int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p)
 {
     Layer i=LAYER_FIRST;
     do {
@@ -57,6 +57,6 @@ int func_021B9748(void *owner,void *unused1,void *unused2,char *p)
     GF_FONT_Delete(((struct Obj02557 *)p)->fC);
     CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(*(char * *)&((struct Obj02557 *)p)->f8);
     func_020315D4((struct S020315D4 *)owner);
-    func_020306F0(0x83);
+    GFL_HEAP_DeleteChecked(0x83);
     return 1;
 }

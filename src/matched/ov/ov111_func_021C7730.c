@@ -1,5 +1,5 @@
 /*
- * function: func_021C7730
+ * function: VIEWER_ACTOR_Exit3D
  * address:  0x021C7730
  * packet:   pkt_ov111_021C7730
  * region:   ov111
@@ -24,7 +24,7 @@ typedef struct {
 extern void G3D_LIGHT_DeleteSlots(void *p);
 extern void G3D_SYSTEM_Exit(void);
 
-void func_021C7730(Work *p)
+void VIEWER_ACTOR_Exit3D(Work *p)
 {
     G3D_LIGHT_DeleteSlots(p->f100);
     G3D_SYSTEM_Exit();

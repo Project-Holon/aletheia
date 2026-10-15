@@ -11,15 +11,15 @@
  *
  * symbols:
  *   ISS_CITY_SYS_ReleaseUnits  0x0202AB84  thumb
- *   sub_020307B0   0x020307B0  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  */
 
 extern void ISS_CITY_SYS_ReleaseUnits(void *p);
 typedef unsigned int   u32;
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 void ISS_CITY_SYS_Delete(void *p)
 {
     ISS_CITY_SYS_ReleaseUnits(p);
-    sub_020307B0(p);
+    GFL_HEAP_Free(p);
 }

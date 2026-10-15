@@ -1,5 +1,5 @@
 /*
- * function: func_0217C070
+ * function: DWC_Svl_Init
  * address:  0x0217C070
  * packet:   pkt_02156B70
  * region:   ov009
@@ -26,7 +26,7 @@ extern void func_02059F54(int a, int b);
 extern void MI_CpuFill8(void *p, int c, int n);
 extern char g_021ACEF4[];
 
-int func_0217C070(Alloc alloc, int size)
+int DWC_Svl_Init(Alloc alloc, int size)
 {
     void *p;
 

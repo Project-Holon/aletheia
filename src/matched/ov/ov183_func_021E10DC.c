@@ -1,5 +1,5 @@
 /*
- * function: func_021E10DC
+ * function: BR_CODEIN_ProfileDeleteBgHandle
  * address:  0x021E10DC
  * packet:   pkt_021E10DC
  * region:   ov183
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 
-void func_021E10DC(char *p)
+void BR_CODEIN_ProfileDeleteBgHandle(char *p)
 {
     ARC_TOOL_DeleteHandle(func_020490F4(0x17, ((struct Obj24626 *)p)->f34C));
 }

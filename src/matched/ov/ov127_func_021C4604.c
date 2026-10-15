@@ -1,5 +1,5 @@
 /*
- * function: func_021C4604
+ * function: WIFI_2DCHAR_FindFreeActor
  * address: 0x021C4604
  * packet: pkt_ov127_021C4604
  * region: ov127
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int WF2DMAP_MAP_IsEmpty(char *);
-void *func_021C4604(u8 *p) { u32 i; for(i=0;i<((struct Obj10467 *)p)->fC;i++) { if(WF2DMAP_MAP_IsEmpty(*(char * *)&((struct Obj10467 *)p)->f8+i*24)==1) return *(char * *)&((struct Obj10467 *)p)->f8+i*24; } return 0; }
+void *WIFI_2DCHAR_FindFreeActor(u8 *p) { u32 i; for(i=0;i<((struct Obj10467 *)p)->fC;i++) { if(WF2DMAP_MAP_IsEmpty(*(char * *)&((struct Obj10467 *)p)->f8+i*24)==1) return *(char * *)&((struct Obj10467 *)p)->f8+i*24; } return 0; }

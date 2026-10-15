@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DB61C",
-    "func_021DB690"
+    "BR_CODEIN_SidebarStepSlideOut",
+    "BR_CODEIN_SidebarClearStep"
+   ],
+   "addresses": [
+    "0x021DB61C",
+    "0x021DB690"
    ]
   }
  ]

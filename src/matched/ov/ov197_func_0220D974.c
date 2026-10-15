@@ -1,5 +1,5 @@
 /*
- * function: func_0220D974
+ * function: B_BAG_MAIN_SetCursorVisible
  * address:  0x0220D974
  * packet:   pkt_0220D974
  * region:   ov197
@@ -16,7 +16,7 @@
 
 extern void B_APP_TOOL_SetActorsVisible(char *p, void *v);
 
-void func_0220D974(char *a, int b)
+void B_BAG_MAIN_SetCursorVisible(char *a, int b)
 {
     ((struct Obj06649 *)a)->f598 = b;
     B_APP_TOOL_SetActorsVisible((char *)(*(int *)&((struct Obj06649 *)a)->f148), (void *)b);

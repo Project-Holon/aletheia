@@ -1,5 +1,5 @@
 /*
- * function: func_021C567C
+ * function: VIEWER_MAIN_HandleInput
  * address:  0x021C567C
  * packet:   pkt_ov111_021C567C
  * region:   ov111
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_021C5280  0x021C5280  thumb  ov111
- *   func_021C5484  0x021C5484  thumb  ov111
- *   func_021C55A4  0x021C55A4  thumb  ov111
- *   func_021C5BCC  0x021C5BCC  thumb  ov111
+ *   VIEWER_MAIN_HandleRowTouch  0x021C5280  thumb  ov111
+ *   VIEWER_MAIN_HandleRowKey  0x021C5484  thumb  ov111
+ *   VIEWER_MAIN_HandlePageInput  0x021C55A4  thumb  ov111
+ *   VIEWER_MAIN_HandleScrollTouch  0x021C5BCC  thumb  ov111
  *   d_021C8554     0x021C8554  data  a1
  *   d_021C8594     0x021C8594  data  a1
  *
@@ -47,14 +47,14 @@ typedef struct {
 } Work;
 
 extern int TOUCHPANEL_HitTrg(const void *rect);
-extern int func_021C5280(Work *p, int hit);
-extern int func_021C5484(Work *p, int hit);
-extern void func_021C55A4(Work *p);
-extern void func_021C5BCC(Work *p, int side);
+extern int VIEWER_MAIN_HandleRowTouch(Work *p, int hit);
+extern int VIEWER_MAIN_HandleRowKey(Work *p, int hit);
+extern void VIEWER_MAIN_HandlePageInput(Work *p);
+extern void VIEWER_MAIN_HandleScrollTouch(Work *p, int side);
 extern const u8 d_021C8554[];
 extern const u8 d_021C8594[];
 
-int func_021C567C(Work *p)
+int VIEWER_MAIN_HandleInput(Work *p)
 {
     int hit;
     int r;
@@ -65,19 +65,19 @@ int func_021C567C(Work *p)
         hit = TOUCHPANEL_HitTrg(d_021C8554);
     }
     if (p->h305E == 0) {
-        r = func_021C5280(p, hit);
+        r = VIEWER_MAIN_HandleRowTouch(p, hit);
     } else {
-        r = func_021C5484(p, hit);
+        r = VIEWER_MAIN_HandleRowKey(p, hit);
     }
     if (r != 0) {
         return r;
     }
     if (p->f3034 != 0) {
         if (p->h305E == 0) {
-            func_021C55A4(p);
-            func_021C5BCC(p, 0);
+            VIEWER_MAIN_HandlePageInput(p);
+            VIEWER_MAIN_HandleScrollTouch(p, 0);
         } else {
-            func_021C5BCC(p, 1);
+            VIEWER_MAIN_HandleScrollTouch(p, 1);
         }
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B10
+ * function: SUBWAY_MAP_GRAPHIC_CreateClactUnit
  * address:  0x021B9B10
  * packet:   pkt_021B9B10
  * region:   ov224
@@ -31,7 +31,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021B9B10(unsigned char *p, int a, int b)
+void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021B9C64, a, b);

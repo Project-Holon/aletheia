@@ -1,5 +1,5 @@
 /*
- * function: func_021DCEE4
+ * function: BR_CODEIN_RecordSetupButtons
  * address: 0x021DCEE4
  * packet: pkt_ov183_021DCEE4
  * region: ov183
@@ -35,7 +35,7 @@ extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,u16);
 extern void MI_CpuFill8(void *,int,u32);
-void func_021DCEE4(char *p,char *q)
+void BR_CODEIN_RecordSetupButtons(char *p,char *q)
 {
     int a,b;
     if(!((struct Obj00730 *)p)->fD8) {

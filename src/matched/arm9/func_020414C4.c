@@ -1,5 +1,5 @@
 /*
- * function: func_020414C4
+ * function: BG_SYS_InitSlot
  * address:  0x020414C4
  * packet:   pkt_020414C4
  * region:   arm9
@@ -28,7 +28,7 @@ struct BgSys {
 extern struct BgSys *g_02146A44;
 extern void BG_SYS_InitRun(u32 layer, u32 size, u32 offset, u32 heapId);
 
-void func_020414C4(u32 idx)
+void BG_SYS_InitSlot(u32 idx)
 {
     BG_SYS_InitRun(idx, (u32)g_02146A44->unk_1b0[idx], 0, g_02146A44->heapId);
 }

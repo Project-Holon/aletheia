@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B50
+ * function: SUBWAY_MAP_GRAPHIC_DeleteClactUnit
  * address:  0x021B9B50
  * packet:   pkt_021B9B50
  * region:   ov224
@@ -24,7 +24,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021B9B50(char *p)
+void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26111 *)p)->f0));
     CLACT_ExitSystem();

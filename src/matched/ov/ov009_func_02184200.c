@@ -1,5 +1,5 @@
 /*
- * function: func_02184200
+ * function: ArrayLength
  * address:  0x02184200
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Returns the word a pointer points at.
  */
 
-int func_02184200(const int *p)
+int ArrayLength(const int *p)
 {
     return *p;
 }

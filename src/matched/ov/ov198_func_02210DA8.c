@@ -1,5 +1,5 @@
 /*
- * function: func_02210DA8
+ * function: B_PLIST_MAIN_GetRowStatus
  * address: 0x02210DA8
  * packet: pkt_ov198_02210DA8
  * region: ov198
@@ -10,11 +10,11 @@
  * status: EXACT*
  * Trailing 02210E1E halfword is zero alignment padding.
  * symbols:
- *   func_022110D4 0x022110D4 thumb ov198
- *   func_02210F04 0x02210F04 thumb ov198
- *   func_02210F4C 0x02210F4C thumb ov198
- *   func_02210ED4 0x02210ED4 thumb ov198
- *   func_02210F98 0x02210F98 thumb ov198
+ *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
+ *   B_PLIST_MAIN_IsBattleSlot 0x02210F04 thumb ov198
+ *   B_PLIST_MAIN_IsSlotSelectable 0x02210F4C thumb ov198
+ *   B_PLIST_MAIN_IsRowFlagged 0x02210ED4 thumb ov198
+ *   B_PLIST_MAIN_IsIndexInParty 0x02210F98 thumb ov198
  */
 #include "../include/Obj10852.h"
 #include "../include/Obj25270.h"
@@ -22,20 +22,20 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_022110D4(u8 *,int);
-extern u32 func_02210F04(u32,u32);
-extern int func_02210F4C(u8 *,int);
-extern u8 func_02210ED4(u8 *);
-extern unsigned func_02210F98(u8 *p, int index);
-int func_02210DA8(u8 *p)
+extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
+extern u32 B_PLIST_MAIN_IsBattleSlot(u32,u32);
+extern int B_PLIST_MAIN_IsSlotSelectable(u8 *,int);
+extern u8 B_PLIST_MAIN_IsRowFlagged(u8 *);
+extern unsigned B_PLIST_MAIN_IsIndexInParty(u8 *p, int index);
+int B_PLIST_MAIN_GetRowStatus(u8 *p)
 {
-    int index=func_022110D4(p,(*(u8 **)p)[32]);
+    int index=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[32]);
     u8 *q=p+4+76*index;
-    if(func_02210F04((u32)p,index)==1) return 1;
+    if(B_PLIST_MAIN_IsBattleSlot((u32)p,index)==1) return 1;
     if(((struct Obj25270 *)q)->f10==0) return 2;
-    if(func_02210F4C(p,(*(u8 **)p)[32])==1) return 3;
-    if(func_02210ED4(p)==1) return 5;
-    if(func_02210F98(p,(*(u8 **)p)[32])==1) return 4;
+    if(B_PLIST_MAIN_IsSlotSelectable(p,(*(u8 **)p)[32])==1) return 3;
+    if(B_PLIST_MAIN_IsRowFlagged(p)==1) return 5;
+    if(B_PLIST_MAIN_IsIndexInParty(p,(*(u8 **)p)[32])==1) return 4;
     if(((struct Obj25271 *)(*(u8 * *)&((struct Obj10852 *)p)->f0))->f26!=0) return 6;
     return 0;
 }

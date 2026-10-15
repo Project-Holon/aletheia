@@ -1,5 +1,5 @@
 /*
- * function: func_021D62A4
+ * function: WIFIBATTLEMATCH_NET_SetupBoxRecord
  * address: 0x021D62A4
  * packet: pkt_ov175_021D62A4
  * region: ov175
@@ -29,7 +29,7 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_021E5C20(Desc *,int,u32,int,u32,u32,u32,u32,u32,int);
 #define CTX ((u32 *)p[16])
 #define REC ((u32 *)CTX[2])
-void func_021D62A4(u32 *p, u32 mode)
+void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *p, u32 mode)
 {
     u32 sys;
     int base,flag;

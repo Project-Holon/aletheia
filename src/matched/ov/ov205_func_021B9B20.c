@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B20
+ * function: SAVE_SCREEN_AppendPartyRecord
  * address: 0x021B9B20
  * packet: pkt_ov205_021B9B20
  * region: ov205
@@ -35,7 +35,7 @@ extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *a1, void *date, u32 heap);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 a);
-void func_021B9B20(char *p)
+void SAVE_SCREEN_AppendPartyRecord(char *p)
 {
     unsigned date[4];
     void *save,*object,*record;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6C38
+ * function: VIEWER_TEXT_Print
  * address:  0x021C6C38
  * packet:   pkt_ov111_021C6C38
  * region:   ov111
@@ -32,7 +32,7 @@ typedef struct {
     void *f31FC;
 } Work;
 
-void func_021C6C38(Work *p, void *a, int x, int dx, int y, void *s)
+void VIEWER_TEXT_Print(Work *p, void *a, int x, int dx, int y, void *s)
 {
     u32 w;
 

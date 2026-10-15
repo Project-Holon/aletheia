@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17931.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201F73C(u32, u32, u32, u32);
+extern u32 BMP_MENUWORK_DrawWindow(u32, u32, u32, u32);
 
 int FIELD_MSGBG_DrawMenuFuncFrame(u32 a)
 {
-return func_0201F73C(((struct Obj17931 *)((u8 *)(a)))->f8, 0, 1, 13);
+return BMP_MENUWORK_DrawWindow(((struct Obj17931 *)((u8 *)(a)))->f8, 0, 1, 13);
 }
 

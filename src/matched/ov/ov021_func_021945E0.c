@@ -1,5 +1,5 @@
 /*
- * function: func_021945E0
+ * function: FIELD_COMM_ACTOR_SubscreenChangeMain
  * address:  0x021945E0
  * packet:   pkt_ov021_021945E0
  * region:   ov021
@@ -39,7 +39,7 @@ extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
 extern void GAME_DATA_SetSubscreenType(struct BigObj *p, u32 v);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
 
-int func_021945E0(void *a, int b, u8 *c)
+int FIELD_COMM_ACTOR_SubscreenChangeMain(void *a, int b, u8 *c)
 {
     void *r6;
     u32 r4;

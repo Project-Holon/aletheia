@@ -27,8 +27,8 @@
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F02C 0x0201F02C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -66,8 +66,8 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -98,8 +98,8 @@ void CHIHOU_ZUKAN_AWARD_SetupWindows(struct Obj *p)
     ws = (u32)GF_FONT_Create_EC64(p->heap);
     t = (u32)func_02045EC0(p->bank, 0);
     x = (u32)STRBUF_Create(0x20, p->heap);
-    func_0201F02C((struct WordSet *)ws, 0, msg);
-    func_0201F250((struct WordSet *)ws, (void *)x, (void *)t);
+    WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, msg);
+    WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)x, (void *)t);
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), 0, 0, x, (u32)p->str, 0x440);
     STRBUF_Delete((struct U16Vec *)x);
     STRBUF_Delete((struct U16Vec *)t);

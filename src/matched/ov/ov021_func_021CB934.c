@@ -1,5 +1,5 @@
 /*
- * function: func_021CB934
+ * function: BSUBWAY_SCR_YesNoMenuMain
  * address:  0x021CB934
  * packet:   pkt_ov021_021CB934
  * region:   ov021
@@ -47,7 +47,7 @@ extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
 extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
 extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 
-int func_021CB934(void *task, int *state, Work *w)
+int BSUBWAY_SCR_YesNoMenuMain(void *task, int *state, Work *w)
 {
     SCRCMD_WORK_GetScriptWork(w->owner);
     switch (*state) {

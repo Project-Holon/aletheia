@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   EVENT_COMM_COMMON_PrintText  0x0217F3A4  thumb
  */
 
@@ -34,12 +34,12 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct WordSet;
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-void func_0201F250(struct WordSet *ws, void *dst, void *src);
+void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 void EVENT_COMM_COMMON_PrintText(Ov018Obj *p, void *a);
 
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a)
 {
     MSGDATA_ReadString(p->f0C, a, p->f08);
-    func_0201F250(p->f00, p->f04, p->f08);
+    WORDSET_CopyTaggedText(p->f00, p->f04, p->f08);
     EVENT_COMM_COMMON_PrintText(p, p->f04);
 }

@@ -22,10 +22,10 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020315D4  0x020315D4  arm
- *   func_020306F0  0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   func_020056A0  0x020056A0  thumb
  *   func_02030EAC  0x02030EAC  arm
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   d_02FE0000 0x02FE0000 data a4
@@ -33,7 +33,7 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   sVramBanks 0x021DEB20 data a4
  *   BG_SYS_Create 0x0203F8F4 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -52,7 +52,7 @@
  *   func_020498F4  0x020498F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   func_02041090  0x02041090  arm
+ *   BG_SYS_DrawTile  0x02041090  arm
  *   func_02049B40  0x02049B40  arm
  *   PALANM_Create  0x02021518  thumb
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
@@ -88,7 +88,7 @@
  *   func_02034AC4  0x02034AC4  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0204363C  0x0204363C  arm
+ *   BMP_SetDisplaySwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   ov067_id       0x00000043  data
@@ -113,16 +113,16 @@
  *   func_02041B6C  0x02041B6C  arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   WORDSET_Callback 0x0201EE60 thumb
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201EF34 0x0201EF34 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   CLACT_GetActorAutoAnim 0x0204B944 arm
@@ -161,7 +161,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   sMemberActorTemplates 0x021DEC04 data a4
  *   sMemberSlotsByCount 0x021DEC94 data a4
- *   func_0203F6D8 0x0203F6D8 arm
+ *   GF_STANDARD_Sin 0x0203F6D8 arm
  *   GF_STANDARD_Get_F684 0x0203F684 arm
  *   _ll_mul 0x0209C054 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
@@ -210,15 +210,15 @@ extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void func_020315D4(void *work);
-extern void func_020306F0(u32 heapId);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
 extern int func_020056A0(void (*task)(void *, const DendouViewWork *), DendouViewWork *work, int priority);
 extern int func_02030EAC(int taskId);
-extern void func_020419E4(void), CLACT_VBlankSystem(void);
+extern void BG_SYS_Update(void), CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct PalAnm *palAnm);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
 extern void BG_SYS_Create(u16);
-extern void func_0203FC28(BgDispConfig *);
+extern void BG_SYS_SetGraphicsMode(BgDispConfig *);
 extern void BG_SYS_InitBgLayer(u32 layer, const BgTemplate *, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32), BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void func_020403F4(unsigned), BG_SYS_Delete(void);
@@ -228,7 +228,7 @@ extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g
 extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 BG_SYS_GetBuf(int a);
-extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct PalAnm *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnm *palAnm, u32 idx, u32 size, u32 heap);
@@ -263,7 +263,7 @@ extern void func_020072A4(void *saveControl, u32 id);
 extern int func_02034AC4(s32 overlayId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void func_0204363C(u32 swap);
+extern void BMP_SetDisplaySwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02034A5C(int);
@@ -285,16 +285,16 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bit);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
-extern void func_0201EFA4(struct WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern void TOUCHBAR_PrintAligned(DendouViewWindow *window, struct PrintQue *que, u16 x, u16 y, struct Strbuf *str, struct GfFont *font, u16 color, u32 align);
 extern u32 func_0201D304(struct Strbuf *str, struct GfFont *font, u32 b);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BMP_OAM_UploadChars(struct BmpOam *oam);
 extern void WORDSET_Callback(struct WordSet *wordSet, u32 i, u16 v);
-extern void func_0201EE0C(struct WordSet *wordSet, u32 i, struct Strbuf *src, u32 n, u32 f, u32 c);
-extern void func_0201EF34(struct WordSet *wordSet, u32 i, u32 v);
+extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 i, struct Strbuf *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 i, u32 v);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void CLACT_ExitSystem(void);
 extern u32 CLACT_GetActorAutoAnim(struct ClactActor *);
@@ -329,7 +329,7 @@ extern u32 POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 gend
 extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32, u32, u16 heap);
 extern u32 func_02017ED8(u32 trainerId, u32 personality);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnm *palAnm, u32 bank, u32 off, u32 size);
-extern s16 func_0203F6D8(s32 x);
+extern s16 GF_STANDARD_Sin(s32 x);
 extern short GF_STANDARD_Get_F684(unsigned short x);
 extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 val);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
@@ -457,7 +457,7 @@ int DENDOU_VIEW_ProcMain(int unusedA, int unusedB, int unusedC, DendouViewWork *
 int DENDOU_VIEW_ProcExit(void *work)
 {
     func_020315D4(work);
-    func_020306F0(DENDOU_VIEW_HEAP);
+    GFL_HEAP_DeleteChecked(DENDOU_VIEW_HEAP);
     return 1;
 }
 
@@ -482,7 +482,7 @@ void DENDOU_VIEW_VBlankTask(void *unused, const DendouViewWork *work)
     u16 offset;
     enum { DTCM_BASE = 0x02fe0000 };
     enum { DtcmBase_ = DTCM_BASE } base;
-    func_020419E4();
+    BG_SYS_Update();
     CLACT_VBlankSystem();
     PALANM_TransferPalettes(work->palAnm);
     base = DtcmBase_;
@@ -507,7 +507,7 @@ void DENDOU_VIEW_InitBgs(void)
     BgTemplate bgMain0, bgMain1, bgMain2, bgMain3, bgSub0, bgSub1;
     BG_SYS_Create(140);
     dispConfig = d_021DEA50;
-    func_0203FC28(&dispConfig);
+    BG_SYS_SetGraphicsMode(&dispConfig);
     bgMain0 = d_021DEAC0;
     BG_SYS_InitBgLayer(0, &bgMain0, 0);
     bgMain1 = d_021DEAA0;
@@ -550,7 +550,7 @@ void DENDOU_VIEW_LoadGraphics(void)
     func_020498F4(archive, 4, 2, 0, 0, 1, DENDOU_VIEW_HEAP);
     func_020498F4(archive, 7, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_TOOL_DeleteHandle(archive);
-    func_02041090(3, BG_SYS_GetBuf(0) + 0x540, 0, 0x15, 0x20, 3);
+    BG_SYS_DrawTile(3, BG_SYS_GetBuf(0) + 0x540, 0, 0x15, 0x20, 3);
     func_02049B40(0x17, 5, 0, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
     func_02049B40(0x17, 5, 4, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
 }
@@ -689,7 +689,7 @@ void DENDOU_VIEW_StateInit(DendouViewWork *work)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)DENDOU_VIEW_REG_MAIN_BLDCNT = 0;
     *(volatile u16 *)DENDOU_VIEW_REG_SUB_BLDCNT = 0;
-    func_0204363C(0);
+    BMP_SetDisplaySwap(0);
     GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_MAIN_BRIGHT, -0x10);
     GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_SUB_BRIGHT, -0x10);
     DENDOU_VIEW_LoadHallOfFame(work);
@@ -1173,16 +1173,16 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
         STRBUF_Delete(titleText);
     } else {
         numberedText = func_02045EC0(work->msgData, 1);
-        func_0201EFA4(work->wordSet, 0, row->hallNumber, 4, 0, 1);
-        func_0201F250(work->wordSet, work->textBuf, numberedText);
+        WORDSET_SetSlotNumber(work->wordSet, 0, row->hallNumber, 4, 0, 1);
+        WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numberedText);
         TOUCHBAR_PrintAligned(&work->windows[0], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
         STRBUF_Delete(numberedText);
     }
     dateText = func_02045EC0(work->msgData, 2);
-    func_0201EFA4(work->wordSet, 0, row->year, 2, 2, 1);
-    func_0201EFA4(work->wordSet, 1, row->month, 2, 2, 1);
-    func_0201EFA4(work->wordSet, 2, row->day, 2, 2, 1);
-    func_0201F250(work->wordSet, work->textBuf, dateText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, row->year, 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 2, row->day, 2, 2, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->textBuf, dateText);
     dateWidth = BMP_WIN_GetDispWidth(work->windows[0].win);
     TOUCHBAR_PrintAligned(&work->windows[0], work->printQueue, dateWidth << 3, 0, work->textBuf, work->fontBody, 0x14c0, 1);
     STRBUF_Delete(dateText);
@@ -1208,14 +1208,14 @@ void DENDOU_VIEW_DrawPageCounter(DendouViewWork *work)
     PRINTSYS_PrintColor(work->pageBmp, x, 4, labelText, work->fontBody, 0x1900);
     STRBUF_Delete(labelText);
     numbersText = func_02045EC0(work->msgData, 4);
-    func_0201EFA4(work->wordSet, 0, work->rowIndex + 1, 2, 0, 1);
-    func_0201F250(work->wordSet, work->textBuf, numbersText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, work->rowIndex + 1, 2, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
     font = work->fontBody;
     text = work->textBuf;
     numberWidth = func_0201D304(text, font, 0);
     PRINTSYS_PrintColor(work->pageBmp, x - numberWidth, 4, text, font, 0x1900);
-    func_0201EFA4(work->wordSet, 0, work->rowCount, 2, 0, 1);
-    func_0201F250(work->wordSet, work->textBuf, numbersText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, work->rowCount, 2, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
     PRINTSYS_PrintColor(work->pageBmp, x + labelWidth, 4, work->textBuf, work->fontBody, 0x1900);
     STRBUF_Delete(numbersText);
     BMP_OAM_UploadChars(work->pageBmpOam);
@@ -1234,7 +1234,7 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     BMP_Clear(BMP_WIN_GetBmp(work->windows[1].win), 0);
     speciesText = func_02045EC0(work->msgData, 5);
     WORDSET_Callback(work->wordSet, 0, member->species);
-    func_0201F250(work->wordSet, work->textBuf, speciesText);
+    WORDSET_CopyTaggedText(work->wordSet, work->textBuf, speciesText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(speciesText);
     if (member->gender == 0) {
@@ -1255,24 +1255,24 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 80, 4, levelLabelText, work->fontLevelLabel, 0x440, 0);
     STRBUF_Delete(levelLabelText);
     levelText = func_02045EC0(work->msgData, 8);
-    func_0201EFA4(work->wordSet, 0, member->level, 3, 0, 1);
-    func_0201F250(work->wordSet, work->textBuf, levelText);
+    WORDSET_SetSlotNumber(work->wordSet, 0, member->level, 3, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->textBuf, levelText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, levelLabelWidth + 80, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(levelText);
     nicknameText = func_02045EC0(work->msgData, 9);
-    func_0201EE0C(work->wordSet, 0, member->nickname, 0, 1, 2);
-    func_0201F250(work->wordSet, work->textBuf, nicknameText);
+    WORDSET_SetSlotTag(work->wordSet, 0, member->nickname, 0, 1, 2);
+    WORDSET_CopyTaggedText(work->wordSet, work->textBuf, nicknameText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 24, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(nicknameText);
     trainerText = func_02045EC0(work->msgData, 10);
-    func_0201EE0C(work->wordSet, 0, member->trainerName, 0, 1, 2);
-    func_0201F250(work->wordSet, work->textBuf, trainerText);
+    WORDSET_SetSlotTag(work->wordSet, 0, member->trainerName, 0, 1, 2);
+    WORDSET_CopyTaggedText(work->wordSet, work->textBuf, trainerText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 48, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(trainerText);
     for (i = 0; i < 4; i++) {
         moveText = func_02045EC0(work->msgData, i + 12);
-        func_0201EF34(work->wordSet, 0, member->moves[i]);
-        func_0201F250(work->wordSet, work->textBuf, moveText);
+        WORDSET_SetSlotFromMsgCB(work->wordSet, 0, member->moves[i]);
+        WORDSET_CopyTaggedText(work->wordSet, work->textBuf, moveText);
         TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, (i & 1) * 96, (i >> 1) * 16 + 88, work->textBuf, work->fontBody, 0x440, 0);
         STRBUF_Delete(moveText);
     }
@@ -1547,7 +1547,7 @@ int DENDOU_VIEW_GetActiveActorBase(DendouViewWork *work)
 void DENDOU_VIEW_PlaceActorOnEllipse(DendouViewWork *work, int actorIndex, int angle)
 {
     int x, y;
-    x = (int)(((long long)func_0203F6D8((u16)angle) * 0x64000 + 0x800) >> 12);
+    x = (int)(((long long)GF_STANDARD_Sin((u16)angle) * 0x64000 + 0x800) >> 12);
     y = (int)(((long long)GF_STANDARD_Get_F684((u16)angle) * 0x2c000 + 0x800) >> 12);
     x += 0x80000;
     y += 0x58000;

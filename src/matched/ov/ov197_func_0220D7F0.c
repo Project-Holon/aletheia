@@ -1,5 +1,5 @@
 /*
- * function: func_0220D7F0
+ * function: B_BAG_MAIN_ResetBgSlot
  * address: 0x0220D7F0
  * packet: pkt_ov197_0220D7F0
  * region: ov197
@@ -12,7 +12,7 @@
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  */
 extern void BG_SYS_ResetSlot(unsigned int, unsigned int, unsigned int);
-void func_0220D7F0(void *unused, int mode)
+void B_BAG_MAIN_ResetBgSlot(void *unused, int mode)
 {
     switch (mode) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021F40D0
+ * function: MUSICAL_MCSS_SetObjectValue
  * address: 0x021F40D0
  * packet: pkt_ov112_021F40D0
  * region: ov112
@@ -17,4 +17,4 @@ typedef unsigned int u32;
 
 typedef struct { u32 words[4]; } Quad;
 extern const Quad d_021F8264;
-u32 func_021F40D0(void *p,u32 i,u16 c) { Quad q=d_021F8264; return q.words[i]; }
+u32 MUSICAL_MCSS_SetObjectValue(void *p,u32 i,u16 c) { Quad q=d_021F8264; return q.words[i]; }

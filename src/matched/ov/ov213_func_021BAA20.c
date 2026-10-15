@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA20
+ * function: COMM_BTL_DEMO_MAIN_InitializeFlags
  * address: 0x021BAA20
  * packet: pkt_ov213_021BAA20
  * region: ov213
@@ -14,7 +14,7 @@
 #include "../include/Obj08421.h"
 #include "../include/Obj10932.h"
 extern unsigned POKEPARTY_GetCount(void *list);
-void func_021BAA20(unsigned char *p)
+void COMM_BTL_DEMO_MAIN_InitializeFlags(unsigned char *p)
 {
     int i;
     if(((struct Obj10932 *)p)->f44==1) {

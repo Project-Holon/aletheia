@@ -13,7 +13,7 @@
  * parameter copy; const record preserves the later clear-color loads.
  * volatile: 0x04000060, 0x04000340, 0x04000358
  * symbols:
- *   func_0201493C 0x0201493C thumb
+ *   ZONEDATA_GetTimeLightColors 0x0201493C thumb
  *   func_021BDF3C 0x021BDF3C thumb
  *   func_0207DCF8 0x0207DCF8 arm
  *   G3X_SetFog 0x0207DC44 arm
@@ -43,7 +43,7 @@ struct Record {
 };
 struct Context { void *owner; u8 pad04[0x70]; struct Record *record; };
 struct Config { u8 pad[0xd],hour,minute; u8 second:7,spare:1; };
-extern void func_0201493C(u32,u32,u32,u32,u32,u16 *,u16);
+extern void ZONEDATA_GetTimeLightColors(u32,u32,u32,u32,u32,u16 *,u16);
 struct Obj;
 extern void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2);
 extern void func_0207DCF8(const u16 *);
@@ -74,7 +74,7 @@ void func_021BE63C(struct Context *ctx,struct Config *cfg,const struct Record *r
     u16 colors[10];
     u32 fogtable[8];
     u32 i;
-    func_0201493C(record->id,cfg->hour,cfg->minute,0,cfg->second,colors,heap);
+    ZONEDATA_GetTimeLightColors(record->id,cfg->hour,cfg->minute,0,cfg->second,colors,heap);
     func_021BDF3C(ctx->owner,colors,0);
     Anti(record->anti);
     Test(record->test,ctx->record->ref);

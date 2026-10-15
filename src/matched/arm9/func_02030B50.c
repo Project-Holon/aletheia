@@ -1,5 +1,5 @@
 /*
- * function: func_02030B50
+ * function: GFL_HEAP_DumpReport
  * address:  0x02030B50
  * packet:   pkt_02030A7C
  * region:   arm9
@@ -9,9 +9,9 @@
  * isa:      arm
  * status:   EXACT
  * blocker:  PC24 MSL_C_LIB_SetTwlFlag at +0x28 and +0x48: the only 2 call sites of 0x0209128C image-wide are these two, both inside this extent
- * blocker:  ABS32 func_02030A7C at +0x50: 0x02030A7C's only pool word image-wide is at 0x02030BA0, inside this extent, and nothing branches to it
+ * blocker:  ABS32 GFL_HEAP_WalkBlocksCallback at +0x50: 0x02030A7C's only pool word image-wide is at 0x02030BA0, inside this extent, and nothing branches to it
  * symbols:
- *   func_02030A7C   0x02030A7C  arm
+ *   GFL_HEAP_WalkBlocksCallback   0x02030A7C  arm
  *   GFL_HEAP_GetHeapSize   0x020303D8  arm
  *   GFL_HEAP_GetTotalFreeSize   0x02030344  arm
  *   GFL_HEAP_GetAllocatableSize   0x0203038C  arm
@@ -20,7 +20,7 @@
  *   MSL_C_LIB_SetTwlFlag   0x0209128C  arm
  *   NNSi_FndWalkHeapBlocks   0x02060F50  arm
  *
- * Tears the object down and then runs func_02030A7C over every block in the
+ * Tears the object down and then runs GFL_HEAP_WalkBlocksCallback over every block in the
  * allocator list: the five per-object teardown calls, the global
  * "shutting down" flag set through MSL_C_LIB_SetTwlFlag(1), then NNSi_FndWalkHeapBlocks with
  * the callback and the context the teardown returned, and the flag cleared
@@ -42,9 +42,9 @@
  *    a single pool word image-wide, at 0x02030BA0, and that word is inside
  *    this function's own extent; nothing anywhere `b`/`bl`s to it, so the
  *    `label` class has no site to offer either.  It is also why the two
- *    functions cannot attest each other: func_02030A7C is this file's
+ *    functions cannot attest each other: GFL_HEAP_WalkBlocksCallback is this file's
  *    sibling in pkt_02030A7C, but it is itself MATCH-capped on three data
- *    sites (see src/pending/func_02030A7C.c), so no `matched` entry exists
+ *    sites (see src/pending/GFL_HEAP_WalkBlocksCallback.c), so no `matched` entry exists
  *    to witness this call.
  *
  * `--suggest-split` returns 0 pieces and leaves the single function out:
@@ -55,8 +55,8 @@
  * could do differently.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02030B50.c \
- *       --func func_02030B50 --addr 0x02030B50 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_HEAP_DumpReport.c \
+ *       --func GFL_HEAP_DumpReport --addr 0x02030B50 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -71,15 +71,15 @@ extern u16 GFL_HEAP_GetAllocCountById(u32 heapId);
 extern void *GFL_HEAP_GetHeapHandle(u32 heapId);
 extern void MSL_C_LIB_SetTwlFlag(int x);
 extern void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx);
-extern void func_02030A7C(void *heap);
+extern void GFL_HEAP_WalkBlocksCallback(void *heap);
 
-void func_02030B50(void *p)
+void GFL_HEAP_DumpReport(void *p)
 {
     GFL_HEAP_GetHeapSize((u32)p);
     GFL_HEAP_GetTotalFreeSize((u32)p);
     GFL_HEAP_GetAllocatableSize((u32)p);
     GFL_HEAP_GetAllocCountById((u32)p);
     MSL_C_LIB_SetTwlFlag(1);
-    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle((u32)p), (void (*)(void *, void *, int))func_02030A7C, 0);
+    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle((u32)p), (void (*)(void *, void *, int))GFL_HEAP_WalkBlocksCallback, 0);
     MSL_C_LIB_SetTwlFlag(0);
 }

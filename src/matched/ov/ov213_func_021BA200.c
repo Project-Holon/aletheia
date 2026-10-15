@@ -1,5 +1,5 @@
 /*
- * function: func_021BA200
+ * function: COMM_BTL_DEMO_MAIN_CreateRowWindow
  * address: 0x021BA200
  * packet: pkt_ov213_021BA200
  * region: ov213
@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9E50 0x021B9E50 thumb ov213
+ *   COMM_BTL_DEMO_MAIN_IsFullPartyMode 0x021B9E50 thumb ov213
  *   BMP_WIN_Create 0x020450F0 arm
  * domain: index 0..3, supplied by A268 from A38C's bounded 2/4-row loop; all valid switch paths initialize coordinates.
  * prototype: visible byte truncations require u8 second/third extern parameters despite callee's u32 spelling.
  */
-extern int func_021B9E50(unsigned);
+extern int COMM_BTL_DEMO_MAIN_IsFullPartyMode(unsigned);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-unsigned func_021BA200(unsigned kind,unsigned index)
+unsigned COMM_BTL_DEMO_MAIN_CreateRowWindow(unsigned kind,unsigned index)
 {
     int x,y;
-    if(func_021B9E50(kind)) {
+    if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(kind)) {
         if(index==0) {x=4;y=17;}
         else {x=16;y=3;}
     } else {

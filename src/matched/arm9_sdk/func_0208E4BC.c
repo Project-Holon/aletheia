@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   data_02153058  0x02153058  data
+ *   gWmSystemWork  0x02153058  data
  *
  * Global state member accessor.
  *
@@ -24,9 +24,9 @@ struct Struct_02153058 {
     void *val;
 };
 
-extern struct Struct_02153058 data_02153058;
+extern struct Struct_02153058 gWmSystemWork;
 
 void *WMi_GetSystemWork(void)
 {
-    return data_02153058.val;
+    return gWmSystemWork.val;
 }

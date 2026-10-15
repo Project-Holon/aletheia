@@ -30,7 +30,7 @@
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -58,7 +58,7 @@
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -77,7 +77,7 @@
  *   d_021BB088 0x021BB088 data ov218 a4
  *   func_02030734 0x02030734 arm
  *   func_02049B40 0x02049B40 arm
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -101,7 +101,7 @@ typedef unsigned char u8;
 extern char d_021BB088[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -133,7 +133,7 @@ void *func_021B9964(u16 heap)
     p=func_02030734(heap,0x234,1,d_021BB088,0x3cc);
     *(u16 *)p=heap;
     func_02049B40(23,5,0,0x1c0,32,heap);
-    func_0201F5BC(0,1,15,0,heap);
+    BMP_MENUWORK_LoadCharAndPltt(0,1,15,0,heap);
     *(void **)(p+0x14)=GF_FONT_Create_EC64(heap);
     *(void **)(p+8)=func_02045B38(0,2,229,heap);
     *(void **)(p+0x10)=(void *)PRINTSYS_QUE_Create((void *)heap);

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE9A4 0x021BE9A4 thumb ov203
+ *   DEMO3D_DATA_GetRecordField 0x021BE9A4 thumb ov203
  *   func_021BF9B8 0x021BF9B8 thumb ov203
  *   TCBL_Main 0x020310C4 arm
  *   func_021BF924 0x021BF924 thumb ov203
@@ -18,7 +18,7 @@
 typedef struct { int kind;int values[9]; } Record;
 typedef unsigned int   u32;
 struct Tcbl;
-extern u32 func_021BE9A4(u32 id);
+extern u32 DEMO3D_DATA_GetRecordField(u32 id);
 extern void func_021BF9B8(unsigned a, unsigned b, char *p);
 extern void TCBL_Main(struct Tcbl *p);
 extern void func_021BF924(char *);
@@ -27,7 +27,7 @@ void func_021BF810(char *p)
 {
     Record *r;
     int owner,i;
-    owner=((struct Obj02250 *)p)->f1C;r=(Record *)func_021BE9A4(((struct Obj02250 *)p)->f4);
+    owner=((struct Obj02250 *)p)->f1C;r=(Record *)DEMO3D_DATA_GetRecordField(((struct Obj02250 *)p)->f4);
     for(i=0;i<9999;i++,r++) {
         if(r->kind==18) break;
         func_021BF9B8((unsigned int)p,owner,(char *)r);

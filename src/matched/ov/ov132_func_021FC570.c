@@ -1,5 +1,5 @@
 /*
- * function: func_021FC570
+ * function: SCRIPT_COMMAND_CmdSetTextColor
  * address: 0x021FC570
  * packet: pkt_ov132_021FC570
  * region: ov132
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 VM_GetU32(struct Cursor *);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-int func_021FC570(int unused,char *p) { u32 a,b,c; a=VM_GetU32(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); c=VM_GetU32(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); GF_FONT_SetTextColor((u8)a,(u8)b,(u8)c); return 0; }
+int SCRIPT_COMMAND_CmdSetTextColor(int unused,char *p) { u32 a,b,c; a=VM_GetU32(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); b=VM_GetU32(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); c=VM_GetU32(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); GF_FONT_SetTextColor((u8)a,(u8)b,(u8)c); return 0; }

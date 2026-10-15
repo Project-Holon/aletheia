@@ -18,10 +18,10 @@
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   BMP_WIN_Create  0x020450F0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_02028470  0x02028470  thumb
@@ -48,10 +48,10 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern u32 PRINTSYS_PrintStream(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 j);
 extern void func_02028470(u8 *p, u32 v);
@@ -76,11 +76,11 @@ void WIFICLUB_PrintTalkMessage(char *p, int a1, int a2, int a3)
         MSGDATA_ReadString((struct MsgBank *)(*(u32 *)(p + 0xE4)), a1, (void *)(*(u32 *)(p + 0xF0)));
     else
         MSGDATA_ReadString((struct MsgBank *)(*(u32 *)(p + 0xE0)), a1, (void *)(*(u32 *)(p + 0xF0)));
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0xDC)), (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xF0)));
+    WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)(p + 0xDC)), (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xF0)));
     k = 0xFF;
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)k);
     e = 0xE;
-    func_0201F73C((void *)(*(u32 *)(p + 0x190)), (u32)1, (u16)(*(u32 *)(p + 0x1334)), (u32)e);
+    BMP_MENUWORK_DrawWindow((void *)(*(u32 *)(p + 0x190)), (u32)1, (u16)(*(u32 *)(p + 0x1334)), (u32)e);
     if (a3 == 0) {
         PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)0, (u32)0, (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xE8)));
     } else {

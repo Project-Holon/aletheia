@@ -35,9 +35,9 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
@@ -64,7 +64,7 @@
  *   BTLV_INPUT_StartPaletteFadeTask 0x022025D8 thumb ov094
  *   BTLV_INPUT_IsScreenBusy 0x022026FC thumb ov094
  *   BTLV_INPUT_StartScreenFadeTask 0x0220266C thumb ov094
- *   func_0220C834 0x0220C834 thumb ov197
+ *   B_BAG_MAIN_Create 0x0220C834 thumb ov197
  *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
  *   func_02007F1C 0x02007F1C thumb
@@ -144,9 +144,9 @@ extern void BTLV_INPUT_Delete(struct PdcMenu *menu);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0203FC28(struct DispConfig *);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
@@ -166,7 +166,7 @@ extern int BTLV_INPUT_ProcessTouchInput(struct PdcMenu *menu, char *b, char *c);
 extern void BTLV_INPUT_StartPaletteFadeTask(struct PdcMenu *menu, int);
 extern int BTLV_INPUT_IsScreenBusy(struct PdcMenu *menu);
 extern void BTLV_INPUT_StartScreenFadeTask(struct PdcMenu *menu);
-extern void func_0220C834(struct PdcItemSelect *select);
+extern void B_BAG_MAIN_Create(struct PdcItemSelect *select);
 extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
 extern void BTLV_EFFECT_ResumeVm(void);
 extern u32 func_02007F1C(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
@@ -278,12 +278,12 @@ void PDC_MAIN_InitGraphics(u16 heapId)
 {
     BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     BG_SYS_SetVramBanks(&gPdcDispVram);
     BLDCNT = 0;
     SBLDCNT = 0;
     POWCNT = (u16)(POWCNT | 0x8000);
-    func_0203FC28(&gPdcDispConfig);
+    BG_SYS_SetGraphicsMode(&gPdcDispConfig);
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heapId, 0);
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 8);
@@ -399,7 +399,7 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
     case 1:
         if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
             func_02034AC4((int)ov197_id);
-            func_0220C834(&sys->select);
+            B_BAG_MAIN_Create(&sys->select);
             sys->state++;
         }
         break;

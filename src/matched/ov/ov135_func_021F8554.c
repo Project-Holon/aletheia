@@ -22,6 +22,7 @@
  *   POKE_TOOL_ChangeForm  0x02017988  thumb  arm9
  *   MIi_CpuCopyFast  0x02082B0C  arm  arm9
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
+ *   WORDSET_CopyString  0x0201F41C  thumb  arm9
  */
 
 typedef signed char s8;
@@ -56,7 +57,7 @@ struct Sub02009470Obj;
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k);
 extern const void *func_020084F4(const void *p);
-extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
@@ -83,7 +84,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(u8 *dst, Work *p)
         }
         WORLDTRADE_ADAPTER_CopyBoxMon(p->mon, (u32)dst);
     }
-    func_0201F41C(func_020084F4(p->ctx->prof), (u16 *)(dst + 0x110), 8);
+    WORDSET_CopyString(func_020084F4(p->ctx->prof), (u16 *)(dst + 0x110), 8);
     *(u32 *)(dst + 0x10C) = func_02008530(p->ctx->prof);
     dst[0x120] = func_0200856C(p->ctx->prof);
     dst[0x121] = func_02008570(p->ctx->prof);

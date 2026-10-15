@@ -1,5 +1,5 @@
 /*
- * function: func_021D6E70
+ * function: GTSNEGO_MSG_SetCursorIndex
  * address: 0x021D6E70
  * packet: pkt_ov120_021D6E70
  * region: ov120
@@ -11,7 +11,7 @@
  * extent: follower inside handed 0x021D6E50 extent.
  */
 typedef unsigned int u32;
-void func_021D6E70(void *unused, int *p, int n)
+void GTSNEGO_MSG_SetCursorIndex(void *unused, int *p, int n)
 {
     if(n<(u32)p[0])p[1]=n;
     if(p[1]>2)p[1]=2;

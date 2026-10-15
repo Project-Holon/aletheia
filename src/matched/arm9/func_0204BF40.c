@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_02063294  0x02063294  arm
+ *   NNSi_G2dEntryOamManagerOam  0x02063294  arm
  *
  * Push one OAM entry through the window at `win`, rewriting its palette field
  * on the way.  The caller's 8-byte entry is copied onto the stack first
@@ -19,7 +19,7 @@
  * the 4-bit palette in bits 12..15 of the attribute halfword at +4 is either
  * BIASED by `pal` (mode 0) or REPLACED with it (mode 1); any other mode leaves
  * the entry alone.  The rewritten copy, not the caller's, is what reaches
- * func_02063294.
+ * NNSi_G2dEntryOamManagerOam.
  *
  * The bias arm is written as a store through a pointer to the halfword's word
  * (`add r2, sp, #4` then `ldr`/`str` through r2), which is what makes the
@@ -30,11 +30,11 @@
  * Signature pinned from src/matched/CLACT_EntryOamMain.c, the one filed caller.
  *
  * BYTE-CORRECT, PARKED, NOT FILED.  132 bytes, 0 concrete mismatches; the sole
- * unresolved site is the PC24 to func_02063294 at +0x78.  Blocking evidence
+ * unresolved site is the PC24 to NNSi_G2dEntryOamManagerOam at +0x78.  Blocking evidence
  * class: `label` -- 0x02063294 has no branch anywhere in the image outside
  * 0x0204BF40..0x0204BFC4, and there is no `matched` entry for it
  * (docs/notes/pkt_02063078.c.txt records it as a DIFF, 228 bytes).  Filing
- * func_02063294 unblocks this file with no change to the C.
+ * NNSi_G2dEntryOamManagerOam unblocks this file with no change to the C.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_EntryOam.c \
@@ -51,7 +51,7 @@ struct OamEntry {
 };
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32  func_02063294(struct Win *win, struct OamEntry *entry, u32 mode);
+extern u32  NNSi_G2dEntryOamManagerOam(struct Win *win, struct OamEntry *entry, u32 mode);
 
 void CLACT_EntryOam(struct Win *win, struct OamEntry *src, u32 mode, u32 pal,
                    u32 op)
@@ -70,5 +70,5 @@ void CLACT_EntryOam(struct Win *win, struct OamEntry *src, u32 mode, u32 pal,
                                (pal << 28 >> 16);
     }
 
-    func_02063294(win, &ent, mode);
+    NNSi_G2dEntryOamManagerOam(win, &ent, mode);
 }

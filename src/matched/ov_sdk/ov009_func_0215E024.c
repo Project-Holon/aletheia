@@ -1,5 +1,5 @@
 /*
- * function: func_0215E024
+ * function: SOCL_WriteTo
  * address:  0x0215E024
  * packet:   pkt_ov009_0215E024
  * region:   ov009
@@ -95,7 +95,7 @@ static inline int isStream(signed char m)
     return r;
 }
 
-int func_0215E024(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
+int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
                   int flags)
 {
     int result;

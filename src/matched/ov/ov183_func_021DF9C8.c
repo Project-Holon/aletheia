@@ -1,5 +1,5 @@
 /*
- * function: func_021DF9C8
+ * function: BR_CODEIN_CodeDestroy
  * address: 0x021DF9C8
  * packet: pkt_ov183_021DF9C8
  * region: ov183
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E037C 0x021E037C thumb ov183
+ *   BR_CODEIN_CodeDeleteText 0x021E037C thumb ov183
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   BR_UTIL_DeleteHandles 0x021FD820 thumb ov186
  *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj10749.h"
 #include "../include/Obj14433.h"
-extern void func_021E037C(char *, char *);
+extern void BR_CODEIN_CodeDeleteText(char *, char *);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTextWin(void *, int);
@@ -27,10 +27,10 @@ struct PrintSys;
 struct S020315D4;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *p);
-int func_021DF9C8(void *p, int unused, char *q, char *data)
+int BR_CODEIN_CodeDestroy(void *p, int unused, char *q, char *data)
 {
     int i;
-    func_021E037C(data, q);
+    BR_CODEIN_CodeDeleteText(data, q);
     BR_RES_ReleaseSprite((char *)(((struct Obj14433 *)q)->f8), 6);
     for (i = 0; i < 2; i++) BR_UTIL_DeleteHandles(*(char **)(data + i * 4 + 0x3c));
     BR_UTIL_DeleteTextWin(((struct Obj10749 *)data)->f38, ((struct Obj14433 *)q)->f8);

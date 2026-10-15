@@ -20,7 +20,7 @@
  *   d_0220B2A0 0x0220B2A0 data a4
  *   STRBUF_Delete   0x02045808  arm
  *   func_020315D4   0x020315D4  arm
- *   func_020306F0   0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked   0x020306F0  arm
  *   BATTLE_REC_FreeWork   0x0200B424  thumb
  *   PROCSYS_Create  0x02031324  arm
  *   PROCSYS_Push 0x02031348 arm
@@ -118,7 +118,7 @@ extern void STRBUF_Delete(struct StrBuf *vec);
 
 extern void func_020315D4(void *p);
 
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 extern void BATTLE_REC_FreeWork(void);
 
@@ -215,7 +215,7 @@ int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work)
     BR_MAIN_FreeSceneManager(&work->sceneManager);
     BATTLE_REC_FreeWork();
     func_020315D4((void *)a);
-    func_020306F0(0x59);
+    GFL_HEAP_DeleteChecked(0x59);
     return 1;
 }
 

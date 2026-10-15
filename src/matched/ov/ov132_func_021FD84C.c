@@ -10,18 +10,18 @@
  * padding: two zero bytes at 021FD8C2 before next labelled function.
  * lever: bind the inline random draw to u32 before the multiply-high.
  * symbols:
- *   func_0203F0A8 0x0203F0A8 arm
- *   func_021FCEA8 0x021FCEA8 thumb ov132
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
+ *   MUS_COMM_FUNC_SendCommandWait 0x021FCEA8 thumb ov132
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern u32 func_0203F0A8(void);
-extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
+extern u32 GF_STANDARD_Rand(void);
+extern u32 MUS_COMM_FUNC_SendCommandWait(int unused, int kind, u32 value, u32 id);
 static inline u8 random4(void)
 {
     u32 draw;
-    draw = func_0203F0A8();
+    draw = GF_STANDARD_Rand();
     return ((u64)draw * 4) >> 32;
 }
 int STA_NET_SendRandomOrder(u8 *p)
@@ -40,5 +40,5 @@ int STA_NET_SendRandomOrder(u8 *p)
         }
     }
     for (i = 0; i < 4; i++) result += slots[i] << (i * 4);
-    return func_021FCEA8((int)p, 1, result, 255);
+    return MUS_COMM_FUNC_SendCommandWait((int)p, 1, result, 255);
 }

@@ -17,8 +17,8 @@
  *   func_02045EC0 0x02045EC0 arm
  *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -41,8 +41,8 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
-extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(u32, u32, u32, u32, u32, u32);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -61,13 +61,13 @@ void BTLV_INPUT_DrawSelectScreenText(char *s, const int *b)
     w = func_02045EC0(((struct Obj02440 *)s)->f5C, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(9, 10, 0);
-    func_0201EFA4(h, 0, b[2], 3, 2, 1);
-    func_0201F250((void *)h, v, w);
+    WORDSET_SetSlotNumber(h, 0, b[2], 3, 2, 1);
+    WORDSET_CopyTaggedText((void *)h, v, w);
     PRINTSYS_Print((void *)(((struct Obj02440 *)s)->f22C), 0x8c, 8, v, (void *)(((struct Obj02440 *)s)->f224));
     if (b[0] != b[1])
         GF_FONT_SetTextColor(7, 8, 0);
-    func_0201EFA4(h, 0, b[1], 3, 2, 1);
-    func_0201F250((void *)h, v, w);
+    WORDSET_SetSlotNumber(h, 0, b[1], 3, 2, 1);
+    WORDSET_CopyTaggedText((void *)h, v, w);
     PRINTSYS_Print((void *)(((struct Obj02440 *)s)->f22C), 0x60, 8, v, (void *)(((struct Obj02440 *)s)->f224));
     GF_FONT_SetTextColor(1, 2, 0);
     extra = func_02045EC0(((struct Obj02440 *)s)->f5C, 7);

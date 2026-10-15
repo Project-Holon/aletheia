@@ -1,5 +1,5 @@
 /*
- * function: func_021DB72C
+ * function: WIFIBATTLEMATCH_NET_GdbSortByName
  * address:  0x021DB72C
  * packet:   pkt_021DB72C
  * region:   ov175
@@ -31,7 +31,7 @@ typedef void (*RecordsFn)(int count, struct Field **recs, u32 a, int nfields);
 extern int GF_STANDARD_CompareString(const char *s1, const char *s2);
 extern const char d_021E2F70[];
 
-void func_021DB72C(int count, struct Field **recs, char *obj)
+void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field **recs, char *obj)
 {
     int i, j;
     struct Field *f;

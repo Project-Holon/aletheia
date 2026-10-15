@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FCA38",
-    "func_021FCAA0"
+    "MUS_COMM_FUNC_DeleteBuffers",
+    "MUS_COMM_FUNC_SetReady"
+   ],
+   "addresses": [
+    "0x021FCA38",
+    "0x021FCAA0"
    ]
   }
  ]

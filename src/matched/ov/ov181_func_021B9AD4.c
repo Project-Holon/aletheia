@@ -11,8 +11,8 @@
  * symbols:
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  *   STAFF_ROLL_FlushWindows 0x021B9DDC thumb ov181
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  */
-extern void STAFF_ROLL_FlushWindows(char *),func_020419E4(void);
+extern void STAFF_ROLL_FlushWindows(char *),BG_SYS_Update(void);
 extern unsigned SDK_AUTOLOAD_MAIN_TWL_START[];
-void STAFF_ROLL_VblankTask(void *task,char *p){STAFF_ROLL_FlushWindows(p);func_020419E4();*(volatile unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3ff8) |=1;}
+void STAFF_ROLL_VblankTask(void *task,char *p){STAFF_ROLL_FlushWindows(p);BG_SYS_Update();*(volatile unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3ff8) |=1;}

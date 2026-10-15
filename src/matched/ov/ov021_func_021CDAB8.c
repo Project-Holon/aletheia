@@ -17,7 +17,7 @@
  *   COMM_ENTRY_MENU_StartYesNo  0x021CEB20  thumb  ov021
  *   GFL_NET_BeaconScanStart  0x0203D010  arm
  *   COMM_ENTRY_MENU_MainYesNo  0x021CEB84  thumb  ov021
- *   func_0201F02C  0x0201F02C  thumb
+ *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   COMM_ENTRY_MENU_OpenWindows  0x021CE7AC  thumb  ov021
  *   COMM_ENTRY_RunLeaveConfirm  0x021CF068  thumb  ov021
  *   COMM_ENTRY_ResetLeaveConfirm  0x021CF0F4  thumb  ov021
@@ -53,7 +53,7 @@ extern void COMM_ENTRY_MENU_CloseWindows(u32 *p);
 extern void COMM_ENTRY_MENU_StartYesNo(u8 *p);
 extern void GFL_NET_BeaconScanStart(void);
 extern u32 COMM_ENTRY_MENU_MainYesNo(u8 *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void COMM_ENTRY_MENU_OpenWindows(u32 *p);
 extern int COMM_ENTRY_RunLeaveConfirm(u8 *p);
 extern void COMM_ENTRY_ResetLeaveConfirm(u8 *p);
@@ -107,7 +107,7 @@ int COMM_ENTRY_MENU_MainMode1(u8 *p)
             } else if (p[0x51A] == 1) {
                 p[0x51E] = 8;
             } else {
-                func_0201F02C((struct WordSet *)U32(4), 0, (void *)U32(0x404));
+                WORDSET_SetSlotMyStatus((struct WordSet *)U32(4), 0, (void *)U32(0x404));
                 COMM_ENTRY_MENU_PrintMessage(p, 0x21);
                 p[0x51E] = 4;
             }
@@ -183,7 +183,7 @@ int COMM_ENTRY_MENU_MainMode1(u8 *p)
         MI_CpuCopy8(GFL_NET_GetInitParam(), p + 0x414, 0x70);
         COMM_ENTRY_EndNetCommands();
         GFL_NET_Exit(0);
-        func_0201F02C((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));
+        WORDSET_SetSlotMyStatus((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));
         COMM_ENTRY_MENU_PrintMessage(p, 0x1f);
         p[0x51E] = 0xb;
         break;

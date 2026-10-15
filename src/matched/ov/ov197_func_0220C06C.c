@@ -1,5 +1,5 @@
 /*
- * function: func_0220C06C
+ * function: B_BAG_MAIN_ClearHandles
  * address: 0x0220C06C
  * packet: pkt_ov197_0220C06C
  * region: ov197
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-void func_0220C06C(char *p)
+void B_BAG_MAIN_ClearHandles(char *p)
 {
     unsigned i;
     for(i=0;i<9;i++) *(int *)(p+0x544+i*4)=-1;

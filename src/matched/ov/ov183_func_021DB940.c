@@ -1,5 +1,5 @@
 /*
- * function: func_021DB940
+ * function: BR_CODEIN_RecordCreate
  * address: 0x021DB940
  * packet: pkt_ov183_021DB940
  * region: ov183
@@ -34,9 +34,9 @@
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
- *   func_021DBFB0 0x021DBFB0 thumb ov183
- *   func_021DC4FC 0x021DC4FC thumb ov183
- *   func_021DBC68 0x021DBC68 thumb ov183
+ *   BR_CODEIN_RecordStepRequest 0x021DBFB0 thumb ov183
+ *   BR_CODEIN_RecordStepSave 0x021DC4FC thumb ov183
+ *   BR_CODEIN_RecordStepCreateProfile 0x021DBC68 thumb ov183
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
@@ -58,13 +58,13 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern char *BR_UTIL_CreateHandles(unsigned,char *,int,int);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern void func_021DBFB0(int *a, int *state, char *p);
-extern void func_021DC4FC(int *a, int *state, char *p);
-extern void func_021DBC68(int a, int b, char *p);
+extern void BR_CODEIN_RecordStepRequest(int *a, int *state, char *p);
+extern void BR_CODEIN_RecordStepSave(int *a, int *state, char *p);
+extern void BR_CODEIN_RecordStepCreateProfile(int a, int b, char *p);
 extern char * BATTLE_REC_GetHeader(void);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-int func_021DB940(int *task,int *state,char *q)
+int BR_CODEIN_RecordCreate(int *task,int *state,char *q)
 {
     char *p,*s;
     int i;
@@ -110,10 +110,10 @@ int func_021DB940(int *task,int *state,char *q)
         break;
     }
     if(*(int *)(*(char **)(p+0xd0)+8)==5) {
-        if(*(int *)(*(char **)(p+0xd0)+0x34)==0)BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBFB0);
-        else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBC68);
+        if(*(int *)(*(char **)(p+0xd0)+0x34)==0)BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepRequest);
+        else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepCreateProfile);
     }else if((u32)(*(int *)(*(char **)(p+0xd0)+8)-1)<=2 && *(int *)(*(char **)(p+0xd0)+0x34) && **(int **)(*(char **)(p+0xd0)+0x3c) && *(int *)(p+0xc8)==0) {
-        BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DC4FC);
-    }else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBC68);
+        BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepSave);
+    }else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepCreateProfile);
     return 1;
 }

@@ -18,7 +18,7 @@
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepReturnFromSummary 0x021DE2C4 thumb ov119
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   d_021E80C4 0x021E80C4 data a4
+ *   gBrowseOffersHitArea 0x021E80C4 data a4
  *   func_020355D8 0x020355D8 arm
  *   POKETRADE_2D_MovePickedIconActor 0x021E68F4 thumb ov119
  *   POKETRADE_NEGO_ShowOfferSummary 0x021DE1B4 thumb ov119
@@ -43,7 +43,7 @@ extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepReturnFromSummary(char *);
 extern void POKETRADE_NEGO_StepWaitSelectionDelay(char *p);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern const char d_021E80C4[];
+extern const char gBrowseOffersHitArea[];
 extern void func_020355D8(u8);
 extern void POKETRADE_2D_MovePickedIconActor(int,int);
 extern void POKETRADE_NEGO_ShowOfferSummary(State *,int);
@@ -64,7 +64,7 @@ void POKETRADE_NEGO_StepBrowseOffers(char *p)
             return;
         }
         if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==-1) {
-            idx=TOUCHPANEL_HitTrg(d_021E80C4);
+            idx=TOUCHPANEL_HitTrg(gBrowseOffersHitArea);
             if(idx!=-1) {
                 func_020355D8(1);
                 ((struct Obj00251 *)p)->f10A0=idx;

@@ -24,12 +24,12 @@
  *   PMS_INPUT_VIEW_IsIdle 0x021B9C74 thumb ov110
  *   PMS_INPUT_VIEW_GetEditValue 0x021BABE8 thumb ov110
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetCont 0x0203630C arm
  *   KEY_GetRepeat 0x0203633C arm
  *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -53,7 +53,7 @@
  *   PMSI_PARAM_SetUiInputMode 0x02024224 thumb
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   PMS_INPUT_VIEW_Delete 0x021B9B20 thumb ov110
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   func_021B95F4 0x021B95F4 thumb ov110
  *   PMSI_SEARCH_Delete 0x021BAF4C thumb ov110
  *   func_020315D4 0x020315D4 arm
@@ -169,7 +169,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int parent, unsigned int heapId, u
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_020306F0(u32 heapId);
+extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
 extern void func_020315D4(struct Proc *proc);
 
@@ -179,9 +179,9 @@ extern u32 func_02030CB0(u32 taskCount);
 
 extern struct TcbSystem *func_02030CBC(u32 taskCount, void *buf);
 
-extern void func_02030D28(struct TcbSystem *tasks);
+extern void TCB_Main(struct TcbSystem *tasks);
 
-extern void func_02030DA4(struct TcbSystem *tasks);
+extern void TCB_Noop(struct TcbSystem *tasks);
 
 extern u32 KEY_GetTrg(void);
 
@@ -381,7 +381,7 @@ int PMS_INPUT_ProcInit(struct Proc *proc, int *seq, struct PmsiParam *param, voi
         }
         break;
     }
-    func_02030D28(input->tasks);
+    TCB_Main(input->tasks);
     return 0;
 }
 
@@ -398,7 +398,7 @@ int PMS_INPUT_ProcMain(struct Proc *proc, int unused, int args, struct PmsInput 
         input->subHandler(input, &input->subState);
         result = 0;
     } else result = input->handler(input, &input->handlerState);
-    func_02030D28(input->tasks);
+    TCB_Main(input->tasks);
     return result;
 }
 
@@ -418,8 +418,8 @@ void PMS_INPUT_OnButton(int value, unsigned int event, struct PmsInput *input)
 int PMS_INPUT_ProcExit(struct Proc *proc, int unused, int args, struct PmsInput *input)
 {
     PMS_INPUT_Destroy(input, proc);
-    func_020306F0(41);
-    func_020306F0(42);
+    GFL_HEAP_DeleteChecked(41);
+    GFL_HEAP_DeleteChecked(42);
     func_02034A5C((int)ov067_id);
     return 1;
 }
@@ -501,7 +501,7 @@ void PMS_INPUT_Destroy(struct PmsInput *input, struct Proc *proc)
     PMSI_PARAM_SetUiInputMode(input->param, input->uiInputMode);
     BUTTON_MAN_Delete(input->buttonMan);
     PMS_INPUT_VIEW_Delete(input->view);
-    func_02030DA4(input->tasks);
+    TCB_Noop(input->tasks);
     func_020307B0(input->taskBuf);
     func_021B95F4(input->data);
     PMSI_SEARCH_Delete(input->search);

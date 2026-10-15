@@ -10,7 +10,7 @@
  * symbols:
  *   MUSICAL_SAVE_GetOutfits 0x0200A628 thumb
  *   MUSICAL_SAVE_InitOutfits 0x0200A604 thumb
- *   func_021F5450 0x021F5450 thumb
+ *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb
  *   func_021BA184 0x021BA184 thumb
  *   func_021BA258 0x021BA258 thumb
  *   func_021BA20C 0x021BA20C thumb
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 struct Big;
 extern u8 *MUSICAL_SAVE_GetOutfits(struct Big *p);
 extern void MUSICAL_SAVE_InitOutfits(struct Big *p);
-extern char *func_021F5450(char *, int);
+extern char *MUSICAL_MCSS_GetRenderElem(char *, int);
 extern void *func_021BA184(char *p);
 extern u32 func_021BA258(char *p);
 extern u32 func_021BA20C(u8 *p);
@@ -39,7 +39,7 @@ void func_021B96D8(char *p)
         u32 idx = (u16)func_021BA258(t);
         u8 *rec;
         u32 off;
-        func_021F5450(*(char **)(p + 0x1880), idx);
+        MUSICAL_MCSS_GetRenderElem(*(char **)(p + 0x1880), idx);
         rec = sv + i * 6;
         sv[i * 6] = idx;
         *(u16 *)(rec + 2) = *((u16 *)func_021BA20C(t));

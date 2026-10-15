@@ -10,14 +10,14 @@
  * status:   EXACT
  * symbols:
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_020419E4  0x020419E4  arm
+ *   BG_SYS_Update  0x020419E4  arm
  */
 
 void CLACT_VBlankSystem(void);
-void func_020419E4(void);
+void BG_SYS_Update(void);
 
 void OEKAKI_VBlankTask(void)
 {
     CLACT_VBlankSystem();
-    func_020419E4();
+    BG_SYS_Update();
 }

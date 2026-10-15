@@ -1,5 +1,5 @@
 /*
- * function: func_0206958C
+ * function: NNSi_G2dDrawTextRotated
  * address:  0x0206958C
  * packet:   pkt_020694D8
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02068030    0x02068030  arm
- *   func_020694D8    0x020694D8  arm
+ *   NNS_G2dFontGetStringWidth    0x02068030  arm
+ *   NNSi_G2dDrawTextLine    0x020694D8  arm
  *
- * The line loop of the text renderer, sitting between func_02069818 /
- * func_020696F4 (which pre-align the pen) and func_020694D8 (which draws one
+ * The line loop of the text renderer, sitting between NNSi_G2dAlignTextVertical /
+ * NNSi_G2dCalcTextBox (which pre-align the pen) and NNSi_G2dDrawTextLine (which draws one
  * line). Per line it optionally re-aligns the pen horizontally within the
  * measured line box -- bit 11 of the flags word right-aligns by the full
  * measured width, bit 10 centres by half -- then draws the line and steps the
@@ -60,11 +60,11 @@ typedef struct {
 } Hdr;
 
 struct NNSG2dFont;
-extern int func_02068030(const struct NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos);
-extern void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2,
+extern int NNS_G2dFontGetStringWidth(const struct NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos);
+extern void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2,
                           const void *cur, const void **slot, Step st);
 
-void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
                    s32 w2, u32 flags, const void *s, Step st)
 {
     const void *cur;
@@ -97,15 +97,15 @@ void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
         px = x + sx;
         py = y + sy;
         if (bit11 != 0) {
-            n = w - func_02068030(ctx->f04, (int)ctx->f08, cur, 0);
+            n = w - NNS_G2dFontGetStringWidth(ctx->f04, (int)ctx->f08, cur, 0);
             px = px + n * st.dx;
             py = py + n * st.dy;
         } else if (bit10 != 0) {
-            n = half - (func_02068030(ctx->f04, (int)ctx->f08, cur, 0) + 1) / 2;
+            n = half - (NNS_G2dFontGetStringWidth(ctx->f04, (int)ctx->f08, cur, 0) + 1) / 2;
             px = px + n * st.dx;
             py = py + n * st.dy;
         }
-        func_020694D8(ctx, px, py, w2, cur, &cur, st);
+        NNSi_G2dDrawTextLine(ctx, px, py, w2, cur, &cur, st);
         sx = sx + dx;
         sy = sy + dy;
     } while (cur != 0);

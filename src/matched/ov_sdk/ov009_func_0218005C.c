@@ -1,5 +1,5 @@
 /*
- * function: func_0218005C
+ * function: gsiSoapTaskCallback
  * address:  0x0218005C
  * packet:   pkt_ov009_0218005C
  * region:   ov009
@@ -26,7 +26,7 @@ typedef struct GSSoapTask {
     int result;
 } GSSoapTask;
 
-void func_0218005C(void *theTask)
+void gsiSoapTaskCallback(void *theTask)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
     aSoapTask->callback(aSoapTask->result, aSoapTask->f10, aSoapTask->f14, aSoapTask->f20);

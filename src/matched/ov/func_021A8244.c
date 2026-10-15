@@ -1,5 +1,5 @@
 /*
- * function: func_021A8244
+ * function: FIELD_GROUND_ANIME_IsBuildModelDone
  * address:  0x021A8244
  * packet:   pkt_021A8244
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A8268  0x021A8268  thumb  ov021
+ *   FIELD_GROUND_ANIME_HasBuildModel  0x021A8268  thumb  ov021
  *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(void *p);
-extern int func_021A8268(u32 a);
+extern int FIELD_GROUND_ANIME_HasBuildModel(u32 a);
 
-int func_021A8244(u32 a)
+int FIELD_GROUND_ANIME_IsBuildModelDone(u32 a)
 {
-if (func_021A8268(a) == 0) {
+if (FIELD_GROUND_ANIME_HasBuildModel(a) == 0) {
     return 1;
 }
 if (FIELD_BUILDMODEL_TryOpenNodeCurrentSlot((void *)(((struct Obj18069 *)((u8 *)(a)))->f28)) != 0) {

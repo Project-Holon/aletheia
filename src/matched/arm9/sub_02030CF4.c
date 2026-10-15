@@ -1,5 +1,5 @@
 /*
- * function: sub_02030CF4
+ * function: TCB_Reset
  * address:  0x02030CF4
  * packet:   pkt_02030CBC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030BD4  0x02030BD4  arm
+ *   TCB_BuildFreeStack  0x02030BD4  arm
  *
  * Reset the context: rebuild the free stack over the whole pool (0x02030BD4)
  * and then re-arm the embedded sentinel so the circular list is empty, both
@@ -19,8 +19,8 @@
  * 0x02030D28 tests for.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030CF4.c \
- *       --func sub_02030CF4 --addr 0x02030CF4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCB_Reset.c \
+ *       --func TCB_Reset --addr 0x02030CF4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -49,11 +49,11 @@ struct Ctx {
     struct Node  *slots[1];   /* +0x38 */
 };
 
-extern void sub_02030BD4(struct Ctx *c);
+extern void TCB_BuildFreeStack(struct Ctx *c);
 
-void sub_02030CF4(struct Ctx *c)
+void TCB_Reset(struct Ctx *c)
 {
-    sub_02030BD4(c);
+    TCB_BuildFreeStack(c);
 
     c->head.owner = c;
     c->head.next = &c->head;

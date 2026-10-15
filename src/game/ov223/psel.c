@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020115EC  0x020115EC  thumb
+ *   ICA_ANIME_SetFrame  0x020115EC  thumb
  *   func_02030734 0x02030734 arm
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   site 0x021BCB00 data a4
@@ -27,7 +27,7 @@
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   callbacks 0x021BC84C data a4
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021BC4F4 0x021BC4F4 thumb ov223
@@ -100,16 +100,16 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021BC716 0x021BC716 data a2
  *   file 0x021BCB00 data
- *   func_02040E78 0x02040E78 arm
+ *   BG_SYS_LoadPltt 0x02040E78 arm
  *   BMP_Create 0x02043678 arm
  *   BMP_FillRect 0x02043AF4 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BMP_GetByteSize 0x020437EC arm
- *   func_02040B1C 0x02040B1C arm
+ *   BG_SYS_LoadTileData 0x02040B1C arm
  *   BMP_Delete 0x020437AC arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02041570  0x02041570  arm
+ *   BG_SYS_ClearLayerEx  0x02041570  arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
@@ -146,7 +146,7 @@
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_Callback 0x0201EE60 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   d_021BC730 0x021BC730 data a4
@@ -279,7 +279,7 @@ typedef struct {u8 a,b,c,d,e,f,g,h,i;} Entry_021BAA84;
 
 struct Item { void *text; u16 color; unsigned value; };
 
-extern int func_020115EC(int, int);
+extern int ICA_ANIME_SetFrame(int, int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MTX_Identity33_(void *);
 extern u32 func_020307B0(void *p);
@@ -292,7 +292,7 @@ extern void FADE_SetSpeed(int);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u32 v);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021BC4F4(char *);
 extern void func_021BC508(unsigned char *p);
@@ -343,16 +343,16 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_0207D63C(unsigned,int,int,int,int);
 extern int CLACT_RegisterPaletteEx(void *,unsigned,unsigned,unsigned,u16,u16,u16);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void func_02040E78(unsigned,void *,unsigned,unsigned);
+extern void BG_SYS_LoadPltt(unsigned,void *,unsigned,unsigned);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BMP_Delete(struct Obj020437AC *p);
-extern void func_02041090(unsigned,unsigned,unsigned,unsigned,u8,u8);
+extern void BG_SYS_DrawTile(unsigned,unsigned,unsigned,unsigned,u8,u8);
 extern void func_02041B6C(unsigned);
-extern int func_02041570(int, int);
+extern int BG_SYS_ClearLayerEx(int, int);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
@@ -391,7 +391,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
@@ -491,7 +491,7 @@ extern const u16 d_021BC710[];
 
 int func_021B95A0(int a0, int a1)
 {
-    return func_020115EC(a0, a1 / 2);
+    return ICA_ANIME_SetFrame(a0, a1 / 2);
 }
 
 
@@ -572,7 +572,7 @@ int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
     }
     *(u32 *)(*(u8 **)(ctx + 4) + 4) = *(u32 *)(ctx + 0x228);
     func_020315D4(a);
-    func_020306F0(0x87);
+    GFL_HEAP_DeleteChecked(0x87);
     return 1;
 }
 
@@ -1328,16 +1328,16 @@ void func_021BAAB8(u16 *p)
     unsigned size;
     buffer=func_02030734(*p,32,1,file,0x92B);
     buffer[0]=0;buffer[1]=0;buffer[2]=0x7FFF;
-    func_02040E78(2,buffer,32,0x1A0);
-    func_02040E78(6,buffer,32,0);
+    BG_SYS_LoadPltt(2,buffer,32,0x1A0);
+    BG_SYS_LoadPltt(6,buffer,32,0);
     func_020307B0(buffer);
     bmp=BMP_Create(2,1,32,*p);
     BMP_FillRect(bmp,0,0,8,8,0);
     BMP_FillRect(bmp,8,0,8,8,1);
     data=BMP_GetPixels(bmp);size=BMP_GetByteSize(bmp);
-    func_02040B1C(2,data,size,0);
+    BG_SYS_LoadTileData(2,data,size,0);
     data=BMP_GetPixels(bmp);size=BMP_GetByteSize(bmp);
-    func_02040B1C(6,data,size,0);
+    BG_SYS_LoadTileData(6,data,size,0);
     BMP_Delete(bmp);
 }
 
@@ -1367,7 +1367,7 @@ void func_021BAB78(u16 *p)
             index++;
         }
     }
-    func_02041090(2,(unsigned)buffer,0,0,32,24);
+    BG_SYS_DrawTile(2,(unsigned)buffer,0,0,32,24);
     func_02041B6C(2);
     func_020307B0(buffer);
 }
@@ -1381,7 +1381,7 @@ void func_021BAB78(u16 *p)
  */
 int func_021BABFC(void)
 {
-    return func_02041570(2, 0xd000);
+    return BG_SYS_ClearLayerEx(2, 0xd000);
 }
 
 
@@ -1420,7 +1420,7 @@ void func_021BAC70(const u16 *p)
         buffer[n]=v|0xd000;
         n++;
     }
-    func_02041090(2,(u32)buffer,0,0,32,24);
+    BG_SYS_DrawTile(2,(u32)buffer,0,0,32,24);
     func_02041B6C(2);func_020307B0(buffer);
     buffer=func_02030734(*p,1536,1,site,2488);
     n=0;
@@ -1429,7 +1429,7 @@ void func_021BAC70(const u16 *p)
         buffer[n]=v;
         n++;
     }
-    func_02041090(6,(u32)buffer,0,0,32,24);
+    BG_SYS_DrawTile(6,(u32)buffer,0,0,32,24);
     func_02041B6C(6);func_020307B0(buffer);
 }
 
@@ -1439,8 +1439,8 @@ void func_021BAC70(const u16 *p)
 
 void func_021BAD68(char *a0)
 {
-    func_02041570(2, 0xd000);
-    func_02041570(6, 0);
+    BG_SYS_ClearLayerEx(2, 0xd000);
+    BG_SYS_ClearLayerEx(6, 0);
 }
 
 
@@ -1645,7 +1645,7 @@ void func_021BB18C(char *p, int idx)
     text = func_02045EC0(*(struct MsgBank **)(p + 0x234), d_021BC730[idx]);
     buf = (struct StrObj *)STRBUF_Create(0x40, *(u16 *)p);
     WORDSET_Callback(words, 1, d_021BC710[idx]);
-    func_0201F250(words, buf, text);
+    WORDSET_CopyTaggedText(words, buf, text);
     STRBUF_Delete((struct U16Vec *)text);
     WORDSET_DeleteStrbufED04(words);
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(desc), 0);

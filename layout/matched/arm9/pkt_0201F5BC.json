@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201F5BC",
+   "name": "BMP_MENUWORK_LoadCharAndPltt",
    "address": "0x0201F5BC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201F628",
+   "name": "BMP_MENUWORK_DrawFrame",
    "address": "0x0201F628",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201F79C",
+   "name": "BMP_MENUWORK_DrawWindowEx",
    "address": "0x0201F79C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201F7A8",
+   "name": "BMP_MENUWORK_DrawWindowBorder",
    "address": "0x0201F7A8",
    "kind": "game",
    "region": "arm9",

@@ -16,7 +16,7 @@
  *   FIELD_ZONEFOG_Main  0x021A030C  thumb
  *   WEATHER_Update  0x021A1AF4  thumb
  *   FIELD_FOG_Main  0x021A0140  thumb
- *   func_0203F4FC  0x0203F4FC  arm
+ *   GF_STANDARD_GetTime  0x0203F4FC  arm
  *   FIELD_LIGHT_Main  0x021A0458  thumb
  *   FIELD_G3D_MAPPER_UpdateStep  0x0218CB34  thumb
  *   GFL_NET_SetDeviceModeIfRunning  0x0203D12C  arm
@@ -39,7 +39,7 @@ extern int FLD_SCENEAREA_Update(struct Obj *o, void *arg);
 extern void FIELD_ZONEFOG_Main(u8 *p, u32 a);
 extern void WEATHER_Update(u8 *p, int x);
 extern void FIELD_FOG_Main(u8 *p);
-extern u32 func_0203F4FC(void);
+extern u32 GF_STANDARD_GetTime(void);
 extern void FIELD_LIGHT_Main(u8 *a, s32 b);
 extern int FIELD_G3D_MAPPER_UpdateStep(char *p);
 extern void GFL_NET_SetDeviceModeIfRunning(int a);
@@ -56,7 +56,7 @@ void FIELDMAP_UpdateG3d(u8 *a)
     FIELD_ZONEFOG_Main((u8 *)(((struct Obj02367 *)a)->f1C), ((struct Obj02367 *)a)->f0);
     WEATHER_Update((u8 *)(((struct Obj02367 *)a)->f20), 0x92);
     FIELD_FOG_Main((u8 *)(((struct Obj02367 *)a)->f18));
-    FIELD_LIGHT_Main((u8 *)(((struct Obj02367 *)a)->f14), func_0203F4FC());
+    FIELD_LIGHT_Main((u8 *)(((struct Obj02367 *)a)->f14), GF_STANDARD_GetTime());
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     t = FIELD_G3D_MAPPER_UpdateStep((char *)(((struct Obj02367 *)a)->f48));
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;

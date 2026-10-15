@@ -24,7 +24,7 @@
  *   MCSS_GetAnimCtrl 0x02015EE8 thumb
  *   MCSS_SetCellCallback 0x02015F40 thumb
  *   BTLV_MCSS_CellCallbackCheckStopCell 0x02201810 thumb ov094
- *   func_0203F0A8 0x0203F0A8 arm
+ *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   gBtlvMcssIdleWaitFrames 0x0220AE78 data a4
  *   BTLV_EFFECT_GetEffvm 0x021F86C4 thumb ov094
@@ -46,7 +46,7 @@ extern void func_02030EAC(struct Node *n);
 extern void *MCSS_GetAnimCtrl(void *);
 extern void MCSS_SetCellCallback(char *p, unsigned flags, void *callback);
 extern int BTLV_MCSS_CellCallbackCheckStopCell(u32 flags, int a, int *out, int key);
-extern u32 func_0203F0A8(void);
+extern u32 GF_STANDARD_Rand(void);
 extern const u8 gBtlvMcssIdleWaitFrames[];
 extern int BTLV_EFFECT_GetEffvm(void);
 extern int BTLV_EFFVM_GetFallbackScriptFlag(void *);
@@ -76,7 +76,7 @@ void BTLV_MCSS_AnimWatchTaskMain(void *task, int *q)
         ((struct Obj21726 *)((char *)MCSS_GetAnimCtrl(*(void **)(e + off))))->fC = 0;
         MCSS_SetCellCallback(*(void **)(e + off), i | 0x80000000, BTLV_MCSS_CellCallbackCheckStopCell);
         q[0]++;
-        q[2] = gBtlvMcssIdleWaitFrames[(u32)(((u64)func_0203F0A8() * 3) >> 32)];
+        q[2] = gBtlvMcssIdleWaitFrames[(u32)(((u64)GF_STANDARD_Rand() * 3) >> 32)];
         return;
     case 1:
         q[2]--;

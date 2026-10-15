@@ -1,5 +1,5 @@
 /*
- * function: func_02040EBC
+ * function: BG_SYS_LoadPlttEntry
  * address:  0x02040EBC
  * packet:   pkt_02040DA8
  * region:   arm9
@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   BG_SYS_LoadPltt  0x02040E78  arm
  */
 
 typedef unsigned int u32;
 
-extern void func_02040E78(u32, void *, u32, u32);
+extern void BG_SYS_LoadPltt(u32, void *, u32, u32);
 
-void func_02040EBC(u32 a0, u32 a1)
+void BG_SYS_LoadPlttEntry(u32 a0, u32 a1)
 {
-    func_02040E78(a0, &a1, 2, 0);
+    BG_SYS_LoadPltt(a0, &a1, 2, 0);
 }

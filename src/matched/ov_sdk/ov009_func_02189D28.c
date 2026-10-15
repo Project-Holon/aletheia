@@ -1,5 +1,5 @@
 /*
- * function: func_02189D28
+ * function: gpiClipBufferToPosition
  * address:  0x02189D28
  * packet:   pkt_ov009_02189D28
  * region:   ov009
@@ -24,7 +24,7 @@ typedef struct GPIBuffer {
 
 extern void *memmove(void *dst, const void *src, unsigned int n);
 
-int func_02189D28(void **unused, GPIBuffer *buffer)
+int gpiClipBufferToPosition(void **unused, GPIBuffer *buffer)
 {
     if (buffer == 0 || buffer->buffer == 0 || buffer->pos == 0)
         return 0;

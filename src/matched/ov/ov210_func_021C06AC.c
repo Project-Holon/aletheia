@@ -1,5 +1,5 @@
 /*
- * function: func_021C06AC
+ * function: ZKNSEARCH_RESULT_MoveRow3
  * address:  0x021C06AC
  * packet:   pkt_ov210_021C06AC
  * region:   ov210
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFBF8 0x021BFBF8 thumb ov210
- *   func_021BF728 0x021BF728 thumb ov210
+ *   ZKNSEARCH_MAIN_MoveColumnActors 0x021BFBF8 thumb ov210
+ *   ZKNSEARCH_MAIN_UpdateCursorActors 0x021BF728 thumb ov210
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BFBF8(int p, int v);
+extern void ZKNSEARCH_MAIN_MoveColumnActors(int p, int v);
 typedef unsigned char  u8;
-extern void func_021BF728(u8 *p, int a);
+extern void ZKNSEARCH_MAIN_UpdateCursorActors(u8 *p, int a);
 
-void func_021C06AC(int p, int v)
+void ZKNSEARCH_RESULT_MoveRow3(int p, int v)
 {
-    func_021BFBF8(p, (signed char)(-v));
-    func_021BF728((u8 *)p, 1);
+    ZKNSEARCH_MAIN_MoveColumnActors(p, (signed char)(-v));
+    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)p, 1);
 }

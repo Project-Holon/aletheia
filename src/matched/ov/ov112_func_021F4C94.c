@@ -1,5 +1,5 @@
 /*
- * function: func_021F4C94
+ * function: MUSICAL_MCSS_AddElem
  * address: 0x021F4C94
  * packet: pkt_ov112_021F4C94
  * region: ov112
@@ -24,7 +24,7 @@ extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
 extern u32 d_021F8300;
 typedef struct { u16 flags, zero; u32 id, index, type; int x,y,z; s16 a,b; void *data; } Entry;
 typedef struct { u32 pad; void *board; Entry *entries; } Object;
-Entry *func_021F4C94(Object *p, u16 index, int *v, s16 a, s16 b)
+Entry *MUSICAL_MCSS_AddElem(Object *p, u16 index, int *v, s16 a, s16 b)
 {
     p->entries[index].index = BILLBOARD_AddElem(p->board,p->entries[index].id,4096,4096,(struct Vec3 *)v,31,0,0);
     BILLBOARD_SetElemVisible(p->board,p->entries[index].index,&d_021F8300);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * ARM leaf, seeded 2026-09-27 from the ov195 call sites 0x02208B3E and
- * 0x02208B48 (func_02208AB0). Looks up slot idx of the table at +8; a
+ * 0x02208B48 (SHINKA_DEMO_EFFECT_SetupNode). Looks up slot idx of the table at +8; a
  * null slot returns 0. Otherwise it sets the slot object's frame to
  * *frame, clamped from above to numFrame << 12 (the u16 at +4 of the
  * object's resource), with a signed compare (strge/strlt), and returns 1.

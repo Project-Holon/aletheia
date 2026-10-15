@@ -8,18 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201F554, func_0201F57C
+ * function: BMP_MENUWORK_LoadChar, BMP_MENUWORK_LoadPltt
  *
  * Two font-drawing wrappers, each turning a small id into a glyph-table index
  * through one of the two byte tables just before them and handing it to a
  * seven- and a six-argument SDK-style entry point.  The two table lookups are
- * func_0201F53C and func_0201F548, which are parked in
+ * BMP_MENUWORK_GetCharFileId and BMP_MENUWORK_GetPlttFileId, which are parked in
  * src/pending/sub_0201F53C.c because their tables have no outside witness;
- * the calls to them are ordinary `label` sites here, since func_0201F53C is
- * also called from 0x0201F5EA outside this range and func_0201F548 from ten
+ * the calls to them are ordinary `label` sites here, since BMP_MENUWORK_GetCharFileId is
+ * also called from 0x0201F5EA outside this range and BMP_MENUWORK_GetPlttFileId from ten
  * overlays.
  *
- * func_0201F57C hoists the lookup above the `if`, so the source binds it to a
+ * BMP_MENUWORK_LoadPltt hoists the lookup above the `if`, so the source binds it to a
  * local once rather than calling it in both arms; written in both arms the
  * compiler emits the call twice.
  *
@@ -30,24 +30,26 @@
  *
  * symbols:
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
+ *   BMP_MENUWORK_GetCharFileId  0x0201F53C  thumb
+ *   BMP_MENUWORK_GetPlttFileId  0x0201F548  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u8 func_0201F53C(int i);
-extern u8 func_0201F548(int i);
+extern u8 BMP_MENUWORK_GetCharFileId(int i);
+extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 extern void ARC_UTIL_UploadBgCharFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 
-void func_0201F554(u32 a, u32 b, u32 c, u32 d)
+void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d)
 {
-    ARC_UTIL_UploadBgCharFromArchive(5, func_0201F53C(c), a, b, 0, 0, d);
+    ARC_UTIL_UploadBgCharFromArchive(5, BMP_MENUWORK_GetCharFileId(c), a, b, 0, 0, d);
 }
 
-void func_0201F57C(u32 a, u32 b, u32 c, u32 d)
+void BMP_MENUWORK_LoadPltt(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 t = func_0201F548(c);
+    u32 t = BMP_MENUWORK_GetPlttFileId(c);
 
     if (a < 4) {
         func_02049B40(5, t, 0, b * 32, 0x20, d);

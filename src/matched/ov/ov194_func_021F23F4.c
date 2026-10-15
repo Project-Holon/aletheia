@@ -1,5 +1,5 @@
 /*
- * function: func_021F23F4
+ * function: NAMEIN_GRAPHIC_GetLength
  * address: 0x021F23F4
  * packet: pkt_ov194_021F23F4
  * region: ov194
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021F23F4(const u8 *p) {return ((struct Obj24902 *)p)->f1E;}
+u32 NAMEIN_GRAPHIC_GetLength(const u8 *p) {return ((struct Obj24902 *)p)->f1E;}

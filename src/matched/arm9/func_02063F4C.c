@@ -1,5 +1,5 @@
 /*
- * function: func_02063F4C
+ * function: NNSi_G2dLoadVramResourceList
  * address:  0x02063F4C
  * packet:   pkt_020637F4
  * region:   arm9
@@ -22,13 +22,13 @@
  *   func_0207FA0C  0x0207FA0C  arm
  *   func_0207FA40  0x0207FA40  arm
  *   func_0207FADC  0x0207FADC  arm
- *   func_020637F4  0x020637F4  arm
+ *   NNSi_G2dSetVramHandleEx  0x020637F4  arm
  *
- * The LIST form of src/matched/func_02063E54.c: the same three-arm dispatch on
+ * The LIST form of src/matched/NNSi_G2dLoadVramResourceBySel.c: the same three-arm dispatch on
  * `sel`, the same twelve callees in the same order, the same
- * `out->f0 = self->f0; out->f4 = self->f4; func_020637F4(out, sel, base);`
+ * `out->f0 = self->f0; out->f4 = self->f4; NNSi_G2dSetVramHandleEx(out, sel, base);`
  * tail -- but run once per entry of a (count, u16 *items) list instead of once
- * per call.  Reading it as "func_02063E54 with a loop around it" is what made
+ * per call.  Reading it as "NNSi_G2dLoadVramResourceBySel with a loop around it" is what made
  * the body writable at all; every callee declaration below is lifted unchanged
  * from that already-exact sibling.
  *
@@ -37,7 +37,7 @@
  * self->f0 == 3 and 0x200 otherwise (`moveq r8, #0x20` / `movne r8, #0x200`,
  * one predicated pair at 0x02063F68 and 0x02063F80 that the two `mul`s then
  * consume).  self->f0 is also the word copied to out->f0, so it is a format
- * code and not a count -- the same field func_02063E54 copies out untouched.
+ * code and not a count -- the same field NNSi_G2dLoadVramResourceBySel copies out untouched.
  *
  * FOUR THINGS THE BYTES FORCED, in the order they cost time:
  *
@@ -78,14 +78,14 @@
  *      selection and the front end drops the redundant predicate.  ../2.0/sp2
  *      keeps both predicates and is byte-exact; ../1.2/sp2 is 360 bytes.
  *      Five of this cluster's seven other matched rows are already 2.0
- *      (func_0206380C, func_02063828, func_02063A54, func_02063C80,
- *      func_02063E54 is 1.1p1) -- see docs/families/cluster_020637F4.h.
+ *      (NNSi_G2dIsVramHandleSetEx, NNSi_G2dLoadVramResourceMain, NNSi_G2dLoadVramResourceSub, NNSi_G2dSetupVramResource,
+ *      NNSi_G2dLoadVramResourceBySel is 1.1p1) -- see docs/families/cluster_020637F4.h.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02063F4C.c \
- *       --func func_02063F4C --addr 0x02063F4C --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G2dLoadVramResourceList.c \
+ *       --func NNSi_G2dLoadVramResourceList --addr 0x02063F4C --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 356 = original 356, 13 of 13 sites resolved
  */
 
@@ -121,9 +121,9 @@ extern void func_0207E5D0(u32 a, u32 b, u32 c);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(u32 a, u32 b, u32 c);
 extern void func_0207FADC(void);
-extern void func_020637F4(char *p, int i, int v);
+extern void NNSi_G2dSetVramHandleEx(char *p, int i, int v);
 
-void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
+void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
                    Out02063F4C *out)
 {
     u32 step;
@@ -174,5 +174,5 @@ void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
     }
     out->f0 = self->f0;
     out->f4 = self->f4;
-    func_020637F4((char *)out, sel, base);
+    NNSi_G2dSetVramHandleEx((char *)out, sel, base);
 }

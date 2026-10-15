@@ -1,5 +1,5 @@
 /*
- * function: func_0218002C
+ * function: gsiSoapTaskCancel
  * address:  0x0218002C
  * packet:   pkt_ov009_0218002C
  * region:   ov009
@@ -24,7 +24,7 @@ typedef struct GSSoapTask {
 
 extern void ghttpCancelRequest(int request);
 
-void func_0218002C(void *theTask)
+void gsiSoapTaskCancel(void *theTask)
 {
     GSSoapTask *soapTask = (GSSoapTask *)theTask;
     if (soapTask->completed != 0)

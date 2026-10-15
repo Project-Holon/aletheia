@@ -22,7 +22,7 @@
  *   UN_SELECT_Delete 0x021B9888 thumb ov218
  *   UN_SELECT_GRAPHIC_Delete 0x021BA8F0 thumb ov218
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data a1
  */
@@ -45,7 +45,7 @@ typedef unsigned char  u8;
 extern void UN_SELECT_Delete(u8 *p);
 extern void UN_SELECT_GRAPHIC_Delete(char *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int);
 extern char ov067_id[];
 int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
@@ -74,7 +74,7 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
         UN_SELECT_GRAPHIC_Delete(*(char * *)&((struct Obj01983 *)p)->f4);
         heap = ((struct Obj01983 *)p)->f0;
         func_020315D4(ctx);
-        func_020306F0(heap);
+        GFL_HEAP_DeleteChecked(heap);
         func_02034A5C((int)ov067_id);
         return 1;
     }

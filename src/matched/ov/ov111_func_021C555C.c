@@ -1,5 +1,5 @@
 /*
- * function: func_021C555C
+ * function: VIEWER_MAIN_HandlePageTouch
  * address:  0x021C555C
  * packet:   pkt_ov111_021C555C
  * region:   ov111
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
- *   func_021C6874  0x021C6874  thumb  ov111
+ *   VIEWER_TEXT_DrawPage  0x021C6874  thumb  ov111
  *   d_021C8544     0x021C8544  data  a1
  *
  * Addresses are Black-image addresses.
@@ -34,13 +34,13 @@ typedef struct {
 } Work;
 
 extern int TOUCHPANEL_HitCont(const void *p);
-extern void func_021C6874(Work *p, int scroll, int flush, int idx);
+extern void VIEWER_TEXT_DrawPage(Work *p, int scroll, int flush, int idx);
 extern const u8 d_021C8544[];
 
-void func_021C555C(Work *p)
+void VIEWER_MAIN_HandlePageTouch(Work *p)
 {
     if (p->f3034 != 0 && TOUCHPANEL_HitCont(d_021C8544) && p->b32F7 == 1) {
-        func_021C6874(p, p->scroll, 1, 0);
+        VIEWER_TEXT_DrawPage(p, p->scroll, 1, 0);
         p->b32F7 = 0;
         p->b32F8 = 0;
         p->b330E = 0;

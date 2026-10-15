@@ -81,7 +81,7 @@
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02005624 0x02005624 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021BBE80 0x021BBE80 thumb ov110
@@ -99,8 +99,8 @@
  *   PMS_INPUT_GetWord 0x021BF6F0 thumb ov110
  *   PMS_INPUT_GetSentenceString 0x021BF708 thumb ov110
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_0201D670 0x0201D670 thumb
- *   func_0201D688 0x0201D688 thumb
+ *   GF_FONT_GetTagParam 0x0201D670 thumb
+ *   GF_FONT_SkipTag 0x0201D688 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   PMSI_PARAM_IsDecoWord 0x02024508 thumb
  *   PMSI_PARAM_GetDecoId 0x02024520 thumb
@@ -230,7 +230,7 @@ extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *ar
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
-extern void func_02041300(unsigned, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(unsigned, int, int, int, u8, u8, u8);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void *func_020056A0(void *, void *, unsigned);
 extern short CLACT_GetActorSurfacePosAxis(struct Obj *, u16 surface, unsigned axis);
@@ -254,8 +254,8 @@ extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void PRINTSYS_Print(void *, short, short, void *, void *);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void STRBUF_SetStringN(struct U16Vec *, const u16 *, u32);
-extern u32 func_0201D670(const u16 *, u32);
-extern u16 *func_0201D688(u16 *);
+extern u32 GF_FONT_GetTagParam(const u16 *, u32);
+extern u16 *GF_FONT_SkipTag(u16 *);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u32 PMSI_PARAM_IsDecoWord(u32);
 extern u32 PMSI_PARAM_GetDecoId(u32);
@@ -394,7 +394,7 @@ void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p)
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
     if (p->frameDirty) {
-        func_02041300(0, 0, 0, 0, 32, 6, 17);
+        BG_SYS_SetTileEntry(0, 0, 0, 0, 32, 6, 17);
         BGWINFRM_PutFrame(p->frameMgr, 0, 0, (s8)(-p->scrollOffset / 8));
         BGWINFRM_ShowFrame(p->frameMgr, 0);
         p->frameDirty = 0;
@@ -633,8 +633,8 @@ int PMSIV_EDIT_ParserNext(struct PmsivTextParser *parser, struct U16Vec *out)
         STRBUF_SetStringN(out, start, (parser->cursor - start) + 1);
         return PMSIV_EDIT_TOKEN_TEXT;
     case 1:
-        parser->slotWordId = func_0201D670(start, 0);
-        parser->cursor = func_0201D688(parser->cursor);
+        parser->slotWordId = GF_FONT_GetTagParam(start, 0);
+        parser->cursor = GF_FONT_SkipTag(parser->cursor);
         token = PMSIV_EDIT_TOKEN_SLOT;
         break;
     case 2:

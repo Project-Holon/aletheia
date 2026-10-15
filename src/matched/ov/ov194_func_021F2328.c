@@ -1,5 +1,5 @@
 /*
- * function: func_021F2328
+ * function: NAMEIN_GRAPHIC_CopyToStrbuf
  * address:  0x021F2328
  * packet:   pkt_021F2328
  * region:   ov194
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 struct Strbuf;
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
-void func_021F2328(char *self, struct Strbuf *dst)
+void NAMEIN_GRAPHIC_CopyToStrbuf(char *self, struct Strbuf *dst)
 {
     STRBUF_SetStringN(dst, (const u16 *)self,
                  ((struct Obj24901 *)self)->f1E + 1);

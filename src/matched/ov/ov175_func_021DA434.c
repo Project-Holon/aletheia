@@ -1,5 +1,5 @@
 /*
- * function: func_021DA434
+ * function: WIFIBATTLEMATCH_NET_SendSessionQuery
  * address:  0x021DA434
  * packet:   pkt_021DA434
  * region:   ov175
@@ -30,7 +30,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 g_021E2C8C[];
 
-int func_021DA434(void)
+int WIFIBATTLEMATCH_NET_SendSessionQuery(void)
 {
     if (DWC_RAP_IsStateInSession() != 0)
         return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2402, 4, (u32)g_021E2C8C);

@@ -44,7 +44,7 @@
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
  *   func_0203084C 0x0203084C arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_ClearSentence 0x0202428C thumb
  *   PMSI_PARAM_Create 0x02024044 thumb
  *   PMSI_PARAM_SetWord 0x02024104 thumb
@@ -95,7 +95,7 @@ extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void func_0203133C(void *v);
 extern void func_020315D4(struct S020315D4 *v);
 extern void func_0203084C(u16 v);
-extern void func_020306F0(u32 v);
+extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *p);
 extern struct PmsiParam *PMSI_PARAM_Create(u32 kind, u32 a1, struct PmsData *src, u32 flag, struct SaveControl *sys, u32 heapId);
 extern void PMSI_PARAM_SetWord(struct PmsiParam *p, u16 v);
@@ -282,7 +282,7 @@ int MAILTOOL_ProcExit(u32 a, void *b, void *c, struct MailToolProc *proc)
     h = (u16)proc->heapId;
     func_020315D4((struct S020315D4 *)a);
     func_0203084C(h);
-    func_020306F0(h);
+    GFL_HEAP_DeleteChecked(h);
     return 1;
 }
 

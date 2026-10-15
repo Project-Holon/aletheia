@@ -1,5 +1,5 @@
 /*
- * function: func_0217EAB0
+ * function: gsimalloc
  * address:  0x0217EAB0
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021A3730[];
 
-void func_0217EAB0(int a)
+void gsimalloc(int a)
 {
     (*(void (**)(int))g_021A3730)(a);
 }

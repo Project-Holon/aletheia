@@ -17,7 +17,7 @@
  *   func_020307B0 0x020307B0  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
@@ -31,7 +31,7 @@
  *   ZUKAN_DETAIL_HEADBAR_Update 0x021BE7A4 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_02040618 0x02040618 arm
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_02040804 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   func_021BE920 0x021BE920 thumb ov208
@@ -45,7 +45,7 @@
  *   BMP_CreateFromArchive 0x0204384C arm
  *   BMP_GetByteSize 0x020437EC arm
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02040B58 0x02040B58 arm
+ *   BG_SYS_CreateTileRun 0x02040B58 arm
  *   ARC_UTIL_UploadBgPaletteAddFromArchive 0x0204994C arm
  *   func_02045B38 0x02045B38 arm
  *   BMP_CopyPixels        0x02043814  arm
@@ -55,7 +55,7 @@
  *   STRBUF_Delete        0x02045808  arm
  *   data_021C84F4        0x021C84F4  data
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
- *   func_02040B1C  0x02040B1C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   ZUKAN_DETAIL_HEADBAR_GetIconKind  0x021BE840  thumb  ov208
@@ -69,7 +69,7 @@ extern u32 func_020307B0(void *p);
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
@@ -95,7 +95,7 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 
 extern void func_02040618(unsigned,unsigned,unsigned);
 
-extern void func_0204047C(int,u16);
+extern void BG_SYS_SetVisibleLayer(int,u16);
 
 extern u32 func_02040804(u32 layer);
 
@@ -123,7 +123,7 @@ extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern u32 func_02040B58(u32 index, const void *src, u32 size);
+extern u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
@@ -145,7 +145,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 extern void func_02041B6C(u32 layer);
 
@@ -184,7 +184,7 @@ struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
     struct Ov208Icon *p=func_02030734(heap,0x34,1,d_021C8DFC,120);
     p->heap=heap;p->font=arg;p->state=0;p->kind=5;
     func_02040618(5,3,24);
-    func_0204047C(5,0);
+    BG_SYS_SetVisibleLayer(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows(p);
     func_021BE920(p);
     p->task=func_020056A0((unsigned)func_021BE864,(unsigned)p,1);
@@ -274,9 +274,9 @@ void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g)
     BMP_WIN_TransferChars((struct Descriptor *)g->window);
     g->bmp = BMP_CreateFromArchive(0x9f, 14, 0, g->heap);
     g->size = BMP_GetByteSize(g->bmp);
-    g->tile = func_02040B58(5, BMP_GetPixels(g->bmp), g->size);
+    g->tile = BG_SYS_CreateTileRun(5, BMP_GetPixels(g->bmp), g->size);
     ARC_UTIL_UploadBgPaletteAddFromArchive(0x9f, 0x25, 5, 0, g->tile, 0xc0, 0, g->heap);
-    func_020413B0(5, 0, 0, 0x20, 0x18, 13);
+    BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x18, 13);
     g->msg = func_02045B38(0, 2, 0xea, g->heap);
 }
 
@@ -317,7 +317,7 @@ void ZUKAN_DETAIL_HEADBAR_ClearIcon()
 void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p)
 {
     if (p->dirty != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->queue, (void *)p->bmp) == 0) {
-        func_02040B1C(5, BMP_GetPixels((const struct Bmp *)p->bmp), p->size, p->tile);
+        BG_SYS_LoadTileData(5, BMP_GetPixels((const struct Bmp *)p->bmp), p->size, p->tile);
         func_02041B6C(5);
         p->dirty = 0;
     }

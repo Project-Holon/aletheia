@@ -16,6 +16,7 @@
  *   STRBUF_AppendChar 0x02045AFC arm
  *   d_021DA868 0x021DA868 data a2
  *   d_021DA864 0x021DA864 data a2
+ *   GF_FONT_AppendTag  0x0201D60C  thumb  arm9
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -28,7 +29,7 @@ extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
 struct U16Vec;
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
-extern void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr);
+extern void GF_FONT_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
 void PDWACC_MESSAGE_FormatNumber(int value, void *p)
 {
     Table table;
@@ -48,6 +49,6 @@ void PDWACC_MESSAGE_FormatNumber(int value, void *p)
         index=(u16)(v&31);
         v>>=5;
         STRBUF_AppendChar(p,table.a[index]);
-        func_0201D60C(p,189,4,1,&arg);
+        GF_FONT_AppendTag(p,189,4,1,&arg);
     }
 }

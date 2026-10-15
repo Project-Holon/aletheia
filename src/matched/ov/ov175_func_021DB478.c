@@ -1,5 +1,5 @@
 /*
- * function: func_021DB478
+ * function: WIFIBATTLEMATCH_NET_GdbGetMyRecords
  * address:  0x021DB478
  * packet:   pkt_021DB478
  * region:   ov175
@@ -17,12 +17,12 @@
  *   DWC_GdbGetState           0x021E1434  arm
  *   DWC_GdbGetAsyncResult     0x021E1454  arm
  *   DWC_GdbCancelRequest      0x021E11F0  arm
- *   func_021DCE08             0x021DCE08  thumb
- *   func_021DCE40             0x021DCE40  thumb
- *   func_021DCE48             0x021DCE48  thumb
- *   func_021DCE50             0x021DCE50  thumb
- *   func_021DB6A0             0x021DB6A0  thumb
- *   func_021DB72C             0x021DB72C  thumb
+ *   WIFIBATTLEMATCH_NET_SetErrorA             0x021DCE08  thumb
+ *   WIFIBATTLEMATCH_NET_SetResultA             0x021DCE40  thumb
+ *   WIFIBATTLEMATCH_NET_SetResultB             0x021DCE48  thumb
+ *   WIFIBATTLEMATCH_NET_SetResultC             0x021DCE50  thumb
+ *   WIFIBATTLEMATCH_NET_GdbShutdown             0x021DB6A0  thumb
+ *   WIFIBATTLEMATCH_NET_GdbSortByName             0x021DB72C  thumb
  *   func_02034714             0x02034714  arm
  *   d_021E2EF8                0x021E2EF8  data
  *   d_021E2F1C                0x021E2F1C  data
@@ -40,18 +40,18 @@ extern void DWC_GdbProcess(void);
 extern int DWC_GdbGetState(void);
 extern int DWC_GdbGetAsyncResult(void);
 extern int DWC_GdbCancelRequest(void);
-extern void func_021DCE08(char *ctx, u32 v, int line);
-extern void func_021DCE40(char *ctx, u32 v, int line);
-extern void func_021DCE48(char *ctx, u32 v, int line);
-extern void func_021DCE50(char *ctx, u32 v, int line);
-extern void func_021DB6A0(char *obj);
+extern void WIFIBATTLEMATCH_NET_SetErrorA(char *ctx, u32 v, int line);
+extern void WIFIBATTLEMATCH_NET_SetResultA(char *ctx, u32 v, int line);
+extern void WIFIBATTLEMATCH_NET_SetResultB(char *ctx, u32 v, int line);
+extern void WIFIBATTLEMATCH_NET_SetResultC(char *ctx, u32 v, int line);
+extern void WIFIBATTLEMATCH_NET_GdbShutdown(char *obj);
 struct Field;
-extern void func_021DB72C(int count, struct Field **recs, char *obj);
+extern void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field **recs, char *obj);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 extern const char d_021E2F1C[];
 
-int func_021DB478(char *obj)
+int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *obj)
 {
     int r;
 
@@ -59,8 +59,8 @@ int func_021DB478(char *obj)
     case 0:
         r = DWC_GdbInitialize(0xb5f, ((struct Obj00840 *)obj)->f0, 0);
         if (r != 0) {
-            func_021DCE40(obj + 0x18, r, 0xdef);
-            func_021DB6A0(obj);
+            WIFIBATTLEMATCH_NET_SetResultA(obj + 0x18, r, 0xdef);
+            WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
         ((struct Obj00840 *)obj)->f12C = 1;
@@ -69,12 +69,12 @@ int func_021DB478(char *obj)
         if (((struct Obj00840 *)obj)->f198 >= 0x26)
             func_02034714(d_021E2EF8, 0, d_021E2EF8);
         if (((struct Obj00840 *)obj)->f1B0 == -1)
-            r = DWC_GdbGetMyRecordsAsync(d_021E2F1C, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, func_021DB72C, obj);
+            r = DWC_GdbGetMyRecordsAsync(d_021E2F1C, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, WIFIBATTLEMATCH_NET_GdbSortByName, obj);
         else
-            r = DWC_GdbGetRecordsAsync(d_021E2F1C, (int *)(obj + 0x1b0), 1, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, func_021DB72C, obj);
+            r = DWC_GdbGetRecordsAsync(d_021E2F1C, (int *)(obj + 0x1b0), 1, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, WIFIBATTLEMATCH_NET_GdbSortByName, obj);
         if (r != 0) {
-            func_021DCE40(obj + 0x18, r, 0xe0a);
-            func_021DB6A0(obj);
+            WIFIBATTLEMATCH_NET_SetResultA(obj + 0x18, r, 0xe0a);
+            WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
         ((struct Obj00840 *)obj)->f12C = 2;
@@ -82,14 +82,14 @@ int func_021DB478(char *obj)
         break;
     case 2:
         if ((((struct Obj00840 *)obj)->f1A0)++ > 0xe10) {
-            func_021DCE08(obj + 0x18, 1, 0xe17);
+            WIFIBATTLEMATCH_NET_SetErrorA(obj + 0x18, 1, 0xe17);
             ((struct Obj00840 *)obj)->f12C = 6;
             break;
         }
         DWC_GdbProcess();
         r = DWC_GdbGetState();
         if (r == 0 || r == 4) {
-            func_021DCE48(obj + 0x18, r, 0xe26);
+            WIFIBATTLEMATCH_NET_SetResultB(obj + 0x18, r, 0xe26);
             ((struct Obj00840 *)obj)->f12C = 6;
         } else if (r == 1) {
             ((struct Obj00840 *)obj)->f12C = 3;
@@ -98,18 +98,18 @@ int func_021DB478(char *obj)
     case 3:
         r = DWC_GdbGetAsyncResult();
         if (r == 0) {
-            func_021DCE50(obj + 0x18, r, 0xe39);
+            WIFIBATTLEMATCH_NET_SetResultC(obj + 0x18, r, 0xe39);
             ((struct Obj00840 *)obj)->f12C = 6;
         } else if (r != 1) {
-            func_021DCE50(obj + 0x18, r, 0xe3f);
-            func_021DB6A0(obj);
+            WIFIBATTLEMATCH_NET_SetResultC(obj + 0x18, r, 0xe3f);
+            WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         } else {
             ((struct Obj00840 *)obj)->f12C = 4;
         }
         break;
     case 4:
-        func_021DB6A0(obj);
+        WIFIBATTLEMATCH_NET_GdbShutdown(obj);
         ((struct Obj00840 *)obj)->f12C = 5;
         break;
     case 5:
@@ -120,28 +120,28 @@ int func_021DB478(char *obj)
             ((struct Obj00840 *)obj)->f1A0 = 0;
             ((struct Obj00840 *)obj)->f12C = 7;
         } else {
-            func_021DCE40(obj + 0x18, r, 0xe5e);
-            func_021DB6A0(obj);
+            WIFIBATTLEMATCH_NET_SetResultA(obj + 0x18, r, 0xe5e);
+            WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
         break;
     case 7:
         if ((((struct Obj00840 *)obj)->f1A0)++ > 0xe10) {
-            func_021DCE08(obj + 0x18, 1, 0xe6a);
-            func_021DB6A0(obj);
+            WIFIBATTLEMATCH_NET_SetErrorA(obj + 0x18, 1, 0xe6a);
+            WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
         DWC_GdbProcess();
         r = DWC_GdbGetState();
         if (r == 0 || r == 4) {
-            func_021DB6A0(obj);
+            WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
         if (r == 1)
             ((struct Obj00840 *)obj)->f12C = 8;
         break;
     case 8:
-        func_021DB6A0(obj);
+        WIFIBATTLEMATCH_NET_GdbShutdown(obj);
         return 2;
     }
     return 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02164480",
+   "name": "FIELD_SKILL_CHECK_FillUseFlags",
    "address": "0x02164480",
    "kind": "game",
    "region": "ov010",

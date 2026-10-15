@@ -1,5 +1,5 @@
 /*
- * function: func_021DA4F8
+ * function: WIFIBATTLEMATCH_NET_GetMatchKeyValue
  * address:  0x021DA4F8
  * packet:   pkt_021DA4F8
  * region:   ov175
@@ -22,7 +22,7 @@ typedef unsigned long u32;
 
 extern int DWC_GetMatchIntValue(int index, const char *key, int idefault);
 
-int func_021DA4F8(int index, void *param)
+int WIFIBATTLEMATCH_NET_GetMatchKeyValue(int index, void *param)
 {
     char *p = param;
     int b, a, c, d;

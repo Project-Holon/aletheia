@@ -1,5 +1,5 @@
 /*
- * function: func_021F6E74
+ * function: STA_ACT_LIGHT_NoOp
  * address:  0x021F6E74
  * packet:   pkt_ov112_021F6E74
  * region:   ov112
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021F6E74(void) { }
+void STA_ACT_LIGHT_NoOp(void) { }

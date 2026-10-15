@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0C4
+ * function: CTVT_CALL_PrintMessage
  * address:  0x021BD0C4
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -21,7 +21,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -43,9 +43,9 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 typedef unsigned short u16;
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
-void func_021BD0C4(void *a0, char *a1, int a2)
+void CTVT_CALL_PrintMessage(void *a0, char *a1, int a2)
 {
     u32 x = COMM_TVT_SYS_GetFont(a0);
     u32 y = COMM_TVT_SYS_GetMsgData(a0);
@@ -56,6 +56,6 @@ void func_021BD0C4(void *a0, char *a1, int a2)
     w = (u32)func_02045EC0((struct MsgBank *)y, a2);
     PRINTSYS_PrintQueColor((void *)z, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00543 *)a1)->f2C), 0, 0, w, x, 0x440);
     STRBUF_Delete((struct U16Vec *)w);
-    func_0201F73C((void *)(((struct Obj00543 *)a1)->f2C), 2, 0x140, 9);
+    BMP_MENUWORK_DrawWindow((void *)(((struct Obj00543 *)a1)->f2C), 2, 0x140, 9);
     ((struct Obj00543 *)a1)->f20 = 1;
 }

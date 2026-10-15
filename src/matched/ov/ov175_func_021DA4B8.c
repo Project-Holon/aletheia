@@ -1,5 +1,5 @@
 /*
- * function: func_021DA4B8
+ * function: WIFIBATTLEMATCH_NET_AddMatchKey
  * address:  0x021DA4B8
  * packet:   pkt_021DA4B8
  * region:   ov175
@@ -33,7 +33,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 DWC_AddMatchKeyInt(u8 keyID, const char *keyString, const int *valueSrc);
 extern const char *const d_021E2E10[];
 
-void func_021DA4B8(char *obj, int i, int value)
+void WIFIBATTLEMATCH_NET_AddMatchKey(char *obj, int i, int value)
 {
     struct MatchKey *k = (struct MatchKey *)(obj + 0xc4) + i;
 

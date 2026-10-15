@@ -17,7 +17,7 @@
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -56,7 +56,7 @@ extern struct Slot *BMP_MENUWORK_Create(u32, u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *, u32, u32, u32, u32);
 struct Src;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
@@ -87,7 +87,7 @@ void WIFICLUB_CreateAnswerMenu(char *p)
         }
     }
     *(u32 *)&((struct Obj01244 *)p)->f1A4 = BMP_WIN_Create(2, 16, (u8)((3 - n) * 2 + 11), 15, n * 2, 15, 1);
-    func_0201F73C(((struct Obj01244 *)p)->f1A4, 2, (u16)(((struct Obj01244 *)p)->f1334), 14);
+    BMP_MENUWORK_DrawWindow(((struct Obj01244 *)p)->f1A4, 2, (u16)(((struct Obj01244 *)p)->f1334), 14);
     desc.w0 = *(u32 *)&((struct Obj01244 *)p)->fB8;
     desc.wc = *(u32 *)&((struct Obj01244 *)p)->f1A4;
     desc.w2c = *(u32 *)&((struct Obj01244 *)p)->f1B4;

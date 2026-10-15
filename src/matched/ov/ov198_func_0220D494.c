@@ -1,5 +1,5 @@
 /*
- * function: func_0220D494
+ * function: B_PLIST_DRAW_PrintCenterPair
  * address: 0x0220D494
  * packet: pkt_ov198_0220D494
  * region: ov198
@@ -15,8 +15,8 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *
@@ -52,10 +52,10 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-void func_0220D494(u8 *p, int slot, int a2, int a3)
+void B_PLIST_DRAW_PrintCenterPair(u8 *p, int slot, int a2, int a3)
 {
     u8 *tab;
     void *handle;
@@ -85,8 +85,8 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     STRBUF_Delete(text);
     text2 = func_02045EC0(P->f1EA0, 0x36);
     h2 = STRBUF_Create(6, P->hdr->f10);
-    func_0201EFA4(P->f1EA4, 0, a2, 3, 0, 1);
-    func_0201F250(P->f1EA4, h2, text2);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, a2, 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, h2, text2);
     w2 = func_0201D304(h2, P->hdr->font, 0);
     ctx2 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx2, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (s16)(x - w2), (s16)0, (u32)h2, P->hdr->font, (u32)0x3DC0);
@@ -95,8 +95,8 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     STRBUF_Delete(h2);
     text3 = func_02045EC0(P->f1EA0, 0x37);
     h3 = STRBUF_Create(6, P->hdr->f10);
-    func_0201EFA4(P->f1EA4, 0, a3, 3, 0, 1);
-    func_0201F250(P->f1EA4, h3, text3);
+    WORDSET_SetSlotNumber(P->f1EA4, 0, a3, 3, 0, 1);
+    WORDSET_CopyTaggedText(P->f1EA4, h3, text3);
     ctx3 = P->f1EAC;
     PRINTSYS_PrintQueColor((void *)ctx3, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (s16)(x + w1), (s16)0, (u32)h3, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;

@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02025B3C",
+   "name": "BMP_OAM_GetRecordIndex",
    "address": "0x02025B3C",
    "kind": "game",
    "region": "arm9",
@@ -78,7 +78,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02025BA0"
+    "BMP_OAM_GetRecordField"
+   ],
+   "addresses": [
+    "0x02025BA0"
    ],
    "evidence": {
     "sole-ref": [
@@ -99,8 +102,8 @@
    "status": "EXACT",
    "functions": [
     "BMP_OAM_Check5BEC",
-    "sub_02025C1C",
-    "sub_02025C30"
+    "BMP_OAM_CheckRangeGetId",
+    "BMP_OAM_CheckRangeGetMin"
    ],
    "addresses": [
     "0x02025BEC",

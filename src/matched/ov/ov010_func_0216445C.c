@@ -1,5 +1,5 @@
 /*
- * function: func_0216445C
+ * function: FIELD_MAP_CHANGE_ResetGimmickStateCase3
  * address:  0x0216445C
  * packet:   pkt_ov010_0216445C
  * region:   ov010
@@ -23,7 +23,7 @@
 
 extern int FIELD_ENCOUNT_ST_ResetGimmickState(int a0);
 
-int func_0216445C(int a, int b)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int a, int b)
 {
     return FIELD_ENCOUNT_ST_ResetGimmickState(a);
 }

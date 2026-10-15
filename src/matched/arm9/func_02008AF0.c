@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02008AF0
+ * function: CONSOLE_STAMP_Init
  * address:  0x02008AF0
  * packet:   pkt_02008AF0
  * region:   arm9
@@ -22,7 +22,7 @@ extern void MIi_CpuClearFast(u32 val, void *dst, u32 size);
 struct Sub02008AECSession;
 extern void func_02008B9C(struct Sub02008AECSession *s);
 
-void func_02008AF0(void *obj)
+void CONSOLE_STAMP_Init(void *obj)
 {
     MIi_CpuClearFast(0, obj, 0x5C);
     func_02008B9C((struct Sub02008AECSession *)((u8 *)obj + 0x10));

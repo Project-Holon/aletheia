@@ -1,5 +1,5 @@
 /*
- * function: func_021F4CA4
+ * function: NAMEIN_GRAPHIC_Empty
  * address: 0x021F4CA4
  * packet: pkt_ov194_021F4CA4
  * region: ov194
@@ -11,4 +11,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F4CA4(u8 *a0) {}
+void NAMEIN_GRAPHIC_Empty(u8 *a0) {}

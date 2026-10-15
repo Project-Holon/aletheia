@@ -128,7 +128,7 @@
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   BTLV_GAUGE_UpdateHpBarPixels  0x0220793C  thumb  ov094
  *   func_0201D304 0x0201D304 thumb
- *   func_0201F35C 0x0201F35C thumb
+ *   WORDSET_FormatNumber 0x0201F35C thumb
  *   sGaugeStatusAnimTable     0x0220AAF0  data   ov094  a4
  *   sGaugeHomeOffset     0x0220AAB8  data  ov094  a2
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
@@ -778,7 +778,7 @@ extern void BMP_Delete(struct BmpData *bmp);
 
 extern int func_0202D034(u32 value, u32 maxValue);
 
-extern void func_0201F35C(struct Strbuf *str, int value, u32 digits, u32 mode, u32 padding);
+extern void WORDSET_FormatNumber(struct Strbuf *str, int value, u32 digits, u32 mode, u32 padding);
 
 extern void CLACT_SetActorAnimSeq(struct ClActor *actor, u16 animSeq);
 
@@ -1465,7 +1465,7 @@ void BTLV_GAUGE_DrawLevel(BtlvGaugeWork *work, BtlvGaugeSlot *slot)
     text = STRBUF_Create(4, (u16)((work->heapId & 0x7fff) | 0x8000));
     bmp = BMP_Create(3, 2, 32, (u16)((work->heapId & 0x7fff) | 0x8000));
     BMP_Clear(bmp, 0);
-    func_0201F35C(text, slot->level, 3, 0, 0);
+    WORDSET_FormatNumber(text, slot->level, 3, 0, 0);
     GF_FONT_GetTextColor(&textColor[2], &textColor[1], &textColor[0]);
     GF_FONT_SetTextColor(1, 4, 0);
     PRINTSYS_Print(bmp, 0, 5, text, work->font);

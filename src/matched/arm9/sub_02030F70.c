@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   TCBL_PushFreeTask  0x02030F34  arm
  *
  * Destroy one task-callback node: release the work block the registrar
@@ -53,7 +53,7 @@ struct TcblNode {
     TcblFunc         func;
 };
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 struct Node02030F34;
 struct S02030F34;
 extern void TCBL_PushFreeTask(struct S02030F34 *p, struct Node02030F34 *node);
@@ -62,7 +62,7 @@ void TCBL_FreeTask(struct TcblNode *n)
 {
     n->func = 0;
     if (n->work != 0) {
-        sub_020307B0(n->work);
+        GFL_HEAP_Free(n->work);
     }
     n->prev->next = n->next;
     n->next->prev = n->prev;

@@ -21,7 +21,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   func_02045B38 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -34,15 +34,15 @@
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Main 0x020310C4 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GF_FONT_Create_EC64 0x0201EC64 thumb
- *   func_0201EE84 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
@@ -103,7 +103,7 @@ extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -116,15 +116,15 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
-extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,unsigned,unsigned,void *,unsigned,u16,u16);
@@ -175,7 +175,7 @@ void EGG_DEMO_MENU_Create(int unused,char *p)
     ((struct Obj01296 *)p)->f58=BMP_WIN_Create(1,1,19,30,4,1,0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01296 *)p)->f58)),15);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01296 *)p)->f58);
-    ((struct Obj01296 *)p)->f60=(u32)func_0201F5DC((void *)1,2,0,((struct Obj01296 *)p)->f0);
+    ((struct Obj01296 *)p)->f60=(u32)BMP_MENUWORK_LoadFrameGfx((void *)1,2,0,((struct Obj01296 *)p)->f0);
     ((struct Obj01296 *)p)->f64=(u32)func_02045B38(0,3,260,((struct Obj01296 *)p)->f0);
     ((struct Obj01296 *)p)->f54=(u32)TCBL_Create(((struct Obj01296 *)p)->f0,((struct Obj01296 *)p)->f0,1,0);
     GF_FONT_SetTextColor(1,2,15);
@@ -205,7 +205,7 @@ void EGG_DEMO_MENU_Main(void *unused, char *p)
 void EGG_DEMO_MENU_Draw(void *unused, char *p)
 {
     void *obj;
-    func_0201F73C(((struct Obj10939 *)p)->f58, 0, (u16)(((struct Obj10939 *)p)->f60), 2);
+    BMP_MENUWORK_DrawWindow(((struct Obj10939 *)p)->f58, 0, (u16)(((struct Obj10939 *)p)->f60), 2);
     obj = ((struct Obj10939 *)p)->f58;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
@@ -223,10 +223,10 @@ void EGG_DEMO_MENU_SetText(char *object,char *p,unsigned entry)
     if(((struct Obj01590 *)p)->f68) STRBUF_Delete(((struct Obj01590 *)p)->f68);
     text=func_02045EC0(((struct Obj01590 *)p)->f64,entry);
     words=GF_FONT_Create_EC64(((struct Obj01590 *)p)->f0);
-    func_0201EE84(words,0,((struct Obj02261 *)object)->f4);
+    WORDSET_SetSlotMonName(words,0,((struct Obj02261 *)object)->f4);
     buffer=STRBUF_Create(256,((struct Obj01590 *)p)->f0);
     ((struct Obj01590 *)p)->f68=buffer;
-    func_0201F250(words,buffer,text);
+    WORDSET_CopyTaggedText(words,buffer,text);
     WORDSET_DeleteStrbufED04(words);
     STRBUF_Delete(text);
     ((struct Obj01590 *)p)->f50=PRINTSYS_PrintStream(((struct Obj01590 *)p)->f58,0,0,((struct Obj01590 *)p)->f68,((struct Obj01590 *)p)->f8,MSG_SPEED_GetWait(),((struct Obj01590 *)p)->f54,2,((struct Obj01590 *)p)->f0,15);

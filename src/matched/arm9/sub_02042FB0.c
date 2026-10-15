@@ -1,5 +1,5 @@
 /*
- * function: sub_02042FB0
+ * function: BG_SYS_SetupTileScreen
  * address:  0x02042FB0
  * packet:   pkt_02042B24
  * region:   arm9
@@ -12,16 +12,16 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_02040EE0  0x02040EE0  arm
+ *   BG_SYS_GetTileMapEntry  0x02040EE0  arm
  *
  * Poke one tile entry into the screen buffer of table slot `idx`.  The
  * table is the 0x2c-byte-per-slot array hanging off the singleton pointer
  * at 0x02146A44 (the same one BG_SYS_Delete_03F4 tears down): +8 is the screen
- * buffer and +0x1d the screen-size code that tells func_02040EE0 how to
+ * buffer and +0x1d the screen-size code that tells BG_SYS_GetTileMapEntry how to
  * fold (x, y) into a linear index.  A slot with no buffer is skipped.
  *
  * The three `and rN, rM, #0xff` are the truncations at the call, not casts
- * in this function's own arithmetic; func_02040EE0 takes three u8.
+ * in this function's own arithmetic; BG_SYS_GetTileMapEntry takes three u8.
  */
 
 typedef unsigned char  u8;
@@ -38,9 +38,9 @@ struct Slot {
 
 extern struct Slot *g_02146A44;
 
-extern u16 func_02040EE0(int x, int y, u32 code);
+extern u16 BG_SYS_GetTileMapEntry(int x, int y, u32 code);
 
-void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
+void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value)
 {
     struct Slot *slot = &g_02146A44[idx];
     u16 *screen = slot->screen;
@@ -50,5 +50,5 @@ void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
         return;
     }
 
-    screen[(u32)func_02040EE0((u8)x, (u8)y, (u8)code)] = value;
+    screen[(u32)BG_SYS_GetTileMapEntry((u8)x, (u8)y, (u8)code)] = value;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F42A0
+ * function: NAMEIN_GRAPHIC_DeleteIconActor
  * address: 0x021F42A0
  * packet: pkt_ov194_021F42A0
  * region: ov194
@@ -31,7 +31,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void MI_CpuFill8(unsigned char *,unsigned,unsigned);
-void func_021F42A0(unsigned char *p) {
+void NAMEIN_GRAPHIC_DeleteIconActor(unsigned char *p) {
     if (((struct Obj03342 *)p)->f2C) {
         CLACT_ReleasePalette(((struct Obj03342 *)p)->f24);
         STRBUF_Delete(((struct Obj03342 *)p)->f28);

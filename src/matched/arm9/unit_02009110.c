@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009110, sub_02009134
+ * function: CGEAR_SAVE_GetPanelValue, CGEAR_SAVE_GetPanelFlag
  *
  * Two readers of the 9 by 4 byte table at the front of the 0x2C-byte object
  * whose accessors are in src/matched/unit_020090D8.c.  Each byte of that table
@@ -43,7 +43,7 @@ struct Sub020090B0Obj {
     u8  unk29[3];
 };
 
-u32 sub_02009110(const struct Sub020090B0Obj *obj, int row, int col)
+u32 CGEAR_SAVE_GetPanelValue(const struct Sub020090B0Obj *obj, int row, int col)
 {
     if (row >= 9 || row < 0) {
         return 0;
@@ -54,7 +54,7 @@ u32 sub_02009110(const struct Sub020090B0Obj *obj, int row, int col)
     return obj->unk00[row][col] & 0xF;
 }
 
-int sub_02009134(const struct Sub020090B0Obj *obj, int row, int col)
+int CGEAR_SAVE_GetPanelFlag(const struct Sub020090B0Obj *obj, int row, int col)
 {
     if (row >= 9 || row < 0) {
         return 0;

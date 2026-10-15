@@ -58,7 +58,7 @@
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   DaysPerMonthTable  0x02171C20  data  ov010  a1
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb ov010
- *   func_02011330  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb ov010
  *   FLD_FACEUP_Create  0x021F5260  thumb ov082
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb ov010
@@ -223,7 +223,7 @@ extern int FIELD_CLOCK_GetDay(struct GameData *gameData);
 extern u8 ZONEDATA_GetWeatherId(u32 zoneId);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 fileId, u32 offset, u32 size, void *dst);
 extern struct ScriptSystem *SCRCMD_WORK_GetScriptWork(struct ScrCmdWork *work);
-extern u16 func_02011330(struct ScriptVm *vm);
+extern u16 VM_ReadU16(struct ScriptVm *vm);
 extern void SCRIPT_WORK_SetCheckFlag(int waitState);
 extern void *FLD_FACEUP_Create(int type, int variant, int option, struct GameSystem *gameSystem, struct ScrCmdWork *work);
 extern void SCRIPT_SYS_CallEvent(struct ScriptSystem *scriptSystem, void *task);
@@ -655,9 +655,9 @@ int FLD_FACEUP_ScrCmdStart(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
     struct ScriptSystem *scriptSystem = SCRCMD_WORK_GetScriptWork(work);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    u8 type = func_02011330(vm);
-    u8 variant = func_02011330(vm);
-    u32 option = func_02011330(vm);
+    u8 type = VM_ReadU16(vm);
+    u8 variant = VM_ReadU16(vm);
+    u32 option = VM_ReadU16(vm);
     void *task;
 
     SCRIPT_WORK_SetCheckFlag(7);

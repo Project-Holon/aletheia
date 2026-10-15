@@ -1,5 +1,5 @@
 /*
- * function: func_021C4230
+ * function: WIFI_2DCHAR_SetActorDrawEnable
  * address:  0x021C4230
  * packet:   pkt_021C4230
  * region:   ov127
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021C4230(char *p, int a)
+void WIFI_2DCHAR_SetActorDrawEnable(char *p, int a)
 {
     CLACT_SetActorDrawEnable(((struct Obj10464 *)p)->f4, a);
     if (((struct Obj10464 *)p)->f8 != 0)

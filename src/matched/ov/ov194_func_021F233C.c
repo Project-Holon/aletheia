@@ -1,5 +1,5 @@
 /*
- * function: func_021F233C
+ * function: NAMEIN_GRAPHIC_ClearSecondary
  * address:  0x021F233C
  * packet:   pkt_021F233C
  * region:   ov194
@@ -16,7 +16,7 @@
 
 extern unsigned int GX_GetBankForLCDC(void);
 
-void func_021F233C(char *p)
+void NAMEIN_GRAPHIC_ClearSecondary(char *p)
 {
     if (((struct Obj03897 *)p)->f20 != 0)
     {

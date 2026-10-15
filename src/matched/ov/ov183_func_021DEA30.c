@@ -1,5 +1,5 @@
 /*
- * function: func_021DEA30
+ * function: BR_CODEIN_StatDestroy
  * address: 0x021DEA30
  * packet: pkt_ov183_021DEA30
  * region: ov183
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DF388 0x021DF388 thumb ov183
+ *   BR_CODEIN_SearchDeleteList 0x021DF388 thumb ov183
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
@@ -27,7 +27,7 @@
 typedef unsigned char  u8;
 struct PrintSys;
 struct S020315D4;
-extern void func_021DF388(char *p);
+extern void BR_CODEIN_SearchDeleteList(char *p);
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
@@ -38,11 +38,11 @@ extern void BR_UTIL_DeleteHandles(char *r5);
 extern void BMP_OAM_DeleteSys(void *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *p);
-int func_021DEA30(void *a, int b, char *q, char *p)
+int BR_CODEIN_StatDestroy(void *a, int b, char *q, char *p)
 {
     int i;
     if (((struct Obj00923 *)p)->f100 != 0) {
-        func_021DF388(p + 0x28);
+        BR_CODEIN_SearchDeleteList(p + 0x28);
         ((struct Obj00923 *)p)->f100 = 0;
     }
     if (((struct Obj00923 *)p)->fC != 0) {

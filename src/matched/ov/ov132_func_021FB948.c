@@ -1,5 +1,5 @@
 /*
- * function: func_021FB948
+ * function: SCRIPT_COMMAND_CmdRotateActor
  * address: 0x021FB948
  * packet: pkt_ov132_021FB948
  * region: ov132
@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021FB1F4 0x021FB1F4 thumb ov132
+ *   SCRIPT_COMMAND_GetActorMask 0x021FB1F4 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   func_02030734 0x02030734 arm
- *   func_021FADA0 0x021FADA0 thumb ov132
- *   func_021FBA14 0x021FBA14 thumb ov132
+ *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
+ *   SCRIPT_COMMAND_TaskRotate 0x021FBA14 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
 #include "../include/Obj03824.h"
@@ -26,21 +26,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021FB1F4(char *,int);
+extern int SCRIPT_COMMAND_GetActorMask(char *,int);
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void *func_021FADA0(char *,u32,u32,u32);
-extern void func_021FBA14(int,int *);
+extern void *STA_ACT_SCRIPT_AddTask(char *,u32,u32,u32);
+extern void SCRIPT_COMMAND_TaskRotate(int,int *);
 extern const char d_021FDD00[];
-int func_021FB948(int unused,char *p)
+int SCRIPT_COMMAND_CmdRotateActor(int unused,char *p)
 {
     char *owner,*q;
     int mask;
     u32 rate,start,delta,wait;
     u8 i;
     owner=*(char * *)&((struct Obj04518 *)p)->f0;
-    mask=func_021FB1F4(p,VM_GetU32(((struct Obj04518 *)p)->f4));
+    mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(((struct Obj04518 *)p)->f4));
     rate=VM_GetU32(((struct Obj04518 *)p)->f4);
     start=VM_GetU32(((struct Obj04518 *)p)->f4);
     delta=VM_GetU32(((struct Obj04518 *)p)->f4);
@@ -56,7 +56,7 @@ int func_021FB948(int unused,char *p)
             ((struct Obj03824 *)q)->f8=start+delta;
             ((struct Obj03824 *)q)->fC=rate;
             ((struct Obj03824 *)q)->fE=0;
-            ((struct Obj03824 *)q)->f20=func_021FADA0(owner,(u32)func_021FBA14,(u32)q,10);
+            ((struct Obj03824 *)q)->f20=STA_ACT_SCRIPT_AddTask(owner,(u32)SCRIPT_COMMAND_TaskRotate,(u32)q,10);
         }
     }
     if(wait==1) {((struct Obj04518 *)p)->f14=rate;return 1;}

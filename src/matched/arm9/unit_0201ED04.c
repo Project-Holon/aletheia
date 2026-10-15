@@ -10,12 +10,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: WORDSET_DeleteStrbufED04, WORDSET_Init, func_0201ED64, func_0201ED84,
- *           func_0201EDD0, func_0201EE0C, WORDSET_Callback, func_0201EE84,
- *           func_0201EEA4, WORDSET_Callback_EEC4, func_0201EED4, func_0201EEF4,
- *           func_0201EF14, func_0201EF34, WORDSET_Callback_EF40, WORDSET_Callback_EF4C,
- *           func_0201EF5C, func_0201EF6C, func_0201EF8C, func_0201EF98,
- *           func_0201EFA4, func_0201EFC8
+ * function: WORDSET_DeleteStrbufED04, WORDSET_Init, WORDSET_ResetSlot, WORDSET_SetSlotText,
+ *           WORDSET_SetSlotFromMessage, WORDSET_SetSlotTag, WORDSET_Callback, WORDSET_SetSlotMonName,
+ *           WORDSET_SetSlotMonNameAlt, WORDSET_Callback_EEC4, WORDSET_SetSlotMonNameEx, WORDSET_SetSlotMonSpecies,
+ *           WORDSET_SetSlotMonSpeciesAlt, WORDSET_SetSlotFromMsgCB, WORDSET_Callback_EF40, WORDSET_Callback_EF4C,
+ *           WORDSET_SetSlotFromMsg118, WORDSET_SetSlotFromBank, WORDSET_SetSlotFromMsgB6, WORDSET_SetSlotFromMsg18,
+ *           WORDSET_SetSlotNumber, WORDSET_SetSlotPmsWord
  *
  * symbols:
  *   gSpeciesNameBank   0x020A7370  data
@@ -27,6 +27,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Copy  0x02045838  arm
  *   MSGDATA_Delete  0x02045C04  arm
+ *   WORDSET_FormatNumber  0x0201F35C  thumb
  *
  * 760 bytes, 0x0201ED04..0x0201EFFC, 22 functions, the body of wordset.c.
  * The file name is attested at the constructor 0x0201EC74, which is just
@@ -39,27 +40,27 @@
  *     struct Entry   { struct Tag tag; void *str; };     // 12 bytes
  *
  * and every setter in the file ends the same way, by handing a rendered
- * string to func_0201ED84, which copies the caller's five-byte Tag into the
+ * string to WORDSET_SetSlotText, which copies the caller's five-byte Tag into the
  * slot (or clears it when the caller passes NULL) and then copies the string
  * itself.  The five-byte tag is not a scalar: the byte at +3 is two
  * bitfields, a seven-bit value and a one-bit flag, which is what the
  * `ldrb`/`bics #0x7F`/`orrs` and `ldrb`/`bics #0x80`/`lsls #0x1F` pairs in
- * func_0201EE0C are.  Writing that byte as a plain u8 with masks costs a pool
+ * WORDSET_SetSlotTag are.  Writing that byte as a plain u8 with masks costs a pool
  * word and an `ands` for each of the two fields
  * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md is the same
  * effect on the reading side).
  *
  * WORDSET_Init is the tag clear and takes a `struct Tag *`, not a
- * `struct Entry *`: func_0201EE0C calls it on a bare stack local, which is
+ * `struct Entry *`: WORDSET_SetSlotTag calls it on a bare stack local, which is
  * what fixes the parameter type.  The two are the same address for an entry,
  * so the distinction is only visible at that one call site.
  *
  * WORDSET_Callback reaches a file-scope pointer at 0x020A7370.  Exactly two
  * literal pools in the image hold that address, this function's and
- * func_0201F344's in src/matched/unit_0201F0F8.c, so each file is the other's
+ * WORDSET_LoadSpeciesNameBank's in src/matched/unit_0201F0F8.c, so each file is the other's
  * `literal` witness and the two may not be merged into one range.
  *
- * func_0201EF6C is three separate early returns rather than one conjunction:
+ * WORDSET_SetSlotFromBank is three separate early returns rather than one conjunction:
  * each `bl` is followed by its own `pop`, which is the shape
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md
  * records for a chain the compiler does not tail-merge.
@@ -98,7 +99,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 PMSI_PARAM_ValidateWord(u16 *p, u32 mode, u32 flag);
 extern u32 PMSI_PARAM_ValidateDecoValue(u32 *p, u32 a);
 extern void PMS_WORD_LoadString(u32 id, void *dest, u32 heap);
-extern void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
+extern void WORDSET_FormatNumber(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
 
 struct Tag {
     u8 unk00;
@@ -122,14 +123,14 @@ struct WordSet {
 };
 
 extern void WORDSET_Init(struct Tag *t);
-extern void func_0201ED84(struct WordSet *p, u32 i, const void *src,
+extern void WORDSET_SetSlotText(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
-extern void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v);
+extern void WORDSET_SetSlotFromMessage(struct WordSet *p, u32 i, u32 id, u32 v);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg118(struct WordSet *p, u32 i, u32 v);
 
 u32 WORDSET_DeleteStrbufED04(struct WordSet *p)
 {
@@ -157,13 +158,13 @@ void WORDSET_Init(struct Tag *t)
     t->unk04 = 0;
 }
 
-void func_0201ED64(struct WordSet *p, u32 i)
+void WORDSET_ResetSlot(struct WordSet *p, u32 i)
 {
     WORDSET_Init(&p->entries[i].tag);
     STRBUF_Clear(p->entries[i].str);
 }
 
-void func_0201ED84(struct WordSet *p, u32 i, const void *src,
+void WORDSET_SetSlotText(struct WordSet *p, u32 i, const void *src,
                    const struct Tag *tag)
 {
     if (i < p->count) {
@@ -176,89 +177,89 @@ void func_0201ED84(struct WordSet *p, u32 i, const void *src,
     }
 }
 
-void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v)
+void WORDSET_SetSlotFromMessage(struct WordSet *p, u32 i, u32 id, u32 v)
 {
     void *s = func_02045B38(0, 2, (u16)id, (u16)p->heap);
 
     if (s != 0) {
         func_02045CAC(s, v, p->buf);
-        func_0201ED84(p, i, p->buf, 0);
+        WORDSET_SetSlotText(p, i, p->buf, 0);
         MSGDATA_Delete(s);
     }
 }
 
-void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c)
+void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c)
 {
     struct Tag tag;
 
     WORDSET_Init(&tag);
     tag.unk03 = n;
     tag.unk03b = (f == 0);
-    func_0201ED84(p, i, src, &tag);
+    WORDSET_SetSlotText(p, i, src, &tag);
 }
 
 void WORDSET_Callback(struct WordSet *p, u32 i, u16 v)
 {
     func_02045CAC(gSpeciesNameBank, v, p->buf);
-    func_0201ED84(p, i, p->buf, 0);
+    WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
-void func_0201EE84(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon)
 {
     WORDSET_Callback(p, i, func_02017E1C(mon, 5, 0));
 }
 
-void func_0201EEA4(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonNameAlt(struct WordSet *p, u32 i, void *mon)
 {
     WORDSET_Callback(p, i, func_02017E88(mon, 5, 0));
 }
 
 void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x119, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x119, v);
 }
 
-void func_0201EED4(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonNameEx(struct WordSet *p, u32 i, void *mon)
 {
     WORDSET_Callback_EEC4(p, i, (u16)func_02017E1C(mon, 5, 0));
 }
 
-void func_0201EEF4(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon)
 {
     func_02017E1C(mon, 0x73, (u32)p->buf);
-    func_0201ED84(p, i, p->buf, 0);
+    WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
-void func_0201EF14(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *p, u32 i, void *mon)
 {
     func_02017E88(mon, 0x73, (u32)p->buf);
-    func_0201ED84(p, i, p->buf, 0);
+    WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
-void func_0201EF34(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0xCB, v);
+    WORDSET_SetSlotFromMessage(p, i, 0xCB, v);
 }
 
 void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x36, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x36, v);
 }
 
 void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x117, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x117, v);
 }
 
-void func_0201EF5C(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg118(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x118, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x118, v);
 }
 
-void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b)
+void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b)
 {
     if (a != 0) {
-        func_0201EF5C(p, i, v);
+        WORDSET_SetSlotFromMsg118(p, i, v);
         return;
     }
     if (b != 0) {
@@ -268,28 +269,28 @@ void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b)
     WORDSET_Callback_EF40(p, i, v);
 }
 
-void func_0201EF8C(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0xB6, v);
+    WORDSET_SetSlotFromMessage(p, i, 0xB6, v);
 }
 
-void func_0201EF98(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg18(struct WordSet *p, u32 i, u32 v)
 {
-    func_0201EDD0(p, i, 0x18, v);
+    WORDSET_SetSlotFromMessage(p, i, 0x18, v);
 }
 
-void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d)
+void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d)
 {
-    func_0201F35C(p->buf, a, b, c, d);
-    func_0201ED84(p, i, p->buf, 0);
+    WORDSET_FormatNumber(p->buf, a, b, c, d);
+    WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
-void func_0201EFC8(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v)
 {
     u16 x = v;
 
     PMSI_PARAM_ValidateWord(&x, 0, 0);
     PMS_WORD_LoadString((u16)x, p->buf, (u16)p->heap);
-    func_0201ED84(p, i, p->buf, 0);
+    WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 

@@ -21,7 +21,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_020315D4 0x020315D4 arm
  *   func_0203084C 0x0203084C arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_Copy 0x02024570 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   func_02008F80 0x02008F80 thumb
@@ -64,7 +64,7 @@
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_02030D28 0x02030D28 arm
+ *   TCB_Main 0x02030D28 arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   PMSI_PARAM_IsComplete 0x02024464 thumb
@@ -95,12 +95,12 @@
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
- *   func_0201F7A8 0x0201F7A8 thumb
+ *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   APP_TASKMENU_WIN_TransChar 0x02028454 thumb
  *   APP_TASKMENU_WIN_ClearScreen  0x0202843C  thumb  arm9
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
- *   func_0201F73C   0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow   0x0201F73C  thumb
  */
 #include "mail_types.h"
 
@@ -117,7 +117,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_020315D4(struct S020315D4 *v);
 extern void func_0203084C(u16 v);
-extern void func_020306F0(u32 v);
+extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
 extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
 extern u32 func_02008F80(const struct Mail *mail);
@@ -153,7 +153,7 @@ extern void PMS_DRAW_Main(struct PmsDraw *p);
 extern void APP_TASKMENU_WIN_Update(struct AppTaskMenuWin *p);
 extern void func_02030EAC(void *task);
 extern void CLACT_DrawSystem(struct ClactUnit *p);
-extern void func_02030D28(void *taskList);
+extern void TCB_Main(void *taskList);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *ps);
 extern int PMSI_PARAM_IsComplete(const struct PmsData *p, u32 a1);
@@ -166,7 +166,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(struct AppTaskMenuWin *p, int v);
 extern void APP_TASKMENU_WIN_SetActive(struct AppTaskMenuWin *obj, u32 a);
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern void func_0201F73C(struct BmpWin *win, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int, int, int);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern void BMP_Clear(void *buf, u8 value);
 extern void func_02045CAC(struct MsgData *bank, u32 index, struct Strbuf *dest);
@@ -179,7 +179,7 @@ extern u32 APP_TASKMENU_WIN_IsFinish(struct AppTaskMenuWin *p);
 extern void APP_TASKMENU_WIN_ResetDecide(struct AppTaskMenuWin *obj);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamDelete(void *p);
-extern void func_0201F7A8(struct BmpWin *win, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void BMP_WIN_ClearScreen(struct BmpWin *d);
 extern struct Strbuf *func_02045EC0(struct MsgData *bank, u32 index);
 extern struct AppTaskMenu *APP_TASKMENU_OpenMenu(struct MailMenuTemplate *tmpl, struct AppTaskMenuRes *res);
@@ -302,7 +302,7 @@ int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc)
     h = proc->heapId;
     func_020315D4(a);
     func_0203084C(h);
-    func_020306F0((u16)h);
+    GFL_HEAP_DeleteChecked((u16)h);
     return 1;
 }
 
@@ -366,7 +366,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
     if (proc->clactUnit)
         CLACT_DrawSystem(proc->clactUnit);
     if (proc->blinkTaskList)
-        func_02030D28(proc->blinkTaskList);
+        TCB_Main(proc->blinkTaskList);
     if (proc->tcbl)
         TCBL_Main(proc->tcbl);
     if (proc->printQue)
@@ -559,7 +559,7 @@ int MAILSYS_HandleInput(struct MailEditProc *proc)
 void MAILSYS_PrintMessageText(struct MailEditProc *proc, int msgId)
 {
     struct BmpWin *win;
-    func_0201F73C(proc->win[6], 2, 13, 4);
+    BMP_MENUWORK_DrawWindow(proc->win[6], 2, 13, 4);
     BMP_Clear(BMP_WIN_GetBmp(proc->win[6]), 255);
     func_02045CAC(proc->msgData, msgId, proc->msgBuf);
     proc->printStream = PRINTSYS_PrintStream(proc->win[6], 0, 0, proc->msgBuf, proc->font, proc->textSpeed, proc->tcbl, 4, (u16)proc->heapId, 15);
@@ -595,7 +595,7 @@ int MAILSYS_StepIncompleteNotice(struct MailEditProc *proc)
         }
         break;
     case 3:
-        func_0201F7A8(proc->win[6], 2);
+        BMP_MENUWORK_DrawWindowBorder(proc->win[6], 2);
         win = proc->win[6];
         BMP_WIN_ClearScreen(win);
         func_020409B4(BMP_WIN_GetBgLayer(win));
@@ -675,7 +675,7 @@ int MAILSYS_StepQuitConfirm(struct MailEditProc *proc)
         r = MAILSYS_PollConfirmMenu(proc);
         if (r < 0)
             return 0;
-        func_0201F7A8(proc->win[6], 2);
+        BMP_MENUWORK_DrawWindowBorder(proc->win[6], 2);
         win = proc->win[6];
         BMP_WIN_ClearScreen(win);
         func_020409B4(BMP_WIN_GetBgLayer(win));

@@ -1,5 +1,5 @@
 /*
- * function: func_021CB9BC
+ * function: BSUBWAY_SCR_CreateYesNoMenuTask
  * address:  0x021CB9BC
  * packet:   pkt_ov021_021CB9BC
  * region:   ov021
@@ -14,7 +14,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021CB934  0x021CB934  thumb
+ *   BSUBWAY_SCR_YesNoMenuMain  0x021CB934  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -28,11 +28,11 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021CB934(void *task, int *state, void *work);
+extern int BSUBWAY_SCR_YesNoMenuMain(void *task, int *state, void *work);
 
-void *func_021CB9BC(void *a, u32 owner, u32 result, u32 arg)
+void *BSUBWAY_SCR_CreateYesNoMenuTask(void *a, u32 owner, u32 result, u32 arg)
 {
-    void *task = func_020122C0(a, 0, (TaskFn)func_021CB934, 0x10);
+    void *task = func_020122C0(a, 0, (TaskFn)BSUBWAY_SCR_YesNoMenuMain, 0x10);
     u32 *w = func_020124E8(task);
 
     w[0] = owner;

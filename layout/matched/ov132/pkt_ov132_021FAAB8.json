@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FAAB8",
+   "name": "STA_ACT_BUTTON_SetVisible",
    "address": "0x021FAAB8",
    "kind": "game",
    "region": "ov132",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9804
+ * function: WIFIBATTLEMATCH_NET_StartRegCardAnim
  * address:  0x021D9804
  * packet:   pkt_021D9804
  * region:   ov175
@@ -28,7 +28,7 @@ extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 extern u32 func_021E7520(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g,
                          u32 h, u32 i, u32 j, u32 k);
 
-void func_021D9804(u32 *obj, u32 arg)
+void WIFIBATTLEMATCH_NET_StartRegCardAnim(u32 *obj, u32 arg)
 {
     if (obj[8] == 0) {
         u32 base = func_021E5548((int *)obj[0]);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF428
+ * function: BR_CODEIN_SearchCreateActor
  * address: 0x021DF428
  * packet: pkt_ov183_021DF428
  * region: ov183
@@ -22,7 +22,7 @@
  *   func_0201BCB4 0x0201BCB4 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021DF838 0x021DF838 thumb ov183
+ *   BR_CODEIN_SearchBuildHeader 0x021DF838 thumb ov183
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -48,7 +48,7 @@ extern int func_0201BCB4(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void MI_CpuFill8(void *,u32,u32);
-extern void func_021DF838(int p, char *out);
+extern void BR_CODEIN_SearchBuildHeader(int p, char *out);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
@@ -56,7 +56,7 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021DF428(struct State *p,u32 mgr,u16 heap)
+void BR_CODEIN_SearchCreateActor(struct State *p,u32 mgr,u16 heap)
 {
     int i,j;
     void *archive;
@@ -76,7 +76,7 @@ void func_021DF428(struct State *p,u32 mgr,u16 heap)
     pos.a=i;
     pos.b=i;
     for(i=0;i<n;i++) {
-        func_021DF838((int)(p->source+i*0xc4),(char *)(&e));
+        BR_CODEIN_SearchBuildHeader((int)(p->source+i*0xc4),(char *)(&e));
         for(j=0;j<6;j++) {
             species=e.species[j];
             if(species==0) species=1;

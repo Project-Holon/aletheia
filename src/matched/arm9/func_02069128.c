@@ -1,5 +1,5 @@
 /*
- * function: func_02069128
+ * function: NNSi_G2dFillScrCharArea
  * address:  0x02069128
  * packet:   pkt_02069078
  * region:   arm9
@@ -11,7 +11,7 @@
  * The linear half of NitroSystem's NNS_G2dMapScrToCharText (g2d_CharCanvas):
  * fill an areaWidth x areaHeight block of a text-BG screen whose rows are
  * scnWidth entries apart with consecutive character numbers, palette
- * `cplt` in the top four bits of every entry.  func_02069078 calls it for
+ * `cplt` in the top four bits of every entry.  NNS_G2dMapScrToCharText calls it for
  * screens no wider than 32 entries.
  *
  * Three spellings decide it, all measured:
@@ -26,7 +26,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02069128(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt)
+void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt)
 {
     int x, y;
     const u16 cpltMask = (u16)(cplt << 12);

@@ -1,5 +1,5 @@
 /*
- * function: func_021A8198
+ * function: FIELD_GROUND_ANIME_GetRailEntryPos
  * address:  0x021A8198
  * packet:   pkt_ov021_021A8198
  * region:   ov021
@@ -35,7 +35,7 @@ extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *p);
 extern int FIELD_PLAYER_GetNogridLocationByDir(u8 *p, u32 k, void *buf);
 extern void FIELD_RAIL_GetLocationPos(void *p, int *in, V *out);
 
-void func_021A8198(void *a, V *out)
+void FIELD_GROUND_ANIME_GetRailEntryPos(void *a, V *out)
 {
     void *ctx;
     int k;

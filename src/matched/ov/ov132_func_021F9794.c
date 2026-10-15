@@ -12,7 +12,7 @@
  * symbols:
  *   STA_ACTING_TickActionTimers 0x021F9A48 thumb ov132
  *   STA_NET_SendKindA 0x021FD8C4 thumb ov132
- *   func_021F79A8 0x021F79A8 thumb ov112
+ *   STA_ACT_LIGHT_HandleElemAnim 0x021F79A8 thumb ov112
  *   STA_ACTING_ScheduleActions 0x021F9AD8 thumb ov132
  *   func_02005728 0x02005728 thumb
  *   STA_SLOT_GetCurrentKey 0x021FD9FC thumb ov132
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void STA_ACTING_TickActionTimers(char *);
 extern int STA_NET_SendKindA(void *, int);
-extern void func_021F79A8(char *, char *, int);
+extern void STA_ACT_LIGHT_HandleElemAnim(char *, char *, int);
 extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
 extern u32 func_02005728(u32);
 extern int STA_SLOT_GetCurrentKey(char *p);
@@ -57,7 +57,7 @@ void STA_ACTING_ProcessRecords(char *p)
     if (!**(void ** *)&((struct Obj00159 *)p)->f30) {
         for (i = 0; i < 4; i++) {
             if (*(int *)(p + i * 4 + 0xFC) == 1) {
-                func_021F79A8(*(char * *)&((struct Obj00159 *)p)->f40, *(char **)(p + i * 4 + 0x44), *(int *)(p + i * 4 + 0x10C));
+                STA_ACT_LIGHT_HandleElemAnim(*(char * *)&((struct Obj00159 *)p)->f40, *(char **)(p + i * 4 + 0x44), *(int *)(p + i * 4 + 0x10C));
                 slots[count] = i;
                 count++;
                 *(int *)(p + i * 4 + 0xFC) = 0;
@@ -88,7 +88,7 @@ void STA_ACTING_ProcessRecords(char *p)
         for (i = 0; i < 4; i++) {
             action = STA_SLOT_GetStateByKey(**(void ** *)&((struct Obj00159 *)p)->f30, i);
             if (action != 10) {
-                func_021F79A8(*(char * *)&((struct Obj00159 *)p)->f40, *(char **)(p + i * 4 + 0x44), action);
+                STA_ACT_LIGHT_HandleElemAnim(*(char * *)&((struct Obj00159 *)p)->f40, *(char **)(p + i * 4 + 0x44), action);
                 STA_SLOT_ResetStateByKey(**(void ** *)&((struct Obj00159 *)p)->f30, i);
                 if (action == 7) *(int *)(p + i * 8 + 0x13C) = 1;
                 else if (action == 8) *(int *)(p + i * 8 + 0x140) = 1;

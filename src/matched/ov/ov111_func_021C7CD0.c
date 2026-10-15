@@ -1,5 +1,5 @@
 /*
- * function: func_021C7CD0
+ * function: VIEWER_ACTOR_HandleDrag
  * address:  0x021C7CD0
  * packet:   pkt_ov111_021C7CD0
  * region:   ov111
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7C78  0x021C7C78  thumb
- *   func_021C7C94  0x021C7C94  thumb
+ *   VIEWER_ACTOR_WrapAngle  0x021C7C78  thumb
+ *   VIEWER_ACTOR_StepBounce  0x021C7C94  thumb
  *   d_021C88B4  0x021C88B4  data
  *
  * Addresses are Black-image addresses.
@@ -98,11 +98,11 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern int func_021C7C78(int v, int range);
-extern void func_021C7C94(Work *p);
+extern int VIEWER_ACTOR_WrapAngle(int v, int range);
+extern void VIEWER_ACTOR_StepBounce(Work *p);
 extern const int d_021C88B4[8];
 
-void func_021C7CD0(Work *p, int unused, int touch, int x)
+void VIEWER_ACTOR_HandleDrag(Work *p, int unused, int touch, int x)
 {
     int i;
     int v;
@@ -113,7 +113,7 @@ void func_021C7CD0(Work *p, int unused, int touch, int x)
         p->f130 = x;
     } else if (p->f122 == 1 && touch == 1) {
         p->f13C = p->f138 + ((x - p->f130) << 10);
-        p->f13C = func_021C7C78(p->f13C, 0x100000);
+        p->f13C = VIEWER_ACTOR_WrapAngle(p->f13C, 0x100000);
     } else if (p->f122 == 1 && touch == 0) {
         if (p->f12C != 0) {
             p->f140 = (p->f128 - p->f12C) << 11;
@@ -126,7 +126,7 @@ void func_021C7CD0(Work *p, int unused, int touch, int x)
     }
     if (p->f122 == 0 && touch == 0) {
         p->f13C = p->f13C + p->f140;
-        p->f13C = func_021C7C78(p->f13C, 0x100000);
+        p->f13C = VIEWER_ACTOR_WrapAngle(p->f13C, 0x100000);
         if (p->f144 >= 0) {
             if (p->f148 > p->f13C - 50000 && p->f148 < p->f13C + 50000) {
                 p->f140 = 0;
@@ -134,7 +134,7 @@ void func_021C7CD0(Work *p, int unused, int touch, int x)
                 p->f144 = -1;
             }
         } else {
-            func_021C7C94(p);
+            VIEWER_ACTOR_StepBounce(p);
             for (i = 0; i < 8; i++) {
                 v = d_021C88B4[i];
                 if (v > p->f13C - 10000 && v < p->f13C + 10000) {

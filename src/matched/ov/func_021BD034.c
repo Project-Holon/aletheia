@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020419E4 0x020419E4  arm
+ *   BG_SYS_Update 0x020419E4  arm
  *
  * Tail call to the ARM9 function at 0x020419E4: loads the pointer from the pool and branches through it.
  */
 
-extern void func_020419E4(void);
+extern void BG_SYS_Update(void);
 
 void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *a0)
 {
-    func_020419E4();
+    BG_SYS_Update();
 }

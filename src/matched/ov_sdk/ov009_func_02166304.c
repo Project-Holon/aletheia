@@ -1,5 +1,5 @@
 /*
- * function: func_02166304
+ * function: WCMi_InitCpsif
  * address:  0x02166304
  * packet:   pkt_ov009_02166304
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_InitMutex  0x02086004  arm
- *   g_021AA7DC  0x021AA7DC  data ov009
+ *   gWcmCpsifWork  0x021AA7DC  data ov009
  *   g_021AA80C  0x021AA80C  data ov009
  *   g_021AA7E8  0x021AA7E8  data ov009
  *
@@ -23,21 +23,21 @@
 
 #include "../include/G_ov009_021AA7DC.h"
 
-extern struct G_ov009_021AA7DC g_021AA7DC;
+extern struct G_ov009_021AA7DC gWcmCpsifWork;
 extern unsigned char g_021AA80C[];
 extern unsigned char g_021AA7E8[];
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern void OS_InitMutex(void *mutex);
 
-void func_02166304(void)
+void WCMi_InitCpsif(void)
 {
-    if (g_021AA7DC.inited != 0) {
+    if (gWcmCpsifWork.inited != 0) {
         return;
     }
-    g_021AA7DC.inited = 1;
-    g_021AA7DC.field24 = 0;
+    gWcmCpsifWork.inited = 1;
+    gWcmCpsifWork.field24 = 0;
     MI_CpuFill8(g_021AA80C, 0, 6);
-    g_021AA7DC.field8 = 0;
-    g_021AA7DC.field4 = 0;
+    gWcmCpsifWork.field8 = 0;
+    gWcmCpsifWork.field4 = 0;
     OS_InitMutex(g_021AA7E8);
 }

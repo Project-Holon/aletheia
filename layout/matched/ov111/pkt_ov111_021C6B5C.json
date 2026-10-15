@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6B5C",
+   "name": "VIEWER_TEXT_PrintStringPad",
    "address": "0x021C6B5C",
    "kind": "game",
    "region": "ov111",

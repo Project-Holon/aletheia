@@ -1,7 +1,7 @@
 /*
- * function: func_021FAEE8, func_021FAF10
+ * function: STA_ACT_SCRIPT_TickSlot, STA_ACT_SCRIPT_SetWaitFlag
  * unit: yes
- * follower: func_021FAF10 at 0x021FAF10
+ * follower: STA_ACT_SCRIPT_SetWaitFlag at 0x021FAF10
  * address: 0x021FAEE8
  * packet: pkt_ov132_021FAEE8
  * region: ov132
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-int func_021FAEE8(char *p)
+int STA_ACT_SCRIPT_TickSlot(char *p)
 {
     ((struct Obj05400 *)p)->f4 += 1;
     if (((struct Obj05400 *)p)->f4 >= ((struct Obj05400 *)p)->f8) {
@@ -29,7 +29,7 @@ int func_021FAEE8(char *p)
     return 0;
 }
 
-int func_021FAF10(void *unused, char *p)
+int STA_ACT_SCRIPT_SetWaitFlag(void *unused, char *p)
 {
     ((struct Obj14098 *)p)->f16 = 1 | ((struct Obj14098 *)p)->f16;
     return 1;

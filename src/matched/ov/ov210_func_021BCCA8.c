@@ -1,5 +1,5 @@
 /*
- * function: func_021BCCA8
+ * function: ZKNSEARCH_MAIN_HideResultLayout
  * address: 0x021BCCA8
  * packet: pkt_ov210_021BCCA8
  * region: ov210
@@ -9,37 +9,37 @@
  * status: EXACT
  * prototype: 02012BF8 caller sets r0/r1 only; legacy own C lists two unused extra parameters.
  * symbols:
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_021BEDF0 0x021BEDF0 thumb ov210
- *   func_021BEDB8 0x021BEDB8 thumb ov210
- *   func_021BEE80 0x021BEE80 thumb ov210
- *   func_021BED1C 0x021BED1C thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorVisible 0x021BEDF0 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorAnimAuto 0x021BEDB8 thumb ov210
+ *   ZKNSEARCH_MAIN_SetActorBgPriority 0x021BEE80 thumb ov210
+ *   ZKNSEARCH_MAIN_RedrawSubWindow 0x021BED1C thumb ov210
  */
 #include "../include/Obj25589.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_02041300(u32, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void func_02041B6C(u32);
 extern int GAME_DATA_CheckSaveFlag(int, int);
-extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEDB8(int p, int i, int v);
-extern void func_021BEE80(int p, int i, unsigned v);
-extern void func_021BED1C(int p);
-void func_021BCCA8(char *p)
+extern void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
+extern void ZKNSEARCH_MAIN_SetActorAnimAuto(int p, int i, int v);
+extern void ZKNSEARCH_MAIN_SetActorBgPriority(int p, int i, unsigned v);
+extern void ZKNSEARCH_MAIN_RedrawSubWindow(int p);
+void ZKNSEARCH_MAIN_HideResultLayout(char *p)
 {
-    func_021BEDF0((int)((u8 *)p), 8, 0);
-    func_02041300(1, 0, 0, 17, 32, 6, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((int)((u8 *)p), 8, 0);
+    BG_SYS_SetTileEntry(1, 0, 0, 17, 32, 6, 0);
     func_02041B6C(1);
-    func_021BEDB8((int)p, 2, 1);
-    func_021BEDB8((int)p, 3, 0);
+    ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 2, 1);
+    ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 3, 0);
     if (GAME_DATA_CheckSaveFlag(**(int * *)&((struct Obj25589 *)p)->f0, 16) == 1)
-        func_021BEDB8((int)p, 4, 7);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 7);
     else
-        func_021BEDB8((int)p, 4, 6);
-    func_021BEE80((int)p, 2, 0);
-    func_021BEE80((int)p, 3, 0);
-    func_021BEE80((int)p, 4, 0);
-    func_021BED1C((int)p);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 6);
+    ZKNSEARCH_MAIN_SetActorBgPriority((int)p, 2, 0);
+    ZKNSEARCH_MAIN_SetActorBgPriority((int)p, 3, 0);
+    ZKNSEARCH_MAIN_SetActorBgPriority((int)p, 4, 0);
+    ZKNSEARCH_MAIN_RedrawSubWindow((int)p);
 }

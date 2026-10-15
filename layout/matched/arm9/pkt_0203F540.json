@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203F6D8",
+   "name": "GF_STANDARD_Sin",
    "address": "0x0203F6D8",
    "kind": "game",
    "region": "arm9",

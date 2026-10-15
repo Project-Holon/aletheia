@@ -1,5 +1,5 @@
 /*
- * function: func_021DC8B4
+ * function: WIFIBATTLEMATCH_NET_SetupHttpRap
  * address: 0x021DC8B4
  * packet: pkt_ov175_021DC8B4
  * region: ov175
@@ -24,7 +24,7 @@ struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *NHTTP_RAP_Create(int, int, int);
 typedef struct { u32 a, b; } W;
-void func_021DC8B4(u8 *p, const W *src, int x)
+void WIFIBATTLEMATCH_NET_SetupHttpRap(u8 *p, const W *src, int x)
 {
     if (*(u32 *)(p + 0x121C) != 0)
         func_02034714(d_021E2EF8, 0, d_021E2EF8);

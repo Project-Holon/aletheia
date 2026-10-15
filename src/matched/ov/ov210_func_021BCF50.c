@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF50
+ * function: ZKNSEARCH_MAIN_RunState
  * address:  0x021BCF50
  * packet:   pkt_ov210_021BCF50
  * region:   ov210
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   d_021C0894  0x021C0894  data  a4
- *   func_021BED68  0x021BED68  thumb  ov210
- *   func_021BE3D4  0x021BE3D4  thumb  ov210
+ *   ZKNSEARCH_MAIN_UpdateActorAnims  0x021BED68  thumb  ov210
+ *   ZKNSEARCH_MAIN_UpdateBmpWindows  0x021BE3D4  thumb  ov210
  *   ZUKAN_TickCounter  0x021C93E4  thumb  ov212
  * Addresses are Black-image addresses.
  */
@@ -26,11 +26,11 @@ typedef signed char    s8;
 typedef signed int     s32;
 typedef u32 (*StateFn)(u8 *);
 extern StateFn d_021C0894[];
-extern void func_021BED68(int p);
-extern void func_021BE3D4(u8 *p);
+extern void ZKNSEARCH_MAIN_UpdateActorAnims(int p);
+extern void ZKNSEARCH_MAIN_UpdateBmpWindows(u8 *p);
 extern void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 
-u32 func_021BCF50(u8 *p)
+u32 ZKNSEARCH_MAIN_RunState(u8 *p)
 {
     u32 s = ((struct Obj08413 *)p)->f10;
 
@@ -39,8 +39,8 @@ u32 func_021BCF50(u8 *p)
     if (s == 0x1b) {
         return 0;
     }
-    func_021BED68((int)p);
-    func_021BE3D4(p);
+    ZKNSEARCH_MAIN_UpdateActorAnims((int)p);
+    ZKNSEARCH_MAIN_UpdateBmpWindows(p);
     ZUKAN_TickCounter(2, 6, (u32 *)(p + 0x2c4));
     return 1;
 }

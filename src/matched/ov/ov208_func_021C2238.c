@@ -12,7 +12,7 @@
  *   image keeps the x0 table load below the stack argument stores (a plain
  *   extern cannot move past them).
  * symbols:
- *   func_020413B0  0x020413B0  arm
+ *   BG_SYS_FillTileMap  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   data_021C8E14  0x021C8E14  data
  *   data_021C8E1A  0x021C8E1A  data
@@ -31,7 +31,7 @@ typedef struct {
 extern const u8 data_021C8E14[3][2];
 extern u8 data_021C8E1A[3][4];
 
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -52,7 +52,7 @@ void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key)
             on[2] = 1;
     }
     for (i = 0; i < 3; i++)
-        func_020413B0(7, data_021C8E1A[i][0], data_021C8E1A[i][1], data_021C8E1A[i][2],
+        BG_SYS_FillTileMap(7, data_021C8E1A[i][0], data_021C8E1A[i][1], data_021C8E1A[i][2],
                       data_021C8E1A[i][3], data_021C8E14[i][on[i]]);
     func_02041B6C(7);
 }

@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030734       0x02030734  arm
+ *   GFL_HEAP_Alloc       0x02030734  arm
  *   sub_02030F04       0x02030F04  arm
  *   sub_020311B8_File  0x020A7834  data
  *
@@ -72,7 +72,7 @@ struct Tcbl {
 
 extern const char sub_020311B8_File[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct List;
 struct Node;
 extern struct Node *sub_02030F04(struct List *list);
@@ -94,7 +94,7 @@ struct TcblNode *TCBL_AddTask(struct Tcbl *p, TcblFunc func, u32 workSize,
     n->func = func;
 
     if (workSize > p->workSize) {
-        n->work = sub_02030734(p->heapId, workSize, 0, sub_020311B8_File, 325);
+        n->work = GFL_HEAP_Alloc(p->heapId, workSize, 0, sub_020311B8_File, 325);
     } else {
         n->work = 0;
     }

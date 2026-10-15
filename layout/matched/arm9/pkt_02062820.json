@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02062820",
+   "name": "NNS_G2dGetUnpackedCellBank",
    "address": "0x02062820",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206285C",
+   "name": "NNS_G2dGetCellDataByIdx",
    "address": "0x0206285C",
    "kind": "game",
    "region": "arm9",

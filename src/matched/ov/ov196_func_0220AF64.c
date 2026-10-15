@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * leaf: parent-cleared sole blocker of ov197 func_0220D3B0; eight-byte tail stub.
+ * leaf: parent-cleared sole blocker of ov197 B_BAG_MAIN_StateExit; eight-byte tail stub.
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */

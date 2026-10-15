@@ -1,5 +1,5 @@
 /*
- * function: func_02184AB4
+ * function: GSMD5Transform
  * address:  0x02184AB4
  * packet:   pkt_02184AB4
  * region:   ov009
@@ -68,7 +68,7 @@ extern void *GSMD5_memset(void *p, int c, u32 n);
     (a) += (b); \
 }
 
-void func_02184AB4(u32 state[4], const u8 block[64])
+void GSMD5Transform(u32 state[4], const u8 block[64])
 {
     u32 a = state[0];
     u32 b = state[1];

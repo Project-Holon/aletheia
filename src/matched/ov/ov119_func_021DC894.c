@@ -16,7 +16,7 @@
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02030734 0x02030734 arm
- *   d_021E80B0 0x021E80B0 data a4
+ *   gGameDataAllocTag 0x021E80B0 data a4
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   POKETRADE_PROC_SetupGameData 0x021DC538 thumb ov119
@@ -26,7 +26,7 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
- *   d_021E7614 0x021E7614 data a4
+ *   gNetCommandTable 0x021E7614 data a4
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_020056A0 0x020056A0 thumb
@@ -59,8 +59,8 @@ extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
 extern void BG_SYS_SetSubVisiblePlanes(unsigned int planes);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned int a, unsigned int b);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern const char d_021E80B0[];
-extern char d_021E7614[];
+extern const char gGameDataAllocTag[];
+extern char gNetCommandTable[];
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 typedef unsigned int   u32;
 struct Bank;
@@ -91,16 +91,16 @@ int POKETRADE_PROC_InitTradeWork(int a,int b,char *q,char *p,int n)
     H(0x5f4)=31;
     I(0x118c)=n;
     *(char * *)&((struct Obj03256 *)p)->f8=q;
-    I(0x5dc)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,d_021E80B0,0x110b);
-    I(0x5e0)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,d_021E80B0,0x110c);
-    I(0x10a4)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110d);
-    I(0x10a8)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110e);
+    I(0x5dc)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,0x110b);
+    I(0x5e0)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,0x110c);
+    I(0x10a4)=(int)func_02030734(0x91,512,0,gGameDataAllocTag,0x110d);
+    I(0x10a8)=(int)func_02030734(0x91,512,0,gGameDataAllocTag,0x110e);
     ((struct Obj03256 *)p)->f11F6=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(((struct Obj04478 *)q)->f14));
     if(q) POKETRADE_PROC_SetupGameData(p,((struct Obj04478 *)q)->f14,((struct Obj04478 *)q)->f2E);
     POKETRADE_PROC_SetupBoxCounts(p);POKETRADE_PROC_InitMcssSystem(p);POKETRADE_PROC_InitDisplay(p);
     I(0x9c4)=(int)CLACT_CreateUnit(0x154,0,H(0x5f4));
     if(POKETRADE_PROC_IsNetSession(p)) {
-        GFL_NET_COMMAND_AddCommandTable(0xc00,(unsigned)d_021E7614,24,(unsigned)p);
+        GFL_NET_COMMAND_AddCommandTable(0xc00,(unsigned)gNetCommandTable,24,(unsigned)p);
         GFL_NET_SetAutoExit(1);GFL_NET_SetLoginOption(1);
     }
     I(0x9c8)=(int)func_020056A0((void (*)(void *, void *))POKETRADE_PROC_VBlank,p,0);

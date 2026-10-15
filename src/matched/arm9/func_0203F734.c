@@ -1,5 +1,5 @@
 /*
- * function: func_0203F734
+ * function: GF_STANDARD_DegToAngle
  * address:  0x0203F734
  * packet:   pkt_0203F734
  * region:   arm9
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u16 func_0203F734(int x)
+u16 GF_STANDARD_DegToAngle(int x)
 {
     if ((u32)x >= 0x168)
         return 0;

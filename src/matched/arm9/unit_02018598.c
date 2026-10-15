@@ -11,7 +11,7 @@
  * function: POKE_TOOL_GetNature, POKE_TOOL_GetBoxNature, POKE_TOOL_SetNature
  *
  * The middle piece of the run 0x0201854C..0x0201862C.  Its two neighbours are
- * parked in src/pending/: POKE_TOOL_GetExpForLevel is the only caller of func_02019BA4
+ * parked in src/pending/: POKE_TOOL_GetExpForLevel is the only caller of POKE_TOOL_GetExpValue
  * in the image and POKE_TOOL_RecalcParam the only caller of POKE_TOOL_CalcParam, so neither
  * has a witness outside itself and no cut reaches them.
  *

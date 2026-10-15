@@ -1,7 +1,7 @@
 /*
  * file:     gt2utility.c
  * unit:     yes
- * function: func_02198620, func_021986C4, func_02198808
+ * function: gt2AddressToString, gt2StringToAddress, func_02198808
  * address:  0x02198620
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -57,8 +57,8 @@ extern int atoi();
 extern u32 inet_addr();
 extern SOCHostEnt *SOC_GetHostByName();
 extern int strlen(const char *s);
-char *func_02198620(unsigned int ip, unsigned short port, char *string);
-int func_021986C4(char *string, u32 *ip, u16 *port);
+char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+int gt2StringToAddress(char *string, u32 *ip, u16 *port);
 void gti2MessageCheck(unsigned char **message, int *len);
 extern int g_021AE41C;
 extern char g_021AE420[][22];
@@ -72,7 +72,7 @@ extern char g_021A595C[];
 /*
  * sdk:      gt2AddressToString (libdwcgsgt2.TWL.HYB.a(gt2utility.o))
  */
-char *func_02198620(unsigned int ip, unsigned short port, char *string)
+char *gt2AddressToString(unsigned int ip, unsigned short port, char *string)
 {
 	char *strAddress;
 	SOCInAddr inAddr;
@@ -103,7 +103,7 @@ char *func_02198620(unsigned int ip, unsigned short port, char *string)
 /*
  * sdk:      gt2StringToAddress (gt2utility.o)
  */
-int func_021986C4(char *string, u32 *ip, u16 *port)
+int gt2StringToAddress(char *string, u32 *ip, u16 *port)
 {
     u32 srcIP = 0;
     u16 srcPort = 0;

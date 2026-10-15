@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   d_021E7DA0 0x021E7DA0 data a4
+ *   gOfferIconPosB 0x021E7DA0 data a4
  */
 typedef struct { short x,y; } Pt;
-extern const int d_021E7DA0[6][2];
+extern const int gOfferIconPosB[6][2];
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -23,7 +23,7 @@ void POKETRADE_2D_UpdateOfferIconHighlight(int p, int a, int b) {
     for (i=0;i<2;i++) {
         for (j=0;j<3;j++) {
             if (*(int *)(p+i*12+j*4+0x1008)) {
-                pos.x=d_021E7DA0[i*3+j][0]; pos.y=d_021E7DA0[i*3+j][1];
+                pos.x=gOfferIconPosB[i*3+j][0]; pos.y=gOfferIconPosB[i*3+j][1];
                 if (i==a && j==b) pos.y-=4;
                 CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p+i*12+j*4+0x1008)),(const struct Vec2 *)(&pos),1);
             }

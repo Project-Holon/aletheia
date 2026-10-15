@@ -1,5 +1,5 @@
 /*
- * function: func_02050A70
+ * function: DMA_UpdateChannels
  * address:  0x02050A70
  * packet:   pkt_02050A70
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_pDmaChannels     0x02146A84  data
- *   func_02050B14  0x02050B14  arm
+ *   DMA_ProgramChannel  0x02050B14  arm
  *
  * blocker:  02050B14 (arm, from header) has no witness outside
  *           02050A70..02050B14 - BOTH unresolved sites are the `bl` to it,
@@ -35,8 +35,8 @@
  * the store can alias the global itself.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02050A70.c \
- *       --func func_02050A70 --addr 0x02050A70 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/DMA_UpdateChannels.c \
+ *       --func DMA_UpdateChannels --addr 0x02050A70 --cc 1.1p1 --arm
  */
 
 #include "../include/G_02146A84.h"
@@ -54,9 +54,9 @@ typedef struct Slot {
 } Slot;
 
 extern struct G_02146A84 *g_pDmaChannels;
-extern void func_02050B14(u32 i);
+extern void DMA_ProgramChannel(u32 i);
 
-void func_02050A70(void)
+void DMA_UpdateChannels(void)
 {
     int i;
 
@@ -67,13 +67,13 @@ void func_02050A70(void)
         if (((Slot *)g_pDmaChannels)[i].active) {
             ((Slot *)g_pDmaChannels)[i].active = 0;
             if (((Slot *)g_pDmaChannels)[i].unk08 >> 11) {
-                func_02050B14(i);
+                DMA_ProgramChannel(i);
                 ((Slot *)g_pDmaChannels)[i].torn = 1;
             }
         }
         if (((Slot *)g_pDmaChannels)[i].kill) {
             ((Slot *)g_pDmaChannels)[i].kill = 0;
-            func_02050B14(i);
+            DMA_ProgramChannel(i);
         }
     }
 }

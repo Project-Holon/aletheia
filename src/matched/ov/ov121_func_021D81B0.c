@@ -20,7 +20,7 @@
  *   func_02049658 0x02049658 arm
  *   func_0204989C 0x0204989C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   func_021DA4DC 0x021DA4DC thumb ov121
@@ -46,7 +46,7 @@ extern void func_02049B68(void *,int,int,int,int,int);
 extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_0204989C(int,int,int,int,int,int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_021DA4DC(Desc *,int);
@@ -101,7 +101,7 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     if(which==2) func_0204989C(34,30,2,0,0,0,heap);
     else func_0204989C(34,29,2,0,0,0,heap);
     ARC_TOOL_DeleteHandle(archive);
-    func_020413B0(2,0,0,32,24,4);
+    BG_SYS_FillTileMap(2,0,0,32,24,4);
     func_020409B4(2);
     func_02040588(2,1);
     ((struct Obj00326 *)p)->f270=func_021DA4DC(&d,heap);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD40
+ * function: DEMO3D_SetupGx
  * address: 0x021BDD40
  * packet: pkt_ov203_021BDD40
  * region: ov203
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
-void func_021BDD40(void)
+void DEMO3D_SetupGx(void)
 {
     unsigned i = 0;
     BG_SYS_SetLowBit(0);

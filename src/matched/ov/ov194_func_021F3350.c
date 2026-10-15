@@ -1,5 +1,5 @@
 /*
- * function: func_021F3350
+ * function: NAMEIN_GRAPHIC_GetGridMode
  * address: 0x021F3350
  * packet: pkt_ov194_021F3350
  * region: ov194
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F3350(const u8 *p) {return ((struct Obj24908 *)p)->f100;}
+void *NAMEIN_GRAPHIC_GetGridMode(const u8 *p) {return ((struct Obj24908 *)p)->f100;}

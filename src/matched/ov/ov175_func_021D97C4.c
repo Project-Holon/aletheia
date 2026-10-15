@@ -1,5 +1,5 @@
 /*
- * function: func_021D97C4
+ * function: WIFIBATTLEMATCH_NET_IsTradeIconAnimDone
  * address:  0x021D97C4
  * packet:   pkt_021D97C4
  * region:   ov175
@@ -20,7 +20,7 @@ typedef unsigned long u32;
 
 extern u32 func_021E65FC(u32 p);
 
-int func_021D97C4(char *obj)
+int WIFIBATTLEMATCH_NET_IsTradeIconAnimDone(char *obj)
 {
     return func_021E65FC(((struct Obj24303 *)obj)->f1C);
 }

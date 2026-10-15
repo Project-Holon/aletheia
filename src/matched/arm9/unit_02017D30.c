@@ -11,16 +11,16 @@
  * function: POKE_TOOL_DecodePartyParam, POKE_TOOL_EncodePartyParam, POKE_TOOL_DecodeBoxParam, POKE_TOOL_EncodeBoxParam
  *
  * symbols:
- *   func_02019A50  0x02019A50  thumb
- *   func_02019A9C  0x02019A9C  thumb
+ *   POKE_CRYPTO_XorBlock  0x02019A50  thumb
+ *   POKE_CRYPTO_Checksum  0x02019A9C  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02019A50(u16 *p, u32 size, u32 seed);
-extern u16 func_02019A9C(const u16 *p, u32 size);
+extern void POKE_CRYPTO_XorBlock(u16 *p, u32 size, u32 seed);
+extern u16 POKE_CRYPTO_Checksum(const u16 *p, u32 size);
 
 
 struct Sav {
@@ -41,8 +41,8 @@ u32 POKE_TOOL_DecodePartyParam(struct Sav *p)
         r = 1;
         p->b0 = 1;
         p->b1 = 1;
-        func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
-        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
+        POKE_CRYPTO_XorBlock((u16 *)p->unk88, 0x54, p->unk00);
+        POKE_CRYPTO_XorBlock((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }
@@ -55,9 +55,9 @@ u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f)
         p->b0 = 0;
         p->b1 = 0;
         r = 1;
-        func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
-        p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);
-        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
+        POKE_CRYPTO_XorBlock((u16 *)p->unk88, 0x54, p->unk00);
+        p->unk06 = POKE_CRYPTO_Checksum((const u16 *)p->unk08, 0x80);
+        POKE_CRYPTO_XorBlock((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }
@@ -69,7 +69,7 @@ u32 POKE_TOOL_DecodeBoxParam(struct Sav *p)
     if (p->b1 == 0) {
         p->b1 = 1;
         r = 1;
-        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
+        POKE_CRYPTO_XorBlock((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }
@@ -81,8 +81,8 @@ u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f)
     if (p->b1 == 1 && f == 1) {
         r = 1;
         p->b1 = 0;
-        p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);
-        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
+        p->unk06 = POKE_CRYPTO_Checksum((const u16 *)p->unk08, 0x80);
+        POKE_CRYPTO_XorBlock((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }

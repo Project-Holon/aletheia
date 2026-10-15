@@ -11,11 +11,11 @@
  *
  * symbols:
  *   STRBUF_GetChars  0x02045A90  arm
- *   sub_0201D26C  0x0201D26C  thumb
+ *   GF_FONT_MeasureTextWidth  0x0201D26C  thumb
  *
  * printsys.c: fills a caller-supplied array with the pixel width of each line
  * of a string object, at most `max` of them, and returns how many were
- * written.  sub_0201D26C measures one line and hands back the cursor for the
+ * written.  GF_FONT_MeasureTextWidth measures one line and hands back the cursor for the
  * next through its fourth argument; the cursor is a stack local because its
  * address is taken.
  *
@@ -36,7 +36,7 @@ struct StrObj {
 
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u32 sub_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
+extern u32 GF_FONT_MeasureTextWidth(u16 *p, void *font, u32 spacing, u16 **next);
 
 u32 GF_FONT_InitCallerSuppliedArray(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max)
 {
@@ -49,7 +49,7 @@ u32 GF_FONT_InitCallerSuppliedArray(struct StrObj *s, u32 a, u32 b, u32 *out, u3
         if (*p == 0xFFFF) {
             break;
         }
-        out[i] = sub_0201D26C(p, (void *)a, b, &p);
+        out[i] = GF_FONT_MeasureTextWidth(p, (void *)a, b, &p);
         i++;
     }
     return i;

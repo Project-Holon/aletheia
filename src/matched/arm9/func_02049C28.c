@@ -11,8 +11,8 @@
  *
  * symbols:
  *   ARC_UTIL_gPaletteLoadFns     0x020A1364  data
- *   func_02062AD4  0x02062AD4  arm
- *   func_02062A98  0x02062A98  arm
+ *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207F308  0x0207F308  arm
  *   func_0207F428  0x0207F428  arm
@@ -63,8 +63,8 @@ extern const LoadFn ARC_UTIL_gPaletteLoadFns[];
 
 typedef signed int     s32;
 struct NitroFileHeader;
-extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern void DWCi_ScreenDC_FlushRange(u32 addr, u32 size);
 extern void func_0207F308(void);
 extern void func_0207F428(void);
@@ -84,8 +84,8 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
 
     if (file == 0)
         return;
-    cmp = func_02062AD4(file, (void **)(&pmcp));
-    if (func_02062A98(file, (void **)(&pltt)) != 0) {
+    cmp = NNS_G2dGetUnpackedPaletteCompressInfo(file, (void **)(&pmcp));
+    if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&pltt)) != 0) {
         pltt->data += offset;
         if (size == 0) {
             if (cmp == 0)

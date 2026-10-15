@@ -1,5 +1,5 @@
 /*
- * function: func_0216848C
+ * function: DWC_AddCommonKeyValueString
  * address:  0x0216848C
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,17 +13,17 @@
  *
  * symbols:
  *   strchr  0x02094A28  arm
- *   func_02168454  0x02168454  arm  ov009
+ *   DWC_SetCommonKeyValueString  0x02168454  arm  ov009
  *   strlen  0x0209477C  arm
  */
 
 extern char *strchr(const char *s, int c);
-extern int func_02168454(const char *key, const char *value, char *string, char sep);
+extern int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 
-int func_0216848C(const char *key, const char *value, char *string, char sep)
+int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep)
 {
-    func_02168454(key, value, strchr(string, 0), sep);
+    DWC_SetCommonKeyValueString(key, value, strchr(string, 0), sep);
     return strlen((const u8 *)string);
 }

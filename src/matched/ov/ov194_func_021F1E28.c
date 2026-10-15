@@ -1,5 +1,5 @@
 /*
- * function: func_021F1E28
+ * function: NAMEIN_GRAPHIC_InitInputField
  * address:  0x021F1E28
  * packet:   pkt_ov194_021F1E28
  * region:   ov194
@@ -18,9 +18,9 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   STRBUF_Create  0x020457B0  arm
- *   func_021F4DBC  0x021F4DBC  thumb  ov194
- *   func_021F4F50  0x021F4F50  thumb  ov194
- *   func_021F1998  0x021F1998  thumb  ov194
+ *   NAMEIN_GRAPHIC_LoadCharMember  0x021F4DBC  thumb  ov194
+ *   NAMEIN_GRAPHIC_LoadPairMember  0x021F4F50  thumb  ov194
+ *   NAMEIN_GRAPHIC_GetActor  0x021F1998  thumb  ov194
  *   STRBUF_GetLength  0x020458F8  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   STRBUF_ToChars  0x02045A38  arm
@@ -29,7 +29,7 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_StartActorAnim  0x0204B95C  arm
- *   func_021F1FB4  0x021F1FB4  thumb  ov194
+ *   NAMEIN_GRAPHIC_RefreshInputField  0x021F1FB4  thumb  ov194
  */
 
 
@@ -49,9 +49,9 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern int func_021F4DBC(int a, int b);
-extern int func_021F4F50(int a);
-extern void *func_021F1998(u8 *p, u32 i);
+extern int NAMEIN_GRAPHIC_LoadCharMember(int a, int b);
+extern int NAMEIN_GRAPHIC_LoadPairMember(int a);
+extern void *NAMEIN_GRAPHIC_GetActor(u8 *p, u32 i);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
@@ -60,8 +60,8 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_StartActorAnim(struct Actor *a);
-extern int func_021F1FB4(u8 *p);
-void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
+extern int NAMEIN_GRAPHIC_RefreshInputField(u8 *p);
+void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
 {
     u16 pos[2];
     int i;
@@ -81,11 +81,11 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     *(u8 *)(p + 0x30) = i;
     *(int *)(p + 0x3c) = (int)STRBUF_Create(0xe, f);
     for (i = 0; i < 3; i++) {
-        *(int *)(p + i * 4 + 0x84) = func_021F4DBC(i, f);
+        *(int *)(p + i * 4 + 0x84) = NAMEIN_GRAPHIC_LoadCharMember(i, f);
     }
-    *(int *)(p + 0x90) = func_021F4F50(f);
+    *(int *)(p + 0x90) = NAMEIN_GRAPHIC_LoadPairMember(f);
     for (i = 0; i < 16; i++) {
-        *(int *)(p + i * 4 + 0x44) = (int)func_021F1998(e, i);
+        *(int *)(p + i * 4 + 0x44) = (int)NAMEIN_GRAPHIC_GetActor(e, i);
     }
     if (STRBUF_GetLength((struct U16Vec *)a) == 0) {
         *(u16 *)p = STRBUF_GetEosChar();
@@ -111,5 +111,5 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     }
     CLACT_StartActorAnim((struct Actor *)(*(int *)(p + *(u16 *)(p + 0x1e) * 4 + 0x44)));
     *(int *)(p + 0x28) = 1;
-    func_021F1FB4(p);
+    NAMEIN_GRAPHIC_RefreshInputField(p);
 }

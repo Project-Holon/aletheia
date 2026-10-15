@@ -1,5 +1,5 @@
 /*
- * function: func_0205312C
+ * function: SPL_EMITTER_UpdateSubB
  * address:  0x0205312C
  * packet:   pkt_02053044
  * region:   arm9
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02053D2C  0x02053D2C  arm
- *   func_02053D30  0x02053D30  arm
- *   func_0205429C  0x0205429C  arm
- *   func_02054A68  0x02054A68  arm
- *   func_02055498  0x02055498  arm
- *   func_02055FD4  0x02055FD4  arm
+ *   SPL_EMITTER_Noop  0x02053D2C  arm
+ *   SPL_EMITTER_SetTextureParam  0x02053D30  arm
+ *   SPL_EMITTER_UpdateFrameMain  0x0205429C  arm
+ *   SPL_EMITTER_UpdateFrameA68  0x02054A68  arm
+ *   SPL_EMITTER_UpdateParticleMotion  0x02055498  arm
+ *   SPL_EMITTER_UpdateFrame  0x02055FD4  arm
  *
- * The sibling of func_02053044 in the same file: the same per-frame dispatch
+ * The sibling of SPL_EMITTER_UpdateSubX in the same file: the same per-frame dispatch
  * over a render list, but on the block's OTHER list (+0x08 rather than +0x14)
- * and with a disjoint handler set.  Unconditionally calls func_02053D30 on the
+ * and with a disjoint handler set.  Unconditionally calls SPL_EMITTER_SetTextureParam on the
  * 0x14-byte row the descriptor's byte at +0x47 selects, picks the per-node
  * handler from bits 4..5 of the descriptor's first word (the `lsl #26` /
  * `lsr #30` pair), and picks a SECOND per-node function from bit 11 of the
  * same word (`lsl #20` / `lsrs #31`, materialised as the `ldrne`/`ldreq`
  * pair at 0x020531B8/0x020531BC), then walks the list calling both.
- * Cases 3 and 4 share func_0205429C, exactly as cases 3/4 do in the sibling.
+ * Cases 3 and 4 share SPL_EMITTER_UpdateFrameMain, exactly as cases 3/4 do in the sibling.
  *
  * The descriptor's first word is READ TWICE, once for the switch field and
  * once for the bit-11 test (`ldr r0, [r5]` at 0x02053158 and again at
@@ -43,17 +43,17 @@
  *
  * BLOCKER: capped at MATCH for lack of an outside witness, not for codegen;
  * 236 bytes, ZERO concrete mismatches.  Three of seven relocation sites are
- * ABS32 pool words at +0x00D4/D8/E8 naming func_02055FD4, func_02055498 and
- * func_02053D2C, and this function's own pool at 0x02053200 is the only place
- * in the image those three words appear.  func_02054A68 and func_0205429C
+ * ABS32 pool words at +0x00D4/D8/E8 naming SPL_EMITTER_UpdateFrame, SPL_EMITTER_UpdateParticleMotion and
+ * SPL_EMITTER_Noop, and this function's own pool at 0x02053200 is the only place
+ * in the image those three words appear.  SPL_EMITTER_UpdateFrameA68 and SPL_EMITTER_UpdateFrameMain
  * already resolve `matched x1`; filing any one of the remaining three
- * promotes this file toward EXACT with no change to the C.  func_02055498 and
- * func_02055FD4 are unfiled 3D-rig rows (docs/FRONTEND-PINS.md); func_02053D2C
- * is an unlabelled leaf four bytes below func_02053D30.
+ * promotes this file toward EXACT with no change to the C.  SPL_EMITTER_UpdateParticleMotion and
+ * SPL_EMITTER_UpdateFrame are unfiled 3D-rig rows (docs/FRONTEND-PINS.md); SPL_EMITTER_Noop
+ * is an unlabelled leaf four bytes below SPL_EMITTER_SetTextureParam.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0205312C.c \
- *       --func func_0205312C --addr 0x0205312C --cc ../1.2/sp2 --arm
+ *   python tools/match.py one --src src/pending/SPL_EMITTER_UpdateSubB.c \
+ *       --func SPL_EMITTER_UpdateSubB --addr 0x0205312C --cc ../1.2/sp2 --arm
  */
 
 typedef unsigned char u8;
@@ -92,18 +92,18 @@ struct Obj {
 typedef void (*Fn)(struct Obj *, struct Node *);
 typedef void (*Fn1)(void *);
 
-extern void func_02053D2C(void);
+extern void SPL_EMITTER_Noop(void);
 struct S;
 struct SPLManager;
 struct SPLParticle;
 struct SPLTexture;
-extern void func_02053D30(struct SPLTexture *tex);
-extern void func_0205429C(struct Obj *obj, struct S *s);
-extern void func_02054A68(struct Obj *obj, struct S *s);
-extern void func_02055498(struct SPLManager *mgr, struct SPLParticle *ptcl);
-extern void func_02055FD4(struct Obj *obj, struct S *s);
+extern void SPL_EMITTER_SetTextureParam(struct SPLTexture *tex);
+extern void SPL_EMITTER_UpdateFrameMain(struct Obj *obj, struct S *s);
+extern void SPL_EMITTER_UpdateFrameA68(struct Obj *obj, struct S *s);
+extern void SPL_EMITTER_UpdateParticleMotion(struct SPLManager *mgr, struct SPLParticle *ptcl);
+extern void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S *s);
 
-void func_0205312C(struct Obj *o)
+void SPL_EMITTER_UpdateSubB(struct Obj *o)
 {
     struct Blk *b = o->f40;
     struct Desc *d = b->f20->f00;
@@ -111,30 +111,30 @@ void func_0205312C(struct Obj *o)
     Fn1 g;
     struct Node *n;
 
-    func_02053D30((struct SPLTexture *)((char *)o->f2c + d->f47 * 0x14));
+    SPL_EMITTER_SetTextureParam((struct SPLTexture *)((char *)o->f2c + d->f47 * 0x14));
 
     switch ((u32)(*(volatile u32 *)&d->flags << 26) >> 30) {
     case 0:
-        fn = (Fn)func_02055FD4;
+        fn = (Fn)SPL_EMITTER_UpdateFrame;
         break;
     case 1:
-        fn = (Fn)func_02055498;
+        fn = (Fn)SPL_EMITTER_UpdateParticleMotion;
         break;
     case 2:
-        fn = (Fn)func_02054A68;
+        fn = (Fn)SPL_EMITTER_UpdateFrameA68;
         break;
     case 3:
-        fn = (Fn)func_0205429C;
+        fn = (Fn)SPL_EMITTER_UpdateFrameMain;
         break;
     case 4:
-        fn = (Fn)func_0205429C;
+        fn = (Fn)SPL_EMITTER_UpdateFrameMain;
         break;
     }
 
     if ((*(volatile u32 *)&d->flags << 20) >> 31)
-        g = (Fn1)func_02053D30;
+        g = (Fn1)SPL_EMITTER_SetTextureParam;
     else
-        g = (Fn1)func_02053D2C;
+        g = (Fn1)SPL_EMITTER_Noop;
 
     n = b->f08;
     if (n == 0)

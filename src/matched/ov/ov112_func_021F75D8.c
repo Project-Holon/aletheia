@@ -1,5 +1,5 @@
 /*
- * function: func_021F75D8
+ * function: STA_ACT_LIGHT_CopyElemB
  * address:  0x021F75D8
  * packet:   pkt_ov112_021F75D8
  * region:   ov112
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021F75D8(u8 *a0, u8 *a1) { }
+void STA_ACT_LIGHT_CopyElemB(u8 *a0, u8 *a1) { }

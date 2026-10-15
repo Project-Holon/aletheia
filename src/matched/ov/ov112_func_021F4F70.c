@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F70
+ * function: MUSICAL_MCSS_NoOp6
  * address: 0x021F4F70
  * packet: pkt_ov112_021F4F70
  * region: ov112
@@ -7,6 +7,6 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * follower: func_021F4F74 filed separately.
+ * follower: MUSICAL_MCSS_SetModeA filed separately.
  */
-int func_021F4F70(int *p) { return *p; }
+int MUSICAL_MCSS_NoOp6(int *p) { return *p; }

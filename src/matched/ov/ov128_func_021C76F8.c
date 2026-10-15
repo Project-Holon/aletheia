@@ -18,11 +18,11 @@
  *   func_021C7E0C 0x021C7E0C thumb ov128
  *   func_021C81C8 0x021C81C8 thumb ov128
  *   func_021C8668 0x021C8668 thumb ov128
- *   func_021CA40C 0x021CA40C thumb ov128
+ *   WF2DMAP_TOUCH_SetActorAnimSeq 0x021CA40C thumb ov128
  *   func_021C81FC 0x021C81FC thumb ov128
  *   func_021C8240 0x021C8240 thumb ov128
  *   func_021C8354 0x021C8354 thumb ov128
- *   func_021CA320 0x021CA320 thumb ov128
+ *   WF2DMAP_TOUCH_StepItemBarBlink 0x021CA320 thumb ov128
  *   func_021C87A0 0x021C87A0 thumb ov128
  *   func_021C651C 0x021C651C thumb ov128
  *   func_021C83B0 0x021C83B0 thumb ov128
@@ -43,7 +43,7 @@
  *   func_021C85A4 0x021C85A4 thumb ov128
  *   func_021C8880 0x021C8880 thumb ov128
  *   func_021C84E8 0x021C84E8 thumb ov128
- *   func_021CA084 0x021CA084 thumb ov128
+ *   WF2DMAP_TOUCH_GetConfirmInput 0x021CA084 thumb ov128
  *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
@@ -71,10 +71,10 @@ struct CodeIn;
 struct Sub020097BCObj;
 extern int func_021C81C8(s16 *p, u8 *q, u8 *r);
 extern void func_021C8668(u8 *,u8 *,int);
-extern void func_021CA40C(char *p, int n);
+extern void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n);
 extern void func_021C81FC(u8 *,void *,u8 *,u16);
 extern int func_021C8240(u8 *,u8 *,u8 *,u16),func_021C8354(u8 *,u8 *);
-extern int func_021CA320(char *),func_021C87A0(s16 *);
+extern int WF2DMAP_TOUCH_StepItemBarBlink(char *),func_021C87A0(s16 *);
 extern void func_021C651C(char *,int),func_021C6514(char *,int);
 extern void func_021C83B0(s16 *p, u8 *q, u8 *r, u16 heap);
 extern int func_021C873C(void *p, int *state, u8 *q);
@@ -91,7 +91,7 @@ extern void func_021C87B0(u8 *,u8 *);
 extern int func_021C8850(u8 *,u8 *);
 extern void func_021C85A4(u8 *,u8 *,u8 *,int,int,int,u16),func_021C8880(u8 *,u8 *);
 extern int func_021C84E8(u8 *,u8 *,u8 *,int);
-extern int func_021CA084(int *p);
+extern int WF2DMAP_TOUCH_GetConfirmInput(int *p);
 typedef signed int     s32;
 struct Row;
 extern s32 BLINK_PALANM_Update(struct Row *p);
@@ -127,13 +127,13 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
         case 0: break;
         case 1:
             func_021C8668(p,q,2);
-            func_021CA40C((char *)p,((struct Obj00179 *)p)->f0);
+            WF2DMAP_TOUCH_SetActorAnimSeq((char *)p,((struct Obj00179 *)p)->f0);
             BLINK_PALANM_ResetPhase(((struct Obj03809 *)ctx)->f188);
             BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
             break;
         case 2:
             func_021C8668(p,q,3);
-            func_021CA40C((char *)p,((struct Obj00179 *)p)->f0);
+            WF2DMAP_TOUCH_SetActorAnimSeq((char *)p,((struct Obj00179 *)p)->f0);
             BLINK_PALANM_ResetPhase(((struct Obj03809 *)ctx)->f188);
             BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
             break;
@@ -146,7 +146,7 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
     case 4: if(func_021C8240(p,q,ctx,heap)==1) q[8]=5; break;
     case 5: if(func_021C8354(p,ctx)==1) q[8]=2; break;
     case 6:
-        if(func_021CA320((char *)p)!=1) {
+        if(WF2DMAP_TOUCH_StepItemBarBlink((char *)p)!=1) {
             func_021C651C((char *)q,func_021C87A0((s16 *)p));
             func_021C83B0((s16 *)p,q,ctx,heap); q[8]=7;
         }
@@ -214,7 +214,7 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
         else q[8]=2;
         break;
     case 24:
-        if(func_021C873C(p,(int *)q,ctx)!=0 && func_021CA084((int *)q)==1) {q[8]=2;func_021C875C((char *)p,(char *)ctx);}
+        if(func_021C873C(p,(int *)q,ctx)!=0 && WF2DMAP_TOUCH_GetConfirmInput((int *)q)==1) {q[8]=2;func_021C875C((char *)p,(char *)ctx);}
         break;
     case 25:
         if(CLACT_IsActorAnimActive(((struct Obj03809 *)ctx)->f164)!=1) {

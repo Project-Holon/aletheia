@@ -1,7 +1,7 @@
 /*
  * file:     dwc_netcheck.c
  * unit:     yes
- * function: func_0217A880, func_0217A950, func_0217AA20, func_0217AAA0, DWC_Netcheck_GetReturnCode, func_0217AAF4, DWCi_Netcheck_Thread, func_0217B7E8
+ * function: DWC_Netcheck_Create, DWC_Netcheck_Destroy, DWC_Netcheck_Abort, DWC_Netcheck_GetError, DWC_Netcheck_GetReturnCode, DWCi_Netcheck_StartThread, DWCi_Netcheck_Thread, DWCi_Netcheck_SetError
  * address:  0x0217A880
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -39,7 +39,7 @@
  *   DWC_Auth_SetCalInfoToHttp        0x02179218 arm
  *   DWC_Http_Add_PostBase64Item      0x02179f3c arm
  *   strlen                           0x0209477c arm
- *   func_0217B7E8           0x0217b7e8 arm
+ *   DWCi_Netcheck_SetError           0x0217b7e8 arm
  *   strncpy                          0x02094860 arm
  *   DWCi_BM_GetWiFiInfo              0x02058518 arm
  *   DWC_Auth_Create                  0x02177ee8 arm
@@ -76,7 +76,7 @@
  *   OS_WakeupThreadDirect            0x02085868 arm
  *   func_021797D4                    0x021797D4 arm ov009
  *   DWC_Auth_Abort                   0x021780A8 arm ov009
- *   func_0217AAF4                    0x0217AAF4 arm ov009
+ *   DWCi_Netcheck_StartThread                    0x0217AAF4 arm ov009
  *
  */
 
@@ -226,7 +226,7 @@ extern int strcmp(const char *a, const char *b);
 extern int DWC_Auth_GetCalInfoFromNVRAM(DWCCalInfo *cal);
 extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern void func_0217B7E8(int error);
+extern void DWCi_Netcheck_SetError(int error);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
 extern int DWC_Auth_Create(DWCAuthParam *param, void *http);
@@ -246,13 +246,13 @@ extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void 
 extern void OS_WakeupThreadDirect(void *thread);
 extern void func_021797D4(DWCHttp *http);
 extern void DWC_Auth_Abort(void);
-void func_0217AAF4(void);
+void DWCi_Netcheck_StartThread(void);
 static void DWCi_Netcheck_Thread(void *arg);
 
 /*
  * sdk:      DWC_Netcheck_Create (dwc_netcheck.o)
  */
-int func_0217A880(DWCNetcheckParam *param)
+int DWC_Netcheck_Create(DWCNetcheckParam *param)
 {
     void *(*alloc)(unsigned long, long) = param->alloc;
 
@@ -275,14 +275,14 @@ int func_0217A880(DWCNetcheckParam *param)
     }
     DWChttp.ishotspot = 0;
     OS_InitMutex(DWChttp.nc->mutex);
-    func_0217AAF4();
+    DWCi_Netcheck_StartThread();
     return 0;
 }
 
 /*
  * sdk:      DWC_Netcheck_Destroy (dwc_netcheck.o)
  */
-void func_0217A950(void)
+void DWC_Netcheck_Destroy(void)
 {
     void (*free)(unsigned long, void *, long) = DWChttp.nc->param.free;
 
@@ -310,7 +310,7 @@ void func_0217A950(void)
 /*
  * sdk:      DWC_Netcheck_Abort (dwc_netcheck.o)
  */
-void func_0217AA20(void)
+void DWC_Netcheck_Abort(void)
 {
     if (DWChttp.nc == 0) {
         return;
@@ -329,7 +329,7 @@ void func_0217AA20(void)
 /*
  * sdk:      DWC_Netcheck_GetError (dwc_netcheck.o)
  */
-int func_0217AAA0(void)
+int DWC_Netcheck_GetError(void)
 {
     int error;
 
@@ -347,7 +347,7 @@ int DWC_Netcheck_GetReturnCode(void)
 /*
  * sdk:      DWCi_Netcheck_StartThread (dwc_netcheck.o)
  */
-void func_0217AAF4(void)
+void DWCi_Netcheck_StartThread(void)
 {
     if (DWChttp.nc->thread.id != 0 &&
         !OS_IsThreadTerminated(&DWChttp.nc->thread)) {
@@ -396,12 +396,12 @@ static void DWCi_Netcheck_Thread(void *arg)
         DWCnetcheck_->returncode = -2;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(1);
+            DWCi_Netcheck_SetError(1);
             goto exit;
         }
         if (DWC_Http_FinishHeader(DWChttp_) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(1);
+            DWCi_Netcheck_SetError(1);
             goto exit;
         }
         DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
@@ -414,18 +414,18 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCnetcheck_->returncode = -1;
         default:
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(3);
+            DWCi_Netcheck_SetError(3);
             goto exit;
         }
         if (DWC_Http_ParseResult(DWChttp_, 0) != 1) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(2);
+            DWCi_Netcheck_SetError(2);
             goto exit;
         }
         httpretcode = DWC_Http_GetResult(DWChttp_, g_021A2700);
         httpretcodei = atoi(httpretcode);
         if (errno == 34) {
-            func_0217B7E8(2);
+            DWCi_Netcheck_SetError(2);
             goto exit;
         }
         switch (httpretcodei) {
@@ -447,25 +447,25 @@ static void DWCi_Netcheck_Thread(void *arg)
                     DWChttp.httpparam.ignoreca = 1;
                 if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
                     DWC_Http_Destroy(DWChttp_);
-                    func_0217B7E8(1);
+                    DWCi_Netcheck_SetError(1);
                     goto exit;
                 }
                 if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(DWChttp_, &calinfo, 1)) {
                     DWC_Http_Destroy(DWChttp_);
-                    func_0217B7E8(8);
+                    DWCi_Netcheck_SetError(8);
                     goto exit;
                 }
                 if (DWC_Http_Add_PostBase64Item(DWChttp_, g_021A272C, g_021A2734, 7) != 0
                  || DWC_Http_Add_PostBase64Item(DWChttp_, g_021A273C, DWCnetcheck_->blurl, strlen(DWCnetcheck_->blurl)) != 0) {
                     DWC_Http_Destroy(DWChttp_);
-                    func_0217B7E8(8);
+                    DWCi_Netcheck_SetError(8);
                     goto exit;
                 }
                 free(0, DWCnetcheck_->blurl, 0);
                 DWCnetcheck_->blurl = 0;
                 if (DWC_Http_FinishHeader(DWChttp_) != 0) {
                     DWC_Http_Destroy(DWChttp_);
-                    func_0217B7E8(1);
+                    DWCi_Netcheck_SetError(1);
                     goto exit;
                 }
                 DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
@@ -476,31 +476,31 @@ static void DWCi_Netcheck_Thread(void *arg)
                     DWCnetcheck_->returncode = -1;
                 default:
                     DWC_Http_Destroy(DWChttp_);
-                    func_0217B7E8(3);
+                    DWCi_Netcheck_SetError(3);
                     goto exit;
                 case 8:
                     DWC_Http_Destroy(DWChttp_);
-                    func_0217B7E8(7);
+                    DWCi_Netcheck_SetError(7);
                     goto exit;
                 }
             }
             body302 = DWChttp_->rep.buffer;
             if (body302 == 0) {
                 DWC_Http_Destroy(DWChttp_);
-                func_0217B7E8(2);
+                DWCi_Netcheck_SetError(2);
                 goto exit;
             }
             DWCnetcheck_->url = alloc(0, strlen(body302) + 1);
             if (DWCnetcheck_->url == 0) {
                 DWC_Http_Destroy(DWChttp_);
-                func_0217B7E8(4);
+                DWCi_Netcheck_SetError(4);
                 goto exit;
             }
             strncpy(DWCnetcheck_->url, body302, strlen(body302) + 1);
             break;
         default:
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(10);
+            DWCi_Netcheck_SetError(10);
             goto exit;
         }
         DWC_Http_Destroy(DWChttp_);
@@ -513,7 +513,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCnetcheckauthparam.alloc = DWCnetcheck_->param.alloc;
             DWCnetcheckauthparam.free = DWCnetcheck_->param.free;
             if (DWC_Auth_Create(&DWCnetcheckauthparam, DWChttp_) != 0) {
-                func_0217B7E8(5);
+                DWCi_Netcheck_SetError(5);
                 goto exit;
             }
             DWC_Auth_Join();
@@ -525,20 +525,20 @@ static void DWCi_Netcheck_Thread(void *arg)
                     if (DWChttp.allow302 == 1 && (authresult.returncode == -23302 || DWC_Auth_GetError() == 11)) {
                         DWCnetcheck_->returncode = 0;
                         DWC_Auth_Destroy();
-                        func_0217B7E8(11);
+                        DWCi_Netcheck_SetError(11);
                         goto exit;
                     }
                     DWCnetcheck_->returncode = authresult.returncode;
                 }
                 DWC_Auth_Destroy();
-                func_0217B7E8(6);
+                DWCi_Netcheck_SetError(6);
                 goto exit;
             }
             DWC_Auth_Destroy();
         }
         if (httpretcodei == 200) {
             DWCnetcheck_->returncode = 0;
-            func_0217B7E8(11);
+            DWCi_Netcheck_SetError(11);
             goto exit;
         }
 
@@ -553,25 +553,25 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWChttp.httpparam.ignoreca = 1;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(1);
+            DWCi_Netcheck_SetError(1);
             goto exit;
         }
         if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(DWChttp_, &calinfo, 1)) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(8);
+            DWCi_Netcheck_SetError(8);
             goto exit;
         }
         if (DWC_Http_Add_PostBase64Item(DWChttp_, g_021A272C, g_021A274C, 5) != 0
          || DWC_Http_Add_PostBase64Item(DWChttp_, g_021A2754, DWCnetcheck_->url, strlen(DWCnetcheck_->url)) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(8);
+            DWCi_Netcheck_SetError(8);
             goto exit;
         }
         free(0, DWCnetcheck_->url, 0);
         DWCnetcheck_->url = 0;
         if (DWC_Http_FinishHeader(DWChttp_) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(1);
+            DWCi_Netcheck_SetError(1);
             goto exit;
         }
         DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
@@ -584,105 +584,105 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWC_Http_Destroy(DWChttp_);
             if (DWChttp.allow302 == 1) {
                 DWCnetcheck_->returncode = 0;
-                func_0217B7E8(11);
+                DWCi_Netcheck_SetError(11);
                 goto exit;
             }
-            func_0217B7E8(3);
+            DWCi_Netcheck_SetError(3);
             goto exit;
         case 2:
             DWCnetcheck_->returncode = -1;
         default:
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(3);
+            DWCi_Netcheck_SetError(3);
             goto exit;
         }
         if (DWC_Http_ParseResult(DWChttp_, 0) != 1) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(2);
+            DWCi_Netcheck_SetError(2);
             goto exit;
         }
         httpretcode = DWC_Http_GetResult(DWChttp_, g_021A2700);
         httpretcodei = atoi(httpretcode);
         if (errno == 34) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(2);
+            DWCi_Netcheck_SetError(2);
             goto exit;
         }
         if (httpretcodei != 200) {
             DWC_Http_Destroy(DWChttp_);
             if (DWChttp.allow302 == 1 && httpretcodei == 302) {
                 DWCnetcheck_->returncode = 0;
-                func_0217B7E8(11);
+                DWCi_Netcheck_SetError(11);
                 goto exit;
             }
-            func_0217B7E8(2);
+            DWCi_Netcheck_SetError(2);
             goto exit;
         }
         if (DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A275C, retcode, 4) <= 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(9);
+            DWCi_Netcheck_SetError(9);
             goto exit;
         }
         httpretcodei = atoi(retcode);
         if (errno == 34) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(9);
+            DWCi_Netcheck_SetError(9);
             goto exit;
         }
         if (DWChttp.allow302 == 1 && httpretcodei == 114) {
             DWCnetcheck_->returncode = 0;
-            func_0217B7E8(11);
+            DWCi_Netcheck_SetError(11);
             goto exit;
         }
         if (httpretcodei >= 100) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(6);
+            DWCi_Netcheck_SetError(6);
             goto exit;
         }
         url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2768, 0, 0);
         if (url_len <= 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(9);
+            DWCi_Netcheck_SetError(9);
             goto exit;
         }
         data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A276C, 0, 0);
         if (data_len <= 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(9);
+            DWCi_Netcheck_SetError(9);
             goto exit;
         }
         wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2774, 0, 0);
         url = alloc(0, url_len + 1);
         if (url == 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(4);
+            DWCi_Netcheck_SetError(4);
             goto exit;
         }
         data = alloc(0, data_len + 1);
         if (data == 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(4);
+            DWCi_Netcheck_SetError(4);
             goto exit;
         }
         if (wait_len > 0) {
             wait = alloc(0, wait_len + 1);
             if (wait == 0) {
                 DWC_Http_Destroy(DWChttp_);
-                func_0217B7E8(4);
+                DWCi_Netcheck_SetError(4);
                 goto exit;
             }
         }
         url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2768, url, url_len + 1);
         if (url_len < 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(9);
+            DWCi_Netcheck_SetError(9);
             goto exit;
         }
         url[url_len] = 0;
         data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A276C, data, data_len + 1);
         if (data_len < 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(9);
+            DWCi_Netcheck_SetError(9);
             goto exit;
         }
         data[data_len] = 0;
@@ -691,14 +691,14 @@ static void DWCi_Netcheck_Thread(void *arg)
             wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2774, wait, wait_len + 1);
             if (wait_len < 0) {
                 DWC_Http_Destroy(DWChttp_);
-                func_0217B7E8(9);
+                DWCi_Netcheck_SetError(9);
                 goto exit;
             }
             wait[wait_len] = 0;
             wait_sec = atoi(wait);
             if (errno == 34) {
                 DWC_Http_Destroy(DWChttp_);
-                func_0217B7E8(9);
+                DWCi_Netcheck_SetError(9);
                 goto exit;
             }
             wait_sec *= 1000;
@@ -716,17 +716,17 @@ static void DWCi_Netcheck_Thread(void *arg)
         DWChttp.httpparam.timeout = 120000;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(1);
+            DWCi_Netcheck_SetError(1);
             goto exit;
         }
         if (DWC_Http_Add_Body(DWChttp_, data) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(8);
+            DWCi_Netcheck_SetError(8);
             goto exit;
         }
         if (DWC_Http_FinishHeader(DWChttp_) != 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(1);
+            DWCi_Netcheck_SetError(1);
             goto exit;
         }
         DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
@@ -739,24 +739,24 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCnetcheck_->returncode = -1;
         default:
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(3);
+            DWCi_Netcheck_SetError(3);
             goto exit;
         }
         if (DWC_Http_ParseResult(DWChttp_, 1) != 1) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(2);
+            DWCi_Netcheck_SetError(2);
             goto exit;
         }
         bodywayport = DWChttp_->rep.buffer;
         if (bodywayport == 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(2);
+            DWCi_Netcheck_SetError(2);
             goto exit;
         }
         DWCnetcheck_->blurl = alloc(0, strlen(bodywayport) + 1);
         if (DWCnetcheck_->blurl == 0) {
             DWC_Http_Destroy(DWChttp_);
-            func_0217B7E8(4);
+            DWCi_Netcheck_SetError(4);
             goto exit;
         }
         strncpy(DWCnetcheck_->blurl, bodywayport, strlen(bodywayport) + 1);
@@ -775,7 +775,7 @@ exit:
 /*
  * sdk:      DWCi_Netcheck_SetError (dwc_netcheck.o)
  */
-void func_0217B7E8(int error)
+void DWCi_Netcheck_SetError(int error)
 {
     OS_LockMutex(DWChttp.nc->mutex);
     DWChttp.nc->error = error;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D733C
+ * function: GTSNEGO_MSG_SetIconY
  * address: 0x021D733C
  * packet: pkt_ov120_021D733C
  * region: ov120
@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_021D72C8 0x021D72C8 thumb ov120
+ *   GTSNEGO_MSG_GetListRowY 0x021D72C8 thumb ov120
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj10399.h"
@@ -21,16 +21,16 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern int func_021D72C8(u8 *, int, int);
+extern int GTSNEGO_MSG_GetListRowY(u8 *, int, int);
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021D733C(u8 *p, int index, int count)
+void GTSNEGO_MSG_SetIconY(u8 *p, int index, int count)
 {
     Vec pos;
     if (((struct Obj10399 *)p)->f140 != 0) {
         CLACT_GetActorSurfacePos(((struct Obj10399 *)p)->f140, (struct PtS *)&pos, 1);
-        pos.y = func_021D72C8(p, index, count) + 26;
+        pos.y = GTSNEGO_MSG_GetListRowY(p, index, count) + 26;
         CLACT_AddActorSurfacePos(((struct Obj10399 *)p)->f140, (const struct Vec2 *)(&pos), 1);
     }
 }

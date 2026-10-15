@@ -1,5 +1,5 @@
 /*
- * function: func_02167ED8
+ * function: DWC_GetDateTime
  * address:  0x02167ED8
  * packet:   pkt_ov009_02167ED8
  * region:   ov009
@@ -31,7 +31,7 @@ extern struct NasTimeDiff_ g_021AA834;
 extern long long g_021AA838;
 extern long long g_021AA840;
 
-int func_02167ED8(void *date, void *time)
+int DWC_GetDateTime(void *date, void *time)
 {
     long long localsec;
 

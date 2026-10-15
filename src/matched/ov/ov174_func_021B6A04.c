@@ -12,7 +12,7 @@
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -31,7 +31,7 @@ struct WordSet;
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void * BMP_WIN_GetBmp(struct Descriptor *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -47,7 +47,7 @@ void LOCAL_TVT_SYS_PrintMessage(u8 *p, int message)
  ((struct Obj00919 *)p)->f70=func_02045EC0(((struct Obj00919 *)p)->f6C,message);
  if(((struct Obj00919 *)p)->f74){
  tmp=STRBUF_Create(1024,((struct Obj00919 *)p)->f0);
- func_0201F250(((struct Obj00919 *)p)->f74,tmp,((struct Obj00919 *)p)->f70);
+ WORDSET_CopyTaggedText(((struct Obj00919 *)p)->f74,tmp,((struct Obj00919 *)p)->f70);
  STRBUF_Delete(((struct Obj00919 *)p)->f70);((struct Obj00919 *)p)->f70=tmp;
  }
  speed=MSG_SPEED_GetWait();

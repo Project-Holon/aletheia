@@ -1,5 +1,5 @@
 /*
- * function: func_02068808
+ * function: NNSi_G2dCharCanvasDrawTextForVRAM
  * address:  0x02068808
  * packet:   pkt_020682DC
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02068430  0x02068430  arm
- *   func_020681E4  0x020681E4  arm
+ *   NNSi_G2dBlitCharData  0x02068430  arm
+ *   NNSi_G2dCalcRectMask  0x020681E4  arm
  *
  * NitroSystem g2d_CharCanvas.c DrawGlyph1D(pCC, pFont, x, y, cl, pGlyph):
- * the OBJ-1D glyph draw.  Same clip as DrawGlyphLine (func_02068670), but
- * each covered character's slot comes from GetCharIndex1D (func_020681E4)
+ * the OBJ-1D glyph draw.  Same clip as DrawGlyphLine (NNSi_G2dCharCanvasDrawText), but
+ * each covered character's slot comes from GetCharIndex1D (NNSi_G2dCalcRectMask)
  * with the two OBJ size shifts packed in the low bytes of pCC->param (the
  * OBJ1DParam union { packed; baseWidthShift:8; baseHeightShift:8 }), and
- * each character is drawn by LetterChar (func_02068430).
+ * each character is drawn by LetterChar (NNSi_G2dBlitCharData).
  *
  * Closed in wave 13 on the first compile of the library body; the wave-11
  * transcription sat at 168 out.  ../2.0/sp2 and sp2p2 identical; 1.1p1 is
@@ -97,7 +97,7 @@ typedef struct NNSG2dCharCanvas {
     const void *vtable;
 } NNSG2dCharCanvas;
 
-extern void func_02068430(LC_INFO *i);      /* LetterChar */
+extern void NNSi_G2dBlitCharData(LC_INFO *i);      /* LetterChar */
 
 static inline int GetCharacterSize(const NNSG2dCharCanvas *pCC)
 {
@@ -118,9 +118,9 @@ static inline u8 NNS_G2dFontGetBpp(const NNSG2dFont *pFont)
 {
     return pFont->pRes->pGlyph->bpp;
 }
-extern u32 func_020681E4(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32 objWidth, u32 objHeight);   /* GetCharIndex1D */
+extern u32 NNSi_G2dCalcRectMask(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32 objWidth, u32 objHeight);   /* GetCharIndex1D */
 
-void func_02068808(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
+void NNSi_G2dCharCanvasDrawTextForVRAM(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
 {
     int ofs_x_base;
     int ofs_x;
@@ -213,12 +213,12 @@ void func_02068808(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x
                 i.ofs_y = ofs_y;
                 cx = cx_base;
                 for (ofs_x = ofs_x_base; ofs_x > ofs_x_end; ofs_x -= 8) {
-                    const unsigned int iChar = func_020681E4((u32)cx, (u32)cy, areaWidth, areaHeight, baseWidthShift, baseHeightShift);
+                    const unsigned int iChar = NNSi_G2dCalcRectMask((u32)cx, (u32)cy, areaWidth, areaHeight, baseWidthShift, baseHeightShift);
 
                     i.ofs_x = ofs_x;
                     i.dst = pCharBase + iChar * charSize;
 
-                    func_02068430(&i);
+                    NNSi_G2dBlitCharData(&i);
                     cx++;
                 }
                 cy++;

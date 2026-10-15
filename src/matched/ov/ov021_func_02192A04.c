@@ -17,7 +17,7 @@
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
@@ -32,7 +32,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_02041300(u32 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 pal);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 
 void FIELD_MSGBG_DrawSysWindowFrame(u32 win)
@@ -48,13 +48,13 @@ void FIELD_MSGBG_DrawSysWindowFrame(u32 win)
     w = BMP_WIN_GetWidth((struct Descriptor *)win);
     h = BMP_WIN_GetHeight((struct Descriptor *)win);
     bg = BMP_WIN_GetBgLayer((struct Descriptor *)win);
-    func_02041300(bg, 0x1f, x - 1, y - 1, 1, 1, 13);
-    func_02041300(bg, 0x20, x, y - 1, w, 1, 13);
-    func_02041300(bg, 0x24, x + w, y - 1, 1, 1, 13);
-    func_02041300(bg, 0x25, x - 1, y, 1, h, 13);
-    func_02041300(bg, 0x2a, x + w, y, 1, h, 13);
-    func_02041300(bg, 0x2b, x - 1, y + h, 1, 1, 13);
-    func_02041300(bg, 0x2d, x, y + h, w, 1, 13);
-    func_02041300(bg, 0x30, x + w, y + h, 1, 1, 13);
+    BG_SYS_SetTileEntry(bg, 0x1f, x - 1, y - 1, 1, 1, 13);
+    BG_SYS_SetTileEntry(bg, 0x20, x, y - 1, w, 1, 13);
+    BG_SYS_SetTileEntry(bg, 0x24, x + w, y - 1, 1, 1, 13);
+    BG_SYS_SetTileEntry(bg, 0x25, x - 1, y, 1, h, 13);
+    BG_SYS_SetTileEntry(bg, 0x2a, x + w, y, 1, h, 13);
+    BG_SYS_SetTileEntry(bg, 0x2b, x - 1, y + h, 1, 1, 13);
+    BG_SYS_SetTileEntry(bg, 0x2d, x, y + h, w, 1, 13);
+    BG_SYS_SetTileEntry(bg, 0x30, x + w, y + h, 1, 1, 13);
     func_020409B4(bg);
 }

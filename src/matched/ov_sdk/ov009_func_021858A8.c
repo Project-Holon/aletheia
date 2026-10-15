@@ -1,5 +1,5 @@
 /*
- * function: func_021858A8
+ * function: GSMD5Digest
  * address:  0x021858A8
  * packet:   pkt_ov009_021858A8
  * region:   ov009
@@ -29,7 +29,7 @@ extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsig
 extern void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
 extern void GSMD5Print(unsigned char * digest, char * output);
 
-void func_021858A8(unsigned char * input, unsigned int len, char * output)
+void GSMD5Digest(unsigned char * input, unsigned int len, char * output)
 {
     struct GSMD5_CTX ctx;
     unsigned char digest[16];

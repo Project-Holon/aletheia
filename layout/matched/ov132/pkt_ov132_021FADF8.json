@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FADF8",
+   "name": "STA_ACT_SCRIPT_RemoveTask",
    "address": "0x021FADF8",
    "kind": "game",
    "region": "ov132",

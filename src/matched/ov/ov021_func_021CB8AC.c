@@ -1,5 +1,5 @@
 /*
- * function: func_021CB8AC
+ * function: BSUBWAY_SCR_CommShutdownMain
  * address:  0x021CB8AC
  * packet:   pkt_ov021_021CB8AC
  * region:   ov021
@@ -43,7 +43,7 @@ extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
 
-int func_021CB8AC(void *task, int *state, Owner **work)
+int BSUBWAY_SCR_CommShutdownMain(void *task, int *state, Owner **work)
 {
     switch (*state) {
     case 0:

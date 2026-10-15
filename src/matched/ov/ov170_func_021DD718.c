@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * 2026-10-04 (wD2 lane 02): witness filed: src/matched/arm9/func_02019CF8.c (EXACT, Thumb forwarder to func_02019BBC).
+ * 2026-10-04 (wD2 lane 02): witness filed: src/matched/arm9/POKE_TOOL_GetPlateTypeForwarder.c (EXACT, Thumb forwarder to POKE_TOOL_GetPlateType).
  * Expected EXACT after the integrator's manifest refresh.
  *
  * symbols:
  *   func_02017E88 0x02017E88 thumb
- *   func_02019CF8 0x02019CF8 thumb
- *   func_02019D00 0x02019D00 thumb
+ *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
+ *   POKE_TOOL_GetBoxParamIndex 0x02019D00 thumb
  *   BOX2_MAIN_ChangeFormAndRegister 0x021DD6E8 thumb
  *
  * Re-derives the form of a species whose form follows its held item
@@ -32,8 +32,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u16 func_02019CF8(u32 item);
-extern u32 func_02019D00(u32 item);
+extern u16 POKE_TOOL_GetPlateTypeForwarder(u32 item);
+extern u32 POKE_TOOL_GetBoxParamIndex(u32 item);
 extern void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b);
 
 int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
@@ -42,7 +42,7 @@ int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
     if (species == 0x1ED) {
         u16 item = func_02017E88(mon, 6, 0);
         u16 form = func_02017E88(mon, 0x6F, 0);
-        u16 want = func_02019CF8(item);
+        u16 want = POKE_TOOL_GetPlateTypeForwarder(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
@@ -50,7 +50,7 @@ int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
     } else if (species == 0x289) {
         u16 item = func_02017E88(mon, 6, 0);
         u16 form = func_02017E88(mon, 0x6F, 0);
-        u16 want = func_02019D00(item);
+        u16 want = POKE_TOOL_GetBoxParamIndex(item);
         if (form != want)
             BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)

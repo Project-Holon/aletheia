@@ -117,7 +117,7 @@
    ]
   },
   {
-   "name": "sub_020090B0",
+   "name": "CGEAR_SAVE_GetSize",
    "address": "0x020090B0",
    "kind": "game",
    "region": "arm9",
@@ -140,14 +140,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020090D8",
-    "sub_020090E0",
-    "sub_020090E8",
-    "sub_020090F0",
-    "sub_020090F8",
-    "sub_02009100",
-    "sub_02009108",
-    "sub_0200910C"
+    "CGEAR_SAVE_SetObtained",
+    "CGEAR_SAVE_GetObtained",
+    "CGEAR_SAVE_SetPowerSetting",
+    "CGEAR_SAVE_GetPowerSetting",
+    "CGEAR_SAVE_SetGsyncState",
+    "CGEAR_SAVE_GetGsyncState",
+    "CGEAR_SAVE_SetGsyncId",
+    "CGEAR_SAVE_GetGsyncId"
+   ],
+   "addresses": [
+    "0x020090D8",
+    "0x020090E0",
+    "0x020090E8",
+    "0x020090F0",
+    "0x020090F8",
+    "0x02009100",
+    "0x02009108",
+    "0x0200910C"
    ]
   },
   {
@@ -162,8 +172,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009110",
-    "sub_02009134"
+    "CGEAR_SAVE_GetPanelValue",
+    "CGEAR_SAVE_GetPanelFlag"
+   ],
+   "addresses": [
+    "0x02009110",
+    "0x02009134"
    ]
   }
  ]

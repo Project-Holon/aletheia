@@ -1,5 +1,5 @@
 /*
- * function: func_0215FD00
+ * function: SOCLi_ExecEnableSslCommand
  * address:  0x0215FD00
  * packet:   pkt_ov009_0215FD00
  * region:   ov009
@@ -14,18 +14,18 @@
  * symbols:
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   SOCLi_ExecCommandPacketInRecvPipe  0x0215CF88  arm  ov009
- *   func_0215FD40  0x0215FD40  arm  ov009
+ *   SOCLi_EnableSslCallBack  0x0215FD40  arm  ov009
  */
 
 extern void *func_0215CE3C(int (*handler)(void *), void *socket, long flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
-extern int func_0215FD40(void *arg);
+extern int SOCLi_EnableSslCallBack(void *arg);
 
-int func_0215FD00(void *socket, void *con)
+int SOCLi_ExecEnableSslCommand(void *socket, void *con)
 {
 	int *command;
 
-	command = func_0215CE3C(func_0215FD40, socket, 1);
+	command = func_0215CE3C(SOCLi_EnableSslCallBack, socket, 1);
 	if (command == 0) {
 		return -33;
 	}

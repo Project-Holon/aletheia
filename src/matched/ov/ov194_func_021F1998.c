@@ -1,5 +1,5 @@
 /*
- * function: func_021F1998
+ * function: NAMEIN_GRAPHIC_GetActor
  * address: 0x021F1998
  * packet: pkt_ov194_021F1998
  * region: ov194
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F1998(u8 *p,u32 i) { return *(void **)((u32)p+i*4+12); }
+void *NAMEIN_GRAPHIC_GetActor(u8 *p,u32 i) { return *(void **)((u32)p+i*4+12); }

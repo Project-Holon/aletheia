@@ -14,7 +14,7 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   WIFICLUB_SetFriendNameWord 0x021C2370 thumb ov099
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   WIFICLUB_GetFriendStatus 0x021C23B8 thumb ov099
@@ -22,7 +22,7 @@
  *   WIFICLUB_GetStatusPhase 0x021BDD54 thumb ov099
  *   WIFICLUB_GetVisitorMessageId 0x021BB918 thumb ov099
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
@@ -48,7 +48,7 @@ extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void WIFICLUB_SetFriendNameWord(char *,int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern int WIFICLUB_GetFriendStatus(int i);
@@ -56,7 +56,7 @@ extern unsigned WIFICLUB_GetStatusKind(char *,void *);
 extern unsigned WIFICLUB_GetStatusPhase(char *,void *);
 extern int WIFICLUB_GetVisitorMessageId(void *w, unsigned int idx, int *unused);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
@@ -80,7 +80,7 @@ void WIFICLUB_DrawPartnerPanel(char *p,int v)
     GF_FONT_SetTextColor(15,2,0);
     WIFICLUB_SetFriendNameWord(p,index);
     MSGDATA_ReadString(PTR(0xe0),33,PTR(0xf0));
-    func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
+    WORDSET_CopyTaggedText(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
     PRINTSYS_Print(BMP_WIN_GetBmp(PTR(0x958)),25,0,PTR(0xf8),PTR(0xe8));
     mon=(void *)WIFICLUB_GetFriendStatus(index);
     kind=WIFICLUB_GetStatusKind(p,mon);
@@ -91,29 +91,29 @@ void WIFICLUB_DrawPartnerPanel(char *p,int v)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x958)),96,0,PTR(0xf0),PTR(0xe8),0x3c40);
     MSGDATA_ReadString(PTR(0xe0),35,PTR(0xf8));
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),104,0,PTR(0xf8),PTR(0xe8),0x3c40);
-    func_0201EFA4(PTR(0x8b0),0,func_02009864(PTR(4),index,2),4,1,1);
+    WORDSET_SetSlotNumber(PTR(0x8b0),0,func_02009864(PTR(4),index,2),4,1,1);
     MSGDATA_ReadString(PTR(0xe0),36,PTR(0xf0));
-    func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
+    WORDSET_CopyTaggedText(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),176,24,PTR(0xf8),PTR(0xe8),0x3c40);
-    func_0201EFA4(PTR(0x8b0),0,func_02009864(PTR(4),index,3),4,1,1);
+    WORDSET_SetSlotNumber(PTR(0x8b0),0,func_02009864(PTR(4),index,3),4,1,1);
     MSGDATA_ReadString(PTR(0xe0),37,PTR(0xf0));
-    func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
+    WORDSET_CopyTaggedText(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),176,40,PTR(0xf8),PTR(0xe8),0x3c40);
     MSGDATA_ReadString(PTR(0xe0),38,PTR(0xf8));
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),104,64,PTR(0xf8),PTR(0xe8),0x3c40);
-    func_0201EFA4(PTR(0x8b0),0,func_02009864(PTR(4),index,4),4,1,1);
+    WORDSET_SetSlotNumber(PTR(0x8b0),0,func_02009864(PTR(4),index,4),4,1,1);
     MSGDATA_ReadString(PTR(0xe0),39,PTR(0xf0));
-    func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
+    WORDSET_CopyTaggedText(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),188,64,PTR(0xf8),PTR(0xe8),0x3c40);
     MSGDATA_ReadString(PTR(0xe0),42,PTR(0xf8));
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),8,96,PTR(0xf8),PTR(0xe8),0x3c40);
     message=func_02009864(PTR(4),index,7);
     if(message){
-        func_0201EFA4(PTR(0x8b0),2,message,2,0,1);
-        func_0201EFA4(PTR(0x8b0),0,func_02009864(PTR(4),index,5),4,1,1);
-        func_0201EFA4(PTR(0x8b0),1,func_02009864(PTR(4),index,6),2,0,1);
+        WORDSET_SetSlotNumber(PTR(0x8b0),2,message,2,0,1);
+        WORDSET_SetSlotNumber(PTR(0x8b0),0,func_02009864(PTR(4),index,5),4,1,1);
+        WORDSET_SetSlotNumber(PTR(0x8b0),1,func_02009864(PTR(4),index,6),2,0,1);
         MSGDATA_ReadString(PTR(0xe0),44,PTR(0xf0));
-        func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
+        WORDSET_CopyTaggedText(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),152,96,PTR(0xf8),PTR(0xe8),0x3c40);
     }
     BMP_WIN_MakeScreen(PTR(0x95c));

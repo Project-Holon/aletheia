@@ -13,7 +13,7 @@
  *   func_021BE0D4 0x021BE0D4 thumb ov204
  *   func_021BDF74 0x021BDF74 thumb ov204
  *   func_021BDDF8 0x021BDDF8 thumb ov204
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -23,7 +23,7 @@ extern void func_02030EAC(struct Node *);
 extern void func_021BE0D4(unsigned char *);
 extern void func_021BDF74(unsigned char *);
 extern void func_021BDDF8(unsigned char *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -33,7 +33,7 @@ void func_021BDCF0(unsigned char *p)
     func_021BE0D4(p + 8);
     func_021BDF74(p + 4);
     func_021BDDF8(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;

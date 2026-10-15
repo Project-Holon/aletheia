@@ -1,5 +1,5 @@
 /*
- * function: func_021C4550
+ * function: WIFI_2DCHAR_IsHandleValid
  * address:  0x021C4550
  * packet:   pkt_021C4550
  * region:   ov127
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C4550(int *p)
+int WIFI_2DCHAR_IsHandleValid(int *p)
 {
     return *p != -1;
 }

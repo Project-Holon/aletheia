@@ -1,5 +1,5 @@
 /*
- * function: func_021D4FC0
+ * function: GTSNEGO_DISP_ShowSubPlanes
  * address:  0x021D4FC0
  * packet:   pkt_021D4FC0
  * region:   ov120
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D588C  0x021D588C  thumb
+ *   GTSNEGO_DISP_ShowPartySelect  0x021D588C  thumb
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *
  * Addresses are Black-image addresses.
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021D588C(u8 *p);
+extern void GTSNEGO_DISP_ShowPartySelect(u8 *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 
-void func_021D4FC0(u8 *p)
+void GTSNEGO_DISP_ShowSubPlanes(u8 *p)
 {
-    func_021D588C(p);
+    GTSNEGO_DISP_ShowPartySelect(p);
     BG_SYS_SetSubVisiblePlanes(0x1f);
 }

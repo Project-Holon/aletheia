@@ -1,5 +1,5 @@
 /*
- * function: func_0217FF70
+ * function: gsiSoapTaskThink
  * address:  0x0217FF70
  * packet:   pkt_ov009_0217FF70
  * region:   ov009
@@ -24,7 +24,7 @@ typedef struct GSSoapTask {
 
 extern int ghttpRequestThink(int request);
 
-int func_0217FF70(void *theTask)
+int gsiSoapTaskThink(void *theTask)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
     if (aSoapTask->completed != 0)

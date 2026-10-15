@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C83DC",
+   "name": "VIEWER_ACTOR_HandleScrollRepeat",
    "address": "0x021C83DC",
    "kind": "game",
    "region": "ov111",

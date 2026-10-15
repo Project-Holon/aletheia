@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * note 2026-10-05 (wD6 lane17): closed by the real callee prototypes: func_0201DD68 takes no
+ * note 2026-10-05 (wD6 lane17): closed by the real callee prototypes: GF_FONT_SetDefaultTextColor takes no
  *   argument (so count is spilled and reloaded for the +0x25C store) and the record pointer is not
  *   const (the a/b/c loads stay after the outgoing stack-argument stores).
  *
  * symbols:
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0201F7A8  0x0201F7A8  thumb
+ *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
@@ -42,14 +42,14 @@ typedef struct {
     u32 a, b, c, d;
 } Rec;
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_0201F7A8(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -88,11 +88,11 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *tbl, Own *owner, Rec *recs, 
     int b;
 
     owner->n = count;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     for (i = 0; i < 4; i++) {
         if (owner->obj[i] != 0) {
             BMP_WIN_ClearScreen(owner->obj[i]);
-            func_0201F7A8(owner->obj[i], 2);
+            BMP_MENUWORK_DrawWindowBorder(owner->obj[i], 2);
             BMP_WIN_Delete(owner->obj[i]);
         }
         owner->obj[i] = 0;

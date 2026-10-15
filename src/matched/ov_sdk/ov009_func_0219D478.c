@@ -1,5 +1,5 @@
 /*
- * function: func_0219D478
+ * function: GOADecrypt
  * address:  0x0219D478
  * packet:   pkt_ov009_0219D478
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      GOADecrypt (libdwcgsserverbrowsing.TWL.HYB.a(sb_crypt.o))
  *
  * symbols:
- *   func_0219D3AC  0x0219D3AC  arm  ov009
+ *   GOADecryptByte  0x0219D3AC  arm  ov009
  */
 
 struct GOACryptState {
@@ -24,12 +24,12 @@ struct GOACryptState {
     unsigned char last_cipher;
 };
 
-extern unsigned char func_0219D3AC(struct GOACryptState *state, unsigned char b);
+extern unsigned char GOADecryptByte(struct GOACryptState *state, unsigned char b);
 
-void func_0219D478(struct GOACryptState *state, unsigned char *bp, int len)
+void GOADecrypt(struct GOACryptState *state, unsigned char *bp, int len)
 {
     int i;
 
     for (i = 0; i < len; i++)
-        bp[i] = func_0219D3AC(state, bp[i]);
+        bp[i] = GOADecryptByte(state, bp[i]);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02069078
+ * function: NNS_G2dMapScrToCharText
  * address:  0x02069078
  * packet:   pkt_02069078
  * region:   arm9
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02069128    0x02069128  arm
+ *   NNSi_G2dFillScrCharArea    0x02069128  arm
  *
  * NitroSystem NNS_G2dMapScrToCharText (g2d_CharCanvas): map a rectangle of
  * a text-BG screen to consecutive character numbers.  A screen no wider
- * than 32 entries is linear and goes to func_02069128; a 64-wide screen is
+ * than 32 entries is linear and goes to NNSi_G2dFillScrCharArea; a 64-wide screen is
  * two 32x32 blocks side by side, so row y >= 32 skips the right-hand block
  * (y + 32) and column x >= 32 lands in it (x + 32 * 31).
  *
  * Levers: `scnWidth * areaTop + areaLeft` in that order and parenthesised
  * (the image's `mla r4, r5, lr, r3`; the unparenthesised sum is two adds,
  * and the other product order is 2 bytes out); `const u16 cpltMask` and the
- * post-increment inside the store, as in func_02069128.
+ * post-increment inside the store, as in NNSi_G2dFillScrCharArea.
  *
  * COMPILER PIN ../2.0/sp2 (docs/FRONTEND-PINS.md): both 32-block selects are
  * true conditional-move pairs in the image, `cmp lr, #0x20` / `movlt r2, lr`
@@ -33,13 +33,13 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02069128(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
+extern void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
 
-void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop,
+void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop,
                    int scnWidth, int charNo, int cplt)
 {
     if (scnWidth <= 32) {
-        func_02069128((u16 *)scnBase + (scnWidth * areaTop + areaLeft), areaWidth, areaHeight,
+        NNSi_G2dFillScrCharArea((u16 *)scnBase + (scnWidth * areaTop + areaLeft), areaWidth, areaHeight,
                       scnWidth, charNo, cplt);
     } else {
         const int areaRight = areaLeft + areaWidth;

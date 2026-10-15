@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_020870D0  0x020870D0  arm
- *   func_021859C0  0x021859C0  arm  ov009
+ *   gpConnectPreAuthenticatedA  0x021859C0  arm  ov009
  *   DWCi_HandleGPError  0x0216A460  arm  ov009
  *   gDwcLoginControl  0x021AA874  data
  */
@@ -35,7 +35,7 @@ extern LoginCnt *gDwcLoginControl;
 
 
 extern unsigned long long func_020870D0(void);
-extern int func_021859C0(void **connection, char *authtoken, char *partnerchallenge, int firewall, int blocking, void (*callback)(void **, void *, void *), void *param);
+extern int gpConnectPreAuthenticatedA(void **connection, char *authtoken, char *partnerchallenge, int firewall, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int DWCi_HandleGPError(int result);
 
 void DWCi_GPConnect(void *callback, int next_state)
@@ -46,7 +46,7 @@ void DWCi_GPConnect(void *callback, int next_state)
 	tick = func_020870D0();
 	gDwcLoginControl->tick = tick;
 	gDwcLoginControl->a30 = 1;
-	gpResult = func_021859C0(gDwcLoginControl->connection, gDwcLoginControl->authToken, gDwcLoginControl->partnerChallenge, 1, 0, callback, 0);
+	gpResult = gpConnectPreAuthenticatedA(gDwcLoginControl->connection, gDwcLoginControl->authToken, gDwcLoginControl->partnerChallenge, 1, 0, callback, 0);
 	if (DWCi_HandleGPError(gpResult) == 0)
 		gDwcLoginControl->state = next_state;
 }

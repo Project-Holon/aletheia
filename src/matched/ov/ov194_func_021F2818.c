@@ -1,5 +1,5 @@
 /*
- * function: func_021F2818
+ * function: NAMEIN_GRAPHIC_PickerGetBox
  * address:  0x021F2818
  * packet:   pkt_021F2818
  * region:   ov194
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-void func_021F2818(char *a, int b, int c)
+void NAMEIN_GRAPHIC_PickerGetBox(char *a, int b, int c)
 {
     ((void (*)(int, int))(*(void **)(a + 0x14)))(b, c);
 }

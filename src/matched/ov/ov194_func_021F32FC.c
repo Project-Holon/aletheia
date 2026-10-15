@@ -1,5 +1,5 @@
 /*
- * function: func_021F32FC
+ * function: NAMEIN_GRAPHIC_GetGridIndex
  * address: 0x021F32FC
  * packet: pkt_ov194_021F32FC
  * region: ov194
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F32FC(const u8 *p) {return ((struct Obj24907 *)p)->f104;}
+void *NAMEIN_GRAPHIC_GetGridIndex(const u8 *p) {return ((struct Obj24907 *)p)->f104;}

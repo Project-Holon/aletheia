@@ -1,5 +1,5 @@
 /*
- * function: func_0215F404
+ * function: SOCL_SocketIsInTrash
  * address:  0x0215F404
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern char g_021AA4B8[];
 extern int func_0215F36C(char *p, int b);
 
-int func_0215F404(int b)
+int SOCL_SocketIsInTrash(int b)
 {
     return func_0215F36C(g_021AA4B8, b) != 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217B7E8
+ * function: DWCi_Netcheck_SetError
  * address:  0x0217B7E8
  * packet:   pkt_ov009_0217B7E8
  * region:   ov009
@@ -31,7 +31,7 @@ extern struct G g_021ACE5C;
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 
-void func_0217B7E8(int error)
+void DWCi_Netcheck_SetError(int error)
 {
     OS_LockMutex((char *)((NC *)g_021ACE5C.nc) + 0x11dc);
     *(int *)((char *)((NC *)g_021ACE5C.nc) + 0x1000) = error;

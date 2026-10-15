@@ -14,11 +14,11 @@
  * non-const pointer put &d first but reload *c for the size; `const` lets the size share
  * the first load (const-pointer-lets-a-field-load-survive-a-store.md).
  *
- * Message handler: ensures d->tblC[type] is allocated (sub_02030734 with size, tag 0x282),
+ * Message handler: ensures d->tblC[type] is allocated (GFL_HEAP_Alloc with size, tag 0x282),
  * copies the payload (c+1) into it, frees d->f3b14 and clears it.
  *
  * symbols:
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   gBtlNet     0x021F3B88  data  ov093
@@ -39,7 +39,7 @@ struct S {
 
 extern struct S *gBtlNet;
 extern const char gBtlNetSourceName[];
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 
@@ -54,7 +54,7 @@ typedef union {
 void BTL_NET_RecvRelayedParty(u32 a, u32 b, const Hdr *c)
 {
     if (gBtlNet->tblC[c->h.type] == 0) {
-        gBtlNet->tblC[c->h.type] = sub_02030734((u16)((gBtlNet->f04 & 0x7fff) | 0x8000), c->h.size, 1, gBtlNetSourceName, 0x282);
+        gBtlNet->tblC[c->h.type] = GFL_HEAP_Alloc((u16)((gBtlNet->f04 & 0x7fff) | 0x8000), c->h.size, 1, gBtlNetSourceName, 0x282);
     }
     MI_CpuCopy8(c + 1, gBtlNet->tblC[c->h.type], c->h.size);
     func_020307B0(gBtlNet->f3b14);

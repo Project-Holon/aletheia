@@ -19,7 +19,7 @@
  *   DWCs_GetSendState          0x02177788  arm  ov009
  *   DWCs_GetOutgoingBufferFreeSize  0x02177E64  arm  ov009
  *   DWCs_GetRequiredHeaderSize      0x0217721C  arm  ov009
- *   func_02176BE4          0x02176BE4  arm  ov009
+ *   DWCi_IsReliableQueueFree          0x02176BE4  arm  ov009
  *   DWCs_GetTransConnection  0x02177770  arm  ov009
  *   DWCs_EncodeHeader  0x021771B0  arm  ov009
  *   DWCs_Send  0x021777C0  arm  ov009
@@ -53,11 +53,11 @@
  *   DWCi_ProcessReliableQueue        0x02176c00  arm
  *   DWCs_GetSendState                0x02177788  arm
  *   DWCs_Send                        0x021777c0  arm
- *   func_02176B80  0x02176B80  arm  ov009
+ *   DWCi_CleanupReliableQueue  0x02176B80  arm  ov009
  *   DWCi_GetGT2Connection  0x0216BAF4  arm  ov009
- *   func_02176C00  0x02176C00  arm  ov009
+ *   DWCi_ProcessReliableQueue  0x02176C00  arm  ov009
  *   gt2Send        0x02195CC0  arm  ov009
- *   func_02176CF8  0x02176CF8  arm  ov009
+ *   DWCi_InsertReliableQueue  0x02176CF8  arm  ov009
  *   DWCi_SetError  0x02059F54  arm
  *   DWCi_GetGT2Connection                  0x0216BAF4 arm
  *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C arm
@@ -133,11 +133,11 @@ extern int DWCi_CloseConnectionHard(unsigned char aid);
 extern int DWCi_SendServerPolling(int immediate);
 extern unsigned char DWCi_GetServerOrSubServerAID(void);
 extern int DWCi_ProcessReliableQueue(void);
-extern int func_02176BE4(void);
-extern void func_02176B80(TransInfo **p);
-extern int func_02176C00(void);
+extern int DWCi_IsReliableQueueFree(void);
+extern void DWCi_CleanupReliableQueue(TransInfo **p);
+extern int DWCi_ProcessReliableQueue(void);
 extern int gt2Send(void *connection, unsigned char *buffer, int size, int reliable);
-extern int func_02176CF8(void *connection, unsigned char *buffer, int size);
+extern int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size);
 extern void DWCi_SetError(int kind, int code);
 extern void *DWCi_GetGT2Connection(unsigned char aid);
 extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
@@ -212,7 +212,7 @@ int func_02176DFC(unsigned char aid, unsigned short type)
     freeSpace = DWCs_GetOutgoingBufferFreeSize(aid);
     if (freeSpace < DWCs_GetRequiredHeaderSize(type))
         return 0;
-    return func_02176BE4() != 0;
+    return DWCi_IsReliableQueueFree() != 0;
 }
 
 /*
@@ -546,7 +546,7 @@ void DWCi_ClearTransConnection(int i)
 void DWCi_ShutdownTransport(void)
 {
     gDwcTransInfo = 0;
-    func_02176B80(&gDwcTransInfo);
+    DWCi_CleanupReliableQueue(&gDwcTransInfo);
 }
 
 /*
@@ -583,12 +583,12 @@ void DWCs_Send(unsigned char aid, unsigned char *buffer, int size, int reliable)
 
     connection = DWCi_GetGT2Connection(aid);
     if (reliable != 0) {
-        if (func_02176C00() != 0) {
+        if (DWCi_ProcessReliableQueue() != 0) {
             res = gt2Send(connection, buffer, size, reliable);
             if (res == 0)
                 return;
         }
-        if (func_02176CF8(connection, buffer, size) != 0)
+        if (DWCi_InsertReliableQueue(connection, buffer, size) != 0)
             return;
         DWCi_SetError(6, -0x17D5E);
         return;

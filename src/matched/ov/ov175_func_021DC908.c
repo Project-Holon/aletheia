@@ -1,5 +1,5 @@
 /*
- * function: func_021DC908
+ * function: WIFIBATTLEMATCH_NET_HttpRapSend
  * address: 0x021DC908
  * packet: pkt_ov175_021DC908
  * region: ov175
@@ -31,8 +31,8 @@
  *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
  *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
- *   func_021DC610 0x021DC610 thumb ov175
- *   func_021DCE58 0x021DCE58 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DownloadError 0x021DC610 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetResultD 0x021DCE58 thumb ov175
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  */
 typedef unsigned char u8;
@@ -46,10 +46,10 @@ extern int NHTTP_RAP_GetResultCode(u8 *);
 extern int NHTTP_RAP_PollConnection(u8 *);
 extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *p);
 extern void GFL_NET_ERR_RaiseFatal(u32);
-extern int func_021DC610(u32);
-extern void func_021DCE58(char *,unsigned long,u32);
+extern int WIFIBATTLEMATCH_NET_DownloadError(u32);
+extern void WIFIBATTLEMATCH_NET_SetResultD(char *,unsigned long,u32);
 extern void NHTTP_RAP_DeleteConnection(u8 *);
-int func_021DC908(char *p)
+int WIFIBATTLEMATCH_NET_HttpRapSend(char *p)
 {
     int result;
     int status;
@@ -79,11 +79,11 @@ int func_021DC908(char *p)
             case 0x1f6: *(u32 *)(p+0x12c)=3;GFL_NET_ERR_RaiseFatal(0x3f);return 0;
             default:
                 if(*data==0) *(u32 *)(p+0x12c)=4;
-                else {GFL_NET_ERR_RaiseFatal(func_021DC610(*data));*(u32 *)(p+0x12c)=3;}
+                else {GFL_NET_ERR_RaiseFatal(WIFIBATTLEMATCH_NET_DownloadError(*data));*(u32 *)(p+0x12c)=3;}
                 break;
             }
         } else if(status!=15) {
-            func_021DCE58(p+0x18,status,0x16a0);
+            WIFIBATTLEMATCH_NET_SetResultD(p+0x18,status,0x16a0);
             if(*(u8 **)(p+0x121c)) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
             return 2;
         }

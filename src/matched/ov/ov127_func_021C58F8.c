@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4268  0x021C4268  thumb
+ *   WIFI_2DCHAR_GetActorCellArgB  0x021C4268  thumb
  *   sWf2dmapSlotValues     0x021C60B6  data  a1
  *
  * Addresses are Black-image addresses.
  */
 
-extern int func_021C4268(char *);
+extern int WIFI_2DCHAR_GetActorCellArgB(char *);
 extern unsigned char sWf2dmapSlotValues[];
 
 int WF2DMAP_OBJDRAW_GetFrameValue(char *p, int b)
 {
-    if (func_021C4268(p) == 2)
+    if (WIFI_2DCHAR_GetActorCellArgB(p) == 2)
         return 0;
     return sWf2dmapSlotValues[b];
 }

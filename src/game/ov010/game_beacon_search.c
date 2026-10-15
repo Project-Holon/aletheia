@@ -1,7 +1,7 @@
 /*
  * file:     game_beacon_search.c
  * unit:     yes
- * function: CALENDER_CreateTask, GAME_BEACON_SEARCH_Init, GAME_BEACON_SEARCH_InitWait, GAME_BEACON_SEARCH_OnSessionStarted, GAME_BEACON_SEARCH_Exit, func_02164C38, GAME_BEACON_SEARCH_Update, GAME_BEACON_SEARCH_PollScanResult, GAME_BEACON_SEARCH_PickBestScanResult, GAME_BEACON_SEARCH_GetBeaconData, GAME_BEACON_SEARCH_BuildBeaconHeader, GAME_BEACON_SEARCH_GetBeaconSize, GAME_BEACON_SEARCH_CompareBeacon, GAME_BEACON_SEARCH_OnConnected, GAME_BEACON_SEARCH_DummyCallback, GAME_BEACON_SEARCH_SelectBetterEntry, GAME_BEACON_SEARCH_SetStartDelay, GAME_BEACON_SEARCH_StartConnectEvent, GAME_BEACON_SEARCH_SetBattlePokeStart, GAME_BEACON_SEARCH_SetBattlePokeWin, GAME_BEACON_SEARCH_SetBattleWildPokeStart, GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart, GAME_BEACON_SEARCH_SetBattleWildPokeWin, GAME_BEACON_SEARCH_SetInfoBattleWildPokeWin, GAME_BEACON_SEARCH_SetBattleSpecialPokeStart, GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart, GAME_BEACON_SEARCH_SetBattleSpecialPokeWin, GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin, GAME_BEACON_SEARCH_SetBattleTrainerStart, GAME_BEACON_SEARCH_SetInfoBattleTrainerStart, GAME_BEACON_SEARCH_SetBattleTrainerWin, GAME_BEACON_SEARCH_SetInfoBattleTrainerWin, GAME_BEACON_SEARCH_SetBattleLeaderStart, GAME_BEACON_SEARCH_SetInfoBattleLeaderStart, GAME_BEACON_SEARCH_SetBattleLeaderWin, GAME_BEACON_SEARCH_SetInfoBattleLeaderWin, GAME_BEACON_SEARCH_SetBattleBigFourStart, GAME_BEACON_SEARCH_SetInfoBattleBigFourStart, GAME_BEACON_SEARCH_SetBattleBigFourWin, GAME_BEACON_SEARCH_SetInfoBattleBigFourWin, GAME_BEACON_SEARCH_SetVersionAction, GAME_BEACON_SEARCH_SetInfoVersionAction, GAME_BEACON_SEARCH_SetItemFound, GAME_BEACON_SEARCH_SetInfoItemFound, GAME_BEACON_SEARCH_SetScriptEvent, GAME_BEACON_SEARCH_SetInfoScriptEvent, GAME_BEACON_SEARCH_SetPresetEvent, GAME_BEACON_SEARCH_SetInfoPresetEvent, GAME_BEACON_SEARCH_SetFieldEvent, GAME_BEACON_SEARCH_SetInfoFieldEvent, GAME_BEACON_SEARCH_SetPokeEvent, GAME_BEACON_SEARCH_SetInfoPokeEvent, GAME_BEACON_SEARCH_SetEventBattleNameA, GAME_BEACON_SEARCH_SetInfoEventBattleNameA, GAME_BEACON_SEARCH_SetEventBattleNameB, GAME_BEACON_SEARCH_SetInfoEventBattleNameB, GAME_BEACON_SEARCH_SetEventBattleNameC, GAME_BEACON_SEARCH_SetInfoEventBattleNameC, GAME_BEACON_SEARCH_SetEventBattleNameD, GAME_BEACON_SEARCH_SetInfoEventBattleNameD, GAME_BEACON_SEARCH_SetCountValue, GAME_BEACON_SEARCH_SetInfoCountValue, GAME_BEACON_SEARCH_SetSymbolMapEnter, GAME_BEACON_SEARCH_SetInfoSymbolMapEnter, GAME_BEACON_SEARCH_SetSymbolMapPoke, GAME_BEACON_SEARCH_SetInfoSymbolMapPoke, GAME_BEACON_SEARCH_SetFacilityEnter, GAME_BEACON_SEARCH_SetInfoFacilityEnter, GAME_BEACON_SEARCH_SetFacilityExit, GAME_BEACON_SEARCH_SetInfoFacilityExit, GAME_BEACON_SEARCH_SetWordValue, GAME_BEACON_SEARCH_SetInfoWordValue, GAME_BEACON_SEARCH_SetWordClear, GAME_BEACON_SEARCH_SetInfoWordClear, GAME_BEACON_SEARCH_SetSimpleEventA, GAME_BEACON_SEARCH_SetInfoSimpleEventA, GAME_BEACON_SEARCH_SetByteValue, GAME_BEACON_SEARCH_SetInfoByteValue, GAME_BEACON_SEARCH_SetSimpleEventB, GAME_BEACON_SEARCH_SetInfoSimpleEventB, GAME_BEACON_SEARCH_SetSimpleEventC, GAME_BEACON_SEARCH_SetInfoSimpleEventC, GAME_BEACON_SEARCH_SetNamedEvent, GAME_BEACON_SEARCH_SetInfoNamedEvent, GAME_BEACON_SEARCH_SetHalfwordValue, GAME_BEACON_SEARCH_SetInfoHalfwordValue, GAME_BEACON_SEARCH_SetThanks, GAME_BEACON_SEARCH_SetInfoThanks, GAME_BEACON_SEARCH_SetFreeText, GAME_BEACON_SEARCH_SetInfoFreeText, GAME_BEACON_ACCESSOR_TableAddNewLogs, GAME_BEACON_ACCESSOR_TablePop, GAME_BEACON_ACCESSOR_TableMarkLogsNew, GAME_BEACON_ACCESSOR_TableAdd, GAME_BEACON_ACCESSOR_TableGetRingIndex, GAME_BEACON_ACCESSOR_TableRingAdd, GAME_BEACON_ACCESSOR_TableRingGet, GAME_BEACON_ACCESSOR_TableGetCount, GAME_BEACON_ACCESSOR_AllocInfo, GAME_BEACON_ACCESSOR_AllocTable, GAME_BEACON_ACCESSOR_IsInfoInvalid, GAME_BEACON_ACCESSOR_IsDistributionAction, GAME_BEACON_ACCESSOR_GetPlayerName, GAME_BEACON_ACCESSOR_GetPmVersion, GAME_BEACON_ACCESSOR_GetLanguage, GAME_BEACON_ACCESSOR_GetNation, GAME_BEACON_ACCESSOR_GetArea, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst, GAME_BEACON_ACCESSOR_GetDetailsPms, GAME_BEACON_ACCESSOR_GetResearchTeamRank, GAME_BEACON_ACCESSOR_GetFavoriteColorRgb, GAME_BEACON_ACCESSOR_GetFavoriteColorIndex, GAME_BEACON_ACCESSOR_GetTrainerId, GAME_BEACON_ACCESSOR_GetTrainerAppearance, GAME_BEACON_ACCESSOR_GetSex, GAME_BEACON_ACCESSOR_GetPlayTime, GAME_BEACON_ACCESSOR_GetInfoVersion, GAME_BEACON_ACCESSOR_GetZoneId, GAME_BEACON_ACCESSOR_GetTownmapRootZoneId, GAME_BEACON_ACCESSOR_GetPassCount, GAME_BEACON_ACCESSOR_GetThanksCount, GAME_BEACON_ACCESSOR_GetGreeting, GAME_BEACON_ACCESSOR_GetThanksName, GAME_BEACON_ACCESSOR_GetFreeText, GAME_BEACON_ACCESSOR_GetDetailsType, GAME_BEACON_ACCESSOR_GetDetailsTrainerNo, GAME_BEACON_ACCESSOR_GetDetailsMonsNo, GAME_BEACON_ACCESSOR_GetActionNo, GAME_BEACON_ACCESSOR_GetActionMonsNo, GAME_BEACON_ACCESSOR_GetActionItemNo, GAME_BEACON_ACCESSOR_GetActionCountValue, GAME_BEACON_ACCESSOR_GetDistributionMonsNo, GAME_BEACON_ACCESSOR_GetDistributionItemNo, GAME_BEACON_ACCESSOR_GetDistributionSerial, GAME_BEACON_ACCESSOR_GetNickname, GAME_BEACON_ACCESSOR_GetActionTrainerNo, GAME_BEACON_ACCESSOR_GetPresetEventValue, GAME_BEACON_ACCESSOR_GetActionSpecialValue, GAME_BEACON_ACCESSOR_GetActionWordValue, GAME_BEACON_ACCESSOR_GetActionByteValue, GAME_BEACON_ACCESSOR_GetActionHalfwordValue, GAME_BEACON_ACCESSOR_GetActionCheckIndex
+ * function: CALENDER_CreateTask, GAME_BEACON_SEARCH_Init, GAME_BEACON_SEARCH_InitWait, GAME_BEACON_SEARCH_OnSessionStarted, GAME_BEACON_SEARCH_Exit, GAME_BEACON_SEARCH_FreeWork, GAME_BEACON_SEARCH_Update, GAME_BEACON_SEARCH_PollScanResult, GAME_BEACON_SEARCH_PickBestScanResult, GAME_BEACON_SEARCH_GetBeaconData, GAME_BEACON_SEARCH_BuildBeaconHeader, GAME_BEACON_SEARCH_GetBeaconSize, GAME_BEACON_SEARCH_CompareBeacon, GAME_BEACON_SEARCH_OnConnected, GAME_BEACON_SEARCH_DummyCallback, GAME_BEACON_SEARCH_SelectBetterEntry, GAME_BEACON_SEARCH_SetStartDelay, GAME_BEACON_SEARCH_StartConnectEvent, GAME_BEACON_SEARCH_SetBattlePokeStart, GAME_BEACON_SEARCH_SetBattlePokeWin, GAME_BEACON_SEARCH_SetBattleWildPokeStart, GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart, GAME_BEACON_SEARCH_SetBattleWildPokeWin, GAME_BEACON_SEARCH_SetInfoBattleWildPokeWin, GAME_BEACON_SEARCH_SetBattleSpecialPokeStart, GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart, GAME_BEACON_SEARCH_SetBattleSpecialPokeWin, GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin, GAME_BEACON_SEARCH_SetBattleTrainerStart, GAME_BEACON_SEARCH_SetInfoBattleTrainerStart, GAME_BEACON_SEARCH_SetBattleTrainerWin, GAME_BEACON_SEARCH_SetInfoBattleTrainerWin, GAME_BEACON_SEARCH_SetBattleLeaderStart, GAME_BEACON_SEARCH_SetInfoBattleLeaderStart, GAME_BEACON_SEARCH_SetBattleLeaderWin, GAME_BEACON_SEARCH_SetInfoBattleLeaderWin, GAME_BEACON_SEARCH_SetBattleBigFourStart, GAME_BEACON_SEARCH_SetInfoBattleBigFourStart, GAME_BEACON_SEARCH_SetBattleBigFourWin, GAME_BEACON_SEARCH_SetInfoBattleBigFourWin, GAME_BEACON_SEARCH_SetVersionAction, GAME_BEACON_SEARCH_SetInfoVersionAction, GAME_BEACON_SEARCH_SetItemFound, GAME_BEACON_SEARCH_SetInfoItemFound, GAME_BEACON_SEARCH_SetScriptEvent, GAME_BEACON_SEARCH_SetInfoScriptEvent, GAME_BEACON_SEARCH_SetPresetEvent, GAME_BEACON_SEARCH_SetInfoPresetEvent, GAME_BEACON_SEARCH_SetFieldEvent, GAME_BEACON_SEARCH_SetInfoFieldEvent, GAME_BEACON_SEARCH_SetPokeEvent, GAME_BEACON_SEARCH_SetInfoPokeEvent, GAME_BEACON_SEARCH_SetEventBattleNameA, GAME_BEACON_SEARCH_SetInfoEventBattleNameA, GAME_BEACON_SEARCH_SetEventBattleNameB, GAME_BEACON_SEARCH_SetInfoEventBattleNameB, GAME_BEACON_SEARCH_SetEventBattleNameC, GAME_BEACON_SEARCH_SetInfoEventBattleNameC, GAME_BEACON_SEARCH_SetEventBattleNameD, GAME_BEACON_SEARCH_SetInfoEventBattleNameD, GAME_BEACON_SEARCH_SetCountValue, GAME_BEACON_SEARCH_SetInfoCountValue, GAME_BEACON_SEARCH_SetSymbolMapEnter, GAME_BEACON_SEARCH_SetInfoSymbolMapEnter, GAME_BEACON_SEARCH_SetSymbolMapPoke, GAME_BEACON_SEARCH_SetInfoSymbolMapPoke, GAME_BEACON_SEARCH_SetFacilityEnter, GAME_BEACON_SEARCH_SetInfoFacilityEnter, GAME_BEACON_SEARCH_SetFacilityExit, GAME_BEACON_SEARCH_SetInfoFacilityExit, GAME_BEACON_SEARCH_SetWordValue, GAME_BEACON_SEARCH_SetInfoWordValue, GAME_BEACON_SEARCH_SetWordClear, GAME_BEACON_SEARCH_SetInfoWordClear, GAME_BEACON_SEARCH_SetSimpleEventA, GAME_BEACON_SEARCH_SetInfoSimpleEventA, GAME_BEACON_SEARCH_SetByteValue, GAME_BEACON_SEARCH_SetInfoByteValue, GAME_BEACON_SEARCH_SetSimpleEventB, GAME_BEACON_SEARCH_SetInfoSimpleEventB, GAME_BEACON_SEARCH_SetSimpleEventC, GAME_BEACON_SEARCH_SetInfoSimpleEventC, GAME_BEACON_SEARCH_SetNamedEvent, GAME_BEACON_SEARCH_SetInfoNamedEvent, GAME_BEACON_SEARCH_SetHalfwordValue, GAME_BEACON_SEARCH_SetInfoHalfwordValue, GAME_BEACON_SEARCH_SetThanks, GAME_BEACON_SEARCH_SetInfoThanks, GAME_BEACON_SEARCH_SetFreeText, GAME_BEACON_SEARCH_SetInfoFreeText, GAME_BEACON_ACCESSOR_TableAddNewLogs, GAME_BEACON_ACCESSOR_TablePop, GAME_BEACON_ACCESSOR_TableMarkLogsNew, GAME_BEACON_ACCESSOR_TableAdd, GAME_BEACON_ACCESSOR_TableGetRingIndex, GAME_BEACON_ACCESSOR_TableRingAdd, GAME_BEACON_ACCESSOR_TableRingGet, GAME_BEACON_ACCESSOR_TableGetCount, GAME_BEACON_ACCESSOR_AllocInfo, GAME_BEACON_ACCESSOR_AllocTable, GAME_BEACON_ACCESSOR_IsInfoInvalid, GAME_BEACON_ACCESSOR_IsDistributionAction, GAME_BEACON_ACCESSOR_GetPlayerName, GAME_BEACON_ACCESSOR_GetPmVersion, GAME_BEACON_ACCESSOR_GetLanguage, GAME_BEACON_ACCESSOR_GetNation, GAME_BEACON_ACCESSOR_GetArea, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst, GAME_BEACON_ACCESSOR_GetDetailsPms, GAME_BEACON_ACCESSOR_GetResearchTeamRank, GAME_BEACON_ACCESSOR_GetFavoriteColorRgb, GAME_BEACON_ACCESSOR_GetFavoriteColorIndex, GAME_BEACON_ACCESSOR_GetTrainerId, GAME_BEACON_ACCESSOR_GetTrainerAppearance, GAME_BEACON_ACCESSOR_GetSex, GAME_BEACON_ACCESSOR_GetPlayTime, GAME_BEACON_ACCESSOR_GetInfoVersion, GAME_BEACON_ACCESSOR_GetZoneId, GAME_BEACON_ACCESSOR_GetTownmapRootZoneId, GAME_BEACON_ACCESSOR_GetPassCount, GAME_BEACON_ACCESSOR_GetThanksCount, GAME_BEACON_ACCESSOR_GetGreeting, GAME_BEACON_ACCESSOR_GetThanksName, GAME_BEACON_ACCESSOR_GetFreeText, GAME_BEACON_ACCESSOR_GetDetailsType, GAME_BEACON_ACCESSOR_GetDetailsTrainerNo, GAME_BEACON_ACCESSOR_GetDetailsMonsNo, GAME_BEACON_ACCESSOR_GetActionNo, GAME_BEACON_ACCESSOR_GetActionMonsNo, GAME_BEACON_ACCESSOR_GetActionItemNo, GAME_BEACON_ACCESSOR_GetActionCountValue, GAME_BEACON_ACCESSOR_GetDistributionMonsNo, GAME_BEACON_ACCESSOR_GetDistributionItemNo, GAME_BEACON_ACCESSOR_GetDistributionSerial, GAME_BEACON_ACCESSOR_GetNickname, GAME_BEACON_ACCESSOR_GetActionTrainerNo, GAME_BEACON_ACCESSOR_GetPresetEventValue, GAME_BEACON_ACCESSOR_GetActionSpecialValue, GAME_BEACON_ACCESSOR_GetActionWordValue, GAME_BEACON_ACCESSOR_GetActionByteValue, GAME_BEACON_ACCESSOR_GetActionHalfwordValue, GAME_BEACON_ACCESSOR_GetActionCheckIndex
  * address:  0x02164B38
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_BEACON_SEARCH_FileName     0x021729BC  data  ov010  a1
- *   func_02030B50  0x02030B50  arm
+ *   GFL_HEAP_DumpReport  0x02030B50  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
  *   GAME_BEACON_SEARCH_NetInit     0x02171C30  data  ov010  a4
  *   func_02010360 0x02010360 thumb
@@ -77,7 +77,7 @@
  *   GAME_BEACON_CopyStrbufCodes  0x020270AC  thumb
  *   BEACON_GetBlock 0x0200C0F0 thumb
  *   BEACON_GetThanksMessage 0x0200C20C thumb
- *   func_0201F41C 0x0201F41C thumb
+ *   WORDSET_CopyString 0x0201F41C thumb
  *   STRBUF_ToChars  0x02045A38  arm
  *   GF_STANDARD_SetField00 0x0203F4CC arm
  *   GAME_BEACON_GetNextNewLogIndex 0x02026CA0 thumb
@@ -220,7 +220,7 @@ extern struct GameComm *ICA_ANIME_GetField24(const struct GameSystem *gameSystem
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GAME_COMM_GetLastKind(struct GameComm *gameComm);
 extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
-extern void func_02030B50(u32 heapId);
+extern void GFL_HEAP_DumpReport(u32 heapId);
 extern void GFL_NET_StartSession(const struct NetInitParam *init, void (*callback)(void *work), void *work);
 extern u8 *func_02010360(int index, u32 heapId);
 extern void WIH_DWC_Delete(u8 *wihDwc);
@@ -271,7 +271,7 @@ extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 traine
 extern void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
 extern struct MyStatus *BEACON_GetBlock(struct SaveControl *saveControl);
 extern const u16 *BEACON_GetThanksMessage(const struct MyStatus *myStatus);
-extern void func_0201F41C(const u16 *src, u16 *dest, u32 length);
+extern void WORDSET_CopyString(const u16 *src, u16 *dest, u32 length);
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *dest, u32 length);
 extern void GF_STANDARD_SetField00(struct RtcTime *time);
 extern int GAME_BEACON_GetNextNewLogIndex(int *cursor);
@@ -290,7 +290,7 @@ GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *g
 int GAME_BEACON_SEARCH_InitWait(int *seq, void *unused, GameBeaconSearchWork *work);
 void GAME_BEACON_SEARCH_OnSessionStarted(void *arg);
 int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *work);
-int func_02164C38(void *unused0, void *unused1, GameBeaconSearchWork *work);
+int GAME_BEACON_SEARCH_FreeWork(void *unused0, void *unused1, GameBeaconSearchWork *work);
 void GAME_BEACON_SEARCH_OnNetExit(void *arg);
 void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, GameBeaconSearchWork *work);
 GameBeaconSearchTarget *GAME_BEACON_SEARCH_PollScanResult(GameBeaconSearchWork *work, int *index);
@@ -473,7 +473,7 @@ int GAME_BEACON_SEARCH_InitWait(int *seq, void *unused, GameBeaconSearchWork *wo
 {
     switch (*seq) {
     case 0:
-        func_02030B50(12);
+        GFL_HEAP_DumpReport(12);
         GFL_NET_StartSession(&GAME_BEACON_SEARCH_NetInit, GAME_BEACON_SEARCH_OnSessionStarted, work);
         (*seq)++;
         break;
@@ -501,7 +501,7 @@ int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *
     return 1;
 }
 
-int func_02164C38(void *unused0, void *unused1, GameBeaconSearchWork *work)
+int GAME_BEACON_SEARCH_FreeWork(void *unused0, void *unused1, GameBeaconSearchWork *work)
 {
     if (work->state == 0) {
         func_020307B0(work);
@@ -1274,7 +1274,7 @@ void GAME_BEACON_SEARCH_SetThanks(struct GameData *gameData, u16 trainerId)
 
 void GAME_BEACON_SEARCH_SetInfoThanks(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId)
 {
-    func_0201F41C(BEACON_GetThanksMessage(BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData))), info->actionData.text, 9);
+    WORDSET_CopyString(BEACON_GetThanksMessage(BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData))), info->actionData.text, 9);
     info->action = 0x18;
     info->actionData.special.targetTrainerId = trainerId;
     GAME_BEACON_ResetDetails(info);

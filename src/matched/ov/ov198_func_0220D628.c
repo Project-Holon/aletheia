@@ -1,5 +1,5 @@
 /*
- * function: func_0220D628
+ * function: B_PLIST_DRAW_PrintMoveRowLabel
  * address: 0x0220D628
  * packet: pkt_ov198_0220D628
  * region: ov198
@@ -31,7 +31,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-void func_0220D628(char *p, int i)
+void B_PLIST_DRAW_PrintMoveRowLabel(char *p, int i)
 {
     void *t;
     void *f;

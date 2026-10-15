@@ -1,5 +1,5 @@
 /*
- * function: func_021CA444
+ * function: WF2DMAP_TOUCH_ClearSlotArray
  * address:  0x021CA444
  * packet:   pkt_021CA444
  * region:   ov128
@@ -12,7 +12,7 @@
  * Addresses are Black-image addresses.
  */
 
-void func_021CA444(char *p)
+void WF2DMAP_TOUCH_ClearSlotArray(char *p)
 {
     unsigned int i;
 

@@ -32,7 +32,7 @@
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   func_02167394  0x02167394  thumb
+ *   COMM_PLAYER_GetModelId  0x02167394  thumb
  *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
@@ -64,7 +64,7 @@ struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *SYMBOL_SAVE_GetBitBlock(void *p);
 extern int   MISC_SAVEDATA_GetStatusByte(void *p, int i);
-extern u32   func_02167394(u8 id);
+extern u32   COMM_PLAYER_GetModelId(u8 id);
 extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(void *p, u8 id);
 extern u32 MISC_SAVEDATA_IsTallyFull(u8 *p, u32 a, u32 count);
 extern void MISC_SAVEDATA_AddHalfwordClamped(char *p, int idx, int v);
@@ -80,8 +80,8 @@ static inline u32 calc(struct Req *r, int id)
     u32 v;
     if (id == 0x1d) {
         v = r->trainer / 10 + 1;
-        if (v > func_02167394(id))
-            v = func_02167394(id);
+        if (v > COMM_PLAYER_GetModelId(id))
+            v = COMM_PLAYER_GetModelId(id);
     } else {
         v = SYMBOL_SAVE_GetQuestionnaireAnswer(r->f50, id);
     }

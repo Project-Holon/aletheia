@@ -33,7 +33,7 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj00911.h"
 #include "../include/Obj22936.h"
@@ -72,7 +72,7 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int INTRUDE_COMM_VIEW_Exit(void *a, void *b, char *out, char *p)
 {
     int i;
@@ -105,6 +105,6 @@ int INTRUDE_COMM_VIEW_Exit(void *a, void *b, char *out, char *p)
     BMP_WIN_Exit();
     BG_SYS_Delete();
     func_020315D4(a);
-    func_020306F0(31);
+    GFL_HEAP_DeleteChecked(31);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD228
+ * function: BR_CODEIN_RecordIsType1
  * address: 0x021DD228
  * packet: pkt_ov183_021DD228
  * region: ov183
@@ -48,4 +48,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-int func_021DD228(void *p) { switch((int)BATTLE_REC_GetHeaderParam(p,3,0)) { case 16: case 17: case 18: case 19: case 22: return 1; case 20: case 21: default: return 0; } }
+int BR_CODEIN_RecordIsType1(void *p) { switch((int)BATTLE_REC_GetHeaderParam(p,3,0)) { case 16: case 17: case 18: case 19: case 22: return 1; case 20: case 21: default: return 0; } }

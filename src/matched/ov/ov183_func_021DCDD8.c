@@ -1,5 +1,5 @@
 /*
- * function: func_021DCDD8
+ * function: BR_CODEIN_RecordCreateProfileScreen
  * address: 0x021DCDD8
  * packet: pkt_ov183_021DCDD8
  * region: ov183
@@ -15,7 +15,7 @@
  */
 typedef unsigned short u16;
 extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
-void func_021DCDD8(char *p, char *q)
+void BR_CODEIN_RecordCreateProfileScreen(char *p, char *q)
 {
     int flag;
     if(*(int *)(p+0x44)==0 && *(int *)(p+0xdc)==0) {

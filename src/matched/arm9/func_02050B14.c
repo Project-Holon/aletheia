@@ -1,5 +1,5 @@
 /*
- * function: func_02050B14
+ * function: DMA_ProgramChannel
  * address:  0x02050B14
  * packet:   pkt_02050A70
  * region:   arm9
@@ -42,8 +42,8 @@
  * Written in descending destination order the four extracts come out mirrored.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050B14.c \
- *       --func func_02050B14 --addr 0x02050B14 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DMA_ProgramChannel.c \
+ *       --func DMA_ProgramChannel --addr 0x02050B14 --cc 1.1p1 --arm
  *   EXACT, 108 bytes, 3 relocation sites, all resolved.
  */
 
@@ -55,7 +55,7 @@ extern struct G_02146A84 *g_pDmaChannels;
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 s);
 
-void func_02050B14(u32 idx)
+void DMA_ProgramChannel(u32 idx)
 {
     u32 s = OS_DisableInterrupts();
     u32 v = g_pDmaChannels[idx].unk08;

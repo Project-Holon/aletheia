@@ -18,7 +18,7 @@
  *   PMSI_PARAM_IsDecoWordAt  0x020244F8  thumb
  *   PMSI_PARAM_GetWordId  0x020244D4  thumb
  *   PMSI_PARAM_ToStringWords  0x02024368  thumb
- *   func_0201D528  0x0201D528  thumb
+ *   GF_FONT_MeasureText  0x0201D528  thumb
  *   GF_FONT_SearchIndex  0x0201D4BC  thumb
  *   PMS_DRAW_PlaceDecoActor  0x0202E040  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -88,7 +88,7 @@ extern u32   GF_FONT_CountControlTag(void *str);
 extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
 extern u16 PMSI_PARAM_GetWordId(void *obj, u32 idx);
 extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
-extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
+extern u32 GF_FONT_MeasureText(void *s, u8 b, void *c, u32 d);
 extern u32   GF_FONT_SearchIndex(void *s, u8 idx);
 struct Descriptor;
 extern void PMS_DRAW_PlaceDecoActor(void *h, struct Descriptor *cell, u32 b, u32 c, u32 n, const struct Pos *base);
@@ -138,11 +138,11 @@ void PMS_DRAW_PrintElem(BLINKWORK *wk, void *owner, u32 a2, struct Descriptor *a
     wk->active = 1;
     for (i = 0; i < n; i++) {
         if (wk->blink[i] == 1) {
-            u32 x = func_0201D528(buf, i, (void *)a2, 0);
+            u32 x = GF_FONT_MeasureText(buf, i, (void *)a2, 0);
             u32 y = GF_FONT_SearchIndex(buf, i);
             PMS_DRAW_PlaceDecoActor(wk->act[i], a3, x, y, PMSI_PARAM_GetWordId((void *)param, i), (const struct Pos *)pos);
         } else if (mark[i] == 1) {
-            u32 x = func_0201D528(buf, i, (void *)a2, 0);
+            u32 x = GF_FONT_MeasureText(buf, i, (void *)a2, 0);
             u32 y = GF_FONT_SearchIndex(buf, i);
             BMP_FillRect((u32)BMP_WIN_GetBmp((struct Descriptor *)a3), x, y << 4, 0x54, 0x10, pal);
         }

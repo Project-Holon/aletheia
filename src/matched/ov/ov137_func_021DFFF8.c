@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201F5BC 0x0201F5BC thumb
+ *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 struct GfFont;
 struct MsgBank;
 struct PalAnmSlot;
@@ -43,7 +43,7 @@ void GURU2_MAIN_CreateWindows(u8 *p)
 {
     int i;
     u8 *s=p+0xce0;
-    func_0201F5BC(1,1,15,0,114);
+    BMP_MENUWORK_LoadCharAndPltt(1,1,15,0,114);
     PALANM_LoadArcPaletteToSlot(((struct Obj00835 *)p)->fD78,5,3,114,0,32,224);
     PALANM_LoadArcPaletteToSlot(((struct Obj00835 *)p)->fD78,23,5,114,0,32,240);
     ((struct Obj03306 *)s)->f4=GF_FONT_Create(23,0,0,0,114);

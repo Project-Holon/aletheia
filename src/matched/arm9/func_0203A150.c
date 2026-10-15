@@ -14,7 +14,7 @@
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   GFL_NET_HANDLE_SetNegotiationEnd  0x0203A118  arm
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_IRC_WIRELESS_AddMacAddress  0x0203DAC4  arm
  *   OS_GetMacAddress  0x02087C6C  arm
@@ -55,7 +55,7 @@ extern void *GFL_NET_GetInitParam(void);
 struct Entry;
 extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 extern void GFL_NET_HANDLE_SetNegotiationEnd(u8 *p);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern struct Peer *GFL_NET_HANDLE_GetNetHandle(u32);
 extern void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 extern void OS_GetMacAddress(u8 *);
@@ -90,7 +90,7 @@ void GFL_NET_HANDLE_RecvNegotiationReturn(int a0, int a1, struct Msg *msg, int a
     }
 
     OS_GetMacAddress(mac);
-    if (func_0203EFC8(msg->mac, mac, 6) == 0)
+    if (GF_STANDARD_CompareBytes(msg->mac, mac, 6) == 0)
     {
         if (msg->f0c != GFL_NET_HANDLE_GetNetHandleID((struct Entry *)peer))
             GFL_NET_HANDLE_SetNegotiationEnd((u8 *)peer);

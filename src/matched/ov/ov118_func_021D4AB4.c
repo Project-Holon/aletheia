@@ -1,5 +1,5 @@
 /*
- * function: func_021D4AB4
+ * function: POKETRADE_DEMO_UP_StepStartCompare
  * address:  0x021D4AB4
  * packet:   pkt_ov118_021D4AB4
  * region:   ov118
@@ -38,7 +38,7 @@ extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_DEMO_COMMON_StepCompareMons(u8 *p);
 extern const Vec d_021D7C90;
 
-void func_021D4AB4(u8 *p)
+void POKETRADE_DEMO_UP_StepStartCompare(u8 *p)
 {
     POKETRADE_DEMO_COMMON_SetFinishFlag(p);
     ((struct Obj08049 *)p)->f854 = 1;

@@ -16,7 +16,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   WM_GetNextTgid  0x0208F1B4  arm
  *   IRC_Init  0x02179F74  arm    ov015
- *   func_0217A584  0x0217A584  arm    ov015
+ *   IRC_SetRecvCallback  0x0217A584  arm    ov015
  *   IRCNET_OnRecv  0x02179B38  thumb  ov015
  *   func_020056EC  0x020056EC  thumb
  */
@@ -42,7 +42,7 @@ extern void MI_CpuFill8(void *p, int v, u32 n);
 typedef unsigned short u16;
 extern u16 WM_GetNextTgid(void);
 extern void IRC_Init(u8 unitId);
-extern void func_0217A584(void (*cb)(void));
+extern void IRC_SetRecvCallback(void (*cb)(void));
 extern void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type);
 extern u32 func_020056EC(u32 x);
 
@@ -52,7 +52,7 @@ void IRCNET_InitWork(u32 a, u8 b)
     d_0217AB40.f3c = a;
     d_0217ABA0.b6 = WM_GetNextTgid();
     IRC_Init(3);
-    func_0217A584((void (*)(void))IRCNET_OnRecv);
+    IRC_SetRecvCallback((void (*)(void))IRCNET_OnRecv);
     gIrcNetWork.f8 = func_020056EC(0);
     if (gIrcNetWork.f8 == 0)
         gIrcNetWork.f8 = 1;

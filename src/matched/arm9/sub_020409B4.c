@@ -1,5 +1,5 @@
 /*
- * function: sub_020409B4
+ * function: BG_SYS_PushTile
  * address:  0x020409B4
  * packet:   pkt_0203FC6C
  * region:   arm9
@@ -35,7 +35,7 @@ struct Entry02146A44 {
 extern struct Entry02146A44 *gUnk_02146A44;
 extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
-void sub_020409B4(u32 index)
+void BG_SYS_PushTile(u32 index)
 {
     struct Entry02146A44 *e = &gUnk_02146A44[index];
 

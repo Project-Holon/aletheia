@@ -1,5 +1,5 @@
 /*
- * function: func_021DA0D4
+ * function: WIFIBATTLEMATCH_NET_SetMatchKey
  * address:  0x021DA0D4
  * packet:   pkt_021DA0D4
  * region:   ov175
@@ -13,13 +13,13 @@
  *   GFL_NET_GetRunState                0x0203CD98  arm
  *   func_0200FA84                0x0200FA84  thumb
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
- *   func_021DA4B8                0x021DA4B8  thumb
+ *   WIFIBATTLEMATCH_NET_AddMatchKey                0x021DA4B8  thumb
  *   STD_TSPrintf                 0x0208D7E0  arm
  *   MI_CpuFill8                  0x02082BCC  arm
  *   func_02034714                0x02034714  arm
- *   func_021DA4E8                0x021DA4E8  thumb
- *   func_021DA4F0                0x021DA4F0  thumb
- *   func_021DA4F8                0x021DA4F8  thumb
+ *   WIFIBATTLEMATCH_NET_GetMatchKeyInt                0x021DA4E8  thumb
+ *   WIFIBATTLEMATCH_NET_GetMatchKeyDefault                0x021DA4F0  thumb
+ *   WIFIBATTLEMATCH_NET_GetMatchKeyValue                0x021DA4F8  thumb
  *   d_021E2EF8                   0x021E2EF8  data
  *   d_021E2EFC                   0x021E2EFC  data
  *
@@ -35,17 +35,17 @@ typedef int (*EvalFn)(int index, void *param);
 extern int GFL_NET_GetRunState(void);
 extern void func_0200FA84(void);
 extern void DWC_CloseAllConnectionsHard(void);
-extern void func_021DA4B8(char *obj, int i, int value);
+extern void WIFIBATTLEMATCH_NET_AddMatchKey(char *obj, int i, int value);
 extern int STD_TSPrintf(char *dst, const char *fmt, ...);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern int func_021DA4E8(int index, void *param);
-extern int func_021DA4F0(int index, void *param);
-extern int func_021DA4F8(int index, void *param);
+extern int WIFIBATTLEMATCH_NET_GetMatchKeyInt(int index, void *param);
+extern int WIFIBATTLEMATCH_NET_GetMatchKeyDefault(int index, void *param);
+extern int WIFIBATTLEMATCH_NET_GetMatchKeyValue(int index, void *param);
 extern const char d_021E2EF8[];
 extern const char d_021E2EFC[];
 
-void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec)
+void WIFIBATTLEMATCH_NET_SetMatchKey(char *obj, int mode, int extra, int group, int *rec)
 {
     int count = mode;
 
@@ -54,14 +54,14 @@ void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec)
     if (!GFL_NET_GetRunState())
         func_0200FA84();
     DWC_CloseAllConnectionsHard();
-    func_021DA4B8(obj, 0, count);
-    func_021DA4B8(obj, 1, group);
-    func_021DA4B8(obj, 2, 1);
-    func_021DA4B8(obj, 3, rec[0]);
-    func_021DA4B8(obj, 5, rec[1]);
-    func_021DA4B8(obj, 4, rec[2]);
-    func_021DA4B8(obj, 6, rec[3]);
-    func_021DA4B8(obj, 7, 0x20015);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 0, count);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 1, group);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 2, 1);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 3, rec[0]);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 5, rec[1]);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 4, rec[2]);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 6, rec[3]);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 7, 0x20015);
     STD_TSPrintf(obj + 0x44, d_021E2EFC, count, group, 1);
     ((struct Obj05458 *)obj)->f40 = 0;
     ((struct Obj05458 *)obj)->f1A0 = 0;
@@ -69,16 +69,16 @@ void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec)
     MI_CpuFill8(obj + 0x138, 0, 0x18);
     switch (mode) {
     case 0:
-        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = func_021DA4F8;
+        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = WIFIBATTLEMATCH_NET_GetMatchKeyValue;
         break;
     case 1:
         func_02034714(d_021E2EF8, 0, d_021E2EF8);
         break;
     case 2:
-        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = func_021DA4E8;
+        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = WIFIBATTLEMATCH_NET_GetMatchKeyInt;
         break;
     case 3:
-        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = func_021DA4F0;
+        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = WIFIBATTLEMATCH_NET_GetMatchKeyDefault;
         break;
     default:
         func_02034714(d_021E2EF8, 0, d_021E2EF8);

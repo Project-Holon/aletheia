@@ -1,5 +1,5 @@
 /*
- * function: func_02194DE4
+ * function: gti2BufferWriteByte
  * address:  0x02194DE4
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-void func_02194DE4(int *p, int v)
+void gti2BufferWriteByte(int *p, int v)
 {
     int n = p[2];
 

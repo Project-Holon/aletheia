@@ -15,7 +15,7 @@
  * Fixed-point sine lookup: 4096-entry table at 0x020A1B38 (a flat signed
  * halfword array of interleaved pairs), indexed by (x mod 360) scaled to
  * 0xFFFF with the quotient taken against 360 again and shifted right by 4.
- * func_0203F6D8 is the identical twin at index `2 * i + 1`.
+ * GF_STANDARD_Sin is the identical twin at index `2 * i + 1`.
  *
  * Two details are load-bearing and cost real time:
  *

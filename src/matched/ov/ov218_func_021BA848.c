@@ -13,11 +13,11 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   UN_SELECT_GRAPHIC_SetupBg 0x021BA980 thumb ov218
  *   UN_SELECT_GRAPHIC_SetupClact 0x021BAA24 thumb ov218
  *   UN_SELECT_GRAPHIC_SetupCamera 0x021BAA94 thumb ov218
@@ -34,11 +34,11 @@ extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short
 extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void func_0204363C(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_InitTextColor(void);
 extern void UN_SELECT_GRAPHIC_SetupBg(char *, unsigned);
 extern void UN_SELECT_GRAPHIC_SetupClact(unsigned char *, int, int);
 extern void UN_SELECT_GRAPHIC_SetupCamera(unsigned **, unsigned);
@@ -55,11 +55,11 @@ char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
     *(volatile unsigned *)0x04001000 &= ~0xe000u;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&d_021BAEF8);
-    func_0204363C(swap);
+    BMP_SetDisplaySwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_InitTextColor();
     UN_SELECT_GRAPHIC_SetupBg(p, heap);
     UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
     UN_SELECT_GRAPHIC_SetupCamera((unsigned **)(p + 8), heap);

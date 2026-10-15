@@ -11,9 +11,9 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   d_021BDBAC 0x021BDBAC data a4
  *   d_021BDC28 0x021BDC28 data a4
@@ -28,9 +28,9 @@ extern void BMP_WIN_Init(int);
 typedef unsigned int   u32;
 struct BgTemplate;
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020414AC(u8);
+extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
 void func_021BCA58(void *p,int heap)
 {
@@ -38,12 +38,12 @@ void func_021BCA58(void *p,int heap)
     MI_CpuFill8(p,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_021BDBAC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BDBAC);
     for(i=0;i<8;i++) {
         const struct Entry *e=&d_021BDC28[i];
         unsigned id=e->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->fields,(u8)e->a);
-        func_020414AC(id);
+        BG_SYS_FreeSlot(id);
         func_02040588(id,e->b);
     }
 }

@@ -60,11 +60,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-struct Obj02021EE4;
-
 struct PalAnmSlot;
-
-struct Obj02021F08;
 
 struct S02021D50;
 
@@ -74,7 +70,7 @@ extern void *PALANM_Create(unsigned);
 
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct PalAnmSys *o, int v);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32);
 
@@ -84,7 +80,7 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 o
 
 extern void PALANM_BlendChannelMask(unsigned, unsigned, unsigned short, unsigned, unsigned);
 
-extern void PALANM_RequestFullTransfer(struct Obj02021F08 *o, int v);
+extern void PALANM_RequestFullTransfer(struct PalAnmSys *o, int v);
 
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 
@@ -202,7 +198,7 @@ void BR_FADE_BlendFull(struct BrFade *fade, int planeMask)
         PALANM_BlendChannelMask((unsigned)fade->palAnm, 0, 0xBFFF, 16, fade->blendColor);
     if (planeMask & 2)
         PALANM_BlendChannelMask((unsigned)fade->palAnm, 1, 0xBFFF, 16, fade->blendColor);
-    PALANM_RequestFullTransfer((struct Obj02021F08 *)fade->palAnm, 1);
+    PALANM_RequestFullTransfer(fade->palAnm, 1);
     PALANM_TransferPalettes((struct S02021D50 *)fade->palAnm);
 }
 
@@ -357,7 +353,7 @@ int BR_FADE_StepPalette(struct BrFade *fade,int *state)
         duration=fade->durationParam;
         if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
         fade->frameCount=duration;
-        PALANM_RequestFullTransfer((struct Obj02021F08 *)fade->palAnm,1);
+        PALANM_RequestFullTransfer(fade->palAnm,1);
         *state=1;
         break;
     }

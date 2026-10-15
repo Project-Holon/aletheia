@@ -14,10 +14,10 @@
  *           ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor
  *
  * symbols:
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *
  * alias: ZONEDATA_DeleteAreaData is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
+ * GFL_HEAP_Free: the compiler cannot tell caller and callee interwork, so
  * it always spends a pool word and `bx` rather than ever emitting a direct
  * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
  * wrapper's own body is otherwise empty.
@@ -51,11 +51,11 @@ struct Sub020140BCObj {
     u8  f09;
 };
 
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
 u32 ZONEDATA_DeleteAreaData(void *a)
 {
-    return sub_020307B0(a);
+    return GFL_HEAP_Free(a);
 }
 
 u16 ZONEDATA_GetAreaTexSetId(struct Sub020140BCObj *p)

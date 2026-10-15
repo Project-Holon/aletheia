@@ -17,8 +17,8 @@
  *   BMP_Create 0x02043678 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
@@ -50,8 +50,8 @@ struct WordSet;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -75,17 +75,17 @@ void IRC_RANKING_RowInit(u8 *p,const Item *item,void *sys,u32 first,u32 second,v
  a=STRBUF_Create(32,heap); b=STRBUF_Create(32,heap);
  c=STRBUF_Create(32,heap); text=STRBUF_Create(32,heap);
  func_02045CAC(msg,5,a);func_02045CAC(msg,7,b);func_02045CAC(msg,8,c);
- func_0201EFA4(set,0,item->seq,2,0,1);
- func_0201EFA4(set,2,item->id,3,0,1);
- func_0201EFA4(set,3,item->value,3,0,1);
- func_0201F250(set,text,a);
+ WORDSET_SetSlotNumber(set,0,item->seq,2,0,1);
+ WORDSET_SetSlotNumber(set,2,item->id,3,0,1);
+ WORDSET_SetSlotNumber(set,3,item->value,3,0,1);
+ WORDSET_CopyTaggedText(set,text,a);
  width=func_0201D304(text,font,0)>>1;
  PRINTSYS_Print(*(void **)(p+4),38-width,5,text,(void *)font);
  PRINTSYS_Print(*(void **)(p+4),52,5,item->text,(void *)font);
- func_0201F250(set,text,b);
+ WORDSET_CopyTaggedText(set,text,b);
  width=func_0201D304(text,font,0)>>1;
  PRINTSYS_Print(*(void **)(p+4),142-width,5,text,(void *)font);
- func_0201F250(set,text,c);
+ WORDSET_CopyTaggedText(set,text,c);
  width=func_0201D304(text,font,0)>>1;
  PRINTSYS_Print(*(void **)(p+4),194-width,5,text,(void *)font);
  STRBUF_Delete(text);STRBUF_Delete(c);STRBUF_Delete(b);STRBUF_Delete(a);

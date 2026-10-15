@@ -67,7 +67,7 @@
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_02049DB4   0x02049DB4  arm
  *   func_02049B40   0x02049B40  arm
- *   sub_0201D304   0x0201D304  thumb
+ *   GF_FONT_MeasureWidestLine   0x0201D304  thumb
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_WIN_GetPosX  0x02045758  arm
@@ -259,7 +259,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int TOUCHPANEL_HitTrg(const void *hitTbl);
 extern void *func_02049DB4(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
 extern void func_02049B40(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
-extern u32 sub_0201D304(struct StrBuf *str, struct GFont *font, u32 margin);
+extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *str, struct GFont *font, u32 margin);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
@@ -1294,7 +1294,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *i
     win->bmpWin = bmpWin;
     APP_TASKMENU_DrawWinFrame(bmpWin, res, frameStyle);
     if (isCenter == 1) {
-        strX = (u8)(((width << 3) - sub_0201D304(item->str, res->font, 0)
+        strX = (u8)(((width << 3) - GF_FONT_MeasureWidestLine(item->str, res->font, 0)
                      - 0x10) >> 1);
     }
     PRINTSYS_PrintQueColor(res->printQue, BMP_WIN_GetBmp(win->bmpWin),

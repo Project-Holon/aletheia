@@ -1,5 +1,5 @@
 /*
- * function: func_020682F8
+ * function: NNSi_G2dCharCanvasFill
  * address:  0x020682F8
  * packet:   pkt_020682F8
  * region:   arm9
@@ -14,12 +14,12 @@
  *
  * Fill a sub-rectangle of ONE 8x8 tile with a pixel word.  dst is the tile,
  * (x, y) the sub-rectangle's offset inside it, (w, h) its extent, val the
- * expanded pixel word (func_02068A18's expansion) and bpp 4 or 8.  A whole
+ * expanded pixel word (NNSi_G2dSurfaceFill's expansion) and bpp 4 or 8.  A whole
  * tile goes to MIi_CpuClearFast (MIi_CpuClearFast) in one call; otherwise each
  * of the h rows is masked in place, one word per row at 4bpp and two at
  * 8bpp, where the 64-bit row mask is built longhand from two 32-bit halves
  * with the >= 32 shift cases spelled out.  Called seven-argument from
- * func_02068AE8 and func_02068C84.
+ * NNSi_G2dSurfaceFillRect and NNSi_G2dSurfaceFillRectSwizzled.
  *
  * COMPILER PIN ../2.0/sp2, "kept branches" (docs/FRONTEND-PINS.md): the image
  * keeps `blo` over both four-instruction >= 32 blocks (0x020683A4,
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 
 extern void MIi_CpuClearFast(u32 data, void *dst, int size);
 
-void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp)
+void NNSi_G2dCharCanvasFill(u32 *dst, int x, int y, int w, int h, u32 val, int bpp)
 {
     if (w == 8 && h == 8) {
         MIi_CpuClearFast(val, dst, bpp << 3);

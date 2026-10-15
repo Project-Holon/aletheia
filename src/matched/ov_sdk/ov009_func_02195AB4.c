@@ -1,5 +1,5 @@
 /*
- * function: func_02195AB4
+ * function: gt2CreateSocket
  * address:  0x02195AB4
  * packet:   pkt_ov009_02195AB4
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      gt2CreateSocket (libdwcgsgt2.TWL.HYB.a(gt2main.o))
  *
  * symbols:
- *   func_02197D94  0x02197D94  arm  ov009
+ *   gti2CreateSocket  0x02197D94  arm  ov009
  */
 
-extern int func_02197D94(void **sock, char *addr, int outSize, int inSize, void *callback, int type);
+extern int gti2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback, int type);
 
-int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback)
+int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback)
 {
-	return func_02197D94(sock, addr, outSize, inSize, callback, 0);
+	return gti2CreateSocket(sock, addr, outSize, inSize, callback, 0);
 }

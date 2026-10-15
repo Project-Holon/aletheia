@@ -1,5 +1,5 @@
 /*
- * function: func_021DD128
+ * function: BR_CODEIN_RecordSetupTextWin
  * address: 0x021DD128
  * packet: pkt_ov183_021DD128
  * region: ov183
@@ -31,7 +31,7 @@ extern unsigned BR_RES_GetFont(char *p);
 extern int BR_RES_GetMsgData(char *);
 extern void *BR_UTIL_Create(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 extern void BR_UTIL_SetTextFromMessage(char *p, void *a, void *b, void *font, unsigned short value);
-void func_021DD128(char *p, char *q)
+void BR_CODEIN_RecordSetupTextWin(char *p, char *q)
 {
     if (!((struct Obj00050 *)p)->fE4) {
         int first, second, i;

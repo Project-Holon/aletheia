@@ -1,7 +1,7 @@
 /*
  * file:     gsavailable.c
  * unit:     yes
- * function: func_0217C690, func_0217C704, func_0217C750, func_0217C848, func_0217C900
+ * function: func_0217C690, func_0217C704, GSIStartAvailableCheckA, HandlePacket, GSIAvailableCheckThink
  * address:  0x0217C690
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@
  *   sendto  0x0217ECA4  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   g_021ACF7C     0x021ACF7C  data
- *   func_021803BC  0x021803BC  arm ov009
+ *   gsiSafeStrcpyA  0x021803BC  arm ov009
  *   SocketStartUp  0x0217F25C  arm ov009
  *   OS_SPrintf  0x02084F40  arm
  *   func_0217C690  0x0217C690  arm ov009
@@ -34,7 +34,7 @@
  *   g_021A370C     0x021A370C  data
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
- *   func_0217C848  0x0217C848  arm  ov009
+ *   HandlePacket  0x0217C848  arm  ov009
  *   closesocket  0x0217EB2C  arm  ov009
  *   gGsAvailabilityState     0x021ACEF8  data
  */
@@ -72,7 +72,7 @@ extern int inet_addr(int a);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern unsigned int current_time(void);
-extern int func_021803BC(char *dst, const char *src, unsigned int n);
+extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern void SocketStartUp(void);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);
@@ -83,7 +83,7 @@ extern void func_0217C704(void);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
-extern int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
+extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
 extern int closesocket(int sock);
 extern char gGsAvailabilityGameName[];
 extern char g_021ACF3C[];
@@ -121,13 +121,13 @@ void func_0217C704(void)
 /*
  * sdk:      GSIStartAvailableCheckA (gsavailable.o)
  */
-void func_0217C750(char *gamename)
+void GSIStartAvailableCheckA(char *gamename)
 {
     int len;
     int override;
     char *host;
     char hostname[64];
-    func_021803BC(gGsAvailabilityGameName, gamename, 64);
+    gsiSafeStrcpyA(gGsAvailabilityGameName, gamename, 64);
     g_021ACF7C.sock = -1;
     SocketStartUp();
     override = g_021ACF3C[0];
@@ -152,7 +152,7 @@ void func_0217C750(char *gamename)
 /*
  * sdk:      HandlePacket (gsavailable.o)
  */
-int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices)
+int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices)
 {
     int bitfield;
     if (len < 7)
@@ -174,7 +174,7 @@ int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *dis
 /*
  * sdk:      GSIAvailableCheckThink (libdwcgscommon.TWL.HYB.a(gsavailable.o))
  */
-int func_0217C900(void)
+int GSIAvailableCheckThink(void)
 {
     char packet[64];
     struct SOCSockAddrIn address;
@@ -187,7 +187,7 @@ int func_0217C900(void)
     }
     if (func_0217EF50(g_021ACF7C.sock)) {
         rcode = func_0217EC60(g_021ACF7C.sock, packet, 64, 0, &address, &len);
-        if (func_0217C848(packet, rcode, &address, &disabledservices) == 0) {
+        if (HandlePacket(packet, rcode, &address, &disabledservices) == 0) {
             closesocket(g_021ACF7C.sock);
             if (disabledservices & 1) {
                 gGsAvailabilityState = 2;

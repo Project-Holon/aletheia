@@ -1,5 +1,5 @@
 /*
- * function: func_0217AA20
+ * function: DWC_Netcheck_Abort
  * address:  0x0217AA20
  * packet:   pkt_ov009_0217AA20
  * region:   ov009
@@ -25,7 +25,7 @@ extern int OS_IsThreadTerminated(void *thread);
 extern void OS_JoinThread(void *thread);
 extern char *g_021ACE5C[];
 
-void func_0217AA20(void)
+void DWC_Netcheck_Abort(void)
 {
     if (g_021ACE5C[1] == 0) {
         return;

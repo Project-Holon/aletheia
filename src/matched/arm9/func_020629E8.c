@@ -1,5 +1,5 @@
 /*
- * function: func_020629E8
+ * function: NNS_G2dGetMultiCellDataByIdx
  * address:  0x020629E8
  * packet:   pkt_0206296C
  * region:   arm9
@@ -13,7 +13,7 @@
  * Returns the idx'th multi-cell descriptor of an NNS G2D multi-cell bank
  * (the NMCR file's 'KBCM' block body), or NULL when idx is out of range.
  * The `lsl #3` pins the descriptor stride at 8 bytes, and the sibling fixup
- * routine at 0x0206296C (see docs/notes/func_0206296C.c.txt) pins the rest
+ * routine at 0x0206296C (see docs/notes/NNSi_G2dUnpackMultiCellBank.c.txt) pins the rest
  * of the block layout:
  *
  *   bank  +0x00  u16 numMultiCell
@@ -29,7 +29,7 @@
  * A 10- or 12-byte descriptor stride is not what this game reads.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020629E8.c  *       --func func_020629E8 --addr 0x020629E8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetMultiCellDataByIdx.c  *       --func NNS_G2dGetMultiCellDataByIdx --addr 0x020629E8 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ struct MultiCellBank {
     struct MultiCellData *array;
 };
 
-struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx)
+struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx)
 {
     if (idx < bank->numMultiCell) {
         return &bank->array[idx];

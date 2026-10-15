@@ -11,11 +11,14 @@
  *
  * notes:    defined in src/game/ov009/unit_0217F130.c without a verification
  *           entry.
+ *
+ * symbols:
+ *   gsifree  0x0217EAE0  arm
  */
 
-extern void func_0217EAE0(void *p);
+extern void gsifree(void *p);
 
 void gsiCancelResolvingHostname(void *p)
 {
-    func_0217EAE0(p);
+    gsifree(p);
 }

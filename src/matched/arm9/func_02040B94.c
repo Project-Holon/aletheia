@@ -12,10 +12,10 @@
  *
  * symbols:
  *   g_020A7E5C     0x020A7E5C  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_020425B4  0x020425B4  arm
+ *   BG_SYS_LoadTileLayerEx  0x020425B4  arm
  *
  * TU: bg_sys.c.
  *
@@ -36,18 +36,18 @@ typedef unsigned int   u32;
 
 extern char g_020A7E5C[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern u32 func_020307B0(void *p);
 extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
+extern void  BG_SYS_LoadTileLayerEx(u32 layer, const void *src, u32 offset, u32 size);
 
 void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId)
 {
-    void *buf = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 0,
+    void *buf = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), size, 0,
                              g_020A7E5C, 1362);
 
     MI_CpuFill8(buf, 0, size);
-    func_020425B4(layer, buf, offset, size);
+    BG_SYS_LoadTileLayerEx(layer, buf, offset, size);
     func_020307B0(buf);
 }

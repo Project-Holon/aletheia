@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020306F0",
+   "name": "GFL_HEAP_DeleteChecked",
    "address": "0x020306F0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030734",
+   "name": "GFL_HEAP_Alloc",
    "address": "0x02030734",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020307B0",
+   "name": "GFL_HEAP_Free",
    "address": "0x020307B0",
    "kind": "sdk",
    "region": "arm9",

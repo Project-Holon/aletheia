@@ -1,5 +1,5 @@
 /*
- * function: func_021C58E0
+ * function: VIEWER_MAIN_UploadBg
  * address:  0x021C58E0
  * packet:   pkt_ov111_021C58E0
  * region:   ov111
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02040B1C  0x02040B1C  arm
- *   func_020410D0  0x020410D0  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
+ *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   func_020409B4  0x020409B4  arm
  *
  * Addresses are Black-image addresses.
@@ -39,16 +39,16 @@ typedef struct {
     ScrnData *scrn;
 } Work;
 
-extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020409B4(u32 layer);
 
-void func_021C58E0(Work *p)
+void VIEWER_MAIN_UploadBg(Work *p)
 {
     ScrnData *s;
 
-    func_02040B1C(7, p->chr->data, p->chr->size, 0);
+    BG_SYS_LoadTileData(7, p->chr->data, p->chr->size, 0);
     s = p->scrn;
-    func_020410D0(7, 0x15, 2, 10, 11, (u32)s + 0xC, 0x15, 2, s->w >> 3, s->h >> 3);
+    BG_SYS_DrawTileEx(7, 0x15, 2, 10, 11, (u32)s + 0xC, 0x15, 2, s->w >> 3, s->h >> 3);
     func_020409B4(7);
 }

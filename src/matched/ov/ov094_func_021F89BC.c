@@ -11,8 +11,8 @@
  *
  * symbols:
  *   gBtlvEff     0x0220AF20  data   ov094
- *   sub_020307B0   0x020307B0  arm
- *   sub_02030EAC   0x02030EAC  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   BTLV_EFFECT_FindTaskIndex  0x021F899C  thumb  ov094
  */
@@ -31,8 +31,8 @@ extern int BTLV_EFFECT_FindTaskIndex(void *h);
 struct Node;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern void sub_02030EAC(struct Node *n);
-extern u32 sub_020307B0(void *p);
+extern void TCB_DeleteTask(struct Node *n);
+extern u32 GFL_HEAP_Free(void *p);
 
 void BTLV_EFFECT_DeleteTask(void *h)
 {
@@ -45,8 +45,8 @@ void BTLV_EFFECT_DeleteTask(void *h)
     if (gBtlvEff->cb[i] != 0)
         gBtlvEff->cb[i](h);
     if (w != 0)
-        sub_020307B0(w);
-    sub_02030EAC(h);
+        GFL_HEAP_Free(w);
+    TCB_DeleteTask(h);
     gBtlvEff->handle[i] = 0;
     gBtlvEff->cb[i] = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220C27C
+ * function: B_BAG_MAIN_RegisterCursorGraphics
  * address: 0x0220C27C
  * packet: pkt_ov197_0220C27C
  * region: ov197
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_0220C27C(char *p)
+void B_BAG_MAIN_RegisterCursorGraphics(char *p)
 {
     void *arc = func_020490F4(99,(u16)((((struct Obj25022 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     ((struct Obj00315 *)p)->f560=CLACT_RegisterCharacter(arc,13,1,1,((struct Obj25023 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C425C
+ * function: WIFI_2DCHAR_GetActorDrawEnable
  * address:  0x021C425C
  * packet:   pkt_ov127_021C425C
  * region:   ov127
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
-int func_021C425C(char *p)
+int WIFI_2DCHAR_GetActorDrawEnable(char *p)
 {
     return CLACT_GetActorDrawEnable(((struct Obj23016 *)p)->f4);
 }

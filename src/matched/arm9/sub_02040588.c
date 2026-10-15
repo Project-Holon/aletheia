@@ -1,5 +1,5 @@
 /*
- * function: sub_02040588
+ * function: BG_SYS_SetPlaneVisible
  * address:  0x02040588
  * packet:   pkt_0203FC6C
  * region:   arm9
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void sub_02040588(unsigned char which, unsigned char enable)
+void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable)
 {
     switch (which) {
     case 0:

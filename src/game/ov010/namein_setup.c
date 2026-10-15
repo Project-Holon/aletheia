@@ -66,7 +66,7 @@
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02014910  0x02014910  thumb
+ *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
@@ -78,7 +78,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   BATTLE_REC_AllocWork  0x0200B400  thumb
- *   func_021CBD08  0x021CBD08  thumb  ov021
+ *   BSUBWAY_SCR_CreateBtlSetup  0x021CBD08  thumb  ov021
  *   EVENT_BATTLE_CreateResultOnlyTask  0x0216E8CC  thumb  ov010
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
  *   FIELD_MSGBG_TalkWinDrawCursor  0x021914CC  thumb  ov021
@@ -106,7 +106,7 @@
  *   PROCSYS_Create  0x02031324  arm
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PROCSYS_Main  0x02031330  arm
  *   func_02034AC4  0x02034AC4  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
@@ -131,7 +131,7 @@
  *   ENCEFF_Start  0x021CF498  thumb  ov021
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
  *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
- *   func_021CBD84   0x021CBD84  thumb  ov021
+ *   BSUBWAY_SCR_GetNameinEncounterWork   0x021CBD84  thumb  ov021
  *   GAME_EVENT_Create   0x020122C0  thumb
  *   GAME_EVENT_GetWork   0x020124E8  thumb
  *   SCRCMD_MSGWIN_GetBalloonSide  0x021B0A40  thumb  ov021
@@ -373,7 +373,7 @@ extern void *FIELD_PLAYER_GetMmdl(void *playerObj);
 extern void GFL_USE_StopSeSlot(int i);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
-extern GameEvent *func_02014910(GameSystem *gameSystem, FieldMap *fieldMap, PartyScreenArgs *partyScreen, SummaryArgs *summary);
+extern GameEvent *FIELD_STATUS_CreateSubProcListEvent(GameSystem *gameSystem, FieldMap *fieldMap, PartyScreenArgs *partyScreen, SummaryArgs *summary);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern GameData *ICA_ANIME_GetField1C(GameSystem *gameSystem);
@@ -385,7 +385,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u32 POKEPARTY_GetCount(void *party);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *p);
 extern void BATTLE_REC_AllocWork(u32 heap);
-extern u32 func_021CBD08(EncounterContext *ctx, GameSystem *gameSystem);
+extern u32 BSUBWAY_SCR_CreateBtlSetup(EncounterContext *ctx, GameSystem *gameSystem);
 extern int EVENT_BATTLE_CreateResultOnlyTask(GameSystem *, FieldMap *, int);
 extern int FIELD_MSGBG_TalkWinMain();
 extern void FIELD_MSGBG_TalkWinDrawCursor(void *balloon);
@@ -411,7 +411,7 @@ extern void **PROCSYS_AllocProcWork(void *proc, int size, int heapId);
 extern void *PROCSYS_Create(int heapId);
 extern void func_0203133C(void *w);
 extern void func_020315D4(void *proc);
-extern void func_020306F0(unsigned int);
+extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern unsigned int PROCSYS_Main(void *p);
 extern int func_02034AC4(s32 handle);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
@@ -432,7 +432,7 @@ extern void *FIELDMAP_GetEncEff(FieldMap *fieldMap);
 extern void ENCEFF_Start(void *p, GameEvent *event, int mode);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(GameSystem *gameSystem);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(GameSystem *gameSystem);
-extern void *func_021CBD84(EncounterContext *ctx);
+extern void *BSUBWAY_SCR_GetNameinEncounterWork(EncounterContext *ctx);
 extern int SCRCMD_MSGWIN_GetBalloonSide(void *m2, VecFx32 *pos);
 extern void *func_020071CC(void *saveControl, u32 id);
 extern void *BSUBWAY_SAVEDATA_AllocHistoryCopy(void *bsubwaySave, u32 heap);
@@ -873,7 +873,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
         (*state)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, func_02014910(gameSystem, work->fieldMap, &work->partyScreen, &work->summary));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, &work->partyScreen, &work->summary));
         (*state)++;
         break;
     case 3:
@@ -983,7 +983,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
 
 
 /*
- * lever: The result of func_021CBD08 remains live in r2 and is the third argument of EVENT_BATTLE_CreateResultOnlyTask.
+ * lever: The result of BSUBWAY_SCR_CreateBtlSetup remains live in r2 and is the third argument of EVENT_BATTLE_CreateResultOnlyTask.
  *
  * DIFF: original keeps the call result in r2 (adds r2,r0) and loads the 0x7CC offset into r0;
  * ours loads the offset into r1 and stores r0. Tried a local, a struct field, unsigned char.
@@ -992,7 +992,7 @@ void NAMEIN_SETUP_StartEncounterScene(EncounterContext *ctx, GameSystem *gameSys
 {
     int transitionInfo;
     BATTLE_REC_AllocWork(4);
-    transitionInfo = func_021CBD08(ctx, gameSystem);
+    transitionInfo = BSUBWAY_SCR_CreateBtlSetup(ctx, gameSystem);
     ctx->transitionInfo = transitionInfo;
     if (ctx->kind == 3 || ctx->kind == 8) {
         NAMEIN_SETUP_StartEncounterTransition(ctx, gameSystem, fieldMap);
@@ -1062,7 +1062,7 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
  *     u8 resident;
  * };
  * extern char MSGDATA_AllocSite[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
  * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
@@ -1090,7 +1090,7 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
  *     if (bank->resident == 0) {
  *         void *buf;
  *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *         buf = GFL_HEAP_Alloc((u16)((bank->heapId & 0x7fff) | 0x8000),size,
  *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
@@ -1232,7 +1232,7 @@ int NAMEIN_SETUP_ExitHostProc(void *proc, int *seq, void *pwk, void **mywk)
 {
     func_0203133C(*mywk);
     func_020315D4(proc);
-    func_020306F0(0x76);
+    GFL_HEAP_DeleteChecked(0x76);
     return 1;
 }
 
@@ -1406,7 +1406,7 @@ GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldM
 
 
 /*
- * unblocked: func_021CBD84 (ov021, unlabelled leaf) was matched bottom-up
+ * unblocked: BSUBWAY_SCR_GetNameinEncounterWork (ov021, unlabelled leaf) was matched bottom-up
  *   and filed as pkt_021CBD84; the `ov021` token then resolves the site as
  *   `matched, overlay`.
  *
@@ -1415,7 +1415,7 @@ GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldM
  */
 void NAMEIN_SETUP_StartEncounterTransition(EncounterContext *ctx, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    void *extra = func_021CBD84(ctx);
+    void *extra = BSUBWAY_SCR_GetNameinEncounterWork(ctx);
 
     NAMEIN_SETUP_StartSceneEvent(gameSystem, fieldMap, (TransitionInfo *)ctx->transitionInfo, extra);
 }

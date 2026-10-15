@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _u32_div_f          0x0209C2B0  arm
- *   func_020627D8       0x020627D8  arm
+ *   NNS_G2dGetAnimSequenceByIdx       0x020627D8  arm
  *   func_0206434C       0x0206434C  arm
  *   NNS_G2dTickCellAnimation       0x02064364  arm
  *   NNS_G2dIsCellAnimationBoundingBox       0x02063030  arm
@@ -23,7 +23,7 @@
  * frame (modulo the sequence length when the animation loops, clamped
  * otherwise).  mcType 1 = cell animations shared through a 0x5c-byte
  * { NNSG2dCellAnimation, bInited } array; otherwise a 0x28-byte node array
- * whose pContent is the cell animation.  Callees: func_020627D8
+ * whose pContent is the cell animation.  Callees: NNS_G2dGetAnimSequenceByIdx
  * GetAnimSequenceByIdx, func_0206434C SetCellAnimationSequence,
  * NNS_G2dIsCellAnimationBoundingBox IsAnimCtrlLoopAnim, NNS_G2dTickCellAnimation TickCellAnimation,
  * NNS_G2dSetSRTTranslate SrtcSetTrans.
@@ -72,7 +72,7 @@ typedef struct MCInstance {
 struct AnimBank;
 struct AnimSequence;
 struct CellAnim;
-extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
+extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
 extern void func_0206434C(CellAnimation *p, const AnimSequenceData *seq);
 extern s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim);
 extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
@@ -105,7 +105,7 @@ static inline void SetNodeDataToCellAnim_(CellAnimation *pCellAnim, const HierDa
 {
     const AnimSequenceData *pAnimSeq = 0;
 
-    pAnimSeq = (const AnimSequenceData *)func_020627D8((struct AnimBank *)pAnimBank, pNodeData->animSequenceIdx);
+    pAnimSeq = (const AnimSequenceData *)NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)pAnimBank, pNodeData->animSequenceIdx);
 
     func_0206434C(pCellAnim, pAnimSeq);
     pCellAnim->animCtrl.bActive = 1;

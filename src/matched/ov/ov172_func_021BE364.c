@@ -13,7 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   GAME_DATA_Create 0x020124F4 thumb
  *   KEY_GetCont 0x0203630C arm
- *   func_021BD1AC 0x021BD1AC thumb ov172
+ *   CTVT_CALL_WorkInit 0x021BD1AC thumb ov172
  *   d_021C724C 0x021C724C data a4
  */
 #include "../include/Obj03856.h"
@@ -30,7 +30,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *GAME_DATA_Create(u16 heap);
 extern unsigned int KEY_GetCont(void);
-extern void func_021BD1AC(char *self);
+extern void CTVT_CALL_WorkInit(char *self);
 extern u8 d_021C724C[];
 int COMM_TVT_SYS_ProcInit(struct Obj0203159C *obj,int unused,u8 *arg)
 {
@@ -47,6 +47,6 @@ int COMM_TVT_SYS_ProcInit(struct Obj0203159C *obj,int unused,u8 *arg)
         if (KEY_GetCont() & 0x400) ((struct Obj24147 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=2;
     } else *(u8 * *)&((struct Obj03856 *)p)->f1F8=arg;
     ((struct Obj03856 *)p)->f14=0;
-    func_021BD1AC((char *)p);
+    CTVT_CALL_WorkInit((char *)p);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02166358
+ * function: WCMi_CpsifRecvCallback
  * address:  0x02166358
  * packet:   pkt_ov009_02166358
  * region:   ov009
@@ -15,15 +15,15 @@
  * cpsif work block, if one is set.
  *
  * symbols:
- *   g_021AA7DC  0x021AA7DC  data
+ *   gWcmCpsifWork  0x021AA7DC  data
  */
 
 #include "../include/G_WCMCpsifWork.h"
 
-extern struct WCMCpsifWork g_021AA7DC;
+extern struct WCMCpsifWork gWcmCpsifWork;
 
-void func_02166358(unsigned char *s, unsigned char *d, unsigned char *dat, long len)
+void WCMi_CpsifRecvCallback(unsigned char *s, unsigned char *d, unsigned char *dat, long len)
 {
-    if (g_021AA7DC.cb != 0)
-        g_021AA7DC.cb(s, d, dat, len);
+    if (gWcmCpsifWork.cb != 0)
+        gWcmCpsifWork.cb(s, d, dat, len);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219E3CC",
+   "name": "SBServerParseQR2FullKeysSingle",
    "address": "0x0219E3CC",
    "kind": "sdk",
    "region": "ov009",

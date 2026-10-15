@@ -12,7 +12,7 @@
  * symbols:
  *   STRBUF_Delete   0x02045808  arm
  *   func_020315D4   0x020315D4  arm
- *   func_020306F0   0x020306F0  arm
+ *   GFL_HEAP_DeleteChecked   0x020306F0  arm
  *   BR_MAIN_FreeSceneManager   0x0220B0CC  thumb
  *   BATTLE_REC_FreeWork   0x0200B424  thumb
  *
@@ -26,7 +26,7 @@ struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void BR_MAIN_FreeSceneManager(int *);
 extern void BATTLE_REC_FreeWork(void);
 
@@ -43,6 +43,6 @@ int BR_MAIN_Exit(int a, int b, int c, char *p)
     BR_MAIN_FreeSceneManager((int *)p);
     BATTLE_REC_FreeWork();
     func_020315D4((struct S020315D4 *)a);
-    func_020306F0(0x59);
+    GFL_HEAP_DeleteChecked(0x59);
     return 1;
 }

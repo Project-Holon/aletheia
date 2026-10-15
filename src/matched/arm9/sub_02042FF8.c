@@ -1,5 +1,5 @@
 /*
- * function: sub_02042FF8
+ * function: BG_SYS_SetupLayer
  * address:  0x02042FF8
  * packet:   pkt_02042B24
  * region:   arm9
@@ -41,7 +41,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
 
-void sub_02042FF8(u32 idx, u32 offset, u32 size)
+void BG_SYS_SetupLayer(u32 idx, u32 offset, u32 size)
 {
     switch (idx) {
     case 0:

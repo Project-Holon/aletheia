@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014A20",
+   "name": "ZONEDATA_LoadLightTable",
    "address": "0x02014A20",
    "kind": "game",
    "region": "arm9",

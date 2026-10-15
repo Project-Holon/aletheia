@@ -1,5 +1,5 @@
 /*
- * function: func_021C46F0
+ * function: VIEWER_MAIN_ExitBg
  * address:  0x021C46F0
  * packet:   pkt_ov111_021C46F0
  * region:   ov111
@@ -27,7 +27,7 @@ extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_020403F4(u32 bgId);
 extern void BG_SYS_Delete(void);
 
-void func_021C46F0(void)
+void VIEWER_MAIN_ExitBg(void)
 {
     BG_SYS_SetMainPlaneVisible(0x1F, 0);
     BG_SYS_SetSubPlaneVisible(0x1F, 0);

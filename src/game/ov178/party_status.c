@@ -27,7 +27,7 @@
  *   ov090_id 0x0000005A data
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ov091_id 0x0000005B data a1
  *   ov131_id 0x00000083 data a1
  *   gPartyListProcData 0x021BED00 data a4 ov091
@@ -55,10 +55,10 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
- *   func_021D9DC8 0x021D9DC8 thumb ov175
- *   func_021DC200 0x021DC200 thumb ov175
- *   func_021DC240 0x021DC240 thumb ov175
- *   func_021D9EA0 0x021D9EA0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CreateNetContext 0x021D9DC8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SendRegDataAlt 0x021DC200 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TakeRegBuffer 0x021DC240 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DeleteNetContext 0x021D9EA0 thumb ov175
  *   func_0217E00C  0x0217E00C  thumb  ov176
  *   ov176_id       0x000000B0  data
  *   func_0217E258 0x0217E258 thumb ov176
@@ -211,7 +211,7 @@ extern void PLIST_COMM_End(void *);
 extern void func_02034A5C(s32 handle);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned);
+extern void GFL_HEAP_DeleteChecked(unsigned);
 extern int GFL_NET_GetRunState(void);
 extern void *GFL_NET_GetInitParam(void);
 extern u32_021E5524 func_0200FB24(void);
@@ -231,9 +231,9 @@ extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
-extern char *func_021D9DC8(u32_021E58F4,void *,u32_021E58F4,u16);
-extern u32_021E58F4 func_021DC200(char *,u32_021E58F4),func_021DC240(char *,u32_021E58F4);
-extern void func_021D9EA0(u8 *p);
+extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32_021E58F4,void *,u32_021E58F4,u16);
+extern u32_021E58F4 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *,u32_021E58F4),WIFIBATTLEMATCH_NET_TakeRegBuffer(char *,u32_021E58F4);
+extern void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p);
 extern void *func_0217E00C(int unused, int heap);
 extern int func_0217E258(int unused, int arg);
 extern int func_0217E298(u8 *p, const void *q);
@@ -295,7 +295,7 @@ int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusO
  if(n!=0)POKEPARTY_Add(q->f1C,POKEPARTY_GetMember(q->f4,n-1));
  }
  PLIST_COMM_End((char *)p+8);func_02034A5C((unsigned)ov090_id);
- func_0203133C(p->fD0);func_020315D4(handle);func_020306F0(0x58);
+ func_0203133C(p->fD0);func_020315D4(handle);GFL_HEAP_DeleteChecked(0x58);
  return 1;
 }
 
@@ -503,7 +503,7 @@ int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d)
         break;
     }
     func_020315D4(a);
-    func_020306F0(0x58);
+    GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }
 
@@ -549,14 +549,14 @@ int PARTY_STATUS_NetSync(char **out,u32_021E58F4 *ctx,u32_021E58F4 *state)
     case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
     case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
     case 2:func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);func_02034AC4((int)ov175_id);
-        *out=func_021D9DC8(ctx[5],**(void ** *)&((PartyStatusObj7 *)ctx)->f0,0,88);++*state;break;
+        *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx[5],**(void ** *)&((PartyStatusObj7 *)ctx)->f0,0,88);++*state;break;
     case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
     case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
-    case 5:if(func_021DC200(*out,ctx[3]))++*state;break;
-    case 6:if(func_021DC240(*out,ctx[4]))++*state;break;
+    case 5:if(WIFIBATTLEMATCH_NET_SendRegDataAlt(*out,ctx[3]))++*state;break;
+    case 6:if(WIFIBATTLEMATCH_NET_TakeRegBuffer(*out,ctx[4]))++*state;break;
     case 7:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
     case 8:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
-    case 9:func_021D9EA0((u8 *)((u32_021E58F4)*out));*out=0;
+    case 9:WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32_021E58F4)*out));*out=0;
         func_02034A5C((int)ov175_id);func_02034A5C((int)ov114_id);func_02034A5C((int)ov067_id);++*state;break;
     case 10:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
     case 11:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;
@@ -571,7 +571,7 @@ void PARTY_STATUS_DestroySubWork(void **pp, u32_021E5A44 *c)
 {
     if (*pp == 0)
         return;
-    func_021D9EA0((u8 *)((u32_021E5A44)*pp));
+    WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32_021E5A44)*pp));
     func_02034A5C((u32_021E5A44)ov175_id);
     func_02034A5C((u32_021E5A44)ov114_id);
     func_02034A5C((u32_021E5A44)ov067_id);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DFC88
+ * function: BR_CODEIN_CodeDeleteButtons
  * address: 0x021DFC88
  * packet: pkt_ov183_021DFC88
  * region: ov183
@@ -19,7 +19,7 @@ extern void BR_UTIL_Delete(u8 *p);
 extern void BR_BTN_DeleteObject(char *p);
 extern void func_020409B4(unsigned int);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
-int func_021DFC88(char *p, char *q)
+int BR_CODEIN_CodeDeleteButtons(char *p, char *q)
 {
     int i;
     for (i = 0; i < 3; i++) {

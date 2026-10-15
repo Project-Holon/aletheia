@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02066998
+ * function: NNS_G2dUpdateCellTransferStateManager
  * address:  0x02066998
  * packet:   pkt_02066740
  * region:   arm9
@@ -89,7 +89,7 @@ static inline BOOL ShouldTransfer_(const CellTransferState *s, VRamType t)
     return (BOOL)((s->bTransferRequested & (1 << t)) && (s->bDrawn & (1 << t)));
 }
 
-void func_02066998(void)
+void NNS_G2dUpdateCellTransferStateManager(void)
 {
     u32 i;
     VRamType t;

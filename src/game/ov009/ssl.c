@@ -39,7 +39,7 @@
  *   parse_time     0x02160238  arm  ov009
  *   object         0x021A1D48  data
  *   func_02164CC4  0x02164CC4  arm  ov009
- *   func_0216469C  0x0216469C  arm  ov009
+ *   CPSi_big_power  0x0216469C  arm  ov009
  *   exit_computebound  0x021600E4  arm  ov009
  *   func_02164D20  0x02164D20  arm  ov009
  *   CPSiAlloc     0x021A8280  data
@@ -78,7 +78,7 @@
  *   CPSi_rc4_init     0x02163E40  arm
  *   gCpsSslServerId     0x021A1D98  data
  *   gCpsSslClientId     0x021A1DA0  data
- *   func_02163EB8  0x02163EB8  arm  ov009
+ *   CPSi_rc4_crypt  0x02163EB8  arm  ov009
  *   MI_CpuFill8                     0x02082BCC  arm
  *   CPSi_rc4_crypt   0x02163EB8  arm  ov009
  *   CPSi_TcpReadRaw  0x0215AE18  arm  ov009
@@ -92,7 +92,7 @@
  *   tcp_read_raw_nbytes   0x02161BE8  arm
  *   client_hello_v2       0x02160E1C  arm
  *   CPS_SslAddRandomSeed  0x02162248  arm  ov009
- *   func_02163E10  0x02163E10  arm  ov009
+ *   CPSi_sha1_result_prng  0x02163E10  arm  ov009
  *   pool_initialized  0x021AA648  data
  *   gCpsSslRandCtx  0x021A82E4  data
  *   pool  0x021AA650  data
@@ -137,7 +137,7 @@ static int cert_item_len(unsigned char **ps);
 static void make_dn(char *d, char *s, int len);
 static unsigned long parse_time(unsigned char *s, int type);
 extern void func_02164CC4(unsigned short *d, unsigned char *s, int numbytes, int digits);
-extern void func_0216469C(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
+extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           unsigned short *n);
 extern void exit_computebound(unsigned long old_priority);
 extern void func_02164D20(unsigned char *d, unsigned short *s, int numbytes, int digits);
@@ -177,7 +177,7 @@ static void rcv_finished(CPSSslConnection *con, unsigned char *s);
 static int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc);
 static void client_hello_v2(CPSSslConnection *con, unsigned char *s);
 extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
-extern void func_02163E10(void *ctx, unsigned char *digest);
+extern void CPSi_sha1_result_prng(void *ctx, unsigned char *digest);
 extern void update_digest(CPSSslConnection *con, unsigned char *s, unsigned long len);
 extern int make_ciphertext(CPSSslConnection *con, unsigned char *s);
 extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, CPSSoc *soc);
@@ -723,7 +723,7 @@ static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca)
     func_02164CC4(c, ca->exponent, ca->exponent_len, digits);
     func_02164CC4(n, ca->modulo, ca->modulo_len, digits);
     old_priority = enter_computebound();
-    func_0216469C(tmp_var, b, c, digits, n);
+    CPSi_big_power(tmp_var, b, c, digits, n);
     exit_computebound(old_priority);
     s = (unsigned char *)b;
     func_02164D20(s, tmp_var, ca->modulo_len, digits);
@@ -1286,7 +1286,7 @@ static void add1_be8(u8 *d)
 
 
 /*
- * Forwards (p + 0x1e0) to func_02163EB8 and returns the third argument.
+ * Forwards (p + 0x1e0) to CPSi_rc4_crypt and returns the third argument.
  */
 int decrypt(CPSSslConnection *con, u8 *s, int len)
 {
@@ -1649,7 +1649,7 @@ static void set_random(unsigned char *d, int len)
             func_02163C9C(&ctx);
             enabled = OS_DisableInterrupts();
             func_02163CF0(&ctx, pool, 20);
-            func_02163E10(&ctx, x);
+            CPSi_sha1_result_prng(&ctx, x);
             carry = 1;
             for (j = 19; j >= 0; j--) {
                 tmp = pool[j] + x[j] + carry;

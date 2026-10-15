@@ -1,5 +1,5 @@
 /*
- * function: func_021C6D9C
+ * function: VIEWER_TEXT_InitActors
  * address:  0x021C6D9C
  * packet:   pkt_ov111_021C6D9C
  * region:   ov111
@@ -67,7 +67,7 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021C6D9C(Anim *a, u32 x)
+void VIEWER_TEXT_InitActors(Anim *a, u32 x)
 {
     void *h;
 

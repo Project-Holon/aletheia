@@ -18,7 +18,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
  *   COMM_TVT_SYS_IsNetIdle 0x021BE100 thumb ov172
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   COMM_TVT_SYS_GetLayoutMode 0x021BE05C thumb ov172
  *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
@@ -90,9 +90,9 @@
  *   d_021C724C 0x021C724C data a4
  *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
- *   func_021BD1AC 0x021BD1AC thumb ov172
- *   func_021BD3B8 0x021BD3B8 thumb ov172
- *   func_021BD43C 0x021BD43C thumb ov172
+ *   CTVT_CALL_WorkInit 0x021BD1AC thumb ov172
+ *   CTVT_CALL_WorkDelete 0x021BD3B8 thumb ov172
+ *   CTVT_CALL_WorkMain 0x021BD43C thumb ov172
  *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 #include "ctvt_types.h"
@@ -163,12 +163,12 @@ extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
 extern struct GameData *GAME_DATA_Create(u16 heapId);
 extern unsigned int KEY_GetCont(void);
 extern void func_020315D4(struct ProcSys *proc);
-extern void func_020306F0(unsigned int heapId);
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_021BD1AC(CtvtWork *work);
-extern void func_021BD3B8(CtvtWork *work);
-extern int func_021BD43C(CtvtWork *work);
+extern void CTVT_CALL_WorkInit(CtvtWork *work);
+extern void CTVT_CALL_WorkDelete(CtvtWork *work);
+extern int CTVT_CALL_WorkMain(CtvtWork *work);
 
 void COMM_TVT_SYS_DeleteTimeIcon(CtvtWork *work);
 
@@ -453,7 +453,7 @@ void COMM_TVT_SYS_ClearAndTransferNameWindows(CtvtWork *work)
 /* Places the slot marker next to the name of member idx: the marker index is idx, or 2 and
  * 3 for slots 0 and 1 in layout mode 1; the checks run through CTVT_COMM_IsSlotActive and
  * CTVT_COMM_GetSlotConnected, then the position comes from the x and y byte tables.
- * idx is a u8 slot index (the sibling func_021BDD6C walks the same slots with a u8 i). The u8
+ * idx is a u8 slot index (the sibling CTVT_CALL_UpdateMemberWindows walks the same slots with a u8 i). The u8
  * parameter is what keeps the third-call idx reload after the byte copies. */
 void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
 {
@@ -527,19 +527,19 @@ int COMM_TVT_SYS_ProcInit(struct ProcSys *proc, int unused, CtvtLaunchParams *la
         if (KEY_GetCont() & 0x400) work->launch->mode = 2;
     } else work->launch = launch;
     work->netErrorPending = 0;
-    func_021BD1AC(work);
+    CTVT_CALL_WorkInit(work);
     return 1;
 }
 
 /* Process exit: tears the screens down; generated launch params go with it. */
 int COMM_TVT_SYS_ProcExit(struct ProcSys *proc, void *unused, int keepLaunch, CtvtWork *work)
 {
-    func_021BD3B8(work);
+    CTVT_CALL_WorkDelete(work);
     if (keepLaunch == 0) {
         func_020307B0(work->launch);
     }
     func_020315D4(proc);
-    func_020306F0(0x6d);
+    GFL_HEAP_DeleteChecked(0x6d);
     return 1;
 }
 
@@ -550,7 +550,7 @@ int COMM_TVT_SYS_ProcMain(void *proc, void *unused1, void *unused2, CtvtWork *wo
         GFL_NET_ERR_RequestScreen();
         work->netErrorPending = 1;
     }
-    if (func_021BD43C(work) == 1) {
+    if (CTVT_CALL_WorkMain(work) == 1) {
         return 1;
     }
     return 0;

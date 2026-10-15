@@ -1,5 +1,5 @@
 /*
- * function: func_021F2A88
+ * function: NAMEIN_GRAPHIC_KanaMove
  * address: 0x021F2A88
  * packet: pkt_ov194_021F2A88
  * region: ov194
@@ -10,7 +10,7 @@
  * tail: 320-byte lead including padding, followed by existing matched 920-byte ov194_func_021F2BC8.
  */
 typedef unsigned char u8;
-void func_021F2A88(int *p,int *delta,u8 *saved)
+void NAMEIN_GRAPHIC_KanaMove(int *p,int *delta,u8 *saved)
 {
  int enter,leave,x,y,index;
  enter=0;leave=0;

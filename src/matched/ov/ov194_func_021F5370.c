@@ -7,7 +7,7 @@
  * symbols:
  *   MI_CpuCopy8 0x02082D44 arm
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
- *   func_0203F37C 0x0203F37C arm
+ *   GF_STANDARD_ShuffleEx 0x0203F37C arm
  *   func_020307B0 0x020307B0 arm
  *   PROF_WORD_CompareChunks 0x021F546C thumb ov194
  */
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern int ARC_UTIL_LoadMemberWithSize(int,int,int,int,u32 *);
-extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
+extern void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed);
 extern u32 func_020307B0(void *p);
 extern int PROF_WORD_CompareChunks(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
 int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
@@ -36,7 +36,7 @@ int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
     for(i=0;i<7;i++) {
         if(cache==0) {
             data=ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,&size);
-            func_0203F37C((void *)data,size,0x72012891);
+            GF_STANDARD_ShuffleEx((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
         { u32 currentHeap=heap; result=PROF_WORD_CompareChunks(buf,i,currentHeap,(const u16 *)data,size); }
         if(cache==0) func_020307B0((void *)data);

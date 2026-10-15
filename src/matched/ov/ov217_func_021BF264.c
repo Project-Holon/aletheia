@@ -16,8 +16,8 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  */
 #include "../include/Obj00021.h"
 typedef unsigned short u16;
@@ -31,8 +31,8 @@ extern void BgTextLabel_PrintText(u8 *p, struct U16Vec *text);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct U16Vec *);
-extern void func_0201EE0C(struct WordSet *,unsigned,const void *,unsigned,unsigned,unsigned);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotTag(struct WordSet *,unsigned,const void *,unsigned,unsigned,unsigned);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 void RESEARCH_GRAPH_PrintTimeLabel(char *p)
 {
     unsigned index;
@@ -45,8 +45,8 @@ void RESEARCH_GRAPH_PrintTimeLabel(char *p)
     a=func_02045EC0(*(struct MsgBank * *)&((struct Obj00021 *)p)->fC,14);
     b=func_02045EC0(*(struct MsgBank * *)&((struct Obj00021 *)p)->f14,index);
     buf=STRBUF_Create(128,((struct Obj00021 *)p)->f4);
-    func_0201EE0C(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,0,b,0,1,2);
-    func_0201F250(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,buf,a);
+    WORDSET_SetSlotTag(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,0,b,0,1,2);
+    WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,buf,a);
     BgTextLabel_SetVisible((u8 *)(((struct Obj00021 *)p)->f358),1);
     BgTextLabel_PrintText((u8 *)(((struct Obj00021 *)p)->f358),buf);
     STRBUF_Delete(a);

@@ -16,8 +16,8 @@
  * symbols:
  *   sub_020056A0_Sys  0x020AA194  data
  *   func_02030DA8     0x02030DA8  arm
- *   func_0203F034     0x0203F034  arm
- *   func_0203F258     0x0203F258  arm
+ *   GF_STANDARD_RandSeed     0x0203F034  arm
+ *   GF_STANDARD_CalcHash     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
  *
  * The tail of the packet: the second heap's allocator wrapper, the shutdown
@@ -158,8 +158,8 @@ struct Ctx;
 struct Lcg64;
 struct Node;
 extern struct Node *func_02030DA8(struct Ctx *c, void (*callback)(struct Node *, void *), void *work, u32 key);
-extern void  func_0203F034(u32 seed);
-extern void func_0203F258(struct Lcg64 *out);
+extern void  GF_STANDARD_RandSeed(u32 seed);
+extern void GF_STANDARD_CalcHash(struct Lcg64 *out);
 
 void GFL_USE_InitRandomState(void *heap);
 u32  GFL_USE_GetRandom(u32 range);
@@ -176,13 +176,13 @@ void *GFL_USE_GetMainTaskList(void)
 
 void GFL_USE_InitRandomState(void *heap)
 {
-    func_0203F258(heap);
+    GF_STANDARD_CalcHash(heap);
 }
 
 void GFL_USE_InitRandom(void)
 {
     GFL_USE_InitRandomState(sub_020056A0_Sys.unk10);
-    func_0203F034(GFL_USE_GetRandom(0));
+    GF_STANDARD_RandSeed(GFL_USE_GetRandom(0));
 }
 
 u32 GFL_USE_GetRandom(u32 range)

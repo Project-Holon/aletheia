@@ -14,7 +14,7 @@
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   WIFICLUB_LoadBgResources  0x021BE2DC  thumb  ov099
  *   func_02049B40  0x02049B40  arm
- *   func_0201F5DC  0x0201F5DC  thumb
+ *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -23,7 +23,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void WIFICLUB_LoadBgResources(char *p, int a, int b);
 typedef unsigned short u16;
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 
 void WIFICLUB_InitPlanesAndText(char *p, int v)
 {
@@ -32,7 +32,7 @@ void WIFICLUB_InitPlanesAndText(char *p, int v)
     BG_SYS_SetSubPlaneVisible(0xD, 1);
     WIFICLUB_LoadBgResources(p + 0x898, v, 0x21);
     func_02049B40(0x17, 5, 0, k << 5, 0x20, 0x21);
-    *(void **)(p + 0x1330) = func_0201F5DC((void *)2, 0xE, 0, 0x21);
-    *(void **)(p + 0x1334) = func_0201F5DC((void *)2, 0xE, 0, 0x21);
-    *(void **)(p + 0x1338) = func_0201F5DC((void *)1, 0xE, 0, 0x21);
+    *(void **)(p + 0x1330) = BMP_MENUWORK_LoadFrameGfx((void *)2, 0xE, 0, 0x21);
+    *(void **)(p + 0x1334) = BMP_MENUWORK_LoadFrameGfx((void *)2, 0xE, 0, 0x21);
+    *(void **)(p + 0x1338) = BMP_MENUWORK_LoadFrameGfx((void *)1, 0xE, 0, 0x21);
 }

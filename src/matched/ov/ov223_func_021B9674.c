@@ -13,7 +13,7 @@
  *   func_020355D8 0x020355D8 arm
  *   FADE_SetSpeed 0x0204E6F4 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +24,7 @@ extern void func_020355D8(u32 v);
 struct S020315D4;
 extern void FADE_SetSpeed(s32 a);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
 {
     u16 v;
@@ -49,6 +49,6 @@ int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
     }
     *(u32 *)(*(u8 **)(ctx + 4) + 4) = *(u32 *)(ctx + 0x228);
     func_020315D4(a);
-    func_020306F0(0x87);
+    GFL_HEAP_DeleteChecked(0x87);
     return 1;
 }

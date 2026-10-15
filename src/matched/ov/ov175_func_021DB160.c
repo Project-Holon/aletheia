@@ -1,5 +1,5 @@
 /*
- * function: func_021DB160
+ * function: WIFIBATTLEMATCH_NET_ReportAddTeam
  * address: 0x021DB160
  * packet: pkt_ov175_021DB160
  * region: ov175
@@ -14,7 +14,7 @@
  */
 extern int func_021DF420(int, int, int);
 extern int DWC_ScReportAddIntValue(int, int, int);
-void func_021DB160(int *ctx, int *input, int invert)
+void WIFIBATTLEMATCH_NET_ReportAddTeam(int *ctx, int *input, int invert)
 {
     int flip = 0, skip = 0;
     int first, second;

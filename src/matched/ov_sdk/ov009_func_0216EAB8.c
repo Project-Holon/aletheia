@@ -1,5 +1,5 @@
 /*
- * function: func_0216EAB8
+ * function: DWCi_MatchGPRecvBuddyMsgCallback
  * address:  0x0216EAB8
  * packet:   pkt_ov009_0216EAB8
  * region:   ov009
@@ -20,7 +20,7 @@
 #include "../arm9_sdk/libc/string.h"
 
 extern int DWC_Base64Decode(const char *src, int srclen, void *dst, int dstlen);
-extern void func_0216EAB8(int unused, int profileID, char *message)
+extern void DWCi_MatchGPRecvBuddyMsgCallback(int unused, int profileID, char *message)
 {
     unsigned long data[128];
     int msgLen;

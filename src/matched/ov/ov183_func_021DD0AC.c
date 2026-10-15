@@ -1,5 +1,5 @@
 /*
- * function: func_021DD0AC
+ * function: BR_CODEIN_RecordCreateTextWin
  * address: 0x021DD0AC
  * packet: pkt_ov183_021DD0AC
  * region: ov183
@@ -16,7 +16,7 @@
 typedef unsigned short u16;
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_StartEffect(int, int, int *);
-void func_021DD0AC(char *p)
+void BR_CODEIN_RecordCreateTextWin(char *p)
 {
     if (!((struct Obj00050 *)p)->fE0) {
         int args[2];

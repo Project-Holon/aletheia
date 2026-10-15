@@ -12,7 +12,7 @@
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ov093_id 0x0000005D data a1
  */
 #include "../include/Obj06662.h"
@@ -24,7 +24,7 @@ struct S020315D4;
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int func_02213850(void *a, void *b, void *c, char *work)
 {
     if (((struct Obj06662 *)work)->f8) {
@@ -37,6 +37,6 @@ int func_02213850(void *a, void *b, void *c, char *work)
     }
     func_0203133C(((struct Obj06662 *)work)->f0);
     func_020315D4(a);
-    func_020306F0(0x58);
+    GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }

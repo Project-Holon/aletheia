@@ -1,5 +1,5 @@
 /*
- * function: func_0215DD88
+ * function: SOCLi_ConsumeCPSBuffer
  * address:  0x0215DD88
  * packet:   pkt_ov009_0215DD88
  * region:   ov009
@@ -31,7 +31,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern void CPS_SocConsume(unsigned long len);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-long func_0215DD88(Socket *socket)
+long SOCLi_ConsumeCPSBuffer(Socket *socket)
 {
     RecvPipe *recv_pipe;
     unsigned long enable;

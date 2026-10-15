@@ -1,5 +1,5 @@
 /*
- * function: func_021D57B0
+ * function: GTSNEGO_DISP_ShowPokemonList
  * address: 0x021D57B0
  * packet: pkt_ov120_021D57B0
  * region: ov120
@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D79F4 0x021D79F4 thumb ov120
+ *   GTSNEGO_MSG_PrintWindow 0x021D79F4 thumb ov120
  *   func_020355C4 0x020355C4 arm
- *   func_021D69F4 0x021D69F4 thumb ov120
- *   func_021D7D3C 0x021D7D3C thumb ov120
- *   func_021D6BB0 0x021D6BB0 thumb ov120
- *   func_021D81E0 0x021D81E0 thumb ov120
- *   func_021D82A8 0x021D82A8 thumb ov120
- *   func_021D72A0 0x021D72A0 thumb ov120
- *   func_021D6D10 0x021D6D10 thumb ov120
- *   func_021D7ECC 0x021D7ECC thumb ov120
- *   func_021D733C 0x021D733C thumb ov120
- *   func_021D4244 0x021D4244 thumb ov120
- *   func_021D5758 0x021D5758 thumb ov120
- *   func_021D5334 0x021D5334 thumb ov120
+ *   GTSNEGO_DISP_SetCursorState 0x021D69F4 thumb ov120
+ *   GTSNEGO_MSG_ClearRows 0x021D7D3C thumb ov120
+ *   GTSNEGO_MSG_InitWindows 0x021D6BB0 thumb ov120
+ *   GTSNEGO_MSG_PrintList 0x021D81E0 thumb ov120
+ *   GTSNEGO_MSG_PrintListRange 0x021D82A8 thumb ov120
+ *   GTSNEGO_MSG_FillListRange 0x021D72A0 thumb ov120
+ *   GTSNEGO_MSG_DrawTileRows 0x021D6D10 thumb ov120
+ *   GTSNEGO_MSG_CreateTooltip 0x021D7ECC thumb ov120
+ *   GTSNEGO_MSG_SetIconY 0x021D733C thumb ov120
+ *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
+ *   GTSNEGO_DISP_WaitSelectStart 0x021D5758 thumb ov120
+ *   GTSNEGO_DISP_HandleListInput 0x021D5334 thumb ov120
  *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb  arm9
  */
 #include "../include/Obj00532.h"
@@ -31,46 +31,46 @@ extern void *GAME_DATA_GetSaveBlock1F(void **);
 typedef unsigned int   u32;
 struct Sub02009D9CObj;
 extern int func_02009E8C(struct Sub02009D9CObj *obj);
-extern void func_021D79F4(u8 *p, u16 n);
+extern void GTSNEGO_MSG_PrintWindow(u8 *p, u16 n);
 extern u8 func_020355C4(void);
-extern void func_021D69F4(u8 *p, void *q, u32 n);
-extern void func_021D7D3C(char *p);
-extern void func_021D6BB0(u8 *, int);
-extern void func_021D81E0(char *, void *);
-extern void func_021D82A8(char *p, void *q, int start);
-extern void func_021D72A0(u8 *p, void *container, int offset);
-extern void func_021D6D10(u8 *p, void *list, int first);
-extern void *func_021D7ECC(char *, u16);
-extern void func_021D733C(u8 *p, int index, int count);
-extern void func_021D4244(int *p, int v, int a2);
-extern void func_021D5758(u8 *);
+extern void GTSNEGO_DISP_SetCursorState(u8 *p, void *q, u32 n);
+extern void GTSNEGO_MSG_ClearRows(char *p);
+extern void GTSNEGO_MSG_InitWindows(u8 *, int);
+extern void GTSNEGO_MSG_PrintList(char *, void *);
+extern void GTSNEGO_MSG_PrintListRange(char *p, void *q, int start);
+extern void GTSNEGO_MSG_FillListRange(u8 *p, void *container, int offset);
+extern void GTSNEGO_MSG_DrawTileRows(u8 *p, void *list, int first);
+extern void *GTSNEGO_MSG_CreateTooltip(char *, u16);
+extern void GTSNEGO_MSG_SetIconY(u8 *p, int index, int count);
+extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
+extern void GTSNEGO_DISP_WaitSelectStart(u8 *);
 struct Ctx;
-extern void func_021D5334(struct Ctx *p);
-void func_021D57B0(u8 *p)
+extern void GTSNEGO_DISP_HandleListInput(struct Ctx *p);
+void GTSNEGO_DISP_ShowPokemonList(u8 *p)
 {
     int flag = 1;
     int n = func_02009E8C(GAME_DATA_GetSaveBlock1F(*(void ** *)&((struct Obj00532 *)p)->f2C));
     ((struct Obj00532 *)p)->f138 = flag;
     if (n == 0) {
-        func_021D79F4(((struct Obj00532 *)p)->f40, 0x1d);
+        GTSNEGO_MSG_PrintWindow(((struct Obj00532 *)p)->f40, 0x1d);
         ((struct Obj00532 *)p)->f14 = 0x78;
-        func_021D4244((int *)p, (int)func_021D5758, 0x7e7);
+        GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_WaitSelectStart, 0x7e7);
         return;
     }
     ((struct Obj00532 *)p)->f150 = n;
-    func_021D79F4(((struct Obj00532 *)p)->f40, 0x13);
+    GTSNEGO_MSG_PrintWindow(((struct Obj00532 *)p)->f40, 0x13);
     if (func_020355C4() == 0)
-        func_021D69F4(((struct Obj00532 *)p)->f3C, 0, ((struct Obj00532 *)p)->f164);
+        GTSNEGO_DISP_SetCursorState(((struct Obj00532 *)p)->f3C, 0, ((struct Obj00532 *)p)->f164);
     else
-        func_021D69F4(((struct Obj00532 *)p)->f3C, 0, 9);
-    func_021D7D3C(((struct Obj00532 *)p)->f40);
+        GTSNEGO_DISP_SetCursorState(((struct Obj00532 *)p)->f3C, 0, 9);
+    GTSNEGO_MSG_ClearRows(((struct Obj00532 *)p)->f40);
     if (n <= 3) flag = 0;
-    func_021D6BB0(*(u8 * *)&((struct Obj00532 *)p)->f3C, flag);
-    func_021D81E0(*(char * *)&((struct Obj00532 *)p)->f40, ((struct Obj00532 *)p)->f2C);
-    func_021D82A8(((struct Obj00532 *)p)->f40, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
-    func_021D72A0(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
-    func_021D6D10(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
-    ((struct Obj00532 *)p)->f34 = func_021D7ECC(*(char * *)&((struct Obj00532 *)p)->f40, 0x2c);
-    func_021D733C(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f158 + ((struct Obj00532 *)p)->f164 - 6, ((struct Obj00532 *)p)->f150);
-    func_021D4244((int *)p, (int)func_021D5334, 0x815);
+    GTSNEGO_MSG_InitWindows(*(u8 * *)&((struct Obj00532 *)p)->f3C, flag);
+    GTSNEGO_MSG_PrintList(*(char * *)&((struct Obj00532 *)p)->f40, ((struct Obj00532 *)p)->f2C);
+    GTSNEGO_MSG_PrintListRange(((struct Obj00532 *)p)->f40, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
+    GTSNEGO_MSG_FillListRange(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
+    GTSNEGO_MSG_DrawTileRows(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
+    ((struct Obj00532 *)p)->f34 = GTSNEGO_MSG_CreateTooltip(*(char * *)&((struct Obj00532 *)p)->f40, 0x2c);
+    GTSNEGO_MSG_SetIconY(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f158 + ((struct Obj00532 *)p)->f164 - 6, ((struct Obj00532 *)p)->f150);
+    GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_HandleListInput, 0x815);
 }

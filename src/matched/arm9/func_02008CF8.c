@@ -1,5 +1,5 @@
 /*
- * function: func_02008CF8
+ * function: RECORD_GetCeiling
  * address:  0x02008CF8
  * packet:   pkt_02008CF8
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern unsigned char RECORD_CeilingRowTable[];
 extern int RECORD_CeilingTable[];
-int func_02008CF8(int idx)
+int RECORD_GetCeiling(int idx)
 {
     int v = RECORD_CeilingRowTable[idx];
     if (v >= 0xa7) return 0;

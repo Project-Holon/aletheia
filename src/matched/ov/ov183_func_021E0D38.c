@@ -1,5 +1,5 @@
 /*
- * function: func_021E0D38
+ * function: BR_CODEIN_ProfileAddActorSurfacePos
  * address: 0x021E0D38
  * packet: pkt_ov183_021E0D38
  * region: ov183
@@ -22,7 +22,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, un
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-void func_021E0D38(struct Coordinates *p, int index)
+void BR_CODEIN_ProfileAddActorSurfacePos(struct Coordinates *p, int index)
 {
     int width = p->rect[index + 12][1] - p->rect[index + 12][0];
     int height = p->rect[index + 12][3] - p->rect[index + 12][2];

@@ -32,12 +32,12 @@
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   func_02017E88 0x02017E88 thumb
- *   func_0201EF14 0x0201EF14 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_OAM_SetEnabled 0x02025774 thumb
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   func_02008534 0x02008534 thumb
  *   func_0200864C 0x0200864C thumb
  *   func_02008650 0x02008650 thumb
@@ -121,12 +121,12 @@ extern struct Sav *POKE_TOOL_Dummy(struct Sav *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *,u32);
 extern u32 func_02017E88(void *,u32,u32);
-extern void func_0201EF14(struct WordSet *,u32,void *);
-extern void func_0201F250(struct WordSet *,void *,void *);
+extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *,u32,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void BMP_OAM_SetEnabled(u8 *,u32);
-extern void func_0201F02C(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern u16 func_0200864C(const struct PlayTime *);
 extern u8 func_02008650(const struct PlayTime *);
@@ -233,8 +233,8 @@ void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
     lock = POKE_TOOL_DecodeBoxParam(mon);
     BMP_Clear(work->plates[1].bmp, 0);
     str = func_02045EC0(work->msgData, 1);
-    func_0201EF14(work->wordSet, 0, mon);
-    func_0201F250(work->wordSet, work->strBuf, str);
+    WORDSET_SetSlotMonSpeciesAlt(work->wordSet, 0, mon);
+    WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = func_02045EC0(work->msgData, 2);
@@ -242,8 +242,8 @@ void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, str, 112, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = func_02045EC0(work->msgData, 3);
-    func_0201EFA4(work->wordSet, 0, func_02017E88(mon, 158, 0), 3, 0, 1);
-    func_0201F250(work->wordSet, work->strBuf, str);
+    WORDSET_SetSlotNumber(work->wordSet, 0, func_02017E88(mon, 158, 0), 3, 0, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, width + 112, 0);
     STRBUF_Delete((struct U16Vec *)str);
     POKE_TOOL_EncodeBoxParam(mon, lock);
@@ -282,19 +282,19 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     BMP_OAM_SetEnabled(work->plates[3].oam, 0);
     BMP_Clear(work->plates[3].bmp, 0);
     str = func_02045EC0(work->msgData, 5);
-    func_0201F02C(work->wordSet, 0, work->args->myStatus);
-    func_0201F250(work->wordSet, work->strBuf, str);
+    WORDSET_SetSlotMyStatus(work->wordSet, 0, work->args->myStatus);
+    WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = func_02045EC0(work->msgData, 6);
-    func_0201EFA4(work->wordSet, 0, func_02008534(work->args->myStatus), 5, 2, 1);
-    func_0201F250(work->wordSet, work->strBuf, str);
+    WORDSET_SetSlotNumber(work->wordSet, 0, func_02008534(work->args->myStatus), 5, 2, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 92, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = func_02045EC0(work->msgData, 7);
-    func_0201EFA4(work->wordSet, 0, func_0200864C(work->args->playTime), 3, 0, 1);
-    func_0201EFA4(work->wordSet, 1, func_02008650(work->args->playTime), 2, 2, 1);
-    func_0201F250(work->wordSet, work->strBuf, str);
+    WORDSET_SetSlotNumber(work->wordSet, 0, func_0200864C(work->args->playTime), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, func_02008650(work->args->playTime), 2, 2, 1);
+    WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 200, 0);
     STRBUF_Delete((struct U16Vec *)str);
 }

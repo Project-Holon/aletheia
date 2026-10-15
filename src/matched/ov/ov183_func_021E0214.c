@@ -1,5 +1,5 @@
 /*
- * function: func_021E0214
+ * function: BR_CODEIN_CodeDeletePokeList
  * address: 0x021E0214
  * packet: pkt_ov183_021E0214
  * region: ov183
@@ -23,7 +23,7 @@ extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void func_020409B4(u32 index);
-int func_021E0214(char *p, char *q)
+int BR_CODEIN_CodeDeletePokeList(char *p, char *q)
 {
     if (((struct Obj04574 *)p)->fC) {
         BR_BTN_DeleteObject(((struct Obj04574 *)p)->fC);

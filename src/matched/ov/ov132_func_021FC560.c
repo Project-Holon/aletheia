@@ -1,5 +1,5 @@
 /*
- * function: func_021FC560
+ * function: SCRIPT_COMMAND_CmdClearText
  * address:  0x021FC560
  * packet:   pkt_021FC560
  * region:   ov132
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void STA_ACTING_ClearText(u8 *p);
 
-int func_021FC560(void *a, void **pp)
+int SCRIPT_COMMAND_CmdClearText(void *a, void **pp)
 {
     STA_ACTING_ClearText(((struct Obj23262 *)((u8 *)*pp))->f34);
     return 0;

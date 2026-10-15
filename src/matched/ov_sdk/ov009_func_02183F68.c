@@ -1,5 +1,5 @@
 /*
- * function: func_02183F68
+ * function: ScrollTopScreen
  * address:  0x02183F68
  * packet:   pkt_ov009_02183F68
  * region:   ov009
@@ -21,7 +21,7 @@ extern void MIi_CpuCopyFast(void * srcp, void * destp, unsigned long size);
 extern void MIi_CpuClearFast(unsigned long data, void * destp, unsigned long size);
 extern unsigned short g_021AD1C8[768];
 
-void func_02183F68(void)
+void ScrollTopScreen(void)
 {
     int i;
 

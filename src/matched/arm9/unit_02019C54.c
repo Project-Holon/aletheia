@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02019C54
+ * function: POKE_TOOL_GetPersonalData
  *
  * A one-entry memo: the (a, b) key pair at 0x02146270 and the 0x10 byte
  * object built for it at 0x02146274, rebuilt through POKE_PERSONAL_LoadData
- * (src/matched/unit_0201ADA4.c) only when the key changes.  func_02019C90 in
+ * (src/matched/unit_0201ADA4.c) only when the key changes.  POKE_TOOL_GetPersonalParam in
  * src/matched/unit_02019C7C.c is its only caller.
  *
  * Two things pin the source.
@@ -28,7 +28,7 @@
  * Declared as two symbols, 0x02146274 would need a witness of its own and the
  * only word in the image that holds it is the one under test.
  *
- * The neighbour func_02019C38 at the head of this packet is byte-correct but
+ * The neighbour POKE_TOOL_GetBoxSubstruct at the head of this packet is byte-correct but
  * MATCH-capped on its private table and is parked in
  * src/pending/sub_02019C38.c; this range is cut to exclude it.
  *
@@ -51,7 +51,7 @@ extern struct Memo gPersonalCache;
 
 extern void POKE_PERSONAL_LoadData(u32 a, int b, void *dest);
 
-void *func_02019C54(u32 a, u32 b)
+void *POKE_TOOL_GetPersonalData(u32 a, u32 b)
 {
     if (a != gPersonalCache.a || b != gPersonalCache.b) {
         gPersonalCache.b = (u16)b;

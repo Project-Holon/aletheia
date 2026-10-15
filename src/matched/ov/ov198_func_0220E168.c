@@ -1,5 +1,5 @@
 /*
- * function: func_0220E168
+ * function: B_PLIST_DRAW_PrintStream
  * address: 0x0220E168
  * packet: pkt_ov198_0220E168
  * region: ov198
@@ -32,7 +32,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
-void func_0220E168(char *p)
+void B_PLIST_DRAW_PrintStream(char *p)
 {
     int v;
     void *obj;

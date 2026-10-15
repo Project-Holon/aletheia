@@ -14,7 +14,7 @@
  *   GURU2_RECEIPT_GetUnionApp 0x021DCF50 thumb ov137
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
- *   func_0201F02C 0x0201F02C thumb
+ *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   PRINTSYS_PrintStreamStop 0x0201CE0C thumb
  */
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 struct WordSet;
 extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void PRINTSYS_PrintStreamStop(void *);
 void GURU2_RECEIPT_SetStateFromParent(char *p,int state,int player) {
@@ -53,7 +53,7 @@ void GURU2_RECEIPT_SetStateFromParent(char *p,int state,int player) {
         break;
     case 19:
         if (((struct Obj01261 *)p)->f4810==1) return;
-        func_0201F02C(((struct Obj01261 *)p)->f3C,0,UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p),player));
+        WORDSET_SetSlotMyStatus(((struct Obj01261 *)p)->f3C,0,UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p),player));
         if (player==GFL_NET_SYSTEM_GetCurrentAid()) return;
         if (((struct Obj01261 *)p)->fE8) {
             BMP_MENU_DeleteYesNo(((struct Obj01261 *)p)->fE8);

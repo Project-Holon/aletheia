@@ -15,7 +15,7 @@
  *   SBServerListCleanup  0x021A0340  arm  ov009
  *   SBEngineCleanup  0x0219D8FC  arm  ov009
  *   NNFreeNegotiateList  0x0219922C  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  */
 
 struct ServerBrowser {
@@ -28,7 +28,7 @@ struct SBServerList;
 extern void SBServerListCleanup(struct SBServerList *slist);
 extern void SBEngineCleanup(void *engine);
 extern void NNFreeNegotiateList(void);
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 
 void ServerBrowserFree(struct ServerBrowser *sb)
 {
@@ -36,5 +36,5 @@ void ServerBrowserFree(struct ServerBrowser *sb)
     SBEngineCleanup(&sb->engine);
     if (sb->ConnectCallback != 0)
         NNFreeNegotiateList();
-    func_0217EAE0(sb);
+    gsifree(sb);
 }

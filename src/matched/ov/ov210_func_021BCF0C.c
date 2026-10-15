@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF0C
+ * function: ZKNSEARCH_MAIN_NormalizeRecordByte
  * address:  0x021BCF0C
  * packet:   pkt_ov210_021BCF0C
  * region:   ov210
@@ -31,7 +31,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern u8 d_021C0720[];
 
-void func_021BCF0C(u8 *p)
+void ZKNSEARCH_MAIN_NormalizeRecordByte(u8 *p)
 {
     u32 i;
     u8 v;

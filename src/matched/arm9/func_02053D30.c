@@ -1,5 +1,5 @@
 /*
- * function: func_02053D30
+ * function: SPL_EMITTER_SetTextureParam
  * address:  0x02053D30
  * packet:   pkt_02052F58
  * region:   arm9
@@ -15,7 +15,7 @@
  * G3_MtxMode / G3_Identity / G3_Scale / G3_MtxMode, over a copy of the
  * row's SPLTextureParam union (the copy is the dead `str r7, [sp]`).
  *
- * Closes docs/notes/func_02053D30.c.txt (41 out after two lanes, the whole
+ * Closes docs/notes/SPL_EMITTER_SetTextureParam.c.txt (41 out after two lanes, the whole
  * residue register naming).  What closed it, wave 9 third lane: the
  * function's structure and names were taken from the public pret/pokeplatinum
  * decompilation of the same library (lib/spl/src/spl_emitter.c,
@@ -86,7 +86,7 @@ typedef struct SPLTexture {
     u16 width;
     u16 height;
 } SPLTexture;
-void func_02053D30(SPLTexture *tex)
+void SPL_EMITTER_SetTextureParam(SPLTexture *tex)
 {
     SPLTextureParam param = tex->param;
     G3_TexImageParam(param.format, GX_TEXGEN_TEXCOORD, param.s, param.t, param.repeat, param.flip, param.palColor0, tex->texAddr);

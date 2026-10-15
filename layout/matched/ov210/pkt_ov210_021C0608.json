@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C0608",
-    "func_021C065C"
+    "ZKNSEARCH_RESULT_SetRowMulti",
+    "ZKNSEARCH_RESULT_Noop4"
+   ],
+   "addresses": [
+    "0x021C0608",
+    "0x021C065C"
    ]
   }
  ]

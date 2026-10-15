@@ -1,5 +1,5 @@
 /*
- * function: func_0201F628
+ * function: BMP_MENUWORK_DrawFrame
  * address:  0x0201F628
  * packet:   pkt_0201F5BC
  * region:   arm9
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * A nine-slice window frame draw, the worker behind func_0201F73C
- * (src/matched/func_0201F73C.c).  Eight calls to func_02041300 place tiles
+ * A nine-slice window frame draw, the worker behind BMP_MENUWORK_DrawWindow
+ * (src/matched/BMP_MENUWORK_DrawWindow.c).  Eight calls to BG_SYS_SetTileEntry place tiles
  * base+0, +1, +2, +3, +5, +6, +7, +8 around the rectangle (x, y, w, h); the
  * centre tile base+4 is never emitted, which is why the sequence skips 4.
  * The four corners are 1x1, the top and bottom edges are w x 1, the left and
@@ -24,8 +24,8 @@
  *
  * THREE LEVERS, the last of which closed it:
  *
- *  - **func_02041300's second and third parameters are declared u8 here**,
- *    not u32 as src/pending/func_02041300.c declares them.  With u32 the
+ *  - **BG_SYS_SetTileEntry's second and third parameters are declared u8 here**,
+ *    not u32 as src/pending/BG_SYS_SetTileEntry.c declares them.  With u32 the
  *    truncation of `x - 1` becomes a source-level expression, mwccarm CSEs
  *    the whole `(u8)(x - 1)` and spills the truncated byte to a stack slot;
  *    the image keeps the untruncated `x - 1` in r7 and re-runs the
@@ -40,13 +40,13 @@
  *    call sequence exactly where the source order puts them.
  *
  *  - **`id` is `u16`, not `u32`.**  This is what the earlier write-up in
- *    docs/notes/func_0201F628.c.txt read as a closed scheduler residue and
+ *    docs/notes/BMP_MENUWORK_DrawFrame.c.txt read as a closed scheduler residue and
  *    told the next reader not to re-attempt.  It is not the scheduler: the
  *    remaining 86 bytes were three `str r5, [sp, #8]` palette stores and the
  *    top-of-function argument spill issued one slot late, and narrowing the
  *    first parameter moves all four.  The narrowing is real, not a trick --
- *    func_0201F73C hands this the result of BMP_WIN_GetBgLayer, which
- *    src/matched/func_0201F7A8.c (the sibling that calls func_02041300
+ *    BMP_MENUWORK_DrawWindow hands this the result of BMP_WIN_GetBgLayer, which
+ *    src/matched/BMP_MENUWORK_DrawWindowBorder.c (the sibling that calls BG_SYS_SetTileEntry
  *    directly) already declares as a narrow byte accessor, so the caller
  *    side agrees.  With u32 the value is a fresh full-word value in mwccarm's
  *    value numbering and is created before the three stack-argument stores;
@@ -60,29 +60,29 @@
  *      249       EXACT  asm=0     bytes-out=0   size=276/276
  *
  * CONSEQUENCE.  0x0201F628 has exactly one caller image-wide,
- * func_0201F73C, so it could never be attested by the `label` class and no
+ * BMP_MENUWORK_DrawWindow, so it could never be attested by the `label` class and no
  * cut creates a witness; now that this file is EXACT the `matched` class
- * carries that site, which is what src/matched/func_0201F73C.c was waiting
+ * carries that site, which is what src/matched/BMP_MENUWORK_DrawWindow.c was waiting
  * on.
  *
  * Addresses are Black-image addresses.  Nothing here reads a version flag.
  *
  * symbols:
- *   func_02041300  0x02041300  arm
+ *   BG_SYS_SetTileEntry  0x02041300  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F628.c \
- *       --func func_0201F628 --addr 0x0201F628 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_DrawFrame.c \
+ *       --func BMP_MENUWORK_DrawFrame --addr 0x0201F628 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
+extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
                           u32 a6);
 
-void func_0201F628(u16 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
+void BMP_MENUWORK_DrawFrame(u16 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
 {
     u32 y0;
     u32 x0;
@@ -91,14 +91,14 @@ void func_0201F628(u16 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
 
     y0 = y - 1;
     x0 = x - 1;
-    func_02041300(id, base,            x0, y0, 1, 1, pal);
-    func_02041300(id, (u16)(base + 1), x,      y0, w, 1, pal);
+    BG_SYS_SetTileEntry(id, base,            x0, y0, 1, 1, pal);
+    BG_SYS_SetTileEntry(id, (u16)(base + 1), x,      y0, w, 1, pal);
     x1 = x + w;
-    func_02041300(id, (u16)(base + 2), x1, y0, 1, 1, pal);
-    func_02041300(id, (u16)(base + 3), x0, y,      1, h, pal);
-    func_02041300(id, (u16)(base + 5), x1, y,      1, h, pal);
+    BG_SYS_SetTileEntry(id, (u16)(base + 2), x1, y0, 1, 1, pal);
+    BG_SYS_SetTileEntry(id, (u16)(base + 3), x0, y,      1, h, pal);
+    BG_SYS_SetTileEntry(id, (u16)(base + 5), x1, y,      1, h, pal);
     y1 = y + h;
-    func_02041300(id, (u16)(base + 6), x0, y1, 1, 1, pal);
-    func_02041300(id, (u16)(base + 7), x,      y1, w, 1, pal);
-    func_02041300(id, (u16)(base + 8), x1, y1, 1, 1, pal);
+    BG_SYS_SetTileEntry(id, (u16)(base + 6), x0, y1, 1, 1, pal);
+    BG_SYS_SetTileEntry(id, (u16)(base + 7), x,      y1, w, 1, pal);
+    BG_SYS_SetTileEntry(id, (u16)(base + 8), x1, y1, 1, 1, pal);
 }

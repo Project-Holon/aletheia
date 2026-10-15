@@ -1,5 +1,5 @@
 /*
- * function: func_021A7CE8
+ * function: FIELD_GROUND_ANIME_MainA
  * address:  0x021A7CE8
  * packet:   pkt_ov021_021A7CE8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Step machine over the Work step table: each state either stays or loads
- * the next step (func_021A81EC) and advances the index (func_021A8200).
+ * the next step (FIELD_GROUND_ANIME_GetNextStep) and advances the index (FIELD_GROUND_ANIME_AdvanceStep).
  * Returns 1 once the current step is 8 and the handle reports done.
  *
  * symbols:
@@ -23,23 +23,23 @@
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
  *   ENTRANCE_CAMERA_Setup  0x021BDCC8  thumb  ov021
  *   FIELD_SOUND_SYSTEM_PostFadeIn  0x02029D7C  thumb
- *   func_021A82D8  0x021A82D8  thumb  ov021
- *   func_021A8278  0x021A8278  thumb  ov021
- *   func_021A8244  0x021A8244  thumb  ov021
+ *   FIELD_GROUND_ANIME_CallEnterEvent  0x021A82D8  thumb  ov021
+ *   FIELD_GROUND_ANIME_PlayBuildModelForward  0x021A8278  thumb  ov021
+ *   FIELD_GROUND_ANIME_IsBuildModelDone  0x021A8244  thumb  ov021
  *   EVENT_FIELD_PROCLINK_StartObjAnim  0x021618E0  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   ENTRANCE_CAMERA_IsActive  0x021BDD40  thumb  ov021
  *   ENTRANCE_CAMERA_IsInstant  0x021BDD48  thumb  ov021
- *   func_021A82A8  0x021A82A8  thumb  ov021
+ *   FIELD_GROUND_ANIME_PlayBuildModelReverse  0x021A82A8  thumb  ov021
  *   ENTRANCE_CAMERA_Start  0x021BDD20  thumb  ov021
- *   func_021A81EC  0x021A81EC  thumb  ov021
- *   func_021A8200  0x021A8200  thumb  ov021
- *   func_021A81DC  0x021A81DC  thumb  ov021
+ *   FIELD_GROUND_ANIME_GetNextStep  0x021A81EC  thumb  ov021
+ *   FIELD_GROUND_ANIME_AdvanceStep  0x021A8200  thumb  ov021
+ *   FIELD_GROUND_ANIME_GetCurrentStep  0x021A81DC  thumb  ov021
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   ENTRANCE_CAMERA_Restore  0x021BDD34  thumb  ov021
  *   FIELD_CAMERA_ReloadSetting  0x0218E160  thumb  ov021
  *   ENTRANCE_CAMERA_Delete  0x021BDCB8  thumb  ov021
- *   func_021A8234  0x021A8234  thumb  ov021
+ *   FIELD_GROUND_ANIME_DeleteBuildModel  0x021A8234  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -75,25 +75,25 @@ extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
 struct Src;
 extern void ENTRANCE_CAMERA_Setup(char *a, int *b);
 extern void FIELD_SOUND_SYSTEM_PostFadeIn(void *a, void *b);
-extern void func_021A82D8(void *a, struct Src **pp);
-extern void func_021A8278(Work *w);
-extern int func_021A8244(u32 a);
+extern void FIELD_GROUND_ANIME_CallEnterEvent(void *a, struct Src **pp);
+extern void FIELD_GROUND_ANIME_PlayBuildModelForward(Work *w);
+extern int FIELD_GROUND_ANIME_IsBuildModelDone(u32 a);
 extern void *EVENT_FIELD_PROCLINK_StartObjAnim(void *a, void *o);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int ENTRANCE_CAMERA_IsActive(void *p);
 extern int ENTRANCE_CAMERA_IsInstant(struct Obj *o);
-extern void func_021A82A8(Work *w);
+extern void FIELD_GROUND_ANIME_PlayBuildModelReverse(Work *w);
 extern void ENTRANCE_CAMERA_Start(void *p);
-extern u8 func_021A81EC(Work *w);
-extern void func_021A8200(Work *w);
-extern u8 func_021A81DC(u32 a);
+extern u8 FIELD_GROUND_ANIME_GetNextStep(Work *w);
+extern void FIELD_GROUND_ANIME_AdvanceStep(Work *w);
+extern u8 FIELD_GROUND_ANIME_GetCurrentStep(u32 a);
 extern int FIELD_TASK_MANAGER_IsEmpty(void *p);
 extern void ENTRANCE_CAMERA_Restore(u8 *p);
 extern int FIELD_CAMERA_ReloadSetting(u32 a);
 extern void ENTRANCE_CAMERA_Delete(u8 *p);
-extern void func_021A8234(Work *w);
+extern void FIELD_GROUND_ANIME_DeleteBuildModel(Work *w);
 
-int func_021A7CE8(void *task, int *state, Work *w)
+int FIELD_GROUND_ANIME_MainA(void *task, int *state, Work *w)
 {
     Args *a;
     void *a04;
@@ -116,8 +116,8 @@ int func_021A7CE8(void *task, int *state, Work *w)
     case 0:
         EVENT_MAPCHANGE_SetPlayerVanish(obj, 1);
         if (FIELD_CAMERA_HasDelay(h) == 0) {
-            *state = func_021A81EC(w);
-            func_021A8200(w);
+            *state = FIELD_GROUND_ANIME_GetNextStep(w);
+            FIELD_GROUND_ANIME_AdvanceStep(w);
         } else {
             FIELD_CAMERA_EndDelay(h);
             *state = 9;
@@ -125,26 +125,26 @@ int func_021A7CE8(void *task, int *state, Work *w)
         break;
     case 9:
         if (FIELD_CAMERA_IsDelayEnabled(h) == 0) {
-            *state = func_021A81EC(w);
-            func_021A8200(w);
+            *state = FIELD_GROUND_ANIME_GetNextStep(w);
+            FIELD_GROUND_ANIME_AdvanceStep(w);
         }
         break;
     case 1:
         ENTRANCE_CAMERA_Setup(w->f08, (int *)w->f0C);
         FIELD_SOUND_SYSTEM_PostFadeIn(w04, a08);
-        func_021A82D8(task, (struct Src **)w);
-        *state = func_021A81EC(w);
-        func_021A8200(w);
+        FIELD_GROUND_ANIME_CallEnterEvent(task, (struct Src **)w);
+        *state = FIELD_GROUND_ANIME_GetNextStep(w);
+        FIELD_GROUND_ANIME_AdvanceStep(w);
         break;
     case 2:
-        func_021A8278(w);
-        *state = func_021A81EC(w);
-        func_021A8200(w);
+        FIELD_GROUND_ANIME_PlayBuildModelForward(w);
+        *state = FIELD_GROUND_ANIME_GetNextStep(w);
+        FIELD_GROUND_ANIME_AdvanceStep(w);
         break;
     case 3:
-        if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC(w);
-            func_021A8200(w);
+        if (FIELD_GROUND_ANIME_IsBuildModelDone((u32)w) == 1) {
+            *state = FIELD_GROUND_ANIME_GetNextStep(w);
+            FIELD_GROUND_ANIME_AdvanceStep(w);
         }
         break;
     case 4:
@@ -153,41 +153,41 @@ int func_021A7CE8(void *task, int *state, Work *w)
         if (ENTRANCE_CAMERA_IsActive(w->f08) != 0 && ENTRANCE_CAMERA_IsInstant(w->f08) != 0) {
             *state = 10;
         } else {
-            *state = func_021A81EC(w);
-            func_021A8200(w);
+            *state = FIELD_GROUND_ANIME_GetNextStep(w);
+            FIELD_GROUND_ANIME_AdvanceStep(w);
         }
         break;
     case 6:
-        func_021A82A8(w);
-        *state = func_021A81EC(w);
-        func_021A8200(w);
+        FIELD_GROUND_ANIME_PlayBuildModelReverse(w);
+        *state = FIELD_GROUND_ANIME_GetNextStep(w);
+        FIELD_GROUND_ANIME_AdvanceStep(w);
         break;
     case 10:
         if (w->f18++ > 15) {
-            *state = func_021A81EC(w);
-            func_021A8200(w);
+            *state = FIELD_GROUND_ANIME_GetNextStep(w);
+            FIELD_GROUND_ANIME_AdvanceStep(w);
         }
         break;
     case 5:
         ENTRANCE_CAMERA_Start(w->f08);
-        *state = func_021A81EC(w);
-        func_021A8200(w);
+        *state = FIELD_GROUND_ANIME_GetNextStep(w);
+        FIELD_GROUND_ANIME_AdvanceStep(w);
         break;
     case 7:
-        if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC(w);
-            func_021A8200(w);
+        if (FIELD_GROUND_ANIME_IsBuildModelDone((u32)w) == 1) {
+            *state = FIELD_GROUND_ANIME_GetNextStep(w);
+            FIELD_GROUND_ANIME_AdvanceStep(w);
         }
         break;
     case 8:
         break;
     }
 
-    if (func_021A81DC((u32)w) == 8 && FIELD_TASK_MANAGER_IsEmpty(d) != 0) {
+    if (FIELD_GROUND_ANIME_GetCurrentStep((u32)w) == 8 && FIELD_TASK_MANAGER_IsEmpty(d) != 0) {
         ENTRANCE_CAMERA_Restore(w->f08);
         FIELD_CAMERA_ReloadSetting((u32)h);
         ENTRANCE_CAMERA_Delete(w->f08);
-        func_021A8234(w);
+        FIELD_GROUND_ANIME_DeleteBuildModel(w);
         return 1;
     }
     return 0;

@@ -18,7 +18,7 @@
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_021F675C  0x021F675C  thumb
+ *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
@@ -46,7 +46,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *GAME_DATA_GetSaveBlock2A(void *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 func_021F675C(void *, int);
+extern u32 MUSICAL_MCSS_CreateMon(void *, int);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *, int, int);
@@ -67,7 +67,7 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(void *a, void *b)
     ICA_ANIME_GetField20(h);
     f = SCRIPT_WORK_ReadWorkValue(a, b);
     g = (u32)GAME_DATA_GetSaveBlock2A(q);
-    k = func_021F675C(POKEPARTY_GetMember(GAME_DATA_GetMyParty(q), f), 4);
+    k = MUSICAL_MCSS_CreateMon(POKEPARTY_GetMember(GAME_DATA_GetMyParty(q), f), 4);
     r = func_020122C0(h, 0, (void *)SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     c = func_020124E8(r);
     MI_CpuFill8(c, 0, 4);

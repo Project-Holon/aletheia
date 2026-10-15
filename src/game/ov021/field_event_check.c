@@ -45,7 +45,7 @@
  *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb  ov010
  *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
  *   SCRIPT_SYS_IsZoneScriptId  0x02158D90  thumb  ov010
- *   func_0219F01C  0x0219F01C  thumb
+ *   FIELD_RAIL_LOADER_CreateScriptEvent  0x0219F01C  thumb
  *   EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk  0x02162A54  thumb  ov010
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -419,7 +419,7 @@ extern void FIELD_PLAYER_GetPos(u8 *, VecFx32 *);
 extern void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
 extern u32 FLDMMDL_GetEventId(void *p);
 extern int SCRIPT_SYS_IsZoneScriptId(u16 v);
-extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
+extern int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u32 EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(void *p, void *q, int *pos, u32 d);
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern void *GAME_DATA_GetSaveControl(void *p);
@@ -782,7 +782,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
 
                 FIELD_PLAYER_ResetMoveWork(input.player);
                 *outResetEncount = 1;
-                return func_0219F01C((u32)gameSystem, (u32)fieldMap, eventId, (u32)mmdl, frontMmdl, input.heapId);
+                return FIELD_RAIL_LOADER_CreateScriptEvent((u32)gameSystem, (u32)fieldMap, eventId, (u32)mmdl, frontMmdl, input.heapId);
             }
         }
         scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), frontPos, facing);
@@ -920,7 +920,7 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
                 playerMmdl = FIELD_PLAYER_GetMmdl(input.player);
                 if (UNION_CHARA_IsUnionObjId(FLDMMDL_GetObjId((void *)frontMmdl)) == 0) {
                     FIELD_PLAYER_ResetMoveWork(input.player);
-                    return func_0219F01C((u32)gameSystem, (u32)fieldMap, eventId, (u32)playerMmdl, frontMmdl, input.heapId);
+                    return FIELD_RAIL_LOADER_CreateScriptEvent((u32)gameSystem, (u32)fieldMap, eventId, (u32)playerMmdl, frontMmdl, input.heapId);
                 }
             }
         }
@@ -998,7 +998,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
                 void *mmdl = FIELD_PLAYER_GetMmdl(input.player);
 
                 FIELD_PLAYER_ResetMoveWork(input.player);
-                return func_0219F01C((u32)gameSystem, (u32)fieldMap, eventId, (u32)mmdl, frontMmdl, input.heapId);
+                return FIELD_RAIL_LOADER_CreateScriptEvent((u32)gameSystem, (u32)fieldMap, eventId, (u32)mmdl, frontMmdl, input.heapId);
             }
         }
         eventWork = (void *)GAME_DATA_GetEventWork(input.gameData);

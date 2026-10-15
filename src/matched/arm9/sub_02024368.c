@@ -29,9 +29,9 @@
  *   Table_0209F724   0x0209F724  data
  *   GF_FONT_Create_EC64    0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
- *   func_0201EFC8    0x0201EFC8  thumb
- *   func_0201EFFC    0x0201EFFC  thumb
- *   func_0201F250    0x0201F250  thumb
+ *   WORDSET_SetSlotPmsWord    0x0201EFC8  thumb
+ *   WORDSET_SetSlotMarkerFlag    0x0201EFFC  thumb
+ *   WORDSET_CopyTaggedText    0x0201F250  thumb
  *   STRBUF_Create    0x020457B0  arm
  *   STRBUF_Delete    0x02045808  arm
  *   func_02045B38    0x02045B38  arm
@@ -51,9 +51,9 @@ struct U16Vec;
 struct WordSet;
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern void func_0201EFC8(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void  *STRBUF_Create(u32 size, u16 heap);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void  *func_02045B38(int a, int b, u32 id, u16 heap);
@@ -74,18 +74,18 @@ void *sub_02024368(u16 *slots, u32 heap, int count)
 
         if (v != 0xffff) {
             if ((v >> 11) & 1) {
-                func_0201EFFC(obj, i, v & 0x7ff);
+                WORDSET_SetSlotMarkerFlag(obj, i, v & 0x7ff);
             } else {
-                func_0201EFC8(obj, i, v);
+                WORDSET_SetSlotPmsWord(obj, i, v);
             }
         } else {
-            func_0201EFFC(obj, i, 1);
+            WORDSET_SetSlotMarkerFlag(obj, i, 1);
         }
     }
     slot = func_02045B38(0, 2, Table_0209F724[slots[0]], (u16)heap);
     buf = STRBUF_Create(0x100, (u16)heap);
     k = func_02045EC0(slot, slots[1]);
-    func_0201F250(obj, buf, k);
+    WORDSET_CopyTaggedText(obj, buf, k);
     STRBUF_Delete(k);
     MSGDATA_Delete(slot);
     WORDSET_DeleteStrbufED04(obj);

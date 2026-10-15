@@ -26,8 +26,8 @@
  * symbols:
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   CLACT_SetSurfacePos 0x0204B09C arm
- *   func_020410D0 0x020410D0 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_DrawTileEx 0x020410D0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  *   gPlistPlateTileX 0x021BEC74 data ov091 a1
@@ -44,8 +44,8 @@ struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
 extern void CLACT_SetSurfacePos(void *,int,void *);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern const u8 gPlistPlateTileX[],gPlistPlateTileY[],gPlistPlatePaletteA[],gPlistPlatePaletteB[];
@@ -68,8 +68,8 @@ void PLIST_PLATE_SetSlideOffset(u8 *p,const u8 *s,int d)
     selector=s[4] != 0;
     x+=16;
     d=(unsigned)x+d;
-    func_020410D0(2,(u8)d,y,16,6,(u32)(*(u8 **)(p+0x15c)+12),gPlistPlatePaletteA[selector*2],gPlistPlatePaletteB[zero*2],32,32);
-    func_020413B0(2,d,y,16,6,5);
+    BG_SYS_DrawTileEx(2,(u8)d,y,16,6,(u32)(*(u8 **)(p+0x15c)+12),gPlistPlatePaletteA[selector*2],gPlistPlatePaletteB[zero*2],32,32);
+    BG_SYS_FillTileMap(2,d,y,16,6,5);
     BMP_WIN_MakeScreen((void *)W(0x20));
     func_02041B6C(1);
     func_02041B6C(2);

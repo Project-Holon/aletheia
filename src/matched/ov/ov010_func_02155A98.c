@@ -19,10 +19,10 @@
  *   MUSICAL_EVENT_Main  0x02155C0C  thumb  ov010
  *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
  *   MUSICAL_PROGRAM_Create  0x02157028  thumb  ov010
- *   func_021F685C  0x021F685C  thumb  ov112
- *   func_021F68BC  0x021F68BC  thumb  ov112
+ *   MUSICAL_MCSS_AllocSmall  0x021F685C  thumb  ov112
+ *   MUSICAL_MCSS_LoadDistSave  0x021F68BC  thumb  ov112
  *   STA_NET_GetField48  0x021FD904  thumb  ov132
- *   func_021FC848  0x021FC848  thumb  ov132
+ *   MUS_COMM_FUNC_InitWork  0x021FC848  thumb  ov132
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -100,13 +100,13 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void GAME_BEACON_SEARCH_SetNamedEvent(void *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *GAME_DATA_GetSaveBlock2A(void *h);
-extern void *func_021F685C(u32 heap);
+extern void *MUSICAL_MCSS_AllocSmall(u32 heap);
 extern int STA_NET_GetField48(int *p);
 extern u8 MUSICAL_SAVE_GetScriptSetting(struct Big *p);
-extern void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
+extern void MUSICAL_MCSS_LoadDistSave(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *POKE_TOOL_Dummy(void *p);
-extern void func_021FC848(u8 *p, void *a, void *b, int unused, void *d, u16 heap);
+extern void MUS_COMM_FUNC_InitWork(u8 *p, void *a, void *b, int unused, void *d, u16 heap);
 extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
 extern u32 func_02005728(u32 n);
 extern struct Deal *MUSICAL_PROGRAM_Create(u32 heap, struct Src *src, u16 lim);
@@ -140,13 +140,13 @@ void *MUSICAL_EVENT_Create(void *a, void *b, u8 c, u32 d, struct Link *link)
     s->f30 = 0;
     s->f34 = 0;
     s->f40 = GAME_DATA_GetSaveBlock2A(b);
-    s->f24 = func_021F685C(4);
+    s->f24 = MUSICAL_MCSS_AllocSmall(4);
     if (s->f14 == 0 || STA_NET_GetField48(s->link->sess) == 1)
-        func_021F68BC(s->f24, (u32)s->f1c, s->f04, MUSICAL_SAVE_GetScriptSetting(s->f40), 0x2C);
+        MUSICAL_MCSS_LoadDistSave(s->f24, (u32)s->f1c, s->f04, MUSICAL_SAVE_GetScriptSetting(s->f40), 0x2C);
     if (s->f14 == 1) {
         s->state = 11;
         s->f10 = 0;
-        func_021FC848(s->f28, GAME_DATA_GetMyStatus(s->f04), POKE_TOOL_Dummy(s->f18), (int)s->f20, s->f24, 4);
+        MUS_COMM_FUNC_InitWork(s->f28, GAME_DATA_GetMyStatus(s->f04), POKE_TOOL_Dummy(s->f18), (int)s->f20, s->f24, 4);
     } else {
         u16 lim = MUSICAL_SAVE_GetFanPoints(s->f40);
         u8 i;

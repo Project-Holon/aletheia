@@ -13,7 +13,7 @@
  *   ZUKAN_DETAIL_GRAPHIC_Delete3dSystem 0x021BCF6C thumb ov208
  *   ZUKAN_DETAIL_GRAPHIC_ExitActorSystem 0x021BD07C thumb ov208
  *   ZUKAN_DETAIL_GRAPHIC_DeleteWindows 0x021BCFF8 thumb ov208
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -23,7 +23,7 @@ extern void func_02030EAC(struct Node *n);
 extern void ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(char *p);
 extern void ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(char *p);
 extern void ZUKAN_DETAIL_GRAPHIC_DeleteWindows(void *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -33,7 +33,7 @@ void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p)
     ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(p);
     ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(p+4);
     ZUKAN_DETAIL_GRAPHIC_DeleteWindows(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;

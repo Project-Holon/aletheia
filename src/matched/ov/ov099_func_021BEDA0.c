@@ -15,7 +15,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  */
 #include "../include/Obj02156.h"
 typedef unsigned short u16;
@@ -30,7 +30,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 void WIFICLUB_CreateTitleWindows(char *p)
 {
     if (((struct Obj02156 *)p)->f194) BMP_WIN_Delete(((struct Obj02156 *)p)->f194);
@@ -42,5 +42,5 @@ void WIFICLUB_CreateTitleWindows(char *p)
     BMP_WIN_TransferChars(((struct Obj02156 *)p)->f194);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj02156 *)p)->f198), 0xff);
     BMP_WIN_TransferChars(((struct Obj02156 *)p)->f198);
-    func_0201F73C(((struct Obj02156 *)p)->f198, 1, (u16)(((struct Obj02156 *)p)->f1334), 0xe);
+    BMP_MENUWORK_DrawWindow(((struct Obj02156 *)p)->f198, 1, (u16)(((struct Obj02156 *)p)->f1334), 0xe);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215D898
+ * function: SOCLi_ReadBuffer
  * address:  0x0215D898
  * packet:   pkt_ov009_0215D898
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      SOCLi_ReadBuffer (libsoc.TWL.HYB.a(socl_read.o))
  *
  * symbols:
- *   func_0215DAA8  0x0215DAA8  arm  ov009
+ *   SOCLi_ExecReadCommand  0x0215DAA8  arm  ov009
  *   func_0215D92C  0x0215D92C  arm  ov009
  */
 
@@ -21,22 +21,22 @@ typedef struct {
     signed char mode;
 } Socket;
 
-extern int func_0215DAA8(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+extern int SOCLi_ExecReadCommand(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip, long flag_block);
 struct SOCLSocket;
 extern int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip);
 
-int func_0215D898(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+int SOCLi_ReadBuffer(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, long flag_block)
 {
     int result;
 
     if (socket->mode == 4)
-        return func_0215DAA8(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
+        return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
     result = func_0215D92C((struct SOCLSocket *)socket, buffer, buffer_len, remote_port, remote_ip);
     if (result != -6)
         return result;
     if ((flag_block & 1) == 0)
         return result;
-    return func_0215DAA8(socket, buffer, buffer_len, remote_port, remote_ip, 1);
+    return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, 1);
 }

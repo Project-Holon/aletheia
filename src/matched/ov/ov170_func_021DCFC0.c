@@ -12,7 +12,7 @@
  * symbols:
  *   BOX2_SEQ_SetActorAutoAnim 0x021EBFCC thumb
  *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj00000.h"
@@ -34,7 +34,7 @@ extern void BOX2_SEQ_SetActorAutoAnim(char *p, int i, int v);
 typedef unsigned int   u32;
 extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
 typedef unsigned char  u8;
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned bit);
 
 int BOX2_MAIN_IsTaskMenuFinished(char *p)
@@ -45,7 +45,7 @@ int BOX2_MAIN_IsTaskMenuFinished(char *p)
         if (f->flag == 0) {
             BOX2_SEQ_SetActorAutoAnim(*(char * *)&((struct Obj00000 *)p)->f2C, f->id, f->lo);
         } else {
-            func_020413B0(f->id, f->x, f->y, f->w, f->h, f->lo);
+            BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->lo);
             func_02041B6C(f->id);
         }
         f->state++;
@@ -57,7 +57,7 @@ int BOX2_MAIN_IsTaskMenuFinished(char *p)
         } else {
             f->count++;
             if (f->count == 4) {
-                func_020413B0(f->id, f->x, f->y, f->w, f->h, f->hi);
+                BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->hi);
                 func_02041B6C(f->id);
                 f->count = 0;
                 f->state++;

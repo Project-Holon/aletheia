@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FCE74  0x021FCE74  thumb
+ *   MUS_COMM_FUNC_SendCommand  0x021FCE74  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
-extern void func_021FCE74(int unused, int kind, u32 value, u32 id);
+extern void MUS_COMM_FUNC_SendCommand(int unused, int kind, u32 value, u32 id);
 
 void STA_NET_SendKindA(char *p, int a)
 {
-    func_021FCE74((int)p, 0xa, a, 0xff);
+    MUS_COMM_FUNC_SendCommand((int)p, 0xa, a, 0xff);
 }

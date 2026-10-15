@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: display registers 04000050/04001050 cleared; DISPCNT 04000000/04001000 read-modify-write at 021E5506-021E5514.
  * symbols:
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_021E564C 0x021E564C thumb ov177
  *   func_021E55C8 0x021E55C8 thumb ov177
@@ -21,7 +21,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021E564C(int *);
 extern void func_021E55C8(void *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -30,7 +30,7 @@ void func_021E54E0(char *p)
     func_02030EAC(((struct Obj24443 *)p)->fC);
     func_021E564C((int *)(p + 4));
     func_021E55C8(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;

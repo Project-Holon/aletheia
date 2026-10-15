@@ -1,5 +1,5 @@
 /*
- * function: func_02164230
+ * function: CPSi_big_mult
  * address:  0x02164230
  * packet:   pkt_ov009_02164230
  * region:   ov009
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02163F24  0x02163F24  arm  ov009
+ *   count_digits  0x02163F24  arm  ov009
  *   func_021641FC  0x021641FC  arm  ov009
  */
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_02163F24(const unsigned short *p, int n);
+extern int count_digits(const unsigned short *p, int n);
 extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 
-void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
+void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
 {
 	int digits_b;
 	int digits_a;
@@ -29,8 +29,8 @@ void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	int j;
 
 	MI_CpuFill8(c, 0, digits * 2);
-	digits_a = func_02163F24(a, digits);
-	digits_b = func_02163F24(b, digits);
+	digits_a = count_digits(a, digits);
+	digits_b = count_digits(b, digits);
 	for (i = 0; i < digits_b; i++) {
 		for (j = 0; j < digits_a && j < digits - i; j++) {
 			func_021641FC(c, a[j] * b[i], i + j, digits);

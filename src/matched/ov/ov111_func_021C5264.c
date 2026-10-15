@@ -1,5 +1,5 @@
 /*
- * function: func_021C5264
+ * function: VIEWER_MAIN_HitRow
  * address:  0x021C5264
  * packet:   pkt_ov111_021C5264
  * region:   ov111
@@ -29,7 +29,7 @@ typedef struct {
     Info *info;
 } Work;
 
-int func_021C5264(Work *p, int hit)
+int VIEWER_MAIN_HitRow(Work *p, int hit)
 {
     if (p->info->f4_5 && hit >= 3 && hit <= 9) {
         return 1;

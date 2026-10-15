@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F60
+ * function: MUSICAL_MCSS_GetOffset
  * address: 0x021F4F60
  * packet: pkt_ov112_021F4F60
  * region: ov112
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef signed char s8;
 typedef struct { int x, y; } Offset;
-void func_021F4F60(u8 *p, Offset *out)
+void MUSICAL_MCSS_GetOffset(u8 *p, Offset *out)
 {
     out->x = ((struct Obj13828 *)p)->f4;
     out->y = ((struct Obj13828 *)p)->f5;

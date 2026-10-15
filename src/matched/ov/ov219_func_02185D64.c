@@ -12,12 +12,12 @@
  *           disasm.py gives it no func_ label); matched at 0x0203F734 and
  *           now attests both calls here on the `matched` class.
  * symbols:
- *   func_0203F734  0x0203F734  arm
+ *   GF_STANDARD_DegToAngle  0x0203F734  arm
  *   FX_Sqrt  0x0207C7B4  arm
  */
 
 typedef unsigned short u16;
-extern u16 func_0203F734(int x);
+extern u16 GF_STANDARD_DegToAngle(int x);
 extern int FX_Sqrt(int x);
 
 int BEACON_DETAIL_CalcDistance(int *p, int *q)
@@ -30,9 +30,9 @@ int BEACON_DETAIL_CalcDistance(int *p, int *q)
     dy = p[1] - q[1];
     if (dy < 0)
         dy = -dy;
-    if (dx > func_0203F734(180))
+    if (dx > GF_STANDARD_DegToAngle(180))
         dx = 0xFFFF - dx;
-    if (dy > func_0203F734(180))
+    if (dy > GF_STANDARD_DegToAngle(180))
         dy = 0xFFFF - dy;
     return FX_Sqrt((dx * dx + dy * dy) << 12) >> 12;
 }

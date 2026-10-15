@@ -23,26 +23,26 @@
  *   func_021B918C 0x021B918C thumb ov133
  *   func_021B940C 0x021B940C thumb ov133
  *   func_021B9784 0x021B9784 thumb ov133
- *   func_021FCDEC 0x021FCDEC thumb ov132
- *   func_021FCE00 0x021FCE00 thumb ov132
+ *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
+ *   MUS_COMM_FUNC_CheckTimingSync 0x021FCE00 thumb ov132
  *   STA_NET_IsTransferDone 0x021FD6A4 thumb ov132
  *   func_021B9F5C 0x021B9F5C thumb ov133
  *   func_021B8C6C 0x021B8C6C thumb ov133
- *   func_021F51E8 0x021F51E8 thumb ov112
- *   func_021F51F4 0x021F51F4 thumb ov112
- *   func_021F4990 0x021F4990 thumb ov112
+ *   MUSICAL_MCSS_TickAnim 0x021F51E8 thumb ov112
+ *   MUSICAL_MCSS_DrawRenderObj 0x021F51F4 thumb ov112
+ *   MUSICAL_MCSS_UpdateObject 0x021F4990 thumb ov112
  *   CLACT_DrawSystem 0x0204A600 arm
  *   func_02047964 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   func_0204152C 0x0204152C arm
+ *   BG_SYS_ClearLayer 0x0204152C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_021B9C90 0x021B9C90 thumb ov133
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   func_021BA0C8 0x021BA0C8 thumb ov133
- *   func_0204047C 0x0204047C arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_0204989C 0x0204989C arm
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -73,7 +73,7 @@ extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021B9818(u8 *),func_021B8A30(u8 *),func_021B98A0(u8 *),func_021B75E0(u8 *);
 extern void func_021B9C08(u8 *,u32,void *),func_021B918C(u8 *),func_021B9784(u8 *);
 extern int func_021B940C(u8 *);
-extern void func_021FCDEC(int,int);
+extern void MUS_COMM_FUNC_SetTimingSync(int,int);
 struct Board;
 struct Camera;
 struct Cfg;
@@ -81,20 +81,20 @@ struct Descriptor;
 struct Lights;
 struct O;
 struct PrintSys;
-extern int func_021FCE00(char *p, int id);
+extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
 extern int STA_NET_IsTransferDone(char *p);
 extern void func_021B9F5C(u8 *);
 extern void func_021B8C6C(struct O *p);
-extern void func_021F51E8(u8 *);
-extern void func_021F51F4(void **p);
-extern void func_021F4990(void *);
+extern void MUSICAL_MCSS_TickAnim(u8 *);
+extern void MUSICAL_MCSS_DrawRenderObj(void **p);
+extern void MUSICAL_MCSS_UpdateObject(void *);
 extern void CLACT_DrawSystem(void),func_02047964(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void BG_SYS_ResetSlot(u32,u32,u32);
-extern void func_0204152C(int,u16);
+extern void BG_SYS_ClearLayer(int,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void func_021B9C90(u8 *),func_0201F73C(void *,int,int,int),func_021BA0C8(u8 *,u8);
-extern void func_0204047C(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
+extern void func_021B9C90(u8 *),BMP_MENUWORK_DrawWindow(void *,int,int,int),func_021BA0C8(u8 *,u8);
+extern void BG_SYS_SetVisibleLayer(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 struct Descriptor;
@@ -151,12 +151,12 @@ int func_021B63BC(Context *p)
             if(*(u32 *)P(4)==0) {
                 WIPE_SYS_Start(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
             } else {
-                func_021B9C08((u8 *)p,2,0); func_021FCDEC(*(int *)P(4),69); W(0x0c)=4;
+                func_021B9C08((u8 *)p,2,0); MUS_COMM_FUNC_SetTimingSync(*(int *)P(4),69); W(0x0c)=4;
             }
         }
         break;
     case 4:
-        if(func_021FCE00(*(void **)P(4),69)==1) W(0x0c)=5;
+        if(MUS_COMM_FUNC_CheckTimingSync(*(void **)P(4),69)==1) W(0x0c)=5;
         break;
     case 5:
         if(STA_NET_IsTransferDone(*(void **)P(4))==1) {
@@ -164,9 +164,9 @@ int func_021B63BC(Context *p)
         }
         break;
     }
-    func_021B9F5C((u8 *)p); func_021B8C6C((struct O *)p); func_021F51E8(P(0x187c));
-    func_021F4990(P(0x1884)); CLACT_DrawSystem(); func_02047964(); G3D_SYSTEM_ApplyLookAt();
-    func_021F51F4((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); G3D_SYSTEM_DrawEnd();
+    func_021B9F5C((u8 *)p); func_021B8C6C((struct O *)p); MUSICAL_MCSS_TickAnim(P(0x187c));
+    MUSICAL_MCSS_UpdateObject(P(0x1884)); CLACT_DrawSystem(); func_02047964(); G3D_SYSTEM_ApplyLookAt();
+    MUSICAL_MCSS_DrawRenderObj((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); G3D_SYSTEM_DrawEnd();
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
@@ -175,15 +175,15 @@ int func_021B63BC(Context *p)
     if(p->mode==0) {
         if(p->brightness<128) { p->brightness+=8; brightness(&p->brightness); }
         else if(p->flag==0) {
-            p->flag=1; func_0204152C(7,0);
+            p->flag=1; BG_SYS_ClearLayer(7,0);
             p->window=BMP_WIN_Create(7,1,19,30,4,14,1);
             if(W(0x1840)==0) func_021B9C90((u8 *)p); else func_021B9C08((u8 *)p,6,0);
-            func_0201F73C((u8 *)p->window,1,128,12);
+            BMP_MENUWORK_DrawWindow((u8 *)p->window,1,128,12);
         }
     } else {
         if(p->flag==1) {
             func_021BA0C8((u8 *)p,2); p->flag=0;
-            func_0204047C(7,3); func_0204047C(4,0); func_0204047C(5,1); func_0204047C(6,2);
+            BG_SYS_SetVisibleLayer(7,3); BG_SYS_SetVisibleLayer(4,0); BG_SYS_SetVisibleLayer(5,1); BG_SYS_SetVisibleLayer(6,2);
             func_021BA0C8((u8 *)p,4); func_0204989C(46,13,7,0,0,0,H(0)); func_02041B6C(7);
             p->busy=0; PRINTSYS_QUE_Clear((struct PrintSys *)P(0x18e8)); BMP_WIN_Delete((struct Descriptor *)p->window); p->window=0; func_021BA0C8((u8 *)p,6);
         } else if(p->brightness!=0) {
@@ -200,7 +200,7 @@ int func_021B63BC(Context *p)
     if(p->busy==1 && PRINTSYS_QUE_IsFinished((const struct PrintSys *)P(0x18e8))==1) {
         p->busy=0; desc=(u8 *)p->window;
         BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
-        func_0204047C(4,1); func_0204047C(5,2); func_0204047C(6,3); func_0204047C(7,0);
+        BG_SYS_SetVisibleLayer(4,1); BG_SYS_SetVisibleLayer(5,2); BG_SYS_SetVisibleLayer(6,3); BG_SYS_SetVisibleLayer(7,0);
     }
     func_021BA0C8((u8 *)p,12);
     if(P(0x18e8)!=0) PRINTSYS_QUE_Main((struct PrintSys *)P(0x18e8));

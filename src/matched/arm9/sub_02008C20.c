@@ -3,7 +3,7 @@
  * asm/arm9/src/001_02007664.s.  Not an SDK symbol: it is absent from
  * layout/symbols_sdk.txt.
  *
- * function: sub_02008C20
+ * function: RECORD_GetSize
  * address:  0x02008C20
  * packet:   pkt_02008A34
  * region:   arm9
@@ -40,7 +40,7 @@ struct Sub02008C20Obj {
     u16 unk1DE;
 };
 
-u32 sub_02008C20(void)
+u32 RECORD_GetSize(void)
 {
     return sizeof(struct Sub02008C20Obj);
 }

@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021E8178 0x021E8178 data a4
+ *   gCubeNormal 0x021E8178 data a4
  */
 
 typedef unsigned int u32;
 
-extern u32 d_021E8178[];
+extern u32 gCubeNormal[];
 
 void POKETRADE_3D_SetCubeNormal(int n)
 {
-    *(u32 *)0x04000484 = d_021E8178[n];
+    *(u32 *)0x04000484 = gCubeNormal[n];
 }

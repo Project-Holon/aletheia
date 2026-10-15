@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C4010 0x021C4010 thumb ov127
+ *   WIFI_2DCHAR_ReleaseCells 0x021C4010 thumb ov127
  */
 #include "../include/Obj23044.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021C4010(u8 *p);
-void WF2DMAP_OBJDRAW_DeleteSprite(void *p) { func_021C4010(((struct Obj23044 *)p)->f0); }
+extern void WIFI_2DCHAR_ReleaseCells(u8 *p);
+void WF2DMAP_OBJDRAW_DeleteSprite(void *p) { WIFI_2DCHAR_ReleaseCells(((struct Obj23044 *)p)->f0); }

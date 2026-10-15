@@ -1,5 +1,5 @@
 /*
- * function: func_022086C8
+ * function: SHINKA_DEMO_EFFECT_CreateNodes
  * address:  0x022086C8
  * packet:   pkt_022086C8
  * region:   ov195
@@ -34,7 +34,7 @@ extern char d_02208F7C[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MTX_Identity33_(void *);
 
-Node *func_022086C8(u16 heap, u16 n)
+Node *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n)
 {
     Node *p = func_02030734(heap, n * sizeof(Node), 1, d_02208F7C, 0xe8);
     u16 i;

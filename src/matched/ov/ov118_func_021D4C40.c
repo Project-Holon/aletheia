@@ -1,5 +1,5 @@
 /*
- * function: func_021D4C40
+ * function: POKETRADE_DEMO_UP_UpdateScene
  * address:  0x021D4C40
  * packet:   pkt_ov118_021D4C40
  * region:   ov118
@@ -13,8 +13,8 @@
  *   POKETRADE_DEMO_COMMON_PassThrough  0x021D4480  thumb  ov118
  *   POKETRADE_DEMO_COMMON_ShowUnitActor  0x021D434C  thumb  ov118
  *   POKETRADE_DEMO_COMMON_LoadUnitResources  0x021D43C8  thumb  ov118
- *   func_021D49C4  0x021D49C4  thumb  ov118
- *   func_021D49F4  0x021D49F4  thumb  ov118
+ *   POKETRADE_DEMO_UP_StepEndScene  0x021D49C4  thumb  ov118
+ *   POKETRADE_DEMO_UP_UpdateEmitterA  0x021D49F4  thumb  ov118
  *   POKETRADE_IRCDEMO_CreateOfferSlide  0x021D4A48  thumb  ov118
  *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
@@ -33,8 +33,8 @@
  *   POKETRADE_MCSS_SlideCreate  0x021DFB84  thumb  ov119
  *   POKETRADE_NEGO_PlaySeByKeyA  0x021DFA60  thumb  ov119
  *   POKETRADE_MCSS_SlideBegin  0x021DFB4C  thumb  ov119
- *   func_021D4A34  0x021D4A34  thumb  ov118
- *   func_021D4A94  0x021D4A94  arm  ov118
+ *   POKETRADE_DEMO_UP_SetupEmitterA  0x021D4A34  thumb  ov118
+ *   POKETRADE_DEMO_UP_SetupEmitterB  0x021D4A94  thumb  ov118
  *   _dflt          0x0209B750  arm
  *   _dmul          0x0209B2E8  arm
  *   _dfix          0x0209C508  arm
@@ -58,8 +58,8 @@ typedef struct {
 extern int POKETRADE_DEMO_COMMON_PassThrough(int);
 extern void POKETRADE_DEMO_COMMON_ShowUnitActor(void *);
 extern void POKETRADE_DEMO_COMMON_LoadUnitResources(void *);
-extern void func_021D49C4(void *);
-extern void func_021D49F4(void *obj, int on);
+extern void POKETRADE_DEMO_UP_StepEndScene(void *);
+extern void POKETRADE_DEMO_UP_UpdateEmitterA(void *obj, int on);
 extern void POKETRADE_IRCDEMO_CreateOfferSlide(void *, int);
 extern void MCSS_SetPaletteFade(u32, u32, u32, s32, u32);
 extern void MCSS_SetVanishFlag(u32);
@@ -78,8 +78,8 @@ extern void POKETRADE_SAVE_FreeIfSet(u32);
 extern u32 POKETRADE_MCSS_SlideCreate(u32, int, Vec *, u32);
 extern void POKETRADE_NEGO_PlaySeByKeyA(u32 key);
 extern void POKETRADE_MCSS_SlideBegin(u32, int, void *);
-extern void func_021D4A34(void *p);
-extern void func_021D4A94(void *p);
+extern void POKETRADE_DEMO_UP_SetupEmitterA(void *p);
+extern void POKETRADE_DEMO_UP_SetupEmitterB(void *p);
 extern void POKETRADE_MCSS_SlideUpdate(u32, void *);
 extern void POKETRADE_3D_RemoveCurrentUnit(void *);
 extern void POKETRADE_PROC_SetStep(void *, int);
@@ -91,7 +91,7 @@ extern void POKETRADE_PROC_SetStep(void *, int);
 #define SLOT0 (*(u32 *)(p + 0x85C))
 #define SLOT1 (*(u32 *)(p + 0x860))
 
-void func_021D4C40(u8 *p)
+void POKETRADE_DEMO_UP_UpdateScene(u8 *p)
 {
     Vec v1, v2, v3, v4, v5, v6, v7, v8;
 
@@ -132,13 +132,13 @@ void func_021D4C40(u8 *p)
         PARTICLE_StartEffectWithCallback(WORK[7], 3, 0, p);
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x9A)) {
-        PARTICLE_StartEffectWithCallback(WORK[4], 4, func_021D4A34, p);
+        PARTICLE_StartEffectWithCallback(WORK[4], 4, POKETRADE_DEMO_UP_SetupEmitterA, p);
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x152)) {
         PARTICLE_StartEffectWithCallback(WORK[5], 5, 0, p);
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x2BC)) {
-        PARTICLE_StartEffectWithCallback(WORK[6], 6, func_021D4A94, p);
+        PARTICLE_StartEffectWithCallback(WORK[6], 6, POKETRADE_DEMO_UP_SetupEmitterB, p);
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x47F)) {
         POKETRADE_DEMO_COMMON_ShowUnitActor(p);
@@ -156,7 +156,7 @@ void func_021D4C40(u8 *p)
             SLOT1 = 0;
         }
         POKETRADE_3D_RemoveCurrentUnit(p);
-        POKETRADE_PROC_SetStep(p, (int)func_021D49C4);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_UP_StepEndScene);
     }
     if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x14A)) {
         MCSS_ResetVanishFlag(OBJ(2));
@@ -311,7 +311,7 @@ void func_021D4C40(u8 *p)
         func_020307B0(SLOT1);
         SLOT1 = 0;
         POKETRADE_3D_RemoveCurrentUnit(p);
-        POKETRADE_PROC_SetStep(p, (int)func_021D49C4);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_UP_StepEndScene);
     }
     POKETRADE_MCSS_SlideUpdate(SLOT0, p);
     POKETRADE_MCSS_SlideUpdate(SLOT1, p);

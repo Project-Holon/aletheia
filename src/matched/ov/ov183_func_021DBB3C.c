@@ -1,5 +1,5 @@
 /*
- * function: func_021DBB3C
+ * function: BR_CODEIN_RecordDestroy
  * address: 0x021DBB3C
  * packet: pkt_ov183_021DBB3C
  * region: ov183
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DCE28 0x021DCE28 thumb ov183
- *   func_021DCE48 0x021DCE48 thumb ov183
- *   func_021DD054 0x021DD054 thumb ov183
- *   func_021DD0F4 0x021DD0F4 thumb ov183
- *   func_021DD1D4 0x021DD1D4 thumb ov183
+ *   BR_CODEIN_RecordDeleteProfileScreen 0x021DCE28 thumb ov183
+ *   BR_CODEIN_RecordDeleteActors 0x021DCE48 thumb ov183
+ *   BR_CODEIN_RecordDeleteButtons 0x021DD054 thumb ov183
+ *   BR_CODEIN_RecordDeleteTextWin 0x021DD0F4 thumb ov183
+ *   BR_CODEIN_RecordTeardownTextWin 0x021DD1D4 thumb ov183
  *   func_020409B4 0x020409B4 arm
  *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
  *   BR_UTIL_DeleteHandles 0x021FD820 thumb ov186
@@ -24,11 +24,11 @@
 #include "../include/Obj00050.h"
 #include "../include/Obj06598.h"
 #include "../include/Obj24541.h"
-extern void func_021DCE28(char *,char *);
-extern void func_021DCE48(char *,char *);
-extern void func_021DD054(char *,char *);
-extern void func_021DD0F4(char *,char *);
-extern void func_021DD1D4(char *,char *);
+extern void BR_CODEIN_RecordDeleteProfileScreen(char *,char *);
+extern void BR_CODEIN_RecordDeleteActors(char *,char *);
+extern void BR_CODEIN_RecordDeleteButtons(char *,char *);
+extern void BR_CODEIN_RecordDeleteTextWin(char *,char *);
+extern void BR_CODEIN_RecordTeardownTextWin(char *,char *);
 typedef unsigned int   u32;
 struct PrintSys;
 extern void func_020409B4(u32 index);
@@ -39,14 +39,14 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BMP_OAM_DeleteSys(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-int func_021DBB3C(int task,int b,char *q,char *p)
+int BR_CODEIN_RecordDestroy(int task,int b,char *q,char *p)
 {
     int i;
-    func_021DCE28(p,q);
-    func_021DCE48(p,q);
-    func_021DD054(p,q);
-    func_021DD0F4(p,q);
-    func_021DD1D4(p,q);
+    BR_CODEIN_RecordDeleteProfileScreen(p,q);
+    BR_CODEIN_RecordDeleteActors(p,q);
+    BR_CODEIN_RecordDeleteButtons(p,q);
+    BR_CODEIN_RecordDeleteTextWin(p,q);
+    BR_CODEIN_RecordTeardownTextWin(p,q);
     ((struct Obj06598 *)q)->f4=((struct Obj00050 *)p)->fC8;
     func_020409B4(4);
     func_020409B4(1);

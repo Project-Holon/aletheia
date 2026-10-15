@@ -12,8 +12,8 @@
  * sdk:      gpiPeerRemoveOp (libdwcgsgp.TWL.HYB.a(gpipeer.o))
  *
  * symbols:
- *   func_0217D254  0x0217D254  arm  ov009
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  *   g_021A5170  0x021A5170  data
  *   g_021A518C  0x021A518C  data
  *   g_021A51B8  0x021A51B8  data
@@ -31,8 +31,8 @@ struct GPIPeer {
     struct GPIPeerOp *last;
 };
 
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0217EAE0(void *ptr);
+extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsifree(void *ptr);
 extern char g_021A5170[];
 extern char g_021A518C[];
 extern char g_021A51B8[];
@@ -42,11 +42,11 @@ void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation)
     struct GPIPeerOp *aPrevOp;
 
     if (peer == 0 || operation == 0) {
-        func_0217D254(1, (char *)4, 2, g_021A5170);
+        gsDebugFormat(1, (char *)4, 2, g_021A5170);
         return;
     }
     if (peer->head == 0) {
-        func_0217D254(1, (char *)4, 2, g_021A5170);
+        gsDebugFormat(1, (char *)4, 2, g_021A5170);
         return;
     }
     if (peer->first == peer->last && peer->first == operation) {
@@ -62,13 +62,13 @@ void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation)
         aPrevOp = peer->first;
         while (aPrevOp->pnext != operation) {
             if (aPrevOp->pnext == 0) {
-                func_0217D254(1, (char *)4, 1, g_021A518C);
+                gsDebugFormat(1, (char *)4, 1, g_021A518C);
                 return;
             }
             aPrevOp = aPrevOp->pnext;
         }
         aPrevOp->pnext = operation->pnext;
     }
-    func_0217D254(1, (char *)4, 8, g_021A51B8);
-    func_0217EAE0(operation);
+    gsDebugFormat(1, (char *)4, 8, g_021A51B8);
+    gsifree(operation);
 }

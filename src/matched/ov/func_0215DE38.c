@@ -17,12 +17,12 @@
  * padding.
  *
  * symbols:
- *   func_021FC644  0x021FC644  thumb  ov132
+ *   MUS_COMM_FUNC_Create  0x021FC644  thumb  ov132
  */
 
-extern void func_021FC644(int a, void *b, void *c, int d);
+extern void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d);
 
 void SCRCMD_MUSICAL_BeginCommSession(int a, void *b, void *c, int d)
 {
-    func_021FC644(4, (void *)b, (void *)c, d);
+    MUS_COMM_FUNC_Create(4, (void *)b, (void *)c, d);
 }

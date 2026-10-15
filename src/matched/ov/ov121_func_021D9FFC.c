@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0201F73C(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 
 void func_021D9FFC(u8 *p, int a, int b)
 {
-    func_0201F73C(((struct Obj22878 *)p)->f10, 0, a, b);
+    BMP_MENUWORK_DrawWindow(((struct Obj22878 *)p)->f10, 0, a, b);
 }

@@ -15,8 +15,8 @@
  *   func_021BA148 0x021BA148 thumb ov133
  *   func_021BA124 0x021BA124 thumb ov133
  *   func_021BA22C 0x021BA22C thumb ov133
- *   func_021F4E8C 0x021F4E8C thumb ov112
- *   func_021F4EB4 0x021F4EB4 thumb ov112
+ *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
+ *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
  *   func_021BA244 0x021BA244 thumb ov133
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
@@ -49,8 +49,8 @@ typedef unsigned int   u32;
 extern void func_021BA148(u8 *p, u8 *q);
 extern void func_021BA124(u8 *p, u8 *q);
 extern void func_021BA22C(u8 *p, const u8 *src);
-extern void func_021F4E8C(int, int, Vec *);
-extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
+extern void MUSICAL_MCSS_SetElemPos(int, int, Vec *);
+extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021BA244(u8 *p, u32 value);
 extern void *func_021BA184(char *p);
 extern u32 func_021BA208(u8 *p);
@@ -81,8 +81,8 @@ void func_021B82E8(u8 *p, int unused)
     if (((struct Obj00004 *)p)->f48 > 0) v.y = (int)(0.5f + (float)(((struct Obj00004 *)p)->f48 << 12));
     else v.y = (int)((float)(((struct Obj00004 *)p)->f48 << 12) - 0.5f);
     func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const u8 *)(&pos));
-    func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, &v);
-    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, 4096, 4096);
+    MUSICAL_MCSS_SetElemPos(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, &v);
+    MUSICAL_MCSS_SetElemRotZ(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, 4096, 4096);
     func_021BA244(*(u8 * *)&((struct Obj00004 *)p)->f38, 4096);
     found = 0;
     entry = func_021BA184(((struct Obj00004 *)p)->f181C);

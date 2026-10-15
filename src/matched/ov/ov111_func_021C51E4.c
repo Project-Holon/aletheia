@@ -1,5 +1,5 @@
 /*
- * function: func_021C51E4
+ * function: VIEWER_MAIN_SetRowDrawEnable
  * address:  0x021C51E4
  * packet:   pkt_ov111_021C51E4
  * region:   ov111
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
@@ -28,19 +28,19 @@ typedef struct {
     Anim anim;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021C51E4(Work *p, int flag)
+void VIEWER_MAIN_SetRowDrawEnable(Work *p, int flag)
 {
     if (flag == 0) {
-        func_021C6FA0(&p->anim, 2, 0xB, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0xB, 1);
         CLACT_SetActorDrawEnable(p->anim.obj[4], 0);
         CLACT_SetActorDrawEnable(p->anim.obj[5], 0);
     } else {
-        func_021C6FA0(&p->anim, 2, 0xD, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0xD, 1);
         CLACT_SetActorDrawEnable(p->anim.obj[4], 1);
         CLACT_SetActorDrawEnable(p->anim.obj[5], 1);
     }

@@ -13,6 +13,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  */
 #include "../include/Obj00004.h"
 typedef unsigned char u8;
@@ -24,7 +25,7 @@ struct WordSet;
 extern void func_021B9C08(u8 *p, unsigned int index, void *object);
 extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 void func_021B9D54(u8 *p, int state)
@@ -49,7 +50,7 @@ void func_021B9D54(u8 *p, int state)
     }
     w = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
     str = func_02045EC0(((struct Obj00004 *)p)->f18E0, index);
-    func_0201EE0C(w, 0, str, 0, 1, 2);
+    WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
     func_021B9C08(p, 4, w);
     STRBUF_Delete(str);
     WORDSET_DeleteStrbufED04(w);

@@ -1,5 +1,5 @@
 /*
- * function: func_021890A4
+ * function: gpiFixBuddyIndices
  * address:  0x021890A4
  * packet:   pkt_ov009_021890A4
  * region:   ov009
@@ -22,7 +22,7 @@ typedef struct GPIProfile {
     int *fC;
 } GPIProfile;
 
-int func_021890A4(int unused, GPIProfile *profile, int baseIndex)
+int gpiFixBuddyIndices(int unused, GPIProfile *profile, int baseIndex)
 {
     if (profile->f8 != 0 && *profile->f8 > baseIndex)
         (*profile->f8)--;

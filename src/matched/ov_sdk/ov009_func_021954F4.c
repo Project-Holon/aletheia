@@ -1,5 +1,5 @@
 /*
- * function: func_021954F4
+ * function: gti2UnrecognizedMessageCallback
  * address:  0x021954F4
  * packet:   pkt_02156B70
  * region:   ov009
@@ -20,7 +20,7 @@ extern void func_02197FDC(char *p);
 
 typedef int (*Hook)(char *p, int a1, int a2, int a3, int a4);
 
-int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5)
+int gti2UnrecognizedMessageCallback(char *p, int a1, int a2, int a3, int a4, int *a5)
 {
     int r;
 

@@ -1,7 +1,7 @@
 /*
  * file:     field_map_change.c
  * unit:     yes
- * function: func_021643AC, func_021643E8, func_02164454, func_0216445C, func_02164464, func_0216446C, func_02164474, func_0216447C
+ * function: FIELD_MAP_CHANGE_ApplyZoneHeader, FIELD_MAP_CHANGE_SetupZone, FIELD_MAP_CHANGE_ResetGimmickStateCase1, FIELD_MAP_CHANGE_ResetGimmickStateCase3, FIELD_MAP_CHANGE_ResetGimmickStateCase2, FIELD_MAP_CHANGE_ResetGimmickStateCase4, FIELD_MAP_CHANGE_MoveActiveEntries, FIELD_MAP_CHANGE_Empty
  * address:  0x021643AC
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -59,14 +59,14 @@ extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern struct Situation *func_02008854(struct SaveControl *saveControl);
 extern void func_02008988(struct Situation *situation, u16 value);
 extern int FIELD_ENCOUNT_ST_ResetGimmickState(int a0);
-void func_021643AC(struct GameData *gameData, void *zoneHeader);
-void func_021643E8(struct GameData *gameData, u32 zoneId);
-int func_02164454(int object, int unused);
-int func_0216445C(int object, int unused);
-int func_02164464(int object, int unused);
-int func_0216446C(int object, int unused);
-void func_02164474(void *object, int unused);
-void func_0216447C(int system, u16 zoneId);
+void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader);
+void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase4(int object, int unused);
+void FIELD_MAP_CHANGE_MoveActiveEntries(void *object, int unused);
+void FIELD_MAP_CHANGE_Empty(int system, u16 zoneId);
 
 /*
  * interface: FIELDMAP_GetZoneId reads the u16 field at +0xD8;
@@ -74,7 +74,7 @@ void func_0216447C(int system, u16 zoneId);
  * whose matched ARM9 body takes u16 and stores only that halfword.
  * The legacy ov010_func_021643E8 declaration uses a pointer for this ID.
  */
-void func_021643AC(struct GameData *gameData, void *zoneHeader) { void *saveWork=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea((int)saveWork,FIELDMAP_GetZoneId((u8 *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)zoneHeader); }
+void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader) { void *saveWork=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea((int)saveWork,FIELDMAP_GetZoneId((u8 *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)zoneHeader); }
 
 /*
  * Per-object setup: registers the object with the frame list, applies
@@ -82,7 +82,7 @@ void func_021643AC(struct GameData *gameData, void *zoneHeader) { void *saveWork
  *
  * Addresses are Black-image addresses.
  */
-void func_021643E8(struct GameData *gameData, u32 zoneId)
+void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId)
 {
     MmdlSys *mmdlSys = GAME_DATA_GetMoveModelSys(gameData);
     void *eventWork;
@@ -108,7 +108,7 @@ void func_021643E8(struct GameData *gameData, u32 zoneId)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int func_02164454(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused)
 {
     return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
@@ -122,7 +122,7 @@ int func_02164454(int object, int unused)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int func_0216445C(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused)
 {
     return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
@@ -136,7 +136,7 @@ int func_0216445C(int object, int unused)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int func_02164464(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
 {
     return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
@@ -155,7 +155,7 @@ int func_02164464(int object, int unused)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int func_0216446C(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase4(int object, int unused)
 {
     return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
@@ -164,7 +164,7 @@ int func_0216446C(int object, int unused)
  * Unlabelled leaf (saves no lr, so disasm.py prints it as .word data):
  * a tail call through a pool word, the sole blocker of ov020 EVENT_MAPCHANGE_ContinueEvent.
  */
-void func_02164474(void *object, int unused)
+void FIELD_MAP_CHANGE_MoveActiveEntries(void *object, int unused)
 {
     MOVE_POKEMON_MoveActiveEntries(object);
 }
@@ -175,6 +175,6 @@ void func_02164474(void *object, int unused)
  *
  * Addresses are Black-image addresses.
  */
-void func_0216447C(int system, u16 zoneId)
+void FIELD_MAP_CHANGE_Empty(int system, u16 zoneId)
 {
 }

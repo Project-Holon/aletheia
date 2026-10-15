@@ -13,7 +13,7 @@
  *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
  *   WEATHER_TASK_StepSpawner  0x021A223C  thumb  ov021
  *   WEATHER_TASK_ChangeFog  0x021A232C  thumb  ov021
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  *   WEATHER_TASK_FadeLight  0x021A2108  thumb  ov021
  *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  *   WEATHER_TASK_SetBillboardVisible  0x021A2160  thumb  ov021
@@ -26,7 +26,7 @@ int WEATHER_TASK_StepSpawner(unsigned char *o, int arg);
 void WEATHER_TASK_ChangeFog(u8 *p, int a, int b, int c, int d);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-u16 func_02014A10(u32 i);
+u16 ZONEDATA_GetLightTableMember(u32 i);
 int WEATHER_TASK_FadeLight(u32 a, int b, int c);
 int WEATHER_TASK_IsFogIdle(u32 a);
 void WEATHER_TASK_SetBillboardVisible(unsigned char *o, unsigned int v, int i);
@@ -41,7 +41,7 @@ int WEATHER_SANDSTORM_BeginParticles(int a, int b, int c)
         *p = *p - 1;
         if (*p == 0) {
             WEATHER_TASK_ChangeFog((u8 *)a, 8, 0x7f5e, 0x5a, b);
-            WEATHER_TASK_FadeLight(a, 0x3e, func_02014A10(3));
+            WEATHER_TASK_FadeLight(a, 0x3e, ZONEDATA_GetLightTableMember(3));
         }
     } else if (WEATHER_TASK_IsFogIdle(a) != 0 && t != 0) {
         WEATHER_TASK_SetBillboardVisible((unsigned char *)a, 1, 0);

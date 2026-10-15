@@ -1,5 +1,5 @@
 /*
- * function: func_021DC8EC
+ * function: BR_CODEIN_RecordSetupProfile
  * address: 0x021DC8EC
  * packet: pkt_ov183_021DC8EC
  * region: ov183
@@ -32,8 +32,8 @@
  * lever: counter declared before context locals restores stack homes; named selector fixes call-result addition operand order (existing idioms).
  * abi: EE0C retains caller's sixth outgoing word (2), beyond callee's five used arguments.
  * symbols:
- *   func_021DD228 0x021DD228 thumb ov183
- *   func_021DD25C 0x021DD25C thumb ov183
+ *   BR_CODEIN_RecordIsType1 0x021DD228 thumb ov183
+ *   BR_CODEIN_RecordIsType2 0x021DD25C thumb ov183
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
@@ -41,16 +41,16 @@
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
  *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
- *   func_021DCBD8 0x021DCBD8 thumb ov183
+ *   BR_CODEIN_RecordSetupActors 0x021DCBD8 thumb ov183
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
  *   func_0200D774 0x0200D774 thumb
- *   func_0201EE0C 0x0201EE0C thumb
- *   func_0201EFA4 0x0201EFA4 thumb
- *   func_0201F250 0x0201F250 thumb
+ *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   _ll_udiv 0x0209C00C arm
  *   _ull_mod 0x0209C018 arm
@@ -68,7 +68,7 @@ typedef struct GdsProfile GdsProfile;
 typedef struct GdsRecord GdsRecord;
 typedef struct RecGet RecGet;
 extern const Descriptor d_021E32C8[];
-extern int func_021DD228(void *),func_021DD25C(void *);
+extern int BR_CODEIN_RecordIsType1(void *),BR_CODEIN_RecordIsType2(void *);
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern unsigned BR_RES_GetFont(char *p);
 extern int BR_RES_GetMsgData(char *);
@@ -76,18 +76,18 @@ extern int BR_RES_GetWordSet(char *);
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
 extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
-extern void func_021DCBD8(char *,void *,void *,u16);
+extern void BR_CODEIN_RecordSetupActors(char *,void *,void *,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 extern u32 func_0200D6EC(struct RecGet *p);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-void func_021DC8EC(char *p,char *q)
+void BR_CODEIN_RecordSetupProfile(char *p,char *q)
 {
     u16 record[4];
     int i;
@@ -100,7 +100,7 @@ void func_021DC8EC(char *p,char *q)
     U16Vec *text;
     if(!*(int *)(p+0xd4)) {
         *(int *)(p+0xd4)=1;
-        if(func_021DD228(*(void **)(p+0xc4))) BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
+        if(BR_CODEIN_RecordIsType1(*(void **)(p+0xc4))) BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
         else BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),6,*(u16 *)(p+0xb4));
         font=(void *)BR_RES_GetFont(*(char **)(q+0x10));
         bank=(MsgBank *)BR_RES_GetMsgData(*(char **)(q+0x10));
@@ -117,8 +117,8 @@ void func_021DC8EC(char *p,char *q)
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 name=GDS_PROFILE_CreateNameStr(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
                 message=func_02045EC0(bank,d->message);
-                func_0201EE0C(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
-                func_0201F250(words,text,message);
+                WORDSET_SetSlotTag(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
+                WORDSET_CopyTaggedText(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);
                 ready=1;break;
@@ -147,24 +147,24 @@ void func_021DC8EC(char *p,char *q)
                     message=func_02045EC0(bank,13);STRBUF_Delete((U16Vec *)temporary);
                 } else message=func_02045EC0(bank,d->message);
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
-                func_0201EFA4(words,2,low,5,2,1);func_0201EFA4(words,1,middle,5,2,1);func_0201EFA4(words,0,high,2,2,1);
-                func_0201F250(words,text,message);
+                WORDSET_SetSlotNumber(words,2,low,5,2,1);WORDSET_SetSlotNumber(words,1,middle,5,2,1);WORDSET_SetSlotNumber(words,0,high,2,2,1);
+                WORDSET_CopyTaggedText(words,text,message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);STRBUF_Delete((U16Vec *)message);
                 ready=1;break;
                 }
             case 3:
-                if(func_021DD25C(*(void **)(p+0xc4))) {
+                if(BR_CODEIN_RecordIsType2(*(void **)(p+0xc4))) {
                     u32 count;
                     void *message;
                     count=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),2,0);
                     text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                     message=func_02045EC0(bank,d->message);
-                    func_0201EFA4(words,0,count,4,0,1);func_0201F250(words,text,message);STRBUF_Delete((U16Vec *)message);
+                    WORDSET_SetSlotNumber(words,0,count,4,0,1);WORDSET_CopyTaggedText(words,text,message);STRBUF_Delete((U16Vec *)message);
                     BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
             case 4:
-                if(func_021DD25C(*(void **)(p+0xc4))) {
+                if(BR_CODEIN_RecordIsType2(*(void **)(p+0xc4))) {
                     text=func_02045EC0(bank,d->message);
                     BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
@@ -174,6 +174,6 @@ void func_021DC8EC(char *p,char *q)
                 BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x30),text,font,0x3da0);STRBUF_Delete(text);
             }
         }
-        func_021DCBD8(p,*(void **)(q+0x18),*(void **)(p+0xc4),*(u16 *)(p+0xb4));
+        BR_CODEIN_RecordSetupActors(p,*(void **)(q+0x18),*(void **)(p+0xc4),*(u16 *)(p+0xb4));
     }
 }

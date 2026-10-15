@@ -1,5 +1,5 @@
 /*
- * function: func_02019D58
+ * function: POKE_TOOL_FilterSpecies
  * address:  0x02019D58
  * packet:   pkt_02019D58
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern u16 sub_0209E280_Map[];
 
-int func_02019D58(u16 a, int b)
+int POKE_TOOL_FilterSpecies(u16 a, int b)
 {
     u16 i;
 

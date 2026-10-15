@@ -1,5 +1,5 @@
 /*
- * function: func_02193BD8
+ * function: bint
  * address:  0x02193BD8
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern char g_021ADFD0[];
 extern char g_021ADFD4[];
 
-char *func_02193BD8(int v)
+char *bint(int v)
 {
     *(int *)(g_021ADFD0 + 4) = v;
 

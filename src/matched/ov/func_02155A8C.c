@@ -1,5 +1,5 @@
 /*
- * function: func_02155A8C
+ * function: IRC_BATTLE_ENTRY_SetMode
  * address:  0x02155A8C
  * packet:   pkt_02155A8C
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-void func_02155A8C(u8 *p, u32 v)
+void IRC_BATTLE_ENTRY_SetMode(u8 *p, u32 v)
 {
     ((struct Obj17615 *)p)->f50 = v;
 }

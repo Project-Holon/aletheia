@@ -21,6 +21,7 @@
  *   RTC_GetDate         0x02088864  arm
  *   RTC_GetTime         0x0208890C  arm
  *   sub_0200857C_File   0x020A70B8  data
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *
  * alias: the original source file is named in the image.  The function at
  * 0x0200857C, immediately before this range, loads 0x020A70B8 into its literal
@@ -116,7 +117,7 @@ struct PlayTime {
 
 /* The debug allocator: heap, size, alignment, __FILE__, __LINE__.  The last
  * two arrive as a pointer into the packed string area and the constant 32. */
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char sub_0200857C_File[];
 
 void PLAYTIME_Init(struct PlayTime *p);
@@ -124,7 +125,7 @@ void PLAYTIME_Init(struct PlayTime *p);
 /* playtime.c's constructor, and the function that gives the file its name. */
 void *PLAYTIME_Create(u32 heap)
 {
-    struct PlayTime *p = sub_02030734(heap, sizeof(struct PlayTime), 1,
+    struct PlayTime *p = GFL_HEAP_Alloc(heap, sizeof(struct PlayTime), 1,
                                       sub_0200857C_File, 32);
     PLAYTIME_Init(p);
     return p;

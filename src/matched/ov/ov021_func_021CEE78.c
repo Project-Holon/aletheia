@@ -15,7 +15,7 @@
  *   void MYSTATUS_Copy(void *a, void *b) { MI_CpuCopy8(a, b, 0x20); }
  *
  * symbols:
- *   func_0203EFC8  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MYSTATUS_Copy  0x02008494  thumb
  * Addresses are Black-image addresses.
@@ -47,7 +47,7 @@ typedef struct {
 } N;
 
 typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void MYSTATUS_Copy(void *src, void *dst);
 
@@ -57,7 +57,7 @@ void COMM_ENTRY_AddParent(u8 *p, u8 *a, u32 b)
     int i;
 
     for (i = 0; i < 16; i++) {
-        if (n->e[i].used == 1 && func_0203EFC8(n->e[i].mac, a, 6) == 0) {
+        if (n->e[i].used == 1 && GF_STANDARD_CompareBytes(n->e[i].mac, a, 6) == 0) {
             n->e[i].timer = 150;
             return;
         }

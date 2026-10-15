@@ -18,14 +18,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C4680",
-    "func_021C4698",
-    "func_021C46AC",
-    "func_021C46C0",
-    "func_021C46D4",
-    "func_021C46E8",
-    "func_021C46FC",
-    "func_021C470C"
+    "WIFI_2DCHAR_AdvanceAnimSeq",
+    "WIFI_2DCHAR_SetAnimSeqPlus9",
+    "WIFI_2DCHAR_SetAnimSeqPlus5B",
+    "WIFI_2DCHAR_SetAnimSeqPlus5C",
+    "WIFI_2DCHAR_SetAnimSeqPlus5D",
+    "WIFI_2DCHAR_SetAnimSeqPlus5E",
+    "WIFI_2DCHAR_AddAnimFrame",
+    "WIFI_2DCHAR_AddAnimFrame2"
+   ],
+   "addresses": [
+    "0x021C4680",
+    "0x021C4698",
+    "0x021C46AC",
+    "0x021C46C0",
+    "0x021C46D4",
+    "0x021C46E8",
+    "0x021C46FC",
+    "0x021C470C"
    ]
   }
  ]

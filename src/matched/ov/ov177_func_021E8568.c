@@ -41,12 +41,12 @@
  *   (145, heap is reloaded from the stack at each use). Left DIFF.
  * note 2026-10-05 (wD9r lane58): still 8 bytes, prologue only. New tries: the allocation and clear in a
  *   static inline Alloc(heap) helper (8, the inlined copy of heap is propagated), the last call in a static
- *   inline Frame(w, d, c) helper (27). Checked for a matched twin (callers of func_0201F73C and BMP_WIN_Create
+ *   inline Frame(w, d, c) helper (27). Checked for a matched twin (callers of BMP_MENUWORK_DrawWindow and BMP_WIN_Create
  *   in src/matched): none has this shape. Left DIFF.
  * note 2026-10-05 (wD9r lane68): EXACT. Fix: heap is a u16 parameter (it is stored with strh to f1e) with the
  *   house callee prototypes (func_02030734 u32 heap, u16 tag; STRBUF_Create u32, u32; TCBL_Create u32 heap,
  *   u16 tag, so heap goes to both), and d is a u16 parameter passed to the u16 third parameter of
- *   func_0201F73C. The u16 heap keeps the word ldr and moves it below the c home store (8 -> 6), and the u16 d
+ *   BMP_MENUWORK_DrawWindow. The u16 heap keeps the word ldr and moves it below the c home store (8 -> 6), and the u16 d
  *   moves its home store to the front (6 -> 0). See
  *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
  * symbols:
@@ -62,7 +62,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_0201F73C  0x0201F73C  thumb
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   d_021E8DD4     0x021E8DD4  data
  */
 
@@ -105,7 +105,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f, unsigned short heap)
 {
@@ -129,6 +129,6 @@ S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f,
     BMP_WIN_MakeScreen((struct Cfg *)h);
     func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     w->fc = (int)TCBL_Create(heap, heap, 1, 0x20);
-    func_0201F73C((void *)w->f14, 0, d, (unsigned char)c);
+    BMP_MENUWORK_DrawWindow((void *)w->f14, 0, d, (unsigned char)c);
     return w;
 }

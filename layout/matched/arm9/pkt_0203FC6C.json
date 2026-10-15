@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203FC6C",
+   "name": "BG_SYS_ApplyGraphicsMode",
    "address": "0x0203FC6C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02040588",
+   "name": "BG_SYS_SetPlaneVisible",
    "address": "0x02040588",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020409B4",
+   "name": "BG_SYS_PushTile",
    "address": "0x020409B4",
    "kind": "game",
    "region": "arm9",

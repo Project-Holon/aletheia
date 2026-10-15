@@ -1,5 +1,5 @@
 /*
- * function: func_02184A34
+ * function: GSMD5Final
  * address:  0x02184A34
  * packet:   pkt_ov009_02184A34
  * region:   ov009
@@ -29,7 +29,7 @@ extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsig
 extern void GSMD5_memset(unsigned char * output, int value, unsigned int len);
 extern unsigned char g_021A3FC0[64];
 
-void func_02184A34(unsigned char * digest, struct GSMD5_CTX * context)
+void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context)
 {
     unsigned char bits[8];
     unsigned int index, padLen;

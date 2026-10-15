@@ -24,6 +24,7 @@
  *
  * symbols:
  *   s_clact_c  0x020A7F74  data
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_AllocPaletteTable.c \
@@ -40,7 +41,7 @@ struct Rec {
     u32 unk_14_31 : 1;
 };
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
 extern char s_clact_c[];
 
@@ -49,7 +50,7 @@ void *CLACT_AllocPaletteTable(u32 heapId, u32 count)
     u32 i;
     struct Rec *arr;
 
-    arr = sub_02030734(heapId, count * sizeof(struct Rec), 0, s_clact_c, 0x1c58);
+    arr = GFL_HEAP_Alloc(heapId, count * sizeof(struct Rec), 0, s_clact_c, 0x1c58);
 
     for (i = 0; i < count; i++) {
         arr[i].unk_14_31 = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0204F32C
+ * function: BILLBOARD_GetImagePlttKey
  * address:  0x0204F32C
  * packet:   pkt_0204F32C
  * region:   arm9
@@ -9,4 +9,4 @@
  * isa:      arm
  * status:   EXACT
  */
-void func_0204F32C(int p0, int p1, int p2){ *(int *)p2 = *(int *)(((p1 * 0x28 + *(int *)(p0 + 4)) + 36)); }
+void BILLBOARD_GetImagePlttKey(int p0, int p1, int p2){ *(int *)p2 = *(int *)(((p1 * 0x28 + *(int *)(p0 + 4)) + 36)); }

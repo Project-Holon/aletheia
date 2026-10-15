@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   BTL_POKEPARAM_LoadStats  0x021D52B4  thumb ov093
- *   func_02019C90  0x02019C90  thumb
+ *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ struct S {
 
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 buf);
 extern void BTL_POKEPARAM_LoadStats(u8 *p, void *h, u32 flag);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 
 void BTL_POKEPARAM_ReloadFromMon(struct S *a, void *mon, u32 c, u32 d)
 {
@@ -48,7 +48,7 @@ void BTL_POKEPARAM_ReloadFromMon(struct S *a, void *mon, u32 c, u32 d)
         a->f13c = POKE_TOOL_GetPartyValue(mon, 0xa, 0);
     }
     a->f141 = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
-    a->f13e = func_02019C90(a->f0c, a->f141, 0x26);
+    a->f13e = POKE_TOOL_GetPersonalParam(a->f0c, a->f141, 0x26);
     if (a->f13e < 1) {
         a->f13e = 1;
     }

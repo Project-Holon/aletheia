@@ -1,5 +1,5 @@
 /*
- * function: func_02194C6C
+ * function: gti2GetResponse
  * address:  0x02194C6C
  * packet:   pkt_ov009_02194C6C
  * region:   ov009
@@ -26,7 +26,7 @@ extern int rand();
 extern int abs();
 extern char g_021A591C[];
 
-unsigned char *func_02194C6C(unsigned char *buffer, unsigned char *challenge)
+unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge)
 {
     int i;
     int valid;

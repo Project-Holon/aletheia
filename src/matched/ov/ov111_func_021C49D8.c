@@ -1,5 +1,5 @@
 /*
- * function: func_021C49D8
+ * function: VIEWER_MAIN_UpdateRowB
  * address:  0x021C49D8
  * packet:   pkt_ov111_021C49D8
  * region:   ov111
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6FA0  0x021C6FA0  thumb  ov111
- *   func_021C51B4  0x021C51B4  thumb  ov111
+ *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
+ *   VIEWER_MAIN_SetRowState  0x021C51B4  thumb  ov111
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *
  * Addresses are Black-image addresses.
@@ -56,25 +56,25 @@ typedef struct {
     u8 b32F6;
 } Work;
 
-extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_021C51B4(Work *p, int flag, int v);
+extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
+extern void VIEWER_MAIN_SetRowState(Work *p, int flag, int v);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 
-void func_021C49D8(Work *p, int flag)
+void VIEWER_MAIN_UpdateRowB(Work *p, int flag)
 {
     if (flag == 0) {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 4, 0x12, 0);
-        func_021C6FA0(&p->anim, 5, 6, 0);
-        func_021C6FA0(&p->anim, 2, 0x10, 1);
-        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
     } else {
-        func_021C6FA0(&p->anim, 0, 1, 1);
-        func_021C6FA0(&p->anim, 1, 0, 1);
-        func_021C6FA0(&p->anim, 4, 0x12, 0);
-        func_021C6FA0(&p->anim, 6, 0x16, 1);
-        func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, 0);
-        func_021C51B4(p, p->info->f4_4, 0);
-        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->b32F6 * 2, 0);
+        VIEWER_MAIN_SetRowState(p, p->info->f4_4, 0);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
     }
 }

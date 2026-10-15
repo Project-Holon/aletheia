@@ -1,5 +1,5 @@
 /*
- * function: func_0220D924
+ * function: B_BAG_MAIN_RecreateCursor
  * address: 0x0220D924
  * packet: pkt_ov197_0220D924
  * region: ov197
@@ -9,16 +9,16 @@
  * status: EXACT
  * lever: an outer switch preserves the unconditional default-arm branch.
  * symbols:
- *   func_0220D914 0x0220D914 thumb ov197
- *   func_0220D8C4 0x0220D8C4 thumb ov197
+ *   B_BAG_MAIN_DeleteCursor 0x0220D914 thumb ov197
+ *   B_BAG_MAIN_CreateCursor 0x0220D8C4 thumb ov197
  */
 #include "../include/Obj03347.h"
 typedef unsigned char u8;
 typedef signed short s16;
-extern unsigned int func_0220D914(u8 *);
+extern unsigned int B_BAG_MAIN_DeleteCursor(u8 *);
 typedef unsigned int   u32;
-extern void func_0220D8C4(u8 *p, u32 index, u32 value);
-void func_0220D924(u8 *p, int state, int value)
+extern void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value);
+void B_BAG_MAIN_RecreateCursor(u8 *p, int state, int value)
 {
     switch (*(int *)&((struct Obj03347 *)p)->f598) {
     case 0: value = 0; break;
@@ -30,6 +30,6 @@ void func_0220D924(u8 *p, int state, int value)
         }
         break;
     }
-    func_0220D914(p);
-    func_0220D8C4(p, state, value);
+    B_BAG_MAIN_DeleteCursor(p);
+    B_BAG_MAIN_CreateCursor(p, state, value);
 }

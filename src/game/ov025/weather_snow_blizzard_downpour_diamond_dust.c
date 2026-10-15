@@ -24,7 +24,7 @@
  *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  *   WEATHER_TASK_GetCameraScroll  0x021A244C  thumb  ov021
  *   WEATHER_TASK_ShiftParticles  0x021A2564  thumb  ov021
- *   func_02014A10  0x02014A10  thumb
+ *   ZONEDATA_GetLightTableMember  0x02014A10  thumb
  *   WEATHER_TASK_PrewarmParticles  0x021A2254  thumb  ov021
  *   WEATHER_TASK_SetLight  0x021A2114  thumb  ov021
  *   WEATHER_TASK_StepSpawnTimer 0x021A2248 thumb ov021
@@ -95,7 +95,7 @@ int WEATHER_SNOW_BeginParticles(WeatherTaskSys *task, int variant, int heapId)
         work->fadeDelay = work->fadeDelay - 1;
         if (work->fadeDelay == 0) {
             WEATHER_TASK_ChangeFog(task, 8, 0x7F5F, 0x5A, variant);
-            WEATHER_TASK_FadeLight(task, 0x3E, func_02014A10(1));
+            WEATHER_TASK_FadeLight(task, 0x3E, ZONEDATA_GetLightTableMember(1));
         }
     } else if (WEATHER_TASK_IsFogIdle(task) != 0 && spawnerReady != 0) {
         return 1;
@@ -115,7 +115,7 @@ int WEATHER_SNOW_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
     work->ending = 0;
     WEATHER_TASK_InitFog(task, 8, 0x7F5F, variant);
     WEATHER_TASK_PrewarmParticles(task, WEATHER_SNOW_SpawnParticles, 0x14, 1, 0x12, heapId);
-    WEATHER_TASK_SetLight(task, 0x3E, func_02014A10(1));
+    WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(1));
     return 1;
 }
 
@@ -297,7 +297,7 @@ int WEATHER_BLIZZARD_BeginParticles(WeatherTaskSys *task, int variant, int heapI
         work->fadeDelay = work->fadeDelay - 1;
         if (work->fadeDelay == 0) {
             WEATHER_TASK_ChangeFog(task, 4, 0x7B18, 0x5A, variant);
-            WEATHER_TASK_FadeLight(task, 0x3E, func_02014A10(4));
+            WEATHER_TASK_FadeLight(task, 0x3E, ZONEDATA_GetLightTableMember(4));
         }
     } else if (WEATHER_TASK_IsFogIdle(task) != 0 && spawnerReady != 0) {
         WEATHER_TASK_SetBillboardVisible(task, 1, 0);
@@ -319,7 +319,7 @@ int WEATHER_BLIZZARD_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
     work->scrollY = 0;
     WEATHER_TASK_PrewarmParticles(task, (WeatherSpawnFunc)WEATHER_BLIZZARD_SpawnParticles, 0x14, 2, 2, heapId);
     WEATHER_TASK_SetBillboardVisible(task, 1, 0);
-    WEATHER_TASK_SetLight(task, 0x3E, func_02014A10(4));
+    WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(4));
     return 1;
 }
 
@@ -539,7 +539,7 @@ int WEATHER_DOWNPOUR_BeginParticles(WeatherTaskSys *task, int variant, int heapI
         work->fadeDelay = work->fadeDelay - 1;
         if (work->fadeDelay == 0) {
             WEATHER_TASK_ChangeFog(task, 9, 0x7F80, 0x3C, variant);
-            WEATHER_TASK_FadeLight(task, 0x3E, func_02014A10(5));
+            WEATHER_TASK_FadeLight(task, 0x3E, ZONEDATA_GetLightTableMember(5));
         }
     } else if (WEATHER_TASK_IsFogIdle(task) != 0 && spawnerReady != 0) {
         return 1;
@@ -556,7 +556,7 @@ int WEATHER_DOWNPOUR_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
     WEATHER_TASK_SetupSpawner(task, 1, 1, 1, 1, -4, 2, 1, WEATHER_DOWNPOUR_SpawnParticles);
     WEATHER_TASK_InitFog(task, 9, 0x7F80, variant);
     WEATHER_TASK_PrewarmParticles(task, WEATHER_DOWNPOUR_SpawnParticles, 0x14, 10, 1, heapId);
-    WEATHER_TASK_SetLight(task, 0x3E, func_02014A10(5));
+    WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(5));
     return 1;
 }
 
@@ -748,7 +748,7 @@ int WEATHER_DIAMOND_DUST_BeginParticles(WeatherTaskSys *task, int variant, int h
     if (work->fadeState == 0) {
         work->fadeState = work->fadeState - 1;
         WEATHER_TASK_ChangeFog(task, 8, 0x7F57, 0x5A, variant);
-        WEATHER_TASK_FadeLight(task, 0x3E, func_02014A10(8));
+        WEATHER_TASK_FadeLight(task, 0x3E, ZONEDATA_GetLightTableMember(8));
     } else if (WEATHER_TASK_IsFogIdle(task) != 0 && spawnerReady != 0) {
         return 1;
     }
@@ -764,7 +764,7 @@ int WEATHER_DIAMOND_DUST_BeginPlain(WeatherTaskSys *task, int variant, int heapI
     WEATHER_TASK_SetupSpawner(task, 0x14, 2, 0x14, 2, -2, 4, 2, WEATHER_DIAMOND_DUST_SpawnParticles);
     WEATHER_TASK_InitFog(task, 8, 0x7F57, variant);
     WEATHER_TASK_PrewarmParticles(task, WEATHER_DIAMOND_DUST_SpawnParticles, 0x14, 10, 1, heapId);
-    WEATHER_TASK_SetLight(task, 0x3E, func_02014A10(8));
+    WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(8));
     return 1;
 }
 

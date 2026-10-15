@@ -1,5 +1,5 @@
 /*
- * function: func_02155478
+ * function: IRC_BATTLE_ENTRY_Main
  * address:  0x02155478
  * packet:   pkt_ov010_02155478
  * region:   ov010
@@ -72,8 +72,8 @@
  *   MUSICAL_EVENT_TrimAllPartiesToThree  0x02155224  thumb  ov010
  *   MUSICAL_EVENT_UpdateFriendRecords  0x02155244  thumb  ov010
  *   MUSICAL_EVENT_BindParticipantSlots  0x02155328  thumb  ov010
- *   func_02155A4C  0x02155A4C  thumb  ov010
- *   func_02155A6C  0x02155A6C  thumb  ov010
+ *   IRC_BATTLE_ENTRY_FreeParties  0x02155A4C  thumb  ov010
+ *   IRC_BATTLE_ENTRY_RestoreBgm  0x02155A6C  thumb  ov010
  *   ov008_id       0x00000008  data
  *   ov021_id       0x00000015  data
  *   ov093_id       0x0000005D  data
@@ -227,10 +227,10 @@ extern void MUSICAL_EVENT_BuildParty(int mode, struct Ctx *ctx);
 extern void MUSICAL_EVENT_TrimAllPartiesToThree(struct Ctx *ctx);
 extern void MUSICAL_EVENT_UpdateFriendRecords(struct Ctx *ctx, void *party);
 extern void MUSICAL_EVENT_BindParticipantSlots(struct Ctx *ctx, void *party);
-extern void func_02155A4C(struct Ctx *ctx);
-extern void func_02155A6C(struct Ctx *ctx);
+extern void IRC_BATTLE_ENTRY_FreeParties(struct Ctx *ctx);
+extern void IRC_BATTLE_ENTRY_RestoreBgm(struct Ctx *ctx);
 
-int func_02155478(void *proc, int *seq, struct Ctx *ctx)
+int IRC_BATTLE_ENTRY_Main(void *proc, int *seq, struct Ctx *ctx)
 {
     Tbl4 tbl;
     struct Arg arg;
@@ -398,7 +398,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
             BTL_SETUP_Delete((int)ctx->f88);
             ctx->f88 = 0;
             GFL_USE_CancelChangeAndStopBgm();
-            func_02155A6C(ctx);
+            IRC_BATTLE_ENTRY_RestoreBgm(ctx);
             *seq = 17;
         }
         break;
@@ -470,7 +470,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         }
         break;
     case 21:
-        func_02155A6C(ctx);
+        IRC_BATTLE_ENTRY_RestoreBgm(ctx);
         GAME_EVENT_CallEvent(proc, FIELD_STATUS_CreateFieldOpenEvent(w));
         (*seq)++;
         break;
@@ -480,7 +480,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         break;
     case 23:
         GFL_NET_IRC_WIRELESS_Exit();
-        func_02155A4C(ctx);
+        IRC_BATTLE_ENTRY_FreeParties(ctx);
         return 1;
     case 24:
         (*seq)++;

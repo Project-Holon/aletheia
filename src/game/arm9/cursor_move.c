@@ -14,7 +14,7 @@
  *
  * symbols:
  *   gCursorMoveTable  0x0209FB18  data
- *   sub_02030734  0x02030734  arm
+ *   GFL_HEAP_Alloc  0x02030734  arm
  *   str_020A74A0  0x020A74A0  data
  *   GFL_HEAP_FreeMemory  0x02030164  arm
  *   CURSOR_MOVE_PollTouch  0x02025EA4  thumb
@@ -34,7 +34,7 @@
  *   func_02008500   0x02008500  thumb
  *   g_020A74B0      0x020A74B0  data
  *   STRBUF_Delete  0x02045808  arm
- *   sub_020307B0  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_COMM_KindTable     0x0209FB5C  data
  *   GAME_COMM_SetSeqState  0x02026490  thumb
  */
@@ -135,7 +135,7 @@ struct CursorCommKindFuncs
 /* the finish arm clears its fields through an enum-typed zero */
 typedef enum { Z0 } E;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_FreeMemory(void *p);
 extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
@@ -146,7 +146,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *a0);
 extern struct U16Vec *STRBUF_Create(u32 a0, u32 a1);
 extern void func_02008500(void *a0, void *a1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 sub_020307B0(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern void GAME_COMM_SetSeqState(void *obj, u32 value);
 extern struct CursorTableRow gCursorMoveTable[];
 extern const char str_020A74A0[];
@@ -243,7 +243,7 @@ u32 CURSOR_MOVE_FindTableGroupIndex(u32 v)
 
 struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId)
 {
-    struct Cursor *p = (struct Cursor *)sub_02030734(heapId, 0x20, 0, str_020A74A0, 0x6a);
+    struct Cursor *p = (struct Cursor *)GFL_HEAP_Alloc(heapId, 0x20, 0, str_020A74A0, 0x6a);
 
     p->entries = entries;
     p->vt = vt;
@@ -729,7 +729,7 @@ struct VecSet *CURSOR_MOVE_CreateVecSet(u32 a0, void *a1)
     struct VecSetItem *e;
     u8 *q;
 
-    p = (struct VecSet *)sub_02030734(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
+    p = (struct VecSet *)GFL_HEAP_Alloc(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
     p->owner = a1;
     q = GAME_DATA_GetMyStatus(a1);
     base = p->items;
@@ -753,7 +753,7 @@ void CURSOR_MOVE_DeleteVecSet(struct VecSet *obj)
         STRBUF_Delete(items[i].buf1);
         STRBUF_Delete(items[i].buf2);
     }
-    sub_020307B0(obj);
+    GFL_HEAP_Free(obj);
 }
 
 /*

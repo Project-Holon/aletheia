@@ -21,12 +21,12 @@
  *   APP_TASKMENU_SetCursorActive 0x02027A08 thumb
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_PROC_StepPeerSummaryMenu 0x021DA318 thumb ov119
- *   d_021E7594 0x021E7594 data a4
+ *   gPeerSummaryPos 0x021E7594 data a4
  */
 #include "../include/Obj02826.h"
 
 typedef struct { int a,b; } Pair;
-extern const Pair d_021E7594;
+extern const Pair gPeerSummaryPos;
 extern void POKETRADE_NEGO_SetOfferMarkersState(void *,int);
 typedef unsigned int   u32;
 struct TaskMenu;
@@ -52,7 +52,7 @@ void POKETRADE_PROC_StepOpenPeerSummary(char *p) {
     TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj02826 *)p)->f9C0),1,0);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj02826 *)p)->f9C0),7,0);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj02826 *)p)->f9C0),9,1);
-    t=d_021E7594;
+    t=gPeerSummaryPos;
     POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),2);
     n=(int)POKETRADE_PROC_LoadSlotMon(*(void ** *)&((struct Obj02826 *)p)->f828,((struct Obj02826 *)p)->fF98,((struct Obj02826 *)p)->fF94,p);
     ((struct Obj02826 *)p)->f10A0=zero;

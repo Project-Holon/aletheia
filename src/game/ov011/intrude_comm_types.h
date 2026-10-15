@@ -200,7 +200,7 @@ typedef struct IntrudeTally {
 
 /* Symbol map page (0x54 bytes, commands 0x228 and 0x229): 20 entries, then the page header. */
 typedef struct IntrudeSymbolPage {
-    u32 entries[20];                /* 0x00: filled by func_0216749C */
+    u32 entries[20];                /* 0x00: filled by COMM_PLAYER_GetListPage */
     u32 count : 6;                  /* 0x50 */
     u32 levelSmall : 4;
     u32 levelLarge : 4;

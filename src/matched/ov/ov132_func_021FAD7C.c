@@ -1,5 +1,5 @@
 /*
- * function: func_021FAD7C
+ * function: STA_ACT_SCRIPT_CountScripts
  * address: 0x021FAD7C
  * packet: pkt_ov132_021FAD7C
  * region: ov132
@@ -10,7 +10,7 @@
  * note: unlabelled follower in 021FAD2C extent; counts ten nonnull slots.
  */
 typedef unsigned char u8;
-u8 func_021FAD7C(char *p)
+u8 STA_ACT_SCRIPT_CountScripts(char *p)
 {
     u8 i;
     u8 count;

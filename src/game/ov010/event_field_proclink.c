@@ -53,7 +53,7 @@
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
  *   FIELD_SOUND_SYSTEM_RestoreVolume 0x02029DD8 thumb
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   ICA_ANIME_GetField114 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
@@ -63,7 +63,7 @@
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
  *   GAME_DATA_GetField16C  0x020128B8  thumb
- *   func_0202138C  0x0202138C  thumb
+ *   FILE_UTIL_GetItemSlot  0x0202138C  thumb
  *   MAILTOOL_CreateWriteArgs  0x021C3CC0  thumb  ov136
  *   MAILTOOL_CreateArgsFromPartyMon  0x021C3D44  thumb  ov136
  *   MAILTOOL_CreateArgsFromMail  0x021C3DA4  thumb  ov136
@@ -372,7 +372,7 @@ extern u32 GAME_DATA_GetBgmInfo(const GameData *gameData);
 extern u32 GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 extern int FIELD_SOUND_SYSTEM_RestoreVolume(int,int);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *zukanSave);
 extern u8 *ICA_ANIME_GetField114(const GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *playerWork);
@@ -382,7 +382,7 @@ extern void func_02008298(void *myItem, u16 pocket);
 extern u32 FILE_UTIL_Check136C(u16 v);
 extern TrainerCardViewWork *TRCARD_SYS_CreateViewWork(GameData *gameData, int mode, int canFly);
 extern struct EscapeLocation *GAME_DATA_GetField16C(const GameData *gameData);
-extern u8 func_0202138C(u16 v);
+extern u8 FILE_UTIL_GetItemSlot(u16 v);
 extern void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 extern void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
 extern void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap);
@@ -723,7 +723,7 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
     void *mailBox;
     int i;
 
-    param = sub_02030734(4, sizeof(PStatusParam), 1, d_02172978, 0x4DE);
+    param = GFL_HEAP_Alloc(4, sizeof(PStatusParam), 1, d_02172978, 0x4DE);
     gameData = ICA_ANIME_GetField1C(work->context->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
@@ -1136,17 +1136,17 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
         itemId = listResult->argValue;
         work->resultValue = itemId;
         if (listResult->command == 6)
-            return (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->selectedSlot, func_0202138C(itemId), 4);
+            return (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->selectedSlot, FILE_UTIL_GetItemSlot(itemId), 4);
         work->purpose = 1;
         return (int)MAILTOOL_CreateArgsFromPartyMon(gameData, POKEPARTY_GetMember(party, slot), 4);
     }
     if (listResult->carry.words[4] == 2) {
-        mailParam = (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->listArg, func_0202138C((u16)listResult->listArg), 4);
+        mailParam = (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->listArg, FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
         work->resultValue = listResult->listArg;
         return mailParam;
     }
     work->purpose = 1;
-    return (int)MAILTOOL_CreateArgsFromMail(gameData, (void *)func_0202138C((u16)listResult->listArg), 4);
+    return (int)MAILTOOL_CreateArgsFromMail(gameData, (void *)FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
 }
 
 

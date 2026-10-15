@@ -23,7 +23,7 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -46,7 +46,7 @@ extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct CharBuf;
 struct Descriptor;
@@ -83,7 +83,7 @@ void PMS_SELECT_GRAPHIC_CreateBg(u8 *p,u16 heap,u32 font,void *print,void *bank)
     func_02061CA4((void *)31,286,(u32)(p+0x1a),2);
     func_02049658((void *)((u32)h),18,5,0,0,0,heap);
     func_020498F4((void *)((u32)h),24,5,0,0,0,heap);
-    func_020413B0(5,0,0,32,32,8);
+    BG_SYS_FillTileMap(5,0,0,32,32,8);
     *(u32 *)&((struct Obj02466 *)p)->f24=BMP_WIN_Create(5,3,5,26,7,8,1);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj02466 *)p)->f24),7);
     str=func_02045EC0(bank,21);

@@ -28,6 +28,8 @@
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   ARC_UTIL_LoadBgCharDataFromHandle  0x02049DF4  arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
+ *   NNSi_G2dInitVramHandle  0x02063790  arm
+ *   NNSi_G2dInitVramHandleEx  0x020637D4  arm
  */
 #include "../include/Obj00696.h"
 
@@ -48,8 +50,8 @@ extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3,
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 struct Task;
 struct Work;
-extern void func_02063790(u32 *p);
-extern void func_020637D4(u32 *p);
+extern void NNSi_G2dInitVramHandle(u32 *p);
+extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern void MCSS_SetAnimeIndex(void *p, u32 flag);
 extern void MCSS_ApplyMosaic(struct Work *a0, struct Task *a1);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
@@ -106,8 +108,8 @@ void MCSS_LoadResourceShared(struct Ctx *a0, u32 idx, const struct Src *a2)
 
     h = a0->f00;
     *(u32 *)(a1 + (5 << 6)) &= 0xFFFFDFFF;
-    func_02063790((u32 *)(a1 + 0x9C));
-    func_020637D4((u32 *)(a1 + 0xC0));
+    NNSi_G2dInitVramHandle((u32 *)(a1 + 0x9C));
+    NNSi_G2dInitVramHandleEx((u32 *)(a1 + 0xC0));
 
     ((struct Obj00696 *)a1)->fC = ARC_UTIL_LoadCellBankFromHandle(h, (u32)(((struct Src *)a2)->f0c), 0,
                                           (u32)((void *)(a1 + 0x10)),

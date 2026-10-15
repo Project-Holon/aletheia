@@ -1,5 +1,5 @@
 /*
- * function: func_021D89C4
+ * function: WF2DMAP_SCENE_BuildGrid
  * address: 0x021D89C4
  * packet: pkt_ov129_021D89C4
  * region: ov129
@@ -10,15 +10,15 @@
  * Lever: copy the table through a second aggregate, retain its indexed read,
  * and initialize i before selecting q. The copy folds into the existing slot.
  * symbols:
- *   func_021D8950 0x021D8950 thumb ov129
+ *   WF2DMAP_SCENE_SetSlot 0x021D8950 thumb ov129
  *   d_021DA744 0x021DA744 data a4
  */
 #include "../include/Obj01938.h"
 typedef unsigned short u16;
 typedef struct { int rows[2][3]; } Table;
 extern const Table d_021DA744;
-extern void func_021D8950(char *,int);
-void func_021D89C4(char *p)
+extern void WF2DMAP_SCENE_SetSlot(char *,int);
+void WF2DMAP_SCENE_BuildGrid(char *p)
 {
     int i,j,n,sum;
     Table t;
@@ -33,7 +33,7 @@ void func_021D89C4(char *p)
     ((struct Obj01938 *)p)->f222=n;
     ((struct Obj01938 *)p)->f224=n;
     ((struct Obj01938 *)p)->f226=((struct Obj01938 *)p)->f338+n;
-    func_021D8950(p,1);
+    WF2DMAP_SCENE_SetSlot(p,1);
     for(i=0;i<3;i++) ((struct Obj01938 *)p)->f23C+=*(int *)(p+i*4+0x330);
     t=d_021DA744;
     n=0;

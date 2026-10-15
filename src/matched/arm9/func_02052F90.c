@@ -1,5 +1,5 @@
 /*
- * function: func_02052F90
+ * function: SPL_EMITTER_AllocTexVram
  * address:  0x02052F90
  * packet:   pkt_020526A8
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   NNS_GfdDefaultFuncAllocTexVram  0x020A8140  data
  *
- * Twin of src/matched/func_02052F58.c: same twelve instructions and the same
+ * Twin of src/matched/SPL_EMITTER_AllocPlttVram.c: same twelve instructions and the same
  * two pool words by position, differing only in the global function pointer
  * it calls (0x020A8140 against 0x020A8148).  Carries the same per-file pin
  * for the same measured tells (register `blx r3` beside an ARMv4T
@@ -24,15 +24,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02052F90.c \
- *       --func func_02052F90 --addr 0x02052F90 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocTexVram.c \
+ *       --func SPL_EMITTER_AllocTexVram --addr 0x02052F90 --arm --cc ../1.2/sp2
  */
 
 typedef unsigned int u32;
 
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
 
-int func_02052F90(u32 a0, u32 a1)
+int SPL_EMITTER_AllocTexVram(u32 a0, u32 a1)
 {
     return (NNS_GfdDefaultFuncAllocTexVram(a0, a1, 0) & 0xffff) << 3;
 }

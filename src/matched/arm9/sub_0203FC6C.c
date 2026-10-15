@@ -1,5 +1,5 @@
 /*
- * function: func_0203FC6C
+ * function: BG_SYS_ApplyGraphicsMode
  * address:  0x0203FC6C
  * packet:   pkt_0203FC6C
  * region:   arm9
@@ -41,7 +41,7 @@ extern u32 func_0207D518(u32 a);
 extern void BG_SYS_ClearMainPlanes(u32 handle);
 extern void BG_SYS_ClearSubPlanes(u32 handle);
 
-void func_0203FC6C(const struct BgVramReq *req, u32 which)
+void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *req, u32 which)
 {
     if (which == 0) {
         BG_SYS_ClearMainPlanes(GX_SetGraphicsMode(req->unk_00, req->unk_04, req->unk_0c));

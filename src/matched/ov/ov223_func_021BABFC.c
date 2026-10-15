@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02041570  0x02041570  arm
+ *   BG_SYS_ClearLayerEx  0x02041570  arm
  *
  * Addresses are Black-image addresses.
  */
 
-extern int func_02041570(int, int);
+extern int BG_SYS_ClearLayerEx(int, int);
 
 int func_021BABFC(void)
 {
-    return func_02041570(2, 0xd000);
+    return BG_SYS_ClearLayerEx(2, 0xd000);
 }

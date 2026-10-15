@@ -12,7 +12,7 @@
  * symbols:
  *   C_GEAR_POWER_ONOFF_InitWindows 0x021F0168 thumb
  *   func_02049B40 0x02049B40 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_SetDispHeight 0x02045790 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -24,7 +24,7 @@
  */
 
 extern void func_02049B40(int, int, int, int, int, int);
-extern void *func_0201F5DC(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -43,7 +43,7 @@ extern int func_02028590(int, int, int, int);
 void C_GEAR_POWER_ONOFF_InitWindows(int *p, int a1)
 {
     func_02049B40(0x17, 5, 4, 0x20, 0x20, a1);
-    p[5] = (int)func_0201F5DC((void *)5, 2, 0, a1);
+    p[5] = (int)BMP_MENUWORK_LoadFrameGfx((void *)5, 2, 0, a1);
     p[6] = BMP_WIN_Create(5, 1, 1, 0x1E, 6, 1, 1);
     p[7] = BMP_WIN_Create(5, 1, 0xD, 0x1E, 0xA, 1, 1);
     BMP_WIN_SetDispHeight((struct Descriptor *)p[6], 4);

@@ -22,9 +22,9 @@
  *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BCE8C 0x021BCE8C thumb ov216
- *   func_021BCE7C 0x021BCE7C arm ov216
+ *   func_021BCE7C 0x021BCE7C thumb ov216
  *   BMP_Clear 0x02043B5C arm
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   func_021BCEA4 0x021BCEA4 thumb ov216
  *   func_021BDA54 0x021BDA54 thumb ov216
  *   func_021BCE04 0x021BCE04 thumb ov216
@@ -60,7 +60,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_021BCE8C(void *,s16,s16,int);
 extern void func_021BCE7C(void *p, unsigned short value);
 extern void BMP_Clear(struct CharBuf *,u8);
-extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void func_021BCEA4(u8 *p, u8 n);
 extern void func_021BDA54(char *,char *,u32,u16,u32,u16);
 extern void func_021BCE04(void *,void *);
@@ -103,8 +103,8 @@ void func_021BD448(char *p)
     }
     BMP_Clear(*(struct CharBuf * *)&((struct Obj00051 *)p)->f14C,15);
     high=(u8)(((struct Obj00051 *)p)->f2C>>8);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,high,2,0,1);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,(u8)((struct Obj00051 *)p)->f2C,2,2,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,high,2,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,(u8)((struct Obj00051 *)p)->f2C,2,2,1);
     func_021BCEA4((u8 *)p,(high/12)+13);
     func_021BDA54(p,p+0x148,0,0,*(u32 *)&((struct Obj00051 *)p)->f140,0x1d0f);
     func_021BCE04(((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f138);

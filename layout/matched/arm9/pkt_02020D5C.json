@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02020F84",
+   "name": "FILE_UTIL_ReadString",
    "address": "0x02020F84",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02020FB4",
+   "name": "FILE_UTIL_ReadStringAlt",
    "address": "0x02020FB4",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT",
    "functions": [
     "FILE_UTIL_Get_1014",
-    "func_020210C8"
+    "FILE_UTIL_GetMonProp"
    ],
    "addresses": [
     "0x02021014",
@@ -152,7 +152,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021350",
+   "name": "FILE_UTIL_GetMachineIndex",
    "address": "0x02021350",
    "kind": "game",
    "region": "arm9",
@@ -176,7 +176,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202138C",
+   "name": "FILE_UTIL_GetItemSlot",
    "address": "0x0202138C",
    "kind": "game",
    "region": "arm9",
@@ -188,7 +188,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020213AC",
+   "name": "FILE_UTIL_GetItemId",
    "address": "0x020213AC",
    "kind": "game",
    "region": "arm9",

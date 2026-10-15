@@ -1,5 +1,5 @@
 /*
- * function: func_020569A4
+ * function: SPL_EMITTER_LoadResource
  * address:  0x020569A4
  * packet:   pkt_02052F58
  * region:   arm9
@@ -36,13 +36,13 @@
  * spl_emit.c SPLEmitter_EmitParticles, lib/spl/include/spl_*.h), adapted
  * only by pinning its callees to Black addresses; it compiled EXACT at the
  * cluster pin on the first compile, all 3372 bytes (the listing extent to
- * func_020576D0, pool included; the worklist's 1544-byte figure was wrong).
+ * SPL_EMITTER_ScaleVec, pool included; the worklist's 1544-byte figure was wrong).
  * The struct layouts (SPLEmitter, SPLParticle, SPLResourceHeader,
  * SPLResource) therefore hold for Black unchanged, which settles most of
  * this cluster's field names.  `int i = 0;` before the loop is the
  * upstream's own spelling (commented there as required for matching).  The two statics upstream,
  * SPLEmitter_ComputeOrthogonalAxes and SPLUtil_TiltCoordinates, are the
- * separate functions func_02057830 and func_020576D0 here.
+ * separate functions SPL_EMITTER_TransformVec and SPL_EMITTER_ScaleVec here.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -551,7 +551,7 @@ static inline SPLParticle *SPLParticleList_PopFront(SPLParticleList *list)
 {
     return (SPLParticle *)SPLList_PopFront((SPLList *)list);
 }
-void func_020569A4(SPLEmitter *emtr, SPLParticleList *list)
+void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
 {
     SPLResource *res = emtr->resource;
     SPLResourceHeader *header = res->header;

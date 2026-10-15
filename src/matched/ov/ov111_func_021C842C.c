@@ -11,9 +11,9 @@
  *
  * symbols:
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_021C83DC  0x021C83DC  thumb  ov111
- *   func_021C840C  0x021C840C  thumb  ov111
- *   func_021C8414  0x021C8414  thumb  ov111
+ *   VIEWER_ACTOR_HandleScrollRepeat  0x021C83DC  thumb  ov111
+ *   VIEWER_ACTOR_ResetDragFlags  0x021C840C  thumb  ov111
+ *   VIEWER_ACTOR_StepScrollCount  0x021C8414  thumb  ov111
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned char u8;
 typedef signed char s8;
 
 extern unsigned int TOUCHPANEL_GetPointCont(u32 *a, u32 *b);
-extern void func_021C83DC(u8 *p, int value);
-extern void func_021C840C(u8 *p);
-extern void func_021C8414(u8 *p, int idx);
+extern void VIEWER_ACTOR_HandleScrollRepeat(u8 *p, int value);
+extern void VIEWER_ACTOR_ResetDragFlags(u8 *p);
+extern void VIEWER_ACTOR_StepScrollCount(u8 *p, int idx);
 
 typedef struct {
     u8 pad0[0x17C];
@@ -74,21 +74,21 @@ void VIEWER_ACTOR_HandleTouchDrag(Work *p, int idx)
             dy = Delta(&p->sy, PREV_Y, y);
             if (dy <= 40) {
                 hit = 1;
-                func_021C83DC(p->cursor, p->count[idx]);
+                VIEWER_ACTOR_HandleScrollRepeat(p->cursor, p->count[idx]);
             } else {
-                func_021C840C(p->cursor);
+                VIEWER_ACTOR_ResetDragFlags(p->cursor);
             }
         } else if (dx <= 40) {
             dy = Delta(&p->sy, PREV_Y, y);
             if (dy >= 3 && dy <= 40) {
                 hit = 1;
-                func_021C83DC(p->cursor, p->count[idx]);
+                VIEWER_ACTOR_HandleScrollRepeat(p->cursor, p->count[idx]);
             } else {
-                func_021C840C(p->cursor);
+                VIEWER_ACTOR_ResetDragFlags(p->cursor);
             }
         }
         if (hit) {
-            func_021C8414((u8 *)p, idx);
+            VIEWER_ACTOR_StepScrollCount((u8 *)p, idx);
         }
     }
     PREV_X = x;

@@ -1,5 +1,5 @@
 /*
- * function: func_02052A50
+ * function: SPL_EMITTER_FreeNodeToHeap
  * address:  0x02052A50
  * packet:   pkt_020528D0
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_020582CC  0x020582CC  arm
- *   func_02058204  0x02058204  arm
- *   func_02058180  0x02058180  arm
- *   func_020580A8  0x020580A8  arm
- *   func_02057F8C  0x02057F8C  arm
- *   func_02057EF8  0x02057EF8  arm
+ *   SPL_EMITTER_AddVec  0x020582CC  arm
+ *   SPL_EMITTER_UpdateNode  0x02058204  arm
+ *   SPL_EMITTER_AddScaledVec  0x02058180  arm
+ *   SPL_EMITTER_BuildFrame  0x020580A8  arm
+ *   SPL_EMITTER_InterpTarget  0x02057F8C  arm
+ *   SPL_EMITTER_LerpVec  0x02057EF8  arm
  *
  * The rig's resource binder: walk a packed blob `d` from byte 0x20 on.
  * First h->f30 = d->nrec records of 0x20 bytes (h->f28): each takes a
@@ -124,14 +124,14 @@ struct C;
 struct Obj;
 struct S;
 struct Src;
-extern void func_020582CC(struct Obj *o, void *s, int *dst);
-extern void func_02058204(struct Obj *o, struct Src *s, int *dst);
-extern void func_02058180(struct A *a, struct B *b, volatile int *c);
-extern void func_020580A8(struct Obj *o, u8 *dst);
-extern void func_02057F8C(struct A *a, struct S *s, int unused, struct C *c);
-extern void func_02057EF8(struct A *a, struct B *b);
+extern void SPL_EMITTER_AddVec(struct Obj *o, void *s, int *dst);
+extern void SPL_EMITTER_UpdateNode(struct Obj *o, struct Src *s, int *dst);
+extern void SPL_EMITTER_AddScaledVec(struct A *a, struct B *b, volatile int *c);
+extern void SPL_EMITTER_BuildFrame(struct Obj *o, u8 *dst);
+extern void SPL_EMITTER_InterpTarget(struct A *a, struct S *s, int unused, struct C *c);
+extern void SPL_EMITTER_LerpVec(struct A *a, struct B *b);
 
-void func_02052A50(struct Head *h, struct Hdr *d)
+void SPL_EMITTER_FreeNodeToHeap(struct Head *h, struct Hdr *d)
 {
     u32 off;
     int i;
@@ -162,12 +162,12 @@ void func_02052A50(struct Head *h, struct Hdr *d)
             struct Anim *p;
             rec->anims = h->alloc(rec->nanims * sizeof(struct Anim));
             p = rec->anims;
-            if (fl.b24) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020582CC; off += 8; p++; }
-            if (fl.b25) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058204; off += 8; p++; }
-            if (fl.b26) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058180; off += 0x10; p++; }
-            if (fl.b27) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020580A8; off += 4; p++; }
-            if (fl.b28) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057F8C; off += 8; p++; }
-            if (fl.b29) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057EF8; off += 0x10; }
+            if (fl.b24) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddVec; off += 8; p++; }
+            if (fl.b25) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_UpdateNode; off += 8; p++; }
+            if (fl.b26) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddScaledVec; off += 0x10; p++; }
+            if (fl.b27) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_BuildFrame; off += 4; p++; }
+            if (fl.b28) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_InterpTarget; off += 8; p++; }
+            if (fl.b29) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_LerpVec; off += 0x10; }
         } else {
             rec->anims = 0;
         }

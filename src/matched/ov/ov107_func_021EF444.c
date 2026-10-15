@@ -14,7 +14,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_020413B0 0x020413B0 arm
+ *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -45,7 +45,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020413B0(u32,u8,u8,u8,u8,u8),func_020409B4(u32),ARC_TOOL_DeleteHandle(void *);
+extern void BG_SYS_FillTileMap(u32,u8,u8,u8,u8,u8),func_020409B4(u32),ARC_TOOL_DeleteHandle(void *);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
@@ -70,7 +70,7 @@ void MB_COMM_SYS_DrawTitle(u8 *p) {
  func_02049B68((void *)((u32)archive),0,0,224,32,((struct Obj00057 *)p)->f0);
  func_02049658((void *)((u32)archive),1,bg,0,0,0,((struct Obj00057 *)p)->f0);
  func_020498F4((void *)((u32)archive),2,bg,0,0,0,((struct Obj00057 *)p)->f0);
- func_020413B0(bg,0,0,32,24,7);func_020409B4(bg);ARC_TOOL_DeleteHandle(archive);
+ BG_SYS_FillTileMap(bg,0,0,32,24,7);func_020409B4(bg);ARC_TOOL_DeleteHandle(archive);
  window=BMP_WIN_Create(bg,1,4,30,8,7,1);
  bank=func_02045B38(0,2,0x52,((struct Obj00057 *)p)->f0);
  text=func_02045EC0(bank,1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2028
+ * function: BR_CODEIN_SaveCreate
  * address: 0x021E2028
  * packet: pkt_ov183_021E2028
  * region: ov183
@@ -14,9 +14,9 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
- *   func_021E214C 0x021E214C thumb ov183
+ *   BR_CODEIN_SaveStepFadeIn 0x021E214C thumb ov183
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_021E23C8 0x021E23C8 thumb ov183
+ *   BR_CODEIN_SaveSetupText 0x021E23C8 thumb ov183
  *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
  */
 #include "../include/Obj01567.h"
@@ -31,11 +31,11 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
-extern void func_021E214C(int *task, int *state, char *p);
+extern void BR_CODEIN_SaveStepFadeIn(int *task, int *state, char *p);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void func_021E23C8(char *,char *);
+extern void BR_CODEIN_SaveSetupText(char *,char *);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
-int func_021E2028(struct Obj0203159C *obj,int unused,char *arg)
+int BR_CODEIN_SaveCreate(struct Obj0203159C *obj,int unused,char *arg)
 {
     char *p;
     int i;
@@ -44,9 +44,9 @@ int func_021E2028(struct Obj0203159C *obj,int unused,char *arg)
     MI_CpuFill8(p,0,40);
     *(char * *)&((struct Obj04580 *)p)->f20=arg;
     ((struct Obj04580 *)p)->f1C=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct Obj01567 *)arg)->f10));
-    ((struct Obj04580 *)p)->f8=(int)BR_UTIL_CreateTask((int)p,(int)func_021E214C,((struct Obj04580 *)p)->f1C);
+    ((struct Obj04580 *)p)->f8=(int)BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_SaveStepFadeIn,((struct Obj04580 *)p)->f1C);
     ((struct Obj04580 *)p)->f0=PRINTSYS_QUE_Create((void *)(((struct Obj04580 *)p)->f1C));
-    func_021E23C8(p,arg);
+    BR_CODEIN_SaveSetupText(p,arg);
     for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)BR_UTIL_CreateHandles(((struct Obj01567 *)arg)->f8,(char *)(*(int *)&((struct Obj01567 *)arg)->fC),i,((struct Obj04580 *)p)->f1C);
     return 1;
 }

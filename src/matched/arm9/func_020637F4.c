@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020637F4
+ * function: NNSi_G2dSetVramHandleEx
  * address:  0x020637F4
  * packet:   pkt_02063640
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_020637F4(char *p, int i, int v){ *(int *)(p + i * 4 + 8) = v; }
+void NNSi_G2dSetVramHandleEx(char *p, int i, int v){ *(int *)(p + i * 4 + 8) = v; }

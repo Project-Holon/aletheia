@@ -1,5 +1,5 @@
 /*
- * function: func_02208714
+ * function: SHINKA_DEMO_EFFECT_FreeNode
  * address: 0x02208714
  * packet: pkt_ov195_02208714
  * region: ov195
@@ -14,4 +14,4 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_02208714(void *p){func_020307B0(p);}
+void SHINKA_DEMO_EFFECT_FreeNode(void *p){func_020307B0(p);}

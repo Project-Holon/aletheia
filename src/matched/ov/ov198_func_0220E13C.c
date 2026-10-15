@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_0220E13C
+ * function: B_PLIST_DRAW_ClearAndPrintStream
  * address: 0x0220E13C
  * packet: pkt_ov198_0220E13C
  * region: ov198
@@ -10,12 +10,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201F73C 0x0201F73C thumb
+ *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0220E168 0x0220E168 thumb ov198
+ *   B_PLIST_DRAW_PrintStream 0x0220E168 thumb ov198
  */
 #include "../include/Obj02247.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-struct Descriptor;struct CharBuf;extern void func_0201F73C(void *,int,int,int);extern void *BMP_WIN_GetBmp(struct Descriptor *);extern void BMP_Clear(struct CharBuf *,u8);extern void func_0220E168(char *);
-void func_0220E13C(u8 *p){func_0201F73C(((struct Obj02247 *)p)->f1F68,2,1,14);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02247 *)p)->f1F68),15);func_0220E168((char *)p);}
+struct Descriptor;struct CharBuf;extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);extern void *BMP_WIN_GetBmp(struct Descriptor *);extern void BMP_Clear(struct CharBuf *,u8);extern void B_PLIST_DRAW_PrintStream(char *);
+void B_PLIST_DRAW_ClearAndPrintStream(u8 *p){BMP_MENUWORK_DrawWindow(((struct Obj02247 *)p)->f1F68,2,1,14);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02247 *)p)->f1F68),15);B_PLIST_DRAW_PrintStream((char *)p);}

@@ -28,10 +28,10 @@
  *   TCBL_GetWork 0x02031290 arm
  *   TCBL_SetTaskFunc 0x02031288 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_0201F184 0x0201F184 thumb
+ *   WORDSET_SetSlotFromMsgA0 0x0201F184 thumb
  *   GPOWER_GetPowerCost 0x02010FA0 thumb
  *   func_02007FB8 0x02007FB8 thumb
- *   func_0201EFA4 0x0201EFA4 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   GPOWER_GetActiveIdOfSameType 0x02010EA0 thumb
  *   GPOWER_GetSelectedMinutesLeft 0x02010EEC thumb
  */
@@ -51,10 +51,10 @@ extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void TCBL_SetTaskFunc(int *p, int v);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
+extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern unsigned int GPOWER_GetPowerCost(struct Rec02010FA0 *p, int idx);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 GPOWER_GetActiveIdOfSameType(int slot, u8 *rec);
 extern int GPOWER_GetSelectedMinutesLeft(void);
 
@@ -76,19 +76,19 @@ void func_021F1A28(char *p, int b, u8 c, int *r)
     t[2] = 0x5a;
     *(int *)(t + 0xc) = b;
     t[3] = c;
-    func_0201F184((struct WordSet *)(*(u32 *)(p + 0x110)), 1, b);
+    WORDSET_SetSlotFromMsgA0((struct WordSet *)(*(u32 *)(p + 0x110)), 1, b);
     if (t[3] == 0) {
         *(u16 *)(t + 0x12) = GPOWER_GetPowerCost((struct Rec02010FA0 *)(*(u32 *)(p + 0x24)), b);
         *(u16 *)(t + 0x10) = func_02007FB8((u8 *)(*(u32 *)(p + 0x18)), 0x23f, *(u16 *)(p + 0x96));
-        func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 2, *(u16 *)(t + 0x12), 3, 0, 1);
-        func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 3, *(u16 *)(t + 0x10), 3, 0, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)(p + 0x110)), 2, *(u16 *)(t + 0x12), 3, 0, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)(p + 0x110)), 3, *(u16 *)(t + 0x10), 3, 0, 1);
         if (b == GPOWER_GetActiveIdOfSameType(b, (u8 *)(*(u32 *)(p + 0x24)))) {
             *(u16 *)(t + 0x14) = GPOWER_GetSelectedMinutesLeft();
             if (*(u16 *)(t + 0x14) != 0) {
                 *(u16 *)(t + 0x16) = *(u16 *)(t + 0x14) / 60;
                 *(u16 *)(t + 0x18) = *(u16 *)(t + 0x14) % 60;
-                func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 4, *(u16 *)(t + 0x16), 3, 0, 1);
-                func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 5, *(u16 *)(t + 0x18), 2, 0, 1);
+                WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)(p + 0x110)), 4, *(u16 *)(t + 0x16), 3, 0, 1);
+                WORDSET_SetSlotNumber((struct WordSet *)(*(u32 *)(p + 0x110)), 5, *(u16 *)(t + 0x18), 2, 0, 1);
             }
         }
     }

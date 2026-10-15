@@ -11,7 +11,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   sub_0202DCC4 0x0202DCC4 thumb
  *   PMS_DRAW_SetVisible 0x0202DCB0 thumb
- *   sub_02040588 0x02040588 arm
+ *   BG_SYS_SetPlaneVisible 0x02040588 arm
  */
 #include "../include/Obj00051.h"
 #include "../include/Obj08428.h"
@@ -23,7 +23,7 @@ struct Obj0202DC98;
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *, int, u32);
-extern void sub_02040588(unsigned char which, unsigned char enable);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 void func_021BD0E4(char *p, u8 index, u32 enable)
 {
     char *entry;
@@ -33,5 +33,5 @@ void func_021BD0E4(char *p, u8 index, u32 enable)
         CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08428 *)entry)->f74, enable);
     if (sub_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158, index) != 0)
         PMS_DRAW_SetVisible(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158, index, enable);
-    sub_02040588(((struct Obj08428 *)entry)->f7E, (u8)enable);
+    BG_SYS_SetPlaneVisible(((struct Obj08428 *)entry)->f7E, (u8)enable);
 }

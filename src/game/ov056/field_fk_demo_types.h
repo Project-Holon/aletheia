@@ -243,7 +243,7 @@ extern int FIELD_BUILDMODEL_GetEntrySlotFrame(struct BuildModelMan *man, struct 
 extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct FieldSoundSystem *soundSys, u32 seId);
 extern void FIELD_SOUND_SYSTEM_ReleaseSlot(struct FieldSoundSystem *soundSys, int seId);
 extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
-extern void func_020115EC(struct IcaAnime *anime, s32 frame);
+extern void ICA_ANIME_SetFrame(struct IcaAnime *anime, s32 frame);
 extern void ICA_ANIME_Delete(struct IcaAnime *anime);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 

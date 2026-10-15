@@ -17,17 +17,17 @@
  *
  * symbols:
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
- *   func_02041090 0x02041090 arm
+ *   BG_SYS_DrawTile 0x02041090 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02041300 0x02041300 arm
+ *   BG_SYS_SetTileEntry 0x02041300 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u16);
-extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern u32 func_020307B0(void *p);
-extern void func_02041300(u32,int,u8,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(u32,int,u8,int,u8,u8,u8);
 void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 pal)
 {
     u8 *sheet;
@@ -49,13 +49,13 @@ void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 p
         yn=row+1;
         do{
             value=(src[col]&4095)+high+base;
-            func_02041090(3,(u32)&value,(u8)cur,yn,1,1);
+            BG_SYS_DrawTile(3,(u32)&value,(u8)cur,yn,1,1);
             ++cur;if(cur>=64)cur=0;
             ++col;
         }while(col<21);
         ++row;
     }while(row<20);
     func_020307B0(handle);
-    func_02041300(3,0xe287,cur,0,2,20,17);
-    func_02041300(3,0xe2b0,cur,5,2,1,17);
+    BG_SYS_SetTileEntry(3,0xe287,cur,0,2,20,17);
+    BG_SYS_SetTileEntry(3,0xe2b0,cur,5,2,1,17);
 }

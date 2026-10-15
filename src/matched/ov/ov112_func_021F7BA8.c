@@ -1,5 +1,5 @@
 /*
- * function: func_021F7BA8
+ * function: STA_ACT_LIGHT_AnimB
  * address: 0x021F7BA8
  * packet: pkt_ov112_021F7BA8
  * region: ov112
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F5450 0x021F5450 thumb ov112
- *   func_021F5464 0x021F5464 thumb ov112
- *   func_021F4EA4 0x021F4EA4 thumb ov112
+ *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
+ *   MUSICAL_MCSS_GetRenderMatrix 0x021F5464 thumb ov112
+ *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
  *   VEC_Add 0x0207C9D0 arm
- *   func_021F9FD0 0x021F9FD0 thumb ov132
+ *   STA_ACT_EFFECT_SetEmitterPos 0x021F9FD0 thumb ov132
  *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
- *   func_021F9FB4 0x021F9FB4 thumb ov132
- *   func_021F9F58 0x021F9F58 thumb ov132
+ *   STA_ACT_EFFECT_KillEffect 0x021F9FB4 thumb ov132
+ *   STA_ACT_EFFECT_KillSystem 0x021F9F58 thumb ov132
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
  */
 #include "../include/Obj06409.h"
@@ -25,39 +25,39 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 typedef struct { u16 count,pad; int index,a,b; } Tail;
-extern u8 *func_021F5450(u8 *,int);
-extern char *func_021F5464(char *);
+extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
+extern char *MUSICAL_MCSS_GetRenderMatrix(char *);
 typedef unsigned int   u32;
-extern void func_021F4EA4(u32 unused, u32 p, u32 q);
+extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
 extern void VEC_Add(const Vec *,const Vec *,Vec *);
-extern void func_021F9FD0(char *,int,int);
+extern void STA_ACT_EFFECT_SetEmitterPos(char *,int,int);
 extern void *STA_ACTING_GetAnimHandle(void *p);
-extern void func_021F9FB4(char *,int);
-extern void func_021F9F58(u8 *unused, u8 *p);
+extern void STA_ACT_EFFECT_KillEffect(char *,int);
+extern void STA_ACT_EFFECT_KillSystem(u8 *unused, u8 *p);
 extern void GFL_USE_StopSeSlot(int);
-void func_021F7BA8(u8 *p,u8 *q)
+void STA_ACT_LIGHT_AnimB(u8 *p,u8 *q)
 {
     Tail *t=(Tail *)(q+240);
-    u8 *r=func_021F5450(*(u8 * *)&((struct Obj06409 *)q)->f58,((struct Obj06409 *)q)->fF4);
+    u8 *r=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj06409 *)q)->f58,((struct Obj06409 *)q)->fF4);
     Vec v;
     int a;
     if(((struct Obj06409 *)q)->f8==1 && ((struct Obj22562 *)r)->f0==1) {
-        func_021F4EA4(((struct Obj08028 *)p)->f10,*(int *)(q+132+t->index*4),(u32)(&v));
+        MUSICAL_MCSS_SetElemScale(((struct Obj08028 *)p)->f10,*(int *)(q+132+t->index*4),(u32)(&v));
         v.x/=16;
         v.y=(0xc0000-v.y)/16;
         v.z+=0x1000;
     } else {
-        VEC_Add((Vec *)(q+24),(Vec *)func_021F5464(*(char * *)&((struct Obj06409 *)q)->f58),&v);
+        VEC_Add((Vec *)(q+24),(Vec *)MUSICAL_MCSS_GetRenderMatrix(*(char * *)&((struct Obj06409 *)q)->f58),&v);
         v.x/=16;
         v.y=(0xc0000-v.y)/16;
         v.z-=0x1c000;
     }
-    func_021F9FD0((char *)t->a,0,(int)&v);
+    STA_ACT_EFFECT_SetEmitterPos((char *)t->a,0,(int)&v);
     t->count++;
     if(t->count>=180) {
         a=(int)STA_ACTING_GetAnimHandle((void *)(((struct Obj08028 *)p)->f4));
-        func_021F9FB4((char *)t->a,0);
-        func_021F9F58((void *)a,(void *)t->a);
+        STA_ACT_EFFECT_KillEffect((char *)t->a,0);
+        STA_ACT_EFFECT_KillSystem((void *)a,(void *)t->a);
         ((struct Obj06409 *)q)->f104=0;
         ((struct Obj08028 *)p)->f43C-=1;
         if(((struct Obj08028 *)p)->f43C==0) GFL_USE_StopSeSlot(2);

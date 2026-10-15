@@ -1,5 +1,5 @@
 /*
- * function: func_021666C8
+ * function: WCM_GetLinkLevel
  * address:  0x021666C8
  * packet:   pkt_ov009_021666C8
  * region:   ov009
@@ -14,8 +14,8 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   WCMi_GetSystemWork  0x021657C8  arm  ov009
- *   func_02166784  0x02166784  arm  ov009
- *   func_02166710  0x02166710  arm  ov009
+ *   WCMi_GetRssiAverage  0x02166784  arm  ov009
+ *   WCM_CalcLinkLevel  0x02166710  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *
  * Returns the current link level from the averaged RSSI while connected, else level 0.
@@ -35,11 +35,11 @@ typedef struct WCMWork {
 
 extern unsigned long OS_DisableInterrupts(void);
 extern int WCMi_GetSystemWork(void);
-extern unsigned char func_02166784(void);
-extern WMLinkLevel func_02166710(unsigned char rssi);
+extern unsigned char WCMi_GetRssiAverage(void);
+extern WMLinkLevel WCM_CalcLinkLevel(unsigned char rssi);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-WMLinkLevel func_021666C8(void)
+WMLinkLevel WCM_GetLinkLevel(void)
 {
     unsigned long e;
     WCMWork *w;
@@ -49,7 +49,7 @@ WMLinkLevel func_021666C8(void)
     w = (WCMWork *)WCMi_GetSystemWork();
     ret = WM_LINK_LEVEL_0;
     if (w != 0 && w->phase == 9) {
-        ret = func_02166710(func_02166784());
+        ret = WCM_CalcLinkLevel(WCMi_GetRssiAverage());
     }
     OS_RestoreInterrupts(e);
     return ret;

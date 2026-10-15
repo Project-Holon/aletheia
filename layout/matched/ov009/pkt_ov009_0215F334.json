@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215F334",
+   "name": "SOCLi_SocketUnregisterList",
    "address": "0x0215F334",
    "kind": "sdk",
    "region": "ov009",

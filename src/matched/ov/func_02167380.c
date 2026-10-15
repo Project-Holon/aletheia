@@ -1,5 +1,5 @@
 /*
- * function: func_02167380
+ * function: COMM_PLAYER_GetRecordField3
  * address:  0x02167380
  * packet:   pkt_02167358
  * region:   ov010
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_02171F5F[];
-u8 func_02167380(u32 id)
+u8 COMM_PLAYER_GetRecordField3(u32 id)
 {
     if (id > 0x1d)
         return 0;

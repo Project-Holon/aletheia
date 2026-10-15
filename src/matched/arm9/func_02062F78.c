@@ -1,5 +1,5 @@
 /*
- * function: func_02062F78
+ * function: NNSi_G2dResetCellAnimationState
  * address:  0x02062F78
  * packet:   pkt_0206296C
  * region:   arm9
@@ -14,7 +14,7 @@
  * trailing halfword. Written as four stores rather than a memset.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062F78.c  *       --func func_02062F78 --addr 0x02062F78 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dResetCellAnimationState.c  *       --func NNSi_G2dResetCellAnimationState --addr 0x02062F78 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ struct AnimState {
     u16 unk0C;
 };
 
-void func_02062F78(struct AnimState *state)
+void NNSi_G2dResetCellAnimationState(struct AnimState *state)
 {
     state->unk00 = 0;
     state->unk04 = 0;

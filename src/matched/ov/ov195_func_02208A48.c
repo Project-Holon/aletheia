@@ -1,5 +1,5 @@
 /*
- * function: func_02208A48
+ * function: SHINKA_DEMO_EFFECT_SetParticleTimerRaw
  * address:  0x02208A48
  * packet:   pkt_02208A48
  * region:   ov195
@@ -35,7 +35,7 @@ typedef struct Ptc {
     s32 timer;
 } Ptc;
 
-void func_02208A48(Ptc *p, s32 timer)
+void SHINKA_DEMO_EFFECT_SetParticleTimerRaw(Ptc *p, s32 timer)
 {
     p->timer = timer;
 }

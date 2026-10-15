@@ -50,7 +50,7 @@
  *   the moment 0x02067998 or 0x02067340 has a `matched` entry; both live
  *   in pkt_02066E30 (see docs/notes/pkt_02066E30.c.txt).
  * compiler pin, ../2.0/sp2, the "kept constants" tell of
- * src/matched/func_0206380C.c measured again on this row: the image
+ * src/matched/NNSi_G2dIsVramHandleSetEx.c measured again on this row: the image
  * materialises the -1 sentinel in a register, `mvn r0, #0` (`00 00 e0 e3`)
  * at 0x02067E20 followed by `cmp r4, r0` (`00 00 54 e1`) at 0x02067E24,
  * where dsi/1.1p1 -O4,p folds the constant into the compare as
@@ -79,10 +79,10 @@
  *   sMtxIdentity      0x020A18AC  data
  *   func_0207D8E0   0x0207D8E0  arm
  *   MIi_CpuClear16  0x02082A48  arm
- *   func_020637BC 0x020637BC  arm
- *   func_020637B4 0x020637B4  arm
- *   func_0206380C 0x0206380C  arm
- *   func_02063800 0x02063800  arm
+ *   NNSi_G2dIsVramHandleSet 0x020637BC  arm
+ *   NNSi_G2dGetVramHandleValue 0x020637B4  arm
+ *   NNSi_G2dIsVramHandleSetEx 0x0206380C  arm
+ *   NNSi_G2dGetVramHandleEx 0x02063800  arm
  *   NNSi_G2dGetCellTransferState 0x02066878  arm
  */
 #define reg_G3_TEXIMAGE_PARAM (*(volatile u32 *)0x040004A8)
@@ -257,10 +257,10 @@ typedef struct CellTransferState {
 
 extern void func_0207D8E0(const MtxFx43 *m);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
-extern BOOL func_020637BC(const NNSG2dImageProxy *pImgProxy, u32 vramType);
-extern u32 func_020637B4(const NNSG2dImageProxy *pImgProxy, u32 vramType);
-extern BOOL func_0206380C(const NNSG2dPaletteProxy *pPltProxy, u32 vramType);
-extern u32 func_02063800(const NNSG2dPaletteProxy *pPltProxy, u32 vramType);
+extern BOOL NNSi_G2dIsVramHandleSet(const NNSG2dImageProxy *pImgProxy, u32 vramType);
+extern u32 NNSi_G2dGetVramHandleValue(const NNSG2dImageProxy *pImgProxy, u32 vramType);
+extern BOOL NNSi_G2dIsVramHandleSetEx(const NNSG2dPaletteProxy *pPltProxy, u32 vramType);
+extern u32 NNSi_G2dGetVramHandleEx(const NNSG2dPaletteProxy *pPltProxy, u32 vramType);
 extern CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx);
 void NNSi_G2dCalcSpriteParams(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, SpriteParams *pResult);
 void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(u32 enabled);
@@ -1435,16 +1435,16 @@ void NNS_G2dRndCoreBeginRendering(NNSG2dRndCoreInstance *pRnd)
         reg[0] = 1;
 
         pImgProxy = sRndCoreInstance->pImgProxy;
-        p->baseTexAddr3D = func_020637BC(pImgProxy, 0) ? func_020637B4(pImgProxy, 0) : 0;
+        p->baseTexAddr3D = NNSi_G2dIsVramHandleSet(pImgProxy, 0) ? NNSi_G2dGetVramHandleValue(pImgProxy, 0) : 0;
 
         pPltProxy = sRndCoreInstance->pPltProxy;
-        p->basePltAddr3D = func_0206380C(pPltProxy, 0) ? func_02063800(pPltProxy, 0) : 0;
+        p->basePltAddr3D = NNSi_G2dIsVramHandleSetEx(pPltProxy, 0) ? NNSi_G2dGetVramHandleEx(pPltProxy, 0) : 0;
     } else {
         const NNSG2dImageProxy *pImgProxy = p->pImgProxy;
         int r;
 
-        if (func_020637BC(pImgProxy, type)) {
-            r = func_020637B4(pImgProxy, type);
+        if (NNSi_G2dIsVramHandleSet(pImgProxy, type)) {
+            r = NNSi_G2dGetVramHandleValue(pImgProxy, type);
             r = (int)((u32)r >> ((int)((pImgProxy->attr.mappingType & 0x700000) >> 20) + 5));
         } else {
             r = 0;

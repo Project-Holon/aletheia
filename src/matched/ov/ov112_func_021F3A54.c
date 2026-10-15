@@ -15,7 +15,7 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021F816C 0x021F816C data a4
@@ -38,7 +38,7 @@ struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern char d_021F816C[],d_021F815C[],gClActorInitParam[];
@@ -56,7 +56,7 @@ void MUSICAL_SHOT_SYS_InitGraphics(u8 *p)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021F816C);
     BG_SYS_Create(((struct Obj10296 *)p)->f0);
     BMP_WIN_Init(((struct Obj10296 *)p)->f0);
-    func_0203FC28((struct DispConfig *)d_021F815C);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021F815C);
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((struct Obj10296 *)p)->f0);
     BG_SYS_SetMainPlaneVisible(16,1);
 }

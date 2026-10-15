@@ -27,7 +27,7 @@
  * func_0201D42C 0x0201D42C thumb
  * PRINTSYS_Print 0x0201C7A4 thumb
  * STRBUF_Delete 0x02045808 arm
- * func_0201DD68 0x0201DD68 thumb
+ * GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -60,7 +60,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 void IRC_COMPATIBLE_MENU_InitButtons(State *p, int bg, const Row *rows, int count, void *object, u16 heap)
 {
     int i;
@@ -98,5 +98,5 @@ void IRC_COMPATIBLE_MENU_InitButtons(State *p, int bg, const Row *rows, int coun
         STRBUF_Delete(text);
         BMP_WIN_TransferChars((struct Descriptor *)p->windows[i]);
     }
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
 }

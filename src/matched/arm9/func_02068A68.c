@@ -1,5 +1,5 @@
 /*
- * function: func_02068A68
+ * function: NNSi_G2dSurfaceFillTiled
  * address:  0x02068A68
  * packet:   pkt_02068808
  * region:   arm9
@@ -12,13 +12,13 @@
  * symbols:
  *   MIi_CpuClearFast    0x02082AC0  arm
  *
- * Row-by-row twin of func_02068A18: the same pixel expansion, then one
+ * Row-by-row twin of NNSi_G2dSurfaceFill: the same pixel expansion, then one
  * MIi_CpuClearFast (MIi_CpuClearFast) per row of w * tile-size bytes, stepping
  * the destination by stride * tile-size.  The row count is re-read from +0x08
  * each iteration (the call may alias it) and compared signed.
  *
  * Two levers: the `| (t << 16)` step is written in BOTH arms (see
- * func_02068A18), and `dst = s->base` is assigned AFTER the two products,
+ * NNSi_G2dSurfaceFill), and `dst = s->base` is assigned AFTER the two products,
  * immediately before the loop.  Initialising dst in its declaration gives the
  * same bytes with dst in r5 instead of sb (24 bytes out); the late assignment
  * is what makes it the last value the allocator colours.
@@ -37,7 +37,7 @@ struct Surface {
 
 extern void MIi_CpuClearFast(u32 data, void *dst, int size);
 
-void func_02068A68(struct Surface *s, u32 arg)
+void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg)
 {
     int i, n, adv, tsz;
     int bpp = s->bpp;

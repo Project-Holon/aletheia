@@ -1,5 +1,5 @@
 /*
- * function: func_0215D3C8
+ * function: SOCLi_InitCommandPipe
  * address:  0x0215D3C8
  * packet:   pkt_ov009_0215D3C8
  * region:   ov009
@@ -24,13 +24,13 @@
  * = 0x20 and sizeof(OSThread) = 0xc0. Both are the definitions already proven
  * in src/matched/arm9_sdk/OS_InitMessageQueue.c and OS_CreateThread.c, not fresh
  * guesses. The four-byte thread param is fixed independently by
- * func_0215D280 (SOCLi_GetSizeCommandPipe: +0 is the stack size, +2 a priority
- * byte, +3 the message count) and by func_0215D200 (pipe1/pipe2 are 4 bytes).
+ * SOCLi_GetSizeCommandPipe (SOCLi_GetSizeCommandPipe: +0 is the stack size, +2 a priority
+ * byte, +3 the message count) and by SOCLi_GetSizeSocket (pipe1/pipe2 are 4 bytes).
  *
  * sdk:      SOCLi_InitCommandPipe (libsoc.TWL.HYB.a(socl_create.o))
  *
  * symbols:
- *   func_0215D280  0x0215D280  arm  ov009
+ *   SOCLi_GetSizeCommandPipe  0x0215D280  arm  ov009
  *   OS_InitMessageQueue  0x02085D94  arm
  *   OS_InitMutex  0x02086004  arm
  *   OS_CreateThread  0x020853C0  arm
@@ -153,7 +153,7 @@ typedef struct {
 	OSMutex mutex;
 } SOCLSocketCommandPipe;
 
-extern u32 func_0215D280(const SOCLSocketThreadParam *param);
+extern u32 SOCLi_GetSizeCommandPipe(const SOCLSocketThreadParam *param);
 extern void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
 extern void OS_InitMutex(OSMutex *mutex);
 extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
@@ -161,12 +161,12 @@ extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, v
 extern void OS_WakeupThreadDirect(OSThread *thread);
 extern void SOCLi_CommandPacketHandler(void *arg);
 
-unsigned char *func_0215D3C8(unsigned char *ptr, SOCLSocketCommandPipe *pipe,
+unsigned char *SOCLi_InitCommandPipe(unsigned char *ptr, SOCLSocketCommandPipe *pipe,
                              const SOCLSocketThreadParam *param)
 {
 	unsigned char *stack_bottom;
 
-	stack_bottom = ptr + func_0215D280(param);
+	stack_bottom = ptr + SOCLi_GetSizeCommandPipe(param);
 	OS_InitMessageQueue(&pipe->queue, (OSMessage *)ptr, param->msgCount);
 	OS_InitMutex(&pipe->mutex);
 	OS_CreateThread(&pipe->thread, SOCLi_CommandPacketHandler, pipe, stack_bottom, param->stackSize, param->prio);

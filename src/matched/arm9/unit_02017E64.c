@@ -22,7 +22,7 @@
  *   POKE_TOOL_EncodeBoxBlock  0x02018D8C  thumb
  *   POKE_TOOL_GetBoxValueRaw  0x02018E34  thumb
  *   POKE_TOOL_SetBoxValueRaw  0x02019388  thumb
- *   func_02019C54  0x02019C54  thumb
+ *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *
  * Five of the eleven carry no label in the generated listing: the three eight
@@ -63,7 +63,7 @@ extern u32 POKE_TOOL_DecodeBoxBlock(struct Sav *p);
 extern void POKE_TOOL_EncodeBoxBlock(struct Sav *p);
 extern u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v);
-extern void *func_02019C54(u32 a, u32 b);
+extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 u32 POKE_TOOL_IsBoxShiny(void *p);
@@ -129,7 +129,7 @@ u8 POKE_TOOL_GetBoxGender(void *p)
 
 u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c)
 {
-    u8 n = POKE_PERSONAL_GetParam(func_02019C54(a, b), 0x14);
+    u8 n = POKE_PERSONAL_GetParam(POKE_TOOL_GetPersonalData(a, b), 0x14);
     u8 r;
 
     switch (n) {

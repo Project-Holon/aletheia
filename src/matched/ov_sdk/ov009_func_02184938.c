@@ -1,5 +1,5 @@
 /*
- * function: func_02184938
+ * function: GSMD5Init
  * address:  0x02184938
  * packet:   pkt_ov009_02184938
  * region:   ov009
@@ -21,7 +21,7 @@ struct GSMD5_CTX {
     unsigned char buffer[64];
 };
 
-void func_02184938(struct GSMD5_CTX * context)
+void GSMD5Init(struct GSMD5_CTX * context)
 {
     context->count[0] = context->count[1] = 0;
     context->state[0] = 0x67452301;

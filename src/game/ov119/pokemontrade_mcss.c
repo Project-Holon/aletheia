@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
  *   MCSS_GetPosition   0x02015C30  thumb
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   FX_SinCosTable_    0x020A1B38  data
  *   MCSS_SetPosition   0x02015C48  thumb
  *   _s32_to_float    0x0209BDBC  arm
@@ -38,7 +38,7 @@ extern void MI_CpuCopy8(const void *,void *,unsigned);
 
 extern void MCSS_GetPosition(void *p, u32 *out);
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MCSS_SetPosition(void *p, u32 *src);
 
@@ -84,7 +84,7 @@ void POKETRADE_MCSS_SlideBegin(McssSlide *p, void *a1, void *a2)
  */
 void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId)
 {
-    McssSlide *r = sub_02030734(heapId, 0x38, 1, (const char *)0x021E80F4, 0xD2);
+    McssSlide *r = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xD2);
 
     r->mcss = a0;
     POKETRADE_MCSS_SlideBegin(r, a1, a2);
@@ -105,7 +105,7 @@ void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId)
  */
 void *POKETRADE_MCSS_SlideCreateWithOffsets(void *a0, void *a1, void *a2, void *a3, u16 heapId)
 {
-    McssSlide *r = sub_02030734(heapId, 0x38, 1, (const char *)0x021E80F4, 0xE7);
+    McssSlide *r = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xE7);
 
     r->mcss = a0;
     POKETRADE_MCSS_SlideBegin(r, a1, a2);

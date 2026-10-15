@@ -134,7 +134,7 @@
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_0201F250  0x0201F250  thumb
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
  *   d_02187E04     0x02187E04  data  ov020  a2
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
@@ -155,20 +155,20 @@
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
- *   func_0204047C 0x0204047C arm
- *   func_020414AC 0x020414AC arm
+ *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   EL_SCOREBOARD_VramBankConfig     0x02187E58  data  ov020
  *   EL_SCOREBOARD_DispConfig     0x02187E28  data  ov020
  *   EL_SCOREBOARD_BgTemplate     0x02187E38  data  ov020
- *   func_02062A98  0x02062A98  arm
- *   func_02040E78  0x02040E78  arm
- *   func_02062A4C  0x02062A4C  arm
- *   func_02040B1C  0x02040B1C  arm
- *   func_02062B30  0x02062B30  arm
+ *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
+ *   BG_SYS_LoadPltt  0x02040E78  arm
+ *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
+ *   BG_SYS_LoadTileData  0x02040B1C  arm
+ *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
@@ -311,7 +311,7 @@ int FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 personIndex);
 void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
 u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
-extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern struct FieldMsgHandle *FIELD_MSGBG_AddTalkWin(int msgBgSys, int speed, int *playerPos, struct Strbuf *message, u32 c, u32 d);
 extern u32 FIELD_MSGBG_TalkWinMain(struct FieldMsgHandle *handle);
 extern u32 KEY_GetTrg(void);
@@ -1537,7 +1537,7 @@ void FIELD_WFBC_DATA_LOCAL_StartTalkMessage(WfbcTalkEvent *talk, int messageSlot
     MSGDATA_ReadString(talk->msgData,
                   (u16)(messageSlot + (d_02187E04[talk->cityData->cityType] + talk->personIndex * 8)),
                   talk->tmpBuf);
-    func_0201F250(talk->wordSet, talk->msgBuf, talk->tmpBuf);
+    WORDSET_CopyTaggedText(talk->wordSet, talk->msgBuf, talk->tmpBuf);
     zero = 0;
     talk->msgHandle = FIELD_MSGBG_AddTalkWin(talk->msgBgSys, 2, talk->playerPos, talk->msgBuf, zero, zero);
     *state = 0x10;
@@ -1554,7 +1554,7 @@ void FIELD_WFBC_DATA_LOCAL_StartTalkMessageWithChoice(WfbcTalkEvent *talk, int m
     MSGDATA_ReadString(talk->msgData,
                   (u16)(messageSlot + (d_02187E04[talk->cityData->cityType] + talk->personIndex * 8)),
                   talk->tmpBuf);
-    func_0201F250(talk->wordSet, talk->msgBuf, talk->tmpBuf);
+    WORDSET_CopyTaggedText(talk->wordSet, talk->msgBuf, talk->tmpBuf);
     zero = 0;
     talk->msgHandle = FIELD_MSGBG_AddTalkWin(talk->msgBgSys, 2, talk->playerPos, talk->msgBuf, zero, zero);
     *state = 0x10;

@@ -33,7 +33,7 @@
  *   func_0203133C 0x0203133C arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_020074D8  0x020074D8  thumb
  *   func_02007698  0x02007698  thumb
  *   func_020076D0  0x020076D0  thumb
@@ -130,7 +130,7 @@ extern void *PROCSYS_Create(int a0);
 extern void func_0203133C(struct ProcSys *p);
 extern void STRBUF_Delete(struct Strbuf *p);
 extern void func_020315D4(struct ProcSys *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern unsigned int PROCSYS_Main(void *p);
 extern u32 PROCSYS_Push(u32 a, u32 b, u32 c, void *d);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
@@ -201,7 +201,7 @@ int EVENT_PDC_RETURN_Init(struct ProcSys *procSys)
 }
 
 
-int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p){EventPdcReturnWork *work;work=(EventPdcReturnWork *)p;func_0203133C((struct ProcSys *)work->procSys);if(work->partyFullMessage)STRBUF_Delete((struct Strbuf *)work->partyFullMessage);STRBUF_Delete((struct Strbuf *)work->strbuf);func_020315D4(procSys);func_020306F0(139);return 1;}
+int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p){EventPdcReturnWork *work;work=(EventPdcReturnWork *)p;func_0203133C((struct ProcSys *)work->procSys);if(work->partyFullMessage)STRBUF_Delete((struct Strbuf *)work->partyFullMessage);STRBUF_Delete((struct Strbuf *)work->strbuf);func_020315D4(procSys);GFL_HEAP_DeleteChecked(139);return 1;}
 
 
 u32 EVENT_PDC_RETURN_Step(u32 a0, u32 *state, EventPdcReturnArgs *c, EventPdcReturnWork *g)

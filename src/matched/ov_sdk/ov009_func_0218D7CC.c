@@ -1,5 +1,5 @@
 /*
- * function: func_0218D7CC
+ * function: gpiStatusInfoKeyFree
  * address:  0x0218D7CC
  * packet:   pkt_ov009_0218D7CC
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      gpiStatusInfoKeyFree (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  *
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
  */
 
 struct GPIKey {
@@ -20,14 +20,14 @@ struct GPIKey {
     char *value;
 };
 
-extern void func_0217EAE0(void *ptr);
+extern void gsifree(void *ptr);
 
-void func_0218D7CC(void *element)
+void gpiStatusInfoKeyFree(void *element)
 {
     struct GPIKey *aKey = (struct GPIKey *)element;
 
-    func_0217EAE0(aKey->name);
+    gsifree(aKey->name);
     aKey->name = 0;
-    func_0217EAE0(aKey->value);
+    gsifree(aKey->value);
     aKey->value = 0;
 }

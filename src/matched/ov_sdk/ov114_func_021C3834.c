@@ -12,7 +12,7 @@
  * sdk:      ghiPostDoPosting (libdwcgsghttp.TWL.HYB.a ghttppost.o)
  *
  * symbols:
- *   func_02184200  0x02184200  arm  ov009
+ *   ArrayLength  0x02184200  arm  ov009
  *   ghiSendBufferedData  0x021C011C  arm  ov114
  *   ghiResetBuffer  0x021C00FC  arm  ov114
  *   strlen  0x0209477C  arm
@@ -63,7 +63,7 @@ typedef struct {
 
 typedef struct GHIPostState GHIPostState;
 
-extern int func_02184200(const int *p);
+extern int ArrayLength(const int *p);
 typedef unsigned char  u8;
 struct GHIBuffer;
 struct GHIConnection;
@@ -84,7 +84,7 @@ int ghiPostDoPosting(GHIConnection *connection)
     int len;
     int result;
 
-    len = func_02184200(connection->postingState.states);
+    len = ArrayLength(connection->postingState.states);
 
     if (connection->sendBuffer.pos < connection->sendBuffer.len)
     {
@@ -121,7 +121,7 @@ int ghiPostDoPosting(GHIConnection *connection)
     {
         postState = func_02184208(connection->postingState.states, connection->postingState.index);
         result = ghiPostStateDoPosting(postState, connection, (connection->postingState.index == 0) ? 1 : 0,
-                               (connection->postingState.index == func_02184200(connection->postingState.states) - 1) ? 1 : 0);
+                               (connection->postingState.index == ArrayLength(connection->postingState.states) - 1) ? 1 : 0);
         if (result == 0)
             return 0;
         if (result == 2)

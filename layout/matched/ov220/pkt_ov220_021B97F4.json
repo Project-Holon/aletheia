@@ -19,17 +19,17 @@
    "status": "EXACT",
    "functions": [
     "TH_AWARD_Main",
-    "func_021B995C"
+    "TH_AWARD_TaskNoop"
+   ],
+   "addresses": [
+    "0x021B97F4",
+    "0x021B995C"
    ],
    "evidence": {
     "sole-ref": [
      "self:0x021BA3B0"
     ]
-   },
-   "addresses": [
-    "0x021B97F4",
-    "0x021B995C"
-   ]
+   }
   }
  ]
 }

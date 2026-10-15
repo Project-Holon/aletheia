@@ -1,5 +1,5 @@
 /*
- * function: func_021DD25C
+ * function: BR_CODEIN_RecordIsType2
  * address: 0x021DD25C
  * packet: pkt_ov183_021DD25C
  * region: ov183
@@ -49,4 +49,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-int func_021DD25C(void *p) { int result; int v; result=0; v=(int)BATTLE_REC_GetHeaderParam(p,3,0); if(v==20) goto yes; if(v==21) goto yes; if(v!=22) goto no; yes: return 1; no: return result; }
+int BR_CODEIN_RecordIsType2(void *p) { int result; int v; result=0; v=(int)BATTLE_REC_GetHeaderParam(p,3,0); if(v==20) goto yes; if(v==21) goto yes; if(v!=22) goto no; yes: return 1; no: return result; }

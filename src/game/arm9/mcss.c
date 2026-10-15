@@ -1,8 +1,8 @@
 /*
  * file:     mcss.c
  * unit:     yes
- * function: func_02014910, func_0201493C, func_02014A10, func_02014A20, func_02014A80, MCSS_Init, MCSS_Exit, MCSS_Main, MCSS_OpenHandle, MCSS_CloseHandle, MCSS_SetTaskSystem, MCSS_SetLoadHook, MCSS_ReloadResource, MCSS_Draw, MCSS_DrawShadow, MCSS_Add, MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag, MCSS_ResetOrthoBillboardFlag, MCSS_GetPosition, MCSS_SetPosition, MCSS_GetOfsPosition, MCSS_SetOfsPosition, MCSS_GetScale, MCSS_SetScale, MCSS_GetShadowScale, MCSS_SetShadowScale, MCSS_GetRotate, MCSS_SetRotate, MCSS_SetOfsScale, MCSS_GetDrawScale, MCSS_SetDrawScale, MCSS_SetShadowRotateX, MCSS_SetShadowRotateZ, MCSS_SetShadowOffset, MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag, MCSS_GetAnmStopFlag, MCSS_SetAnmStopFlag, MCSS_SetAnmStopFlagAlways, MCSS_ResetAnmStopFlag, MCSS_ResetAnmStopFlagAlways, MCSS_GetVanishFlag, MCSS_SetVanishFlag, MCSS_ResetVanishFlag, MCSS_FlipVanishFlag, MCSS_GetAnimCtrl, MCSS_GetAnimSeqNum, MCSS_GetStopCellNum, MCSS_GetStopCellIndex, MCSS_GetSizeX, MCSS_GetSizeY, MCSS_GetOfsX, MCSS_GetOfsY, MCSS_GetStopCellFlags, MCSS_SetAnimCallback, MCSS_SetCellCallback, MCSS_SetPaletteFade, MCSS_GetAlpha, MCSS_SetAlpha, MCSS_SetShadowAlpha, MCSS_SetShadowVanishFlag, MCSS_CheckPaletteFade, MCSS_SetTextureTransAdrs, MCSS_SetPaletteTransAdrs, MCSS_SetAnimeIndex, MCSS_GetMosaic, MCSS_SetMosaic, MCSS_SetGlobalScale, MCSS_SetAnimeSpeed, MCSS_GetAnimSeqNumEx, MCSS_CreatePaletteTransTask, MCSS_CreatePaletteCopyTask, MCSS_RestartAnime, MCSS_RequestAnimeStopAtStart, MCSS_SetWorkFlag, MCSS_SetSysParam, MCSS_SetSysFlag, MCSS_LoadResource, MCSS_LoadResourceShared, MCSS_TransTextureTask, MCSS_TransPaletteTask, MCSS_InitAnimCtrl, MCSS_InitEdgeColor, MCSS_UpdatePaletteFade, MCSS_FreeResource, MCSS_DeleteTextureTask, MCSS_DeletePaletteTask, MCSS_ApplyMosaic, MCSS_MulVecMtx44, MCSS_TOOL_MakeAddWorkFromPP, MCSS_TOOL_MakeAddWorkFromPPP, MCSS_TOOL_MakeAddWorkFromParam, MCSS_TOOL_MakeAddWorkFromTrainer, MCSS_TOOL_AddPokeMcss, MCSS_TOOL_SetSpindaSpotHook, MCSS_TOOL_SpindaSpotHook, MCSS_TOOL_DrawSpindaSpots, MCSS_TOOL_SetAnimeStopCallback, MCSS_TOOL_AnimeStopCallback
- * address:  0x02014910
+ * function: MCSS_Init, MCSS_Exit, MCSS_Main, MCSS_OpenHandle, MCSS_CloseHandle, MCSS_SetTaskSystem, MCSS_SetLoadHook, MCSS_ReloadResource, MCSS_Draw, MCSS_DrawShadow, MCSS_Add, MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag, MCSS_ResetOrthoBillboardFlag, MCSS_GetPosition, MCSS_SetPosition, MCSS_GetOfsPosition, MCSS_SetOfsPosition, MCSS_GetScale, MCSS_SetScale, MCSS_GetShadowScale, MCSS_SetShadowScale, MCSS_GetRotate, MCSS_SetRotate, MCSS_SetOfsScale, MCSS_GetDrawScale, MCSS_SetDrawScale, MCSS_SetShadowRotateX, MCSS_SetShadowRotateZ, MCSS_SetShadowOffset, MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag, MCSS_GetAnmStopFlag, MCSS_SetAnmStopFlag, MCSS_SetAnmStopFlagAlways, MCSS_ResetAnmStopFlag, MCSS_ResetAnmStopFlagAlways, MCSS_GetVanishFlag, MCSS_SetVanishFlag, MCSS_ResetVanishFlag, MCSS_FlipVanishFlag, MCSS_GetAnimCtrl, MCSS_GetAnimSeqNum, MCSS_GetStopCellNum, MCSS_GetStopCellIndex, MCSS_GetSizeX, MCSS_GetSizeY, MCSS_GetOfsX, MCSS_GetOfsY, MCSS_GetStopCellFlags, MCSS_SetAnimCallback, MCSS_SetCellCallback, MCSS_SetPaletteFade, MCSS_GetAlpha, MCSS_SetAlpha, MCSS_SetShadowAlpha, MCSS_SetShadowVanishFlag, MCSS_CheckPaletteFade, MCSS_SetTextureTransAdrs, MCSS_SetPaletteTransAdrs, MCSS_SetAnimeIndex, MCSS_GetMosaic, MCSS_SetMosaic, MCSS_SetGlobalScale, MCSS_SetAnimeSpeed, MCSS_GetAnimSeqNumEx, MCSS_CreatePaletteTransTask, MCSS_CreatePaletteCopyTask, MCSS_RestartAnime, MCSS_RequestAnimeStopAtStart, MCSS_SetWorkFlag, MCSS_SetSysParam, MCSS_SetSysFlag, MCSS_LoadResource, MCSS_LoadResourceShared, MCSS_TransTextureTask, MCSS_TransPaletteTask, MCSS_InitAnimCtrl, MCSS_InitEdgeColor, MCSS_UpdatePaletteFade, MCSS_FreeResource, MCSS_DeleteTextureTask, MCSS_DeletePaletteTask, MCSS_ApplyMosaic, MCSS_MulVecMtx44, MCSS_TOOL_MakeAddWorkFromPP, MCSS_TOOL_MakeAddWorkFromPPP, MCSS_TOOL_MakeAddWorkFromParam, MCSS_TOOL_MakeAddWorkFromTrainer, MCSS_TOOL_AddPokeMcss, MCSS_TOOL_SetSpindaSpotHook, MCSS_TOOL_SpindaSpotHook, MCSS_TOOL_DrawSpindaSpots, MCSS_TOOL_SetAnimeStopCallback, MCSS_TOOL_AnimeStopCallback
+ * address:  0x02014B08
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,22 +10,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from mcss.c by tools/splitfile.py.
  *
  * symbols:
- *   ZONEDATA_GetLightId  0x02013F2C  thumb
- *   ZONEDATA_GetAreaId  0x02013B38  thumb
- *   ZONEDATA_CreateAreaData  0x0201407C  thumb
- *   ZONEDATA_GetAreaLightType  0x020140DC  thumb
- *   ZONEDATA_DeleteAreaData  0x020140B4  thumb
- *   sub_020307B0   0x020307B0  arm
- *   sub_0209E054_Map  0x0209E054  data
- *   ARC_TOOL_GetMemberSize       0x020490A8  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
  *   ARC_TOOL_LoadMember       0x02048F60  arm
- *   VEC_Fx16Normalize   0x0207CDB8  arm
- *   func_02011400  0x02011400  thumb
  *   func_02030734     0x02030734  arm
- *   func_020637D4     0x020637D4  arm
+ *   NNSi_G2dInitVramHandleEx     0x020637D4  arm
  *   func_02049F34     0x02049F34  arm
  *   func_020056A0     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
@@ -61,16 +52,15 @@
  *   MCSS_DeleteTextureTask  0x02016C0C  thumb
  *   NNS_G2dSetCellAnimationParam  0x02063000  arm
  *   NNSi_G2dMCEnumAnimBank  0x02064D70  arm
- *   func_020627D8  0x020627D8  arm
+ *   NNS_G2dGetAnimSequenceByIdx  0x020627D8  arm
  *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02030DA8  0x02030DA8  arm
  *   MIi_CpuCopy16  0x02082A60  arm
- *   MIi_CpuCopy16  0x02082A60  arm
  *   NNS_G2dRestartMCAnimation  0x02064CBC  arm
- *   func_02063A54  0x02063A54  arm
- *   func_02063E54  0x02063E54  arm
- *   sub_02030EAC   0x02030EAC  arm
+ *   NNSi_G2dLoadVramResourceSub  0x02063A54  arm
+ *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
+ *   TCB_DeleteTask   0x02030EAC  arm
  *   _s32_to_double  0x0209B750  arm
  *   pow   0x0209AB80  arm
  *   _d2s            0x0209C508  arm
@@ -105,35 +95,44 @@
  *   NNS_G2dInitMCAnimation  0x02064754  arm
  *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
  *   NNS_G2dTickMCAnimation  0x020649D4  arm
+ *   NNSi_G2dInitVramHandle  0x02063790  arm
  */
+#include "field_status_shared_types.h"
+#include "zone_light_shared_types.h"
 
 #define REG_MTX_MODE     (*(vu32 *)0x04000440)
+
 #define REG_MTX_PUSH     (*(vu32 *)0x04000444)
+
 #define REG_MTX_POP      (*(vu32 *)0x04000448)
+
 #define REG_MTX_STORE    (*(vu32 *)0x0400044C)
+
 #define REG_MTX_IDENTITY (*(vu32 *)0x04000454)
+
 #define REG_MTX_SCALE    (*(vu32 *)0x0400046C)
+
 #define REG_MTX_TRANS    (*(vu32 *)0x04000470)
+
 #define REG_TEXIMAGE_PARAM (*(vu32 *)0x040004A8)
+
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
+
 #define REG_MTX_RESTORE  (*(vu32 *)0x04000450)
+
 #define REG_TEXCOORD     (*(vu32 *)0x04000488)
+
 #define REG_VTX_16       (*(vu32 *)0x0400048C)
+
 #define REG_POLYGON_ATTR (*(vu32 *)0x040004A4)
+
 #define REG_TEXPLTT_BASE (*(vu32 *)0x040004AC)
+
 #define REG_BEGIN_VTXS   (*(vu32 *)0x04000500)
+
 #define REG_END_VTXS     (*(vu32 *)0x04000504)
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
-typedef unsigned char  u8;
-
-typedef signed short s16;
 
 typedef signed char   s8;
 
@@ -168,8 +167,11 @@ typedef enum { GX_TEXFLIP_NONE = 0, GX_TEXFLIP_ST = 3 } GXTexFlip;
 typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttColor0;
 
 struct McssSys;
+
 struct McssWork;
+
 struct McssTransTask;
+
 struct AnimBank;
 
 /*
@@ -436,378 +438,367 @@ typedef struct McssWork {
     VecFx32 shadowOffset;               /* 0x17C */
 } McssWork;
 
-/* One 0x34-byte record of the time-of-day light table. */
-struct LightTableEntry {
-    u16 hourKey;                        /* 0x00 */
-    s16 minute;                         /* 0x02 */
-    u8  pad0[4];
-    u16 colorA[4];                      /* 0x08 */
-    s16 dir[4][3];                      /* 0x10 */
-    u16 colorB[4];                      /* 0x28 */
-    u8  pad1[4];
-};
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void *func_020122C0(void *owner, void *parent, void *callback, u32 workSize);
-extern void *func_020124E8(void *task);
-extern u32 func_02014878(u32 task, u32 *mode, u32 *taskWork);
-extern u32 ZONEDATA_GetLightId(u32 id);
-extern u32 ZONEDATA_GetAreaId(u32 id);
-extern void *ZONEDATA_CreateAreaData(u16 heap, u32 zoneLightId, u32 season);
-extern u8 ZONEDATA_GetAreaLightType(void *p);
-extern u32 ZONEDATA_DeleteAreaData(void *a);
-extern u32 sub_020307B0(void *p);
-extern u32   ARC_TOOL_GetMemberSize(u32 archive, u32 member);
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
-extern void  VEC_Fx16Normalize(void *dest, const void *src);
-extern u8 func_02011400(int season, int key);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020637D4(u32 *proxy);
+
+extern void NNSi_G2dInitVramHandleEx(u32 *proxy);
+
 extern void *func_02049F34(u32 arcId, u32 member, McssPlttData **out, u32 heap);
+
 extern void *func_020056A0(void *fn, void *work, u32 priority);
+
 extern void MCSS_CloseHandle(McssSys *sys);
+
 extern void *TCBL_GetTaskUserData(void *task);
+
 extern u32 func_020307B0(void *p);
+
 extern void func_02030EAC(void *task);
+
 extern void MCSS_Del(McssSys *sys, McssWork *work);
+
 extern void NNS_G2dTickMCAnimation(McssAnimCtrl *ctrl, fx32 speed);
+
 extern void MCSS_RestartAnime(McssWork *work);
+
 extern void *func_020490F4(u32 id, u32 heap);
+
 extern void  ENV_SetResourceSet_2(void *arcHandle);
+
 extern void MCSS_FreeResource(McssWork *work);
+
 extern void NNS_G3dGeFlushBuffer(void);
+
 extern int  MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst);
+
 extern void MI_Copy36B(const void *src, void *dst);
+
 extern void MTX_Copy33To44_(const MtxFx33 *src, MtxFx44 *dst);
+
 extern void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
+
 extern void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
+
 extern void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp,
                         const VecFx32 *target, int draw, MtxFx43 *mtx);
+
 extern void G3_RotX(fx32 s, fx32 c);
+
 extern void G3_RotZ(fx32 s, fx32 c);
+
 extern void G3_MultMtx44(const MtxFx44 *m);
+
 extern u32 FX_Div(u32 value, u32 divisor);
+
 extern void G3i_FrustumW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
                           fx32 scaleW, int draw, void *mtx);
+
 extern void MCSS_DeleteTextureTask(void *taskHandle);
+
 extern void NNS_G2dSetCellAnimationParam(int p0, int p1, int p2, int p3);
+
 extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
-extern void *func_020627D8(struct AnimBank *bank, u32 idx);
+
+extern void *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
+
 extern void NNS_G2dSetAnimSequenceToMCAnimation(McssAnimCtrl *ctrl, void *seq);
+
 extern void *func_02030DA8(void *taskSys, void *callback, void *work, int priority);
+
 extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
+
 extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
+
 extern void NNS_G2dRestartMCAnimation(McssAnimCtrl *ctrl);
+
 extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+
 extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+
 extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+
 extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+
 extern void *func_02049DB4(u32 arcId, u32 member, u32 flag, McssTransTask *out, u16 heap);
-extern void func_02063790(u32 *vramAddr);
+
+extern void NNSi_G2dInitVramHandle(u32 *vramAddr);
+
 extern void *ARC_UTIL_LoadCellBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+
 extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+
 extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+
 extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+
 extern void *ARC_TOOL_LoadHandleMember(void *arcHandle, u32 member, u32 heap);
+
 extern void *func_02049DF4(void *arcHandle, u32 member, u32 flag, McssTransTask *out, u16 heap);
+
 extern void *func_02049F78(void *arcHandle, u32 member, McssPlttData **out, u32 heap);
-extern void func_02063A54(McssTexData *tex, u32 dst, int mode, McssTexImage *out);
-extern void func_02063E54(McssPlttData *pltt, u32 dst, int mode, McssPlttProxy *out);
+
+extern void NNSi_G2dLoadVramResourceSub(McssTexData *tex, u32 dst, int mode, McssTexImage *out);
+
+extern void NNSi_G2dLoadVramResourceBySel(McssPlttData *pltt, u32 dst, int mode, McssPlttProxy *out);
+
 extern int NNS_G2dGetMCWorkAreaSize(void *multiCellBank, int kind);
+
 extern void NNS_G2dInitMCAnimation(McssAnimCtrl *ctrl, void *animWork, void *cellAnimBank, void *cellBank, void *multiCellBank, int kind);
+
 extern double _s32_to_double(s32 v);
+
 extern double pow(double base, double exponent);
+
 extern s32 _d2s(double d);
+
 extern int POKEGRA_GetArcID(void);
+
 extern s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+
 extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+
 extern s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+
 extern s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+
 extern s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+
 extern s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+
 extern s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+
 extern u32 POKEGRA_GetTrainerArcID(u32 a);
+
 extern u32 POKEGRA_GetTrainerCbrArcIndex(u32 id, u32 flags);
+
 extern u32 POKEGRA_GetTrainerPalArcIndex(u32 id, u32 flags);
+
 extern u32 POKEGRA_GetTrainerCelArcIndex(u32 id, u32 flags);
+
 extern u32 POKEGRA_GetTrainerAnmArcIndex(u32 id, u32 flags);
+
 extern u32 POKEGRA_GetTrainerMCelArcIndex(u32 id, u32 flags);
+
 extern u32 POKEGRA_GetTrainerMAnmArcIndex(u32 id, u32 flags);
+
 extern u32 POKEGRA_GetTrainerNcecArcIndex(u32 id, u32 flags);
-void *func_02014910(void *anime, int slot, int config, int target);
-void func_0201493C(u32 zoneId, u32 hour, u32 minute, u32 lightTableId, u32 season, u16 *outColors, u16 heapId);
-u16 func_02014A10(u32 index);
-void *func_02014A20(u32 archive, u32 member, u32 *countOut, u32 heap);
-void func_02014A80(u8 *table, u32 count, s32 time, u32 season, u16 *out);
+
 McssSys *MCSS_Init(u32 maxCount, u32 heapId);
+
 void MCSS_Exit(McssSys *sys);
+
 void MCSS_Main(McssSys *sys);
+
 void MCSS_OpenHandle(McssSys *sys, u32 arcId);
+
 void MCSS_SetTaskSystem(McssSys *sys, void *taskSys);
+
 void MCSS_SetLoadHook(McssSys *sys, McssLoadHook hook, u32 hookWork);
+
 void MCSS_ReloadResource(McssSys *sys, McssWork *work, const McssAddWork *addWork);
+
 void MCSS_Draw(McssSys *sys);
+
 void MCSS_DrawShadow(McssSys *sys, McssWork *work, fx32 x, fx32 y, fx32 width, fx32 height, fx32 s, fx32 t, McssPose *pose, u16 *frameIndex, McssPlttProxy *shadowPltt, int cellId, int ortho, u32 *depth, u8 flip);
+
 McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addWork);
+
 void MCSS_SetOrthoMode(McssSys *sys);
+
 void MCSS_ResetOrthoMode(McssSys *sys);
+
 void MCSS_SetOrthoBillboardFlag(McssWork *work);
+
 void MCSS_ResetOrthoBillboardFlag(McssWork *work);
+
 void MCSS_GetPosition(McssWork *work, u32 *out);
+
 void MCSS_SetPosition(McssWork *work, u32 *src);
+
 void MCSS_GetOfsPosition(McssWork *work, u32 *out);
+
 void MCSS_SetOfsPosition(McssWork *work, u32 *src);
+
 void MCSS_GetScale(McssWork *work, u32 *out);
+
 void MCSS_SetScale(McssWork *work, u32 *src);
+
 void MCSS_GetShadowScale(McssWork *work, u32 *out);
+
 void MCSS_SetShadowScale(McssWork *work, u32 *src);
+
 void MCSS_GetRotate(McssWork *work, u32 *out);
+
 void MCSS_SetRotate(McssWork *work, u32 *src);
+
 void MCSS_SetOfsScale(McssWork *work, u32 *src);
+
 void MCSS_GetDrawScale(McssWork *work, u32 *out);
+
 void MCSS_SetDrawScale(McssWork *work, u32 *src);
+
 void MCSS_SetShadowRotateX(McssWork *work, u16 rotX);
+
 void MCSS_SetShadowRotateZ(McssWork *work, u16 rotZ);
+
 void MCSS_SetShadowOffset(McssWork *work, int *src);
+
 void MCSS_SetMepachiFlag(McssWork *work);
+
 void MCSS_ResetMepachiFlag(McssWork *work);
+
 void MCSS_FlipMepachiFlag(McssWork *work);
+
 int MCSS_GetAnmStopFlag(McssWork *work);
+
 void MCSS_SetAnmStopFlag(McssWork *work);
+
 void MCSS_SetAnmStopFlagAlways(McssWork *work);
+
 void MCSS_ResetAnmStopFlag(McssWork *work);
+
 void MCSS_ResetAnmStopFlagAlways(McssWork *work);
+
 int MCSS_GetVanishFlag(McssWork *work);
+
 void MCSS_SetVanishFlag(McssWork *work);
+
 void MCSS_ResetVanishFlag(McssWork *work);
+
 void MCSS_FlipVanishFlag(McssWork *work);
+
 void *MCSS_GetAnimCtrl(McssWork *work);
+
 u16 MCSS_GetAnimSeqNum(McssWork *work);
+
 u8 MCSS_GetStopCellNum(McssWork *work);
+
 u8 MCSS_GetStopCellIndex(McssWork *work, u8 i);
+
 u16 MCSS_GetSizeX(McssWork *work);
+
 u16 MCSS_GetSizeY(McssWork *work);
+
 s16 MCSS_GetOfsX(McssWork *work);
+
 s16 MCSS_GetOfsY(McssWork *work);
+
 u8 MCSS_GetStopCellFlags(McssWork *work);
+
 int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg);
+
 void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback);
+
 void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color);
+
 u8 MCSS_GetAlpha(McssWork *work);
+
 void MCSS_SetAlpha(McssWork *work, int alpha);
+
 void MCSS_SetShadowAlpha(McssWork *work, int alpha);
+
 void MCSS_SetShadowVanishFlag(McssWork *work, int flag);
+
 int MCSS_CheckPaletteFade(McssWork *work);
+
 void MCSS_SetTextureTransAdrs(McssSys *sys, u32 adrs);
+
 void MCSS_SetPaletteTransAdrs(McssSys *sys, unsigned int adrs);
+
 void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex);
+
 u8 MCSS_GetMosaic(McssWork *work);
+
 void MCSS_SetMosaic(McssSys *sys, McssWork *work, int mosaic);
+
 void MCSS_SetGlobalScale(McssSys *sys, unsigned int scale);
+
 void MCSS_SetAnimeSpeed(McssWork *work, int speed);
+
 u16 MCSS_GetAnimSeqNumEx(McssWork *work);
+
 void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor);
+
 void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work);
+
 void MCSS_RequestAnimeStopAtStart(McssWork *work);
+
 void MCSS_SetWorkFlag(McssWork *work, int flag);
+
 void MCSS_SetSysParam(McssSys *sys, int depthStep);
+
 void MCSS_SetSysFlag(McssSys *sys, int flag);
+
 void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork);
+
 void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork);
+
 void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task);
+
 void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task);
+
 void MCSS_InitAnimCtrl(McssWork *work, int kind);
+
 void MCSS_InitEdgeColor(void);
+
 void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work);
+
 void MCSS_DeletePaletteTask(void *taskHandle);
+
 void MCSS_ApplyMosaic(McssWork *work, McssTransTask *task);
+
 void MCSS_MulVecMtx44(const VecFx32 *v, const MtxFx44 *mtx, VecFx32 *dst, s32 *w);
+
 void MCSS_TOOL_MakeAddWorkFromPP(void *pp, McssAddWork *out, u32 direction);
+
 void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction);
+
 void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out, u32 direction);
+
 void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender);
+
 McssWork *MCSS_TOOL_AddPokeMcss(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, fx32 z);
+
 void MCSS_TOOL_SetSpindaSpotHook(McssSys *sys, u32 personality);
+
 u32 MCSS_TOOL_SpindaSpotHook(const McssAddWork *addWork, McssTransTask *task, u32 personality);
+
 void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality);
+
 int MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
+
 void MCSS_TOOL_AnimeStopCallback(McssWork *work);
+
 u32 func_02017E1C(void *p, u32 id, u32 v);
+
 u32 func_02017E88(void *p, u32 id, u32 v);
+
 u32 POKE_TOOL_IsBoxShiny(void *p);
+
 void *POKE_TOOL_GetBoxParam(void *p);
-extern u32 sub_0209E054_Map[];
+
 extern const char sFileMcss[];
+
 extern MtxFx43 g_renderStateDrawParams;
+
 extern MtxFx44 SCREENTEX_ProjectionMatrix;
+
 extern VecFx32 SCREENTEX_CameraPositionOut;
+
 extern VecFx32 SCREENTEX_CameraTargetOut;
+
 extern VecFx32 SCREENTEX_CameraUpOut;
+
 extern s16 FX_SinCosTable_[];
+
 extern const VecFx32 d_0209E090;
+
 extern const VecFx32 d_0209E09C;
+
 extern const u8 *sSpindaSpotCoords[4];
-/*
- *           Closed at the bottom, not unfiled: no branch anywhere in the image
- *           reaches 0x02014878, so only a `matched` entry could attest it, and
- *           func_02014878 is itself capped at MATCH by two own-pool words
- *           (0x0000005B at 0x02014900, 0x00000083 at 0x02014908 - each occurs
- *           exactly once in arm9, inside its own compared range).  See
- *           docs/notes/pkt_02014808.c.txt.
- */
-void *func_02014910(void *anime, int slot, int config, int target)
-{
-    void *task = func_020122C0(anime, 0, (void *)((int)func_02014878), 0x10);
-    u32 *taskWork = func_020124E8(task);
-
-    taskWork[0] = (u32)anime;
-    taskWork[1] = slot;
-    taskWork[2] = config;
-    taskWork[3] = target;
-    return task;
-}
-
-
-/*
- * The three-way fallback load of the 0x34-byte time-of-day table (member
- * 0x3e for an explicit id, 0x52 for the id ZONEDATA_GetLightId maps, else 0x3d
- * built through ZONEDATA_CreateAreaData), then func_02014A80 over it and a free.
- *
- * Closed in wave 13 by the declaration, not the body: the seventh
- * parameter is a u16 heap id (the ov094 caller at 0x021F7702 loads it
- * with ldrh), written `(heap & 0x7fff) | 0x8000` at each of the four
- * uses.  The earlier note (docs/notes/pkt_0201493C.c.txt) read it as the
- * low half of a word through `*(u16 *)((char *)&b0 + 8)` and had to spell
- * the first tag as 0x10000000; with the real parameter type both of its
- * "back-end tie-breaks" (the pooled 0x0FFFFFFF + 1 tag and the late b0
- * reload) disappear.
- */
-void func_0201493C(u32 zoneId, u32 hour, u32 minute, u32 lightTableId,
-                   u32 season, u16 *outColors, u16 heapId)
-{
-    u32 count;
-    void *table = 0;
-    s32 hourSeconds;
-    s32 minuteSeconds;
-
-    minuteSeconds = minute * 0x3c;
-    hourSeconds = hour * 0xe10;
-
-    if (lightTableId != 0) {
-        table = func_02014A20(0x3e, func_02014A10(lightTableId), &count, (u16)((heapId & 0x7fff) | 0x8000));
-    }
-    if (table == 0) {
-        u32 mapped = ZONEDATA_GetLightId((u16)zoneId);
-        if (mapped != 0xfffffff)
-            table = func_02014A20(0x52, mapped, &count, (u16)((heapId & 0x7fff) | 0x8000));
-    }
-    if (table == 0) {
-        void *zoneLight = ZONEDATA_CreateAreaData((heapId & 0x7fff) | 0x8000, ZONEDATA_GetAreaId((u16)zoneId), season);
-        table = func_02014A20(0x3d, ZONEDATA_GetAreaLightType(zoneLight), &count, (u16)((heapId & 0x7fff) | 0x8000));
-        ZONEDATA_DeleteAreaData((void *)zoneLight);
-    }
-    func_02014A80(table, count, minuteSeconds + hourSeconds, season, outColors);
-    sub_020307B0(table);
-}
-
-
-u16 func_02014A10(u32 i)
-{
-    return sub_0209E054_Map[i];
-}
-
-
-/*
- * Load a record table out of an archive sub-file: the sub-file's byte size
- * divided by 0x34 is the record count (unsigned divide, `_u32_div_f`), the
- * count is handed back through a3's slot and the block itself is loaded by
- * ARC_TOOL_LoadMember.  Each 0x34-byte record carries four 6-byte vectors at +0x10
- * (a VecFx16 triple plus a spare halfword) and each is normalized in place
- * before the count is returned.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02014A20.c \
- *       --func func_02014A20 --addr 0x02014A20 --cc 1.1p1 --thumb
- */
-void *func_02014A20(u32 archive, u32 member, u32 *countOut, u32 heap)
-{
-    u32 recordCount;
-    u32 recordIdx;
-    u8 *dir;
-    u8 *table;
-    int dirIdx;
-
-    recordCount = ARC_TOOL_GetMemberSize(archive, member) / 0x34;
-    *countOut = recordCount;
-    table = ARC_TOOL_LoadMember(archive, member, heap);
-    for (recordIdx = 0; recordIdx < recordCount; recordIdx++) {
-        dir = table + recordIdx * 0x34 + 0x10;
-        for (dirIdx = 0; dirIdx < 4; dirIdx++) {
-            VEC_Fx16Normalize(dir + dirIdx * 6, dir + dirIdx * 6);
-        }
-    }
-    return table;
-}
-
-
-/*
- * Scans the 0x34-byte-stride table at a0 for the element whose 3600*hour +
- * 60*minute value first climbs past a2 while the best so far is still at or
- * below it, then returns that element's eight halfword fields through the
- * caller's buffer (the four at +8 and the four at +0x28).
- *
- * Shape notes:
- *  - the index runs from 0 and the loop is entered only when a1 != 0, so the
- *    counter's first comparison sits at the bottom (`cmp r4, a1 / blo`) and
- *    the guard at the top is a bare `adds r0, r1, #0 / beq`);
- *  - the element's +2 field is signed (`ldrsh` with a register offset,
- *    docs/idioms/ldrsh-register-offset-is-signedness.md), which is why both
- *    comparisons on the running value are `bgt`;
- *  - `i % a1` is one call to the unsigned divmod helper with the remainder
- *    read out of r1, so the source must stay a modulo expression and not a
- *    hand-rolled subtraction loop;
- *  - the two products are two statements (`v = 0xE10 * ...; v += ...;`).
- *    Written as one expression mwcc evaluates the s16 arm first and the
- *    15-byte window at +0x2C comes out in the other order.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02014A80.c \
- *       --func func_02014A80 --addr 0x02014A80 --cc 1.1p1 --thumb
- */
-void func_02014A80(u8 *table, u32 count, s32 time, u32 season, u16 *out)
-{
-    u32 i;
-    s32 prevTime;
-    s32 entryTime;
-    u32 chosen;
-    struct LightTableEntry *e;
-
-    prevTime = 0;
-    i = 0;
-    if (count != 0) {
-        do {
-            e = (struct LightTableEntry *)(table + i * 0x34);
-            entryTime = 0xE10 * (s32)func_02011400(season, e->hourKey);
-            entryTime += e->minute * 0x3C;
-            if (prevTime <= time && entryTime > time) {
-                break;
-            }
-            prevTime = entryTime;
-            i++;
-        } while (i < count);
-    }
-
-    chosen = i % count;
-    e = (struct LightTableEntry *)(table + chosen * 0x34);
-    out[0] = e->colorA[0];
-    out[1] = e->colorA[1];
-    out[2] = e->colorA[2];
-    out[3] = e->colorA[3];
-    out[4] = e->colorB[0];
-    out[5] = e->colorB[1];
-    out[6] = e->colorB[2];
-    out[7] = e->colorB[3];
-}
-
 
 McssSys *MCSS_Init(u32 maxCount, u32 heapId)
 {
@@ -822,7 +813,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     sys->works = func_02030734(heapId, maxCount * 4, 1, sFileMcss, 0x7f);
     sys->texTransAdrs = 9 << 14;
     sys->plttTransAdrs = 0x1000;
-    func_020637D4((u32 *)&sys->shadowPltt);
+    NNSi_G2dInitVramHandleEx((u32 *)&sys->shadowPltt);
     subHeapId = (heapId & 0x7fff) | 0x8000;
     task = func_02030734((u32)((void *)(u16)subHeapId), 0x2c, 1, sFileMcss, 0x8e);
     task->sys = sys;
@@ -832,7 +823,6 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     sys->shadowPlttTask = func_020056A0((void *)MCSS_TransTextureTask, task, 0);
     return sys;
 }
-
 
 /*
  * Tear-down of a "list of arrays" record: close the open sub-object at +0xC
@@ -869,7 +859,6 @@ void MCSS_Exit(McssSys *sys)
     func_020307B0(sys->works);
     func_020307B0(sys);
 }
-
 
 /*
  * Closed in the second pass (2026-09-22) from the 7-byte near miss in
@@ -925,7 +914,6 @@ void MCSS_Main(McssSys *sys)
     }
 }
 
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -964,7 +952,6 @@ void MCSS_OpenHandle(McssSys *sys, u32 arcId)
     }
 }
 
-
 void MCSS_CloseHandle(McssSys *sys)
 {
     if (sys->arcHandle != 0) {
@@ -974,12 +961,10 @@ void MCSS_CloseHandle(McssSys *sys)
     }
 }
 
-
 void MCSS_SetTaskSystem(McssSys *sys, void *taskSys)
 {
     sys->taskSys = taskSys;
 }
-
 
 /*
  * Two consecutive word stores through the object pointer - a plain field
@@ -997,7 +982,6 @@ void MCSS_SetLoadHook(McssSys *sys, McssLoadHook hook, u32 hookWork)
     sys->loadHook = hook;
     sys->loadHookWork = hookWork;
 }
-
 
 /*
  * Prepares b (a validation call, MCSS_FreeResource), copies a 0x24-byte record
@@ -1017,12 +1001,10 @@ void MCSS_ReloadResource(McssSys *sys, McssWork *work, const McssAddWork *addWor
     MCSS_LoadResource(sys, work->index, addWork);
 }
 
-
 static inline fx32 FX_MUL(fx32 v1, fx32 v2)
 {
     return (fx32)(((fx64)v1 * v2 + 0x800LL) >> 12);
 }
-
 
 static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
 {
@@ -1031,7 +1013,6 @@ static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
     REG_MTX_TRANS = (u32)z;
 }
 
-
 static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
 {
     REG_MTX_SCALE = (u32)x;
@@ -1039,13 +1020,11 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
     REG_MTX_SCALE = (u32)z;
 }
 
-
 static inline void G3_LookAt(const VecFx32 *camPos, const VecFx32 *camUp,
                              const VecFx32 *target, MtxFx43 *mtx)
 {
     G3i_LookAt_(camPos, camUp, target, 1, mtx);
 }
-
 
 static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS s, GXTexSizeT t, GXTexRepeat repeat, GXTexFlip flip, GXTexPlttColor0 pltt0, u32 addr)
 {
@@ -1053,9 +1032,7 @@ static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS
                                   (t << 23) | (repeat << 16) | (flip << 18) | (pltt0 << 29));
 }
 
-
 static inline void G3_StoreMtx(int num) { REG_MTX_STORE = (u32)num; }
-
 
 /* MCSS_Draw is one function over 0x02014D2C..0x020155A0.  The labels
  * func_02014D90 (0x02014D90) and func_02015590 (0x02015590) are not
@@ -1274,10 +1251,8 @@ void MCSS_Draw(McssSys *sys)
     REG_MTX_POP = 1;
 }
 
-
 /* fx32 texture coordinate to the 12.4 halfword TEXCOORD wants */
 #define ST(x) ((u32)(u16)(s16)((x) >> 8))
-
 
 /*
  * mcss.c's per-cell quad drawer (wave 11, third lane on the family).  Its
@@ -1432,7 +1407,6 @@ void MCSS_DrawShadow(McssSys *sys, McssWork *work, fx32 x, fx32 y,
     }
 }
 
-
 /*
  * 476 bytes, one function, 29 field stores and no branches but the loop.
  *
@@ -1555,7 +1529,6 @@ McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addW
     return sys->works[i];
 }
 
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -1609,31 +1582,26 @@ void MCSS_Del(McssSys *sys, McssWork *work)
     func_020307B0(work);
 }
 
-
 void MCSS_SetOrthoMode(McssSys *sys)
 {
     sys->flags.raw &= ~1;
     sys->flags.raw |= 1;
 }
 
-
 void MCSS_ResetOrthoMode(McssSys *sys)
 {
     sys->flags.raw &= ~1;
 }
-
 
 void MCSS_SetOrthoBillboardFlag(McssWork *work)
 {
     work->flags.raw |= 0x20000000;
 }
 
-
 void MCSS_ResetOrthoBillboardFlag(McssWork *work)
 {
     work->flags.raw &= ~0x20000000;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (saves nothing, so disasm.py emits
@@ -1650,7 +1618,6 @@ void MCSS_GetPosition(McssWork *work, u32 *out)
     out[2] = work->position.z;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into the
  * structure at +0xE0. The inverse of MCSS_GetPosition; in the ov118 event state
@@ -1665,7 +1632,6 @@ void MCSS_SetPosition(McssWork *work, u32 *src)
     work->position.z = src[2];
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0x11C. Twin of MCSS_SetOfsPosition.
  * Filed as the witness for an ov094 caller.
@@ -1678,7 +1644,6 @@ void MCSS_GetOfsPosition(McssWork *work, u32 *out)
     out[1] = work->ofsPosition.y;
     out[2] = work->ofsPosition.z;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Copies three words
@@ -1694,7 +1659,6 @@ void MCSS_SetOfsPosition(McssWork *work, u32 *src)
     work->ofsPosition.z = src[2];
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of the
  * structure at +0xEC. The inverse of MCSS_SetScale; same shape as
@@ -1709,7 +1673,6 @@ void MCSS_GetScale(McssWork *work, u32 *out)
     out[2] = work->scale.z;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into the
  * structure at +0xEC. The inverse of MCSS_GetScale.
@@ -1722,7 +1685,6 @@ void MCSS_SetScale(McssWork *work, u32 *src)
     work->scale.y = src[1];
     work->scale.z = src[2];
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0x128.
@@ -1737,7 +1699,6 @@ void MCSS_GetShadowScale(McssWork *work, u32 *out)
     out[2] = work->shadowScale.z;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x128. Inverse of MCSS_GetShadowScale.
  * Filed as the witness for an ov094 caller.
@@ -1750,7 +1711,6 @@ void MCSS_SetShadowScale(McssWork *work, u32 *src)
     work->shadowScale.y = src[1];
     work->shadowScale.z = src[2];
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0xF8.
@@ -1765,7 +1725,6 @@ void MCSS_GetRotate(McssWork *work, u32 *out)
     out[2] = work->rotate.z;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0xF8. Inverse of MCSS_GetRotate.
  * Filed as the witness for an ov094 caller.
@@ -1778,7 +1737,6 @@ void MCSS_SetRotate(McssWork *work, u32 *src)
     work->rotate.y = src[1];
     work->rotate.z = src[2];
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x104.
@@ -1793,7 +1751,6 @@ void MCSS_SetOfsScale(McssWork *work, u32 *src)
     work->ofsScale.z = src[2];
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0x110.
  * Filed as the witness for an ov094 caller.
@@ -1806,7 +1763,6 @@ void MCSS_GetDrawScale(McssWork *work, u32 *out)
     out[1] = work->drawScale.y;
     out[2] = work->drawScale.z;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x110. Inverse of MCSS_GetDrawScale.
@@ -1821,7 +1777,6 @@ void MCSS_SetDrawScale(McssWork *work, u32 *src)
     work->drawScale.z = src[2];
 }
 
-
 /*
  * note: halfword setter at +0x178; called from ov131 P_STA_SUB_CreateMcss (bl at
  *   +0x78 and +0xB6) with the pooled full-width value 0xD555.
@@ -1830,7 +1785,6 @@ void MCSS_SetShadowRotateX(McssWork *work, u16 rotX)
 {
     work->shadowRotX = rotX;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Stores a halfword at +0x17A.
@@ -1842,7 +1796,6 @@ void MCSS_SetShadowRotateZ(McssWork *work, u16 rotZ)
 {
     work->shadowRotZ = rotZ;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x17C.
@@ -1857,7 +1810,6 @@ void MCSS_SetShadowOffset(McssWork *work, int *src)
     work->shadowOffset.z = src[2];
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Sets bit 8 of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -1868,7 +1820,6 @@ void MCSS_SetMepachiFlag(McssWork *work)
 {
     work->flags.raw |= 0x100u;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Clears bit 8 of the control word at +0x140.
@@ -1881,7 +1832,6 @@ void MCSS_ResetMepachiFlag(McssWork *work)
     work->flags.raw &= ~0x100u;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Toggles bit 8 of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -1893,7 +1843,6 @@ void MCSS_FlipMepachiFlag(McssWork *work)
     work->flags.bits.mepachiFlag ^= 1;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Reads the two-bit field at bits 9..10 of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -1904,7 +1853,6 @@ int MCSS_GetAnmStopFlag(McssWork *work)
 {
     return work->flags.bits.anmStopFlag;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Compound-OR of the 2-bit
@@ -1920,7 +1868,6 @@ void MCSS_SetAnmStopFlag(McssWork *work)
     work->flags.bits.anmStopFlag |= 1;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Sets bit 10 of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -1931,7 +1878,6 @@ void MCSS_SetAnmStopFlagAlways(McssWork *work)
 {
     work->flags.bits.anmStopFlag |= 2;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Compound-AND of the 2-bit
@@ -1945,7 +1891,6 @@ void MCSS_ResetAnmStopFlag(McssWork *work)
     work->flags.bits.anmStopFlag &= ~1u;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Clears bit 10 of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -1956,7 +1901,6 @@ void MCSS_ResetAnmStopFlagAlways(McssWork *work)
 {
     work->flags.bits.anmStopFlag &= ~2u;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Reads bit 11 of the control word at +0x140.
@@ -1969,7 +1913,6 @@ int MCSS_GetVanishFlag(McssWork *work)
     return work->flags.bits.vanishFlag;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Sets bit 11 (0x800) of the
  * 32-bit register at +0x140. Pairs with MCSS_ResetVanishFlag, which clears it.
@@ -1981,7 +1924,6 @@ void MCSS_SetVanishFlag(McssWork *work)
     /* stand-in: volatile keeps the word read-modify-write of the original */
     *(volatile u32 *)&work->flags.raw |= 0x800u;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (saves nothing, so disasm.py emits
@@ -2000,7 +1942,6 @@ void MCSS_ResetVanishFlag(McssWork *work)
     *(volatile u32 *)&work->flags.raw &= 0xFFFFF7FFu;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Toggles bit 11 of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -2011,7 +1952,6 @@ void MCSS_FlipVanishFlag(McssWork *work)
 {
     work->flags.bits.vanishFlag = work->flags.bits.vanishFlag ^ 1;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Returns the address
@@ -2024,24 +1964,20 @@ void *MCSS_GetAnimCtrl(McssWork *work)
     return &work->animCtrl;
 }
 
-
 u16 MCSS_GetAnimSeqNum(McssWork *work)
 {
     return *(u16 *)work->multiCellAnimBank;
 }
-
 
 u8 MCSS_GetStopCellNum(McssWork *work)
 {
     return work->stopCellTable[0];
 }
 
-
 u8 MCSS_GetStopCellIndex(McssWork *work, u8 i)
 {
     return (work->stopCellTable + i)[2];
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the u16 at
@@ -2053,7 +1989,6 @@ u16 MCSS_GetSizeX(McssWork *work)
     return work->cellHeader->sizeX;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the u16 at
  * +6 of the table the word at +0x2C points to (`ldrh` proves unsigned).
@@ -2064,7 +1999,6 @@ u16 MCSS_GetSizeY(McssWork *work)
 {
     return work->cellHeader->sizeY;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the s16 at
@@ -2078,7 +2012,6 @@ s16 MCSS_GetOfsX(McssWork *work)
     return work->cellHeader->ofsX;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the s16 at
  * +0xA of the table the word at +0x2C points to; sibling of
@@ -2091,7 +2024,6 @@ s16 MCSS_GetOfsY(McssWork *work)
     return work->cellHeader->ofsY;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Reads byte 1 of the record behind the pointer at +0x30.
  * Filed as the witness for an ov094 caller.
@@ -2102,7 +2034,6 @@ u8 MCSS_GetStopCellFlags(McssWork *work)
 {
     return work->stopCellTable[1];
 }
-
 
 /*
  * A pure forwarder: tail-calls NNS_G2dSetCellAnimationParam on a member 0x34 bytes into
@@ -2122,12 +2053,10 @@ int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unu
     NNS_G2dSetCellAnimationParam((int)&work->animCtrl, 1, callback, callbackWork);
 }
 
-
 void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback)
 {
     NNSi_G2dMCEnumAnimBank(&work->cellCtrl, callback, flags);
 }
-
 
 /*
  * Unlabelled Thumb function in the ARM9 module (mcss.c). Starts the
@@ -2165,7 +2094,6 @@ void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color
     }
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Reads the low byte of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -2177,7 +2105,6 @@ u8 MCSS_GetAlpha(McssWork *work)
     return work->flags.bits.alpha;
 }
 
-
 /*
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
  * witness (ov117 func_021D49F4): the low byte of the word at +0x140.
@@ -2187,7 +2114,6 @@ void MCSS_SetAlpha(McssWork *work, int alpha)
 {
     work->flags.raw = (work->flags.raw & ~0xFF) | (unsigned char)alpha;
 }
-
 
 /*
  * Unlabelled leaf accessor, the follower of MCSS_SetAlpha: a 9-bit field at
@@ -2199,7 +2125,6 @@ void MCSS_SetShadowAlpha(McssWork *work, int alpha)
     work->flags.raw = (work->flags.raw & 0xFF803FFF) | ((alpha & 0x1FF) << 14);
 }
 
-
 /*
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
  * witness.  Addresses are Black-image addresses.
@@ -2208,7 +2133,6 @@ void MCSS_SetShadowVanishFlag(McssWork *work, int flag)
 {
     work->flags.raw = (work->flags.raw & 0xFF7FFFFF) | ((flag & 1) << 23);
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Tests bit 12 of the
@@ -2225,7 +2149,6 @@ int MCSS_CheckPaletteFade(McssWork *work)
     return 0;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Stores its second
  * argument into the word at +0x30. Seeded from overlay call sites.
@@ -2237,18 +2160,16 @@ void MCSS_SetTextureTransAdrs(McssSys *sys, u32 adrs)
     sys->texTransAdrs = adrs;
 }
 
-
 void MCSS_SetPaletteTransAdrs(McssSys *sys, unsigned int adrs)
 {
     sys->plttTransAdrs = adrs;
 }
 
-
 /*
  * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
  *           every relocation site resolves and match.py one reports EXACT*.
  *
- * Reconfigures the object: derives a value from func_020627D8 on field
+ * Reconfigures the object: derives a value from NNS_G2dGetAnimSequenceByIdx on field
  * +0x28 and a caller-supplied flag truncated to 16 bits (the explicit
  * lsls/lsrs #0x10 pair in the original is exactly that narrowing cast in
  * the callee, not something the caller is trusted to have done), releases
@@ -2271,7 +2192,7 @@ void MCSS_SetPaletteTransAdrs(McssSys *sys, unsigned int adrs)
  */
 void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex)
 {
-    void *seq = func_020627D8(work->multiCellAnimBank, (u16)animeIndex);
+    void *seq = NNS_G2dGetAnimSequenceByIdx(work->multiCellAnimBank, (u16)animeIndex);
 
     if (work->animWork != 0) {
         func_020307B0(work->animWork);
@@ -2281,7 +2202,6 @@ void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex)
     NNS_G2dSetAnimSequenceToMCAnimation(&work->animCtrl, seq);
     work->requestFlags.raw &= ~1u;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Reads bits 24..27 of the control word at +0x140.
@@ -2293,7 +2213,6 @@ u8 MCSS_GetMosaic(McssWork *work)
 {
     return work->flags.bits.mosaic;
 }
-
 
 /*
  * Updates a packed 4-bit mode field at b+0x140 (bits 24-27 of that word;
@@ -2326,18 +2245,15 @@ void MCSS_SetMosaic(McssSys *sys, McssWork *work, int mosaic)
     }
 }
 
-
 void MCSS_SetGlobalScale(McssSys *sys, unsigned int scale)
 {
     sys->globalScale = scale;
 }
 
-
 void MCSS_SetAnimeSpeed(McssWork *work, int speed)
 {
     work->animeSpeed = speed;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Reads the halfword behind the pointer at +0x28.
@@ -2349,7 +2265,6 @@ u16 MCSS_GetAnimSeqNumEx(McssWork *work)
 {
     return *(u16 *)work->multiCellAnimBank;
 }
-
 
 /*
  * mcss.c: builds the per-scene fade/transition context.  Three debug
@@ -2442,7 +2357,6 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
     work->flags.raw |= 0x10000000;
 }
 
-
 void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
 {
     McssTransTask *task;
@@ -2484,7 +2398,6 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     work->flags.raw &= 0xEFFFFFFF;
 }
 
-
 /*
  * A single matched function.
  *
@@ -2500,7 +2413,6 @@ void MCSS_RestartAnime(McssWork *work)
 {
     NNS_G2dRestartMCAnimation(&work->animCtrl);
 }
-
 
 /*
  * Set bit 0 of the word at +0x144: read, clear, set, write back.  The two
@@ -2522,7 +2434,6 @@ void MCSS_RequestAnimeStopAtStart(McssWork *work)
     work->requestFlags.raw = flags;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Sets bit 30 of the control word at +0x140.
  * Filed as the witness for an ov094 caller.
@@ -2533,7 +2444,6 @@ void MCSS_SetWorkFlag(McssWork *work, int flag)
 {
     work->flags.bits.mepachiDrawLast = flag;
 }
-
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Stores a word at +0x48.
@@ -2546,7 +2456,6 @@ void MCSS_SetSysParam(McssSys *sys, int depthStep)
     sys->depthStep = depthStep;
 }
 
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Sets bit 1 of the flag word at +0x2C.
  * Filed as the witness for an ov094 caller.
@@ -2557,7 +2466,6 @@ void MCSS_SetSysFlag(McssSys *sys, int flag)
 {
     sys->flags.bits.nearDepthRange = flag;
 }
-
 
 /*
  * The mcss.c bind-slot routine (line 0x840).  Closed in wave 15 from 16
@@ -2591,8 +2499,8 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     }
 
     work->flags.raw &= 0xFFFFDFFF;
-    func_02063790((u32 *)&work->texImage);
-    func_020637D4((u32 *)&work->plttProxy);
+    NNSi_G2dInitVramHandle((u32 *)&work->texImage);
+    NNSi_G2dInitVramHandleEx((u32 *)&work->plttProxy);
 
     work->cellFile = ARC_UTIL_LoadCellBankFromArchive(addWork->arcId, addWork->cellMember, 0, &work->cellBank, heap);
     work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromArchive(addWork->arcId, addWork->cellAnimMember, 1, &work->cellAnimBank, heap);
@@ -2649,7 +2557,6 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     }
 }
 
-
 /*
  * The mcss.c rebind routine (line 0x8AB), twin of MCSS_LoadResource.  Closed
  * in wave 15 from 21 bytes out by the same declaration: the descriptor
@@ -2667,8 +2574,8 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
 
     arcHandle = sys->arcHandle;
     work->flags.raw &= 0xFFFFDFFF;
-    func_02063790((u32 *)&work->texImage);
-    func_020637D4((u32 *)&work->plttProxy);
+    NNSi_G2dInitVramHandle((u32 *)&work->texImage);
+    NNSi_G2dInitVramHandleEx((u32 *)&work->plttProxy);
 
     work->cellFile = ARC_UTIL_LoadCellBankFromHandle(arcHandle, addWork->cellMember, 0,
                                    &work->cellBank,
@@ -2730,7 +2637,6 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     }
 }
 
-
 void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
 {
     if (task->hasTaskSys == 0) {
@@ -2740,8 +2646,8 @@ void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
             return;
     }
     if (task->texBuf != 0) {
-        func_02063A54(task->texData, task->texDest, 0, task->texImageOut);
-        sub_020307B0(task->texBuf);
+        NNSi_G2dLoadVramResourceSub(task->texData, task->texDest, 0, task->texImageOut);
+        GFL_HEAP_Free(task->texBuf);
         if (task->work->flags.bits.mosaic == 0) {
             task->texBuf = 0;
             return;
@@ -2750,17 +2656,16 @@ void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
     if (task->work != 0)
         task->work->flags.raw |= 0x2000;
     if (task->plttBuf != 0) {
-        func_02063E54(task->plttData, task->plttDest, 0, task->plttProxyOut);
-        sub_020307B0(task->plttBuf);
+        NNSi_G2dLoadVramResourceBySel(task->plttData, task->plttDest, 0, task->plttProxyOut);
+        GFL_HEAP_Free(task->plttBuf);
     }
     if (task->work != 0)
         task->work->textureTask = 0;
     if (task->sys != 0 && task->sys->shadowPlttTask != 0)
         task->sys->shadowPlttTask = 0;
-    sub_020307B0(task);
-    sub_02030EAC(taskHandle);
+    GFL_HEAP_Free(task);
+    TCB_DeleteTask(taskHandle);
 }
-
 
 void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task)
 {
@@ -2770,20 +2675,19 @@ void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task)
         if (scanline < 0xc0 || scanline > 0xc8)
             return;
     }
-    func_020637D4((u32 *)task->plttProxyOut);
-    func_02063E54(task->plttData, task->plttDest, 0, task->plttProxyOut);
+    NNSi_G2dInitVramHandleEx((u32 *)task->plttProxyOut);
+    NNSi_G2dLoadVramResourceBySel(task->plttData, task->plttDest, 0, task->plttProxyOut);
     if (task->work != 0) {
         if (task->work->fadeTask == taskHandle)
             task->work->fadeTask = 0;
         if (task->work->paletteTask == taskHandle)
             task->work->paletteTask = 0;
     }
-    sub_020307B0(task->plttData->data);
-    sub_020307B0(task->plttData);
-    sub_020307B0(task);
-    sub_02030EAC(taskHandle);
+    GFL_HEAP_Free(task->plttData->data);
+    GFL_HEAP_Free(task->plttData);
+    GFL_HEAP_Free(task);
+    TCB_DeleteTask(taskHandle);
 }
-
 
 /*
  * A two-call registrar.  The first call is five arguments wide: the value
@@ -2812,7 +2716,6 @@ void MCSS_InitAnimCtrl(McssWork *work, int kind)
                   work->cellBank, work->multiCellBank, kind);
 }
 
-
 /*
  * A single matched function.
  *
@@ -2831,7 +2734,6 @@ void MCSS_InitEdgeColor(void)
     *(volatile u32 *)0x040004C0 = v;
     *(volatile u32 *)0x040004C4 = v >> 16;
 }
-
 
 /*
  * Closed in the second pass (2026-09-22) from the 4-byte near miss in
@@ -2928,7 +2830,6 @@ dec:
     work->fadeWait = work->fadeWait - 1;
 }
 
-
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -2984,7 +2885,6 @@ void MCSS_FreeResource(McssWork *work)
     }
 }
 
-
 void MCSS_DeleteTextureTask(void *taskHandle)
 {
     McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
@@ -2999,7 +2899,6 @@ void MCSS_DeleteTextureTask(void *taskHandle)
     func_02030EAC(taskHandle);
 }
 
-
 void MCSS_DeletePaletteTask(void *taskHandle)
 {
     McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
@@ -3008,7 +2907,6 @@ void MCSS_DeletePaletteTask(void *taskHandle)
     func_020307B0(task);
     func_02030EAC(taskHandle);
 }
-
 
 /*
  * mcss.c, the two-pass nibble fill over the 0x30-byte cell records of work->cellHeader.
@@ -3262,7 +3160,6 @@ void MCSS_ApplyMosaic(McssWork *work, McssTransTask *task)
 
 }
 
-
 /*
  * 310 bytes, one function, and two bytes of linker fill after it before the
  * next function at 0x02017100; the range this entry owns is 0x02016FC8 plus
@@ -3361,7 +3258,6 @@ void MCSS_MulVecMtx44(const VecFx32 *v, const MtxFx44 *mtx,
     *w = r + mtx->m[3][3];
 }
 
-
 /*
  * The first of two parallel fillers of the same nine word record.
  * MCSS_TOOL_MakeAddWorkFromParam builds it from the five values MCSS_TOOL_MakeAddWorkFromPPP reads out of the
@@ -3383,7 +3279,6 @@ void MCSS_TOOL_MakeAddWorkFromPP(void *pp, McssAddWork *out, u32 direction)
     MCSS_TOOL_MakeAddWorkFromPPP(POKE_TOOL_GetBoxParam(pp), out, direction);
 }
 
-
 void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction)
 {
     u32 species = func_02017E88(pokemon, 5, 0);
@@ -3394,7 +3289,6 @@ void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction
 
     MCSS_TOOL_MakeAddWorkFromParam(species, form, gender, isShiny, isEgg, out, direction);
 }
-
 
 void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out,
                    u32 direction)
@@ -3409,7 +3303,6 @@ void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShi
     out->cellHeaderMember = POKEGRA_GetNcecArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
     out->heapMode = 0;
 }
-
 
 /*
  * Promoted from src/pending/ during a shard verify sweep: all six of its
@@ -3441,7 +3334,6 @@ void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void
     out->heapMode = 1;
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/MCSS_TOOL_AddPokeMcss.c \
@@ -3455,7 +3347,6 @@ McssWork *MCSS_TOOL_AddPokeMcss(McssSys *sys, void *pp, u32 direction, fx32 x, f
     MCSS_TOOL_MakeAddWorkFromPP(pp, &addWork, direction);
     return MCSS_Add(sys, x, y, z, &addWork);
 }
-
 
 /*
  * A four-instruction tail call: the second argument is replaced by a function
@@ -3481,7 +3372,6 @@ void MCSS_TOOL_SetSpindaSpotHook(McssSys *sys, u32 personality)
     MCSS_SetLoadHook(sys, MCSS_TOOL_SpindaSpotHook, personality);
 }
 
-
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/MCSS_TOOL_SpindaSpotHook.c \
@@ -3494,7 +3384,6 @@ u32 MCSS_TOOL_SpindaSpotHook(const McssAddWork *addWork, McssTransTask *task, u3
     }
     return 1;
 }
-
 
 /*
  * mcss.c.  Walks four (x, y) offset lists and bumps the matching nibble of
@@ -3551,9 +3440,7 @@ void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality)
     }
 }
 
-
 int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = MCSS_SetAnimCallback(work, (u32)(work + 0), (u32)0x20173C9, (u32)1); return ret; }
-
 
 /*
  * A four-byte tail call: the pool word 0x02016381 (Thumb) is loaded and

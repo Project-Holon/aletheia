@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008B08, sub_02008B14, sub_02008B20
+ * function: CONSOLE_STAMP_GetFromSave, CONSOLE_STAMP_GetDailyClock, CONSOLE_STAMP_SetIdentity
  *
  * symbols:
  *   OS_GetMacAddress      0x02087C6C  arm
@@ -94,12 +94,12 @@ struct Sub02008AECObj {
     u8  unk48[0x14];
 };
 
-struct Sub02008AECObj *sub_02008B08(void *sys)
+struct Sub02008AECObj *CONSOLE_STAMP_GetFromSave(void *sys)
 {
     return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
-struct Sub02008AECSession *sub_02008B14(void *sys)
+struct Sub02008AECSession *CONSOLE_STAMP_GetDailyClock(void *sys)
 {
     struct Sub02008AECObj *obj = SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 
@@ -107,7 +107,7 @@ struct Sub02008AECSession *sub_02008B14(void *sys)
 }
 
 /* Stamp the block with this console's identity. */
-void sub_02008B20(struct Sub02008AECObj *obj)
+void CONSOLE_STAMP_SetIdentity(struct Sub02008AECObj *obj)
 {
     struct OSOwnerInfo info;
 

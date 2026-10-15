@@ -11,7 +11,7 @@
  * symbols:
  * MI_CpuFill8 0x02082BCC arm
  * BG_SYS_ClearGraphicsMemory 0x0204335C arm
- * func_0204363C 0x0204363C arm
+ * BMP_SetDisplaySwap 0x0204363C arm
  * BG_SYS_ResetSubDisplay 0x0204361C arm
  * BG_SYS_SetVramBanks 0x020433E0 arm
  * IRC_COMPATIBLE_MENU_InitSprites 0x021B7AB4 thumb ov102
@@ -22,7 +22,7 @@
 #include "../include/Obj22140.h"
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
-extern void func_0204363C(unsigned);
+extern void BMP_SetDisplaySwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -37,7 +37,7 @@ void IRC_COMPATIBLE_MENU_InitDisplay(char *p,unsigned b) {
  *(volatile unsigned *)0x04000000 &= ~0xe000;
  *(volatile unsigned *)0x04001000 &= ~0xe000;
  BG_SYS_ClearGraphicsMemory(0);
- func_0204363C(0);
+ BMP_SetDisplaySwap(0);
  BG_SYS_ResetSubDisplay();
  BG_SYS_SetVramBanks((const struct DispVram *)IRC_COMPATIBLE_MENU_VramBankConfig);
  IRC_COMPATIBLE_MENU_InitSprites(p,IRC_COMPATIBLE_MENU_VramBankConfig,b);

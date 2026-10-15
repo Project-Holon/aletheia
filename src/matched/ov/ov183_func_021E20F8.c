@@ -1,5 +1,5 @@
 /*
- * function: func_021E20F8
+ * function: BR_CODEIN_SaveMain
  * address: 0x021E20F8
  * packet: pkt_ov183_021E20F8
  * region: ov183
@@ -25,7 +25,7 @@ extern void BR_UTIL_RunHandles(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BR_UTIL_FlushWindow(void *p);
 extern int BR_UTIL_FlushText(u8 *p);
-int func_021E20F8(int a,int b,int c,char *p)
+int BR_CODEIN_SaveMain(int a,int b,int c,char *p)
 {
     int i;
     BR_UTIL_RunTask((u8 *)(((struct Obj06612 *)p)->f8));

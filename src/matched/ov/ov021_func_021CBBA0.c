@@ -1,5 +1,5 @@
 /*
- * function: func_021CBBA0
+ * function: BSUBWAY_SCR_GetMmdlParam
  * address:  0x021CBBA0
  * packet:   pkt_ov021_021CBBA0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern int FLDMMDL_GetParam(char *a0, int a1);
 
-u32 func_021CBBA0(u32 a)
+u32 BSUBWAY_SCR_GetMmdlParam(u32 a)
 {
     return FLDMMDL_GetParam((char *)a, 1);
 }

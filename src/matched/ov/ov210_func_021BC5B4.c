@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5B4
+ * function: ZKNSEARCH_MAIN_ShowLayerSetA
  * address:  0x021BC5B4
  * packet:   pkt_021BC5B4
  * region:   ov210
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- * blocker: +0006 THM_CALL func_0204047C       -> unresolved: 0204047C (arm, from name) has no witness outside 021BC5B4..021BC5C8
+ *   BG_SYS_SetVisibleLayer  0x0204047C  arm  arm9
+ * blocker: +0006 THM_CALL BG_SYS_SetVisibleLayer       -> unresolved: 0204047C (arm, from name) has no witness outside 021BC5B4..021BC5C8
  * Addresses are Black-image addresses.
  */
 
@@ -19,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0204047C(int idx, unsigned short val);
+extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 
-void func_021BC5B4(u32 a0)
+void ZKNSEARCH_MAIN_ShowLayerSetA(u32 a0)
 {
-    func_0204047C(0, 1);
-    func_0204047C(1, 0);
+    BG_SYS_SetVisibleLayer(0, 1);
+    BG_SYS_SetVisibleLayer(1, 0);
 }
 

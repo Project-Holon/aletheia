@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021350  0x02021350  thumb
+ *   FILE_UTIL_GetMachineIndex  0x02021350  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
@@ -29,7 +29,7 @@ typedef struct Obj {
     unsigned int f84C;
 } Obj;
 
-extern u8 func_02021350(u16 id);
+extern u8 FILE_UTIL_GetMachineIndex(u16 id);
 typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -39,7 +39,7 @@ extern void ITEMMENU_TaskStartRegisterResult(int p);
 
 void ITEMMENU_TaskUseNoticeMessage(Obj *o)
 {
-    if (func_02021350(o->f84C) == 0xFF)
+    if (FILE_UTIL_GetMachineIndex(o->f84C) == 0xFF)
         MSGDATA_ReadString(o->f51C, 0x3C, (void *)o->f528);
     else
         MSGDATA_ReadString(o->f51C, 0x3D, (void *)o->f528);

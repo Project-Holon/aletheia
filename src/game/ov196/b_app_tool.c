@@ -15,7 +15,7 @@
  * extent: intended code is 66 bytes; the handed tail is zero alignment and b_sap_ptool.c string data, not follower code.
  *
  * symbols:
- *   sub_02030734 0x02030734 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_0220B100 0x0220B100 data a4
  *   func_020307B0 0x020307B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -61,7 +61,7 @@ typedef short s16_0220B07C;
 
 typedef struct {int handle;unsigned char active;unsigned char pad[3];} Entry;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern int CLACT_CreateActor(int, int, int, int, void *, int, u16);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
@@ -88,11 +88,11 @@ void B_APP_TOOL_Update(Entry *p,int b,unsigned n);
 extern const char d_0220B100[];
 
 
-u8 *B_APP_TOOL_Create(u16 v) { u8 *p; p=sub_02030734(v,24,0,d_0220B100,43); ((struct Obj14539 *)p)->f10=v; ((struct Obj14539 *)p)->f14=1; return p; }
+u8 *B_APP_TOOL_Create(u16 v) { u8 *p; p=GFL_HEAP_Alloc(v,24,0,d_0220B100,43); ((struct Obj14539 *)p)->f10=v; ((struct Obj14539 *)p)->f14=1; return p; }
 
 
 /*
- * leaf: parent-cleared sole blocker of ov197 func_0220D3B0; eight-byte tail stub.
+ * leaf: parent-cleared sole blocker of ov197 B_BAG_MAIN_StateExit; eight-byte tail stub.
  */
 void B_APP_TOOL_Delete(void *p)
 {

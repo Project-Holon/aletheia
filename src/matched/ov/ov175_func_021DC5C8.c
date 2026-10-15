@@ -1,5 +1,5 @@
 /*
- * function: func_021DC5C8
+ * function: WIFIBATTLEMATCH_NET_CleanupDownload
  * address:  0x021DC5C8
  * packet:   pkt_021DC5C8
  * region:   ov175
@@ -15,7 +15,7 @@
  * symbols:
  *   NHTTP_RAP_DeleteConnection   0x021B9774  thumb  ov114
  *   NHTTP_RAP_Destroy   0x021B9838  thumb  ov114
- *   func_021DAE18   0x021DAE18  thumb  ov175
+ *   WIFIBATTLEMATCH_NET_ShutdownReport   0x021DAE18  thumb  ov175
  *
  * Kind 3 or 6 teardown of the +0x121c sub-object: its handle is unregistered
  * from both pools, the slot cleared, and the object recomputed.
@@ -27,9 +27,9 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void NHTTP_RAP_Destroy(u8 *p);
-extern void func_021DAE18(char *obj);
+extern void WIFIBATTLEMATCH_NET_ShutdownReport(char *obj);
 
-void func_021DC5C8(void *p, int unused, int kind)
+void WIFIBATTLEMATCH_NET_CleanupDownload(void *p, int unused, int kind)
 {
     if (kind != 3 && kind != 6)
         return;
@@ -38,5 +38,5 @@ void func_021DC5C8(void *p, int unused, int kind)
         NHTTP_RAP_Destroy((u8 *)(((struct Obj03320 *)p)->f121C));
         ((struct Obj03320 *)p)->f121C = 0;
     }
-    func_021DAE18(p);
+    WIFIBATTLEMATCH_NET_ShutdownReport(p);
 }

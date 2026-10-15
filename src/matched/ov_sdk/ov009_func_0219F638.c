@@ -12,7 +12,7 @@
  * sdk:      SBServerListAppendServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_02184234  0x02184234  arm  ov009
+ *   ArrayAppend  0x02184234  arm  ov009
  */
 
 struct SBServer;
@@ -25,10 +25,10 @@ struct SBServerList {
     void *instance;
 };
 
-extern void func_02184234(void *array, void *newElem);
+extern void ArrayAppend(void *array, void *newElem);
 
 void SBServerListAppendServer(struct SBServerList *slist, struct SBServer *server)
 {
-    func_02184234(slist->servers, &server);
+    ArrayAppend(slist->servers, &server);
     slist->ListCallback(slist, 0, server, slist->instance);
 }

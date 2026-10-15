@@ -10,16 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217EAE0  0x_0217EAE0  arm  ov009
+ *   gsifree  0x0217EAE0  arm  ov009
+ *   gsifree  0x_0217EAE0  arm  ov009
  *
  * ARM tail jump into 0x0217EAE0 (ov009); every register is forwarded, so
  *  *  the body is the call alone and nothing is saved.
  */
 
-extern void func_0217EAE0(void);
+extern void gsifree(void);
 
 void sakeShutdown(void *sake)
 {
-    func_0217EAE0();
+    gsifree();
 }
 

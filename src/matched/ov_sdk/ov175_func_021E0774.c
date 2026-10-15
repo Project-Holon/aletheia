@@ -20,7 +20,7 @@
  *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
  *   gsXmlCloseWriter  0x02181DE8  arm  ov009
  *   gsXmlFreeWriter  0x02181D84  arm  ov009
- *   func_0217FD7C  0x0217FD7C  arm  ov009
+ *   gsiExecuteSoap  0x0217FD7C  arm  ov009
  *   sciWsCreateSessionCallback  0x021E08E8  arm  ov175
  *   gSciSoapNamespaces  0x021E41B8  data
  *   sSciNamespaceGsc  0x021E41E4  data
@@ -68,7 +68,7 @@ extern int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *t
 extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int gsXmlCloseWriter(void *stream);
 extern void gsXmlFreeWriter(void **p);
-extern void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap, void (*cb)(int, void *, void *, void *), void *theUserData);
+extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, void (*cb)(int, void *, void *, void *), void *theUserData);
 extern void sciWsCreateSessionCallback(int theHttpResult, int unused, void *theResponseData, void *theUserData);
 extern char *gSciSoapNamespaces[1];
 extern char sSciNamespaceGsc[];
@@ -104,6 +104,6 @@ int sciWsCreateSession(SCWebServices *theWebServices, unsigned int theGameId, GS
     theWebServices->mCreateSessionCallback = theCallback;
     theWebServices->mCreateSessionUserData = theUserData;
     theWebServices->mCreateSessionPending = 1;
-    func_0217FD7C(gScStatsServiceUrl, sSciSoapActionCreateSession, aRequest, (void (*)(int, void *, void *, void *))sciWsCreateSessionCallback, theWebServices);
+    gsiExecuteSoap(gScStatsServiceUrl, sSciSoapActionCreateSession, aRequest, (void (*)(int, void *, void *, void *))sciWsCreateSessionCallback, theWebServices);
     return 0;
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020419E4 0x020419E4 arm
+ *   BG_SYS_Update 0x020419E4 arm
  */
-extern void func_020419E4(void *);
-void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { func_020419E4(p); }
+extern void BG_SYS_Update(void *);
+void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { BG_SYS_Update(p); }

@@ -16,7 +16,7 @@
  * is set, run the hook again in mode 3, and advance the cursor by 9.
  *
  * PIN ../2.0/sp2: the re-read/forward tell (the NNSi_G3dAnmObjInitNsBva /
- * func_02068EA0 family of docs/FRONTEND-PINS.md).  The hook dispatch appears
+ * NNSi_G2dCharCanvasDrawChar family of docs/FRONTEND-PINS.md).  The hook dispatch appears
  * twice, at 0x0206D308..0x0206D31C and 0x0206D39C..0x0206D3B0, and both times
  * the image loads the hook pointer AFTER the flag store has retired:
  *   ldr r1, [r5, #8]  / mov r0, r5 / bic r1, r1, #0x40 /

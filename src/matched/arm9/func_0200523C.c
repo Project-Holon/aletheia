@@ -52,6 +52,7 @@
  *   GFL_NET_SetupHeaps  0x0203CB34  arm
  *   CONFIG_InitKeyControlTable  0x020082DC  thumb
  *   MSG_SPEED_SetSaveControl  0x02012FF0  thumb
+ *   WORDSET_LoadSpeciesNameBank  0x0201F344  thumb
  */
 
 typedef unsigned char u8;
@@ -76,7 +77,7 @@ extern void MSG_SPEED_SetSaveControl(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
 extern void SAVEDATA_SetFailHook(u32 a0);
-extern void func_0201F344(u16 heap);
+extern void WORDSET_LoadSpeciesNameBank(u16 heap);
 extern void POKE_TOOL_InitSystem(u32 heap);
 extern void GFL_USE_InitSound(void);
 extern void PM_VOICE_Init(u16 a0, u32 a1, u32 a2);
@@ -108,7 +109,7 @@ void GFL_USE_InitGameSystems(void)
     func_0200F6B8();
     func_0200F6D8(8);
     SAVEDATA_SetFailHook((u32)&func_0200FB6C);
-    func_0201F344(0);
+    WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
     PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);

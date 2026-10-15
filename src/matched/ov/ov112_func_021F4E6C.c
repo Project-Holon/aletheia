@@ -1,5 +1,5 @@
 /*
- * function: func_021F4E6C
+ * function: MUSICAL_MCSS_SetElemVisible
  * address: 0x021F4E6C
  * packet: pkt_ov112_021F4E6C
  * region: ov112
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
-void func_021F4E6C(u8 *p,u8 *e,u32 value) { BILLBOARD_SetElemVisible(((struct Obj22523 *)p)->f4,((struct Obj13827 *)e)->f8,&value); ((struct Obj13827 *)e)->f0 |=2; }
+void MUSICAL_MCSS_SetElemVisible(u8 *p,u8 *e,u32 value) { BILLBOARD_SetElemVisible(((struct Obj22523 *)p)->f4,((struct Obj13827 *)e)->f8,&value); ((struct Obj13827 *)e)->f0 |=2; }

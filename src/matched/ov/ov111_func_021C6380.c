@@ -1,5 +1,5 @@
 /*
- * function: func_021C6380
+ * function: VIEWER_TEXT_PrintColorAt
  * address:  0x021C6380
  * packet:   pkt_ov111_021C6380
  * region:   ov111
@@ -31,7 +31,7 @@ typedef struct {
     void *f31FC;
 } Work;
 
-void func_021C6380(void *a, Work *p, int x, int y, void *s, int idx)
+void VIEWER_TEXT_PrintColorAt(void *a, Work *p, int x, int y, void *s, int idx)
 {
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x, y, s, p->f31FC, d_021C8768[idx]);
 }

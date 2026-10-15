@@ -24,12 +24,12 @@
  *
  * symbols:
  *   d_02146A88  0x02146A88  data
- *   func_02057EF8  0x02057EF8  arm
- *   func_02057F8C  0x02057F8C  arm
- *   func_020580A8  0x020580A8  arm
- *   func_02058180  0x02058180  arm
- *   func_02058204  0x02058204  arm
- *   func_020582CC  0x020582CC  arm
+ *   SPL_EMITTER_LerpVec  0x02057EF8  arm
+ *   SPL_EMITTER_InterpTarget  0x02057F8C  arm
+ *   SPL_EMITTER_BuildFrame  0x020580A8  arm
+ *   SPL_EMITTER_AddScaledVec  0x02058180  arm
+ *   SPL_EMITTER_UpdateNode  0x02058204  arm
+ *   SPL_EMITTER_AddVec  0x020582CC  arm
  *   NNS_GfdDefaultFuncAllocTexVram   0x020A8140  data
  *   g_pParticleMan   0x02146A88  data
  *   NNS_GfdDefaultFuncAllocPlttVram   0x020A8148  data
@@ -184,12 +184,12 @@ struct ButtonMan {
 };
 
 /* Rows of the 3D rig; only their addresses are compared. */
-extern void func_02057EF8(void *a, void *b);
-extern void func_02057F8C(void *a, void *s, int unused, void *c);
-extern void func_020580A8(void *o, u8 *dst);
-extern void func_02058180(void *a, void *b, int *c);
-extern void func_02058204(void *o, void *s, int *dst);
-extern void func_020582CC(void *o, void *s, int *dst);
+extern void SPL_EMITTER_LerpVec(void *a, void *b);
+extern void SPL_EMITTER_InterpTarget(void *a, void *s, int unused, void *c);
+extern void SPL_EMITTER_BuildFrame(void *o, u8 *dst);
+extern void SPL_EMITTER_AddScaledVec(void *a, void *b, int *c);
+extern void SPL_EMITTER_UpdateNode(void *o, void *s, int *dst);
+extern void SPL_EMITTER_AddVec(void *o, void *s, int *dst);
 extern u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
 extern int NNSi_GfdDefaultAllocTexVram(int a, int b, int c);
 extern void *G2_GetBG0CharPtr(void);
@@ -506,27 +506,27 @@ void *BUTTON_MAN_FindRowData(struct Obj3D *obj, int kind)
             continue;
         switch (kind) {
         case 0:
-            if (e->fn == (void *)func_020582CC)
+            if (e->fn == (void *)SPL_EMITTER_AddVec)
                 return e->data;
             break;
         case 1:
-            if (e->fn == (void *)func_02058204)
+            if (e->fn == (void *)SPL_EMITTER_UpdateNode)
                 return e->data;
             break;
         case 2:
-            if (e->fn == (void *)func_02058180)
+            if (e->fn == (void *)SPL_EMITTER_AddScaledVec)
                 return e->data;
             break;
         case 3:
-            if (e->fn == (void *)func_020580A8)
+            if (e->fn == (void *)SPL_EMITTER_BuildFrame)
                 return e->data;
             break;
         case 4:
-            if (e->fn == (void *)func_02057F8C)
+            if (e->fn == (void *)SPL_EMITTER_InterpTarget)
                 return e->data;
             break;
         case 5:
-            if (e->fn == (void *)func_02057EF8)
+            if (e->fn == (void *)SPL_EMITTER_LerpVec)
                 return e->data;
             break;
         default:
@@ -695,7 +695,7 @@ u32 BUTTON_MAN_AppendList1(u32 a, u32 b)
 
 /*
  * ARM leaf, seeded 2026-09-27 from the ov195 call site 0x02208954
- * (func_0220887C). Returns the u16 at +8 of its argument.
+ * (SHINKA_DEMO_EFFECT_CreateParticle). Returns the u16 at +8 of its argument.
  *
  * Addresses are Black-image addresses.
  */
@@ -1154,7 +1154,7 @@ void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst)
  *     permuter mutation moves (164 single mutations tried, none improved,
  *     and ten hand spellings before that).  Written inline, the compiler
  *     materialises the seed first and colours it r5 exactly as the image
- *     does.  This is the same lever that closed func_02052770 in this
+ *     does.  This is the same lever that closed SPL_EMITTER_FreeTexNode in this
  *     cluster: hoisting an address-of into a named local gives that value
  *     the lower colour and displaces the values the image wanted there.
  *

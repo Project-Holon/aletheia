@@ -1,5 +1,5 @@
 /*
- * function: func_0218A0E4
+ * function: gpiProcessCallbacks
  * address:  0x0218A0E4
  * packet:   pkt_ov009_0218A0E4
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      gpiProcessCallbacks (gpicallback.o)
  *
  * symbols:
- *   func_02189EA0  0x02189EA0  arm   ov009
+ *   gpiCallCallback  0x02189EA0  arm   ov009
  */
 
 typedef struct GPICallbackData {
@@ -28,9 +28,9 @@ typedef struct GPIConnection {
     GPICallbackData *lastCallback;
 } GPIConnection;
 
-extern void func_02189EA0(void **connection, GPICallbackData *data);
+extern void gpiCallCallback(void **connection, GPICallbackData *data);
 
-int func_0218A0E4(void **connection, int blockingOperationID)
+int gpiProcessCallbacks(void **connection, int blockingOperationID)
 {
     GPIConnection *iconnection;
     GPICallbackData *list;
@@ -55,7 +55,7 @@ int func_0218A0E4(void **connection, int blockingOperationID)
                     list = pnext;
                 if (last == pcurr)
                     last = pprev;
-                func_02189EA0(connection, pcurr);
+                gpiCallCallback(connection, pcurr);
             } else {
                 pprev = pcurr;
             }
@@ -73,7 +73,7 @@ int func_0218A0E4(void **connection, int blockingOperationID)
             iconnection->lastCallback = 0;
             while (list) {
                 pnext = list->pnext;
-                func_02189EA0(connection, list);
+                gpiCallCallback(connection, list);
                 list = pnext;
             }
         }

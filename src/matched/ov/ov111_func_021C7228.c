@@ -1,5 +1,5 @@
 /*
- * function: func_021C7228
+ * function: VIEWER_TEXT_InitBg
  * address:  0x021C7228
  * packet:   pkt_ov111_021C7228
  * region:   ov111
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BG_SYS_Create  0x0203F8F4  arm
- *   func_0203FC28  0x0203FC28  arm
+ *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   BG_SYS_InitRun  0x02040B94  arm
@@ -104,7 +104,7 @@ typedef struct { BgTemplate t[6]; } BgTemplates;
 
 extern void BG_SYS_Create(u16 heapId);
 struct DispConfig;
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u8 frame, const BgTemplate *t, int mode);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -114,7 +114,7 @@ extern const BankCfg d_021C895C;
 extern const BgTemplates d_021C89E0;
 extern const u32 d_021C885C[];
 
-void func_021C7228(void)
+void VIEWER_TEXT_InitBg(void)
 {
     BankCfg bank;
     BgTemplates tmpl;
@@ -122,7 +122,7 @@ void func_021C7228(void)
 
     BG_SYS_Create(0x27);
     bank = d_021C895C;
-    func_0203FC28((struct DispConfig *)(&bank));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&bank));
     tmpl = d_021C89E0;
     for (i = 0; i < 6; i++) {
         u32 v = d_021C885C[i];

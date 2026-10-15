@@ -1,5 +1,5 @@
 /*
- * function: func_021BE2F4
+ * function: ZKNSEARCH_MAIN_EnterMessageState
  * address:  0x021BE2F4
  * packet:   pkt_ov210_021BE2F4
  * region:   ov210
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c)
+u32 ZKNSEARCH_MAIN_EnterMessageState(u8 *p, u32 a, u32 b, u32 c)
 {
     p[0x2c0] = a;
     p[0x2c1] = b;

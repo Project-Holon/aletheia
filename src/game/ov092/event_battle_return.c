@@ -22,7 +22,7 @@
  *   func_0203133C 0x0203133C arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PROCSYS_Main 0x02031330 arm
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -232,7 +232,7 @@ extern struct ProcSys *PROCSYS_Create(int heapId);
 extern void func_0203133C(struct ProcSys *procSys);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void func_020315D4(struct ProcObj *proc);
-extern void func_020306F0(unsigned int heapId);
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern u32 PROCSYS_Main(struct ProcSys *procSys);
 extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatus(const struct GameData *gameData);
@@ -358,7 +358,7 @@ int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct Even
     if (work->boxFullMsg) STRBUF_Delete(work->boxFullMsg);
     STRBUF_Delete(work->nameBuf);
     func_020315D4(proc);
-    func_020306F0(EVENT_BATTLE_RETURN_HEAP_ID);
+    GFL_HEAP_DeleteChecked(EVENT_BATTLE_RETURN_HEAP_ID);
     return 1;
 }
 

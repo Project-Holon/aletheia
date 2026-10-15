@@ -1,5 +1,5 @@
 /*
- * function: func_0220B9D8
+ * function: B_BAG_MAIN_SyncCursorToItem
  * address: 0x0220B9D8
  * packet: pkt_ov197_0220B9D8
  * region: ov197
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct In { u8 sel; u8 pad[0xc]; u16 cur; } In;
 typedef struct S { u8 *d; u8 pad[0x533 - 4]; In in; } S;
-void func_0220B9D8(u8 *p)
+void B_BAG_MAIN_SyncCursorToItem(u8 *p)
 {
     unsigned int i = 0;
     u8 sel = *(u8 *)(p + 0x533);

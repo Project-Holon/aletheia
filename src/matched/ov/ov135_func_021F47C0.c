@@ -11,12 +11,12 @@
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_Nop 0x021F49A4 thumb ov135
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_02030DA4 0x02030DA4 arm
+ *   TCB_Noop 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0203133C 0x0203133C arm
  *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
  *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data a1
  *   ov114_id 0x00000072 data a1
@@ -35,13 +35,13 @@ struct S020315D4;
 struct WordSet;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern void func_02030DA4(void *);
+extern void TCB_Noop(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_0203133C(struct S020314B8 *p);
 extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(s32 handle);
 extern const u8 ov067_id[];
 extern const u8 ov114_id[];
@@ -56,13 +56,13 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, u8 *p)
     MSGDATA_Delete(((struct Obj02854 *)p)->fB6C);
     MSGDATA_Delete(((struct Obj02854 *)p)->fB7C);
     WORDSET_DeleteStrbufED04(((struct Obj02854 *)p)->fB68);
-    func_02030DA4(((struct Obj02854 *)p)->fF94);
+    TCB_Noop(((struct Obj02854 *)p)->fF94);
     func_020307B0(((struct Obj02854 *)p)->fF9C);
     func_0203133C(((struct Obj02854 *)p)->f12F0);
     func_020307B0(((struct Obj02854 *)p)->fEA8);
     WORLDTRADE_ADAPTER_ExitPrinter(p + 0xfa0);
     func_020315D4(ctx);
-    func_020306F0(0x48);
+    GFL_HEAP_DeleteChecked(0x48);
     func_02034A5C((unsigned int)ov067_id);
     func_02034A5C((unsigned int)ov114_id);
     return 1;

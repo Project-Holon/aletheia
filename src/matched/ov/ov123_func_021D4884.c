@@ -22,7 +22,7 @@
  *   func_02049740 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201F5DC 0x0201F5DC thumb
+ *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   func_02049B40 0x02049B40 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -51,7 +51,7 @@ extern u32 func_020307B0(void *p);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void *func_0201F5DC(void *, u32, u32, u32);
+extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -78,7 +78,7 @@ void GSYNC_MENU_LoadResources(char *p)
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 9, 4, 0, (u16)(((struct Obj00471 *)p)->f40), 0, 0, ((struct Obj00471 *)p)->fC);
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 14, 6, 0, (u16)(((struct Obj00471 *)p)->f40), 0, 0, ((struct Obj00471 *)p)->fC);
     ARC_TOOL_DeleteHandle(h);
-    ((struct Obj00471 *)p)->f3C = func_0201F5DC((void *)5, 12, 0, ((struct Obj00471 *)p)->fC);
+    ((struct Obj00471 *)p)->f3C = BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, ((struct Obj00471 *)p)->fC);
     func_02049B40(23, 5, 4, 0x1a0, 32, ((struct Obj00471 *)p)->fC);
     h = func_020490F4((u32)((void *)29), ((struct Obj00471 *)p)->fC);
     ((struct Obj00471 *)p)->f294 = (void *)CLACT_RegisterCharacter(h, 5, 0, 1, ((struct Obj00471 *)p)->fC);

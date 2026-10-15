@@ -11,7 +11,7 @@
  *
  * symbols:
  *   s_clact_c      0x020A7F74  data
- *   sub_02030734   0x02030734  arm
+ *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_ClearActor  0x0204CAE4  arm
  *   CLACT_SetUnitDefaultRenderer   0x0204B270  arm
@@ -62,7 +62,7 @@ struct Bank {
 
 extern char s_clact_c[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 struct Obj;
@@ -76,10 +76,10 @@ struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId)
     struct Bank *bank;
     int          i;
 
-    bank = sub_02030734(heapId, sizeof(struct Bank), 0, s_clact_c, 0x6eb);
+    bank = GFL_HEAP_Alloc(heapId, sizeof(struct Bank), 0, s_clact_c, 0x6eb);
     MI_CpuFill8(bank, 0, sizeof(struct Bank));
 
-    bank->actors = sub_02030734(heapId, count * sizeof(struct Actor), 0,
+    bank->actors = GFL_HEAP_Alloc(heapId, count * sizeof(struct Actor), 0,
                                 s_clact_c, 0x6ef);
     bank->count = count;
     bank->unk_0f = flag;
